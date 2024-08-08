@@ -173,28 +173,35 @@
  */
 
 /**
- * @typedef {({
- *   name,
- *   title,
- *   data,
- *   pagePerItemIndex,
- *   onReviewPage,
- *   trackingPrefix,
- *   uploadFile,
- *   schema,
- *   uiSchema,
- *   goBack,
- *   goForward,
- *   goToPath,
- *   onContinue,
- *   onChange,
- *   onSubmit,
- *   setFormData,
- *   contentBeforeButtons,
- *   contentAfterButtons,
- *   appStateData,
- *   formContext,
- * }) => React.ReactNode} CustomPageType
+ * @typedef {Object} CustomPageProps
+ * @property {string} name route.pageConfig.pageKey
+ * @property {string} title route.pageConfig.title
+ * @property {Object} data
+ * @property {number} pagePerItemIndex
+ * @property {boolean} onReviewPage
+ * @property {string} trackingPrefix
+ * @property {Function} uploadFile
+ * @property {Object} schema
+ * @property {Object} uiSchema
+ * @property {() => void} goBack
+ * @property {({ formData }) => void} goForward
+ * @property {(customPath: string, options?: { force: boolean }) => void} goToPath
+ * @property {() => void} onContinue
+ * @property {(formData) => void} onChange
+ * @property {({ formData }) => void} onSubmit
+ * @property {(pageName: string, index?: number) => boolean} recalculateErrors Only available
+ * on review page. Recalculates errors for the page including the red chapter level styling.
+ * Pass the prop.name to the pageName param. If the page is an array, pass the index as the second param.
+ * @property {Function} setFormData
+ * @property {React.ReactNode} contentBeforeButtons
+ * @property {React.ReactNode} contentAfterButtons
+ * @property {Object} appStateData
+ * @property {Object} formContext
+ * @property {Object} NavButtons Standard buttons at the bottom of the form e.g. back/continue
+ */
+
+/**
+ * @typedef {(props: CustomPageProps) => React.ReactNode} CustomPageType
  */
 
 /**

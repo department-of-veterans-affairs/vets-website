@@ -1,5 +1,9 @@
 import _ from 'lodash';
-import { CHAPTER_2, CHAPTER_3 } from '../../constants';
+import {
+  CHAPTER_2,
+  CHAPTER_3,
+  healthcareCategoryLabels,
+} from '../../constants';
 
 // Personal Information
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
@@ -132,22 +136,25 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   aboutYourselfRelationshipFamilyMember: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
-    depends: form => form.selectCategory === 'VA Health Care',
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -224,7 +231,7 @@ const ch3Pages = {
     schema: yourLocationOfResidencePage.schema,
     depends: form =>
       form.contactPreference !== 'U.S. mail' &&
-      form.selectCategory !== 'VA Health Care',
+      !healthcareCategoryLabels.includes(form.selectCategory),
   },
   relationshipToVeteran: {
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,

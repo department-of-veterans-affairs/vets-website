@@ -204,7 +204,7 @@ const InstallmentContract = props => {
             {
               label: `${addUpdateButtonsText} installment contract`,
               onClick: handlers.onUpdate,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
@@ -225,7 +225,7 @@ const InstallmentContract = props => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />
