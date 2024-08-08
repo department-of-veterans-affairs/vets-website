@@ -16,16 +16,22 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
  */
 export const MhvSigninCallToAction = ({
   noAlertContent,
+  serviceDescription,
   signInServiceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
   if (!userIsLoggedIn) {
-    return <UnauthenticatedAlert />;
+    return <UnauthenticatedAlert serviceDescription={serviceDescription} />;
   }
 
   if (!userIsVerified) {
-    return <UnverifiedAlert signInService={signInServiceName} />;
+    return (
+      <UnverifiedAlert
+        signInService={signInServiceName}
+        serviceDescription={serviceDescription}
+      />
+    );
   }
 
   const widgetContent = Array.from(noAlertContent).map((child, index) => (
@@ -43,6 +49,7 @@ export const MhvSigninCallToAction = ({
 
 MhvSigninCallToAction.propTypes = {
   noAlertContent: PropTypes.instanceOf(HTMLCollection),
+  serviceDescription: PropTypes.string,
   signInServiceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
   userIsVerified: PropTypes.bool,

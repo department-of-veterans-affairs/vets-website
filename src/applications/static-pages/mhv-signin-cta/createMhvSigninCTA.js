@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import './sass/mhv-signin-cta.scss';
 
 /**
  * Create the MHV Signin CTA widget on a page as needed.
@@ -25,7 +26,10 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
       );
       ReactDOM.render(
         <Provider store={store}>
-          <MhvSigninAlert noAlertContent={widgetContent} />
+          <MhvSigninAlert
+            serviceDescription={el.getAttribute('service-description')}
+            noAlertContent={widgetContent}
+          />
         </Provider>,
         el,
       );

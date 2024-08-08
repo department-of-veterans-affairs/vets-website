@@ -1,10 +1,22 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch } from 'react-redux';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
+import CustomAlert from './CustomAlert';
 
-const UnauthenticatedAlert = ({ headline, recordEvent, status }) => {
+/**
+ * Alert to show a user that is not logged in.
+ * @property {*} recordEvent the function to record the event
+ * @property {string} status the status of the alert
+ * @property {string} serviceDescription the description of the service that requires verification
+ */
+const UnauthenticatedAlert = ({ recordEvent, serviceDescription, status }) => {
+  const headline = serviceDescription
+    ? `Sign in with a verified account to ${serviceDescription}`
+    : 'Sign in with a verified account';
+
   useEffect(
     () => {
       recordEvent({
@@ -17,50 +29,49 @@ const UnauthenticatedAlert = ({ headline, recordEvent, status }) => {
     [headline, recordEvent, status],
   );
 
+  const dispatch = useDispatch();
+  const handleSignIn = () => {
+    dispatch(toggleLoginModal(true));
+  };
+
   return (
-    <VaAlert status={status} data-testid="unregistered-alert" disableAnalytics>
-      <h2 slot="headline">{headline}</h2>
+    <CustomAlert headline={headline} icon="lock" status="continue">
       <div>
-        <p className="vads-u-margin-y--0">
-          To access My HealtheVet, <b>at least one</b> of these descriptions
-          must be true:
-        </p>
-        <ul>
-          <li>
-            You’ve received care at a VA facility, <b>or</b>
-          </li>
-          <li>You’ve applied for VA health care</li>
-        </ul>
-        <p className="vads-u-margin-y--0">
-          If you’ve received care at a VA health facility, call the facility and
-          ask if you’re registered.
+        <p>
+          You’ll need to sign in with a verified account through one of our
+          account providers. Identity verification helps us protect your
+          information and prevent fraud and identity theft.
         </p>
         <p>
-          <a href="/find-locations/?&facilityType=health">
-            Find your nearest VA health facility
-          </a>
-        </p>
-        <p className="vads-u-margin-y--0">
-          If you’re not enrolled in VA health care, you can apply now.
+          <strong>Don’t yet have a verified account?</strong> Create a{' '}
+          <strong>Login.gov</strong> or <strong>ID.me</strong> account now. Then
+          come back here and sign in. We’ll help you verify.
         </p>
         <p>
-          <a href="/health-care/how-to-apply/">
-            Find out how to apply for VA health care
-          </a>
+          <strong>Not sure if your account is verified?</strong> Sign in here.
+          We’ll tell you if you need to verify.
+        </p>
+        <p>
+          <va-button onClick={handleSignIn} text="Sign in or create account" />
+        </p>
+        <p>
+          <va-link
+            href="/resources/creating-an-account-for-vagov/"
+            text="Learn about creating an account"
+          />
         </p>
       </div>
-    </VaAlert>
+    </CustomAlert>
   );
 };
 
 UnauthenticatedAlert.defaultProps = {
-  headline: 'You have to login',
   recordEvent: recordEventFn,
   status: 'continue',
 };
 
 UnauthenticatedAlert.propTypes = {
-  headline: PropTypes.string,
+  serviceDescription: PropTypes.string.isRequired,
   recordEvent: PropTypes.func,
   status: PropTypes.string,
 };
