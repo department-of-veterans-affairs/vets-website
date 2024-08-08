@@ -185,7 +185,9 @@ export default function SchoolLocations({
         break;
       }
       const nameLabel = (
-        <div className="extension-cell-label">{extension.institution}</div>
+        <div className="extension-cell-label school-name">
+          {extension.institution}
+        </div>
       );
       rows.push(createRow(extension, 'extension', nameLabel));
     }
