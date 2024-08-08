@@ -1,7 +1,6 @@
 @import "~@fortawesome/fontawesome-free/scss/fontawesome";
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/utilities/color";
 @import "../../../platform/forms/sass/m-schemaform";
 
 @import "../new-appointment/sass/styles";
@@ -53,7 +52,7 @@ h1:focus {
   max-width: 500px;
   cursor: auto;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     top: 40%;
   }
 }
@@ -61,7 +60,7 @@ h1:focus {
 .vaos__form-button-back {
   order: 2;
   width: 100%;
-  @media (min-width: $xsmall-screen) {
+  @media (min-width: var(--xsmall-screen)) {
     order: 1;
     width: auto;
   }
@@ -70,7 +69,7 @@ h1:focus {
 .vaos__form-button-next {
   order: 1;
   width: 100%;
-  @media (min-width: $xsmall-screen) {
+  @media (min-width: var(--xsmall-screen)) {
     order: 2;
     width: auto;
   }

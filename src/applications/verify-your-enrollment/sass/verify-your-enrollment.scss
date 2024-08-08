@@ -93,7 +93,7 @@
 .not-found{
     .row{
         display: flex;
-        @media (max-width: $small-screen){
+        @media (max-width: var(--small-screen)){
         flex-direction: column;
         }
         form{
@@ -104,7 +104,7 @@
 .bread-crumbs-container{
     va-breadcrumbs{
         margin-left: 20px;
-        @media (max-width: $small-screen){
+        @media (max-width: var(--small-screen)){
             margin-left: 0;
         }
     }

@@ -1,10 +1,8 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 .message-detail-container {
   overflow-wrap: break-word;
 
   .reply-button-container {
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       max-width: 225px;
     }
   }

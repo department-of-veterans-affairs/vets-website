@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "./user-profile";
 @import "./dashboard-alert";
 @import "./test-notification";
@@ -10,7 +10,7 @@
 .cta-link:nth-of-type(1) {
   border-top: 1px solid var(--vads-color-primary-alt-light);
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     margin-top: units(2.5);
   }
 }

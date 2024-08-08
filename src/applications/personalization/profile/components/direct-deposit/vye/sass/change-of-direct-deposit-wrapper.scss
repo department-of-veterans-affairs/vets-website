@@ -1,6 +1,3 @@
-
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 #root_GI-Bill-Chapters-AccountType-label {
     font-size: medium !important;
     font-weight: normal  !important;
@@ -16,7 +13,7 @@
         width: auto !important;
         padding: 12px 30px !important;
         font-size: 16.96px !important;
-        @media (max-width: $small-screen) {
+        @media (max-width: var(--small-screen)) {
             width: 100% !important;
         }
     }
@@ -34,7 +31,7 @@
     width: 100%;
     display: flex;
     flex-direction: row;
-@media (max-width: $small-screen) {
+@media (max-width: var(--small-screen)) {
       flex-direction: column;
     }
   }

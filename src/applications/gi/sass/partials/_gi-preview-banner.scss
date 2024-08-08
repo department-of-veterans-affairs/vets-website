@@ -25,7 +25,7 @@
       margin: 0;
 
       .actions {
-        @media screen and (min-width: $medium-screen) {
+        @media screen and (min-width: var(--medium-screen)) {
           bottom: 0;
           position: absolute;
           right: 1em;

@@ -2,7 +2,7 @@
   .vettec-logo {
     height: 60px;
     width: 126px;
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       height: 85px;
       width: 179px;
     }
@@ -10,7 +10,7 @@
   .vettec-logo-search {
     height: 60px;
     width: 126px;
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       height: 85px;
       width: 179px;
     }
@@ -18,7 +18,7 @@
   .vettec-logo-landing {
     height: 60px;
     width: 126px;
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       height: 85px;
       width: 179px;
     }
@@ -40,7 +40,7 @@
     padding-top: 1.333em;
     padding-bottom: 1em;
     padding-left: 0.5859rem;
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       text-align: right;
     }
   }
@@ -63,7 +63,7 @@
   }
 
   .vet-tec-programs-table {
-    @include media-maxwidth($small-screen - 1) {
+    @include media-maxwidth(var(--small-screen) - 1) {
       display: none;
     }
 
@@ -106,7 +106,7 @@
   }
 
   .vet-tec-programs-list {
-    @media screen and (min-width: $small-screen) {
+    @media screen and (min-width: var(--small-screen)) {
       display: none;
     }
   }

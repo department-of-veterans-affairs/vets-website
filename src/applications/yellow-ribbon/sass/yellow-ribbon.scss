@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 form[name="yellow-ribbon-form"] {
   .form-expanding-group-open {
@@ -17,7 +17,7 @@ form[name="yellow-ribbon-form"] {
   outline: none;
 }
 
-@include media($small-desktop-screen) {
+@include media(var(--small-desktop-screen)) {
   form[name="yellow-ribbon-form"] {
     .form-expanding-group-open {
       margin-left: -2rem;

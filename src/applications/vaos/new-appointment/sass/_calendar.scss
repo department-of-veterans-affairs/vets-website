@@ -28,14 +28,14 @@
   flex-basis: 0;
   margin: 4px 2px;
 
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     margin: 8px;
   }
 }
 
 .vaos-calendar__day--current {
   margin-bottom: 12px;
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     margin-bottom: 8px;
   }
 }
@@ -93,7 +93,7 @@
     color: var(--vads-color-base-light);
   }
 
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     padding: 12px;
   }
 }
@@ -154,7 +154,7 @@
   flex-wrap: wrap;
   margin: 0 4px;
 
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     margin: 0 8px;
   }
 }
@@ -166,21 +166,21 @@
   background-color: var(--vads-color-primary);
   position: relative;
 
-  @include media($small-screen) {
+  @include media(var(--small-screen)) {
     width: 33.3%;
   }
 
-  @include media($small-desktop-screen) {
+  @include media(var(--small-desktop-screen)) {
     width: 25%;
   }
 
-  @include media($large-screen) {
+  @include media(var(--large-screen)) {
     width: 25%;
   }
 }
 
 .vaos-calendar__option-cell--full-width {
-  @include media($small-desktop-screen) {
+  @include media(var(--small-desktop-screen)) {
     padding: 0;
     width: 100% !important;
     text-align: center;

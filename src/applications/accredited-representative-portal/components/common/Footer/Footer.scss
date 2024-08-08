@@ -1,8 +1,6 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 .arp-footer {
   .mobile {
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       display: none !important;
     }
   }
@@ -10,7 +8,7 @@
   .wider-than-mobile {
     display: none;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       display: block;
     }
   }

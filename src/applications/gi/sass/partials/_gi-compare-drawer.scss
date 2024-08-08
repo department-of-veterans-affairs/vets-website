@@ -5,7 +5,7 @@
   z-index: 2000;
   width: 100% !important;
 
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     padding-left: 8px;
     padding-right: 8px;
   }
@@ -25,7 +25,7 @@
       transition: height 0.3s ease-in-out;
     }
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       &.floating {
         transition: height 0.3s ease-in-out;
       }
@@ -46,7 +46,7 @@
       }
       height: 12.5em;
 
-      @media (max-width: $small-screen) {
+      @media (max-width: var(--small-screen)) {
         &.floating {
           transition: 0s;
         }
@@ -135,7 +135,7 @@
       margin-right: 1.5em;
     }
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       height: auto;
 
       .compare-item {
@@ -166,7 +166,7 @@
       }
     }
 
-    @media (min-width: $small-screen) {
+    @media (min-width: var(--small-screen)) {
       .small-function-label {
         display: none;
       }

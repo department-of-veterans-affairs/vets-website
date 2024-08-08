@@ -1,4 +1,3 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "./record-list";
 @import "./vaccine-details";
 @import "./breadcrumbs";
@@ -96,7 +95,7 @@
   margin: 8px 0px 16px;
 }
 
-@media (max-width: $medium-screen) {
+@media (max-width: var(--medium-screen)) {
   .medical-records-container {
     flex-direction: column;
   }

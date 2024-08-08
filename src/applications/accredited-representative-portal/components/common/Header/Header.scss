@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 
 .arp-header {
   .va-header-logo-wrapper {
@@ -53,7 +53,7 @@
       }
     }
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       display: none !important;
     }
   }
@@ -61,7 +61,7 @@
   .wider-than-mobile {
     display: none;
 
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       display: block;
 
       .arp-logo {
@@ -93,7 +93,7 @@
       margin: 0;
       padding-left: 0;
 
-      @include media($medium-screen) {
+      @include media(var(--medium-screen)) {
         display: flex;
         height: auto;
         margin-bottom: 0;
@@ -104,12 +104,12 @@
       > li {
         margin-bottom: 6px;
 
-        @include media($medium-screen) {
+        @include media(var(--medium-screen)) {
           margin-bottom: 0;
         }
 
         &:first-of-type {
-          @include media($medium-screen) {
+          @include media(var(--medium-screen)) {
             display: none;
           }
         }

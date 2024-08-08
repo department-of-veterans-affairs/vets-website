@@ -2,9 +2,9 @@
 
 .vaos-appts__block-label {
   margin: 0;
-  margin-bottom: map-get($spacers, 0p5);
-  font-size: $base-font-size;
-  font-family: $font-sans;
+  margin-bottom: 0.25rem; // still computes to 4px. Original spacer was 8px * 0.5. New 16px root font * .25 is equivalent
+  font-size: var(--base-font-size);
+  font-family: var(--font-source-sans);
   line-height: 1.5em;
 }
 

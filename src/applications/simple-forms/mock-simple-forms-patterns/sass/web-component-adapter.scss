@@ -3,7 +3,7 @@
 
 // va-text-input::part(input) {
 //     // same as usa-input-medium
-//     @include media($medium-screen) {
+//     @include media(var(--medium-screen)) {
 //         max-width: 12rem;
 //     }
 // }

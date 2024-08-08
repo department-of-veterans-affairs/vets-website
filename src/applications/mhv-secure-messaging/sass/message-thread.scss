@@ -1,5 +1,3 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 .older-messages {
   width: inherit;
 
@@ -56,7 +54,7 @@
       margin-bottom: 1px;
     }
 
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       p {
         margin: 4px 0;
         word-break: break-all;

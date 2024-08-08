@@ -17,7 +17,7 @@
     padding: 0;
     position: relative;
 
-    @include media-maxwidth($small-screen) {
+    @include media-maxwidth(var(--small-screen)) {
         font-size: 0.8125rem;
     }
   }

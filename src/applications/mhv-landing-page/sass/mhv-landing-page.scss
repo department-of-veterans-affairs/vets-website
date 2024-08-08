@@ -1,5 +1,3 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 $anchor-font-size: 1.25rem; // == 20px
 
 // Font smoothing adjustment for macOS users
@@ -109,7 +107,7 @@ $anchor-font-size: 1.25rem; // == 20px
   visibility: hidden;
 }
 
-@media (max-width: $medium-screen) {
+@media (max-width: var(--medium-screen)) {
   .mhv-c-navlink {
     display: flex;
     justify-content: space-between;

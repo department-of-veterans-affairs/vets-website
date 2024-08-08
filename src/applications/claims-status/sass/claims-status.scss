@@ -1,4 +1,4 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 // TODO: Look at moving the .process-step css into this file
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
 // TODO: Determine if we are actually using any of these
@@ -47,7 +47,7 @@
   }
 }
 
-@media (max-width: $medium-screen) {
+@media (max-width: var(--medium-screen)) {
   .claims-status-content .help-sidebar {
     margin-top: 0px;
   }
@@ -343,7 +343,7 @@
 
 .claims-files-cancel {
   margin-left: 0;
-  @media (min-width: $small-screen) {
+  @media (min-width: var(--small-screen)) {
     margin-left: 32px;
   }
 }
@@ -356,7 +356,7 @@
   float: none;
   width: 100%;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     float: left;
     width: 63%;
   }
@@ -372,14 +372,14 @@ h1:focus {
 
 .notification-close {
   background-color: transparent;
-  @media (max-width: $small-screen) {
+  @media (max-width: var(--small-screen)) {
     margin: -5px 5px 0 0;
     width: 0;
   }
 }
 
 .button-container {
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     margin-left: 1em;
     flex-shrink: 0;
   }
@@ -387,7 +387,7 @@ h1:focus {
 
 .item-container {
   margin: 0 0 0.5em 0;
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     margin: 0;
   }
 }
@@ -463,7 +463,7 @@ h1:focus {
     background: var(--vads-color-success-dark);
     content: "\2713\fe0e";
 
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       content: "\2714\fe0e";
     }
   }
@@ -677,7 +677,7 @@ h1:focus {
   display: flex;
   flex-direction: column;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     flex-direction: row;
   }
 
@@ -691,7 +691,7 @@ h1:focus {
   font-weight: bold;
   padding-right: 10px;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     width: 25%;
     flex-shrink: 0;
   }
@@ -831,7 +831,7 @@ ol.va-list-horizontal {
 
 .past-due-icon {
   margin-right: 3px;
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     margin-right: 6px;
   }
 }
@@ -872,7 +872,7 @@ ol.va-list-horizontal {
 
     .sidelines {
       // line up the horizontal divider with the li::before 'bullets'
-      font-family: $font-serif;
+      font-family: var(--font-serif);
       font-size: 1.875rem; // match h2 size
       margin-left: -0.6em;
       width: 102%;
@@ -1036,7 +1036,7 @@ $marker-text-width: 5.625rem;
       padding-top: 1.25em;
 
       h5 {
-        font-family: $font-sans;
+        font-family: var(--font-source-sans);
         margin-top: 0;
       }
     }
@@ -1058,7 +1058,7 @@ $marker-text-width: 5.625rem;
 .closed-appeal-notice {
   line-height: 40px;
   text-align: center;
-  font-family: $font-sans;
+  font-family: var(--font-source-sans);
   font-weight: 700;
   font-size: 1.25rem;
   background-color: var(--vads-color-base-lightest);
@@ -1165,7 +1165,7 @@ $marker-text-width: 5.625rem;
   max-width: 62.5em;
 }
 
-@media (max-width: $large-screen) {
+@media (max-width: var(--large-screen)) {
   #downtime-app > va-alert {
     margin-left: 20px;
     margin-right: 20px;
@@ -1176,24 +1176,24 @@ $marker-text-width: 5.625rem;
   text-align: center;
   .desktop {
     display: block;
-    @media (max-width: $medium-screen) {
+    @media (max-width: var(--medium-screen)) {
       display: none !important;
     }
   }
   .mobile {
     display: none;
-    @media (max-width: $medium-screen) {
+    @media (max-width: var(--medium-screen)) {
       display: block;
     }
   }
 }
 
 va-icon.phase-complete {
-  color: $color-green; //vads-color-green
+  color: var(--vads-color-success-dark); //semantic token evaluates to #008817
 }
 
 va-icon.phase-current {
-  color: $color-primary; //vads-color-primary
+  color: var(--vads-color-primary);
 }
 
 .current-phase {

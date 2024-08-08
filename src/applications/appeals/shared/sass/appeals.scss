@@ -111,7 +111,7 @@ article[data-location="review-and-submit"] {
   }
 }
 
-@media screen and (max-width: $small-screen) {
+@media screen and (max-width: var(--small-screen)) {
   dl.review .review-row > dd {
     text-align: left;
   }

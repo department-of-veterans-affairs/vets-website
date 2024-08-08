@@ -10,7 +10,7 @@
     /* small screens: display 1 card per row -- 100% width */
     flex-basis: 100%;
 
-    @include media($medium-screen) {
+    @include media(var(--medium-screen)) {
       /* medium+ screens: display 2 cards per row -- 1/2 width minus column gap */
       flex-basis: calc(50% - 16px);
     }
@@ -22,7 +22,7 @@
   display: inline-block;
   max-width: 32ch;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     display: unset;
     max-width: unset;
   }
@@ -32,7 +32,7 @@
   display: unset;
   max-width: unset;
 
-  @include media($medium-screen) {
+  @include media(var(--medium-screen)) {
     display: inline-block;
     max-width: 40ch;
   }

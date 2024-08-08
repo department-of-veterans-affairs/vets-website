@@ -85,7 +85,7 @@
     }
   }
 }
-@media (max-width: $medium-screen) {
+@media (max-width: var(--medium-screen)) {
   .va-btn-sidebarnav-trigger {
     z-index: 0;
     .button-wrapper {

@@ -1,5 +1,3 @@
-@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-
 .search-form {
   background-color: var(--uswds-system-color-gray-5);
   padding: 10px 16px;
@@ -18,7 +16,7 @@
   va-accordion {
     margin-left: -16px;
     width: 90%;
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       width: 106%;
     }
   }
@@ -42,7 +40,7 @@
   va-button::part(button) {
     width: 100%;
 
-  @media (min-width: $small-screen) {
+  @media (min-width: var(--small-screen)) {
       width: auto;
     }
   }
@@ -55,7 +53,7 @@
     margin: 0px;
   }
 
-  @media (min-width: $small-screen) {
+  @media (min-width: var(--small-screen)) {
     #additional-filter-accordion::part(accordion-header) {
       width: 150px;
     }
@@ -66,7 +64,7 @@
   }
 
   .custom-filter-button {
-    @media (max-width: $small-screen) {
+    @media (max-width: var(--small-screen)) {
       width: 80%;
     }
   }
@@ -95,7 +93,7 @@
 
   .search-in-description {
     margin: 0 0 6px;
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       margin: 0 0 24px;
     }
   }
@@ -115,14 +113,14 @@
     margin-bottom: 0.75rem;
   }
   va-search-input {
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       max-width: 90%;
     }
   }
   .advanced-search-expander {
     padding: 0;
     margin: 5px 0 0;
-    @media (min-width: $medium-screen) {
+    @media (min-width: var(--medium-screen)) {
       margin: 13px 0 0;
     }
 
