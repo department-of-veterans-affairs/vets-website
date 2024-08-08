@@ -115,6 +115,7 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_21P_0847]: 'substitute claimant',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
   [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
+  [VA_FORM_IDS.FORM_21P_530V2]: 'burial benefits',
   [VA_FORM_IDS.FORM_22_0993]: 'opt out',
   [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
@@ -145,6 +146,8 @@ export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
     formNumber = ' (10-10EZ)';
   } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
     formNumber = ' (GI Bill School Feedback Tool)';
+  } else if (key === VA_FORM_IDS.FORM_21P_530V2) {
+    formNumber = ' (21P-530EZ)';
   } else {
     formNumber = ` (${key})`;
   }
@@ -210,6 +213,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrlImpl('pensions')}/`,
     [VA_FORM_IDS.FORM_21P_530]: `${getAppUrlImpl('burials')}/`,
+    [VA_FORM_IDS.FORM_21P_530V2]: `${getAppUrlImpl('burials-ez')}`,
     [VA_FORM_IDS.FORM_22_0993]: `${getAppUrlImpl('0993-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${getAppUrlImpl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${getAppUrlImpl('10203-edu-benefits')}/`,
@@ -270,6 +274,7 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_21P_0847]: '21P-0847-substitute-claimant-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530]: 'burials-530-',
+  [VA_FORM_IDS.FORM_21P_530V2]: 'burials-530-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_10203]: 'edu-10203-',
@@ -313,6 +318,7 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_21P_0847,
   VA_FORM_IDS.FORM_21P_527EZ,
   VA_FORM_IDS.FORM_21P_530,
+  VA_FORM_IDS.FORM_21P_530V2,
   VA_FORM_IDS.FORM_22_0993,
   VA_FORM_IDS.FORM_22_0994,
   VA_FORM_IDS.FORM_22_10203,
@@ -416,6 +422,13 @@ export const MY_VA_SIP_FORMS = [
     benefit: 'burial benefits',
     title: 'burial benefits (21P-530)',
     description: 'burial benefits application (21P-530)',
+    trackingPrefix: 'burials-530-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_21P_530V2,
+    benefit: 'burial benefits',
+    title: 'burial benefits (21P-530EZ)',
+    description: 'burial benefits application (21P-530EZ)',
     trackingPrefix: 'burials-530-',
   },
   {
