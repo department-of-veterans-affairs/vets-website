@@ -28,7 +28,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
   const renderPaymentHistoryDescription = transactionDescription => {
     return (
       <>
-        <p className="vads-u-margin--0 vads-u-font-size-md vads-u-color--gray-dark">
+        <p className="vads-u-margin--0 vads-u-font-size-md">
           <strong>
             {getPaymentHistoryDescription(transactionDescription)}
           </strong>
