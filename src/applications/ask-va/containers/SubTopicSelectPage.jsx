@@ -90,6 +90,7 @@ const SubTopicSelectPage = props => {
               id={subTopic.id}
               value={subTopic.attributes.name}
               label={subTopic.attributes.name}
+              checked={subTopic.attributes.name === formData.selectSubtopic}
               uswds
             />
           ))}
