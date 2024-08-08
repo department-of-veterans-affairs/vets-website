@@ -23,7 +23,7 @@ import * as autosuggest from 'platform/forms-system/src/js/definitions/autosugge
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
-import ServicePeriodView from '../components/ServicePeriodView';
+// import ServicePeriodView from '../components/ServicePeriodView';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -677,60 +677,60 @@ export const veteranUI = {
 };
 
 export const serviceRecordsUI = {
-  'ui:title': 'Service period(s)',
-  'ui:options': {
-    viewField: ServicePeriodView,
-    itemName: 'Service period',
-    keepInPageOnReview: true,
-    useDlWrap: true,
-    generateIndividualItemHeaders: true,
-    useHeaderStyling: true,
-  },
-  items: {
-    'ui:order': [
-      'serviceBranch',
-      'highestRank',
-      'dateRange',
-      'dischargeType',
-      'nationalGuardState',
-    ],
-    serviceBranch: autosuggest.uiSchema('Branch of service', null, {
-      'ui:options': {
-        labels: serviceLabels,
-      },
-    }),
-    dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
-      'Service start date must be after end date',
-    ),
-    dischargeType: {
-      'ui:title': 'Discharge character of service',
-      'ui:options': {
-        labels: {
-          1: 'Honorable',
-          2: 'General',
-          3: 'Entry Level Separation/Uncharacterized',
-          4: 'Other Than Honorable',
-          5: 'Bad Conduct',
-          6: 'Dishonorable',
-          7: 'Other',
-        },
-      },
+  // 'ui:title': 'Service period(s)',
+  // 'ui:options': {
+  //   viewField: ServicePeriodView,
+  //   itemName: 'Service period',
+  //   keepInPageOnReview: true,
+  //   useDlWrap: true,
+  //   generateIndividualItemHeaders: true,
+  //   useHeaderStyling: true,
+  // },
+  // items: {
+  //   'ui:order': [
+  //     'serviceBranch',
+  //     'highestRank',
+  //     'dateRange',
+  //     'dischargeType',
+  //     'nationalGuardState',
+  //   ],
+  serviceBranch: autosuggest.uiSchema('Branch of service', null, {
+    'ui:options': {
+      labels: serviceLabels,
     },
-    highestRank: {
-      'ui:title': 'Highest rank attained',
-    },
-    nationalGuardState: {
-      'ui:title': 'State (for National Guard Service only)',
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !['AG', 'NG'].includes(
-            formData.application.veteran.serviceRecords[index].serviceBranch,
-          ),
+  }),
+  dateRange: dateRangeUI(
+    'Service start date',
+    'Service end date',
+    'Service start date must be after end date',
+  ),
+  dischargeType: {
+    'ui:title': 'Discharge character of service',
+    'ui:options': {
+      labels: {
+        1: 'Honorable',
+        2: 'General',
+        3: 'Entry Level Separation/Uncharacterized',
+        4: 'Other Than Honorable',
+        5: 'Bad Conduct',
+        6: 'Dishonorable',
+        7: 'Other',
       },
     },
   },
+  highestRank: {
+    'ui:title': 'Highest rank attained',
+  },
+  nationalGuardState: {
+    'ui:title': 'State (for National Guard Service only)',
+    'ui:options': {
+      hideIf: (formData, index) =>
+        !['AG', 'NG'].includes(
+          formData.application.veteran.serviceRecords[index].serviceBranch,
+        ),
+    },
+  },
+  // },
 };
 
 export const militaryNameUI = {
