@@ -59,9 +59,15 @@ const CategorySelectPage = props => {
   useEffect(
     () => {
       getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
-      focusElement('h2');
     },
     [loggedIn],
+  );
+
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
   );
 
   // render loading indicator while we fetch
