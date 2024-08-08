@@ -64,7 +64,6 @@ const formConfig = {
   },
   transformForSubmit: transform,
   introduction: !convertToggle() ? IntroductionPageUpdate : IntroductionPage,
-  IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     fullName,
