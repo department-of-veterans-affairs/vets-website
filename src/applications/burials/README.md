@@ -90,3 +90,5 @@ The claim is submitted using the `structured_data_services` call inside `vets-ap
 ### Async and Error Handling
 
 In `vets-api/app/sidekiq/structured_data/process_data_job.rb` the 'retry' option is set to false so the job will NOT be retired in case of failure. This means that if it fails, it won't be automatically reprocessed. If an error occurs, the 'rescue' option is set to re-raise any exceptions and propagate the exception to higher levels.
+
+#### Test
