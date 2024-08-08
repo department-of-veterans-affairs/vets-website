@@ -20,16 +20,16 @@ const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   return chapterTitle || '';
 };
 
-const reviewEntry = (description, key, value, label, data) => {
+const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
   const textDescription = typeof description === 'string' ? description : null;
   const DescriptionField = isReactComponent(description)
-    ? value['ui:description']
+    ? uiSchema['ui:description']
     : null;
 
   return (
-    <li key={`review_${key}_${value}`}>
+    <li key={`review_${key}_${label}`}>
       <div className="vads-u-color--gray">
         {label}
         {textDescription && <p>{textDescription}</p>}
@@ -40,19 +40,32 @@ const reviewEntry = (description, key, value, label, data) => {
   );
 };
 
-const fieldEntries = (key, value, data, schema) => {
+const fieldEntries = (key, uiSchema, data, schema) => {
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
 
-  const label = value['ui:title'];
-  const description = value['ui:description'];
+  const {
+    'ui:title': label,
+    'ui:description': description,
+    'ui:confirmationData': confirmationData,
+    'ui:reviewField': ReviewField,
+    'ui:reviewWidget': ReviewWidget,
+  } = uiSchema;
+
   let refinedData = typeof data === 'object' ? data[key] : data;
   const dataType = schema.properties[key].type;
 
-  const ReviewField = value['ui:reviewField'];
-  const ReviewWidget = value['ui:reviewWidget'];
+  if (typeof confirmationData === 'function') {
+    const {
+      data: confirmData = refinedData,
+      label: confirmLabel = label,
+    } = confirmationData({ formData: refinedData });
+    return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+  }
 
   if (isReactComponent(ReviewField)) {
-    const reviewProps = { children: { props: { formData: refinedData } } };
+    const reviewProps = {
+      children: { props: { uiSchema, formData: refinedData } },
+    };
     return <ReviewField {...reviewProps} />;
   }
 
@@ -62,25 +75,25 @@ const fieldEntries = (key, value, data, schema) => {
   }
 
   if (dataType === 'object') {
-    return Object.entries(value).flatMap(([objKey, objVal]) => {
-      return fieldEntries(objKey, objVal, data[objKey], schema.properties[key]);
-    });
+    return Object.entries(uiSchema).flatMap(([objKey, objVal]) =>
+      fieldEntries(objKey, objVal, data[objKey], schema.properties[key]),
+    );
   }
 
   if (dataType === 'array') {
-    return data.map(dataPoint => {
-      return Object.entries(value.items).flatMap(([arrKey, arrVal]) => {
-        return fieldEntries(
+    return data.flatMap(dataPoint =>
+      Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) =>
+        fieldEntries(
           arrKey,
           arrVal,
           dataPoint[arrKey],
           schema.properties[key].items,
-        );
-      });
-    });
+        ),
+      ),
+    );
   }
 
-  return reviewEntry(description, key, value, label, refinedData);
+  return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
 const buildFields = (chapter, formData) => {
