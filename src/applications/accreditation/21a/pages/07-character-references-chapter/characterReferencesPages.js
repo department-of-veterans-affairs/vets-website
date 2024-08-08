@@ -11,13 +11,37 @@ import {
   emailUI,
   fullNameSchema,
   fullNameUI,
-  phoneSchema,
-  phoneUI,
   textareaSchema,
   textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
+
+const createName = (
+  firstName,
+  lastName,
+  suffix,
+  fallback,
+  canHaveApostrophe = true,
+) => {
+  let baseName;
+
+  if (!firstName || !lastName) {
+    baseName = fallback;
+  } else {
+    baseName = `${firstName} ${lastName}${suffix ? `, ${suffix}` : ''}`;
+  }
+
+  if (canHaveApostrophe) {
+    return baseName.endsWith('s') ? `${baseName}'` : `${baseName}'s`;
+  }
+
+  return baseName;
+};
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -30,13 +54,13 @@ const arrayBuilderOptions = {
     !item?.address ||
     !item?.phone ||
     !item?.email ||
-    !item.relationship,
-  minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
+    !item?.relationship,
+  // minItems: 3, TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
   text: {
     getItemName: item =>
       `${item?.fullName?.first} ${item?.fullName?.last} ${
-        item?.fullName?.suffix ? item?.fullName?.suffix : ''
+        item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
       }`,
     cardDescription: item => `${item?.phone}, ${item?.email}`,
   },
@@ -76,14 +100,17 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${formData.fullName.last}'s address`
-          : "Reference's address",
+        `${createName(
+          formData?.fullName?.first,
+          formData?.fullName?.last,
+          formData?.fullName?.suffix,
+          'Reference',
+        )} address`,
     ),
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'References lives on a United States military base outside of the U.S.',
+          'Reference lives on a United States military base outside of the U.S.',
       },
       omit: ['street3'],
     }),
@@ -103,19 +130,20 @@ const contactInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${
-              formData.fullName.last
-            }'s contact information`
-          : "Reference's contact information",
+        `${createName(
+          formData?.fullName?.first,
+          formData?.fullName?.last,
+          formData?.fullName?.suffix,
+          'Reference',
+        )} contact information`,
     ),
-    phone: phoneUI('Primary number'),
+    phone: internationalPhoneUI('Primary number'),
     email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
+      phone: internationalPhoneSchema,
       email: emailSchema,
     },
     required: ['phone', 'email'],
@@ -127,11 +155,13 @@ const relationshipInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `Relationship to ${formData.fullName.first} ${
-              formData.fullName.last
-            }`
-          : 'Relationship to reference',
+        `Relationship to ${createName(
+          formData?.fullName?.first,
+          formData?.fullName?.last,
+          formData?.fullName?.suffix,
+          'reference',
+          false,
+        )}`,
     ),
     relationship: textareaUI('What is your relationship to this reference?'),
   },
