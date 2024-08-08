@@ -181,7 +181,7 @@ export const BurialDateWarning = () => {
   return (
     <div aria-live="polite">
       {shouldRender && (
-        <va-alert background-only show-icon status="warning" uswds="false">
+        <va-alert status="warning" visible>
           <span className="sr-only">Warning:</span>
           <p className="vads-u-margin-top--0">
             If filing for a non-service-connected allowance, the Veteran’s
