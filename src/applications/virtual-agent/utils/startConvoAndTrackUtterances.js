@@ -3,8 +3,25 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
-  processPostActivity,
 } from './actions';
+
+function addActivityData(
+  action,
+  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
+) {
+  const updatedAction = action;
+  if (updatedAction.payload?.activity) {
+    updatedAction.payload.activity.value = {
+      ...updatedAction.payload.activity.value,
+      apiSession,
+      csrfToken,
+      apiURL,
+      userFirstName,
+      userUuid,
+    };
+  }
+  return updatedAction;
+}
 
 const StartConvoAndTrackUtterances = {
   makeBotStartConvoAndTrackUtterances: event => ({
@@ -23,18 +40,17 @@ const StartConvoAndTrackUtterances = {
       'WEB_CHAT/SET_DICTATE_STATE': processMicrophoneActivity(options),
     };
 
-    if (event.isRootBotToggleOn) {
-      processActionType['DIRECT_LINE/POST_ACTIVITY'] = processPostActivity(
-        options,
-      );
-    }
-
     const canProcessAction = processActionType[action.type];
     if (canProcessAction) {
-      const response = processActionType[action.type]();
-      return next(response);
+      processActionType[action.type]();
     }
-    return next(action);
+
+    let updatedAction = action;
+    if (event.isRootBotToggleOn) {
+      updatedAction = addActivityData(updatedAction, options);
+    }
+
+    return next(updatedAction);
   },
 };
 
