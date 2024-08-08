@@ -404,7 +404,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       const oldList = state.labsAndTestsList;
       const labsAndTestsList =
         action.labsAndTestsResponse.entry
-          ?.map(record => convertLabsAndTestsRecord(record.resource ?? record))
+          ?.map(record => convertLabsAndTestsRecord(record.resource))
           .filter(record => record.type !== labTypes.OTHER) || [];
       const radiologyTestsList =
         action.radiologyResponse.map(record =>
