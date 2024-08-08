@@ -43,7 +43,7 @@ export default function SchoolLocations({
       // Necessary so screen reader users are aware that the school locations table has changed.
       if (focusedElementIndex) {
         document
-          .getElementsByClassName('school-name-cell')
+          .getElementsByClassName('school-name')
           [focusedElementIndex].focus();
       }
     },
