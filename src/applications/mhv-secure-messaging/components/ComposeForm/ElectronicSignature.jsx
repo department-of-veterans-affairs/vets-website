@@ -35,7 +35,6 @@ const ElectronicSignature = ({
           class="vads-u-width--full"
           error={!checked ? checkboxError : ''}
           label={ElectronicSignatureBox.CHECKBOX_LABEL}
-          message-aria-describedby="Electronic signature."
           onVaChange={onCheckboxCheck}
           required
         />
