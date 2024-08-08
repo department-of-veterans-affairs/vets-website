@@ -2,10 +2,20 @@ import React, { useState, useCallback } from 'react';
 import propTypes from 'prop-types';
 import { useStorage } from '../../useStorage';
 
-export default function TestComponent({ window, app, token, travelPay }) {
-  const { clearCurrentStorage, getCurrentToken, setCurrentToken } = useStorage(
-    app,
-  );
+export default function TestComponent({
+  window,
+  app,
+  token,
+  travelPay,
+  completeTimestamp,
+}) {
+  const {
+    clearCurrentStorage,
+    getCurrentToken,
+    setCurrentToken,
+    getCompleteTimestamp,
+    setCompleteTimestamp,
+  } = useStorage(app);
   const { setTravelPaySent, getTravelPaySent } = useStorage(app, true);
 
   const [fromSession, setFromSession] = useState();
@@ -72,12 +82,35 @@ export default function TestComponent({ window, app, token, travelPay }) {
       <div data-testid="from-local">
         {fromLocal && JSON.stringify(fromLocal)}
       </div>
+      <va-button
+        uswds
+        onClick={useCallback(
+          () => {
+            setCompleteTimestamp(window, completeTimestamp);
+          },
+          [setCompleteTimestamp, window, completeTimestamp],
+        )}
+        text="set complete timestamp"
+        data-testid="set-complete-timestamp-button"
+      />
+      <va-button
+        uswds
+        onClick={useCallback(
+          () => {
+            setFromSession(getCompleteTimestamp(window));
+          },
+          [setFromSession, getCompleteTimestamp, window],
+        )}
+        text="Get Complete Timestamp"
+        data-testid="get-complete-timestamp-button"
+      />
     </div>
   );
 }
 
 TestComponent.propTypes = {
   app: propTypes.string,
+  completeTimestamp: propTypes.string,
   token: propTypes.string,
   travelPay: propTypes.object,
   window: propTypes.object,

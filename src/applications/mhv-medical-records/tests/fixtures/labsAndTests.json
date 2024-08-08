@@ -1457,219 +1457,281 @@
       "resourceType": "DiagnosticReport",
       "id": "ex-MHV-labReport-3",
       "meta": {
-        "profile": [
-          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labReport"
-        ]
+          "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.MBlabReport"
+          ]
       },
       "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Reported</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049271\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 262 []            Received: Aug 01, 1995@11:00\nCollection sample: STOOL               Collection date: Jul 28, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 01, 1995   TECH CODE: 420\nParasitology Remark(s):\nREJECTED=LEAKED</p></div>"
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: DiagnosticReport ex-MHV-labReport-3</b></p><a name=\"ex-MHV-labReport-3\"> </a><a name=\"hcex-MHV-labReport-3\"> </a><a name=\"ex-MHV-labReport-3-en-US\"> </a><h2><span title=\"Codes:{http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 MB}\">Microbiology</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td>No display for Patient </td></tr><tr><td>When For</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Reported</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Performers</td><td> <a href=\"#hcex-MHV-labReport-3/ex-MHV-organization-989\">Organization Lab Site 989</a> <a href=\"#hcex-MHV-labReport-3/ex-MHV-practitioner-mangas\">Practitioner MANGAS,PHYLLIS A</a></td></tr><tr><td>Identifier</td><td> <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabReportTO.MI;7049271 (use: usual, )</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Flags</b></td></tr><tr><td><a href=\"#hcex-MHV-labReport-3/ex-MHV-labTest-5\"><span title=\"Codes:\">Parasitology Remark(s)</span></a></td><td>REJECTED=LEAKED</td><td>Final</td></tr><tr><td><a href=\"#hcex-MHV-labReport-3/ex-MHV-labTest-6\"><span title=\"Codes:\">Parasitology Remark(s)</span></a></td><td>MODERATE WBC'S SEEN</td><td>Final</td></tr><tr><td><a href=\"#hcex-MHV-labReport-3/ex-MHV-labTest-7\"><span title=\"Codes:\">Parasitology Remark(s)</span></a></td><td>MODERATE YEAST</td><td>Final</td></tr></table><hr/><p class=\"res-header-id\"><b>Generated Narrative: Observation  #ex-MHV-labTest-5</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-5\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-labTest-5\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-5-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabTestTO.MI;7049271;1 (use: usual, )</p><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category laboratory}\">Laboratory</span></p><p><b>code</b>: <span title=\"Codes:\">Parasitology Remark(s)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">MTPZEROTWO DAYTSHR  Male, DoB: 1000-01-01 ( urn:oid:2.16.840.1.113883.4.349#1 (use: usual, ))</a></p><p><b>effective</b>: 1995-08-01 11:07:00+0000</p><p><b>performer</b>: <a href=\"#ex-MHV-organization-989\">#ex-MHV-organization-989</a></p><p><b>value</b>: REJECTED=LEAKED</p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Observation  #ex-MHV-labTest-6</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-6\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-labTest-6\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-6-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabTestTO.MI;7049271;2 (use: usual, )</p><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category laboratory}\">Laboratory</span></p><p><b>code</b>: <span title=\"Codes:\">Parasitology Remark(s)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">MTPZEROTWO DAYTSHR  Male, DoB: 1000-01-01 ( urn:oid:2.16.840.1.113883.4.349#1 (use: usual, ))</a></p><p><b>effective</b>: 1995-08-01 11:07:00+0000</p><p><b>performer</b>: <a href=\"#ex-MHV-organization-989\">#ex-MHV-organization-989</a></p><p><b>value</b>: MODERATE WBC'S SEEN</p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Observation  #ex-MHV-labTest-7</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-7\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-labTest-7\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-labTest-7-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabTestTO.MI;7049271;3 (use: usual, )</p><p><b>status</b>: Final</p><p><b>category</b>: <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/observation-category laboratory}\">Laboratory</span></p><p><b>code</b>: <span title=\"Codes:\">Parasitology Remark(s)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">MTPZEROTWO DAYTSHR  Male, DoB: 1000-01-01 ( urn:oid:2.16.840.1.113883.4.349#1 (use: usual, ))</a></p><p><b>effective</b>: 1995-08-01 11:07:00+0000</p><p><b>performer</b>: <a href=\"#ex-MHV-organization-989\">#ex-MHV-organization-989</a></p><p><b>value</b>: MODERATE YEAST</p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Specimen  #ex-MHV-specimen-3</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-specimen-3\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-specimen-3\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-specimen-3-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabSpecimenTO.6Y100 (use: usual, )</p><p><b>accessionIdentifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/PARAS 95 262 (use: usual, )</p><p><b>status</b>: Available</p><p><b>type</b>: <span title=\"Codes:\">STOOL</span></p><h3>Collections</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Collected[x]</b></td><td><b>BodySite</b></td></tr><tr><td style=\"display: none\">*</td><td>1995-07-28</td><td><span title=\"Codes:\">FECES</span></td></tr></table><hr/><p class=\"res-header-id\"><b>Generated Narrative: Organization  #ex-MHV-organization-989</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-organization-989\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-organization-989\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-organization-989-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349</code>/LabSiteTO.989 (use: usual, ), NPI/1234</p><p><b>active</b>: true</p><p><b>name</b>: Lab Site 989</p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Practitioner  #ex-MHV-practitioner-mangas</b></p><a name=\"ex-MHV-labReport-3/ex-MHV-practitioner-mangas\"> </a><a name=\"hcex-MHV-labReport-3/ex-MHV-practitioner-mangas\"> </a><a name=\"ex-MHV-labReport-3/ex-MHV-practitioner-mangas-en-US\"> </a><p><b>identifier</b>: <code>http://nowhere.com/nope</code>/unknown</p><p><b>name</b>: MANGAS,PHYLLIS A</p></div>"
       },
       "contained": [
-        {
-          "resourceType": "Observation",
-          "id": "ex-MHV-labTest-5",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labTest"
-            ]
+          {
+              "resourceType": "Observation",
+              "id": "ex-MHV-labTest-5",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                      "value": "LabTestTO.MI;7049271;1"
+                  }
+              ],
+              "status": "final",
+              "category": [
+                  {
+                      "coding": [
+                          {
+                              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                              "code": "laboratory"
+                          }
+                      ]
+                  }
+              ],
+              "code": {
+                  "text": "Parasitology Remark(s)"
+              },
+              "subject": {
+                  "reference": "Patient/ex-MHV-patient-1"
+              },
+              "effectiveDateTime": "1995-08-01T11:07:00Z",
+              "performer": [
+                  {
+                      "reference": "#ex-MHV-organization-989"
+                  }
+              ],
+              "valueString": "REJECTED=LEAKED"
           },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabTestTO.MI;7049271;1"
-            }
-          ],
-          "status": "final",
-          "category": [
-            {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code": "laboratory"
-                }
+          {
+              "resourceType": "Observation",
+              "id": "ex-MHV-labTest-6",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                      "value": "LabTestTO.MI;7049271;2"
+                  }
+              ],
+              "status": "final",
+              "category": [
+                  {
+                      "coding": [
+                          {
+                              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                              "code": "laboratory"
+                          }
+                      ]
+                  }
+              ],
+              "code": {
+                  "text": "Parasitology Remark(s)"
+              },
+              "subject": {
+                  "reference": "Patient/ex-MHV-patient-1"
+              },
+              "effectiveDateTime": "1995-08-01T11:07:00Z",
+              "performer": [
+                  {
+                      "reference": "#ex-MHV-organization-989"
+                  }
+              ],
+              "valueString": "MODERATE WBC'S SEEN"
+          },
+          {
+              "resourceType": "Observation",
+              "id": "ex-MHV-labTest-7",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                      "value": "LabTestTO.MI;7049271;3"
+                  }
+              ],
+              "status": "final",
+              "category": [
+                  {
+                      "coding": [
+                          {
+                              "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                              "code": "laboratory"
+                          }
+                      ]
+                  }
+              ],
+              "code": {
+                  "text": "Parasitology Remark(s)"
+              },
+              "subject": {
+                  "reference": "Patient/ex-MHV-patient-1"
+              },
+              "effectiveDateTime": "1995-08-01T11:07:00Z",
+              "performer": [
+                  {
+                      "reference": "#ex-MHV-organization-989"
+                  }
+              ],
+              "valueString": "MODERATE YEAST"
+          },
+          {
+              "resourceType": "Specimen",
+              "id": "ex-MHV-specimen-3",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.LabSpecimen"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                      "value": "LabSpecimenTO.6Y100"
+                  }
+              ],
+              "accessionIdentifier": {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                  "value": "PARAS 95 262"
+              },
+              "status": "available",
+              "type": {
+                  "text": "STOOL"
+              },
+              "collection": {
+                  "collectedDateTime": "1995-07-28",
+                  "bodySite": {
+                      "text": "FECES"
+                  }
+              }
+          },
+          {
+              "resourceType": "Organization",
+              "id": "ex-MHV-organization-989",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "LabSiteTO.989"
+                  },
+                  {
+                      "system": "http://hl7.org/fhir/sid/us-npi",
+                      "value": "1234"
+                  }
+              ],
+              "active": true,
+              "name": "Lab Site 989"
+          },
+          {
+              "resourceType": "Practitioner",
+              "id": "ex-MHV-practitioner-mangas",
+              "meta": {
+                  "profile": [
+                      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "system": "http://nowhere.com/nope",
+                      "value": "unknown"
+                  }
+              ],
+              "name": [
+                  {
+                      "text": "MANGAS,PHYLLIS A",
+                      "family": "MANGAS"
+                  }
               ]
-            }
-          ],
-          "code": {
-            "text": "Parasitology Remark(s)"
-          },
-          "subject": {
-            "reference": "Patient/ex-MHV-patient-1"
-          },
-          "effectiveDateTime": "1995-08-01T11:07:00-0400",
-          "performer": [
-            {
-              "reference": "Organization/ex-MHV-organization-989"
-            }
-          ],
-          "valueString": "REJECTED=LEAKED"
-        },
-        {
-          "resourceType": "Observation",
-          "id": "ex-MHV-labTest-6",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labTest"
-            ]
-          },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabTestTO.MI;7049271;2"
-            }
-          ],
-          "status": "final",
-          "category": [
-            {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code": "laboratory"
-                }
-              ]
-            }
-          ],
-          "code": {
-            "text": "Parasitology Remark(s)"
-          },
-          "subject": {
-            "reference": "Patient/ex-MHV-patient-1"
-          },
-          "effectiveDateTime": "1995-08-01T11:07:00-0400",
-          "performer": [
-            {
-              "reference": "Organization/ex-MHV-organization-989"
-            }
-          ],
-          "valueString": "MODERATE WBC'S SEEN"
-        },
-        {
-          "resourceType": "Observation",
-          "id": "ex-MHV-labTest-7",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labTest"
-            ]
-          },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabTestTO.MI;7049271;3"
-            }
-          ],
-          "status": "final",
-          "category": [
-            {
-              "coding": [
-                {
-                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code": "laboratory"
-                }
-              ]
-            }
-          ],
-          "code": {
-            "text": "Parasitology Remark(s)"
-          },
-          "subject": {
-            "reference": "Patient/ex-MHV-patient-1"
-          },
-          "effectiveDateTime": "1995-08-01T11:07:00-0400",
-          "performer": [
-            {
-              "reference": "Organization/ex-MHV-organization-989"
-            }
-          ],
-          "valueString": "MODERATE YEAST"
-        },
-        {
-          "resourceType": "Specimen",
-          "id": "ex-MHV-specimen-3",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.LabSpecimen"
-            ]
-          },
-          "identifier": [
-            {
-              "use": "usual",
-              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-              "value": "LabSpecimenTO.6Y100"
-            }
-          ],
-          "accessionIdentifier": {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "PARAS 95 262"
-          },
-          "status": "available",
-          "type": {
-            "text": "FECES"
-          },
-          "collection": {
-            "collectedDateTime": "1995-07-28"
           }
-        }
       ],
       "identifier": [
-        {
-          "use": "usual",
-          "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-          "value": "LabReportTO.MI;7049271"
-        }
+          {
+              "use": "usual",
+              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+              "value": "LabReportTO.MI;7049271"
+          }
       ],
       "status": "final",
       "category": [
-        {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code": "LAB"
-            }
-          ]
-        }
+          {
+              "coding": [
+                  {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                      "code": "LAB"
+                  }
+              ]
+          },
+          {
+              "coding": [
+                  {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                      "code": "MB"
+                  }
+              ]
+          }
       ],
       "code": {
-        "coding": [
-          {
-            "system": "http://loinc.org",
-            "code": "79381-0"
-          }
-        ],
-        "text": "LR MICROBIOLOGY REPORT"
+          "coding": [
+              {
+                  "system": "http://loinc.org",
+                  "code": "18725-2"
+              }
+          ],
+          "text": "LR MICROBIOLOGY REPORT"
       },
       "subject": {
-        "reference": "Patient/ex-MHV-patient-1"
+          "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1995-08-01T11:07:00-0400",
-      "issued": "1995-08-01T11:07:00-0400",
+      "effectiveDateTime": "1995-08-01T11:07:00Z",
+      "issued": "1995-08-01T11:07:00Z",
       "performer": [
-        {
-          "reference": "Organization/ex-MHV-organization-989"
-        }
+          {
+              "reference": "#ex-MHV-organization-989"
+          },
+          {
+              "reference": "#ex-MHV-practitioner-mangas"
+          }
       ],
       "specimen": [
-        {
-          "reference": "#ex-MHV-specimen-3"
-        }
+          {
+              "reference": "#ex-MHV-specimen-3"
+          }
       ],
       "result": [
-        {
-          "reference": "#ex-MHV-labTest-5"
-        },
-        {
-          "reference": "#ex-MHV-labTest-6"
-        },
-        {
-          "reference": "#ex-MHV-labTest-7"
-        }
+          {
+              "reference": "#ex-MHV-labTest-5"
+          },
+          {
+              "reference": "#ex-MHV-labTest-6"
+          },
+          {
+              "reference": "#ex-MHV-labTest-7"
+          }
       ],
-      "conclusion": "Accession [UID]: PARAS 95 262 []            Received: Aug 01, 1995@11:00\nCollection sample: STOOL               Collection date: Jul 28, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT => Aug 01, 1995   TECH CODE: 420\nParasitology Remark(s):\nREJECTED=LEAKED"
-    },
+      "presentedForm": [
+          {
+              "contentType": "text/plain",
+              "data": "QWNjZXNzaW9uIFtVSURdOiBQQVJBUyA5NSAyNjIgW10gICAgICAgICAgICBSZWNlaXZlZDogQXVnIDAxLCAxOTk1QDExOjAwCkNvbGxlY3Rpb24gc2FtcGxlOiBTVE9PTCAgICAgICAgICAgICAgIENvbGxlY3Rpb24gZGF0ZTogSnVsIDI4LCAxOTk1ClNpdGUvU3BlY2ltZW46IEZFQ0VTClByb3ZpZGVyOiBNQU5HQVMsUEhZTExJUyBBCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiogUEFSQVNJVE9MT0dZIEZJTkFMIFJFUE9SVCA9PiBBdWcgMDEsIDE5OTUgICBURUNIIENPREU6IDQyMApQYXJhc2l0b2xvZ3kgUmVtYXJrKHMpOgpSRUpFQ1RFRD1MRUFLRUQK"
+          }
+      ]
+  },
     {
       "resourceType": "DiagnosticReport",
       "id": "ex-MHV-labReport-4",
@@ -1842,85 +1904,139 @@
       "resourceType": "DiagnosticReport",
       "id": "ex-MHV-labReport-6",
       "meta": {
-        "profile": [
-          "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.labReport"
-        ]
+          "profile": [
+              "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.SPlabReport"
+          ]
       },
       "text": {
-        "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7009190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 1999        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 10, 1999 13:27  Resident: \nDate  completed: Aug 11, 1999        Accession #: SP 99 1804\nSubmitted by: KATHLEEN MARIE WOLNER  Practitioner:KATHLEEN MARIE WOLNER MD\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYP @ 12CM\nBrief Clinical History:\n70 YEAR OLD MALE FOR SCREENING EXAM.  \nOperative Findings:\nSMOOTH BROAD BASED POLYP\nPostoperative Diagnosis:\nPROBABLE BENIGN POLYP\nGross description:\nRECEIVED IN FORMALIN AND LABELED &quot;POLYP&quot;  CONSISTS OF TWO 1 MM FRAGMENTS\nOF PINK TISSUE.  SUBMITTED IN TOTAL IN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Aug 09, 1999)\n|TAB||BLANK(3)|\nDIAGNOSIS:\nPOLYP AT 12 CM. TUBULAR ADENOMA.</p></div>"
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p class=\"res-header-id\"><b>Generated Narrative: DiagnosticReport ex-MHV-labReport-6</b></p><a name=\"ex-MHV-labReport-6\"> </a><a name=\"hcex-MHV-labReport-6\"> </a><a name=\"ex-MHV-labReport-6-en-US\"> </a><h2><span title=\"Codes:{http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes:{http://terminology.hl7.org/CodeSystem/v2-0074 SP}\">Surgical Pathology</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td>No display for Patient </td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Performers</td><td> <a href=\"#hcex-MHV-labReport-6/ex-MHV-organization-989\">Organization Lab Site 989</a> <a href=\"#hcex-MHV-labReport-6/ex-MHV-practitioner-seetha\">Practitioner SEETHA SURYAPRASAD MD</a></td></tr><tr><td>Identifier</td><td> <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/LabReportTO.SP;7009190 (use: usual, )</td></tr></table><p><b>Report Details</b></p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Specimen  #ex-MHV-specimen-6</b></p><a name=\"ex-MHV-labReport-6/ex-MHV-specimen-6\"> </a><a name=\"hcex-MHV-labReport-6/ex-MHV-specimen-6\"> </a><a name=\"ex-MHV-labReport-6/ex-MHV-specimen-6-en-US\"> </a><p><b>accessionIdentifier</b>: <code>urn:oid:2.16.840.1.113883.4.349.4.989</code>/SP 99 1804 (use: usual, )</p><p><b>status</b>: Available</p><p><b>type</b>: <span title=\"Codes:\">POLYP @ 12CM</span></p><h3>Collections</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Collected[x]</b></td></tr><tr><td style=\"display: none\">*</td><td>1999-08-09</td></tr></table><hr/><p class=\"res-header-id\"><b>Generated Narrative: Organization  #ex-MHV-organization-989</b></p><a name=\"ex-MHV-labReport-6/ex-MHV-organization-989\"> </a><a name=\"hcex-MHV-labReport-6/ex-MHV-organization-989\"> </a><a name=\"ex-MHV-labReport-6/ex-MHV-organization-989-en-US\"> </a><p><b>identifier</b>: <code>urn:oid:2.16.840.1.113883.4.349</code>/LabSiteTO.989 (use: usual, ), NPI/1234</p><p><b>active</b>: true</p><p><b>name</b>: Lab Site 989</p><hr/><p class=\"res-header-id\"><b>Generated Narrative: Practitioner  #ex-MHV-practitioner-seetha</b></p><a name=\"ex-MHV-labReport-6/ex-MHV-practitioner-seetha\"> </a><a name=\"hcex-MHV-labReport-6/ex-MHV-practitioner-seetha\"> </a><a name=\"ex-MHV-labReport-6/ex-MHV-practitioner-seetha-en-US\"> </a><p><b>identifier</b>: <code>http://nowhere.com/nope</code>/unknown</p><p><b>name</b>: SEETHA SURYAPRASAD MD</p></div>"
       },
       "contained": [
-        {
-          "resourceType": "Specimen",
-          "id": "ex-MHV-specimen-6",
-          "meta": {
-            "profile": [
-              "https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.LabSpecimen"
-            ]
+          {
+              "resourceType": "Specimen",
+              "id": "ex-MHV-specimen-6",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.LabSpecimen"
+                  ]
+              },
+              "accessionIdentifier": {
+                  "use": "usual",
+                  "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                  "value": "SP 99 1804"
+              },
+              "status": "available",
+              "type": {
+                  "text": "POLYP @ 12CM"
+              },
+              "collection": {
+                  "collectedDateTime": "1999-08-09"
+              }
           },
-          "identifier": [
-            {
-              "use": "usual"
-            }
-          ],
-          "accessionIdentifier": {
-            "use": "usual",
-            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-            "value": "SP 99 1804"
+          {
+              "resourceType": "Organization",
+              "id": "ex-MHV-organization-989",
+              "meta": {
+                  "profile": [
+                      "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "use": "usual",
+                      "system": "urn:oid:2.16.840.1.113883.4.349",
+                      "value": "LabSiteTO.989"
+                  },
+                  {
+                      "system": "http://hl7.org/fhir/sid/us-npi",
+                      "value": "1234"
+                  }
+              ],
+              "active": true,
+              "name": "Lab Site 989"
           },
-          "status": "available",
-          "type": {
-            "text": "POLYP @ 12CM"
-          },
-          "collection": {
-            "collectedDateTime": "1999-08-09"
+          {
+              "resourceType": "Practitioner",
+              "id": "ex-MHV-practitioner-seetha",
+              "meta": {
+                  "profile": [
+                      "http://hl7.org/fhir/us/core/StructureDefinition/us-core-practitioner"
+                  ]
+              },
+              "identifier": [
+                  {
+                      "system": "http://nowhere.com/nope",
+                      "value": "unknown"
+                  }
+              ],
+              "name": [
+                  {
+                      "text": "SEETHA SURYAPRASAD MD",
+                      "family": "SEETHA"
+                  }
+              ]
           }
-        }
       ],
       "identifier": [
-        {
-          "use": "usual",
-          "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
-          "value": "LabReportTO.SP;7009190"
-        }
+          {
+              "use": "usual",
+              "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+              "value": "LabReportTO.SP;7009190"
+          }
       ],
       "status": "final",
       "category": [
-        {
-          "coding": [
-            {
-              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code": "LAB"
-            }
-          ]
-        }
+          {
+              "coding": [
+                  {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                      "code": "LAB"
+                  }
+              ]
+          },
+          {
+              "coding": [
+                  {
+                      "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                      "code": "SP"
+                  }
+              ]
+          }
       ],
       "code": {
-        "coding": [
-          {
-            "system": "http://loinc.org",
-            "code": "60567-5"
-          }
-        ],
-        "text": "LR SURGICAL PATHOLOGY REPORT"
+          "coding": [
+              {
+                  "system": "http://loinc.org",
+                  "code": "11526-1"
+              }
+          ],
+          "text": "LR SURGICAL PATHOLOGY REPORT"
       },
       "subject": {
-        "reference": "Patient/ex-MHV-patient-1"
+          "reference": "Patient/ex-MHV-patient-1"
       },
-      "effectiveDateTime": "1999-08-11T16:09:00-0400",
-      "issued": "1999-08-11T16:09:00-0400",
+      "effectiveDateTime": "1999-08-11T16:09:00Z",
+      "issued": "1999-08-11T16:09:00Z",
       "performer": [
-        {
-          "reference": "Organization/ex-MHV-organization-989"
-        }
+          {
+              "reference": "#ex-MHV-organization-989"
+          },
+          {
+              "reference": "#ex-MHV-practitioner-seetha"
+          }
       ],
       "specimen": [
-        {
-          "reference": "#ex-MHV-specimen-6"
-        }
+          {
+              "reference": "#ex-MHV-specimen-6"
+          }
       ],
-      "conclusion": "Date Spec taken: Aug 09, 1999        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 10, 1999 13:27  Resident: \nDate  completed: Aug 11, 1999        Accession #: SP 99 1804\nSubmitted by: KATHLEEN MARIE WOLNER  Practitioner:KATHLEEN MARIE WOLNER MD\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYP @ 12CM\nBrief Clinical History:\n70 YEAR OLD MALE FOR SCREENING EXAM.  \nOperative Findings:\nSMOOTH BROAD BASED POLYP\nPostoperative Diagnosis:\nPROBABLE BENIGN POLYP\nGross description:\nRECEIVED IN FORMALIN AND LABELED \"POLYP\"  CONSISTS OF TWO 1 MM FRAGMENTS\nOF PINK TISSUE.  SUBMITTED IN TOTAL IN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Aug 09, 1999)\n|TAB||BLANK(3)|\nDIAGNOSIS:\nPOLYP AT 12 CM. TUBULAR ADENOMA."
+      "presentedForm": [
+          {
+              "contentType": "text/plain",
+              "data": "RGF0ZSBTcGVjIHRha2VuOiBBdWcgMDksIDE5OTkgICAgICAgIFBhdGhvbG9naXN0OlNFRVRIQSBTVVJZQVBSQVNBRCBNRApEYXRlIFNwZWMgcmVjJ2Q6IEF1ZyAxMCwgMTk5OSAxMzoyNyAgUmVzaWRlbnQ6IApEYXRlICBjb21wbGV0ZWQ6IEF1ZyAxMSwgMTk5OSAgICAgICAgQWNjZXNzaW9uICM6IFNQIDk5IDE4MDQKU3VibWl0dGVkIGJ5OiBLQVRITEVFTiBNQVJJRSBXT0xORVIgIFByYWN0aXRpb25lcjpLQVRITEVFTiBNQVJJRSBXT0xORVIgTUQKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQpTcGVjaW1lbjogClBPTFlQIEAgMTJDTQpCcmllZiBDbGluaWNhbCBIaXN0b3J5Ogo3MCBZRUFSIE9MRCBNQUxFIEZPUiBTQ1JFRU5JTkcgRVhBTS4gIApPcGVyYXRpdmUgRmluZGluZ3M6ClNNT09USCBCUk9BRCBCQVNFRCBQT0xZUApQb3N0b3BlcmF0aXZlIERpYWdub3NpczoKUFJPQkFCTEUgQkVOSUdOIFBPTFlQCkdyb3NzIGRlc2NyaXB0aW9uOgpSRUNFSVZFRCBJTiBGT1JNQUxJTiBBTkQgTEFCRUxFRCAiUE9MWVAiICBDT05TSVNUUyBPRiBUV08gMSBNTSBGUkFHTUVOVFMKT0YgUElOSyBUSVNTVUUuICBTVUJNSVRURUQgSU4gVE9UQUwgSU4gT05FIEJMT0NLLgpNaWNyb3Njb3BpYyBkZXNjcmlwdGlvbjogKERhdGUgU3BlYyB0YWtlbjogQXVnIDA5LCAxOTk5KQp8VEFCfHxCTEFOSygzKXwKRElBR05PU0lTOgpQT0xZUCBBVCAxMiBDTS4gVFVCVUxBUiBBREVOT01BLgo="
+          }
+      ]
     },
     {
       "resourceType": "DiagnosticReport",

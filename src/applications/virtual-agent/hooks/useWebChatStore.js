@@ -15,27 +15,21 @@ export function getUserUuid(userUuid) {
 
 export default function useWebChatStore({
   createStore,
-  csrfToken,
-  apiSession,
   userFirstName,
   userUuid,
-  isMobile,
   environment,
-  isComponentToggleOn,
+  ...params
 }) {
   return useMemo(
     () => {
       return createStore(
         {},
         StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
-          csrfToken,
-          apiSession,
           apiURL: getApiUrl(environment),
           baseURL: environment.BASE_URL,
           userFirstName: getUserFirstName(userFirstName),
           userUuid: getUserUuid(userUuid),
-          isMobile,
-          isComponentToggleOn,
+          ...params,
         }),
       );
     },
