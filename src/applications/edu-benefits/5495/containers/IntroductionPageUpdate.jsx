@@ -7,7 +7,7 @@ export default function IntroductionPageUpdate() {
   return (
     <div
       className={`schemaform-intro ${
-        !reviewPage ? 'vads-u-margin-bottom--9' : ''
+        !reviewPage ? 'vads-u-margin-bottom--9' : 'vads-u-margin-bottom--0'
       }`}
     >
       {!reviewPage && <FormTitle title="Manage your education benefits" />}

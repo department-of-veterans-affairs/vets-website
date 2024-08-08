@@ -74,9 +74,11 @@ const formConfig = {
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
-  preSubmitInfo: {
-    CustomComponent: !convertToggle() ? IntroductionPageUpdate : preSubmitInfo,
-  },
+  preSubmitInfo: convertToggle()
+    ? preSubmitInfo
+    : {
+        CustomComponent: IntroductionPageUpdate,
+      },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
