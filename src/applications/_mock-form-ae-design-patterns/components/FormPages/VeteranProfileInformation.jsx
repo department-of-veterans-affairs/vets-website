@@ -30,7 +30,7 @@ const VeteranProfileInformation = ({
       <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
         <p>This is the personal information we have on file for you.</p>
 
-        <div className="va-address-block vads-u-margin-y--3">
+        <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-margin-y--3 vads-u-padding-left--2">
           <dl>
             <div data-testid="ezr-veteran-fullname">
               <dt className="vads-u-visibility--screen-reader">Full name:</dt>

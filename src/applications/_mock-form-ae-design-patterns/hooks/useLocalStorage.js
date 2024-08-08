@@ -7,6 +7,10 @@ export const useLocalStorage = (storageKey, fallbackState) => {
 
   React.useEffect(
     () => {
+      if (value === '') {
+        localStorage.removeItem(storageKey);
+        return;
+      }
       localStorage.setItem(storageKey, JSON.stringify(value));
     },
     [value, storageKey],

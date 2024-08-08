@@ -18,10 +18,20 @@ import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
-import { REVIEW_CONTACT, setReturnState } from '../utilities/data/profile';
-import { usePrevious } from '../../../../utilities/react-hooks';
+import { usePrevious } from 'platform/utilities/react-hooks';
+import {
+  REVIEW_CONTACT,
+  setReturnState,
+} from 'platform/forms-system/src/js/utilities/data/profile';
 
-export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
+export const BuildPage = ({
+  title,
+  field,
+  id,
+  goToPath,
+  contactPath,
+  saveButtonText,
+}) => {
   const headerRef = useRef(null);
 
   const modalState = useSelector(state => state?.vapService?.modal);
@@ -81,6 +91,7 @@ export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
           isDeleteDisabled
           cancelCallback={handlers.cancel}
           successCallback={handlers.success}
+          saveButtonText={saveButtonText}
         />
       </InitializeVAPServiceID>
     </div>

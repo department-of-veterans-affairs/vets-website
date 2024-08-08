@@ -4,7 +4,7 @@ import { LAST_YEAR } from '../../utils/constants';
 import content from '../../locales/en/content.json';
 
 const ProcessDescription = () => (
-  <div className="vads-u-margin-top--4">
+  <>
     <FormTitle
       title={content['form-title']}
       subTitle={content['form-subtitle']}
@@ -73,7 +73,7 @@ const ProcessDescription = () => (
       a higher priority group. This may affect how much (if anything) you’ll
       have to pay toward the cost of your care.
     </p>
-  </div>
+  </>
 );
 
 export default ProcessDescription;

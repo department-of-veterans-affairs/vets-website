@@ -47,7 +47,7 @@ const IntroductionPage = ({ route }) => {
             {isUserLOA1 ? (
               <IdentityVerificationAlert onVerify={onVerifyEvent} />
             ) : (
-              <SaveInProgressInfo {...sipProps} />
+              <SaveInProgressInfo {...sipProps} route={route} />
             )}
             <OMBInfo />
           </>

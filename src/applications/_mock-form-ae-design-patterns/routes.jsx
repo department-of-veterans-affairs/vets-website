@@ -1,13 +1,26 @@
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
-import formConfig from './config/form';
-import App from './containers/App.jsx';
 
-const route = {
-  path: '/',
-  component: App,
-  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+import greenFormConfig from './config/prefill/taskGreen/form';
+import yellowFormConfig from './config/prefill/taskYellow/form';
+import App from './containers/App';
 
-  childRoutes: createRoutesWithSaveInProgress(formConfig),
-};
+const routes = [
+  {
+    path: '/task-green',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/task-green/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(greenFormConfig),
+  },
+  {
+    path: '/task-yellow',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/task-yellow/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
+  },
+];
 
-export default route;
+export default routes;

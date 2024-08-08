@@ -47,8 +47,9 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
   };
 
   const onSignInButtonClick = () => {
-    window.location =
-      '/mock-form-ae-design-patterns/introduction?loggedIn=true&task=green';
+    window.location = `${formConfig.rootUrl}${
+      formConfig.urlPrefix
+    }introduction?loggedIn=true`;
   };
 
   return isLoggedOut ? (
