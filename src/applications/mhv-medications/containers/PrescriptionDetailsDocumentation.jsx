@@ -187,7 +187,9 @@ const PrescriptionDetailsDocumentation = () => {
         <va-loading-indicator message="Loading information..." set-focus />
       ) : (
         <div>
-          <h1>Information: {prescription?.prescriptionName}</h1>
+          <h1 data-testid="medication-information">
+            Information: {prescription?.prescriptionName}
+          </h1>
           <PrintDownload
             onPrint={printPage}
             onText={downloadText}

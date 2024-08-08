@@ -4,8 +4,8 @@ import MedicationsListPage from './pages/MedicationsListPage';
 import rxTrackingDetails from './fixtures/prescription-tracking-details.json';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe('Medications Details Page Medication Information', () => {
-  it('visits Medications Details Page Medication Information Link', () => {
+describe('Medications Details Page Medication Information Print This Page DropDown', () => {
+  it('visits Medications Details Page Medication Information Print This Page DropDown', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
     const detailsPage = new MedicationsDetailsPage();
@@ -18,9 +18,9 @@ describe('Medications Details Page Medication Information', () => {
     detailsPage.clickLearnMoreAboutMedicationLinkOnDetailsPage(
       rxTrackingDetails.data.attributes.prescriptionId,
     );
-    detailsPage.verifyMedicationInformationTitle(
-      rxTrackingDetails.data.attributes.prescriptionName,
-    );
+    detailsPage.verifyPrintOrDownloadDropDownButtonOnMedicationInformationPage();
+    detailsPage.clickPrintOrDownloadDropDownButtonOnMedicationInformationPage();
+    detailsPage.verifyPrintThisPageDropDownOptionOnMedicationInformationPage();
     cy.injectAxe();
     cy.axeCheck('main');
   });

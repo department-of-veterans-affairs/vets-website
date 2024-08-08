@@ -406,6 +406,42 @@ class MedicationsDetailsPage {
       waitForAnimations: true,
     });
   };
+
+  verifyMedicationInformationTitle = rxName => {
+    cy.get('[data-testid="medication-information"]').should(
+      'contain',
+      `Information: ${rxName}`,
+    );
+  };
+
+  verifyPrintOrDownloadDropDownButtonOnMedicationInformationPage = () => {
+    cy.get('[data-testid="print-records-button"]').should('be.visible');
+  };
+
+  clickPrintOrDownloadDropDownButtonOnMedicationInformationPage = () => {
+    cy.get('[data-testid="print-records-button"]').click({ force: true });
+  };
+
+  verifyPrintThisPageDropDownOptionOnMedicationInformationPage = () => {
+    cy.get('[data-testid="download-print-button"]').should(
+      'contain',
+      'Print this page',
+    );
+  };
+
+  verifyDownloadPdfDropDownOptionOnMedicationInformationPage = () => {
+    cy.get('[data-testid="download-pdf-button"]').should(
+      'contain',
+      'Download a PDF',
+    );
+  };
+
+  verifyDownloadTxtDropDownOptionOnMedicationInformationPage = () => {
+    cy.get('[data-testid="download-txt-button"]').should(
+      'contain',
+      'Download a text file',
+    );
+  };
 }
 
 export default MedicationsDetailsPage;
