@@ -211,7 +211,7 @@ export const getAllFormLinks = getAppUrlImpl => {
       '21P-0847-substitute-claimant',
     )}/`,
     [VA_FORM_IDS.FORM_21P_527EZ]: `${getAppUrlImpl('pensions')}/`,
-    [VA_FORM_IDS.FORM_21P_530V2]: `${getAppUrlImpl('burials-ez')}`,
+    [VA_FORM_IDS.FORM_21P_530V2]: `${getAppUrlImpl('burials-ez')}/`,
     [VA_FORM_IDS.FORM_22_0993]: `${getAppUrlImpl('0993-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_0994]: `${getAppUrlImpl('0994-edu-benefits')}/`,
     [VA_FORM_IDS.FORM_22_10203]: `${getAppUrlImpl('10203-edu-benefits')}/`,
