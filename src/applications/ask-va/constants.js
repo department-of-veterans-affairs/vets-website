@@ -477,3 +477,6 @@ export const breadcrumbsDictionary = {
   '/user/dashboard': responsePageBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
 };
+
+// Health care label is currently different on local/dev and staging (pulling from CRM updated list)
+export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];
