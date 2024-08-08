@@ -250,6 +250,7 @@ const FacilitiesMap = props => {
       props.mapMoved(calculateSearchArea());
       recordPanEvent(map.getCenter(), props.currentQuery);
     });
+
     map.on('zoomend', e => {
       // Only trigger mapMoved and speakZoom for manual events,
       // e.g. zoom in/out button click, mouse wheel, etc.

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
@@ -48,9 +47,6 @@ const EmergencyCareResult = ({ provider, query }) => {
           <a
             href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Emergency-Care.asp"
             target="_/blank"
-            onClick={() => {
-              recordEvent({ event: 'cta-emergency-benefit-button-click' });
-            }}
             className="emergency-care-link"
           >
             Learn about your in-network emergency care benefits (opens in a new
