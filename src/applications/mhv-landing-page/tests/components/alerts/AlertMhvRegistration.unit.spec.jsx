@@ -4,11 +4,11 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import { Provider } from 'react-redux';
 
-import MhvRegistrationAlert from '../../components/MhvRegistrationAlert';
+import MhvRegistrationAlert from '../../../components/alerts/AlertMhvRegistration';
 
 const defaultHeadline = MhvRegistrationAlert.defaultProps.headline;
 
-describe('MhvRegistrationAlert', () => {
+describe('<MhvRegistrationAlert />', () => {
   const mockStore = () => ({
     getState: () => ({
       user: {

@@ -6,7 +6,7 @@ import {
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
 
-const VerifyAndRegisterAlert = ({ cspId, testId }) => {
+const AlertVerifyAndRegister = ({ cspId, testId }) => {
   const serviceProviderLabel = SERVICE_PROVIDERS[cspId]?.label;
 
   return (
@@ -43,13 +43,13 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
   );
 };
 
-VerifyAndRegisterAlert.defaultProps = {
-  testId: 'mhv-alert--verify-and-register-idme-logingov-nonloa3',
+AlertVerifyAndRegister.defaultProps = {
+  testId: 'mhv-alert--verify-and-register',
 };
 
-VerifyAndRegisterAlert.propTypes = {
+AlertVerifyAndRegister.propTypes = {
   cspId: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
   testId: PropTypes.string,
 };
 
-export default VerifyAndRegisterAlert;
+export default AlertVerifyAndRegister;

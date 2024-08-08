@@ -4,18 +4,18 @@ import PropTypes from 'prop-types';
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const UnregisteredAlert = ({ headline, recordEvent, status }) => {
+const AlertUnregistered = ({ headline, recordEvent, testId }) => {
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
       action: 'load',
       'alert-box-headline': headline,
-      'alert-box-status': status,
+      'alert-box-status': 'warning',
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <VaAlert status={status} data-testid="unregistered-alert" disableAnalytics>
+    <VaAlert status="warning" data-testid={testId} disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
@@ -50,16 +50,17 @@ const UnregisteredAlert = ({ headline, recordEvent, status }) => {
   );
 };
 
-UnregisteredAlert.defaultProps = {
+AlertUnregistered.defaultProps = {
   headline: 'You don’t have access to My HealtheVet',
   recordEvent: recordEventFn,
-  status: 'warning',
+  testId: 'mhv-alert--unregistered',
 };
 
-UnregisteredAlert.propTypes = {
+AlertUnregistered.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   status: PropTypes.string,
+  testId: PropTypes.string,
 };
 
-export default UnregisteredAlert;
+export default AlertUnregistered;

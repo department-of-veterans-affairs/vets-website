@@ -5,7 +5,7 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
+const AlertMhvBasicAccount = ({ headline, recordEvent, status, testId }) => {
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
@@ -20,11 +20,7 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
   };
 
   return (
-    <VaAlert
-      status={status}
-      data-testid="mhv-basic-account-alert"
-      disableAnalytics
-    >
+    <VaAlert status={status} data-testid={testId} disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
@@ -83,17 +79,19 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
   );
 };
 
-MhvBasicAccountAlert.defaultProps = {
+AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
   recordEvent: recordEventFn,
   status: 'warning',
+  testId: 'mhv-alert--mhv-basic-account',
 };
 
-MhvBasicAccountAlert.propTypes = {
+AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
   status: PropTypes.string,
+  testId: PropTypes.string,
 };
 
-export default MhvBasicAccountAlert;
+export default AlertMhvBasicAccount;

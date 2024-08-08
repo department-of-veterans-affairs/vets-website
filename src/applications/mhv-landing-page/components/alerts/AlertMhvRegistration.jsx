@@ -4,9 +4,15 @@ import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from '../selectors';
+import { isAuthenticatedWithSSOe } from '../../selectors';
 
-const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
+const AlertMhvRegistration = ({
+  headline,
+  recordEvent,
+  status,
+  icon,
+  testId,
+}) => {
   useEffect(
     () => {
       recordEvent({
@@ -24,9 +30,10 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
 
   return (
     <div
-      className="mhv-c-reg-alert mhv-u-reg-alert-warning usa-alert vads-u-display--flex 
-    vads-u-align-items--flex-start vads-u-justify-content--center vads-u-flex-direction--row 
+      className="mhv-c-reg-alert mhv-u-reg-alert-warning usa-alert vads-u-display--flex
+    vads-u-align-items--flex-start vads-u-justify-content--center vads-u-flex-direction--row
     vads-u-margin-bottom--3"
+      data-testid={testId}
     >
       <va-icon icon={icon} size={4} />
       <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
@@ -56,18 +63,20 @@ const MhvRegistrationAlert = ({ headline, recordEvent, status, icon }) => {
   );
 };
 
-MhvRegistrationAlert.defaultProps = {
+AlertMhvRegistration.defaultProps = {
   headline: 'Register your account with My HealtheVet',
   icon: 'lock',
   recordEvent: recordEventFn,
   status: 'warning',
+  testId: 'mhv-alert--mhv-registration',
 };
 
-MhvRegistrationAlert.propTypes = {
+AlertMhvRegistration.propTypes = {
   headline: PropTypes.string,
   icon: PropTypes.string,
   recordEvent: PropTypes.func,
   status: PropTypes.string,
+  testId: PropTypes.string,
 };
 
-export default MhvRegistrationAlert;
+export default AlertMhvRegistration;
