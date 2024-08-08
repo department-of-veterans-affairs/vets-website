@@ -75,6 +75,10 @@ class PilotEnvPage {
     cy.wait('@full-thread', { requestTimeout: 20000 });
   };
 
+  verifyHeader = text => {
+    cy.get(Locators.HEADER).should('contain.text', text);
+  };
+
   verifyMessageDetails = (date, index = 0) => {
     cy.get(Locators.MSG_DATE).should(`contain`, date);
     cy.get(Locators.FROM).should(

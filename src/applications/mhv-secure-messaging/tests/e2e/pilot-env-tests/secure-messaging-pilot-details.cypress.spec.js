@@ -1,5 +1,5 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
+import { AXE_CONTEXT, Paths } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
@@ -32,10 +32,7 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
 
-    cy.get(Locators.HEADER).should(
-      'contain.text',
-      mockSingleThread.data[0].attributes.subject,
-    );
+    PilotEnvPage.verifyHeader(mockSingleThread.data[0].attributes.subject);
 
     PilotEnvPage.verifyMessageDetails(currentDate, 0);
 
