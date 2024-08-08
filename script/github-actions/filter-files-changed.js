@@ -3,8 +3,7 @@ const fs = require('fs');
 const core = require('@actions/core');
 
 console.log(process.env.CHANGED_FILE_PATHS.split(' '));
-const files = JSON.parse(process.env.CHANGED_FILE_PATHS)
-  .split(' ')
+const files = process.env.CHANGED_FILE_PATHS.split(' ')
   .slice(1, -1) // remove unnecessary characters
   .split(',')
   .filter(file => fs.existsSync(file)); // remove files that don't exist
