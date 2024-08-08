@@ -39,7 +39,6 @@ describe('createFormConfig', () => {
     let nameOnly;
 
     beforeEach(() => {
-      // eslint-disable-next-line prefer-destructuring
       dobIncluded = formConfig.chapters[158253].pages[158253];
       nameOnly = formConfig.chapters[158254].pages[158254];
     });
