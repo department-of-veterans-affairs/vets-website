@@ -366,6 +366,7 @@ describe('<NameSearchForm>', () => {
 
       return { newValue, expectedBaseUrl, searchButton };
     };
+
     it('should remove public school type when PUBLIC checkbox is unchecked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
@@ -375,7 +376,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
     it('should remove public school type when For profit checkbox is unchecked ', async () => {
@@ -387,7 +388,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
     it('should remove all school type, excludeVettec and excludeEmployers when clear fillters button is clicked ', async () => {
@@ -401,6 +402,7 @@ describe('<NameSearchForm>', () => {
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(`${expectedBaseUrl}?name=${newValue}&page=1`);
     });
+
     it('should add special-mission-hbcuall when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
@@ -410,9 +412,10 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&special_mission_hbcu=true&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
+
     it('should add specialMissionMenonly when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
@@ -422,7 +425,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&special_mission_menonly=true&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
     it('should add special-mission-womenonly when button is clicked ', async () => {
@@ -434,9 +437,10 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&special_mission_womenonly=true&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
+
     it('should add exclude-caution-flags when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
@@ -446,7 +450,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_caution_flags=true&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
     it('should remove employers when button is clicked ', async () => {
@@ -454,9 +458,10 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
+
     it('should call url when apply filters button is clicked ', async () => {
       const { expectedBaseUrl } = setupRTL(
         '',
@@ -467,7 +472,7 @@ describe('<NameSearchForm>', () => {
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
       expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=&page=1&exclude_schools=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
+        `${expectedBaseUrl}?name=&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true&excluded_school_types%5B%5D=PUBLIC&excluded_school_types%5B%5D=FOR%20PROFIT&excluded_school_types%5B%5D=PRIVATE&excluded_school_types%5B%5D=FOREIGN&excluded_school_types%5B%5D=FLIGHT&excluded_school_types%5B%5D=CORRESPONDENCE&excluded_school_types%5B%5D=HIGH%20SCHOOL`,
       );
     });
   });
