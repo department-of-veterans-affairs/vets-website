@@ -1,18 +1,14 @@
-import React from 'react';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { CHAPTER_3 } from '../../../constants';
-import ProfileLink from '../../../components/ProfileLink';
 import {
+  personalInformationAboutYourselfUiSchemas,
   personalInformationFormSchemas,
-  personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
-
-const question = <h4>{CHAPTER_3.PAGE_9.TITLE}</h4>;
 
 const aboutYourselfPage = {
   uiSchema: {
-    'ui:title': question,
-    'ui:description': ProfileLink,
-    aboutYourself: personalInformationUiSchemas,
+    ...titleUI(CHAPTER_3.ABOUT_YOURSELF.TITLE),
+    aboutYourself: personalInformationAboutYourselfUiSchemas,
   },
   schema: {
     type: 'object',

@@ -3,9 +3,8 @@ import { expect } from 'chai';
 import {
   FORM_DESCRIPTIONS,
   SIP_ENABLED_FORMS,
+  MY_VA_SIP_FORMS,
 } from '~/platform/forms/constants';
-
-import { replaceDashesWithSlashes } from '../utils/date-formatting/helpers';
 
 describe('profile helpers:', () => {
   describe('FORM_DESCRIPTIONS', () => {
@@ -15,10 +14,12 @@ describe('profile helpers:', () => {
       });
     });
   });
-});
 
-describe('replaceDashesWithSlashes function', () => {
-  it('should replace the dashes in a string with slashes', () => {
-    expect(replaceDashesWithSlashes('2023-10-23')).to.equal('2023/10/23');
+  describe('MY_VA_SIP_FORMS', () => {
+    it('should have description information for each verified form', () => {
+      MY_VA_SIP_FORMS.forEach(form => {
+        expect(form.description).to.exist;
+      });
+    });
   });
 });

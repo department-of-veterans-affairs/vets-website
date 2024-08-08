@@ -1,15 +1,38 @@
-import manifest from '../../manifest.json';
+import { appName, rootUrl } from '../../manifest.json';
+import user from '../fixtures/user.json';
+import ApiInitializer from './utilities/ApiInitializer';
 
-describe(manifest.appName, () => {
-  // Skip tests in CI until the app is released.
-  // Remove this block when the app has a content page in production.
-  before(function() {
-    if (Cypress.env('CI')) this.skip();
+/*
+ * The intent of the tests in this file is to replicate the current state
+ * of the landing page as it is in production.
+ * As of 2/14/2024, the landing page is enabled, but the personalization is not.
+ */
+describe(`${appName} -- landing page`, () => {
+  beforeEach(() => {
+    ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
+    ApiInitializer.initializeMessageData.withNoUnreadMessages();
+    cy.login(user);
+    cy.visit(rootUrl);
   });
 
-  it('is accessible', () => {
-    cy.visit(manifest.rootUrl)
-      .injectAxe()
-      .axeCheck();
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('displays an h1', () => {
+    const heading = {
+      level: 1,
+      name: /^My HealtheVet$/,
+    };
+    cy.findByRole('heading', heading).should('have.focus');
+  });
+
+  // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
+  it('renders the breadcrumbs', () => {
+    cy.get('va-breadcrumbs').should('be.visible');
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .findByRole('link', { name: /My HealtheVet/ });
+  });
+
+  it('passes automated accessibility (a11y) checks', () => {
+    cy.injectAxeThenAxeCheck();
   });
 });

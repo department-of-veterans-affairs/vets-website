@@ -25,7 +25,7 @@ const ResultsSummary = ({ formValues }) => {
 
   if (airForceAFRBAPortal) {
     summary =
-      'Based on your answers, you need to complete an Application for Correction of Military Record (DD 149). You can download this form from the Air Force Review Agency Portal.';
+      'Based on your answers, you need to complete an Application for Correction of Military Record (DD 149). You can download this form from the Air Force Review Boards Agency Website and Portal.';
   }
 
   return (

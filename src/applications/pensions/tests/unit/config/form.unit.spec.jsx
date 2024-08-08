@@ -1,24 +1,33 @@
 import moment from 'moment';
 import { expect } from 'chai';
 
+import formConfig from '../../../config/form';
+
+import { transform } from '../../../config/submit';
+import overflowForm from '../../e2e/fixtures/data/overflow-test.json';
+import {
+  hasFederalTreatmentHistory,
+  hasNoSocialSecurityDisability,
+  hasVaTreatmentHistory,
+  isEmployedUnder65,
+  isInNursingHome,
+  isUnder65,
+  isUnemployedUnder65,
+  medicaidDoesNotCoverNursingHome,
+} from '../../../config/chapters/03-health-and-employment-information/helpers';
 import {
   currentSpouseHasFormerMarriages,
+  dependentIsOutsideHousehold,
+  doesHaveDependents,
   isSeparated,
-  isUnder65,
   showSpouseAddress,
-  hasNoSocialSecurityDisability,
-  isInNursingHome,
-  medicaidDoesNotCoverNursingHome,
-  isHomeAcreageMoreThanTwo,
-  ownsHome,
-  hasVaTreatmentHistory,
-  hasFederalTreatmentHistory,
-  isEmployedUnder65,
-  isUnemployedUnder65,
-  doesReceiveIncome,
+} from '../../../config/chapters/04-household-information/helpers';
+import {
   doesHaveCareExpenses,
   doesHaveMedicalExpenses,
-} from '../../../config/form';
+  doesReceiveIncome,
+  ownsHome,
+} from '../../../config/chapters/05-financial-information/helpers';
 
 describe('Pensions isUnder65', () => {
   it('should return false if date of birth and isOver65 indicate veteran is over 65', () => {
@@ -68,7 +77,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return true if marital status is separated', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Separated',
+        maritalStatus: 'SEPARATED',
         'view:liveWithSpouse': true,
       }),
     ).to.be.true;
@@ -76,7 +85,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return true if veteran does not live with spouse', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Married',
+        maritalStatus: 'MARRIED',
         'view:liveWithSpouse': false,
       }),
     ).to.be.true;
@@ -84,7 +93,7 @@ describe('Pensions showSpouseAddress', () => {
   it('should return false if veteran is not separated and lives with spouse', () => {
     expect(
       showSpouseAddress({
-        maritalStatus: 'Married',
+        maritalStatus: 'MARRIED',
         'view:liveWithSpouse': true,
       }),
     ).to.be.false;
@@ -93,10 +102,10 @@ describe('Pensions showSpouseAddress', () => {
 
 describe('Pensions isSeparated', () => {
   it('returns true if veteran is separated', () => {
-    expect(isSeparated({ maritalStatus: 'Separated' })).to.be.true;
+    expect(isSeparated({ maritalStatus: 'SEPARATED' })).to.be.true;
   });
   it('returns false if veteran is not separated', () => {
-    expect(isSeparated({ maritalStatus: 'Married' })).to.be.false;
+    expect(isSeparated({ maritalStatus: 'MARRIED' })).to.be.false;
   });
 });
 
@@ -104,8 +113,8 @@ describe('Pensions currentSpouseHasFormerMarriages', () => {
   it('returns true if current spouse was previously married', () => {
     expect(
       currentSpouseHasFormerMarriages({
-        maritalStatus: 'Married',
-        currentSpouseMaritalHistory: 'Yes',
+        maritalStatus: 'MARRIED',
+        currentSpouseMaritalHistory: 'YES',
       }),
     ).to.be.true;
   });
@@ -129,17 +138,6 @@ describe('Pensions medicaidDoesNotCoverNursingHome', () => {
       medicaidDoesNotCoverNursingHome({
         nursingHome: true,
         medicaidCoverage: false,
-      }),
-    ).to.be.true;
-  });
-});
-
-describe('Pensions isHomeAcreageMoreThanTwo', () => {
-  it('returns true if home acreage is more than two', () => {
-    expect(
-      isHomeAcreageMoreThanTwo({
-        homeOwnership: true,
-        homeAcreageMoreThanTwo: true,
       }),
     ).to.be.true;
   });
@@ -191,5 +189,123 @@ describe('Pensions doesHaveCareExpenses', () => {
 describe('Pensions doesHaveMedicalExpenses', () => {
   it('returns true if veteran has medical expenses', () => {
     expect(doesHaveMedicalExpenses({ hasMedicalExpenses: true })).to.be.true;
+  });
+});
+
+describe('Pensions doesHaveDependents', () => {
+  it('returns true if veteran has dependents', () => {
+    expect(doesHaveDependents({ 'view:hasDependents': true })).to.be.true;
+  });
+
+  it('returns false if veteran has no dependents', () => {
+    expect(doesHaveDependents({ 'view:hasDependents': false })).to.be.false;
+  });
+});
+
+describe('Pensions dependentIsOutsideHousehold', () => {
+  const dependents = [{ childInHousehold: false }, { childInHousehold: true }];
+
+  it('returns true if veteran has dependents and dependent is outside household', () => {
+    expect(
+      dependentIsOutsideHousehold(
+        { 'view:hasDependents': true, dependents },
+        0,
+      ),
+    ).to.be.true;
+  });
+
+  it('returns false if veteran has dependents and dependent is inside household', () => {
+    expect(
+      dependentIsOutsideHousehold(
+        { 'view:hasDependents': true, dependents },
+        1,
+      ),
+    ).to.be.false;
+  });
+
+  it('returns false if veteran has no dependents', () => {
+    expect(
+      dependentIsOutsideHousehold(
+        { 'view:hasDependents': false, dependents },
+        0,
+      ),
+    ).to.be.false;
+    expect(
+      dependentIsOutsideHousehold(
+        { 'view:hasDependents': false, dependents },
+        1,
+      ),
+    ).to.be.false;
+  });
+});
+
+describe('Pensions formConfig', () => {
+  it('when transformed for submit, should remove dependents if veteran has no dependents', () => {
+    const formData = {
+      data: {
+        'view:hasDependents': false,
+        dependents: overflowForm.data.dependents,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(JSON.stringify({}));
+  });
+  it('when transformed for submit, should keep dependents if veteran has dependents', () => {
+    const formData = {
+      data: {
+        'view:hasDependents': true,
+        dependents: overflowForm.data.dependents,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({ dependents: overflowForm.data.dependents }),
+    );
+  });
+  it('when transformed for submit, should remove homeAcreageValue if veteran owns no home', () => {
+    const formData = {
+      data: {
+        homeOwnership: false,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({ homeOwnership: false }),
+    );
+  });
+  it('when transformed for submit, should remove homeAcreageValue if veteran owns less than two acres', () => {
+    const formData = {
+      data: {
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: false,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: false,
+      }),
+    );
+  });
+  it('when transformed for submit, should keep homeAcreageValue if veteran owns more than two acres', () => {
+    const formData = {
+      data: {
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      },
+    };
+    const result = transform(formConfig, formData);
+    expect(JSON.parse(result).pensionClaim.form).to.equal(
+      JSON.stringify({
+        homeOwnership: true,
+        homeAcreageMoreThanTwo: true,
+        homeAcreageValue: 20000,
+      }),
+    );
   });
 });

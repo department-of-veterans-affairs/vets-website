@@ -46,23 +46,16 @@ const OtherAssetsChecklist = ({
     });
   };
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return otherAssets.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: otherAssets.filter(source => source.name !== value),
-          },
-        })
-      : setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            otherAssets: [...otherAssets, { name: value, amount: '' }],
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      assets: {
+        ...assets,
+        otherAssets: checked
+          ? [...otherAssets, { name, amount: '' }]
+          : otherAssets.filter(asset => asset.name !== name),
+      },
+    });
   };
 
   const onSubmit = event => {

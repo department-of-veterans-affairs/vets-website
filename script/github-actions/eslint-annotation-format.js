@@ -1,6 +1,6 @@
 module.exports = function(results) {
   const resultsArr = results || [];
-
+  const GITHUB_REF = process.env.GITHUB_REF || null;
   const summary = resultsArr.reduce(
     function(seq, current) {
       current.messages.forEach(function(msg) {
@@ -29,8 +29,13 @@ module.exports = function(results) {
 
   let output;
   if (summary.errors.length > 0 || summary.warnings.length > 0) {
-    output = summary.errors
-      .concat(summary.warnings)
+    let annotations;
+    if (GITHUB_REF === 'refs/heads/main') {
+      annotations = summary.errors;
+    } else {
+      annotations = summary.errors.concat(summary.warnings);
+    }
+    output = annotations
       .map(function(msg) {
         const filePath = msg.filePath
           .split('/')

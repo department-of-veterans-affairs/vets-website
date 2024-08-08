@@ -1,45 +1,31 @@
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import {
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  selectSchema,
+  serviceNumberSchema,
+  serviceNumberUI,
+  ssnSchema,
+  ssnUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
-import { mapValues } from 'lodash';
-import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
+import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/VaSelectField';
 
-export const createBooleanSchemaPropertiesFromOptions = obj =>
-  mapValues(obj, () => {
-    return { type: 'boolean' };
-  });
+const suffixes = ['Jr.', 'Sr.', 'II', 'III', 'IV'];
 
-export const createUiTitlePropertiesFromOptions = obj => {
-  return Object.entries(obj).reduce((accumulator, [key, value]) => {
-    accumulator[key] = { 'ui:title': value };
-    return accumulator;
-  }, {});
-};
-
-const pronounInfo = (
-  <>
-    <p className="vads-u-font-weight--bold vads-u-font-family--serif">
-      Pronouns
-    </p>
-    <p className="vads-u-color--gray-medium vads-u-margin-bottom--2">
-      Share this information if you’d like to help us understand the best way to
-      address you.
-    </p>
-    <span>Select all of the Veteran’s pronouns</span>
-  </>
-);
-
-const genderInfo = (
-  <p className="vads-u-margin-y--0">
-    What to know before you decide to share your gender identity
-  </p> // should be a link?
-);
+const branchesOfService = [
+  'Army',
+  'Navy',
+  'Coast Guard',
+  'Air Force',
+  'Marine Corps',
+];
 
 const ssnServiceInfo = (
   <>
-    <p className="vads-u-font-weight--bold vads-u-font-family--serif">
-      Social Security or Service Number
-    </p>
+    <h4 className="vads-u-font-weight--bold vads-u-font-family--serif">
+      Social Security or service number
+    </h4>
     <span className="vads-u-margin-y--0">
       Please provide one of the following:
     </span>
@@ -51,26 +37,6 @@ const validateGroup = (errors, values) => {
     errors.addError(`Please provide an answer`);
   }
 };
-
-const pronounsLabels = {
-  heHimHis: 'He/him/his',
-  sheHerHers: 'She/her/hers',
-  theyThemTheirs: 'They/them/theirs',
-  zeZirZirs: 'Ze/zir/zirs',
-  useMyPreferredName: 'Use my preferred name',
-};
-
-const genderLabels = {
-  M: 'Man',
-  B: 'Non-binary',
-  TM: 'Transgender man',
-  TF: 'Transgender woman',
-  F: 'Woman',
-  N: 'Prefer not to answer',
-  O: 'A gender not listed here',
-};
-
-const genderOptions = Object.keys(genderLabels);
 
 export const personalInformationFormSchemas = {
   first: {
@@ -85,152 +51,276 @@ export const personalInformationFormSchemas = {
     minLength: 1,
     maxLength: 25,
   },
-  last: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
-  suffix: {
-    type: 'string',
-    enum: ['Jr.', 'Sr.', 'II', 'III', 'IV'],
-  },
-  preferredName: {
-    type: 'string',
-    pattern: '^[A-Za-z]+$',
-    minLength: 1,
-    maxLength: 25,
-  },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
   socialOrServiceNum: {
     type: 'object',
     properties: {
-      ssn: {
-        type: 'string',
-        pattern: '^[0-9]{9}$',
-        maxLength: 9,
-      },
-      serviceNumber: {
-        type: 'string',
-        pattern: '^[A-Z]{0,2}\\d{5,8}$',
-        maxLength: 8,
-      },
+      ssn: ssnSchema,
+      serviceNumber: serviceNumberSchema,
     },
-    required: [],
+    required: ['ssn'],
   },
-  dob: {
+  socialNum: ssnSchema,
+  dateOfBirth: dateOfBirthSchema,
+  branchOfService: selectSchema(branchesOfService),
+};
+
+export const aboutYourselfRelationshipFamilyMemberSchema = {
+  first: {
     type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
   },
-  pronouns: {
-    type: 'object',
-    properties: {
-      ...createBooleanSchemaPropertiesFromOptions(pronounsLabels),
-      ...{
-        pronounsNotListedText: {
-          type: 'string',
-        },
-      },
-    },
-    required: [],
+  middle: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
   },
-  genderIdentity: {
-    type: 'object',
-    properties: {
-      genderIdentity: {
-        type: 'string',
-        enum: genderOptions,
-      },
-    },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
+  socialNum: ssnSchema,
+  dateOfBirth: dateOfBirthSchema,
+  branchOfService: selectSchema(branchesOfService),
+};
+
+export const aboutYourselfGeneralSchema = {
+  first: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
   },
+  middle: {
+    type: 'string',
+    pattern: '^[A-Za-z]+$',
+    minLength: 1,
+    maxLength: 25,
+  },
+  last: { type: 'string', pattern: '^[A-Za-z]+$', minLength: 1, maxLength: 25 },
+  suffix: selectSchema(suffixes),
 };
 
 export const personalInformationUiSchemas = {
   first: {
     'ui:title': 'First name',
+    'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'given-name',
     'ui:required': () => true,
-    'ui:errorMessages': {
-      required: 'Please enter a first name',
-    },
+    'ui:errorMessages': { required: 'Please enter a first name' },
   },
   middle: {
     'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'additional-name',
   },
   last: {
     'ui:title': 'Last name',
+    'ui:webComponentField': VaTextInputField,
     'ui:autocomplete': 'family-name',
     'ui:required': () => true,
-    'ui:errorMessages': {
-      required: 'Please enter a last name',
-    },
+    'ui:errorMessages': { required: 'Please enter a last name' },
   },
   suffix: {
     'ui:title': 'Suffix',
+    'ui:webComponentField': VaSelectField,
     'ui:autocomplete': 'honorific-suffix',
     'ui:options': {
       widgetClassNames: 'form-select-medium',
       hideEmptyValueInReview: true,
     },
   },
-  preferredName: {
-    'ui:title': `Preferred name`,
-    'ui:errorMessages': {
-      pattern: 'This field accepts alphabetic characters only',
-    },
-  },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
     'ui:required': () => true,
     'ui:validations': [validateGroup],
+    'ui:options': { showFieldLabel: true },
+    ssn: ssnUI(),
+    serviceNumber: serviceNumberUI('Service number'),
+  },
+  socialNum: {
+    ...ssnUI(),
+    'ui:required': () => false,
     'ui:options': {
-      showFieldLabel: true,
-    },
-    ssn: merge(ssnUI, { 'ui:options': { widgetClassNames: null } }),
-    serviceNumber: {
-      'ui:title': 'Service number',
-      'ui:errorMessages': {
-        pattern:
-          'Veteran service number must start with 0, 1, or 2 letters followed by 5 to 8 digits',
-      },
-      'ui:options': {
-        replaceSchema: () => {
-          return {
-            type: 'string',
-            pattern: '^[a-zA-Z]{0,2}\\d{5,8}$',
-            maxLength: 8,
-          };
-        },
-      },
+      hideIf: () => true,
     },
   },
-  dob: {
-    ...currentOrPastDateUI('Date of birth'),
-    'ui:required': () => true,
+  dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
+  branchOfService: {
+    'ui:title': 'Branch of service',
+    'ui:webComponentField': VaSelectField,
+    'ui:options': {
+      hideIf: () => true,
+    },
   },
-  pronouns: {
-    'ui:title': pronounInfo,
+};
+
+export const personalInformationAboutYourselfUiSchemas = {
+  first: {
+    'ui:title': 'First name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'given-name',
     'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a first name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  middle: {
+    'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'additional-name',
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  last: {
+    'ui:title': 'Last name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'family-name',
+    'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a last name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:webComponentField': VaSelectField,
+    'ui:autocomplete': 'honorific-suffix',
+    'ui:options': {
+      uswds: true,
+      widgetClassNames: 'form-select-medium',
+      hideEmptyValueInReview: true,
+    },
+  },
+  socialOrServiceNum: {
+    'ui:title': ssnServiceInfo,
     'ui:validations': [validateGroup],
     'ui:options': {
+      uswds: true,
       showFieldLabel: true,
+      hideIf: formData =>
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm a family member of a Veteran") ||
+        (formData.questionAbout === 'Myself' &&
+          formData.personalRelationship ===
+            "I'm a family member of a Veteran") ||
+        formData.questionAbout === "It's a general question",
     },
-    ...createUiTitlePropertiesFromOptions(pronounsLabels),
-    pronounsNotListedText: {
-      'ui:title':
-        'If not listed, please provide your preferred pronouns (255 characters maximum)',
+    ssn: ssnUI(),
+    serviceNumber: serviceNumberUI('Service number'),
+  },
+  socialNum: {
+    ...ssnUI(),
+    'ui:required': formData =>
+      formData.questionAbout === 'Myself' &&
+      formData.personalRelationship === "I'm a family member of a Veteran",
+    'ui:options': {
+      uswds: true,
+      hideIf: formData =>
+        !(
+          formData.questionAbout === 'Myself' &&
+          formData.personalRelationship === "I'm a family member of a Veteran"
+        ),
     },
   },
-  genderIdentity: {
-    'ui:title': 'Gender identity',
-    'ui:description': genderInfo,
-    genderIdentity: {
-      'ui:widget': 'radio',
-      'ui:title': `Select a gender identity`,
-      'ui:required': () => true,
-      'ui:options': {
-        labels: genderLabels,
-        enumOptions: genderOptions,
-      },
+  dateOfBirth: {
+    ...dateOfBirthUI(),
+    'ui:required': formData =>
+      !(
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm a family member of a Veteran") ||
+        formData.questionAbout === "It's a general question"
+      ),
+    'ui:options': {
+      uswds: true,
+      hideIf: formData =>
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
+        (formData.questionAbout === 'Someone else' &&
+          formData.personalRelationship ===
+            "I'm a family member of a Veteran") ||
+        formData.questionAbout === "It's a general question",
+    },
+  },
+  branchOfService: {
+    'ui:title': 'Branch of service',
+    'ui:webComponentField': VaSelectField,
+    'ui:required': formData =>
+      (formData.questionAbout === 'Myself' ||
+        formData.questionAbout === 'Someone else') &&
+      formData.personalRelationship === "I'm the Veteran" &&
+      (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
+        formData.selectCategory === 'Survivor Benefits' ||
+        formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
+        formData.selectCategory === "Women Veterans' issues" ||
+        formData.selectCategory === 'Benefits Issues Outside the US'),
+    'ui:options': {
+      uswds: true,
+      hideIf: formData =>
+        !(
+          (formData.questionAbout === 'Myself' ||
+            formData.questionAbout === 'Someone else') &&
+          formData.personalRelationship === "I'm the Veteran" &&
+          (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
+            formData.selectCategory === 'Survivor Benefits' ||
+            formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
+            formData.selectCategory === "Women Veterans' issues" ||
+            formData.selectCategory === 'Benefits Issues Outside the US')
+        ),
+    },
+  },
+};
+
+export const aboutYourselfGeneralUISchema = {
+  first: {
+    'ui:title': 'First name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'given-name',
+    'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a first name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  middle: {
+    'ui:title': 'Middle name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'additional-name',
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  last: {
+    'ui:title': 'Last name',
+    'ui:webComponentField': VaTextInputField,
+    'ui:autocomplete': 'family-name',
+    'ui:required': () => true,
+    'ui:errorMessages': { required: 'Please enter a last name' },
+    'ui:options': {
+      uswds: true,
+    },
+  },
+  suffix: {
+    'ui:title': 'Suffix',
+    'ui:webComponentField': VaSelectField,
+    'ui:autocomplete': 'honorific-suffix',
+    'ui:options': {
+      uswds: true,
+      widgetClassNames: 'form-select-medium',
+      hideEmptyValueInReview: true,
     },
   },
 };

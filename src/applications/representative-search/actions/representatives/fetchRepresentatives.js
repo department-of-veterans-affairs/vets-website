@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import {
   // FETCH_REPRESENTATIVES,
   SEARCH_FAILED,
@@ -26,6 +27,7 @@ export const fetchRepresentatives = async (
   perPage,
   sort,
   type,
+  distance,
   dispatch,
 ) => {
   try {
@@ -38,9 +40,24 @@ export const fetchRepresentatives = async (
       perPage,
       sort,
       type,
+      distance,
     );
     if (dataList.data) {
       dispatch({ type: SEARCH_COMPLETE, payload: dataList });
+
+      recordEvent({
+        // prettier-ignore
+        'event': 'far-search-results',
+        'search-query': address,
+        'search-filters-list': {
+          'representative-type': type,
+          'search-radius': distance,
+          'representative-name': name,
+        },
+        'search-selection': 'Find VA Accredited Rep',
+        'search-results-total-count': dataList?.meta?.pagination?.totalEntries,
+        'search-results-total-pages': dataList?.meta?.pagination?.totalPages,
+      });
     }
 
     if (dataList.errors?.length > 0) {

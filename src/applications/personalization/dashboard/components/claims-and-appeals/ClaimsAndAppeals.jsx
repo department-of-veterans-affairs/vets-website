@@ -9,14 +9,10 @@ import {
   selectProfile,
 } from '~/platform/user/selectors';
 import IconCTALink from '../IconCTALink';
-import {
-  getAppealsV2 as getAppealsAction,
-  getClaims as getClaimsAction,
-} from '../../actions/claims';
-import {
-  appealsAvailability,
-  claimsAvailability,
-} from '../../utils/appeals-v2-helpers';
+import { getAppeals as getAppealsAction } from '../../actions/appeals';
+import { getClaims as getClaimsAction } from '../../actions/claims';
+import { appealsAvailability } from '../../utils/appeals-helpers';
+import { claimsAvailability } from '../../utils/claims-helpers';
 import { canAccess } from '../../../common/selectors';
 import { API_NAMES } from '../../../common/constants';
 
@@ -67,11 +63,10 @@ const ClaimsAndAppealsError = () => {
 const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
   return (
     <>
-      <h3 className="sr-only">Popular actions for Claims and Appeals</h3>
       <IconCTALink
         text="Learn how to file a claim"
         href="/disability/how-to-file-claim/"
-        icon="file"
+        icon="school"
         onClick={() => {
           recordEvent({
             event: 'nav-linkslist',
@@ -79,13 +74,13 @@ const PopularActionsForClaimsAndAppeals = ({ isLOA1 }) => {
             'links-list-section-header': 'Claims and appeals',
           });
         }}
-        testId="file-claims-and-appeals-link-v2"
+        testId="file-claims-and-appeals-link"
       />
       {!isLOA1 && (
         <IconCTALink
           text="Manage all claims and appeals"
           href="/claim-or-appeal-status/"
-          icon="clipboard-check"
+          icon="assignment"
           onClick={() => {
             recordEvent({
               event: 'nav-linkslist',
@@ -211,14 +206,16 @@ const isAppealsAvailableSelector = createIsServiceAvailableSelector(
   backendServices.APPEALS_STATUS,
 );
 
-// returns true if claimsV2.v2Availability is set to a value other than
+// returns true if claimsAndAppealsRoot.appealsAvailability is set to a value other than
 // appealsAvailability.AVAILABLE or appealsAvailability.RECORD_NOT_FOUND_ERROR
 const hasAppealsErrorSelector = state => {
-  const claimsV2Root = state.claims;
+  const claimsAndAppealsRoot = state.claims;
   return (
-    claimsV2Root.v2Availability &&
-    claimsV2Root.v2Availability !== appealsAvailability.AVAILABLE &&
-    claimsV2Root.v2Availability !== appealsAvailability.RECORD_NOT_FOUND_ERROR
+    claimsAndAppealsRoot.appealsAvailability &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.AVAILABLE &&
+    claimsAndAppealsRoot.appealsAvailability !==
+      appealsAvailability.RECORD_NOT_FOUND_ERROR
   );
 };
 

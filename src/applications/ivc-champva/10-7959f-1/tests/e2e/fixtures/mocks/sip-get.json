@@ -1,0 +1,29 @@
+{
+  "formData": {
+    "veteranFullName": {
+      "first": "John",
+      "last": "Preparer"
+    },
+    "veteranAddress": {
+      "country": "USA",
+      "street": "456 Street Circle",
+      "city": "Anyburg",
+      "state": "AK",
+      "postalCode": "12323"
+    },
+    "veteranPhysicalAddress": {
+      "countryName": "USA",
+      "addressLine1": "123 Circle Lane",
+      "addressLine2": "Apt 1C",
+      "addressLine3": "Third line of text",
+      "city": "Anycity",
+      "stateCode": "AL",
+      "zipCode": "55555"
+    }
+  },
+  "metadata": {
+    "version": 0,
+    "prefill": true,
+    "returnUrl": "/veteran-information"
+  }
+}

@@ -5,13 +5,13 @@ import { useState, useEffect, useRef } from 'react';
 import { getDefaultFormState } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 
 import {
-  updateSchemaAndData,
+  updateSchemasAndData,
   updateItemsSchema,
 } from 'platform/forms-system/src/js/state/helpers';
 
 function setupFormData(data, schema, uiSchema) {
   const schemaWithItemsCorrected = updateItemsSchema(schema);
-  return updateSchemaAndData(
+  return updateSchemasAndData(
     schemaWithItemsCorrected,
     uiSchema,
     getDefaultFormState(schemaWithItemsCorrected, data, {}),
@@ -101,7 +101,7 @@ export default function useFormState({
     uiSchema,
     setData(newData) {
       dataUpdatedRef.current = true;
-      const newFormState = updateSchemaAndData(
+      const newFormState = updateSchemasAndData(
         formStateRef.current.schema,
         uiSchema,
         newData,

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import {
   isClinicVideoAppointment,
@@ -28,6 +29,11 @@ export default function VideoLocation({ appointment, facility }) {
             facility={facility}
             facilityId={appointment.location.stationId}
             clinicFriendlyName={appointment.location.clinicName}
+            clinicPhysicalLocation={
+              appointment.location?.clinicPhysicalLocation
+            }
+            clinicPhone={appointment.location?.clinicPhone}
+            clinicPhoneExtension={appointment.location?.clinicPhoneExtension}
           />
         </div>
       </>
@@ -76,3 +82,8 @@ export default function VideoLocation({ appointment, facility }) {
 
   return null;
 }
+
+VideoLocation.propTypes = {
+  appointment: PropTypes.object.isRequired,
+  facility: PropTypes.object,
+};

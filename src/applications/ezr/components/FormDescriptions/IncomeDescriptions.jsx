@@ -3,7 +3,8 @@ import React from 'react';
 export const GrossIncomeDescription = (
   <va-additional-info
     trigger="What we consider gross annual income"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
+    uswds
   >
     <div>
       <p className="vads-u-font-weight--bold vads-u-margin-top--0">
@@ -22,7 +23,8 @@ export const GrossIncomeDescription = (
 export const OtherIncomeDescription = (
   <va-additional-info
     trigger="What we consider other annual income"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
+    uswds
   >
     <div>
       <p className="vads-u-font-weight--bold vads-u-margin-top--0">

@@ -10,7 +10,7 @@ import { MAX_LENGTH } from '../constants';
 
 // We shouldn't ever see the couldn't find contestable issues message since we
 // prevent the user from navigating past the intro page; but it's here just in
-// case we end up filtering out deferred and expired issues
+// case we end up filtering out disqualifying and expired issues
 export const ContestableIssuesLegend = ({ onReviewPage, inReviewMode }) => {
   let Wrap = 'h3';
   const wrapClassNames = ['vads-u-font-size--h3'];
@@ -56,10 +56,11 @@ export const MaxSelectionsAlert = ({ closeModal, appName }) => (
     status="warning"
     onCloseEvent={closeModal}
     visible
+    uswds
   >
     You are limited to {MAX_LENGTH.SELECTIONS} selected issues for each{' '}
     {appName} request. If you would like to select more than{' '}
-    {MAX_LENGTH.SELECTIONS}, submit this request and create a new request for
+    {MAX_LENGTH.SELECTIONS}, submit this request. Then create a new request for
     the remaining issues.
   </VaModal>
 );
@@ -102,11 +103,8 @@ export const MessageAlert = ({
 
   return (
     <div ref={wrapAlert}>
-      <va-alert status="error" class={classes}>
-        <Header
-          slot="headline"
-          className="eligible-issues-error vads-u-margin-x--2 vads-u-margin-y--1 vads-u-padding-x--3 vads-u-padding-y--2"
-        >
+      <va-alert status="error" class={classes} uswds>
+        <Header slot="headline" className="eligible-issues-error">
           {title}
         </Header>
         <p>{message}</p>
@@ -173,7 +171,7 @@ NoneSelectedAlert.propTypes = {
 };
 
 export const ContestableIssuesAdditionalInfo = (
-  <va-additional-info trigger="Why isn’t my issue listed here?">
+  <va-additional-info trigger="Why isn’t my issue listed here?" uswds>
     If you don’t see your issue or decision listed here, it may not be in our
     system yet. This can happen if it’s a more recent claim decision. If you
     have a decision date, you can add a new issue now.
@@ -185,7 +183,10 @@ export const removeModalContent = {
   description: issueName => (
     <span>
       We’ll remove{' '}
-      <strong className="dd-privacy-hidden" data-dd-action-name="issue name">
+      <strong
+        className="dd-privacy-hidden word-break-all"
+        data-dd-action-name="issue name"
+      >
         {issueName}
       </strong>{' '}
       from the issues you’d like us to review

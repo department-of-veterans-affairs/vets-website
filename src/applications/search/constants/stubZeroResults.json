@@ -1,0 +1,26 @@
+{
+    "data": {
+      "id": "",
+      "type": "search_results_responses",
+      "attributes": {
+        "body": {
+          "query": "benefits",
+          "web": {
+            "total": 0,
+            "nextOffset": 0,
+            "spellingCorrection": null,
+            "results": []
+          }
+        }
+      }
+    },
+    "meta": {
+      "pagination": {
+        "currentPage": 1,
+        "perPage": 10,
+        "totalPages": 0,
+        "totalEntries": 0
+      }
+    }
+  }
+  

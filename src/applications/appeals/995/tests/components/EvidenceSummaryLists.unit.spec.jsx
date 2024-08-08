@@ -90,6 +90,17 @@ describe('evidenceSummaryList', () => {
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
       ).to.eq(6); // 3 x 2 entries
     });
+
+    it('should render nothing when no data is passed in', () => {
+      const { container } = render(
+        <div>
+          <VaContent testing />
+        </div>,
+      );
+
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+
     it('should render review-only VA content', () => {
       const vaEvidence = records().locations;
       const { container } = render(
@@ -103,6 +114,7 @@ describe('evidenceSummaryList', () => {
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
     });
+
     it('should show missing issues message', () => {
       const vaEvidence = records({ emptyIssue: true }).locations;
       const { container } = render(<VaContent list={vaEvidence} testing />);
@@ -124,6 +136,16 @@ describe('evidenceSummaryList', () => {
       const li = $('li', container);
       expect(li.textContent).to.contain('Missing location name');
       expect(li.textContent).to.contain('Missing treatment dates');
+    });
+    it('should show missing location message with partial list', () => {
+      const { container } = render(
+        <div>
+          <VaContent list={['']} testing />
+        </div>,
+      );
+
+      const li = $('li', container);
+      expect(li.textContent).to.contain('Missing location name');
     });
     it('should show missing start treatment date', () => {
       const vaEvidence = [{ evidenceDates: { from: '2000-1-1', to: '' } }];
@@ -191,6 +213,17 @@ describe('evidenceSummaryList', () => {
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
       ).to.eq(6); // 3 x 2 entries
     });
+
+    it('should render nothing when no data is passed in', () => {
+      const { container } = render(
+        <div>
+          <PrivateContent testing />
+        </div>,
+      );
+
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+
     it('should not render limited consent section remove button', () => {
       const privateEvidence = records().providerFacility;
       const { container } = render(
@@ -219,6 +252,17 @@ describe('evidenceSummaryList', () => {
       expect($$('h6', container).length).to.eq(3);
       expect($$('.edit-item', container).length).to.eq(0);
       expect($$('.remove-item', container).length).to.eq(0);
+    });
+    it('should show missing facility message', () => {
+      const { container } = render(
+        <PrivateContent list={['']} limitedConsent="" testing />,
+      );
+
+      const ul = $('ul', container);
+      expect(ul.textContent).to.contain('Missing provider name');
+      expect(ul.textContent).to.contain('Missing condition');
+      expect(ul.textContent).to.contain('Incomplete address');
+      expect(ul.textContent).to.contain('Missing treatment dates');
     });
     it('should show missing issues message', () => {
       const privateEvidence = records({ emptyIssue: true }).providerFacility;
@@ -309,6 +353,17 @@ describe('evidenceSummaryList', () => {
         $$('.dd-privacy-hidden[data-dd-action-name]', container).length,
       ).to.eq(2);
     });
+
+    it('should render nothing when no data is passed in', () => {
+      const { container } = render(
+        <div>
+          <UploadContent testing />
+        </div>,
+      );
+
+      expect(container.innerHTML).to.eq('<div></div>');
+    });
+
     it('should render review-only uploaded content', () => {
       const otherEvidence = records().additionalDocuments;
       const { container } = render(

@@ -31,7 +31,6 @@ const SurveyInformation = () => {
         <VaButton
           onClick={() => window.KAMPYLE_ONSITE_SDK?.showForm(surveyNumber)}
           text="Provide feedback"
-          uswds
         />
       </div>
     );

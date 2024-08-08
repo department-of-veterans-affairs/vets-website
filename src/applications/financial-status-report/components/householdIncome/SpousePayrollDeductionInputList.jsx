@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import {
   getJobIndex,
@@ -10,9 +10,10 @@ import {
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SpousePayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -29,9 +30,9 @@ const SpousePayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
+        spouse: { spEmploymentRecords = [] } = {},
         newRecord = {},
-        spouse: { spEmploymentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -144,26 +145,21 @@ const SpousePayrollDeductionInputList = props => {
   };
 
   const navButtons = (
-    <p>
-      <button
-        type="button"
-        id="cancel"
-        className="usa-button-secondary vads-u-width--auto"
-        onClick={goBack}
-      >
-        Back
-      </button>
-      <button
-        type="submit"
-        id="submit"
-        className="vads-u-width--auto"
-        onClick={updateFormData}
-      >
-        {getContinueButtonText()}
-      </button>
-    </p>
+    <ButtonGroup
+      buttons={[
+        {
+          label: 'Back',
+          onClick: goBack, // Define this function based on page-specific logic
+          isSecondary: true,
+        },
+        {
+          label: getContinueButtonText(),
+          onClick: updateFormData,
+          isSubmitting: 'prevent', // If this button submits a form
+        },
+      ]}
+    />
   );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -178,16 +174,14 @@ const SpousePayrollDeductionInputList = props => {
           </p>
         </legend>
         {selectedDeductions?.map((deduction, key) => (
-          <div
-            key={deduction.name + key}
-            className="vads-u-margin-y--2 input-size-3"
-          >
-            <VaNumberInput
+          <div key={deduction.name + key} className="vads-u-margin-y--2">
+            <VaTextInput
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               min={0}
@@ -198,13 +192,13 @@ const SpousePayrollDeductionInputList = props => {
                   ? 'Please enter a valid dollar amount below $40,000'
                   : null
               }
+              width="md"
             />
           </div>
         ))}
         <va-additional-info
           trigger="How to calculate your spouse's monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your spouse’s pay stub.
@@ -230,7 +224,7 @@ const SpousePayrollDeductionInputList = props => {
           </ol>
         </va-additional-info>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };
@@ -255,5 +249,4 @@ SpousePayrollDeductionInputList.propTypes = {
   goBack: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
-  onReviewPage: PropTypes.bool,
 };

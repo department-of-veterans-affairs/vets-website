@@ -24,12 +24,8 @@ describe('Pre-need applicant veteran applicant details', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(7);
+    expect(form.find('input').length).to.equal(8);
     expect(form.find('select').length).to.equal(3);
-    expect(form.find('va-additional-info').length).to.equal(1);
-    expect(form.find('va-additional-info').html()).to.include(
-      '<va-additional-info trigger="Are you filling out this application on behalf of someone else?"><p>If you’re filling out the form on behalf of someone else, you’ll need to provide their details below. As the preparer, we’ll ask for your own details later.</p></va-additional-info>',
-    );
     form.unmount();
   });
 
@@ -46,7 +42,7 @@ describe('Pre-need applicant veteran applicant details', () => {
 
     form.find('form').simulate('submit');
 
-    expect(form.find('.usa-input-error').length).to.equal(5);
+    expect(form.find('.usa-input-error').length).to.equal(6);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -67,7 +63,8 @@ describe('Pre-need applicant veteran applicant details', () => {
     fillData(form, 'select#root_application_claimant_dateOfBirthMonth', '2');
     fillData(form, 'select#root_application_claimant_dateOfBirthDay', '2');
     fillData(form, 'input#root_application_claimant_dateOfBirthYear', '2001');
-    fillData(form, 'input#root_application_veteran_placeOfBirth', 'Test Place');
+    fillData(form, 'input#root_application_veteran_cityOfBirth', 'Test City');
+    fillData(form, 'input#root_application_veteran_stateOfBirth', 'Test State');
 
     form.find('form').simulate('submit');
 

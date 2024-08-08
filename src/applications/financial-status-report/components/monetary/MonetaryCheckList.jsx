@@ -34,30 +34,22 @@ const MonetaryCheckList = ({
     [headerRef],
   );
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return monetaryAssets.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            monetaryAssets: monetaryAssets.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          assets: {
-            ...assets,
-            monetaryAssets: [...monetaryAssets, { name: value, amount: '' }],
-          },
-        });
+  const onChange = ({ name, checked }) => {
+    setFormData({
+      ...data,
+      assets: {
+        ...assets,
+        monetaryAssets: checked
+          ? [...monetaryAssets, { name, amount: '' }]
+          : monetaryAssets.filter(asset => asset.name !== name),
+      },
+    });
   };
 
   const isBoxChecked = option => {
     return monetaryAssets.some(asset => asset.name === option);
   };
+
   const title = 'Your household assets';
   const prompt = 'Select any of these financial assets you have:';
 
@@ -86,9 +78,10 @@ const MonetaryCheckList = ({
       gmtData?.isEligibleForStreamlined &&
       gmtData?.incomeBelowOneFiftyGmt);
 
-  const adjustedAssetList = adjustForStreamlined
-    ? streamlinedList
-    : monetaryAssetList;
+  const adjustedAssetList =
+    adjustForStreamlined || showReviewNavigation
+      ? streamlinedList
+      : monetaryAssetList;
 
   // reviewDepends - only show/handle review alert and navigation if
   //  feature flag is on, user is in review mode, and they have not seen the cash pages

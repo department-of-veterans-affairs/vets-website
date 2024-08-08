@@ -10,7 +10,13 @@ export default function VAFacilityLocation({
   facilityName,
   facilityId,
   clinicFriendlyName,
+  clinicPhysicalLocation,
+  clinicPhone,
+  clinicPhoneExtension,
   showCovidPhone,
+  showPhone,
+  isPhone,
+  showDirectionsLink = true,
 }) {
   let content = null;
 
@@ -39,10 +45,15 @@ export default function VAFacilityLocation({
         )}
         <FacilityAddress
           facility={facility}
-          showDirectionsLink
+          showDirectionsLink={showDirectionsLink}
           clinicName={clinicFriendlyName}
+          clinicPhysicalLocation={clinicPhysicalLocation}
+          clinicPhone={clinicPhone}
+          clinicPhoneExtension={clinicPhoneExtension}
           level={2}
           showCovidPhone={showCovidPhone}
+          isPhone={isPhone}
+          showPhone={showPhone}
         />
       </>
     );
@@ -61,8 +72,14 @@ export default function VAFacilityLocation({
 VAFacilityLocation.propTypes = {
   clinicFriendlyName: PropTypes.string,
   clinicName: PropTypes.string,
+  clinicPhone: PropTypes.string,
+  clinicPhoneExtension: PropTypes.string,
+  clinicPhysicalLocation: PropTypes.string,
   facility: PropTypes.object,
   facilityId: PropTypes.string,
   facilityName: PropTypes.string,
+  isPhone: PropTypes.bool,
   showCovidPhone: PropTypes.bool,
+  showDirectionsLink: PropTypes.bool,
+  showPhone: PropTypes.bool,
 };

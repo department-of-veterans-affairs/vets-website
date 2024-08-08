@@ -8,7 +8,12 @@ export function getLabel(options, value) {
 
   return matched ? matched.label : null;
 }
-
+export function convertToggle() {
+  const url = window.location.href;
+  const params = new URLSearchParams(new URL(url).search);
+  const toggleValues = params.get('toggle');
+  return toggleValues?.toLowerCase() === 'false';
+}
 export function showSchoolAddress(educationType) {
   return (
     educationType === 'college' ||
@@ -21,7 +26,8 @@ export function showSchoolAddress(educationType) {
 function formatDayMonth(val) {
   if (!val || !val.length || !Number(val)) {
     return 'XX';
-  } else if (val.length === 1) {
+  }
+  if (val.length === 1) {
     return `0${val}`;
   }
 
@@ -131,4 +137,16 @@ export function showYesNo(field) {
   }
 
   return field.value === 'Y' ? 'Yes' : 'No';
+}
+export function isValidRoutingNumber(value) {
+  if (/^\d{9}$/.test(value)) {
+    const digits = value.split('').map(val => parseInt(val, 10));
+    const weighted =
+      3 * (digits[0] + digits[3] + digits[6]) +
+      7 * (digits[1] + digits[4] + digits[7]) +
+      (digits[2] + digits[5] + digits[8]);
+
+    return weighted % 10 === 0;
+  }
+  return false;
 }

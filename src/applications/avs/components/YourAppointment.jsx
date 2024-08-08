@@ -21,9 +21,9 @@ const clinicsVisited = avs => {
         </h3>
         <p>
           <span className="clinic-information" key="clinicSite">
-            <i
-              className="fas fa-building"
-              aria-hidden="true"
+            <va-icon
+              icon="location_city"
+              size={4}
               data-testid="appointment-icon"
             />
             {clinic.site}
@@ -107,11 +107,12 @@ const YourAppointment = props => {
         renderItem={renderVitalSign}
         showSeparators
       />
-      {/* TODO: test procedures when sample data is available. */}
       <ListBlock
         heading="Procedures"
+        itemName="name"
         items={avs.procedures}
         itemType="procedure-list"
+        keyName="code"
       />
       <ItemsBlock
         heading="Medications ordered for administration in clinic"

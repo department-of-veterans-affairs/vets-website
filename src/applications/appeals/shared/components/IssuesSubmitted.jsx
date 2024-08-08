@@ -9,10 +9,11 @@ export const IssuesSubmitted = ({ issues }) => (
       class="screen-only"
       onClick={window.print}
       text="Print this confirmation"
+      uswds
     />
   </>
 );
 
 IssuesSubmitted.propTypes = {
-  issues: PropTypes.element.isRequired,
+  issues: PropTypes.array.isRequired,
 };

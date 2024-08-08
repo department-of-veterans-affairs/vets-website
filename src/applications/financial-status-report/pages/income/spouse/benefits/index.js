@@ -1,5 +1,10 @@
 import React from 'react';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
+const title = 'Does your spouse get VA benefits?';
 export const uiSchema = {
   'ui:title': () => (
     <>
@@ -9,14 +14,15 @@ export const uiSchema = {
     </>
   ),
   questions: {
-    spouseHasBenefits: {
-      'ui:title': 'Does your spouse get VA benefits?',
-      'ui:widget': 'yesNo',
-      'ui:required': () => true,
-      'ui:errorMessages': {
+    spouseHasBenefits: yesNoUI({
+      title,
+      enableAnalytics: true,
+      uswds: true,
+      required: () => true,
+      errorMessages: {
         required: 'Please enter your spouse’s VA benefits information.',
       },
-    },
+    }),
   },
 };
 
@@ -26,9 +32,7 @@ export const schema = {
     questions: {
       type: 'object',
       properties: {
-        spouseHasBenefits: {
-          type: 'boolean',
-        },
+        spouseHasBenefits: yesNoSchema,
       },
     },
   },

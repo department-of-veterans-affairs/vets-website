@@ -128,6 +128,20 @@ const allFoldersWithUnreadMessages = {
       },
     },
     {
+      id: '-1',
+      type: 'folders',
+      attributes: {
+        folderId: -1,
+        name: 'Sent',
+        count: 1098,
+        unreadCount: 51,
+        systemFolder: true,
+      },
+      links: {
+        self: 'https://staging-api.va.gov/my_health/v1/messaging/folders/-1',
+      },
+    },
+    {
       id: '1',
       type: 'folders',
       attributes: {

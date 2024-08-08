@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import { daysAgo } from '@@profile/tests/helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import Claim from '../../../components/claims-and-appeals/Claim';
@@ -39,18 +38,11 @@ function makeClaimObject({
 }
 
 describe('<Claim />', () => {
-  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-    },
-  };
-
   it('should render', () => {
     const claim = makeClaimObject({ updateDate: daysAgo(15) });
 
     const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
-      initialState,
+      initialState: {},
     });
 
     expect(
@@ -68,7 +60,7 @@ describe('<Claim />', () => {
     });
 
     const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
-      initialState,
+      initialState: {},
     });
 
     expect(tree.getByText(/We sent you a decision letter/)).to.exist;
@@ -81,7 +73,7 @@ describe('<Claim />', () => {
     });
 
     const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
-      initialState,
+      initialState: {},
     });
 
     expect(tree.getByText(/We sent you a development letter/)).to.exist;
@@ -94,7 +86,7 @@ describe('<Claim />', () => {
     });
 
     const tree = renderWithStoreAndRouter(<Claim claim={claim} />, {
-      initialState,
+      initialState: {},
     });
 
     expect(tree.getByText(/Items need attention/)).to.exist;

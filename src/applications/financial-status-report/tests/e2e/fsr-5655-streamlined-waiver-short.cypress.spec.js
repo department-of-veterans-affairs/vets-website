@@ -22,32 +22,16 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles**', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });
 
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/**', incomeLimit);
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -59,6 +43,10 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: 0.0,
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -92,7 +80,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click({ force: true });
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -105,7 +96,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'cash-on-hand': ({ afterHook }) => {
@@ -145,16 +139,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

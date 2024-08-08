@@ -1,53 +1,39 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { getEnrollmentStatus as getEnrollmentStatusAction } from '../../../utils/actions';
-import { selectEnrollmentStatus } from '../../../utils/selectors';
-import EnrollmentStatusWarning from './Warning';
+import { selectEnrollmentStatus } from '../../../utils/selectors/enrollment-status';
+import ServerErrorAlert from '../../FormAlerts/ServerErrorAlert';
+import WarningHeadline from './Warning/WarningHeadline';
+import WarningStatus from './Warning/WarningStatus';
+import WarningExplanation from './Warning/WarningExplanation';
+import ReapplyButton from './Warning/ReapplyButton';
 import EnrollmentStatusFAQ from './FAQ';
 
-const EnrollmentStatus = props => {
-  const {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  } = useSelector(selectEnrollmentStatus);
-  const { route, getEnrollmentStatus } = props;
+const EnrollmentStatus = ({ route }) => {
+  const { isEnrolledInESR, hasServerError } = useSelector(
+    selectEnrollmentStatus,
+  );
+  const alertStatus = isEnrolledInESR ? 'continue' : 'warning';
 
-  const alertProps = {
-    applicationDate,
-    enrollmentDate,
-    enrollmentStatus,
-    preferredFacility,
-  };
-
-  const faqProps = { enrollmentStatus, route };
-
-  useEffect(() => {
-    getEnrollmentStatus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return enrollmentStatus ? (
+  return !hasServerError ? (
     <>
-      <EnrollmentStatusWarning {...alertProps} />
-      <EnrollmentStatusFAQ {...faqProps} />
+      <va-alert status={alertStatus} data-testid="hca-enrollment-alert" uswds>
+        <WarningHeadline />
+        <WarningStatus />
+        <WarningExplanation />
+        <ReapplyButton route={route} />
+      </va-alert>
+
+      <EnrollmentStatusFAQ />
     </>
-  ) : null;
+  ) : (
+    <ServerErrorAlert />
+  );
 };
 
 EnrollmentStatus.propTypes = {
-  getEnrollmentStatus: PropTypes.func,
   route: PropTypes.object,
 };
 
-const mapDispatchToProps = {
-  getEnrollmentStatus: getEnrollmentStatusAction,
-};
-
-export default connect(
-  null,
-  mapDispatchToProps,
-)(EnrollmentStatus);
+export default EnrollmentStatus;

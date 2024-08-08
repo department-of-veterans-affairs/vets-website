@@ -17,7 +17,7 @@ export const selfAssessmentHeadline =
 export const selfAssessmentAlert = () => {
   return (
     <>
-      <va-alert status="warning">
+      <va-alert status="warning" uswds>
         <h3 slot="headline">{selfAssessmentHeadline}</h3>
         {alertContent}
       </va-alert>

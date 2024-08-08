@@ -7,7 +7,6 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  synced: true,
   available: true,
   authorized: true,
 };
@@ -17,7 +16,6 @@ export default function claimDetailReducer(state = initialState, action) {
     case SET_CLAIM_DETAIL:
       return {
         ...state,
-        synced: action.meta.syncStatus === 'SUCCESS',
         available: true,
         authorized: true,
       };

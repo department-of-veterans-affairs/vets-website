@@ -2,7 +2,10 @@ const fs = require('fs');
 const path = require('path');
 
 const codeCoverageReport = fs.readFileSync(
-  path.join(__dirname, '../../test-results/coverage_report.txt'),
+  path.join(
+    __dirname,
+    '../../qa-standards-dashboard-data/coverage/coverage_report.txt',
+  ),
   'utf8',
 );
 

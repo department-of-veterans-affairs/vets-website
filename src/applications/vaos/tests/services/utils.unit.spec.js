@@ -5,7 +5,7 @@ import { mockFetch, setFetchJSONResponse } from 'platform/testing/unit/helpers';
 import { mapToFHIRErrors, fhirSearch } from '../../services/utils';
 import mockData from '../../services/mocks/fhir/mock_organizations.json';
 
-describe('VAOS FHIR utils', () => {
+describe('VAOS Utils: FHIR ', () => {
   describe('mapToFHIRError', () => {
     it('should map errors', () => {
       const data = mapToFHIRErrors([

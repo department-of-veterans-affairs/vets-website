@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
-  VaNumberInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -108,6 +108,8 @@ const ZipCodePage = ({
   const onBlurInput = () => {
     if (inputValid(zipCode)) {
       setFormError(false);
+    } else {
+      setFormError(true);
     }
   };
 
@@ -136,12 +138,10 @@ const ZipCodePage = ({
     <>
       <h1>{determineH1()}</h1>
       <form>
-        <VaNumberInput
+        <VaTextInput
           className="input-size-3"
           data-testid="il-zipCode"
-          error={
-            (formError && 'Please enter a valid 5 digit zip code.') || null
-          }
+          error={(formError && 'Enter a valid 5 digit zip code.') || null}
           hint={`Enter the zip code for where you lived for all or most of ${getPreviousYear(
             pastMode,
             year,
@@ -154,15 +154,17 @@ const ZipCodePage = ({
           name="zipCode"
           onBlur={onBlurInput}
           onInput={onZipInput}
-          required
+          uswds
           value={zipCode || ''}
         />
         {!submitting && (
           <VaButtonPair
+            class="vads-u-margin-top--1"
             data-testid="il-buttonPair"
             onPrimaryClick={onContinueClick}
             onSecondaryClick={onBackClick}
             continue
+            uswds
           />
         )}
         {submitting && (

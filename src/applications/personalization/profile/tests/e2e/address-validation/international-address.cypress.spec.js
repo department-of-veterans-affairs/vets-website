@@ -39,8 +39,8 @@ describe('Personal and contact information', () => {
       fillAddressForm(formFields);
       saveForm();
 
-      cy.findAllByText(
-        'Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods',
+      cy.get(
+        '[error="Our forms can only accept the letters A to Z, numbers 0 to 9, and certain symbols like dashes and periods"]',
       ).then(items => {
         expect(items.length).to.equal(6);
       });

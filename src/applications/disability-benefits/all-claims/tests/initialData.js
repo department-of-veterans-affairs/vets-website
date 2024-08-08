@@ -56,6 +56,16 @@ export default {
       specialIssues: [],
       disabilityActionType: 'NONE',
     },
+    {
+      diagnosticCode: 8100,
+      decisionCode: 'SVCCONNCTED',
+      name: 'Migraines',
+      ratedDisabilityId: '1231232',
+      ratingPercentage: 100,
+      ratingDecisionId: '63457',
+      specialIssues: [],
+      disabilityActionType: 'NONE',
+    },
   ],
   newDisabilities: [
     {

@@ -11,7 +11,7 @@ export default function AppointmentListItem({
   return (
     <li
       id={`id-${id.replace('.', '\\.')}`}
-      className={classNames(`vaos-appts__listItem--lineHeight`, `${className}`)}
+      className={classNames(`${className}`)}
       data-request-id={id}
       data-testid="appointment-list-item"
       {...props}

@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { getCernerURL } from 'platform/utilities/cerner';
 import ServiceProvidersList from 'platform/user/authentication/components/ServiceProvidersList';
 import { connect } from 'react-redux';
+import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import CernerCallToAction from '../../../components/CernerCallToAction';
 import MoreInfoAboutBenefits from '../../../components/MoreInfoAboutBenefits';
 import {
@@ -13,7 +14,6 @@ import {
   otherFacilitiesPropType,
   useSingleLogoutPropType,
 } from '../../../propTypes';
-import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 
 export const AuthContent = ({
   cernerFacilities,
@@ -96,13 +96,9 @@ export const AuthContent = ({
     <ServiceProvidersList />
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
-      Online scheduling is available at all VA facilities except those in these
-      2 locations:
+      Online scheduling is available at all VA health facilities except in
+      Manila, Philippines.
     </p>
-    <ul>
-      <li>Indianapolis, IN</li>
-      <li>Manila, Philippines</li>
-    </ul>
     <p>
       <strong>Note:</strong> Online scheduling is available for some types of
       health services. We hope to expand the types of appointments and health

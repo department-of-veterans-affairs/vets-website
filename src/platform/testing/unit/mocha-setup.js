@@ -16,7 +16,7 @@ import { configure } from '@testing-library/dom';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
-const isStressTest = process.env.IS_STRESS_TEST;
+const isStressTest = process.env.IS_STRESS_TEST || 'false';
 const DISALLOWED_SPECS = process.env.DISALLOWED_TESTS || [];
 Sentry.init({
   autoSessionTracking: false,
@@ -148,8 +148,10 @@ function setupJSDom() {
 
 setupJSDom();
 const checkAllowList = testContext => {
-  const file = testContext.currentTest.file.indexOf('src');
-  if (DISALLOWED_SPECS.indexOf(file) > -1) {
+  const file = testContext.currentTest.file.slice(
+    testContext.currentTest.file.indexOf('src'),
+  );
+  if (DISALLOWED_SPECS.indexOf(file) > -1 && file.includes('src')) {
     /* eslint-disable-next-line no-console */
     console.log('Test skipped due to flakiness: ', file);
     testContext.skip();
@@ -164,16 +166,25 @@ const cleanupStorage = () => {
   sessionStorage.clear();
 };
 
+function flushPromises() {
+  return new Promise(resolve => setImmediate(resolve));
+}
+
 export const mochaHooks = {
   beforeEach() {
     setupJSDom();
     resetFetch();
     cleanupStorage();
-    if (!isStressTest) {
+    if (isStressTest == 'false') {
       checkAllowList(this);
     }
+    console.log(
+      'running: ',
+      this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
+    );
   },
   afterEach() {
     cleanupStorage();
+    flushPromises();
   },
 };

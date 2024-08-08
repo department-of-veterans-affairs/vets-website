@@ -83,10 +83,6 @@
         "value": false
       },
       {
-        "name": "vaViewDependentsAccess",
-        "value": false
-      },
-      {
         "name": "allow_online_10_10cg_submissions",
         "value": false
       },
@@ -143,23 +139,11 @@
         "value": false
       },
       {
-        "name": "show_new_get_medical_records_page",
-        "value": false
-      },
-      {
         "name": "show_new_refill_track_prescriptions_page",
         "value": false
       },
       {
         "name": "show_new_schedule_view_appointments_page",
-        "value": false
-      },
-      {
-        "name": "show_new_secure_messaging_page",
-        "value": false
-      },
-      {
-        "name": "show_new_view_test_lab_results_page",
         "value": false
       },
       {

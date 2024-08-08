@@ -18,7 +18,7 @@ export const createArrayPageObjects = formConfig => {
 
   return (arrayPages || []).map(({ arrayPath, path }) => ({
     arrayPath,
-    regex: new RegExp(path.replace(':index', '(\\d+)$')),
+    regex: new RegExp(path.replace(':index', '(\\d+)')),
   }));
 };
 

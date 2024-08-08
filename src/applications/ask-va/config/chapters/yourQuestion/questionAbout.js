@@ -1,22 +1,35 @@
-import FormElementTitle from '../../../components/FormElementTitle';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import PageFieldSummary from '../../../components/PageFieldSummary';
-import { CHAPTER_2, questionAboutOptions } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
+// Temp remove for research-testing
+// import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
+import {
+  CHAPTER_2,
+  questionAboutDescriptions,
+  questionAboutLabels,
+} from '../../../constants';
 
 const questionAboutPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
+    // 'ui:description': SignInMayBeRequired,
     'ui:objectViewField': PageFieldSummary,
-    questionAbout: radioUI({
-      title: CHAPTER_2.PAGE_1.QUESTION_1,
-      labels: questionAboutOptions,
-    }),
+    questionAbout: {
+      ...radioUI({
+        title: CHAPTER_2.PAGE_1.TITLE,
+        labelHeaderLevel: '3',
+        labels: questionAboutLabels,
+        descriptions: questionAboutDescriptions,
+        required: () => true,
+      }),
+    },
   },
   schema: {
     type: 'object',
     required: ['questionAbout'],
     properties: {
-      questionAbout: radioSchema(Object.keys(questionAboutOptions)),
+      questionAbout: radioSchema(Object.values(questionAboutLabels)),
     },
   },
 };

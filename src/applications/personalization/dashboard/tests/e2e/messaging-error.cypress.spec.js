@@ -1,5 +1,4 @@
 import { mockUser } from '@@profile/tests/fixtures/users/user';
-
 import ERROR_400 from '~/applications/personalization/dashboard/utils/mocks/ERROR_400';
 import vamcErc from '../fixtures/vamc-ehr.json';
 

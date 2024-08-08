@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import ViewDependentsLists from './ViewDependentsLists';
 import ViewDependentsSidebar from '../components/ViewDependentsSidebar/ViewDependentsSidebar';
@@ -43,10 +44,7 @@ function ViewDependentsLayout(props) {
   const layout = (
     <div className="vads-l-row">
       <div className="vads-l-col--12 medium-screen:vads-l-col--8">
-        <ViewDependentsHeader
-          dependentsToggle={props.dependentsToggle}
-          updateDiariesStatus={props.updateDiariesStatus}
-        />
+        <ViewDependentsHeader updateDiariesStatus={props.updateDiariesStatus} />
         {mainContent}
       </div>
       <div className="vads-l-col--12 medium-screen:vads-l-col--4">
@@ -70,5 +68,16 @@ function ViewDependentsLayout(props) {
 
   return <div>{layout}</div>;
 }
+
+ViewDependentsLayout.propTypes = {
+  error: PropTypes.object,
+  notOnAwardDependents: PropTypes.array,
+  onAwardDependents: PropTypes.array,
+  loading: PropTypes.bool,
+  dependentsToggle: PropTypes.func,
+  dependencyVerificationToggle: PropTypes.func,
+  manageDependentsToggle: PropTypes.func,
+  updateDiariesStatus: PropTypes.func,
+};
 
 export default ViewDependentsLayout;

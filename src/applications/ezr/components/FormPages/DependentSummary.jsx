@@ -134,6 +134,7 @@ const DependentSummary = props => {
           text={content['button-update-page']}
           label={content['household-dependent-update-button-aria-label']}
           data-testid="ezr-update-button"
+          uswds
         />
       )}
     </form>

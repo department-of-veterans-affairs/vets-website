@@ -30,7 +30,7 @@ describe('hca <ConfirmationScreenView>', () => {
     it('should render subtitles and applicant name', () => {
       const { container } = render(<ConfirmationScreenView {...props} />);
       const selectors = {
-        subtitles: container.querySelectorAll('h2'),
+        subtitles: container.querySelectorAll('h2, h3'),
         veteranName: container.querySelector('.hca-veteran-fullname'),
       };
       expect(selectors.subtitles).to.have.lengthOf(2);

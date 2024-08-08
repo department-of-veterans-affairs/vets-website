@@ -2,6 +2,9 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
+import sinon from 'sinon';
+
+import * as Sentry from '@sentry/browser';
 import AppealHelpSidebar from '../../../components/appeals-v2/AppealHelpSidebar';
 
 describe('<AppealHelpSidebar>', () => {
@@ -9,7 +12,7 @@ describe('<AppealHelpSidebar>', () => {
     const props = { aoj: 'vba' };
     const wrapper = shallow(<AppealHelpSidebar {...props} />);
 
-    expect(wrapper.find('AskVAQuestions')).to.not.be.false;
+    expect(wrapper.find('NeedHelp')).to.not.be.false;
     wrapper.unmount();
   });
 
@@ -31,8 +34,8 @@ describe('<AppealHelpSidebar>', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('AskVAQuestions').text()).to.contain(
-      'Monday through Friday, 8:00 a.m. to 9:00 p.m. ET',
+    expect(wrapper.find('NeedHelp').text()).to.contain(
+      "We're here Monday through Friday, 8:00 a.m to 9:00 p.m ET.",
     );
     wrapper.unmount();
   });
@@ -50,16 +53,29 @@ describe('<AppealHelpSidebar>', () => {
     wrapper.unmount();
   });
 
-  it.skip('should render the nca version', () => {
+  it('should render null when nca', () => {
     const props = { aoj: 'nca' };
     const wrapper = shallow(<AppealHelpSidebar {...props} />);
+    expect(wrapper.isEmptyRender()).to.be.true;
+    wrapper.unmount();
+  });
 
-    expect(
-      wrapper
-        .find('p')
-        .first()
-        .text(),
-    ).to.equal();
+  it('should render null when other', () => {
+    const props = { aoj: 'other' };
+    const wrapper = shallow(<AppealHelpSidebar {...props} />);
+    expect(wrapper.isEmptyRender()).to.be.true;
+    wrapper.unmount();
+  });
+
+  it('should render null and capture sentry message with appeal type unknown', () => {
+    const spy = sinon.spy(Sentry, 'captureMessage');
+    const props = { aoj: 'unknown' };
+    const wrapper = shallow(<AppealHelpSidebar {...props} />);
+    expect(wrapper.isEmptyRender()).to.be.true;
+    expect(spy.called).to.be.true;
+    expect(spy.firstCall.args[0]).to.equal(
+      'appeal-status-unexpected-aoj: unknown',
+    );
     wrapper.unmount();
   });
 });

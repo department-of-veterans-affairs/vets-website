@@ -31,7 +31,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/urgent_care?page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -49,7 +49,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/pharmacy?page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -63,12 +63,17 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    let test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=health&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
-    );
+    const url = `${environment.API_URL}/facilities_api/v2/va`;
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      lat: '35.78',
+      long: '-78.68',
+    });
     result = resolveParamsWithUrl({
       locationType: 'health',
       serviceType: 'PrimaryCare',
@@ -76,12 +81,17 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=PrimaryCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      lat: '35.78',
+      long: '-78.68',
+      services: ['PrimaryCare'],
+    });
   });
 
   /**
@@ -95,12 +105,17 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=health&services[]=UrgentCare&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'health',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      lat: '35.78',
+      long: '-78.68',
+      services: ['UrgentCare'],
+    });
   });
 
   /**
@@ -113,12 +128,16 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    let test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=benefits&page=1&per_page=10&lat=35.78&long=-78.68`,
-    );
+    const url = `${environment.API_URL}/facilities_api/v2/va`;
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      lat: '35.78',
+      long: '-78.68',
+    });
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'VAHomeLoanAssistance',
@@ -126,12 +145,16 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=VAHomeLoanAssistance&page=1&per_page=10&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      lat: '35.78',
+      long: '-78.68',
+      services: ['VAHomeLoanAssistance'],
+    });
     result = resolveParamsWithUrl({
       locationType: 'benefits',
       serviceType: 'ApplyingForBenefits',
@@ -139,12 +162,16 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=benefits&services[]=ApplyingForBenefits&page=1&per_page=10&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(url);
+    expect(result.postParams).to.eql({
+      type: 'benefits',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      lat: '35.78',
+      long: '-78.68',
+      services: ['ApplyingForBenefits'],
+    });
   });
 
   /**
@@ -157,12 +184,15 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=cemetery&page=1&per_page=10&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'cemetery',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      lat: '35.78',
+      long: '-78.68',
+    });
   });
 
   /**
@@ -183,7 +213,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&lat=35.78&long=-78.68`,
     );
   });
 
@@ -197,12 +227,16 @@ describe('Locator url and parameters builder - latLong only', () => {
       center,
       store,
     });
-    const test = `${result.url}?${result.params}`;
-    expect(test).to.eql(
-      `${
-        environment.API_URL
-      }/facilities_api/v1/va?type=vet_center&page=1&per_page=10&mobile=false&lat=35.78&long=-78.68`,
-    );
+    expect(result.url).to.eql(`${environment.API_URL}/facilities_api/v2/va`);
+    expect(result.postParams).to.eql({
+      type: 'vet_center',
+      page: 1,
+      // eslint-disable-next-line camelcase
+      per_page: 10,
+      mobile: false,
+      lat: '35.78',
+      long: '-78.68',
+    });
   });
 
   /**
@@ -220,7 +254,7 @@ describe('Locator url and parameters builder - latLong only', () => {
     expect(test).to.eql(
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077`,
+      }/facilities_api/v2/ccp/provider?specialties[]=122300000X&page=1&per_page=10&radius=40&lat=33.32464&long=-97.18077`,
     );
   });
 });

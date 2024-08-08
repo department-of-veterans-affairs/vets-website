@@ -7,7 +7,22 @@ const setErrorHandler = (state, action) => {
 };
 
 const setFormHandler = (state, action) => {
+  return {
+    ...state,
+    form: {
+      ...state.form,
+      ...action.payload,
+    },
+  };
+};
+
+const receivedUpcomingAppointmentsHandler = (state, action) => {
   return { ...state, ...action.payload };
 };
 
-export { setAppHandler, setErrorHandler, setFormHandler };
+export {
+  setAppHandler,
+  setErrorHandler,
+  setFormHandler,
+  receivedUpcomingAppointmentsHandler,
+};

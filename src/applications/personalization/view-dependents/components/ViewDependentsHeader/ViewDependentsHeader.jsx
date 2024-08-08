@@ -83,17 +83,15 @@ function ViewDependentsHeader(props) {
           claim for additional disability compensation whenever you add a new
           dependent.
         </p>
-        {props.dependentsToggle && (
-          <p>
-            <a
-              href={form686Url}
-              className="vads-c-action-link--green"
-              onClick={handleClick}
-            >
-              Add or remove a dependent
-            </a>
-          </p>
-        )}
+        <p>
+          <a
+            href={form686Url}
+            className="vads-c-action-link--green"
+            onClick={handleClick}
+          >
+            Add or remove a dependent
+          </a>
+        </p>
       </div>
     </div>
   );

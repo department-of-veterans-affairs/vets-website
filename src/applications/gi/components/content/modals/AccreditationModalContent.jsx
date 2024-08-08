@@ -3,7 +3,6 @@ import React from 'react';
 export default function AccreditationModalContent() {
   return (
     <>
-      <h3>Accreditation and why it matters</h3>
       <p>
         The goal of accreditation is to ensure the education provided by
         institutions of higher learning meets acceptable levels of quality.

@@ -5,6 +5,7 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
 import LocationDistance from './common/LocationDistance';
+import ProviderTraining from './common/ProviderTraining';
 
 const CCProviderResult = ({ provider, query }) => {
   const { name } = provider.attributes;
@@ -23,11 +24,12 @@ const CCProviderResult = ({ provider, query }) => {
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
+        <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
-        <LocationDirectionsLink location={provider} from={'SearchResult'} />
+        <LocationDirectionsLink location={provider} from="SearchResult" />
         <LocationPhoneLink
           location={provider}
-          from={'SearchResult'}
+          from="SearchResult"
           query={query}
         />
       </div>

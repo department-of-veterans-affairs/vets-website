@@ -1,8 +1,9 @@
 import { assert, expect } from 'chai';
 import { replacementFunctions } from '@department-of-veterans-affairs/platform-utilities';
 
-import { MEDICATION_TYPES } from '../../../utils/constants';
+import { MEDICATION_SOURCES, MEDICATION_TYPES } from '../../../utils/constants';
 import {
+  addMedicationSource,
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsNotTaking,
@@ -49,11 +50,66 @@ const testAvs = {
 
 describe('avs', () => {
   describe('medications utils', () => {
+    describe('addMedicationSource', () => {
+      it('should add the source to each medication', () => {
+        const result = addMedicationSource(
+          testAvs.vaMedications,
+          MEDICATION_SOURCES.VA,
+        );
+
+        assert.deepEqual(result, [
+          {
+            name: 'medication 1',
+            patientTaking: false,
+            prescriptionType: 'drug',
+            stationNo: '500',
+            medicationSource: 'VA',
+          },
+          {
+            name: 'supply 1',
+            patientTaking: true,
+            prescriptionType: 'supply',
+            stationNo: '500',
+            medicationSource: 'VA',
+          },
+          {
+            name: 'medication 2',
+            patientTaking: false,
+            prescriptionType: 'drug',
+            stationNo: '530',
+            medicationSource: 'VA',
+          },
+          {
+            name: 'medication 4',
+            patientTaking: true,
+            prescriptionType: 'drug',
+            stationNo: '530',
+            medicationSource: 'VA',
+          },
+        ]);
+      });
+
+      it('should return an empty array when medications is empty', () => {
+        const medications = [];
+        const source = 'VA';
+
+        const result = addMedicationSource(medications, source);
+
+        assert.deepEqual(result, []);
+      });
+    });
+
     describe('get combined medications list', () => {
       it('correctly combines medications lists', () => {
         const combinedMeds = getCombinedMedications(testAvs);
         expect(combinedMeds.length).to.equal(5);
         expect(combinedMeds[1].name).to.equal('supply 1');
+        expect(combinedMeds[1].medicationSource).to.equal(
+          MEDICATION_SOURCES.VA,
+        );
+        expect(combinedMeds[4].medicationSource).to.equal(
+          MEDICATION_SOURCES.NON_VA,
+        );
       });
       it('correctly combines medications lists when non-va meds are empty', () => {
         const avs = replacementFunctions.cloneDeep(testAvs);

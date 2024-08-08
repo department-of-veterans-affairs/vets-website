@@ -51,10 +51,9 @@ const BehalfOfSomeoneElseContent = () => {
               className="vads-u-color--link-default"
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22-ARE.pdf"
             >
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
+              <span className="vads-u-padding-right--1 vads-u-color--link-default">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download VA Form 21-22 (PDF, 4 pages)
             </a>
           </div>
@@ -72,10 +71,9 @@ const BehalfOfSomeoneElseContent = () => {
               className="vads-u-color--link-default"
               href="https://www.vba.va.gov/pubs/forms/VBA-21-22A-ARE.pdf"
             >
-              <i
-                className="fas fa-download vads-u-padding-right--1 vads-u-color--link-default"
-                aria-hidden="true"
-              />
+              <span className="vads-u-padding-right--1 vads-u-color--link-default">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download VA Form 21-22a (PDF, 3 pages)
             </a>
           </div>

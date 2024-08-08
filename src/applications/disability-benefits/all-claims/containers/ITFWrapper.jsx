@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { requestStates } from 'platform/utilities/constants';
 import ITFBanner from '../components/ITFBanner';
 import { isActiveITF } from '../utils';
-import { requestStates } from 'platform/utilities/constants';
 import { itfStatuses } from '../constants';
 import {
   createITF as createITFAction,
@@ -28,6 +28,7 @@ export class ITFWrapper extends React.Component {
       this.props.fetchITF();
     }
   }
+
   // eslint-disable-next-line camelcase
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { itf, location } = nextProps;
@@ -81,7 +82,8 @@ export class ITFWrapper extends React.Component {
 
     if (this.shouldBlockITF(this.props.location.pathname)) {
       return this.props.children;
-    } else if (fetchWaitingStates.includes(itf.fetchCallState)) {
+    }
+    if (fetchWaitingStates.includes(itf.fetchCallState)) {
       // If we get here, componentDidMount or componentWillRecieveProps called
       // fetchITF; While we're waiting, show the loading indicator...
       return this.showLoading(
@@ -89,10 +91,16 @@ export class ITFWrapper extends React.Component {
         'Please wait while we check to see if you have an existing Intent to File.',
         'looking for an intent to file',
       );
-    } else if (itf.fetchCallState === requestStates.failed) {
+    }
+    if (itf.fetchCallState === requestStates.failed) {
       // We'll get here after the fetchITF promise is fulfilled
-      return <ITFBanner title={title} status="error" />;
-    } else if (itf?.currentITF?.status === itfStatuses.active) {
+      return (
+        <ITFBanner title={title} status="error">
+          {this.props.children}
+        </ITFBanner>
+      );
+    }
+    if (itf?.currentITF?.status === itfStatuses.active) {
       const status =
         itf.creationCallState === 'succeeded' ? 'itf-created' : 'itf-found';
       const { expirationDate: currentExpDate } = itf.currentITF;
@@ -124,7 +132,8 @@ export class ITFWrapper extends React.Component {
           {this.props.children}
         </ITFBanner>
       );
-    } else if (fetchWaitingStates.includes(itf.creationCallState)) {
+    }
+    if (fetchWaitingStates.includes(itf.creationCallState)) {
       // componentWillRecieveProps called createITF if there was no active ITF
       // found; While we're waiting (again), show the loading indicator...again
       return this.showLoading(
@@ -136,7 +145,11 @@ export class ITFWrapper extends React.Component {
 
     // We'll get here after the createITF promise is fulfilled and we have no
     // active ITF because of a failed creation call
-    return <ITFBanner title={title} status="error" />;
+    return (
+      <ITFBanner title={title} status="error">
+        {this.props.children}
+      </ITFBanner>
+    );
   }
 }
 

@@ -3,7 +3,7 @@
     "id": "",
     "type": "users_scaffolds",
     "attributes": {
-      "services": ["evss-claims", "user-profile", "vet360"],
+      "services": ["lighthouse", "user-profile", "vet360"],
       "account": { "accountUuid": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2" },
       "profile": {
         "email": "vets.gov.user+36@gmail.com",

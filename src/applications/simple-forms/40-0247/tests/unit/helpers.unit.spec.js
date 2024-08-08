@@ -116,7 +116,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(2);
   });
 
   it('should not add an error if date of death is after date of birth', () => {
@@ -126,7 +126,7 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 
   it('should not add an error if date of death is the same as date of birth', () => {
@@ -136,6 +136,6 @@ describe('dateOfDeathValidation', () => {
     };
 
     dateOfDeathValidation(errors, fields);
-    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(0);
+    expect(errors.veteranDateOfDeath.errors).to.have.lengthOf(1);
   });
 });

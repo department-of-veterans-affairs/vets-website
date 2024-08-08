@@ -13,6 +13,7 @@ import ResolutionExplainerWidget from '../../components/resolution/ResolutionExp
 import ResolutionExplainerReview from '../../components/resolution/ResolutionExplainerReview';
 import ResolutionComments from '../../components/resolution/ResolutionComments';
 import ResolutionCommentsReview from '../../components/resolution/ResolutionCommentsReview';
+import CustomResolutionOptionReview from '../../components/shared/CustomResolutionOptionReview';
 
 export default {
   resolutionOptionsChapter: {
@@ -22,7 +23,7 @@ export default {
     pages: {
       optionExplainer: {
         path: 'option-explainer',
-        title: 'Resolution Option Explainer',
+        title: 'Resolution options explainer',
         CustomPage: ResolutionExplainerWidget,
         CustomPageReview: ResolutionExplainerReview,
         uiSchema: {},
@@ -31,7 +32,7 @@ export default {
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
       resolutionOption: {
-        title: 'Resolution Option',
+        title: 'Select resolution option',
         depends: formData =>
           formData.selectedDebtsAndCopays?.length > 0 &&
           !isStreamlinedShortForm(formData) &&
@@ -39,6 +40,8 @@ export default {
         path: 'resolution-option/:index',
         showPagePerItem: true,
         arrayPath: 'selectedDebtsAndCopays',
+        CustomPage: null,
+        CustomPageReview: CustomResolutionOptionReview,
         uiSchema: resolutionOption.uiSchema,
         schema: resolutionOption.schema,
       },
@@ -56,7 +59,7 @@ export default {
         schema: resolutionComment.schema,
       },
       resolutionWaiverCheck: {
-        title: 'Resolution Waiver Agreement',
+        title: 'Resolution waiver agreement',
         depends: formData =>
           formData.selectedDebtsAndCopays?.length > 0 &&
           !isStreamlinedShortForm(formData) &&

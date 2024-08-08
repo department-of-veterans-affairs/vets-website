@@ -1,15 +1,19 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
-import { validateIfHasEvidence } from '../validations';
 import get from 'platform/utilities/data/get';
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { validateIfHasEvidence } from '../validations';
 
 import { evidenceTypeHelp } from '../content/evidenceTypes';
 
 export const uiSchema = {
-  'view:hasEvidence': {
-    'ui:title':
+  'view:hasEvidence': yesNoUI({
+    title:
       'Is there any evidence you’d like us to review as part of your claim?',
-    'ui:widget': 'yesNo',
-  },
+  }),
   'view:hasEvidenceFollowUp': {
     'ui:options': {
       expandUnder: 'view:hasEvidence',
@@ -18,6 +22,7 @@ export const uiSchema = {
     'view:selectableEvidenceTypes': {
       'ui:title':
         'What type of evidence do you want us to review as part of your claim?',
+      'ui:webComponentField': VaCheckboxGroupField,
       'ui:options': { showFieldLabel: true },
       'ui:validations': [
         {
@@ -48,10 +53,7 @@ export const schema = {
   type: 'object',
   required: ['view:hasEvidence'],
   properties: {
-    'view:hasEvidence': {
-      type: 'boolean',
-      default: true,
-    },
+    'view:hasEvidence': yesNoSchema,
     'view:hasEvidenceFollowUp': {
       type: 'object',
       properties: {

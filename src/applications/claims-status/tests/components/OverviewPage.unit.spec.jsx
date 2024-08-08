@@ -1,321 +1,406 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import { OverviewPage } from '../../containers/OverviewPage';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-const params = { id: 1 };
+import { OverviewPage } from '../../containers/OverviewPage';
+import { renderWithRouter } from '../utils';
+
+const props = {
+  claim: {},
+  clearNotification: () => {},
+  lastPage: '',
+  loading: false,
+  message: {},
+  params: { id: 1 },
+};
+
+const openDependencyClaim = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'UNDER_REVIEW',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
+    closeDate: null,
+    decisionLetterSent: true,
+    status: 'UNDER_REVIEW',
+    supportingDocuments: [],
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2023-02-01',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        displayName: 'Initial review complete Request',
+      },
+      {
+        id: 2,
+        requestedDate: '2023-02-01',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        displayName: 'Initial review complete Request',
+      },
+    ],
+  },
+};
+
+const openCompensationClaim = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-02-08',
+      latestPhaseType: 'UNDER_REVIEW',
+      previousPhases: {
+        phase1CompleteDate: '2023-02-08',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: null,
+    decisionLetterSent: true,
+    status: 'UNDER_REVIEW',
+    supportingDocuments: [],
+    trackedItems: [
+      {
+        id: 1,
+        requestedDate: '2023-02-01',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        displayName: 'Initial review complete Request',
+      },
+      {
+        id: 2,
+        requestedDate: '2023-02-01',
+        status: 'INITIAL_REVIEW_COMPLETE',
+        displayName: 'Initial review complete Request',
+      },
+    ],
+  },
+};
+
+const closedCompensationClaim = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-01-10',
+      latestPhaseType: 'Complete',
+      previousPhases: {
+        phase7CompleteDate: '2023-01-10',
+      },
+    },
+    claimType: 'Compensation',
+    claimTypeCode: '110LCMP7IDES', // 5103 Notice
+    closeDate: '2023-01-10',
+    decisionLetterSent: false,
+    status: 'COMPLETE',
+    supportingDocuments: [],
+    trackedItems: [],
+  },
+};
+
+const closedDependencyClaim = {
+  id: '1',
+  attributes: {
+    claimDate: '2023-01-01',
+    claimPhaseDates: {
+      currentPhaseBack: false,
+      phaseChangeDate: '2023-01-10',
+      latestPhaseType: 'Complete',
+      previousPhases: {
+        phase7CompleteDate: '2023-01-10',
+      },
+    },
+    claimType: 'Dependency',
+    claimTypeCode: '400PREDSCHRG',
+    closeDate: '2023-01-10',
+    decisionLetterSent: false,
+    status: 'COMPLETE',
+    supportingDocuments: [],
+    trackedItems: [],
+  },
+};
 
 describe('<OverviewPage>', () => {
-  it('should render page with no alerts and a timeline', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        open: true,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
+  const getStore = (cstClaimPhasesEnabled = true) =>
+    createStore(() => ({
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        cst_claim_phases: cstClaimPhasesEnabled,
       },
-    };
+    }));
 
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
+  it('should render null when claim empty', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={getStore()}>
+        <OverviewPage {...props} />
+      </Provider>,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('NeedFilesFromYou')).to.be.false;
-    expect(content.subTree('ClaimsDecision')).to.be.false;
-    expect(content.subTree('ClaimsTimeline')).not.to.be.false;
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
   });
 
-  it('should not render a timeline when closed', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        open: false,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
+  it('should render null when claim is null', () => {
+    const { container, getByText } = renderWithRouter(
+      <Provider store={getStore()}>
+        <OverviewPage {...props} claim={null} />
+      </Provider>,
     );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('ClaimsDecision')).to.be.false;
-    expect(content.subTree('ClaimComplete')).not.to.be.false;
-    expect(content.subTree('ClaimsTimeline')).to.be.false;
+    expect($('.overview-container', container)).to.not.exist;
+    expect(document.title).to.equal(
+      'Overview Of Your Claim | Veterans Affairs',
+    );
+    getByText('Claim status is unavailable');
   });
 
-  context('DDL feature flag is enabled', () => {
-    const claim = {
-      attributes: {
-        open: false,
-        decisionLetterSent: true,
-      },
-    };
+  context('cstClaimPhases feature flag enabled', () => {
+    context('when claim is closed and disability compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={closedCompensationClaim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-    const store = createStore(() => ({}));
-
-    it('should render a link to the claim letters page when using Lighthouse', () => {
-      const screen = render(
-        <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            useLighthouse
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
-
-      screen.getByText('Get your claim letters');
+      it('should render overview header, claim phase diagram and stepper', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={closedCompensationClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+        );
+        expect($('.claim-phase-diagram', container)).to.exist;
+        expect($('.claim-phase-stepper', container)).to.exist;
+        expect($('.claim-timeline', container)).to.not.exist;
+      });
     });
+    context('when claim is closed and dependency claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={closedDependencyClaim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-    it('should render a link to the claim letters page when using EVSS', () => {
-      const screen = render(
-        <Provider store={store}>
-          <OverviewPage
-            claim={claim}
-            showClaimLettersLink
-            params={params}
-            clearNotification={() => {}}
-          />
-        </Provider>,
-      );
+      it('should render claim timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={closedDependencyClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
+    });
+    context('when claim is open and disability compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage claim={openCompensationClaim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-      screen.getByText('Get your claim letters');
+      it('should render overview header, claim phase diagram and stepper', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={openCompensationClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'There are 8 steps in the claim process. It’s common for claims to repeat steps 3 to 6 if we need more information.',
+        );
+        expect($('.claim-phase-diagram', container)).to.exist;
+        expect($('.claim-phase-stepper', container)).to.exist;
+        expect($('.claim-timeline', container)).to.not.exist;
+      });
+    });
+    context('when claim is open and dependency compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage claim={openDependencyClaim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
+
+      it('should render claim timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore()}>
+            <OverviewPage {...props} claim={openDependencyClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
     });
   });
 
-  it('should not render ClaimComplete with decision letter', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        open: false,
-        documentsNeeded: false,
-        decisionLetterSent: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
+  context('cstClaimPhases feature flag disabled', () => {
+    context('when claim is closed and disability compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={closedCompensationClaim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('ClaimsDecision')).to.exist;
-    expect(content.subTree('ClaimComplete')).to.be.false;
-    expect(content.subTree('ClaimsTimeline')).to.be.false;
-  });
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={closedCompensationClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
+    });
+    context('when claim is closed and dependency compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={closedDependencyClaim} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-  it('should render need files from you component', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        documentsNeeded: true,
-        open: true,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={closedDependencyClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
+    });
+    context('when claim is open and disability compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage claim={openCompensationClaim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.subTree('NeedFilesFromYou')).not.to.be.false;
-  });
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={openCompensationClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
+    });
+    context('when claim is open and dependency compensation claim', () => {
+      it('should render empty content when loading', () => {
+        const { container } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage claim={openDependencyClaim} {...props} loading />
+          </Provider>,
+        );
+        const overviewSection = $('.overview-container', container);
+        expect(overviewSection).to.not.exist;
+        expect($('va-loading-indicator', container)).to.exist;
+      });
 
-  it('should not render need files from you when closed', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        documentsNeeded: true,
-        decisionLetterSent: false,
-        open: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
-  });
-
-  it('should not render files needed from you when decision letter sent', () => {
-    const claim = {
-      attributes: {
-        phase: 2,
-        documentsNeeded: true,
-        decisionLetterSent: true,
-        open: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    expect(tree.subTree('NeedFilesFromYou')).to.be.false;
-  });
-
-  it('should render claims decision alert', () => {
-    const claim = {
-      attributes: {
-        phase: 5,
-        documentsNeeded: false,
-        decisionLetterSent: true,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    const content = tree.dive(['ClaimStatusPageContent']);
-    expect(content.everySubTree('ClaimsDecision')).not.to.be.empty;
-  });
-
-  it('should not render timeline without a phase', () => {
-    const claim = {
-      attributes: {
-        phase: null,
-        documentsNeeded: false,
-        decisionLetterSent: false,
-        waiverSubmitted: true,
-        eventsTimeline: [
-          {
-            type: 'still_need_from_you_list',
-            status: 'NEEDED',
-          },
-        ],
-      },
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage claim={claim} params={params} />,
-    );
-    expect(tree.everySubTree('ClaimsTimeline')).to.be.empty;
-  });
-
-  it('should render empty content when loading', () => {
-    const claim = {};
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage loading claim={claim} params={params} />,
-    );
-    expect(tree.props.children).to.be.null;
-  });
-
-  it('should render notification', () => {
-    const claim = {};
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage
-        loading
-        params={params}
-        message={{ title: 'Test', body: 'Body' }}
-        claim={claim}
-      />,
-    );
-    expect(tree.props.message).not.to.be.null;
-  });
-
-  it('should clear alert', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage
-        params={params}
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.subTree('ClaimDetailLayout').props.clearNotification();
-    expect(clearNotification.called).to.be.true;
-  });
-
-  it('should clear notification when leaving', () => {
-    const claim = {
-      attributes: {
-        eventsTimeline: [],
-      },
-    };
-    const clearNotification = sinon.spy();
-    const message = {
-      title: 'Test',
-      body: 'Test',
-    };
-
-    const tree = SkinDeep.shallowRender(
-      <OverviewPage
-        params={params}
-        clearNotification={clearNotification}
-        message={message}
-        claim={claim}
-      />,
-    );
-    expect(clearNotification.called).to.be.false;
-    tree.getMountedInstance().componentWillUnmount();
-    expect(clearNotification.called).to.be.true;
+      it('should render overview header and timeline', () => {
+        const { container, getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <OverviewPage {...props} claim={openDependencyClaim} />
+          </Provider>,
+        );
+        const overviewPage = $('#tabPanelFiles', container);
+        expect(overviewPage).to.exist;
+        getByText('Overview of the claim process');
+        getByText(
+          'Learn about the VA claim process and what happens after you file your claim.',
+        );
+        expect($('.claim-phase-diagram', container)).to.not.exist;
+        expect($('.claim-phase-stepper', container)).to.not.exist;
+        expect($('.claim-timeline', container)).to.exist;
+      });
+    });
   });
 });

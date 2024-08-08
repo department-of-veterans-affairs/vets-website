@@ -73,7 +73,7 @@ describe('<EnrollmentHistory>', () => {
     const tree = SkinDeep.shallowRender(
       <EnrollmentHistory {...defaultProps} />,
     );
-    const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
+    const featureBoxes = tree.dive(['.feature-box']).everySubTree('h4');
     expect(featureBoxes[0].text()).to.equal(
       'Does something look wrong in your enrollment history?',
     );
@@ -90,7 +90,7 @@ describe('<EnrollmentHistory>', () => {
       },
     };
     const tree = SkinDeep.shallowRender(<EnrollmentHistory {...props} />);
-    const featureBoxes = tree.dive(['.feature']).everySubTree('h4');
+    const featureBoxes = tree.dive(['.feature-box']).everySubTree('h4');
     expect(featureBoxes[0].text()).to.equal(
       'You don’t have any enrollment history',
     );

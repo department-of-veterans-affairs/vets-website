@@ -3,12 +3,12 @@ import sinon from 'sinon';
 
 import { mockApiRequest } from 'platform/testing/unit/helpers';
 
+import { getContestableIssues } from '../../actions';
 import {
-  getContestableIssues,
   FETCH_CONTESTABLE_ISSUES_INIT,
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
+} from '../../../shared/actions';
 
 describe('fetch contestable issues action', () => {
   it('should dispatch an init action', () => {

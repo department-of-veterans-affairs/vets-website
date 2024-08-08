@@ -32,24 +32,22 @@ export default function TestComponent() {
         {travelPayEligible ? 'yes' : 'no'}
       </div>
       <div data-testid="travelPayData">{travelPayData.appointmentDate}</div>
-      <button
-        type="button"
-        data-testid="setTravelPayClaimSentFalse"
+      <va-button
+        uswds
         onClick={useCallback(() => setTravelPayClaimSent(false), [
           setTravelPayClaimSent,
         ])}
-      >
-        setTravelPayClaimSentFalse
-      </button>
-      <button
-        type="button"
-        data-testid="setTravelPayClaimSentTrue"
+        text="setTravelPayClaimSentFalse"
+        data-testid="setTravelPayClaimSentFalse"
+      />
+      <va-button
+        uswds
         onClick={useCallback(() => setTravelPayClaimSent(true), [
           setTravelPayClaimSent,
         ])}
-      >
-        setTravelPayClaimSentTrue
-      </button>
+        text="setTravelPayClaimSentTrue"
+        data-testid="setTravelPayClaimSentTrue"
+      />
     </div>
   );
 }

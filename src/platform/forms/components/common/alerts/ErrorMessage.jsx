@@ -1,5 +1,6 @@
 // libs
 import React from 'react';
+import PropTypes from 'prop-types';
 
 /**
  * A column layout component
@@ -11,23 +12,27 @@ import React from 'react';
 function ErrorMessage(props) {
   const { active, children, message, testId, title } = props;
 
-  if (!active) return null;
-  else {
-    return (
-      <div
-        className="usa-alert usa-alert-error schemaform-failure-alert"
-        data-testid={testId}
-      >
-        <div className="usa-alert-body">
-          <p className="schemaform-warning-header">
-            <strong>{title}</strong>
-          </p>
-          <p>{message}</p>
-          {children}
-        </div>
-      </div>
-    );
-  }
+  return !active ? null : (
+    <va-alert
+      status="error"
+      class="schemaform-failure-alert vads-u-margin-top--4"
+      data-testid={testId}
+    >
+      <h2 slot="headline" className="schemaform-warning-header">
+        {title}
+      </h2>
+      <p>{message}</p>
+      {children}
+    </va-alert>
+  );
 }
+
+ErrorMessage.propTypes = {
+  active: PropTypes.bool,
+  children: PropTypes.node,
+  message: PropTypes.string,
+  testId: PropTypes.string,
+  title: PropTypes.string,
+};
 
 export default ErrorMessage;

@@ -49,10 +49,10 @@ describe('SIP Autosave Test', () => {
     });
 
     cy.fill('input[name="root_veteranFullName_first"]', 'Steve');
-    cy.get('.usa-alert-error').should('be.visible');
+    cy.get('va-alert[status="error"]').should('be.visible');
 
     cy.url().should('contain', 'first-page');
-    cy.get('.usa-alert-error').should(
+    cy.get('va-alert[status="error"]').should(
       'contain',
       'We’re sorry, but we’re having some issues and are working to fix them',
     );
@@ -91,11 +91,11 @@ describe('SIP Autosave Test', () => {
       statusCode: 401,
     });
     cy.fill('input[name="root_veteranFullName_first"]', 'Bob');
-    cy.get('.usa-alert-error');
+    cy.get('va-alert[status="error"]');
 
     cy.url().should('contain', 'first-page');
 
-    cy.get('.usa-alert-error').should(
+    cy.get('va-alert[status="error"]').should(
       'contain',
       'Sorry, you’re no longer signed in',
     );

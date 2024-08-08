@@ -45,7 +45,7 @@ describe('Personal information', () => {
         .click({ waitForAnimations: true });
 
       cy.get('#root_genderIdentity-error-message')
-        .contains('Please select a valid option')
+        .contains('You must select a valid option')
         .should('exist');
 
       cy.injectAxeThenAxeCheck();

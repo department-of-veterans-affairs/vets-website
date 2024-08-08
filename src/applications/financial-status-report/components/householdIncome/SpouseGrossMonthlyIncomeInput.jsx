@@ -7,7 +7,7 @@ import { getJobIndex } from '../../utils/session';
 import { isValidCurrency } from '../../utils/validations';
 
 const SpouseGrossMonthlyIncomeInput = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -24,9 +24,9 @@ const SpouseGrossMonthlyIncomeInput = props => {
   const {
     personalData: {
       employmentHistory: {
+        spouse: { spEmploymentRecords = [] } = {},
         newRecord = {},
-        spouse: { spEmploymentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -131,23 +131,22 @@ const SpouseGrossMonthlyIncomeInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
       <h3 className="schemaform-block-title vads-u-margin-top--5">
         Monthly income for {employerName}
       </h3>
-      <va-number-input
+      <va-text-input
         label="What’s your spouse's gross monthly income at this job?"
         hint="Gross income is income before taxes and any other deductions. You can use information from your spouse's paystub to calculate your spouse's gross monthly income."
-        inputmode="numeric"
+        inputmode="decimal"
         id="gross-monthly-income"
         currency
         data-testid="gross-monthly-income"
         name="gross-monthly-income"
         onInput={setNewGrossMonthlyIncome}
-        type="text"
+        type="decimal"
         value={grossMonthlyIncome.value}
         required
         min={0}
@@ -158,7 +157,6 @@ const SpouseGrossMonthlyIncomeInput = props => {
       <va-additional-info
         trigger="How to calculate your spouse’s gross monthly income"
         class="vads-u-margin-top--2"
-        uswds
       >
         <p className="vads-u-padding-bottom--2">
           <strong>If your spouse is a salaried employee,</strong> divide your
@@ -177,7 +175,7 @@ const SpouseGrossMonthlyIncomeInput = props => {
           <li>Divide that number by 12</li>
         </ol>
       </va-additional-info>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

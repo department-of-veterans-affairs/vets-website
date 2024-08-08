@@ -48,7 +48,13 @@ class RoutedSavableReviewPage extends React.Component {
     if (downtime.status === externalServiceStatus.down) {
       const Message = this.props.formConfig.downtime.message || DowntimeMessage;
 
-      return <Message downtime={downtime} />;
+      return (
+        <Message
+          downtime={downtime}
+          formConfig={this.props.formConfig}
+          headerLevel={3}
+        />
+      );
     }
 
     return children;
@@ -56,16 +62,20 @@ class RoutedSavableReviewPage extends React.Component {
 
   render() {
     const { form, formConfig, formContext, pageList, path, user } = this.props;
+    const { CustomReviewTopContent, hideReviewChapters } = formConfig;
     const downtimeDependencies = get('downtime.dependencies', formConfig) || [];
 
     return (
       <div>
-        <ReviewChapters
-          formConfig={formConfig}
-          formContext={formContext}
-          pageList={pageList}
-          onSetData={() => this.debouncedAutoSave()}
-        />
+        {CustomReviewTopContent && <CustomReviewTopContent />}
+        {!hideReviewChapters && (
+          <ReviewChapters
+            formConfig={formConfig}
+            formContext={formContext}
+            pageList={pageList}
+            onSetData={() => this.debouncedAutoSave()}
+          />
+        )}
         <DowntimeNotification
           appTitle="application"
           render={this.renderDowntime}
@@ -124,13 +134,18 @@ RoutedSavableReviewPage.propTypes = {
   autoSaveForm: PropTypes.func.isRequired,
   form: PropTypes.object.isRequired,
   formConfig: PropTypes.shape({
+    CustomReviewTopContent: PropTypes.oneOfType([
+      PropTypes.element,
+      PropTypes.func,
+    ]),
     customText: PropTypes.shape({
       finishAppLaterMessage: PropTypes.string,
       appType: PropTypes.string,
     }),
     downtime: PropTypes.shape({
-      message: PropTypes.string,
+      message: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
     }),
+    hideReviewChapters: PropTypes.bool,
   }).isRequired,
   formContext: PropTypes.object.isRequired,
   location: PropTypes.shape({
@@ -145,7 +160,7 @@ RoutedSavableReviewPage.propTypes = {
         appType: PropTypes.string,
       }),
       downtime: PropTypes.shape({
-        message: PropTypes.string,
+        message: PropTypes.oneOf([PropTypes.string, PropTypes.element]),
       }),
     }),
     pageConfig: PropTypes.shape({

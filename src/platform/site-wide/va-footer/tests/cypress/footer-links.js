@@ -46,7 +46,7 @@ export const topRail = [
     href: 'accesstocare.va.gov/',
   },
   {
-    text: 'Accredited claims representatives',
+    text: 'Get help from an accredited representative or VSO',
     href: '/ogc/accreditation.asp',
   },
   {
@@ -135,15 +135,15 @@ export const topRail = [
 export const language = [
   {
     text: 'Español',
-    href: '/asistencia-y-recursos-en-espanol',
+    href: 'https://www.va.gov/asistencia-y-recursos-en-espanol',
   },
   {
     text: 'Tagalog',
-    href: '/tagalog-wika-mapagkukunan-at-tulong',
+    href: 'https://www.va.gov/tagalog-wika-mapagkukunan-at-tulong',
   },
   {
     text: 'Other languages',
-    href: '/how-to-get-free-language-assistance-from-va',
+    href: 'https://www.va.gov/how-to-get-free-language-assistance-from-va',
   },
 ];
 

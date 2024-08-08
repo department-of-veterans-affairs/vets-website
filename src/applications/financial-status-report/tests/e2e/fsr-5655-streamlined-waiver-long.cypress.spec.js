@@ -22,32 +22,16 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles**', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
             { name: 'show_financial_status_report', value: true },
-            {
-              name: 'combined_financial_status_report_enhancements',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver',
-              value: true,
-            },
-            {
-              name: 'financial_status_report_streamlined_waiver_assets',
-              value: true,
-            },
           ],
         },
       });
 
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/**', incomeLimit);
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -63,6 +47,14 @@ const testConfig = createTestConfig(
 
       cy.intercept('GET', '/v0/debts', debts);
       cy.intercept('GET', '/v0/medical_copays', copays);
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_expenses', {
+        calculatedMonthlyExpenses: '6759',
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: '7951',
+      });
 
       cy.intercept('POST', formConfig.submitUrl, {
         statusCode: 200,
@@ -92,7 +84,10 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('2');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'dependent-ages': ({ afterHook }) => {
@@ -105,20 +100,24 @@ const testConfig = createTestConfig(
             .shadow()
             .find('input')
             .type('17');
-          cy.get('.usa-button-primary').click();
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'additional-income-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Social Security"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Social Security"]')
+            .shadow()
+            .find('input')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
       'additional-income-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Social Security"]')
+          cy.get('va-text-input[name="Social Security"]')
             .first()
             .shadow()
             .find('input')
@@ -148,21 +147,26 @@ const testConfig = createTestConfig(
       },
       'monetary-asset-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]')
+          cy.get('va-checkbox')
+            .shadow()
+            .find('input[type=checkbox]')
             .as('checklist')
             .should('have.length', 5);
+
           cy.get('@checklist')
             .eq(0)
-            .click();
+            .check({ force: true });
+
           cy.get('@checklist')
             .eq(1)
-            .click();
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },
       'monetary-asset-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input')
+          cy.get('va-text-input')
             .as('numberInputs')
             .should('have.length', 2);
           cy.get(`[name="U.S. Savings Bonds"]`)
@@ -176,22 +180,40 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+      'other-income-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
+        });
+      },
       'other-expenses-checklist': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="Clothing"]`)
-            .first()
-            .check();
+          cy.get('va-checkbox[name="Clothing"]')
+            .shadow()
+            .find('input[type="checkbox"]')
+            .check({ force: true });
+
           cy.get('.usa-button-primary').click();
         });
       },
       'other-expenses-values': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('va-number-input[name="Clothing"]')
+          cy.get('va-text-input[name="Clothing"]')
             .first()
             .shadow()
             .find('input')
             .type('6759');
           cy.get('.usa-button-primary').click();
+        });
+      },
+      'other-expenses-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('va-button[data-testid="custom-button-group-button"]')
+            .shadow()
+            .find('button:contains("Continue")')
+            .click();
         });
       },
       'skip-questions-explainer': ({ afterHook }) => {
@@ -211,16 +233,14 @@ const testConfig = createTestConfig(
             .find('input')
             .first()
             .type('Mark Webb');
-          cy.get(`#veteran-certify`)
-            .first()
+          cy.get(`va-checkbox[name="veteran-certify"]`)
             .shadow()
             .find('input')
-            .check();
-          cy.get(`#privacy-policy`)
-            .first()
+            .check({ force: true });
+          cy.get(`va-privacy-agreement`)
             .shadow()
             .find('input')
-            .check();
+            .check({ force: true });
           cy.findAllByText(/Submit your request/i, {
             selector: 'button',
           }).click();

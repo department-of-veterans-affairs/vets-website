@@ -105,6 +105,7 @@ export class SessionTimeoutModal extends React.Component {
         title="Your session will end in..."
         visible={this.state.countdown} // Display only for 30s countdown.
       >
+        {/* React Modal Component used in Injected Header DO NOT MIGRATE to Modal web component */}
         <div className="vads-u-text-align--center">
           <div className="vads-u-font-size--2xl">{this.state.countdown}</div>
           <div>SECONDS</div>

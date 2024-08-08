@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { COOKIES, CLIENT_IDS } from 'platform/utilities/oauth/constants';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 import { touStyles } from '../constants';
 
 export default function Declined() {
@@ -31,15 +31,31 @@ export default function Declined() {
           out.
         </p>
         <h2>What you can do</h2>
+        <ul>
+          <li>
+            You can sign in again anytime to accept the terms. As soon as you
+            accept the terms, you can manage your benefits and care online
+            again.
+          </li>
+          <li>
+            If you have a <strong>My HealtheVet</strong> user ID and password,
+            you’ll no longer be able to use it. To manage your benefits and care
+            online again, you’ll need to sign in with a{' '}
+            <strong>Login.gov</strong> or <strong>ID.me</strong> account and
+            accept these terms. If you don’t have one of these accounts, you’ll
+            need to create one.
+            <br />
+            <br />
+            <a href="https://va.gov/resources/creating-an-account-for-vagov/">
+              Learn how to create a Login.gov or ID.me account for VA
+            </a>
+          </li>
+        </ul>
         <p>
-          You can still get VA health care and benefits without using our online
-          services. If you need help or have questions, <IdentityPhone /> We’re
-          here 24/7.
-        </p>
-        <p>
-          Or you can change your answer and accept the terms. If you want to
-          accept the terms, sign in again. We’ll take you back to the terms of
-          use. Then you can continue using VA online services.
+          <strong>Note:</strong> You can still access your VA benefits and
+          health care without using our online services. If you need help or
+          have questions, call our MYVA411 main information line at{' '}
+          <ContactCenterInformation /> We’re here 24/7.
         </p>
         <p className="vads-u-margin-y--2p5">
           <va-link

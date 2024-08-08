@@ -19,6 +19,7 @@ const veteranData = {
     suffix: 'Jr.',
   },
   preparerIdentification: 'VETERAN',
+  statementOfTruthSignature: 'Jack W Veteran',
 };
 
 const survivorData = {
@@ -42,6 +43,7 @@ const survivorData = {
     middle: 'W',
     last: 'Veteran',
   },
+  statementOfTruthSignature: 'Jack W Veteran',
 };
 
 const responseNew = {
@@ -120,29 +122,35 @@ describe('Confirmation page', () => {
       'success',
     );
     getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim for survivors');
+    getByText('Complete your pension for survivors claim');
   });
 
-  it('it should show status info and the correct name of person for a veteran submitting for a second time', () => {
+  it('it should show status success and the correct name of person for a veteran submitting for a second time', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(STORE_VETERAN_EXISTING)}>
         <ConfirmationPage />
       </Provider>,
     );
-    expect(container.querySelector('va-alert')).to.have.attr('status', 'info');
+    expect(container.querySelector('va-alert')).to.have.attr(
+      'status',
+      'success',
+    );
     getByText(/Jack W Veteran/);
     getByText('Complete your pension claim');
     getByText('Complete your disability compensation claim');
   });
 
-  it('it should show status info and the correct name of person for a survivor submitting for a second time', () => {
+  it('it should show status success and the correct name of person for a survivor submitting for a second time', () => {
     const { container, getByText } = render(
       <Provider store={mockStore(STORE_SURVIVOR_EXISTING)}>
         <ConfirmationPage />
       </Provider>,
     );
-    expect(container.querySelector('va-alert')).to.have.attr('status', 'info');
+    expect(container.querySelector('va-alert')).to.have.attr(
+      'status',
+      'success',
+    );
     getByText(/Jack W Veteran/);
-    getByText('Complete your pension claim for survivors');
+    getByText('Complete your pension for survivors claim');
   });
 });

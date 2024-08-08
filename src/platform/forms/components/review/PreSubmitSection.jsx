@@ -147,12 +147,7 @@ export function PreSubmitSection(props) {
                 rel="noopener noreferrer"
               >
                 privacy policy
-                <span className="sr-only">opens in a new window</span>
-                <i
-                  className="fas fa-arrow-up-right-from-square"
-                  aria-hidden="true"
-                  role="img"
-                />
+                <va-icon icon="launch" srtext="opens in a new window" />
               </a>
               .
             </p>
@@ -204,6 +199,7 @@ export function PreSubmitSection(props) {
                   ? 'You must certify by checking the box'
                   : undefined
               }
+              className="statement-of-truth-va-checkbox"
               required
             />
           </article>
@@ -225,6 +221,7 @@ export function PreSubmitSection(props) {
                 onVaChange={event =>
                   setPreSubmit(preSubmit?.field, event.target.checked)
                 }
+                uswds
               />
             ) : (
               <VaCheckbox

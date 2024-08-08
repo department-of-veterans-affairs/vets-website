@@ -5,10 +5,12 @@ import PropTypes from 'prop-types';
 import { useFormRouting } from '../../hooks/useFormRouting';
 import { seeStaffMessageUpdated } from '../../actions/day-of';
 import { recordAnswer } from '../../actions/universal';
+import BackButton from '../../components/BackButton';
 import DemographicsDisplay from '../../components/pages/demographics/DemographicsDisplay';
 import { makeSelectVeteranData } from '../../selectors';
 import { useStorage } from '../../hooks/useStorage';
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 const Demographics = props => {
   const dispatch = useDispatch();
@@ -16,8 +18,13 @@ const Demographics = props => {
   const { t } = useTranslation();
   const { demographics } = useSelector(selectVeteranData);
   const { router } = props;
-  const { goToNextPage, jumpToPage } = useFormRouting(router);
-  const { setShouldSendDemographicsFlags } = useStorage(false);
+  const {
+    goToNextPage,
+    jumpToPage,
+    goToPreviousPage,
+    getPreviousPageFromRouter,
+  } = useFormRouting(router);
+  const { setShouldSendDemographicsFlags } = useStorage(APP_NAMES.CHECK_IN);
 
   const updateSeeStaffMessage = useCallback(
     seeStaffMessage => {
@@ -56,6 +63,11 @@ const Demographics = props => {
 
   return (
     <>
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl={getPreviousPageFromRouter()}
+      />
       <DemographicsDisplay
         demographics={demographics}
         yesAction={yesClick}

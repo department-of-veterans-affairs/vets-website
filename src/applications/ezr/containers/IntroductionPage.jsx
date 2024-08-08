@@ -27,20 +27,23 @@ const IntroductionPage = ({ fetchEnrollmentStatus, route }) => {
 
   const onVerifyEvent = recordEvent({ event: AUTH_EVENTS.VERIFY });
 
-  useEffect(() => {
-    focusElement('.va-nav-breadcrumbs-list');
-    if (isUserLOA3) {
-      fetchEnrollmentStatus();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+      if (isUserLOA3) {
+        fetchEnrollmentStatus();
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    },
+    [isUserLOA3],
+  );
 
   return (
     <>
       <div className="ezr-intro schemaform-intro">
         <DowntimeNotification
           appTitle={content['form-title']}
-          dependencies={[externalServices.es]}
+          dependencies={[externalServices['1010ezr']]}
         >
           {isLoading ? (
             <va-loading-indicator message={content['load-enrollment-status']} />

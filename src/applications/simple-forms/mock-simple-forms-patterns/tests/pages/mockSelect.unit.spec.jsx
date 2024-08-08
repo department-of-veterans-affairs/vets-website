@@ -10,7 +10,7 @@ const { schema, uiSchema } = formConfig.chapters.select.pages.select;
 
 const pageTitle = 'mock select inputs';
 
-const expectedNumberOfWebComponentFields = 6;
+const expectedNumberOfWebComponentFields = 3;
 testNumberOfWebComponentFields(
   formConfig,
   schema,
@@ -19,7 +19,7 @@ testNumberOfWebComponentFields(
   pageTitle,
 );
 
-const expectedNumberOfWebComponentErrors = 3;
+const expectedNumberOfWebComponentErrors = 1;
 testNumberOfErrorsOnSubmitForWebComponents(
   formConfig,
   schema,

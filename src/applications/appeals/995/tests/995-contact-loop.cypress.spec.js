@@ -28,7 +28,7 @@ describe('995 contact info loop', () => {
       'GET',
       `/v1${CONTESTABLE_ISSUES_API}compensation`,
       mockContestableIssues,
-    );
+    ).as('getIssues');
     cy.intercept('GET', '/v0/in_progress_forms/20-0995', mockV2Data);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0995', mockV2Data);
 
@@ -63,6 +63,8 @@ describe('995 contact info loop', () => {
     cy.findAllByText(/start your claim/i, { selector: 'a' })
       .first()
       .click();
+
+    cy.wait('@getIssues'); // getContestableIssues API loading indicator
     cy.get('.itf-inner')
       .should('be.visible')
       .then(() => {
@@ -89,48 +91,48 @@ describe('995 contact info loop', () => {
     cy.get('a[href$="home-phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-home-phone`,
+      `${BASE_URL}/contact-information/edit-home-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mobile phone
     cy.get('a[href$="mobile-phone"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Email
     cy.get('a[href$="email-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-email-address`,
+      `${BASE_URL}/contact-information/edit-email-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Mailing address
     cy.get('a[href$="mailing-address"]').click();
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mailing-address`,
+      `${BASE_URL}/contact-information/edit-mailing-address`,
     );
     cy.injectAxe();
     cy.axeCheck();
 
-    cy.findByText(/cancel/i, { selector: 'button' }).click();
+    cy.get('va-button[text="Cancel"]').click();
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
   });
 
@@ -145,11 +147,17 @@ describe('995 contact info loop', () => {
     cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/edit-contact-information-mobile-phone`,
+      `${BASE_URL}/contact-information/edit-mobile-phone`,
     );
 
-    cy.findByLabelText(/mobile phone/i).clear();
-    cy.findByLabelText(/mobile phone/i).type('8885551212');
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .clear();
+    cy.get('va-text-input[label^="Mobile phone"]')
+      .shadow()
+      .find('input')
+      .type('8885551212');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

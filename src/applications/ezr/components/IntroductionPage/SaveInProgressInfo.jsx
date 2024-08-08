@@ -9,6 +9,7 @@ import EnrollmentStatusAlert from '../FormAlerts/EnrollmentStatusAlert';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
 import PreferredFacilityAlert from '../FormAlerts/PreferredFacilityAlert';
 import FinancialMeansTestWarning from '../FormAlerts/FinancialStatusWarning';
+import UpdatedFormAlertDescription from '../FormDescriptions/UpdatedFormAlertDescription';
 import content from '../../locales/en/content.json';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
@@ -39,9 +40,14 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     prefillEnabled,
     downtime,
     pageList,
+    devOnly: { forceShowFormControls: true },
   };
 
-  const sipIntro = <SaveInProgressIntro {...sipProps} />;
+  const sipIntro = (
+    <SaveInProgressIntro {...sipProps}>
+      <UpdatedFormAlertDescription />
+    </SaveInProgressIntro>
+  );
 
   // set the correct alert to render based on enrollment status
   const LoggedInAlertToRender = () => {
@@ -74,8 +80,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
             </li>
             <li>
               You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your application to come back and
-              finish it.
+              you start or make updates to your form to come back and finish it.
             </li>
           </ul>
           {sipIntro}

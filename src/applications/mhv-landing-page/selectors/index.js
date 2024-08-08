@@ -2,29 +2,37 @@ import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
 } from '~/platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
+import {
+  isLoggedIn,
+  selectProfile,
+  isLOA1,
+  isLOA3,
+  isInMPI,
+  isProfileLoading,
+  isVAPatient,
+} from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
-import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { hasHealthData } from './hasHealthData';
-
-const selectVamcEhrData = state =>
-  selectDrupalStaticData(state)?.vamcEhrData || {};
-
-const selectGreetingName = state =>
-  state?.user?.profile?.userFullName?.first || state?.user?.profile?.email;
+import { personalizationEnabled } from './featureToggles';
+import { hasMhvAccount } from './hasMhvAccount';
+import {
+  selectGreetingName,
+  selectPersonalInformation,
+} from './personalInformation';
 
 export {
-  hasHealthData,
   isAuthenticatedWithSSOe,
-  isLandingPageEnabled,
-  isLandingPageEnabledForUser,
+  isInMPI,
+  isLOA1,
+  isLOA3,
   isLoggedIn,
+  isProfileLoading,
+  isVAPatient,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
+  selectPersonalInformation,
   selectProfile,
-  selectVamcEhrData,
   signInServiceEnabled,
+  hasMhvAccount,
 };

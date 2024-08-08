@@ -67,13 +67,9 @@ export const UnauthContent = () => (
     <ServiceProvidersList />
     <h2>How do I know if my VA health facility uses online scheduling?</h2>
     <p>
-      Online scheduling is available at all VA health facilities except those in
-      these locations:
+      Online scheduling is available at all VA health facilities except in
+      Manila, Philippines.
     </p>
-    <ul>
-      <li>Indianapolis, IN</li>
-      <li>Manila, Philippines</li>
-    </ul>
     <p>
       <strong>Note:</strong> Online scheduling is available for some types of
       health services. We hope to expand the types of appointments and health

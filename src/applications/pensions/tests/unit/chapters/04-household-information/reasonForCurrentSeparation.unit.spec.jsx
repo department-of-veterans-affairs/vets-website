@@ -1,7 +1,9 @@
 import { expect } from 'chai';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import reasonForCurrentSeparation, {
@@ -10,13 +12,15 @@ import reasonForCurrentSeparation, {
 
 describe('reason for current separation page', () => {
   const pageTitle = 'reason for separation';
-  const expectedNumberOfFields = 1;
+  const formData = { reasonForCurrentSeparation: 'OTHER' };
+  const expectedNumberOfFields = 2;
   testNumberOfWebComponentFields(
     formConfig,
     reasonForCurrentSeparation.schema,
     reasonForCurrentSeparation.uiSchema,
     expectedNumberOfFields,
     pageTitle,
+    formData,
   );
 
   const expectedNumberOfErrors = 1;
@@ -25,6 +29,24 @@ describe('reason for current separation page', () => {
     reasonForCurrentSeparation.schema,
     reasonForCurrentSeparation.uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+    formData,
+  );
+
+  testSubmitsWithoutErrors(
+    formConfig,
+    reasonForCurrentSeparation.schema,
+    reasonForCurrentSeparation.uiSchema,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    reasonForCurrentSeparation.schema,
+    reasonForCurrentSeparation.uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 

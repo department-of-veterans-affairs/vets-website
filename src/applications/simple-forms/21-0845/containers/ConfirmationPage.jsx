@@ -20,11 +20,7 @@ const content = {
         or contact VA online at{' '}
         <a href="https://ask.va.gov" target="_blank" rel="noopener noreferrer">
           Ask VA
-          <i
-            className="fas fa-arrow-up-right-from-square"
-            aria-hidden="true"
-            role="img"
-          />
+          <va-icon icon="launch" srtext="opens in a new window" />
         </a>
         .
       </p>

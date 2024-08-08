@@ -1,6 +1,5 @@
 import {
   bankruptcyHistory,
-  bankruptcyHistoryRecords,
   enhancedBankruptcyHistoryRecords,
 } from '../../pages';
 
@@ -30,27 +29,15 @@ export default {
         depends: formData =>
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
-      bankruptcyHistoryRecords: {
-        path: 'bankruptcy-history-records',
-        title: 'Bankruptcy history',
-        uiSchema: bankruptcyHistoryRecords.uiSchema,
-        schema: bankruptcyHistoryRecords.schema,
-        depends: formData =>
-          formData.questions.hasBeenAdjudicatedBankrupt &&
-          !formData['view:enhancedFinancialStatusReport'] &&
-          !isStreamlinedShortForm(formData) &&
-          !isStreamlinedLongForm(formData),
-      },
       enhancedBankruptcyHistoryRecords: {
         path: 'enhanced-bankruptcy-history-records',
-        title: 'Bankruptcy history',
+        title: 'Bankruptcy history details',
         uiSchema: enhancedBankruptcyHistoryRecords.uiSchema,
         schema: enhancedBankruptcyHistoryRecords.schema,
         CustomPage: BankruptcyDetails,
         CustomPageReview: BankruptcyDetailsReview,
         depends: formData =>
           formData.questions.hasBeenAdjudicatedBankrupt &&
-          formData['view:enhancedFinancialStatusReport'] &&
           !isStreamlinedShortForm(formData) &&
           !isStreamlinedLongForm(formData),
       },

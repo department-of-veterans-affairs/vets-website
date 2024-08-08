@@ -95,7 +95,7 @@
         "treatedDisabilityNames": {
           "diabetesmellitus0": true,
           "deselected": false,
-          "kneereplacement": true
+          "ankylosisinkneebilateral": true
         }
       }
     ],
@@ -123,7 +123,7 @@
           "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
-        "condition": "phlebitis",
+        "condition": "Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)",
         "view:descriptionInfo": {}
       },
       {
@@ -132,7 +132,7 @@
           "causedByDisability": "Diabetes Mellitus0",
           "causedByDisabilityDescription": "Again, this doesn't really make sense."
         },
-        "condition": "knee replacement",
+        "condition": "ankylosis in knee, bilateral",
         "view:descriptionInfo": {}
       }
     ],

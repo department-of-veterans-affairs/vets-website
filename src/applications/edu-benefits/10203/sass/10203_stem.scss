@@ -1,14 +1,22 @@
 // Variables
 
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 @import "~uswds/src/stylesheets/core/utilities";
+
+.icon-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
 
 .process {
   #circle li {
@@ -51,11 +59,11 @@ dd > span {
 }
 
 .edu-dd-warning {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
 }
 
 .row .edu-intro-spacing {
-  margin-bottom: 7rem;
+  margin-bottom: 4.375rem;
 }
 
 .search-results-count:focus,
@@ -66,7 +74,7 @@ dd > span {
 }
 
 .blue-bar-block {
-  border-left: 7px solid $color-primary;
+  border-left: 7px solid var(--vads-color-primary);
   padding-left: 1em;
 
   p {
@@ -76,7 +84,7 @@ dd > span {
 
 .search-select-school-fieldset {
   .no-results-box {
-    background-color: $color-gray-lightest;
+    background-color: var(--vads-color-base-lightest);
     margin: 25px 0 0 0;
     padding: 20px;
     p {
@@ -119,7 +127,7 @@ dd > span {
       width: 100%;
 
       &.institution-name {
-        color: $color-light-blue;
+        color: var(--vads-color-primary);
         font-weight: bold;
         text-decoration: underline;
       }
@@ -133,7 +141,7 @@ dd > span {
       }
 
       .institution-information {
-        background-color: $color-gray-lightest;
+        background-color: var(--vads-color-base-lightest);
         margin-left: 25px;
         padding: 10px 15px;
       }

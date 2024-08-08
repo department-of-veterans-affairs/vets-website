@@ -8,7 +8,7 @@ const ResolutionCommentsReview = ({ data }) => {
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Resolution comments
+          Personal statement
         </h4>
       </div>
       <div className="review">

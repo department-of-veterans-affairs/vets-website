@@ -3,12 +3,14 @@ import PropTypes from 'prop-types';
 import {
   getVAAppointmentLocationId,
   isClinicVideoAppointment,
+  isGfeVideoAppointment,
+  isVideoHome,
+  isAtlasVideoAppointment,
 } from '../../../services/appointment';
-import { VIDEO_TYPES } from '../../../utils/constants';
 import AppointmentDateTime from '../AppointmentDateTime';
 import BackLink from '../../../components/BackLink';
 import CalendarLink from './CalendarLink';
-import StatusAlert from './StatusAlert';
+import StatusAlert from '../../../components/StatusAlert';
 import TypeHeader from './TypeHeader';
 import PrintLink from './PrintLink';
 import VideoVisitProvider from './VideoVisitProvider';
@@ -17,26 +19,16 @@ import VideoInstructionsLink from './VideoInstructionsLink';
 import VideoLocation from './VideoLocation';
 
 function formatHeader(appointment) {
-  const patientHasMobileGfe =
-    appointment.videoData.extension?.patientHasMobileGfe;
-  if (
-    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment.videoData.isAtlas && patientHasMobileGfe)
-  ) {
+  if (isGfeVideoAppointment(appointment)) {
     return 'VA Video Connect using VA device';
   }
-  if (
-    (appointment.videoData.kind === VIDEO_TYPES.mobile ||
-      appointment.videoData.kind === VIDEO_TYPES.adhoc) &&
-    (!appointment.videoData.isAtlas && !patientHasMobileGfe)
-  ) {
+  if (isVideoHome(appointment)) {
     return 'VA Video Connect at home';
   }
   if (isClinicVideoAppointment(appointment)) {
     return 'VA Video Connect at VA location';
   }
-  if (appointment.videoData.isAtlas) {
+  if (isAtlasVideoAppointment(appointment)) {
     return 'VA Video Connect at an ATLAS location';
   }
   return null;
@@ -44,8 +36,8 @@ function formatHeader(appointment) {
 
 export default function DetailsVideo({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[locationId];
-
+  const facility =
+    facilityData?.[locationId] || appointment?.vaos?.facilityData;
   const header = formatHeader(appointment);
 
   return (
@@ -82,16 +74,17 @@ DetailsVideo.propTypes = {
       isPastAppointment: PropTypes.bool.isRequired,
       isUpcomingAppointment: PropTypes.bool.isRequired,
       isPendingAppointment: PropTypes.bool.isRequired,
+      facilityData: PropTypes.object,
     }),
     location: PropTypes.shape({
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
     }),
   }),
   facilityData: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.string,
     vistaId: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
   }),

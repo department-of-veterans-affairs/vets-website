@@ -3,18 +3,10 @@ import { expect } from 'chai';
 import { format } from 'date-fns';
 import { within } from '@testing-library/dom';
 import { oneDayAgo } from '@@profile/tests/helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 import PaymentsCard from '../../../components/benefit-payments/PaymentsCard';
 
 describe('<PaymentsCard />', () => {
-  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-    },
-  };
-
   const payment = {
     payCheckAmount: '$3,261.10',
     payCheckDt: oneDayAgo(),
@@ -29,7 +21,7 @@ describe('<PaymentsCard />', () => {
   it('should render the payment card', () => {
     const view = renderWithStoreAndRouter(
       <PaymentsCard lastPayment={payment} />,
-      { initialState },
+      { initialState: {} },
     );
 
     expect(view.getByTestId('payment-card')).to.exist;
@@ -48,7 +40,7 @@ describe('<PaymentsCard />', () => {
   it('should render the check mailed text', () => {
     const pmt = { ...payment, paymentMethod: 'Paper Check' };
     const view = renderWithStoreAndRouter(<PaymentsCard lastPayment={pmt} />, {
-      initialState,
+      initialState: {},
     });
 
     const mailedOn = `Check mailed on ${format(

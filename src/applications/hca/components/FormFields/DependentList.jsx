@@ -117,19 +117,24 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
           >
             Edit{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>{' '}
-            <i
-              role="presentation"
-              className="fas fa-chevron-right vads-u-margin-left--0p5"
+            <va-icon
+              class="vads-u-margin-left--0p5"
+              icon="chevron_right"
+              size={3}
+              aria-hidden="true"
             />
           </Link>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="va-button-link hca-button-remove"
             onClick={() => handlers.showConfirm({ index, name: dependentName })}
           >
-            <i
-              role="presentation"
-              className="fas fa-times vads-u-margin-right--0p5"
+            <va-icon
+              class="vads-u-margin-right--0p5"
+              icon="close"
+              size={3}
+              aria-hidden="true"
             />{' '}
             Remove{' '}
             <span className="sr-only dd-privacy-mask">{dependentName}</span>
@@ -155,6 +160,7 @@ const DependentList = ({ labelledBy, list, mode, onDelete }) => {
         visible={modal.show}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           This will remove{' '}

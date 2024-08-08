@@ -10,7 +10,7 @@ import { ContestableIssuesWidget } from '../../components/ContestableIssuesWidge
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
   FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../../actions';
+} from '../../../shared/actions';
 
 import { getRandomDate } from '../../../shared/tests/cypress.helpers';
 
@@ -53,7 +53,6 @@ describe('<ContestableIssuesWidget>', () => {
         setFormData,
         getContestableIssues,
         contestableIssues: { issues: contestedIssues, status: apiLoadStatus },
-        showPart3: true,
       },
       mockStore: {
         getState: () => ({
@@ -67,13 +66,6 @@ describe('<ContestableIssuesWidget>', () => {
           contestableIssues: {
             status: apiLoadStatus,
           },
-          featureToggles: [
-            {
-              loading: false,
-              // eslint-disable-next-line camelcase
-              nod_part3_update: true,
-            },
-          ],
         }),
         subscribe: () => {},
         dispatch: () => ({

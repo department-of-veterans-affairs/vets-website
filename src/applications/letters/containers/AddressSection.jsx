@@ -5,6 +5,7 @@ import { useLocation, useNavigate } from 'react-router-dom-v5-compat';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { selectVAPContactInfo } from '@department-of-veterans-affairs/platform-user/selectors';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import NoAddressBanner from '../components/NoAddressBanner';
 import { isAddressEmpty } from '../utils/helpers';
@@ -40,14 +41,13 @@ export function AddressSection({ address }) {
   if (location.pathname === '/confirm-address') {
     viewLettersButton = (
       <div className="step-content">
-        <button
-          onClick={() => navigateToLetterList(navigate)}
-          className="usa-button-primary view-letters-button"
+        <VaButton
+          data-cy="view-letters-button"
+          className="vads-u-margin-y--4"
           disabled={emptyAddress}
-          type="button"
-        >
-          View Letters
-        </button>
+          text="View Letters"
+          onClick={() => navigateToLetterList(navigate)}
+        />
       </div>
     );
   }

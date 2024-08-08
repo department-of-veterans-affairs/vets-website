@@ -2,14 +2,13 @@ import React, { useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import DependentListLoopForm from '../FormFields/DependentListLoopForm';
+import { focusElement } from '~/platform/utilities/ui';
+import { getActivePages } from '~/platform/forms-system/src/js/helpers';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
+import DependentListLoopForm from '../FormFields/DependentListLoopForm';
 import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
 import {
-  isOfCollegeAge,
-  getDependentPageList,
   getDataToSet,
   getSearchAction,
   getSearchIndex,
@@ -17,42 +16,13 @@ import {
 } from '../../utils/helpers';
 import {
   DEPENDENT_VIEW_FIELDS,
+  DEPENDENT_SUBPAGES,
   SESSION_ITEM_NAME,
   SHARED_PATHS,
 } from '../../utils/constants';
 
-const date = new Date();
-const lastYear = date.getFullYear() - 1;
-
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
-
-// declare subpage schemas & conditions for form rendering
-const SUB_PAGES = [
-  {
-    id: 'basic',
-    title: '%s\u2019s personal information',
-  },
-  {
-    id: 'education',
-    title: '%s\u2019s education expenses',
-    depends: { key: 'dateOfBirth', value: isOfCollegeAge },
-  },
-  {
-    id: 'additional',
-    title: '%s\u2019s additional information',
-  },
-  {
-    id: 'support',
-    title: 'Financial support for %s',
-    depends: { key: 'cohabitedLastYear', value: false },
-  },
-  {
-    id: 'income',
-    title: `%s\u2019s annual income from ${lastYear}`,
-    depends: { key: 'view:dependentIncome', value: true },
-  },
-];
 
 // declare default component
 const DependentInformation = props => {
@@ -63,7 +33,7 @@ const DependentInformation = props => {
   const searchIndex = getSearchIndex(search, dependents);
   const searchAction = getSearchAction(search, DEPENDENT_PATHS.summary);
   const defaultState = getDefaultState({
-    defaultData: { data: {}, page: SUB_PAGES[0] },
+    defaultData: { data: {}, page: DEPENDENT_SUBPAGES[0] },
     dataToSearch: dependents,
     name: SESSION_ITEM_NAME,
     searchAction,
@@ -80,7 +50,7 @@ const DependentInformation = props => {
    *  - modal - the settings to trigger cancel confirmation show/hide
    */
   const [activePages, setActivePages] = useState(
-    SUB_PAGES.filter(item => !('depends' in item)),
+    getActivePages(DEPENDENT_SUBPAGES, {}),
   );
   const [currentPage, setCurrentPage] = useState(defaultState.page);
   const [localData, setLocalData] = useState(defaultState.data);
@@ -177,7 +147,7 @@ const DependentInformation = props => {
   useEffect(
     () => {
       if (localData) {
-        const pagesToSet = getDependentPageList(SUB_PAGES, localData);
+        const pagesToSet = getActivePages(DEPENDENT_SUBPAGES, localData);
         setActivePages(pagesToSet);
       }
     },
@@ -190,7 +160,7 @@ const DependentInformation = props => {
    * NOTE: This is a bit of a hack, as we cannot reset the submitted state of the
    * SchemaForm component
    */
-  const FormList = SUB_PAGES.map(({ id, title }, index) => {
+  const FormList = DEPENDENT_SUBPAGES.map(({ id, title }, index) => {
     return currentPage.id === id ? (
       <>
         <DependentListLoopForm
@@ -203,10 +173,11 @@ const DependentInformation = props => {
           {/** Cancel confirmation modal trigger */}
           <div className="vads-u-margin-y--2">
             <va-button
+              id="hca-modal-cancel"
               text={`Cancel ${searchAction.label} this dependent`}
               onClick={handlers.showConfirm}
               secondary
-              id="hca-modal-cancel"
+              uswds
             />
           </div>
 
@@ -231,6 +202,7 @@ const DependentInformation = props => {
         visible={modal}
         status="warning"
         clickToClose
+        uswds
       >
         <p className="vads-u-margin--0">
           If you cancel {searchAction.label} this dependent, we won’t save their

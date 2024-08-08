@@ -7,7 +7,7 @@ import {
   aOrAn,
 } from '../../utils/formatters';
 
-describe('VAOS formatters', () => {
+describe('VAOS Formatters', () => {
   describe('titleCase', () => {
     it('should return capitalize the 1st letter of each word in a sentence', () => {
       expect(titleCase('THE cOw jumpeD over the moon')).to.equal(

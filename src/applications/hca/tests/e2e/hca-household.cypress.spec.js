@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
@@ -6,6 +6,7 @@ import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import {
+  acceptPrivacyAgreement,
   advanceToHousehold,
   advanceFromHouseholdToReview,
   goToNextPage,
@@ -43,7 +44,7 @@ describe('HCA-Household-Non-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -78,11 +79,7 @@ describe('HCA-Household-Non-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -146,11 +143,7 @@ describe('HCA-Household-Non-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -196,7 +189,7 @@ describe('HCA-Household-Spousal-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -266,11 +259,7 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -372,11 +361,7 @@ describe('HCA-Household-Spousal-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -422,7 +407,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -449,12 +434,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
 
     goToNextPage('/household-information/dependent-information');
     fillDependentBasicInformation(testData.dependents[0]);
-
-    goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
 
     goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
@@ -489,11 +468,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -534,12 +509,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('Y');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -548,6 +517,12 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
@@ -577,11 +552,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -622,12 +593,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_view:dependentIncome"]').check('N');
@@ -663,11 +628,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -708,12 +669,6 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -725,6 +680,12 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
@@ -754,11 +715,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -834,11 +791,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -919,11 +872,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -1002,11 +951,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -1090,11 +1035,7 @@ describe('HCA-Household-Dependent-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();
@@ -1140,7 +1081,7 @@ describe('HCA-Household-Full-Disclosure', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -1176,12 +1117,6 @@ describe('HCA-Household-Full-Disclosure', () => {
     fillDependentBasicInformation(testData.dependents[0]);
 
     goToNextPage();
-    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
-    cy.get('#root_dependentEducationExpenses').type(
-      testData.dependents[0].dependentEducationExpenses,
-    );
-
-    goToNextPage();
     cy.get('[name="root_disabledBefore18"]').check('N');
     cy.get('[name="root_cohabitedLastYear"]').check('N');
     cy.get('[name="root_view:dependentIncome"]').check('Y');
@@ -1193,6 +1128,12 @@ describe('HCA-Household-Full-Disclosure', () => {
     cy.get('[name="root_view:grossIncome_grossIncome"]').type(22500);
     cy.get('[name="root_view:netIncome_netIncome"]').type(17100);
     cy.get('[name="root_view:otherIncome_otherIncome"]').type(0);
+
+    goToNextPage();
+    cy.get('[name="root_attendedSchoolLastYear"]').check('Y');
+    cy.get('#root_dependentEducationExpenses').type(
+      testData.dependents[0].dependentEducationExpenses,
+    );
 
     goToNextPage('/household-information/dependents');
     cy.get('[name="root_view:reportDependents"]').check('N');
@@ -1233,11 +1174,7 @@ describe('HCA-Household-Full-Disclosure', () => {
     advanceFromHouseholdToReview();
 
     // accept the privacy agreement
-    cy.get('[name="privacyAgreementAccepted"]')
-      .scrollIntoView()
-      .shadow()
-      .find('[type="checkbox"]')
-      .check();
+    acceptPrivacyAgreement();
 
     // submit form
     cy.findByText(/submit/i, { selector: 'button' }).click();

@@ -18,7 +18,7 @@ export function selectIsVAProfileServiceAvailableForUser(state) {
 }
 
 export function selectVAPContactInfoField(state, fieldName) {
-  return selectVAPContactInfo(state)[fieldName];
+  return selectVAPContactInfo(state)?.[fieldName];
 }
 
 export function selectVAPServiceTransaction(state, fieldName) {

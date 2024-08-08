@@ -1,10 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
+
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 import CancelAppointmentFailedModal from '../CancelAppointmentFailedModal';
 
-describe('Cancel appointment failed modal component', () => {
+describe('VAOS Component: CancelAppointmentFailedModal', () => {
   const initialState = {
     featureToggles: {},
   };
@@ -12,7 +13,7 @@ describe('Cancel appointment failed modal component', () => {
   const facilityData = new Facility();
 
   it('should display message when there is an invalid api call to cancel an appointment', async () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <CancelAppointmentFailedModal
         facility={facilityData}
         isConfirmed
@@ -35,7 +36,7 @@ describe('Cancel appointment failed modal component', () => {
     expect(await screen.findByTestId('facility-telephone')).to.exist;
   });
   it('should display message for valid api call but failed to cancel a request', async () => {
-    const screen = render(
+    const screen = renderWithStoreAndRouter(
       <CancelAppointmentFailedModal
         isConfirmed={false}
         isBadRequest={false}

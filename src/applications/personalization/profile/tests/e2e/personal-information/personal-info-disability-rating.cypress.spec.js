@@ -2,6 +2,7 @@ import { setup } from '@@profile/tests/e2e/personal-information/setup';
 import { mockUser } from '@@profile/tests/fixtures/users/user';
 import error500 from '@@profile/tests/fixtures/500.json';
 import { set } from 'lodash';
+import { findVaLinkByText } from '~/applications/personalization/common/e2eHelpers';
 
 describe('Content for Disability Rating field', () => {
   it('should render NO rating content and links', () => {
@@ -21,8 +22,8 @@ describe('Content for Disability Rating field', () => {
       .contains('Our records show that you don’t have a disability rating.')
       .should('exist');
 
-    cy.findByText('Learn more about VA disability ratings').should('exist');
-    cy.findByText(
+    findVaLinkByText('Learn more about VA disability ratings').should('exist');
+    findVaLinkByText(
       'PACT Act: Eligibility updates based on toxic exposure',
     ).should('exist');
 
@@ -46,8 +47,8 @@ describe('Content for Disability Rating field', () => {
       .contains('90% service connected')
       .should('exist');
 
-    cy.findByText('Learn more about your disability rating').should('exist');
-    cy.findByText(
+    findVaLinkByText('Learn more about your disability rating').should('exist');
+    findVaLinkByText(
       'PACT Act: Eligibility updates based on toxic exposure',
     ).should('exist');
 
@@ -75,8 +76,8 @@ describe('Content for Disability Rating field', () => {
       `We’re sorry. Something went wrong on our end and we can’t load your disability rating information. Please try again later.`,
     ).should('exist');
 
-    cy.findByText('Learn more about VA disability ratings').should('exist');
-    cy.findByText(
+    findVaLinkByText('Learn more about VA disability ratings').should('exist');
+    findVaLinkByText(
       'PACT Act: Eligibility updates based on toxic exposure',
     ).should('exist');
 

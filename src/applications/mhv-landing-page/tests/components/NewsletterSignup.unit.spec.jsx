@@ -9,11 +9,11 @@ describe('MHV landing page', () => {
     it('renders', () => {
       const { getByRole } = render(<NewsletterSignup />);
 
-      const input = getByRole('textbox');
-      expect(input.getAttribute('type')).to.equal('email');
-
-      const submit = getByRole('button');
-      expect(submit).to.exist;
+      expect(getByRole('heading')).to.exist;
+      const link = getByRole('link');
+      expect(link).to.exist;
+      expect(link.href).to.exist;
+      expect(link.target).to.equal('_blank');
     });
   });
 });

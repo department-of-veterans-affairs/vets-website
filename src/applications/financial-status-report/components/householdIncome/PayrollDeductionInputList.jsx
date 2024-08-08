@@ -9,9 +9,10 @@ import {
 } from '../../utils/session';
 import { BASE_EMPLOYMENT_RECORD } from '../../constants/index';
 import { isValidCurrency } from '../../utils/validations';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const PayrollDeductionInputList = props => {
-  const { goToPath, goBack, onReviewPage = false, setFormData } = props;
+  const { goToPath, goBack, setFormData } = props;
 
   const editIndex = getJobIndex();
 
@@ -28,9 +29,9 @@ const PayrollDeductionInputList = props => {
   const {
     personalData: {
       employmentHistory: {
+        veteran: { employmentRecords = [] } = {},
         newRecord = {},
-        veteran: { employmentRecords = [] },
-      },
+      } = {},
     },
   } = formData;
 
@@ -143,26 +144,21 @@ const PayrollDeductionInputList = props => {
   };
 
   const navButtons = (
-    <p>
-      <button
-        type="button"
-        id="cancel"
-        className="usa-button-secondary vads-u-width--auto"
-        onClick={goBack}
-      >
-        Back
-      </button>
-      <button
-        type="submit"
-        id="submit"
-        className="vads-u-width--auto"
-        onClick={updateFormData}
-      >
-        {getContinueButtonText()}
-      </button>
-    </p>
+    <ButtonGroup
+      buttons={[
+        {
+          label: 'Back',
+          onClick: goBack, // Define this function based on page-specific logic
+          isSecondary: true,
+        },
+        {
+          label: getContinueButtonText(),
+          onClick: updateFormData,
+          isSubmitting: 'prevent', // If this button submits a form
+        },
+      ]}
+    />
   );
-  const updateButton = <button type="submit">Review update button</button>;
 
   return (
     <form onSubmit={updateFormData}>
@@ -175,12 +171,13 @@ const PayrollDeductionInputList = props => {
         </legend>
         {selectedDeductions?.map((deduction, key) => (
           <div key={deduction.name + key}>
-            <va-number-input
+            <va-text-input
               label={deduction.name}
               name={deduction.name}
               value={deduction.amount}
               id={deduction.name + key}
               inputmode="decimal"
+              type="decimal"
               onInput={onChange}
               required
               currency
@@ -198,7 +195,6 @@ const PayrollDeductionInputList = props => {
         <va-additional-info
           trigger="How to calculate your monthly deductions"
           class="vads-u-margin-top--2"
-          uswds
         >
           <p>
             First, find the total deduction amount on your pay stub. Then follow
@@ -225,7 +221,7 @@ const PayrollDeductionInputList = props => {
           </ol>
         </va-additional-info>
       </fieldset>
-      {onReviewPage ? updateButton : navButtons}
+      {navButtons}
     </form>
   );
 };

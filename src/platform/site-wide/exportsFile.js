@@ -1,5 +1,7 @@
 import showVaExpandableAlert from './alerts/showVaAlertExpandable';
 
+import MobileAppCallout from './alerts/MobileAppCallout';
+
 import EbenefitsLink from './ebenefits/containers/EbenefitsLink';
 
 import { toggleValues, isProduction } from './feature-toggles/selectors';
@@ -38,10 +40,13 @@ import {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from './user-nav/actions';
+import { UPDATE_HEADER_TYPE, updateLayoutHeaderType } from './layout/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
+import PageNotFound from './user-nav/components/PageNotFound';
 
 import userNavReducer from './user-nav/reducers';
+import layoutReducer from './layout/reducers';
 
 import { restartShouldRedirect } from './wizard';
 
@@ -59,6 +64,7 @@ const { exports: startUserNavWidget } = require('./user-nav');
 
 export {
   showVaExpandableAlert,
+  MobileAppCallout,
   EbenefitsLink,
   toggleValues,
   isProduction,
@@ -80,13 +86,17 @@ export {
   UPDATE_SEARCH_HELP_USER_MENU,
   TOGGLE_ACCOUNT_TRANSITION_MODAL,
   TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
+  UPDATE_HEADER_TYPE,
+  updateLayoutHeaderType,
   toggleFormSignInModal,
   toggleAccountTransitionModal,
   toggleAccountTransitionSuccessModal,
   toggleLoginModal,
   toggleSearchHelpUserMenu,
   AutoSSO,
+  PageNotFound,
   userNavReducer,
+  layoutReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,
   startSitewideComponents,

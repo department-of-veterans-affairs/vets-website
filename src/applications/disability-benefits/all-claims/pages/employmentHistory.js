@@ -1,4 +1,5 @@
 import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -46,6 +47,7 @@ export const uiSchema = {
         },
         mostEarningsInAMonth: currencyUI('Highest gross earnings per month'),
         inBusiness: {
+          'ui:webComponentField': VaCheckboxField,
           'ui:title': 'Employer is no longer in business',
         },
         'view:inBusinessMsg': {

@@ -31,7 +31,8 @@ describe('Disability benefits 4142 provider medical records facility information
     );
 
     expect(form);
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
@@ -116,7 +117,8 @@ describe('Disability benefits 4142 provider medical records facility information
     expect(form.find('.usa-input-error').length).to.equal(7);
 
     expect(form.find('select').length).to.equal(6);
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(7); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 
@@ -142,7 +144,8 @@ describe('Disability benefits 4142 provider medical records facility information
 
     expect(form.find('.usa-input-error').length).to.equal(8);
 
-    expect(form.find('input').length).to.equal(9);
+    expect(form.find('input').length).to.equal(8); // non-checkbox inputs
+    expect(form.find('va-checkbox').length).to.equal(1);
     form.unmount();
   });
 });

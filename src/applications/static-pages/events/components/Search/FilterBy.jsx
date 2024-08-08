@@ -1,40 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const FilterBy = ({ filterByOptions, onChange, selectedOption }) => {
   return (
     <>
       <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin-bottom--2">
-        <fieldset>
-          <legend
-            className="vads-u-margin--0 vads-u-margin-bottom--1 vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--2"
-            data-testid="events-filter-by-label"
-            id="filterByLabel"
-            htmlFor="filterBy"
-            style={{ flexShrink: 0 }}
-          >
-            Filter by
-          </legend>
-          <select
-            className="filter-by"
-            data-testid="events-filter-by"
-            id="filterBy"
-            name="filterBy"
-            aria-labelledby="filterByLabel"
-            onChange={onChange}
-            value={selectedOption?.value}
-          >
-            {filterByOptions?.map(option => (
-              <option
-                key={option?.value}
-                data-testid={option?.label}
-                value={option?.value}
-              >
-                {option?.label}
-              </option>
-            ))}
-          </select>
-        </fieldset>
+        <VaSelect
+          data-testid="events-filter-by"
+          label="Filter by"
+          name="filterBy"
+          onVaSelect={onChange}
+          value={selectedOption?.value}
+        >
+          {filterByOptions?.map(option => (
+            <option
+              key={option?.value}
+              data-testid={option?.label}
+              value={option?.value}
+            >
+              {option?.label}
+            </option>
+          ))}
+        </VaSelect>
       </div>
     </>
   );

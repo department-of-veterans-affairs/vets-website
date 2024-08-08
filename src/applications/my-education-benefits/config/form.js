@@ -8,13 +8,13 @@ import bankAccountUI from 'platform/forms/definitions/bankAccount';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import get from 'platform/utilities/data/get';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
 import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
@@ -28,6 +28,7 @@ import toursOfDutyUI from '../definitions/toursOfDuty';
 import AccordionField from '../components/AccordionField';
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
+import BenefitRelinquishmentDate from '../components/BenefitRelinquishmentDate';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -36,7 +37,7 @@ import CustomReviewDOBField from '../components/CustomReviewDOBField';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import DateReviewField from '../components/DateReviewField';
-// import DirectDepositViewField from '../components/DirectDepositViewField';
+import DirectDepositViewField from '../components/DirectDepositViewField';
 import EmailViewField from '../components/EmailViewField';
 import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget';
 
@@ -44,6 +45,7 @@ import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 import MailingAddressViewField from '../components/MailingAddressViewField';
+import ObfuscateReviewField from '../components/ObfuscateReviewField';
 import PhoneReviewField from '../components/PhoneReviewField';
 import PhoneViewField from '../components/PhoneViewField';
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
@@ -64,10 +66,12 @@ import {
 
 import {
   isValidPhone,
+  validateBankAccountNumber,
   validateEmail,
   validateEffectiveDate,
   validateMobilePhone,
   validateHomePhone,
+  validateRoutingNumber,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
@@ -166,6 +170,38 @@ function isValidLastName(str) {
   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
 }
 
+const isValidAccountNumber = accountNumber => {
+  if (/^[0-9]*$/.test(accountNumber)) {
+    return accountNumber;
+  }
+  return false;
+};
+
+const validateAccountNumber = (
+  errors,
+  accountNumber,
+  formData,
+  schema,
+  errorMessages,
+) => {
+  if (
+    !isValidAccountNumber(accountNumber) &&
+    !formData.showDgiDirectDeposit1990EZ
+  ) {
+    errors.addError(errorMessages.pattern);
+  }
+};
+const shouldStartInEditMode = formData => {
+  const bankAccount = formData?.bankAccount;
+  const hasData = [
+    bankAccount?.accountType,
+    bankAccount?.routingNumber,
+    bankAccount?.accountNumber,
+  ].some(field => field?.length > 0);
+  // Return false to not start in edit mode if any data is present
+  return !hasData;
+};
+
 function titleCase(str) {
   return str[0].toUpperCase() + str.slice(1).toLowerCase();
 }
@@ -191,11 +227,14 @@ function phoneUISchema(category) {
         hideIf: formData => {
           if (category === 'mobile') {
             if (
-              !formData[formFields.viewPhoneNumbers].mobilePhoneNumber.phone
+              !formData[(formFields?.viewPhoneNumbers)]?.mobilePhoneNumber
+                ?.phone
             ) {
               return true;
             }
-          } else if (!formData[formFields.viewPhoneNumbers].phoneNumber.phone) {
+          } else if (
+            !formData[(formFields?.viewPhoneNumbers)]?.phoneNumber?.phone
+          ) {
             return true;
           }
           return false;
@@ -227,18 +266,45 @@ function phoneSchema() {
   };
 }
 
-function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
+function additionalConsiderationsQuestionTitleText(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
-  const pageNumber = isUnsure ? order - 1 : order;
-  const totalPages = isUnsure ? 3 : 4;
+  let pageNumber;
+  let totalPages;
+
+  if (rudisillFlag) {
+    const pageOrder = {
+      'active-duty-kicker': 1,
+      'reserve-kicker': 2,
+      'academy-commission': 3,
+      'rotc-commission': 4,
+      'loan-payment': 5,
+    };
+    pageNumber = pageOrder[pageName] || order;
+    totalPages = 5;
+  } else {
+    pageNumber = isUnsure ? order - 1 : order;
+    totalPages = isUnsure ? 3 : 4;
+  }
 
   return `Question ${pageNumber} of ${totalPages}`;
 }
 
-function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+function additionalConsiderationsQuestionTitle(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const titleText = additionalConsiderationsQuestionTitleText(
     benefitSelection,
     order,
+    rudisillFlag,
+    pageName,
   );
 
   return (
@@ -251,7 +317,7 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
       </h4>
       <p className="meb-review-page-only">
         If you’d like to update your answer to {titleText}, edit your answer to
-        to the question below.
+        the question below.
       </p>
     </>
   );
@@ -265,7 +331,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     [formFields.seniorRotcCommission]: 'ROTC',
     [formFields.loanPayment]: 'LRP',
   };
-  // Use the mapping to determine the display type
   const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
@@ -291,9 +356,11 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       },
     };
   }
+
   return {
     path: page.name,
     title: data => {
+      const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
       return additionalConsiderationsQuestionTitleText(
         (data[(formFields?.viewBenefitSelection)] &&
           data[(formFields?.viewBenefitSelection)][
@@ -301,15 +368,21 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           ]) ||
           'NotEligible',
         page.order,
+        rudisillFlag,
+        page.name,
       );
     },
     uiSchema: {
       'ui:description': data => {
+        const rudisillFlag =
+          data.formData?.dgiRudisillHideBenefitsSelectionStep;
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
             formFields.benefitRelinquished
           ],
           page.order,
+          rudisillFlag,
+          page.name,
         );
       },
       [formFields[formField]]: {
@@ -336,9 +409,11 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
 }
 
 function givingUpBenefitSelected(formData) {
-  return ['Chapter30', 'Chapter1606'].includes(
-    formData[formFields.viewBenefitSelection][formFields.benefitRelinquished],
-  );
+  const benefitRelinquished =
+    formData?.[formFields.viewBenefitSelection]?.[
+      formFields.benefitRelinquished
+    ];
+  return ['Chapter30', 'Chapter1606'].includes(benefitRelinquished);
 }
 
 function notGivingUpBenefitSelected(formData) {
@@ -358,13 +433,6 @@ const checkImageSrc = (() => {
   return `${bucket}/img/check-sample.png`;
 })();
 
-const isValidAccountNumber = accountNumber => {
-  if (/^[0-9]*$/.test(accountNumber)) {
-    return accountNumber;
-  }
-  return false;
-};
-
 const checkBoxValidation = {
   pattern: (errors, values, formData) => {
     if (
@@ -375,18 +443,6 @@ const checkBoxValidation = {
       errors.addError('Please check at least one of the options below');
     }
   },
-};
-
-const validateAccountNumber = (
-  errors,
-  accountNumber,
-  formData,
-  schema,
-  errorMessages,
-) => {
-  if (!isValidAccountNumber(accountNumber)) {
-    errors.addError(errorMessages.pattern);
-  }
 };
 
 const formConfig = {
@@ -700,8 +756,8 @@ const formConfig = {
                   </p>
                 </>
               ),
-              [formFields.mobilePhoneNumber]: phoneUISchema('mobile'),
-              [formFields.phoneNumber]: phoneUISchema('home'),
+              [formFields?.mobilePhoneNumber]: phoneUISchema('mobile'),
+              [formFields?.phoneNumber]: phoneUISchema('home'),
             },
             [formFields.email]: {
               'ui:options': {
@@ -745,8 +801,8 @@ const formConfig = {
               [formFields.viewPhoneNumbers]: {
                 type: 'object',
                 properties: {
-                  [formFields.mobilePhoneNumber]: phoneSchema(),
-                  [formFields.phoneNumber]: phoneSchema(),
+                  [formFields?.mobilePhoneNumber]: phoneSchema(),
+                  [formFields?.phoneNumber]: phoneSchema(),
                 },
               },
               [formFields.email]: {
@@ -1004,8 +1060,10 @@ const formConfig = {
                 updateSchema: (() => {
                   const filterContactMethods = createSelector(
                     form =>
-                      form[formFields.viewPhoneNumbers].mobilePhoneNumber.phone,
-                    form => form[formFields.viewPhoneNumbers].phoneNumber.phone,
+                      form[formFields.viewPhoneNumbers]?.mobilePhoneNumber
+                        ?.phone,
+                    form =>
+                      form[formFields.viewPhoneNumbers]?.phoneNumber?.phone,
                     (mobilePhoneNumber, homePhoneNumber) => {
                       const invalidContactMethods = [];
 
@@ -1052,11 +1110,12 @@ const formConfig = {
                 'ui:validations': [
                   (errors, field, formData) => {
                     const isYes = field.slice(0, 4).includes('Yes');
-                    const phoneExist = !!formData[formFields.viewPhoneNumbers]
-                      .mobilePhoneNumber.phone;
+                    const phoneExist = !!formData[
+                      (formFields?.viewPhoneNumbers)
+                    ].mobilePhoneNumber?.phone;
                     const { isInternational } = formData[
                       formFields.viewPhoneNumbers
-                    ].mobilePhoneNumber;
+                    ]?.mobilePhoneNumber;
 
                     if (isYes) {
                       if (!phoneExist) {
@@ -1103,15 +1162,16 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  !isValidPhone(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const viewPhoneNumbers =
+                    formData?.[formFields?.viewPhoneNumbers];
+                  const mobilePhone =
+                    viewPhoneNumbers?.[formFields?.mobilePhoneNumber]?.phone;
+                  const isInternational =
+                    viewPhoneNumbers?.[formFields?.mobilePhoneNumber]
+                      ?.isInternational;
+                  return !isValidPhone(mobilePhone) || isInternational;
+                },
               },
             },
             'view:noMobilePhoneAlert': {
@@ -1124,15 +1184,15 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  isValidPhone(
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
-                    ].phone,
-                  ) ||
-                  formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const mobilePhoneInfo =
+                    formData?.[formFields?.viewPhoneNumbers]?.[
+                      formFields?.mobilePhoneNumber
+                    ];
+                  const mobilePhone = mobilePhoneInfo?.phone;
+                  const isInternational = mobilePhoneInfo?.isInternational;
+                  return isValidPhone(mobilePhone) || isInternational;
+                },
               },
             },
             'view:internationalTextMessageAlert': {
@@ -1147,10 +1207,15 @@ const formConfig = {
                 </va-alert>
               ),
               'ui:options': {
-                hideIf: formData =>
-                  !formData[formFields.viewPhoneNumbers][
-                    formFields.mobilePhoneNumber
-                  ].isInternational,
+                hideIf: formData => {
+                  const mobilePhoneNumberInfo =
+                    formData?.[formFields?.viewPhoneNumbers]?.[
+                      formFields?.mobilePhoneNumber
+                    ];
+                  const isInternational =
+                    mobilePhoneNumberInfo?.isInternational;
+                  return !isInternational;
+                },
               },
             },
             'view:emailOnFileWithSomeoneElse': {
@@ -1185,11 +1250,8 @@ const formConfig = {
                   const noDuplicates = formData?.duplicateEmail?.some(
                     entry => entry?.dupe === false,
                   );
-
-                  if (isNo && noDuplicates === false) {
-                    return false;
-                  }
-                  return true;
+                  // Return true if isNo is false OR noDuplicates is not false
+                  return !isNo || noDuplicates;
                 },
               },
             },
@@ -1225,16 +1287,12 @@ const formConfig = {
                   const noDuplicates = formData?.duplicatePhone?.some(
                     entry => entry?.dupe === false,
                   );
-
                   const mobilePhone =
-                    formData[formFields.viewPhoneNumbers][
-                      formFields.mobilePhoneNumber
+                    formData[(formFields?.viewPhoneNumbers)]?.[
+                      formFields?.mobilePhoneNumber
                     ]?.phone;
-
-                  if (isYes && noDuplicates === false && mobilePhone) {
-                    return false;
-                  }
-                  return true;
+                  // Return true if isYes is false, noDuplicates is not false, or mobilePhone is undefined
+                  return !isYes || !noDuplicates || !mobilePhone;
                 },
               },
             },
@@ -1355,12 +1413,14 @@ const formConfig = {
             },
             'view:serviceHistory': {
               'ui:description': (
-                <div className="meb-review-page-only">
-                  <p>
-                    If you’d like to update information related to your service
-                    history, edit the form fields below.
-                  </p>
-                </div>
+                <>
+                  <div className="meb-review-page-only">
+                    <p>
+                      If you’d like to update information related to your
+                      service history, edit the form fields below.
+                    </p>
+                  </div>
+                </>
               ),
               [formFields.serviceHistoryIncorrect]: {
                 'ui:title': 'This information is incorrect and/or incomplete',
@@ -1371,7 +1431,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: 'view:serviceHistory',
                 hideIf: formData =>
-                  !formData['view:serviceHistory'][
+                  !formData?.['view:serviceHistory']?.[
                     formFields.serviceHistoryIncorrect
                   ],
               },
@@ -1490,6 +1550,10 @@ const formConfig = {
           title: 'Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
+            // If the dgiRudisillHideBenefitsSelectionStep feature flag is turned on, hide the page
+            if (formData.dgiRudisillHideBenefitsSelectionStep) {
+              return false;
+            }
             // If the showMebEnhancements09 feature flag is turned on, show the page
             if (formData.showMebEnhancements09) {
               return true;
@@ -1546,7 +1610,7 @@ const formConfig = {
             'view:activeDutyNotice': {
               'ui:description': (
                 <div className="meb-alert meb-alert--mini meb-alert--warning">
-                  <i aria-hidden="true" role="img" />
+                  <va-icon size={3} icon="warning" aria-hidden="true" />
                   <p className="meb-alert_body">
                     <span className="sr-only">Alert:</span> If you give up the
                     Montgomery GI Bill Active Duty, you’ll get Post-9/11 GI Bill
@@ -1558,7 +1622,7 @@ const formConfig = {
               'ui:options': {
                 expandUnder: [formFields.viewBenefitSelection],
                 hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
+                  formData?.[formFields.viewBenefitSelection]?.[
                     formFields.benefitRelinquished
                   ] !== 'Chapter30',
               },
@@ -1569,27 +1633,38 @@ const formConfig = {
                 hideIf: notGivingUpBenefitSelected,
                 expandUnder: [formFields.viewBenefitSelection],
               },
+              'ui:widget': BenefitRelinquishmentDate,
               'ui:required': givingUpBenefitSelected,
               'ui:reviewField': DateReviewField,
               'ui:validations': [validateEffectiveDate],
             },
             'view:effectiveDateNotes': {
               'ui:description': (
-                <ul>
-                  <li>
-                    You can select a date up to one year in the past. We may be
-                    able to pay you benefits for education or training taken
-                    during this time.
-                  </li>
-                  <li>
-                    We can’t pay for education or training taken more than one
-                    year before the date of your application for benefits.
-                  </li>
-                  <li>
-                    If you are currently using another benefit, select the date
-                    you would like to start using the Post-9/11 GI Bill.
-                  </li>
-                </ul>
+                <div>
+                  <br />
+                  <br />
+                  <ul>
+                    <li>
+                      You can select a date up to one year in the past. We may
+                      be able to pay you benefits for education or training
+                      taken during this time.
+                    </li>
+                    <li>
+                      We can’t pay for education or training taken more than one
+                      year before the date of your application for benefits.
+                    </li>
+                    <li>
+                      If you are currently using another benefit, select the
+                      date you would like to start using the Post-9/11 GI Bill.
+                    </li>
+                    <li>
+                      Be aware that if you enter a date exactly one year prior
+                      to this date, it will recalculate when you choose the
+                      “Finish this application later” option and log back in at
+                      a later time
+                    </li>
+                  </ul>
+                </div>
               ),
               'ui:options': {
                 hideIf: notGivingUpBenefitSelected,
@@ -1600,7 +1675,7 @@ const formConfig = {
               'ui:description': unsureDescription,
               'ui:options': {
                 hideIf: formData =>
-                  formData[formFields.viewBenefitSelection][
+                  formData?.[formFields.viewBenefitSelection]?.[
                     formFields.benefitRelinquished
                   ] !== 'NotEligible',
                 expandUnder: [formFields.viewBenefitSelection],
@@ -1651,7 +1726,8 @@ const formConfig = {
             formFields.activeDutyKicker,
           ),
           depends: formData =>
-            formData[formFields.viewBenefitSelection][
+            formData.dgiRudisillHideBenefitsSelectionStep ||
+            formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter30',
         },
@@ -1661,7 +1737,8 @@ const formConfig = {
             formFields.selectedReserveKicker,
           ),
           depends: formData =>
-            formData[formFields.viewBenefitSelection][
+            formData.dgiRudisillHideBenefitsSelectionStep ||
+            formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter1606',
         },
@@ -1672,7 +1749,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
@@ -1690,11 +1766,12 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Direct deposit',
+      title: 'Direct Deposit',
       pages: {
-        // IF NOT showMebDgi40Features
-        [formPages.directDeposit]: {
+        standardDirectDeposit: {
           path: 'direct-deposit',
+          title: 'Direct deposit',
+          depends: formData => !formData.showDgiDirectDeposit1990EZ,
           uiSchema: {
             'ui:description': customDirectDepositDescription,
             bankAccount: {
@@ -1713,7 +1790,7 @@ const formConfig = {
                 <>
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />
@@ -1739,11 +1816,7 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: [
-                  formFields.accountType,
-                  formFields.accountNumber,
-                  formFields.routingNumber,
-                ],
+                required: ['accountType', 'accountNumber', 'routingNumber'],
                 properties: {
                   accountType: {
                     type: 'string',
@@ -1755,7 +1828,6 @@ const formConfig = {
                   },
                   accountNumber: {
                     type: 'string',
-                    required: [],
                   },
                 },
               },
@@ -1766,98 +1838,121 @@ const formConfig = {
             },
           },
         },
-        // IF showMebDgi40Features
-        // [formPages.directDeposit]: {
-        //   path: 'direct-deposit',
-        //   title: 'Direct deposit',
-        //   uiSchema: {
-        //     title: 'direct-deposit',
-        //     'ui:title': (
-        //       <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
-        //         Direct deposit information
-        //       </h4>
-        //     ),
-        //     'ui:field': ReviewCardField,
-        //     'ui:options': {
-        //       editTitle: 'Direct deposit information',
-        //       hideLabelText: true,
-        //       itemName: 'account informaiton',
-        //       itemNameAction: 'Update',
-        //       reviewTitle: 'Direct deposit information',
-        //       showFieldLabel: false,
-        //       viewComponent: DirectDepositViewField,
-        //       volatileData: true,
-        //     },
-        //     'ui:description': customDirectDepositDescription,
-        //     bankAccount: {
-        //       ...bankAccountUI,
-        //       'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
-        //       accountNumber: {
-        //         'ui:title': 'Bank account number',
-        //         'ui:validations': [validateAccountNumber],
-        //         'ui:errorMessages': {
-        //           pattern: 'Please enter only numbers',
-        //         },
-        //       },
-        //     },
-        //     'view:learnMore': {
-        //       'ui:description': (
-        //         <>
-        //           <img
-        //             key="check-image-src"
-        //             style={{ marginTop: '1rem' }}
-        //             src={checkImageSrc}
-        //             alt="Example of a check showing where the account and routing numbers are"
-        //           />
-        //           <p key="learn-more-title">Where can I find these numbers?</p>
-        //           <p key="learn-more-description">
-        //             The bank routing number is the first 9 digits on the bottom
-        //             left corner of a printed check. Your account number is the
-        //             second set of numbers on the bottom of a printed check, just
-        //             to the right of the bank routing number.
-        //           </p>
-        //           <va-additional-info key="learn-more-btn" trigger="Learn More">
-        //             <p key="btn-copy">
-        //               If you don’t have a printed check, you can sign in to your
-        //               online banking institution for this information
-        //             </p>
-        //           </va-additional-info>
-        //         </>
-        //       ),
-        //     },
-        //   },
-        //   schema: {
-        //     type: 'object',
-        //     properties: {
-        //       bankAccount: {
-        //         type: 'object',
-        //         required: [
-        //           formFields.accountType,
-        //           formFields.accountNumber,
-        //           formFields.routingNumber,
-        //         ],
-        //         properties: {
-        //           accountType: {
-        //             type: 'string',
-        //             enum: ['checking', 'savings'],
-        //           },
-        //           routingNumber: {
-        //             type: 'string',
-        //             pattern: '^\\d{9}$',
-        //           },
-        //           accountNumber: {
-        //             type: 'string',
-        //             required: [],
-        //           },
-        //         },
-        //       },
-        //       'view:learnMore': {
-        //         type: 'object',
-        //         properties: {},
-        //       },
-        //     },
-        //   },
-        // },
+        preFilledDirectDeposit: {
+          path: 'direct-deposit/review',
+          title: 'Direct deposit',
+          depends: formData => formData.showDgiDirectDeposit1990EZ,
+          uiSchema: {
+            'view:directDeposit': {
+              'ui:title': (
+                <h4 className="vads-u-font-size--h5 vads-u-margin-top--0">
+                  Direct deposit information
+                </h4>
+              ),
+              'ui:field': ReviewCardField,
+              'ui:options': {
+                editTitle: 'Direct deposit information',
+                hideLabelText: true,
+                itemName: 'account information',
+                itemNameAction: 'Update',
+                reviewTitle: 'Direct deposit information',
+                showFieldLabel: false,
+                startInEdit: formData => shouldStartInEditMode(formData),
+                // startInEdit: false,
+                viewComponent: DirectDepositViewField,
+                volatileData: true,
+              },
+              'ui:description': (
+                <p>
+                  <strong>Note:</strong> We make payments only through direct
+                  deposit, also called electronic funds transfer (EFT).
+                </p>
+              ),
+              bankAccount: {
+                ...bankAccountUI,
+                'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
+                routingNumber: {
+                  ...bankAccountUI.routingNumber,
+                  'ui:errorMessages': {
+                    pattern: 'Please enter a valid 9-digit routing number',
+                  },
+                  'ui:reviewField': ObfuscateReviewField,
+                  'ui:validations': [validateRoutingNumber],
+                },
+                accountNumber: {
+                  ...bankAccountUI.accountNumber,
+                  'ui:errorMessages': {
+                    pattern:
+                      'Please enter a valid 5-17 digit bank account number',
+                  },
+                  'ui:reviewField': ObfuscateReviewField,
+                  'ui:validations': [validateBankAccountNumber],
+                },
+              },
+            },
+            'view:learnMore': {
+              'ui:description': (
+                <va-additional-info
+                  key="learn-more-btn"
+                  trigger="Where can I find these numbers?"
+                >
+                  <img
+                    key="check-image-src"
+                    style={{ marginTop: '0.625rem' }}
+                    src={checkImageSrc}
+                    alt="Example of a check showing where the account and routing numbers are"
+                  />
+                  <br />
+                  <br />
+
+                  <p key="learn-more-description">
+                    The bank routing number is the first 9 digits on the bottom
+                    left corner of a printed check. Your account number is the
+                    second set of numbers on the bottom of a printed check, just
+                    to the right of the bank routing number.
+                  </p>
+                  <br />
+                  <p key="learn-more-additional">
+                    If you don’t have a printed check, you can sign in to your
+                    online banking institution for this information
+                  </p>
+                </va-additional-info>
+              ),
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:directDeposit': {
+                type: 'object',
+                properties: {
+                  bankAccount: {
+                    type: 'object',
+                    required: ['accountType', 'accountNumber', 'routingNumber'],
+                    properties: {
+                      accountNumber: {
+                        type: 'string',
+                        pattern: '^[*a-zA-Z0-9]{5,17}$',
+                      },
+                      accountType: {
+                        type: 'string',
+                        enum: ['checking', 'savings'],
+                      },
+                      routingNumber: {
+                        type: 'string',
+                        pattern: '^[\\d*]{5}\\d{4}$',
+                      },
+                    },
+                  },
+                },
+              },
+              'view:learnMore': {
+                type: 'object',
+                properties: {},
+              },
+            },
+          },
+        },
       },
     },
   },

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { appealTypes } from '../../utils/appeals-v2-helpers';
+import { appealTypes } from '../../utils/appeals-helpers';
 
 import Claim from './Claim';
 import Appeal from './Appeal';

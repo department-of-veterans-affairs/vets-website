@@ -1,42 +1,37 @@
-/* eslint-disable camelcase */
-// eslint-disable-next-line @department-of-veterans-affairs/use-workspace-imports
-import Timeouts from 'platform/testing/e2e/timeouts';
-
-import { cernerUser, generateUser } from '../../../mocks/api/user';
+import { generateUser } from '../../../mocks/api/user';
 
 class LandingPage {
   constructor() {
     this.pageUrl = '/my-health/';
   }
 
-  unreadMessageIndicator = () =>
-    cy.get('[aria-label="You have unread messages. Go to your inbox."]', {
-      timeout: Timeouts.slow,
-    });
+  validatePageLoaded = () =>
+    cy.findByRole('heading', { name: /^My HealtheVet$/i }).should.exist;
 
-  validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('have.text', 'My HealtheVet');
-  };
+  loaded = () => this.validatePageLoaded();
 
-  validateURL = () => {
-    cy.url().should('match', /my-health/);
-  };
+  secondaryNav = () => cy.findByRole('navigation', { name: 'My HealtheVet' });
 
-  validateRedirectHappened = () => {
-    cy.url().should('not.match', /my-health/);
-  };
+  secondaryNavRendered = () => this.secondaryNav().should.exist;
 
-  visitPage = ({ serviceProvider = 'idme', facilities } = {}) => {
-    cy.login(generateUser({ serviceProvider, facilities }));
+  validateURL = () => cy.url().should('match', /\/my-health\/$/);
+
+  visitPage = ({
+    verified = true,
+    registered = true,
+    mhvAccountState = 'OK',
+  } = {}) => {
+    let props = { mhvAccountState };
+    if (!verified) props = { ...props, loa: 1 };
+    if (!registered) props = { ...props, vaPatient: false };
+    const user = generateUser(props);
+    cy.login(user);
     cy.visit(this.pageUrl);
+    this.loaded();
+    this.validateURL();
   };
 
-  visitPageAsCernerPatient = () => {
-    cy.login(cernerUser);
-    cy.visit(this.pageUrl);
-  };
+  visit = props => this.visitPage(props);
 }
 
 export default new LandingPage();

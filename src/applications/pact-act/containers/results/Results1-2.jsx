@@ -51,13 +51,15 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           a claim. If we don’t consider your condition presumptive, you’ll need
           to provide evidence that your service caused your condition.
         </p>
-        <va-accordion class="vads-u-margin-top--4" bordered>
+        <va-accordion class="vads-u-margin-top--4" bordered uswds>
           {getDynamicAccordions(formResponses).map((accordion, index) => (
             <va-accordion-item
               level="4"
               data-testid={`il-results-${index}`}
               header={accordion.title}
               key={`il-results-${index}`}
+              bordered
+              uswds
             >
               {accordion.test}
               {accordion.content}
@@ -84,12 +86,11 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           your service caused. You may be able to get additional or other
           benefits.
         </p>
-        <a
-          className="vads-c-action-link--blue"
+        <va-link-action
           href="/disability/file-disability-claim-form-21-526ez/"
-        >
-          File a disability compensation claim
-        </a>
+          text="File a disability compensation claim"
+          type="secondary"
+        />
         <a
           className="vads-u-margin-top--3 vads-u-display--block"
           href="/disability/eligibility/"
@@ -104,12 +105,11 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
           If we now consider your condition presumptive under the PACT Act, you
           can file a Supplemental Claim. We’ll reconsider your claim.
         </p>
-        <a
-          className="vads-c-action-link--blue"
+        <va-link-action
           href="/decision-reviews/supplemental-claim/file-supplemental-claim-form-20-0995/"
-        >
-          File a Supplemental Claim
-        </a>
+          text="File a Supplemental Claim"
+          type="secondary"
+        />
         <h2 id="apply-for-va-health-care">Apply for VA health care</h2>
         <p>You may also be eligible for VA health care.</p>
         {isDisplayRequirementFulfilled(
@@ -131,12 +131,11 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
             Based on your service history, we encourage you to apply now.
           </p>
         )}
-        <a
-          className="vads-c-action-link--blue"
-          href="/health-care/apply/application/introduction"
-        >
-          Apply for VA health care
-        </a>
+        <va-link-action
+          href="/health-care/apply-for-health-care-form-10-10ez/"
+          text="Apply for VA health care"
+          type="secondary"
+        />
         <p>
           <a
             className="vads-u-margin-top--3 vads-u-display--block"
@@ -153,6 +152,7 @@ const Results1Page2 = ({ formResponses, router, viewedIntroPage }) => {
         class="vads-u-margin-top--3"
         data-testid="paw-results-back"
         onClick={() => router.push(ROUTES.RESULTS_1_1)}
+        uswds
       />
     </>
   );

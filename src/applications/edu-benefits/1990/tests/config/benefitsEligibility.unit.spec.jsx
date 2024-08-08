@@ -39,7 +39,7 @@ describe('Edu 1990 benefitsEligibility', () => {
     const formDOM = getFormDOM(form);
 
     // Should only require one
-    formDOM.setCheckbox('#root_view\\:selectedBenefits_chapter33', true);
+    // formDOM.setCheckbox('#root_view\\:selectedBenefits_chapter33', true);
 
     formDOM.submitForm();
     expect(

@@ -12,12 +12,16 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
   return (
     <VaModal
       id="toc-modal"
+      data-testid="toc-modal"
       status="warning"
       visible
       onCloseEvent={onClose}
       modalTitle={title}
       ariaLabel={title}
       role="alertdialog"
+      primaryButtonText="Ok"
+      onPrimaryButtonClick={onClose}
+      uswds
     >
       You’re not eligible to request a community care Podiatry appointment
       online at this time. Please call your local VA medical center to schedule
@@ -26,13 +30,6 @@ const PodiatryAppointmentUnavailableModal = ({ onClose, showModal }) => {
       <NewTabAnchor href="/find-locations">
         Find your VA health facility’s phone number
       </NewTabAnchor>
-      <button
-        type="button"
-        onClick={onClose}
-        className="vads-u-display--block vads-u-margin-top--2p5"
-      >
-        Ok
-      </button>
     </VaModal>
   );
 };

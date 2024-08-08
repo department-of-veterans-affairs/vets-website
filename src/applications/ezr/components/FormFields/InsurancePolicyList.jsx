@@ -127,10 +127,7 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
           >
             {content['button-edit']}{' '}
             <span className="sr-only dd-privacy-mask">{srLabel}</span>{' '}
-            <i
-              role="presentation"
-              className="fas fa-chevron-right vads-u-margin-left--0p5"
-            />
+            <va-icon icon="chevron_right" size={3} />
           </Link>
           {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
@@ -140,11 +137,7 @@ const InsurancePolicyList = ({ labelledBy, list, mode, onDelete }) => {
               handlers.showConfirm({ index, description: modalDescription })
             }
           >
-            <i
-              role="presentation"
-              className="fas fa-times vads-u-margin-right--0p5"
-            />{' '}
-            {content['button-remove']}{' '}
+            <va-icon icon="close" size={3} /> {content['button-remove']}{' '}
             <span className="sr-only dd-privacy-mask">{srLabel}</span>
           </button>
         </span>

@@ -45,6 +45,14 @@ export default function startReactApp(
     return;
   }
 
+  // Don't over-write content within the react-root if this is a saved page
+  // loaded directly into a browser - this allows Veteran's to save pages and
+  // view them later. Otherwise, calling render will clear out the content &
+  // render a header & footer with no content
+  if (window.location?.protocol === 'file:') {
+    return;
+  }
+
   if (document.readyState !== 'loading') {
     ReactDOM.render(component, root);
   } else {

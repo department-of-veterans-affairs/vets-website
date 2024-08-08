@@ -340,9 +340,9 @@ export function createMilitaryClaimant(submissionForm) {
   // Access formField and viewComponent sources for userFullName and dateOfBirth
   const formFieldUserFullName =
     submissionForm['view:userFullName']?.userFullName;
-  const viewComponentUserFullName = submissionForm.userFullName;
+  const viewComponentUserFullName = submissionForm?.userFullName;
   const formFieldDateOfBirth = submissionForm['view:dateOfBirth'];
-  const viewComponentDateOfBirth = submissionForm.veteranDateOfBirth;
+  const viewComponentDateOfBirth = submissionForm?.veteranDateOfBirth;
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =
     formFieldUserFullName !== undefined &&
@@ -355,7 +355,7 @@ export function createMilitaryClaimant(submissionForm) {
       : viewComponentDateOfBirth;
   // Define the notification method
   const notificationMethod = getNotificationMethod(
-    submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,
+    submissionForm[formFields.viewReceiveTextMessages]?.receiveTextMessages,
   );
   // Construct And Return the claimant object
   return {
@@ -378,16 +378,20 @@ export function createRelinquishedBenefit(submissionForm) {
 
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
-      formFields.benefitRelinquished
+      (formFields?.benefitRelinquished)
     ];
-
+  // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
+  if (submissionForm?.dgiRudisillHideBenefitsSelectionStep) {
+    return {
+      relinquishedBenefit: null,
+    };
+  }
   if (benefitRelinquished) {
     return {
       relinquishedBenefit: benefitRelinquished,
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-
   if (submissionForm?.showMebEnhancements09) {
     return submissionForm?.showMebDgi42Features
       ? {
@@ -509,12 +513,30 @@ export function createComments(submissionForm) {
 }
 
 export function createDirectDeposit(submissionForm) {
-  const bankInfo = {
-    directDepositAccountNumber: submissionForm?.bankAccount?.accountNumber,
-    directDepositAccountType: submissionForm?.bankAccount?.accountType,
-    directDepositRoutingNumber: submissionForm?.bankAccount?.routingNumber,
+  const bankAccountInView = submissionForm['view:directDeposit']?.bankAccount;
+  const bankAccountDirectly = submissionForm?.bankAccount;
+
+  const hasDataInView =
+    bankAccountInView &&
+    (bankAccountInView.accountNumber || bankAccountInView.routingNumber);
+  const hasDataDirectly =
+    bankAccountDirectly &&
+    (bankAccountDirectly.accountNumber || bankAccountDirectly.routingNumber);
+
+  let effectiveBankAccount = {};
+  if (hasDataInView) {
+    effectiveBankAccount = bankAccountInView;
+  } else if (hasDataDirectly) {
+    effectiveBankAccount = bankAccountDirectly;
+  }
+
+  const constructedBankInfo = {
+    directDepositAccountNumber: effectiveBankAccount?.accountNumber,
+    directDepositAccountType: effectiveBankAccount?.accountType,
+    directDepositRoutingNumber: effectiveBankAccount?.routingNumber,
   };
-  return submissionForm?.bankAccount?.accountType ? bankInfo : {};
+
+  return effectiveBankAccount?.accountType ? constructedBankInfo : {};
 }
 
 export function createSubmissionForm(submissionForm, formId) {

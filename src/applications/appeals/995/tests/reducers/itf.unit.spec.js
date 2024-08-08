@@ -1,7 +1,6 @@
 import { expect } from 'chai';
-import moment from 'moment';
 
-import { requestStates } from 'platform/utilities/constants';
+import { requestStates } from '~/platform/utilities/constants';
 import { ITF_STATUSES } from '../../constants';
 
 import {
@@ -15,6 +14,8 @@ import {
 
 import reducers from '../../reducers';
 
+import { parseDateWithOffset } from '../../../shared/utils/dates';
+
 const initialState = {
   fetchCallState: requestStates.notCalled,
   creationCallState: requestStates.notCalled,
@@ -24,6 +25,11 @@ const initialState = {
 
 describe('ITF reducer', () => {
   const { itf } = reducers;
+
+  it('should return default state', () => {
+    const newState = itf();
+    expect(newState).to.deep.equal(initialState);
+  });
 
   it('should handle ITF_FETCH_INITIATED', () => {
     const newState = itf(initialState, { type: ITF_FETCH_INITIATED });
@@ -45,17 +51,13 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: ITF_STATUSES.active,
-                expirationDate: moment()
-                  .add(1, 'days')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: 1 }),
               },
               {
                 // duplicate ITF with later expiration date; should use the active one
                 type: 'compensation',
                 status: ITF_STATUSES.duplicate,
-                expirationDate: moment()
-                  .add(1, 'year')
-                  .format(),
+                expirationDate: parseDateWithOffset({ year: 1 }),
               },
             ],
           },
@@ -78,16 +80,12 @@ describe('ITF reducer', () => {
               {
                 type: 'compensation',
                 status: ITF_STATUSES.expired,
-                expirationDate: moment()
-                  .subtract(1, 'd')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: -1 }),
               },
               {
                 type: 'compensation',
                 status: ITF_STATUSES.duplicate,
-                expirationDate: moment()
-                  .add(1, 'd')
-                  .format(),
+                expirationDate: parseDateWithOffset({ days: 1 }),
               },
             ],
           },
@@ -95,6 +93,15 @@ describe('ITF reducer', () => {
       };
       const newState = itf(initialState, action);
       expect(newState.currentITF.status).to.equal(ITF_STATUSES.duplicate);
+    });
+
+    it('should set the currentITF to null', () => {
+      const action = {
+        type: ITF_FETCH_SUCCEEDED,
+        data: { attributes: {} },
+      };
+      const newState = itf(initialState, action);
+      expect(newState.currentITF).to.be.null;
     });
   });
 
@@ -111,23 +118,17 @@ describe('ITF reducer', () => {
             {
               type: 'compensation',
               status: ITF_STATUSES.expired,
-              expirationDate: moment()
-                .subtract(3, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -3 }),
             },
             {
               type: 'compensation',
               status: ITF_STATUSES.duplicate,
-              expirationDate: moment()
-                .subtract(2, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -2 }),
             },
             {
               type: 'compensation',
               status: ITF_STATUSES.active,
-              expirationDate: moment()
-                .subtract(1, 'd')
-                .format(),
+              expirationDate: parseDateWithOffset({ days: -1 }),
             },
           ],
         },
@@ -158,6 +159,20 @@ describe('ITF reducer', () => {
     };
     const newState = itf({ currentITF: 'old itf' }, action);
     expect(newState.previousITF).to.equal('old itf');
+    expect(newState.currentITF).to.equal('new itf');
+  });
+
+  it('should handle ITF_CREATION_SUCCEEDED fallback of previousITF', () => {
+    const action = {
+      type: ITF_CREATION_SUCCEEDED,
+      data: {
+        attributes: {
+          intentToFile: 'new itf',
+        },
+      },
+    };
+    const newState = itf({ previousITF: 'prev itf' }, action);
+    expect(newState.previousITF).to.equal('prev itf');
     expect(newState.currentITF).to.equal('new itf');
   });
 

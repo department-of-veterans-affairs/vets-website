@@ -4,14 +4,11 @@ import { connect } from 'react-redux';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 
-import {
-  getContestableIssues as getContestableIssuesAction,
-  FETCH_CONTESTABLE_ISSUES_FAILED,
-} from '../actions';
+import { getContestableIssues as getContestableIssuesAction } from '../actions';
 import { APP_NAME } from '../constants';
-import { nodPart3UpdateFeature } from '../utils/helpers';
-import { getEligibleContestableIssues } from '../utils/submit';
+import { getEligibleContestableIssues } from '../../shared/utils/issues';
 
+import { FETCH_CONTESTABLE_ISSUES_FAILED } from '../../shared/actions';
 import ContestableIssues from '../../shared/components/ContestableIssues';
 
 /**
@@ -33,7 +30,6 @@ import ContestableIssues from '../../shared/components/ContestableIssues';
  * @param {Object} contestableIssues - API status & loaded issues
  * @param {func} getContestableIssues - API action
  * @param {Object} formData - full form data
- * @param {Boolean} showPart3 - feature flag
  * @return {JSX}
  */
 const ContestableIssuesWidget = props => {
@@ -42,7 +38,6 @@ const ContestableIssuesWidget = props => {
     contestableIssues,
     setFormData,
     formData,
-    showPart3,
   } = props;
 
   const hasAttempted = useRef(false);
@@ -70,9 +65,6 @@ const ContestableIssuesWidget = props => {
         ...formData,
         contestedIssues: getEligibleContestableIssues(
           contestableIssues?.issues,
-          {
-            showPart3,
-          },
         ),
       });
     }
@@ -92,13 +84,11 @@ ContestableIssuesWidget.propTypes = {
   }),
   getContestableIssues: PropTypes.func,
   setFormData: PropTypes.func,
-  showPart3: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
   contestableIssues: state?.contestableIssues,
-  showPart3: nodPart3UpdateFeature(state),
 });
 const mapDispatchToProps = {
   setFormData: setData,

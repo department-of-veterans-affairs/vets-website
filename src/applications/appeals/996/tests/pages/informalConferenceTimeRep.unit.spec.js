@@ -1,13 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import { fireEvent, render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import sinon from 'sinon';
 
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { informalConferenceTimeSelectTitleRep } from '../../content/InformalConference';
+
+import { mockStore } from '../../../shared/tests/test-helpers';
 
 describe('HLR conference times page', () => {
   const {
@@ -17,34 +19,40 @@ describe('HLR conference times page', () => {
 
   it('should render', () => {
     const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
+      <Provider store={mockStore()}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={{}}
+        />
+      </Provider>,
     );
 
-    expect($$('input[type="radio"]', container).length).to.equal(2);
+    expect($$('va-radio-option', container).length).to.equal(2);
   });
 
   it('should allow submit', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={mockStore()}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
-
-    fireEvent.click($('input[value="time0800to1200"]', container));
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: 'time0800to1200' },
+    });
+    $('va-radio', container).__events.vaValueChange(changeEvent);
     fireEvent.submit($('form', container));
-    expect($('.usa-input-error-message', container)).to.not.exist;
+    expect($('[error]', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
 
@@ -52,42 +60,20 @@ describe('HLR conference times page', () => {
   it('should prevent continuing', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
+      <Provider store={mockStore()}>
+        <DefinitionTester
+          definitions={{}}
+          schema={schema}
+          uiSchema={uiSchema}
+          data={{}}
+          formData={{}}
+          onSubmit={onSubmit}
+        />
+      </Provider>,
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error-message', container).length).to.equal(1);
+    expect($$('[error]', container).length).to.equal(1);
     expect(onSubmit.called).to.be.false;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={() => {}}
-      />,
-    );
-
-    fireEvent.click($('input[value="time0800to1200"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': informalConferenceTimeSelectTitleRep,
-      'radio-button-optionLabel': '8:00 a.m. to noon ET',
-      'radio-button-required': true,
-    });
   });
 });

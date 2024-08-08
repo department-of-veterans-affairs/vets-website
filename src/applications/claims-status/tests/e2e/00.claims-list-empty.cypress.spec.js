@@ -1,4 +1,4 @@
-import claimsListEmpty from './fixtures/mocks/claims-list-empty.json';
+import claimsListEmpty from './fixtures/mocks/lighthouse/claims-list-empty.json';
 import TrackClaimsPage from './page-objects/TrackClaimsPage';
 
 describe('Breadcrumb Test Empty List', () => {

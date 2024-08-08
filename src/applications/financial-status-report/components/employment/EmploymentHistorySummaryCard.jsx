@@ -92,7 +92,7 @@ const EmploymentHistorySummaryCard = ({
   );
 
   const cardBody = (
-    <div className="vads-u-margin-y--1">
+    <div className="vads-u-margin-y--1" data-testid="mini-summary-card-content">
       {/* Render date information */}
       <EmploymentCardBody
         label="Dates"
@@ -139,9 +139,15 @@ const EmploymentHistorySummaryCard = ({
         data-testid="mini-summary-card"
         aria-label={ariaLabel}
         class="vads-u-margin-y--3"
+        uswds
       >
         <div className="vads-u-display--flex vads-u-flex-direction--column">
-          <h4 className="vads-u-margin-y--0">{employmentCardHeading}</h4>
+          <h4
+            className="vads-u-margin-y--0"
+            data-testid="mini-summary-card-header"
+          >
+            {employmentCardHeading}
+          </h4>
           {cardBody}
         </div>
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--center vads-u-margin-bottom--neg1">
@@ -156,10 +162,10 @@ const EmploymentHistorySummaryCard = ({
           >
             <span>
               <strong>Edit</strong>
-              <i
-                aria-hidden="true"
-                role="img"
-                className="fas fa-chevron-right vads-u-padding-left--0p5"
+              <va-icon
+                icon="navigate_next"
+                size={3}
+                className="vads-u-padding-left--0p5"
               />
             </span>
           </Link>
@@ -170,9 +176,10 @@ const EmploymentHistorySummaryCard = ({
             className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
             onClick={() => handleDeleteClick(index)}
           >
-            <i
-              aria-hidden="true"
-              className="fas fa-trash-alt vads-u-padding-right--0p5"
+            <va-icon
+              icon="delete"
+              size={3}
+              className="vads-u-padding-right--0p5"
             />
             <span>DELETE</span>
           </button>

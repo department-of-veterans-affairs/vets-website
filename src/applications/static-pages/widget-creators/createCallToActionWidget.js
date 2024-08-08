@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
+import { connectFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 export default async function createCallToActionWidget(store, widgetType) {
   const widgets = Array.from(

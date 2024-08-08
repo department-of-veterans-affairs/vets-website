@@ -14,7 +14,7 @@ export default function CallToActionAlert({
 }) {
   const CustomHeaderLevel = `h${headerLevel}`;
   return (
-    <va-alert visible status={status}>
+    <va-alert visible status={status} uswds>
       <CustomHeaderLevel slot="headline">{heading}</CustomHeaderLevel>
       <div>
         {alertText}
@@ -22,8 +22,9 @@ export default function CallToActionAlert({
           <va-button
             onClick={primaryButtonHandler}
             text={primaryButtonText}
-            aria-label={ariaLabel}
+            label={ariaLabel}
             aria-describedby={ariaDescribedby}
+            uswds
           />
         )}
         {secondaryButtonText && (

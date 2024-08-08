@@ -13,7 +13,6 @@ import {
   selectFeatureFacilitiesServiceV2,
   selectFeatureVAOSServiceVAAppointments,
   selectFeatureClinicFilter,
-  selectFeatureAcheronService,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import {
@@ -195,10 +194,12 @@ export function updateFacilityType(facilityType) {
   };
 }
 
-export function startDirectScheduleFlow() {
-  recordEvent({
-    event: 'vaos-direct-path-started',
-  });
+export function startDirectScheduleFlow({ isRecordEvent = true } = {}) {
+  if (isRecordEvent) {
+    recordEvent({
+      event: 'vaos-direct-path-started',
+    });
+  }
 
   return {
     type: START_DIRECT_SCHEDULE_FLOW,
@@ -507,7 +508,6 @@ export function openReasonForAppointment(
   uiSchema,
   schema,
   useV2 = false,
-  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_PAGE_OPENED,
@@ -515,7 +515,6 @@ export function openReasonForAppointment(
     uiSchema,
     schema,
     useV2,
-    useAcheron,
   };
 }
 
@@ -524,7 +523,6 @@ export function updateReasonForAppointmentData(
   uiSchema,
   data,
   useV2 = false,
-  useAcheron = false,
 ) {
   return {
     type: FORM_REASON_FOR_APPOINTMENT_CHANGED,
@@ -532,7 +530,6 @@ export function updateReasonForAppointmentData(
     uiSchema,
     data,
     useV2,
-    useAcheron,
   };
 }
 
@@ -729,9 +726,6 @@ export function submitAppointmentOrRequest(history) {
     const featureVAOSServiceVAAppointments = selectFeatureVAOSServiceVAAppointments(
       state,
     );
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      state,
-    );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(state);
     const newAppointment = getNewAppointment(state);
     const data = newAppointment?.data;
@@ -758,7 +752,6 @@ export function submitAppointmentOrRequest(history) {
         let appointment = null;
         appointment = await createAppointment({
           appointment: transformFormToVAOSAppointment(getState()),
-          useAcheron: featureAcheronVAOSServiceRequests,
         });
 
         dispatch({
@@ -855,7 +848,6 @@ export function submitAppointmentOrRequest(history) {
           requestBody = transformFormToVAOSVARequest(getState());
           requestData = await createAppointment({
             appointment: requestBody,
-            useAcheron: featureAcheronVAOSServiceRequests,
           });
         }
 

@@ -9,8 +9,11 @@ import { CONTACT_INFO_PATH } from '../../shared/constants';
 import { fixDecisionDates } from '../../shared/tests/cypress.helpers';
 import cypressSetup from '../../shared/tests/cypress.setup';
 
-// Skipping for now
-describe('Notice of Disagreement keyboard only navigation', () => {
+// Test was skipped on 2/23/2024 due to CI failures.
+// Seems that keyboard only tests using FireFox and Electron
+// fail while Chrome works fine. Further investigation is needed to resolve
+// https://dsva.slack.com/archives/CBU0KDSB1/p1708717681733839
+describe.skip('Notice of Disagreement keyboard only navigation', () => {
   it('navigates through a maximal form', () => {
     cypressSetup();
 
@@ -25,7 +28,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      });
+      }).as('getIssues');
       cy.visit(
         '/decision-reviews/board-appeal/request-board-appeal-form-10182',
       );
@@ -37,6 +40,8 @@ describe('Notice of Disagreement keyboard only navigation', () => {
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
 
+      cy.wait('@getIssues');
+
       // Veteran details
       cy.url().should(
         'include',
@@ -46,7 +51,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('[name="root_homeless"]');
+      cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio('N');
       cy.tabToContinueForm();
 

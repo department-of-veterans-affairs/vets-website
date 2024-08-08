@@ -11,7 +11,7 @@ import {
 } from '../../combined/utils/helpers';
 
 const CurrentContent = ({ id, date }) => (
-  <p>
+  <p className="vads-u-margin--0">
     Your balance was updated on {formatDate(date)}. Pay your full balance or
     request financial help before
     <strong className="vads-u-margin-left--0p5" data-testid={`due-date-${id}`}>
@@ -27,7 +27,7 @@ CurrentContent.propTypes = {
 };
 
 const PastDueContent = ({ id, date, amount }) => (
-  <p>
+  <p className="vads-u-margin--0">
     Your balance on
     <strong data-testid={`due-date-${id}`} className="vads-u-margin-x--0p5">
       {formatDate(date)}
@@ -53,31 +53,31 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
     : `Check details`;
 
   return (
-    <div
-      className="vads-u-background-color--gray-lightest vads-u-padding--3 vads-u-margin-bottom--2"
+    <va-card
+      show-shadow
+      class="vads-u-padding--3 vads-u-margin-bottom--3"
       data-testid={`balance-card-${id}`}
     >
       <h3
-        aria-describedby={`copay-balance-${id}`}
-        className="card-balance vads-u-margin-top--0 vads-u-font-family--serif"
+        className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
         data-testid={`amount-${id}`}
       >
         {currency(amount)}
+        <span
+          data-testid={`facility-city-${id}`}
+          className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal"
+        >
+          Copay balance for {facility} - {city}
+        </span>
       </h3>
-      <p
-        id={`copay-balance-${id}`}
-        className="vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-size--h4"
-        data-testid={`facility-city-${id}`}
-      >
-        {facility} - {city}
-      </p>
-      <div className="card-content">
-        <span className="sr-only">Alert</span>
-        <i
-          aria-hidden="true"
-          role="img"
-          className="fa fa-exclamation-triangle icon-right"
+      <div className="vads-u-display--flex vads-u-margin-top--0  vads-u-margin-bottom--1p5">
+        <va-icon
+          icon="warning"
+          size={3}
+          srtext="Alert"
+          class="icon-color--warning vads-u-padding-right--1"
         />
+
         {isCurrentBalance ? (
           <CurrentContent id={id} date={date} />
         ) : (
@@ -85,7 +85,7 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         )}
       </div>
       <Link
-        className="vads-u-font-size--sm vads-u-font-weight--bold"
+        className="vads-u-font-weight--bold"
         to={`/copay-balances/${id}/detail`}
         data-testid={`detail-link-${id}`}
         aria-label={`Check details and resolve this debt for ${facility}`}
@@ -94,12 +94,9 @@ const BalanceCard = ({ id, amount, facility, city, date }) => {
         }}
       >
         {linkText}
-        <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
+        <va-icon icon="navigate_next" size={3} />
       </Link>
-    </div>
+    </va-card>
   );
 };
 

@@ -11,6 +11,7 @@ import {
   validateToDate,
   validateUniqueLocationOrFacility,
 } from '../../shared/validations/evidence';
+import sharedErrorMessages from '../../shared/content/errorMessages';
 
 // Needed for uniqueness string comparison
 const sortIssues = issues =>
@@ -112,9 +113,9 @@ export const validateState = (errors, data) => {
 export const validatePostal = (errors, data) => {
   const { postalCode } = data?.providerFacilityAddress || {};
   if (!postalCode) {
-    errors.addError(errorMessages.evidence.postal);
+    errors.addError(sharedErrorMessages.postal);
   } else if (!isValidUSZipCode(postalCode)) {
-    errors.addError(errorMessages.invalidZip);
+    errors.addError(sharedErrorMessages.zip);
   }
 };
 

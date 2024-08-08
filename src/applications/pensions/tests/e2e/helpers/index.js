@@ -1,3 +1,5 @@
+import { expect } from 'chai';
+
 // navigation helpers
 export const goToNextPage = pagePath => {
   // clicks Continue button, and optionally checks destination path.
@@ -49,6 +51,34 @@ export const selectYesNoWebComponent = (fieldName, value) => {
 };
 
 // pattern fill helpers
+export const fillFullNameWebComponentPattern = (
+  fieldNamePrefix,
+  index,
+  fieldName,
+  fields,
+) => {
+  fillTextWebComponent(
+    `${fieldNamePrefix}_${index}_${fieldName}_first`,
+    fields[fieldName].first,
+  );
+  if (fields[fieldName].middle) {
+    fillTextWebComponent(
+      `${fieldNamePrefix}_${index}_${fieldName}_middle`,
+      fields[fieldName].middle,
+    );
+  }
+  fillTextWebComponent(
+    `${fieldNamePrefix}_${index}_${fieldName}_last`,
+    fields[fieldName].last,
+  );
+  if (fields[fieldName].suffix) {
+    selectDropdownWebComponent(
+      `${fieldNamePrefix}_${index}_${fieldName}_suffix`,
+      fields[fieldName].suffix,
+    );
+  }
+};
+
 export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
   selectCheckboxWebComponent(
     `${fieldName}_isMilitary`,
@@ -115,5 +145,209 @@ export const fillDateWebComponentPattern = (fieldName, value) => {
             });
         });
     }
+  }
+};
+
+// single page array fill helpers
+export const fillPreviousNamesPage = (fields, index) => {
+  fillFullNameWebComponentPattern(
+    'previousNames',
+    index,
+    'previousFullName',
+    fields,
+  );
+};
+export const fillCurrentEmploymentHistoryPage = (fields, index) => {
+  fillTextWebComponent(`currentEmployers_${index}_jobType`, fields.jobType);
+  fillTextWebComponent(
+    `currentEmployers_${index}_jobHoursWeek`,
+    fields.jobHoursWeek,
+  );
+};
+export const fillPreviousEmploymentHistoryPage = (fields, index) => {
+  fillTextWebComponent(`previousEmployers_${index}_jobType`, fields.jobType);
+  fillTextWebComponent(
+    `previousEmployers_${index}_jobHoursWeek`,
+    fields.jobHoursWeek,
+  );
+  fillTextWebComponent(`previousEmployers_${index}_jobTitle`, fields.jobTitle);
+  if (fields.jobDate) {
+    fillDateWebComponentPattern(
+      `previousEmployers_${index}_jobDate`,
+      fields.jobDate,
+    );
+  }
+};
+export const fillVaMedicalCentersPage = (fields, index) => {
+  fillTextWebComponent(
+    `vaMedicalCenters_${index}_medicalCenter`,
+    fields.medicalCenter,
+  );
+};
+export const fillFederalMedicalCentersPage = (fields, index) => {
+  fillTextWebComponent(
+    `federalMedicalCenters_${index}_medicalCenter`,
+    fields.medicalCenter,
+  );
+};
+export const fillSpouseMarriagesPage = (fields, index) => {
+  fillFullNameWebComponentPattern(
+    'spouseMarriages',
+    index,
+    'spouseFullName',
+    fields,
+  );
+  selectRadioWebComponent(
+    `spouseMarriages_${index}_reasonForSeparation`,
+    fields.reasonForSeparation,
+  );
+  if (fields.otherExplanation) {
+    fillTextWebComponent(
+      `spouseMarriages_${index}_otherExplanation`,
+      fields.otherExplanation,
+    );
+  }
+  fillDateWebComponentPattern(
+    `spouseMarriages_${index}_dateOfMarriage`,
+    fields.dateOfMarriage,
+  );
+  fillDateWebComponentPattern(
+    `spouseMarriages_${index}_dateOfSeparation`,
+    fields.dateOfSeparation,
+  );
+  fillTextWebComponent(
+    `spouseMarriages_${index}_locationOfMarriage`,
+    fields.locationOfMarriage,
+  );
+  fillTextWebComponent(
+    `spouseMarriages_${index}_locationOfSeparation`,
+    fields.locationOfSeparation,
+  );
+};
+export const fillDependentsPage = (fields, index) => {
+  fillFullNameWebComponentPattern('dependents', index, 'fullName', fields);
+  fillDateWebComponentPattern(
+    `dependents_${index}_childDateOfBirth`,
+    fields.childDateOfBirth,
+  );
+};
+export const fillIncomeSourcesPage = (fields, index) => {
+  selectRadioWebComponent(
+    `incomeSources_${index}_typeOfIncome`,
+    fields.typeOfIncome,
+  );
+  if (fields.otherTypeExplanation) {
+    fillTextWebComponent(
+      `incomeSources_${index}_otherTypeExplanation`,
+      fields.otherTypeExplanation,
+    );
+  }
+  selectRadioWebComponent(`incomeSources_${index}_receiver`, fields.receiver);
+  if (fields.dependentName) {
+    fillTextWebComponent(
+      `incomeSources_${index}_dependentName`,
+      fields.dependentName,
+    );
+  }
+  fillTextWebComponent(`incomeSources_${index}_payer`, fields.payer);
+  cy.get(`input[name="root_incomeSources_${index}_amount"]`).type(
+    fields.amount,
+  );
+};
+export const fillCareExpensesPage = (fields, index) => {
+  selectRadioWebComponent(
+    `careExpenses_${index}_recipients`,
+    fields.recipients,
+  );
+  if (fields.childName) {
+    fillTextWebComponent(`careExpenses_${index}_childName`, fields.childName);
+  }
+  fillTextWebComponent(`careExpenses_${index}_provider`, fields.provider);
+  selectRadioWebComponent(`careExpenses_${index}_careType`, fields.careType);
+  if (fields.ratePerHour) {
+    cy.get(`input[name="root_careExpenses_${index}_ratePerHour"]`).type(
+      fields.ratePerHour,
+    );
+  }
+  if (fields.hoursPerWeek) {
+    fillTextWebComponent(
+      `careExpenses_${index}_hoursPerWeek`,
+      fields.hoursPerWeek,
+    );
+  }
+  if (fields.careDateRange) {
+    fillDateWebComponentPattern(
+      `careExpenses_${index}_careDateRange_from`,
+      fields.careDateRange.from,
+    );
+    if (fields.careDateRange.to) {
+      fillDateWebComponentPattern(
+        `careExpenses_${index}_careDateRange_to`,
+        fields.careDateRange.to,
+      );
+    }
+  }
+  if (fields.noCareEndDate) {
+    selectCheckboxWebComponent(
+      `careExpenses_${index}_noCareEndDate`,
+      fields.noCareEndDate,
+    );
+  }
+  selectRadioWebComponent(
+    `careExpenses_${index}_paymentFrequency`,
+    fields.paymentFrequency,
+  );
+  cy.get(`input[name="root_careExpenses_${index}_paymentAmount"]`).type(
+    fields.paymentAmount,
+  );
+};
+export const fillMedicalExpensesPage = (fields, index) => {
+  selectRadioWebComponent(
+    `medicalExpenses_${index}_recipients`,
+    fields.recipients,
+  );
+  if (fields.childName) {
+    fillTextWebComponent(
+      `medicalExpenses_${index}_childName`,
+      fields.childName,
+    );
+  }
+  fillTextWebComponent(`medicalExpenses_${index}_provider`, fields.provider);
+  fillTextWebComponent(`medicalExpenses_${index}_purpose`, fields.purpose);
+  fillDateWebComponentPattern(
+    `medicalExpenses_${index}_paymentDate`,
+    fields.paymentDate,
+  );
+  selectRadioWebComponent(
+    `medicalExpenses_${index}_paymentFrequency`,
+    fields.paymentFrequency,
+  );
+  cy.get(`input[name="root_medicalExpenses_${index}_paymentAmount"]`).type(
+    fields.paymentAmount,
+  );
+};
+
+// uses a workaround to check each validation error element,
+// instead of using `should('be.empty') on the list of nonempty validation errors,
+// because this method causes Cypress to print the specific validation error when failing
+export const shouldNotHaveValidationErrors = () => {
+  // searches for validation errors on the page
+  cy.get('[error]:not(:empty), [role="alert"]:not(:empty)')
+    // prevents an error being thrown when no items are found
+    .should(Cypress._.noop)
+    // throws an error if the validation item has content
+    .then($els =>
+      // eslint-disable-next-line no-unused-expressions
+      $els.each(i => expect($els[i]).to.be.empty),
+    );
+};
+
+export const shouldHaveValidationError = (expectedError = null) => {
+  if (expectedError === null) {
+    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').should('exist');
+  } else {
+    cy.get('[error]:not(:empty), [role="alert"]:not(:empty)').contains(
+      expectedError,
+    );
   }
 };

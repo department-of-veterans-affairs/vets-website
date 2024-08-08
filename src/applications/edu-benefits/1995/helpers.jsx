@@ -1,10 +1,31 @@
-import environment from 'platform/utilities/environment';
+import React from 'react';
+import moment from 'moment/moment';
+import IntroductionPage from './containers/IntroductionPage';
+import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
+import { convertToggle } from '../utils/helpers';
 
-export const isProductionOfTestProdEnv = () => {
-  return (
-    environment.isProduction() ||
-    (global && global?.window && global?.window?.buildType)
-  );
+export const isProductionOfTestProdEnv = automatedTest => {
+  const toggle = convertToggle();
+  return toggle || automatedTest || global?.window?.isProd;
+};
+
+export const introductionPage = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? IntroductionPage
+    : IntroductionPageUpdate;
+};
+
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
+};
+
+export const directDepositMethod = (formData, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? formData.bankAccountChange
+    : formData.bankAccountChangeUpdate;
 };
 
 export const buildSubmitEventData = formData => {
@@ -44,9 +65,54 @@ export const buildSubmitEventData = formData => {
     'dependent-parent': yesNoOrUndefined(
       formData.serviceBefore1977?.parentDependent,
     ),
-    'direct-deposit-method': environment.isProduction()
-      ? formData.bankAccountChange
-      : formData.bankAccountChangeUpdate,
+    'direct-deposit-method': directDepositMethod(formData),
     'direct-deposit-account-type': formData.bankAccount?.accountType,
   };
+};
+
+export const eighteenOrOver = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
+export const eighteenOrOverUpdate = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    !moment(birthday, 'YYYY-MM-DD').isValid() ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
+export const ageWarning = (
+  <div
+    className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
+    aria-live="polite"
+  >
+    <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
+    </div>
+    <div className="vads-u-flex--5">
+      <p className="vads-u-font-size--base">
+        {isProductionOfTestProdEnv() &&
+          'Applicants under the age of 18 can’t legally make a benefits election.'}
+        Based on your date of birth, please have a parent, guardian, or
+        custodian review the information on this application, provide their
+        contact information in the Guardian Section of this form, and click the
+        "Submit application" button at the end of this form.
+      </p>
+    </div>
+  </div>
+);
+
+export const isEighteenOrOlder = (birthday, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? eighteenOrOver(birthday)
+    : eighteenOrOverUpdate(birthday);
 };

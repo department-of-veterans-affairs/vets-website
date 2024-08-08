@@ -2,7 +2,7 @@ export { MVI_ERROR_STATES } from './RequiresMVI/constants';
 export { default as recordEvent, recordEventOnce } from './record-event';
 
 export {
-  default as externalServiceStatus,
+  externalServiceStatus,
   externalServices,
   DowntimeNotification,
 } from './DowntimeNotification/index';

@@ -8,7 +8,16 @@ import dataUtils from 'platform/utilities/data/index';
 import { apiRequest } from 'platform/utilities/api';
 import recordEvent from 'platform/monitoring/record-event';
 
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import UserInteractionRecorder from '../components/UserInteractionRecorder';
+
+export const isProductionOfTestProdEnv = automatedTest => {
+  return (
+    environment.isProduction() ||
+    automatedTest ||
+    (global && global?.window && global?.window?.buildType)
+  );
+};
 
 export const trackingPrefix = 'edu-feedback-tool-';
 
@@ -140,7 +149,7 @@ export function submit(form, formConfig) {
   };
 
   const onSuccess = json => {
-    const guid = json.data.attributes.guid;
+    const { guid } = json.data.attributes;
     return new Promise((resolve, reject) => {
       pollStatus(
         guid,
@@ -221,7 +230,7 @@ export const getIssueLabel = (labelText, exampleText) => (
     {labelText}
     <br />
     <span>
-      <i>{exampleText}</i>
+      <em>{exampleText}</em>
     </span>
   </div>
 );
@@ -238,7 +247,7 @@ export const recruitingLabel = getIssueLabel(
 
 export const studentLoansLabel = getIssueLabel(
   'Student loan',
-  'The school didn’t provide you total a cost of your school loan.',
+  'The school didn’t provide you a total cost of your school loan.',
 );
 
 export const qualityLabel = getIssueLabel(
@@ -311,6 +320,16 @@ export function removeEmptyStringProperties(obj) {
     }
   });
   return cleanObject;
+}
+
+// Formats address on one line
+// Used in school select field radio options
+export function displaySingleLineAddress(obj) {
+  const { address1, address2, address3, city, state, zip, country } = obj;
+  return `${address1}${address2 && `, ${address2}`}${address3 &&
+    `, ${address3}`}, ${city || ''}${city && state ? ', ' : ''}${state || ''}${
+    !state ? ` ${country}` : ` ${zip || ''}`
+  }`;
 }
 
 /*

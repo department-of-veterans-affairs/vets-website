@@ -229,29 +229,39 @@ describe('form submit transform', () => {
       );
       expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
-
-    it('should return empty object if no relinquishment AND feature flag is false', () => {
+    it('should return null if no relinquishment AND Rudisill feature flag is true', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
-      mockSubmissionForm.showMebDgi40Features = false;
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
-    });
-
-    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = true;
       mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.showMebEnhancements09 = true;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(null);
+    });
+    it('should return CannotRelinquish if no relinquishment AND showMebDgi42Features is true', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
+      mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.showMebEnhancements09 = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       expect(relinquishedBenefit.relinquishedBenefit).to.eql(
         'CannotRelinquish',
       );
     });
+    it('should return NotEligible if no relinquishment AND showMebEnhancements09 AND showMebDgi42Features are true', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.showMebEnhancements09 = true;
+      mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
+    });
   });
-
   describe('has a createAdditionalConsiderations method', () => {
     it('should return capitalized "YES" and "NO" for present questions', () => {
       const additionalConsiderations = createAdditionalConsiderations(
@@ -356,6 +366,54 @@ describe('form submit transform', () => {
     it('should return with users bank savings account number, if they decide to enroll', () => {
       const bankAccount = createDirectDeposit(mockSubmissionForm);
       expect(bankAccount.directDepositAccountType).to.eql('Savings');
+    });
+    describe('createDirectDeposit function', () => {
+      it('extracts bank account info when available directly in submissionForm', () => {
+        mockSubmissionForm.bankAccount = {
+          accountType: 'Savings',
+          accountNumber: '123456',
+          routingNumber: '322271627',
+        };
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('Savings');
+        expect(result.directDepositAccountNumber).to.eql('123456');
+        expect(result.directDepositRoutingNumber).to.eql('322271627');
+      });
+      it('extracts bank account info from view:directDeposit in submissionForm', () => {
+        mockSubmissionForm['view:directDeposit'] = {
+          bankAccount: {
+            accountType: 'Checking',
+            accountNumber: '654321',
+            routingNumber: '123456789',
+          },
+        };
+        mockSubmissionForm.bankAccount = {}; // Ensuring direct bankAccount is empty
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result.directDepositAccountType).to.eql('Checking');
+        expect(result.directDepositAccountNumber).to.eql('654321');
+        expect(result.directDepositRoutingNumber).to.eql('123456789');
+      });
+      it('returns empty object when bank account info is not available', () => {
+        mockSubmissionForm['view:directDeposit'] = {};
+        mockSubmissionForm.bankAccount = {};
+
+        const result = createDirectDeposit(mockSubmissionForm);
+
+        expect(result).to.eql({});
+      });
+      it('handles invalid or incomplete bank account info', () => {
+        // Setup with incomplete bank account info
+        mockSubmissionForm.bankAccount = {
+          accountType: 'Savings',
+          // Missing accountNumber and routingNumber
+        };
+        const result = createDirectDeposit(mockSubmissionForm);
+        expect(result).to.eql({});
+      });
     });
   });
 });

@@ -68,7 +68,8 @@ class VAPServiceEditModalActionButtons extends React.Component {
             className="usa-button-secondary button-link"
             onClick={this.handleDeleteInitiated}
           >
-            <i className="fa fa-trash" /> <span>Delete</span>
+            <va-icon icon="delete" size={3} aria-hidden="true" />{' '}
+            <span>Delete</span>
           </button>
         </div>
       );

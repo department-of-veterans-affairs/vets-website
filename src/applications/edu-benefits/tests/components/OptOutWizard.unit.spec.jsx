@@ -8,7 +8,7 @@ describe('<OptOutWizard>', () => {
   it('should show opt out button', () => {
     const component = mount(<OptOutWizard />);
 
-    expect(component.find('va-button').length).to.equal(1);
+    expect(component.find('va-button').length).to.equal(2);
     expect(component.state('modalOpen')).to.be.false;
     component.unmount();
   });
@@ -20,7 +20,10 @@ describe('<OptOutWizard>', () => {
 
     const component = mount(<OptOutWizard />);
 
-    component.find('va-button').simulate('click');
+    component
+      .find('va-button')
+      .first()
+      .simulate('click');
     component.update();
     expect(component.state('modalOpen')).to.be.true;
     expect(component.find('va-button').length).to.equal(2);
@@ -38,7 +41,10 @@ describe('<OptOutWizard>', () => {
 
     const component = mount(<OptOutWizard />);
 
-    component.find('va-button').simulate('click');
+    component
+      .find('va-button')
+      .first()
+      .simulate('click');
     component.update();
     component
       .find('va-button')
@@ -46,7 +52,7 @@ describe('<OptOutWizard>', () => {
       .simulate('click');
     component.update();
 
-    expect(component.find('va-button').length).to.equal(1);
+    expect(component.find('va-button').length).to.equal(2);
     expect(component.state('modalOpen')).to.be.false;
 
     delete global.document.focus;

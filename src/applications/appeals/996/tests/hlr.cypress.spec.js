@@ -1,7 +1,8 @@
 import path from 'path';
 
-import testForm from 'platform/testing/e2e/cypress/support/form-tester';
-import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
+import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+import testForm from '~/platform/testing/e2e/cypress/support/form-tester';
+import { createTestConfig } from '~/platform/testing/e2e/cypress/support/form-tester/utilities';
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
@@ -9,7 +10,7 @@ import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
 
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS, BASE_URL } from '../constants';
+import { CONTESTABLE_ISSUES_API, BASE_URL } from '../constants';
 
 import { CONTESTABLE_ISSUES_PATH, SELECTED } from '../../shared/constants';
 
@@ -22,6 +23,7 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
 
     dataSets: ['maximal-test-v2', 'minimal-test-v2'],
@@ -94,11 +96,23 @@ const testConfig = createTestConfig(
       },
 
       'area-of-disagreement/:index': areaOfDisagreementPageHook,
+
+      'informal-conference': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(testData => {
+            const rep = testData.informalConference;
+            cy.get(`va-radio-option[value="${rep}"]`).click();
+            cy.axeCheck();
+            cy.findByText('Continue', { selector: 'button' }).click();
+          });
+        });
+      },
     },
 
     setupPerTest: () => {
-      window.sessionStorage.removeItem(WIZARD_STATUS);
       cypressSetup();
+
+      setStoredSubTask({ benefitType: 'compensation' });
 
       cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
       cy.intercept('POST', '/v1/higher_level_reviews', mockSubmit);
@@ -108,7 +122,7 @@ const testConfig = createTestConfig(
         cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
         cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-        });
+        }).as('getIssues');
       });
     },
   },

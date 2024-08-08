@@ -7,7 +7,7 @@ import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockFacilities from './fixtures/mocks/mockFacilities.json';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
-import { goToNextPage } from './utils';
+import { acceptPrivacyAgreement, goToNextPage } from './utils';
 
 const testConfig = createTestConfig(
   {
@@ -120,11 +120,7 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[name="privacyAgreementAccepted"]')
-            .scrollIntoView()
-            .shadow()
-            .find('[type="checkbox"]')
-            .check();
+          acceptPrivacyAgreement();
           cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },

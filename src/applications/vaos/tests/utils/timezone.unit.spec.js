@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { getTimezoneAbbrByFacilityId, stripDST } from '../../utils/timezone';
 
-describe('timezone util', () => {
+describe('VAOS Utils: timezone', () => {
   it('should return the correct abbreviation', () => {
     const abbr = getTimezoneAbbrByFacilityId(605);
     expect(abbr).to.equal('PT');

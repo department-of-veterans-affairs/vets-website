@@ -41,7 +41,7 @@ export const totalRatingMessage = totalDisabilityRating => {
   const heading = `Your combined disability rating is ${totalDisabilityRating}%`;
 
   return (
-    <va-featured-content>
+    <va-summary-box>
       <h3 slot="headline">{heading}</h3>
       <p>
         This rating doesn’t include any conditions from claims that we’re still
@@ -60,6 +60,6 @@ export const totalRatingMessage = totalDisabilityRating => {
       >
         Check the status of your claims, decision reviews, or appeals online
       </a>
-    </va-featured-content>
+    </va-summary-box>
   );
 };

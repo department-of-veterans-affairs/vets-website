@@ -4,7 +4,7 @@ import { SummaryOfDisabilitiesDescription } from '../../content/summaryOfDisabil
 import { NULL_CONDITION_STRING } from '../../constants';
 
 describe('summaryOfDisabilitiesDescription', () => {
-  it('renders selected rated disabilities', () => {
+  it('renders selected rated disabilities when claiming increase', () => {
     const formData = {
       newDisabilities: [],
       ratedDisabilities: [
@@ -93,5 +93,50 @@ describe('summaryOfDisabilitiesDescription', () => {
     const ptsd = tree.getByText('PTSD (Post Traumatic Stress Disorder)');
     within(ptsd).getByText('Combat');
     tree.getByText('Condition 2');
+  });
+
+  it('renders both new conditions and selected rated disabilities when both claim types selected', () => {
+    const formData = {
+      'view:claimType': {
+        'view:claimingNew': true,
+        'view:claimingIncrease': true,
+      },
+      newDisabilities: [
+        {
+          cause: 'NEW',
+          'view:serviceConnectedDisability': {},
+          condition: 'asthma',
+        },
+      ],
+      ratedDisabilities: [
+        {
+          name: 'Diabetes mellitus0',
+          ratedDisabilityId: '0',
+          ratingDecisionId: '63655',
+          diagnosticCode: 5238,
+          decisionCode: 'SVCCONNCTED',
+          decisionText: 'Service Connected',
+          ratingPercentage: 100,
+          disabilityActionType: 'NONE',
+          'view:selected': true,
+        },
+        {
+          name: 'Diabetes mellitus1',
+          ratedDisabilityId: '1',
+          ratingDecisionId: '63655',
+          diagnosticCode: 5238,
+          decisionCode: 'SVCCONNCTED',
+          decisionText: 'Service Connected',
+          ratingPercentage: 100,
+          disabilityActionType: 'NONE',
+        },
+      ],
+    };
+
+    const tree = render(SummaryOfDisabilitiesDescription({ formData }));
+
+    tree.getByText('Diabetes Mellitus0');
+    tree.getByText('Asthma');
+    expect(tree.queryByText('Diabites Mellitus1')).to.be.null;
   });
 });

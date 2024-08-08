@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "id": "189685",
+      "type": "claim",
+      "attributes": {
+        "claimDate": "2008-09-23",
+        "closeDate": null,
+        "claimPhaseDates": {
+          "phaseChangeDate": "2016-10-31"
+        },
+        "evidenceWaiverSubmitted5103": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": true,
+        "status": "INITIAL_REVIEW"
+      }
+    },
+    {
+      "id": "189686",
+      "type": "claim",
+      "attributes": {
+        "claimDate": "2008-09-23",
+        "closeDate": "2012-10-31",
+        "claimPhaseDates": {
+          "phaseChangeDate": "2012-10-31"
+        },
+        "evidenceWaiverSubmitted5103": false,
+        "documentsNeeded": true,
+        "developmentLetterSent": true,
+        "decisionLetterSent": true,
+        "status": "COMPLETE"
+      }
+    }
+  ]
+}

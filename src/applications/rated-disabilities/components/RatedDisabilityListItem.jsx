@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { buildDateFormatter } from '../util';
+
 const getHeadingText = ratedDisability => {
   const { name, ratingPercentage } = ratedDisability;
 
@@ -12,7 +14,7 @@ const getHeadingText = ratedDisability => {
   return headingParts.join(' ');
 };
 
-const RatedDisabilityListItem = ({ ratedDisability }) => {
+export default function RatedDisabilityListItem({ ratedDisability }) {
   const { effectiveDate } = ratedDisability;
   const headingText = getHeadingText(ratedDisability);
 
@@ -21,16 +23,13 @@ const RatedDisabilityListItem = ({ ratedDisability }) => {
       <h4 className="vads-u-margin-y--0 vads-u-font-size--h3">{headingText}</h4>
       {effectiveDate !== null && (
         <div className="vads-u-margin-top--2">
-          <strong>Effective date:</strong>{' '}
-          {effectiveDate.format('MMMM DD, YYYY')}
+          <strong>Effective date:</strong> {buildDateFormatter()(effectiveDate)}
         </div>
       )}
     </va-card>
   );
-};
+}
 
 RatedDisabilityListItem.propTypes = {
   ratedDisability: PropTypes.object.isRequired,
 };
-
-export default RatedDisabilityListItem;

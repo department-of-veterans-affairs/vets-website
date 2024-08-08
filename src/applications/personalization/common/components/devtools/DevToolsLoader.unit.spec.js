@@ -1,78 +1,136 @@
 import React from 'react';
-import { render, act, fireEvent } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { expect } from 'chai';
-
 import DevToolsLoader from './DevToolsLoader';
 
 const mockNanoid = () => '123';
 
-describe('<DevToolsLoader />', async () => {
-  it('toggles the panel visibility with custom events', async () => {
+describe('<DevToolsLoader />', () => {
+  let props;
+
+  beforeEach(() => {
+    props = {
+      devToolsData: { key: 'value' },
+      panel: true,
+    };
+  });
+
+  it('toggles the panel visibility with custom events and shows devToolsData', async () => {
     const { queryByTestId, findByTestId } = render(
-      <DevToolsLoader
-        devToolsData={{ test: 'data' }}
-        panel
-        nanoidImp={mockNanoid}
-      />,
+      <DevToolsLoader {...props} nanoidImp={mockNanoid} />,
     );
 
-    act(() => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsPanelUpdate', {
-          detail: { devToolsData: { test: true }, uuid: mockNanoid() },
-        }),
-      );
-    });
+    document.dispatchEvent(
+      new CustomEvent('devToolsPanelUpdate', {
+        detail: { devToolsData: { test: true }, uuid: mockNanoid() },
+      }),
+    );
 
-    // Verify panel is shown
     expect(await findByTestId('devtools-panel')).to.exist;
 
-    // Dispatch custom event to hide the panel
-    act(() => {
-      document.dispatchEvent(
-        new CustomEvent('devToolsPanelUpdate', {
-          detail: { closeAll: true },
-        }),
-      );
-    });
+    expect(await findByTestId('devtools-panel')).to.contain.text(
+      JSON.stringify(props.devToolsData, null, 2),
+      { exact: false },
+    );
 
-    // Verify panel is hidden
+    document.dispatchEvent(
+      new CustomEvent('devToolsPanelUpdate', {
+        detail: { closeAll: true },
+      }),
+    );
+
+    expect(queryByTestId('devtools-panel')).to.not.exist;
+  });
+
+  it('toggles the panel visibility with custom events and closes it when uuid does not match in event', async () => {
+    const { queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} nanoidImp={mockNanoid} />,
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('devToolsPanelUpdate', {
+        detail: { devToolsData: { test: true }, uuid: mockNanoid() },
+      }),
+    );
+
+    expect(await findByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text(
+      JSON.stringify(props.devToolsData, null, 2),
+      { exact: false },
+    );
+
+    document.dispatchEvent(
+      new CustomEvent('devToolsPanelUpdate', {
+        detail: { uuid: 'not-matching-uuid' },
+      }),
+    );
+
     expect(queryByTestId('devtools-panel')).to.not.exist;
   });
 
   it('initially renders in a hidden state', () => {
-    const { queryByTestId } = render(
-      <DevToolsLoader devToolsData={{}} panel />,
-    );
+    const { queryByTestId } = render(<DevToolsLoader {...props} />);
     expect(queryByTestId('devtools-panel')).to.not.exist;
   });
 
   it('shows the panel when the button is clicked', async () => {
-    const { findByRole, findByTestId } = render(
-      <DevToolsLoader devToolsData={{}} panel />,
-    );
+    const { findByRole, findByTestId } = render(<DevToolsLoader {...props} />);
 
-    await act(async () => {
-      fireEvent.click(await findByRole('button'));
-    });
+    fireEvent.click(await findByRole('button'));
 
     expect(await findByTestId('devtools-panel')).to.exist;
   });
 
-  it('renders children correctly', async () => {
-    const { findByRole, findByText } = render(
-      <DevToolsLoader devToolsData={{}} panel>
-        <div>Child Content</div>
-      </DevToolsLoader>,
+  it('closes the panel when the close button is clicked', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} />,
     );
 
-    await act(async () => {
-      fireEvent.click(await findByRole('button'));
-    });
+    fireEvent.click(await findByRole('button'));
 
-    expect(await findByText('Child Content', { exact: false })).to.exist;
-    expect(
-      await findByText(`"componentOrElementName": "div"`, { exact: false }),
-    ).to.exist;
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    fireEvent.click(await findByTestId('close-devtools-panel-button'));
+
+    expect(await queryByTestId('devtools-panel')).to.not.exist;
+  });
+
+  it('displays a string type in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData="this is a string" />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text(
+      '"this is a string"',
+    );
+  });
+
+  it('displays null in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData={null} />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text('null');
+  });
+
+  it('displays a boolean in the panel', async () => {
+    const { findByRole, queryByTestId, findByTestId } = render(
+      <DevToolsLoader {...props} devToolsData={false} />,
+    );
+
+    fireEvent.click(await findByRole('button'));
+
+    expect(await queryByTestId('devtools-panel')).to.exist;
+
+    expect(await findByTestId('devtools-panel')).to.contain.text('false');
   });
 });

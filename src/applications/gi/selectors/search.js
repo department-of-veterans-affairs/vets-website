@@ -1,7 +1,11 @@
 import _ from 'lodash';
-import { INITIAL_STATE } from '../reducers/search';
 import appendQuery from 'append-query';
-import { buildSearchFilters } from './filters';
+import { INITIAL_STATE } from '../reducers/search';
+import {
+  FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP,
+  buildSearchFilters,
+} from './filters';
+import { managePushHistory, setDocumentTitle } from '../utils/helpers';
 
 export const getSearchQueryChanged = query => {
   return !_.isEqual(query, INITIAL_STATE.query);
@@ -39,13 +43,20 @@ export const updateUrlParams = (
   if (version) {
     queryParams.version = version;
   }
+  const clonedFilters = FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP.filter(
+    exclusion =>
+      !buildSearchFilters(filters).excludedSchoolTypes?.includes(exclusion),
+  );
+  const ClonedBuildSearchFilters =
+    tab === 'location'
+      ? { ...buildSearchFilters(filters), excludedSchoolTypes: clonedFilters }
+      : buildSearchFilters(filters);
 
   const url = appendQuery('/', {
     ...queryParams,
-    ...buildSearchFilters(filters),
+    ...ClonedBuildSearchFilters,
   });
 
-  history.push(url);
-
-  document.title = `Search results: GI Bill® Comparison Tool | Veterans Affairs`;
+  managePushHistory(history, url);
+  setDocumentTitle();
 };

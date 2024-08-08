@@ -40,18 +40,11 @@ describe('Global check in', () => {
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
         const isTravelReimbursementEnabled = true;
-        const appointments = [
-          {
-            stationNo: '0001',
-            clinicIen: '0001',
-          },
-        ];
         const form = updateFormPages(
           patientDemographicsStatus,
           testPages,
           URLS,
           isTravelReimbursementEnabled,
-          appointments,
         );
         expect(form.length).to.equal(testPages.length);
       });
@@ -156,64 +149,6 @@ describe('Global check in', () => {
         expect(form.find(page => page === URLS.EMERGENCY_CONTACT)).to.be
           .undefined;
       });
-      it('should skip travel pages if appointments are greater than 1', () => {
-        MockDate.set('2022-01-08T06:00:00.000-05:00');
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: false,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: false,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: false,
-          emergencyContactConfirmedAt: '2022-01-01T08:00:00.000-05:00',
-        };
-        const isTravelReimbursementEnabled = true;
-        const appointments = [
-          { stationNo: '0001' },
-          { stationNo: '0001' },
-          { stationNo: '0001' },
-          { stationNo: '0001' },
-        ];
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          testPages,
-          URLS,
-          isTravelReimbursementEnabled,
-          appointments,
-        );
-        expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.be.undefined;
-        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.be.undefined;
-      });
-      it('should show travel pages if there is only one appointment', () => {
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: true,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: true,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: true,
-          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-        };
-        const isTravelReimbursementEnabled = true;
-        const appointments = [
-          {
-            stationNo: '0001',
-            clinicIen: '0001',
-          },
-        ];
-        expect(appointments).to.have.lengthOf(1);
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          testPages,
-          URLS,
-          isTravelReimbursementEnabled,
-          appointments,
-        );
-        expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
-      });
       it('should skip travel pages if facility is in local storage within the last day', () => {
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
@@ -224,25 +159,20 @@ describe('Global check in', () => {
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
         const isTravelReimbursementEnabled = true;
-        const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
-        ];
-        expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
           patientDemographicsStatus,
           testPages,
           URLS,
           isTravelReimbursementEnabled,
-          appointments,
           true,
-          { '0001': new Date().toISOString() },
+          new Date().toISOString(),
         );
         expect(form.find(page => page === URLS.TRAVEL_PAY)).to.be.undefined;
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.be.undefined;
         expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.be.undefined;
         expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.be.undefined;
       });
-      it('should not skip travel pages if facility is in local storage but not in the last day', () => {
+      it('should not skip travel pages if in local storage but not in the last day', () => {
         const patientDemographicsStatus = {
           demographicsNeedsUpdate: true,
           demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
@@ -252,75 +182,12 @@ describe('Global check in', () => {
           emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
         };
         const isTravelReimbursementEnabled = true;
-        const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
-        ];
-        expect(appointments).to.have.lengthOf(1);
         const form = updateFormPages(
           patientDemographicsStatus,
           testPages,
           URLS,
           isTravelReimbursementEnabled,
-          appointments,
-          true,
-          { '0001': new Date('2023-01-01T03:24:00').toISOString() },
-        );
-        expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
-      });
-      it('should not skip travel pages if facility is not in local storage and there are multiple appointments', () => {
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: true,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: true,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: true,
-          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-        };
-        const isTravelReimbursementEnabled = true;
-        const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
-          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
-        ];
-        expect(appointments).to.have.lengthOf(2);
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          testPages,
-          URLS,
-          isTravelReimbursementEnabled,
-          appointments,
-          true,
-          {},
-        );
-        expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_ADDRESS)).to.exist;
-        expect(form.find(page => page === URLS.TRAVEL_MILEAGE)).to.exist;
-      });
-      it('should not skip travel pages if different facility is in local storage within the last day', () => {
-        const patientDemographicsStatus = {
-          demographicsNeedsUpdate: true,
-          demographicsConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          nextOfKinNeedsUpdate: true,
-          nextOfKinConfirmedAt: '2022-01-04T00:00:00.000-05:00',
-          emergencyContactNeedsUpdate: true,
-          emergencyContactConfirmedAt: '2021-12-01T00:00:00.000-05:00',
-        };
-        const isTravelReimbursementEnabled = true;
-        const appointments = [
-          { stationNo: '0001', clinicIen: '0001', facility: 'testId' },
-        ];
-        expect(appointments).to.have.lengthOf(1);
-        const form = updateFormPages(
-          patientDemographicsStatus,
-          testPages,
-          URLS,
-          isTravelReimbursementEnabled,
-          appointments,
-          true,
-          { '0002': new Date().toISOString() },
+          new Date('2023-01-01T03:24:00').toISOString(),
         );
         expect(form.find(page => page === URLS.TRAVEL_QUESTION)).to.exist;
         expect(form.find(page => page === URLS.TRAVEL_VEHICLE)).to.exist;

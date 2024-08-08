@@ -44,6 +44,11 @@
   {
     "appName": "How To Apply For A Veterans Burial Allowance",
     "rootUrl": "/burials-memorials/veterans-burial-allowance",
+    "widgetType": "burials-v2-how-do-i-apply-widget"
+  },
+  {
+    "appName": "How To Apply For A Veterans Burial Allowance",
+    "rootUrl": "/burials-memorials/veterans-burial-allowance/burials-app-status",
     "widgetType": "burials-app-status"
   },
   {
@@ -77,11 +82,6 @@
     "widgetType": "medical-copays-cta"
   },
   {
-    "appName": "Download VA benefit letters",
-    "rootUrl": "/records/download-va-letters",
-    "widgetType": "letters-mobile-cta"
-  },
-  {
     "appName": "Post-9/11 GI Bill Statement Of Benefits",
     "rootUrl": "/education/gi-bill/post-9-11/ch-33-benefit",
     "widgetType": "post-9-11-gi-bill-status"
@@ -106,11 +106,6 @@
     "appName": "Connected Devices",
     "rootUrl": "/health-care/connected-devices",
     "entryName": "dhp-consent-flow"
-  },
-  {
-    "appName": "Transfer Account",
-    "rootUrl": "/transfer-account",
-    "entryName": "mhv-inherited-proofing"
   },
   {
     "appName": "Notice of Disagreement",
@@ -141,5 +136,15 @@
     "appName": "Find a VA Accredited Representative or VSO",
     "rootUrl": "/get-help-from-accredited-representative",
     "widgetType": "find-a-rep-landing-content"
+  },
+  {
+    "appName": "Representative Status",
+    "rootUrl": "/representative-status",
+    "widgetType": "representative-status"
+  },
+  {
+    "appName": "Verify Your Enrollment Widget",
+    "rootUrl": "/education/verify-school-enrollment",
+    "widgetType": "vye-enrollment-login-widget"
   }
 ]

@@ -10,8 +10,10 @@ describe('check in', () => {
         expect(state).to.deep.equal({
           app: '',
           appointments: [],
+          upcomingAppointments: [],
           veteranData: {
             demographics: {},
+            address: '',
           },
           context: {},
           form: {

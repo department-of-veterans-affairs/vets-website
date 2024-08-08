@@ -220,7 +220,7 @@
         "validPdf": true,
         "formUsage": "<p>Use VA Form 10-10EZ if you’re a Veteran and want to apply for VA health care. You must be enrolled in VA health care to get care at VA health facilities or to have us cover your care at a community care provider (an approved non-VA provider).  </p>",
         "formToolIntro": "You can apply online instead of filling out and sending us the paper form.",
-        "formToolUrl": "https://www.va.gov/health-care/apply/application/introduction",
+        "formToolUrl": "https://www.va.gov/health-care/apply-for-health-care-form-10-10ez/",
         "formDetailsUrl": "https://www.va.gov/find-forms/about-form-10-10ez",
         "formType": "benefit",
         "language": "en",

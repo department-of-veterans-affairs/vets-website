@@ -71,6 +71,7 @@ export default function ConfirmationDirectScheduleInfoV2({
             text="Schedule a new appointment"
             onClick={handleClick(history, dispatch)}
             data-testid="schedule-new-appointment-link"
+            tabindex="0"
           />
         </div>
       </InfoAlert>
@@ -101,7 +102,7 @@ export default function ConfirmationDirectScheduleInfoV2({
           <h3 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--0">
             Your reason for your visit
           </h3>
-          <div>
+          <div data-dd-privacy="mask">
             {
               PURPOSE_TEXT_V2.find(
                 purpose => purpose.id === data.reasonForAppointment,
@@ -129,12 +130,13 @@ export default function ConfirmationDirectScheduleInfoV2({
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <va-icon icon="print" size="3" aria-hidden="true" />
         <va-button
           className="va-button-link"
           onClick={() => window.print()}
           text="Print"
           data-testid="print-button"
+          uswds
         />
       </div>
     </>

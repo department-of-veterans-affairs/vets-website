@@ -9,7 +9,7 @@ const appointmentData = {
   status: 'Booked',
 };
 
-describe('CancelLink', () => {
+describe('VAOS Component: CancelLink', () => {
   it('renders null when hideCanceledOrPast is true', async () => {
     const initialState = {
       featureToggles: {

@@ -7,47 +7,56 @@ import removeDependents from '../../manage-dependents/redux/reducers';
 describe('<ViewDependentsList />', () => {
   const onAwardSubhead = (
     <span>
-      Dependents on award have been added to you disability claim.{' '}
+      Dependents on award have been added to your disability claim.{' '}
       <strong>
-        If a dependents status has changed, you need to let the VA know.
+        If a dependent’s status has changed, you need to let the VA know.
       </strong>
     </span>
   );
 
-  const mockState = {
-    onAwardDependents: [
-      {
-        name: 'Billy Blank',
-        social: '312-243-5634',
-        onAward: true,
-        birthdate: '05-05-1983',
-      },
-      {
-        name: 'Cindy See',
-        social: '312-243-5634',
-        onAward: true,
-        birthdate: '05-05-1953',
-        spouse: true,
-      },
-    ],
-  };
+  const dependents = [
+    {
+      firstName: 'Billy',
+      lastName: 'Blank',
+      ssn: '312-243-5634',
+      relationship: 'Child',
+      dateOfBirth: '1983-05-05',
+    },
+    {
+      firstName: 'Cindy',
+      lastName: 'See',
+      ssn: '312-243-5634',
+      relationship: 'Spouse',
+      dateOfBirth: '1953-05-05',
+    },
+  ];
 
-  it('Should Render', () => {
-    const screen = renderInReduxProvider(
+  it('should render the component with the provided dependents', async () => {
+    const { findByRole, findByText } = renderInReduxProvider(
       <ViewDependentsList
         header="Dependents on your VA benefits"
         subHeader={onAwardSubhead}
         isAward
+        link="https://example.com"
+        linkText="Link Text"
+        loading={false}
+        dependents={dependents}
       />,
       {
-        mockState,
+        initialState: {
+          removeDependents: {
+            submittedDependents: [],
+          },
+        },
         reducers: removeDependents,
       },
     );
 
     expect(
-      screen.findByRole('heading', { name: 'Dependents on your VA benefits' }),
+      await findByRole('heading', {
+        name: 'Dependents on your VA benefits',
+      }),
     ).to.exist;
-    expect(screen.findByText(/Cindy See/)).to.exist;
+    expect(await findByText(/Cindy See/)).to.exist;
   });
 });

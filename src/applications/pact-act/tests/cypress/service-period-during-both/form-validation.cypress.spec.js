@@ -57,6 +57,17 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
       h.clickContinue();
 
+      // BURN_PIT_2_1_3 --------------------------------
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_3);
+      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.BURN_PIT_2_1_3_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.BURN_PIT_2_1_3_INPUT, 2);
+      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+      h.clickContinue();
+
       // ORANGE_2_2_A --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
@@ -70,13 +81,13 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_B --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_B);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.ORANGE_2_2_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_A --------------------------------
@@ -98,13 +109,13 @@ describe('PACT Act', () => {
 
       // ORANGE_2_2_1_B -----------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_1_B);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.ORANGE_2_2_1_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.ORANGE_2_2_1_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.ORANGE_2_2_1_B_INPUT);
+      h.verifyFormErrorNotShown(h.ORANGE_2_2_1_B_INPUT);
       h.clickBack();
 
       // ORANGE_2_2_1_A ------------------------------
@@ -146,13 +157,13 @@ describe('PACT Act', () => {
 
       // RADIATION_2_3_B -----------------------------
       h.verifyUrl(ROUTES.RADIATION_2_3_B);
-      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
 
       h.clickContinue();
-      h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'Error Select a location.');
+      h.checkFormAlertText(h.RADIATION_2_3_B_INPUT, 'ErrorSelect a location.');
 
       h.selectCheckbox(h.RADIATION_2_3_B_INPUT, 0);
-      h.verifyFormErrorNotShownCheckBox(h.RADIATION_2_3_B_INPUT);
+      h.verifyFormErrorNotShown(h.RADIATION_2_3_B_INPUT);
       h.clickBack();
 
       // RADIATION_2_3_A ------------------------------
@@ -169,6 +180,16 @@ describe('PACT Act', () => {
       h.checkFormAlertText(h.LEJEUNE_2_4_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // MAIN_FLOW_2_5 ------------------------------
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.verifyFormErrorNotShown(h.MAIN_FLOW_2_5_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.MAIN_FLOW_2_5_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 0);
       h.clickContinue();
     });
   });

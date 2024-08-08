@@ -27,9 +27,14 @@ import {
  * @param {Object} keys - form data keys
  * @returns {Element}
  */
-const ContactInfoReview = ({ data, editPage, content, keys }) => {
+const ContactInfoReview = ({
+  data,
+  editPage,
+  content,
+  keys,
+  contactInfoPageKey,
+}) => {
   const editRef = useRef(null);
-
   useEffect(
     () => {
       if (getReturnState() === 'true,' && editRef?.current) {
@@ -271,7 +276,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 
   return (
     <div className="form-review-panel-page">
-      <Element name="confirmContactInformationScrollElement" />
+      <Element name={`${contactInfoPageKey}ScrollElement`} />
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5 vads-u-margin--0">
           {content.title}
@@ -279,11 +284,12 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
         <va-button
           ref={editRef}
           secondary
-          id="confirmContactInformationEdit"
+          id={`${contactInfoPageKey}Edit`}
           class="edit-page vads-u-justify-content--flex-end"
           onClick={handlers.onEditPage}
           label={content.editLabel}
           text={content.edit}
+          uswds
         />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
@@ -292,6 +298,7 @@ const ContactInfoReview = ({ data, editPage, content, keys }) => {
 };
 
 ContactInfoReview.propTypes = {
+  contactInfoPageKey: contactInfoPropTypes.contactInfoPageKey,
   content: contactInfoPropTypes.content,
   data: contactInfoPropTypes.data,
   editPage: PropTypes.func,

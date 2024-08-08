@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 
+import TravelEligibilityAddtionalInfo from '../../components/TravelEligibilityAdditionalInfo';
 import TravelPage from '../../components/pages/TravelPage';
 
 const TravelQuestion = props => {
@@ -10,74 +11,7 @@ const TravelQuestion = props => {
 
   const additionalInfoItems = [
     {
-      info: (
-        <div>
-          <Trans
-            i18nKey="this-must-be-true-youre-traveling-for-care"
-            components={[
-              <span key="bold" className="vads-u-font-weight--bold" />,
-            ]}
-          />
-          <ul className="vads-u-margin-bottom--0">
-            <li>
-              <Trans
-                i18nKey="you-have-a-va-disability-rating-of"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </li>
-            <li>
-              <Trans
-                i18nKey="youre-traveling-for-treatment-of-a-service-connected-condition"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </li>
-            <li>
-              <Trans
-                i18nKey="you-receive-va-pension-benefits"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </li>
-            <li>
-              <Trans
-                i18nKey="you-have-an-annual-income-below-the-maximum"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </li>
-            <li>
-              <Trans
-                i18nKey="you-cant-afford-to-pay-for-your-travel"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-            </li>
-            <li>
-              <Trans
-                i18nKey="youre-traveling-for-one-of-these-reasons"
-                components={[
-                  <span key="bold" className="vads-u-font-weight--bold" />,
-                ]}
-              />
-              <p className="vads-u-margin-top--0p5 vads-u-margin-bottom--0">
-                <Trans
-                  i18nKey="youre-traveling-in-relation-to-a-compensation-and-pension"
-                  components={[
-                    <span key="bold" className="vads-u-font-weight--bold" />,
-                  ]}
-                />
-              </p>
-            </li>
-          </ul>
-        </div>
-      ),
+      info: <TravelEligibilityAddtionalInfo />,
       trigger: t('travel-reimbursement-eligibility'),
     },
     {

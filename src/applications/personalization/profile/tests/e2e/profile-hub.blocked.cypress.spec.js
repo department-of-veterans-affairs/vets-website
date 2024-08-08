@@ -13,21 +13,10 @@ const checkForAccountSecurityAsRedirect = () => {
 };
 
 describe('Profile - Hub page', () => {
-  // visits the profile page with useProfileHub toggled on and off
-  // and checks that the correct content is rendered
-
   beforeEach(() => {
     cy.login(mockUser);
 
-    mockProfileLOA3();
-
-    cy.intercept(
-      'v0/feature_toggles*',
-      generateFeatureToggles({
-        profileUseHubPage: true,
-        profileLighthouseDirectDeposit: true,
-      }),
-    );
+    mockProfileLOA3(generateFeatureToggles());
   });
 
   it('should render blocked profile content when user is deceased', () => {

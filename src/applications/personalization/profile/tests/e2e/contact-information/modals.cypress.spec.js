@@ -41,9 +41,7 @@ const checkModals = options => {
   });
 
   // Make an edit
-  cy.get(`#${editLineId}`)
-    .click({ force: true })
-    .type('test', { force: true });
+  cy.fillVaTextInput(editLineId, 'test');
 
   // Click on a different section to edit
   cy.findByRole('button', {
@@ -60,24 +58,30 @@ const checkModals = options => {
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByRole('button', { name: /OK/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/ok/i)
     .click();
 
   // Click on cancel in the current section
-  cy.findByRole('button', { name: /Cancel/i }).click({
-    force: true,
-  });
+  cy.get('va-button[text="Cancel"]').click({ force: true });
 
   // Confirmation modal appears, confirm cancel
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByText('Are you sure?')
+    .findByText('Cancel changes?')
     .should('exist');
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByRole('button', { name: /cancel/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/yes, cancel my changes/i)
     .click();
 };
 
@@ -91,7 +95,7 @@ const checkRemovalWhileEditingModal = options => {
     force: true,
   });
 
-  cy.get(`#${editLineId}`).type('{selectAll}{backspace}1234', { force: true });
+  cy.fillVaTextInput(editLineId, '1234');
 
   // Attempt to remove a different field
   cy.findByRole('button', {
@@ -107,14 +111,22 @@ const checkRemovalWhileEditingModal = options => {
 
   cy.findByTestId('cannot-edit-modal')
     .shadow()
-    .findByRole('button', { name: /OK/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/ok/i)
     .click();
 
-  cy.findByTestId('cancel-edit-button').click();
+  cy.get('va-button[text="Cancel"]').click();
 
   cy.findByTestId('confirm-cancel-modal')
     .shadow()
-    .findByRole('button', { name: /Yes, cancel my changes/i })
+    .find('.usa-button-group')
+    .first()
+    .find('va-button')
+    .shadow()
+    .findByText(/yes, cancel my changes/i)
     .click();
 };
 
@@ -259,7 +271,7 @@ describe('Modals on the contact information and content page after editing', () 
     });
 
     // verify input exists
-    cy.findByLabelText(/email address/i);
+    cy.get('va-text-input[label="Email address" i]');
 
     cy.axeCheck();
   });
@@ -319,14 +331,10 @@ describe('when editing other profile fields on the same page', () => {
       force: true,
     });
 
-    cy.get('#root_inputPhoneNumber').should('exist');
+    cy.get('[name="root_inputPhoneNumber"]').should('exist');
 
     // Cancel edit should also exist the edit mode with no modal
-    cy.findByRole('button', {
-      name: /Cancel/i,
-    }).click({
-      force: true,
-    });
+    cy.get('va-button[text="Cancel"]').click({ force: true });
 
     // edit button should reappear once edit mode is exited
     cy.findByRole('button', {

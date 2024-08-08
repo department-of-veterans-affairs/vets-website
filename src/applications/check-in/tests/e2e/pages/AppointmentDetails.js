@@ -13,26 +13,9 @@ class AppointmentDetails {
       .and('include.text', 'Phone appointment');
   };
 
-  validateSubtitleInPerson = () => {
-    cy.get('p[data-testid="in-person-appointment-subtitle"]').should(
-      'be.visible',
-    );
-  };
-
-  validateSubtitlePhone = () => {
-    cy.get('p[data-testid="phone-appointment-subtitle"]').should('be.visible');
-  };
-
   validateWhen = () => {
     cy.get('div[data-testid="appointment-details--when"]').should('be.visible');
     cy.get('div[data-testid="appointment-details--date-value"]').should(
-      'be.visible',
-    );
-  };
-
-  validateWhat = () => {
-    cy.get('div[data-testid="appointment-details--what"]').should('be.visible');
-    cy.get('div[data-testid="appointment-details--appointment-value"]').should(
       'be.visible',
     );
   };
@@ -62,29 +45,26 @@ class AppointmentDetails {
     }
   };
 
-  validateWhere = (type = 'in-person') => {
+  validateNeedToMakeChanges = () => {
+    cy.get(
+      'div[data-testid="appointment-details--need-to-make-changes"]',
+    ).should('be.visible');
+  };
+
+  validateWhere = () => {
     cy.get('div[data-testid="appointment-details--where"]').should(
       'be.visible',
     );
     cy.get('div[data-testid="appointment-details--clinic-value"]').should(
       'be.visible',
     );
-    if (type === 'in-person') {
-      cy.get('div[data-testid="appointment-details--facility-value"]').should(
-        'be.visible',
-      );
+    cy.get('div[data-testid="appointment-details--facility-value"]').should(
+      'be.visible',
+    );
 
-      cy.get('div[data-testid="appointment-details--location-value"]').should(
-        'be.visible',
-      );
-    } else {
-      cy.get('div[data-testid="appointment-details--facility-value"]').should(
-        'not.exist',
-      );
-      cy.get('div[data-testid="appointment-details--location-value"]').should(
-        'not.exist',
-      );
-    }
+    cy.get('div[data-testid="appointment-details--location-value"]').should(
+      'be.visible',
+    );
   };
 
   validatePhone = () => {
@@ -135,6 +115,18 @@ class AppointmentDetails {
     cy.get('button[data-testid="back-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  clickReview = () => {
+    cy.get('[data-testid="review-information-button"] a').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=prepare-content]')
+      .find('a')
+      .click();
   };
 }
 

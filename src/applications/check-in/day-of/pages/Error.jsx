@@ -2,11 +2,16 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 
-import { makeSelectError, makeSelectForm } from '../../selectors';
+import {
+  makeSelectError,
+  makeSelectForm,
+  makeSelectVeteranData,
+} from '../../selectors';
 import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import Wrapper from '../../components/layout/Wrapper';
 import { phoneNumbers } from '../../utils/appConstants';
 import ExternalLink from '../../components/ExternalLink';
+import ConfirmationAccordionBlock from '../../components/ConfirmationAccordionBlock';
 
 const Error = () => {
   const { t } = useTranslation();
@@ -20,6 +25,9 @@ const Error = () => {
   const featureToggles = useSelector(selectFeatureToggles);
   const { isTravelReimbursementEnabled } = featureToggles;
 
+  const selectVeteranData = useMemo(makeSelectVeteranData, []);
+  const { appointments } = useSelector(selectVeteranData);
+
   let alerts = [];
   let header = '';
 
@@ -29,7 +37,7 @@ const Error = () => {
       !isTravelReimbursementEnabled
     ) {
       return (
-        <>
+        <div data-testid="check-in-failed-find-out">
           <p className="vads-u-margin-top--0">
             {t('travel-pay-reimbursement--info-message')}
           </p>
@@ -41,7 +49,7 @@ const Error = () => {
           >
             {t('find-out-if-youre-eligible--link')}
           </ExternalLink>
-        </>
+        </div>
       );
     }
     if (
@@ -50,7 +58,7 @@ const Error = () => {
       form.data['travel-mileage'] === 'no'
     ) {
       return (
-        <>
+        <div data-testid="check-in-failed-cant-file">
           <p
             className="vads-u-margin-top--0"
             data-testid="travel-pay-not-eligible-message"
@@ -70,12 +78,12 @@ const Error = () => {
           >
             {t('find-out-how-to-file--link')}
           </ExternalLink>
-        </>
+        </div>
       );
     }
     // Answered yes to everything
     return (
-      <>
+      <div data-testid="check-in-failed-file-later">
         <p className="vads-u-margin-top--0">
           <Trans
             i18nKey="were-sorry-cant-file-travel-file-later--info-message"
@@ -92,7 +100,7 @@ const Error = () => {
         >
           {t('find-out-how-to-file--link')}
         </ExternalLink>
-      </>
+      </div>
     );
   };
 
@@ -101,19 +109,21 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          alertType: 'error',
+          type: 'error',
           message: t(
             'were-sorry-we-couldnt-match-your-information-please-ask-for-help',
           ),
+          alertTestId: 'error-message-max-validation',
         },
       ];
       break;
+    case 'check-in-past-appointment':
     case 'uuid-not-found':
       // Shown when POST sessions returns 404.
-      header = t('this-link-has-expired');
+      header = t('sorry-this-link-has-expired');
       alerts = [
         {
-          type: 'info',
+          type: 'warning',
           message: (
             <Trans
               i18nKey="trying-to-check-in-for-an-appointment--info-message"
@@ -128,6 +138,7 @@ const Error = () => {
               ]}
             />
           ),
+          alertTestId: 'error-message-trying-to-check-in',
         },
       ];
       break;
@@ -136,18 +147,23 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
+          subHeading: t('your-appointments', { count: 1 }),
           type: 'warning',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
+          alertTestId: 'error-message-checkin-error',
         },
         {
+          subHeading: t('travel-reimbursement'),
           type:
             form.data['travel-question'] === 'no' ||
             !isTravelReimbursementEnabled
-              ? 'info'
+              ? 'text'
               : 'warning',
           message: getTravelMessage(),
+          travelMessage: true,
+          alertTestId: 'error-message-checkin-error-travel-info',
         },
       ];
       break;
@@ -155,10 +171,11 @@ const Error = () => {
       header = t('we-couldnt-check-you-in');
       alerts = [
         {
-          type: 'info',
+          type: 'error',
           message: t(
             'were-sorry-something-went-wrong-on-our-end-check-in-with-a-staff-member',
           ),
+          alertTestId: 'error-message-default-error',
         },
       ];
   }
@@ -167,18 +184,33 @@ const Error = () => {
     <Wrapper pageTitle={header}>
       {alerts.map((alert, index) => (
         <div key={`alert-${index}`}>
-          <va-alert
-            show-icon
-            status={alert.type}
-            data-testid={`error-message-${index}`}
-            class={index !== 0 ? 'vads-u-margin-top--2' : ''}
-            uswds
-            slim
-          >
-            <div>{alert.message}</div>
-          </va-alert>
+          {alert.subHeading && (
+            <h2 data-testid="message-subheading">{alert.subHeading}</h2>
+          )}
+          {alert.type === 'text' ? (
+            <div
+              data-testid={alert.alertTestId}
+              className={index !== 0 ? 'vads-u-margin-top--2' : ''}
+            >
+              {alert.message}
+            </div>
+          ) : (
+            <va-alert
+              show-icon
+              status={alert.type}
+              data-testid={alert.alertTestId}
+              class={index !== 0 ? 'vads-u-margin-top--2' : ''}
+              uswds
+              slim
+            >
+              <div>{alert.message}</div>
+            </va-alert>
+          )}
         </div>
       ))}
+      {error !== 'max-validation' && (
+        <ConfirmationAccordionBlock errorPage appointments={appointments} />
+      )}
     </Wrapper>
   );
 };

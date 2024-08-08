@@ -1,8 +1,12 @@
 import { evidenceUploadUI } from '../utils/upload';
+import { evidenceNote } from '../content/EvidenceUpload';
 
 export const evidenceUpload = {
   uiSchema: {
     evidence: evidenceUploadUI,
+    evidenceNote: {
+      'ui:description': evidenceNote,
+    },
   },
 
   schema: {
@@ -24,6 +28,10 @@ export const evidenceUpload = {
             },
           },
         },
+      },
+      evidenceNote: {
+        type: 'object',
+        properties: {},
       },
     },
   },

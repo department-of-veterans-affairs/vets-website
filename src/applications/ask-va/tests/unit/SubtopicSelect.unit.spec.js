@@ -4,15 +4,13 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { envUrl } from '../../constants';
 import { userData } from '../fixtures/data/mock-form-data';
 
 import SubtopicSelect from '../../components/FormFields/SubtopicSelect';
 
 describe('<SubtopicSelect /> component', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/topics/1/subtopics`;
+  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/topics/1/subtopics`;
 
   let server = null;
 

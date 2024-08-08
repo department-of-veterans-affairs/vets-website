@@ -78,11 +78,11 @@ describe('ezr <SaveInProgressInfo>', () => {
         );
         const selectors = {
           alert: container.querySelector('[data-testid="ezr-login-alert"]'),
-          button: container.querySelector('.usa-button-primary'),
+          button: container.querySelector('va-button'),
         };
         expect(selectors.alert).to.exist;
         expect(selectors.button).to.exist;
-        expect(selectors.button).to.contain.text(
+        expect(selectors.button.outerHTML).to.contain(
           content['sip-sign-in-to-start-text'],
         );
       });

@@ -4,10 +4,16 @@ import { VaPagination } from '@department-of-veterans-affairs/component-library/
 
 const PaginationWrapper = ({ handlePageSelect, currentPage, totalPages }) => {
   if (currentPage && totalPages > 1) {
+    let paginationLength;
+    if (window.innerWidth > 415) {
+      paginationLength = 7;
+    } else {
+      paginationLength = 4;
+    }
     return (
-      <div className="pagination-container vads-u-padding-bottom--2">
+      <div className="pagination-container">
         <VaPagination
-          max-page-list-length={7}
+          max-page-list-length={paginationLength}
           onPageSelect={handlePageSelect}
           page={currentPage}
           pages={totalPages}

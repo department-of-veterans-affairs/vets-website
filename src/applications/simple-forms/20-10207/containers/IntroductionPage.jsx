@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -14,6 +16,29 @@ const IntroductionPage = props => {
   // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
+
+  useEffect(() => {
+    const { livingSituation, otherReasons, otherHousingRisks } = formData;
+
+    const formNotStarted = ![
+      livingSituation,
+      otherReasons,
+      otherHousingRisks,
+    ].some(obj => obj && Object.values(obj).some(el => el != null));
+
+    if (formNotStarted) {
+      const dataTransfer = JSON.parse(
+        sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
+      );
+      if (dataTransfer && Date.now() < dataTransfer.expiry) {
+        dispatch(setData({ ...formData, ...dataTransfer.data }));
+      }
+    }
+    sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
+  }, []);
 
   const childContent = (
     <>
@@ -99,20 +124,28 @@ const IntroductionPage = props => {
       </h3>
       <ul>
         <li>
-          Military personnel records, such as a determination from the DOD
+          Military personnel records, such as a determination from the DOD{' '}
+          <strong>and</strong>
         </li>
         <li>Medical evidence showing severe disability or injury</li>
       </ul>
-      <h3>For former prisoners or war</h3>
+      <h3>For former prisoners of war</h3>
       <ul>
-        <li>Military personnel records, such as DD214</li>
-        <li>Service number and branch and dates of service</li>
-        <li>Dates and location of internment</li>
-        <li>Detaining power or other relevant information</li>
+        <li>
+          Copy of military personnel records such as DD214, Certificate of
+          Release, or Discharge from Active Duty, <strong>or</strong>
+        </li>
+        <li>
+          Information such as service number, branch and dates of service, dates
+          and location of internment, detaining power, or any other information
+          relevant to the detainment
+        </li>
       </ul>
       <h3>For Medal of Honor or Purple Heart award recipients</h3>
       <ul>
-        <li>Military personnel records, such as DD214</li>
+        <li>
+          Copy of military personnel records such as DD214, <strong>or</strong>
+        </li>
         <li>
           Information showing receipt of Medal of Honor or Purple Heart award
         </li>

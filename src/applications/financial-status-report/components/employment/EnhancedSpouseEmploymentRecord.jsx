@@ -7,6 +7,7 @@ import {
   VaTextInput,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import ButtonGroup from '../shared/ButtonGroup';
 import {
   getJobIndex,
   getJobButton,
@@ -28,9 +29,9 @@ const EmploymentRecord = props => {
   const {
     personalData: {
       employmentHistory: {
-        spouse: { spEmploymentRecords = [] },
+        spouse: { spEmploymentRecords = [] } = {},
         newRecord = { ...BASE_EMPLOYMENT_RECORD },
-      },
+      } = {},
     },
   } = data;
 
@@ -142,28 +143,15 @@ const EmploymentRecord = props => {
       handleChange('isCurrent', value === 'true');
       setCurrentlyWorksHere(value === 'true');
     },
-    getContinueButtonText: () => {
-      if (
-        employmentRecord.isCurrent ||
-        getJobButton() === jobButtonConstants.FIRST_JOB
-      ) {
-        return 'Continue';
-      }
-
-      if (getJobButton() === jobButtonConstants.EDIT_JOB) {
-        return 'Update employment record';
-      }
-      return 'Add employment record';
-    },
     getCancelButtonText: () => {
       if (getJobButton() === jobButtonConstants.FIRST_JOB) {
         return 'Back';
       }
 
       if (getJobButton() === jobButtonConstants.EDIT_JOB) {
-        return 'Cancel Edit Entry';
+        return 'Cancel edit entry';
       }
-      return 'Cancel Add Entry';
+      return 'Cancel add entry';
     },
   };
 
@@ -178,7 +166,7 @@ const EmploymentRecord = props => {
             information if it’s a current job.
           </p>
         </legend>
-        <div className="input-size-5">
+        <div className="input-size-7">
           <VaSelect
             id="type"
             name="type"
@@ -189,16 +177,14 @@ const EmploymentRecord = props => {
             error={typeError}
             class="advanced-search-field"
           >
-            <option value=""> </option>
             <option value="Full time">Full time</option>
             <option value="Part time">Part time</option>
             <option value="Seasonal">Seasonal</option>
             <option value="Temporary">Temporary</option>
           </VaSelect>
         </div>
-        <div className="input-size-7 vads-u-margin-bottom--2">
+        <div className="vads-u-margin-bottom--2">
           <VaTextInput
-            className="no-wrap"
             error={employerNameError ? 'Please enter your employer name.' : ''}
             id="employer-name"
             label="Employer name"
@@ -207,6 +193,7 @@ const EmploymentRecord = props => {
             required
             type="text"
             value={employmentRecord.employerName}
+            width="xl"
           />
         </div>
         <VaRadio
@@ -229,24 +216,21 @@ const EmploymentRecord = props => {
             checked={!currentlyWorksHere}
           />
         </VaRadio>
-        <p>
-          <button
-            type="button"
-            id="cancel"
-            className="usa-button-secondary vads-u-width--auto"
-            onClick={handlers.onCancel}
-          >
-            {handlers.getCancelButtonText()}
-          </button>
-          <button
-            type="submit"
-            id="submit"
-            className="vads-u-width--auto"
-            onClick={updateFormData}
-          >
-            Continue
-          </button>
-        </p>
+
+        <ButtonGroup
+          buttons={[
+            {
+              label: handlers.getCancelButtonText(),
+              onClick: handlers.onCancel,
+              isSecondary: true,
+            },
+            {
+              label: 'Continue',
+              onClick: updateFormData,
+              isSubmitting: 'prevent',
+            },
+          ]}
+        />
       </fieldset>
     </form>
   );

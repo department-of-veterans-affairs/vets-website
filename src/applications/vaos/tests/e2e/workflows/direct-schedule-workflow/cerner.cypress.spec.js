@@ -57,9 +57,15 @@ describe('VAOS direct schedule flow - Cerner', () => {
 
       VAFacilityPageObject.assertUrl().clickNextButton();
 
-      ScheduleCernerPageObject.assertUrl().assertNexButton({
-        isEnabled: false,
-      });
+      ScheduleCernerPageObject.assertUrl()
+        .assertHeading({ level: 1, name: /How to schedule/i })
+        .assertText({
+          text: /To schedule an appointment online at this facility, go to/i,
+        })
+        .assertLink({ name: /My VA Health/i })
+        .assertNexButton({
+          isEnabled: false,
+        });
 
       // Assert
       cy.axeCheckBestPractice();
@@ -99,9 +105,15 @@ describe('VAOS direct schedule flow - Cerner', () => {
         .selectLocation(/Facility 983/i)
         .clickNextButton();
 
-      ScheduleCernerPageObject.assertUrl().assertNexButton({
-        isEnabled: false,
-      });
+      ScheduleCernerPageObject.assertUrl()
+        .assertHeading({ level: 1, name: /How to schedule/i })
+        .assertText({
+          text: /To schedule an appointment online at this facility, go to/i,
+        })
+        .assertLink({ name: /My VA Health/i })
+        .assertNexButton({
+          isEnabled: false,
+        });
 
       // Assert
       cy.axeCheckBestPractice();

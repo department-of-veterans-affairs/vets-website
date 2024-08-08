@@ -4,7 +4,7 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import TypeHeader from '../TypeHeader';
 import { formatHeader } from '../DetailsVA.util';
 
-describe('TypeHeader component', () => {
+describe('VAOS Component: TypeHeader', () => {
   it('should create VA appointment details header', async () => {
     const appointment = {
       vaos: {

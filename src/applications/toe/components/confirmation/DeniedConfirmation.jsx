@@ -31,10 +31,9 @@ export default function DeniedConfirmation({ user, dateReceived }) {
               download
               href={LETTER_ENDPOINT}
             >
-              <i
-                className="fa fa-download vads-u-display--inline-block vads-u-margin-right--1"
-                aria-hidden="true"
-              />
+              <span className="vads-u-display--inline-block vads-u-margin-right--1">
+                <va-icon icon="file_download" size={3} />
+              </span>
               Download your decision letter (PDF)
             </a>
             .
@@ -49,7 +48,7 @@ export default function DeniedConfirmation({ user, dateReceived }) {
           visible
         >
           <div>
-            <h3 slot="headline" style={{ marginTop: '1rem' }}>
+            <h3 slot="headline" style={{ marginTop: '0.625rem' }}>
               Application for VA education benefits (Form 22-1990e)
             </h3>
             For {user}

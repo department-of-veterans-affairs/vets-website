@@ -1,6 +1,6 @@
-import SubtopicSelect from '../../../components/FormFields/SubtopicSelect';
-import FormElementTitle from '../../../components/FormElementTitle';
 import CatAndTopicSummary from '../../../components/CatAndTopicSummary';
+import FormElementTitle from '../../../components/FormElementTitle';
+import SubtopicSelect from '../../../components/FormFields/SubtopicSelect';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_1 } from '../../../constants';
 
@@ -18,6 +18,9 @@ const selectSubtopicPage = {
     selectSubtopic: {
       'ui:title': CHAPTER_1.PAGE_3.QUESTION_1,
       'ui:widget': SubtopicSelect,
+      'ui:errorMessages': {
+        required: 'Please select a subtopic',
+      },
     },
   },
   schema: {

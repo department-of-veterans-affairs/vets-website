@@ -15,7 +15,10 @@ import {
   selectApptDetailAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureCCDirectScheduling,
+} from '../../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>
@@ -36,6 +39,12 @@ export default function RequestAppointmentLayout({ appointment }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
+  );
+
+  const displayNewTypeOfCareHeading = `${typeOfCareName} request`;
   const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
     appointment.id
   }`;
@@ -56,14 +65,17 @@ export default function RequestAppointmentLayout({ appointment }) {
           >
             <AppointmentRow className="vaos-appts__column-gap--3 small-screen:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
-                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table vaos-appts__text--truncate xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
                   <AppointmentColumn
                     padding="0"
                     size="1"
                     canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {typeOfCareName}
+                    {' '}
+                    {featureCCDirectScheduling
+                      ? displayNewTypeOfCareHeading
+                      : typeOfCareName}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
@@ -71,30 +83,34 @@ export default function RequestAppointmentLayout({ appointment }) {
                     className="vaos-appts__display--table"
                     canceled={isCanceled}
                   >
-                    <span className="vaos-appts__display--table-cell">
-                      <i
-                        className={classNames(
-                          'fas',
-                          'vads-u-margin-right--1',
-                          'vads-u-color--gray',
-                          modalityIcon,
-                          {
-                            'vaos-appts__text--line-through':
-                              isCanceled && !isCommunityCare,
-                          },
-                        )}
-                      />
-
-                      {`${modality}`}
+                    <span className="vaos-appts__display--table-cell vads-u-display--flex vads-u-align-items--center">
+                      {!isCommunityCare && (
+                        <span
+                          className={classNames(
+                            'vads-u-color--gray',
+                            'icon-width',
+                            {
+                              'vaos-appts__text--line-through': isCanceled,
+                            },
+                          )}
+                        >
+                          <va-icon
+                            icon={modalityIcon}
+                            size="3"
+                            aria-hidden="true"
+                          />
+                        </span>
+                      )}
+                      {modality}
                     </span>
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"
                     size="1"
-                    className="vaos-appts__display--table vaos-appts__text--truncate"
+                    className="vaos-appts__display--table"
                     canceled={isCanceled}
                   >
-                    <span className="vaos-appts__display--table-cell">
+                    <span className="vaos-appts__display--table-cell vaos-appts__text--truncate">
                       {appointmentLocality}
                     </span>
                   </AppointmentColumn>

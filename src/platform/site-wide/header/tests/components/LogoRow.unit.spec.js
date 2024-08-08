@@ -13,8 +13,6 @@ describe('Header <LogoRow>', () => {
     expect(wrapper.find('button.header-menu-button')).to.have.length(1);
     expect(wrapper.text()).includes('Menu');
     expect(wrapper.text()).not.includes('Close');
-    expect(wrapper.find('i.fa.fa-bars')).to.have.length(1);
-    expect(wrapper.find('i.fa.fa-times')).to.have.length(0);
     expect(wrapper.find('div.header-menu-button-overlay')).to.have.length(0);
 
     wrapper.unmount();
@@ -28,8 +26,6 @@ describe('Header <LogoRow>', () => {
     expect(wrapper.find('button.header-menu-button')).to.have.length(1);
     expect(wrapper.text()).includes('Close');
     expect(wrapper.text()).not.includes('Menu');
-    expect(wrapper.find('i.fa.fa-bars')).to.have.length(0);
-    expect(wrapper.find('i.fa.fa-times')).to.have.length(1);
     expect(wrapper.find('div.header-menu-button-overlay')).to.have.length(1);
 
     wrapper.unmount();

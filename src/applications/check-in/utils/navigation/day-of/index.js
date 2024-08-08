@@ -20,43 +20,43 @@ const CHECK_IN_FORM_PAGES = Object.freeze([
     order: 0,
   },
   {
-    url: URLS.LOADING,
+    url: URLS.APPOINTMENTS,
     order: 1,
   },
   {
-    url: URLS.DEMOGRAPHICS,
+    url: URLS.ARRIVED,
     order: 2,
   },
   {
-    url: URLS.EMERGENCY_CONTACT,
+    url: URLS.DEMOGRAPHICS,
     order: 3,
   },
   {
-    url: URLS.NEXT_OF_KIN,
+    url: URLS.EMERGENCY_CONTACT,
     order: 4,
   },
   {
-    url: URLS.TRAVEL_QUESTION,
+    url: URLS.NEXT_OF_KIN,
     order: 5,
   },
   {
-    url: URLS.TRAVEL_VEHICLE,
+    url: URLS.TRAVEL_QUESTION,
     order: 6,
   },
   {
-    url: URLS.TRAVEL_ADDRESS,
+    url: URLS.TRAVEL_MILEAGE,
     order: 7,
   },
   {
-    url: URLS.TRAVEL_MILEAGE,
+    url: URLS.TRAVEL_VEHICLE,
     order: 8,
   },
   {
-    url: URLS.TRAVEL_REVIEW,
+    url: URLS.TRAVEL_ADDRESS,
     order: 9,
   },
   {
-    url: URLS.DETAILS,
+    url: URLS.TRAVEL_REVIEW,
     order: 10,
   },
   {
@@ -71,19 +71,14 @@ const createForm = () => {
 const updateForm = (
   patientDemographicsStatus,
   isTravelReimbursementEnabled,
-  appointments,
-  isTravelLogicEnabled,
   travelPaySent,
 ) => {
   const pages = CHECK_IN_FORM_PAGES.map(page => page.url);
-
   return updateFormPages(
     patientDemographicsStatus,
     pages,
     URLS,
     isTravelReimbursementEnabled,
-    appointments,
-    isTravelLogicEnabled,
     travelPaySent,
   );
 };

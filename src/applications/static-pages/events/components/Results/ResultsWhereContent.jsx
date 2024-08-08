@@ -18,12 +18,11 @@ const WhereContent = ({
 
   return (
     <>
-      <a
+      <va-link
         data-testid="event-fieldLocationTitle"
         href={fieldLocation?.entity?.entityUrl.path}
-      >
-        {fieldLocation?.entity?.title}
-      </a>
+        text={fieldLocation?.entity?.title}
+      />
       {event?.fieldLocationHumanreadable && (
         <p
           className="vads-u-margin--0"
@@ -46,8 +45,6 @@ const WhereContent = ({
           ))}
           <a
             href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
-            rel="noopener noreferrer"
-            target="_blank"
           >
             Get directions on Google Maps{' '}
             <span

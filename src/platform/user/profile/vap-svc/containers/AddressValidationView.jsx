@@ -271,6 +271,7 @@ class AddressValidationView extends React.Component {
             className="vads-u-margin-bottom--1 vads-u-margin-top--0"
             status="warning"
             visible
+            uswds
           >
             <h4 id="address-validation-alert-heading" slot="headline">
               {addressValidationMessage.headline}
@@ -302,13 +303,11 @@ class AddressValidationView extends React.Component {
           {this.renderPrimaryButton()}
 
           {!isLoading && (
-            <button
-              type="button"
-              className="usa-button-secondary"
+            <va-button
+              secondary
               onClick={this.onEditClick}
-            >
-              Go back to edit
-            </button>
+              text="Go back to edit"
+            />
           )}
         </form>
       </>

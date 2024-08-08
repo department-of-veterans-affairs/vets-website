@@ -12,7 +12,7 @@ export default function LoginHeader({ loggedOut }) {
         <div className="columns small-12">
           <h1
             id="signin-signup-modal-title"
-            className="vads-u-margin-top--2 vads-u-color--gray-dark medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
+            className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
           >
             Sign in
           </h1>

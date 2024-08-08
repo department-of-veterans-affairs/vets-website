@@ -42,8 +42,6 @@ describe('Results Set 1 Page 1', () => {
 
   describe('page load', () => {
     it('should render the page correctly when the intro page has been viewed', () => {
-      const updateSpy = sinon.spy();
-
       const mockStore = {
         getState: () => ({
           pactAct: {
@@ -52,7 +50,7 @@ describe('Results Set 1 Page 1', () => {
           },
         }),
         subscribe: () => {},
-        dispatch: () => updateSpy(),
+        dispatch: () => () => {},
       };
 
       const props = {
@@ -60,17 +58,15 @@ describe('Results Set 1 Page 1', () => {
         router: {
           push: pushStub,
         },
-        updateTheCurrentPage: updateSpy,
         viewedIntroPage: true,
       };
 
-      render(
+      const screen = render(
         <Provider store={mockStore}>
           <Results11 {...props} />
         </Provider>,
       );
-
-      expect(updateSpy.called).to.be.true;
+      expect(screen.getByTestId('paw-results-1-1')).to.exist;
     });
   });
 });

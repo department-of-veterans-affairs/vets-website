@@ -15,7 +15,10 @@ export default function AtlasLocation({ appointment, isPast }) {
   return (
     <div>
       <FacilityAddress facility={facility} showDirectionsLink />
-      <h3 className="vaos-appts__block-label vads-u-margin-top--2">
+      <h3
+        className="vaos-appts__block-label vads-u-margin-top--2"
+        data-dd-privacy="mask"
+      >
         Appointment code: {appointment.videoData.atlasConfirmationCode}
       </h3>
       {!isPast && (

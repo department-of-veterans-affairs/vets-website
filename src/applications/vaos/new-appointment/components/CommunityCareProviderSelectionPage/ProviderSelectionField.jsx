@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import ProviderSelect from './ProviderSelect';
 import ProviderList from './ProviderList';
@@ -18,8 +19,6 @@ export default function ProviderSelectionField({
   );
 
   const providerSelected = 'id' in formData;
-  const descriptionText =
-    'We’ll call you to confirm your provider choice or to help you choose a provider if you skip this step.';
 
   useEffect(() => {
     setMounted(true);
@@ -40,24 +39,20 @@ export default function ProviderSelectionField({
 
   if (!showProvidersList) {
     return (
-      <>
-        {<p>{descriptionText}</p>}
-        <ProviderSelect
-          formData={formData}
-          initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
-          onChange={onChange}
-          providerSelected={providerSelected}
-          setCheckedProvider={setCheckedProvider}
-          setProvidersListLength={setProvidersListLength}
-          setShowProvidersList={setShowProvidersList}
-        />
-      </>
+      <ProviderSelect
+        formData={formData}
+        initialProviderDisplayCount={INITIAL_PROVIDER_DISPLAY_COUNT}
+        onChange={onChange}
+        providerSelected={providerSelected}
+        setCheckedProvider={setCheckedProvider}
+        setProvidersListLength={setProvidersListLength}
+        setShowProvidersList={setShowProvidersList}
+      />
     );
   }
 
   return (
     <>
-      {<p>{descriptionText}</p>}
       <ProviderList
         checkedProvider={checkedProvider}
         idSchema={idSchema}
@@ -72,3 +67,9 @@ export default function ProviderSelectionField({
     </>
   );
 }
+
+ProviderSelectionField.propTypes = {
+  formData: PropTypes.object.isRequired,
+  idSchema: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

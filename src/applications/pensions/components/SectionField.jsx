@@ -1,5 +1,6 @@
 import React from 'react';
 import { formatSSN } from 'platform/utilities/ui';
+import { getJobTitleOrType } from '../helpers';
 
 export const convertDateFormat = date => {
   if (!date) return '';
@@ -234,7 +235,7 @@ export function WorkHistory({ title, id, formData }) {
                     Job title
                   </p>
                   <p className="vads-u-margin-top--0">
-                    {item?.jobTitle ? item?.jobTitle : ''}
+                    {getJobTitleOrType(item)}
                   </p>
                   <p className="vads-u-color--gray vads-u-margin-bottom--0p5">
                     From

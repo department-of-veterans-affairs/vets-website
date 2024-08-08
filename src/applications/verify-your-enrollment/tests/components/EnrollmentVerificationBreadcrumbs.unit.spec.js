@@ -2,31 +2,105 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import EnrollmentVerificationBreadcrumbs from '../../components/EnrollmentVerificationBreadcrumbs';
-import { BASE_URL } from '../../constants/index';
+import {
+  BASE_URL,
+  BENEFITS_PROFILE_URL,
+  BENEFITS_PROFILE_URL_SEGMENT,
+  VERIFICATION_PROFILE_URL,
+  VERIFICATION_REVIEW_URL_SEGMENT,
+} from '../../constants/index';
 
 describe('<EnrollmentVerificationBreadcrumbs>', () => {
+  const defaultUrls = [
+    { href: '/', label: 'Home' },
+    { href: '/education/', label: 'Education and training' },
+    {
+      href: '/education/verify-school-enrollment/',
+      label: 'Verify your school enrollment for GI Bill benefits',
+    },
+    { href: BASE_URL, label: 'Montgomery GI Bill enrollment verification' },
+  ];
+
   it('renders breadcrumbs correctly', () => {
     const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
 
     // Expect the component to have a 'va-breadcrumbs' element
     expect(wrapper.find('va-breadcrumbs').length).to.equal(1);
+    wrapper.unmount();
+  });
+  it('should render default breadcrumbs', () => {
+    const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
+    const breadcrumbs = wrapper.find('va-breadcrumbs').prop('breadcrumb-list');
 
-    // Check if the breadcrumbs are rendered
-    const breadcrumbs = wrapper.find('va-breadcrumbs').children();
-    expect(breadcrumbs.length).to.equal(3); // There should be 3 breadcrumb links
+    expect(breadcrumbs).to.equal(JSON.stringify(defaultUrls));
+    wrapper.unmount();
+  });
 
-    // Check for specific breadcrumb links
-    expect(breadcrumbs.at(0).props().href).to.equal('/');
-    expect(breadcrumbs.at(1).props().href).to.equal('/education/');
-    expect(breadcrumbs.at(2).props().href).to.equal(BASE_URL);
+  it('should not include "Your Benefits profile" breadcrumb for other pages', () => {
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: '',
+      },
+      writable: true,
+    });
+    window.location.href = 'http://example.com/other-page';
 
-    // Check the breadcrumb texts
-    expect(breadcrumbs.at(0).text()).to.equal('Home');
-    expect(breadcrumbs.at(1).text()).to.equal('Education and training');
-    expect(breadcrumbs.at(2).text()).to.include(
-      'Verify your school enrollments for',
+    const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
+    expect(
+      wrapper.find('a').someWhere(n => n.prop('href') === BENEFITS_PROFILE_URL),
+    ).to.equal(false);
+    wrapper.unmount();
+  });
+
+  it('should render breadcrumbs with benefits profile', () => {
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: '',
+      },
+      writable: true,
+    });
+    window.location.href = `${BASE_URL}/${BENEFITS_PROFILE_URL_SEGMENT}/`;
+
+    const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
+    const breadcrumbs = wrapper
+      .find('[label="Breadcrumb"]')
+      .prop('breadcrumb-list');
+
+    expect(breadcrumbs).to.equal(
+      JSON.stringify([
+        ...defaultUrls,
+        {
+          href: BENEFITS_PROFILE_URL,
+          label: 'Your Montgomery GI Bill benefits information',
+        },
+      ]),
     );
+    wrapper.unmount();
+  });
 
+  it('should render breadcrumbs with verification review', () => {
+    global.window = Object.create(window);
+    Object.defineProperty(window, 'location', {
+      value: {
+        href: '',
+      },
+      writable: true,
+    });
+    window.location.href = `${BASE_URL}/${VERIFICATION_REVIEW_URL_SEGMENT}`;
+
+    const wrapper = shallow(<EnrollmentVerificationBreadcrumbs />);
+    const breadcrumbs = wrapper
+      .find('[label="Breadcrumb"]')
+      .prop('breadcrumb-list');
+
+    expect(breadcrumbs).to.equal(
+      JSON.stringify([
+        ...defaultUrls,
+        { href: VERIFICATION_PROFILE_URL, label: 'Verify your enrollment' },
+      ]),
+    );
     wrapper.unmount();
   });
 });

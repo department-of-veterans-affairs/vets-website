@@ -89,7 +89,10 @@ Cypress.Commands.add('chooseSelectOptionByTyping', text => {
  * This command types in the focused input or textarea.
  * */
 Cypress.Commands.add('typeInFocused', text => {
-  cy.get(':focus').type(text, { delay: timeoutDuration });
+  // cy.get(':focus') returns 2 elements when focused on a web component
+  cy.get(':focus')
+    .first()
+    .type(text, { delay: timeoutDuration });
 });
 
 /**
@@ -115,8 +118,13 @@ Cypress.Commands.add(
 
     cy.realPress(key, { pressDelay: timeoutDuration }).then(() => {
       cy.get(':focus').then($el => {
-        if (!$el.is(selector)) {
-          cy.tabToElement(selector, forward, false);
+        if ($el && !$el.is(selector)) {
+          cy.tabToElement(
+            selector,
+            // reverse direction if we get into the header or footer
+            $el.is('#footerNav a, header a') ? !forward : forward,
+            false,
+          );
         }
       });
     });

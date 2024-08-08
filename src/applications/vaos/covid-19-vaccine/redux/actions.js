@@ -10,7 +10,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import {
   selectFeatureFacilitiesServiceV2,
   selectSystemIds,
-  selectFeatureAcheronService,
   selectFeatureBreadcrumbUrlUpdate,
 } from '../../redux/selectors';
 import { getAvailableHealthcareServices } from '../../services/healthcare-service';
@@ -384,9 +383,6 @@ export function prefillContactInfo() {
 
 export function confirmAppointment(history) {
   return async (dispatch, getState) => {
-    const featureAcheronVAOSServiceRequests = selectFeatureAcheronService(
-      getState(),
-    );
     const featureBreadcrumbUrlUpdate = selectFeatureBreadcrumbUrlUpdate(
       getState(),
     );
@@ -408,7 +404,6 @@ export function confirmAppointment(history) {
     try {
       const appointment = await createAppointment({
         appointment: transformFormToVAOSAppointment(getState()),
-        useAcheron: featureAcheronVAOSServiceRequests,
       });
 
       const data = selectCovid19VaccineFormData(getState());

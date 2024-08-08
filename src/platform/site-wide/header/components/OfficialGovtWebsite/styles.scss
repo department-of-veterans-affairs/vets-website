@@ -4,8 +4,9 @@
 
 .expand-official-govt-explanation {
   font-size: 12px; // Smallest is vads-u-font-size--sm which is 15px.
+}
 
-  i {
-    font-size: 12px !important;
-  }
+.govt-expanded-arrow {
+  transform: rotate(180deg);
+  transform-origin: 50% 50%;
 }

@@ -10,7 +10,10 @@ const vaGovCache = {};
 
 function injectLocalBundle() {
   const prodBucket = BUCKETS[ENVIRONMENTS.VAGOVPROD];
-  const prodBucketRegex = new RegExp(prodBucket.replace(/\./g, '\\.'), 'g');
+  const prodBucketRegex = new RegExp(
+    prodBucket.replace(/\\/g, '\\\\').replace(/\./g, '\\.'),
+    'g',
+  );
 
   return async (req, res, next) => {
     const {

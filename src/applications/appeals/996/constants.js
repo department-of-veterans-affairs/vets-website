@@ -23,11 +23,16 @@ export const COVID_FAQ_URL =
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
+export const GET_HELP_REP_OR_VSO_URL =
+  '/get-help-from-accredited-representative';
+export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
+export const MST_COORD_URL =
+  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
 export const PROFILE_URL = '/profile';
 
-// 8622 is the ID of the <va-accordion-item> with a header of the "Find
-// addresses for other benefit types"
-export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#find-addresses-for-other-benef-8622`;
+// Header of the "Submit your request by mail for any type of benefit claim"
+// anchor (not an accordion)
+export const BENEFIT_OFFICES_URL = `${HLR_INFO_URL}#file-by-mail-in-person-or-with`;
 
 export const CONTESTABLE_ISSUES_API =
   '/higher_level_reviews/contestable_issues/';
@@ -41,32 +46,24 @@ export const errorMessages = {
   savedFormNotFound: 'Please start over to request a Higher-Level Review',
   savedFormNoAuth:
     'Please sign in again to continue your request for Higher-Level Review',
-  forwardStartDate: 'Please select a date',
-  startDateInPast: 'Start date must be in the future',
-  endDateInPast: 'End date must be in the future',
-  endDateBeforeStart: 'End date must be after start date',
-  informalConferenceContactChoice: 'Please choose an option',
-  informalConferenceContactName: 'Please enter your representative’s name',
+
+  informalConferenceContactChoice: 'You must choose an option',
+  informalConferenceContactName: 'You must enter your representative’s name',
   informalConferenceContactFirstName:
-    'Please enter your representative’s first name',
+    'You must enter your representative’s first name',
   informalConferenceContactLastName:
-    'Please enter your representative’s last name',
+    'You must enter your representative’s last name',
   informalConferenceContactPhone:
-    'Please enter your representative’s phone number',
+    'You must enter your representative’s phone number',
   informalConferenceContactPhonePattern:
-    'Please enter a 10-digit phone number (with or without dashes)',
-  informalConferenceTimes: 'Please select a time',
-  contestedIssue: 'Please select an eligible issue',
+    'You must enter a 10-digit phone number',
+  informalConferenceTimes: 'You must select a time',
 };
 
 export const NULL_CONDITION_STRING = 'Unknown Condition';
 
-// session storage keys
-export const SAVED_CLAIM_TYPE = 'hlrClaimType';
-export const WIZARD_STATUS = 'wizardStatus996';
-
 // Values from benefitTypes in vets-json-schema constants
-const supportedBenefitTypes = [
+export const SUPPORTED_BENEFIT_TYPES_LIST = [
   'compensation', // Phase 1
   // 'pension',
   // 'fiduciary',
@@ -80,16 +77,21 @@ const supportedBenefitTypes = [
 
 export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   ...type,
-  isSupported: supportedBenefitTypes.includes(type.value),
+  isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
-export const CONFERENCE_TIMES_V2 = {
+// Update submit values once Lighthouse's v3 endpoint is ready & we've switched
+export const CONFERENCE_TIMES_V3 = {
   time0800to1200: {
     label: '8:00 a.m. to noon ET',
+    labelMe: 'Morning hours in my time zone',
+    labelRep: 'Morning hours in your accredited representative’s time zone',
     submit: '800-1200 ET',
   },
   time1200to1630: {
     label: 'Noon to 4:30 p.m. ET',
+    labelMe: 'Afternoon hours in my time zone',
+    labelRep: 'Afternoon hours in your accredited representative’s time zone',
     submit: '1200-1630 ET',
   },
 };

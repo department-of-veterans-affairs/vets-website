@@ -1,3 +1,5 @@
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+
 import {
   OptInDescription,
   OptInLabel,
@@ -12,6 +14,7 @@ export default {
     },
     socOptIn: {
       'ui:title': OptInLabel,
+      'ui:webComponentField': VaCheckboxField,
       'ui:options': {
         forceDivWrapper: true,
         keepInPageOnReview: false,

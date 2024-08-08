@@ -114,7 +114,6 @@ describe('<UnconnectedHealthCareContent />', () => {
         },
       );
 
-      tree.getByText('Popular actions for Health Care', { exact: false });
       tree.getByTestId('visit-mhv-on-va-gov');
       expect(
         tree.getByRole('link', {

@@ -8,6 +8,7 @@ import {
   boolYesNo,
   convertRatingToStars,
   formatCurrency,
+  isShowVetTec,
   naIfNull,
   schoolSize,
   upperCaseFirstLetterOnly,
@@ -34,6 +35,27 @@ import {
   MilitaryTuitionAssistanceModalContent,
   PriorityEnrollmentModalContent,
 } from '../components/content/modals';
+
+export const renFieldData = (programHours, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        label: 'Length of VET TEC programs',
+        mapper: institution => programHours(institution.programLengthInHours),
+      },
+      {
+        label: 'Credit for military training',
+        mapper: institution => boolYesNo(institution.creditForMilTraining),
+      },
+    ];
+  }
+  return [
+    {
+      label: 'Credit for military training',
+      mapper: institution => boolYesNo(institution.creditForMilTraining),
+    },
+  ];
+};
 
 const CompareLayout = ({
   calculated,
@@ -201,36 +223,22 @@ const CompareLayout = ({
       mapper: institution => schoolSize(institution.undergradEnrollment),
     },
     {
-      label: environment.isProduction()
-        ? 'Specialized mission'
-        : 'Community focus',
+      label: 'Community focus',
       className: 'capitalize-value',
       mapper: institution => {
         const specialMission = [];
         if (institution.hbcu) {
-          specialMission.push(
-            environment.isProduction()
-              ? 'Historically black college or university'
-              : 'Historically Black Colleges and Universities',
-          );
+          specialMission.push('Historically Black Colleges and Universities');
         }
         if (institution.relaffil) {
           specialMission.push(religiousAffiliations[institution.relaffil]);
         }
         if (institution.womenonly) {
-          specialMission.push(
-            environment.isProduction()
-              ? 'Women-only'
-              : 'Women’s colleges and universities',
-          );
+          specialMission.push('Women’s colleges and universities');
           // specialMission.push('Women-only');
         }
         if (institution.menonly) {
-          specialMission.push(
-            environment.isProduction()
-              ? 'Men-only'
-              : 'Men’s colleges and universities',
-          );
+          specialMission.push('Men’s colleges and universities');
         }
         return specialMission.length > 0 ? specialMission.join(', ') : 'N/A';
       },
@@ -456,9 +464,9 @@ const CompareLayout = ({
                 <div className="vads-u-display--flex">
                   <div className="caution-flag-icon vads-u-flex--1">
                     {!hasFlags && (
-                      <i className="fa fa-check" style={{ display: 'none' }} />
+                      <va-icon size={4} icon="check" class="display-none" />
                     )}
-                    {hasFlags && <i className="fa fa-exclamation-triangle" />}
+                    {hasFlags && <va-icon size={3} icon="warning" />}
                   </div>
                   <div className="vads-u-flex--4">
                     {!hasFlags && (
@@ -517,17 +525,7 @@ const CompareLayout = ({
         institutions={institutions}
         showDifferences={showDifferences}
         smallScreen={smallScreen}
-        fieldData={[
-          {
-            label: 'Length of VET TEC programs',
-            mapper: institution =>
-              programHours(institution.programLengthInHours),
-          },
-          {
-            label: 'Credit for military training',
-            mapper: institution => boolYesNo(institution.creditForMilTraining),
-          },
-        ]}
+        fieldData={renFieldData(programHours)}
       />
       <va-additional-info trigger="Additional information on academics fields">
         <MilitaryTrainingCreditModalContent />

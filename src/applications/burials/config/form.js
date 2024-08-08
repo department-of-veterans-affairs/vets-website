@@ -4,7 +4,6 @@ import set from 'platform/utilities/data/set';
 import moment from 'moment';
 import { createSelector } from 'reselect';
 
-// import { transform } from '../helpers';
 import fullSchemaBurials from 'vets-json-schema/dist/21P-530-schema.json';
 
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';

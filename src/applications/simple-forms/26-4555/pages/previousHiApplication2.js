@@ -1,10 +1,16 @@
-import React from 'react';
 import { intersection, pick } from 'lodash';
 
-import dateUI from 'platform/forms-system/src/js/definitions/date';
-import * as address from 'platform/forms-system/src/js/definitions/address';
 import fullSchema from 'vets-json-schema/dist/26-4555-schema.json';
-import { previousHiApplicationFields } from '../definitions/constants';
+import {
+  titleUI,
+  currentOrPastDateUI,
+  selectUI,
+  selectSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import {
+  VA_REGIONAL_OFFICE_CITIES,
+  previousHiApplicationFields,
+} from '../definitions/constants';
 
 const { required, properties } = fullSchema.properties[
   previousHiApplicationFields.parentObject
@@ -19,32 +25,16 @@ const pageFields = [
 export default {
   uiSchema: {
     [previousHiApplicationFields.parentObject]: {
-      'ui:title': (
-        <h3 className="vads-u-color--gray-dark vads-u-margin-y--0">
-          Past SHA grant application details
-        </h3>
+      ...titleUI(
+        'Past SHA grant application details',
+        'Tell us about your last SHA application',
       ),
-      'ui:description': (
-        <p className="vads-u-margin-top--1 vads-u-margin-bottom--4">
-          Tell us about your last SHA application
-        </p>
-      ),
-      [previousHiApplicationFields.previousHiApplicationDate]: dateUI(
+      [previousHiApplicationFields.previousHiApplicationDate]: currentOrPastDateUI(
         'Date you last applied',
       ),
       [previousHiApplicationFields.previousHiApplicationAddress]: {
-        'ui:description': (
-          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--4">
-            Address connected to your past application
-          </p>
-        ),
-        ...address.uiSchema(
-          '',
-          false,
-          formData =>
-            formData[previousHiApplicationFields.parentObject][
-              previousHiApplicationFields.hasPreviousHiApplication
-            ],
+        city: selectUI(
+          'Select the city of the VA regional office connected with your past application (if you know it)',
         ),
       },
     },
@@ -57,13 +47,12 @@ export default {
         required: intersection(required, pageFields),
         properties: {
           ...pick(properties, pageFields),
-          [previousHiApplicationFields.previousHiApplicationAddress]: address.schema(
-            fullSchema,
-            formData =>
-              formData[previousHiApplicationFields.parentObject][
-                previousHiApplicationFields.hasPreviousHiApplication
-              ],
-          ),
+          [previousHiApplicationFields.previousHiApplicationAddress]: {
+            type: 'object',
+            properties: {
+              city: selectSchema(VA_REGIONAL_OFFICE_CITIES),
+            },
+          },
         },
       },
     },

@@ -11,13 +11,14 @@ import ValidateDisplay from '../../../components/pages/validate/ValidateDisplay'
 import { useFormRouting } from '../../../hooks/useFormRouting';
 
 import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 import { useStorage } from '../../../hooks/useStorage';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { validateLogin } from '../../../utils/validateVeteran';
 
 const Index = ({ router }) => {
-  const { setPermissions } = useStorage(true);
+  const { setPermissions } = useStorage(APP_NAMES.PRE_CHECK_IN);
   const { goToNextPage } = useFormRouting(router);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -60,6 +61,7 @@ const Index = ({ router }) => {
         setSession,
         app,
         updateError,
+        setDobError,
       );
     },
     [
@@ -71,6 +73,7 @@ const Index = ({ router }) => {
       setSession,
       token,
       updateError,
+      setDobError,
     ],
   );
 
@@ -81,10 +84,7 @@ const Index = ({ router }) => {
   return (
     <>
       <ValidateDisplay
-        header={t('start-pre-check-in')}
-        subtitle={t(
-          'we-need-to-verify-your-identity-so-you-can-start-pre-check-in',
-        )}
+        header={t('check-if-your-info-is-up-to-date')}
         lastNameInput={{
           lastNameError,
           setLastName,
@@ -93,6 +93,7 @@ const Index = ({ router }) => {
         dobInput={{
           setDob,
           dob,
+          dobError,
         }}
         setDobError={setDobError}
         isLoading={isLoading}

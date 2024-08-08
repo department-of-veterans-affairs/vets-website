@@ -18,21 +18,22 @@ describe('Debt Balances Page Diary Codes', () => {
 
   it('renders expected content for diary code: 080, 850, 852, 860, 855', () => {
     cy.get('[data-testid="debt-summary-item"]').contains(
-      'Contact the U.S. Department of the Treasury to pay this debt',
+      // 'Contact the U.S. Department of the Treasury to pay this debt.',
+      'Contact the U.S. Department of the Treasury’s Debt Management Services at',
     );
     cy.axeCheck();
   });
 
   it('renders expected content for diary code: 100, 102, 130, 140', () => {
     cy.get('[data-testid="debt-summary-item"]').contains(
-      'Pay your $120.40 balance now or request help by October 18, 2012',
+      'Pay your balance now or request help by October 18, 2012',
     );
     cy.axeCheck();
   });
 
   it('renders expected content for diary code: 101, 450, 602, 607, 608, 610, 611, 614, 615, 617', () => {
     cy.get('[data-testid="debt-summary-item"]').contains(
-      'We’re offsetting your benefit payments each month until your debt is paid',
+      'We’re reducing your benefit payments each month until your debt is paid',
     );
     cy.axeCheck();
   });

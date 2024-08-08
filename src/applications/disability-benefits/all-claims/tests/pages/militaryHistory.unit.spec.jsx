@@ -102,7 +102,7 @@ describe('Military history', () => {
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
-      '2002-12-31',
+      '2003-01-01',
     );
     fillDate(
       form,
@@ -116,7 +116,7 @@ describe('Military history', () => {
     fillDate(
       form,
       'root_serviceInformation_servicePeriods_0_dateRange_from',
-      '2003-01-01',
+      '2003-01-02',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error-message').length).to.equal(0);

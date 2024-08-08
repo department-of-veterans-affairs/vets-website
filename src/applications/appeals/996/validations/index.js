@@ -1,7 +1,33 @@
-import { errorMessages } from '../constants';
+import { isValidPhone } from '~/platform/forms/validations';
 
-export const isFirstConferenceTimeEmpty = formData =>
-  (formData?.informalConferenceTimes?.time1 || '') === '';
+import { errorMessages } from '../constants';
+import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
+
+import sharedErrorMessages from '../../shared/content/errorMessages';
+
+export const validateConferenceChoice = (errors, _value, formData) => {
+  const conference = formData?.informalConference || '';
+  const choice = formData?.informalConferenceChoice || '';
+  if (errors) {
+    // "yes" option is only available in HLR update choices
+    if (showNewHlrContent(formData) && !['yes', 'no'].includes(choice)) {
+      errors.addError?.(sharedErrorMessages.requiredYesNo);
+    } else if (
+      hideNewHlrContent(formData) &&
+      !['me', 'rep', 'no'].includes(conference)
+    ) {
+      errors.addError?.(errorMessages.informalConferenceContactChoice);
+    }
+  }
+};
+
+export const validateConferenceContactChoice = (errors, values, formData) => {
+  const conference = formData?.informalConference || '';
+  // "yes" option is only available in HLR update choices
+  if (errors && conference !== 'me' && conference !== 'rep') {
+    errors.addError?.(errorMessages.informalConferenceContactChoice);
+  }
+};
 
 export const checkConferenceTimes = (errors, values, formData) => {
   if (
@@ -13,10 +39,8 @@ export const checkConferenceTimes = (errors, values, formData) => {
   }
 };
 
-const phoneRegexp = /[0-9]+/;
-
 export const validatePhone = (errors, phone) => {
-  if (errors && (!phone || !phoneRegexp.test(phone) || phone.length !== 10)) {
+  if (errors && (!phone || !isValidPhone(phone || ''))) {
     errors.addError?.(errorMessages.informalConferenceContactPhonePattern);
   }
 };
@@ -25,12 +49,12 @@ export const validatePhone = (errors, phone) => {
 export const contactInfoValidation = (errors = {}, _fieldData, formData) => {
   const { veteran = {}, homeless } = formData || {};
   if (!veteran.email) {
-    errors.addError?.('Please add an email address to your profile');
+    errors.addError?.('You must add an email address to your profile');
   }
   if (!veteran.phone?.phoneNumber) {
-    errors.addError?.('Please add a phone number to your profile');
+    errors.addError?.('You must add a phone number to your profile');
   }
   if (!homeless && !veteran.address?.addressLine1) {
-    errors.addError?.('Please add an address to your profile');
+    errors.addError?.('You must add an address to your profile');
   }
 };

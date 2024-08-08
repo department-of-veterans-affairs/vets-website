@@ -10,6 +10,14 @@ export const DASHBOARD_ALERT_TYPES = Object.freeze({
   update: 'update', // Gold, exclamation
 });
 
+export const ALERT_ICONS = Object.freeze({
+  [DASHBOARD_ALERT_TYPES.closed]: 'warning',
+  [DASHBOARD_ALERT_TYPES.decision]: 'warning',
+  [DASHBOARD_ALERT_TYPES.enrolled]: 'check',
+  [DASHBOARD_ALERT_TYPES.inProgress]: 'description',
+  [DASHBOARD_ALERT_TYPES.update]: 'warning',
+});
+
 const DashboardAlert = ({
   children,
   content,
@@ -27,6 +35,7 @@ const DashboardAlert = ({
   );
 
   const alertContent = content || children;
+  const alertIcon = ALERT_ICONS[status] || 'warning';
   const headerId = `dashboard-alert-header-${id}`;
 
   return (
@@ -43,7 +52,7 @@ const DashboardAlert = ({
       </div>
       <section className="status vads-u-display--flex">
         <div className="status-icon-container vads-u-flex--auto">
-          <i />
+          <va-icon icon={alertIcon} />
         </div>
         <div className="vads-u-flex--1">
           <div className="vads-u-line-height--3 vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--bold">

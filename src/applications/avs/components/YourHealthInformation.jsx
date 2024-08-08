@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
+import {
+  formatDateLong,
+  getCernerURL,
+} from '@department-of-veterans-affairs/platform-utilities/exports';
+import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/mhv/utilities';
+import { isAuthenticatedWithSSOe } from '@department-of-veterans-affairs/platform-user/authentication/selectors';
 
 import {
   fieldHasValue,
@@ -10,13 +16,17 @@ import {
   parseVistaDate,
   parseVistaDateTime,
 } from '../utils';
-import { APPOINTMENT_TYPES, MEDICATION_TYPES } from '../utils/constants';
+import {
+  APPOINTMENT_TYPES,
+  MEDICATION_SOURCES,
+  MEDICATION_TYPES,
+} from '../utils/constants';
 import {
   filterMedicationsByType,
   getCombinedMedications,
   getMedicationsTaking,
-  getMedicationsNotTaking,
 } from '../utils/medications';
+import { normalizePhoneNumber, numberIsClickable } from '../utils/phone';
 
 import ItemsBlock from './ItemsBlock';
 import MedicationTerms from './MedicationTerms';
@@ -51,11 +61,9 @@ const primaryCareProvider = avs => {
       <div>
         <h3>Primary care provider</h3>
         <ul data-testid="primary-care-provider">
-          {/* TODO: Confirm that this is correct. */}
           {avs.primaryCareProviders.length && (
             <li>{avs.primaryCareProviders[0]}</li>
           )}
-          {avs.primaryCareTeam && <li>{avs.primaryCareTeam}</li>}
         </ul>
       </div>
     );
@@ -68,14 +76,18 @@ const primaryCareTeam = avs => {
   if (avs.primaryCareTeamMembers?.length > 0) {
     const teamMembers = avs.primaryCareTeamMembers.map((member, idx) => (
       <li key={idx}>
-        {member.name} - {member.title}
+        {member.name}
+        {member.title && ` - ${member.title}`}
       </li>
     ));
 
     return (
       <div>
-        <h3>Primary care team</h3>
-        <ul className="bulleted-list" data-testid="primary-care-team">
+        <h3 data-testid="primary-care-team">Primary care team</h3>
+        <p data-testid="primary-care-team-name">
+          {avs.primaryCareTeam && `Team name: ${avs.primaryCareTeam}`}
+        </p>
+        <ul className="bulleted-list" data-testid="primary-care-team-list">
           {teamMembers}
         </ul>
       </div>
@@ -234,13 +246,6 @@ const getMyMedications = avs => {
   );
 };
 
-const getMyMedicationsNotTaking = avs => {
-  return filterMedicationsByType(
-    getMedicationsNotTaking(avs),
-    MEDICATION_TYPES.DRUG,
-  );
-};
-
 const getMySupplies = avs => {
   return filterMedicationsByType(
     getCombinedMedications(avs),
@@ -248,7 +253,7 @@ const getMySupplies = avs => {
   );
 };
 
-const medsIntro = avs => {
+const medsIntro = (avs, fullState) => {
   return (
     <>
       <p>
@@ -257,6 +262,56 @@ const medsIntro = avs => {
         inform your provider of any medication changes or discrepancies that you
         note. Otherwise, please continue these medications as prescribed.
       </p>
+      <p>
+        This list includes medications and supplies prescribed by your VA
+        providers. It also includes medications and supplies prescribed by
+        non-VA providers, if you filled them through a VA pharmacy.
+      </p>
+      <p>
+        If a VA provider entered them in your records, it will also include
+        these types of medications and supplies:
+      </p>
+      <ul>
+        <li>Prescriptions you filled through a non-VA pharmacy</li>
+        <li>Over-the-counter medications, supplements, and herbal remedies</li>
+        <li>Sample medications a provider gave you</li>
+        <li>
+          Other drugs you’re taking that you don’t have a prescription for,
+          including recreational drugs
+        </li>
+      </ul>
+      <p>This list doesn’t include these types of medications and supplies:</p>
+      <ul>
+        <li>
+          Medications you entered yourself. To find your self-entered
+          medications, go back to the My HealtheVet website.{' '}
+          <a
+            href={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'self-entered-medications-supplements',
+            )}
+          >
+            Go to your self-entered medications on the My HealtheVet website
+          </a>
+        </li>
+        <li>
+          Medications your provider gave you during an inpatient visit (when you
+          stay overnight at a hospital or other health facility).
+        </li>
+        <li>
+          Prescriptions from VA providers at facilities that use our My VA
+          Health portal. If any of your VA facilities use My VA Health, you can
+          find those prescriptions in that portal.{' '}
+          <a href={getCernerURL('/pages/medications/current', true)}>
+            Go to My VA Health
+          </a>
+        </li>
+        <li>
+          Certain supplies you order through our Denver Logistics Center,
+          instead of through a VA pharmacy. This includes prosthetic socks and
+          hearing aid batteries.
+        </li>
+      </ul>
       <MedicationTerms avs={avs} />
     </>
   );
@@ -291,12 +346,16 @@ const renderFieldWithBreak = (field, prefix = '') => {
   return '';
 };
 
-const renderMedication = medication => {
+const renderVaMedication = medication => {
+  const facilityPhone = normalizePhoneNumber(medication.facilityPhone);
+  const phoneNotClickable = !numberIsClickable(facilityPhone);
+
   return (
     <>
       <p>
         {renderFieldWithBreak(medication.name)}
         {renderFieldWithBreak(medication.sig)}
+        {renderFieldWithBreak(medication.indication, 'Reason for use')}
         {renderFieldWithBreak(medication.description, 'Description')}
         {renderFieldWithBreak(medication.rxNumber, 'Rx #')}
         Notes: {fieldHasValue(medication.comment) && String(medication.comment)}
@@ -307,7 +366,8 @@ const renderMedication = medication => {
           <>
             Main phone: [
             <va-telephone
-              contact={medication.facilityPhone.replace(/\D/g, '')}
+              contact={facilityPhone}
+              not-clickable={phoneNotClickable}
             />
             ] (<va-telephone contact={CONTACTS['711']} tty />)<br />
           </>
@@ -315,7 +375,9 @@ const renderMedication = medication => {
         {renderFieldWithBreak(medication.orderingProvider, 'Ordering Provider')}
         <br />
         {renderFieldWithBreak(medication.status, 'Status')}
-        {renderFieldWithBreak(medication.quantity, 'Quantity')}
+        Quantity: {String(medication.quantity)} for{' '}
+        {String(medication.daysSupply)} days
+        <br />
         {renderFieldWithBreak(medication.refillsRemaining, 'Refills remaining')}
         {renderFieldWithBreak(medication.dateExpires, 'Expires')}
         {renderFieldWithBreak(getDateLastFilled(medication), 'Last filled')}
@@ -324,7 +386,7 @@ const renderMedication = medication => {
   );
 };
 
-const renderNotTakingMedication = medication => {
+const renderNonVaMedication = medication => {
   return (
     <p>
       {renderFieldWithBreak(medication.name)}
@@ -342,8 +404,20 @@ const renderNotTakingMedication = medication => {
   );
 };
 
+const renderMedication = medication => {
+  switch (medication.medicationSource) {
+    case MEDICATION_SOURCES.NON_VA:
+      return renderNonVaMedication(medication);
+    case MEDICATION_SOURCES.VA:
+    default:
+      return renderVaMedication(medication);
+  }
+};
+
 const YourHealthInformation = props => {
   const { avs } = props;
+  const fullState = useSelector(state => state);
+
   const appointmentDate = getFormattedAppointmentDate(avs);
 
   return (
@@ -384,9 +458,10 @@ const YourHealthInformation = props => {
         renderItem={renderAllergy}
         showSeparators
       />
+      {labResults(avs)}
       <ItemsBlock
         heading="My medications"
-        intro={medsIntro(avs)}
+        intro={medsIntro(avs, fullState)}
         itemType="my-medications"
         items={getMyMedications(avs)}
         renderItem={renderMedication}
@@ -399,15 +474,6 @@ const YourHealthInformation = props => {
         renderItem={renderMedication}
         showSeparators
       />
-      <ItemsBlock
-        heading="Medications you are not taking"
-        intro="You have stated that you are no longer taking the following medications. Please remember to discuss each of these medications with your providers."
-        itemType="medications-not-taking"
-        items={getMyMedicationsNotTaking(avs)}
-        renderItem={renderNotTakingMedication}
-        showSeparators
-      />
-      {labResults(avs)}
     </div>
   );
 };

@@ -1,55 +1,18 @@
-import moment from 'moment';
-
-import { SHOW_PART3 } from '../constants';
-
 import { MAX_LENGTH, SELECTED } from '../../shared/constants';
 import '../../shared/definitions';
-import {
-  processContestableIssues,
-  returnUniqueIssues,
-} from '../../shared/utils/issues';
+import { returnUniqueIssues } from '../../shared/utils/issues';
 import {
   fixDateFormat,
   replaceSubmittedData,
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
-/** Filter out ineligible contestable issues:
- * - remove issues more than one year past their decision date
- * - remove issues that are deferred
- * @property {ContestableIssues} - Array of both eligible & ineligible contestable
- *  issues
- * @return {ContestableIssues} - Array of eligible contestable issues
- */
-export const getEligibleContestableIssues = (issues, { showPart3 } = {}) => {
-  const today = moment().startOf('day');
-  const result = (issues || []).filter(issue => {
-    const {
-      approxDecisionDate = '',
-      ratingIssueSubjectText = '',
-      description = '',
-    } = issue?.attributes || {};
-
-    const isDeferred = [ratingIssueSubjectText, description]
-      .join(' ')
-      .includes('deferred');
-    const date = moment(approxDecisionDate);
-    if (isDeferred || !date.isValid() || !ratingIssueSubjectText) {
-      return false;
-    }
-    return showPart3 || date.add(1, 'years').isAfter(today);
-  });
-  // This normalizes the contestable issues data. See function definition for
-  // more detail.
-  return processContestableIssues(result);
-};
-
 /**
  * Combine issues values into one field
  * @param {ContestableIssueAttributes} attributes
  * @returns {String} Issue name - rating % - description combined
  */
-export const createIssueName = ({ attributes } = {}) => {
+export const createIssueName = ({ attributes = {} } = {}) => {
   const {
     ratingIssueSubjectText,
     ratingIssuePercentNumber,
@@ -169,9 +132,10 @@ export const getAddress = (formData = {}) => {
   const truncate = (value, max) =>
     replaceSubmittedData(veteran.address?.[value] || '').substring(0, max);
   // note "ISO2" is submitted, "Iso2" is from profile address
-  const countryCodeISO2 = formData[SHOW_PART3]
-    ? truncate('countryCodeIso2', MAX_LENGTH.ADDRESS_COUNTRY)
-    : '';
+  const countryCodeISO2 = truncate(
+    'countryCodeIso2',
+    MAX_LENGTH.ADDRESS_COUNTRY,
+  );
   // international postal code can be undefined/null
   const internationalPostalCode = truncate(
     'internationalPostalCode',
@@ -180,8 +144,7 @@ export const getAddress = (formData = {}) => {
   // zipCode5 is always required, set to 00000 for addresses outside the U.S.
   // https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/appeals_api/config/schemas/shared/v0/address.json#L34
   const zipCode5 =
-    (formData[SHOW_PART3] && countryCodeISO2 !== 'US') ||
-    veteran.address?.countryCodeIso2 !== 'US'
+    countryCodeISO2 !== 'US' || veteran.address?.countryCodeIso2 !== 'US'
       ? '00000'
       : truncate('zipCode', MAX_LENGTH.ZIP_CODE5);
   return removeEmptyEntries({
@@ -190,8 +153,6 @@ export const getAddress = (formData = {}) => {
     addressLine3: truncate('addressLine3', MAX_LENGTH.ADDRESS_LINE3),
     city: truncate('city', MAX_LENGTH.CITY),
     stateCode: veteran.address?.stateCode || '',
-    // Include countryName (v1) or countryCodeISO2 (v2)
-    countryName: formData[SHOW_PART3] ? '' : veteran.address?.countryName || '',
     countryCodeISO2,
     zipCode5,
     internationalPostalCode,
@@ -206,19 +167,8 @@ export const getAddress = (formData = {}) => {
 export const getEmail = (formData = {}) => {
   // v0 uses emailAddressText
   // v1 uses email
-  const key = formData[SHOW_PART3] ? 'email' : 'emailAddressText';
-  return { [key]: formData.veteran?.email || '' };
+  return { email: formData.veteran?.email || '' };
 };
-
-/**
- * Get user's current time zone
- * @returns {String}
- * @example 'America/Los_Angeles'
- */
-export const getTimeZone = () =>
-  // supports IE11
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
 
 /**
  *
@@ -231,9 +181,6 @@ export const getTimeZone = () =>
  * @returns {Object} data from part III, box 11 of form expiring on 3/31/2025
  */
 export const getPart3Data = formData => {
-  if (!formData[SHOW_PART3]) {
-    return {};
-  }
   const {
     requestingExtension = false,
     extensionReason = '',

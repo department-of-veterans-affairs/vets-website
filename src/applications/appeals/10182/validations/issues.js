@@ -1,12 +1,12 @@
 import { showExtensionReason } from '../utils/helpers';
-import { issueErrorMessages } from '../content/addIssue';
 import { content as extensionReasonContent } from '../content/extensionReason';
 
 import { MAX_LENGTH, REGEXP } from '../../shared/constants';
+import errorMessages from '../../shared/content/errorMessages';
 
 export const maxNameLength = (errors, data) => {
   if (data.length > MAX_LENGTH.NOD_ISSUE_NAME) {
-    errors.addError(issueErrorMessages.maxLength);
+    errors.addError(errorMessages.maxLength(MAX_LENGTH.NOD_ISSUE_NAME));
   }
 };
 

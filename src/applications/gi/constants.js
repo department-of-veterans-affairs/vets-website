@@ -17,6 +17,8 @@ export const QUERY_LIFESPAN = 3600000;
 // SMALL_SCREEN_WIDTH is in pixels
 export const SMALL_SCREEN_WIDTH = 481;
 
+export const PREVIOUS_URL_PUSHED_TO_HISTORY = 'PREVIOUS_URL_PUSHED_TO_HISTORY';
+
 export const MINIMUM_RATING_COUNT = 5;
 
 // Max search area distance in miles
@@ -59,6 +61,16 @@ export const INSTITUTION_TYPES = [
   'Correspondence',
   'High school',
 ];
+
+export const INSTITUTION_TYPES_DICTIONARY = {
+  Public: 'Public',
+  'For profit': 'For-profit',
+  Private: 'Private',
+  Foreign: 'Foreign',
+  Flight: 'Flight',
+  Correspondence: 'Correspondence',
+  'High school': 'High School',
+};
 
 export const ariaLabels = Object.freeze({
   learnMore: {
@@ -155,7 +167,7 @@ export const complaintData = [
   {
     key: 'studentLoans',
     definition:
-      'The school didn’t provide you total a cost of your school loan.',
+      'The school didn’t provide you a total cost of your school loan.',
     type: 'Student Loans',
   },
   {
@@ -334,4 +346,59 @@ export const CTRatingsHeaderQuestions = [
       },
     ],
   },
+];
+export const filterKeys = [
+  'schools',
+  'excludeCautionFlags',
+  'accredited',
+  'studentVeteran',
+  'yellowRibbonScholarship',
+  'employers',
+  'vettec',
+  'preferredProvider',
+  'specialMissionHbcu',
+  'specialMissionMenonly',
+  'specialMissionWomenonly',
+  'specialMissionRelaffil',
+  'specialMissionHSI',
+  'specialMissionNANTI',
+  'specialMissionANNHI',
+  'specialMissionAANAPII',
+  'specialMissionPBI',
+  'specialMissionTRIBAL',
+];
+
+export const POST_911_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+export const FRY_SCHOLARSHIP_ARRAY = [
+  { optionValue: 'spouse', optionLabel: 'Surviving Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
+];
+
+export const MONTGOMERY_GI_BILL_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+  { optionValue: 'active duty', optionLabel: 'Active Duty' },
+];
+
+export const SELECT_RESERVE_GI_BILL_ARRAY = [
+  {
+    optionValue: 'national guard / reserves',
+    optionLabel: 'National Guard / Reserves',
+  },
+];
+
+export const VETERAN_READINESS_ARRAY = [
+  { optionValue: 'veteran', optionLabel: 'Veteran' },
+];
+
+export const SURVIVOR_AND_DEPENDENT_ARRAY = [
+  { optionValue: 'spouse', optionLabel: 'Spouse' },
+  { optionValue: 'child', optionLabel: 'Child' },
 ];

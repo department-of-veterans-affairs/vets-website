@@ -29,35 +29,37 @@ export class ConnectedApp extends Component {
 
     return (
       <div
-        className="connected-app border-box vads-u-display--flex vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
-        vads-u-margin-y--2"
+        className="connected-app border-box vads-l-grid-container vads-u-align-items--flex-start vads-u-padding--3 vads-u-border-color--gray-lighter vads-u-border--1px
+        vads-u-margin-y--2 vads-u-display--block small-screen:vads-u-display--flex"
       >
-        <img
-          className="va-connected-app-account-logo vads-u-margin-right--2p5"
-          src={logo}
-          alt=""
-        />
+        <div className="small-screen:vads-l-col--2 small-screen:vads-u-text-align--center vads-u-text-align--left">
+          <img
+            className="va-connected-app-account-logo vads-u-margin-right--2p5 vads-u-margin-bottom--1"
+            src={logo}
+            alt=""
+          />
+        </div>
         <div className="vads-u-flex--4 vads-u-align-items--flex-start">
           <div className="vads-u-display--flex vads-u-justify-content--space-between vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
             <div>
-              <h2 className="vads-u-margin--0 vads-u-color--gray-dark vads-u-font-size--h3">
+              <h2 className="vads-u-margin--0 vads-u-color--gray-dark vads-u-font-size--h3 vads-u-padding-right--1px">
                 {title}
               </h2>
               <p className="vads-u-margin-top--0p5">
-                Connected on{' '}
-                {moment(grants[0]?.created).format('MMMM D, YYYY h:mm A')}
+                {`Connected on ${moment(grants[0]?.created).format(
+                  'MMMM D, YYYY h:mm A',
+                )}`}
               </p>
             </div>
 
-            <button
+            <va-button
               aria-label={`Disconnect ${title} from your account`}
-              className="usa-button-secondary vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
+              class="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--0"
               onClick={this.openModal}
               data-testid={`disconnect-app-${this.props.id}`}
-              type="button"
-            >
-              Disconnect
-            </button>
+              text="Disconnect"
+              secondary
+            />
           </div>
 
           <ConnectedAppDeleteModal
@@ -67,14 +69,20 @@ export class ConnectedApp extends Component {
             closeModal={this.closeModal}
             confirmDelete={this.confirmDelete}
           />
-          <va-additional-info trigger={`Learn about ${title}`} disable-border>
-            <p>
-              <strong>{title}</strong>
-              &nbsp;can access:
-            </p>
-            <ul>
-              {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
-            </ul>
+          <va-additional-info
+            trigger={`Learn about ${title}`}
+            disable-border
+            uswds
+          >
+            <div>
+              <p className="vads-u-margin-y--0">
+                <strong>{title}</strong>
+                &nbsp;can access:
+              </p>
+              <ul className="vads-u-margin-top--0">
+                {grants && grants.map((a, idx) => <li key={idx}>{a.title}</li>)}
+              </ul>
+            </div>
           </va-additional-info>
         </div>
       </div>

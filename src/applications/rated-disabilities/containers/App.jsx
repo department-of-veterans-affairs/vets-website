@@ -9,6 +9,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import backendServices from '@department-of-veterans-affairs/platform-user/profile/backendServices';
 
 import { fetchRatedDisabilities, fetchTotalDisabilityRating } from '../actions';
+import AppContent from '../components/AppContent';
 import FeatureFlagsLoaded from '../components/FeatureFlagsLoaded';
 import MVIError from '../components/MVIError';
 import RatedDisabilityView from '../components/RatedDisabilityView';
@@ -16,6 +17,7 @@ import {
   isLoadingFeatures,
   rdDetectDiscrepancies,
   rdSortAbTest,
+  rdUseLighthouse,
 } from '../selectors';
 
 const App = props => {
@@ -41,17 +43,20 @@ const App = props => {
           <MVIError />
         ) : (
           <FeatureFlagsLoaded featureFlagsLoading={featureFlagsLoading}>
-            <RatedDisabilityView
-              detectDiscrepancies={props.detectDiscrepancies}
-              error={props.error}
-              fetchRatedDisabilities={props.fetchRatedDisabilities}
-              fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
-              loading={props.loading}
-              ratedDisabilities={ratedDisabilities}
-              sortToggle={props.sortToggle}
-              totalDisabilityRating={props.totalDisabilityRating}
-              user={user}
-            />
+            {props.useLighthouse ? (
+              <AppContent />
+            ) : (
+              <RatedDisabilityView
+                detectDiscrepancies={props.detectDiscrepancies}
+                error={props.error}
+                fetchRatedDisabilities={props.fetchRatedDisabilities}
+                fetchTotalDisabilityRating={props.fetchTotalDisabilityRating}
+                loading={props.loading}
+                ratedDisabilities={ratedDisabilities}
+                sortToggle={props.sortToggle}
+                totalDisabilityRating={props.totalDisabilityRating}
+              />
+            )}
           </FeatureFlagsLoaded>
         )}
       </DowntimeNotification>
@@ -69,6 +74,9 @@ App.propTypes = {
   ratedDisabilities: PropTypes.object,
   sortToggle: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
+  // START lighthouse_migration
+  useLighthouse: PropTypes.bool,
+  // END lighthouse_migration
   user: PropTypes.object,
 };
 
@@ -81,6 +89,9 @@ const mapStateToProps = state => ({
   sortToggle: rdSortAbTest(state),
   totalDisabilityRating: state.totalRating.totalDisabilityRating,
   user: state.user,
+  // START lighthouse_migration
+  useLighthouse: rdUseLighthouse(state),
+  // END lighthouse_migration
 });
 
 const mapDispatchToProps = {

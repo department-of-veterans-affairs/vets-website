@@ -34,7 +34,7 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.findByTestId('cancel-edit-button').click();
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.url().should('contain', '/profile/notifications');
 
@@ -50,18 +50,19 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.findByLabelText(/Mobile phone number/i)
-        .clear()
-        .type('970-867-5309');
+      cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
 
       cy.findByRole('link', { name: /Back to/i }).click();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('.usa-button-group va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');
@@ -76,19 +77,21 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.findByLabelText(/Mobile phone number/i).clear();
-      cy.findByLabelText(/Mobile phone number/i).type('970-867-5309');
+      cy.fillVaTextInput('root_inputPhoneNumber', '970-867-5309');
 
-      cy.findByTestId('cancel-edit-button').click();
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.injectAxeThenAxeCheck();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');
@@ -101,19 +104,22 @@ describe('Edit page', () => {
         }?fieldName=mobilePhone&returnPath=%2Fprofile%2Fnotifications`,
       );
 
-      cy.findByLabelText(/Mobile phone number/i).type('{backspace}');
-      cy.findByLabelText(/Mobile phone number/i).tab();
+      cy.fillVaTextInput('root_inputPhoneNumber', ' ');
+      cy.realPress('Tab');
 
-      cy.findByTestId('cancel-edit-button').click();
+      cy.get('va-button[text="Cancel"]').click();
 
       cy.injectAxeThenAxeCheck();
 
       cy.url().should('not.contain', '/profile/notifications');
 
       cy.get('va-modal')
+        .last()
         .shadow()
         .within(() => {
-          cy.findByRole('button', { name: /cancel my changes/i }).click();
+          cy.get('va-button')
+            .first()
+            .click();
         });
 
       cy.url().should('contain', '/profile/notifications');

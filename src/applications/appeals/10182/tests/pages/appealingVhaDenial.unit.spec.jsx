@@ -7,7 +7,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { content } from '../../content/appealingVhaDenial';
 
 const {
   schema,
@@ -26,7 +25,7 @@ describe('extension request page', () => {
       />,
     );
 
-    expect($$('input', container).length).to.eq(2);
+    expect($$('va-radio', container)).to.exist;
   });
 
   it('should allow submit with radios unselected (optional)', () => {
@@ -42,7 +41,7 @@ describe('extension request page', () => {
       />,
     );
     fireEvent.submit($('form', container));
-    expect($('.usa-input-error', container)).to.not.exist;
+    expect($('[error]', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
 
@@ -59,32 +58,8 @@ describe('extension request page', () => {
       />,
     );
     fireEvent.submit($('form', container));
-    expect(container.innerHTML).to.contain('value="Y" checked');
-    expect($('.usa-input-error', container)).to.not.exist;
+    expect($('va-radio', container).outerHTML).to.contain('value="true"');
+    expect($('[error]', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
-  });
-
-  it('should capture google analytics', () => {
-    global.window.dataLayer = [];
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={() => {}}
-      />,
-    );
-
-    fireEvent.click($('input[value="Y"]', container));
-
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({
-      event: 'int-radio-button-option-click',
-      'radio-button-label': content.label,
-      'radio-button-optionLabel': 'Yes',
-      'radio-button-required': false,
-    });
   });
 });

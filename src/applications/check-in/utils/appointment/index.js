@@ -1,5 +1,6 @@
 import React from 'react';
 import { parseISO, startOfDay } from 'date-fns';
+import { format, utcToZonedTime } from 'date-fns-tz';
 import { ELIGIBILITY } from './eligibility';
 import { VISTA_CHECK_IN_STATUS_IENS } from '../appConstants';
 
@@ -164,6 +165,53 @@ const sortAppointmentsByStartTime = appointments => {
     : [];
 };
 
+/**
+ * @param {Array<Appointment>} appointments
+ */
+
+function organizeAppointmentsByYearMonthDay(appointments) {
+  const organizedData = [];
+
+  // First sort the appointments by start time then organize them by yearmonth and day
+  const sortedAppointments = sortAppointmentsByStartTime(appointments);
+
+  for (const appointment of sortedAppointments) {
+    const dateObj = new Date(appointment.startTime);
+    const monthYearKey = `${dateObj.getFullYear()}-${Number(
+      dateObj.getMonth(),
+    ) + 1}`;
+    const dayKey = `${dateObj.getDay()}-${dateObj.getDate()}`;
+
+    let monthObj = organizedData.find(
+      item => item.monthYearKey === monthYearKey,
+    );
+
+    if (!monthObj) {
+      monthObj = {
+        monthYearKey,
+        days: [],
+        firstAppointmentStartTime: appointment.startTime,
+      };
+      organizedData.push(monthObj);
+    }
+
+    let dayObj = monthObj.days.find(item => item.dayKey === dayKey);
+
+    if (!dayObj) {
+      dayObj = {
+        dayKey,
+        appointments: [],
+        firstAppointmentStartTime: appointment.startTime,
+      };
+      monthObj.days.push(dayObj);
+    }
+
+    dayObj.appointments.push(appointment);
+  }
+
+  return organizedData;
+}
+
 const removeTimeZone = payload => {
   // Grabbing the appointment payload and stripping out timezone here.
   // Chip should be handling this but currently isn't, this code may be refactored out.
@@ -198,14 +246,6 @@ const preCheckinExpired = appointments => {
   });
 };
 
-const appointmentStartTimePast15 = appointments => {
-  return !Object.values(appointments).some(appt => {
-    const today = new Date();
-    const deadline = appt.checkInWindowEnd;
-    return today.getTime() < new Date(deadline).getTime();
-  });
-};
-
 const hasPhoneAppointments = appointments => {
   return Object.values(appointments).some(appt => {
     return appt?.kind === 'phone';
@@ -220,16 +260,21 @@ const hasPhoneAppointments = appointments => {
  */
 
 const appointmentIcon = appointment => {
-  return (
-    <i
-      aria-label="Appointment type"
-      className={`fas ${
-        appointment?.kind === 'phone' ? 'fa-phone' : 'fa-building'
-      }`}
-      aria-hidden="true"
-      data-testid="appointment-icon"
-    />
-  );
+  let iconName;
+  switch (appointment?.kind) {
+    case 'clinic':
+    case 'cvt':
+      iconName = 'location_city';
+      break;
+    case 'vvc':
+      iconName = 'videocam';
+      break;
+    default:
+      iconName = 'phone';
+      break;
+  }
+
+  return <va-icon icon={iconName} size={3} data-testid="appointment-icon" />;
 };
 
 /**
@@ -246,13 +291,16 @@ const clinicName = appointment => {
 };
 
 /**
- * Return a unique ID of ien and station.
+ * Return a unique ID of ien and station for vista appointments.
  *
  * @param {Appointment} appointment
  * @returns {string}
  */
 
 const getAppointmentId = appointment => {
+  if (appointment.id) {
+    return `${appointment.id}-${appointment.stationNo}`;
+  }
   return `${appointment.appointmentIen}-${appointment.stationNo}`;
 };
 
@@ -274,8 +322,124 @@ const findAppointment = (appointmentId, appointments) => {
   );
 };
 
+/**
+ * Find upcoming appointment by ID.
+ *
+ * @param {string} appointmentId
+ * @param {Array<Appointment>} appointments
+ * @returns {object}
+ */
+const findUpcomingAppointment = (appointmentId, appointments) => {
+  const appointementIdParts = appointmentId.split('-');
+  return appointments.find(
+    appointmentItem =>
+      appointmentItem.id === appointementIdParts[0] &&
+      appointmentItem.stationNo === appointementIdParts[1],
+  );
+};
+
+/**
+ * Determine if the appoinents have multiple facilities.
+ *
+ * @param {Array<Appointment>} appointments
+ * @returns {bool}
+ */
+
+const hasMultipleFacilities = appointments => {
+  const uniqueFacilites = [
+    ...new Map(appointments.map(appt => [appt.stationNo, appt])).values(),
+  ];
+  return uniqueFacilites.length > 1;
+};
+
+/**
+ * Return unique facilities as an array
+ * @param {Array<Appointment>} appointments
+ * @returns {Array}
+ */
+
+const getUniqueFacilies = appointments => {
+  return [...new Set(appointments.map(appt => appt.facility))];
+};
+
+/**
+ * Return adjusted ISO timestring
+ * @param {string} time
+ * @param {string} timezone
+ * @param {string} isoFormat
+ * @returns {string}
+ */
+
+const utcToFacilityTimeZone = (
+  time,
+  timezone,
+  isoFormat = "yyyy-LL-dd'T'HH:mm:ss.SSSxxx",
+) => {
+  return format(utcToZonedTime(time, timezone), isoFormat, {
+    timeZone: timezone,
+  });
+};
+
+/**
+ * Return label for appointment
+ * @param {object} appointment
+ * @returns {string}
+ */
+
+const getApptLabel = appointment => {
+  const time = utcToFacilityTimeZone(
+    appointment.startTime,
+    appointment.timezone,
+    'h:mm aaaa',
+  );
+  const label = appointment.clinicFriendlyName
+    ? appointment.clinicFriendlyName
+    : appointment.clinicStopCodeName;
+  return `${time}${label ? ` ${label}` : ''}`;
+};
+
+/**
+ * Determine if there are multiple checkinable appointments.
+ *
+ * @param {appointments} appointments
+ * @returns {boolean}
+ */
+
+const getCheckinableAppointments = appointments => {
+  return appointments.filter(a => a.eligibility === ELIGIBILITY.ELIGIBLE);
+};
+
+/**
+ * Convert the appointments from the API to the format needed for the UI.
+ * @param {Array} appointments
+ * @returns {Array}
+ */
+const convertAppointments = appointments => {
+  return appointments.map(appointment => ({
+    id: appointment.id,
+    facility: appointment.attributes.location, // This is going away. We will switch to use facilityName
+    clinicPhoneNumber: null,
+    clinicFriendlyName: appointment.attributes.friendlyName,
+    clinicName: appointment.attributes.clinic,
+    clinicStopCodeName: null,
+    clinicLocation: appointment.attributes.physicalLocation,
+    doctorName: null,
+    appointmentIen: null,
+    startTime: appointment.attributes.start,
+    stationNo: appointment.attributes.locationId,
+    eligibility: null,
+    kind: appointment.attributes.kind,
+    clinicIen: null,
+    checkInWindowStart: null,
+    checkInWindowEnd: null,
+    checkInSteps: null,
+    checkedInTime: null,
+    status: appointment.attributes.status,
+    facilityAddress: null,
+  }));
+};
+
 export {
-  appointmentStartTimePast15,
   appointmentWasCanceled,
   allAppointmentsCanceled,
   getFirstCanceledAppointment,
@@ -283,6 +447,7 @@ export {
   intervalUntilNextAppointmentIneligibleForCheckin,
   locationShouldBeDisplayed,
   sortAppointmentsByStartTime,
+  organizeAppointmentsByYearMonthDay,
   preCheckinAlreadyCompleted,
   removeTimeZone,
   preCheckinExpired,
@@ -291,4 +456,11 @@ export {
   clinicName,
   getAppointmentId,
   findAppointment,
+  findUpcomingAppointment,
+  hasMultipleFacilities,
+  getUniqueFacilies,
+  utcToFacilityTimeZone,
+  getApptLabel,
+  getCheckinableAppointments,
+  convertAppointments,
 };

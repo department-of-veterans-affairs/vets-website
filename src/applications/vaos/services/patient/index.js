@@ -278,7 +278,6 @@ export async function fetchFlowEligibilityAndClinics({
   directSchedulingEnabled,
   useV2 = false,
   featureClinicFilter = false,
-  useAcheron = false,
 }) {
   const directSchedulingAvailable =
     locationSupportsDirectScheduling(location, typeOfCare) &&
@@ -310,9 +309,9 @@ export async function fetchFlowEligibilityAndClinics({
       : typeOfCare.id !== PRIMARY_CARE && typeOfCare.id !== MENTAL_HEALTH;
 
     if (isDirectAppointmentHistoryRequired) {
-      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2(
-        useAcheron,
-      ).catch(createErrorHandler('direct-no-matching-past-clinics-error'));
+      apiCalls.pastAppointments = getLongTermAppointmentHistoryV2().catch(
+        createErrorHandler('direct-no-matching-past-clinics-error'),
+      );
     }
   }
 

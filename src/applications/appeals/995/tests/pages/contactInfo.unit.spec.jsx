@@ -29,4 +29,8 @@ describe('contact information page', () => {
 
     expect($('button[type="submit"]', container)).to.exist;
   });
+  it('should have ui:required return true', () => {
+    // code coverage
+    expect(uiSchema['ui:required']()).to.be.true;
+  });
 });

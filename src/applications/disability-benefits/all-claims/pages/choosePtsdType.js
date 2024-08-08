@@ -1,10 +1,7 @@
 import { validateBooleanGroup } from 'platform/forms-system/src/js/validation';
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 
-import {
-  ptsdTypeHelp,
-  ptsdTypeEnum,
-  nonCombatPtsdTypeLong,
-} from '../content/ptsdTypeInfo';
+import { ptsdTypeHelp, ptsdTypeEnum } from '../content/ptsdTypeInfo';
 
 import { disabilityNameTitle } from '../content/newPTSDFollowUp';
 
@@ -13,15 +10,18 @@ export const uiSchema = {
   'view:selectablePtsdTypes': {
     'ui:title':
       'What type of event contributed to your PTSD? (Choose all that apply.)',
+    'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': { showFieldLabel: true },
     'ui:validations': [
       {
         validator: validateBooleanGroup,
+        options: { wrappedValidator: validateBooleanGroup },
       },
     ],
     'ui:errorMessages': {
       atLeastOne: 'Please select at least one event type',
     },
+    'ui:required': () => true,
     'view:combatPtsdType': {
       'ui:title': ptsdTypeEnum.combatPtsdType,
     },
@@ -32,7 +32,7 @@ export const uiSchema = {
       'ui:title': ptsdTypeEnum.assaultPtsdType,
     },
     'view:nonCombatPtsdType': {
-      'ui:title': nonCombatPtsdTypeLong,
+      'ui:title': ptsdTypeEnum.nonCombatPtsdType,
     },
   },
   'view:ptsdTypeHelp': {

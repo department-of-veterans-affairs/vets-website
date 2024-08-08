@@ -1,98 +1,131 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { focusElement } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import FormTitle from '@department-of-veterans-affairs/platform-forms-system/FormTitle';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro'; // '@' import not working
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-import OMBInfo from '../components/IntroductionPage/OMBInfo';
+import PropTypes from 'prop-types';
 
-class IntroductionPage extends React.Component {
-  componentDidMount() {
-    focusElement('.va-nav-breadcrumbs-list');
-  }
+const IntroductionPage = props => {
+  const { route, isLoggedIn } = props;
+  const { formConfig, pageList } = route;
 
-  render() {
-    const { route } = this.props;
-    const { formConfig, pageList } = route;
+  useEffect(
+    () => {
+      focusElement('.va-nav-breadcrumbs-list');
+    },
+    [props],
+  );
 
-    return (
-      <article className="schemaform-intro">
-        <FormTitle
-          title="Application for CHAMPVA Benefits"
-          subtitle="Equal to VA Form 10-10D (Application for CHAMPVA Benefits)"
-        />
-        <VaAlert
-          className="vads-u-margin-bottom--1 vads-u-margin-top--0"
-          status="warning"
-          visible
-          uswds
-        >
-          <h2 slot="headline">This form is under development.</h2>
-          <p>Any interactions with this form will not be saved or submitted.</p>
+  return (
+    <article className="schemaform-intro">
+      <FormTitle
+        title="Apply for CHAMPVA benefits"
+        subTitle={formConfig.subTitle}
+      />
+
+      <p>
+        If you’re the spouse or child of a Veteran with disabilities or a
+        Veteran who has died, you may be able to get health insurance through
+        the Civilian Health and Medical Program of the Department of Veterans
+        Affairs (CHAMPVA). Apply online now.
+      </p>
+
+      {!isLoggedIn && (
+        <VaAlert status="info" visible uswds>
+          <h2>Have you applied for VA health care before?</h2>
+          <SaveInProgressIntro
+            buttonOnly
+            headingLevel={2}
+            prefillEnabled={formConfig.prefillEnabled}
+            messages={formConfig.savedFormMessages}
+            pageList={pageList}
+            unauthStartText="Sign in to check your application status"
+            hideUnauthedStartLink
+          />
         </VaAlert>
+      )}
 
-        <SaveInProgressIntro
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        >
-          Please complete the 10-10D form to apply for CHAMPVA benefits.
-        </SaveInProgressIntro>
-        <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-          Follow the steps below to apply for CHAMPVA benefits.
-        </h2>
-        <va-process-list uswds>
-          <va-process-list-item header="Prepare">
-            <h4>To fill out this application, you’ll need your:</h4>
-            <ul>
-              <li>Social Security number (required)</li>
-              <li>VA File number (required)</li>
-            </ul>
-            <p>
-              <strong>What if I need help filling out my application?</strong>{' '}
-              An accredited representative, like a Veterans Service Officer
-              (VSO), can help you fill out your claim.{' '}
-              <a href="/disability-benefits/apply/help/index.html">
-                Get help filing your claim
-              </a>
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Apply">
-            <p>Complete this CHAMPVA benefits form.</p>
-            <p>
-              After submitting the form, you’ll get a confirmation message. You
-              can print this for your records.
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="VA Review">
-            <p>
-              We process claims within a week. If more than a week has passed
-              since you submitted your application and you haven’t heard back,
-              please don’t apply again. Call us at.
-            </p>
-          </va-process-list-item>
-          <va-process-list-item header="Decision">
-            <p>
-              Once we’ve processed your claim, you’ll get a notice in the mail
-              with our decision.
-            </p>
-          </va-process-list-item>
-        </va-process-list>
-        <SaveInProgressIntro
-          buttonOnly
-          headingLevel={2}
-          prefillEnabled={formConfig.prefillEnabled}
-          messages={formConfig.savedFormMessages}
-          pageList={pageList}
-          startText="Start the Application"
-        />
-        <p />
-        <OMBInfo resBurden={10} ombNumber="2900-0219" expDate="10/31/2024" />
-      </article>
-    );
-  }
-}
+      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
+        Follow the steps to apply for CHAMPVA benefits.
+      </h2>
+      <va-process-list uswds>
+        <va-process-list-item header="Check your eligibility">
+          <p>
+            Make sure you meet our eligibility requirements before you apply
+          </p>
+          <a href="https://www.va.gov/health-care/family-caregiver-benefits/champva/">
+            Find out if you’re eligible for CHAMPVA benefits
+          </a>
+        </va-process-list-item>
+        <va-process-list-item header="Gather your information">
+          <p>
+            <b>Here’s what you’ll need to apply:</b>
+          </p>
+          <ul>
+            <li>
+              <b>Personal information about you</b> and anyone else you’re
+              applying for
+            </li>
+            <li>
+              <b>Personal information about your sponsor</b> (the Veteran or
+              service member you’re connected to)
+            </li>
+          </ul>
+          This includes dates of birth, Social Security numbers, and contact
+          information.
+          <br />
+          <br />
+          You may also need to submit supporting documents, like copies of your
+          other health insurance cards or proof of school enrollment.
+          {/* Link coming soon: */}
+          {/* 
+          <br />
+          <br />
+          <VaLink text="Find out which documents you’ll need to apply for CHAMPVA" />
+          */}
+        </va-process-list-item>
+        <va-process-list-item header="Start your application">
+          <p>
+            We’ll take you through each step of the process. It should take 10
+            minutes.
+          </p>
+        </va-process-list-item>
+        <va-process-list-item header="After you apply">
+          <p>
+            We’ll contact you if we have questions or need more information.
+          </p>
+        </va-process-list-item>
+      </va-process-list>
 
-export default IntroductionPage;
+      <SaveInProgressIntro
+        formId={formConfig.formId}
+        headingLevel={2}
+        prefillEnabled={formConfig.prefillEnabled}
+        messages={formConfig.savedFormMessages}
+        pageList={pageList}
+        startText="Start the Application"
+      />
+      <br />
+
+      <va-omb-info
+        res-burden={10}
+        omb-number="2900-0219"
+        exp-date="10/31/2024"
+      />
+    </article>
+  );
+};
+
+IntroductionPage.propTypes = {
+  isLoggedIn: PropTypes.bool,
+  route: PropTypes.object,
+};
+
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.user.login.currentlyLoggedIn,
+  };
+};
+
+export default connect(mapStateToProps)(IntroductionPage);

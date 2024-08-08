@@ -146,7 +146,7 @@ export function CautionaryInformation({ institution, showModal }) {
   return (
     <div className="cautionary-information small-screen-font">
       {renderCautionFlags()}
-
+      <hr />
       <div className="student-complaints">
         <h3 className="small-screen-font">Student feedback</h3>
 

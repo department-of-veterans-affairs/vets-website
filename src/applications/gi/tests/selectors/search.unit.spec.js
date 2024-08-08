@@ -61,7 +61,7 @@ describe('updateUrlParams', () => {
     updateUrlParams(history, TABS.location, query, defaultState.filters);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=location&location=nowhere%2C%20ka',
+      '/?search=location&location=nowhere%2C%20ka&excludedSchoolTypes%5B%5D=PUBLIC&excludedSchoolTypes%5B%5D=FOR%20PROFIT&excludedSchoolTypes%5B%5D=PRIVATE&excludedSchoolTypes%5B%5D=FOREIGN&excludedSchoolTypes%5B%5D=FLIGHT&excludedSchoolTypes%5B%5D=CORRESPONDENCE&excludedSchoolTypes%5B%5D=HIGH%20SCHOOL',
     );
   });
 
@@ -77,7 +77,7 @@ describe('updateUrlParams', () => {
     updateUrlParams(history, TABS.location, query, defaultState.filters, 1);
     expect(history.push.calledOnce).to.be.true;
     expect(history.push.getCall(0).args[0]).to.equal(
-      '/?search=location&location=nowhere%2C%20ka&version=1',
+      '/?search=location&location=nowhere%2C%20ka&version=1&excludedSchoolTypes%5B%5D=PUBLIC&excludedSchoolTypes%5B%5D=FOR%20PROFIT&excludedSchoolTypes%5B%5D=PRIVATE&excludedSchoolTypes%5B%5D=FOREIGN&excludedSchoolTypes%5B%5D=FLIGHT&excludedSchoolTypes%5B%5D=CORRESPONDENCE&excludedSchoolTypes%5B%5D=HIGH%20SCHOOL',
     );
   });
 

@@ -1,7 +1,9 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import {
+  testNumberOfErrorsOnSubmit,
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFields,
+  testNumberOfWebComponentFields,
+} from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
 const {
@@ -9,42 +11,50 @@ const {
   uiSchema,
 } = formConfig.chapters.livingSituationChapter.pages.livingSituation2;
 
-describe('living situation page 2', () => {
-  it('should have appropriate number of fields', () => {
-    const { container } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          livingSituation: {
-            isInCareFacility: true,
-          },
-        }}
-        formData={{}}
-      />,
-    );
+const pageTitle = 'living situation page 2';
 
-    expect(container.querySelectorAll('input, select')).to.have.lengthOf(7);
-  });
+const data = {
+  livingSituation: {
+    isInCareFacility: true,
+  },
+};
 
-  it('should show the correct number of errors on submit', () => {
-    const { getByRole, queryAllByRole } = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          livingSituation: {
-            isInCareFacility: true,
-          },
-        }}
-        formData={{}}
-      />,
-    );
+const expectedNumberOfWebComponentFields = 7;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+  data,
+);
 
-    getByRole('button', { name: /submit/i }).click();
-    const errors = queryAllByRole('alert');
-    expect(errors).to.have.lengthOf(4);
-  });
-});
+const expectedNumberOfWebComponentErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+  data,
+);
+
+const expectedNumberOfFields = 0;
+testNumberOfFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfFields,
+  pageTitle,
+  data,
+);
+
+const expectedNumberOfErrors = 0;
+testNumberOfErrorsOnSubmit(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfErrors,
+  pageTitle,
+  data,
+);

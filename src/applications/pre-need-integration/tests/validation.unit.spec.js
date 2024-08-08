@@ -40,7 +40,7 @@ describe('Pre-need validation', () => {
       expect(errors.dateOfDeath.addError.called).to.be.true;
     });
 
-    it('should not add error if death is after birth', () => {
+    it('should add error if death is less than 16 years after birth', () => {
       const errors = {
         dateOfDeath: {
           addError: sinon.spy(),
@@ -51,6 +51,22 @@ describe('Pre-need validation', () => {
         isDeceased: 'yes',
         dateOfBirth: '2010-01-01',
         dateOfDeath: '2011-01-01',
+      });
+
+      expect(errors.dateOfDeath.addError.called).to.be.true;
+    });
+
+    it('should not add error if death is 16 years or greater after birth', () => {
+      const errors = {
+        dateOfDeath: {
+          addError: sinon.spy(),
+        },
+      };
+
+      validateSponsorDeathDate(errors, {
+        isDeceased: 'yes',
+        dateOfBirth: '2000-01-01',
+        dateOfDeath: '2020-01-01',
       });
 
       expect(errors.dateOfDeath.addError.called).to.be.false;

@@ -12,6 +12,7 @@ const CopyAddressModalFailure = ({ visible, onClose }) => (
     primaryButtonText="Close"
     onPrimaryButtonClick={onClose}
     data-testid="copy-address-failure"
+    uswds
   >
     <>
       <div data-testid="modal-content">

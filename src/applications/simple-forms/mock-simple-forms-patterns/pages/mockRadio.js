@@ -3,17 +3,16 @@ import {
   inlineTitleUI,
   radioSchema,
   radioUI,
-  titleSchema,
   titleUI,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { CompensationTypeDescription } from 'applications/hca/components/FormDescriptions';
+import { CompensationTypeDescription } from '../components/formDescriptions';
 
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    'view:title': titleUI('RJSF'),
+    ...titleUI('RJSF'),
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -52,7 +51,6 @@ export default {
     }),
     wcv3VaTileCompensationType: radioUI({
       title: 'Do you receive VA disability compensation?',
-      description: CompensationTypeDescription,
       tile: true,
       labels: {
         lowDisability:
@@ -64,6 +62,7 @@ export default {
     }),
     wcv3IsCurrentlyActiveDuty: yesNoUI({
       title: 'Are you on active duty now?',
+      description: 'This is a description',
       labels: {
         Y: 'Yes, the Veteran is on active duty now',
         N: 'No, the Veteran is not on active duty now',
@@ -73,7 +72,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:title': titleSchema,
       vaCompensationType: {
         type: 'string',
         enum: ['lowDisability', 'highDisability', 'none'],

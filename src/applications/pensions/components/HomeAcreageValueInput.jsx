@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import ProgressButton from '~/platform/forms-system/src/js/components/ProgressButton';
+import { Title } from '~/platform/forms-system/src/js/web-component-patterns/titlePattern';
+
 import { isValidCurrency } from '../validation';
 
 const validateCurrency = (value, setError) => {
@@ -16,7 +19,13 @@ const validateCurrency = (value, setError) => {
 };
 
 const HomeAcreageValueInput = props => {
-  const { goBack, goForward, onReviewPage = false, setFormData } = props;
+  const {
+    goBack,
+    goForward,
+    onReviewPage = false,
+    setFormData,
+    updatePage,
+  } = props;
 
   const formData = useSelector(state => state.form.data);
   const currentHomeAcreageValue = formData.homeAcreageValue;
@@ -84,13 +93,26 @@ const HomeAcreageValueInput = props => {
   };
 
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
-  const updateButton = <va-button type="submit">Update</va-button>;
+  const updateButton = (
+    <ProgressButton
+      submitButton
+      onButtonClick={e => {
+        updateFormData(e);
+        updatePage(e);
+      }}
+      buttonText="Update page"
+      buttonClass="usa-button-primary"
+      ariaLabel="Update Home acreage value page"
+    />
+  );
 
   return (
     <form onSubmit={updateFormData}>
       <fieldset className="vads-u-margin-y--2">
-        <legend className="schemaform-block-title">Income and assets</legend>
-        <va-number-input
+        <legend className="schemaform-block-title">
+          <Title title="Income and assets" />
+        </legend>
+        <va-text-input
           currency
           label="What’s the value of the land that’s more than 2 acres?"
           hint="Don’t include the value of the residence or the first 2 acres"
@@ -114,6 +136,7 @@ HomeAcreageValueInput.propTypes = {
   goBack: PropTypes.func.isRequired,
   goForward: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
+  updatePage: PropTypes.func.isRequired,
   onReviewPage: PropTypes.bool,
 };
 

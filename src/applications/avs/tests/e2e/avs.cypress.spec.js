@@ -1,3 +1,4 @@
+import { notFoundHeading } from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import manifest from '../../manifest.json';
 
 const avsId = '9A7AF40B2BC2471EA116891839113252';
@@ -57,5 +58,23 @@ describe('After-visit Summary', () => {
     cy.contains('More help and information').should('be.visible');
 
     cy.injectAxeThenAxeCheck();
+  });
+
+  it('root URL is redirected to summaries & notes', () => {
+    cy.visit(manifest.rootUrl);
+    cy.injectAxeThenAxeCheck();
+    cy.url().should(
+      'match',
+      /\/my-health\/medical-records\/summaries-and-notes\/$/,
+    );
+  });
+
+  it('child paths past an ID get page not found', () => {
+    cy.visit(`${testUrl}/path1`);
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
+
+    cy.visit(`${testUrl}/path1/path2`);
+    cy.findByRole('heading', { name: notFoundHeading }).should.exist;
   });
 });

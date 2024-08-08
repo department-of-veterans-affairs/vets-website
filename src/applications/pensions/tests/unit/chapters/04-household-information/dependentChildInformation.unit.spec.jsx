@@ -11,6 +11,8 @@ import {
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
+import { FakeProvider, testNumberOfFieldsByType } from '../pageTests.spec';
+import { fillRadio } from '../../testHelpers/webComponents';
 
 const definitions = formConfig.defaultDefinitions;
 const {
@@ -36,6 +38,11 @@ const dependentData = {
 };
 
 describe('Child information page', () => {
+  it('should set the title to the dependents name if available', () => {
+    expect(title(dependentData.dependents[0])).to.eql('Jane Doe information');
+    expect(title({ fullName: {} })).to.eql('  information');
+  });
+
   it('should render all fields', async () => {
     const { container } = render(
       <DefinitionTester
@@ -48,9 +55,9 @@ describe('Child information page', () => {
       />,
     );
 
-    expect($$('input[type=text], va-text-input', container).length).to.equal(2);
-    expect($$('input[type=radio], va-radio', container).length).to.equal(3);
-    expect($('input#root_view\\:noSSN', container)).to.exist;
+    expect($$('va-text-input', container).length).to.equal(2);
+    expect($$('va-radio', container).length).to.equal(4);
+    expect($('va-checkbox[name=root_view\\:noSSN]', container)).to.exist;
     expect($('button[type="submit"]', container)).to.exist;
   });
 
@@ -71,12 +78,14 @@ describe('Child information page', () => {
     fireEvent.submit($('form', container));
     await waitFor(() => {
       const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
-      expect($$(errors, container).length).to.equal(5);
+      expect($$(errors, container).length).to.equal(6);
       expect(onSubmit.called).to.be.false;
     });
   });
 
   it('should not require ssn if noSSN is checked', async () => {
+    dependentData.dependents[0]['view:noSSN'] = true;
+
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -90,21 +99,30 @@ describe('Child information page', () => {
       />,
     );
 
-    const noSSN = $('input#root_view\\:noSSN', container);
-    fireEvent.click(noSSN);
+    const noSSN = $('va-checkbox[name=root_view\\:noSSN]', container);
 
     fireEvent.submit($('form', container));
     await waitFor(() => {
       const errors = '.usa-input-error, va-radio[error], va-text-input[error]';
-      expect($$(errors, container).length).to.equal(4);
+      expect($$(errors, container).length).to.equal(5);
       expect(noSSN.checked).to.be.true;
       expect(onSubmit.called).to.be.false;
     });
   });
 
   it('should submit with valid data', async () => {
+    dependentData.dependents[0] = {
+      ...dependentData.dependents[0],
+      childPlaceOfBirth: 'Dagobah',
+      childSocialSecurityNumber: '111223333',
+      childRelationship: 'BIOLOGICAL',
+      attendingCollege: 'N',
+      previouslyMarried: 'N',
+      disabled: 'N',
+    };
+
     const onSubmit = sinon.spy();
-    const { container, getByLabelText } = render(
+    const { container } = render(
       <DefinitionTester
         arrayPath={arrayPath}
         pagePerItemIndex={0}
@@ -116,28 +134,17 @@ describe('Child information page', () => {
       />,
     );
 
-    const placeOfBirth = $('input#root_childPlaceOfBirth', container);
-    fireEvent.change(placeOfBirth, { target: { value: 'Dagobah' } });
-
-    // todo: unable to set the value for ssnUI
-    const ssn = getByLabelText(/Social Security Number/i);
-    fireEvent.change(ssn, { target: { value: '111223333' } });
-    // checking noSSN to allow test to complete
-    const noSSN = $('input#root_view\\:noSSN', container);
-    fireEvent.click(noSSN);
-
-    const relation = $('va-radio[name="root_childRelationship"]', container);
-    relation.__events.vaValueChange(
-      new CustomEvent('selected', { detail: { value: 'biological' } }),
-    );
-
+    // passing 'N' values in data does not set a yesNoUI correctly
     const college = $('va-radio[name="root_attendingCollege"]', container);
     college.__events.vaValueChange(
       new CustomEvent('selected', { detail: { value: 'N' } }),
     );
-
     const prevMarried = $('va-radio[name="root_previouslyMarried"]', container);
     prevMarried.__events.vaValueChange(
+      new CustomEvent('selected', { detail: { value: 'N' } }),
+    );
+    const disabled = $('va-radio[name="root_disabled"]', container);
+    disabled.__events.vaValueChange(
       new CustomEvent('selected', { detail: { value: 'N' } }),
     );
 
@@ -165,60 +172,13 @@ describe('Child information page', () => {
   });
 
   it('should not ask if the child is in school', () => {
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          ...dependentData,
-          dependents: [
-            {
-              ...dependentData.dependents[0],
-              childDateOfBirth: moment()
-                .subtract(5, 'years')
-                .toISOString(),
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
+    dependentData.dependents[0] = {
+      ...dependentData.dependents[0],
+      childDateOfBirth: moment()
+        .subtract(5, 'years')
+        .toISOString(),
+    };
 
-    expect($('#root_attendingCollegeYes', container)).to.be.null;
-  });
-
-  it('should ask if the child is disabled (Under 18 years old)', () => {
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        arrayPath={arrayPath}
-        pagePerItemIndex={0}
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        data={{
-          ...dependentData,
-          dependents: [
-            {
-              ...dependentData.dependents[0],
-              childDateOfBirth: moment()
-                .subtract(10, 'years')
-                .toISOString(),
-            },
-          ],
-        }}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-
-    expect($('#root_disabledYes', container)).to.not.be.null;
-  });
-
-  it('should not ask if the child is disabled', () => {
     const onSubmit = sinon.spy();
     const { container } = render(
       <DefinitionTester
@@ -232,11 +192,136 @@ describe('Child information page', () => {
       />,
     );
 
-    expect($('#root_disabledYes', container)).to.be.null;
+    expect($('#root_attendingCollegeYes', container)).to.be.null;
   });
 
-  it('should set the title to the dependents name if available', () => {
-    expect(title(dependentData.dependents[0])).to.eql('Jane Doe information');
-    expect(title({ fullName: {} })).to.eql('  information');
+  it('should always ask if the child is disabled', () => {
+    dependentData.dependents[0] = {
+      ...dependentData.dependents[0],
+      childDateOfBirth: moment()
+        .subtract(10, 'years')
+        .toISOString(),
+    };
+
+    const onSubmit = sinon.spy();
+    const { container } = render(
+      <DefinitionTester
+        arrayPath={arrayPath}
+        pagePerItemIndex={0}
+        definitions={formConfig.defaultDefinitions}
+        schema={schema}
+        data={dependentData}
+        onSubmit={onSubmit}
+        uiSchema={uiSchema}
+      />,
+    );
+
+    expect($('#root_disabledYes', container)).to.not.be.null;
   });
+
+  it('should show warnings', async () => {
+    const data = {
+      'view:hasDependents': true,
+      dependents: [
+        {
+          fullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          childPlaceOfBirth: 'Brooklyn',
+          childSocialSecurityNumber: '111223333',
+          disabled: false,
+          previouslyMarried: false,
+          childDateOfBirth: moment()
+            .subtract(19, 'years')
+            .toISOString(),
+        },
+      ],
+    };
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={data}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+
+    await fillRadio(
+      $('va-radio[name="root_childRelationship"]', container),
+      'ADOPTED',
+    );
+    expect($$('va-alert', container).length).to.equal(1);
+
+    await fillRadio(
+      $('va-radio[name="root_attendingCollege"]', container),
+      'Y',
+    );
+    expect($$('va-alert', container).length).to.equal(2);
+
+    await fillRadio($('va-radio[name="root_disabled"]', container), 'Y');
+    expect($$('va-alert', container).length).to.equal(3);
+  });
+
+  it('should ask if currently married', async () => {
+    const data = {
+      'view:hasDependents': true,
+      dependents: [
+        {
+          fullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          previouslyMarried: true,
+          childDateOfBirth: moment()
+            .subtract(25, 'years')
+            .toISOString(),
+        },
+      ],
+    };
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={data}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+
+    await fillRadio(
+      $('va-radio[name="root_previouslyMarried"]', container),
+      'Y',
+    );
+    expect($('va-radio[name="root_married"]', container).length).not.to.be.null;
+  });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-alert': 1,
+      'va-text-input': 2,
+      'va-checkbox': 1,
+      'va-radio': 4,
+    },
+    'dependent information',
+    dependentData,
+    {
+      arrayPath,
+      pagePerItemIndex: 0,
+    },
+  );
 });

@@ -12,6 +12,26 @@ export default class PageObject {
     return this;
   }
 
+  assertButton({ label, exist = true, isEnabled = true } = {}) {
+    if (exist) {
+      cy.contains('button', label)
+        .as('button')
+        .should(isEnabled ? 'be.enabled' : 'be.disabled');
+    } else {
+      cy.contains('button', label).should('not.exist');
+    }
+
+    return this;
+  }
+
+  assertCallCount({ alias, count }) {
+    cy.get(`${alias}.all`).then(calls => {
+      cy.wrap(calls.length).should('equal', count);
+    });
+
+    return this;
+  }
+
   assertErrorAlert({ text, exist = true }) {
     return this.assertAlert({ text, exist, status: 'error' });
   }
@@ -48,8 +68,37 @@ export default class PageObject {
     return this;
   }
 
+  assertShadow({ element, text, exist = true } = {}) {
+    cy.get(element)
+      .shadow()
+      .findByText(text)
+      .should(exist ? 'exist' : 'not.exist');
+
+    return this;
+  }
+
   assertText({ text, exist = true } = {}) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 120000 }).should(
+      'not.exist',
+    );
+
     cy.findByText(text).should(exist ? 'exist' : 'not.exist');
+    return this;
+  }
+
+  assertUrl({ url, breadcrumb }) {
+    cy.get('va-loading-indicator.hydrated', { timeout: 240000 }).should(
+      'not.exist',
+    );
+
+    cy.url().should('include', url);
+    cy.get('va-breadcrumbs')
+      .shadow()
+      .find('a')
+      .contains(breadcrumb);
+
+    cy.axeCheckBestPractice();
+
     return this;
   }
 
@@ -61,7 +110,11 @@ export default class PageObject {
     return this.assertModal({ text, exist, status: 'warning' });
   }
 
-  clickNextButton(label = 'Continue') {
+  clickBackButton(label = 'Back') {
+    return this.clickButton({ label });
+  }
+
+  clickButton({ label }) {
     cy.contains('button', label)
       .as('button')
       .should('not.be.disabled');
@@ -69,6 +122,10 @@ export default class PageObject {
     cy.get('@button').click({ waitForAnimations: true });
 
     return this;
+  }
+
+  clickNextButton(label = 'Continue') {
+    return this.clickButton({ label });
   }
 
   selectRadioButton(label) {
@@ -100,6 +157,11 @@ export default class PageObject {
   }
 
   _validateHeader() {
+    return this;
+  }
+
+  wait({ alias }) {
+    cy.wait(`${alias}`);
     return this;
   }
 }

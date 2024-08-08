@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 
 import {
   VaCheckboxGroup,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import cloneDeep from 'platform/utilities/data/cloneDeep';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-import { waitForRenderThenFocus } from 'platform/utilities/ui';
-import { scrollToFirstError } from 'platform/forms-system/src/js/utilities//ui';
+import cloneDeep from '~/platform/utilities/data/cloneDeep';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { waitForRenderThenFocus } from '~/platform/utilities/ui';
+import { focusOnChange } from '~/platform/forms-system/src/js/utilities//ui';
+import { ERROR_ELEMENTS } from '~/platform/utilities/constants';
 
 import { DISAGREEMENT_TYPES, MAX_LENGTH } from '../constants';
 import {
@@ -21,6 +21,7 @@ import {
 import { calculateOtherMaxLength } from '../utils/areaOfDisagreement';
 
 import { hasAreaOfDisagreementChoice } from '../validations/areaOfDisagreement';
+import { customPageProps } from '../props';
 
 const AreaOfDisagreement = ({
   data = {},
@@ -104,16 +105,13 @@ const AreaOfDisagreement = ({
     },
     updatePage: () => {
       const disagreement = data.areaOfDisagreement[pagePerItemIndex] || {};
+      const scrollKey = `areaOfDisagreementFollowUp${pagePerItemIndex}`;
       if (!setMaxError(disagreement) && !setCheckboxError(disagreement)) {
-        waitForRenderThenFocus(
-          `[name="areaOfDisagreementFollowUp${pagePerItemIndex}ScrollElement"] + form va-button[text="Edit"]`,
-          undefined, // root
-          250, // timeInterval
-          'button', // shadow DOM selector
-        );
-        updatePage();
+        focusOnChange(scrollKey, 'va-button', 'button');
+        updatePage(data);
       } else {
-        scrollToFirstError();
+        // replaces scrollToFirstError()
+        focusOnChange(scrollKey, ERROR_ELEMENTS.join(','));
       }
     },
   };
@@ -128,10 +126,10 @@ const AreaOfDisagreement = ({
 
       <VaCheckboxGroup
         label={content.disagreementLegend}
-        hint={content.disagreementHint}
         onVaChange={handlers.onGroupChange}
         error={checkboxErrorMessage}
         required
+        uswds
       >
         {Object.entries(DISAGREEMENT_TYPES).map(
           ([key, label]) =>
@@ -142,22 +140,29 @@ const AreaOfDisagreement = ({
                 label={label}
                 checked={options[key]}
                 message-aria-describedby={titlePlainText}
+                uswds
               />
             ),
         )}
         <VaTextInput
-          label={DISAGREEMENT_TYPES.otherEntry}
-          hint={content.otherEntryHint}
+          label={`${DISAGREEMENT_TYPES.otherEntry}. ${content.otherEntryHint}`}
           name="otherEntry"
           error={inputErrorMessage}
           onInput={handlers.onInput}
           value={disagreements.otherEntry}
           maxlength={maxLength}
+          uswds
+          charcount
         />
       </VaCheckboxGroup>
 
       {onReviewPage ? (
-        <va-button text={content.update} onClick={handlers.updatePage} />
+        <va-button
+          class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+          text={content.update}
+          onClick={handlers.updatePage}
+          uswds
+        />
       ) : (
         <div className="vads-u-margin-top--4">
           {contentBeforeButtons}
@@ -169,20 +174,6 @@ const AreaOfDisagreement = ({
   );
 };
 
-AreaOfDisagreement.propTypes = {
-  contentAfterButtons: PropTypes.element,
-  contentBeforeButtons: PropTypes.element,
-  data: PropTypes.shape({
-    limitedConsent: PropTypes.string,
-    providerFacility: PropTypes.array,
-  }),
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  goToPath: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+AreaOfDisagreement.propTypes = customPageProps;
 
 export default AreaOfDisagreement;

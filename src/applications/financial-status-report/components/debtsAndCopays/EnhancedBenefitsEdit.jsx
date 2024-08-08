@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ButtonGroup from '../shared/ButtonGroup';
 
 export const ERROR_MESSAGES = {
@@ -94,14 +94,15 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           </p>
         </div>
         <h3>{title}</h3>
-        <VaNumberInput
+        <VaTextInput
           label={prompt}
           error={error}
           id={`${benefitType}-benefitAmount`}
           name={benefitType}
           onInput={handleChange}
+          inputmode="numeric"
           value={inputValue}
-          className="no-wrap input-size-2"
+          width="md"
           required
         />
       </fieldset>
@@ -110,11 +111,12 @@ const EnhancedBenefitsEdit = ({ goToPath }) => {
           {
             label: 'Cancel',
             onClick: onCancel,
-            secondary: true,
+            isSecondary: true,
           },
           {
             label: 'Update',
             onClick: onUpdate,
+            isSubmitting: 'prevent',
           },
         ]}
       />

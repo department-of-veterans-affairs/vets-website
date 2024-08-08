@@ -18,7 +18,6 @@ describe('<HealthCareCTA />', () => {
       initialState,
     });
 
-    tree.getByText('Popular actions for Health Care');
     tree.getByTestId('apply-va-healthcare-link-from-cta');
   });
 

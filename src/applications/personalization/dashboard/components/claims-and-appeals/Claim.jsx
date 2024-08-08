@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import {
   getClaimStatusDescription,
   isClaimComplete,
   getClaimType,
-} from '../../utils/claims-and-appeals-helpers';
+} from '../../utils/claims-helpers';
 import { replaceDashesWithSlashes as replace } from '../../utils/date-formatting/helpers';
 
 import CTALink from '../CTALink';
@@ -49,9 +48,11 @@ const Claim = ({ claim }) => {
         {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
       </h3>
       <div className="vads-u-display--flex">
-        <i
-          aria-hidden="true"
-          className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
+        <va-icon
+          icon="check_circle"
+          size={2}
+          srtext="Success"
+          class="vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
           <p className="vads-u-margin-y--0">{status}</p>
@@ -80,20 +81,11 @@ const Claim = ({ claim }) => {
   );
 
   return (
-    <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend}>
-      <Toggler.Enabled>
-        <div className="vads-u-margin-bottom--2p5">
-          <va-card>
-            <div className="vads-u-padding--1">{content}</div>
-          </va-card>
-        </div>
-      </Toggler.Enabled>
-      <Toggler.Disabled>
-        <div className="vads-u-padding-y--2p5 vads-u-padding-x--2p5 vads-u-background-color--gray-lightest">
-          {content}
-        </div>
-      </Toggler.Disabled>
-    </Toggler>
+    <div className="vads-u-margin-bottom--2p5">
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
+    </div>
   );
 };
 

@@ -4,10 +4,10 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { getCommunityCareFacilities, getCommunityCareFacility } from '..';
+import { getCommunityCareFacilities } from '..';
 import { calculateBoundingBox } from '../../../utils/address';
 
-describe('VAOS CC facilities API', () => {
+describe('VAOS Services: CC facilities API', () => {
   beforeEach(() => {});
 
   const data = [
@@ -17,24 +17,6 @@ describe('VAOS CC facilities API', () => {
       attributes: {},
     },
   ];
-
-  it('should get community care facility', async () => {
-    // Arrange
-    const id = 1;
-
-    mockFetch();
-    setFetchJSONResponse(global.fetch, { data });
-
-    // Act
-    await getCommunityCareFacility(id);
-
-    // Assert
-    Sinon.assert.calledOnce(global.fetch);
-    Sinon.assert.calledWith(
-      global.fetch,
-      `${environment.API_URL}/v1/facilities/ccp/${id}`,
-    );
-  });
 
   it('should get community care facilities', async () => {
     // Arrange

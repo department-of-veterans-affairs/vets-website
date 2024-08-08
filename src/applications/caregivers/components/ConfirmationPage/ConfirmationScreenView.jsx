@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
-import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { focusElement } from '~/platform/utilities/ui';
+import scrollToTop from '~/platform/utilities/ui/scrollToTop';
 import ApplicationDownloadLink from '../ApplicationDownloadLink';
+import { normalizeFullName } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
+import Abbr from '../Abbreviation';
 
-const ConfirmationScreenView = ({ form, name, timestamp }) => {
+const ConfirmationScreenView = ({ name, timestamp }) => {
   useEffect(() => {
     focusElement('.caregiver-success-message');
     scrollToTop();
@@ -15,71 +18,53 @@ const ConfirmationScreenView = ({ form, name, timestamp }) => {
   return (
     <>
       <div className="caregiver-success-message vads-u-margin-bottom--4">
-        <va-alert status="success">
+        <va-alert status="success" uswds>
           <h2 slot="headline" className="vads-u-font-size--h3">
-            Thank you for completing your application
+            {content['confirmation--alert-heading']}
           </h2>
-          <div>
-            Once we’ve successfully received your application, we’ll contact you
-            to tell you what happens next in the application process.
-          </div>
+          <div>{content['confirmation--alert-text']}</div>
         </va-alert>
       </div>
 
-      <va-alert status="info" class="vads-u-margin-bottom--4" background-only>
-        <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--2">
-          Your application information
-        </h2>
-        <dl>
-          <div className="vads-u-margin-bottom--2">
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Veteran’s name
-            </dt>
-            <dd data-testid="cg-veteranfullname">
-              {name.first} {name.middle} {name.last} {name.suffix}
-            </dd>
-          </div>
-          {!!timestamp && (
-            <div className="vads-u-margin-bottom--2">
-              <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-                Date you applied
-              </dt>
-              <dd data-testid="cg-timestamp">
-                {moment(timestamp).format('MMM D, YYYY')}
-              </dd>
-            </div>
-          )}
-          <div>
-            <dt className="vads-u-font-family--serif vads-u-font-weight--bold">
-              Confirmation for your records
-            </dt>
-            <dd>
-              You can print this confirmation page for your records. You can
-              also download your completed application as a{' '}
-              <dfn>
-                <abbr title="Portable Document Format">PDF</abbr>
-              </dfn>
-              .
-            </dd>
-          </div>
-        </dl>
+      <va-summary-box class="vads-u-margin-bottom--4" uswds>
+        <h3 slot="headline">{content['confirmation--info-heading']}</h3>
+
+        <h4>{content['confirmation--info-vet-label']}</h4>
+        <p data-testid="cg-veteran-fullname">{normalizeFullName(name, true)}</p>
+
+        {timestamp ? (
+          <>
+            <h4>{content['confirmation--info-timestamp-label']}</h4>
+            <p data-testid="cg-submission-date">
+              {format(new Date(timestamp), 'MMM. d, yyyy')}
+            </p>
+          </>
+        ) : null}
+
+        <h4>{content['confirmation--print-heading']}</h4>
+        <p>
+          {content['confirmation--print-text']} <Abbr abbrKey="pdf" />.
+        </p>
 
         <div className="vads-u-margin-y--2">
-          <va-button text="Print this page" onClick={() => window.print()} />
+          <va-button
+            text={content['button-print']}
+            onClick={() => window.print()}
+            data-testid="cg-print-button"
+          />
         </div>
 
         <div className="caregiver-application--download">
-          <ApplicationDownloadLink form={form} />
+          <ApplicationDownloadLink />
         </div>
-      </va-alert>
+      </va-summary-box>
     </>
   );
 };
 
 ConfirmationScreenView.propTypes = {
-  form: PropTypes.object,
   name: PropTypes.object,
-  timestamp: PropTypes.object,
+  timestamp: PropTypes.number,
 };
 
 export default ConfirmationScreenView;

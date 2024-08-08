@@ -149,3 +149,9 @@ export function generateAppointmentUrl(
     .map(status => `statuses[]=${status}`)
     .join('&')}`;
 }
+
+export const TIME_TEXT = {
+  AM: 'in the morning',
+  PM: 'in the afternoon',
+  'No Time Selected': '',
+};

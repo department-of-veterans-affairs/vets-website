@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaNumberInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_ASSET_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/spouse-other-income-summary';
 const CHECKLIST_PATH = '/spouse-additional-income-checklist';
@@ -94,8 +92,11 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
           },
         });
       }
+      handlers.onSubmit(event);
     },
   };
+
+  const labelText = spAddlIncome.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -111,7 +112,7 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             </h3>
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-income-name"
             label="What is the income source?"
@@ -121,9 +122,10 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={assetName || ''}
+            charcount
           />
-          <VaNumberInput
-            className="no-wrap input-size-3"
+          <VaTextInput
+            width="md"
             error={otherAssetIncomeError}
             id="add-other-asset-amount"
             inputmode="decimal"
@@ -133,30 +135,25 @@ const SpouseAddIncome = ({ data, goToPath, setFormData }) => {
             name="add-other-income-amount"
             onInput={handlers.onAssetAmountChange}
             required
-            type="text"
+            type="decimal"
             value={assetAmount || ''}
           />
           <br />
-          <p>
-            <button
-              type="button"
-              id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
-              onClick={handlers.onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="submit"
-              className="vads-u-width--auto"
-              onClick={handlers.onUpdate}
-            >
-              {`${
-                spAddlIncome.length === index ? 'Add' : 'Update'
-              } other income`}
-            </button>
-          </p>
+
+          <ButtonGroup
+            buttons={[
+              {
+                label: 'Cancel',
+                onClick: handlers.onCancel, // Define this function based on page-specific logic
+                isSecondary: true,
+              },
+              {
+                label: `${labelText} other income`,
+                onClick: handlers.onUpdate,
+                isSubmitting: 'prevent', // If this button submits a form
+              },
+            ]}
+          />
         </fieldset>
       </form>
     </>

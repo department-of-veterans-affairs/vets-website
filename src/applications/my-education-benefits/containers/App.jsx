@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
@@ -11,23 +12,23 @@ import {
   fetchEligibility,
   fetchExclusionPeriods,
   fetchDuplicateContactInfo,
-  // fetchDirectDeposit, Commenting out until we update the component to handle astrisks see TOE app
+  fetchDirectDeposit,
 } from '../actions';
 import { formFields } from '../constants';
-import { prefillTransformer } from '../helpers';
+import { prefillTransformer, checkDate } from '../helpers';
 import { getAppData } from '../selectors/selectors';
 import { duplicateArrays } from '../utils/validation';
 
 export const App = ({
   children,
   claimantInfo,
+  dgiRudisillHideBenefitsSelectionStep,
   eligibility,
   exclusionPeriods,
   featureTogglesLoaded,
   firstName,
   formData,
-  // Commenting out until we update the component to handle astrisks
-  // getDirectDeposit,
+  getDirectDeposit,
   getEligibility,
   getExclusionPeriods,
   getPersonalInfo,
@@ -38,6 +39,8 @@ export const App = ({
   mebExclusionPeriodEnabled,
   setFormData,
   showMeb1990EZMaintenanceAlert,
+  showMeb1990EZR6MaintenanceMessage,
+  showDgiDirectDeposit1990EZ,
   showMebDgi40Features,
   showMebDgi42Features,
   showMebEnhancements,
@@ -45,14 +48,18 @@ export const App = ({
   showMebEnhancements08,
   showMebEnhancements09,
   showMebServiceHistoryCategorizeDisagreement,
+  mebAutoPopulateRelinquishmentDate,
   email,
   duplicateEmail,
   duplicatePhone,
+  benefitEffectiveDate,
 }) => {
-  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
-  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
+  const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
+  const [fetchedEligibility, setFetchedEligibility] = useState(false);
   const [fetchedExclusionPeriods, setFetchedExclusionPeriods] = useState(false);
+  const [fetchedPersonalInfo, setFetchedPersonalInfo] = useState(false);
+
   // Prevent some browsers from changing the value when scrolling while hovering
   //  over an input[type="number"] with focus.
   document.addEventListener(
@@ -69,10 +76,6 @@ export const App = ({
     },
     { passive: false },
   );
-
-  // Commenting out next line until component can handle astrisks (See TOE app)
-  // const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
-
   useEffect(
     () => {
       if (!isLoggedIn || !featureTogglesLoaded || isLOA3 !== true) {
@@ -101,6 +104,7 @@ export const App = ({
       isLoggedIn,
       setFormData,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements09,
     ],
   );
@@ -216,6 +220,15 @@ export const App = ({
           showMeb1990EZMaintenanceAlert,
         });
       }
+      if (
+        showMeb1990EZR6MaintenanceMessage !==
+        formData.showMeb1990EZR6MaintenanceMessage
+      ) {
+        setFormData({
+          ...formData,
+          showMeb1990EZR6MaintenanceMessage,
+        });
+      }
 
       if (
         formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
@@ -275,6 +288,25 @@ export const App = ({
         });
       }
 
+      if (
+        mebAutoPopulateRelinquishmentDate !==
+        formData.mebAutoPopulateRelinquishmentDate
+      ) {
+        setFormData({
+          ...formData,
+          mebAutoPopulateRelinquishmentDate,
+        });
+      }
+      if (
+        dgiRudisillHideBenefitsSelectionStep !==
+        formData.dgiRudisillHideBenefitsSelectionStep
+      ) {
+        setFormData({
+          ...formData,
+          dgiRudisillHideBenefitsSelectionStep,
+        });
+      }
+
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
           ...formData,
@@ -292,6 +324,13 @@ export const App = ({
         });
       }
 
+      if (showDgiDirectDeposit1990EZ !== formData.showDgiDirectDeposit1990EZ) {
+        setFormData({
+          ...formData,
+          showDgiDirectDeposit1990EZ,
+        });
+      }
+
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
@@ -300,12 +339,15 @@ export const App = ({
       }
     },
     [
+      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
+      showDgiDirectDeposit1990EZ,
       showMebDgi40Features,
       showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
+      showMeb1990EZR6MaintenanceMessage,
       showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
@@ -314,6 +356,7 @@ export const App = ({
       getDuplicateContactInfo,
       duplicateEmail,
       duplicatePhone,
+      mebAutoPopulateRelinquishmentDate,
     ],
   );
 
@@ -332,26 +375,74 @@ export const App = ({
     [email, formData, setFormData],
   );
 
-  // Commenting out until Direct Deposit component is updated
-  // useEffect(
-  //   () => {
-  //     if (showMebDgi40Features && isLoggedIn && !fetchedDirectDeposit) {
-  //       setFetchedDirectDeposit(true);
-  //       getDirectDeposit();
-  //     }
-  //   },
-  //   [fetchedDirectDeposit, getDirectDeposit, isLoggedIn, showMebDgi40Features],
-  // );
+  useEffect(
+    () => {
+      const fetchAndUpdateDirectDepositInfo = async () => {
+        if (
+          showDgiDirectDeposit1990EZ &&
+          isLoggedIn &&
+          isLOA3 &&
+          !fetchedDirectDeposit
+        ) {
+          await getDirectDeposit();
+          setFetchedDirectDeposit(true);
+        }
+      };
+      fetchAndUpdateDirectDepositInfo();
+
+      const currentDate = moment();
+      const oneYearAgo = currentDate.subtract(1, 'y');
+      if (
+        !benefitEffectiveDate ||
+        (mebAutoPopulateRelinquishmentDate &&
+          moment(benefitEffectiveDate).isBefore(oneYearAgo))
+      ) {
+        setFormData({
+          ...formData,
+          benefitEffectiveDate: checkDate(
+            mebAutoPopulateRelinquishmentDate,
+            benefitEffectiveDate,
+          ),
+        });
+      }
+    },
+    [
+      isLoggedIn,
+      featureTogglesLoaded,
+      isLOA3,
+      showDgiDirectDeposit1990EZ,
+      fetchedDirectDeposit,
+      getDirectDeposit,
+      setFetchedDirectDeposit,
+      benefitEffectiveDate,
+    ],
+  );
 
   return (
     <>
-      <va-breadcrumbs>
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/apply-for-benefits-form-22-1990">
-          Apply for education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/apply-for-benefits-form-22-1990',
+                label: 'Apply for education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -362,6 +453,7 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
@@ -370,7 +462,7 @@ App.propTypes = {
   featureTogglesLoaded: PropTypes.bool,
   firstName: PropTypes.string,
   formData: PropTypes.object,
-  // getDirectDeposit: PropTypes.func,
+  getDirectDeposit: PropTypes.func,
   getDuplicateContactInfo: PropTypes.func,
   getEligibility: PropTypes.func,
   getExclusionPeriods: PropTypes.func,
@@ -381,7 +473,9 @@ App.propTypes = {
   mebExclusionPeriodEnabled: PropTypes.bool,
   mobilePhone: PropTypes.string,
   setFormData: PropTypes.func,
+  showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebDgi40Features: PropTypes.bool,
   showMebDgi42Features: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
@@ -389,6 +483,7 @@ App.propTypes = {
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
+  mebAutoPopulateRelinquishmentDate: PropTypes.bool,
 };
 
 const mapStateToProps = state => {
@@ -410,7 +505,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  // getDirectDeposit: fetchDirectDeposit,
+  getDirectDeposit: fetchDirectDeposit,
   getEligibility: fetchEligibility,
   getExclusionPeriods: fetchExclusionPeriods,
   setFormData: setData,

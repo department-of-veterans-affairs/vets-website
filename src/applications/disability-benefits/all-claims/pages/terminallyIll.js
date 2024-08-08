@@ -1,7 +1,8 @@
 import React from 'react';
-import fullSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
-
-const { isTerminallyIll } = fullSchema.properties;
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 
 const TerminallyIllInfo = (
   <va-additional-info trigger="Why does this matter?">
@@ -14,10 +15,9 @@ const TerminallyIllInfo = (
 
 export const uiSchema = {
   'ui:title': 'High Priority claims',
-  isTerminallyIll: {
-    'ui:title': 'Are you terminally ill?',
-    'ui:widget': 'yesNo',
-  },
+  isTerminallyIll: yesNoUI({
+    title: 'Are you terminally ill?',
+  }),
   'view:terminallyIllInfo': {
     'ui:description': TerminallyIllInfo,
   },
@@ -26,7 +26,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
-    isTerminallyIll,
+    isTerminallyIll: yesNoSchema,
     'view:terminallyIllInfo': {
       type: 'object',
       properties: {},

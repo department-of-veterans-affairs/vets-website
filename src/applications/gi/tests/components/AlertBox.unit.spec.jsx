@@ -33,7 +33,7 @@ describe('<AlertBox>', () => {
     const tree = mount(<AlertBox isVisible scrollOnShow onCloseAlert />);
     const btn = tree.find('button.va-alert-close');
     expect(btn).to.have.lengthOf(1);
-    expect(btn.find('i.fas.fa-times-circle')).to.have.lengthOf(1);
+    expect(btn.find('va-icon')).to.have.lengthOf(1);
     tree.unmount();
   });
 });

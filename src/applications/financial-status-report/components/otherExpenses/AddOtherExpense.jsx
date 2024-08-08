@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaTextInput,
-  VaNumberInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isValidCurrency } from '../../utils/validations';
 import { MAX_OTHER_LIVING_NAME_LENGTH } from '../../constants/checkboxSelections';
+import ButtonGroup from '../shared/ButtonGroup';
 
 const SUMMARY_PATH = '/other-expenses-summary';
 const CHECKLIST_PATH = '/other-expenses-checklist';
@@ -91,6 +89,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
           otherExpenses: newExpenses,
         });
       }
+      handlers.onSubmit(event);
     },
   };
 
@@ -98,6 +97,8 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
     otherExpenses.length === index
       ? 'Add your additional living expense'
       : 'Update your living expense';
+
+  const labelText = otherExpenses.length === index ? 'Add' : 'Update';
 
   return (
     <>
@@ -111,7 +112,7 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             {headerText}
           </legend>
           <VaTextInput
-            className="no-wrap input-size-3"
+            width="md"
             error={(submitted && nameError) || null}
             id="add-other-living-expense-name"
             label="What is the name of the living expense?"
@@ -121,9 +122,10 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             required
             type="text"
             value={expenseName || ''}
+            charcount
           />
-          <VaNumberInput
-            className="no-wrap input-size-3"
+          <VaTextInput
+            width="md"
             error={otherExpenseAmountError}
             id="add-other-living-expense-amount"
             inputmode="decimal"
@@ -133,26 +135,24 @@ const AddOtherExpense = ({ data, goToPath, setFormData }) => {
             name="add-other-living-expense-amount"
             onInput={handlers.onExpenseAmountChange}
             required
-            type="number"
+            type="decimal"
             value={expenseAmount || ''}
           />
           <div className="vads-u-margin-top--2">
-            <button
-              type="button"
-              id="cancel"
-              className="usa-button-secondary vads-u-width--auto"
-              onClick={handlers.onCancel}
-            >
-              Cancel
-            </button>
-            <button
-              type="submit"
-              id="submit"
-              className="vads-u-width--auto"
-              onClick={handlers.onUpdate}
-            >
-              {`${otherExpenses.length === index ? 'Add' : 'Update'} expense`}
-            </button>
+            <ButtonGroup
+              buttons={[
+                {
+                  label: 'Cancel',
+                  onClick: handlers.onCancel, // Define this function based on page-specific logic
+                  isSecondary: true,
+                },
+                {
+                  label: `${labelText} expense`,
+                  onClick: handlers.onUpdate,
+                  isSubmitting: 'prevent', // If this button submits a form
+                },
+              ]}
+            />
           </div>
         </fieldset>
       </form>

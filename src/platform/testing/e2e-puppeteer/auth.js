@@ -86,6 +86,7 @@ function initUserMock(token, level) {
 let tokenCounter = 0;
 
 function getUserToken() {
+  // eslint-disable-next-line no-plusplus
   return `token-${process.pid}-${tokenCounter++}`;
 }
 

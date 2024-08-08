@@ -48,6 +48,7 @@ describe('Military Information - Profile page', () => {
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
     MilitaryInformation.serviceDownMessageShouldExist();
+    MilitaryInformation.veteranStatusShouldNotExist();
   });
 });
 
@@ -76,12 +77,13 @@ describe('Military Information - NonVeteran', () => {
       return resp.reply(500, serviceHistory.generateServiceHistoryError('403'));
     });
   });
-  it('should display non veteran user error on military information page', () => {
+  it('should display non veteran user error on military information page and veteran status should not exist', () => {
     cy.login(nonVeteranUser);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
     MilitaryInformation.notAVeteranMessageShouldExist();
+    MilitaryInformation.veteranStatusShouldNotExist();
   });
 });
 
@@ -110,11 +112,12 @@ describe('Military Information - NotInDeers', () => {
       return resp.reply(200, serviceHistory.generateServiceHistoryError('403'));
     });
   });
-  it('should display user not in deers error on military information page', () => {
+  it('should display user not in deers error on military information page and veteran status should not exist', () => {
     cy.login(loa3User72);
     MilitaryInformation.visitMilitaryInformationPage();
     cy.injectAxeThenAxeCheck();
     MilitaryInformation.heroErrorMessageShouldNotExist();
     MilitaryInformation.notInDeersMessageShouldExist();
+    MilitaryInformation.veteranStatusShouldNotExist();
   });
 });

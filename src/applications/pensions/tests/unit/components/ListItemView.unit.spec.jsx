@@ -1,29 +1,26 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
+
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import ListItemView from '../../../components/ListItemView';
 
 describe('ListItemView Component', () => {
-  let wrapper;
-
-  it('renders without crashing', () => {
-    wrapper = shallow(<ListItemView title="Test title" />);
-    expect(wrapper.exists()).to.equal(true);
-    wrapper.unmount();
+  it('renders without crashing', async () => {
+    const { container } = render(<ListItemView title="Test title" />);
+    await waitFor(() => {
+      expect($('h3', container)).to.exist;
+    });
   });
 
   it('displays the correct title', () => {
     const title = 'Software Engineer';
-    wrapper = shallow(<ListItemView title={title} />);
-
-    expect(wrapper.text()).to.equal('Software Engineer');
-    wrapper.unmount();
+    const { container } = render(<ListItemView title={title} />);
+    expect($('h3', container).textContent).to.eql(title);
   });
 
   it('handles missing title gracefully', () => {
-    wrapper = shallow(<ListItemView />);
-
-    expect(wrapper.text()).to.equal('');
-    wrapper.unmount();
+    const { container } = render(<ListItemView />);
+    expect($('h3', container).textContent).to.eql('');
   });
 });

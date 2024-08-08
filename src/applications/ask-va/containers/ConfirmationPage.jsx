@@ -1,92 +1,76 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { format, isValid } from 'date-fns';
-import { connect } from 'react-redux';
-
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import { lowerCase } from 'lodash';
 import { focusElement } from 'platform/utilities/ui';
+import React, { useEffect, useRef } from 'react';
+import { useSelector } from 'react-redux';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+const ConfirmationPage = () => {
+  const { user, form } = useSelector(state => state);
+  const { submission, data } = form;
+  const {
+    login: { currentlyLoggedIn },
+    profile: { loading },
+  } = user;
+  const alertRef = useRef(null);
 
-  render() {
-    const { form } = this.props;
-    const { submission, formId, data } = form;
-    const submitDate = submission.timestamp;
-    const { fullName } = data;
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
+  const contactOption = lowerCase(data?.contactPreference) || 'email';
+  const referenceID = submission?.id || 'A-123456-7890';
+
+  if (loading) {
     return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
-          />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Ask VA Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
+      <va-loading-indicator label="Loading" message="Loading..." set-focus />
     );
   }
-}
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+  const actionLink = currentlyLoggedIn ? (
+    <va-link-action
+      href="/contact-us/ask-va-too/introduction"
+      text="Return to dashboard"
+      type="primary"
+    />
+  ) : (
+    <va-link-action
+      href="/contact-us/ask-va-too"
+      text="Return to Ask VA"
+      type="secondary"
+    />
+  );
+
+  return (
+    <div>
+      <va-alert
+        className="vads-u-margin-bottom--2"
+        status="success"
+        visible
+        uswds
+        ref={alertRef}
+      >
+        <p className="vads-u-margin-y--0">
+          Your question was submitted successfully.
+        </p>
+      </va-alert>
+      <p className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+        Your confirmation number is{' '}
+        <span className="vads-u-font-weight--bold">{referenceID}.</span> We’ll
+        also send you an email confirmation.
+      </p>
+      <p className="vads-u-margin-bottom--3">
+        You should receive a reply by {contactOption} within 7 business days. If
+        we need more information to answer your question, we’ll contact you.
+      </p>
+      <div className="vads-u-margin-bottom--3 vads-u-margin-top--3">
+        {actionLink}
+      </div>
+    </div>
+  );
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
-}
-
-export default connect(mapStateToProps)(ConfirmationPage);
+export default ConfirmationPage;

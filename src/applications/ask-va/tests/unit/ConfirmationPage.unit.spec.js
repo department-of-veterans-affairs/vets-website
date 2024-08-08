@@ -1,42 +1,24 @@
-import React from 'react';
 import { expect } from 'chai';
-import { mount } from 'enzyme';
+import React from 'react';
 
-import formConfig from '../../config/form';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 
+import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
-const data = {
-  user: {
-    profile: {
-      userFullName: {
-        first: 'Peter',
-        middle: 'B',
-        last: 'Parker',
-      },
-    },
-  },
-  form: {
-    formId: formConfig.formId,
-    submission: {
-      response: {},
-      timestamp: Date.now(),
-    },
-    data: {},
-  },
-};
+import { getData } from '../fixtures/data/mock-form-data';
 
 describe('Confirmation page', () => {
-  const fakeStore = {
-    getState: () => data,
-    subscribe: () => {},
-    dispatch: () => {},
-  };
-
-  it('should render the confirmation page', () => {
-    const tree = mount(<ConfirmationPage store={fakeStore} />);
-    expect(tree).not.to.be.undefined;
-    expect(tree.text()).to.contain('Your application has been submitted');
-    tree.unmount();
+  it('should render', () => {
+    const { props, mockStore } = getData({ loggedIn: false });
+    const { container } = render(
+      <Provider store={mockStore}>
+        <ConfirmationPage {...props} />
+      </Provider>,
+    );
+    expect($('p', container).textContent).to.eq(
+      'Your question was submitted successfully.',
+    );
   });
 });

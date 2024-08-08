@@ -6,17 +6,24 @@ const goBack = e => {
   history.back();
 };
 
+const isPastAppointmentLink = url => {
+  const { pathname } = new URL(url);
+  return pathname.match(/^\/my-health\/appointments\/past\/[0-9]+$/);
+};
+
 const BreadCrumb = () => {
   const { referrer } = document;
-  const link = referrer || '#';
+  if (referrer && isPastAppointmentLink(referrer)) {
+    return (
+      <div className="avs-breadcrumb vads-u-padding-top--1p5 vads-u-padding-bottom--1">
+        <a onClick={goBack} href={referrer}>
+          Back to appointment details
+        </a>
+      </div>
+    );
+  }
 
-  return (
-    <div className="avs-breadcrumb vads-u-padding-top--1p5 vads-u-padding-bottom--3">
-      <a onClick={goBack} href={link}>
-        Back to appointment details
-      </a>
-    </div>
-  );
+  return null;
 };
 
 export default BreadCrumb;

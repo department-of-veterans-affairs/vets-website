@@ -12,12 +12,14 @@ import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
 import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
 import {
+  selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
 } from '../../../redux/selectors';
 import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
+import VideoLayout from '../../../components/layout/VideoLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -36,6 +38,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const featureVaosV2Next = useSelector(state =>
     selectFeatureVaosV2Next(state),
+  );
+  const featureAppointmentDetailsRedesign = useSelector(
+    selectFeatureAppointmentDetailsRedesign,
   );
   const appointmentDate = moment.parseZone(appointment?.start);
 
@@ -86,9 +91,9 @@ export default function ConfirmedAppointmentDetailsPage() {
     (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
   ) {
     return (
-      <FullWidthLayout>
+      <PageLayout showBreadcrumbs showNeedHelp>
         <ErrorMessage level={1} />
-      </FullWidthLayout>
+      </PageLayout>
     );
   }
 
@@ -100,8 +105,30 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
+  if (featureAppointmentDetailsRedesign) {
+    return (
+      <PageLayout showNeedHelp>
+        {isVA && (
+          <DetailsVA
+            appointment={appointment}
+            facilityData={facilityData}
+            useV2={useV2}
+          />
+        )}
+        {isCommunityCare && (
+          <DetailsCC
+            appointment={appointment}
+            useV2={useV2}
+            featureVaosV2Next={featureVaosV2Next}
+          />
+        )}
+        {isVideo && <VideoLayout data={appointment} />}
+      </PageLayout>
+    );
+  }
+
   return (
-    <PageLayout>
+    <PageLayout showNeedHelp={featureAppointmentDetailsRedesign}>
       {isVideo && (
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}

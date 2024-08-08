@@ -13,6 +13,7 @@ import {
   scrollToFirstError,
   scrollAndFocus,
 } from './scroll';
+import { ERROR_ELEMENTS, FOCUSABLE_ELEMENTS } from '../constants';
 
 export {
   focusElement,
@@ -24,9 +25,15 @@ export {
   scrollToTop,
   scrollToFirstError,
   scrollAndFocus,
+  ERROR_ELEMENTS,
+  FOCUSABLE_ELEMENTS,
 };
 
 export function displayFileSize(size) {
+  if (size == null) {
+    return '';
+  }
+
   if (size < 1024) {
     return `${size}B`;
   }

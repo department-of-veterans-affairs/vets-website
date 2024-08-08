@@ -8,8 +8,12 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import DownloadLetterLink from '../components/DownloadLetterLink';
 import VeteranBenefitSummaryLetter from './VeteranBenefitSummaryLetter';
 
-// eslint-disable-next-line -- LH_MIGRATION
-import { letterContent, bslHelpInstructions, LH_MIGRATION__getOptions } from '../utils/helpers';
+import {
+  letterContent,
+  bslHelpInstructions,
+  //  eslint-disable-next-line -- LH_MIGRATION
+  LH_MIGRATION__getOptions,
+} from '../utils/helpers';
 import { AVAILABILITY_STATUSES, LETTER_TYPES } from '../utils/constants';
 import { lettersUseLighthouse } from '../selectors';
 
@@ -17,14 +21,16 @@ export class LetterList extends React.Component {
   constructor(props) {
     super(props);
     // eslint-disable-next-line -- LH_MIGRATION
-    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) }
+    this.state = { LH_MIGRATION__options: LH_MIGRATION__getOptions(false) };
   }
 
   componentDidMount() {
     const { shouldUseLighthouse } = this.props;
     focusElement('h2#nav-form-header');
-    // eslint-disable-next-line -- LH_MIGRATION
-    this.setState({ LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse)});
+    this.setState({
+      // eslint-disable-next-line -- LH_MIGRATION
+      LH_MIGRATION__options: LH_MIGRATION__getOptions(shouldUseLighthouse),
+    });
   }
 
   render() {
@@ -53,7 +59,6 @@ export class LetterList extends React.Component {
         conditionalDownloadButton = (
           <DownloadLetterLink
             letterType={letter.letterType}
-            // eslint-disable-next-line -- LH_MIGRATION
             letterName={letter.name}
             downloadStatus={downloadStatus[letter.letterType]}
             // eslint-disable-next-line -- LH_MIGRATION
@@ -117,7 +122,9 @@ export class LetterList extends React.Component {
         <p>
           <Link to="/confirm-address">Go back to edit address</Link>
         </p>
-        <va-accordion bordered>{letterItems}</va-accordion>
+        {letterItems.length !== 0 && (
+          <va-accordion bordered>{letterItems}</va-accordion>
+        )}
         {eligibilityMessage}
 
         <br />
@@ -139,18 +146,6 @@ export class LetterList extends React.Component {
               </strong>
             </a>
           </li>
-          {/* <li> // COE to be launched on VA.gov soon
-            <a
-              href="/housing-assistance/home-loans/request-coe-form-26-1880"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <strong>
-                Sign in to eBenefits to request a Certificate of Eligibility
-                (COE) for your home loan benefits.
-              </strong>
-            </a>
-          </li> */}
           <li>
             <a
               href="/records/get-military-service-records/"

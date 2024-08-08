@@ -6,7 +6,7 @@ const generateFeatureToggles = (toggles = {}) => {
       type: 'feature_toggles',
       features: [
         {
-          name: 'find_a_representative_enable_frontend',
+          name: 'find_a_representative',
           value: findARepresentativeEnableFrontend,
         },
       ],

@@ -26,18 +26,17 @@ const NoticeAgreement = () => (
             <span className="vads-u-visibility--screen-reader">
               , will open in new tab
             </span>
-            <i
-              className="fas fa-external-link-alt vads-u-margin-left--1"
-              role="presentation"
-              aria-hidden="true"
-            />
+            <span className="vads-u-margin-left--1">
+              <va-icon icon="launch" size={3} />
+            </span>
           </a>
         </span>
       </li>
     </ul>
     <va-additional-info
       trigger="Read more about the assignment of benefits"
-      class="vads-u-margin-y--2"
+      class="vads-u-margin-y--2 hydrated"
+      uswds
     >
       <p>
         I understand that pursuant to 38 U.S.C. Section 1729 and 42 U.S.C. 2651,

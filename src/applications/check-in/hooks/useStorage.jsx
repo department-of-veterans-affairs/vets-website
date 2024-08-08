@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from 'react';
 import { createStorageKeys } from '../utils/storage';
 
-const useStorage = (isPreCheckIn = true, local = false) => {
+const useStorage = (app, local = false) => {
   const STORAGE_KEYS = useMemo(
     () => {
-      return createStorageKeys({ isPreCheckIn });
+      return createStorageKeys({ app });
     },
-    [isPreCheckIn],
+    [app],
   );
 
   const clearCurrentStorage = useCallback(
@@ -84,6 +84,20 @@ const useStorage = (isPreCheckIn = true, local = false) => {
     [STORAGE_KEYS, getKey],
   );
 
+  const setCompleteTimestamp = useCallback(
+    (window, value) => {
+      setKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP, value);
+    },
+    [STORAGE_KEYS, setKey],
+  );
+
+  const getCompleteTimestamp = useCallback(
+    window => {
+      return getKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP);
+    },
+    [STORAGE_KEYS, getKey],
+  );
+
   const setShouldSendDemographicsFlags = useCallback(
     (window, value) => {
       setKey(window, STORAGE_KEYS.SHOULD_SEND_DEMOGRAPHICS_FLAGS, value);
@@ -152,7 +166,7 @@ const useStorage = (isPreCheckIn = true, local = false) => {
   const getTravelPaySent = useCallback(
     window => {
       const value = getKey(window, STORAGE_KEYS.TRAVELPAY_SENT);
-      return value || {};
+      return value || '';
     },
     [STORAGE_KEYS, getKey],
   );
@@ -165,6 +179,8 @@ const useStorage = (isPreCheckIn = true, local = false) => {
     getPreCheckinComplete,
     setCheckinComplete,
     getCheckinComplete,
+    setCompleteTimestamp,
+    getCompleteTimestamp,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,

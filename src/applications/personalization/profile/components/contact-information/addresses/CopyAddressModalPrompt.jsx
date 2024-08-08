@@ -61,6 +61,7 @@ const CopyAddressModalPrompt = ({
       onClose={onClose}
       onCloseEvent={handleClick('dismiss')}
       data-testid="copy-address-prompt"
+      uswds
     >
       <div data-testid="modal-content">
         <p>
@@ -70,15 +71,15 @@ const CopyAddressModalPrompt = ({
           </span>
         </p>
       </div>
-      <va-featured-content>
+      <va-summary-box uswds>
         {MailingAddressInfo}
         Do you want to update your mailing address to match this home address?
         <span className="vads-u-font-weight--bold vads-u-display--block vads-u-margin-y--1p5">
           <AddressView data={homeAddress} />
         </span>
-      </va-featured-content>
+      </va-summary-box>
 
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap">
+      <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-margin-top--3">
         <LoadingButton
           data-action="save-edit"
           data-testid="save-edit-button"

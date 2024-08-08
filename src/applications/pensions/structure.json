@@ -1,0 +1,275 @@
+[
+  {
+    "title": "Applicant information",
+    "pages": [
+      {
+        "title": "Applicant information",
+        "path": "applicant/information"
+      },
+      {
+        "title": "Mailing address",
+        "path": "applicant/mail-address"
+      },
+      {
+        "title": "Contact information",
+        "path": "applicant/contact"
+      }
+    ]
+  },
+  {
+    "title": "Military history",
+    "pages": [
+      {
+        "title": "Service period",
+        "path": "military/history"
+      },
+      {
+        "title": "General history",
+        "path": "military/general"
+      },
+      {
+        "title": "Previous names",
+        "path": "military/general/add",
+        "depends": "doesHavePreviousNames"
+      },
+      {
+        "title": "POW status",
+        "path": "military/pow"
+      }
+    ]
+  },
+  {
+    "title": "Health and employment information",
+    "pages": [
+      {
+        "title": "Age",
+        "path": "medical/history/age"
+      },
+      {
+        "title": "Social Security disability",
+        "path": "medical/history/social-security-disability",
+        "depends": "return !formData.isOver65;"
+      },
+      {
+        "title": "Medical condition",
+        "path": "medical/history/condition",
+        "depends": "hasNoSocialSecurityDisability"
+      },
+      {
+        "title": "Nursing home information",
+        "path": "medical/history/nursing-home"
+      },
+      {
+        "title": "Medicaid coverage",
+        "path": "medical/history/nursing/medicaid",
+        "depends": "isInNursingHome"
+      },
+      {
+        "title": "Medicaid application status",
+        "path": "medical/history/nursing/medicaid/status",
+        "depends": "medicaidDoesNotCoverNursingHome"
+      },
+      {
+        "title": "Special monthly pension",
+        "path": "medical/history/monthly-pension"
+      },
+      {
+        "title": "Treatment from a VA medical center",
+        "path": "medical/history/va-treatment"
+      },
+      {
+        "title": "VA medical centers",
+        "path": "medical/history/va-treatment/medical-centers",
+        "depends": "hasVaTreatmentHistory"
+      },
+      {
+        "title": "Treatment from federal medical facilities",
+        "path": "medical/history/federal-treatment"
+      },
+      {
+        "title": "Federal medical facilities",
+        "path": "medical/history/federal-treatment/medical-centers",
+        "depends": "hasFederalTreatmentHistory"
+      },
+      {
+        "title": "Current employment",
+        "path": "employment/current",
+        "depends": "isUnder65"
+      },
+      {
+        "title": "Current employment",
+        "path": "employment/current/history",
+        "depends": "isEmployedUnder65"
+      },
+      {
+        "title": "Previous employment",
+        "path": "employment/previous/history",
+        "depends": "isUnemployedUnder65"
+      }
+    ]
+  },
+  {
+    "title": "Household information",
+    "pages": [
+      {
+        "title": "Marital status",
+        "path": "household/marital-status"
+      },
+      {
+        "title": "Marriage history",
+        "path": "household/marriage-info",
+        "depends": "isMarried"
+      },
+      {
+        "path": "household/marriages/:index",
+        "depends": "isMarried"
+      },
+      {
+        "title": "Spouse information",
+        "path": "household/spouse-info",
+        "depends": "isMarried"
+      },
+      {
+        "title": "Reason for separation",
+        "path": "household/marital-status/separated",
+        "depends": "isSeparated"
+      },
+      {
+        "title": "Spouse address",
+        "path": "household/marital-status/separated/spouse-address",
+        "depends": "showSpouseAddress"
+      },
+      {
+        "title": "Financial support for your spouse",
+        "path": "household/marital-status/separated/spouse-monthly-support",
+        "depends": "isSeparated"
+      },
+      {
+        "title": "Current spouse marital history",
+        "path": "household/marital-status/spouse-marital-history",
+        "depends": "isMarried"
+      },
+      {
+        "title": "Spouse’s former marriages",
+        "path": "household/marital-status/spouse-marriages",
+        "depends": "currentSpouseHasFormerMarriages"
+      },
+      {
+        "title": "Dependents",
+        "path": "household/dependents"
+      },
+      {
+        "title": "Dependent children",
+        "path": "household/dependents/add",
+        "depends": "doesHaveDependents"
+      },
+      {
+        "path": "household/dependents/children/information/:index",
+        "depends": "doesHaveDependents"
+      },
+      {
+        "path": "household/dependents/children/inhousehold/:index",
+        "depends": "doesHaveDependents"
+      },
+      {
+        "path": "household/dependents/children/address/:index",
+        "depends": "dependentIsOutsideHousehold"
+      }
+    ]
+  },
+  {
+    "title": "Financial information",
+    "pages": [
+      {
+        "title": "Total net worth",
+        "path": "financial/total-net-worth"
+      },
+      {
+        "title": "Net worth estimation",
+        "path": "financial/net-worth-estimation",
+        "depends": "return formData.totalNetWorth === false;"
+      },
+      {
+        "title": "Transferred assets",
+        "path": "financial/transferred-assets"
+      },
+      {
+        "title": "Home ownership",
+        "path": "financial/home-ownership"
+      },
+      {
+        "title": "Home acreage size",
+        "path": "financial/home-ownership/acres",
+        "depends": "ownsHome"
+      },
+      {
+        "title": "Home acreage value",
+        "path": "financial/home-ownership/acres/value",
+        "depends": "isHomeAcreageMoreThanTwo"
+      },
+      {
+        "title": "Land marketable",
+        "path": "financial/land-marketable",
+        "depends": "isHomeAcreageMoreThanTwo"
+      },
+      {
+        "title": "Receives income",
+        "path": "financial/receives-income"
+      },
+      {
+        "title": "Gross monthly income",
+        "path": "financial/income-sources",
+        "depends": "doesReceiveIncome"
+      },
+      {
+        "title": "Care expenses",
+        "path": "financial/care-expenses"
+      },
+      {
+        "title": "Unreimbursed care expenses",
+        "path": "financial/care-expenses/add",
+        "depends": "doesHaveCareExpenses"
+      },
+      {
+        "title": "Medical expenses and other unreimbursed expenses",
+        "path": "financial/medical-expenses"
+      },
+      {
+        "title": "List of medical expenses and other unreimbursed expenses",
+        "path": "financial/medical-expenses/add",
+        "depends": "doesHaveMedicalExpenses"
+      }
+    ]
+  },
+  {
+    "title": "Additional information",
+    "pages": [
+      {
+        "title": "Direct deposit for Veterans Pension benefits",
+        "path": "additional-information/direct-deposit"
+      },
+      {
+        "title": "Account information for direct deposit",
+        "path": "additional-information/account-information",
+        "depends": "usingDirectDeposit"
+      },
+      {
+        "title": "Other payment options",
+        "path": "additional-information/other-payment-options",
+        "depends": "notUsingDirectDeposit"
+      },
+      {
+        "title": "Supporting documents",
+        "path": "additional-information/supporting-documents"
+      },
+      {
+        "title": "Document upload",
+        "path": "additional-information/document-upload"
+      },
+      {
+        "title": "Faster claim processing",
+        "path": "additional-information/faster-claim-processing"
+      }
+    ]
+  }
+]

@@ -3,12 +3,12 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 const messages = {
   title: {
     dayOf: {
-      en: 'Check in at VA',
-      es: 'Regístrese en VA',
-      tl: 'Mag-check in sa VA',
+      en: 'Start checking in for your appointment',
+      es: 'Start checking in for your appointment',
+      tl: 'Start checking in for your appointment',
     },
     preCheckIn: {
-      en: 'Start pre-check-in',
+      en: 'Check if your information is up to date',
     },
   },
 };
@@ -26,6 +26,10 @@ class ValidateVeteran {
     },
     preCheckIn: (language = 'en') => {
       this.validatePageLoaded(messages.title.preCheckIn[language]);
+    },
+    travelClaim: () => {
+      cy.get('[data-testid="travelClaim-validate-page"]').should('be.visible');
+      cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
     },
   };
 
@@ -160,7 +164,9 @@ class ValidateVeteran {
   }
 
   attemptToGoToNextPage = () => {
-    cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
+    cy.get('[data-testid=check-in-button]').click({
+      waitForAnimations: true,
+    });
   };
 
   attemptToGoToNextPageWithEnterKey = () => {
@@ -169,8 +175,8 @@ class ValidateVeteran {
 
   validateAutocorrectDisabled = () => {
     cy.get('[label="Your last name"]')
-      .should('have.attr', 'autocorrect', 'false')
-      .should('have.attr', 'spellcheck', 'false');
+      .should('have.attr', 'auto-correct', 'false')
+      .should('have.attr', 'spell-check', 'false');
   };
 
   getLastNameError = () => {

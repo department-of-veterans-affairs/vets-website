@@ -35,12 +35,12 @@ describe('<SearchResult>', () => {
   it('should toggle to display additional app information', () => {
     const wrapper = shallow(<SearchResult {...props} />);
 
-    expect(wrapper.find('.fa-chevron-down')).to.have.lengthOf(1);
+    expect(wrapper.find('va-icon').props().icon).to.equal('expand_more');
 
     wrapper.find('button').simulate('click');
     const additionalText = wrapper.text();
 
-    expect(wrapper.find('.fa-chevron-up')).to.have.lengthOf(1);
+    expect(wrapper.find('va-icon').props().icon).to.equal('expand_less');
     expect(additionalText).to.include(props.item.description);
 
     wrapper.unmount();

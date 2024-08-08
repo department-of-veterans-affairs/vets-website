@@ -22,7 +22,7 @@ import { customizeTitle } from '../utilities/customize-title';
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
-  const APPLY_URL = '/health-care/apply/application/introduction';
+  const APPLY_URL = '/health-care/apply-for-health-care-form-10-10ez/';
   const currentYear = new Date().getFullYear();
   const H1 = `Your income limits for ${year || currentYear}`;
 
@@ -121,12 +121,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     );
 
     const applyUrl = (
-      <a
-        href={APPLY_URL}
-        className="vads-u-display--block vads-u-margin-top--3 vads-u-margin-bottom--1 vads-c-action-link--green"
-      >
-        Apply for VA health care
-      </a>
+      <va-link-action href={APPLY_URL} text="Apply for VA health care" />
     );
 
     return (
@@ -142,8 +137,10 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           Learn more about income limits and deductions (opens in a new tab)
         </a>
         <h2>Select your {previousYear} household income range</h2>
-        <va-accordion bordered data-testid="il-results" open-single>
+        <va-accordion bordered data-testid="il-results" open-single uswds>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-1"
             header={getFirstAccordionHeader(pension)}
@@ -164,6 +161,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-2"
             header={getSecondAccordionHeader(pension, national)}
@@ -180,6 +179,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           </va-accordion-item>
           {isStandard && (
             <va-accordion-item
+              uswds
+              bordered
               level="3"
               data-testid="il-results-3"
               header={getThirdAccordionHeader(national, gmt)}
@@ -197,6 +198,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             </va-accordion-item>
           )}
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-4"
             header={getFourthAccordionHeader(national, gmt, isStandard)}
@@ -212,6 +215,8 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
             {!pastMode && applyUrl}
           </va-accordion-item>
           <va-accordion-item
+            uswds
+            bordered
             level="3"
             data-testid="il-results-5"
             header={getFifthAccordionHeader(national, gmt, isStandard)}
@@ -256,6 +261,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
           class="vads-u-margin-top--3"
           data-testid="il-results-back"
           onClick={() => router.push(ROUTES.REVIEW)}
+          uswds
         />
         <h2>More helpful information</h2>
         <ul className="il-results-more-info">

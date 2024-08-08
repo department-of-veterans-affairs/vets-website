@@ -1,26 +1,46 @@
 import React from 'react';
-import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 
 import Notification from '../../components/Notification';
 
 describe('<Notification>', () => {
+  const title = 'Testing title';
+  const body = 'Testing body';
+
   it('should render success class', () => {
-    const tree = SkinDeep.shallowRender(
-      <Notification title="Testing title" body="Testing body" />,
+    const { container, getByText } = render(
+      <Notification title={title} body={body} />,
     );
 
-    expect(tree.text()).to.contain('Testing body');
-    expect(tree.text()).to.contain('Testing title');
-    expect(tree.everySubTree('.usa-alert-success')).not.to.be.empty;
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'success');
+    getByText(title);
+    getByText(body);
   });
+
   it('should render error class', () => {
-    const tree = SkinDeep.shallowRender(
-      <Notification title="Testing title" type="error" body="Testing body" />,
+    const { container, getByText } = render(
+      <Notification title={title} body={body} type="error" />,
     );
 
-    expect(tree.text()).to.contain('Testing body');
-    expect(tree.text()).to.contain('Testing title');
-    expect(tree.everySubTree('.usa-alert-error')).not.to.be.empty;
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('status', 'error');
+    getByText(title);
+    getByText(body);
+  });
+
+  it('should render alert thats closeable', () => {
+    const { container, getByText } = render(
+      <Notification title={title} body={body} onClose={() => true} />,
+    );
+
+    const selector = container.querySelector('va-alert');
+    expect(selector).to.exist;
+    expect(selector).to.have.attr('closeable', 'true');
+    getByText(title);
+    getByText(body);
   });
 });

@@ -1,0 +1,54 @@
+{
+  "threadDetails": {
+    "messages": [
+      {
+        "replyToName": "FREEMAN, GORDON",
+        "messageId": 2715943,
+        "category": "COVID",
+        "subject": "Covid Inquiry from OM",
+        "body": "Second test reply from Clinician Gordon",
+        "attachment": null,
+        "sentDate": "2023-03-23T14:58:03.000Z",
+        "senderId": 2708253,
+        "senderName": "FREEMAN, GORDON ",
+        "recipientId": 251391,
+        "recipientName": "MHVDAYMARK, MARK ",
+        "readReceipt": "READ",
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2710544,
+        "folderId": 0,
+        "messageBody": "Second test reply from Clinician Gordon",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      },
+      {
+        "messageId": 2710545,
+        "category": "COVID",
+        "subject": "Covid Inquiry from OM",
+        "body": "Testing new triage group\r\n\r\nGordon Freeman",
+        "attachment": null,
+        "sentDate": "2023-03-20T14:11:09.000Z",
+        "senderId": 2708253,
+        "senderName": "FREEMAN, GORDON ",
+        "recipientId": 251391,
+        "recipientName": "MHVDAYMARK, MARK ",
+        "readReceipt": "READ",
+        "triageGroupName": "SM_TO_VA_GOV_TRIAGE_GROUP_TEST",
+        "proxySenderName": null,
+        "threadId": 2710544,
+        "folderId": 0,
+        "messageBody": "Testing new triage group\r\n\r\nGordon Freeman",
+        "draftDate": null,
+        "toDate": null,
+        "hasAttachments": false
+      }
+    ],
+    "isLoading": false,
+    "replyToName": "FREEMAN, GORDON ",
+    "threadFolderId": "0",
+    "replyToMessageId": 2715943,
+    "cannotReply": false
+  }
+}

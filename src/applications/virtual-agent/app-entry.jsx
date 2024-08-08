@@ -19,6 +19,7 @@ script.text =
 document.body.appendChild(script);
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

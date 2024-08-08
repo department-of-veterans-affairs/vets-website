@@ -13,7 +13,7 @@
 }
 
 .va-u-background--gradiant-blue {
-  @include linear-gradient-background($color-old-browser-background-start, $color-old-browser-background-end);
+  @include linear-gradient-background(var(--vads-color-primary), var(--vads-color-primary-darker));
 }
 
 .va-u-text-transform--uppercase {

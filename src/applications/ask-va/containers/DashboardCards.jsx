@@ -3,10 +3,11 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 import { ServerErrorAlert } from '../config/helpers';
+import { envUrl } from '../constants';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
@@ -17,14 +18,10 @@ const DashboardCards = () => {
   const formatDate = dateString => {
     return moment(dateString, 'MM/DD/YY').format('MMM D, YYYY');
   };
-  const DASHBOARD_DATA = `${
-    environment.API_URL
-  }/ask_va_api/v0/inquiries?mock=true`;
+  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');
-
-  // Now use sortedInquiries in your map function instead of inquiries
 
   const getData = async () => {
     const response = await apiRequest(DASHBOARD_DATA)
@@ -38,7 +35,10 @@ const DashboardCards = () => {
     const data = [];
     if (response) {
       for (const inquiry of response.data) {
-        data.push(inquiry.attributes);
+        data.push({
+          ...inquiry.attributes,
+          id: inquiry.id,
+        });
       }
     }
     setInquiries(data);
@@ -104,12 +104,12 @@ const DashboardCards = () => {
                   </p>
                 </div>
                 <hr className="vads-u-margin-y--2" />
-                <a
+                <Link
                   className="vads-c-action-link--blue"
-                  href={`/user/dashboard/${card.inquiryNumber}`}
+                  to={`/user/dashboard/${card.id}`}
                 >
                   Check details
-                </a>
+                </Link>
               </va-card>
             </div>
           ))}
@@ -144,11 +144,7 @@ const DashboardCards = () => {
               <div className="vads-l-col--2">{card.status}</div>
               <div className="vads-l-col--2">{formatDate(card.lastUpdate)}</div>
               <div className="vads-l-col--2">
-                <va-link
-                  active
-                  href={`/user/dashboard/${card.inquiryNumber}`}
-                  text="Check details"
-                />
+                <Link to={`/user/dashboard/${card.id}`}>Check details</Link>
               </div>
             </div>
           ))}

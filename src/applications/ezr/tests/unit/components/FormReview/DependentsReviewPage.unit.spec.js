@@ -20,7 +20,9 @@ describe('ezr DependentsReviewPage', () => {
   context('when no dependents are reported', () => {
     it('should not render edit button', () => {
       const { container } = render(<DependentsReviewPage {...defaultProps} />);
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       expect(selector).to.not.exist;
     });
 
@@ -53,7 +55,9 @@ describe('ezr DependentsReviewPage', () => {
 
     it('should render edit button', () => {
       const { container } = render(<DependentsReviewPage {...props} />);
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       expect(selector).to.exist;
     });
 
@@ -83,7 +87,9 @@ describe('ezr DependentsReviewPage', () => {
 
     it('should fire event to trigger the edit flow', () => {
       const { container } = render(<DependentsReviewPage {...props} />);
-      const selector = container.querySelector('.edit-btn');
+      const selector = container.querySelector(
+        `va-button[text="${content['button-edit']}"]`,
+      );
       fireEvent.click(selector);
       expect(props.editPage.called).to.be.true;
     });

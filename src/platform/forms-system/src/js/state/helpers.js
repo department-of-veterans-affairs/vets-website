@@ -358,28 +358,84 @@ export function updateSchemaFromUiSchema(
   return currentSchema;
 }
 
+// These are managed by other flows, or already handle dynamic behavior,
+// so we don’t want to allow these to be updated via updateUiSchema
+const DISALLOWED_UPDATE_UI_SCHEMA_PROPS = {
+  'ui:field': true,
+  'ui:required': true,
+  'ui:reviewField': true,
+  'ui:validations': true,
+  hideIf: true,
+  updateSchema: true,
+  updateUiSchema: true,
+  replaceSchema: true,
+  viewComponent: true,
+  viewField: true,
+};
+
+/**
+ * Merges a partial uiSchema into an existing uiSchema, but only if
+ * the new uiSchema is different from the existing one.
+ * Does not support arrays.
+ * @param {UISchemaOptions} uiSchema - The existing uiSchema
+ * @param {UISchemaOptions} newUiSchema - A partial uiSchema to merge into the existing one
+ * @returns {UISchemaOptions} Merged or original uiSchema
+ */
+function mergeUiSchemasIfDifferent(uiSchema, newUiSchema) {
+  if (!newUiSchema) {
+    return uiSchema;
+  }
+
+  let isDifferent = false;
+  const updatedUiSchema = { ...uiSchema };
+
+  Object.entries(newUiSchema).forEach(([prop, value]) => {
+    let newValue = value;
+    if (DISALLOWED_UPDATE_UI_SCHEMA_PROPS[prop]) {
+      throw new Error(
+        `Cannot update uiSchema property '${prop}' using updateUiSchema.`,
+      );
+    }
+    if (value && typeof value === 'object' && !Array.isArray(value)) {
+      newValue = mergeUiSchemasIfDifferent(uiSchema[prop], newValue);
+    }
+
+    if (updatedUiSchema[prop] !== newValue) {
+      updatedUiSchema[prop] = newValue;
+      isDifferent = true;
+    }
+  });
+
+  return isDifferent ? updatedUiSchema : uiSchema;
+}
+
 /**
  * A helper that returns a new uiSchema based on the input uiSchema and
  * formData. Only updates and returns a uiSchema object for the field that has
  * an `updateUiSchema` callback defined in its `ui:options`.
  *
- * Note that this helper is _not_ called as part of the normal data-update flow
- * in a standard form config-powered benefit application. Perhaps it could be
- * called as part of updateSchemaAndData() (also in this file) but we'd have to
- * investigate any possible side effects of updating that function to add a
- * uiSchema prop in the object it returns.
- *
- * @param {Object} uiSchema - The uiSchema to update
+ * @param {SchemaOptions} schema - The schema
+ * @param {UISchemaOptions} uiSchema - The uiSchema to update
  * @param {Object} formData - The form data to based uiSchema updates on
- * @returns {Object} The new uiSchema object
+ * @returns {UISchemaOptions} The new uiSchema object
  */
-export function updateUiSchema(uiSchema, formData) {
+export function updateUiSchema(schema, uiSchema, formData) {
+  if (!uiSchema) {
+    return uiSchema;
+  }
+
   let currentUiSchema = uiSchema;
 
-  if (typeof currentUiSchema === 'object') {
-    const newUiSchema = Object.keys(currentUiSchema).reduce(
+  if (schema.type === 'object') {
+    // looping through the schema rather than the uiSchema
+    // because we just care about object traversal of 'properties'
+    const newUiSchema = Object.keys(schema.properties).reduce(
       (modifiedUiSchema, key) => {
-        const nextProp = updateUiSchema(modifiedUiSchema[key], formData);
+        const nextProp = updateUiSchema(
+          schema.properties[key],
+          modifiedUiSchema[key],
+          formData,
+        );
 
         if (modifiedUiSchema[key] !== nextProp) {
           return { ...modifiedUiSchema, [key]: nextProp };
@@ -395,24 +451,20 @@ export function updateUiSchema(uiSchema, formData) {
     }
   }
 
+  // if (schema.type === 'array') {
+  // array path is not supported for updateUiSchema because there is only one
+  // uiSchema per array, so we can't guarantee it's correct. A workaround for
+  // the consumer is to use updateSchema (there are multiple schemas per array)
+  // which has access to updating 'title' which affects 'ui:title'
+
   const uiSchemaUpdater = uiSchema['ui:options']?.updateUiSchema;
 
   if (!uiSchemaUpdater) {
     return currentUiSchema;
   }
 
-  const newUiSchemaProps = uiSchemaUpdater(formData);
-
-  return Object.entries(newUiSchemaProps).reduce(
-    (modifiedUiSchema, [key, value]) => {
-      if (value !== uiSchema[key]) {
-        return { ...modifiedUiSchema, [key]: value };
-      }
-
-      return modifiedUiSchema;
-    },
-    uiSchema,
-  );
+  const newProps = uiSchemaUpdater(formData);
+  return mergeUiSchemasIfDifferent(currentUiSchema, newProps);
 }
 
 export function replaceRefSchemas(schema, definitions, path = '') {
@@ -476,8 +528,9 @@ export function replaceRefSchemas(schema, definitions, path = '') {
  * because our conditional field implementation depends on modifying
  * schemas
  *
- * @param {Object} schema The current JSON Schema object
+ * @param {SchemaOptions} schema The current JSON Schema object
  * @param {any} fieldData The data associated with the current schema
+ * @returns {SchemaOptions} The updated JSON Schema object
  */
 export function updateItemsSchema(schema, fieldData = null) {
   if (schema.type === 'array') {
@@ -542,15 +595,21 @@ export function updateItemsSchema(schema, fieldData = null) {
 /**
  * This is the main sequence of updates that happens when data is changed
  * on a form. Most updates are applied to the schema. And by default the data
- * is updated to remove newly hidden data.
+ * is updated to remove newly hidden data. And the uiSchema is updated if
+ * there are any updateUiSchema updates based on the new data.
  *
- * @param {Object} schema The current JSON Schema
- * @param {Object} uiSchema The current UI Schema (does not change)
+ * @param {SchemaOptions} schema The current JSON Schema
+ * @param {UISchemaOptions} uiSchema The current UI Schema (does not change)
  * @param {Object} formData Flattened data for the entire form
  * @param {boolean} [preserveHiddenData=false] Do not remove hidden data if
  * this is set to `true`
+ * @returns {{
+ *  data: Object,
+ *  schema: SchemaOptions,
+ *  uiSchema: UISchemaOptions
+ * }} An object with the updated schema, uiSchema, and data
  */
-export function updateSchemaAndData(
+export function updateSchemasAndData(
   schema,
   uiSchema,
   formData,
@@ -562,8 +621,9 @@ export function updateSchemaAndData(
   // Update the schema with any fields that are now hidden because of the data change
   newSchema = setHiddenFields(newSchema, uiSchema, formData);
 
-  // Update the schema with any general updates based on the new data
-  newSchema = updateSchemaFromUiSchema(newSchema, uiSchema, formData);
+  // Update the uiSchema and  schema with any general updates based on the new data
+  const newUiSchema = updateUiSchema(newSchema, uiSchema, formData);
+  newSchema = updateSchemaFromUiSchema(newSchema, newUiSchema, formData);
 
   if (!preserveHiddenData) {
     // Remove any data that’s now hidden in the schema
@@ -577,6 +637,7 @@ export function updateSchemaAndData(
     return {
       data: newData,
       schema: newSchema,
+      uiSchema: newUiSchema,
     };
   }
 
@@ -585,6 +646,7 @@ export function updateSchemaAndData(
   return {
     data: formData,
     schema: newSchema,
+    uiSchema: newUiSchema,
   };
 }
 
@@ -595,7 +657,7 @@ export function recalculateSchemaAndData(initialState) {
     const page = state.pages[pageKey];
     const formData = initialState.data;
 
-    const { data, schema } = updateSchemaAndData(
+    const { data, schema, uiSchema } = updateSchemasAndData(
       page.schema,
       page.uiSchema,
       formData,
@@ -619,6 +681,10 @@ export function recalculateSchemaAndData(initialState) {
 
     if (page.schema !== schema) {
       newState = set(['pages', pageKey, 'schema'], schema, newState);
+    }
+
+    if (page.uiSchema !== uiSchema) {
+      newState = set(['pages', pageKey, 'uiSchema'], uiSchema, newState);
     }
 
     if (page.showPagePerItem) {

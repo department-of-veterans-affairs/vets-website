@@ -3,6 +3,7 @@ import { stateList } from './stateList';
 const APP_NAMES = Object.freeze({
   CHECK_IN: 'dayOf',
   PRE_CHECK_IN: 'preCheckIn',
+  TRAVEL_CLAIM: 'travelClaim',
 });
 
 // Taken from https://dsva.slack.com/archives/C022AC2STBM/p1631650347300600?thread_ts=1631210248.227300&cid=C022AC2STBM
@@ -242,11 +243,28 @@ const phoneNumbers = {
   emergency: '911',
 };
 
+const DEMOGRAPHICS_UPDATE_FREQUENCY = 7; // days
+
+const CONFIG_STALE_DURATION = {
+  [APP_NAMES.CHECK_IN]: 30 * 60 * 1000,
+  [APP_NAMES.PRE_CHECK_IN]: 30 * 60 * 1000,
+  [APP_NAMES.TRAVEL_CLAIM]: 30 * 60 * 1000,
+};
+
+const CONFIG_STALE_REDIRECT_LOCATION = {
+  [APP_NAMES.CHECK_IN]: window.location.origin,
+  [APP_NAMES.PRE_CHECK_IN]: window.location.origin,
+  [APP_NAMES.TRAVEL_CLAIM]: window.location.origin,
+};
+
 export {
+  DEMOGRAPHICS_UPDATE_FREQUENCY,
   APP_NAMES,
   VISTA_CHECK_IN_STATUS_IENS,
   getLabelForEditField,
   addressFormFields,
   baseCities,
   phoneNumbers,
+  CONFIG_STALE_DURATION,
+  CONFIG_STALE_REDIRECT_LOCATION,
 };

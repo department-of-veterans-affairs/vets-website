@@ -1,5 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import Expander from '../../../components/appeals-v2/Expander';
@@ -14,9 +16,8 @@ describe('<Expander/>', () => {
   };
 
   it('should render as an <li/>', () => {
-    const wrapper = shallow(<Expander {...defaultProps} />);
-    expect(wrapper.type()).to.equal('li');
-    wrapper.unmount();
+    const { container } = render(<Expander {...defaultProps} />);
+    expect($('li', container)).to.exist;
   });
 
   it('should render a button that calls onToggle prop when clicked', () => {
@@ -26,7 +27,7 @@ describe('<Expander/>', () => {
       onToggle: toggleSpy,
     };
     const wrapper = shallow(<Expander {...props} />);
-    const toggleButton = wrapper.find('button');
+    const toggleButton = wrapper.find('va-button');
     toggleButton.simulate('click');
     expect(toggleSpy.calledOnce).to.be.true;
     wrapper.unmount();
@@ -37,27 +38,19 @@ describe('<Expander/>', () => {
       ...defaultProps,
       expanded: true,
     };
-    const wrapper = shallow(<Expander {...props} />);
-    expect(
-      wrapper
-        .find('h2')
-        .first()
-        .text(),
-    ).to.equal('Hide past events');
-    expect(wrapper.find('.section-expanded').exists()).to.be.true;
-    wrapper.unmount();
+    const { container } = render(<Expander {...props} />);
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'Hide past events',
+    );
+    expect($('.section-expanded', container)).to.exist;
   });
 
   it('should render the correct unexpanded attributes', () => {
-    const wrapper = shallow(<Expander {...defaultProps} />);
-    expect(
-      wrapper
-        .find('h2')
-        .first()
-        .text(),
-    ).to.equal('Reveal past events');
-    expect(wrapper.find('.section-unexpanded').exists()).to.be.true;
-    wrapper.unmount();
+    const { container } = render(<Expander {...defaultProps} />);
+    expect($('va-button', container).getAttribute('text')).to.eq(
+      'Reveal past events',
+    );
+    expect($('.section-unexpanded', container)).to.exist;
   });
 
   it('should render the missing events alert', () => {
@@ -66,9 +59,8 @@ describe('<Expander/>', () => {
       missingEvents: true,
       expanded: true,
     };
-    const wrapper = shallow(<Expander {...props} />);
-    expect(wrapper.find('.usa-alert').exists()).to.be.true;
-    wrapper.unmount();
+    const { container } = render(<Expander {...props} />);
+    expect($('.usa-alert', container)).to.exist;
   });
 
   it('should not render the missing events alert when there are no missing events', () => {
@@ -76,8 +68,7 @@ describe('<Expander/>', () => {
       ...defaultProps,
       expanded: true,
     };
-    const wrapper = shallow(<Expander {...props} />);
-    expect(wrapper.find('.usa-alert').exists()).to.be.false;
-    wrapper.unmount();
+    const { container } = render(<Expander {...props} />);
+    expect($('.usa-alert', container)).not.to.exist;
   });
 });

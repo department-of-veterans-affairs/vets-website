@@ -2,62 +2,33 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
-import ClaimComplete from '../components/ClaimComplete';
-// START lighthouse_migration
-import ClaimDetailLayoutEVSS from '../components/evss/ClaimDetailLayout';
-import ClaimDetailLayoutLighthouse from '../components/ClaimDetailLayout';
-import ClaimStatusPageContent from '../components/evss/ClaimStatusPageContent';
-// END lighthouse_migration
-import ClaimsDecision from '../components/ClaimsDecision';
+import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
-import { DATE_FORMATS } from '../constants';
-import { cstUseLighthouse, showClaimLettersFeature } from '../selectors';
+import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
+import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
+import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+
 import {
-  buildDateFormatter,
-  getClaimType,
+  claimAvailable,
   getItemDate,
+  getStatusMap,
   getTrackedItemDate,
   getUserPhase,
-  itemsNeedingAttentionFromVet,
-  setDocumentTitle,
+  isDisabilityCompensationClaim,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab, setFocus } from '../utils/page';
+import { setUpPage, isTab } from '../utils/page';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
-// START lighthouse_migration
-const getClaimDate = claim => {
-  const { claimDate, dateFiled } = claim.attributes;
-
-  return claimDate || dateFiled || null;
-};
-// END lighthouse_migration
-
-const formatDate = buildDateFormatter(DATE_FORMATS.LONG_DATE);
-
-// Using a Map instead of the typical Object because
-// we want to guarantee that the key insertion order
-// is maintained when converting to an array of keys
-const getStatusMap = () => {
-  const map = new Map();
-  map.set('CLAIM_RECEIVED', 'CLAIM_RECEIVED');
-  map.set('UNDER_REVIEW', 'UNDER_REVIEW');
-  map.set('GATHERING_OF_EVIDENCE', 'GATHERING_OF_EVIDENCE');
-  map.set('REVIEW_OF_EVIDENCE', 'REVIEW_OF_EVIDENCE');
-  map.set('PREPARATION_FOR_DECISION', 'PREPARATION_FOR_DECISION');
-  map.set('PENDING_DECISION_APPROVAL', 'PENDING_DECISION_APPROVAL');
-  map.set('PREPARATION_FOR_NOTIFICATION', 'PREPARATION_FOR_NOTIFICATION');
-  map.set('COMPLETE', 'COMPLETE');
-  return map;
-};
-
 const STATUSES = getStatusMap();
 
 const getPhaseFromStatus = latestStatus =>
-  [...STATUSES.keys()].indexOf(latestStatus) + 1;
+  [...STATUSES.keys()].indexOf(latestStatus.toUpperCase()) + 1;
 
 const isEventOrPrimaryPhase = event => {
   if (event.type === 'phase_entered') {
@@ -182,29 +153,23 @@ const generateEventTimeline = claim => {
 
 class OverviewPage extends React.Component {
   componentDidMount() {
-    this.setTitle();
+    const { claim } = this.props;
+    setTabDocumentTitle(claim, 'Overview');
 
-    if (!isTab(this.props.lastPage)) {
-      if (!this.props.loading) {
-        setUpPage();
-      } else {
-        scrollToTop();
-      }
-    } else {
-      setFocus('#tabPanelStatus');
-    }
+    setTimeout(() => {
+      const { lastPage, loading } = this.props;
+      setPageFocus(lastPage, loading);
+    }, 100);
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.loading &&
-      prevProps.loading &&
-      !isTab(this.props.lastPage)
-    ) {
+    const { claim, lastPage, loading } = this.props;
+
+    if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
-    if (this.props.loading !== prevProps.loading) {
-      this.setTitle();
+    if (loading !== prevProps.loading) {
+      setTabDocumentTitle(claim, 'Overview');
     }
   }
 
@@ -213,95 +178,70 @@ class OverviewPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink, useLighthouse } = this.props;
+    const { claim } = this.props;
 
-    if (!useLighthouse) {
-      return (
-        <ClaimStatusPageContent
-          claim={claim}
-          showClaimLettersLink={showClaimLettersLink}
-        />
-      );
+    // Return null if the claim/ claim.attributes dont exist
+    if (!claimAvailable(claim)) {
+      return null;
     }
 
-    // claim can be null
-    const attributes = (claim && claim.attributes) || {};
-
-    const {
-      claimPhaseDates,
-      closeDate,
-      decisionLetterSent,
-      documentsNeeded,
-      status,
-    } = attributes;
-
-    const isOpen = status !== STATUSES.COMPLETE && closeDate === null;
-    const filesNeeded = itemsNeedingAttentionFromVet(attributes.trackedItems);
-    const showDocsNeeded =
-      !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
+    const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
+    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
-      <div>
-        {showDocsNeeded ? (
-          <NeedFilesFromYou claimId={claim.id} files={filesNeeded} />
-        ) : null}
-        {decisionLetterSent && !isOpen ? (
-          <ClaimsDecision
-            completedDate={closeDate}
-            showClaimLettersLink={showClaimLettersLink}
-          />
-        ) : null}
-        {!decisionLetterSent && !isOpen ? (
-          <ClaimComplete completedDate={closeDate} />
-        ) : null}
-        {status && isOpen ? (
-          <ClaimTimeline
-            id={claim.id}
-            phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-            currentPhaseBack={claimPhaseDates.currentPhaseBack}
-            events={generateEventTimeline(claim)}
-          />
-        ) : null}
+      <div className="overview-container">
+        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
+          <Toggler.Enabled>
+            {isDisabilityCompensationClaim(claimTypeCode) ? (
+              <>
+                <div className="claim-phase-diagram">
+                  <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+                  <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+                </div>
+                <ClaimPhaseStepper
+                  claimDate={claimDate}
+                  currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+                  currentPhase={currentPhase}
+                />
+              </>
+            ) : (
+              <ClaimTimeline
+                id={claim.id}
+                phase={currentPhase}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            )}
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <ClaimTimeline
+              id={claim.id}
+              phase={currentPhase}
+              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              events={generateEventTimeline(claim)}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
   }
 
-  setTitle() {
-    const { claim } = this.props;
-
-    if (claim) {
-      const claimDate = formatDate(getClaimDate(claim));
-      const claimType = getClaimType(claim);
-      const title = `Status Of ${claimDate} ${claimType} Claim`;
-      setDocumentTitle(title);
-    } else {
-      setDocumentTitle('Status Of Your Claim');
-    }
-  }
-
   render() {
-    const { claim, loading, message, synced, useLighthouse } = this.props;
+    const { claim, loading, message } = this.props;
 
     let content = null;
     if (!loading) {
       content = this.getPageContent();
     }
 
-    // START lighthouse_migration
-    const ClaimDetailLayout = useLighthouse
-      ? ClaimDetailLayoutLighthouse
-      : ClaimDetailLayoutEVSS;
-    // END lighthouse_migration
-
     return (
       <ClaimDetailLayout
-        id={this.props.params.id}
         claim={claim}
         loading={loading}
         clearNotification={this.props.clearNotification}
         currentTab="Overview"
         message={message}
-        synced={synced}
       >
         {content}
       </ClaimDetailLayout>
@@ -317,9 +257,6 @@ function mapStateToProps(state) {
     claim: claimsState.claimDetail.detail,
     message: claimsState.notifications.message,
     lastPage: claimsState.routing.lastPage,
-    showClaimLettersLink: showClaimLettersFeature(state),
-    synced: claimsState.claimSync.synced,
-    useLighthouse: cstUseLighthouse(state, 'show'),
   };
 }
 
@@ -332,11 +269,8 @@ OverviewPage.propTypes = {
   clearNotification: PropTypes.func,
   lastPage: PropTypes.string,
   loading: PropTypes.bool,
-  message: PropTypes.string,
+  message: PropTypes.object,
   params: PropTypes.object,
-  showClaimLettersLink: PropTypes.bool,
-  synced: PropTypes.bool,
-  useLighthouse: PropTypes.bool,
 };
 
 export default connect(

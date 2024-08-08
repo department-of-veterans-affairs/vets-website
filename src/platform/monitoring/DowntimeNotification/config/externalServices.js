@@ -12,10 +12,11 @@ export default {
   // Debt Management Services
   dmc: 'dmc',
   dslogon: 'dslogon',
-  emis: 'emis',
   // Enrollment System (HCA submissions)
   es: 'es',
   evss: 'evss',
+  '1010ez': '1010ez',
+  '1010ezr': '1010ezr',
   // global downtime, for scheduled downtime on apps that don't have specific dependencies documented
   global: 'global',
   // Intake, conversion, and mail handling services (central mail)
@@ -30,6 +31,14 @@ export default {
   mvi: 'mvi',
   // My HealtheVet
   mhv: 'mhv',
+  // My HealtheVet Platform - Medical Records, Secure Messaging and Medications
+  mhvPlatform: 'mhv_platform',
+  // My HealtheVet Medical Records
+  mhvMr: 'mhv_mr',
+  // My HealtheVet Secure Messaging
+  mhvSm: 'mhv_sm',
+  // My HealtheVet Medications
+  mhvMeds: 'mhv_meds',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)
@@ -54,4 +63,6 @@ export default {
   cie: 'cie',
   // Pre-check-in
   pcie: 'pcie',
+  // Travel claim
+  tc: 'tc',
 };

@@ -6,7 +6,7 @@ import formConfig from '../config/form';
 export default function FeedbackToolApp({ location, children }) {
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
+      <div className="tool-app-wrapper">{children}</div>
     </RoutedSavableApp>
   );
 }

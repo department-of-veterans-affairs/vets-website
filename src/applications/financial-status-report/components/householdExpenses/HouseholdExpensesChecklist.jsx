@@ -11,34 +11,24 @@ const HouseholdExpensesChecklist = () => {
   const { expenses } = formData;
   const { expenseRecords = [] } = expenses;
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return expenseRecords.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            expenses: {
-              ...expenses,
-              expenseRecords: expenseRecords.filter(
-                source => source.name !== value,
-              ),
-            },
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            expenses: {
-              ...expenses,
-              expenseRecords: [...expenseRecords, { name: value, amount: '' }],
-            },
-          }),
-        );
+  const onChange = ({ name, checked }) => {
+    dispatch(
+      setData({
+        ...formData,
+        expenses: {
+          ...expenses,
+          expenseRecords: checked
+            ? [...expenseRecords, { name, amount: '' }]
+            : expenseRecords.filter(source => source.name !== name),
+        },
+      }),
+    );
   };
 
   const isBoxChecked = option => {
     return expenseRecords.some(incomeValue => incomeValue.name === option);
   };
+
   const title = 'Monthly housing expenses';
   const prompt = 'Which of these expenses do you pay for?';
 

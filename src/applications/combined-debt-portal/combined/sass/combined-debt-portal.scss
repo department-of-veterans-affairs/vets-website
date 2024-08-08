@@ -1,9 +1,59 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-.no-wrap {
-    white-space: nowrap;
-  }
+h1:focus {
+  outline: none !important;
+}
 
-  .icon-right {
-    padding-right: 10px;
+.no-wrap {
+  white-space: nowrap;
+}
+
+.icon-right {
+  padding-right: 10px;
+}
+
+.no-bullets {
+  list-style: none;
+}
+
+.on-this-page-links {
+  display: block;
+  border: 1px solid var(--vads-color-base-light);
+  border-radius: 4px;
+  padding: 1em;
+  dl {
+    margin: 0;
   }
+}
+
+@media (min-width: $medium-large-screen) {
+  .on-this-page-links {
+    border: none;
+    padding: 1em 1em 1em 0;
+  }
+}
+
+.on-this-page-links dd a {
+  max-width: 285px;
+  i {
+    font-size: 0.75em;
+  }
+}
+
+.vads-u-width--fit {
+  width: fit-content;
+  white-space: nowrap;
+}
+
+.vads-u-max-width--90 {
+  max-width: 90% !important;
+}
+.icon-color--warning {
+  color: var(--vads-color-warning-dark);
+}
+.icon-color--info {
+  color: var(--vads-color-primary);
+}
+.icon-color--success {
+  color: var(--vads-color-success);
+}

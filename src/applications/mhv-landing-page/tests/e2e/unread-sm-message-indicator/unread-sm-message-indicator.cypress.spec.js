@@ -4,30 +4,35 @@ import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
 
 describe(manifest.appName, () => {
-  describe('show indicator when there are unread messages', () => {
+  describe('unread messages indicator', () => {
     beforeEach(() => {
       ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
-      ApiInitializer.initializeUserData.withDefaultUser();
     });
 
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('indicator is shown when there are unread messages', () => {
+    const getUnreadLink = () =>
+      cy.findByRole('link', {
+        name: /You have unread messages. Go to your inbox/i,
+      });
+
+    it('renders', () => {
       ApiInitializer.initializeMessageData.withUnreadMessages();
-
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-
-      LandingPage.unreadMessageIndicator().should('be.visible');
+      LandingPage.visit({ mhvAccountState: 'OK' });
+      getUnreadLink().should('be.visible');
+      cy.injectAxeThenAxeCheck();
     });
 
-    // eslint-disable-next-line @department-of-veterans-affairs/axe-check-required
-    it('indicator is not shown when there are no unread messages', () => {
+    it('does not render when no unread messages', () => {
       ApiInitializer.initializeMessageData.withNoUnreadMessages();
+      LandingPage.visit();
+      getUnreadLink().should('not.exist');
+      cy.injectAxeThenAxeCheck();
+    });
 
-      LandingPage.visitPage();
-      LandingPage.validatePageLoaded();
-
-      LandingPage.unreadMessageIndicator().should('not.exist');
+    it('does not render when no MHV account', () => {
+      ApiInitializer.initializeMessageData.withUnreadMessages();
+      LandingPage.visit({ mhvAccountState: 'NONE' });
+      getUnreadLink().should('not.exist');
+      cy.injectAxeThenAxeCheck();
     });
   });
 });

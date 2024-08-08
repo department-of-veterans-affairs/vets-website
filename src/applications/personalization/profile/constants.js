@@ -1,17 +1,18 @@
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
-  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
-  profileHideDirectDepositCompAndPen: false,
+  profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileUseFieldEditingPage: false,
-  profileUseHubPage: false,
   profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
+  profileShowDirectDepositSingleForm: false,
+  profileShowDirectDepositSingleFormUAT: false,
+  profileShowDirectDepositSingleFormAlert: false,
+  profileShowDirectDepositSingleFormEduDowntime: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -38,7 +39,7 @@ export const SERVICE_BADGE_IMAGE_PATHS = new Map([
 // They are used when the user is on the profile root page
 export const PROFILE_BREADCRUMB_BASE = [
   { href: '/', label: 'Home' },
-  { href: '/profile', label: 'Profile' },
+  { href: '/profile', label: 'Profile', isRouterLink: true },
 ];
 
 export const PROFILE_PATHS = Object.freeze({
@@ -73,13 +74,9 @@ export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
   },
 );
 
-export const ACCOUNT_TYPES_OPTIONS = {
-  checking: 'Checking',
-  savings: 'Savings',
-};
-
 export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '402', // VA Maine Healthcare System - Togus
+  '438', // Royal C. Johnson Veterans Memorial Medical Center
   '459', // VA Pacific Islands Health Care System
   '504', // Amarillo VA Health Care System
   '512', // Baltimore VA Medical Center - VA Maryland Health Care System
@@ -92,7 +89,6 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '548', // West Palm Beach VAMC
   '550', // VA Illiana
   '554', // VA Eastern Colorado Health Care System (ECHCS)
-  '556', // Captain James A. Lovell Federal Health Care Center
   '558', // Durham VA Health Care System
   '561', // East Orange Campus of the VA New Jersey Health Care System
   '570', // Central California VA Health Care System
@@ -103,6 +99,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '585', // Oscar G. Johnson VA Medical Center
   '589A6', // VA Eastern Kansas Health Care System - Dwight D. Eisenhower VA Medical Center
   '590', // Hampton VA Medical Center
+  '593', // VA Southern Nevada Healthcare System
   '596', // Lexington VA Medical Center
   '598', // Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital
   '603', // Robley Rex VA Medical Center
@@ -114,9 +111,11 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '614', // VA Memphis Healthcare System
   '621', // Mountain Home VAMC/Johnson City
   '636', // Omaha VA Medical Center--VA Nebraska-Western Iowa HCS
+  '636A8', // Iowa City HCS
   '637', // Charles George VAMC
   '650', // Providence VA Medical Center
   '656', // St. Cloud VA Health Care System
+  '657', // VA St. Louis Health Care System
   '658', // Salem VA Health Care System
   '659', // Salisbury - W.G. (Bill) Hefner VA Medical Center
   '660', // VA Salt Lake City Health Care System
@@ -125,18 +124,15 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '673', // James A. Haley Veterans' Hospital
   '675', // Orlando VA Medical Center
   '676', // Tomah VA Medical Center
+  '678', // Southern Arizona VA Health Care System
   '688', // Washington DC VA Medical Center
+  '693', // Wilkes-Barre VA Medical Center
   '695', // Clement J. Zablocki Veterans Affairs Medical Center
   '756', // El Paso VA Health Care System
   '983', // test-only facility ID, used by user 36 among others
 ]);
 
 export const NOT_SET_TEXT = 'This information is not available right now.';
-
-export const BANK_INFO_UPDATED_ALERT_SETTINGS = {
-  FADE_SPEED: window.Cypress ? 1 : 500,
-  TIMEOUT: window.Cypress ? 500 : 6000,
-};
 
 export const NOTIFICATION_GROUPS = Object.freeze({
   APPLICATIONS: 'group1',
@@ -183,3 +179,14 @@ export const API_STATUS = Object.freeze({
   SUCCESSFUL: 'successful',
   FAILED: 'failed',
 });
+
+// Direct deposit constants
+export const ACCOUNT_TYPES_OPTIONS = {
+  checking: 'Checking',
+  savings: 'Savings',
+};
+
+export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
+  FADE_SPEED: window.Cypress ? 1 : 500,
+  TIMEOUT: window.Cypress ? 500 : 6000,
+};

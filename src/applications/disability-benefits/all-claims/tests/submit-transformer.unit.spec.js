@@ -4,17 +4,21 @@ import moment from 'moment';
 
 import { expect } from 'chai';
 
-import sinon from 'sinon';
 import formConfig from '../config/form';
-import { CHAR_LIMITS } from '../constants';
+import { CHAR_LIMITS, SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
 
-import revisedFormWrapper from '../content/revisedFormWrapper';
-
 describe('transform', () => {
+  beforeEach(() => {
+    sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, false);
+  });
+  afterEach(() => {
+    sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
+  });
+
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
@@ -38,6 +42,12 @@ describe('transform', () => {
         const rawData = JSON.parse(
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
+
+        // special logic for unreleased pages. set the indicator, otherwise the test considers TE pages as inactive
+        if (fileName === 'maximal-toxic-exposure-test.json') {
+          rawData.data.startedFormVersion = '2022';
+        }
+
         let transformedData;
         try {
           transformedData = fs.readFileSync(
@@ -59,25 +69,15 @@ describe('transform', () => {
           rawData.data.serviceInformation.servicePeriods = servicePeriodsBDD;
           transformedData.form526.serviceInformation.servicePeriods = servicePeriodsBDD;
         }
-        sinon.spy();
-        const stub = sinon
-          .stub(revisedFormWrapper, 'isRevisedForm')
-          .callsFake(() => false);
         expect(JSON.parse(transform(formConfig, rawData))).to.deep.equal(
           transformedData,
         );
-        stub.restore();
       });
     });
 });
 
 describe('Test internal transform functions', () => {
   it('will truncate long descriptions', () => {
-    sinon.spy();
-    const stub = sinon
-      .stub(revisedFormWrapper, 'isRevisedForm')
-      .callsFake(() => false);
-
     const getString = (key, diff = 0) =>
       new Array(42)
         .fill('1234567890')
@@ -101,7 +101,8 @@ describe('Test internal transform functions', () => {
               causedByDisability: 'Diabetes Mellitus0',
               causedByDisabilityDescription: longString,
             },
-            condition: 'phlebitis',
+            condition:
+              'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
             'view:descriptionInfo': {},
           },
           {
@@ -110,7 +111,7 @@ describe('Test internal transform functions', () => {
               worsenedDescription: longString,
               worsenedEffects: longString,
             },
-            condition: 'knee replacement',
+            condition: 'ankylosis in knee, bilateral',
             'view:descriptionInfo': {},
           },
           {
@@ -120,102 +121,7 @@ describe('Test internal transform functions', () => {
               vaMistreatmentLocation: longString,
               vaMistreatmentDate: longString,
             },
-            condition: 'myocardial infarction (MI)',
-            'view:descriptionInfo': {},
-          },
-        ],
-      },
-    };
-    expect(
-      JSON.parse(transform(formConfig, form)).form526.newPrimaryDisabilities,
-    ).to.deep.equal([
-      {
-        cause: 'NEW',
-        primaryDescription: getString('primaryDescription'),
-        condition: 'asthma',
-        classificationCode: '540',
-      },
-      {
-        cause: 'WORSENED',
-        worsenedDescription: getString('worsenedDescription'),
-        worsenedEffects: getString('worsenedEffects'),
-        condition: 'knee replacement',
-        specialIssues: ['POW'],
-        classificationCode: '8919',
-      },
-      {
-        cause: 'VA',
-        vaMistreatmentDescription: getString('vaMistreatmentDescription'),
-        vaMistreatmentLocation: getString('vaMistreatmentLocation'),
-        vaMistreatmentDate: getString('vaMistreatmentDate'),
-        condition: 'myocardial infarction (MI)',
-        specialIssues: ['POW'],
-        classificationCode: '4440',
-      },
-      {
-        condition: 'phlebitis',
-        cause: 'NEW',
-        classificationCode: '5300',
-        primaryDescription: `${phlebitisPrefix}${getString(
-          'primaryDescription',
-          -phlebitisPrefix.length,
-        )}`,
-      },
-    ]);
-    stub.restore();
-  });
-});
-
-describe('Test transform functions in staging', () => {
-  it('will not assign classification codes', () => {
-    sinon.spy();
-    const stub = sinon
-      .stub(revisedFormWrapper, 'isRevisedForm')
-      .callsFake(() => true);
-
-    const getString = (key, diff = 0) =>
-      new Array(42)
-        .fill('1234567890')
-        .join('')
-        .substring(0, CHAR_LIMITS[key] + diff);
-    const longString = getString('primaryDescription', 20);
-    const phlebitisPrefix = 'Secondary to Diabetes Mellitus0\n';
-    const form = {
-      data: {
-        ...maximalData.data,
-        newDisabilities: [
-          {
-            cause: 'NEW',
-            primaryDescription: longString,
-            condition: 'asthma',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'SECONDARY',
-            'view:secondaryFollowUp': {
-              causedByDisability: 'Diabetes Mellitus0',
-              causedByDisabilityDescription: longString,
-            },
-            condition: 'phlebitis',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'WORSENED',
-            'view:worsenedFollowUp': {
-              worsenedDescription: longString,
-              worsenedEffects: longString,
-            },
-            condition: 'knee replacement',
-            'view:descriptionInfo': {},
-          },
-          {
-            cause: 'VA',
-            'view:vaFollowUp': {
-              vaMistreatmentDescription: longString,
-              vaMistreatmentLocation: longString,
-              vaMistreatmentDate: longString,
-            },
-            condition: 'myocardial infarction (MI)',
+            condition: 'heart attack (myocardial infarction)',
             'view:descriptionInfo': {},
           },
         ],
@@ -233,7 +139,7 @@ describe('Test transform functions in staging', () => {
         cause: 'WORSENED',
         worsenedDescription: getString('worsenedDescription'),
         worsenedEffects: getString('worsenedEffects'),
-        condition: 'knee replacement',
+        condition: 'ankylosis in knee, bilateral',
         specialIssues: ['POW'],
       },
       {
@@ -241,11 +147,12 @@ describe('Test transform functions in staging', () => {
         vaMistreatmentDescription: getString('vaMistreatmentDescription'),
         vaMistreatmentLocation: getString('vaMistreatmentLocation'),
         vaMistreatmentDate: getString('vaMistreatmentDate'),
-        condition: 'myocardial infarction (MI)',
+        condition: 'heart attack (myocardial infarction)',
         specialIssues: ['POW'],
       },
       {
-        condition: 'phlebitis',
+        condition:
+          'Cranial nerve paralysis or cranial neuritis (inflammation of cranial nerves)',
         cause: 'NEW',
         primaryDescription: `${phlebitisPrefix}${getString(
           'primaryDescription',
@@ -253,6 +160,5 @@ describe('Test transform functions in staging', () => {
         )}`,
       },
     ]);
-    stub.restore();
   });
 });

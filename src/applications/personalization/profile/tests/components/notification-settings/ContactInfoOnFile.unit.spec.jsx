@@ -6,21 +6,26 @@ import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-
 import ContactInfoOnFile from '../../../components/notification-settings/ContactInfoOnFile';
 
 const initialState = { user: { profile: { loa: { current: 3 } } } };
-const email = 'test@test.com';
-const phone = '1234567890';
 
 describe('ContactInfoOnFile', () => {
-  it('does renders Email and Mobile phone info', () => {
+  it('renders Email and Mobile phone info', async () => {
+    const email = 'test@test.com';
+    const phone = { areaCode: '123', phoneNumber: '4567890' };
+
     const view = renderWithStoreAndRouter(
-      <ContactInfoOnFile emailAddress={email} mobilePhoneNumber={phone} />,
+      <ContactInfoOnFile
+        emailAddress={email}
+        mobilePhoneNumber={phone}
+        showEmailNotificationSettings
+      />,
       { initialState },
     );
 
-    expect(view.findByText(phone)).to.exist;
-    expect(view.findByText(email)).to.exist;
+    expect(await view.findByTestId('mobile-phone-number-on-file')).to.exist;
+    expect(await view.findByTestId('email-address-on-file')).to.exist;
   });
 
-  it('does not renders info when it is not available', () => {
+  it('does not render info when it is not available', () => {
     const view = renderWithStoreAndRouter(<ContactInfoOnFile />, {
       initialState,
     });

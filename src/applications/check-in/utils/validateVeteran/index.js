@@ -1,4 +1,5 @@
 import { api } from '../../api';
+import { APP_NAMES } from '../appConstants';
 
 /**
  * Validates auth fields and makes API request and routes.
@@ -27,8 +28,9 @@ const validateLogin = async (
   setSession,
   app,
   updateError,
+  setDobError,
 ) => {
-  setLastNameError();
+  setLastNameError(false);
 
   let valid = true;
 
@@ -49,6 +51,7 @@ const validateLogin = async (
   }
 
   if (!valid) {
+    setDobError(true);
     return;
   }
 
@@ -59,6 +62,7 @@ const validateLogin = async (
       dob,
       lastName,
       checkInType: app,
+      facilityType: app === APP_NAMES.TRAVEL_CLAIM ? 'oh' : '',
     });
     if (resp.errors || resp.error) {
       setIsLoading(false);

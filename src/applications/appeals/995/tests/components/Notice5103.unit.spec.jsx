@@ -23,11 +23,16 @@ describe('<Notice5103>', () => {
 
   it('should not submit page when unchecked', () => {
     const goSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
     const { container } = render(
       <div>
-        <Notice5103 goForward={goSpy} />
+        <Notice5103 goForward={goSpy} setFormData={setFormDataSpy} />
       </div>,
     );
+
+    $('va-checkbox', container).__events.vaChange({
+      detail: { checked: false },
+    });
 
     fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.false;
@@ -35,14 +40,48 @@ describe('<Notice5103>', () => {
 
   it('should submit page when checked', () => {
     const goSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
     const data = { form5103Acknowledged: true };
-    const { container } = render(
+    const { container, rerender } = render(
       <div>
-        <Notice5103 goForward={goSpy} data={data} />
+        <Notice5103 goForward={goSpy} data={{}} setFormData={setFormDataSpy} />
+      </div>,
+    );
+
+    $('va-checkbox', container).__events.vaChange({
+      detail: { checked: true },
+    });
+
+    rerender(
+      <div>
+        <Notice5103
+          goForward={goSpy}
+          data={data}
+          setFormData={setFormDataSpy}
+        />
       </div>,
     );
 
     fireEvent.click($('button.usa-button-primary', container));
     expect(goSpy.called).to.be.true;
+  });
+
+  it('should update page', () => {
+    const updateSpy = sinon.spy();
+    const setFormDataSpy = sinon.spy();
+    const data = { form5103Acknowledged: true };
+    const { container } = render(
+      <div>
+        <Notice5103
+          updatePage={updateSpy}
+          data={data}
+          setFormData={setFormDataSpy}
+          onReviewPage
+        />
+      </div>,
+    );
+
+    fireEvent.click($(`va-button`, container));
+    expect(updateSpy.called).to.be.true;
   });
 });

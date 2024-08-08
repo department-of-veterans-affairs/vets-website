@@ -1,42 +1,29 @@
 import React from 'react';
-import { Link } from 'react-router';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useNavigate } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-class ClaimsBreadcrumbs extends React.Component {
-  renderBreadcrumbs = childNodes => {
-    const crumbs = [
-      <a href="/" key="home">
-        Home
-      </a>,
-      <Link to="your-claims" key="claims-home">
-        Check your claims and appeals
-      </Link>,
-    ];
+import { CST_BREADCRUMB_BASE } from '../constants';
 
-    if (childNodes) {
-      if (childNodes.length === undefined) {
-        const childArr = React.Children.toArray(childNodes);
-        crumbs.push(childArr);
-      } else {
-        crumbs.push(...childNodes);
-      }
-    }
+function ClaimsBreadcrumbs({ crumbs = [] }) {
+  const navigate = useNavigate();
+  const breadcrumbList = CST_BREADCRUMB_BASE.concat(crumbs);
 
-    return crumbs;
-  };
-
-  render() {
-    return (
-      // Note: not using uswds option here because react-router Links are not compatible currently
-      <va-breadcrumbs>
-        {this.renderBreadcrumbs(this.props.children)}
-      </va-breadcrumbs>
-    );
+  function handleRouteChange({ detail }) {
+    const { href } = detail;
+    navigate(href);
   }
+
+  return (
+    <VaBreadcrumbs
+      breadcrumbList={breadcrumbList}
+      onRouteChange={handleRouteChange}
+    />
+  );
 }
 
 ClaimsBreadcrumbs.propTypes = {
-  children: PropTypes.node,
+  crumbs: PropTypes.array,
 };
 
 export default ClaimsBreadcrumbs;

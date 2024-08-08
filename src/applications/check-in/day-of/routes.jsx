@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import CheckIn from './pages/CheckIn';
 import Confirmation from './pages/Confirmation';
+import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -10,7 +10,6 @@ import Error from './pages/Error';
 import SeeStaff from './pages/SeeStaff';
 import Landing from './pages/Landing';
 import ValidateVeteran from './pages/ValidateVeteran';
-import LoadingPage from './pages/LoadingPage';
 import TravelQuestion from './pages/TravelQuestion';
 import TravelVehicle from './pages/TravelVehicle';
 import TravelAddress from './pages/TravelAddress';
@@ -24,9 +23,11 @@ import withAuthorization from '../containers/withAuthorization';
 import { withError } from '../containers/withError';
 import { withAppSet } from '../containers/withAppSet';
 import { URLS } from '../utils/navigation';
-
+import { APP_NAMES } from '../utils/appConstants';
 import ReloadWrapper from '../components/layout/ReloadWrapper';
 import ErrorBoundary from '../components/errors/ErrorBoundary';
+import ArrivedAtFacility from './pages/ArrivedAtFacility';
+import TravelAgreement from '../components/pages/travel-agreement';
 
 const routes = [
   {
@@ -38,6 +39,14 @@ const routes = [
     component: ValidateVeteran,
     permissions: {
       requiresForm: true,
+    },
+  },
+  {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
@@ -68,15 +77,6 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.DETAILS,
-    component: CheckIn,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-    reloadable: true,
-  },
-  {
     path: `${URLS.COMPLETE}/:appointmentId`,
     component: Confirmation,
     permissions: {
@@ -94,14 +94,6 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
-  },
-  {
-    path: URLS.LOADING,
-    component: LoadingPage,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
   },
   {
     path: URLS.TRAVEL_QUESTION,
@@ -161,13 +153,30 @@ const routes = [
     },
     reloadable: true,
   },
+  {
+    path: URLS.ARRIVED,
+    component: ArrivedAtFacility,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.TRAVEL_AGREEMENT,
+    component: TravelAgreement,
+    permissions: {
+      requireAuthorization: false,
+    },
+    reloadable: true,
+  },
 ];
 
 const createRoutesWithStore = () => {
   return (
     <Switch>
       {routes.map((route, i) => {
-        const options = { isPreCheckIn: false };
+        const options = { appName: APP_NAMES.CHECK_IN };
         let Component = props => (
           /* eslint-disable react/jsx-props-no-spreading */
           <ErrorBoundary {...props}>
@@ -196,7 +205,7 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper isPreCheckIn={false} {...props}>
+              <ReloadWrapper app={APP_NAMES.CHECK_IN} {...props}>
                 <Component {...props} />
               </ReloadWrapper>
             );

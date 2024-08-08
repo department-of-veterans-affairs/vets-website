@@ -3,29 +3,37 @@ import React from 'react';
 import { expect } from 'chai';
 import { render, fireEvent } from '@testing-library/react';
 import sinon from 'sinon';
+import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import ValidateDisplay from './ValidateDisplay';
 
 describe('check-in experience', () => {
+  beforeEach(() => {
+    setupI18n();
+  });
+  afterEach(() => {
+    teardownI18n();
+  });
+  const setDobError = () => {};
   describe('shared components', () => {
     describe('ValidateDisplay', () => {
       it('renders with default values', () => {
         const { getByText } = render(
           <CheckInProvider>
-            <ValidateDisplay />
+            <ValidateDisplay setDobError={setDobError} />
           </CheckInProvider>,
         );
-        expect(getByText('Check in at VA')).to.exist;
+        expect(getByText('Start checking in for your appointment')).to.exist;
         expect(
           getByText(
-            'We need some information to verify your identity so we can check you in.',
+            'First, we need your last name and date of birth to make sure it’s you.',
           ),
         ).to.exist;
       });
       it('renders custom header', () => {
         const { getByText } = render(
           <CheckInProvider>
-            <ValidateDisplay header="foo" />
+            <ValidateDisplay header="foo" setDobError={setDobError} />
           </CheckInProvider>,
         );
 
@@ -34,7 +42,7 @@ describe('check-in experience', () => {
       it('renders custom subtitle', () => {
         const { getByText } = render(
           <CheckInProvider>
-            <ValidateDisplay subtitle="foo" />
+            <ValidateDisplay subtitle="foo" setDobError={setDobError} />
           </CheckInProvider>,
         );
 
@@ -43,7 +51,7 @@ describe('check-in experience', () => {
       it('renders loading message with status role if isLoading is true', () => {
         const { getByRole } = render(
           <CheckInProvider>
-            <ValidateDisplay isLoading />
+            <ValidateDisplay isLoading setDobError={setDobError} />
           </CheckInProvider>,
         );
 
@@ -52,7 +60,7 @@ describe('check-in experience', () => {
       it('renders continue button if isLoading false', () => {
         const { getByTestId } = render(
           <CheckInProvider>
-            <ValidateDisplay isLoading={false} />
+            <ValidateDisplay isLoading={false} setDobError={setDobError} />
           </CheckInProvider>,
         );
 
@@ -62,7 +70,10 @@ describe('check-in experience', () => {
         const validateHandler = sinon.spy();
         const { getByTestId } = render(
           <CheckInProvider>
-            <ValidateDisplay validateHandler={validateHandler} />
+            <ValidateDisplay
+              validateHandler={validateHandler}
+              setDobError={setDobError}
+            />
           </CheckInProvider>,
         );
 
@@ -73,7 +84,10 @@ describe('check-in experience', () => {
         it('displays the value', () => {
           const { getByTestId } = render(
             <CheckInProvider>
-              <ValidateDisplay lastNameInput={{ lastName: 'foo' }} />
+              <ValidateDisplay
+                lastNameInput={{ lastName: 'foo' }}
+                setDobError={setDobError}
+              />
             </CheckInProvider>,
           );
 
@@ -88,6 +102,7 @@ describe('check-in experience', () => {
                 dobInput={{
                   dob: '1935-04-07',
                 }}
+                setDobError={setDobError}
               />
             </CheckInProvider>,
           );
@@ -99,7 +114,11 @@ describe('check-in experience', () => {
         it('displays error alert', () => {
           const { getByTestId } = render(
             <CheckInProvider>
-              <ValidateDisplay showValidateError validateErrorMessage="Error" />
+              <ValidateDisplay
+                showValidateError
+                validateErrorMessage="Error"
+                setDobError={setDobError}
+              />
             </CheckInProvider>,
           );
           expect(getByTestId('validate-error-alert').innerHTML).to.contain(
@@ -112,7 +131,10 @@ describe('check-in experience', () => {
           const validateHandler = sinon.spy();
           const { getByTestId } = render(
             <CheckInProvider>
-              <ValidateDisplay validateHandler={validateHandler} />
+              <ValidateDisplay
+                validateHandler={validateHandler}
+                setDobError={setDobError}
+              />
             </CheckInProvider>,
           );
           fireEvent.keyDown(getByTestId('last-name-input'), {

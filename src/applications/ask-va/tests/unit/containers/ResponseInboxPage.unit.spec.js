@@ -1,18 +1,15 @@
 /* eslint-disable camelcase */
-import React from 'react';
-import { Provider } from 'react-redux';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { RESPONSE_PAGE } from '../../../constants';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { RESPONSE_PAGE, envUrl } from '../../../constants';
 import ResponseInboxPage from '../../../containers/ResponseInboxPage';
 
 describe('<ResponseInboxPage>', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/inquiries/123`;
+  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries/123`;
 
   describe('when the api server succeeds', () => {
     let server = null;
@@ -102,7 +99,6 @@ describe('<ResponseInboxPage>', () => {
         RESPONSE_PAGE.YOUR_QUESTION,
         RESPONSE_PAGE.ATTACHMENTS,
         RESPONSE_PAGE.INBOX,
-        'Need help?',
       ];
       const h3List = [
         RESPONSE_PAGE.SEND_REPLY,
@@ -116,7 +112,7 @@ describe('<ResponseInboxPage>', () => {
         expect(view.container.querySelectorAll('h2')).to.contain.text(
           RESPONSE_PAGE.YOUR_QUESTION,
         );
-        expect(view.container.querySelectorAll('h2')).to.have.length(4);
+        expect(view.container.querySelectorAll('h2')).to.have.length(3);
         h2List.forEach(h2 =>
           expect(view.container.querySelectorAll('h2')).to.contain.text(h2),
         );

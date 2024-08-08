@@ -40,69 +40,45 @@ const validateSavedForm = (
 };
 
 const fillAddressForm = fields => {
-  fields.country && cy.findByLabelText(/Country/i).select(fields.country);
-  fields.military &&
-    cy
-      .findByRole('checkbox', {
-        name: /I live on a.*military base/i,
-      })
-      .check();
-  fields.military && cy.get('#root_city').select('FPO');
+  if (fields.military) {
+    cy.selectVaCheckbox('root_view:livesOnMilitaryBase', true);
+    cy.selectVaSelect('root_city', 'FPO');
+  }
+
+  if (fields.country) {
+    cy.selectVaSelect('root_countryCodeIso3', fields.country);
+  }
 
   if (fields.address) {
-    cy.findByLabelText(/^street address \(/i).as('address1');
-    cy.get('@address1').click();
-    cy.get('@address1').clear();
-    cy.findByLabelText(/^street address \(/i).type(fields.address);
+    cy.fillVaTextInput('root_addressLine1', fields.address);
   }
 
   if (fields.address2) {
-    cy.findByLabelText(/^street address line 2/i).as('address2');
-    cy.get('@address2').click();
-    cy.get('@address2').clear();
-    cy.get('@address2').type(fields.address2);
+    cy.fillVaTextInput('root_addressLine2', fields.address2);
   }
 
   if (fields.address3) {
-    cy.findByLabelText(/^street address line 3/i).as('address3');
-
-    cy.get('@address3').click();
-    cy.get('@address3').clear();
-    cy.get('@address3').type(fields.address3);
+    cy.fillVaTextInput('root_addressLine3', fields.address3);
   }
 
-  if (fields.city) {
-    cy.findByLabelText(/City/i).as('city');
-
-    cy.get('@city').click();
-    cy.get('@city').clear();
-    cy.get('@city').type(fields.city);
+  if (fields.city && !fields.military) {
+    cy.fillVaTextInput('root_city', fields.city);
   }
 
-  fields.state && cy.findByLabelText(/^State/).select(fields.state);
+  if (fields.state) {
+    cy.selectVaSelect('root_stateCode', fields.state);
+  }
 
   if (fields.province) {
-    cy.findByLabelText(/^State\/Province\/Region/).as('state');
-
-    cy.get('@state').click();
-    cy.get('@state').clear();
-    cy.get('@state').type(fields.province);
+    cy.fillVaTextInput('root_province', fields.province);
   }
 
   if (fields.zipCode) {
-    cy.findByLabelText(/Zip code/i).as('zipCode');
-
-    cy.get('@zipCode').click();
-    cy.get('@zipCode').clear();
-    cy.get('@zipCode').type(fields.zipCode);
+    cy.fillVaTextInput('root_zipCode', fields.zipCode);
   }
 
   if (fields.zipCodeInt) {
-    cy.findByLabelText(/International postal code/i).as('zipCodeInt');
-
-    cy.get('@zipCodeInt').click();
-    cy.get('@zipCodeInt').clear();
-    cy.get('@zipCodeInt').type(fields.zipCodeInt);
+    cy.fillVaTextInput('root_internationalPostalCode', fields.zipCodeInt);
   }
 };
 
@@ -147,13 +123,12 @@ const confirmAddress = (
 
 const confirmAddressFields = (labels, fields) => {
   labels.forEach((label, i) => {
-    cy.findByLabelText(label).should('have.value', fields[i]);
-    cy.findAllByLabelText(label).should('have.value', fields[i]);
+    cy.get(`[label^="${label}"]`).should('have.value', fields[i]);
   });
 };
 
 const editAddress = (labels, fields) => {
-  cy.findByRole('button', { name: /go back to edit/i }).click();
+  cy.get('va-button[text="Go back to edit"]').click();
   confirmAddressFields(labels, fields);
   cy.findByTestId('save-edit-button').click({
     force: true,
@@ -183,72 +158,57 @@ const validateFocusedElement = element => {
 class AddressPage {
   loadPage = config => {
     setUp(config);
+    Cypress.config({
+      force: true,
+      waitForAnimations: true,
+      scrollBehavior: 'nearest',
+    });
   };
 
   fillAddressForm = fields => {
-    fields.country && cy.findByLabelText(/Country/i).select(fields.country);
-    fields.military &&
-      cy
-        .findByRole('checkbox', {
-          name: /I live on a.*military base/i,
-        })
-        .check();
-    fields.military && cy.get('#root_city').select('FPO');
+    if (fields.military) {
+      cy.selectVaCheckbox('root_view:livesOnMilitaryBase', true);
+      cy.selectVaRadioOption('root_city', 'FPO');
+    }
+
+    if (fields.country) {
+      cy.selectVaSelect('root_countryCodeIso3', fields.country);
+    }
 
     if (fields.address) {
-      cy.findByLabelText(/^street address \(/i).as('address1');
-      cy.get('@address1').click();
-      cy.get('@address1').clear();
-      cy.findByLabelText(/^street address \(/i).type(fields.address);
+      cy.fillVaTextInput('root_addressLine1', fields.address);
     }
 
     if (fields.address2) {
-      cy.findByLabelText(/^street address line 2/i).as('address2');
-      cy.get('@address2').click();
-      cy.get('@address2').clear();
-      cy.get('@address2').type(fields.address2);
+      cy.fillVaTextInput('root_addressLine2', fields.address2);
     }
 
     if (fields.address3) {
-      cy.findByLabelText(/^street address line 3/i).as('address3');
-
-      cy.get('@address3').click();
-      cy.get('@address3').clear();
-      cy.get('@address3').type(fields.address3);
+      cy.fillVaTextInput('root_addressLine3', fields.address3);
     }
 
-    if (fields.city) {
-      cy.findByLabelText(/City/i).as('city');
-
-      cy.get('@city').click();
-      cy.get('@city').clear();
-      cy.get('@city').type(fields.city);
+    if (fields.city && !fields.military) {
+      cy.fillVaTextInput('root_city', fields.city);
     }
 
-    fields.state && cy.findByLabelText(/^State/).select(fields.state);
+    if (fields.state && !fields.military) {
+      cy.selectVaSelect('root_stateCode', fields.state);
+    }
+
+    if (fields.state && fields.military) {
+      cy.selectVaRadioOption('root_stateCode', fields.state);
+    }
 
     if (fields.province) {
-      cy.findByLabelText(/^State\/Province\/Region/).as('state');
-
-      cy.get('@state').click();
-      cy.get('@state').clear();
-      cy.get('@state').type(fields.province);
+      cy.fillVaTextInput('root_province', fields.province);
     }
 
     if (fields.zipCode) {
-      cy.findByLabelText(/Zip code/i).as('zipCode');
-
-      cy.get('@zipCode').click();
-      cy.get('@zipCode').clear();
-      cy.get('@zipCode').type(fields.zipCode);
+      cy.fillVaTextInput('root_zipCode', fields.zipCode);
     }
 
     if (fields.zipCodeInt) {
-      cy.findByLabelText(/International postal code/i).as('zipCodeInt');
-
-      cy.get('@zipCodeInt').click();
-      cy.get('@zipCodeInt').clear();
-      cy.get('@zipCodeInt').type(fields.zipCodeInt);
+      cy.fillVaTextInput('root_internationalPostalCode', fields.zipCodeInt);
     }
   };
 
@@ -333,13 +293,12 @@ class AddressPage {
 
   confirmAddressFields = (labels, fields) => {
     labels.forEach((label, i) => {
-      cy.findByLabelText(label).should('have.value', fields[i]);
-      cy.findAllByLabelText(label).should('have.value', fields[i]);
+      cy.get(`[label^="${label}"]`).should('have.value', fields[i]);
     });
   };
 
   editAddress = (labels, fields) => {
-    cy.findByRole('button', { name: /go back to edit/i }).click();
+    cy.get('va-button[text="Go back to edit"]').click();
     this.confirmAddressFields(labels, fields);
     cy.findByTestId('save-edit-button').click({
       force: true,

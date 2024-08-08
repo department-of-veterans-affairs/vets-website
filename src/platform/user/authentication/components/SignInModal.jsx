@@ -1,3 +1,4 @@
+/* eslint-disable @department-of-veterans-affairs/keep-react-modal */
 import PropTypes from 'prop-types';
 import React from 'react';
 

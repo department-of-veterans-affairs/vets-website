@@ -30,10 +30,16 @@ export default {
     insuranceName: {
       'ui:title': content['insurance-provider-name-label'],
       'ui:webComponentField': VaTextInputField,
+      'ui:errorMessages': {
+        pattern: 'Enter the insurance provider name',
+      },
     },
     insurancePolicyHolderName: {
       'ui:title': content['insurance-policyholder-name-label'],
       'ui:webComponentField': VaTextInputField,
+      'ui:errorMessages': {
+        pattern: 'Enter the policyholder\u2019s name',
+      },
     },
     'view:policyOrGroup': {
       'ui:title': PolicyOrGroupDescription,
@@ -45,6 +51,9 @@ export default {
         'ui:options': {
           hint: content['insurance-policy-number-hint-text'],
         },
+        'ui:errorMessages': {
+          pattern: 'Enter a valid policy number',
+        },
       },
       'view:or': {
         ...descriptionUI(InsurancePolicyOrDescription),
@@ -54,6 +63,9 @@ export default {
         'ui:webComponentField': VaTextInputField,
         'ui:options': {
           hint: content['insurance-group-code-hint-text'],
+        },
+        'ui:errorMessages': {
+          pattern: 'Enter a valid group code',
         },
       },
     },

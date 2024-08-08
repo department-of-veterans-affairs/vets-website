@@ -97,7 +97,7 @@ export {
   updateUiSchema,
   replaceRefSchemas,
   updateItemsSchema,
-  updateSchemaAndData,
+  updateSchemasAndData,
   recalculateSchemaAndData,
   createInitialState,
 } from './src/js/state/helpers';
@@ -145,7 +145,6 @@ export {
   $,
   focusElement,
   getFocusableElements,
-  scrollElementName,
   focusOnChange,
   scrollToElement,
   setGlobalScroll,

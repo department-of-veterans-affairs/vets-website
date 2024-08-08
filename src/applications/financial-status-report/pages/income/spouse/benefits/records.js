@@ -1,4 +1,5 @@
 import React from 'react';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import {
   validateCurrency,
   validateSpouseBenefitsVaCompensationimits,
@@ -15,15 +16,13 @@ export const uiSchema = {
   ),
   benefits: {
     spouseBenefits: {
-      'ui:options': {
-        classNames: 'max-width-400',
-      },
       compensationAndPension: {
         'ui:title':
           'How much does your spouse get each month for disability compensation and pension benefits?',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           classNames: 'schemaform-currency-input',
-          widgetClassNames: 'input-size-3',
+          width: 'md',
         },
         'ui:errorMessages': {
           required:
@@ -37,9 +36,10 @@ export const uiSchema = {
       education: {
         'ui:title':
           'How much does your spouse get each month for education benefits?',
+        'ui:webComponentField': VaTextInputField,
         'ui:options': {
           classNames: 'schemaform-currency-input',
-          widgetClassNames: 'input-size-3',
+          width: 'md',
         },
         'ui:errorMessages': {
           required:

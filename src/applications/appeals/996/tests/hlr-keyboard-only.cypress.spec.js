@@ -1,5 +1,7 @@
+import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
+
 import formConfig from '../config/form';
-import { CONTESTABLE_ISSUES_API, WIZARD_STATUS } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockV2Data from './fixtures/data/maximal-test-v2.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
@@ -11,13 +13,13 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 
 describe('Higher-Level Review keyboard only navigation', () => {
   after(() => {
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    resetStoredSubTask();
   });
 
   it('keyboard navigates through a maximal form', () => {
     cypressSetup();
 
-    window.sessionStorage.removeItem(WIZARD_STATUS);
+    resetStoredSubTask();
 
     cy.wrap(mockV2Data.data).as('testData');
 
@@ -29,18 +31,18 @@ describe('Higher-Level Review keyboard only navigation', () => {
       const { chapters } = formConfig;
       cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      });
+      }).as('getIssues');
       cy.visit(
         '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/start',
       );
       cy.injectAxeThenAxeCheck();
 
-      // Wizard
+      // Subtask
       cy.url().should('include', '/start');
-      cy.tabToElement('input[value="compensation"]');
+      cy.tabToElement('input#compensationinput'); // ID of va-radio-option input
       cy.realPress('Space');
 
-      cy.tabToElement('.vads-c-action-link--green');
+      cy.tabToElement('.subtask-navigation va-button');
       cy.realPress('Enter');
 
       // Intro page
@@ -53,11 +55,12 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.infoPages.pages.veteranInformation.path,
       );
+      cy.wait('@getIssues');
       cy.tabToContinueForm();
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('[name="root_homeless"]');
+      cy.tabToElement('input[name="root_homeless"]');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
@@ -108,8 +111,10 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.informalConference.pages.requestConference.path,
       );
-      cy.tabToElement('[name="root_informalConference"]');
-      cy.chooseRadio(data.informalConference);
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(250); // wait for H3 focus before tabbing to radios
+      cy.tabToElement('input[name="informalConference"]');
+      cy.chooseRadio('rep');
       cy.tabToContinueForm();
 
       // Rep name & contact info
@@ -118,12 +123,12 @@ describe('Higher-Level Review keyboard only navigation', () => {
         chapters.informalConference.pages.representativeInfoV2.path,
       );
       const rep = data.informalConferenceRep;
-      const repPrefix = '#root_informalConferenceRep_';
-      cy.typeInIfDataExists(`${repPrefix}firstName`, rep.firstName);
-      cy.typeInIfDataExists(`${repPrefix}lastName`, rep.lastName);
-      cy.typeInIfDataExists(`${repPrefix}phone`, rep.phone);
-      cy.typeInIfDataExists(`${repPrefix}extension`, rep.extension);
-      cy.typeInIfDataExists(`${repPrefix}email`, rep.email);
+      const repPrefix = 'input[name="root_informalConferenceRep_';
+      cy.typeInIfDataExists(`${repPrefix}firstName"]`, rep.firstName);
+      cy.typeInIfDataExists(`${repPrefix}lastName"]`, rep.lastName);
+      cy.typeInIfDataExists(`${repPrefix}phone"]`, rep.phone);
+      cy.typeInIfDataExists(`${repPrefix}extension"]`, rep.extension);
+      cy.typeInIfDataExists(`${repPrefix}email"]`, rep.email);
       cy.tabToContinueForm();
 
       // Informal conference time

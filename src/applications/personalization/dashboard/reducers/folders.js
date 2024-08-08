@@ -5,7 +5,7 @@ import {
   FETCH_FOLDER_SUCCESS,
   FETCH_FOLDER_FAILURE,
   LOADING_FOLDER,
-} from '../utils/constants';
+} from '../actions/messaging';
 
 const initialState = {
   data: {
@@ -38,13 +38,13 @@ const folderKey = folderName => _.kebabCase(folderName);
 export default function folders(state = initialState, action) {
   switch (action.type) {
     case FETCH_FOLDER_SUCCESS: {
-      const attributes = action.folder.data.attributes;
+      const { attributes } = action.folder.data;
       const messages = action.messages.data.map(message => message.attributes);
 
-      const meta = action.messages.meta;
-      const filter = meta.filter;
-      const pagination = meta.pagination;
-      const sort = meta.sort;
+      const { meta } = action.messages;
+      const { filter } = meta;
+      const { pagination } = meta;
+      const { sort } = meta;
       const sortValue = Object.keys(sort)[0];
       const sortOrder = sort[sortValue];
 

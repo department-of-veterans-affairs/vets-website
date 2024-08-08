@@ -2,8 +2,7 @@ import React from 'react';
 
 const SubwayMap = () => (
   <va-process-list class="vads-u-padding-bottom--0">
-    <li>
-      <h3>Check your service requirements</h3>
+    <va-process-list-item header="Check your service requirements">
       <p>
         Make sure you meet our VA home loan eligibility requirements before you
         request a COE. You may be able to get a COE if you:
@@ -17,9 +16,8 @@ const SubwayMap = () => (
       <a href="/housing-assistance/home-loans/eligibility">
         Eligibility requirements for VA home loan programs
       </a>
-    </li>
-    <li>
-      <h3>Gather your information</h3>
+    </va-process-list-item>
+    <va-process-list-item header="Gather your information">
       <p>Here’s what you’ll need to request a COE:</p>
       <ul>
         <li>
@@ -86,9 +84,11 @@ const SubwayMap = () => (
           <li>The name of the command providing the information</li>
         </ul>
       </va-additional-info>
-    </li>
-    <li className="vads-u-padding-bottom--3">
-      <h3>Start your request</h3>
+    </va-process-list-item>
+    <va-process-list-item
+      header="Start your request"
+      className="vads-u-padding-bottom--3"
+    >
       <p>
         Complete the form to request a VA home loan Certificate of Eligibility.
         It should take about 15 minutes.
@@ -105,7 +105,7 @@ const SubwayMap = () => (
           can get your COE document.
         </p>
       </va-additional-info>
-    </li>
+    </va-process-list-item>
   </va-process-list>
 );
 

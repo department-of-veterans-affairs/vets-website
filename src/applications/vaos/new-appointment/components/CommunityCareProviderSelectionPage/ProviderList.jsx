@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 
-import recordEvent from 'platform/monitoring/record-event';
+import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import {
   FETCH_STATUS,
   FACILITY_SORT_METHODS,
@@ -93,7 +94,7 @@ export default function ProviderList({
         id="providerSelectionHeader"
         className="vads-u-font-size--h3 vads-u-margin-top--0"
       >
-        Choose a provider
+        {typeOfCareName} providers
       </h2>
       <ProviderSortVariant
         currentlyShownProvidersList={currentlyShownProvidersList}
@@ -145,13 +146,9 @@ export default function ProviderList({
                         {name}
                       </span>
                       <span className="vads-u-display--block">
-                        {provider.address?.line}
+                        {provider.address.city}, {provider.address.state}
                       </span>
-                      <span className="vads-u-display--block">
-                        {provider.address.city}, {provider.address.state}{' '}
-                        {provider.address.postalCode}
-                      </span>
-                      <span className="vads-u-display--block vads-u-font-size--sm vads-u-font-weight--bold">
+                      <span className="vads-u-display--block vads-u-font-size--sm">
                         {provider[sortMethod]} miles
                         <span className="sr-only">
                           {' '}
@@ -174,7 +171,7 @@ export default function ProviderList({
                           });
                         }}
                       >
-                        Choose provider
+                        Select provider
                       </button>
                     )}
                   </div>
@@ -187,7 +184,7 @@ export default function ProviderList({
               <>
                 <button
                   type="button"
-                  className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
+                  className="additional-info-button usa-button-secondary vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
                     setProvidersListLength(
                       providersListLength + initialProviderDisplayCount,
@@ -198,13 +195,19 @@ export default function ProviderList({
                   }}
                 >
                   <span className="sr-only">show</span>
-                  <span className="va-button-link">
-                    +{' '}
+                  <span>
+                    Show{' '}
                     {Math.min(
                       communityCareProviderList.length - providersListLength,
                       initialProviderDisplayCount,
                     )}{' '}
-                    more providers
+                    more provider
+                    {Math.min(
+                      communityCareProviderList.length - providersListLength,
+                      initialProviderDisplayCount,
+                    ) > 1
+                      ? 's'
+                      : ''}
                   </span>
                 </button>
               </>
@@ -212,7 +215,7 @@ export default function ProviderList({
             {communityCareProviderList?.length > 0 && (
               <button
                 type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary"
                 onClick={() => {
                   setProvidersListLength(initialProviderDisplayCount);
                   setShowProvidersList(false);
@@ -228,3 +231,14 @@ export default function ProviderList({
     </div>
   );
 }
+ProviderList.propTypes = {
+  checkedProvider: PropTypes.any,
+  idSchema: PropTypes.object,
+  initialProviderDisplayCount: PropTypes.number,
+  providersListLength: PropTypes.number,
+  setCheckedProvider: PropTypes.func,
+  setProvidersListLength: PropTypes.func,
+  setShowProvidersList: PropTypes.func,
+  showProvidersList: PropTypes.bool,
+  onChange: PropTypes.func,
+};

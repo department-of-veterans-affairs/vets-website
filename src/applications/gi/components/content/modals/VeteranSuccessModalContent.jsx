@@ -3,7 +3,6 @@ import React from 'react';
 export default function VeteranSuccessModalContent() {
   return (
     <>
-      <h3>VetSuccess on Campus (VSOC)</h3>
       <p>
         This program supports service members, Veterans, and qualified
         dependents through on-campus counseling and help overcoming

@@ -34,7 +34,11 @@ describe('Gender identity field tests on the personal information page', () => {
 
     cy.findByTestId('confirm-cancel-modal')
       .shadow()
-      .findByRole('button', { name: /cancel/i })
+      .find('.usa-button-group')
+      .first()
+      .find('va-button')
+      .shadow()
+      .findByText(/yes, cancel my changes/i)
       .click();
 
     cy.findByText(genderEditInputLabel).should('not.exist');

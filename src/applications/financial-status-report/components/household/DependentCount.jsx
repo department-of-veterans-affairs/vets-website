@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
 import useClearSpouseData from '../../hooks/useClearSpouseData';
@@ -11,7 +11,6 @@ const WHOLE_NUMBER_PATTERN = /^\d+$/;
 const DependentCount = ({
   data,
   goBack,
-  goForward,
   goToPath,
   setFormData,
   contentBeforeButtons,
@@ -27,114 +26,98 @@ const DependentCount = ({
 
   const MAXIMUM_DEPENDENT_COUNT = 25;
 
-  const [error, setError] = useState(null);
-  const [dependents, setDependents] = useState(hasDependents);
-  // Hook will handle the logic based on isMarried.
+  const [error, setError] = useState(null || '');
+  const [dependents, setDependents] = useState(hasDependents || '');
+
+  // Correctly handle the hook to clear spouse data based on marital status
   useClearSpouseData(isMarried, data, setFormData);
-  // Header ref for setting focus
+
   useEffect(
     () => {
-      if (headerRef?.current) {
-        focusElement(headerRef?.current);
+      if (headerRef.current) {
+        focusElement(headerRef.current);
       }
     },
     [headerRef],
   );
 
-  // setData on goForward, nav is handled in onSubmit so goForward has teh most up to date data
-  const onGoForward = () => {
-    if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-      setError('Please enter your dependent(s) information');
-      focusElement('va-number-input');
-      return;
-    }
+  useEffect(
+    () => {
+      setDependents(hasDependents || '');
+    },
+    [hasDependents],
+  );
 
-    if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
-      setError(
-        'Please enter a value greater than or equal to 0 and less than 25',
-      );
-      focusElement('va-number-input');
-      return;
+  const determineNextPath = () => {
+    if (dependents === '0' && reviewNavigation && showReviewNavigation) {
+      setFormData({
+        ...data,
+        reviewNavigation: false,
+      });
+      return '/review-and-submit';
     }
-
-    setError(null);
     if (dependents === '0') {
-      // clear dependent array if it was previously populated
-      setFormData({
-        ...data,
-        questions: {
-          ...data?.questions,
-          hasDependents: dependents,
-        },
-        personalData: {
-          ...data?.personalData,
-          dependents: [],
-        },
-      });
+      return '/employment-question';
+    }
+    return '/dependent-ages';
+  };
+
+  const handleInput = ({ target }) => {
+    const newValue = target?.value;
+    setDependents(newValue); // Update local state first
+    // Validate immediately on input
+    if (
+      !WHOLE_NUMBER_PATTERN.test(newValue) ||
+      parseInt(newValue, 10) > MAXIMUM_DEPENDENT_COUNT ||
+      parseInt(newValue, 10) < 0
+    ) {
+      setError('Please enter a valid number of dependents (0-25).');
     } else {
-      setFormData({
-        ...data,
-        questions: {
-          ...data?.questions,
-          hasDependents: dependents,
-        },
-      });
+      setError(undefined); // Clear error
+    }
+
+    // Update form data
+    setFormData({
+      ...data,
+      questions: {
+        ...data?.questions,
+        hasDependents: newValue,
+      },
+      personalData:
+        newValue === '0'
+          ? { ...data?.personalData, dependents: [] }
+          : data?.personalData,
+    });
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (!dependents || error) {
+      setError('Please enter a valid number of dependents (0-25).');
+    } else {
+      goToPath(determineNextPath());
     }
   };
 
   return (
-    <form
-      onSubmit={event => {
-        event.preventDefault();
-        if (error) return;
-        // head to review page if nav is true, and there are no dependents to get ages for
-        if (dependents === '0' && reviewNavigation && showReviewNavigation) {
-          // Don't forget to disable reviewNav!
-          setFormData({
-            ...data,
-            reviewNavigation: false,
-          });
-          goToPath('/review-and-submit');
-        } else {
-          goForward(data);
-        }
-      }}
-    >
+    <form>
       <fieldset className="vads-u-margin-y--2">
         <legend className="schemaform-block-title">
           <h3 className="vads-u-margin--0" ref={headerRef}>
             Your dependents
           </h3>
         </legend>
-        <VaNumberInput
+        <VaTextInput
+          id="dependent-count"
           label="Number of dependents"
           error={error}
-          hint="Dependents include your spouse, unmarried children under 18 years old, and other dependents."
-          id="dependent-count"
-          name="dependent-count"
-          onBlur={() => {
-            if (!WHOLE_NUMBER_PATTERN.test(dependents)) {
-              setError('Please enter your dependent(s) information');
-              focusElement('va-number-input');
-              return;
-            }
-
-            if (dependents > MAXIMUM_DEPENDENT_COUNT || dependents < 0) {
-              setError(
-                'Please enter a value greater than or equal to 0 and less than 25',
-              );
-              focusElement('va-number-input');
-            }
-          }}
-          onInput={({ target }) => {
-            setDependents(target.value);
-          }}
-          inputMode="number"
-          value={dependents}
-          className="no-wrap input-size-2"
-          required
+          onInput={handleInput}
+          value={dependents.toString()} // Ensure value is always a string
+          inputmode="numeric" // Use "numeric" for better mobile keyboard support
+          width="md"
           min={0}
           max={MAXIMUM_DEPENDENT_COUNT}
+          required
         />
         <DependentExplainer />
       </fieldset>
@@ -144,14 +127,12 @@ const DependentCount = ({
           {
             label: 'Back',
             onClick: goBack,
-            secondary: true,
-            iconLeft: '«',
+            isSecondary: true,
           },
           {
             label: 'Continue',
-            onClick: onGoForward,
-            type: 'submit',
-            iconRight: '»',
+            onClick: handleSubmit,
+            isSubmitting: 'prevent',
           },
         ]}
       />

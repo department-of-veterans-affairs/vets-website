@@ -70,6 +70,7 @@ describe('Additional evidence upload', () => {
             additionalDocuments: [
               {
                 name: 'test.pdf',
+                size: 100000,
                 confirmationCode: 'testing',
                 attachmentId: 'L049',
               },
@@ -81,7 +82,15 @@ describe('Additional evidence upload', () => {
     );
 
     fireEvent.submit($('form', container));
-    expect($$('.usa-input-error-message', container).length).to.equal(0);
+    const content = container.textContent;
+    const select = $('va-select[value="L049"]', container);
+    expect($('.usa-input-error-message', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
+    expect(content).to.contain('test.pdf');
+    expect(content).to.contain('98KB');
+    expect(select).to.exist;
+    expect(select.getAttribute('message-aria-describedby')).to.eq(
+      'Choose a document type for test.pdf',
+    );
   });
 });

@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { ROUTES } from '../constants';
-import { updateCurrentPage, updateIntroPageViewed } from '../actions';
+import { updateIntroPageViewed } from '../actions';
 import { pageSetup } from '../utilities/page-setup';
-import { QUESTION_MAP, SHORT_NAME_MAP } from '../constants/question-data-map';
+import { QUESTION_MAP } from '../constants/question-data-map';
 
-const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
+const HomePage = ({ router, setIntroPageViewed }) => {
   const H1 = QUESTION_MAP.HOME;
 
   useEffect(() => {
@@ -16,7 +16,6 @@ const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
 
   const startForm = event => {
     event.preventDefault();
-    updateTheCurrentPage(SHORT_NAME_MAP.SERVICE_PERIOD);
     router.push(ROUTES.SERVICE_PERIOD);
   };
 
@@ -35,23 +34,23 @@ const HomePage = ({ router, setIntroPageViewed, updateTheCurrentPage }) => {
         to apply.
       </p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="paw-start-form"
         href="#"
-        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--green"
+        class="vads-u-margin-top--2"
         onClick={startForm}
-      >
-        Get started
-      </a>
+        text="Get Started"
+      />
       <p>
         <strong>Note:</strong> This tool can only provide information and won’t
         start a claim or benefit application.
       </p>
       <p>
         Are you the surviving family member of a Veteran?{' '}
-        <a href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors">
-          Get PACT Act information for survivors
-        </a>
+        <va-link
+          href="/resources/the-pact-act-and-your-va-benefits/#information-for-survivors"
+          text="Get PACT Act information for survivors"
+        />
       </p>
     </>
   );
@@ -62,12 +61,10 @@ HomePage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   setIntroPageViewed: PropTypes.func.isRequired,
-  updateTheCurrentPage: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
   setIntroPageViewed: updateIntroPageViewed,
-  updateTheCurrentPage: updateCurrentPage,
 };
 
 export default connect(

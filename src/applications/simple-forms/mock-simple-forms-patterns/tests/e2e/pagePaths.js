@@ -3,10 +3,10 @@ import formConfig from '../../config/form';
 const formChapters = formConfig.chapters;
 export default {
   textInput: formChapters.textInput.pages.textInput.path,
-  textInputWidgets1: formChapters.textInput.pages.textInputWidgets1.path,
-  textInputFullName: formChapters.textInput.pages.textInputFullName.path,
-  textInputAddress: formChapters.textInput.pages.textInputAddress.path,
-  textInputSsn: formChapters.textInput.pages.textInputSsn.path,
+  textEmailPhone: formChapters.textInput.pages.textEmailPhone.path,
+  fullName: formChapters.textInput.pages.fullName.path,
+  address: formChapters.textInput.pages.address.path,
+  ssn: formChapters.textInput.pages.ssn.path,
   checkboxAndTextInput: formChapters.checkbox.pages.checkboxAndTextInput.path,
   checkboxGroup: formChapters.checkbox.pages.checkboxGroup.path,
   numberInput: formChapters.numberInput.pages.numberInput.path,
@@ -20,8 +20,12 @@ export default {
     formChapters.arrayMultiPageAggregate.pages.multiPageStart.path,
   arrayMultiPageAggregateItem:
     formChapters.arrayMultiPageAggregate.pages.multiPageItem.path,
-  arrayMultiPageBuilderStart:
-    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStart.path,
+  arrayMultiPageBuilderFlow:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderChooseFlow.path,
+  arrayMultiPageBuilderIntro:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderIntro.path,
+  arrayMultiPageBuilderSummary:
+    formChapters.arrayMultiPageBuilder.pages.multiPageBuilderSummary.path,
   arrayMultiPageBuilderStepOne:
     formChapters.arrayMultiPageBuilder.pages.multiPageBuilderStepOne.path,
   arrayMultiPageBuilderStepTwo:

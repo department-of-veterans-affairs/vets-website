@@ -23,17 +23,20 @@ export default function getPageFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'clinic'
         : '/new-covid-19-vaccine-appointment/choose-clinic',
+      label: 'Choose a clinic',
       next: 'selectDate1',
     },
     contactFacilities: {
       url: featureBreadcrumbUrlUpdate
         ? 'contact-facility'
         : '/new-covid-19-vaccine-appointment/contact-facility',
+      label: 'We can’t schedule your second dose online',
     },
     contactInfo: {
       url: featureBreadcrumbUrlUpdate
         ? 'contact-information'
         : '/new-covid-19-vaccine-appointment/contact-info',
+      label: 'Confirm your contact information',
       next: 'review',
     },
     home: {
@@ -51,12 +54,14 @@ export default function getPageFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'doses-received'
         : '/new-covid-19-vaccine-appointment/confirm-doses-received',
+      label: 'Have you received a COVID-19 vaccine?',
       next: getReceivedDoseScreenerNextPage(),
     },
     review: {
       url: featureBreadcrumbUrlUpdate
         ? 'review'
         : '/new-covid-19-vaccine-appointment/review',
+      label: 'Review your appointment details',
       next: '',
     },
     root: {
@@ -68,18 +73,21 @@ export default function getPageFlow(state) {
       url: featureBreadcrumbUrlUpdate
         ? 'second-dose'
         : '/new-covid-19-vaccine-appointment/second-dose-info',
+      label: 'When to plan for a second dose',
       next: 'contactInfo',
     },
     selectDate1: {
       url: featureBreadcrumbUrlUpdate
         ? 'date-time'
         : '/new-covid-19-vaccine-appointment/select-date',
+      label: 'Choose a date and time',
       next: 'secondDosePage',
     },
     vaFacility: {
       url: featureBreadcrumbUrlUpdate
         ? 'location'
         : '/new-covid-19-vaccine-appointment/choose-facility',
+      label: 'Choose a location',
       next: getVAFacilityNextPage(),
     },
   };
@@ -136,4 +144,27 @@ export function routeToPreviousAppointmentPage(history, current, data) {
 
 export function routeToNextAppointmentPage(history, current, data) {
   return routeToPageInFlow(history, current, 'next', data);
+}
+
+/* Function to get label from the flow
+ * The URL displayed in the browser address bar is compared to the 
+ * flow URL
+ *
+ * @export
+ * @param {object} state 
+ * @param {string} location - the pathname
+ * @returns {string} the label string
+ */
+
+export function getCovidUrlLabel(state, location) {
+  const _flow = getPageFlow(state);
+  const home = '/';
+  const results = Object.values(_flow).filter(
+    value => location.pathname.endsWith(value.url) && value.url !== home,
+  );
+
+  if (results && results.length) {
+    return results[0].label;
+  }
+  return null;
 }

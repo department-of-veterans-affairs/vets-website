@@ -9,6 +9,7 @@ import {
 } from '../../utils/navigation/day-of';
 
 import { URLS } from '../../utils/navigation';
+import { APP_NAMES } from '../../utils/appConstants';
 
 import { createInitFormAction } from '../../actions/navigation';
 import { useFormRouting } from '../../hooks/useFormRouting';
@@ -34,7 +35,8 @@ const Landing = props => {
     setShouldSendTravelPayClaim,
     setCurrentToken,
     setCheckinComplete,
-  } = useStorage(false);
+    setCompleteTimestamp,
+  } = useStorage(APP_NAMES.CHECK_IN);
   const dispatch = useDispatch();
 
   const initForm = useCallback(
@@ -56,6 +58,7 @@ const Landing = props => {
       const token = getTokenFromLocation(location);
 
       setCheckinComplete(window, false);
+      setCompleteTimestamp(window, null);
 
       if (!token) {
         updateError('no-token');
@@ -84,7 +87,7 @@ const Landing = props => {
               initForm(pages, firstPage);
               setSession(token, session.permissions);
               if (session.permissions === SCOPES.READ_FULL) {
-                jumpToPage(URLS.LOADING);
+                jumpToPage(URLS.APPOINTMENTS);
               } else {
                 jumpToPage(URLS.VALIDATION_NEEDED);
               }
@@ -112,6 +115,7 @@ const Landing = props => {
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
       setCheckinComplete,
+      setCompleteTimestamp,
     ],
   );
   return (

@@ -65,11 +65,11 @@ const testConfig = createTestConfig(
       },
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[name="privacyAgreementAccepted"]')
+          cy.get('va-checkbox[name="privacyAgreementAccepted"]')
             .scrollIntoView()
             .shadow()
-            .find('[type="checkbox"]')
-            .check();
+            .find('label')
+            .click();
           cy.findByText(/submit/i, { selector: 'button' }).click();
         });
       },

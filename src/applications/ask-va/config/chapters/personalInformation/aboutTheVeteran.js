@@ -1,12 +1,11 @@
 import FormElementTitle from '../../../components/FormElementTitle';
 import { CHAPTER_3 } from '../../../constants';
-import ProfileLink from '../../../components/ProfileLink';
 import {
   personalInformationFormSchemas,
   personalInformationUiSchemas,
 } from '../../schema-helpers/personalInformationHelper';
 
-const question = FormElementTitle({ title: CHAPTER_3.PAGE_3.TITLE });
+const question = FormElementTitle({ title: CHAPTER_3.ABOUT_THE_VET.TITLE });
 
 const aboutVetUiSchema = { ...personalInformationUiSchemas };
 delete aboutVetUiSchema.genderIdentity;
@@ -19,7 +18,6 @@ delete aboutVetFormSchema.pronouns;
 const aboutTheVeteranPage = {
   uiSchema: {
     'ui:title': question,
-    'ui:description': ProfileLink,
     aboutTheVeteran: aboutVetUiSchema,
   },
   schema: {

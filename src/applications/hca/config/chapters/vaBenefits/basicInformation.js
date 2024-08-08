@@ -1,21 +1,15 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import PrefillMessage from 'platform/forms/save-in-progress/PrefillMessage';
-
 import {
   CompensationInfoDescription,
   CompensationTypeDescription,
 } from '../../../components/FormDescriptions';
-import { emptyObjectSchema } from '../../../definitions';
 
 const { vaCompensationType } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
     'ui:title': 'Current compensation from VA',
-    'ui:description': PrefillMessage,
-    'view:compDesc': {
-      'ui:description': CompensationInfoDescription,
-    },
+    'ui:description': CompensationInfoDescription,
     vaCompensationType: {
       'ui:title': 'Do you receive VA disability compensation?',
       'ui:description': CompensationTypeDescription,
@@ -35,7 +29,6 @@ export default {
     type: 'object',
     required: ['vaCompensationType'],
     properties: {
-      'view:compDesc': emptyObjectSchema,
       vaCompensationType,
     },
   },

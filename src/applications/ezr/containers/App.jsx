@@ -5,38 +5,48 @@ import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
 
+import { fetchEnrollmentStatus as fetchEnrollmentStatusAction } from '../utils/actions/enrollment-status';
+import { selectAuthStatus } from '../utils/selectors/auth-status';
 import { selectEnrollmentStatus } from '../utils/selectors/entrollment-status';
 import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
-import { parseVeteranDob } from '../utils/helpers/general';
+import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
 
 const App = props => {
-  const { children, features, formData, location, setFormData, user } = props;
+  const {
+    children,
+    features,
+    fetchEnrollmentStatus,
+    formData,
+    location,
+    setFormData,
+    user,
+  } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isTeraEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
     loading: isLoadingProfile,
   } = user;
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
+  const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
 
-  /**
-   * Redirect users without the prod feature toggle enabled to the VA.gov home page
-   *
-   * NOTE: this is temporary functionality while the new application is being
-   * rolled out for user research and production testing
-   */
   useEffect(
     () => {
-      if (!isLoadingFeatures && !isProdEnabled) {
-        window.location.replace('https://www.va.gov');
+      if (isUserLOA3) {
+        fetchEnrollmentStatus();
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isLoadingFeatures],
+    [isUserLOA3],
   );
 
   /**
@@ -53,10 +63,11 @@ const App = props => {
     () => {
       if (!isAppLoading) {
         const defaultViewFields = {
-          'view:userGender': veteranGender,
+          'view:userGender': parseVeteranGender(veteranGender),
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
-          'view:householdEnabled': canSubmitFinancialInfo,
+          'view:isTeraEnabled': isTeraEnabled,
+          'view:householdEnabled': !!canSubmitFinancialInfo,
         };
 
         setFormData({
@@ -66,7 +77,7 @@ const App = props => {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isAppLoading, canSubmitFinancialInfo, veteranFullName],
+    [isAppLoading, canSubmitFinancialInfo, veteranFullName, isTeraEnabled],
   );
 
   // Add Datadog UX monitoring to the application
@@ -91,6 +102,7 @@ App.propTypes = {
     PropTypes.node,
   ]),
   features: PropTypes.object,
+  fetchEnrollmentStatus: PropTypes.func,
   formData: PropTypes.object,
   location: PropTypes.object,
   setFormData: PropTypes.func,
@@ -102,6 +114,7 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isTeraEnabled: state.featureToggles.ezrTeraEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
@@ -109,6 +122,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
+  fetchEnrollmentStatus: fetchEnrollmentStatusAction,
 };
 
 export default connect(

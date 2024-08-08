@@ -110,11 +110,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType('Office visit')
+            .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -123,10 +126,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -165,11 +165,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType(/Office visit/i)
+            .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -239,11 +242,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType('Office visit')
+            .selectVisitType('In person')
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -252,10 +258,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
             .clickNextButton();
 
           ReviewPageObject.assertUrl()
-            .assertHeading({ name: /Review your appointment details/ })
-            .assertText({
-              text: /Please review the information before submitting your request/i,
-            })
+            .assertHeading({ name: /Review and submit your request/ })
             .clickRequestButton();
 
           ConfirmationPageObject.assertUrl({ isDirect: false });
@@ -294,11 +297,14 @@ describe('VAOS direct schedule flow - Optometry', () => {
 
           ReasonForAppointmentPageObject.assertUrl()
             .selectReasonForAppointment()
-            .typeAdditionalText({ content: 'This is a test' })
+            .typeAdditionalText({
+              label: /Add any details you.d like to share with your provider/,
+              content: 'This is a test',
+            })
             .clickNextButton();
 
           TypeOfVisitPageObject.assertUrl()
-            .selectVisitType(/Office visit/i)
+            .selectVisitType(/In person/i)
             .clickNextButton();
 
           ContactInfoPageObject.assertUrl()
@@ -368,9 +374,10 @@ describe('VAOS direct schedule flow - Optometry', () => {
           .clickNextButton();
 
         CommunityCarePreferencesPageObject.assertUrl()
+          .assertHeading({ name: /Which provider do you prefer/i })
           .expandAccordian()
           .assertHomeAddress()
-          .selectProvider()
+          .selectProvider({ label: /Optometry providers/i })
           .clickNextButton();
 
         PreferredLanguagePageObject.assertUrl()
@@ -386,10 +393,7 @@ describe('VAOS direct schedule flow - Optometry', () => {
           .clickNextButton();
 
         ReviewPageObject.assertUrl()
-          .assertHeading({ name: /Review your appointment details/ })
-          .assertText({
-            text: /Please review the information before submitting your request/i,
-          })
+          .assertHeading({ name: /Review and submit your request/ })
           .clickRequestButton();
 
         ConfirmationPageObject.assertUrl({ isDirect: false });

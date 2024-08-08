@@ -15,6 +15,8 @@ export {
 
 export { testkit, sentryTransport } from './unit/sentry';
 
+export { mockApiRequest, mockFetch, resetFetch } from './unit/helpers';
+
 // Passthrough for the following does not seem to be woking. For now,
 // use the corresponding path alias when importing.
 //

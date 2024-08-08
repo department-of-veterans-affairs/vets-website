@@ -158,11 +158,11 @@ const Sections = ({ data, level }) => {
               <>
                 <HeadingLevel className={rowHeadingClasses} level={level}>
                   {rowData.title}
-                  {rowData.alertMessage && <>{rowData.alertMessage}</>}
                 </HeadingLevel>
                 {rowData.description && (
                   <RowDescription description={rowData.description} />
                 )}
+                {rowData.alertMessage && <>{rowData.alertMessage}</>}
               </>
             )}
 

@@ -2,7 +2,7 @@ import {
   LOADING_UNREAD_MESSAGES_COUNT,
   FETCH_UNREAD_MESSAGES_COUNT_SUCCESS,
   FETCH_UNREAD_MESSAGES_COUNT_ERROR,
-} from '../utils/constants';
+} from '../actions/messaging';
 
 const initialState = {
   count: null,

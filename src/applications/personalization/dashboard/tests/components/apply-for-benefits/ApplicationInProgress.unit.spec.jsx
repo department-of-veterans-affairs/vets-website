@@ -1,24 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { renderWithStoreAndRouter } from '~/platform/testing/unit/react-testing-library-helpers';
 
 import ApplicationInProgress from '../../../components/benefit-application-drafts/ApplicationInProgress';
 
 describe('ApplicationInProgress component', () => {
-  // delete instances of this toggle and use of renderWithStoreAndRouter when #68314 is launched
-  const initialState = {
-    featureToggles: {
-      [Toggler.TOGGLE_NAMES.myVaUseExperimentalFrontend]: true,
-    },
-  };
-
   const defaultProps = () => {
     return {
       continueUrl: 'application-url/resume',
       formId: '1234',
       formTitle: 'form title',
-      lastOpenedDate: 'Jan 1, 2019',
+      lastSavedDate: 'Jan 1, 2019',
       presentableFormId: 'Form 1234',
     };
   };
@@ -34,7 +26,7 @@ describe('ApplicationInProgress component', () => {
 
     beforeEach(() => {
       view = renderWithStoreAndRouter(<ApplicationInProgress {...props} />, {
-        initialState,
+        initialState: {},
       });
     });
 
@@ -52,8 +44,8 @@ describe('ApplicationInProgress component', () => {
       ).to.exist;
     });
 
-    it('renders the last opened date', () => {
-      expect(view.getByText(new RegExp(`opened.*${props.lastOpenedDate}`, 'i')))
+    it('renders the last saved date', () => {
+      expect(view.getByText(new RegExp(`saved.*${props.lastSavedDate}`, 'i')))
         .to.exist;
     });
 
