@@ -297,7 +297,6 @@ describe('App', () => {
       });
     });
 
-    await userEvent.click(screen.getByTestId('status-filter_Incomplete'));
     userEvent.click($('va-button[text="Apply filters"]'));
 
     expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
@@ -452,6 +451,70 @@ describe('App', () => {
         document.querySelector('va-button[text="Apply filters"]'),
       );
 
+      expect(
+        screen.findByText(
+          'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent), with 1 filter applied.',
+        ),
+      ).to.exist;
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[0].textContent,
+      ).to.eq(`${date} at ${time} appointment`);
+    });
+
+    fireEvent.click(document.querySelector('va-button[text="Reset search"]'));
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
+  });
+
+  it('filters by status and date together', async () => {
+    const screen = renderWithStoreAndRouter(<App />, {
+      initialState: getData({
+        areFeatureTogglesLoading: false,
+        hasFeatureFlag: true,
+        isLoggedIn: true,
+      }),
+      path: `/`,
+      reducers: reducer,
+    });
+
+    await waitFor(async () => {
+      const [date, time] = formatDateTime(previousYearDate);
+
+      userEvent.click(
+        document.querySelector(
+          'va-accordion-item[header="Filter travel claims"]',
+        ),
+      );
+
+      const dateSelect = screen.getByTestId('claimsDates');
+      dateSelect.__events.vaSelect({
+        target: {
+          value: 'All of 2023',
+        },
+      });
+
+      userEvent.selectOptions(dateSelect, ['All of 2023']);
+
+      expect(screen.getByRole('option', { name: 'All of 2023' }).selected).to
+        .true;
+
+      const checkboxGroup = $('#status-checkboxes');
+      checkboxGroup.__events.vaChange({
+        target: {
+          name: 'Saved',
+          checked: true,
+        },
+      });
+
+      userEvent.click(
+        document.querySelector('va-button[text="Apply filters"]'),
+      );
+
+      expect(
+        await screen.findByText(
+          'Showing 1 ‒ 1 of 1 claims, sorted by date (most recent), with 2 filters applied.',
+        ),
+      ).to.exist;
       expect(screen.getAllByTestId('travel-claim-details').length).to.eq(1);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
@@ -477,7 +540,11 @@ describe('App', () => {
     });
 
     await waitFor(async () => {
-      expect(await screen.findByText('Showing 1 ‒ 10 of 31 events')).to.exist;
+      expect(
+        await screen.findByText(
+          'Showing 1 ‒ 10 of 31 claims, sorted by date (most recent).',
+        ),
+      ).to.exist;
       // RTL doesn't support shadow DOM elements, so best we can do here is
       // check that the top-level pagination element gets rendered
       expect(await screen.container.querySelectorAll('va-card').length).to.eq(

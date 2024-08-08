@@ -1,12 +1,16 @@
-import { parse } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
+  dateFormat,
   dateFormatWithoutTimezone,
+  formatDate,
+  extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
+  decodeBase64Report,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -29,10 +33,14 @@ const initialState = {
 
   /**
    * The list of lab and test results returned from the api
-   * @type {array}
+   * @type {Array}
    */
   labsAndTestsList: undefined,
-
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The lab or test result currently being displayed to the user
    */
@@ -60,10 +68,10 @@ const distillChemHemNotes = (notes, valueProp) => {
  * @returns the appropriate frontend object for display
  */
 const convertChemHemObservation = record => {
-  const results = record.contained.filter(
+  const results = record.contained?.filter(
     recordItem => recordItem.resourceType === 'Observation',
   );
-  return results.filter(obs => obs.valueQuantity).map(result => {
+  return results?.filter(obs => obs.valueQuantity).map(result => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
     );
@@ -113,6 +121,20 @@ const getSpecimen = record => {
   return null;
 };
 
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractSpecimen = record => {
+  if (isArrayAndHasItems(record.specimen)) {
+    const specimenRef = record.specimen.find(item => item.reference);
+    const specimen = extractContainedResource(record, specimenRef?.reference);
+    return specimen || null;
+  }
+  return null;
+};
+
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
   return serviceReq?.code?.text || null;
@@ -153,7 +175,29 @@ const convertChemHemRecord = record => {
     comments: distillChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
+};
+
+export const extractPerformingLabLocation = record => {
+  const performingLab = extractContainedByRecourceType(
+    record,
+    fhirResourceTypes.ORGANIZATION,
+    record.performer,
+  );
+  return performingLab?.name || null;
+};
+
+export const extractOrderedBy = record => {
+  const performingLab = extractContainedByRecourceType(
+    record,
+    fhirResourceTypes.PRACTITIONER,
+    record.performer,
+  );
+  if (isArrayAndHasItems(performingLab?.name)) {
+    return performingLab.name[0].text || null;
+  }
+  return null;
 };
 
 /**
@@ -161,23 +205,28 @@ const convertChemHemRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertMicrobiologyRecord = record => {
+  const specimen = extractSpecimen(record);
+  const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: 'DOE, JANE A',
-    requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime
+    orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
+    dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleFrom: record.type?.text || EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
-    orderingLocation:
-      '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer?.text || EMPTY_FIELD,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    date: specimen?.collection?.collectedDateTime
+      ? formatDate(specimen.collection.collectedDateTime)
+      : EMPTY_FIELD,
+    sampleFrom: specimen?.type?.text || EMPTY_FIELD,
+    sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
+    collectingLocation: labLocation,
+    labLocation,
+    results:
+      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
+      EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -186,20 +235,24 @@ const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
+  const specimen = extractSpecimen(record);
+  const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   return {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
     category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
-    requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
-    labLocation: record.labLocation || EMPTY_FIELD,
-    collectingLocation: record.location || EMPTY_FIELD,
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    sampleTested: specimen?.type?.text || EMPTY_FIELD,
+    labLocation,
+    collectingLocation: labLocation,
+    results:
+      record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
+      EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -217,6 +270,7 @@ const convertEkgRecord = record => {
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',
+    sortDate: record.date,
   };
 };
 
@@ -261,11 +315,12 @@ export const convertMhvRadiologyRecord = record => {
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
     orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory || EMPTY_FIELD,
-    imagingLocation: record.performingLocation,
-    date: record.eventDate
-      ? dateFormatWithoutTimezone(record.eventDate)
+    clinicalHistory: record.clinicalHistory
+      ? record.clinicalHistory.trim()
       : EMPTY_FIELD,
+    imagingLocation: record.performingLocation,
+    date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
+    sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
     results: record.impressionText,
     images: [],
@@ -278,18 +333,24 @@ export const convertMhvRadiologyRecord = record => {
  */
 const getRecordType = record => {
   if (record.resourceType === fhirResourceTypes.DIAGNOSTIC_REPORT) {
-    if (record.code.text === 'CH') return labTypes.CHEM_HEM;
+    if (record.code?.text === 'CH') return labTypes.CHEM_HEM;
     if (
-      record.code.coding.some(coding => coding.code === loincCodes.MICROBIOLOGY)
+      record.code?.coding?.some(
+        coding => coding.code === loincCodes.MICROBIOLOGY,
+      )
     )
       return labTypes.MICROBIOLOGY;
-    if (record.code.coding.some(coding => coding.code === loincCodes.PATHOLOGY))
+    if (
+      record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
+    )
       return labTypes.PATHOLOGY;
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type.coding.some(coding => coding.code === loincCodes.EKG))
+    if (record.type?.coding.some(coding => coding.code === loincCodes.EKG))
       return labTypes.EKG;
-    if (record.type.coding.some(coding => coding.code === loincCodes.RADIOLOGY))
+    if (
+      record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
+    )
       return labTypes.OTHER;
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
@@ -323,9 +384,11 @@ export const convertLabsAndTestsRecord = record => {
 
 function sortByDate(array) {
   return array.sort((a, b) => {
-    const dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
-    const dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    return dateA - dateB;
+    const dateA = parseISO(a.sortDate);
+    const dateB = parseISO(b.sortDate);
+    if (!a.sortDate) return 1; // Push nulls to the end
+    if (!b.sortDate) return -1; // Keep non-nulls at the front
+    return dateB - dateA;
   });
 }
 
@@ -338,6 +401,7 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       };
     }
     case Actions.LabsAndTests.GET_LIST: {
+      const oldList = state.labsAndTestsList;
       const labsAndTestsList =
         action.labsAndTestsResponse.entry
           ?.map(record => convertLabsAndTestsRecord(record.resource ?? record))
@@ -346,16 +410,32 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         action.radiologyResponse.map(record =>
           convertLabsAndTestsRecord(record),
         ) || [];
-      const allLabsAndTests = sortByDate([
-        ...labsAndTestsList,
-        ...radiologyTestsList,
-      ]);
+      const newList = sortByDate([...labsAndTestsList, ...radiologyTestsList]);
 
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        labsAndTestsList: allLabsAndTests,
+        labsAndTestsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.LabsAndTests.COPY_UPDATED_LIST: {
+      const originalList = state.labsAndTestsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          labsAndTestsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.LabsAndTests.CLEAR_DETAIL: {
@@ -374,7 +454,3 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-/**
- * Clears the lab and test result in the details page
- */

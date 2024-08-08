@@ -2,7 +2,7 @@ import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 // import labsAndTests from '../fixtures/labsAndTests.json';
-import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
+// import radiologyRecordsMhv from '../fixtures/radiologyRecordsMhv.json';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
@@ -14,17 +14,7 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
   });
 
   it('Understanding Your Results Radiology Detail Page', () => {
-    // Given As a Medical Records User I wanted to Navigate to "Radiology" Detail Page
-    // I think the second parameter doesn't do anything right now...
-    // "Radiology results are coming from an MHV (legacy) API, however,
-    // that endpoint is not working for us yet so we are just using
-    // mocked data for radiology (radiologyRecordsMhv.json). They are
-    // being mixed in with the labs and tests records from FHIR when
-    // viewed on the labs and tests list page."
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(
-      0,
-      radiologyRecordsMhv[16],
-    );
+    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
     // When I want to get "help to be able to understand results" of my MR data
     RadiologyDetailsPage.verifyExpandUnderstandResults();
     RadiologyDetailsPage.clickExpandUnderstandResults();
