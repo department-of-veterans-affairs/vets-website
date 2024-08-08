@@ -68,7 +68,7 @@ const LevelThreeLinks = ({
     const linkHtml = (text, href) => {
       return (
         <li
-          className="vads-u-background-color--primary-darker vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
+          className="vads-u-background-color--primary-dark vads-u-margin--0 vads-u-margin-bottom--0p5 vads-u-width--full vads-u-font-weight--bold"
           key={text}
         >
           <a
