@@ -1,7 +1,10 @@
 import { expect } from 'chai';
 import {
+  extractOrderedBy,
   extractOrderedTest,
   extractOrderedTests,
+  extractPerformingLabLocation,
+  extractSpecimen,
   labsAndTestsReducer,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
@@ -94,6 +97,58 @@ describe('extractOrderedTests', () => {
       contained: [{ id: 'ServiceRequest-1', code: { text: TEST1 } }],
     };
     expect(extractOrderedTest(badRec)).to.be.null;
+  });
+});
+
+describe('extractSpecimen', () => {
+  const testRecord = {
+    contained: [{ id: 'ex-MHV-specimen-3', resourceType: 'Specimen' }],
+    specimen: [{ reference: '#ex-MHV-specimen-3' }],
+  };
+  const testRecord2 = {
+    contained: [{ id: 'ex-MHV-specimen-3', resourceType: 'Specimen' }],
+  };
+
+  it('should return the specimen if correct parameter is passed', () => {
+    const record = extractSpecimen(testRecord);
+    expect(record.resourceType).to.eq('Specimen');
+  });
+
+  it('should return "null" if record is passed without a specimen key', () => {
+    const record = extractSpecimen(testRecord2);
+    expect(record).to.eq(null);
+  });
+});
+
+describe('extractPerformingLabLocation', () => {
+  const record = {
+    contained: [
+      {
+        id: 'o-1',
+        resourceType: fhirResourceTypes.ORGANIZATION,
+        name: 'Org Name',
+      },
+    ],
+    performer: [{ reference: '#o-1' }],
+  };
+  it('gets the performing lab location', () => {
+    expect(extractPerformingLabLocation(record)).to.eq('Org Name');
+  });
+});
+
+describe('extractOrderedBy', () => {
+  const record = {
+    contained: [
+      {
+        id: 'p-1',
+        resourceType: fhirResourceTypes.PRACTITIONER,
+        name: [{ text: 'Practitioner Name' }],
+      },
+    ],
+    performer: [{ reference: '#p-1' }],
+  };
+  it('gets the performing lab location', () => {
+    expect(extractOrderedBy(record)).to.eq('Practitioner Name');
   });
 });
 

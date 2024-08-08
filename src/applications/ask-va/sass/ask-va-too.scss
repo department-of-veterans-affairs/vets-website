@@ -255,15 +255,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      .use-my-location-button {
-        width: 18px;
-        height: 18px;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        padding: 0 1.5em 0 0;
-      }
-
       #search-controls-bottom-row {
         @media (min-width: $small-desktop-screen) {
           display: flex;
