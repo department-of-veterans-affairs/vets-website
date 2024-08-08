@@ -2,8 +2,7 @@
 const fs = require('fs');
 const core = require('@actions/core');
 
-console.log(process.env.CHANGED_FILE_PATHS);
-// const args = process.argv.slice(2);
+console.log(process.env.CHANGED_FILE_PATHS.split(' '));
 const files = JSON.parse(process.env.CHANGED_FILE_PATHS)
   .split(' ')
   .slice(1, -1) // remove unnecessary characters
