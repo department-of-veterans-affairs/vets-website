@@ -3,7 +3,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import sinon from 'sinon'; // Import sinon for stubbing
 
 import environment from '~/platform/utilities/environment';
 import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
@@ -57,16 +56,8 @@ const generateMockResponse = (
 
 describe('DowntimeBanner', () => {
   const server = setupServer();
-  let sessionStorageStub;
 
   before(() => {
-    // Stub sessionStorage before the tests run
-    sessionStorageStub = sinon.stub(global, 'sessionStorage').value({
-      getItem: sinon.stub().returns(null), // Return `null` or appropriate value for tests
-      setItem: sinon.stub(),
-      clear: sinon.stub(),
-    });
-
     server.listen();
   });
 
@@ -76,7 +67,6 @@ describe('DowntimeBanner', () => {
 
   after(() => {
     server.close();
-    sessionStorageStub.restore(); // Restore sessionStorage after all tests run
   });
 
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
