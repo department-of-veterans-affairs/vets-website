@@ -1,4 +1,4 @@
-import intro from './intro';
+import personalInformationIntro from './personalInformationIntro';
 import role from './role';
 import yesNoPageSchema from '../helpers/yesNoPageSchema';
 import notInGoodStanding from './notInGoodStanding';
@@ -15,7 +15,7 @@ import otherAddress from './otherAddress';
 export default {
   title: 'Personal information',
   pages: {
-    intro,
+    personalInformationIntro,
     role,
     standingWithBar: yesNoPageSchema({
       title: 'Standing with the bar',
