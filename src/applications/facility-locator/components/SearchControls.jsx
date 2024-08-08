@@ -157,7 +157,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City, state or postal code{' '}
+            <span id="city-state-zip-text">City, state or postal code</span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -170,7 +170,7 @@ const SearchControls = props => {
               onClick={handleGeolocationButtonClick}
               type="button"
               className="use-my-location-link"
-              aria-describedby="street-city-state-zip-label"
+              aria-describedby="city-state-zip-text"
             >
               <va-icon icon="near_me" size={3} />
               Use my location
