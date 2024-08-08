@@ -483,3 +483,9 @@ export function showSchoolContentBasedOnType(type) {
   };
   return !(type in validateTypes);
 }
+
+export const getGIBillHeaderText = (automatedTest = false) => {
+  return isShowVetTec(automatedTest)
+    ? 'Learn about and compare your GI Bill benefits at approved schools, employers, and VET TEC providers.'
+    : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
+};
