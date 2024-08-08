@@ -1,55 +1,98 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { isChapterFieldRequired } from '../../../helpers';
-import { addSpouse } from '../../../utilities';
-import { marriageTypeInformation } from './helpers';
+import constants from 'vets-json-schema/dist/constants.json';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 
-import { locationUISchema } from '../../../location-schema';
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
 
-const { currentMarriageInformation } = addSpouse.properties;
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageInformation,
+    currentMarriageInformation: {
+      type: 'object',
+      properties: {
+        marriedOutsideUsa: {
+          type: 'boolean',
+          default: false,
+        },
+        location: {
+          type: 'object',
+          properties: {
+            state: {
+              type: 'string',
+              enum: STATE_VALUES,
+              enumNames: STATE_NAMES,
+            },
+            city: {
+              type: 'string',
+            },
+          },
+        },
+      },
+    },
   },
 };
 
 export const uiSchema = {
   currentMarriageInformation: {
-    date: {
-      ...currentOrPastDateUI('Date of marriage'),
-      ...{
+    ...titleUI('Where did you get married?'),
+    marriedOutsideUsa: {
+      'ui:title': 'I got married outside the U.S.',
+      'ui:webComponentField': VaCheckboxField,
+    },
+    location: {
+      city: {
+        'ui:title': 'City',
+        'ui:required': () => true,
+        'ui:autocomplete': 'address-level2',
+        'ui:errorMessages': {
+          required: 'Enter the city where you were married',
+        },
+        'ui:webComponentField': VaTextInputField,
+      },
+      state: {
+        'ui:title': 'State',
+        'ui:webComponentField': VaSelectField,
         'ui:required': formData =>
-          isChapterFieldRequired(formData, 'addSpouse'),
+          !formData?.currentMarriageInformation?.marriedOutsideUsa,
+        'ui:errorMessages': {
+          required: 'Select a state',
+        },
+        'ui:options': {
+          updateSchema: (formData, _schema, _uiSchema) => {
+            const updatedSchemaUI = _uiSchema;
+            const location = formData?.currentMarriageInformation?.location;
+            const marriedOutsideUsa =
+              formData?.currentMarriageInformation?.marriedOutsideUsa;
+
+            if (marriedOutsideUsa) {
+              updatedSchemaUI['ui:options'].inert = true;
+              location.state = undefined;
+              return {
+                type: 'string',
+                enum: STATE_VALUES,
+                enumNames: STATE_NAMES,
+              };
+            }
+
+            updatedSchemaUI['ui:options'].inert = false;
+            return {
+              type: 'string',
+              enum: STATE_VALUES,
+              enumNames: STATE_NAMES,
+            };
+          },
+        },
       },
-    },
-    location: locationUISchema(
-      'currentMarriageInformation',
-      'location',
-      false,
-      'Where were you married?',
-      'addSpouse',
-    ),
-    type: {
-      'ui:required': formData => isChapterFieldRequired(formData, 'addSpouse'),
-      'ui:title': 'Type of marriage:',
-      'ui:widget': 'radio',
-    },
-    typeOther: {
-      'ui:required': formData =>
-        formData?.currentMarriageInformation?.type === 'OTHER',
-      'ui:title': 'Other type of marriage',
-      'ui:options': {
-        expandUnder: 'type',
-        expandUnderCondition: 'OTHER',
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        widgetClassNames: 'vads-u-margin-y--0',
-      },
-    },
-    'view:marriageTypeInformation': {
-      'ui:title': 'Additional evidence needed',
-      'ui:description': marriageTypeInformation,
     },
   },
 };

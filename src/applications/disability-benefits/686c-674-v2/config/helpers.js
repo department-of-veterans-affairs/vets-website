@@ -59,6 +59,14 @@ export const ServerErrorAlert = (
   </>
 );
 
+export const certificateNotice = () => (
+  <p className="vads-u-font-size--base vads-u-margin-top--neg3">
+    You’ll need to submit a copy of your marriage certificate or a church record
+    of your marriage. We’ll ask you to submit this document at the end of the
+    form
+  </p>
+);
+
 export const isInsideListLoopReturn = (
   chapter,
   outerField,
@@ -196,6 +204,6 @@ export const PensionIncomeRemovalQuestionTitle = (
   </p>
 );
 
-export const generateTitle = text => {
-  return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
+export const generateHelpText = (text, className = 'vads-u-color--gray') => {
+  return <span className={className}>{text}</span>;
 };

@@ -1,13 +1,12 @@
 import {
   addressSchema,
   addressUI,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { updateFormDataAddress } from '../../../address-schema';
-import { generateTitle } from '../../../helpers';
 
 export const uiSchema = {
   veteranContactInformation: {
-    'ui:title': generateTitle('Mailing address'),
+    ...titleUI('Mailing address'),
     veteranAddress: {
       ...addressUI({
         title: '',
@@ -31,9 +30,3 @@ export const schema = {
     },
   },
 };
-
-// export const updateFormData = (oldFormData, formData) =>
-//   updateFormDataAddress(oldFormData, formData, [
-//     'veteranContactInformation',
-//     'veteranAddress',
-//   ]);
