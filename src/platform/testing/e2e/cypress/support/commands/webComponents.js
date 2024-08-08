@@ -151,7 +151,7 @@ Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
         fillVaDateFields(year, month, day, monthYearOnlyAttr === 'true');
       });
     } else {
-      fillVaDateFields(year, month, day, isMonthYearOnly === 'true');
+      fillVaDateFields(year, month, day, isMonthYearOnly);
     }
   }
 });
