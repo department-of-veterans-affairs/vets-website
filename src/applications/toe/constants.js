@@ -45,6 +45,8 @@ export const formFields = {
   firstSponsor: 'firstSponsor',
   highSchoolDiploma: 'highSchoolDiploma',
   highSchoolDiplomaDate: 'highSchoolDiplomaDate',
+  highSchoolDiplomaLegacy: 'highSchoolDiplomaLegacy',
+  highSchoolDiplomaDateLegacy: 'highSchoolDiplomaDateLegacy',
   mobilePhoneNumber: 'mobilePhoneNumber',
   mobilePhoneNumberInternational: 'mobilePhoneNumberInternational',
   originalAccountNumber: 'originalAccountNumber',

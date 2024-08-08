@@ -21,6 +21,14 @@ function formatDateString(dateString) {
   return `${month} ${day}, ${year}`;
 }
 
+function formatDiplomaDate(dateString) {
+  const dateObj = new Date(dateString);
+  const year = dateObj.getUTCFullYear();
+  const month = `0${dateObj.getMonth() + 1}`.slice(-2);
+  const day = `0${dateObj.getDate()}`.slice(-2);
+  return `${month}/${day}/${year}`;
+}
+
 const ApplicantInformationReviewPage = ({
   data,
   dateOfBirth,
@@ -29,6 +37,7 @@ const ApplicantInformationReviewPage = ({
   userFullName,
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
+  const formattedDiplomaDate = formatDiplomaDate(data?.highSchoolDiplomaDate);
   return (
     <>
       <div className="form-review-panel-page">
@@ -67,6 +76,39 @@ const ApplicantInformationReviewPage = ({
               <dt>Date of birth</dt>
               <dd>{data.dateOfBirth}</dd>
             </div>
+          </dl>
+        )}
+
+        {data?.toeHighSchoolInfoChange && (
+          <dl className="review">
+            {data?.highSchoolDiploma && (
+              <div className="review-row">
+                <dt>
+                  Did you earn a high school diploma or equivalency certificate?
+                </dt>
+                <dd>{data?.highSchoolDiploma}</dd>
+              </div>
+            )}
+            {data?.highSchoolDiplomaDate && (
+              <div className="review-row">
+                <dt>
+                  When did you earn your high school diploma or equivalency
+                  certificate?
+                </dt>
+                <dd>{formattedDiplomaDate}</dd>
+              </div>
+            )}
+
+            {data?.highSchoolDiploma && (
+              <button
+                aria-label={`Edit ${title}`}
+                className="edit-btn primary-outline"
+                onClick={editPage}
+                type="button"
+              >
+                Edit
+              </button>
+            )}
           </dl>
         )}
       </div>
