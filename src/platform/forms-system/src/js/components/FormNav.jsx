@@ -24,6 +24,9 @@ export default function FormNav(props) {
   } = props;
 
   const PROGRESS_BAR_HEADER_LEVEL = '2';
+  // testFocus for unit tests (stubbing wasn't working as expected)
+  const focus = props.testFocus || waitForRenderThenFocus;
+
   const [index, setIndex] = useState(0);
 
   // This is converting the config into a list of pages with chapter keys,
@@ -108,7 +111,7 @@ export default function FormNav(props) {
       if (!hideFormNavProgress && page.chapterKey === 'review') {
         scrollTo('topScrollElement');
         // Focus on review & submit page h2 in stepper
-        waitForRenderThenFocus(
+        focus(
           'va-segmented-progress-bar',
           document,
           250,
@@ -116,7 +119,7 @@ export default function FormNav(props) {
         );
       }
     },
-    [current, hideFormNavProgress, index, page.chapterKey],
+    [current, hideFormNavProgress, index, page.chapterKey, focus],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
@@ -169,4 +172,5 @@ FormNav.propTypes = {
   formData: PropTypes.shape({}),
   inProgressFormId: PropTypes.number,
   isLoggedIn: PropTypes.bool,
+  testFocus: PropTypes.func,
 };
