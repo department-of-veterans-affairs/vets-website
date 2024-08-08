@@ -231,9 +231,9 @@ export default function SchoolLocations({
         </va-table-row>
         {data.map(row => (
           <va-table-row key={row.key} class={row.rowClassName}>
-            <span>{row.schoolName}</span>
-            <span>{row.location}</span>
-            <span>{row.estimatedHousing}</span>
+            <span role="cell">{row.schoolName}</span>
+            <span role="cell">{row.location}</span>
+            <span role="cell">{row.estimatedHousing}</span>
           </va-table-row>
         ))}
       </va-table>
