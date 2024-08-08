@@ -244,10 +244,8 @@ const SearchForm = props => {
                 id="filter-input"
                 label={filterLabelBody}
                 class="filter-input-box"
-                message-aria-describedby="filter text input"
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
-                aria-label={filterLabelHeading + filterLabelBody}
                 data-testid="keyword-search-input"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
