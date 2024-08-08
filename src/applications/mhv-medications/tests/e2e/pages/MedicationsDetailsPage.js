@@ -1,5 +1,6 @@
 import rxTracking from '../fixtures/prescription-tracking-details.json';
 import expiredRx from '../fixtures/expired-prescription-details.json';
+import medicationInformation from '../fixtures/patient-medications-information.json';
 
 class MedicationsDetailsPage {
   verifyTextInsideDropDownOnDetailsPage = () => {
@@ -393,6 +394,17 @@ class MedicationsDetailsPage {
       .shadow()
       .find('[href="tel:+17832721069"]')
       .should('contain', unknownRxPhone);
+  };
+
+  clickLearnMoreAboutMedicationLinkOnDetailsPage = prescriptionId => {
+    cy.intercept(
+      'GET',
+      `my_health/v1/prescriptions/${prescriptionId}/documentation?ndc=00113002239`,
+      medicationInformation,
+    ).as('medicationDescription');
+    cy.get('[data-testid="va-prescription-documentation-link"]').click({
+      waitForAnimations: true,
+    });
   };
 }
 
