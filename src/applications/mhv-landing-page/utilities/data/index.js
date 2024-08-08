@@ -25,10 +25,6 @@ const resolveUnreadMessageAriaLabel = unreadMessageCount => {
     : null;
 };
 
-const toggleEnabled = (featureToggles, toggle) =>
-  Object.prototype.hasOwnProperty.call(featureToggles, toggle) &&
-  featureToggles[toggle] === true;
-
 const resolveLandingPageLinks = (
   authdWithSSOe = false,
   featureToggles,
@@ -95,10 +91,7 @@ const resolveLandingPageLinks = (
   ];
 
   const moreResourcesLinks = [
-    toggleEnabled(
-      featureToggles,
-      FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled,
-    ) && {
+    featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
       href: 'https://veteran.apps.va.gov/users/v2/login?redirect_uri=/cirrusmd',
       text: 'Chat live with a health professional on VA Health Chat',
     },
@@ -203,5 +196,4 @@ export {
   countUnreadMessages,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
-  toggleEnabled,
 };
