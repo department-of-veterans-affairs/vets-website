@@ -2,20 +2,22 @@ import React from 'react';
 
 export default {
   uiSchema: {
-    militaryServiceCurrentlyServing: {
+    militaryServiceCompleted: {
       'ui:title': (
         <>
           <p>
-            <b>Are you currently serving in the military?</b>
+            <b>
+              Have you ever completed a previous period of military service?
+            </b>
           </p>
         </>
       ),
       'ui:widget': 'radio',
       'ui:options': {
         widgetProps: {
-          yes: { militaryServiceTwo: 'yes' },
+          yes: { militaryServiceThree: 'yes' },
           no: {
-            militaryServiceTwo: 'no',
+            militaryServiceThree: 'no',
           },
         },
       },
@@ -24,7 +26,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      militaryServiceCurrentlyServing: {
+      militaryServiceCompleted: {
         type: 'string',
         enum: ['Yes', 'No'],
       },
