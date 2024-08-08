@@ -2,7 +2,7 @@
 const fs = require('fs');
 const core = require('@actions/core');
 
-console.log(JSON.parse(process.env.CHANGED_FILE_PATHS).split(' '));
+console.log(process.env.CHANGED_FILE_PATHS);
 // const args = process.argv.slice(2);
 const files = JSON.parse(process.env.CHANGED_FILE_PATHS)
   .split(' ')
