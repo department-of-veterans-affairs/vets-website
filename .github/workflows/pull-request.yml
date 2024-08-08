@@ -277,15 +277,22 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get files changed
+      # - name: Get files changed
+      #   id: get-files-changed
+      #   uses: trilom/file-changes-action@v1.2.4
+      #   continue-on-error: true
+      #   with:
+      #     output: 'json'
+
+      - name: Get changed files
         id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.4
-        continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
         with:
-          output: 'json'
-      
+          delimiter: ','
+          output-type: 'entry_name, url'
+        
       - name: Log files changed
-        run: echo ${{ steps.get-files-changed.outputs.files }}
+        run: echo ${{ steps.get-files-changed.outputs.changed_files }}
 
       # - name: Filter files
       #   id: get-lint-files
