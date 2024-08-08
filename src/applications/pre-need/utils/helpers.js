@@ -782,6 +782,21 @@ export function getCemeteries() {
     });
 }
 
+export const fetchFormSubmissions = async benefitsKey => {
+  try {
+    const response = await fetch(
+      `http://localhost:3000/form_submissions?benefits_intake_uuid=${benefitsKey}`,
+    );
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
+    return await response.json(); // Return the data instead of JSX
+  } catch (error) {
+    // console.error('Error fetching form submissions:', error);
+    return null; // Return null in case of an error
+  }
+};
+
 SSNWidget.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
