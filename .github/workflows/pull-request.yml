@@ -279,38 +279,31 @@ jobs:
             .cache/yarn
             node_modules
 
-      # - name: Get files changed
-      #   id: get-files-changed
-      #   uses: trilom/file-changes-action@v1.2.4
-      #   continue-on-error: true
-      #   with:
-      #     output: 'json'
-
       - name: Get changed files
         id: get-files-changed
+        continue-on-error: true
         uses: ./.github/workflows/get-changed-apps
         with:
           delimiter: ','
           output-type: 'entry_name, url'
-        
-      - name: Log files changed
-        run: echo ${{ steps.get-files-changed.outputs.changed_files }}
 
-      # - name: Filter files
-      #   id: get-lint-files
-      #   run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+      - name: Filter files
+        id: get-lint-files
+        run: node ./script/github-actions/filter-files-changed.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.get-files-changed.outputs.changed_files }}
 
-      # - name: Annotate ESLint results for all files if eslint config has been modified
-      #   if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
-      #   run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
+      - name: Annotate ESLint results for all files if eslint config has been modified
+        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
+        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
 
-      # - name: Annotate ESLint results for modified files
-      #   run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
+      - name: Annotate ESLint results for modified files
+        run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
-      # - name: Run Stylelint
-      #   if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
-      #   run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
+      - name: Run Stylelint
+        if: ${{ always() && steps.get-lint-files.outputs.SCSSFILES != '' }}
+        run: yarn run stylelint verbose --output-file stylelint-report.json --formatter json ${{ steps.get-lint-files.outputs.SCSSFILES }}
 
-      # - name: Annotate Stylelint results
-      #   if: ${{ always() }}
-      #   run: node ./script/github-actions/stylelint-annotation-format.js
+      - name: Annotate Stylelint results
+        if: ${{ always() }}
+        run: node ./script/github-actions/stylelint-annotation-format.js
