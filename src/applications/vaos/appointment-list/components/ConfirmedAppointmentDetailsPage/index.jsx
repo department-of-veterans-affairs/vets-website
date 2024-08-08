@@ -2,24 +2,29 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
-import moment from '../../../lib/moment-tz';
-import { FETCH_STATUS } from '../../../utils/constants';
-import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
-import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
-import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
+import VideoLayout from '../../../components/layout/VideoLayout';
+import moment from '../../../lib/moment-tz';
 import {
   selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
 } from '../../../redux/selectors';
-import DetailsVA from './DetailsVA';
+import { FETCH_STATUS } from '../../../utils/constants';
+import { scrollAndFocus } from '../../../utils/scrollAndFocus';
+import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
+import {
+  getConfirmedAppointmentDetailsInfo,
+  selectIsCanceled,
+  selectIsInPerson,
+  selectIsPast,
+} from '../../redux/selectors';
+import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
+import PageLayout from '../PageLayout';
 import DetailsCC from './DetailsCC';
+import DetailsVA from './DetailsVA';
 import DetailsVideo from './DetailsVideo';
-import VideoLayout from '../../../components/layout/VideoLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -42,6 +47,9 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureAppointmentDetailsRedesign = useSelector(
     selectFeatureAppointmentDetailsRedesign,
   );
+  const isInPerson = selectIsInPerson(appointment);
+  const isPast = selectIsPast(appointment);
+  const isCanceled = selectIsCanceled(appointment);
   const appointmentDate = moment.parseZone(appointment?.start);
 
   const isVideo = appointment?.vaos?.isVideo;
@@ -60,18 +68,39 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   useEffect(
     () => {
-      const pageTitle = isCommunityCare ? 'Community care' : 'VA';
+      let pageTitle;
+      let prefix = null;
+
+      if (isPast) prefix = 'Past';
+      else if (isCanceled) prefix = 'Canceled';
+
+      if (isCommunityCare)
+        pageTitle = prefix ? `${prefix} community care` : 'Community care';
+      else if (isInPerson) {
+        if (appointment?.vaos?.isCompAndPenAppointment)
+          pageTitle = prefix ? `${prefix} claim exam` : 'Claim exam';
+        else pageTitle = prefix ? `${prefix} in-person` : 'In-person';
+      }
+
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
         ? ' | Veterans Affairs'
         : '';
       if (appointment && appointmentDate) {
         document.title = `${pageTitle} appointment on ${appointmentDate.format(
-          'dddd, MMMM D, YYYY',
+          'dddd, MMMM DD, YYYY',
         )}${pageTitleSuffix}`;
         scrollAndFocus();
       }
     },
-    // [appointment, appointmentDate, isCommunityCare, featureBreadcrumbUrlUpdateæ],
+    [
+      appointment,
+      appointmentDate,
+      isCommunityCare,
+      isCanceled,
+      isInPerson,
+      isPast,
+      featureBreadcrumbUrlUpdate,
+    ],
   );
 
   useEffect(
