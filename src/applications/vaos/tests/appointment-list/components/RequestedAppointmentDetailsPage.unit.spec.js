@@ -392,7 +392,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       screen.getByText(
         moment()
           .startOf('day')
-          .format('ddd, MMMM DD, YYYY [in the morning]'),
+          .format('ddd, MMMM D, YYYY [in the morning]'),
       ),
     ).to.be.ok;
   });
