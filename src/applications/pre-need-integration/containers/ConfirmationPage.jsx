@@ -27,7 +27,9 @@ class ConfirmationPage extends React.Component {
         <p>
           We’ll let you know by mail or phone if we need more information.
           <br />
+          <em>Please print this page for your records.</em>
         </p>
+
         <div className="inset">
           <h3 className="schemaform-confirmation-claim-header">
             Your application details
