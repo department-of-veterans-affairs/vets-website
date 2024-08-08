@@ -11,8 +11,13 @@ describe('<AlertMhvBasicAccount />', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { ...defaultProps, recordEvent };
-    const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
+    const { getByRole, getByTestId } = render(
+      <AlertMhvBasicAccount {...props} />,
+    );
     getByTestId(defaultProps.testId);
+    getByRole('heading', { name: defaultProps.headline });
+    getByRole('link', { name: /^Learn more about/ });
+    getByRole('button', { name: 'Sign out' });
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
     });

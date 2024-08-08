@@ -3,15 +3,18 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvBasicAccount = ({ headline, recordEvent, status, testId }) => {
+const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
       action: 'load',
       'alert-box-headline': headline,
-      'alert-box-status': status,
+      'alert-box-status': 'warning',
     });
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -20,7 +23,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, status, testId }) => {
   };
 
   return (
-    <VaAlert status={status} data-testid={testId} disableAnalytics>
+    <VaAlert status="warning" data-testid={testId} disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
@@ -67,10 +70,10 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, status, testId }) => {
           password for that account.
         </p>
         <div className="vads-u-margin-top--2">
-          <va-button label="Sign out" onClick={signOut} text="Sign out" />
+          <VaButton label="Sign out" onClick={signOut} text="Sign out" />
         </div>
         <p className="vads-u-margin-top--2">
-          <a href="https://www.va.gov/resources/how-to-access-my-healthevet-on-vagov/">
+          <a href="/resources/how-to-access-my-healthevet-on-vagov">
             Learn more about how to access My HealtheVet on Va.gov
           </a>
         </p>
@@ -83,14 +86,12 @@ AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
   recordEvent: recordEventFn,
-  status: 'warning',
   testId: 'mhv-alert--mhv-basic-account',
 };
 
 AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
-  status: PropTypes.string,
   testId: PropTypes.string,
 };
 

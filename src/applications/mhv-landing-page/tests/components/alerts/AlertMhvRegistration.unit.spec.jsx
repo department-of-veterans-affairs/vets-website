@@ -2,54 +2,32 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Provider } from 'react-redux';
 
-import MhvRegistrationAlert from '../../../components/alerts/AlertMhvRegistration';
+import AlertMhvRegistration from '../../../components/alerts/AlertMhvRegistration';
 
-const defaultHeadline = MhvRegistrationAlert.defaultProps.headline;
+const { defaultProps } = AlertMhvRegistration;
 
-describe('<MhvRegistrationAlert />', () => {
-  const mockStore = () => ({
-    getState: () => ({
-      user: {
-        profile: {
-          session: {
-            ssoe: true,
-          },
-        },
-      },
-    }),
-    subscribe: () => {},
-    dispatch: () => {},
-  });
-
+describe('<AlertMhvRegistration />', () => {
   it('renders', () => {
-    const { getByRole } = render(
-      <Provider store={mockStore()}>
-        <MhvRegistrationAlert />
-      </Provider>,
-    );
-    getByRole('heading', { name: defaultHeadline });
+    const { getByRole, getByTestId } = render(<AlertMhvRegistration />);
+    getByTestId(defaultProps.testId);
+    getByRole('heading', { name: defaultProps.headline });
     getByRole('link', { name: /Register with My HealtheVet/ });
   });
 
-  it('reports to GA via recordEvent when rendered', async () => {
+  it('reports to GA via recordEvent on render', async () => {
     const event = {
       event: 'nav-alert-box-load',
       action: 'load',
-      'alert-box-headline': defaultHeadline,
-      'alert-box-status': MhvRegistrationAlert.defaultProps.status,
+      'alert-box-headline': defaultProps.headline,
+      'alert-box-status': 'warning',
     };
-    const recordEventSpy = sinon.spy();
-    const props = { recordEvent: recordEventSpy };
-    render(
-      <Provider store={mockStore()}>
-        <MhvRegistrationAlert {...props} />
-      </Provider>,
-    );
+    const recordEvent = sinon.spy();
+    const props = { recordEvent };
+    render(<AlertMhvRegistration {...props} />);
     await waitFor(() => {
-      expect(recordEventSpy.calledOnce).to.be.true;
-      expect(recordEventSpy.calledWith(event)).to.be.true;
+      expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledWith(event)).to.be.true;
     });
   });
 });

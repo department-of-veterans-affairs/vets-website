@@ -5,8 +5,8 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
 
-const AlertNotVerified = ({ recordEvent = recordEventFn, signInService }) => {
-  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
+const AlertNotVerified = ({ cspId, recordEvent }) => {
+  const serviceLabel = SERVICE_PROVIDERS[cspId].label;
   const headline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
   useEffect(() => {
@@ -20,17 +20,22 @@ const AlertNotVerified = ({ recordEvent = recordEventFn, signInService }) => {
 
   return (
     <IdentityNotVerified
+      disableAnalytics
       headline={headline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
-      signInService={signInService}
+      signInService={cspId}
     />
   );
 };
 
+AlertNotVerified.defaultProps = {
+  recordEvent: recordEventFn,
+};
+
 AlertNotVerified.propTypes = {
+  cspId: PropTypes.oneOf(Object.keys(SERVICE_PROVIDERS)),
   recordEvent: PropTypes.func,
-  signInService: PropTypes.oneOf(Object.keys(SERVICE_PROVIDERS)),
 };
 
 export default AlertNotVerified;

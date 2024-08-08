@@ -1,32 +1,20 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
 import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utilities';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import { isAuthenticatedWithSSOe } from '../../selectors';
 
-const AlertMhvRegistration = ({
-  headline,
-  recordEvent,
-  status,
-  icon,
-  testId,
-}) => {
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': status,
-      });
-    },
-    [headline, recordEvent, status],
-  );
+const AlertMhvRegistration = ({ headline, recordEvent, ssoe, testId }) => {
+  useEffect(() => {
+    recordEvent({
+      event: 'nav-alert-box-load',
+      action: 'load',
+      'alert-box-headline': headline,
+      'alert-box-status': 'warning',
+    });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const hasSsoe = useSelector(isAuthenticatedWithSSOe);
-  const mhvLink = `${mhvUrl(hasSsoe, '')}home&postLogin=true`;
+  const mhvLink = `${mhvUrl(ssoe, '')}home&postLogin=true`;
 
   return (
     <div
@@ -35,7 +23,7 @@ const AlertMhvRegistration = ({
     vads-u-margin-bottom--3"
       data-testid={testId}
     >
-      <va-icon icon={icon} size={4} />
+      <va-icon icon="lock" size={4} />
       <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           {headline}
@@ -65,17 +53,15 @@ const AlertMhvRegistration = ({
 
 AlertMhvRegistration.defaultProps = {
   headline: 'Register your account with My HealtheVet',
-  icon: 'lock',
   recordEvent: recordEventFn,
-  status: 'warning',
+  ssoe: false,
   testId: 'mhv-alert--mhv-registration',
 };
 
 AlertMhvRegistration.propTypes = {
   headline: PropTypes.string,
-  icon: PropTypes.string,
   recordEvent: PropTypes.func,
-  status: PropTypes.string,
+  ssoe: PropTypes.bool,
   testId: PropTypes.string,
 };
 

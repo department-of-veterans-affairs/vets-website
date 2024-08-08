@@ -59,7 +59,6 @@ AlertUnregistered.defaultProps = {
 AlertUnregistered.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
-  status: PropTypes.string,
   testId: PropTypes.string,
 };
 

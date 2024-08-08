@@ -10,7 +10,7 @@ const { defaultProps } = AlertVerifyAndRegister;
 describe('<AlertVerifyAndRegister />', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
-    const props = { ...defaultProps, recordEvent };
+    const props = { recordEvent };
     const { getByTestId } = render(<AlertVerifyAndRegister {...props} />);
     getByTestId(defaultProps.testId);
     await waitFor(() => {

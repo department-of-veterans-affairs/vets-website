@@ -1,40 +1,37 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import AlertUnregistered from '../components/alerts/AlertUnregistered';
 import AlertMhvRegistration from '../components/alerts/AlertMhvRegistration';
-import AlertNotVerified from '../components/alerts/AlertNotVerified';
 import AlertMhvBasicAccount from '../components/alerts/AlertMhvBasicAccount';
 import AlertVerifyAndRegister from '../components/alerts/AlertVerifyAndRegister';
 
 import {
   hasMhvAccount,
   hasMhvBasicAccount,
-  showVerifyAndRegisterAlert as showVerifyAndRegisterAlertFn,
+  isAuthenticatedWithSSOe,
+  isLOA3,
+  isVAPatient,
+  showVerifyAndRegisterAlert,
   signInServiceName,
 } from '../selectors';
 
-const Alerts = ({
-  userRegistered,
-  userVerified,
-  showVerifyAndRegisterAlert,
-}) => {
+const Alerts = () => {
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const userRegistered = userVerified && vaPatient;
   const userHasMhvAccount = useSelector(hasMhvAccount);
   const userHasMhvBasicAccount = useSelector(hasMhvBasicAccount);
-  const showsVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
-  const signInService = useSelector(signInServiceName);
+  const renderVerifyAndRegisterAlert = useSelector(showVerifyAndRegisterAlert);
+  const cspId = useSelector(signInServiceName);
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
 
   if (userHasMhvBasicAccount) {
     return <AlertMhvBasicAccount />;
   }
 
-  if (showsVerifyAndRegisterAlert) {
-    return <AlertVerifyAndRegister cspId={signInService} />;
-  }
-
-  if (!userVerified && !userHasMhvBasicAccount) {
-    return <AlertNotVerified signInService={signInService} />;
+  if (renderVerifyAndRegisterAlert) {
+    return <AlertVerifyAndRegister cspId={cspId} />;
   }
 
   if (!userRegistered) {
@@ -42,20 +39,10 @@ const Alerts = ({
   }
 
   if (userRegistered && !userHasMhvAccount) {
-    return <AlertMhvRegistration />;
+    return <AlertMhvRegistration ssoe={ssoe} />;
   }
 
   return <></>;
-};
-
-Alerts.defaultProps = {
-  showVerifyAndRegisterAlert: showVerifyAndRegisterAlertFn,
-};
-
-Alerts.propTypes = {
-  showVerifyAndRegisterAlert: PropTypes.func.isRequired,
-  userRegistered: PropTypes.bool.isRequired,
-  userVerified: PropTypes.bool.isRequired,
 };
 
 export default Alerts;
