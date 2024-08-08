@@ -4,7 +4,7 @@ const path = require('path');
 const codeCoverageReport = fs.readFileSync(
   path.join(
     __dirname,
-    '../../qa-standards-dashboard-data/coverage/coverage_report.txt',
+    '../../qa-standards-dashboard-data/coverage/coverage_report.txtt',
   ),
   'utf8',
 );
