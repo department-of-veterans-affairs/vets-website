@@ -7,9 +7,9 @@ export const filePresenceValidation = (
   _schema,
   errorMessages,
 ) => {
-  if (
-    !(uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size)
-  ) {
+  const fileHasBeenUploaded =
+    uploadedFile.confirmationCode && uploadedFile.name && uploadedFile.size;
+  if (errorMessages?.required && !fileHasBeenUploaded) {
     errors.addError(errorMessages.required);
   }
 };
