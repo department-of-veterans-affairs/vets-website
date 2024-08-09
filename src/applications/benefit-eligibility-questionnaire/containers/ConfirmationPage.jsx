@@ -3,6 +3,9 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+
+import { setSubmission } from 'platform/forms-system/src/js/actions';
 import BenefitCard from '../components/BenefitCard';
 
 export class ConfirmationPage extends React.Component {
@@ -10,6 +13,16 @@ export class ConfirmationPage extends React.Component {
     focusElement('h2');
     scrollToTop('topScrollElement');
   }
+
+  handleClick = e => {
+    e.preventDefault();
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+    this.props.router.goBack();
+  };
 
   render() {
     return (
@@ -37,6 +50,14 @@ export class ConfirmationPage extends React.Component {
               relevance
             </b>
 
+            <p>
+              <va-link
+                href="#"
+                onClick={this.handleClick}
+                text="Go back and review your entries"
+              />
+            </p>
+
             <div className="vads-u-margin-y--2">
               <va-alert-expandable
                 status="info"
@@ -61,10 +82,29 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  setSubmission,
+};
+
 function mapStateToProps(state) {
   return {
     form: state.form,
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationPage);
+ConfirmationPage.propTypes = {
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.object,
+    }),
+  }),
+  router: PropTypes.object,
+  setSubmission: PropTypes.func,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
