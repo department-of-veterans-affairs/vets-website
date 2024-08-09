@@ -25,6 +25,7 @@ import PageLayout from '../PageLayout';
 import DetailsCC from './DetailsCC';
 import DetailsVA from './DetailsVA';
 import DetailsVideo from './DetailsVideo';
+import { isVAPhoneAppointment } from '../../../services/appointment';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -80,6 +81,9 @@ export default function ConfirmedAppointmentDetailsPage() {
         if (appointment?.vaos?.isCompAndPenAppointment)
           pageTitle = prefix ? `${prefix} claim exam` : 'Claim exam';
         else pageTitle = prefix ? `${prefix} in-person` : 'In-person';
+      } else if (isVideo) pageTitle = prefix ? `${prefix} video` : 'Video';
+      else if (isVAPhoneAppointment) {
+        pageTitle = prefix ? `${prefix} phone` : 'Phone';
       }
 
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
