@@ -1,7 +1,7 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import PathologyDetailsPage from './pages/PathologyDetailsPage';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
+import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records Understanding Your Results Pathology Detail Page', () => {
   const site = new MedicalRecordsSite();

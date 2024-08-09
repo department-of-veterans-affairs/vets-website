@@ -58,16 +58,6 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="How to prepare for this exam">
-            <span>
-              This appointment is for disability rating purposes only. It
-              doesn’t include treatment. If you have medical evidence to support
-              your claim, bring copies to this appointment.
-            </span>
-          </Section>
-        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />

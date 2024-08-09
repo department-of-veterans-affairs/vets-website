@@ -111,10 +111,15 @@ const createUpcomingAppointment = ({
   start = singleUpcomingAppointment[0].attributes.start,
   end = singleUpcomingAppointment[0].attributes.end,
   minutesDuration = singleUpcomingAppointment[0].attributes.minutesDuration,
-  serviceName = singleUpcomingAppointment[0].attributes.serviceName,
-  physicalLocation = singleUpcomingAppointment[0].attributes.physicalLocation,
-  friendlyName = singleUpcomingAppointment[0].attributes.friendlyName,
-  location = singleUpcomingAppointment[0].attributes.location,
+  facilityName = singleUpcomingAppointment[0].attributes.facilityName,
+  facilityVistaSite = singleUpcomingAppointment[0].attributes.facilityVistaSite,
+  facilityTimezone = singleUpcomingAppointment[0].attributes.facilityTimezone,
+  facilityPhoneMain = singleUpcomingAppointment[0].attributes.facilityPhoneMain,
+  clinicServiceName = singleUpcomingAppointment[0].attributes.clinicServiceName,
+  clinicPhysicalLocation = singleUpcomingAppointment[0].attributes
+    .clinicPhysicalLocation,
+  clinicFriendlyName = singleUpcomingAppointment[0].attributes
+    .clinicFriendlyName,
 }) => {
   return {
     id,
@@ -128,10 +133,13 @@ const createUpcomingAppointment = ({
       start,
       end,
       minutesDuration,
-      serviceName,
-      physicalLocation,
-      friendlyName,
-      location,
+      facilityName,
+      facilityVistaSite,
+      facilityTimezone,
+      facilityPhoneMain,
+      clinicServiceName,
+      clinicPhysicalLocation,
+      clinicFriendlyName,
     },
   };
 };
@@ -339,7 +347,7 @@ const createUpcomingAppointments = (token, number = 4) => {
   const appointments = [
     createUpcomingAppointment({
       id: '123123',
-      friendlyName: `HEART CLINIC-1`,
+      clincFriendlyName: `HEART CLINIC-1`,
       start: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
     }),
   ];
@@ -347,7 +355,7 @@ const createUpcomingAppointments = (token, number = 4) => {
     appointments.push(
       createUpcomingAppointment({
         id: `12300${i + 1}`,
-        friendlyName: `HEART CLINIC-${i}`,
+        clincFriendlyName: `HEART CLINIC-${i}`,
         start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
         kind: kinds[i],
       }),
@@ -356,7 +364,7 @@ const createUpcomingAppointments = (token, number = 4) => {
   appointments.push(
     createUpcomingAppointment({
       id: `123456`,
-      friendlyName: `HEART CLINIC-E`,
+      clincFriendlyName: `HEART CLINIC-E`,
       start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
       status: 'CANCELLED BY CLINIC',
     }),
