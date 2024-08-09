@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { isLoggedIn } from 'platform/user/selectors';
+import SaveInProgressIntro from '~/platform/forms/save-in-progress/SaveInProgressIntro';
 import { FormTitle } from '@department-of-veterans-affairs/va-forms-system-core';
 import {
   VaAlert,
@@ -13,7 +14,8 @@ import {
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import { getFormContent, getFormNumber } from '../helpers';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ route }) => {
+  const { formConfig, pageList } = route;
   const dispatch = useDispatch();
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const formNumber = getFormNumber();
@@ -72,16 +74,14 @@ const IntroductionPage = () => {
         </VaProcessListItem>
       </VaProcessList>
       {userLoggedIn ? (
-        <div className="action-bar-arrow">
-          <div className="vads-u-background-color--primary vads-u-padding--1">
-            <a
-              className="vads-c-action-link--white"
-              href={`/form-upload/${formNumber}/upload`}
-            >
-              Start uploading your form
-            </a>
-          </div>
-        </div>
+        <SaveInProgressIntro
+          formConfig={formConfig}
+          hideUnauthedStartLink
+          pageList={pageList}
+          prefillEnabled={formConfig.prefillEnabled}
+          startText="Start uploading your form"
+          verifiedPrefillAlert={<></>}
+        />
       ) : (
         <VaAlert status="info" visible>
           <h2 slot="headline">Sign in now to upload your form</h2>
