@@ -23,10 +23,34 @@ export default function BurialsEntry({ location, children }) {
     return <NoFormPage />;
   }
 
+  const breadcrumbs = [
+    {
+      href: '/',
+      label: 'Home',
+    },
+    {
+      href: '/burials-memorials/',
+      label: 'Burials and memorials',
+    },
+    {
+      href: '/burials-memorials/veterans-burial-allowance',
+      label: 'Veterans burial allowance and transportation benefits',
+    },
+    {
+      href:
+        '/burials-memorials/veterans-burial-allowance/apply-for-allowance-form-21p-530ez',
+      label:
+        'Apply for a Veterans burial allowance and transportation benefits',
+    },
+  ];
+  const rawBreadcrumbs = JSON.stringify(breadcrumbs);
   return (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    <>
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <va-breadcrumbs breadcrumb-list={rawBreadcrumbs} wrapping />
+        {children}
+      </RoutedSavableApp>
+    </>
   );
 }
 
