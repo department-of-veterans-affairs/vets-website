@@ -35,30 +35,33 @@ export const formLoadingFailed = error => {
  * are ready to fetch for real, we'll update this and write
  * proper tests for this code.
  */
-export const fetchFormConfig = formId => {
-  /* eslint-disable-next-line no-shadow */
-  const mockFetchFormConfigByFormId = async formId => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const formConfig = {
-          '123-abc': formConfig1,
-          '456-xyz': formConfig2,
-          '2121212': createFormConfig(normalizedForm),
-        }?.[formId];
+/* eslint-disable-next-line no-shadow */
+const mockFetchFormConfigByFormId = async formId => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const formConfig = {
+        '123-abc': formConfig1,
+        '456-xyz': formConfig2,
+        '2121212': createFormConfig(normalizedForm),
+      }?.[formId];
 
-        if (formConfig) {
-          resolve(formConfig);
-        } else {
-          reject(new Error(`Form config not found for form id '${formId}'`));
-        }
-      }, 200);
-    });
-  };
+      if (formConfig) {
+        resolve(formConfig);
+      } else {
+        reject(new Error(`Form config not found for form id '${formId}'`));
+      }
+    }, 200);
+  });
+};
 
+export const fetchFormConfig = (
+  formId,
+  fetchMethod = mockFetchFormConfigByFormId,
+) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
     try {
-      const formConfig = await mockFetchFormConfigByFormId(formId);
+      const formConfig = await fetchMethod(formId);
       dispatch(formLoadingSucceeded(formConfig));
       return formConfig;
     } catch (error) {
