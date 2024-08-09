@@ -1,4 +1,5 @@
 import React from 'react';
+import { waitFor } from '@testing-library/react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -49,7 +50,7 @@ describe('RecipientsSelect', () => {
     wrapper.unmount();
   });
 
-  it('displays the signature alert when a recipient with signatureRequired is selected', () => {
+  it('displays the signature alert when a recipient with signatureRequired is selected', async () => {
     const wrapper = mount(
       <RecipientsSelect
         recipientsList={recipientsList}
@@ -59,9 +60,11 @@ describe('RecipientsSelect', () => {
     );
     const alert = wrapper.find('va-alert[data-testid="signature-alert"]');
 
-    expect(alert.text()).to.contain(
-      Constants.Prompts.Compose.SIGNATURE_REQUIRED,
-    );
+    await waitFor(() => {
+      expect(alert.text()).to.contain(
+        Constants.Prompts.Compose.SIGNATURE_REQUIRED,
+      );
+    });
     wrapper.find('VaAlert').prop('onCloseEvent')();
     expect(alert).to.be.empty;
     wrapper.unmount();

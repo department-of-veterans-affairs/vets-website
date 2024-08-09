@@ -24,6 +24,17 @@
     margin-right: 6px;
     font-size: 0.6875rem;
   }
+  va-checkbox::part(checkbox) {
+    max-width: 100% !important;
+  }
+  va-checkbox::part(label) {
+    cursor: pointer;
+    display: inherit;
+    font-weight: normal;
+    margin-top: 0.75rem;
+    padding-left: 2rem;
+    position: relative;
+  }
   .edit-input-button {
     padding: 0;
     margin: 0;
