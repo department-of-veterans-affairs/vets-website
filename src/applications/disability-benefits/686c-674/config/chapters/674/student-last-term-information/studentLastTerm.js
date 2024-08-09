@@ -1,5 +1,5 @@
 import React from 'react';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import omit from 'lodash/omit';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
 import {
@@ -7,16 +7,15 @@ import {
   classesPerWeekUiSchema,
   hoursPerWeekUiSchema,
 } from '../../../helpers';
-import { buildAddressSchema, addressUISchema } from '../../../address-schema';
+import { addressUISchema } from '../../../address-schema';
 import { report674 } from '../../../utilities';
 
-const addressSchema = buildAddressSchema(false);
-
-const lastTermSchema = cloneDeep(report674.properties.studentLastTerm);
-
-lastTermSchema.properties.lastTermSchoolInformation.properties.address = addressSchema;
-
-export const schema = lastTermSchema;
+export const schema = omit(report674.properties.studentLastTerm, [
+  'properties.lastTermSchoolInformation.properties.name',
+  'properties.lastTermSchoolInformation.properties.address',
+  'properties.lastTermSchoolInformation.properties.classesPerWeek',
+  'properties.lastTermSchoolInformation.properties.hoursPerWeek',
+]);
 
 export const uiSchema = {
   studentDidAttendSchoolLastTerm: {

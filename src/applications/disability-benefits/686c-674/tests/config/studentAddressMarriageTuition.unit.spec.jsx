@@ -289,26 +289,6 @@ describe('Report 674 student address and marriage information', () => {
       'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
       'Y',
     );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_agencyName',
-      'FBI',
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_datePaymentsBeganYear',
-      2010,
-    );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
@@ -376,26 +356,6 @@ describe('Report 674 student address and marriage information', () => {
       form,
       'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
       'Y',
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_agencyName',
-      'FBI',
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_datePaymentsBeganYear',
-      2010,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').text()).to.include(
@@ -466,26 +426,6 @@ describe('Report 674 student address and marriage information', () => {
       form,
       'root_studentAddressMarriageTuition_tuitionIsPaidByGovAgency',
       'Y',
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_agencyName',
-      'FBI',
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_studentAddressMarriageTuition_datePaymentsBeganDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_studentAddressMarriageTuition_datePaymentsBeganYear',
-      2010,
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);

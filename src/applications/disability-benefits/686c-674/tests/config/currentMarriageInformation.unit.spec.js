@@ -6,33 +6,26 @@ import { changeDropdown } from 'platform/testing/unit/helpers';
 import {
   DefinitionTester,
   fillData,
+  selectRadio,
+  selectCheckbox,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
 import formConfig from '../../config/form';
 
-describe('Report 674 school information', () => {
+describe('686 current marriage information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.studentSchoolAddress;
+  } = formConfig.chapters.addSpouse.pages.currentMarriageInformation;
 
   const formData = {
     'view:selectable686Options': {
-      report674: true,
+      addSpouse: true,
     },
-    studentNameAndSSN: {
-      fullName: {
-        first: 'John',
-        last: 'Doe',
+    currentMarriageInformation: {
+      location: {
+        isOutsideUs: false,
       },
-    },
-    studentAddressMarriageTuition: {
-      address: {
-        countryName: '',
-      },
-    },
-    programInformation: {
-      studentIsEnrolledFullTime: '',
     },
   };
 
@@ -45,12 +38,11 @@ describe('Report 674 school information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(7);
-    expect(form.find('select').length).to.equal(3);
+    expect(form.find('input').length).to.equal(9);
     form.unmount();
   });
 
-  it('should not progress without the required fields', () => {
+  it('should not submit without all required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -62,12 +54,12 @@ describe('Report 674 school information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(6);
+    expect(form.find('.usa-input-error').length).to.equal(4);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should submit with a school name and a valid domestic US address', () => {
+  it('should submit with all required fields', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -78,33 +70,27 @@ describe('Report 674 school information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    changeDropdown(form, 'select#root_schoolInformation_schoolType', 'HighSch');
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateMonth', 1);
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateDay', 1);
+    fillData(form, 'input#root_currentMarriageInformation_dateYear', '2010');
+    changeDropdown(
+      form,
+      'select#root_currentMarriageInformation_location_state',
+      'CA',
+    );
     fillData(
       form,
-      'input#root_schoolInformation_trainingProgram',
-      'Marine Biology',
+      'input#root_currentMarriageInformation_location_city',
+      'Los Angeles',
     );
-    changeDropdown(
-      form,
-      'select#root_schoolInformation_address_countryName',
-      'USA',
-    );
-    fillData(form, 'input#root_schoolInformation_address_addressLine1', '1600');
-    fillData(form, 'input#root_schoolInformation_address_city', 'Washington');
-    changeDropdown(
-      form,
-      'select#root_schoolInformation_address_stateCode',
-      'AL',
-    );
-    fillData(form, 'input#root_schoolInformation_address_zipCode', '20500');
+    selectRadio(form, 'root_currentMarriageInformation_type', 'CEREMONIAL');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should submit with a valid international address', () => {
+  it('should submit with a marriage location outside of the US', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -115,29 +101,25 @@ describe('Report 674 school information', () => {
         onSubmit={onSubmit}
       />,
     );
-    fillData(form, 'input#root_schoolInformation_name', 'Phoenix Online');
-    changeDropdown(form, 'select#root_schoolInformation_schoolType', 'HighSch');
-    fillData(
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateMonth', 1);
+    changeDropdown(form, 'select#root_currentMarriageInformation_dateDay', 1);
+    fillData(form, 'input#root_currentMarriageInformation_dateYear', '2010');
+    selectCheckbox(
       form,
-      'input#root_schoolInformation_trainingProgram',
-      'Marine Biology',
+      'root_currentMarriageInformation_location_isOutsideUs',
+      true,
     );
     changeDropdown(
       form,
-      'select#root_schoolInformation_address_countryName',
-      'BRA',
-    );
-    fillData(form, 'input#root_schoolInformation_address_addressLine1', '1600');
-    fillData(
-      form,
-      'input#root_schoolInformation_address_city',
-      'Rio de Janeiro',
+      'select#root_currentMarriageInformation_location_country',
+      'AFG',
     );
     fillData(
       form,
-      'input#root_schoolInformation_address_internationalPostalCode',
-      '12345',
+      'input#root_currentMarriageInformation_location_city',
+      'Some Place',
     );
+    selectRadio(form, 'root_currentMarriageInformation_type', 'CEREMONIAL');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
