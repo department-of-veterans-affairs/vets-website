@@ -27,18 +27,20 @@ const NavCard = ({
         }}
         rel="noreferrer"
       >
-        <span
-          className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
-        >
-          {text} {isExternal && externalLinkText}
+        <span className="mhv-c-link-content">
+          <span
+            className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+          >
+            {text} {isExternal && externalLinkText}
+          </span>
+          {!isExternal && (
+            <va-icon
+              class="mhv-c-link-icon vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+              icon="navigate_next"
+              size={4}
+            />
+          )}
         </span>
-        {!isExternal && (
-          <va-icon
-            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
-            icon="navigate_next"
-            size={4}
-          />
-        )}
       </a>
     </li>
   ));
