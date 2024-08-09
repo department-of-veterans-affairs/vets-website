@@ -415,7 +415,6 @@ function mapStateToProps(state, ownProps) {
       };
     })
     .filter(chapter => chapter.expandedPages.length > 0);
-
   return {
     chapters,
     form,

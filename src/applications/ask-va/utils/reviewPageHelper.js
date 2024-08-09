@@ -60,15 +60,15 @@ export const getPageKeysForReview = config => {
 };
 
 export function createPageListByChapterAskVa(formConfig, pagesToMoveConfig) {
-  const mergedChapters = {};
+  const pagesByChapter = {};
   const modifiedFormConfig = {
-    ...formConfig,
     chapters: {},
   };
 
+  // Process each chapter in pagesToMoveConfig
   Object.keys(pagesToMoveConfig).forEach(targetChapter => {
-    if (!mergedChapters[targetChapter]) {
-      mergedChapters[targetChapter] = [];
+    if (!pagesByChapter[targetChapter]) {
+      pagesByChapter[targetChapter] = [];
       modifiedFormConfig.chapters[targetChapter] = {
         pages: {},
         expandedPages: [],
@@ -85,16 +85,42 @@ export function createPageListByChapterAskVa(formConfig, pagesToMoveConfig) {
             chapterKey: targetChapter,
           };
 
-          mergedChapters[targetChapter].push(page);
+          pagesByChapter[targetChapter].push(page);
           modifiedFormConfig.chapters[targetChapter].pages[pageKey] = page;
-
           modifiedFormConfig.chapters[targetChapter].expandedPages.push(page);
         }
       });
     });
   });
 
-  return { pagesByChapter: mergedChapters, modifiedFormConfig };
+  // Extra check for dupes
+  Object.keys(pagesByChapter).forEach(chapter => {
+    pagesByChapter[chapter] = Array.from(
+      new Map(
+        pagesByChapter[chapter].map(page => [page.pageKey, page]),
+      ).values(),
+    );
+
+    modifiedFormConfig.chapters[chapter].pages = Array.from(
+      new Map(
+        Object.entries(modifiedFormConfig.chapters[chapter].pages),
+      ).values(),
+    ).reduce((acc, page) => {
+      acc[page.pageKey] = page;
+      return acc;
+    }, {});
+
+    modifiedFormConfig.chapters[chapter].expandedPages = Array.from(
+      new Map(
+        modifiedFormConfig.chapters[chapter].expandedPages.map(page => [
+          page.pageKey,
+          page,
+        ]),
+      ).values(),
+    );
+  });
+
+  return { pagesByChapter, modifiedFormConfig };
 }
 
 export function getChapterFormConfigAskVa(modifiedFormConfig, chapterName) {
