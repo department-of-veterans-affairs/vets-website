@@ -42,7 +42,7 @@ import DigitalSignature from './DigitalSignature';
 import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
-  const { draft, recipients, signature } = props;
+  const { pageTitle, headerRef, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -218,6 +218,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
         const messageData = {
           category,
           body: `${messageBody} ${
@@ -239,13 +240,18 @@ const ComposeForm = props => {
           sendData = JSON.stringify(messageData);
         }
         dispatch(sendMessage(sendData, attachments.length > 0))
-          .then(() =>
-            navigateToFolderByFolderId(
-              currentFolder?.folderId || DefaultFolders.INBOX.id,
-              history,
-            ),
-          )
-          .catch(setSendMessageFlag(false));
+          .then(() => {
+            setTimeout(() => {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }, 1000);
+          })
+          .catch(
+            () => setSendMessageFlag(false),
+            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }),
+          );
       }
     },
     [sendMessageFlag, isSaving],
@@ -623,8 +629,22 @@ const ComposeForm = props => {
     [beforeUnloadHandler],
   );
 
+  if (sendMessageFlag === true) {
+    return (
+      <va-loading-indicator
+        message="Sending message..."
+        setFocus
+        data-testid="loading-indicator"
+      />
+    );
+  }
+
   return (
     <>
+      <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
+        {pageTitle}
+      </h1>
+
       {showBlockedTriageGroupAlert &&
       (noAssociations || allTriageGroupsBlocked) ? (
         <BlockedTriageGroupAlert

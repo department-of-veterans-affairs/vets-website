@@ -36,16 +36,13 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     // After closing the attachment banner, first attachment remove button has focus
     PatientComposePage.verifyRemoveAttachmentButtonHasFocus(0);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     PatientComposePage.sendMessage();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+
+    PatientComposePage.verifyHeader('Inbox');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
