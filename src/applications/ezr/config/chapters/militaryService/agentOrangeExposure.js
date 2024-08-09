@@ -1,22 +1,29 @@
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
+import {
+  radioUI,
+  radioSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import AgentOrangeExposureDescription from '../../../components/FormDescriptions/AgentOrangeExposureDescription';
 import content from '../../../locales/en/content.json';
 
-const { exposedToAgentOrange } = ezrSchema.properties;
-
+/** @type {PageSchema} */
 export default {
   uiSchema: {
     'ui:title': content['military-service-agent-orange-locations-title'],
-    exposedToAgentOrange: {
-      'ui:title': content['military-service-agent-orange-exposed-title'],
-      'ui:description': AgentOrangeExposureDescription,
-      'ui:widget': 'yesNo',
-    },
+    exposedToAgentOrange: radioUI({
+      useFormsPattern: 'single',
+      title: content['military-service-agent-orange-exposed-title'],
+      formDescription: AgentOrangeExposureDescription,
+      labels: {
+        '1': 'Yes',
+        '2': 'No',
+      },
+    }),
   },
   schema: {
     type: 'object',
+    // required: ['exposedToAgentOrange'],
     properties: {
-      exposedToAgentOrange,
+      exposedToAgentOrange: radioSchema(['1', '2']),
     },
   },
 };

@@ -1,48 +1,35 @@
-import React from 'react';
-import { findDOMNode } from 'react-dom';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import ReactTestUtils from 'react-dom/test-utils';
-
 import {
-  DefinitionTester,
-  submitForm,
-} from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+  testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfWebComponentFields,
+} from '../helpers.spec';
+
 import formConfig from '../../../../config/form';
 
-describe('hca Gulf War Service config', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.militaryService.pages.gulfWarService;
-  const { defaultDefinitions: definitions } = formConfig;
+const {
+  chapters: {
+    militaryService: {
+      pages: { gulfWarService },
+    },
+  },
+} = formConfig;
+const { title: pageTitle, schema, uiSchema } = gulfWarService;
 
-  it('should render', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    expect(formDOM.querySelectorAll('input').length).to.equal(2);
-  });
+// run test for correct number of fields on the page
+const expectedNumberOfWebComponentFields = 1;
+testNumberOfWebComponentFields(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentFields,
+  pageTitle,
+);
 
-  it('should submit empty form', () => {
-    const onSubmit = sinon.spy();
-    const form = ReactTestUtils.renderIntoDocument(
-      <DefinitionTester
-        schema={schema}
-        definitions={definitions}
-        onSubmit={onSubmit}
-        uiSchema={uiSchema}
-      />,
-    );
-    const formDOM = findDOMNode(form);
-    submitForm(form);
-
-    expect(formDOM.querySelectorAll('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-  });
-});
+// run test for correct number of error messages on submit
+const expectedNumberOfWebComponentErrors = 0;
+testNumberOfErrorsOnSubmitForWebComponents(
+  formConfig,
+  schema,
+  uiSchema,
+  expectedNumberOfWebComponentErrors,
+  pageTitle,
+);

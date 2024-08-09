@@ -13,6 +13,12 @@ export const advanceToHouseholdSection = () => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
+
+  goToNextPage('/household-information/financial-information-status');
+  cy.injectAxeThenAxeCheck();
+
+  goToNextPage('/military-service/toxic-exposure');
+  selectYesNoWebComponent('hasTeraResponse', false);
 };
 
 export const advanceFromHouseholdToReview = () => {
