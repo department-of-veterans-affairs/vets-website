@@ -38,6 +38,7 @@ const PrepareContent = props => {
             href={`${router.location.basename}/what-to-bring/`}
             hrefLang="en"
             onClick={onPrepareClick}
+            data-testId="what-to-bring-link"
           >
             {t('find-out-what-to-bring')}
           </a>
