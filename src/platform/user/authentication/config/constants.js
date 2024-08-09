@@ -34,7 +34,7 @@ export const defaultWebOAuthOptions = {
 };
 
 export const arpWebOAuthOptions = {
-  clientId: CLIENT_IDS.ARP,
+  clientId: CLIENT_IDS.ARP, // NOTE: 'arp' is the default ARP Client ID, but varies by environment
   acr: { idme: 'loa3', logingov: 'ial2' },
   acrSignup: { idme_signup: 'loa3', logingov_signup: 'ial2' },
 };
