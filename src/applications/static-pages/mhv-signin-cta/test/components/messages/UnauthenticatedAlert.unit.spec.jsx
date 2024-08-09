@@ -11,7 +11,7 @@ import UnauthenticatedAlert, {
 const mockStore = createMockStore([]);
 
 describe('Unauthenticated Alert component', () => {
-  it('renders without service description', async () => {
+  it('renders without service description', () => {
     const { getByRole } = render(
       <Provider store={mockStore()}>
         <UnauthenticatedAlert />
@@ -20,7 +20,7 @@ describe('Unauthenticated Alert component', () => {
     expect(getByRole('heading', { name: headingPrefix })).to.exist;
   });
 
-  it('with service description', async () => {
+  it('with service description', () => {
     const serviceDescription = 'order supplies';
 
     const { getByRole } = render(

@@ -2,14 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
-import { isLoggedIn, selectProfile, isLOA3 } from '~/platform/user/selectors';
+import { isLoggedIn, isLOA3 } from '~/platform/user/selectors';
+import { signInServiceName } from '~/platform/user/authentication/selectors';
 import UnauthenticatedAlert from './components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from './components/messages/UnverifiedAlert';
 
 /**
  * MHV Signin CTA widget. This widget displays an alert if the user is not authenticated or verified.
  * Otherwise, it displays provided HTML content.
- * @property {HTMLCollection} noAlertContent the content to display if no alerts
+ * @property {HTMLCollection} noAlertContent optional content to display if no alerts are shown
  * @property {String} signInServiceName the signin service name is available
  * @property {bool} userIsLoggedIn true if the user is logged in
  * @property {bool} userIsVerified true if the user is verified
@@ -17,7 +18,7 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
 export const MhvSigninCallToAction = ({
   noAlertContent,
   serviceDescription,
-  signInServiceName,
+  serviceName,
   userIsLoggedIn = false,
   userIsVerified = false,
 }) => {
@@ -28,7 +29,7 @@ export const MhvSigninCallToAction = ({
   if (!userIsVerified) {
     return (
       <UnverifiedAlert
-        signInService={signInServiceName}
+        signInService={serviceName}
         serviceDescription={serviceDescription}
       />
     );
@@ -51,7 +52,7 @@ export const MhvSigninCallToAction = ({
 MhvSigninCallToAction.propTypes = {
   noAlertContent: PropTypes.instanceOf(HTMLCollection),
   serviceDescription: PropTypes.string,
-  signInServiceName: PropTypes.string,
+  serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,
   userIsVerified: PropTypes.bool,
 };
@@ -61,11 +62,11 @@ MhvSigninCallToAction.propTypes = {
  * @param {Object} state the current state
  * @returns state properties
  */
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
-    signInServiceName: selectProfile(state)?.serviceName,
+    serviceName: isLoggedIn(state) ? signInServiceName(state) : undefined,
     userIsLoggedIn: isLoggedIn(state),
-    userIsVerified: isLOA3(state),
+    userIsVerified: isLoggedIn(state) ? isLOA3(state) : undefined,
   };
 };
 

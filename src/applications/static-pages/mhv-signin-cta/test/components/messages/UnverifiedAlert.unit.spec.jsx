@@ -12,7 +12,7 @@ import UnverifiedAlert, {
 const mockStore = createMockStore([]);
 
 describe('Unverified Alert component', () => {
-  it('renders without service description', async () => {
+  it('renders without service description', () => {
     const { getByRole } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert />
@@ -21,7 +21,7 @@ describe('Unverified Alert component', () => {
     expect(getByRole('heading', { name: headingPrefix })).to.exist;
   });
 
-  it('with service description', async () => {
+  it('with service description', () => {
     const serviceDescription = 'order supplies';
 
     const { getByRole } = render(
@@ -33,7 +33,7 @@ describe('Unverified Alert component', () => {
     expect(getByRole('heading', { name: expectedHeadline })).to.exist;
   });
 
-  it('renders MHV account alert', async () => {
+  it('renders MHV account alert', () => {
     const { getByText } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert signInService={CSP_IDS.MHV} />
@@ -42,7 +42,7 @@ describe('Unverified Alert component', () => {
     expect(getByText(/You have 2 options/)).to.exist;
   });
 
-  it('renders alert for non-MHV accounts', async () => {
+  it('renders alert for non-MHV accounts', () => {
     const { getByRole } = render(
       <Provider store={mockStore()}>
         <UnverifiedAlert signInService={CSP_IDS.ID_ME} />

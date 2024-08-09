@@ -8,7 +8,7 @@ describe('Custom Alert component', () => {
   const headline = 'some headline';
 
   describe('renders', () => {
-    it('renders info alert with defaults', async () => {
+    it('renders info alert with defaults', () => {
       const contentText = 'Some text for content';
       const { getByRole, getByText, getByTestId } = render(
         <CustomAlert headline={headline}>
@@ -21,7 +21,7 @@ describe('Custom Alert component', () => {
       expect(alertEl.className).to.include('mhv-u-reg-alert-info');
     });
 
-    it('renders warning alert', async () => {
+    it('renders warning alert', () => {
       const { getByTestId } = render(
         <CustomAlert headline={headline} status="warning" />,
       );
@@ -29,7 +29,7 @@ describe('Custom Alert component', () => {
       expect(alertEl.className).to.include('mhv-u-reg-alert-warning');
     });
 
-    it('renders success alert', async () => {
+    it('renders success alert', () => {
       const { getByTestId } = render(
         <CustomAlert headline={headline} status="success" />,
       );
@@ -37,7 +37,7 @@ describe('Custom Alert component', () => {
       expect(alertEl.className).to.include('mhv-u-reg-alert-success');
     });
 
-    it('renders continue alert', async () => {
+    it('renders continue alert', () => {
       const { getByTestId } = render(
         <CustomAlert headline={headline} status="continue" />,
       );
@@ -46,7 +46,7 @@ describe('Custom Alert component', () => {
       expect(alertEl.className).to.include('mhv-u-reg-alert-success');
     });
 
-    it('renders info alert', async () => {
+    it('renders info alert', () => {
       const { getByTestId } = render(
         <CustomAlert headline={headline} status="info" />,
       );
@@ -54,7 +54,7 @@ describe('Custom Alert component', () => {
       expect(alertEl.className).to.include('mhv-u-reg-alert-info');
     });
 
-    it('renders custom icon', async () => {
+    it('renders custom icon', () => {
       const iconName = 'lock';
       const { getByTestId } = render(
         <CustomAlert headline={headline} icon={iconName} />,
