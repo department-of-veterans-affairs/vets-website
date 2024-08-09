@@ -27,14 +27,11 @@ export default function BurialsEntry({ location, children }) {
     return <NoFormPage />;
   }
 
-  const hasV1Form = profile.savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21P_530,
-  );
   const hasV2Form = profile.savedForms.some(
     form => form.form === VA_FORM_IDS.FORM_21P_530V2,
   );
 
-  const shouldUseV2 = hasV2Form || (burialFormV2 && !hasV1Form);
+  const shouldUseV2 = hasV2Form || burialFormV2;
   if (!shouldUseV2) {
     window.location.href = '/burials-and-memorials/application/530/';
     return <></>;
