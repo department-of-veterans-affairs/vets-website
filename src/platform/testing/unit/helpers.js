@@ -109,7 +109,13 @@ export function changeDropdown(form, selector, value) {
  * @param {boolean} [shouldResolve=true] Returns a rejected promise if this is false
  */
 function mockFetch(returnVal, shouldResolve = true) {
-  const fetchStub = sinon.stub(global, 'fetch');
+  let fetchStub = fetch;
+  // Check if fetch has already been wrapped by interceptNetworkCalls in the mocha setup.
+  if (!fetch.isSinonProxy) {
+    fetchStub = sinon.stub(global, 'fetch');
+  }
+  fetchStub.mockFetchWasCalled = true;
+
   fetchStub.callsFake(url => {
     let response = returnVal;
     if (!response) {

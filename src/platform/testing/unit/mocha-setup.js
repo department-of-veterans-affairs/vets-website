@@ -13,6 +13,7 @@ import '../../site-wide/moment-setup';
 import ENVIRONMENTS from 'site/constants/environments';
 import * as Sentry from '@sentry/browser';
 import { configure } from '@testing-library/dom';
+import sinon from 'sinon';
 import chaiAxe from './axe-plugin';
 import { sentryTransport } from './sentry';
 
@@ -161,6 +162,35 @@ const checkAllowList = testContext => {
 // axe has strange issues with globals not being set up
 chai.use(chaiAxe);
 
+const interceptNetworkCalls = () => {
+  const fetchStub = sinon.stub(global, 'fetch');
+  fetchStub.callsFake(() => {
+    return Promise.resolve(200, {});
+  });
+  // This adds a flag to allow us to check if it was 
+  // later overridden in a test by mockFetch().
+  fetchStub.mockFetchWasCalled = false;
+};
+
+const checkForNetworkCalls = mochaContext => {
+  try {
+    // If fetch was not explicitly mocked in the test, check for 
+    // network calls and throw an error if any are found.
+    if (fetch.mockFetchWasCalled === false) {
+      const networkCall = fetch.getCall(0);
+      if (networkCall && networkCall.args[0]) {
+        throw new Error(
+          `Network call made to ${
+            networkCall.args[0]
+          }. Please mock this call with mockFetch.`,
+        );
+      }
+    }
+  } catch (err) {
+    mochaContext.test.error(err);
+  }
+};
+
 const cleanupStorage = () => {
   localStorage.clear();
   sessionStorage.clear();
@@ -182,8 +212,10 @@ export const mochaHooks = {
       'running: ',
       this.currentTest.file.slice(this.currentTest.file.indexOf('src')),
     );
+    interceptNetworkCalls();
   },
   afterEach() {
+    checkForNetworkCalls(this);
     cleanupStorage();
     flushPromises();
   },
