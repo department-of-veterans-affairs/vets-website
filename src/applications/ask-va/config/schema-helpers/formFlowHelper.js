@@ -1,7 +1,12 @@
 import _ from 'lodash';
-import { CHAPTER_2, CHAPTER_3 } from '../../constants';
+import {
+  CHAPTER_2,
+  CHAPTER_3,
+  healthcareCategoryLabels,
+} from '../../constants';
 
 // Personal Information
+import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
@@ -150,7 +155,7 @@ const ch3Pages = {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
-    depends: form => form.selectCategory === 'VA Health Care',
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -227,13 +232,26 @@ const ch3Pages = {
     schema: yourLocationOfResidencePage.schema,
     depends: form =>
       form.contactPreference !== 'U.S. mail' &&
-      form.selectCategory !== 'VA Health Care',
+      !healthcareCategoryLabels.includes(form.selectCategory),
   },
   relationshipToVeteran: {
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
     title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
     uiSchema: relationshipToVeteranPage.uiSchema,
     schema: relationshipToVeteranPage.schema,
+  },
+  yourVAHealthFacility: {
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
+    path: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.PATH,
+    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    CustomPage: YourVAHealthFacilityPage,
+    CustomPageReview: null,
+    schema: {
+      // This does still need to be here or it'll throw an error
+      type: 'object',
+      properties: {}, // The properties can be empty
+    },
+    uiSchema: {}, // UI schema is completely ignored
   },
 };
 
@@ -405,7 +423,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
-  'searchVAMedicalCenter',
+  'yourVAHealthFacility',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',

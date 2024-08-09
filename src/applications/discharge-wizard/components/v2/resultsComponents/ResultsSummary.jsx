@@ -13,13 +13,12 @@ import {
 
 const ResultsSummary = ({ formResponses }) => {
   const forReconsideration =
-    [
-      RESPONSES.PREV_APPLICATION_TYPE_3A,
-      RESPONSES.PREV_APPLICATION_TYPE_3B,
-    ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]) &&
+    [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
+      formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE],
+    ) &&
     ![
-      RESPONSES.FAILURE_TO_EXHAUST_1A,
-      RESPONSES.FAILURE_TO_EXHAUST_1B,
+      RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
+      RESPONSES.FAILURE_TO_EXHAUST_BCNR_YES,
     ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
 
   const airForceAFRBAPortal = determineAirForceAFRBAPortal(formResponses);
