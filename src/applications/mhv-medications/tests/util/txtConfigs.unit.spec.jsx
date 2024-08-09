@@ -129,8 +129,6 @@ describe('Non VA prescription Config', () => {
   });
 });
 
-// Add new test for the medication information page
-
 describe('Medication Information Config', () => {
   it('should convert HTML to text (string) for TXT', () => {
     const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
