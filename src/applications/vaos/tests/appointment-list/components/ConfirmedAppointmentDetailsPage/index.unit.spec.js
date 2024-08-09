@@ -561,8 +561,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `VA appointment on ${yesterday.format(
-          'dddd, MMMM D, YYYY',
+        `Past in-person appointment on ${yesterday.format(
+          'dddd, MMMM DD, YYYY',
         )} | Veterans Affairs`,
       );
     });
