@@ -13,6 +13,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
 import { getFormContent, getFormNumber } from '../helpers';
+import { PrimaryActionLink } from '../config/constants';
 
 const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
@@ -81,6 +82,7 @@ const IntroductionPage = ({ route }) => {
           prefillEnabled={formConfig.prefillEnabled}
           startText="Start uploading your form"
           verifiedPrefillAlert={<></>}
+          customLink={PrimaryActionLink}
         />
       ) : (
         <VaAlert status="info" visible>
