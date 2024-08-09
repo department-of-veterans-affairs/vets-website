@@ -152,7 +152,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getAllByText('January 20, 2021', {
+    const date = screen.getAllByText('January 20, 2021, 4:38 p.m.', {
       selector: 'div',
       exact: true,
     });

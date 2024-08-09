@@ -87,7 +87,7 @@ Details about this test\n
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
-Collecting location: ${record.collectingLocation}\n
+Location: ${record.collectingLocation}\n
 Date completed: ${record.dateCompleted}\n
 ${txtLine}\n\n
 Results\n
@@ -139,7 +139,7 @@ ${record.results}`;
         </h3>
         <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
+          Location
         </h3>
         <p data-testid="microbio-collecting-location">
           {record.collectingLocation}
