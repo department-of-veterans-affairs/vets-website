@@ -3,6 +3,7 @@ import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import { uploadPage } from '../pages/upload';
 import { reviewPage } from '../pages/review';
 import { identificationInformationPage, zipCodePage } from '../pages/loa1';
@@ -34,6 +35,7 @@ const formConfig = (pathname = null) => {
       appType: 'form',
     },
     hideReviewChapters: true,
+    introduction: IntroductionPage,
     formId: 'FORM-UPLOAD-FLOW',
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,

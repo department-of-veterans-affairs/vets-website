@@ -1,15 +1,15 @@
 import React from 'react';
-import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import MainContentSubSection from '../../HubRail/shared/mainContentSubSection';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 import LiSpanAndVaLink from '../../HubRail/shared/liSpanAndVaLink';
 
 const OtherResources = () => {
   return (
-    <MainContentSubDiv
-      id="other-resources-for-schools"
-      header="Other resources for schools"
-    >
+    <div>
+      <section>
+        <div className="va-h-ruled--stars" />
+      </section>
+      <h2 id="other-resources-for-schools">Other resources for schools</h2>
       <va-accordion uswds>
         <va-accordion-item
           open
@@ -197,7 +197,7 @@ const OtherResources = () => {
           pText="Explore additional GI Bill benefits and alternative programs for Veterans, National Guard, and Reserve members ineligible for the Post-9/11 GI Bill."
         />
       </MainContentSubSection>
-    </MainContentSubDiv>
+    </div>
   );
 };
 
