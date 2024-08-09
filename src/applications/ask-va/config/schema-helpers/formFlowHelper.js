@@ -6,6 +6,7 @@ import {
 } from '../../constants';
 
 // Personal Information
+import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
@@ -239,6 +240,19 @@ const ch3Pages = {
     uiSchema: relationshipToVeteranPage.uiSchema,
     schema: relationshipToVeteranPage.schema,
   },
+  yourVAHealthFacility: {
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
+    path: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.PATH,
+    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    CustomPage: YourVAHealthFacilityPage,
+    CustomPageReview: null,
+    schema: {
+      // This does still need to be here or it'll throw an error
+      type: 'object',
+      properties: {}, // The properties can be empty
+    },
+    uiSchema: {}, // UI schema is completely ignored
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -409,7 +423,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
-  'searchVAMedicalCenter',
+  'yourVAHealthFacility',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',
