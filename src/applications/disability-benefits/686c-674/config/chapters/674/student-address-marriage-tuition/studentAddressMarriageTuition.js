@@ -1,4 +1,5 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
+import omit from 'lodash/omit';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { TASK_KEYS } from '../../../constants';
 import { isChapterFieldRequired } from '../../../helpers';
@@ -13,7 +14,10 @@ import { StudentAddressDescription } from './helpers';
 const addressSchema = buildAddressSchema(true);
 
 const studentAddressMarriageTuition = cloneDeep(
-  report674.properties.studentAddressMarriageTuition,
+  omit(report674.properties.studentAddressMarriageTuition, [
+    'properties.datePaymentsBegan',
+    'properties.agencyName',
+  ]),
 );
 
 studentAddressMarriageTuition.properties.address = addressSchema;
@@ -61,30 +65,6 @@ export const uiSchema = {
         'Is student’s tuition or education allowance being paid by the Survivors’ and Dependents’ Educational Assisatnce (DEA), the Federal Compensation Act, or any U.S. government agency or program?',
       'ui:widget': 'yesNo',
       'ui:errorMessages': { required: 'Select an option' },
-    },
-    agencyName: {
-      'ui:required': formData =>
-        formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
-      'ui:title': 'Agency name',
-      'ui:options': {
-        expandUnder: 'tuitionIsPaidByGovAgency',
-        expandUnderCondition: true,
-      },
-      'ui:errorMessages': {
-        required:
-          'Enter the goverment agency paying tuition or education allowance',
-      },
-    },
-    datePaymentsBegan: {
-      ...currentOrPastDateUI('Date payments began'),
-      ...{
-        'ui:required': formData =>
-          formData?.studentAddressMarriageTuition?.tuitionIsPaidByGovAgency,
-        'ui:options': {
-          expandUnder: 'tuitionIsPaidByGovAgency',
-          expandUnderCondition: true,
-        },
-      },
     },
   },
 };
