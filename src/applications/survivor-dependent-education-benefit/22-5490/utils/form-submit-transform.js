@@ -371,7 +371,8 @@ export function transform5490Form(_formConfig, form) {
   const payload = {
     formId: form?.formId,
     '@type': '5490Submission',
-    toeClaimant: {
+    chosenBenefit: form?.data?.chosenBenefit,
+    claimant: {
       suffix: userFullName?.suffix,
       dateOfBirth,
       firstName: userFullName?.first,

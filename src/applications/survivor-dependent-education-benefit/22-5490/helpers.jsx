@@ -164,7 +164,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
     remarriageStatus: formData?.remarriageStatus,
     remarriageDate: formData?.remarriageDate,
     felonyOrWarrant: formData?.felonyOrWarrant,
-    benefitToChoose: formData?.benefitToChoose,
+    chosenBenefit: formData?.chosenBenefit,
     email: emailAddress,
     confirmEmail: emailAddress,
     mobilePhone: mobilePhoneNumber?.replace(/\D/g, ''),

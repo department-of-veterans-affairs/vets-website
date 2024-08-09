@@ -42,12 +42,20 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
+function isValidName(str) {
+  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
+}
+
+function isValidLastName(str) {
+  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+}
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/meb_api/v0/forms_submit_claim`,
   transformForSubmit: transform5490Form,
-  trackingPrefix: 'edu-22-5490',
+  trackingPrefix: 'edu-22-5490-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
@@ -67,9 +75,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS .',
   },
-  title: 'Apply for education benefits as an eligible dependent',
-  subTitle:
-    'Equal to VA Form 22-5490 (Dependents’ Application for VA Education Benefits)',
+  subTitle: "Form 22-5490 (Dependent's Application for VA Education Benefits)",
   defaultDefinitions: {
     fullName,
     ssn,
@@ -99,18 +105,89 @@ const formConfig = {
             fullName: {
               ...fullNameUI,
               'ui:title': 'Veteran or service member information',
+              first: {
+                ...fullNameUI.first,
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your first name');
+                      } else if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
+                    }
+                  },
+                ],
+              },
+              middle: {
+                ...fullNameUI.middle,
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidName(field)) {
+                      if (field[0] === ' ' || field[0] === "'") {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
+                        );
+                      }
+                    }
+                  },
+                ],
+              },
+              last: {
+                ...fullNameUI.last,
+                'ui:validations': [
+                  (errors, field) => {
+                    if (!isValidLastName(field)) {
+                      if (field.length === 0) {
+                        errors.addError('Please enter your last name');
+                      } else if (
+                        field[0] === ' ' ||
+                        field[0] === "'" ||
+                        field[0] === '-'
+                      ) {
+                        errors.addError(
+                          'First character must be a letter with no leading space.',
+                        );
+                      } else {
+                        errors.addError(
+                          'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
+                        );
+                      }
+                    }
+                  },
+                ],
+              },
+            },
+            dateOfBirth: {
+              ...currentOrPastDateUI('Date of birth'),
             },
             ssn: ssnUI,
           },
           schema: {
             type: 'object',
-            required: ['relationShipToMember', 'fullName', 'ssn'],
+            required: [
+              'relationShipToMember',
+              'fullName',
+              'ssn',
+              'dateOfBirth',
+            ],
             properties: {
               relationShipToMember: {
                 type: 'string',
                 enum: ['spouse', 'child'],
               },
               fullName,
+              dateOfBirth: date,
               ssn,
             },
           },
@@ -217,7 +294,7 @@ const formConfig = {
                 </>
               ),
             },
-            benefitToChoose: {
+            chosenBenefit: {
               'ui:title': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
@@ -259,7 +336,7 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: ['benefitToChoose'],
+            required: ['chosenBenefit'],
             properties: {
               'view:subHeading': {
                 type: 'object',
@@ -273,7 +350,7 @@ const formConfig = {
                 type: 'object',
                 properties: {},
               },
-              benefitToChoose: {
+              chosenBenefit: {
                 type: 'string',
                 enum: ['fry', 'dea'],
               },
