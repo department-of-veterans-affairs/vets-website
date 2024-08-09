@@ -38,7 +38,11 @@ class LandingPage {
 
   initializeApi = () => {
     Object.entries(responses).forEach(([request, response]) => {
-      cy.intercept(request, response);
+      // account for the difference in how mocker-api and cypress handle wildcards
+      cy.intercept(
+        request.endsWith('(.*)') ? request.replace('(.*)', '*') : request,
+        response,
+      );
     });
   };
 }
