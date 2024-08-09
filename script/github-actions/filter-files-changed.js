@@ -6,13 +6,12 @@ const changedFiles = process.env.CHANGED_FILE_PATHS
   ? process.env.CHANGED_FILE_PATHS.split(' ')
   : [];
 
-console.log(changedFiles);
-const files = changedFiles
-  // .slice(1, -1) // remove unnecessary characters
-  // .split(',')
-  .filter(file => fs.existsSync(file)); // remove files that don't exist
+const files = changedFiles.filter(file => fs.existsSync(file)); // remove files that don't exist
+
+console.log(files);
 
 const filteredJSFiles = files.filter(file => /.+\.jsx?$/.test(file)).join(' ');
+console.log(filteredJSFiles);
 const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
