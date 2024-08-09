@@ -63,6 +63,7 @@ const formConfig = {
       fullNamePath: 'veteranFullName',
     },
   },
+  prefillEnabled: true,
   submissionError: SubmissionError,
   formId: '10-7959F-1',
   saveInProgress: {
@@ -74,7 +75,6 @@ const formConfig = {
     },
   },
   version: 0,
-  prefillEnabled: true,
   savedFormMessages: {
     notFound: 'Please start over to register for FMP benefits.',
     noAuth:
