@@ -14,7 +14,7 @@ import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fie
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import { relationshipLabels, incomeTypeEarnedLabels } from '../../../labels';
 import {
-  otherExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
   otherIncomeTypeExplanationRequired,
   recipientNameRequired,
   showRecipientName,
@@ -107,7 +107,12 @@ const incomeRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'associatedIncomes',
+        ),
     },
     recipientName: {
       'ui:title': 'Tell us the income recipient’s name',
@@ -117,7 +122,8 @@ const incomeRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: showRecipientName,
       },
-      'ui:required': recipientNameRequired,
+      'ui:required': (formData, index) =>
+        recipientNameRequired(formData, index, 'associatedIncomes'),
     },
   },
   schema: {
@@ -148,7 +154,12 @@ const incomeTypePage = {
         expandUnder: 'incomeType',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherIncomeTypeExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherIncomeTypeExplanationRequired(
+          formData,
+          index,
+          'associatedIncomes',
+        ),
     },
     grossMonthlyIncome: merge({}, currencyUI('Gross monthly income'), {
       'ui:options': {
