@@ -207,10 +207,6 @@ export default function TermsOfUse() {
           clickToClose
           onCloseEvent={() => setShowDeclineModal(false)}
           modalTitle="Decline the terms of use and sign out?"
-          onPrimaryButtonClick={() => handleTouClick('decline')}
-          onSecondaryButtonClick={() => setShowDeclineModal(false)}
-          primaryButtonText="Decline and sign out"
-          secondaryButtonText="Go back"
           data-testid="modal-show"
         >
           {error.isError && (
@@ -234,6 +230,17 @@ export default function TermsOfUse() {
             account and accept these terms. If you don’t have one of these
             accounts, you’ll need to create one.
           </p>
+          <va-button
+            onClick={() => handleTouClick('decline')}
+            disabled={isDisabled}
+            text="Decline and sign out"
+          />
+          <va-button
+            onClick={() => setShowDeclineModal(false)}
+            text="Go back"
+            secondary
+            disabled={isDisabled}
+          />
         </VaModal>
       </section>
     </>
