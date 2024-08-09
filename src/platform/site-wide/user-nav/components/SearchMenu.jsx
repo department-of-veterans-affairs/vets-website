@@ -5,10 +5,8 @@ import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
-import * as Sentry from '@sentry/browser';
 
-import { apiRequest } from 'platform/utilities/api';
-import SearchDropdownComponent from 'applications/search/components/SearchDropdown/SearchDropdownComponent';
+import SearchDropdownComponent from './SearchDropdownComponent';
 import DropDownPanel from './DropDownPanel/DropDownPanel';
 import { replaceWithStagingDomain } from '../../../utilities/environment/stagingDomains';
 
@@ -105,39 +103,6 @@ export class SearchMenu extends React.Component {
 
     // relocate to search results, preserving history
     window.location.assign(searchUrl);
-  };
-
-  // TA2.0
-  fetchDropDownSuggestions = async inputValue => {
-    // encode user input for query to suggestions url
-    const encodedInput = encodeURIComponent(inputValue);
-
-    // fetch suggestions
-    try {
-      const apiRequestOptions = {
-        method: 'GET',
-      };
-      const fetchedSuggestions = await apiRequest(
-        `/search_typeahead?query=${encodedInput}`,
-        apiRequestOptions,
-      );
-
-      if (fetchedSuggestions.length !== 0) {
-        return fetchedSuggestions.sort((a, b) => {
-          return a.length - b.length;
-        });
-      }
-      return [];
-      // if we fail to fetch suggestions
-    } catch (error) {
-      if (error?.error?.code === 'OVER_RATE_LIMIT') {
-        Sentry.captureException(
-          new Error(`"OVER_RATE_LIMIT" - Search Typeahead`),
-        );
-      }
-      Sentry.captureException(error);
-    }
-    return [];
   };
 
   onInputSubmit = componentState => {
@@ -286,7 +251,6 @@ export class SearchMenu extends React.Component {
         startingValue=""
         submitOnClick
         submitOnEnter
-        fetchSuggestions={this.fetchDropDownSuggestions}
         onInputSubmit={this.onInputSubmit}
         onSuggestionSubmit={this.onSuggestionSubmit}
       />

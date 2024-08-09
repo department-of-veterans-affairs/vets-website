@@ -1,7 +1,13 @@
+// March 2024: This file is duplicated from the search application (src/applications/search) because we
+// converted the search app used on the page in /search/?query={query} to use web components
+// The header cannot support web components yet due to its integration with TeamSites, so this is the original
+// non-web-component version of the Search app
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import { isSearchTermValid } from '~/platform/utilities/search-utilities';
+import {
+  fetchTypeaheadSuggestions,
+  isSearchTermValid,
+} from '~/platform/utilities/search-utilities';
 
 const Keycodes = {
   Backspace: 8,
@@ -88,12 +94,6 @@ class SearchDropdownComponent extends React.Component {
      * */
     fetchInputValue: PropTypes.func,
     /**
-     * A function that is passed the input value as a param,
-     * and is called (with a debounce) whenever the value of the input field changes
-     * this function MUST return an array of strings (suggestions)
-     * */
-    fetchSuggestions: PropTypes.func.isRequired,
-    /**
      * A boolean value for whether or not the search button shall move underneath the input field when viewed on a small screen
      * */
     mobileResponsive: PropTypes.bool,
@@ -120,7 +120,6 @@ class SearchDropdownComponent extends React.Component {
     canSubmit: false,
     id: '',
     debounceRate: 200,
-    fetchSuggestions: undefined,
     formatSuggestions: false,
     fullWidthSuggestions: false,
     mobileResponsive: false,
@@ -246,9 +245,8 @@ class SearchDropdownComponent extends React.Component {
 
   // call the fetchSuggestions prop and save the returned value into state
   fetchSuggestions = async inputValue => {
-    const { fetchSuggestions } = this.props;
     this.setState({ fetchingSuggestions: true });
-    const suggestions = await fetchSuggestions(inputValue);
+    const suggestions = await fetchTypeaheadSuggestions(inputValue);
     this.setState({ suggestions, fetchingSuggestions: false });
   };
 
@@ -501,7 +499,7 @@ class SearchDropdownComponent extends React.Component {
     }
   };
 
-  // derive the ally status message for screen reade
+  // derive the ally status message for screen reader
   setA11yStatusMessage = () => {
     const {
       isOpen,
@@ -512,6 +510,7 @@ class SearchDropdownComponent extends React.Component {
     } = this.state;
 
     const suggestionsCount = suggestions?.length;
+
     if (inputValue.length > 255) {
       this.setState({
         a11yStatusMessage:
