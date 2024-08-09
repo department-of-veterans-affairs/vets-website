@@ -99,7 +99,15 @@ const generateUser = ({
   };
 };
 
+const USER_MOCKS = Object.freeze({
+  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
+  NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
+  MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: 'mhv' }),
+  DEFAULT: generateUser(),
+});
+
 module.exports = {
-  defaultUser,
   generateUser,
+  USER_MOCKS,
 };

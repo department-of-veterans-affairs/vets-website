@@ -1,4 +1,5 @@
 import { generateUser } from '../../../mocks/api/user';
+import responses from '../../../mocks/api';
 
 class LandingPage {
   constructor() {
@@ -20,18 +21,26 @@ class LandingPage {
     verified = true,
     registered = true,
     mhvAccountState = 'OK',
+    user,
   } = {}) => {
+    this.initializeApi();
     let props = { mhvAccountState };
     if (!verified) props = { ...props, loa: 1 };
     if (!registered) props = { ...props, vaPatient: false };
-    const user = generateUser(props);
-    cy.login(user);
+    const userMock = user || generateUser(props);
+    cy.login(userMock);
     cy.visit(this.pageUrl);
     this.loaded();
     this.validateURL();
   };
 
   visit = props => this.visitPage(props);
+
+  initializeApi = () => {
+    Object.entries(responses).forEach(([request, response]) => {
+      cy.intercept(request, response);
+    });
+  };
 }
 
 export default new LandingPage();
