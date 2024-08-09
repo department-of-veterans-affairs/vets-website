@@ -23,7 +23,6 @@ class LandingPage {
     mhvAccountState = 'OK',
     user,
   } = {}) => {
-    this.initializeApi();
     let props = { mhvAccountState };
     if (!verified) props = { ...props, loa: 1 };
     if (!registered) props = { ...props, vaPatient: false };
