@@ -77,8 +77,8 @@ describe('hca VeteranInformation page', () => {
       formData: { ...mockData, 'view:isLoggedIn': true },
     });
     const { selectors } = subject({ mockStore, props });
-    expect(selectors.profile).to.exist;
-    expect(selectors.guest).to.not.exist;
+    expect(selectors.profileCard).to.exist;
+    expect(selectors.guestCard).to.not.exist;
   });
 
   it('should render Veteran information from ID form when the user is not logged in', () => {
@@ -87,8 +87,8 @@ describe('hca VeteranInformation page', () => {
       formData: mockData,
     });
     const { selectors } = subject({ mockStore, props });
-    expect(selectors.profile).to.not.exist;
-    expect(selectors.guest).to.exist;
+    expect(selectors.profileCard).to.not.exist;
+    expect(selectors.guestCard).to.exist;
   });
 
   it('should fire `goBack` method when the `back` button is clicked', () => {
