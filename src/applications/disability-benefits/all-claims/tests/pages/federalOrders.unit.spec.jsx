@@ -1,18 +1,37 @@
 import React from 'react';
-import moment from 'moment';
 import { expect } from 'chai';
 import { add, format } from 'date-fns';
 import sinon from 'sinon';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render, fireEvent } from '@testing-library/react';
+import { within } from '@testing-library/dom';
+import userEvent from '@testing-library/user-event';
 import {
-  DefinitionTester,
-  fillDate,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils';
-import { mount } from 'enzyme';
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 const formatDate = date => format(date, 'yyyy-MM-dd');
 const daysFromToday = days => formatDate(add(new Date(), { days }));
+const fillDate = (container, target, date) => {
+  const [year, month, day] = date
+    .split('-')
+    .map(field => field.replace(/^0+/, ''));
+  const monthSelector = `select[name="${target}Month"]`;
+  const daySelector = `select[name="${target}Day"]`;
+  const yearSelector = `input[name="${target}Year"]`;
+
+  fireEvent.change($(yearSelector, container), {
+    target: { value: year },
+  });
+  fireEvent.change($(monthSelector, container), {
+    target: { value: month },
+  });
+  fireEvent.change($(daySelector, container), {
+    target: { value: day },
+  });
+};
 
 describe('Federal orders info', () => {
   const {
@@ -21,7 +40,7 @@ describe('Federal orders info', () => {
   } = formConfig.chapters.veteranDetails.pages.federalOrders;
 
   it('should render', () => {
-    const form = mount(
+    render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -31,12 +50,11 @@ describe('Federal orders info', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio-option').length).to.equal(2);
   });
 
   it('should render activation fields', () => {
-    const form = mount(
+    const { container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -46,20 +64,27 @@ describe('Federal orders info', () => {
       />,
     );
 
-    selectRadio(
-      form,
-      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
-      'Y',
+    expect($('va-radio', container)).to.have.attribute(
+      'label',
+      'Are you currently activated on federal orders in the Reserve or the National Guard?',
     );
 
-    expect(form.find('input').length).to.equal(4);
-    expect(form.find('select').length).to.equal(4);
-    form.unmount();
+    expect($$('va-radio-option[label="Yes"', container)).to.exist;
+    expect($$('va-radio-option[label="No"', container)).to.exist;
+    expect($$('input').length).to.equal(0);
+    expect($$('select').length).to.equal(0);
+
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
+
+    expect($$('input').length).to.equal(2);
+    expect($$('select').length).to.equal(4);
   });
 
   it('should fail to submit when no data is filled out', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -69,16 +94,15 @@ describe('Federal orders info', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.false;
+    expect($('va-radio').error).to.include('Please provide a response');
   });
 
-  it('should submit when data filled in', () => {
+  it('should submit when data filled in', async () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -94,32 +118,30 @@ describe('Federal orders info', () => {
       />,
     );
 
-    selectRadio(
-      form,
-      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
-      'Y',
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
       '2010-05-05',
     );
+
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(160, 'days') // < 180 days
-        .format('YYYY-MM-DD'),
+      daysFromToday(160), // < 180 days
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.true;
+    expect($('va-radio').error).to.be.null;
   });
+
   it('should fail to submit when activation date is in the future', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -135,30 +157,33 @@ describe('Federal orders info', () => {
       />,
     );
 
-    selectRadio(
-      form,
-      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
-      'Y',
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
       daysFromToday(10),
     );
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
       daysFromToday(20),
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.false;
+    expect(
+      within(getByRole('alert')).getByText(
+        'Enter an activation date in the past',
+      ),
+    ).to.exist;
   });
+
   it('should fail to submit when separation date is before activation', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -173,31 +198,30 @@ describe('Federal orders info', () => {
         onSubmit={onSubmit}
       />,
     );
-
-    selectRadio(
-      form,
-      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
-      'Y',
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
       daysFromToday(-10),
     );
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
       daysFromToday(-20),
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.false;
+    expect(
+      within(getByRole('alert')).getByText('Enter a future separation date'),
+    ).to.exist;
   });
   it('should fail to submit when separation date is > 180 days in the future', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText, container, getByRole } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -213,29 +237,27 @@ describe('Federal orders info', () => {
       />,
     );
 
-    selectRadio(
-      form,
-      'root_serviceInformation_reservesNationalGuardService_view:isTitle10Activated',
-      'Y',
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'Y' },
+    });
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_title10ActivationDate',
-      moment()
-        .add(-10, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(-10),
     );
     fillDate(
-      form,
+      container,
       'root_serviceInformation_reservesNationalGuardService_title10Activation_anticipatedSeparationDate',
-      moment()
-        .add(190, 'days')
-        .format('YYYY-MM-DD'),
+      daysFromToday(190),
     );
 
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
+    const submitButton = getByText(/submit/i);
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.false;
+    expect(
+      within(getByRole('alert')).getByText(
+        'Enter a separation date less than 180 days in the future',
+      ),
+    ).to.exist;
   });
 });
