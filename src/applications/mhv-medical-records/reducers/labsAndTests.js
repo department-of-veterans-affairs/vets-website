@@ -57,8 +57,10 @@ const getLabLocation = (performer, record) => {
 };
 
 const distillChemHemNotes = (notes, valueProp) => {
+  let noteString;
   if (isArrayAndHasItems(notes)) {
-    return notes.map(note => note[valueProp]);
+    noteString = notes.map(note => note[valueProp]);
+    if (noteString.toString()) return noteString;
   }
   return null;
 };
@@ -166,7 +168,7 @@ const convertChemHemRecord = record => {
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
     name: extractOrderedTests(record) || 'Chemistry/Hematology',
-    category: 'Chemistry/Hematology',
+    category: 'Chemistry and hematology',
     orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -214,10 +216,10 @@ const convertMicrobiologyRecord = record => {
     category: '',
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
     date: specimen?.collection?.collectedDateTime
-      ? formatDate(specimen.collection.collectedDateTime)
+      ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
       : EMPTY_FIELD,
     sampleFrom: specimen?.type?.text || EMPTY_FIELD,
     sampleTested: specimen?.collection?.bodySite?.text || EMPTY_FIELD,
@@ -226,7 +228,9 @@ const convertMicrobiologyRecord = record => {
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
-    sortDate: record.effectiveDateTime,
+    sortDate:
+      specimen?.collection?.collectedDateTime &&
+      dateFormatWithoutTimezone(specimen.collection.collectedDateTime),
   };
 };
 
@@ -253,6 +257,7 @@ const convertPathologyRecord = record => {
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
+    labComments: record.labComments || EMPTY_FIELD,
   };
 };
 
@@ -268,8 +273,9 @@ const convertEkgRecord = record => {
     category: '',
     orderedBy: 'DOE, JANE A',
     requestedBy: 'John J. Lydon',
+    signedBy: 'Beth M. Smith',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
-    facility: 'school parking lot',
+    facility: 'Washington DC VAMC',
     sortDate: record.date,
   };
 };
@@ -338,20 +344,24 @@ const getRecordType = record => {
       record.code?.coding?.some(
         coding => coding.code === loincCodes.MICROBIOLOGY,
       )
-    )
+    ) {
       return labTypes.MICROBIOLOGY;
+    }
     if (
       record.code?.coding?.some(coding => coding.code === loincCodes.PATHOLOGY)
-    )
+    ) {
       return labTypes.PATHOLOGY;
+    }
   }
   if (record.resourceType === fhirResourceTypes.DOCUMENT_REFERENCE) {
-    if (record.type?.coding.some(coding => coding.code === loincCodes.EKG))
+    if (record.type?.coding?.some(coding => coding.code === loincCodes.EKG)) {
       return labTypes.EKG;
+    }
     if (
       record.type?.coding?.some(coding => coding.code === loincCodes.RADIOLOGY)
-    )
+    ) {
       return labTypes.OTHER;
+    }
   }
   if (Object.prototype.hasOwnProperty.call(record, 'radiologist')) {
     return labTypes.RADIOLOGY;
