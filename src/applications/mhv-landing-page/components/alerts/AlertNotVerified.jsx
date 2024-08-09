@@ -23,7 +23,6 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
 
   return (
     <IdentityNotVerified
-      disableAnalytics
       headline={headline}
       showHelpContent={false}
       showVerifyIdenityHelpInfo
@@ -33,7 +32,7 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
 };
 
 AlertNotVerified.defaultProps = {
-  cspId: CSP_IDS.ID_ME,
+  cspId: CSP_IDS.DS_LOGON,
   recordEvent: recordEventFn,
 };
 

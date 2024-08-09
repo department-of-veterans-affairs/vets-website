@@ -1,10 +1,15 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-import AlertUnregistered from '../components/alerts/AlertUnregistered';
-import AlertMhvRegistration from '../components/alerts/AlertMhvRegistration';
-import AlertMhvBasicAccount from '../components/alerts/AlertMhvBasicAccount';
-import AlertVerifyAndRegister from '../components/alerts/AlertVerifyAndRegister';
+// import { CSP_IDS } from '~/platform/user/authentication/constants';
+
+import {
+  AlertMhvBasicAccount,
+  AlertMhvRegistration,
+  // AlertNotVerified,
+  AlertUnregistered,
+  AlertVerifyAndRegister,
+} from '../components/alerts';
 
 import {
   hasMhvAccount,
@@ -33,6 +38,10 @@ const Alerts = () => {
   if (renderVerifyAndRegisterAlert) {
     return <AlertVerifyAndRegister cspId={cspId} />;
   }
+
+  // if (!userVerified && cspId === CSP_IDS.DS_LOGON) {
+  //   return <AlertNotVerified cspId={cspId} />;
+  // }
 
   if (!userRegistered) {
     return <AlertUnregistered />;
