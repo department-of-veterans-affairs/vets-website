@@ -5,10 +5,13 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  selectSchema,
+  selectUI,
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
@@ -18,11 +21,15 @@ const arrayBuilderOptions = {
   nounPlural: 'state or Federal agencies or courts',
   required: false,
   isItemIncomplete: item =>
-    !item?.name ||
+    !item?.agencyOrCourt ||
+    (item?.agencyOrCourt === 'Other' && !item?.otherAgencyOrCourt) ||
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
-    getItemName: item => item?.name,
+    getItemName: item =>
+      item?.agencyOrCourt === 'Other'
+        ? item?.otherAgencyOrCourt
+        : item?.agencyOrCourt,
     cardDescription: item =>
       `${formatReviewDate(item?.admissionDate)}, #${
         item?.membershipOrRegistrationNumber
@@ -39,18 +46,30 @@ const agencyOrCourtPage = {
         'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
-    name: textUI('Agency/court'),
+    agencyOrCourt: selectUI('Agency/court'),
+    otherAgencyOrCourt: textUI({
+      title: 'Name of agency or court',
+      expandUnder: 'agencyOrCourt',
+      expandUnderCondition: 'Other',
+      required: (formData, index) =>
+        formData?.agenciesOrCourts?.[index]?.agencyOrCourt === 'Other',
+    }),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      agencyOrCourt: selectSchema(agenciesOrCourtsOptions),
+      otherAgencyOrCourt: textSchema,
       admissionDate: currentOrPastDateSchema,
       membershipOrRegistrationNumber: textSchema,
     },
-    required: ['name', 'admissionDate', 'membershipOrRegistrationNumber'],
+    required: [
+      'agencyOrCourt',
+      'admissionDate',
+      'membershipOrRegistrationNumber',
+    ],
   },
 };
 

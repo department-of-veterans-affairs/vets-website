@@ -108,7 +108,8 @@
     ],
     "agenciesOrCourts": [
       {
-        "name": "California State Bar",
+        "agencyOrCourt": "Other",
+        "otherAgencyOrCourt": "Other Agency or Court",
         "admissionDate": "2010-01-01",
         "membershipOrRegistrationNumber": "54321"
       }

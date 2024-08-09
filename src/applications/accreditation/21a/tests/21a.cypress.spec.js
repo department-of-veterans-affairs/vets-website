@@ -119,6 +119,10 @@ const testConfig = createTestConfig(
           value: false,
         },
       ]),
+      'agencies-courts': selectDropdownHook(
+        'agencyOrCourt',
+        data => data.agencyOrCourt,
+      ),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
           text:
