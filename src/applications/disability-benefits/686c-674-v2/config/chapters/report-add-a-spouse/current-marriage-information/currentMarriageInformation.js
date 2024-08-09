@@ -1,44 +1,13 @@
-import constants from 'vets-json-schema/dist/constants.json';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-
-const MILITARY_STATE_VALUES = constants.militaryStates.map(
-  state => state.value,
-);
-const filteredStates = constants.states.USA.filter(
-  state => !MILITARY_STATE_VALUES.includes(state.value),
-);
-
-const STATE_VALUES = filteredStates.map(state => state.value);
-const STATE_NAMES = filteredStates.map(state => state.label);
+import { customLocationSchema } from '../../../helpers';
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageInformation: {
-      type: 'object',
-      properties: {
-        marriedOutsideUsa: {
-          type: 'boolean',
-          default: false,
-        },
-        location: {
-          type: 'object',
-          properties: {
-            state: {
-              type: 'string',
-              enum: STATE_VALUES,
-              enumNames: STATE_NAMES,
-            },
-            city: {
-              type: 'string',
-            },
-          },
-        },
-      },
-    },
+    currentMarriageInformation: customLocationSchema,
   },
 };
 
@@ -77,19 +46,11 @@ export const uiSchema = {
             if (marriedOutsideUsa) {
               updatedSchemaUI['ui:options'].inert = true;
               location.state = undefined;
-              return {
-                type: 'string',
-                enum: STATE_VALUES,
-                enumNames: STATE_NAMES,
-              };
+              return _schema;
             }
 
             updatedSchemaUI['ui:options'].inert = false;
-            return {
-              type: 'string',
-              enum: STATE_VALUES,
-              enumNames: STATE_NAMES,
-            };
+            return _schema;
           },
         },
       },

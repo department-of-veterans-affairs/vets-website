@@ -11,6 +11,10 @@ import * as spouseMarriageHistory from './current-spouse-marriage-history/curren
 import * as spouseMarriageHistoryPartTwo from './current-spouse-marriage-history/currentSpouseMarriageHistoryPartTwo';
 import * as additionalQuestionsView from './current-spouse-marriage-history-details/additionalQuestionsView';
 import * as spouseMarriageHistoryDetails from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetails';
+import * as spouseMarriageHistoryDetailsPartTwo from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartTwo';
+import * as spouseMarriageHistoryDetailsPartThree from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartThree';
+import * as spouseMarriageHistoryDetailsPartFour from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartFour';
+import * as spouseMarriageHistoryDetailsPartFive from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartFive';
 import * as veteranMarriageHistory from './veteran-marriage-history/veteranMarriageHistory';
 import * as veteranMarriageHistoryDetails from './veteran-marriage-history-details/veteranMarriageHistoryDetails';
 
@@ -28,6 +32,10 @@ export {
   spouseMarriageHistoryPartTwo,
   additionalQuestionsView,
   spouseMarriageHistoryDetails,
+  spouseMarriageHistoryDetailsPartTwo,
+  spouseMarriageHistoryDetailsPartThree,
+  spouseMarriageHistoryDetailsPartFour,
+  spouseMarriageHistoryDetailsPartFive,
   veteranMarriageHistory,
   veteranMarriageHistoryDetails,
 };

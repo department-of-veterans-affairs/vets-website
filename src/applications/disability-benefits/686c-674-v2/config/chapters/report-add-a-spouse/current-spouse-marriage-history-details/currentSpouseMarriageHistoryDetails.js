@@ -1,68 +1,52 @@
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import { addSpouse } from '../../../utilities';
-import { SpouseTitle } from '../../../../components/ArrayPageItemSpouseTitle';
-import { locationUISchema } from '../../../location-schema';
+import {
+  radioUI,
+  radioSchema,
+  textUI,
+  textSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import { marriageEnums, spouseFormerMarriageLabels } from './helpers';
+import { FormerSpouseHeader } from '../../../../components/SpouseViewField';
 
-export const schema = addSpouse.properties.spouseMarriageHistoryDetails;
+export const schema = {
+  type: 'object',
+  properties: {
+    spouseMarriageHistory: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        properties: {
+          reasonMarriageEnded: radioSchema(marriageEnums),
+          reasonMarriageEndedOther: textSchema,
+        },
+      },
+    },
+  },
+};
 
 export const uiSchema = {
   spouseMarriageHistory: {
     items: {
-      'ui:title': SpouseTitle,
-      startDate: {
-        ...currentOrPastDateUI('Date of marriage'),
-        ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-        },
-      },
-      startLocation: locationUISchema(
-        'spouseMarriageHistory',
-        'startLocation',
-        true,
-        'Place of marriage to former spouse',
-        'addSpouse',
-        'Country marriage occurred',
-        'State marriage occurred',
-        'City marriage occurred',
-      ),
+      'ui:title': FormerSpouseHeader,
       reasonMarriageEnded: {
-        'ui:required': formData => formData.spouseWasMarriedBefore === true,
-        'ui:title': 'Reason marriage ended',
-        'ui:widget': 'radio',
-        'ui:options': {
-          updateSchema: () => ({
-            enumNames: ['Divorce', 'Death', 'Annulment or other'],
-          }),
-        },
+        ...radioUI({
+          title: 'How did your marriage end?',
+          required: () => true,
+          labels: spouseFormerMarriageLabels,
+        }),
       },
       reasonMarriageEndedOther: {
+        ...textUI('Briefly describe how their marriage ended'),
         'ui:required': (formData, index) =>
           formData.spouseMarriageHistory[`${index}`].reasonMarriageEnded ===
           'Other',
-        'ui:title': 'Give a brief explanation',
         'ui:options': {
           expandUnder: 'reasonMarriageEnded',
           expandUnderCondition: 'Other',
           keepInPageOnReview: true,
-          widgetClassNames: 'vads-u-margin-y--0',
         },
       },
-      endDate: {
-        ...currentOrPastDateUI('Date marriage ended'),
-        ...{
-          'ui:required': formData => formData.spouseWasMarriedBefore,
-        },
-      },
-      endLocation: locationUISchema(
-        'spouseMarriageHistory',
-        'endLocation',
-        true,
-        'Place marriage with former spouse ended',
-        'addSpouse',
-        'Country marriage ended',
-        'State marriage ended',
-        'City marriage ended',
-      ),
     },
   },
 };

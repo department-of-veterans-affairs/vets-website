@@ -1,5 +1,6 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import constants from 'vets-json-schema/dist/constants.json';
 
 export const isChapterFieldRequired = (formData, option) =>
   formData[`view:selectable686Options`][option];
@@ -194,6 +195,38 @@ export const classesPerWeekUiSchema = {
       }
     },
   ],
+};
+
+const MILITARY_STATE_VALUES = constants.militaryStates.map(
+  state => state.value,
+);
+const filteredStates = constants.states.USA.filter(
+  state => !MILITARY_STATE_VALUES.includes(state.value),
+);
+
+export const STATE_VALUES = filteredStates.map(state => state.value);
+export const STATE_NAMES = filteredStates.map(state => state.label);
+
+export const customLocationSchema = {
+  type: 'object',
+  properties: {
+    marriedOutsideUsa: {
+      type: 'boolean',
+    },
+    location: {
+      type: 'object',
+      properties: {
+        state: {
+          type: 'string',
+          enum: STATE_VALUES,
+          enumNames: STATE_NAMES,
+        },
+        city: {
+          type: 'string',
+        },
+      },
+    },
+  },
 };
 
 export const PensionIncomeRemovalQuestionTitle = (
