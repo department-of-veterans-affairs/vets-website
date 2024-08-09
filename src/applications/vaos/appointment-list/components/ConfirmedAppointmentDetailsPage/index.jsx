@@ -10,7 +10,11 @@ import PageLayout from '../PageLayout';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
-import { getConfirmedAppointmentDetailsInfo } from '../../redux/selectors';
+import {
+  getConfirmedAppointmentDetailsInfo,
+  selectIsCanceled,
+  selectIsPast,
+} from '../../redux/selectors';
 import {
   selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
@@ -20,6 +24,11 @@ import DetailsVA from './DetailsVA';
 import DetailsCC from './DetailsCC';
 import DetailsVideo from './DetailsVideo';
 import VideoLayout from '../../../components/layout/VideoLayout';
+import {
+  isAtlasVideoAppointment,
+  isClinicVideoAppointment,
+  isVAPhoneAppointment,
+} from '../../../services/appointment';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -60,18 +69,53 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   useEffect(
     () => {
-      const pageTitle = isCommunityCare ? 'Community care' : 'VA';
+      let pageTitle = 'VA appointment on';
+      let prefix = null;
+
+      if (selectIsPast(appointment)) prefix = 'Past';
+      else if (selectIsCanceled(appointment)) prefix = 'Canceled';
+
+      if (isCommunityCare)
+        pageTitle = prefix
+          ? `${prefix} community care appointment on`
+          : 'Community care appointment on';
+      if (isVideo) {
+        pageTitle = prefix
+          ? `${prefix} video appointment on`
+          : 'Video appointment on';
+        if (isClinicVideoAppointment(appointment)) {
+          pageTitle = prefix
+            ? `${prefix} video appointment at VA location on`
+            : 'Video appointment at VA location on';
+        }
+        if (isAtlasVideoAppointment(appointment)) {
+          pageTitle = prefix
+            ? `${prefix} video appointment at an ATLAS location on`
+            : 'Video appointment at an ATLAS location on';
+        }
+      } else if (isVAPhoneAppointment(appointment)) {
+        pageTitle = prefix
+          ? `${prefix} phone appointment on`
+          : 'Phone appointment on';
+      }
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
         ? ' | Veterans Affairs'
         : '';
+
       if (appointment && appointmentDate) {
-        document.title = `${pageTitle} appointment on ${appointmentDate.format(
+        document.title = `${pageTitle} ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
         )}${pageTitleSuffix}`;
         scrollAndFocus();
       }
     },
-    // [appointment, appointmentDate, isCommunityCare, featureBreadcrumbUrlUpdateæ],
+    [
+      appointment,
+      appointmentDate,
+      isCommunityCare,
+      featureBreadcrumbUrlUpdate,
+      isVideo,
+    ],
   );
 
   useEffect(
