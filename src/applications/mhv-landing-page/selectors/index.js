@@ -19,6 +19,8 @@ import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
   isAuthenticatedWithSSOe,
@@ -35,4 +37,6 @@ export {
   selectProfile,
   signInServiceEnabled,
   hasMhvAccount,
+  showVerifyAndRegisterAlert,
+  hasMhvBasicAccount,
 };

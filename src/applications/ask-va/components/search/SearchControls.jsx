@@ -66,7 +66,8 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City or postal code{' '}
+            City or postal code
+            <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
@@ -134,7 +135,9 @@ const SearchControls = props => {
   return (
     <div className="search-controls-container clearfix">
       <div id="facility-search-controls">
-        <div className="columns">{renderLocationInputField()}</div>
+        <div className="columns vads-u-padding-0">
+          {renderLocationInputField()}
+        </div>
       </div>
     </div>
   );
