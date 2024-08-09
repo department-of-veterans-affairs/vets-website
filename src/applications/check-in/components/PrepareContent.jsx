@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useFormRouting } from '../hooks/useFormRouting';
+import HowToLink from './HowToLink';
 
 const PrepareContent = props => {
   const { smallHeading, router, appointmentCount } = props;
@@ -41,6 +42,7 @@ const PrepareContent = props => {
             {t('find-out-what-to-bring')}
           </a>
         </p>
+        <HowToLink />
       </div>
     );
   }
