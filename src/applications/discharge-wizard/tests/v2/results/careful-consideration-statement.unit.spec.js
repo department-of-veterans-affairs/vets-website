@@ -29,7 +29,7 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
         formResponses={{
           [SHORT_NAME_MAP.REASON]: null,
           [SHORT_NAME_MAP.DISCHARGE_TYPE]: null,
-          [SHORT_NAME_MAP.PRIOR_SERVICE]: RESPONSES.PRIOR_SERVICE_1,
+          [SHORT_NAME_MAP.PRIOR_SERVICE]: RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
         }}
       />,
     );
@@ -41,8 +41,8 @@ describe('Discharge Wizard CarefulConsiderationStatement', () => {
     const wrapper = mount(
       <CarefulConsiderationStatement
         formResponses={{
-          [SHORT_NAME_MAP.REASON]: RESPONSES.REASON_3,
-          [SHORT_NAME_MAP.DISCHARGE_TYPE]: RESPONSES.DISCHARGE_TYPE_2,
+          [SHORT_NAME_MAP.REASON]: RESPONSES.REASON_SEXUAL_ORIENTATION,
+          [SHORT_NAME_MAP.DISCHARGE_TYPE]: RESPONSES.DISCHARGE_DISHONORABLE,
         }}
       />,
     );
