@@ -145,8 +145,6 @@ export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
     formNumber = ' (10-10EZ)';
   } else if (key === VA_FORM_IDS.FEEDBACK_TOOL) {
     formNumber = ' (GI Bill School Feedback Tool)';
-  } else if (key === VA_FORM_IDS.FORM_21P_530V2) {
-    formNumber = ' (21P-530EZ)';
   } else {
     formNumber = ` (${key})`;
   }
