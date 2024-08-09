@@ -80,13 +80,10 @@ const RecipientsSelect = ({
 
   return (
     <>
-      <label htmlFor="recipient-dropdown">
-        To <span className="recipient-dropdown-required">(*Required)</span>
-      </label>
-      <CantFindYourTeam />
       <VaSelect
         enable-analytics
         id="recipient-dropdown"
+        label="To"
         name="to"
         value={defaultValue !== undefined ? defaultValue : ''}
         onVaSelect={handleRecipientSelect}
@@ -96,6 +93,7 @@ const RecipientsSelect = ({
         data-dd-privacy="mask"
         data-dd-action-name="Compose Recipient Dropdown List"
       >
+        <CantFindYourTeam />
         {sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.name}

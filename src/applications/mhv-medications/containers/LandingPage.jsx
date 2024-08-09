@@ -16,7 +16,10 @@ import {
   defaultSelectedSortOption,
   SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
@@ -43,6 +46,7 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -574,20 +578,30 @@ const LandingPage = () => {
                     If allergies or reactions are missing from your list, tell
                     your care team right away.
                   </p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'va-allergies-adverse-reactions',
-                    )}
-                    rel="noreferrer"
-                    data-dd-action-name={
-                      dataDogActionNames.landingPage
-                        .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
-                    }
-                  >
-                    Go to your allergy and reaction records on the My HealtheVet
-                    website
-                  </a>
+                  {showAllergiesContent ? (
+                    <a
+                      href="/my-health/medical-records/allergies"
+                      rel="noreferrer"
+                      data-testid="allergies-reactions-link"
+                    >
+                      Go to your allergies and reactions
+                    </a>
+                  ) : (
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'va-allergies-adverse-reactions',
+                      )}
+                      rel="noreferrer"
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage
+                          .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
+                      }
+                    >
+                      Go to your allergy and reaction records on the My
+                      HealtheVet website
+                    </a>
+                  )}
                   <h4 className="vads-u-margin-top--2">
                     If you use Meds by Mail
                   </h4>

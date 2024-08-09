@@ -155,13 +155,18 @@ export function transformVAOSAppointment(appt) {
       kind: appt.telehealth?.vvsKind,
       url: appt.telehealth?.url,
       duration: appt.minutesDuration,
-      providers: (providers || []).map(provider => ({
-        name: {
-          firstName: provider.name?.given,
-          lastName: provider.name?.family,
-        },
-        display: `${provider.name?.given} ${provider.name?.family}`,
-      })),
+      providers: (providers || [])
+        .map(provider => {
+          if (!provider.name) return null;
+          return {
+            name: {
+              firstName: provider.name?.given,
+              lastName: provider.name?.family,
+            },
+            display: `${provider.name?.given} ${provider.name?.family}`,
+          };
+        })
+        .filter(Boolean),
       isAtlas,
       atlasLocation: isAtlas ? getAtlasLocation(appt) : null,
       atlasConfirmationCode: appt.telehealth?.atlas?.confirmationCode,

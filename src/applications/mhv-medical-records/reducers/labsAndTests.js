@@ -1,10 +1,12 @@
-import { parse, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormat,
   dateFormatWithoutTimezone,
+  formatDate,
+  extractContainedByRecourceType,
   extractContainedResource,
   getObservationValueWithUnits,
   isArrayAndHasItems,
@@ -118,6 +120,17 @@ const getSpecimen = record => {
   return null;
 };
 
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractSpecimen = record => {
+  const specimen =
+    isArrayAndHasItems(record.specimen) && record.specimen[0].reference;
+  return specimen || null;
+};
+
 export const extractOrderedTest = (record, id) => {
   const serviceReq = extractContainedResource(record, id);
   return serviceReq?.code?.text || null;
@@ -158,6 +171,7 @@ const convertChemHemRecord = record => {
     comments: distillChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(record),
     sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -166,23 +180,41 @@ const convertChemHemRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertMicrobiologyRecord = record => {
+  const specimenRef = extractSpecimen(record);
+  const collectionRequest = extractContainedResource(record, specimenRef);
+  const getOrderedBy = extractContainedByRecourceType(
+    record,
+    'Practitioner',
+    record.performer,
+  );
+  const orderedBy = getOrderedBy?.map(obj => obj.name.map(name => name.text));
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: 'Microbiology',
     category: '',
-    orderedBy: 'DOE, JANE A',
+    orderedBy: orderedBy || EMPTY_FIELD,
     requestedBy: 'John J. Lydon',
-    date: record.effectiveDateTime
+    dateCompleted: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleFrom: record.type?.text || EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
+    date: collectionRequest.collection.collectedDateTime
+      ? formatDate(collectionRequest.collection.collectedDateTime)
+      : EMPTY_FIELD,
+    sampleFrom: getSpecimen(record) || EMPTY_FIELD,
+    sampleTested: collectionRequest?.collection?.bodySite?.text || EMPTY_FIELD,
     orderingLocation:
       '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    collectingLocation: record.performer?.text || EMPTY_FIELD,
-    labLocation: '01 DAYTON, OH VAMC 4100 W. THIRD STREET , DAYTON, OH 45428',
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    results:
+      record.presentedForm?.map(
+        form =>
+          Buffer.from(`${form.data}`, 'base64')
+            .toString('utf-8')
+            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
+      ) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -191,6 +223,8 @@ const convertMicrobiologyRecord = record => {
  * @returns the appropriate frontend object for display
  */
 const convertPathologyRecord = record => {
+  const specimenRef = extractSpecimen(record);
+  const collectionRequest = extractContainedResource(record, specimenRef);
   return {
     id: record.id,
     name: record.code?.text,
@@ -199,12 +233,19 @@ const convertPathologyRecord = record => {
     orderedBy: record.physician || EMPTY_FIELD,
     requestedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? dateFormatWithoutTimezone(record.effectiveDateTime)
+      ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
-    sampleTested: record.specimen?.text || EMPTY_FIELD,
-    labLocation: record.labLocation || EMPTY_FIELD,
+    sampleTested: collectionRequest?.type.text || EMPTY_FIELD,
+    labLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
     collectingLocation: record.location || EMPTY_FIELD,
-    results: record.conclusion || record.result || EMPTY_FIELD,
+    results:
+      record.presentedForm?.map(
+        form =>
+          Buffer.from(`${form.data}`, 'base64')
+            .toString('utf-8')
+            .replace(/\r\n|\r/g, '\n'), // Standardize line endings
+      ) || EMPTY_FIELD,
+    sortDate: record.effectiveDateTime,
   };
 };
 
@@ -222,6 +263,7 @@ const convertEkgRecord = record => {
     requestedBy: 'John J. Lydon',
     date: record.date ? dateFormatWithoutTimezone(record.date) : EMPTY_FIELD,
     facility: 'school parking lot',
+    sortDate: record.date,
   };
 };
 
@@ -335,14 +377,10 @@ export const convertLabsAndTestsRecord = record => {
 
 function sortByDate(array) {
   return array.sort((a, b) => {
-    let dateA = parse(a.date, 'MMMM d, yyyy, h:mm a', new Date());
-    let dateB = parse(b.date, 'MMMM d, yyyy, h:mm a', new Date());
-    if (Number.isNaN(dateA.getTime())) {
-      dateA = parseISO(a.sortDate);
-    }
-    if (Number.isNaN(dateB.getTime())) {
-      dateB = parseISO(b.sortDate);
-    }
+    const dateA = parseISO(a.sortDate);
+    const dateB = parseISO(b.sortDate);
+    if (!a.sortDate) return 1; // Push nulls to the end
+    if (!b.sortDate) return -1; // Keep non-nulls at the front
     return dateB - dateA;
   });
 }
@@ -409,7 +447,3 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-/**
- * Clears the lab and test result in the details page
- */

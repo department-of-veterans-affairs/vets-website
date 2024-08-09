@@ -1,26 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { VaAdditionalInfo } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 
 const CantFindYourTeam = () => {
-  const fullState = useSelector(state => state);
-  const [prefLink, setPrefLink] = useState('');
-
-  useEffect(
-    () => {
-      setPrefLink(mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences'));
-    },
-    [fullState],
-  );
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
+  const prefLink = useMemo(() => mhvUrl(ssoe, 'preferences'), [ssoe]);
 
   return (
     <>
       <VaAdditionalInfo
         trigger="If you can't find your team"
-        disable-analytics={false}
-        disable-border={false}
         className="vads-u-margin-top--2"
       >
         <section className="cant-fnd-your-team">
