@@ -38,7 +38,7 @@ const selectYesNoHook = (selector, conditions) => ({ afterHook }) => {
 const selectCheckboxGroupHook = field => ({ afterHook }) => {
   afterHook(() => {
     cy.get('@testData').then(data => {
-      cy.fillPage;
+      cy.fillPage();
       selectCheckboxGroupWebComponent(data[`${field}`]);
       cy.findByText(/Continue/i, { selector: 'button' }).click();
     });
@@ -108,6 +108,17 @@ const testConfig = createTestConfig(
         'jurisdiction',
         data => data.jurisdiction,
       ),
+      'jurisdictions-summary': selectYesNoHook('view:hasJurisdictions', [
+        {
+          text:
+            'Are you currently admitted to practice before any jurisdictions?',
+          value: true,
+        },
+        {
+          text: 'Do you have another jurisdiction to add?',
+          value: false,
+        },
+      ]),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
           text:
@@ -119,9 +130,47 @@ const testConfig = createTestConfig(
           value: false,
         },
       ]),
-      'court-martial-details': selectDropdownHook(
-        'militaryAuthorityAddress_state',
-        data => data.militaryAuthorityAddress.state,
+      'conviction-details': selectCheckboxGroupHook(
+        'convictionDetailsCertification',
+      ),
+      'court-martial-details': selectCheckboxGroupHook(
+        'courtMartialedDetailsCertification',
+      ),
+      'under-charges-details': selectCheckboxGroupHook(
+        'underChargesDetailsCertification',
+      ),
+      'resigned-from-education-details': selectCheckboxGroupHook(
+        'resignedFromEducationDetailsCertification',
+      ),
+      'withdrawn-from-education-details': selectCheckboxGroupHook(
+        'withdrawnFromEducationDetailsCertification',
+      ),
+      'disciplined-for-dishonesty-details': selectCheckboxGroupHook(
+        'disciplinedForDishonestyDetailsCertification',
+      ),
+      'resigned-for-dishonesty-details': selectCheckboxGroupHook(
+        'resignedForDishonestyDetailsCertification',
+      ),
+      'representative-for-agency-details': selectCheckboxGroupHook(
+        'representativeForAgencyDetailsCertification',
+      ),
+      'reprimanded-in-agency-details': selectCheckboxGroupHook(
+        'reprimandedInAgencyDetailsCertification',
+      ),
+      'resigned-from-agency-details': selectCheckboxGroupHook(
+        'resignedFromAgencyDetailsCertification',
+      ),
+      'applied-for-va-accreditation-details': selectCheckboxGroupHook(
+        'appliedForVaAccreditationDetailsCertification',
+      ),
+      'terminated-by-vsorg-details': selectCheckboxGroupHook(
+        'terminatedByVsorgDetailsCertification',
+      ),
+      'condition-that-affects-representation-details': selectCheckboxGroupHook(
+        'conditionThatAffectsRepresentationDetailsCertification',
+      ),
+      'condition-that-affects-examination-details': selectCheckboxGroupHook(
+        'conditionThatAffectsExaminationDetailsCertification',
       ),
       'character-references/0/address': selectDropdownHook(
         'address_state',

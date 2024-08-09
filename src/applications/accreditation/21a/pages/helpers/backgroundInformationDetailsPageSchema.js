@@ -3,19 +3,12 @@ import camelCase from 'lodash/camelCase';
 import {
   fileInputUI,
   fileInputSchema,
-  radioSchema,
-  radioUI,
+  checkboxGroupSchema,
+  checkboxGroupUI,
   textareaSchema,
   textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-const certificationOptions = {
-  CERTIFIED:
-    'I certify that I have uploaded all information relevant to this question.',
-  DECLINED:
-    'I decline to upload additional documentation relevant to this question.',
-};
 
 /** @type {PageSchema} */
 const backgroundInformationDetails = ({
@@ -44,9 +37,6 @@ const backgroundInformationDetails = ({
       }),
       [documentsKey]: {
         ...fileInputUI({
-          errorMessages: {
-            required: `Upload a completed VA Form 21A`, // error
-          },
           title: 'Provide any relevant documents',
           hint:
             'You may add .pdf, .doc, .jpg, or .txt documents under 25MB. Please name documents with clear, descriptive names.',
@@ -54,9 +44,17 @@ const backgroundInformationDetails = ({
           fileUploadUrl: url,
         }),
       },
-      [certificationKey]: radioUI({
+      [certificationKey]: checkboxGroupUI({
         title: 'Certification',
-        labels: certificationOptions,
+        errorMessages: {
+          required:
+            'You must certify you have provided all information you wish to provide to continue.',
+        },
+        required: true,
+        labels: {
+          CERTIFIED:
+            'I certify I have provided all information I wish to provide relevant to this question. I understand it is my responsibility to establish that I am of good character and reputation, qualified to render valuable assistance to claimants, and otherwise competent to advise and assist claimants in the preparation, presentation, and prosecution of their claim(s) before VA, and that failure to provide the requisite information may result in denial of my application.',
+        },
       }),
     },
     schema: {
@@ -64,7 +62,7 @@ const backgroundInformationDetails = ({
       properties: {
         [explanationKey]: textareaSchema,
         [documentsKey]: fileInputSchema,
-        [certificationKey]: radioSchema(Object.keys(certificationOptions)),
+        [certificationKey]: checkboxGroupSchema(['CERTIFIED']),
       },
       required: [explanationKey, certificationKey],
     },
