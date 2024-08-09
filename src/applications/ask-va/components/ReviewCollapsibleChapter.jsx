@@ -215,10 +215,7 @@ class ReviewCollapsibleChapter extends React.Component {
           {!editing ? (
             <div />
           ) : (
-            <div
-              className="vads-u-display--flex vads-u-max-width--100 
-"
-            >
+            <div className="vads-u-display--flex vads-u-max-width--100">
               <ProgressButton
                 submitButton
                 onButtonClick={() => {
