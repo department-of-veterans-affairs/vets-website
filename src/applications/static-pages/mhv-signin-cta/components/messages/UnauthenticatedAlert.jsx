@@ -1,37 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-// eslint-disable-next-line import/no-named-default
-import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
 import CustomAlert from './CustomAlert';
+
+export const headingPrefix = 'Sign in with a verified account';
 
 /**
  * Alert to show a user that is not logged in.
  * @property {*} recordEvent the function to record the event
- * @property {string} status the status of the alert
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({
-  recordEvent = recordEventFn,
-  serviceDescription,
-  status = 'continue',
-}) => {
+const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
   const headline = serviceDescription
-    ? `Sign in with a verified account to ${serviceDescription}`
-    : 'Sign in with a verified account';
-
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': status,
-      });
-    },
-    [headline, recordEvent, status],
-  );
+    ? `${headingPrefix} to ${serviceDescription}`
+    : headingPrefix;
 
   const dispatch = useDispatch();
   const handleSignIn = () => {
@@ -39,7 +22,12 @@ const UnauthenticatedAlert = ({
   };
 
   return (
-    <CustomAlert headline={headline} icon="lock" status="continue">
+    <CustomAlert
+      headline={headline}
+      icon="lock"
+      status="continue"
+      recordEvent={recordEvent}
+    >
       <div>
         <p>
           You’ll need to sign in with a verified account through one of our
@@ -70,9 +58,8 @@ const UnauthenticatedAlert = ({
 };
 
 UnauthenticatedAlert.propTypes = {
-  serviceDescription: PropTypes.string.isRequired,
   recordEvent: PropTypes.func,
-  status: PropTypes.string,
+  serviceDescription: PropTypes.string,
 };
 
 export default UnauthenticatedAlert;

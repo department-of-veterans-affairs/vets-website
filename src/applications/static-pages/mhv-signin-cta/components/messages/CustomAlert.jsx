@@ -15,7 +15,6 @@ import classNames from 'classnames';
  */
 const CustomAlert = ({
   children,
-  disableAnalitics = false,
   headline,
   recordEvent,
   status = 'info',
@@ -23,16 +22,14 @@ const CustomAlert = ({
 }) => {
   useEffect(
     () => {
-      if (!disableAnalitics) {
-        recordEvent({
-          event: 'nav-alert-box-load',
-          action: 'load',
-          'alert-box-headline': headline,
-          'alert-box-status': status,
-        });
-      }
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': status,
+      });
     },
-    [disableAnalitics, headline, recordEvent, status],
+    [headline, recordEvent, status],
   );
 
   const alertClasses = classNames({
@@ -44,8 +41,8 @@ const CustomAlert = ({
   });
 
   return (
-    <div className={alertClasses}>
-      <va-icon icon={icon} size={4} />
+    <div className={alertClasses} data-testid="mhv-custom-alert">
+      <va-icon icon={icon} size={4} data-testid="mhv-custom-alert-icon" />
       <div className="mhv-u-reg-alert-col vads-u-flex-direction--col">
         <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1">
           {headline}
@@ -65,11 +62,9 @@ CustomAlert.defaultProps = {
 CustomAlert.propTypes = {
   children: PropTypes.any.isRequired,
   headline: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  status: PropTypes.oneOf(['info', 'success', 'warning', 'continue'])
-    .isRequired,
-  disableAnalitics: PropTypes.bool,
+  icon: PropTypes.string,
   recordEvent: PropTypes.func,
+  status: PropTypes.oneOf(['info', 'success', 'warning', 'continue']),
 };
 
 export default CustomAlert;

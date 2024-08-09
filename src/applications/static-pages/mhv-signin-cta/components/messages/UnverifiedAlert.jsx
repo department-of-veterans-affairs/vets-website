@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -8,39 +8,32 @@ import {
 } from '~/platform/user/authentication/constants';
 import CustomAlert from './CustomAlert';
 
+export const headingPrefix = 'Verify your identity';
+
 /**
  * Alert to show a user that is not verified (LOA1).
  * @property {*} recordEvent the function to record the event
- * @property {string} status the status of the alert
  * @property {string} serviceDescription optional description of the service that requires verification
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
   recordEvent = recordEventFn,
-  status = 'continue',
   serviceDescription,
-  signInService = CSP_IDS.MHV,
+  signInService = CSP_IDS.ID_ME,
 }) => {
   const signinServiceLabel = SERVICE_PROVIDERS[signInService]?.label;
   const headline = serviceDescription
-    ? `Verify your identity to ${serviceDescription}`
-    : 'Verify your identity';
-
-  useEffect(
-    () => {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': headline,
-        'alert-box-status': status,
-      });
-    },
-    [headline, recordEvent, status],
-  );
+    ? `${headingPrefix} to ${serviceDescription}`
+    : headingPrefix;
 
   const defaultAlert = () => {
     return (
-      <CustomAlert headline={headline} icon="lock" status="warning">
+      <CustomAlert
+        headline={headline}
+        icon="lock"
+        status="warning"
+        recordEvent={recordEvent}
+      >
         <div>
           <p>
             We need you to verify your identity for your{' '}
@@ -88,16 +81,16 @@ const UnverifiedAlert = ({
             <strong>
               Not sure if you already have a Login.gov or ID.me account?
             </strong>
-            <ul>
-              <li>Sign out of VA.gov</li>
-              <li>On the VA.gov homepage, select Create an account</li>
-              <li>
-                Create a Login.gov or ID.me account. Come back to VA.gov and
-                sign in with your Login.gov or ID.me account. We’ll help you
-                verify your identity.
-              </li>
-            </ul>
           </p>
+          <ul>
+            <li>Sign out of VA.gov</li>
+            <li>On the VA.gov homepage, select Create an account</li>
+            <li>
+              Create a Login.gov or ID.me account. Come back to VA.gov and sign
+              in with your Login.gov or ID.me account. We’ll help you verify
+              your identity.
+            </li>
+          </ul>
           <p>
             You may have one if you’ve ever signed in to a federal website to
             manage your benefits—like Social Security or disability benefits. Or
@@ -133,7 +126,6 @@ UnverifiedAlert.propTypes = {
   signInService: PropTypes.string.isRequired,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
-  status: PropTypes.string,
 };
 
 export default UnverifiedAlert;
