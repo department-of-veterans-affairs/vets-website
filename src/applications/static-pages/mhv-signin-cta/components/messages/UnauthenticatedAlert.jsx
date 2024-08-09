@@ -12,7 +12,11 @@ import CustomAlert from './CustomAlert';
  * @property {string} status the status of the alert
  * @property {string} serviceDescription the description of the service that requires verification
  */
-const UnauthenticatedAlert = ({ recordEvent, serviceDescription, status }) => {
+const UnauthenticatedAlert = ({
+  recordEvent = recordEventFn,
+  serviceDescription,
+  status = 'continue',
+}) => {
   const headline = serviceDescription
     ? `Sign in with a verified account to ${serviceDescription}`
     : 'Sign in with a verified account';
@@ -63,11 +67,6 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription, status }) => {
       </div>
     </CustomAlert>
   );
-};
-
-UnauthenticatedAlert.defaultProps = {
-  recordEvent: recordEventFn,
-  status: 'continue',
 };
 
 UnauthenticatedAlert.propTypes = {

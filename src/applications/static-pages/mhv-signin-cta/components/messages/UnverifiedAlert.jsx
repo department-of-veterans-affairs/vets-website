@@ -12,12 +12,12 @@ import CustomAlert from './CustomAlert';
  * Alert to show a user that is not verified (LOA1).
  * @property {*} recordEvent the function to record the event
  * @property {string} status the status of the alert
- * @property {string} serviceDescription the description of the service that requires verification
+ * @property {string} serviceDescription optional description of the service that requires verification
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
-  recordEvent,
-  status,
+  recordEvent = recordEventFn,
+  status = 'continue',
   serviceDescription,
   signInService = CSP_IDS.MHV,
 }) => {
@@ -127,11 +127,6 @@ const UnverifiedAlert = ({
   if (signInService === CSP_IDS.MHV) return mhvAlert();
 
   return defaultAlert();
-};
-
-UnverifiedAlert.defaultProps = {
-  recordEvent: recordEventFn,
-  status: 'continue',
 };
 
 UnverifiedAlert.propTypes = {

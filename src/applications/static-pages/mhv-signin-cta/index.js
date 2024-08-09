@@ -34,7 +34,8 @@ export const MhvSigninCallToAction = ({
     );
   }
 
-  const widgetContent = Array.from(noAlertContent).map((child, index) => (
+  // Display the provided children. Note these are HTMLElements and not React.
+  const content = Array.from(noAlertContent).map((child, index) => (
     <div
       key={index}
       // eslint-disable-next-line react/no-danger
@@ -44,7 +45,7 @@ export const MhvSigninCallToAction = ({
     />
   ));
 
-  return <div>{widgetContent}</div>;
+  return <div>{content}</div>;
 };
 
 MhvSigninCallToAction.propTypes = {

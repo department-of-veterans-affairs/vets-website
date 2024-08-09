@@ -15,7 +15,7 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
 
   if (widgets.length) {
     const {
-      default: MhvSigninAlert,
+      default: MhvSigninCallToAction,
     } = await import(/* webpackChunkName: "mhv-signin-cta" */ 'applications/static-pages/mhv-signin-cta');
 
     widgets.forEach(el => {
@@ -26,7 +26,7 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
       );
       ReactDOM.render(
         <Provider store={store}>
-          <MhvSigninAlert
+          <MhvSigninCallToAction
             serviceDescription={el.getAttribute('service-description')}
             noAlertContent={widgetContent}
           />
