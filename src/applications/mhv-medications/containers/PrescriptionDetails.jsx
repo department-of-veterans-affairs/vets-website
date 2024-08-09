@@ -369,7 +369,7 @@ const PrescriptionDetails = () => {
                 )}
                 <div className="no-print">
                   <PrintDownload
-                    download={handleFileDownload}
+                    onDownload={handleFileDownload}
                     isSuccess={
                       pdfTxtGenerateStatus.status ===
                       PDF_TXT_GENERATE_STATUS.Success

@@ -181,6 +181,44 @@ export const buildPrescriptionsPDFList = prescriptions => {
 };
 
 /**
+ * Return medication information PDF
+ */
+export const buildMedicationInformationPDF = list => {
+  const listOfHeaders = ['h2', 'h3'];
+  const sections = [
+    ...list
+      .filter(listItem => listOfHeaders.includes(listItem.type))
+      .map(listItem => {
+        const object = { header: '', items: [] };
+        object.header = listItem.text;
+        const index = list.indexOf(listItem);
+        const nextHeader = list
+          .slice(index + 1)
+          .find(i => listOfHeaders.includes(i.type));
+        const nextIndex = nextHeader ? list.indexOf(nextHeader) : list.length;
+        const subList = list.slice(index + 1, nextIndex);
+        const isEndOfList = i => subList[i + 1]?.type !== 'li';
+        object.items = [
+          {
+            value: `${subList
+              .map((subItem, i) => {
+                if (subItem.type === 'li') {
+                  return `    * ${subItem.text}${isEndOfList(i) ? '\n' : ''}`;
+                }
+                return `${subItem.text}\n`;
+              })
+              .join('\n')}\n`,
+          },
+        ];
+        return object;
+      }),
+  ];
+  return {
+    sections,
+  };
+};
+
+/**
  * Return allergies PDF list
  */
 export const buildAllergiesPDFList = allergies => {
