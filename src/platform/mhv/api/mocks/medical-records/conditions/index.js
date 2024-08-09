@@ -1,6 +1,3 @@
-// import conditions from '../../../../../../applications/mhv-medical-records/tests/fixtures/condition.json'
-// const all = JSON.parse(conditions);
-
 const all = {
   resourceType: 'Bundle',
   id: '27b154d8-18c6-41b3-a988-8474bacd19a8',
@@ -674,7 +671,7 @@ const all = {
 const single = (req, res) => {
   const { id } = req.params;
   const response = all.entry.find(item => {
-    return item.id === id;
+    return item.resource.id === id;
   });
   return res.json(response);
 };

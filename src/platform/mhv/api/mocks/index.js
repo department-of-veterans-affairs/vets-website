@@ -100,7 +100,6 @@ const responses = {
   'GET /my_health/v1/medical_records/conditions': conditions.all,
   'GET /my_health/v1/medical_records/conditions/:id': conditions.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,
-  'GET /my_health/v1/medical_records/vitals:id': vitals.single,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
