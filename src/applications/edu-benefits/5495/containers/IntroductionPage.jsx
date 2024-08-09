@@ -4,6 +4,7 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { connect } from 'react-redux';
 import { showEduBenefits5495Wizard } from 'applications/edu-benefits/selectors/educationWizard';
+
 import {
   WIZARD_STATUS,
   WIZARD_STATUS_NOT_STARTED,
@@ -30,6 +31,7 @@ export class IntroductionPage extends React.Component {
     return (
       <div className="schemaform-intro">
         <FormTitle title="Manage your education benefits" />
+
         <p>
           Equal to VA Form 22-5495 (Dependents’ Request for Change of Program or
           Place of Training).

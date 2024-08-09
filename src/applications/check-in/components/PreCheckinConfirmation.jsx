@@ -7,7 +7,7 @@ import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
 import ExternalLink from './ExternalLink';
 import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
-import HowToLink from './HowToLink';
+import PrepareContent from './PrepareContent';
 import Wrapper from './layout/Wrapper';
 
 import { makeSelectForm } from '../selectors';
@@ -56,10 +56,16 @@ const PreCheckinConfirmation = props => {
           page="confirmation"
           router={router}
         />
-        <HowToLink />
+        <PrepareContent
+          router={router}
+          appointmentCount={appointments.length}
+        />
+        <h2 className="highlight vads-u-font-size--h4 vads-u-margin-top--8">
+          {t('manage-your-appointments')}
+        </h2>
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">
-            {t('sign-in-to-manage')}
+            {t('sign-in-to-vagov-and-schedule')}
           </ExternalLink>
         </p>
 

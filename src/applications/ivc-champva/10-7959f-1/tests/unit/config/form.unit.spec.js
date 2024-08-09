@@ -23,6 +23,15 @@ testNumberOfWebComponentFields(
 
 testNumberOfWebComponentFields(
   formConfig,
+  formConfig.chapters.identificationInformation.pages.page2.schema,
+  formConfig.chapters.identificationInformation.pages.page2.uiSchema,
+  2,
+  'Applicant identification',
+  { ...mockdata.data, veteranSocialSecurityNumber: { ssn: '' } },
+);
+
+testNumberOfWebComponentFields(
+  formConfig,
   formConfig.chapters.mailingAddress.pages.page3.schema,
   formConfig.chapters.mailingAddress.pages.page3.uiSchema,
   8,
