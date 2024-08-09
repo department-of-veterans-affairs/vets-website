@@ -104,14 +104,18 @@ const testConfig = createTestConfig(
         data => data.employers[0].address.state,
       ),
       'employment-activities': selectCheckboxGroupHook('employmentActivities'),
+      jurisdictions: selectDropdownHook(
+        'jurisdiction',
+        data => data.jurisdiction,
+      ),
       'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
         {
           text:
-            'Are you currently permitted to practice before any state or federal agency or any federal court?',
+            'Are you currently admitted to practice before any state or Federal agency or any Federal court?',
           value: true,
         },
         {
-          text: 'Do you have another agency or court to add?',
+          text: 'Do you have another state or Federal agency or court to add?',
           value: false,
         },
       ]),

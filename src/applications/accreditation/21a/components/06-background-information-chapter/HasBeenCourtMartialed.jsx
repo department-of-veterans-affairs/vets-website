@@ -1,8 +1,7 @@
 import React from 'react';
-
 import NotIncludedViolationsList from './NotIncludedViolationsList';
 
-const IsUnderCharges = () => (
+const HasBeenCourtMartialed = () => (
   <>
     <p>
       <strong>Note:</strong> Include convictions resulting from a plea of nolo
@@ -12,4 +11,4 @@ const IsUnderCharges = () => (
   </>
 );
 
-export default IsUnderCharges;
+export default HasBeenCourtMartialed;
