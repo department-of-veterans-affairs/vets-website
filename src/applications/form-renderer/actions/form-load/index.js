@@ -2,7 +2,12 @@ export const FORM_LOADING_INITIATED = 'FORM_RENDERER/FORM_LOADING_INITIATED';
 export const FORM_LOADING_SUCCEEDED = 'FORM_RENDERER/FORM_LOADING_SUCCEEDED';
 export const FORM_LOADING_FAILED = 'FORM_RENDERER/FORM_LOADING_FAILED';
 
-import { formConfig1, formConfig2 } from '../../_config/formConfig';
+import {
+  formConfig1,
+  formConfig2,
+  normalizedForm,
+} from '../../_config/formConfig';
+import { createFormConfig } from '../../utils/formConfig';
 
 export const formLoadingInitiated = formId => {
   return {
@@ -38,6 +43,7 @@ export const fetchFormConfig = formId => {
         const formConfig = {
           '123-abc': formConfig1,
           '456-xyz': formConfig2,
+          '2121212': createFormConfig(normalizedForm),
         }?.[formId];
 
         if (formConfig) {
