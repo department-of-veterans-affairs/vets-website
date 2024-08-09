@@ -5,7 +5,7 @@ import { render, waitFor } from '@testing-library/react';
 import { $ } from '../../../forms-system/src/js/utilities/ui';
 
 import {
-  // focusElement,
+  focusElement,
   waitForRenderThenFocus,
   focusByOrder,
 } from '../../ui/focus';
@@ -62,6 +62,7 @@ describe('waitForRenderThenFocus', async () => {
       </div>,
     );
 
+    focusElement('body', {}, container);
     waitForRenderThenFocus('input', container, 0);
 
     await waitFor(() => {
@@ -85,6 +86,26 @@ describe('waitForRenderThenFocus', async () => {
 
     await waitFor(() => {
       expect(document.activeElement.id).to.eq('input2');
+    });
+  });
+
+  it('should keep existing focus', async () => {
+    const { container } = await render(
+      <ul>
+        <li>
+          <h3 id="first">Header 1</h3>
+        </li>
+        <li>
+          <h3 id="second">Header 2</h3>
+        </li>
+      </ul>,
+    );
+
+    focusElement('#second', {}, container);
+    waitForRenderThenFocus('#first', container, 0);
+
+    await waitFor(() => {
+      expect(document.activeElement.id).to.eq('second');
     });
   });
 });

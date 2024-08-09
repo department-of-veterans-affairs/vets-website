@@ -118,14 +118,14 @@ export const focusToggledHeader = () => {
 
 export const focusH3 = () => {
   scrollTo('topContentElement');
-  focusByOrder(['#main h3', defaultFocusSelector]);
+  focusElement('#main h3');
 };
 
 export const focusAlertH3 = () => {
   scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('h3');
+  waitForRenderThenFocus('#main h3');
 };
 
 // Used for onContinue callback on the contestable issues page

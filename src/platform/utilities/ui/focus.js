@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
@@ -79,18 +78,24 @@ export function waitForRenderThenFocus(
   const maxIterations = 6; // 1.5 seconds
   let count = 0;
 
-  const interval = setInterval(() => {
+  let interval = setInterval(() => {
     const el = (root || document).querySelector(selector);
     if (el) {
       clearInterval(interval);
+      interval = null;
       if (internalSelector) {
         focusElement(internalSelector, {}, el);
       } else {
         focusElement(el);
       }
-    } else if (count >= maxIterations) {
+    } else if (interval && count >= maxIterations) {
       clearInterval(interval);
-      focusElement(defaultFocusSelector); // fallback to breadcrumbs
+      interval = null;
+
+      // Don't set default focus if something is already focused
+      if (document.activeElement === document.body) {
+        focusElement(defaultFocusSelector); // fallback to breadcrumbs
+      }
     }
     count += 1;
   }, timeInterval);

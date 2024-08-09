@@ -10,11 +10,7 @@ import {
   getCurrentChapterDisplay,
 } from '../helpers';
 
-import {
-  focusByOrder,
-  customScrollAndFocus,
-  defaultFocusSelector,
-} from '../../../../utilities/ui';
+import { waitForRenderThenFocus, scrollTo } from '../../../../utilities/ui';
 
 import { REVIEW_APP_DEFAULT_MESSAGE } from '../constants';
 
@@ -26,6 +22,10 @@ export default function FormNav(props) {
     isLoggedIn,
     inProgressFormId,
   } = props;
+
+  const PROGRESS_BAR_HEADER_LEVEL = '2';
+  // testFocus for unit tests (stubbing wasn't working as expected)
+  const focus = props.testFocus || waitForRenderThenFocus;
 
   const [index, setIndex] = useState(0);
 
@@ -107,41 +107,19 @@ export default function FormNav(props) {
         setIndex(index - 1);
       }
 
-      return () => {
-        // Check main toggle to enable custom focus; the unmounting of the page
-        // before the review & submit page may cause the customScrollAndFocus
-        // function to be called inadvertently
-        if (
-          !(
-            page.chapterKey === 'review' ||
-            window.location.pathname.endsWith('review-and-submit')
-          )
-        ) {
-          if (
-            formConfig.useCustomScrollAndFocus &&
-            (page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget)
-          ) {
-            customScrollAndFocus(
-              page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget,
-              index,
-            );
-          } else {
-            focusByOrder([defaultFocusSelector, 'h2']);
-          }
-        } else {
-          // h2 fallback for confirmation page
-          focusByOrder([defaultFocusSelector, 'h2']);
-        }
-      };
+      // Focus on review & submit header
+      if (!hideFormNavProgress && page.chapterKey === 'review') {
+        scrollTo('topScrollElement');
+        // Focus on review & submit page h2 in stepper
+        focus(
+          'va-segmented-progress-bar',
+          document,
+          250,
+          `h${PROGRESS_BAR_HEADER_LEVEL}`,
+        );
+      }
     },
-    [
-      current,
-      formConfig.useCustomScrollAndFocus,
-      index,
-      page.chapterKey,
-      page.scrollAndFocusTarget,
-      formConfig.scrollAndFocusTarget,
-    ],
+    [current, hideFormNavProgress, index, page.chapterKey, focus],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
@@ -158,7 +136,7 @@ export default function FormNav(props) {
             heading-text={chapterName ?? ''} // functionality only available for v3
             name="v3SegmentedProgressBar"
             labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
-            header-level="2"
+            header-level={PROGRESS_BAR_HEADER_LEVEL}
             {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
           />
           <div className="schemaform-chapter-progress">
@@ -194,4 +172,5 @@ FormNav.propTypes = {
   formData: PropTypes.shape({}),
   inProgressFormId: PropTypes.number,
   isLoggedIn: PropTypes.bool,
+  testFocus: PropTypes.func,
 };

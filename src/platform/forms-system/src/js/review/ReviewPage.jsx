@@ -12,12 +12,13 @@ import { focusElement } from '../utilities/ui';
 import ReviewChapters from './ReviewChapters';
 import SubmitController from './SubmitController';
 
+// *** THIS COMPONENT ISN'T BEING USED ANYWHERE? ***
 class ReviewPage extends React.Component {
   componentDidMount() {
     scrollToTop('topScrollElement', getScrollOptions());
     // The first h2 is the breadcrumb "Step 1 of..." which is a chapter
     // containing multiple pages, so the h2 won't be unique between pages
-    focusElement('h2');
+    focusElement('#main h2'); // doesn't exist?
   }
 
   renderDowntime = (downtime, children) => {
