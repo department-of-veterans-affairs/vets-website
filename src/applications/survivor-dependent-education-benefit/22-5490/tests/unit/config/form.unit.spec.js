@@ -225,8 +225,8 @@ describe('Complex Form 22-5490 Detailed Interaction Tests', () => {
         schema={schema}
         uiSchema={uiSchema}
         definitions={formConfig.defaultDefinitions}
-        data={{}}
-        formData={{}}
+        data={{ title: 'test form' }}
+        formData={{ title: 'test form' }}
       />,
     );
     selectRadio(form, 'root_contactMethod', 'email');
