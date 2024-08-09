@@ -12,6 +12,7 @@ const HowToLink = () => {
         hrefLang="en"
         eventId="how-to-check-in-clicked"
         eventPrefix="nav"
+        target="_blank"
       >
         {t('find-out-how-to-check-in')}
       </ExternalLink>
