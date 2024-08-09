@@ -22,13 +22,13 @@ describe('Secure Messaging Compose', () => {
 
     cy.get(Locators.DROPDOWN.RECIPIENTS).should(`be.visible`);
 
-    // // verify MHV Classic link won't open in new window
-    // cy.get(Locators.DROPDOWN.RECIPIENTS)
-    //   .find(`a[href$="preferences"]`)
-    //   .should('not.have.attr', `target`, `_blank`);
+    // verify `find-locations` link won't open in new window
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="locations"]`)
+      .should('not.have.attr', `target`, `_blank`);
 
-    // cy.injectAxe();
-    // cy.axeCheck(AXE_CONTEXT);
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify user can send a message', () => {
