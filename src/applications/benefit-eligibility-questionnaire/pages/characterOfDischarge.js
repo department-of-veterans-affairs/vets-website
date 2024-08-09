@@ -1,13 +1,29 @@
 import React from 'react';
 
+const CHARACTER_OF_DISCHARGE = [
+  'Honorable',
+  'Under Honorable Conditions (General)',
+  'Under Honorable Conditions',
+  'Dishonorable',
+  'Uncharacterized',
+  'Bad Conduct',
+  "I'm not sure",
+];
+
 export default {
   uiSchema: {
+    // 'view:characterOfDischarge': {
     characterOfDischarge: {
       'ui:title': (
         <>
           <p>
             <b>What was your character of discharge?</b>
+            <span className="schemaform-required-span">(*Required)</span>
           </p>
+        </>
+      ),
+      'ui:description': (
+        <>
           <p>
             If you served multiple titles with different characters of
             discharge, please select the "highest" of your discharge statuses.
@@ -18,8 +34,11 @@ export default {
           </p>
         </>
       ),
+      // 'ui:webComponentField': VaSelectField,
       'ui:widget': 'select',
       'ui:options': {
+        placeholder: 'Select',
+
         widgetProps: {
           honorable: { characterOfDischarge: 'Honorable' },
           underHonorableConditionsGeneral: {
@@ -34,7 +53,12 @@ export default {
           notSure: { characterOfDischarge: "I'm not sure" },
         },
       },
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Character of discharge is required',
+      },
     },
+    // },
     characterOfDischargeTWO: {
       'ui:title': '',
       'ui:description': (
@@ -60,15 +84,7 @@ export default {
     properties: {
       characterOfDischarge: {
         type: 'string',
-        enum: [
-          'Honorable',
-          'Under Honorable Conditions (General)',
-          'Under Honorable Conditions',
-          'Dishonorable',
-          'Uncharacterized',
-          'Bad Conduct',
-          "I'm not sure",
-        ],
+        enum: CHARACTER_OF_DISCHARGE,
       },
       characterOfDischargeTWO: { type: 'object', properties: {} },
     },
