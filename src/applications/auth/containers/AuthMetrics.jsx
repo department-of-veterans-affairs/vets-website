@@ -3,7 +3,6 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from 'platform/monitoring/record-event';
 import { CSP_IDS, POLICY_TYPES } from 'platform/user/authentication/constants';
 import { SENTRY_TAGS } from 'platform/user/authentication/errors';
-import { hasSession } from 'platform/user/profile/utilities';
 import get from 'platform/utilities/data/get';
 
 export default class AuthMetrics {
@@ -72,6 +71,7 @@ export default class AuthMetrics {
 
   run = () => {
     this.reportSentryErrors();
-    if (!hasSession()) this.recordGAAuthEvents();
+    if (!JSON.parse(localStorage.getItem('hasSession')))
+      this.recordGAAuthEvents();
   };
 }
