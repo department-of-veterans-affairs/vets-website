@@ -15,6 +15,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
+  DUW_EDIT_MODE,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -36,6 +37,14 @@ export const updateIntroPageViewed = value => {
   return {
     type: DUW_VIEWED_INTRO_PAGE,
     payload: value,
+  };
+};
+
+export const updateEditMode = (key, value) => {
+  return {
+    type: DUW_EDIT_MODE,
+    key,
+    value,
   };
 };
 

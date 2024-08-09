@@ -12,7 +12,12 @@ export const navigateBackward = router => {
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store
  */
-export const navigateForward = (SHORT_NAME, formResponses, router) => {
+export const navigateForward = (
+  SHORT_NAME,
+  formResponses,
+  router,
+  editMode,
+) => {
   const roadmap = makeRoadmap();
 
   if (roadmap?.length) {
@@ -42,8 +47,13 @@ export const navigateForward = (SHORT_NAME, formResponses, router) => {
         // Also accounts for editing answers and if there are answers already saved, we continue routing to review page.
         if (
           displayConditionsMet(nextShortName, formResponses) &&
-          !formResponses[nextShortName]
+          !formResponses[nextShortName] &&
+          editMode
         ) {
+          pushToRoute(nextShortName, router);
+          return;
+        }
+        if (displayConditionsMet(nextShortName, formResponses) && !editMode) {
           pushToRoute(nextShortName, router);
           return;
         }

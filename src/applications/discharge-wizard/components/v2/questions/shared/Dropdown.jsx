@@ -31,6 +31,7 @@ const Dropdown = ({
   setFormError,
   testId,
   updateCleanedFormStore,
+  editMode,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
@@ -61,7 +62,7 @@ const Dropdown = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(shortName, formResponses, router, editMode);
     }
   };
 
@@ -115,7 +116,11 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
 };
 
+const mapStateToProps = state => ({
+  editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Dropdown);

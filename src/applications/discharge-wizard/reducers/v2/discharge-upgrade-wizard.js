@@ -13,6 +13,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
+  DUW_EDIT_MODE,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -77,6 +78,11 @@ export default (state = initialState, action) => {
           ...state.form,
           ...action.payload,
         },
+      };
+    case DUW_EDIT_MODE:
+      return {
+        ...state,
+        editMode: action.payload,
       };
     default:
       return state;

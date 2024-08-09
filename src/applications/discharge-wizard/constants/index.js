@@ -125,6 +125,7 @@ export const DUW_UPDATE_PRIOR_SERVICE =
   'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
 export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
+export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',

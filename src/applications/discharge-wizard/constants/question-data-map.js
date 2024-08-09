@@ -94,3 +94,22 @@ export const RESPONSES = Object.freeze({
   FAILURE_TO_EXHAUST_1B: `Yes, the BCNR denied my application due to "failure to exhaust other remedies."`,
   FAILURE_TO_EXHAUST_2B: `No, the BCNR denied my application for other reasons, such as not agreeing with the evidence in my application.`,
 });
+
+export const REVIEW_LABEL_MAP = Object.freeze({
+  SERVICE_BRANCH: 'Branch of service:',
+  DISCHARGE_YEAR: 'Year of discharge:',
+  DISCHARGE_MONTH: 'Month of discharge',
+  REASON: 'Reason for changing discharge paperwork:',
+  DISCHARGE_TYPE: 'Character of discharge:',
+  INTENTION:
+    'Name change, discharge date, or something written in the "other remarks" section of your DD214:',
+  COURT_MARTIAL: 'Discharge was the outcome of a general court-martial:',
+  PREV_APPLICATION:
+    'Previously applied for and been denied a discharge upgrade for this period of service:',
+  PREV_APPLICATION_YEAR: 'Year applied for discharge upgrade:',
+  PREV_APPLICATION_TYPE: 'Previous discharge upgrade:',
+  FAILURE_TO_EXHAUST:
+    'Application denial based on "failure to exhaust other remedies":',
+  PRIOR_SERVICE:
+    'Completed a period of service in which your character of service was honorable or general under honroable conditions:',
+});

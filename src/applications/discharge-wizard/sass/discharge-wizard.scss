@@ -119,8 +119,12 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   }
 
   //v2 styles
-  .answer-review {
+  .answer-review-box {
     border-top: 1px solid var(--vads-color-base-light);
+    display: flex;
+    flex-direction: column;
+  }
+  .answer-review-label {
     display: flex;
     justify-content: space-between;
     align-items: center;

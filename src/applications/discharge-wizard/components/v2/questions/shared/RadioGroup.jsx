@@ -28,6 +28,7 @@ const RadioGroup = ({
   testId,
   valueSetter,
   updateCleanedFormStore,
+  editMode,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -43,7 +44,7 @@ const RadioGroup = ({
       }
 
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(shortName, formResponses, router, editMode);
     }
   };
 
@@ -123,7 +124,11 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
 };
 
+const mapStateToProps = state => ({
+  editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(RadioGroup);

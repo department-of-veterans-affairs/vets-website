@@ -4,12 +4,21 @@ import { connect } from 'react-redux';
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { answerReviewLabel } from '../../helpers';
-import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import {
+  SHORT_NAME_MAP,
+  REVIEW_LABEL_MAP,
+} from '../../constants/question-data-map';
+import { updateEditMode } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
 import { navigateBackward } from '../../utilities/page-navigation';
 
-const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
+const ReviewPage = ({
+  formResponses,
+  router,
+  viewedIntroPage,
+  setEditMode,
+}) => {
   const H1 = 'Review your answers';
 
   useEffect(
@@ -29,6 +38,7 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
   );
 
   const onEditAnswerClick = route => {
+    setEditMode(true);
     router.push(route);
   };
 
@@ -37,22 +47,25 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
       if (formResponses[shortName] === null) {
         return null;
       }
-
-      const reviewLabel = answerReviewLabel(shortName, formResponses);
+      const reviewLabel = REVIEW_LABEL_MAP[shortName];
+      const reviewAnswer = answerReviewLabel(shortName, formResponses);
 
       return (
         reviewLabel && (
           <li
             key={shortName}
-            className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review"
+            className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review-box"
           >
-            {reviewLabel}
-            <va-link
-              class="hydrated vads-u-padding-left--2"
-              onClick={() => onEditAnswerClick(ROUTES[shortName])}
-              name={shortName}
-              text="Edit"
-            />
+            <div className="answer-review-label">
+              <div className="vads-u-font-weight--bold">{reviewLabel}</div>
+              <va-link
+                class="hydrated vads-u-padding-left--2"
+                onClick={() => onEditAnswerClick(ROUTES[shortName])}
+                name={shortName}
+                text="Edit"
+              />
+            </div>
+            <div>{reviewAnswer}</div>
           </li>
         )
       );
@@ -62,6 +75,11 @@ const ReviewPage = ({ formResponses, router, viewedIntroPage }) => {
   return (
     <>
       <h1>{H1}</h1>
+      <va-alert class="vads-u-margin-top--4" status="info">
+        <h4 className="usa-alert-heading">
+          You can apply for VA benefits using your honorable characterization.
+        </h4>
+      </va-alert>
       <p className="vads-u-margin-bottom--4 vads-u-margin-top--0">
         If any information here is wrong, you can change your answers now. This
         will help us give you the most accurate instructions.
@@ -88,9 +106,16 @@ ReviewPage.propTypes = {
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
+const mapDispatchToProps = {
+  setEditMode: updateEditMode,
+};
+
 const mapStateToProps = state => ({
   formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
   viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
 });
 
-export default connect(mapStateToProps)(ReviewPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ReviewPage);
