@@ -27,8 +27,8 @@ const OtherResources = () => {
           User guides and essential information
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager User Guide (PPTX, 315 pages)"
-              href="https://benefits.va.gov/gibill/enrollment-manager/enrollment-manager-sco-user-guide.pptx"
+              hrefText="Enrollment Manager User Guide"
+              href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
             />
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
