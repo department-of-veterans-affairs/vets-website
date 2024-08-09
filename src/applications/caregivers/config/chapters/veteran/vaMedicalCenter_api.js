@@ -1,5 +1,5 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import PreferredFacilityApiDescription from '../../../components/FormDescriptions/PreferrerdFacilityApiDescription';
+import PreferredFacilityApiDescription from '../../../components/FormDescriptions/PreferredFacilityApiDescription';
 import FacilitySearch from '../../../components/FormFields/FacilitySearch';
 import { validatePlannedClinic } from '../../../utils/validation';
 import { fullSchema } from '../../../utils/imports';
