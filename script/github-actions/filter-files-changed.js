@@ -8,10 +8,7 @@ const changedFiles = process.env.CHANGED_FILE_PATHS
 
 const files = changedFiles.filter(file => fs.existsSync(file)); // remove files that don't exist
 
-console.log(files);
-
 const filteredJSFiles = files.filter(file => /.+\.jsx?$/.test(file)).join(' ');
-console.log(filteredJSFiles);
 const filteredSCSSFiles = files
   .filter(file => /.+\.s?css$/.test(file))
   .join(' ');
