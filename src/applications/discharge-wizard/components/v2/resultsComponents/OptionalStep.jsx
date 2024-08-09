@@ -7,7 +7,7 @@ import {
 } from '../../../constants/question-data-map';
 
 const OptionalStep = ({ formResponses }) => {
-  const validReason = [RESPONSES.REASON_1, RESPONSES.REASON_2].includes(
+  const validReason = [RESPONSES.REASON_PTSD, RESPONSES.REASON_TBI].includes(
     formResponses[SHORT_NAME_MAP.REASON],
   );
   const dischargeYear = parseInt(
