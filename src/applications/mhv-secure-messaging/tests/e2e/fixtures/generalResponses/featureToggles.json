@@ -171,10 +171,6 @@
         "value": true
       },
       {
-        "name": "checkInExperienceLorotaSecurityUpdatesEnabled",
-        "value": true
-      },
-      {
         "name": "check_in_experience_lorota_security_updates_enabled",
         "value": true
       },
