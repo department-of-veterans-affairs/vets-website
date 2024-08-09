@@ -147,13 +147,6 @@ createBTSSSLogin(store);
 createCallToActionWidget(store, widgetTypes.CTA);
 createEducationApplicationStatus(store, widgetTypes.EDUCATION_APP_STATUS);
 createOptOutApplicationStatus(store, widgetTypes.OPT_OUT_APP_STATUS);
-createApplicationStatus(store, {
-  formId: VA_FORM_IDS.FORM_21P_530,
-  applyHeading: 'How do I apply?',
-  additionalText: 'You can apply online right now.',
-  applyText: 'Apply for burial benefits',
-  widgetType: widgetTypes.BURIALS_APP_STATUS,
-});
 createDisabilityFormWizard(store, widgetTypes.DISABILITY_APP_STATUS);
 createDisabilityRatingCalculator(
   store,

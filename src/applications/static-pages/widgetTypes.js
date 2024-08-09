@@ -3,7 +3,6 @@ export default {
   ASK_VA: 'ask-va',
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
-  BURIALS_APP_STATUS: 'burials-app-status',
   BURIAL_HOW_DO_I_APPLY_WIDGET: 'burial-how-do-i-apply-widget',
   BURIALS_V2_HOW_DO_I_APPLY_WIDGET: 'burials-v2-how-do-i-apply-widget',
   BTSSS_LOGIN: 'btsss-login',
