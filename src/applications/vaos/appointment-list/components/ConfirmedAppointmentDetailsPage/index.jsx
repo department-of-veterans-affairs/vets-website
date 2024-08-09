@@ -91,7 +91,7 @@ export default function ConfirmedAppointmentDetailsPage() {
         : '';
       if (appointment && appointmentDate) {
         document.title = `${pageTitle} appointment on ${appointmentDate.format(
-          'dddd, MMMM DD, YYYY',
+          'dddd, MMMM D, YYYY',
         )}${pageTitleSuffix}`;
         scrollAndFocus();
       }
@@ -103,6 +103,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       isCanceled,
       isInPerson,
       isPast,
+      isVideo,
       featureBreadcrumbUrlUpdate,
     ],
   );
