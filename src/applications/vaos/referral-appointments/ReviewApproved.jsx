@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ReferralAppLink from './components/ReferralAppLink';
-import { getReferralById } from '../services/referral';
+import { getPatientDetails } from '../services/referral';
 
 export default function ReviewApproved() {
   const [patientData, setPatientData] = useState({});
@@ -14,7 +14,7 @@ export default function ReviewApproved() {
       let details = {};
       setError(false);
       try {
-        details = await getReferralById('mock123');
+        details = await getPatientDetails();
       } catch (networkError) {
         setError(true);
       }
@@ -56,7 +56,7 @@ export default function ReviewApproved() {
         </p>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">What</div>
-        <div>{patientData?.typeOfCare}</div>
+        <div>{patientData?.referral?.typeOfCare}</div>
         <hr className="vads-u-margin-y--2" />
         <div className="vads-u-font-weight--bold">Preferred Facility</div>
         <div>{patientData?.detailsShared?.preferredFacility}</div>
@@ -79,31 +79,31 @@ export default function ReviewApproved() {
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referral number:
           </span>{' '}
-          {patientData?.referralNumber}
+          {patientData?.referral?.referralNumber}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Start date:
           </span>{' '}
-          {patientData?.startDate}
+          {patientData?.referral?.startDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Expiration date:
           </span>{' '}
-          {patientData?.expirationDate}
+          {patientData?.referral?.expirationDate}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Referring VA facility:
           </span>{' '}
-          {patientData?.referringFacility}
+          {patientData?.referral?.referringFacility}
         </div>
         <div>
           <span className="vads-u-font-weight--bold vads-u-font-size--h5 vads-u-margin-bottom--2">
             Phone number:
           </span>{' '}
-          {patientData?.phoneNumber}
+          {patientData?.referral?.phoneNumber}
         </div>
         <hr className="vads-u-margin-y--2" />
         <div>

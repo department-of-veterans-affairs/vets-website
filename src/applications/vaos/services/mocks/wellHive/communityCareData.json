@@ -1,0 +1,17 @@
+{
+  "data": {
+    "provider": {
+      "name": "Dr. Mike Torello",
+      "group": "Trust care medical group",
+      "driveDistance": "12 minute drive (22 miles)",
+      "nextAvailable": "June 6, 2024",
+      "reviewText": "Review available appointments"
+    },
+    "providerDetails": {
+      "providerName": "Dr. Mike Torello",
+      "providerGroup": "Trust care medical group",
+      "driveDistance": "12 minute drive (22 miles)",
+      "nextAvailable": "June 6, 2024"
+    }
+  }
+}
