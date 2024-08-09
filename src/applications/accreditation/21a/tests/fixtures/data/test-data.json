@@ -9,7 +9,7 @@
       "suffix": "Jr."
     },
     "dateOfBirth": "1995-01-09",
-    "placeOfBirthAddress": {
+    "placeOfBirth": {
       "country": "USA",
       "city": "City",
       "state": "CA"
@@ -51,8 +51,8 @@
     },
     "militaryServiceExperiences": [
       {
-        "serviceBranch": "Army",
-        "serviceDateRange": {
+        "branch": "Army",
+        "dateRange": {
           "from": "2000-01-01",
           "to": "2004-12-31"
         },

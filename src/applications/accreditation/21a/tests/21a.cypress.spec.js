@@ -58,8 +58,8 @@ const testConfig = createTestConfig(
         });
       },
       'place-of-birth': selectDropdownHook(
-        'placeOfBirthAddress_state',
-        data => data.placeOfBirthAddress.state,
+        'placeOfBirth_state',
+        data => data.placeOfBirth.state,
       ),
       'home-address': selectDropdownHook(
         'homeAddress_state',
@@ -88,8 +88,8 @@ const testConfig = createTestConfig(
           cy.get('@testData').then(data => {
             cy.fillPage();
             selectDropdownWebComponent(
-              'serviceBranch',
-              data.militaryServiceExperiences[0].serviceBranch,
+              'branch',
+              data.militaryServiceExperiences[0].branch,
             );
             selectDropdownWebComponent(
               'characterOfDischarge',

@@ -15,7 +15,7 @@ import {
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
-const serviceBranchOptions = [
+const branchOptions = [
   'Army',
   'Navy',
   'Air Force',
@@ -50,16 +50,16 @@ const arrayBuilderOptions = {
   nounPlural: 'military service experiences',
   required: false,
   isItemIncomplete: item =>
-    !item?.serviceBranch ||
-    !item?.serviceDateRange ||
+    !item?.branch ||
+    !item?.dateRange ||
     !item?.characterOfDischarge ||
     (requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
-    getItemName: item => item?.serviceBranch,
+    getItemName: item => item?.branch,
     cardDescription: item =>
-      `${formatReviewDate(item?.serviceDateRange?.from)} - ${formatReviewDate(
-        item?.serviceDateRange?.to,
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
       )}`,
   },
 };
@@ -82,8 +82,8 @@ const militaryServiceExperiencePage = {
       'Military service experience',
       'You will have the option of adding additional periods of service on the next page.',
     ),
-    serviceBranch: selectUI('Branch of service'),
-    serviceDateRange: currentOrPastDateRangeUI(
+    branch: selectUI('Branch of service'),
+    dateRange: currentOrPastDateRangeUI(
       {
         title: 'Active service start date',
       },
@@ -107,12 +107,12 @@ const militaryServiceExperiencePage = {
   schema: {
     type: 'object',
     properties: {
-      serviceBranch: selectSchema(serviceBranchOptions),
-      serviceDateRange: currentOrPastDateRangeSchema,
+      branch: selectSchema(branchOptions),
+      dateRange: currentOrPastDateRangeSchema,
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
       explanationOfDischarge: textareaSchema,
     },
-    required: ['serviceBranch', 'serviceDateRange', 'characterOfDischarge'],
+    required: ['branch', 'dateRange', 'characterOfDischarge'],
   },
 };
 
