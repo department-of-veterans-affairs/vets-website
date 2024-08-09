@@ -95,6 +95,8 @@ const responses = {
   'GET /my_health/v1/medical_records/labs_and_tests/:id': labsAndTests.single,
   'GET /my_health/v1/medical_records/radiology': mhvRadiology.all,
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
+  'GET /my_health/v1/medical_records/clinical_notes/:id':
+    careSummariesAndNotes.single,
   'GET /my_health/v1/medical_records/conditions': conditions.all,
   'GET /my_health/v1/medical_records/conditions/:id': conditions.single,
   'GET /my_health/v1/medical_records/vitals': vitals.all,
