@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
@@ -22,6 +22,23 @@ const Covid19Result = ({ location, index }) => {
   const appointmentPhone =
     detailedServices?.[0]?.appointmentPhones?.[0] || null;
   const infoURL = detailedServices?.[0]?.path || null;
+  const clickHandler = useCallback(
+    event => {
+      if (event.key && event.key !== 'Enter') {
+        recordResultClickEvents(location, index);
+      }
+    },
+    [index, location],
+  );
+
+  const keyboardHandler = useCallback(
+    event => {
+      if (event.key === 'Enter') {
+        recordResultClickEvents(location, index);
+      }
+    },
+    [index, location],
+  );
 
   return (
     <div className="facility-result" id={location.id} key={location.id}>
@@ -31,12 +48,8 @@ const Covid19Result = ({ location, index }) => {
           markerText={location.markerText}
         />
         <span
-          onClick={() => {
-            recordResultClickEvents(location, index);
-          }}
-          onKeyPress={() => {
-            recordResultClickEvents(location, index);
-          }}
+          onClick={clickHandler}
+          onKeyDown={keyboardHandler}
           role="link"
           tabIndex={0}
         >

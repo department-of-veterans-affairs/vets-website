@@ -95,6 +95,7 @@ export const SearchForm = ({ fetchForms }) => {
         </span>
       )}
       <VaSearchInput
+        disable-analytics
         value={queryState}
         label="Search for a VA form by keyword, form name, or form number"
         onInput={handleQueryChange}

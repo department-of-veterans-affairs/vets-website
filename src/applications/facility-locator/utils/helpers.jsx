@@ -1,9 +1,5 @@
-// Dependencies
-import React from 'react';
 import moment from 'moment';
 import { first, includes, last, split, toLower } from 'lodash';
-import { CLINIC_URGENTCARE_SERVICE, LocationType } from '../constants';
-import UrgentCareAlert from '../containers/UrgentCareAlert';
 import { recordMarkerEvents } from './analytics';
 
 // https://stackoverflow.com/a/50171440/1000622
@@ -272,28 +268,4 @@ export const formatOperatingHours = operatingHours => {
 export const isVADomain = website => {
   const regExp1 = /https?:\/\/(?:www\.|staging\.)?va\.gov(\/*)/;
   return regExp1.test(website);
-};
-
-/**
- * Helper method to display an urgent care alert dialog
- *
- * @param {object} state currentQuery
- */
-export const showDialogUrgCare = currentQuery => {
-  if (
-    (currentQuery.facilityType === LocationType.URGENT_CARE &&
-      currentQuery.serviceType === 'NonVAUrgentCare') ||
-    currentQuery.facilityType === LocationType.URGENT_CARE_PHARMACIES
-  ) {
-    return <UrgentCareAlert />;
-  }
-
-  if (
-    currentQuery.facilityType === LocationType.CC_PROVIDER &&
-    currentQuery.serviceType === CLINIC_URGENTCARE_SERVICE
-  ) {
-    return <UrgentCareAlert />;
-  }
-
-  return null;
 };
