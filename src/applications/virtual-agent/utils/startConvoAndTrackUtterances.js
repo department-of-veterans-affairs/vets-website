@@ -3,25 +3,8 @@ import {
   processSendMessageActivity,
   processIncomingActivity,
   processMicrophoneActivity,
+  addActivityData,
 } from './actions';
-
-function addActivityData(
-  action,
-  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
-) {
-  const updatedAction = action;
-  if (updatedAction.payload?.activity) {
-    updatedAction.payload.activity.value = {
-      ...updatedAction.payload.activity.value,
-      apiSession,
-      csrfToken,
-      apiURL,
-      userFirstName,
-      userUuid,
-    };
-  }
-  return updatedAction;
-}
 
 const StartConvoAndTrackUtterances = {
   makeBotStartConvoAndTrackUtterances: event => ({

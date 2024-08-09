@@ -170,3 +170,21 @@ export const processMicrophoneActivity = ({ action }) => () => {
     });
   }
 };
+
+export function addActivityData(
+  action,
+  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
+) {
+  const updatedAction = action;
+  if (updatedAction.payload?.activity) {
+    updatedAction.payload.activity.value = {
+      ...updatedAction.payload.activity.value,
+      apiSession,
+      csrfToken,
+      apiURL,
+      userFirstName,
+      userUuid,
+    };
+  }
+  return updatedAction;
+}
