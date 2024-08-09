@@ -15,7 +15,7 @@ const AppConfig = ({ children }) => {
     clientToken: 'pub3e48a5b97661792510e69581b3b272d1',
     site: 'ddog-gov.com',
     service: 'mhv-on-va.gov',
-    sessionSampleRate: 100,
+    sessionSampleRate: 20,
     sessionReplaySampleRate: 1,
     trackUserInteractions: true,
     trackResources: true,
