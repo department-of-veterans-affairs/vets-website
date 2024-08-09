@@ -13,19 +13,15 @@ const content = {
 };
 
 const ConfirmationPage = () => {
-  const form = {
-    data: { veteran: { fullName: { first: 'John', last: 'Veteran' } } },
-    submission: {
-      timestamp: 1721999975,
-      response: { confirmationNumber: '2106a7e8-27dd-46b4-886a-29b780723f4c' },
-    },
-  };
+  const form = require('../tests/e2e/fixtures/mocks/mock-form.json');
+  const formConfig = require('../tests/e2e/fixtures/mocks/mock-form-config.json');
   const { timestamp, response = {} } = form.submission;
   const submitterFullName = form.data?.veteran?.fullName;
 
   return (
     <ConfirmationPageView
       formType="submission"
+      formConfig={formConfig}
       submitterHeader="Who submitted this form"
       submitterName={submitterFullName}
       submitDate={timestamp}
