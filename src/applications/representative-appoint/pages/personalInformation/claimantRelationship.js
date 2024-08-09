@@ -3,6 +3,8 @@ import {
   radioSchema,
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import { claimantRelationships } from '../../definitions/constants';
 
 /** @type {UISchemaOptions} */
@@ -16,20 +18,39 @@ export const uiSchema = {
   },
   claimantRelationship: radioUI({
     title: 'What’s your relationship to the Veteran?',
-    labels: {
-      [claimantRelationships.veteran]: 'I’m the Veteran’s spouse',
-      [claimantRelationships.spouse]: 'I’m the Veteran’s child',
-      [claimantRelationships.child]: 'I’m the Veteran’s parent',
-      [claimantRelationships.accreditedRepresentative]:
-        'I’m the Veteran’s accredited representative',
-      [claimantRelationships.relationshipNotListed]:
-        'We don’t have a relationship that’s listed here',
-    },
+    labels: claimantRelationships,
     errorMessages: {
       enum: 'Select one that best describes you',
       required: 'Select one that best describes you',
     },
+    required: () => true,
   }),
+  relationshipNotListed: {
+    'ui:title': `Please describe your relationship to the Veteran`,
+    'ui:webComponentField': VaTextInputField,
+    'ui:options': {
+      expandUnder: 'claimantRelationship',
+      expandUnderCondition: 'RELATIONSHIP_NOT_LISTED',
+      expandedContentFocus: true,
+    },
+    'ui:errorMessages': {
+      required: `Please enter your relationship to the Veteran`,
+    },
+  },
+  'ui:options': {
+    updateSchema: (formData, formSchema) => {
+      if (formSchema?.properties?.relationshipNotListed?.['ui:collapsed']) {
+        return {
+          ...formSchema,
+          required: ['claimantRelationship'],
+        };
+      }
+      return {
+        ...formSchema,
+        required: ['claimantRelationship', 'relationshipNotListed'],
+      };
+    },
+  },
 };
 
 /** @type {UISchemaOptions} */
@@ -37,6 +58,7 @@ export const schema = {
   type: 'object',
   required: ['claimantRelationship'],
   properties: {
-    claimantRelationship: radioSchema(Object.values(claimantRelationships)),
+    claimantRelationship: radioSchema(Object.keys(claimantRelationships)),
+    relationshipNotListed: { type: 'string' },
   },
 };

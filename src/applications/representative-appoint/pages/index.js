@@ -10,6 +10,8 @@ import * as claimantContactPhoneEmail from './personalInformation/claimantContac
 import * as claimantRelationship from './personalInformation/claimantRelationship';
 import * as claimantPersonalInformation from './personalInformation/claimantPersonalInformation';
 import * as confirmClaimantPersonalInformation from './personalInformation/confirmClaimantPersonalInformation';
+import * as claimantContact from './personalInformation/claimantContact';
+import * as claimantContactMailing from './personalInformation/claimantContactMailing';
 
 export {
   authorizeMedical,
@@ -24,4 +26,6 @@ export {
   claimantRelationship,
   claimantPersonalInformation,
   confirmClaimantPersonalInformation,
+  claimantContact,
+  claimantContactMailing,
 };
