@@ -18,6 +18,7 @@ const MessageReply = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
+  const [isSending, setIsSending] = useState(false);
 
   useEffect(
     () => {
@@ -62,6 +63,7 @@ const MessageReply = () => {
         messages={messages}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        setIsSending={setIsSending}
       />
     );
   };
@@ -85,7 +87,15 @@ const MessageReply = () => {
         />
       ) : (
         <>
-          <div className="vads-l-grid-container compose-container">
+          <va-loading-indicator
+            message="Sending message..."
+            data-testid="loading-indicator"
+            style={{ display: isSending ? 'block' : 'none' }}
+          />
+          <div
+            className="vads-l-grid-container compose-container"
+            style={{ display: isSending && 'none' }}
+          >
             <AlertBackgroundBox closeable />
             {content()}
             {messages?.length && thread()}
