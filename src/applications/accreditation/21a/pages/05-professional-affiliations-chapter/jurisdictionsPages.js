@@ -5,25 +5,21 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
-  descriptionUI,
   selectSchema,
   selectUI,
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import ProfessionalAffiliationsIntro from '../../components/05-professional-affiliations-chapter/ProfessionalAffiliationsIntro';
 import { jurisdictionOptions } from '../../constants/jurisdictions';
 import { formatReviewDate } from '../helpers/formatReviewDate';
-
-const dependsOn = formData => formData.standingWithBar;
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'jurisdictions',
   nounSingular: 'jurisdiction',
   nounPlural: 'jurisdictions',
-  required: true,
+  required: false,
   isItemIncomplete: item =>
     !item?.jurisdiction ||
     (item?.jurisdiction === 'Other' && !item?.otherJurisdiction) ||
@@ -38,17 +34,6 @@ const arrayBuilderOptions = {
       `${formatReviewDate(item?.admissionDate)}, #${
         item?.membershipOrRegistrationNumber
       }`,
-  },
-};
-
-/** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...descriptionUI(ProfessionalAffiliationsIntro),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
   },
 };
 
@@ -89,7 +74,6 @@ const jurisdictionPage = {
 };
 
 /**
- * This page is skipped on the first loop for required flow
  * Cards are populated on this page above the uiSchema if items are present
  *
  * @returns {PageSchema}
@@ -98,7 +82,12 @@ const summaryPage = {
   uiSchema: {
     'view:hasJurisdictions': arrayBuilderYesNoUI(
       arrayBuilderOptions,
-      {},
+      {
+        title:
+          'Are you currently admitted to practice before any jurisdictions?',
+        labelHeaderLevel: 'p',
+        hint: ' ',
+      },
       {
         labelHeaderLevel: 'p',
         hint: 'List each jurisdiction to which you are admitted.',
@@ -117,24 +106,15 @@ const summaryPage = {
 const jurisdictionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
-    jurisdictions: pageBuilder.introPage({
-      title: 'Professional affiliations',
-      path: 'professional-affiliations',
-      depends: formData => dependsOn(formData),
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-    }),
     jurisdictionsSummary: pageBuilder.summaryPage({
       title: 'Review your jurisdictions',
       path: 'jurisdictions-summary',
-      depends: formData => dependsOn(formData),
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     jurisdictionPage: pageBuilder.itemPage({
       title: 'Jurisdiction',
       path: 'jurisdictions/:index/jurisdiction',
-      depends: formData => dependsOn(formData),
       uiSchema: jurisdictionPage.uiSchema,
       schema: jurisdictionPage.schema,
     }),

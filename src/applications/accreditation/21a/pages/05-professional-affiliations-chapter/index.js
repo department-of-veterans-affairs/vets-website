@@ -1,4 +1,4 @@
-import agenciesOrCourtsIntro from './agenciesOrCourtsIntro';
+import professionalAffiliationsIntro from './professionalAffiliationsIntro';
 import jurisdictionsPages from './jurisdictionsPages';
 import agenciesOrCourtsPages from './agenciesOrCourtsPages';
 
@@ -6,7 +6,7 @@ import agenciesOrCourtsPages from './agenciesOrCourtsPages';
 export default {
   title: 'Professional affiliations',
   pages: {
-    intro: agenciesOrCourtsIntro,
+    professionalAffiliationsIntro,
     ...jurisdictionsPages,
     ...agenciesOrCourtsPages,
   },

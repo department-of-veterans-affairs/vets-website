@@ -39,7 +39,7 @@ const agencyOrCourtPage = {
         'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
-    name: textUI('Name of agency/court'),
+    name: textUI('Agency/court'),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
   },
