@@ -36,13 +36,15 @@ const IntroductionPage = ({ route }) => {
         and reputation relevant to practice before the Department of Veterans
         Affairs. Failure to disclose the requested information may result in
         denial of accreditation under{' '}
-        <a href="https://www.law.cornell.edu/cfr/text/38/14.629">
-          38 C.F.R. § 14.629
-        </a>{' '}
+        <va-link
+          href="https://www.law.cornell.edu/cfr/text/38/14.629"
+          text="38 C.F.R. § 14.629"
+        />{' '}
         or in disciplinary proceedings under{' '}
-        <a href="https://www.law.cornell.edu/cfr/text/38/14.633">
-          38 C.F.R. § 14.633
-        </a>{' '}
+        <va-link
+          href="https://www.law.cornell.edu/cfr/text/38/14.633"
+          text="38 C.F.R. § 14.633"
+        />{' '}
         if you are already accredited.
       </p>
       <va-alert status="warning" visible>
