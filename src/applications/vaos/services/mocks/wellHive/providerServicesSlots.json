@@ -1,21 +1,21 @@
 {
-    "count": 2,
-    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
-    "slots": [
-      {
-        "appointmentTypeId": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
-        "id": "dba0855e-5681-411d-801c-036f4f046988",
-        "providerServiceId": "69cd9203-5e92-47a3-aa03-94b03752872a",
-        "remaining": 1,
-        "start": "2026-01-01T17:00:00Z"
-      },
-      {
-        "appointmentTypeId": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
-        "id": "e3b29fa4-43b3-4b27-b5e2-62236d677abf",
-        "providerServiceId": "69cd9203-5e92-47a3-aa03-94b03752872a",
-        "remaining": 1,
-        "start": "2026-01-01T18:00:00Z"
-      }
-    ],
-    "total": 5
-  }
+  "count": 2,
+  "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+  "slots": [
+    {
+      "appointmentTypeId": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
+      "id": "dba0855e-5681-411d-801c-036f4f046988",
+      "providerServiceId": "69cd9203-5e92-47a3-aa03-94b03752872a",
+      "remaining": 1,
+      "start": "2026-01-01T17:00:00Z"
+    },
+    {
+      "appointmentTypeId": "40cca3e9-cbf2-48d0-b088-7f4a2713fcae",
+      "id": "e3b29fa4-43b3-4b27-b5e2-62236d677abf",
+      "providerServiceId": "69cd9203-5e92-47a3-aa03-94b03752872a",
+      "remaining": 1,
+      "start": "2025-01-01T18:00:00Z"
+    }
+  ],
+  "total": 5
+}

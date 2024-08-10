@@ -20,6 +20,49 @@ export async function getPatientDetails(
   }
 }
 
+export async function getReferralByReferralId(referralId) {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/referral/${referralId}`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderOrgs() {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/provider-organization`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderServices() {
+  try {
+    return await apiRequestWithUrl(`/vaos/v2/wellhive/provider-services`, {
+      method: 'GET',
+    });
+  } catch (error) {
+    return null;
+  }
+}
+
+export async function getProviderServiceSlotById(providerServiceId) {
+  try {
+    return await apiRequestWithUrl(
+      `/vaos/v2/wellhive/provider-services/${providerServiceId}/slots`,
+      {
+        method: 'GET',
+      },
+    );
+  } catch (error) {
+    return null;
+  }
+}
+
 export async function getReferralById(referralId) {
   try {
     const response = await apiRequestWithUrl(
