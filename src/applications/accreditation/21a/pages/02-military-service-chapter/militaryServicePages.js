@@ -1,5 +1,6 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -9,36 +10,16 @@ import {
   selectUI,
   textareaSchema,
   textareaUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
-const branchOptions = [
-  'Army',
-  'Navy',
-  'Air Force',
-  'Marine Corps',
-  'Space Force',
-  'Coast Guard',
-];
-
-const characterOfDischargeOptions = [
-  'Honorable',
-  'General',
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
-
-const explanationRequired = [
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
+import {
+  branchOptions,
+  characterOfDischargeOptions,
+  explanationRequired,
+} from '../../constants/options';
 
 const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
@@ -78,10 +59,12 @@ const introPage = {
 /** @returns {PageSchema} */
 const militaryServiceExperiencePage = {
   uiSchema: {
-    ...titleUI(
-      'Military service experience',
-      'You will have the option of adding additional periods of service on the next page.',
-    ),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Military service experience',
+      description:
+        'You will have the option of adding additional periods of service on the next page.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
     branch: selectUI('Branch of service'),
     dateRange: currentOrPastDateRangeUI(
       {
