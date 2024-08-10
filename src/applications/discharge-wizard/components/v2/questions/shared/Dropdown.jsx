@@ -12,7 +12,7 @@ import {
   navigateForward,
 } from '../../../../utilities/page-navigation';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
-import { updateFormStore } from '../../../../actions';
+import { updateEditMode, updateFormStore } from '../../../../actions';
 import {
   determineErrorMessage,
   determineLabel,
@@ -32,6 +32,7 @@ const Dropdown = ({
   testId,
   updateCleanedFormStore,
   editMode,
+  toggleEditMode,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
@@ -60,7 +61,7 @@ const Dropdown = ({
         // Remove answers from the Redux store if the display path ahead will change.
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
       }
-
+      toggleEditMode(false);
       setFormError(false);
       navigateForward(shortName, formResponses, router, editMode);
     }
@@ -114,6 +115,7 @@ Dropdown.propTypes = {
 
 const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
+  toggleEditMode: updateEditMode,
 };
 
 const mapStateToProps = state => ({

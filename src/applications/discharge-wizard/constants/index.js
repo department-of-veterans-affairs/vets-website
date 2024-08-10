@@ -126,6 +126,8 @@ export const DUW_UPDATE_PRIOR_SERVICE =
 export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
 export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
+export const DUW_QUESTION_FLOW_CHANGED =
+  'discharge-upgrade-wizard/DUW_QUESTION_FLOW_CHANGED';
 
 export const DRB = 'DRB';
 export const BCMR = 'BCMR';
@@ -184,6 +186,14 @@ export const questionsToClearMap = Object.freeze({
   PRIOR_SERVICE: [],
   FAILURE_TO_EXHAUST: [],
 });
+
+export const forkableQuestions = [
+  SHORT_NAME_MAP.DISCHARGE_YEAR,
+  SHORT_NAME_MAP.REASON,
+  SHORT_NAME_MAP.PREV_APPLICATION,
+  SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+  SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+];
 
 export const errorTextMap = Object.freeze({
   SERVICE_BRANCH: 'Select a branch.',

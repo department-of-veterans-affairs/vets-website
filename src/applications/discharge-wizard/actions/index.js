@@ -16,6 +16,7 @@ import {
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
   DUW_EDIT_MODE,
+  DUW_QUESTION_FLOW_CHANGED,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -40,11 +41,17 @@ export const updateIntroPageViewed = value => {
   };
 };
 
-export const updateEditMode = (key, value) => {
+export const updateEditMode = value => {
   return {
     type: DUW_EDIT_MODE,
-    key,
-    value,
+    payload: value,
+  };
+};
+
+export const updateQuestionFlowChanged = value => {
+  return {
+    type: DUW_QUESTION_FLOW_CHANGED,
+    payload: value,
   };
 };
 

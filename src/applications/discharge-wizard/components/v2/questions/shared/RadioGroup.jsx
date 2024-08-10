@@ -6,13 +6,18 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { forkableQuestions } from '../../../../constants';
 import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
 import { applyFocus, applyErrorFocus } from '../../../../utilities/page-setup';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
-import { updateFormStore } from '../../../../actions';
+import {
+  updateEditMode,
+  updateFormStore,
+  updateQuestionFlowChanged,
+} from '../../../../actions';
 import { determineErrorMessage } from '../../../../utilities/shared';
 
 const RadioGroup = ({
@@ -29,6 +34,8 @@ const RadioGroup = ({
   valueSetter,
   updateCleanedFormStore,
   editMode,
+  toggleEditMode,
+  toggleQuestionsFlowChanged,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -41,8 +48,14 @@ const RadioGroup = ({
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead has changed
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+        // Set the question flow changed flag to true for review page alert
+        if (forkableQuestions.includes(shortName) && editMode) {
+          toggleQuestionsFlowChanged(true);
+        }
       }
 
+      toggleEditMode(false);
       setFormError(false);
       navigateForward(shortName, formResponses, router, editMode);
     }
@@ -94,6 +107,18 @@ const RadioGroup = ({
       >
         {renderRadioOptions()}
       </VaRadio>
+      {editMode &&
+        forkableQuestions.includes(shortName) && (
+          <va-alert-expandable
+            class="vads-u-margin-top--4"
+            status="info"
+            trigger="Changing your answer will lead to a new set of questions."
+          >
+            If you change your answer to this question, you will be asked for
+            more information to ensure that we provide you with the best
+            results.
+          </va-alert-expandable>
+        )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
@@ -122,6 +147,8 @@ RadioGroup.propTypes = {
 
 const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
+  toggleEditMode: updateEditMode,
+  toggleQuestionsFlowChanged: updateQuestionFlowChanged,
 };
 
 const mapStateToProps = state => ({

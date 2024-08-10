@@ -17,7 +17,8 @@ const ReviewPage = ({
   formResponses,
   router,
   viewedIntroPage,
-  setEditMode,
+  questionFlowChanged,
+  toggleEditMode,
 }) => {
   const H1 = 'Review your answers';
 
@@ -38,7 +39,7 @@ const ReviewPage = ({
   );
 
   const onEditAnswerClick = route => {
-    setEditMode(true);
+    toggleEditMode(true);
     router.push(route);
   };
 
@@ -57,11 +58,17 @@ const ReviewPage = ({
             className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review-box"
           >
             <div className="answer-review-label">
-              <div className="vads-u-font-weight--bold">{reviewLabel}</div>
+              <div
+                className="vads-u-font-weight--bold"
+                data-testid={`label-${shortName}`}
+              >
+                {reviewLabel}
+              </div>
               <va-link
                 class="hydrated vads-u-padding-left--2"
                 onClick={() => onEditAnswerClick(ROUTES[shortName])}
                 name={shortName}
+                label={`Edit ${reviewLabel}`}
                 text="Edit"
               />
             </div>
@@ -75,15 +82,16 @@ const ReviewPage = ({
   return (
     <>
       <h1>{H1}</h1>
-      <va-alert class="vads-u-margin-top--4" status="info">
-        <h4 className="usa-alert-heading">
-          You can apply for VA benefits using your honorable characterization.
-        </h4>
-      </va-alert>
-      <p className="vads-u-margin-bottom--4 vads-u-margin-top--0">
-        If any information here is wrong, you can change your answers now. This
-        will help us give you the most accurate instructions.
-      </p>
+      {questionFlowChanged && (
+        <va-alert-expandable
+          class="vads-u-margin-top--4"
+          status="info"
+          trigger="Your information was updated."
+        >
+          Changing the answers to one or more questions caused the review screen
+          to update with new information.
+        </va-alert-expandable>
+      )}
       <ul className="answers vads-u-margin-bottom--2 vads-u-padding--0">
         {renderReviewAnswers()}
       </ul>
@@ -104,15 +112,18 @@ ReviewPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = {
-  setEditMode: updateEditMode,
+  toggleEditMode: updateEditMode,
 };
 
 const mapStateToProps = state => ({
   formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
   viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+  questionFlowChanged:
+    state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
 });
 
 export default connect(

@@ -4,7 +4,7 @@ export const QUESTION_MAP = Object.freeze({
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
   DISCHARGE_MONTH: 'What month were you discharged?',
   REASON: 'Tell us why you want to change your discharge paperwork.',
-  DISCHARGE_TYPE: `What's your character of discharge?`,
+  DISCHARGE_TYPE: 'Which of the following categories best describes you?',
   INTENTION:
     'Do you want to change your name, discharge date, or something written in the "other remarks" section of your DD214?',
   COURT_MARTIAL: 'Was your discharge the outcome of a general court-martial?',
@@ -99,16 +99,12 @@ export const REVIEW_LABEL_MAP = Object.freeze({
   DISCHARGE_YEAR: 'Year of discharge:',
   DISCHARGE_MONTH: 'Month of discharge',
   REASON: 'Reason for changing discharge paperwork:',
-  DISCHARGE_TYPE: 'Character of discharge:',
-  INTENTION:
-    'Name change, discharge date, or something written in the "other remarks" section of your DD214:',
+  DISCHARGE_TYPE: 'Category that best describes you:',
+  INTENTION: 'Information you want to change:',
   COURT_MARTIAL: 'Discharge was the outcome of a general court-martial:',
-  PREV_APPLICATION:
-    'Previously applied for and been denied a discharge upgrade for this period of service:',
+  PREV_APPLICATION: 'Previously denied a discharge upgrade:',
   PREV_APPLICATION_YEAR: 'Year applied for discharge upgrade:',
-  PREV_APPLICATION_TYPE: 'Previous discharge upgrade:',
-  FAILURE_TO_EXHAUST:
-    'Application denial based on "failure to exhaust other remedies":',
-  PRIOR_SERVICE:
-    'Completed a period of service in which your character of service was honorable or general under honroable conditions:',
+  PREV_APPLICATION_TYPE: 'Type of previous application:',
+  FAILURE_TO_EXHAUST: 'Reason application denied:',
+  PRIOR_SERVICE: 'Completed an earlier period of service:',
 });
