@@ -111,7 +111,7 @@ const formConfig = {
           },
         },
         editMailingAddress: {
-          title: 'Edit mailing address',
+          title: 'Edit your mailing address',
           path: 'veteran-information/edit-mailing-address',
           CustomPage: props =>
             EditAddress({
@@ -119,6 +119,8 @@ const formConfig = {
               contactPath:
                 'task-green/veteran-information/confirm-mailing-address',
               saveButtonText: 'Save to profile',
+              subTitle:
+                'We’ll send any important information about your application to this address.',
             }),
           CustomPageReview: null,
           depends: () => false, // accessed from contact info page

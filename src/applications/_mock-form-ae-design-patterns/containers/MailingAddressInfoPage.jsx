@@ -10,7 +10,7 @@ export const MailingAddressInfoPage = () => {
 
   return (
     <>
-      <h4 className="vads-u-font-size--h3">Mailing address</h4>
+      <h3>Mailing address</h3>
 
       <p>
         We’ll send any important information about your application to this
@@ -30,6 +30,11 @@ export const MailingAddressInfoPage = () => {
           <span className="vads-u-visibility--screen-reader">
             your mailing address
           </span>
+          <va-icon
+            icon="chevron_right"
+            size="2"
+            style={{ position: 'relative', top: '-5px', left: '-1px' }}
+          />
         </Link>
       </BorderedInfoSection>
     </>

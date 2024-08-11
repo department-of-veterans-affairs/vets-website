@@ -23,6 +23,9 @@ import {
   REVIEW_CONTACT,
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
+import { createPortal } from 'react-dom';
+import { Link } from 'react-router';
+import NameTag from './NameTag';
 
 export const BuildPage = ({
   title,
@@ -31,6 +34,7 @@ export const BuildPage = ({
   goToPath,
   contactPath,
   saveButtonText,
+  subTitle,
 }) => {
   const headerRef = useRef(null);
 
@@ -82,9 +86,27 @@ export const BuildPage = ({
   };
 
   return (
-    <div className="va-profile-wrapper" onSubmit={handlers.onSubmit}>
+    <div
+      className="va-profile-wrapper vads-u-margin-top--neg4"
+      onSubmit={handlers.onSubmit}
+    >
+      {createPortal(<NameTag />, document.querySelector('header'))}
+      <Link to={contactPath}>
+        <va-icon
+          icon="chevron_left"
+          size="2"
+          style={{ position: 'relative', top: '-4px', right: '-2px' }}
+        />{' '}
+        Back to last page
+      </Link>
       <InitializeVAPServiceID>
-        <h3 ref={headerRef}>{title}</h3>
+        <h1
+          className="vads-u-font-size--h2 vads-u-margin-top--3"
+          ref={headerRef}
+        >
+          {title}
+        </h1>
+        {subTitle && <p className="vads-u-color--gray-medium">{subTitle}</p>}
         <ProfileInformationFieldController
           forceEditView
           fieldName={FIELD_NAMES[field]}
@@ -103,6 +125,8 @@ BuildPage.propTypes = {
   field: PropTypes.string,
   goToPath: PropTypes.func,
   id: PropTypes.string,
+  saveButtonText: PropTypes.string,
+  subTitle: PropTypes.string,
   title: PropTypes.string,
 };
 
@@ -118,6 +142,6 @@ export const EditEmail = props => (
   <BuildPage {...props} field="EMAIL" id="email" />
 );
 
-export const EditAddress = props => (
-  <BuildPage {...props} field="MAILING_ADDRESS" id="address" />
-);
+export const EditAddress = props => {
+  return <BuildPage {...props} field="MAILING_ADDRESS" id="address" />;
+};

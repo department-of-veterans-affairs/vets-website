@@ -26,6 +26,36 @@ const getFormConfig = location => {
   return fallbackFormConfig;
 };
 
+const handleEditPageDisplayTweaks = location => {
+  const navHeader = document.querySelector('#nav-form-header');
+  const chapterProgress = document.querySelector(
+    '.schemaform-chapter-progress',
+  );
+  const formTitle = document.querySelector('.schemaform-title');
+  if (location.pathname.includes('edit-')) {
+    if (navHeader) {
+      // hide header on edit pages
+      navHeader.style.display = 'none';
+    }
+    if (chapterProgress) {
+      chapterProgress.style.display = 'none';
+    }
+    if (formTitle) {
+      formTitle.style.display = 'none';
+    }
+  } else {
+    if (navHeader) {
+      navHeader.style.display = 'block';
+    }
+    if (chapterProgress) {
+      chapterProgress.style.display = 'block';
+    }
+    if (formTitle) {
+      formTitle.style.display = 'block';
+    }
+  }
+};
+
 export default function App({ location, children }) {
   const [, setHasSession] = useLocalStorage('hasSession', '');
   const dispatch = useDispatch();
@@ -39,6 +69,7 @@ export default function App({ location, children }) {
       if (location?.query?.loggedIn === 'false') {
         teardownProfileSession();
       }
+      handleEditPageDisplayTweaks(location);
     },
     [location, setHasSession],
   );

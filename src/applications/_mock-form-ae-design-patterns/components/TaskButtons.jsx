@@ -12,18 +12,30 @@ const handleClick = (rootUrl, task) => {
   }
 };
 
+const defaultRootUrl = '/mock-form-ae-design-patterns';
+
 export const TaskButtons = ({ rootUrl }) => {
   return (
     <div className="vads-l-grid-container vads-u-margin-y--4">
       <div className="vads-l-row">
         <div className="vads-l-col--12">
-          <button onClick={() => handleClick(rootUrl, 'task-green')}>
+          <button
+            onClick={() => handleClick(rootUrl || defaultRootUrl, 'task-green')}
+          >
             Task Green
           </button>
-          <button onClick={() => handleClick(rootUrl, 'task-yellow')}>
+          <button
+            onClick={() =>
+              handleClick(rootUrl || defaultRootUrl, 'task-yellow')
+            }
+          >
             Task Yellow
           </button>
-          <button onClick={() => handleClick(rootUrl, 'task-purple')}>
+          <button
+            onClick={() =>
+              handleClick(rootUrl || defaultRootUrl, 'task-purple')
+            }
+          >
             Task Purple
           </button>
         </div>
