@@ -3,7 +3,6 @@ import { Actions } from '../util/actionTypes';
 import {
   concatCategoryCodeText,
   concatObservationInterpretations,
-  dateFormat,
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
@@ -228,9 +227,7 @@ const convertMicrobiologyRecord = record => {
     results:
       record.presentedForm?.map(form => decodeBase64Report(form.data)) ||
       EMPTY_FIELD,
-    sortDate:
-      specimen?.collection?.collectedDateTime &&
-      dateFormatWithoutTimezone(specimen.collection.collectedDateTime),
+    sortDate: specimen?.collection?.collectedDateTime,
   };
 };
 
@@ -248,7 +245,7 @@ const convertPathologyRecord = record => {
     category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
-      ? formatDate(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     sampleTested: specimen?.type?.text || EMPTY_FIELD,
     labLocation,
@@ -325,7 +322,9 @@ export const convertMhvRadiologyRecord = record => {
       ? record.clinicalHistory.trim()
       : EMPTY_FIELD,
     imagingLocation: record.performingLocation,
-    date: record.eventDate ? dateFormat(record.eventDate) : EMPTY_FIELD,
+    date: record.eventDate
+      ? dateFormatWithoutTimezone(record.eventDate)
+      : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
     results: record.impressionText,

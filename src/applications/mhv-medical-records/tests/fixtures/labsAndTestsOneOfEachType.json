@@ -1132,8 +1132,8 @@
         "subject": {
           "reference": "Patient/ex-MHV-patient-1"
         },
-        "effectiveDateTime": "1999-08-11T16:09:00Z",
-        "issued": "1999-08-11T16:09:00Z",
+        "effectiveDateTime": "1999-08-11T16:09:00-05:00",
+        "issued": "1999-08-11T16:09:00-05:00",
         "performer": [
           {
             "reference": "#ex-MHV-organization-989"
