@@ -572,6 +572,8 @@ export function validateDateRangeAllowSameMonth(
 export const UPLOADING_FILE = 'Uploading file...';
 export const NOT_UPLOADED = 'We couldn’t upload your file';
 export const MISSING_PASSWORD_ERROR = 'Missing password';
+export const UNSUPPORTED_ENCRYPTED_FILE_ERROR =
+  "We weren't able to upload your file. Make sure the file is not encrypted and an accepted format.";
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;

@@ -1,8 +1,10 @@
-// import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from './submitTransformer';
 import { nameWording } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
@@ -43,12 +45,14 @@ function fnp(formData) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  transformForSubmit,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submissionError: SubmissionError,
   formId: '10-7959A',
   saveInProgress: {
     messages: {
