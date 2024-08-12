@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import moment from 'moment-timezone';
+import MockDate from 'mockdate';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import userEvent from '@testing-library/user-event';
 import sinon from 'sinon';
@@ -49,6 +50,11 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   beforeEach(() => {
     mockFetch();
     mockFacilitiesFetch();
+    MockDate.set(getTestDate());
+  });
+
+  afterEach(() => {
+    MockDate.reset();
   });
 
   it('should show confirmed appointments detail page', async () => {
@@ -57,7 +63,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response
       .setLocationId('983')
       .setClinicId('1')
-      .setReasonCode({ text: 'I have a headache' });
+      .setReasonCode({ text: 'I have a headache' })
+      .setPatientComments('I have a headache');
     const clinicResponse = new MockClinicResponse({
       id: 1,
       locationId: '983',
@@ -87,12 +94,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -111,9 +113,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -134,7 +134,8 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     response
       .setLocationId('983GC')
       .setClinicId('455')
-      .setReasonCode({ text: 'I have a headache' });
+      .setReasonCode({ text: 'I have a headache' })
+      .setPatientComments('I have a headache');
     const clinicResponse = new MockClinicResponse({
       id: 455,
       locationId: '983GC',
@@ -165,12 +166,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByRole('heading', {
         level: 1,
-        name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('dddd, MMMM D, YYYY'),
-          'i',
-        ),
+        name: new RegExp(moment().format('dddd, MMMM D, YYYY'), 'i'),
       }),
     ).to.be.ok;
 
@@ -203,9 +199,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -267,6 +261,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
           },
         },
       },
+      patientComments: 'I have a headache',
     };
 
     mockSingleClinicFetch({
@@ -506,7 +501,9 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   it('should show confirmed appointment without facility information', async () => {
     // Arrange
     const response = new MockAppointmentResponse();
-    response.setReasonCode({ text: 'New issue: ASAP' });
+    response
+      .setReasonCode({ text: 'New issue: ASAP' })
+      .setPatientComments('New issue: ASAP');
     mockAppointmentApi({ response });
 
     // Act
@@ -532,9 +529,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     expect(
       screen.getByTestId('add-to-calendar-link', {
         name: new RegExp(
-          moment()
-            .tz('America/Denver')
-            .format('[Add] MMMM D, YYYY [appointment to your calendar]'),
+          moment().format('[Add] MMMM D, YYYY [appointment to your calendar]'),
           'i',
         ),
       }),
@@ -545,8 +540,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
 
   it('should show past confirmed appointments detail page', async () => {
     // Arrange
-    const now = moment().tz('America/Denver');
-    const yesterday = moment(now).subtract(1, 'day');
+    const yesterday = moment().subtract(1, 'day');
 
     const response = new MockAppointmentResponse({
       localStartTime: yesterday,
@@ -567,7 +561,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `VA appointment on ${yesterday.format(
+        `Past in-person appointment on ${yesterday.format(
           'dddd, MMMM D, YYYY',
         )} | Veterans Affairs`,
       );

@@ -22,28 +22,28 @@ const PrevApplicationType = ({
   const H1 = QUESTION_MAP[shortName];
   const prevApplicationType = formResponses[shortName];
   const {
-    PREV_APPLICATION_TYPE_1,
-    PREV_APPLICATION_TYPE_2,
-    PREV_APPLICATION_TYPE_3A,
-    PREV_APPLICATION_TYPE_3B,
-    PREV_APPLICATION_TYPE_4,
+    PREV_APPLICATION_DRB_DOCUMENTARY,
+    PREV_APPLICATION_DRB_PERSONAL,
+    PREV_APPLICATION_BCMR,
+    PREV_APPLICATION_BCNR,
+    NOT_SURE,
   } = RESPONSES;
 
   const prevApplicationTypeOptions = [
-    PREV_APPLICATION_TYPE_1,
-    PREV_APPLICATION_TYPE_2,
-    PREV_APPLICATION_TYPE_3A,
-    PREV_APPLICATION_TYPE_3B,
-    PREV_APPLICATION_TYPE_4,
+    PREV_APPLICATION_DRB_DOCUMENTARY,
+    PREV_APPLICATION_DRB_PERSONAL,
+    PREV_APPLICATION_BCMR,
+    PREV_APPLICATION_BCNR,
+    NOT_SURE,
   ].filter(option => {
     if (
       [RESPONSES.NAVY, RESPONSES.MARINE_CORPS].includes(
         formResponses.SERVICE_BRANCH,
       )
     ) {
-      return option !== PREV_APPLICATION_TYPE_3A;
+      return option !== PREV_APPLICATION_BCMR;
     }
-    return option !== PREV_APPLICATION_TYPE_3B;
+    return option !== PREV_APPLICATION_BCNR;
   });
 
   useEffect(

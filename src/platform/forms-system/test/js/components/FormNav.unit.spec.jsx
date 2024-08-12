@@ -180,9 +180,9 @@ describe('Schemaform FormNav', () => {
       'Custom Review Page Title',
     );
   });
-  it('should display the auto-save message & application ID', () => {
+  it('should display the auto-save message & in-progress ID on the first page', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'review-and-submit';
+    const currentPath = 'testing1';
 
     const tree = render(
       <FormNav
@@ -198,7 +198,7 @@ describe('Schemaform FormNav', () => {
       }),
     ).to.not.be.null;
     expect(
-      tree.getByText('Your application ID number is 12345', {
+      tree.getByText('Your in-progress ID number is 12345', {
         exact: false,
       }),
     ).to.not.be.null;

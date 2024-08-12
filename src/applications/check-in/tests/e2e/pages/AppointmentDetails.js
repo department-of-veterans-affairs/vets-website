@@ -13,16 +13,6 @@ class AppointmentDetails {
       .and('include.text', 'Phone appointment');
   };
 
-  validateSubtitleInPerson = () => {
-    cy.get('p[data-testid="in-person-appointment-subtitle"]').should(
-      'be.visible',
-    );
-  };
-
-  validateSubtitlePhone = () => {
-    cy.get('p[data-testid="phone-appointment-subtitle"]').should('be.visible');
-  };
-
   validateWhen = () => {
     cy.get('div[data-testid="appointment-details--when"]').should('be.visible');
     cy.get('div[data-testid="appointment-details--date-value"]').should(
@@ -125,6 +115,16 @@ class AppointmentDetails {
     cy.get('button[data-testid="back-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  clickReview = () => {
+    cy.get('[data-testid="review-information-button"] a').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=what-to-bring-link]').click();
   };
 }
 

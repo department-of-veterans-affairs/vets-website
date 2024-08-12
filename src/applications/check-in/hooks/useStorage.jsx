@@ -84,6 +84,20 @@ const useStorage = (app, local = false) => {
     [STORAGE_KEYS, getKey],
   );
 
+  const setCompleteTimestamp = useCallback(
+    (window, value) => {
+      setKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP, value);
+    },
+    [STORAGE_KEYS, setKey],
+  );
+
+  const getCompleteTimestamp = useCallback(
+    window => {
+      return getKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP);
+    },
+    [STORAGE_KEYS, getKey],
+  );
+
   const setShouldSendDemographicsFlags = useCallback(
     (window, value) => {
       setKey(window, STORAGE_KEYS.SHOULD_SEND_DEMOGRAPHICS_FLAGS, value);
@@ -165,6 +179,8 @@ const useStorage = (app, local = false) => {
     getPreCheckinComplete,
     setCheckinComplete,
     getCheckinComplete,
+    setCompleteTimestamp,
+    getCompleteTimestamp,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,

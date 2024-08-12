@@ -11,6 +11,7 @@ describe('VAOS Component: CCLayout', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
@@ -79,7 +80,7 @@ describe('VAOS Component: CCLayout', () => {
     });
   });
 
-  describe('When viewing upcomming appointment details', () => {
+  describe('When viewing upcoming appointment details', () => {
     it('should display CC layout', async () => {
       // Arrange
       const store = createTestStore(initialState);
@@ -146,6 +147,10 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/line 1/i));
       expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
         .ok;
+      const link = screen.getByRole('link', { name: /Directions/i });
+      const href = link.getAttribute('href');
+      const urlParams = new URLSearchParams(href);
+      expect(urlParams.get('daddr')).to.be.ok;
 
       expect(
         screen.container.querySelector('va-telephone[contact="123-456-7890"]'),
@@ -161,6 +166,24 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/This is a test/i));
       expect(screen.getByText(/Other details:/i));
       expect(screen.getByText(/Additional information/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(screen.getByText(/Need to make changes/i));
 
@@ -269,6 +292,12 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/This is a test/i));
       expect(screen.getByText(/Other details:/i));
       expect(screen.getByText(/Additional information/i));
+
+      expect(
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
+      ).not.to.exist;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
@@ -381,6 +410,24 @@ describe('VAOS Component: CCLayout', () => {
       expect(screen.getByText(/This is a test/i));
       expect(screen.getByText(/Other details:/i));
       expect(screen.getByText(/Additional information/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;

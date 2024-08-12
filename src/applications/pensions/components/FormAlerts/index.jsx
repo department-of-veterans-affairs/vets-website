@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 export const AssetInformationAlert = () => (
-  <va-additional-info trigger="How we define assets" uswds>
+  <va-additional-info trigger="How we define assets">
     <p>
       Assets are all the money and property you or your dependents own. Don’t
       include the value of your primary residence or personal belongings such as
@@ -11,8 +11,69 @@ export const AssetInformationAlert = () => (
   </va-additional-info>
 );
 
+export const AssetsInformation = () => (
+  <va-accordion>
+    <va-accordion-item header="What we consider an asset">
+      <p>
+        Assets include the fair market value of all the real and personal
+        property that you own, minus the amount of any mortgages you have. "Real
+        property" is the land and buildings you own. And "personal property" is
+        items like these:
+      </p>
+      <ul>
+        <li>Investments, like stocks and bonds</li>
+        <li>Antique furniture</li>
+        <li>Boats</li>
+      </ul>
+      <h5>We don’t include items like these in your assets:</h5>
+      <ul>
+        <li>
+          Your primary residence (the home where you live most or all of your
+          time)
+        </li>
+        <li>Your car</li>
+        <li>
+          Basic home items, like appliances that you wouldn’t take with you if
+          you moved to a new house
+        </li>
+      </ul>
+    </va-accordion-item>
+    <va-accordion-item header="Who we consider a dependent">
+      <h5>A dependent is:</h5>
+      <ul>
+        <li>
+          A spouse (<strong>Note:</strong> We recognize same-sex and common-law
+          marriages)
+        </li>
+        <li>
+          A parent, if you’re directly caring for them and their income and net
+          worth are below a certain amount
+        </li>
+        <li>
+          An unmarried child (including an adopted child or stepchild) who meets
+          one of the eligibility requirements listed here
+        </li>
+      </ul>
+      <h5>
+        To be considered a dependent, one of these must be true of an unmarried
+        child:
+      </h5>
+      <ul>
+        <li>
+          They’re under 18 years old, <strong>or</strong>
+        </li>
+        <li>
+          They’re between the ages of 18 and 23 years old and enrolled in school
+          full time, <strong>or</strong>
+        </li>
+        <li>They became permanently disabled before they turned 18</li>
+      </ul>
+    </va-accordion-item>
+  </va-accordion>
+);
+
 export const AssetTransferInformationAlert = () => (
-  <va-additional-info trigger="How to tell if you transferred assets" uswds>
+  <va-additional-info trigger="How to tell if you transferred assets">
     <p>You transferred assets if you made any of these transactions:</p>
     <ul>
       <li>You gave away money or property</li>
@@ -24,7 +85,7 @@ export const AssetTransferInformationAlert = () => (
 );
 
 export const ContactWarningAlert = () => (
-  <va-alert uswds>
+  <va-alert>
     <p className="vads-u-margin-y--0">
       We usually don’t need to contact a former spouse of a Veteran’s spouse. In
       very rare cases where we need information from this person, we’ll contact
@@ -34,7 +95,7 @@ export const ContactWarningAlert = () => (
 );
 
 export const ContactWarningMultiAlert = () => (
-  <va-alert uswds>
+  <va-alert>
     <p className="vads-u-margin-y--0">
       We won’t contact any of the people listed here without contacting you
       first.
@@ -43,7 +104,7 @@ export const ContactWarningMultiAlert = () => (
 );
 
 export const DisabilityDocsAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to provide all private medical records for your child’s
       disability.
@@ -70,7 +131,7 @@ export const IncomeInformationAlert = () => (
 );
 
 export const LandMarketableAlert = () => (
-  <va-alert status="info" uswds>
+  <va-alert status="info">
     <p className="vads-u-margin-y--0">
       The additional land might not be marketable in these situations:
     </p>
@@ -85,7 +146,7 @@ export const LandMarketableAlert = () => (
 );
 
 export const MedicalEvidenceAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to provide medical evidence with this application.
     </p>
@@ -95,7 +156,7 @@ export const MedicalEvidenceAlert = () => (
 const RequestFormAlert = ({ title, formName, formLink, children }) => {
   const linkText = `Get ${formName} to download (opens in new tab)`;
   return (
-    <va-alert status="warning" uswds>
+    <va-alert status="warning">
       <p className="vads-u-margin-y--0">
         You’ll need to submit an {title} ({formName}
         ).
@@ -169,7 +230,7 @@ export const SpecialMonthlyPensionEvidenceAlert = () => (
 export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
   const linkText = 'Get VA Form 21P-0969 to download (opens in new tab)';
   return (
-    <va-alert status="warning" uswds>
+    <va-alert status="warning">
       <p className="vads-u-margin-y--0">
         You answered that you have more than $25,000 in assets. You’ll need to
         submit an Income and Asset Statement in Support of Claim for Pension or
@@ -202,7 +263,7 @@ export const TotalNetWorthOverTwentyFiveThousandAlert = () => {
 };
 
 export const WartimeWarningAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       <strong>Note:</strong> You have indicated that you did not serve during an{' '}
       <a
@@ -229,14 +290,14 @@ export const FormReactivationAlert = () => (
     you may need to provide certain information again.
     <br />
     <br />
-    Select <strong>Continue your application</strong> to use our update form. Or
-    come back later to finish your application.
+    Select <strong>Continue your application</strong> to use our updated form.
+    Or come back later to finish your application.
   </p>
 );
 
 export const AccountInformationAlert = () => (
   <div className="vads-u-margin-top--4">
-    <va-alert uswds>
+    <va-alert>
       <h4 slot="headline" className="vads-u-font-size--h4">
         We’ll use this bank account for all your VA benefit payments
       </h4>
@@ -255,10 +316,21 @@ export const AccountInformationAlert = () => (
 );
 
 export const AdoptionEvidenceAlert = () => (
-  <va-alert status="warning" uswds>
+  <va-alert status="warning">
     <p className="vads-u-margin-y--0">
       You’ll need to submit adoption papers or amended birth certificate with
       this application.
+    </p>
+  </va-alert>
+);
+
+export const SubmissionConfirmationAlert = () => (
+  <va-alert status="success">
+    <h3>Thank you for submitting your Veterans Pension application.</h3>
+    <p className="vads-u-margin-y--0">
+      We’ve received your Veterans Pension application (VA Form 21P-527EZ).
+      After we complete our review, we’ll mail you a decision letter with the
+      details of our decision.
     </p>
   </va-alert>
 );

@@ -30,6 +30,7 @@ describe('VAOS Component: InPersonLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
@@ -159,7 +160,8 @@ describe('VAOS Component: InPersonLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -193,6 +195,66 @@ describe('VAOS Component: InPersonLayout', () => {
         }),
       );
     });
+    it('should display facility phone when clinic phone is missing', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <InPersonLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(
+        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+      ).to.be.ok;
+    });
+    it('should display display VA main phone when facility id is missing', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <InPersonLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(
+        screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
+      ).to.be.ok;
+    });
   });
 
   describe('When viewing upcoming appointment details', () => {
@@ -201,10 +263,20 @@ describe('VAOS Component: InPersonLayout', () => {
       const store = createTestStore(initialState);
       const appointment = {
         comment: 'This is a test:Additional information',
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         location: {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
         },
         videoData: {},
         vaos: {
@@ -244,6 +316,9 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Primary care/i));
 
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
+
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
       );
@@ -260,8 +335,28 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(screen.getByText(/Clinic 1/i));
       expect(screen.getByText(/Phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
+      expect(screen.container.querySelector('va-telephone[extension="1234"]'))
+        .to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(
         screen.getByRole('heading', {
@@ -350,6 +445,24 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(
         screen.getByRole('heading', {
           level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
           name: /Details you shared with your provider/i,
         }),
       );
@@ -375,6 +488,8 @@ describe('VAOS Component: InPersonLayout', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
         },
         videoData: {},
         vaos: {
@@ -429,8 +544,14 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(screen.getByText(/Clinic 1/i));
       expect(screen.getByText(/Phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
+
+      expect(
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
+      ).not.to.exist;
 
       expect(
         screen.getByRole('heading', {
@@ -461,6 +582,8 @@ describe('VAOS Component: InPersonLayout', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
         },
         videoData: {},
         vaos: {
@@ -520,8 +643,26 @@ describe('VAOS Component: InPersonLayout', () => {
       expect(screen.getByText(/Clinic 1/i));
       expect(screen.getByText(/Phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Find out what to bring to your appointment/i));
 
       expect(
         screen.getByRole('heading', {

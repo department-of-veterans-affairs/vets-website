@@ -12,10 +12,7 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import { connectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 import recordEvent from '~/platform/monitoring/record-event';
 import { focusElement } from '~/platform/utilities/ui';
-import {
-  Toggler,
-  useFeatureToggle,
-} from '~/platform/utilities/feature-toggles';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import {
   createIsServiceAvailableSelector,
   isLOA3 as isLOA3Selector,
@@ -38,7 +35,6 @@ import NameTag from '~/applications/personalization/components/NameTag';
 import MPIConnectionError from '~/applications/personalization/components/MPIConnectionError';
 import NotInMPIError from '~/applications/personalization/components/NotInMPIError';
 import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-import { useSessionStorage } from '~/applications/personalization/common/hooks/useSessionStorage';
 import { signInServiceName } from '~/platform/user/authentication/selectors';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 import { hasTotalDisabilityServerError } from '../../common/selectors/ratedDisabilities';
@@ -230,14 +226,6 @@ const Dashboard = ({
     [canAccessPaymentHistory, getPayments],
   );
 
-  // use session storage to track if downtime alert has been dismissed
-  const [dismissed, setDismissed] = useSessionStorage(
-    'myVaVbaDowntimeMessageDismissed',
-  );
-  const handleDismiss = () => {
-    setDismissed('true');
-  };
-
   return (
     <RequiredLoginView
       serviceRequired={[backendServices.USER_PROFILE]}
@@ -294,71 +282,29 @@ const Dashboard = ({
               )}
 
               {/* LOA3 user experience */}
-              {/* Remove everything in <Toggler.Enabled> after maintenance is over */}
-              <Toggler
-                toggleName={Toggler.TOGGLE_NAMES.authExpVbaDowntimeMessage}
-              >
-                <Toggler.Enabled>
-                  <div className="vads-u-margin-top--4 vads-l-col--8">
-                    <VaAlert
-                      closeBtnAriaLabel="Close notification"
-                      closeable
-                      onCloseEvent={handleDismiss}
-                      status="warning"
-                      visible={dismissed !== 'true'}
-                      data-testid="downtime-alert"
-                    >
-                      <h2 slot="headline">
-                        We’re updating our systems right now
-                      </h2>
-                      <div>
-                        <p className="vads-u-margin-y--0">
-                          We’re updating out systems to add the 2024
-                          cost-of-living increase for VA benefits. If you have
-                          trouble using this tool, check back after{' '}
-                          <strong>Sunday, November 19, 2023</strong>, at{' '}
-                          <strong>7:00 p.m. ET</strong>.
-                        </p>
-                      </div>
-                    </VaAlert>
-                  </div>
-
-                  {isLOA3 && (
-                    <>
-                      <HealthCare isVAPatient={isVAPatient} />
-                      <EducationAndTraining />
-                      <BenefitApplications />
-                    </>
-                  )}
-                </Toggler.Enabled>
-
-                <Toggler.Disabled>
-                  {props.showClaimsAndAppeals && (
-                    <DowntimeNotification
-                      dependencies={[
-                        externalServices.mhv,
-                        externalServices.appeals,
-                      ]}
-                      render={RenderClaimsWidgetDowntimeNotification}
-                    >
-                      <ClaimsAndAppeals />
-                    </DowntimeNotification>
-                  )}
-                  {isLOA3 && (
-                    <>
-                      <HealthCare isVAPatient={isVAPatient} />
-                      <Debts />
-                      <BenefitPayments
-                        payments={payments}
-                        showNotifications={showNotifications}
-                      />
-                      <EducationAndTraining />
-                      <BenefitApplications />
-                    </>
-                  )}
-                </Toggler.Disabled>
-              </Toggler>
-              {/* end Remove */}
+              {props.showClaimsAndAppeals && (
+                <DowntimeNotification
+                  dependencies={[
+                    externalServices.mhv,
+                    externalServices.appeals,
+                  ]}
+                  render={RenderClaimsWidgetDowntimeNotification}
+                >
+                  <ClaimsAndAppeals />
+                </DowntimeNotification>
+              )}
+              {isLOA3 && (
+                <>
+                  <HealthCare isVAPatient={isVAPatient} />
+                  <Debts />
+                  <BenefitPayments
+                    payments={payments}
+                    showNotifications={showNotifications}
+                  />
+                  <EducationAndTraining />
+                  <BenefitApplications />
+                </>
+              )}
             </div>
           </div>
         )}

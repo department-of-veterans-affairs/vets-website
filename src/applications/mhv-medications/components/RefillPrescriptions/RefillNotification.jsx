@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { DD_ACTIONS_PAGE_TYPE } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const RefillNotification = ({ refillResult = {} }) => {
   useEffect(
@@ -124,9 +124,10 @@ const RefillNotification = ({ refillResult = {} }) => {
             data-testid="back-to-medications-page-link"
             to="/"
             className="hide-visited-link"
-            data-dd-action-name={`Go To Your Medications List Action Link - ${
-              DD_ACTIONS_PAGE_TYPE.REFILL
-            }`}
+            data-dd-action-name={
+              dataDogActionNames.refillPage
+                .GO_TO_YOUR_MEDICATIONS_LIST_ACTION_LINK
+            }
           >
             Go to your medications list
           </Link>

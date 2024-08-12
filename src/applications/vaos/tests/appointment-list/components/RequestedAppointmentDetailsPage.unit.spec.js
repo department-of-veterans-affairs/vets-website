@@ -53,6 +53,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         code: 'New medical issue',
         text: 'A message from the patient',
       })
+      .setPatientComments('A message from the patient')
       .setContact({ phone: '2125551212', email: 'veteranemailtest@va.gov' })
       .setPreferredTimesForPhoneCall({ morning: true });
 
@@ -387,12 +388,11 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         name: 'Preferred date and time',
       }),
     ).to.be.ok;
-
     expect(
       screen.getByText(
-        `${moment(
-          response.attributes.requestedPeriods[0].start.replace('Z', ''),
-        ).format('ddd, MMMM D, YYYY')} in the morning`,
+        moment()
+          .startOf('day')
+          .format('ddd, MMMM D, YYYY [in the morning]'),
       ),
     ).to.be.ok;
   });
@@ -470,7 +470,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Pending VA primary care appointment | Veterans Affairs',
+        'Request for primary care appointment | Veterans Affairs',
       );
     });
   });
@@ -494,7 +494,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care hearing aid support appointment | Veterans Affairs`,
+        `Request for hearing aid support community care appointment | Veterans Affairs`,
       );
     });
   });
@@ -517,7 +517,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Canceled VA primary care appointment | Veterans Affairs',
+        'Canceled request for primary care appointment | Veterans Affairs',
       );
     });
   });

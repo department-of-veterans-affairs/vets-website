@@ -3,15 +3,15 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 export const envUrl = environment.API_URL;
 
 // Used to test against dev
-// export const envUrl = 'https:///dev-api.va.gov';
+// export const envUrl = 'https://dev-api.va.gov';
 
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `/topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
+  GET_TOPICS: `topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -21,9 +21,9 @@ export const URL = {
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-  'Compensation (Service-Connected Bens)',
-  'Veteran Affairs  - Debt', // *double space after 'Affairs'
-  'Benefits Issues Outside the US',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
 ];
 
 export const requireSignInTopics = [
@@ -34,9 +34,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'Caregiver support',
+  'VA Caregiver Support Program',
   'Family member health benefits',
-  'Prosthetics',
+  'VHA Prosthetics',
+  'Veteran Health ID (VHIC – Facility Access/Check-In)',
+  'Veteran ID (Retailer Discount)',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -435,6 +437,11 @@ export const CHAPTER_3 = {
     TITLE: `Your personal information`,
     DESCRIPTION: 'This is the personal information we have on file for you.',
   },
+  YOUR_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: 'Your VA health facility',
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
 };
 
 export const noEditBtn = [
@@ -460,12 +467,12 @@ export const askVABreadcrumbs = [
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'Response Page', key: 'responsePage' },
+  { href: '/user/dashboard', label: 'Response Page', key: 'responsePage' },
 ];
 
-export const newInquiryBreadcrumbs = [
+export const newQuestionBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'New Inquiry', key: 'newInquiry' },
+  { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
 export const breadcrumbsDictionary = {
@@ -473,5 +480,8 @@ export const breadcrumbsDictionary = {
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': responsePageBreadcrumbs,
-  '/newInquiry': newInquiryBreadcrumbs,
+  '/newQuestion': newQuestionBreadcrumbs,
 };
+
+// Health care label is currently different on local/dev and staging (pulling from CRM updated list)
+export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];

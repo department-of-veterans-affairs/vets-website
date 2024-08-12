@@ -3,6 +3,8 @@ import sinon from 'sinon';
 import { shallow } from 'enzyme';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import * as scroll from 'platform/utilities/ui/scroll';
+import * as page from '../../utils/page';
 
 import {
   groupTimelineActivity,
@@ -33,7 +35,11 @@ import {
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
   getClaimPhaseTypeDescription,
+  isAutomated5103Notice,
   setDocumentRequestPageTitle,
+  setPageFocus,
+  setTabDocumentTitle,
+  getTrackedItemDateFromStatus,
 } from '../../utils/helpers';
 
 import {
@@ -1179,6 +1185,227 @@ describe('Disability benefits helpers: ', () => {
       const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
       expect(documentRequestPageTitle).to.equal(`Request for ${displayName}`);
+    });
+  });
+
+  describe('setTabDocumentTitle', () => {
+    context('when there is no claim', () => {
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(null, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(null, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For Your Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(null, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of Your Claim | Veterans Affairs',
+        );
+      });
+    });
+    context('when there is a claim', () => {
+      const claim = {
+        id: '1',
+        attributes: {
+          supportingDocuments: [],
+          claimDate: '2023-01-01',
+          closeDate: null,
+          documentsNeeded: true,
+          decisionLetterSent: false,
+          status: 'INITIAL_REVIEW',
+          claimPhaseDates: {
+            currentPhaseBack: false,
+            phaseChangeDate: '2015-01-01',
+            latestPhaseType: 'INITIAL_REVIEW',
+            previousPhases: {
+              phase1CompleteDate: '2023-02-08',
+              phase2CompleteDate: '2023-02-08',
+            },
+          },
+        },
+      };
+      it('should set tab title for Status', () => {
+        setTabDocumentTitle(claim, 'Status');
+
+        expect(document.title).to.equal(
+          'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Files', () => {
+        setTabDocumentTitle(claim, 'Files');
+
+        expect(document.title).to.equal(
+          'Files For January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should set tab title for Overview', () => {
+        setTabDocumentTitle(claim, 'Overview');
+
+        expect(document.title).to.equal(
+          'Overview Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+        );
+      });
+    });
+  });
+
+  describe('setPageFocus', () => {
+    context('when last page was not a tab and loading is false', () => {
+      it('should run setUpPage', () => {
+        const setUpPage = sinon.spy(page, 'setUpPage');
+        setPageFocus('/test', false);
+
+        expect(setUpPage.called).to.be.true;
+      });
+    });
+    context('when last page was not a tab and loading is true', () => {
+      it('should run scrollToTop', () => {
+        const scrollToTop = sinon.spy(scroll, 'scrollToTop');
+        setPageFocus('/test', true);
+
+        expect(scrollToTop.called).to.be.true;
+      });
+    });
+    context('when last page was a tab', () => {
+      it('should run scrollAndFocus', () => {
+        const scrollAndFocus = sinon.spy(scroll, 'scrollAndFocus');
+        setPageFocus('/status', false);
+
+        expect(scrollAndFocus.called).to.be.true;
+      });
+    });
+  });
+
+  describe('getTrackedItemDateFromStatus', () => {
+    context('when item status is NEEDED_FROM_YOU', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'NEEDED_FROM_YOU',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+    context('when item status is NEEDED_FROM_OTHERS', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'NEEDED_FROM_OTHERS',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+    context('when item status is NO_LONGER_REQUIRED', () => {
+      it('should return item requestedDate', () => {
+        const item = {
+          id: 1,
+          closedDate: '2023-02-22',
+          status: 'NO_LONGER_REQUIRED',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.closedDate);
+      });
+    });
+    context('when item status is SUBMITTED_AWAITING_REVIEW', () => {
+      it('should return the oldest item.documents.uploadDate requestedDate', () => {
+        const item = {
+          id: 1,
+          date: '2023-02-22',
+          status: 'SUBMITTED_AWAITING_REVIEW',
+          displayName: 'Test',
+          documents: [
+            {
+              documentId: '{1}',
+              documentTypeLabel: 'Correspondence',
+              originalFileName: 'file.pdf',
+              trackedItemId: 1,
+              uploadDate: '2023-02-23',
+            },
+            {
+              documentId: '{2}',
+              documentTypeLabel: 'Correspondence',
+              originalFileName: 'file2.pdf',
+              trackedItemId: 1,
+              uploadDate: '2023-02-20',
+            },
+          ],
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.documents[1].uploadDate);
+      });
+    });
+    context('when item status is INITIAL_REVIEW_COMPLETE', () => {
+      it('should return item receivedDate', () => {
+        const item = {
+          id: 1,
+          receivedDate: '2023-02-22',
+          status: 'INITIAL_REVIEW_COMPLETE',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.receivedDate);
+      });
+    });
+    context('when item status is ACCEPTED', () => {
+      it('should return item receivedDate', () => {
+        const item = {
+          id: 1,
+          receivedDate: '2023-02-22',
+          status: 'ACCEPTED',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.receivedDate);
+      });
+    });
+    context('when item status is not recognized', () => {
+      it('should return the default item requestedDate', () => {
+        const item = {
+          id: 1,
+          requestedDate: '2023-02-22',
+          status: 'TEST',
+          displayName: 'Test',
+        };
+        const date = getTrackedItemDateFromStatus(item);
+
+        expect(date).to.equal(item.requestedDate);
+      });
+    });
+  });
+
+  describe('isAutomated5103Notice', () => {
+    context('when display name is not an automated 5103 notice', () => {
+      it('should return false', () => {
+        const displayName = 'Test';
+        expect(isAutomated5103Notice(displayName)).to.be.false;
+      });
+    });
+    context('when display name is an automated 5103 notice', () => {
+      it('should return true', () => {
+        const displayName = 'Automated 5103 Notice Response';
+        expect(isAutomated5103Notice(displayName)).to.be.true;
+      });
     });
   });
 });

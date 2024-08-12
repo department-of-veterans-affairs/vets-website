@@ -1,7 +1,12 @@
 import _ from 'lodash';
-import { CHAPTER_2, CHAPTER_3 } from '../../constants';
+import {
+  CHAPTER_2,
+  CHAPTER_3,
+  healthcareCategoryLabels,
+} from '../../constants';
 
 // Personal Information
+import YourVAHealthFacilityPage from '../../containers/YourVAHealthFacility';
 import aboutTheFamilyMemberPage from '../chapters/personalInformation/aboutTheFamilyMember';
 import aboutTheVeteranPage from '../chapters/personalInformation/aboutTheVeteran';
 import aboutYourselfPage from '../chapters/personalInformation/aboutYourself';
@@ -56,16 +61,19 @@ export const flowPaths = {
 
 const ch3Pages = {
   yourRole: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRolePage.uiSchema,
     schema: yourRolePage.schema,
   },
   yourRoleEducation: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRoleEducationPage.uiSchema,
     schema: yourRoleEducationPage.schema,
   },
   moreAboutYourRelationshipToVeteran: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
     uiSchema: moreAboutYourRelationshipToVeteranPage.uiSchema,
     schema: moreAboutYourRelationshipToVeteranPage.schema,
@@ -93,6 +101,7 @@ const ch3Pages = {
     schema: veteransPostalCodePage.schema,
   },
   veteransLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
@@ -132,25 +141,26 @@ const ch3Pages = {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfPage.uiSchema,
     schema: aboutYourselfPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   aboutYourselfGeneral: {
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfGeneralPage.uiSchema,
     schema: aboutYourselfGeneralPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   aboutYourselfRelationshipFamilyMember: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
+    depends: form => form.aboutYourself.first === undefined,
   },
   searchVAMedicalCenter: {
     title: CHAPTER_3.VA_MED_CENTER.TITLE,
     uiSchema: searchVAMedicalCenterPage.uiSchema,
     schema: searchVAMedicalCenterPage.schema,
-    depends: form =>
-      form.selectCategory === 'VA Health Care' &&
-      (form.selectTopic === 'Medical Care Concerns at a VA Medical Facility' ||
-        form.selectTopic === 'VHA Audiology & Hearing Aids'),
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
   },
   searchSchools: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -207,31 +217,51 @@ const ch3Pages = {
     schema: aboutTheFamilyMemberPage.schema,
   },
   aboutYourRelationshipToFamilyMember: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
     schema: aboutYourRelationshipToFamilyMemberPage.schema,
   },
   theirRelationshipToVeteran: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: theirRelationshipToVeteranPage.uiSchema,
     schema: theirRelationshipToVeteranPage.schema,
   },
   familyMembersLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: familyMembersLocationOfResidencePage.uiSchema,
     schema: familyMembersLocationOfResidencePage.schema,
   },
   yourLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
-    depends: form => form.contactPreference !== 'U.S. mail',
+    depends: form =>
+      form.contactPreference !== 'U.S. mail' &&
+      !healthcareCategoryLabels.includes(form.selectCategory),
   },
   relationshipToVeteran: {
+    editModeOnReviewPage: false,
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
     title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
     uiSchema: relationshipToVeteranPage.uiSchema,
     schema: relationshipToVeteranPage.schema,
+  },
+  yourVAHealthFacility: {
+    depends: form => healthcareCategoryLabels.includes(form.selectCategory),
+    path: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.PATH,
+    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    CustomPage: YourVAHealthFacilityPage,
+    CustomPageReview: null,
+    schema: {
+      // This does still need to be here or it'll throw an error
+      type: 'object',
+      properties: {}, // The properties can be empty
+    },
+    uiSchema: {}, // UI schema is completely ignored
   },
 };
 
@@ -403,7 +433,7 @@ export const flowPages = (obj, list, path) => {
 // Form flows
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
-  'searchVAMedicalCenter',
+  'yourVAHealthFacility',
   // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
   'yourContactInformation',
   'yourMailingAddress',

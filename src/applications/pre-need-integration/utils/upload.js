@@ -5,6 +5,7 @@ import VaSelectField from '~/platform/forms-system/src/js/web-component-fields/V
 export function fileUploadUi(content) {
   return {
     ...fileUiSchema(content.label, {
+      allowEncryptedFiles: false,
       buttonText: 'Upload file',
       addAnotherLabel: 'Upload another file',
       itemDescription: content.description,
