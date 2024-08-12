@@ -474,9 +474,11 @@ const Prescriptions = () => {
     if (!isLoading) {
       return (
         <div className="landing-page no-print">
-          <h1 data-testid="list-page-title">Medications</h1>
+          <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+            Medications
+          </h1>
           <p
-            className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+            className="vads-u-margin-top--0 vads-u-margin-bottom--4"
             data-testid="Title-Notes"
           >
             When you share your medications list with providers, make sure you
@@ -565,7 +567,10 @@ const Prescriptions = () => {
                   {paginatedPrescriptionsList?.length ? (
                     <div
                       className={`landing-page-content vads-u-margin-top--${
-                        !isShowingErrorNotification ? '5' : '3'
+                        isShowingErrorNotification ? '5' : '3'
+                      }
+                      small-screen:vads-u-margin-top--${
+                        isShowingErrorNotification ? '5' : '4'
                       }`}
                     >
                       <PrintDownload
