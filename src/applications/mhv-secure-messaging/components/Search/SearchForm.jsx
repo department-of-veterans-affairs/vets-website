@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -6,7 +6,12 @@ import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
-import { ErrorMessages, Paths, filterDescription } from '../../util/constants';
+import {
+  DefaultFolders,
+  ErrorMessages,
+  Paths,
+  filterDescription,
+} from '../../util/constants';
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
@@ -202,19 +207,23 @@ const SearchForm = props => {
     );
   };
 
-  const handleFolderName = () => {
-    if (folder.name === 'Deleted') {
-      return 'Trash';
-    }
-    return folder.name;
-  };
-  const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
-  let filterLabelBody;
-  if (location.pathname.includes('/drafts')) {
-    filterLabelBody = filterDescription.noMsgId;
-  } else {
-    filterLabelBody = filterDescription.withMsgId;
-  }
+  const filterLabelHeading = useMemo(
+    () => {
+      return `Filter messages in ${
+        folder.name === 'Deleted' ? 'Trash' : folder.name
+      } `;
+    },
+    [folder.name],
+  );
+
+  const filterLabelBody = useMemo(
+    () => {
+      return folder.folderId === DefaultFolders.DRAFTS.id
+        ? filterDescription.noMsgId
+        : filterDescription.withMsgId;
+    },
+    [folder.folderId],
+  );
 
   return (
     <>
@@ -244,10 +253,8 @@ const SearchForm = props => {
                 id="filter-input"
                 label={filterLabelBody}
                 class="filter-input-box"
-                message-aria-describedby="filter text input"
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
-                aria-label={filterLabelHeading + filterLabelBody}
                 data-testid="keyword-search-input"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();

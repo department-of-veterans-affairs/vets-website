@@ -61,16 +61,19 @@ export const flowPaths = {
 
 const ch3Pages = {
   yourRole: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRolePage.uiSchema,
     schema: yourRolePage.schema,
   },
   yourRoleEducation: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_ROLE.TITLE,
     uiSchema: yourRoleEducationPage.uiSchema,
     schema: yourRoleEducationPage.schema,
   },
   moreAboutYourRelationshipToVeteran: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
     uiSchema: moreAboutYourRelationshipToVeteranPage.uiSchema,
     schema: moreAboutYourRelationshipToVeteranPage.schema,
@@ -98,6 +101,7 @@ const ch3Pages = {
     schema: veteransPostalCodePage.schema,
   },
   veteransLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.VETERAN_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: veteransLocationOfResidencePage.uiSchema,
     schema: veteransLocationOfResidencePage.schema,
@@ -146,6 +150,7 @@ const ch3Pages = {
     depends: form => form.aboutYourself.first === undefined,
   },
   aboutYourselfRelationshipFamilyMember: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.ABOUT_YOURSELF.TITLE,
     uiSchema: aboutYourselfRelationshipFamilyMemberPage.uiSchema,
     schema: aboutYourselfRelationshipFamilyMemberPage.schema,
@@ -212,21 +217,25 @@ const ch3Pages = {
     schema: aboutTheFamilyMemberPage.schema,
   },
   aboutYourRelationshipToFamilyMember: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: aboutYourRelationshipToFamilyMemberPage.uiSchema,
     schema: aboutYourRelationshipToFamilyMemberPage.schema,
   },
   theirRelationshipToVeteran: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.RELATIONSHIP_TO_FAM_MEM.TITLE,
     uiSchema: theirRelationshipToVeteranPage.uiSchema,
     schema: theirRelationshipToVeteranPage.schema,
   },
   familyMembersLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.FAMILY_MEMBERS_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: familyMembersLocationOfResidencePage.uiSchema,
     schema: familyMembersLocationOfResidencePage.schema,
   },
   yourLocationOfResidence: {
+    editModeOnReviewPage: false,
     title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE,
     uiSchema: yourLocationOfResidencePage.uiSchema,
     schema: yourLocationOfResidencePage.schema,
@@ -235,6 +244,7 @@ const ch3Pages = {
       !healthcareCategoryLabels.includes(form.selectCategory),
   },
   relationshipToVeteran: {
+    editModeOnReviewPage: false,
     path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
     title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
     uiSchema: relationshipToVeteranPage.uiSchema,
