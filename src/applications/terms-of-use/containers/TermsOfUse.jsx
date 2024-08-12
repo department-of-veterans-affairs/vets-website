@@ -25,6 +25,7 @@ export default function TermsOfUse() {
   const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const [buttonPushed, setButtonPushed] = useState(0);
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
@@ -54,13 +55,43 @@ export default function TermsOfUse() {
     [termsCodeExists, redirectUrl],
   );
 
+  useEffect(
+    () => {
+      let timeoutId;
+      const resetButton = () => {
+        setButtonPushed(0);
+        setIsDisabled(false);
+        setError({ isError: false, message: '' });
+      };
+
+      if (error.isError && buttonPushed >= 3) {
+        timeoutId = setTimeout(resetButton, 25000);
+      }
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    },
+    [error, buttonPushed],
+  );
+
   const handleTouClick = async type => {
     const termsCode = termsCodeExists
       ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
       : '';
-    setIsDisabled(true);
+
+    setButtonPushed(buttonPushed + 1);
 
     try {
+      if (buttonPushed >= 3) {
+        setError({
+          isError: true,
+          message: errorMessages.tooManyRequests,
+        });
+        return;
+      }
+
+      setIsDisabled(true);
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${type}${termsCode}`,
         {
