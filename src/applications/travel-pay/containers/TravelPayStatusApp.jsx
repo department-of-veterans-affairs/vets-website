@@ -92,13 +92,17 @@ export default function App({ children }) {
     case 'mostRecent':
       travelClaims.sort(
         (a, b) =>
-          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
+          Date.parse(b.appointmentDateTime) -
+            Date.parse(a.appointmentDateTime) ||
+          Date.parse(b.createdOn) - Date.parse(a.createdOn),
       );
       break;
     case 'oldest':
       travelClaims.sort(
         (a, b) =>
-          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
+          Date.parse(a.appointmentDateTime) -
+            Date.parse(b.appointmentDateTime) ||
+          Date.parse(a.createdOn) - Date.parse(b.createdOn),
       );
       break;
     default:

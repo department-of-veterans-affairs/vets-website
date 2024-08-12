@@ -19,13 +19,20 @@ export default function TravelClaimCard(props) {
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
+  let appointmentDateTitle;
+  if (appointmentDateTime == null) {
+    appointmentDateTitle = 'Appointment information not available';
+  } else {
+    appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
+  }
+
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
       <h3
         className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
         data-testid="travel-claim-details"
       >
-        {`${appointmentDate} at ${appointmentTime} appointment`}
+        {appointmentDateTitle}
       </h3>
       <h4 className="vads-u-margin-bottom--1">Where</h4>
       <p className="vads-u-margin-top--0">{facilityName}</p>
