@@ -14,7 +14,7 @@ import {
 export default function MemorableDateField(props) {
   const mappedProps = vaMemorableDateFieldMapping(props);
   const [values, setValues] = useState(parseISODate(mappedProps.value));
-  const [errorVal, setErrorVal] = useState(mappedProps.error);
+  const [errorVal, setErrorVal] = useState(mappedProps.errors);
 
   /**
    * We store the value in redux as this format: XXXX-03-XX, with X and 0 padding.
@@ -132,7 +132,7 @@ export default function MemorableDateField(props) {
       }}
       // onDateBlur={(e) => e.preventDefault()}
       value={formattedValue}
-      error={errorVal}
+      errors={errorVal}
     />
   );
 }
