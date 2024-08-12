@@ -35,6 +35,7 @@ import {
   getClaimPhaseTypeHeaderText,
   getPhaseItemText,
   getClaimPhaseTypeDescription,
+  isAutomated5103Notice,
   setDocumentRequestPageTitle,
   setPageFocus,
   setTabDocumentTitle,
@@ -1389,6 +1390,21 @@ describe('Disability benefits helpers: ', () => {
         const date = getTrackedItemDateFromStatus(item);
 
         expect(date).to.equal(item.requestedDate);
+      });
+    });
+  });
+
+  describe('isAutomated5103Notice', () => {
+    context('when display name is not an automated 5103 notice', () => {
+      it('should return false', () => {
+        const displayName = 'Test';
+        expect(isAutomated5103Notice(displayName)).to.be.false;
+      });
+    });
+    context('when display name is an automated 5103 notice', () => {
+      it('should return true', () => {
+        const displayName = 'Automated 5103 Notice Response';
+        expect(isAutomated5103Notice(displayName)).to.be.true;
       });
     });
   });

@@ -7,6 +7,7 @@ import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-
 
 import LandingPage from '../../components/LandingPage';
 import reducers from '../../reducers';
+import VerifyAndRegisterAlert from '../../components/VerifyAndRegisterAlert';
 
 const stateFn = ({
   mhv_landing_page_personalization = false,
@@ -25,6 +26,7 @@ const stateFn = ({
       loa: { current: loa },
       signIn: { serviceName },
       vaPatient,
+      mhvAccountState: 'OK',
     },
   },
 });
@@ -41,8 +43,8 @@ const setup = ({ initialState = stateFn(), props = {} } = {}) =>
 
 describe('LandingPage component', () => {
   it('renders', () => {
-    const { getByText } = setup();
-    getByText('My HealtheVet');
+    const { getByRole } = setup();
+    getByRole('heading', { level: 1, name: /My HealtheVet/ });
   });
 
   it('shows the Welcome component, when enabled', () => {
@@ -59,10 +61,40 @@ describe('LandingPage component', () => {
 
   it('shows an alert when user is unverified', () => {
     const initialState = stateFn({ loa: 1, serviceName: 'idme' });
-    const { getByText } = setup({ initialState });
+    const props = { showVerifyAndRegisterAlert: () => false };
+    const { getByText } = setup({ initialState, props });
     getByText(
       'Verify your identity to use your ID.me account on My HealtheVet',
     );
+  });
+
+  it('shows the MhvBasicAccountAlert', async () => {
+    const initialState = stateFn({ loa: 1, serviceName: 'mhv' });
+    const { getByText } = setup({ initialState });
+    await waitFor(() => {
+      getByText(
+        'You need to sign in with a different account to access My HealtheVet',
+      );
+    });
+  });
+
+  it('shows the VerifyAndRegisterAlert', async () => {
+    const initialState = stateFn({ loa: 1, serviceName: 'logingov' });
+    const props = { showVerifyAndRegisterAlert: () => true };
+    const { getByTestId } = setup({ initialState, props });
+    await waitFor(() => {
+      expect(getByTestId(VerifyAndRegisterAlert.defaultProps.testId)).to.exist;
+    });
+  });
+
+  it('does not show the VerifyAndRegisterAlert', async () => {
+    const initialState = stateFn();
+    const props = { showVerifyAndRegisterAlert: () => false };
+    const { queryByTestId } = setup({ initialState, props });
+    await waitFor(() => {
+      expect(queryByTestId(VerifyAndRegisterAlert.defaultProps.testId)).to.be
+        .null;
+    });
   });
 
   it('reports unverified condition to GA via recordEvent', async () => {

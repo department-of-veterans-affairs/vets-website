@@ -4,7 +4,10 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLinkAction,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   requiredFiles,
   office,
@@ -25,10 +28,15 @@ const heading = (
 
 const requiredWarningHeading = (
   <>
-    {heading}
+    <VaAlert uswds status="warning">
+      <h2>
+        You submitted your CHAMPVA Other Health Insurance Certification form
+        without required documents
+      </h2>
+    </VaAlert>
     <p>
       You’ll still need to send us these required documents in order for us to
-      process this application:
+      process this form:
     </p>
   </>
 );
@@ -37,6 +45,13 @@ const optionalWarningHeading = (
   <>
     {heading}
     <p>You can still send us these optional documents for faster processing:</p>
+  </>
+);
+
+const mailPreamble = (
+  <>
+    <p>Write the Beneficiary’s name on each page of the document.</p>
+    <p>Mail copies of the documents here: </p>
   </>
 );
 
@@ -54,9 +69,12 @@ export function ConfirmationPage(props) {
     showMail: true,
     allPages: form.pages,
     fileNameMap: prefixFileNames(data, requiredFiles),
+    optionalDescription: '',
+    requiredDescription: '',
     requiredFiles,
     nonListNameKey: 'applicantName',
     mailingAddress: officeAddress,
+    mailPreamble,
     officeName: office,
     faxNum: officeFaxNum,
     showNameHeader: false,
@@ -81,24 +99,15 @@ export function ConfirmationPage(props) {
 
       {OverviewComp}
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
-      <p>
-        We'll contact you by mail or phone if we have questions or need more
-        information.
-        <br />
-        <br />
-        And we'll send you a letter in the mail with our decision.
-      </p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
         </h3>
-        {data.statementOfTruthSignature && (
+        {(data.statementOfTruthSignature || data.signature) && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
             <br />
-            {data.statementOfTruthSignature}
-            <br />
+            {data.statementOfTruthSignature || data.signature}
           </span>
         )}
         <br />
@@ -129,9 +138,12 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      <a className="vads-c-action-link--green" href="https://www.va.gov/">
-        Go back to VA.gov
-      </a>
+      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <p>
+        We’ll contact the number you listed on this form by mail or phone if we
+        have questions or need more information.
+      </p>
+      <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );
 }

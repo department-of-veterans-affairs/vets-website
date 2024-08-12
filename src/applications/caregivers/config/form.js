@@ -3,14 +3,14 @@ import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
-  submitTransform,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
   hasSecondaryCaregiverTwo,
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
-} from '../utils/helpers';
+} from '../utils/helpers/form-config';
+import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import GetHelpFooter from '../components/GetHelp';
@@ -77,7 +77,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/caregivers_assistance_claims`,
-  transformForSubmit: submitTransform,
+  transformForSubmit: submitTransformer,
   trackingPrefix: 'caregivers-10-10cg-',
   v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
