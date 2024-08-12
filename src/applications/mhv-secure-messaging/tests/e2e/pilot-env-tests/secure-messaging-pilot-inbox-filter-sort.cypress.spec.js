@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Paths } from '../utils/constants';
 import mockFeatureToggles from '../fixtures/toggles-response.json';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 import PilotEnvPage from '../pages/PilotEnvPage';
 import mockMessages from '../fixtures/pilot-responses/inbox-threads-OH-response.json';
 
@@ -20,6 +21,10 @@ describe('Secure Messaging Pilot feature flag', () => {
   const filteredData = {
     data: mockMessages.data.filter(el => el.attributes.subject.includes('OH')),
   };
+  const updatedMockMessages = GeneralFunctionsPage.updatedThreadDates(
+    mockMessages,
+  );
+
   beforeEach(() => {
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage(
@@ -27,7 +32,7 @@ describe('Secure Messaging Pilot feature flag', () => {
       Paths.UI_PILOT,
     );
 
-    PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, mockMessages);
+    PilotEnvPage.loadInboxMessages(Paths.UI_PILOT, updatedMockMessages);
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
   });
 
@@ -40,7 +45,7 @@ describe('Secure Messaging Pilot feature flag', () => {
 
     cy.contains('Clear Filters').click({ force: true });
 
-    PilotEnvPage.verifyThreadLength(mockMessages);
+    PilotEnvPage.verifyThreadLength(updatedMockMessages);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -48,8 +53,8 @@ describe('Secure Messaging Pilot feature flag', () => {
 
   it('verify sorting works correctly', () => {
     const sortedResponse = {
-      ...mockMessages,
-      data: [...mockMessages.data].sort(
+      ...updatedMockMessages,
+      data: [...updatedMockMessages.data].sort(
         (a, b) =>
           new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
       ),
