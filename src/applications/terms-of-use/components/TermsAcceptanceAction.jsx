@@ -10,7 +10,7 @@ export default function TermsAcceptance({
   setShowDeclineModal,
   isFullyAuthenticated,
   isUnauthenticated,
-  isDisabled,
+  isDisabled = false,
 }) {
   const termsOfUseAuthorized = useSelector(termsOfUseEnabled);
   const className = isUnauthenticated ? 'hidden' : '';
@@ -60,6 +60,7 @@ export default function TermsAcceptance({
 TermsAcceptance.propTypes = {
   error: PropTypes.object,
   handleTouClick: PropTypes.func,
+  isDisabled: PropTypes.bool,
   isFullyAuthenticated: PropTypes.bool,
   isMiddleAuth: PropTypes.bool,
   isUnauthenticated: PropTypes.bool,

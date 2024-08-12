@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, fireEvent, waitFor, cleanup } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
 import { rest } from 'msw';
@@ -38,6 +38,7 @@ describe('TermsOfUse', () => {
   before(() => server.listen());
   afterEach(() => {
     global.window.location = oldLocation;
+    cleanup();
     server.resetHandlers();
   });
   after(() => server.close());
