@@ -41,11 +41,12 @@ const propsStandard = {
     PRIOR_SERVICE: null,
     REVIEW: null,
   },
-  editMode: false,
-  viewedIntroPage: true,
   router: {
     push: pushSpyStandard,
   },
+  viewedIntroPage: true,
+  questionFlowChanged: false,
+  editMode: false,
   toggleEditMode: () => {},
 };
 
