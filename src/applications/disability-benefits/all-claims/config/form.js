@@ -53,7 +53,6 @@ import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
-  addDisabilities,
   addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
@@ -110,7 +109,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
-import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -327,25 +325,7 @@ const formConfig = {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            !showRevisedNewDisabilitiesPage(),
-          uiSchema: addDisabilities.uiSchema,
-          schema: addDisabilities.schema,
-          updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
-        addDisabilitiesRevised: {
-          title: 'Add a new disability REVISED!',
-          path: 'new-disabilities-revised/add',
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            showRevisedNewDisabilitiesPage(),
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
           uiSchema: addDisabilitiesRevised.uiSchema,
           schema: addDisabilitiesRevised.schema,
           updateFormData: addDisabilitiesRevised.updateFormData,

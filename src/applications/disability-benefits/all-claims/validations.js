@@ -21,8 +21,6 @@ import {
   RESERVE_GUARD_TYPES,
 } from './constants';
 
-import { showRevisedNewDisabilitiesPage } from './content/addDisabilities';
-
 /**
  * Checks if the user has received military retirement pay
  * @param {Object} data - Form data
@@ -421,10 +419,8 @@ export const isWithinServicePeriod = (
   }
 };
 
-export const missingConditionMessage = showRevisedNewDisabilitiesPage()
-  ? 'Enter a condition, diagnosis, or short description of your symptoms'
-  : 'Please enter a condition or select one from the suggested list';
-
+export const missingConditionMessage =
+  'Enter a condition, diagnosis, or short description of your symptoms';
 /**
  * Validates a given disability name for length and duplication.
  * @param {Object} err - Errors object from rjsf, which includes an addError method
@@ -454,9 +450,7 @@ export const validateDisabilityName = (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
-    const errorMessage = showRevisedNewDisabilitiesPage()
-      ? 'This needs to be less than 256 characters'
-      : 'Condition names should be less than 256 characters';
+    const errorMessage = 'This needs to be less than 256 characters';
     err.addError(errorMessage);
   }
 
@@ -480,9 +474,7 @@ export const validateDisabilityName = (
     item => item === itemLowerCased || sippableId(item) === itemSippableId,
   );
   if (itemCount.length > 1) {
-    const errorMessage = showRevisedNewDisabilitiesPage()
-      ? 'You’ve already added this condition to your claim'
-      : 'Please enter a unique condition name';
+    const errorMessage = 'You’ve already added this condition to your claim';
     err.addError(errorMessage);
   }
 };
@@ -511,9 +503,8 @@ export const requireDisability = (err, fieldData, formData) => {
  */
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
-    const errorMessage = showRevisedNewDisabilitiesPage()
-      ? 'You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim.'
-      : 'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.';
+    const errorMessage =
+      'You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim.';
     err.addError(errorMessage);
   }
 };

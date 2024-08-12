@@ -1,5 +1,4 @@
 import * as adaptiveBenefits from './adaptiveBenefits';
-import * as addDisabilities from './addDisabilities';
 import * as additionalBehaviorChanges from './additionalBehaviorChanges';
 import * as additionalDocuments from './additionalDocuments';
 import * as additionalExposures from './toxicExposure/additionalExposures';
@@ -117,7 +116,6 @@ import * as addDisabilitiesRevised from './addDisabilitiesRevised';
 
 export {
   adaptiveBenefits,
-  addDisabilities,
   addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
