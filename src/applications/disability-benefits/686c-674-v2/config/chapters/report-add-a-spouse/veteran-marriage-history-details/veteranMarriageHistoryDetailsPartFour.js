@@ -7,7 +7,7 @@ import { FormerSpouseHeader } from '../../../../components/SpouseViewField';
 export const schema = {
   type: 'object',
   properties: {
-    spouseMarriageHistory: {
+    veteranMarriageHistory: {
       type: 'array',
       minItems: 1,
       maxItems: 100,
@@ -22,7 +22,7 @@ export const schema = {
 };
 
 export const uiSchema = {
-  spouseMarriageHistory: {
+  veteranMarriageHistory: {
     items: {
       'ui:title': FormerSpouseHeader,
       startLocation: {
@@ -44,7 +44,7 @@ export const uiSchema = {
             'ui:title': 'State',
             'ui:webComponentField': VaSelectField,
             'ui:required': (formData, index) =>
-              !formData?.spouseMarriageHistory[`${index}`]?.startLocation
+              !formData?.veteranMarriageHistory[`${index}`]?.startLocation
                 ?.outsideUsa,
             'ui:errorMessages': {
               required: 'Select a state',
@@ -54,10 +54,10 @@ export const uiSchema = {
                 const updatedSchemaUI = { ..._uiSchema };
                 const updatedSchema = { ..._schema };
                 const location =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
+                  formData?.veteranMarriageHistory[`${index}`]?.startLocation
                     ?.location;
                 const outsideUsa =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
+                  formData?.veteranMarriageHistory[`${index}`]?.startLocation
                     ?.outsideUsa;
 
                 if (outsideUsa) {
@@ -69,10 +69,6 @@ export const uiSchema = {
                 updatedSchemaUI['ui:options'].inert = false;
                 return updatedSchema;
               },
-              // updateUISchema: formData => {
-              //   console.log({ formData });
-              //   return {};
-              // },
             },
           },
         },

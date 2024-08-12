@@ -16,7 +16,13 @@ import * as spouseMarriageHistoryDetailsPartThree from './current-spouse-marriag
 import * as spouseMarriageHistoryDetailsPartFour from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartFour';
 import * as spouseMarriageHistoryDetailsPartFive from './current-spouse-marriage-history-details/currentSpouseMarriageHistoryDetailsPartFive';
 import * as veteranMarriageHistory from './veteran-marriage-history/veteranMarriageHistory';
+import * as veteranMarriageHistoryPartTwo from './veteran-marriage-history/veteranMarriageHistoryPartTwo';
+import * as veteranAdditionalQuestionsView from './veteran-marriage-history-details/veteranAdditionalQuestionsView';
 import * as veteranMarriageHistoryDetails from './veteran-marriage-history-details/veteranMarriageHistoryDetails';
+import * as veteranMarriageHistoryDetailsPartTwo from './veteran-marriage-history-details/veteranMarriageHistoryDetailsPartTwo';
+import * as veteranMarriageHistoryDetailsPartThree from './veteran-marriage-history-details/veteranMarriageHistoryDetailsPartThree';
+import * as veteranMarriageHistoryDetailsPartFour from './veteran-marriage-history-details/veteranMarriageHistoryDetailsPartFour';
+import * as veteranMarriageHistoryDetailsPartFive from './veteran-marriage-history-details/veteranMarriageHistoryDetailsPartFive';
 
 export {
   marriageAdditionalEvidence,
@@ -37,5 +43,11 @@ export {
   spouseMarriageHistoryDetailsPartFour,
   spouseMarriageHistoryDetailsPartFive,
   veteranMarriageHistory,
+  veteranMarriageHistoryPartTwo,
+  veteranAdditionalQuestionsView,
   veteranMarriageHistoryDetails,
+  veteranMarriageHistoryDetailsPartTwo,
+  veteranMarriageHistoryDetailsPartThree,
+  veteranMarriageHistoryDetailsPartFour,
+  veteranMarriageHistoryDetailsPartFive,
 };

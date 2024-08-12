@@ -7,14 +7,14 @@ import { FormerSpouseHeader } from '../../../../components/SpouseViewField';
 export const schema = {
   type: 'object',
   properties: {
-    spouseMarriageHistory: {
+    veteranMarriageHistory: {
       type: 'array',
       minItems: 1,
       maxItems: 100,
       items: {
         type: 'object',
         properties: {
-          startLocation: customLocationSchema,
+          endLocation: customLocationSchema,
         },
       },
     },
@@ -22,10 +22,10 @@ export const schema = {
 };
 
 export const uiSchema = {
-  spouseMarriageHistory: {
+  veteranMarriageHistory: {
     items: {
       'ui:title': FormerSpouseHeader,
-      startLocation: {
+      endLocation: {
         outsideUsa: {
           'ui:title': 'I got married outside the U.S.',
           'ui:webComponentField': VaCheckboxField,
@@ -44,7 +44,7 @@ export const uiSchema = {
             'ui:title': 'State',
             'ui:webComponentField': VaSelectField,
             'ui:required': (formData, index) =>
-              !formData?.spouseMarriageHistory[`${index}`]?.startLocation
+              !formData?.veteranMarriageHistory[`${index}`]?.endLocation
                 ?.outsideUsa,
             'ui:errorMessages': {
               required: 'Select a state',
@@ -54,10 +54,10 @@ export const uiSchema = {
                 const updatedSchemaUI = { ..._uiSchema };
                 const updatedSchema = { ..._schema };
                 const location =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
+                  formData?.veteranMarriageHistory[`${index}`]?.endLocation
                     ?.location;
                 const outsideUsa =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
+                  formData?.veteranMarriageHistory[`${index}`]?.endLocation
                     ?.outsideUsa;
 
                 if (outsideUsa) {
@@ -69,10 +69,6 @@ export const uiSchema = {
                 updatedSchemaUI['ui:options'].inert = false;
                 return updatedSchema;
               },
-              // updateUISchema: formData => {
-              //   console.log({ formData });
-              //   return {};
-              // },
             },
           },
         },

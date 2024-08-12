@@ -210,19 +210,19 @@ export const STATE_NAMES = filteredStates.map(state => state.label);
 export const customLocationSchema = {
   type: 'object',
   properties: {
-    marriedOutsideUsa: {
+    outsideUsa: {
       type: 'boolean',
     },
     location: {
       type: 'object',
       properties: {
+        city: {
+          type: 'string',
+        },
         state: {
           type: 'string',
           enum: STATE_VALUES,
           enumNames: STATE_NAMES,
-        },
-        city: {
-          type: 'string',
         },
       },
     },
@@ -239,4 +239,20 @@ export const PensionIncomeRemovalQuestionTitle = (
 
 export const generateHelpText = (text, className = 'vads-u-color--gray') => {
   return <span className={className}>{text}</span>;
+};
+
+export const marriageEnums = ['Death', 'Divorce', 'Annulment', 'Other'];
+
+export const spouseFormerMarriageLabels = {
+  Death: 'The former spouse died',
+  Divorce: 'They divorced',
+  Annulment: 'They got an annulment',
+  Other: 'Some other way',
+};
+
+export const veteranFormerMarriageLabels = {
+  Death: 'My former spouse died',
+  Divorce: 'We divorced',
+  Annulment: 'We got an annulment',
+  Other: 'Some other way',
 };

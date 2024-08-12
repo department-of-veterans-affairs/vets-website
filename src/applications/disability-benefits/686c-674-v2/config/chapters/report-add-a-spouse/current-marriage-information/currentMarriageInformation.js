@@ -14,7 +14,7 @@ export const schema = {
 export const uiSchema = {
   currentMarriageInformation: {
     ...titleUI('Where did you get married?'),
-    marriedOutsideUsa: {
+    outsideUsa: {
       'ui:title': 'I got married outside the U.S.',
       'ui:webComponentField': VaCheckboxField,
     },
@@ -32,7 +32,7 @@ export const uiSchema = {
         'ui:title': 'State',
         'ui:webComponentField': VaSelectField,
         'ui:required': formData =>
-          !formData?.currentMarriageInformation?.marriedOutsideUsa,
+          !formData?.currentMarriageInformation?.outsideUsa,
         'ui:errorMessages': {
           required: 'Select a state',
         },
@@ -40,10 +40,9 @@ export const uiSchema = {
           updateSchema: (formData, _schema, _uiSchema) => {
             const updatedSchemaUI = _uiSchema;
             const location = formData?.currentMarriageInformation?.location;
-            const marriedOutsideUsa =
-              formData?.currentMarriageInformation?.marriedOutsideUsa;
+            const outsideUsa = formData?.currentMarriageInformation?.outsideUsa;
 
-            if (marriedOutsideUsa) {
+            if (outsideUsa) {
               updatedSchemaUI['ui:options'].inert = true;
               location.state = undefined;
               return _schema;

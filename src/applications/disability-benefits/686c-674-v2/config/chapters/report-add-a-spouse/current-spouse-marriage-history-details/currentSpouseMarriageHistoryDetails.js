@@ -4,7 +4,7 @@ import {
   textUI,
   textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { marriageEnums, spouseFormerMarriageLabels } from './helpers';
+import { marriageEnums, spouseFormerMarriageLabels } from '../../../helpers';
 import { FormerSpouseHeader } from '../../../../components/SpouseViewField';
 
 export const schema = {
