@@ -31,38 +31,35 @@ export const formLoadingFailed = error => {
 };
 
 /**
- * This is a temporary mock fetch of a formConfig. Once we
- * are ready to fetch for real, we'll update this and write
- * proper tests for this code.
+ * Mocks a fetch of content-build forms data.
+ * Keeping this here so that we can easily test new patterns without dealing
+ * with content-build.
  */
-/* eslint-disable-next-line no-shadow */
-const mockFetchFormConfigByFormId = async formId => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      const formConfig = {
-        '123-abc': formConfig1,
-        '456-xyz': formConfig2,
-        '2121212': createFormConfig(normalizedForm),
-      }?.[formId];
+const mockFetchForms = async () => {
+  const forms = [formConfig1, formConfig2, normalizedForm];
 
-      if (formConfig) {
-        resolve(formConfig);
-      } else {
-        reject(new Error(`Form config not found for form id '${formId}'`));
-      }
-    }, 200);
-  });
+  return new Promise(r => setTimeout(r, 200, forms));
 };
 
-export const fetchFormConfig = (
-  formId,
-  fetchMethod = mockFetchFormConfigByFormId,
-) => {
+export const findFormByFormId = (forms, formId) => {
+  const form = forms.find(f => f.formId === formId);
+
+  if (form) {
+    return form;
+  }
+  throw new Error(`Form config not found for form id '${formId}'`);
+};
+
+export const fetchFormConfig = (formId, fetchMethod = mockFetchForms) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
     try {
-      const formConfig = await fetchMethod(formId);
+      const forms = await fetchMethod();
+      const form = findFormByFormId(forms, formId);
+      const formConfig = createFormConfig(form);
+
       dispatch(formLoadingSucceeded(formConfig));
+
       return formConfig;
     } catch (error) {
       dispatch(formLoadingFailed(error));

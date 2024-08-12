@@ -1,8 +1,12 @@
 import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { formConfig1 } from '../../../_config/formConfig';
-import { fetchFormConfig } from '../../../actions/form-load';
+import { formConfig1, normalizedForm } from '../../../_config/formConfig';
+import {
+  fetchFormConfig,
+  findFormByFormId,
+  FORM_LOADING_SUCCEEDED,
+} from '../../../actions/form-load';
 
 const sinon = require('sinon');
 
@@ -19,12 +23,90 @@ const initialState = {
 
 describe('form-load actions', () => {
   describe('fetchFormConfig', () => {
-    it('calls the given fetchMethod', async () => {
-      const stub = sinon.stub().resolves(formConfig1);
-      const store = mockStore(initialState);
+    let store;
+    let stub;
 
+    beforeEach(() => {
+      store = mockStore(initialState);
+      stub = sinon.stub().resolves([formConfig1, normalizedForm]);
+    });
+
+    it('calls the given fetchMethod', async () => {
       await store.dispatch(fetchFormConfig('123-abc', stub));
-      expect(stub.calledWith('123-abc')).to.be.true;
+      expect(stub.calledOnce).to.be.true;
+    });
+
+    it('puts a formConfig into state', async () => {
+      await store.dispatch(fetchFormConfig('2121212', stub));
+      const successAction = store
+        .getActions()
+        .find(action => action.type === FORM_LOADING_SUCCEEDED);
+
+      // Testing for urlPrefix as it is not included in the normalized data
+      // structure
+      expect(successAction.formConfig.urlPrefix).to.eq('/2121212/');
+    });
+  });
+
+  describe('findFormByFormId', () => {
+    const forms = [
+      {
+        cmsId: 71159,
+        title: 'Form with One Step',
+        formId: '1111111',
+        ombNumber: '1111-1111',
+        chapters: [
+          {
+            id: 158252,
+            chapterTitle: 'The Only Step',
+            type: 'digital_form_name_and_date_of_bi',
+            pageTitle: 'Name and Date of Birth',
+            additionalFields: {
+              includeDateOfBirth: true,
+            },
+          },
+        ],
+      },
+      {
+        cmsId: 71160,
+        title: 'Form with Two Steps',
+        formId: '2121212',
+        ombNumber: '1212-1212',
+        chapters: [
+          {
+            id: 158253,
+            chapterTitle: 'First Step',
+            type: 'digital_form_name_and_date_of_bi',
+            pageTitle: 'Name and Date of Birth',
+            additionalFields: {
+              includeDateOfBirth: true,
+            },
+          },
+          {
+            id: 158254,
+            chapterTitle: 'Second Step',
+            type: 'digital_form_name_and_date_of_bi',
+            pageTitle: 'Name and Date of Birth',
+            additionalFields: {
+              includeDateOfBirth: false,
+            },
+          },
+        ],
+      },
+    ];
+
+    context('when formId matches a form', () => {
+      it('returns the form', () => {
+        const form = findFormByFormId(forms, '1111111');
+
+        expect(form.title).to.eq('Form with One Step');
+      });
+    });
+
+    context('when formId does not match a form', () => {
+      it('raises an error', () => {
+        expect(() => findFormByFormId(forms, 'XXXXXX')).to.throw();
+      });
     });
   });
 });
