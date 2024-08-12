@@ -116,6 +116,7 @@ const TopicSelectPage = props => {
               id={topic.id}
               value={topic.attributes.name}
               label={topic.attributes.name}
+              checked={topic.attributes.name === formData.selectTopic}
               uswds
             />
           ))}
