@@ -35,7 +35,7 @@ export const MhvSigninCallToAction = ({
     );
   }
 
-  // Display the provided children. Note these are HTMLElements and not React.
+  // Display the provided content. Note these are HTMLElements and not React.
   const content = Array.from(noAlertContent).map((child, index) => (
     <div
       key={index}
