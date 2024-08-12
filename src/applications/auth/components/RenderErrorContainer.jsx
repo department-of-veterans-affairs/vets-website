@@ -556,7 +556,7 @@ export default function RenderErrorContainer({
   return (
     <div className="usa-content columns small-12">
       <h1>We can’t sign you in</h1>
-      <va-alert visible status="error">
+      <va-alert visible status="error" uswds>
         {alertContent}
       </va-alert>
       {troubleshootingContent}
