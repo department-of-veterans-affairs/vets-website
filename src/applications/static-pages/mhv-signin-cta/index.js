@@ -36,12 +36,12 @@ export const MhvSigninCallToAction = ({
   }
 
   // Display the provided content. Note these are HTMLElements and not React.
-  const content = Array.from(noAlertContent).map((child, index) => (
+  const content = Array.from(noAlertContent).map((el, index) => (
     <div
       key={index}
       // eslint-disable-next-line react/no-danger
       dangerouslySetInnerHTML={{
-        __html: DOMPurify.sanitize(child.innerHTML),
+        __html: DOMPurify.sanitize(el.innerHTML),
       }}
     />
   ));
