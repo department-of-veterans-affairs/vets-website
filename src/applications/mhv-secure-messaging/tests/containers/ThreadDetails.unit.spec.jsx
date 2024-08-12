@@ -525,9 +525,11 @@ describe('Thread Details container', () => {
     });
     expect(screen.getByTestId('send-button')).to.exist;
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
+    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('send-button'));
       expect(screen.getByText('Secure message was successfully sent.'));
+    });
+    await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(
         `/folders/${folderId}/`,
       );
