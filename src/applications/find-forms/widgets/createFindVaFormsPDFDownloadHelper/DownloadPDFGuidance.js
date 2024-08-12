@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
 import { sentryLogger } from './index';
@@ -16,45 +17,52 @@ const DownloadPDFGuidance = ({
   formNumber,
   formPdfIsValid,
   formPdfUrlIsValid,
-  link,
-  netWorkRequestError,
+  networkRequestError,
+  reduxStore
 }) => {
   const div = document.createElement('div');
   div.className = 'faf-pdf-alert-modal-root';
-  const parentEl = link.parentNode;
+  const pdfDownloadContainer = document.getElementById('pdf-download-container');
+  const pdfDownloadButton = document.getElementById('pdf-download-button');
 
-  if (formPdfIsValid && formPdfUrlIsValid && !netWorkRequestError) {
+  // if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
+  if (true) {
     ReactDOM.render(
-      <DownloadPDFModal
-        formNumber={formNumber}
-        removeNode={removeReactRoot}
-        url={downloadUrl}
-      />,
+      <Provider store={reduxStore}>
+        <DownloadPDFModal
+          formNumber={formNumber}
+          removeNode={removeReactRoot}
+          url={downloadUrl}
+        />
+      </Provider>,
       div,
     );
 
-    parentEl.insertBefore(div, link); // Insert modal on DOM
+    pdfDownloadContainer.insertBefore(div, pdfDownloadButton); // Insert modal on DOM
   } else {
     let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
 
-    if (netWorkRequestError)
+    if (networkRequestError) {
       errorMessage =
         'Find Forms - Form Detail - onDownloadLinkClick function error';
+    }
 
-    if (!formPdfIsValid && !formPdfUrlIsValid)
+    if (!formPdfIsValid && !formPdfUrlIsValid) {
       errorMessage =
         'Find Forms - Form Detail - invalid PDF accessed & invalid PDF link';
+    }
 
-    if (formPdfIsValid && !formPdfUrlIsValid)
+    if (formPdfIsValid && !formPdfUrlIsValid) {
       errorMessage = 'Find Forms - Form Detail - invalid PDF link';
+    }
 
     sentryLogger(form, formNumber, downloadUrl, errorMessage);
 
     const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
 
     ReactDOM.render(alertBox, div);
-    parentEl.insertBefore(div, link);
-    parentEl.removeChild(link);
+    pdfDownloadContainer.insertBefore(div, pdfDownloadButton);
+    pdfDownloadContainer.removeChild(pdfDownloadButton);
   }
 };
 

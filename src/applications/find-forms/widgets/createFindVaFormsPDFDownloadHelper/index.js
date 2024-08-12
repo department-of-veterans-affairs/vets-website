@@ -12,19 +12,19 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
   });
 }
 
-export async function onDownloadLinkClick(event) {
+export async function onDownloadLinkClick(event, reduxStore) {
   // This function purpose is to determine if the PDF is valid on click.
   // Once it's done, it passes information to DownloadPDFGuidance() which determines what to render.
   event.preventDefault();
+
   const link = event.target;
-  const downloadUrl = link.href;
-  const { formNumber } = link.dataset;
+  const { formNumber, href: downloadUrl } = link.dataset;
 
   // Default to true in case we encounter an error
   // determining validity through the API.
   let formPdfIsValid = true;
   let formPdfUrlIsValid = true;
-  let netWorkRequestError = false;
+  let networkRequestError = false;
   let form = null;
 
   try {
@@ -48,7 +48,9 @@ export async function onDownloadLinkClick(event) {
       if (!response.ok) formPdfUrlIsValid = false;
     }
   } catch (err) {
-    if (err) netWorkRequestError = true;
+    if (err) {
+      networkRequestError = true;
+    }
 
     sentryLogger(
       form,
@@ -64,17 +66,17 @@ export async function onDownloadLinkClick(event) {
     formNumber,
     formPdfIsValid,
     formPdfUrlIsValid,
-    link,
-    netWorkRequestError,
+    networkRequestError,
+    reduxStore
   });
 }
 
-export default widgetType => {
+export default (reduxStore, widgetType) => {
   const downloadLinks = document.querySelectorAll(
     `[data-widget-type="${widgetType}"]`,
   );
 
   for (const downloadLink of [...downloadLinks]) {
-    downloadLink.addEventListener('click', e => onDownloadLinkClick(e));
+    downloadLink.addEventListener('click', e => onDownloadLinkClick(e, reduxStore));
   }
 };

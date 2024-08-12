@@ -17,6 +17,7 @@ import { deriveDefaultModalState } from '../helpers';
 import { getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
+import PdfModal from '../components/PdfModal';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
 const usePreviousProps = value => {
@@ -238,6 +239,13 @@ export const SearchResults = ({
 
       {/*  */}
       <div className="pdf-alert-modal">
+        <PdfModal
+          isOpen={isOpen}
+          pdfUrl={pdfUrl}
+          pdfSelected={pdfSelected}
+          prevFocusedLink={prevFocusedLink}
+          toggleModalState={toggleModalState}
+        />
         <VaModal
           onCloseEvent={() => {
             toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
