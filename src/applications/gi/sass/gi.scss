@@ -34,7 +34,6 @@
       padding-right: 0.4em;
       vertical-align: sub;
     }
-
   }
   .about-this-tool {
     margin-top: 1em;
@@ -43,7 +42,7 @@
       // background-image: none;
       text-align: center;
       font-family: $font-sans;
-      font-size: 0.850rem;
+      font-size: 0.85rem;
       line-height: 2.5rem;
       margin-right: 1.5625rem;
       margin-bottom: 0.75rem;
@@ -213,34 +212,6 @@
   text-transform: capitalize;
 }
 
-.main-title {
-  padding-right: 9em;
-  @media (max-width: 1004px) {
-    padding-right: 0;
-    text-align: left;
-  }
-  @media (max-width: $small-screen) {
-    text-align: center;
-  }
-}
-
-.tool-description {
-  text-align: center;
-  padding-bottom: 2em;
-  padding-right: 9em;
-
-  @media (max-width: 1004px) {
-    padding-right: 0;
-    text-align: left;
-  }
-
-  @media (max-width: $small-screen) {
-    padding-left: 20px;
-    padding-bottom: 1em;
-    padding-right: 0;
-  }
-}
-
 .small-screen-font {
   @media (max-width: $small-screen) {
     font-size: 15px;
@@ -274,10 +245,6 @@
   background-color: rgba(255, 255, 255, 0.7);
   z-index: 10000;
 }
-.input-container-width{
+.input-container-width {
   width: 100% !important;
-}
-
-.main-text-subtext {
-  padding-right: 8em;
 }
