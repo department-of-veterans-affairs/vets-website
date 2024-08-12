@@ -49,26 +49,37 @@ describe('MHV Signin CTA', () => {
     const mockStore = createMockStore([]);
     const serviceDescription = 'order supplies';
     const linkText = 'order medical supplies';
+
+    /**
+     * Creates an HTML Collection with a div and a link.
+     * @returns the HTML Collection
+     */
     const noAlertContent = () => {
+      // The link
       const linkEl = document.createElement('a');
       linkEl.appendChild(document.createTextNode(linkText));
       linkEl.href = '/health-care/order-medical-supplies/';
       linkEl.title = linkText;
+
+      // The widget content div
+      const widgetContent = document.createElement('div');
+      widgetContent.className = 'static-widget-content';
+      widgetContent.appendChild(linkEl);
+
+      // The HTML collection
       const docFragment = document.createDocumentFragment();
-      docFragment.appendChild(linkEl);
+      docFragment.appendChild(widgetContent);
       return docFragment.children;
     };
 
     it('unanthenticated user', async () => {
-      const { queryByRole, queryByText } = render(
+      const { queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
             userIsLoggedIn={false}
             noAlertContent={noAlertContent()}
-          >
-            <a href="/health-care/order-medical-supplies/">{linkText}</a>
-          </MhvSigninCallToAction>
+          />
         </Provider>,
       );
       expect(
@@ -76,11 +87,11 @@ describe('MHV Signin CTA', () => {
       ).to.exist;
       expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
         .to.be.null;
-      expect(queryByText(linkText)).to.be.null;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.be.null;
     });
 
     it('unverified user', async () => {
-      const { queryByRole, queryByText } = render(
+      const { queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -88,9 +99,7 @@ describe('MHV Signin CTA', () => {
             userIsVerified={false}
             serviceName={CSP_IDS.ID_ME}
             noAlertContent={noAlertContent()}
-          >
-            <a href="/health-care/order-medical-supplies/">{linkText}</a>
-          </MhvSigninCallToAction>
+          />
         </Provider>,
       );
       expect(
@@ -98,11 +107,11 @@ describe('MHV Signin CTA', () => {
       ).to.be.null;
       expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
         .to.exist;
-      expect(queryByText(linkText)).to.be.null;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.be.null;
     });
 
     it('verified user', async () => {
-      const { queryByRole, queryByText } = render(
+      const { queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -110,9 +119,7 @@ describe('MHV Signin CTA', () => {
             userIsVerified
             serviceName={CSP_IDS.ID_ME}
             noAlertContent={noAlertContent()}
-          >
-            <a href="/health-care/order-medical-supplies/">{linkText}</a>
-          </MhvSigninCallToAction>
+          />
         </Provider>,
       );
       expect(
@@ -120,7 +127,7 @@ describe('MHV Signin CTA', () => {
       ).to.be.null;
       expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
         .to.be.null;
-      expect(queryByText(linkText)).to.exist;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
     });
   });
 });
