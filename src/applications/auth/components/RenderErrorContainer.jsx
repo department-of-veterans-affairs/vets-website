@@ -41,9 +41,7 @@ export default function RenderErrorContainer({
             try signing in with your premium DS Logon or premium My HealtheVet
             username and password.
           </p>
-          <va-button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </va-button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -81,9 +79,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <ContactCenterInformation />
-          <va-button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </va-button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -101,9 +97,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <va-button type="button" onClick={openLoginModal}>
-            Sign in
-          </va-button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
@@ -141,9 +135,7 @@ export default function RenderErrorContainer({
           <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
-          <va-button type="button" onClick={openLoginModal}>
-            Try signing in again
-          </va-button>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -460,9 +452,7 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <va-button type="button" onClick={openLoginModal}>
-            Sign in
-          </va-button>
+          <va-button onClick={openLoginModal} text="Sign in" />
         </>
       );
       break;
