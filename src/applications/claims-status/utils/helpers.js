@@ -1064,9 +1064,13 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+export const isAutomated5103Notice = itemDisplayName => {
+  return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
-  return displayName === 'Automated 5103 Notice Response'
+  return isAutomated5103Notice(displayName)
     ? '5103 Evidence Notice'
     : `Request for ${displayName}`;
 }

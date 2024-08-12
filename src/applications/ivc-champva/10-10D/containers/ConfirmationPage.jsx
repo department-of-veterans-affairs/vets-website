@@ -10,7 +10,7 @@ import {
   VaLinkAction,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { requiredFiles, optionalFiles } from '../config/requiredUploads';
+import { REQUIRED_FILES, OPTIONAL_FILES } from '../config/constants';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
 import { ConfirmationPagePropTypes } from '../../shared/constants';
 
@@ -29,7 +29,6 @@ const requiredWarningHeading = (
       You’ll still need to send us these required documents in order for us to
       process this application:
     </p>
-    {/* <h2>Your next steps</h2> */}
   </>
 );
 
@@ -53,8 +52,8 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
-    fileNameMap: { ...requiredFiles, ...optionalFiles },
-    requiredFiles,
+    fileNameMap: { ...REQUIRED_FILES, ...OPTIONAL_FILES },
+    requiredFiles: REQUIRED_FILES,
   });
 
   useEffect(() => {

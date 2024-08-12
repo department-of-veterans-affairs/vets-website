@@ -37,6 +37,7 @@ import {
   medicationsUrls,
   DOWNLOAD_FORMAT,
   PRINT_FORMAT,
+  SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
 import PrintDownload from '../components/shared/PrintDownload';
 import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
@@ -46,7 +47,10 @@ import {
 } from '../util/pdfConfigs';
 import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
 import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -75,6 +79,7 @@ const Prescriptions = () => {
     state => state.rx.prescriptions?.apiError,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -165,7 +170,9 @@ const Prescriptions = () => {
         updateLoadingStatus(true, 'Loading your medications...');
       }
       if (Number.isNaN(page) || page < 1) {
-        history.replace('/?page=1');
+        history.replace(
+          `/?page=${sessionStorage.getItem(SESSION_SELECTED_PAGE_NUMBER) || 1}`,
+        );
         return;
       }
       const sortOption = selectedSortOption ?? defaultSelectedSortOption;
@@ -178,6 +185,7 @@ const Prescriptions = () => {
       if (!allergies) dispatch(getAllergiesList());
       if (!selectedSortOption) updateSortOption(sortOption);
       updatePageTitle('Medications | Veterans Affairs');
+      sessionStorage.setItem(SESSION_SELECTED_PAGE_NUMBER, page);
     },
     // disabled warning: paginatedPrescriptionsList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -466,16 +474,32 @@ const Prescriptions = () => {
     if (!isLoading) {
       return (
         <div className="landing-page no-print">
-          <h1 data-testid="list-page-title">Medications</h1>
+          <h1 data-testid="list-page-title" className="vads-u-margin-bottom--2">
+            Medications
+          </h1>
           <p
-            className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+            className="vads-u-margin-top--0 vads-u-margin-bottom--4"
             data-testid="Title-Notes"
           >
             When you share your medications list with providers, make sure you
-            also tell them about your allergies and reactions to medications. If
-            you print or download this list, we’ll include a list of your
-            allergies.
+            also tell them about your allergies and reactions to medications.{' '}
+            {!showAllergiesContent && (
+              <>
+                If you print or download this list, we’ll include a list of your
+                allergies.
+              </>
+            )}
           </p>
+          {showAllergiesContent && (
+            <a
+              href="/my-health/medical-records/allergies"
+              rel="noreferrer"
+              className="vads-u-display--block vads-u-margin-bottom--3"
+              data-testid="allergies-link"
+            >
+              Go to your allergies and reactions
+            </a>
+          )}
           {prescriptionsApiError ? (
             <>
               <ApiErrorNotification errorType="access" content="medications" />
@@ -543,7 +567,10 @@ const Prescriptions = () => {
                   {paginatedPrescriptionsList?.length ? (
                     <div
                       className={`landing-page-content vads-u-margin-top--${
-                        !isShowingErrorNotification ? '5' : '3'
+                        isShowingErrorNotification ? '5' : '3'
+                      }
+                      small-screen:vads-u-margin-top--${
+                        isShowingErrorNotification ? '5' : '4'
                       }`}
                     >
                       <PrintDownload

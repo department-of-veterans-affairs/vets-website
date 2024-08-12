@@ -53,9 +53,11 @@ const Confirmation = props => {
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const { token, setECheckinStartedCalled } = useSelector(selectCurrentContext);
 
-  const { setCheckinComplete, getCheckinComplete } = useStorage(
-    APP_NAMES.CHECK_IN,
-  );
+  const {
+    setCheckinComplete,
+    getCheckinComplete,
+    setCompleteTimestamp,
+  } = useStorage(APP_NAMES.CHECK_IN);
 
   useEffect(
     () => {
@@ -89,6 +91,7 @@ const Confirmation = props => {
           const { status } = json;
           if (status === 200) {
             setCheckinComplete(window, true);
+            setCompleteTimestamp(window, Date.now());
             setIsCheckInLoading(false);
           } else {
             updateError('check-in-post-error');
@@ -119,6 +122,7 @@ const Confirmation = props => {
       token,
       getCheckinComplete,
       setCheckinComplete,
+      setCompleteTimestamp,
       setECheckinStartedCalled,
       isTravelReimbursementEnabled,
       travelPayEligible,

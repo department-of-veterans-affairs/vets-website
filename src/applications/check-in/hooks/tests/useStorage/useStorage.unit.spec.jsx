@@ -168,5 +168,85 @@ describe('check-in', () => {
         );
       });
     });
+    // test setCompleteTimestamp
+    describe('setCompleteTimestamp', () => {
+      it('saves data to name spaced key', () => {
+        const setItem = sinon.spy();
+        const window = {
+          sessionStorage: {
+            setItem,
+          },
+        };
+        const testTimestamp = 'testTimestamp';
+        const component = render(
+          <TestComponent
+            window={window}
+            completeTimestamp={testTimestamp}
+            app={APP_NAMES.CHECK_IN}
+          />,
+        );
+        const button = component.getByTestId('set-complete-timestamp-button');
+        fireEvent.click(button);
+        expect(setItem.called).to.be.true;
+        expect(
+          setItem.calledWith(
+            'health.care.check-in.complete.timestamp',
+            JSON.stringify(testTimestamp),
+          ),
+        ).to.be.true;
+      });
+    });
+    // test getCompleteTimestamp
+    describe('getCompleteTimestamp from session', () => {
+      it('calls getItem', () => {
+        const getItem = sinon.spy();
+        const window = {
+          sessionStorage: {
+            getItem,
+          },
+        };
+
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.CHECK_IN} />,
+        );
+        const button = component.getByTestId('get-complete-timestamp-button');
+        fireEvent.click(button);
+
+        expect(getItem.called).to.be.true;
+        expect(getItem.calledWith('health.care.check-in.complete.timestamp')).to
+          .be.true;
+      });
+      it('key is not found', () => {
+        const window = {
+          sessionStorage: {
+            getItem: () => null,
+          },
+        };
+
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
+        const button = component.getByTestId('get-complete-timestamp-button');
+        fireEvent.click(button);
+        expect(component.getByTestId('from-session').innerHTML).to.be.empty;
+      });
+      it('key is found', () => {
+        const window = {
+          sessionStorage: {
+            getItem: () => '1722868410624',
+          },
+        };
+
+        const component = render(
+          <TestComponent window={window} app={APP_NAMES.PRE_CHECK_IN} />,
+        );
+        const button = component.getByTestId('get-complete-timestamp-button');
+        fireEvent.click(button);
+
+        expect(component.getByTestId('from-session').innerHTML).to.equal(
+          '1722868410624',
+        );
+      });
+    });
   });
 });
