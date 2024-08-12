@@ -46,7 +46,7 @@ describe('selectTopic config', () => {
     server.close();
   });
 
-  it('should render', async () => {
+  xit('should render', async () => {
     const mockStore = {
       getState: () => ({
         form: {

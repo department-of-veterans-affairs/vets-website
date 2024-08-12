@@ -214,16 +214,15 @@ export const updateFormDataAddress = (
  *   })
  * }
  * ```
- * @param {{
- *   labels?: {
- *     militaryCheckbox?: string,
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ * @param {Object} [options]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.militaryCheckbox]
+ * @param {string} [options.labels.street]
+ * @param {string} [options.labels.street2]
+ * @param {string} [options.labels.street3]
+ * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
+ * you will need to include in your `submitTransformer` the `allowPartialAddress` option
+ * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
  * @returns {UISchemaOptions}
  */
 export function addressUI(options) {
@@ -631,15 +630,14 @@ export const addressSchema = options => {
  *   })
  * }
  * ```
- * @param {{
- *   labels?: {
- *     street?: string,
- *     street2?: string,
- *     street3?: string,
- *   },
- *   omit?: Array<AddressSchemaKey>,
- *   required?: boolean | Record<AddressSchemaKey, (formData:any) => boolean>
- * }} [options]
+ * @param {Object} [options]
+ * @param {Object} [options.labels]
+ * @param {string} [options.labels.street]
+ * @param {string} [options.labels.street2]
+ * @param {string} [options.labels.street3]
+ * @param {Array<AddressSchemaKey>} [options.omit] - If not omitting country but omitting street, city, or postalCode
+ * you will need to include in your `submitTransformer` the `allowPartialAddress` option
+ * @param {boolean | Record<AddressSchemaKey, (formData:any) => boolean>} [options.required]
  * @returns {UISchemaOptions}
  */
 export const addressNoMilitaryUI = options =>

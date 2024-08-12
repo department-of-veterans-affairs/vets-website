@@ -3399,6 +3399,73 @@
       }
     },
     {
+      "id": "02aa456vvt",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": "New issue: Video Visit Preparation",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
+        "end": "2024-09-23T21:00:00Z",
+        "id": "02aa456vvt",
+        "kind": "telehealth",
+        "locationId": "983",
+        "localStartTime": "2024-09-22T10:00:00.000-06:00",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Normal",
+              "given": [
+                "Abbey"
+              ]
+            }
+          }
+        ],
+        "physicalLocation" : "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
+        "requestedPeriods": null,
+        "serviceType": "outpatientMentalHealth",
+        "slot": null,
+        "start": "2024-09-22T13:00:00Z",
+        "created": "2024-09-22T21:33:54Z",
+        "avsPath": null,
+        "status": "cancelled",
+        "extension": {
+          "patientHasMobileGfe": false
+        },
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
+    {
       "id": "03aa456vvs",
       "type": "Appointment",
       "attributes": {
@@ -3414,7 +3481,7 @@
           ]
         },
         "description": "Upcoming Atlas telehealth appointment",
-        "end": "2023-01-13T20:00:00Z",
+        "end": "2025-01-13T20:00:00Z",
         "id": "03aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
@@ -3443,10 +3510,82 @@
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
-        "start": "2023-01-13T20:00:00Z",
-        "localStartTime": "2023-01-13T09:00:00.000-06:00",
+        "start": "2025-01-13T20:00:00Z",
+        "localStartTime": "2025-01-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "status": "booked",
+        "telehealth": {
+          "url": null,
+          "atlas": {
+            "siteCode": "9931",
+            "confirmationCode": "7VBBCA",
+            "address": {
+              "streetAddress": "114 Dewey Ave",
+              "city": "Eureka",
+              "state": "MT",
+              "zipCode": "59917",
+              "country": "USA",
+              "longitude": -115.1,
+              "latitude": 48.8,
+              "additionalDetails": ""
+            }
+          },
+          "vvsKind": "MOBILE_ANY"
+        },
+        "extension": {
+          "patientHasMobileGfe": true
+        }
+      }
+    },
+    {
+      "id": "03aa456vvt",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Atlas telehealth appointment",
+        "end": "2025-01-13T21:00:00Z",
+        "id": "03aa456vvt",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Medication Review",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Smith",
+              "given": [
+                "Meg"
+              ]
+            }
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "amputation",
+        "slot": null,
+        "start": "2025-01-13T21:00:00Z",
+        "localStartTime": "2025-01-13T10:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+        "status": "cancelled",
         "telehealth": {
           "url": null,
           "atlas": {

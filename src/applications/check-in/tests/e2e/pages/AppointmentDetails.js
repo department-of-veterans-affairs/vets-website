@@ -122,6 +122,10 @@ class AppointmentDetails {
       waitForAnimations: true,
     });
   };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=what-to-bring-link]').click();
+  };
 }
 
 export default new AppointmentDetails();
