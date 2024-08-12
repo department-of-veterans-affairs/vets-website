@@ -15,7 +15,7 @@ export default function RenderErrorContainer({
 
   if (auth === AUTH_LEVEL.FAIL) {
     recordEvent({
-      event: code ? `login-error-code-${code}` : `login-error-no-code`,
+      event: `login-error-code-${code}`,
     });
   }
 
@@ -41,9 +41,9 @@ export default function RenderErrorContainer({
             try signing in with your premium DS Logon or premium My HealtheVet
             username and password.
           </p>
-          <button type="button" onClick={openLoginModal}>
+          <va-button type="button" onClick={openLoginModal}>
             Try signing in again
-          </button>
+          </va-button>
         </>
       );
       break;
@@ -81,9 +81,9 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <ContactCenterInformation />
-          <button type="button" onClick={openLoginModal}>
+          <va-button type="button" onClick={openLoginModal}>
             Try signing in again
-          </button>
+          </va-button>
         </>
       );
       break;
@@ -101,9 +101,9 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
+          <va-button type="button" onClick={openLoginModal}>
             Sign in
-          </button>
+          </va-button>
         </>
       );
       break;
@@ -141,9 +141,9 @@ export default function RenderErrorContainer({
           <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
-          <button type="button" onClick={openLoginModal}>
+          <va-button type="button" onClick={openLoginModal}>
             Try signing in again
-          </button>
+          </va-button>
         </>
       );
       break;
@@ -460,9 +460,9 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <p>Please sign in again.</p>
-          <button type="button" onClick={openLoginModal}>
+          <va-button type="button" onClick={openLoginModal}>
             Sign in
-          </button>
+          </va-button>
         </>
       );
       break;
