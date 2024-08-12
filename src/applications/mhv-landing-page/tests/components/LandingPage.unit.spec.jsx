@@ -68,14 +68,12 @@ describe('LandingPage component', () => {
     );
   });
 
-  it('shows the MhvBasicAccountAlert', async () => {
+  it('shows the MhvBasicAccountAlert', () => {
     const initialState = stateFn({ loa: 1, serviceName: 'mhv' });
     const { getByText } = setup({ initialState });
-    await waitFor(() => {
-      getByText(
-        'You need to sign in with a different account to access My HealtheVet',
-      );
-    });
+    getByText(
+      'You need to sign in with a different account to access My HealtheVet',
+    );
   });
 
   it('shows the VerifyAndRegisterAlert', async () => {

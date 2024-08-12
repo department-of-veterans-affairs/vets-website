@@ -33,7 +33,7 @@ const HeaderLayout = ({
             vertical-align: middle !important;
           }
         `;
-        alertExpandable.shadowRoot.appendChild(style);
+        alertExpandable?.shadowRoot?.appendChild(style);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error(

@@ -1,11 +1,14 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom-v5-compat';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
@@ -16,7 +19,7 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const signOut = () => {
-    window.location = logoutUrlSiS;
+    navigate(logoutUrlSiS());
   };
 
   return (

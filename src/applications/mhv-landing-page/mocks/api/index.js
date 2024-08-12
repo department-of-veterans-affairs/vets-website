@@ -43,9 +43,10 @@ const responses = (selectedMockType = MOCK_TYPES.VERIFIED_USER) => {
     'GET /v0/feature_toggles': getFeatureToggles(),
     'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,
     'GET /v0/profile/personal_information': personalInformation,
+    '/data/cms/vamc-ehr.json': '',
   };
 };
 
 // Change the mock type for different type of mocked content.
 // Please keep this mock to always return MOCK_TYPES.VERIFIED_USER to keep features like in production.
-module.exports = delay(responses(MOCK_TYPES.UNVERIFIED_USER), 1000);
+module.exports = delay(responses(MOCK_TYPES.VERIFIED_USER), 1000);
