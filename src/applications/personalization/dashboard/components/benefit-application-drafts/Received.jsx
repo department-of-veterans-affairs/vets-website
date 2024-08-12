@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 
-import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-
-const formatTitle = (title = '') => capitalize(title).replace(/\bva\b/, 'VA');
+import { formatFormTitle } from '../../helpers';
 
 const Received = ({ formId, formTitle, lastSavedDate, submittedDate }) => {
   const content = (
@@ -15,7 +12,7 @@ const Received = ({ formId, formTitle, lastSavedDate, submittedDate }) => {
           aria-describedby={formId}
           className="vads-u-font-size--h3 vads-u-margin-top--2"
         >
-          {formatTitle(formTitle)}
+          {formatFormTitle(formTitle)}
         </h3>
         <p
           id={formId}
@@ -40,16 +37,14 @@ const Received = ({ formId, formTitle, lastSavedDate, submittedDate }) => {
   );
 
   return (
-    <DashboardWidgetWrapper>
-      <div
-        className="vads-u-width--full vads-u-margin-bottom--3"
-        data-testid="benefit-application-received"
-      >
-        <va-card>
-          <div className="vads-u-padding--1">{content}</div>
-        </va-card>
-      </div>
-    </DashboardWidgetWrapper>
+    <div
+      className="vads-u-width--full vads-u-margin-bottom--3"
+      data-testid="benefit-application-received"
+    >
+      <va-card>
+        <div className="vads-u-padding--1">{content}</div>
+      </va-card>
+    </div>
   );
 };
 

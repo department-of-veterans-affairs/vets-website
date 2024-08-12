@@ -47,7 +47,7 @@ const BenefitApplications = ({
       <h2>
         {isFormSubmissionStatusWork
           ? 'Benefit applications and forms'
-          : 'Benefit applications'}
+          : 'Benefit application drafts'}
       </h2>
       <ApplicationsInProgress
         formsWithStatus={formsWithStatus}
