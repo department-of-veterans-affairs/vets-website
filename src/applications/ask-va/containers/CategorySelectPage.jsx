@@ -22,7 +22,7 @@ const CategorySelectPage = props => {
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const onModalNo = () => {
-    onChange('');
+    onChange({ ...formData, selectCategory: null });
     setShowModal({ show: false, selected: '' });
   };
 
