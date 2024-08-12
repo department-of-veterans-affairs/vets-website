@@ -138,14 +138,10 @@ ${record.note}`;
           Written by
         </h3>
         <p data-testid="note-record-written-by">{record.writtenBy}</p>
-        {record.signedBy !== EMPTY_FIELD && (
-          <>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Signed by
-            </h3>
-            <p data-testid="note-record-signed-by">{record.signedBy}</p>
-          </>
-        )}
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Signed by
+        </h3>
+        <p data-testid="note-record-signed-by">{record.signedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
