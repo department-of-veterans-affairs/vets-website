@@ -110,16 +110,6 @@ export const postItf = () => ({
 });
 
 /**
- * Get the toggle value within a given list of toggles and for a given a name
- * @param {object} toggles - feature toggles object, based on api response
- * @param {string} name - unique name for the toggle
- * @returns {boolean} true if the toggle is enabled, false otherwise
- */
-function getToggleValue(toggles, name) {
-  return toggles.data.features.find(item => item.name === name)?.value;
-}
-
-/**
  * Setup for the e2e test, including any cleanup and mocking api responses
  * @param {object} cy
  * @param {object} testOptions - object with optional prefill data or toggles
@@ -305,27 +295,16 @@ export const pageHooks = (cy, testOptions = {}) => ({
     });
   },
 
-  'new-disabilities-revised/add': () => {
+  'new-disabilities/add': () => {
     cy.get('@testData').then(data => {
       data.newDisabilities.forEach((disability, index) => {
-        if (
-          getToggleValue(
-            testOptions.toggles,
-            'disability_526_improved_autosuggestions_add_disabilities_page',
-          ) !== true
-        ) {
-          throw new Error('Unexpectedly showing addDisabilitiesRevised page');
-        }
-
-        // if not first index
-        // click the add another condition button
         if (index > 0) {
           cy.findByText(/add another condition/i).click();
         }
 
         // click on input and enter data
         // enterData() condition name into input
-        cy.get('#root_newDisabilities_0_condition')
+        cy.get(`#root_newDisabilities_${index}_condition`)
           .shadow()
           .find('#inputField')
           .type(disability.condition, { force: true });
