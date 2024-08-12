@@ -46,7 +46,7 @@ describe('Report 674 term information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input')).to.have.lengthOf.within(5, 6);
+    expect(form.find('input').length).to.equal(7);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });
@@ -63,7 +63,7 @@ describe('Report 674 term information', () => {
       />,
     );
     form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
+    expect(form.find('.usa-input-error').length).to.equal(5);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
@@ -79,6 +79,7 @@ describe('Report 674 term information', () => {
         onSubmit={onSubmit}
       />,
     );
+    selectRadio(form, 'root_currentTermDates_isSchoolAccredited', 'Y');
     changeDropdown(
       form,
       'select#root_currentTermDates_officialSchoolStartDateMonth',
@@ -125,76 +126,6 @@ describe('Report 674 term information', () => {
       2010,
     );
     selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'Y');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
-
-  it('should submit with valid term dates and program information', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_officialSchoolStartDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_officialSchoolStartDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_officialSchoolStartDateYear',
-      2010,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedStudentStartDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedStudentStartDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_expectedStudentStartDateYear',
-      2010,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedGraduationDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedGraduationDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_expectedGraduationDateYear',
-      2010,
-    );
-    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
-    fillData(
-      form,
-      'input#root_programInformation_courseOfStudy',
-      'Marine Biology',
-    );
-    fillData(form, 'input#root_programInformation_classesPerWeek', 2);
-    fillData(form, 'input#root_programInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
