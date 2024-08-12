@@ -470,7 +470,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Pending VA primary care appointment | Veterans Affairs',
+        'Request for primary care appointment | Veterans Affairs',
       );
     });
   });
@@ -494,7 +494,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care hearing aid support appointment | Veterans Affairs`,
+        `Request for hearing aid support community care appointment | Veterans Affairs`,
       );
     });
   });
@@ -517,7 +517,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Canceled VA primary care appointment | Veterans Affairs',
+        'Canceled request for primary care appointment | Veterans Affairs',
       );
     });
   });
