@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import AdditionalSupport from '../components/AdditionalSupport';
+import GetFormHelp from '../../simple-forms/shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -49,6 +51,18 @@ export class ConfirmationPage extends React.Component {
             id="show"
           />
         </va-accordion>
+
+        <AdditionalSupport />
+
+        <div className="row vads-u-margin-bottom--2">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <va-need-help>
+              <div slot="content">
+                <GetFormHelp formConfig={this.props.formConfig} />
+              </div>
+            </va-need-help>
+          </div>
+        </div>
       </div>
     );
   }
