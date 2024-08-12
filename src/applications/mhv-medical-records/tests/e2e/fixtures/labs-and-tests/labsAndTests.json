@@ -14,765 +14,755 @@
   ],
   "entry": [
     {
-      "resourceType" : "DiagnosticReport",
-      "id" : "ex-MHV-chReport-1",
-      "meta" : {
-        "profile" : [
+      "resourceType": "DiagnosticReport",
+      "id": "ex-MHV-chReport-1",
+      "meta": {
+        "profile": [
           "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chReport"
         ]
       },
-      "text" : {
-        "status" : "generated",
-        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: \">CH</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes: {http://loinc.org 2823-3}\">POTASSIUM:SCNC:PT:SER/PLAS:QN:</span>, <span title=\"Codes: {http://loinc.org 2951-2}\">SODIUM:SCNC:PT:SER/PLAS:QN:</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>L MHVSYSTEST </b> unknown, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/942104\u00a0(use:\u00a0USUAL))</td></tr><tr><td>When For</td><td>2021-01-20 16:38:59-0500</td></tr><tr><td>Reported</td><td>2021-01-21 11:32:47-0500</td></tr><tr><td>Identifier:</td><td> <code>urn:fdc:TEST.SALT-LAKE.MED.VA.GOV:LR</code>/1110200002\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>Flags</b></td><td><b>Note</b></td><td><b>When For</b></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr></table></div>"
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: \">CH</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes: {http://loinc.org 2823-3}\">POTASSIUM:SCNC:PT:SER/PLAS:QN:</span>, <span title=\"Codes: {http://loinc.org 2951-2}\">SODIUM:SCNC:PT:SER/PLAS:QN:</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>L MHVSYSTEST </b> unknown, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/942104\u00a0(use:\u00a0USUAL))</td></tr><tr><td>When For</td><td>2021-01-20 16:38:59-0500</td></tr><tr><td>Reported</td><td>2021-01-21 11:32:47-0500</td></tr><tr><td>Identifier:</td><td> <code>urn:fdc:TEST.SALT-LAKE.MED.VA.GOV:LR</code>/1110200002\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>Flags</b></td><td><b>Note</b></td><td><b>When For</b></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr></table></div>"
       },
-      "contained" : [
+      "contained": [
         {
-          "resourceType" : "Organization",
-          "id" : "ex-MHV-organization-552",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Organization",
+          "id": "ex-MHV-organization-552",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
             ]
           },
-          "identifier" : [
+          "identifier": [
             {
-              "use" : "usual",
-              "type" : {
-                "text" : "L"
+              "use": "usual",
+              "type": {
+                "text": "L"
               },
-              "system" : "urn:oid:2.16.840.1.113883.4.349",
-              "value" : "552"
+              "system": "urn:oid:2.16.840.1.113883.4.349",
+              "value": "552"
             }
           ],
-          "active" : true,
-          "name" : "DAYTON, OH VAMC",
-          "address" : [
+          "active": true,
+          "name": "DAYTON, OH VAMC",
+          "address": [
             {
-              "line" : [
-                "4100 W. THIRD STREET"
-              ],
-              "city" : "DAYTON",
-              "state" : "OH",
-              "postalCode" : "45428",
-              "country" : "USA"
+              "line": ["4100 W. THIRD STREET"],
+              "city": "DAYTON",
+              "state": "OH",
+              "postalCode": "45428",
+              "country": "USA"
             }
           ]
         },
         {
-          "resourceType" : "Practitioner",
-          "id" : "ex-MHV-practitioner-14934-VA552",
-          "identifier" : [
+          "resourceType": "Practitioner",
+          "id": "ex-MHV-practitioner-14934-VA552",
+          "identifier": [
             {
-              "system" : "http://va.gov/terminology/vistaDefinedTerms/4",
-              "value" : "14934-VA552"
+              "system": "http://va.gov/terminology/vistaDefinedTerms/4",
+              "value": "14934-VA552"
             }
           ],
-          "name" : [
+          "name": [
             {
-              "family" : "DOE",
-              "given" : [
-                "JANE",
-                "A"
-              ]
+              "family": "DOE",
+              "given": ["JANE", "A"]
             }
           ]
         },
         {
-          "resourceType" : "Organization",
-          "id" : "ex-MHV-organization-989",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Organization",
+          "id": "ex-MHV-organization-989",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
             ]
           },
-          "identifier" : [
+          "identifier": [
             {
-              "use" : "usual",
-              "system" : "urn:oid:2.16.840.1.113883.4.349",
-              "value" : "LabSiteTO.989"
+              "use": "usual",
+              "system": "urn:oid:2.16.840.1.113883.4.349",
+              "value": "LabSiteTO.989"
             },
             {
-              "system" : "http://hl7.org/fhir/sid/us-npi",
-              "value" : "1234"
+              "system": "http://hl7.org/fhir/sid/us-npi",
+              "value": "1234"
             }
           ],
-          "active" : true,
-          "name" : "Lab Site 989"
+          "active": true,
+          "name": "Lab Site 989"
         },
         {
-          "resourceType" : "ServiceRequest",
-          "id" : "ex-MHV-chOrder-1a",
-          "meta" : {
-            "profile" : [
+          "resourceType": "ServiceRequest",
+          "id": "ex-MHV-chOrder-1a",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chOrder"
             ]
           },
-          "status" : "unknown",
-          "intent" : "order",
-          "category" : [
+          "status": "unknown",
+          "intent": "order",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://snomed.info/sct",
-                  "code" : "108252007",
-                  "display" : "Laboratory procedure"
+                  "system": "http://snomed.info/sct",
+                  "code": "108252007",
+                  "display": "Laboratory procedure"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/64",
-                "code" : "84140.0000"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/64",
+                "code": "84140.0000"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/60",
-                "code" : "177",
-                "display" : "POTASSIUM"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/60",
+                "code": "177",
+                "display": "POTASSIUM"
               }
             ],
-            "text" : "Potassium"
+            "text": "Potassium"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "requester" : {
-            "reference" : "#ex-MHV-practitioner-14934-VA552"
+          "requester": {
+            "reference": "#ex-MHV-practitioner-14934-VA552"
           },
-          "performer" : [
+          "performer": [
             {
-              "reference" : "#ex-MHV-organization-552"
+              "reference": "#ex-MHV-organization-552"
             }
           ]
         },
         {
-          "resourceType" : "Observation",
-          "id" : "ex-MHV-chTest-1a",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Observation",
+          "id": "ex-MHV-chTest-1a",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chTest"
             ]
           },
-          "basedOn" : [
+          "basedOn": [
             {
-              "reference" : "#ex-MHV-chOrder-1a"
+              "reference": "#ex-MHV-chOrder-1a"
             }
           ],
-          "status" : "final",
-          "category" : [
+          "status": "final",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code" : "laboratory"
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "laboratory"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://loinc.org",
-                "version" : "2.68",
-                "code" : "2823-3"
+                "system": "http://loinc.org",
+                "version": "2.68",
+                "code": "2823-3"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/95.3",
-                "code" : "4670505"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/95.3",
+                "code": "4670505"
               }
             ],
-            "text" : "POTASSIUM"
+            "text": "POTASSIUM"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
-          "performer" : [
+          "effectiveDateTime": "1994-01-20T16:38:59-05:00",
+          "performer": [
             {
-              "reference" : "#ex-MHV-organization-552"
+              "reference": "#ex-MHV-organization-552"
             }
           ],
-          "valueQuantity" : {
-            "value" : 3.5,
-            "unit" : "mEq/L",
-            "system" : "http://unitsofmeasure.org"
+          "valueQuantity": {
+            "value": 3.5,
+            "unit": "mEq/L",
+            "system": "http://unitsofmeasure.org"
           },
-          "interpretation" : [
+          "interpretation": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                  "code" : "L"
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "L"
                 }
               ],
-              "text" : "L"
+              "text": "L"
             }
           ],
-          "note" : [
+          "note": [
             {
-              "text" : "Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L."
+              "text": "Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L."
             }
           ],
-          "specimen" : {
-            "reference" : "#ex-MHV-chSpecimen-1"
+          "specimen": {
+            "reference": "#ex-MHV-chSpecimen-1"
           },
-          "referenceRange" : [
+          "referenceRange": [
             {
-              "text" : "3.6-5.1"
+              "text": "3.6-5.1"
             }
           ]
         },
         {
-          "resourceType" : "ServiceRequest",
-          "id" : "ex-MHV-chOrder-1b",
-          "meta" : {
-            "profile" : [
+          "resourceType": "ServiceRequest",
+          "id": "ex-MHV-chOrder-1b",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chOrder"
             ]
           },
-          "status" : "unknown",
-          "intent" : "order",
-          "category" : [
+          "status": "unknown",
+          "intent": "order",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://snomed.info/sct",
-                  "code" : "108252007",
-                  "display" : "Laboratory procedure"
+                  "system": "http://snomed.info/sct",
+                  "code": "108252007",
+                  "display": "Laboratory procedure"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/64",
-                "code" : "84295.0000"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/64",
+                "code": "84295.0000"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/60",
-                "code" : "176",
-                "display" : "SODIUM"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/60",
+                "code": "176",
+                "display": "SODIUM"
               }
             ],
-            "text" : "Sodium"
+            "text": "Sodium"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "requester" : {
-            "reference" : "#ex-MHV-practitioner-14934-VA552"
+          "requester": {
+            "reference": "#ex-MHV-practitioner-14934-VA552"
           },
-          "performer" : [
+          "performer": [
             {
-              "reference" : "#ex-MHV-organization-552"
+              "reference": "#ex-MHV-organization-552"
             }
           ]
         },
         {
-          "resourceType" : "Observation",
-          "id" : "ex-MHV-chTest-1b",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Observation",
+          "id": "ex-MHV-chTest-1b",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chTest"
             ]
           },
-          "basedOn" : [
+          "basedOn": [
             {
-              "reference" : "#ex-MHV-chOrder-1b"
+              "reference": "#ex-MHV-chOrder-1b"
             }
           ],
-          "status" : "final",
-          "category" : [
+          "status": "final",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code" : "laboratory"
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "laboratory"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://loinc.org",
-                "version" : "2.68",
-                "code" : "2951-2"
+                "system": "http://loinc.org",
+                "version": "2.68",
+                "code": "2951-2"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/95.3",
-                "code" : "4671912"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/95.3",
+                "code": "4671912"
               }
             ],
-            "text" : "SODIUM:SCNC:PT:SER/PLAS:QN:"
+            "text": "SODIUM:SCNC:PT:SER/PLAS:QN:"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
-          "performer" : [
+          "effectiveDateTime": "1994-01-20T16:38:59-05:00",
+          "performer": [
             {
-              "reference" : "#ex-MHV-organization-552"
+              "reference": "#ex-MHV-organization-552"
             }
           ],
-          "valueQuantity" : {
-            "value" : 138,
-            "unit" : "mEq/L",
-            "system" : "http://unitsofmeasure.org"
+          "valueQuantity": {
+            "value": 138,
+            "unit": "mEq/L",
+            "system": "http://unitsofmeasure.org"
           },
-          "interpretation" : [
+          "interpretation": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                  "code" : "L"
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "L"
                 }
               ],
-              "text" : "L"
+              "text": "L"
             }
           ],
-          "specimen" : {
-            "reference" : "#ex-MHV-chSpecimen-1"
+          "specimen": {
+            "reference": "#ex-MHV-chSpecimen-1"
           },
-          "referenceRange" : [
+          "referenceRange": [
             {
-              "text" : "136-145"
+              "text": "136-145"
             }
           ]
         },
         {
-          "resourceType" : "Specimen",
-          "id" : "ex-MHV-chSpecimen-1",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Specimen",
+          "id": "ex-MHV-chSpecimen-1",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chSpecimen"
             ]
           },
-          "status" : "available",
-          "type" : {
-            "coding" : [
+          "status": "available",
+          "type": {
+            "coding": [
               {
-                "system" : "http://terminology.hl7.org/CodeSystem/v2-0487",
-                "code" : "SER",
-                "display" : "Serum"
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+                "code": "SER",
+                "display": "Serum"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/61",
-                "code" : "72",
-                "display" : "SERUM"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/61",
+                "code": "72",
+                "display": "SERUM"
               }
             ],
-            "text" : "SERUM"
+            "text": "SERUM"
           },
-          "request" : [
+          "request": [
             {
-              "reference" : "#ex-MHV-chOrder-1a"
+              "reference": "#ex-MHV-chOrder-1a"
             }
           ],
-          "collection" : {
-            "collectedDateTime" : "1994-01-20T16:38:59-05:00"
+          "collection": {
+            "collectedDateTime": "1994-01-20T16:38:59-05:00"
           }
         }
       ],
-      "extension" : [
+      "extension": [
         {
-          "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
-          "valueString" : "Jane's Test 1/20/1994 - Second lab"
+          "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
+          "valueString": "Jane's Test 1/20/1994 - Second lab"
         },
         {
-          "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
-          "valueString" : "Added Potassium test"
+          "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
+          "valueString": "Added Potassium test"
         }
       ],
-      "identifier" : [
+      "identifier": [
         {
-          "use" : "usual",
-          "system" : "urn:fdc:TEST.SALT-LAKE.MED.VA.GOV:LR",
-          "value" : "1110200002"
+          "use": "usual",
+          "system": "urn:fdc:TEST.SALT-LAKE.MED.VA.GOV:LR",
+          "value": "1110200002"
         }
       ],
-      "basedOn" : [
+      "basedOn": [
         {
-          "reference" : "#ex-MHV-chOrder-1a"
+          "reference": "#ex-MHV-chOrder-1a"
         },
         {
-          "reference" : "#ex-MHV-chOrder-1b"
+          "reference": "#ex-MHV-chOrder-1b"
         }
       ],
-      "status" : "final",
-      "category" : [
+      "status": "final",
+      "category": [
         {
-          "coding" : [
+          "coding": [
             {
-              "system" : "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code" : "LAB"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+              "code": "LAB"
             }
           ]
         },
         {
-          "coding" : [
+          "coding": [
             {
-              "system" : "http://loinc.org",
-              "version" : "2.68",
-              "code" : "2823-3"
+              "system": "http://loinc.org",
+              "version": "2.68",
+              "code": "2823-3"
             }
           ],
-          "text" : "POTASSIUM:SCNC:PT:SER/PLAS:QN:"
+          "text": "POTASSIUM:SCNC:PT:SER/PLAS:QN:"
         },
         {
-          "coding" : [
+          "coding": [
             {
-              "system" : "http://loinc.org",
-              "version" : "2.68",
-              "code" : "2951-2"
+              "system": "http://loinc.org",
+              "version": "2.68",
+              "code": "2951-2"
             }
           ],
-          "text" : "SODIUM:SCNC:PT:SER/PLAS:QN:"
+          "text": "SODIUM:SCNC:PT:SER/PLAS:QN:"
         }
       ],
-      "code" : {
-        "text" : "CH"
+      "code": {
+        "text": "CH"
       },
-      "subject" : {
-        "reference" : "Patient/ex-MHV-patient-942104"
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
       },
-      "effectiveDateTime" : "1994-01-20T16:38:59-05:00",
-      "issued" : "1994-01-21T11:32:47-05:00",
-      "performer" : [
+      "effectiveDateTime": "1994-01-20T16:38:59-05:00",
+      "issued": "1994-01-21T11:32:47-05:00",
+      "performer": [
         {
-          "reference" : "#ex-MHV-organization-989"
+          "reference": "#ex-MHV-organization-989"
         }
       ],
-      "specimen" : [
+      "specimen": [
         {
-          "reference" : "#ex-MHV-chSpecimen-1"
+          "reference": "#ex-MHV-chSpecimen-1"
         }
       ],
-      "result" : [
+      "result": [
         {
-          "reference" : "#ex-MHV-chTest-1a"
+          "reference": "#ex-MHV-chTest-1a"
         },
         {
-          "reference" : "#ex-MHV-chTest-1b"
+          "reference": "#ex-MHV-chTest-1b"
         }
       ]
     },
     {
-      "resourceType" : "DiagnosticReport",
-      "id" : "9953",
-      "meta" : {
-        "versionId" : "22",
-        "lastUpdated" : "2024-05-16T18:08:59.215-04:00",
-        "source" : "#reWo6V0WdeyFTR19",
-        "profile" : [
+      "resourceType": "DiagnosticReport",
+      "id": "9953",
+      "meta": {
+        "versionId": "22",
+        "lastUpdated": "2024-05-16T18:08:59.215-04:00",
+        "source": "#reWo6V0WdeyFTR19",
+        "profile": [
           "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chReport"
         ]
       },
-      "text" : {
-        "status" : "generated",
-        "div" : "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: \">CH</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 CH}\">Chemistry</span>, <span title=\"Codes: {http://loinc.org 2345-7}\">GLUCOSE:MCNC:PT:SER/PLAS:QN:</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>L MHVSYSTEST </b> unknown, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/942104\u00a0(use:\u00a0usual))</td></tr><tr><td>When For</td><td>2017-08-02 09:50:57-0400</td></tr><tr><td>Reported</td><td>2017-08-02 09:52:27-0400</td></tr><tr><td>Identifier:</td><td> <code>urn:fdc:TEST.DAYTON.MED.VA.GOV:LR</code>/1172140001\u00a0(use:\u00a0usual)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>Flags</b></td><td><b>Note</b></td><td><b>When For</b></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr></table></div>"
+      "text": {
+        "status": "generated",
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: \">CH</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>, <span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 CH}\">Chemistry</span>, <span title=\"Codes: {http://loinc.org 2345-7}\">GLUCOSE:MCNC:PT:SER/PLAS:QN:</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>L MHVSYSTEST </b> unknown, DoB: 1000-01-01 ( <code>urn:oid:2.16.840.1.113883.4.349</code>/942104\u00a0(use:\u00a0usual))</td></tr><tr><td>When For</td><td>2017-08-02 09:50:57-0400</td></tr><tr><td>Reported</td><td>2017-08-02 09:52:27-0400</td></tr><tr><td>Identifier:</td><td> <code>urn:fdc:TEST.DAYTON.MED.VA.GOV:LR</code>/1172140001\u00a0(use:\u00a0usual)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>Reference Range</b></td><td><b>Flags</b></td><td><b>Note</b></td><td><b>When For</b></td></tr><tr><td colspan=\"6\"><i>This Observation could not be resolved</i></td></tr></table></div>"
       },
-      "contained" : [
+      "contained": [
         {
-          "resourceType" : "Specimen",
-          "id" : "Specimen-0",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Specimen",
+          "id": "Specimen-0",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chSpecimen"
             ]
           },
-          "status" : "available",
-          "type" : {
-            "coding" : [
+          "status": "available",
+          "type": {
+            "coding": [
               {
-                "system" : "http://terminology.hl7.org/CodeSystem/v2-0487",
-                "code" : "SER",
-                "display" : "Serum"
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0487",
+                "code": "SER",
+                "display": "Serum"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/61",
-                "version" : "5.2",
-                "code" : "72",
-                "display" : "SERUM"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/61",
+                "version": "5.2",
+                "code": "72",
+                "display": "SERUM"
               }
             ],
-            "text" : "SERUM"
+            "text": "SERUM"
           },
-          "request" : [
+          "request": [
             {
-              "reference" : "#ServiceRequest-1"
+              "reference": "#ServiceRequest-1"
             }
           ],
-          "collection" : {
-            "collectedDateTime" : "2005-02-01T09:50:57-04:00"
+          "collection": {
+            "collectedDateTime": "2005-02-01T09:50:57-04:00"
           }
         },
         {
-          "resourceType" : "Practitioner",
-          "id" : "Provider-1",
-          "identifier" : [
+          "resourceType": "Practitioner",
+          "id": "Provider-1",
+          "identifier": [
             {
-              "system" : "http://va.gov/terminology/vistaDefinedTerms/4",
-              "value" : "14934-VA552"
+              "system": "http://va.gov/terminology/vistaDefinedTerms/4",
+              "value": "14934-VA552"
             }
           ],
-          "name" : [
+          "name": [
             {
-              "family" : "DOE",
-              "given" : [
-                "JANE",
-                "A"
-              ]
+              "family": "DOE",
+              "given": ["JANE", "A"]
             }
           ]
         },
         {
-          "resourceType" : "Organization",
-          "id" : "Organization-552",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Organization",
+          "id": "Organization-552",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
             ]
           },
-          "identifier" : [
+          "identifier": [
             {
-              "use" : "usual",
-              "type" : {
-                "text" : "FI"
+              "use": "usual",
+              "type": {
+                "text": "FI"
               },
-              "system" : "urn:oid:2.16.840.1.113883.4.349",
-              "value" : "552"
+              "system": "urn:oid:2.16.840.1.113883.4.349",
+              "value": "552"
             }
           ],
-          "active" : true,
-          "name" : "DAYTON, OH VAMC",
-          "address" : [
+          "active": true,
+          "name": "DAYTON, OH VAMC",
+          "address": [
             {
-              "line" : [
-                "4100 W. THIRD STREET"
-              ],
-              "city" : "DAYTON",
-              "state" : "OH",
-              "postalCode" : "45428",
-              "country" : "USA"
+              "line": ["4100 W. THIRD STREET"],
+              "city": "DAYTON",
+              "state": "OH",
+              "postalCode": "45428",
+              "country": "USA"
             }
           ]
         },
         {
-          "resourceType" : "Organization",
-          "id" : "OrgPerformer-989",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Organization",
+          "id": "OrgPerformer-989",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.organization"
             ]
           },
-          "identifier" : [
+          "identifier": [
             {
-              "use" : "usual",
-              "system" : "urn:oid:2.16.840.1.113883.4.349",
-              "value" : "989"
+              "use": "usual",
+              "system": "urn:oid:2.16.840.1.113883.4.349",
+              "value": "989"
             }
           ],
-          "active" : true,
-          "name" : "DAYT29.FO-BAYPINES.MED.VA.GOV"
+          "active": true,
+          "name": "DAYT29.FO-BAYPINES.MED.VA.GOV"
         },
         {
-          "resourceType" : "ServiceRequest",
-          "id" : "ServiceRequest-1",
-          "meta" : {
-            "profile" : [
+          "resourceType": "ServiceRequest",
+          "id": "ServiceRequest-1",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chOrder"
             ]
           },
-          "status" : "unknown",
-          "intent" : "order",
-          "category" : [
+          "status": "unknown",
+          "intent": "order",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://snomed.info/sct",
-                  "code" : "108252007",
-                  "display" : "Laboratory procedure"
+                  "system": "http://snomed.info/sct",
+                  "code": "108252007",
+                  "display": "Laboratory procedure"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/64",
-                "code" : "84330.0000"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/64",
+                "code": "84330.0000"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/60",
-                "code" : "175",
-                "display" : "GLUCOSE"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/60",
+                "code": "175",
+                "display": "GLUCOSE"
               }
             ],
-            "text" : "Glucose Quant"
+            "text": "Glucose Quant"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "requester" : {
-            "reference" : "#Provider-1"
+          "requester": {
+            "reference": "#Provider-1"
           },
-          "performer" : [
+          "performer": [
             {
-              "reference" : "#Organization-552"
+              "reference": "#Organization-552"
             }
           ]
         },
         {
-          "resourceType" : "Observation",
-          "id" : "ChemistryResult-1.1",
-          "meta" : {
-            "profile" : [
+          "resourceType": "Observation",
+          "id": "ChemistryResult-1.1",
+          "meta": {
+            "profile": [
               "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.chTest"
             ]
           },
-          "basedOn" : [
+          "basedOn": [
             {
-              "reference" : "#ServiceRequest-1"
+              "reference": "#ServiceRequest-1"
             }
           ],
-          "status" : "final",
-          "category" : [
+          "status": "final",
+          "category": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/observation-category",
-                  "code" : "laboratory"
+                  "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                  "code": "laboratory"
                 }
               ]
             }
           ],
-          "code" : {
-            "coding" : [
+          "code": {
+            "coding": [
               {
-                "system" : "http://loinc.org",
-                "version" : "2.52",
-                "code" : "2345-7"
+                "system": "http://loinc.org",
+                "version": "2.52",
+                "code": "2345-7"
               },
               {
-                "system" : "http://va.gov/terminology/vistaDefinedTerms/95.3",
-                "version" : "2.52",
-                "code" : "4665460"
+                "system": "http://va.gov/terminology/vistaDefinedTerms/95.3",
+                "version": "2.52",
+                "code": "4665460"
               }
             ],
-            "text" : "GLUCOSE"
+            "text": "GLUCOSE"
           },
-          "subject" : {
-            "reference" : "Patient/ex-MHV-patient-942104"
+          "subject": {
+            "reference": "Patient/ex-MHV-patient-942104"
           },
-          "effectiveDateTime" : "2005-02-01T09:50:57-04:00",
-          "performer" : [
+          "effectiveDateTime": "2005-02-01T09:50:57-04:00",
+          "performer": [
             {
-              "reference" : "#Organization-552"
+              "reference": "#Organization-552"
             }
           ],
-          "valueQuantity" : {
-            "value" : 171,
-            "unit" : "mg/dl",
-            "system" : "http://unitsofmeasure.org",
-            "code" : "mg/dl"
+          "valueQuantity": {
+            "value": 171,
+            "unit": "mg/dl",
+            "system": "http://unitsofmeasure.org",
+            "code": "mg/dl"
           },
-          "interpretation" : [
+          "interpretation": [
             {
-              "coding" : [
+              "coding": [
                 {
-                  "system" : "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
-                  "code" : "H"
+                  "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                  "code": "H"
                 }
               ],
-              "text" : "H"
+              "text": "H"
             }
           ],
-          "note" : [
+          "note": [
             {
-              "text" : "***PLEASE NOTE NEW CRITICAL VALUE EFFECTIVE 2/2/98***"
+              "text": "***PLEASE NOTE NEW CRITICAL VALUE EFFECTIVE 2/2/98***"
             }
           ],
-          "specimen" : {
-            "reference" : "#Specimen-0"
+          "specimen": {
+            "reference": "#Specimen-0"
           },
-          "referenceRange" : [
+          "referenceRange": [
             {
-              "text" : "65-110"
+              "text": "65-110"
             }
           ]
         }
       ],
-      "extension" : [
+      "extension": [
         {
-          "url" : "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
-          "valueString" : "Jane's 8/2  test"
+          "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/Notes",
+          "valueString": "Jane's 8/2  test"
         }
       ],
-      "identifier" : [
+      "identifier": [
         {
-          "use" : "usual",
-          "system" : "urn:fdc:TEST.DAYTON.MED.VA.GOV:LR",
-          "value" : "1172140001"
+          "use": "usual",
+          "system": "urn:fdc:TEST.DAYTON.MED.VA.GOV:LR",
+          "value": "1172140001"
         }
       ],
-      "basedOn" : [
+      "basedOn": [
         {
-          "reference" : "#ServiceRequest-1"
+          "reference": "#ServiceRequest-1"
         }
       ],
-      "status" : "final",
-      "category" : [
+      "status": "final",
+      "category": [
         {
-          "coding" : [
+          "coding": [
             {
-              "system" : "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code" : "LAB"
-            }
-          ]
-        },
-        {
-          "coding" : [
-            {
-              "system" : "http://terminology.hl7.org/CodeSystem/v2-0074",
-              "code" : "CH"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+              "code": "LAB"
             }
           ]
         },
         {
-          "coding" : [
+          "coding": [
             {
-              "system" : "http://loinc.org",
-              "version" : "2.52",
-              "code" : "2345-7"
+              "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+              "code": "CH"
+            }
+          ]
+        },
+        {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "version": "2.52",
+              "code": "2345-7"
             }
           ],
-          "text" : "GLUCOSE:MCNC:PT:SER/PLAS:QN:"
+          "text": "GLUCOSE:MCNC:PT:SER/PLAS:QN:"
         }
       ],
-      "code" : {
-        "text" : "CH"
+      "code": {
+        "text": "CH"
       },
-      "subject" : {
-        "reference" : "Patient/ex-MHV-patient-942104"
+      "subject": {
+        "reference": "Patient/ex-MHV-patient-942104"
       },
-      "effectiveDateTime" : "2005-02-01T09:50:57-04:00",
-      "issued" : "2005-02-01T09:52:27.000-04:00",
-      "performer" : [
+      "effectiveDateTime": "2005-02-01T09:50:57-04:00",
+      "issued": "2005-02-01T09:52:27.000-04:00",
+      "performer": [
         {
-          "reference" : "#OrgPerformer-989"
+          "reference": "#OrgPerformer-989"
         }
       ],
-      "specimen" : [
+      "specimen": [
         {
-          "reference" : "#Specimen-0"
+          "reference": "#Specimen-0"
         }
       ],
-      "result" : [
+      "result": [
         {
-          "reference" : "#ChemistryResult-1.1"
+          "reference": "#ChemistryResult-1.1"
         }
       ]
     },
@@ -786,7 +776,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
       },
       "contained": [
         {
@@ -821,7 +811,7 @@
           "subject": {
             "reference": "Patient/ex-MHV-patient-1"
           },
-          "effectiveDateTime": "1998-08-03T14:49:00-0400",
+          "effectiveDateTime": "2005-01-01T14:49:00-0400",
           "performer": [
             {
               "reference": "Organization/ex-MHV-organization-989"
@@ -854,7 +844,7 @@
             "text": "FECES"
           },
           "collection": {
-            "collectedDateTime": "1998-07-30"
+            "collectedDateTime": "2005-01-01"
           }
         }
       ],
@@ -880,7 +870,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "79381-0"
+            "code": "18725-2"
           }
         ],
         "text": "LR MICROBIOLOGY REPORT"
@@ -889,7 +879,7 @@
         "reference": "Patient/ex-MHV-patient-1"
       },
       "effectiveDateTime": "2005-01-01T14:49:00-0400",
-      "issued": "1998-08-03T14:49:00-0400",
+      "issued": "2005-01-01T14:49:00-0400",
       "performer": [
         {
           "reference": "Organization/ex-MHV-organization-989"
@@ -917,7 +907,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1998-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1998@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1998\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1998   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
       },
       "contained": [
         {
@@ -1011,7 +1001,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "79381-0"
+            "code": "18725-2"
           }
         ],
         "text": "LR MICROBIOLOGY REPORT"
@@ -1115,7 +1105,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 264 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 30, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND</p></div>"
       },
       "contained": [
         {
@@ -1209,7 +1199,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "79381-0"
+            "code": "18725-2"
           }
         ],
         "text": "LR MICROBIOLOGY REPORT"
@@ -1246,7 +1236,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269.93\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 263 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 29, 1995 07:00\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND \nMODERATE WBC'S SEEN \nMODERATE YEAST</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Reported</td><td>1995-08-03 14:49:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049269.93\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 263 []            Received: Aug 01, 1995@11:02\nCollection sample: STOOL               Collection date: Jul 29, 1995 07:00\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 03, 1995   TECH CODE: 1003\nParasitology Remark(s):\nNO OVA OR PARASITES FOUND \nMODERATE WBC'S SEEN \nMODERATE YEAST</p></div>"
       },
       "contained": [
         {
@@ -1420,7 +1410,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "79381-0"
+            "code": "18725-2"
           }
         ],
         "text": "LR MICROBIOLOGY REPORT"
@@ -1463,7 +1453,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 79381-0}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Reported</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049271\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 262 []            Received: Aug 01, 1995@11:00\nCollection sample: STOOL               Collection date: Jul 28, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 01, 1995   TECH CODE: 420\nParasitology Remark(s):\nREJECTED=LEAKED</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 18725-2}\">LR MICROBIOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Reported</td><td>1995-08-01 11:07:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.MI;7049271\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><table class=\"grid\"><tr><td><b>Code</b></td><td><b>Value</b></td><td><b>When For</b></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr><tr><td colspan=\"3\"><i>This Observation could not be resolved</i></td></tr></table><p>Accession [UID]: PARAS 95 262 []            Received: Aug 01, 1995@11:00\nCollection sample: STOOL               Collection date: Jul 28, 1995\nSite/Specimen: FECES\nProvider: MANGAS,PHYLLIS A\n\n* PARASITOLOGY FINAL REPORT =&gt; Aug 01, 1995   TECH CODE: 420\nParasitology Remark(s):\nREJECTED=LEAKED</p></div>"
       },
       "contained": [
         {
@@ -1637,7 +1627,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "79381-0"
+            "code": "18725-2"
           }
         ],
         "text": "LR MICROBIOLOGY REPORT"
@@ -1680,7 +1670,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Reported</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTo.SP;6999190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 2000        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 09, 2000 16:14  Resident: \nDate  completed: Aug 10, 2000        Accession #: SP 00 1982\nSubmitted by: MARK MAZUR MD          Practitioner:MARK MAZUR DPM\n-------------------------------------------------------------------------------\nSpecimen: \nOLD HARDWARE LEFT FOOT X2\nBrief Clinical History:\nThis 71 y/o wm presents with painful hardware L 1st metatarsal head. The\npins were inserted 3 years ago for a bunion procedure. The Bunionprocedure\nis well healed and pt is now wanting the pin removed. Will probably need\nk-wire driver and power for this case.\nPreoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nPostoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nGross description:\nRECEIVED UNFIXED AND LABELED &quot;OLD HARDWARE LEFT FOOT X 2&quot; CONSISTS OF TWO\n1.7 CM AND 2.5 CM LONG 1 MM WIDE METALLIC PINS.\n|TAB||NOWRAP|\nDIAGNOSIS: HARDWARE (CLINICALLY FROM LEFT FOOT)</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Reported</td><td>2000-08-10 15:56:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTo.SP;6999190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 2000        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 09, 2000 16:14  Resident: \nDate  completed: Aug 10, 2000        Accession #: SP 00 1982\nSubmitted by: MARK MAZUR MD          Practitioner:MARK MAZUR DPM\n-------------------------------------------------------------------------------\nSpecimen: \nOLD HARDWARE LEFT FOOT X2\nBrief Clinical History:\nThis 71 y/o wm presents with painful hardware L 1st metatarsal head. The\npins were inserted 3 years ago for a bunion procedure. The Bunionprocedure\nis well healed and pt is now wanting the pin removed. Will probably need\nk-wire driver and power for this case.\nPreoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nPostoperative Diagnosis:\nPAINFUL HARDWARE LEFT FIRST METATARSAL \nGross description:\nRECEIVED UNFIXED AND LABELED &quot;OLD HARDWARE LEFT FOOT X 2&quot; CONSISTS OF TWO\n1.7 CM AND 2.5 CM LONG 1 MM WIDE METALLIC PINS.\n|TAB||NOWRAP|\nDIAGNOSIS: HARDWARE (CLINICALLY FROM LEFT FOOT)</p></div>"
       },
       "contained": [
         {
@@ -1732,7 +1722,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "60567-5"
+            "code": "11526-1"
           }
         ],
         "text": "LR SURGICAL PATHOLOGY REPORT"
@@ -1764,7 +1754,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1999-09-27 13:07:00+0000</td></tr><tr><td>Reported</td><td>1999-09-27 13:07:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7009075\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Sep 24, 1999        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 24, 1999 13:46  Resident: \nDate  completed: Sep 27, 1999        Accession #: SP 99 2207\nSubmitted by: KHURSHID YOUSUF MD     Practitioner:KHURSHID YOUSUF\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYPS (A) CECAL\n       (B) PROXIMAL ASCENDING\n       (C) RECTAL\nBrief Clinical History:\nCOLON POLYPS PER FLEX SIG\nPreoperative Diagnosis:\nCOLON POLYPS\nOperative Findings:\n|TAB||NOWRAP|\n1. CECAL POLYPS X 2\n2. ASCENDING COLON POLYP\n3. RECTAL POLYP\nPostoperative Diagnosis:\nSAME\nGross description:\n|TAB||NOWRAP|\nSPECIMEN (A) LABELED CECAL POLYP X 2.  RECEIVED IN FORMALIN IS ONE PALE\nGREY TISSUE FRAGMENT MEASURING 0.4 CM IN DIAMETER.  EMBEDDED ENTIRELY IN\nONE BLOCK.\nSPECIMEN (B) LABELED PROXIMAL ASCENDING COLON.  RECEIVED IN FORMALIN ARE\nTWO PALE BROWN TISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED\nENTIRELY IN ONE BLOCK.\nSPECIMEN (C) LABELED RECTAL POLYP.  RECEIVED IN FORMALIN ARE THREE MINUTE\nTISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED ENTIRELY\nIN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Sep 24, 1999)\n|TAB||BLANK(3)|\n|TAB||NOWRAP|\nDIAGNOSIS:\nA) CECAL POLYP: HYPERPLASTIC POLYP.  (SEE NOTE)\nB &amp;amp; C)\nPROXIMAL ASCENDING COLON AND RECTAL POLYPS: TUBULAR ADENOMAS. (SEE\nNOTE)\n\nNOTE: COAGULATION ARTEFACT AND POOR TISSUE PRESERVATION IS NOTED CAUSING\nDIFFICULTY IN EVALUATION OF LESION.\nDR. YOUSUF WAS NOTIFIED.</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1999-09-27 13:07:00+0000</td></tr><tr><td>Reported</td><td>1999-09-27 13:07:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7009075\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Sep 24, 1999        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 24, 1999 13:46  Resident: \nDate  completed: Sep 27, 1999        Accession #: SP 99 2207\nSubmitted by: KHURSHID YOUSUF MD     Practitioner:KHURSHID YOUSUF\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYPS (A) CECAL\n       (B) PROXIMAL ASCENDING\n       (C) RECTAL\nBrief Clinical History:\nCOLON POLYPS PER FLEX SIG\nPreoperative Diagnosis:\nCOLON POLYPS\nOperative Findings:\n|TAB||NOWRAP|\n1. CECAL POLYPS X 2\n2. ASCENDING COLON POLYP\n3. RECTAL POLYP\nPostoperative Diagnosis:\nSAME\nGross description:\n|TAB||NOWRAP|\nSPECIMEN (A) LABELED CECAL POLYP X 2.  RECEIVED IN FORMALIN IS ONE PALE\nGREY TISSUE FRAGMENT MEASURING 0.4 CM IN DIAMETER.  EMBEDDED ENTIRELY IN\nONE BLOCK.\nSPECIMEN (B) LABELED PROXIMAL ASCENDING COLON.  RECEIVED IN FORMALIN ARE\nTWO PALE BROWN TISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED\nENTIRELY IN ONE BLOCK.\nSPECIMEN (C) LABELED RECTAL POLYP.  RECEIVED IN FORMALIN ARE THREE MINUTE\nTISSUE FRAGMENTS MEASURING 0.3 CM IN AGGREGATE.  EMBEDDED ENTIRELY\nIN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Sep 24, 1999)\n|TAB||BLANK(3)|\n|TAB||NOWRAP|\nDIAGNOSIS:\nA) CECAL POLYP: HYPERPLASTIC POLYP.  (SEE NOTE)\nB &amp;amp; C)\nPROXIMAL ASCENDING COLON AND RECTAL POLYPS: TUBULAR ADENOMAS. (SEE\nNOTE)\n\nNOTE: COAGULATION ARTEFACT AND POOR TISSUE PRESERVATION IS NOTED CAUSING\nDIFFICULTY IN EVALUATION OF LESION.\nDR. YOUSUF WAS NOTIFIED.</p></div>"
       },
       "contained": [
         {
@@ -1816,7 +1806,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "60567-5"
+            "code": "11526-1"
           }
         ],
         "text": "LR SURGICAL PATHOLOGY REPORT"
@@ -1848,7 +1838,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7009190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 1999        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 10, 1999 13:27  Resident: \nDate  completed: Aug 11, 1999        Accession #: SP 99 1804\nSubmitted by: KATHLEEN MARIE WOLNER  Practitioner:KATHLEEN MARIE WOLNER MD\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYP @ 12CM\nBrief Clinical History:\n70 YEAR OLD MALE FOR SCREENING EXAM.  \nOperative Findings:\nSMOOTH BROAD BASED POLYP\nPostoperative Diagnosis:\nPROBABLE BENIGN POLYP\nGross description:\nRECEIVED IN FORMALIN AND LABELED &quot;POLYP&quot;  CONSISTS OF TWO 1 MM FRAGMENTS\nOF PINK TISSUE.  SUBMITTED IN TOTAL IN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Aug 09, 1999)\n|TAB||BLANK(3)|\nDIAGNOSIS:\nPOLYP AT 12 CM. TUBULAR ADENOMA.</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Reported</td><td>1999-08-11 16:09:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7009190\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Aug 09, 1999        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: Aug 10, 1999 13:27  Resident: \nDate  completed: Aug 11, 1999        Accession #: SP 99 1804\nSubmitted by: KATHLEEN MARIE WOLNER  Practitioner:KATHLEEN MARIE WOLNER MD\n-------------------------------------------------------------------------------\nSpecimen: \nPOLYP @ 12CM\nBrief Clinical History:\n70 YEAR OLD MALE FOR SCREENING EXAM.  \nOperative Findings:\nSMOOTH BROAD BASED POLYP\nPostoperative Diagnosis:\nPROBABLE BENIGN POLYP\nGross description:\nRECEIVED IN FORMALIN AND LABELED &quot;POLYP&quot;  CONSISTS OF TWO 1 MM FRAGMENTS\nOF PINK TISSUE.  SUBMITTED IN TOTAL IN ONE BLOCK.\nMicroscopic description: (Date Spec taken: Aug 09, 1999)\n|TAB||BLANK(3)|\nDIAGNOSIS:\nPOLYP AT 12 CM. TUBULAR ADENOMA.</p></div>"
       },
       "contained": [
         {
@@ -1900,7 +1890,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "60567-5"
+            "code": "11526-1"
           }
         ],
         "text": "LR SURGICAL PATHOLOGY REPORT"
@@ -1932,7 +1922,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Reported</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7029091\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Sep 08, 1997        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 08, 1997 13:08  Resident: \nDate  completed: Sep 09, 1997        Accession #: SP 97 2091\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \n(A) BONE FROM RIGHT FOOT\n(B) BONE RIGHT FOOT</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Reported</td><td>1997-09-09 13:13:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7029091\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: Sep 08, 1997        Pathologist:JAZBIEH MOEZZI MD\nDate Spec rec'd: Sep 08, 1997 13:08  Resident: \nDate  completed: Sep 09, 1997        Accession #: SP 97 2091\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \n(A) BONE FROM RIGHT FOOT\n(B) BONE RIGHT FOOT</p></div>"
       },
       "contained": [
         {
@@ -1984,7 +1974,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "60567-5"
+            "code": "11526-1"
           }
         ],
         "text": "LR SURGICAL PATHOLOGY REPORT"
@@ -2016,7 +2006,7 @@
       },
       "text": {
         "status": "generated",
-        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 60567-5}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1997-05-14 09:54:00+0000</td></tr><tr><td>Reported</td><td>1997-05-14 09:54:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7029487\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: May 12, 1997        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: May 12, 1997 14:00  Resident: \nDate  completed: May 13, 1997        Accession #: SP 97 1099\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \nBONE FRAGMENTS, LEFT FOOT</p></div>"
+        "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2><span title=\"Codes: {http://loinc.org 11526-1}\">LR SURGICAL PATHOLOGY REPORT</span> (<span title=\"Codes: {http://terminology.hl7.org/CodeSystem/v2-0074 LAB}\">Laboratory</span>) </h2><table class=\"grid\"><tr><td>Subject</td><td><b>MTPZEROTWO,DAYTSHR</b> male, DoB Unknown ( id:\u00a01013699147\u00a0(use:\u00a0OFFICIAL))</td></tr><tr><td>When For</td><td>1997-05-14 09:54:00+0000</td></tr><tr><td>Reported</td><td>1997-05-14 09:54:00+0000</td></tr><tr><td>Identifier:</td><td> id:\u00a0LabReportTO.SP;7029487\u00a0(use:\u00a0USUAL)</td></tr></table><p><b>Report Details</b></p><p>Date Spec taken: May 12, 1997        Pathologist:SEETHA SURYAPRASAD MD\nDate Spec rec'd: May 12, 1997 14:00  Resident: \nDate  completed: May 13, 1997        Accession #: SP 97 1099\nSubmitted by: DEBRA K LATTA MD       Practitioner:DEBRA K LATTA\n-------------------------------------------------------------------------------\nSpecimen: \nBONE FRAGMENTS, LEFT FOOT</p></div>"
       },
       "contained": [
         {
@@ -2068,7 +2058,7 @@
         "coding": [
           {
             "system": "http://loinc.org",
-            "code": "60567-5"
+            "code": "11526-1"
           }
         ],
         "text": "LR SURGICAL PATHOLOGY REPORT"

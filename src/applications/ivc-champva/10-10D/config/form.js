@@ -26,6 +26,7 @@ import {
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
+import SubmissionError from '../../shared/components/SubmissionError';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
 
 import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
@@ -65,13 +66,10 @@ import {
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
   applicantMarriageCertConfig,
-  applicantSecondMarriageDivorceCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
   applicantMarriageCertUploadUiSchema,
-  applicantSecondMarriageCertUploadUiSchema,
-  applicantSecondMarriageDivorceCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
@@ -109,15 +107,8 @@ import {
   ApplicantDependentStatusReviewPage,
 } from '../pages/ApplicantDependentStatus';
 import {
-  ApplicantSponsorMarriageDetailsPage,
-  ApplicantSponsorMarriageDetailsReviewPage,
   marriageDatesSchema,
-  remarriageDetailsSchema,
-  depends18f2,
   depends18f3,
-  depends18f4,
-  depends18f5,
-  depends18f6,
 } from '../pages/ApplicantSponsorMarriageDetailsPage';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 
@@ -165,6 +156,7 @@ const formConfig = {
       fullNamePath: formData => getNameKeyForSignature(formData),
     },
   },
+  submissionError: SubmissionError,
   formId: '10-10D',
   dev: {
     showNavLinks: false,
@@ -973,50 +965,6 @@ const formConfig = {
             ),
           }),
         },
-        page18f1: {
-          path: 'applicant-marriage/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage details`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              ['spouse', 'spouseSeparated'].includes(
-                get(
-                  'applicantRelationshipToSponsor.relationshipToVeteran',
-                  formData?.applicants?.[index],
-                ),
-              ) && get('sponsorIsDeceased', formData)
-            );
-          },
-          CustomPage: ApplicantSponsorMarriageDetailsPage,
-          CustomPageReview: ApplicantSponsorMarriageDetailsReviewPage,
-          schema: applicantListSchema([], {
-            applicantSponsorMarriageDetails: {
-              type: 'object',
-              properties: {
-                relationshipToVeteran: { type: 'string' },
-                otherRelationshipToVeteran: { type: 'string' },
-              },
-            },
-          }),
-          uiSchema: {
-            applicants: {
-              'ui:options': { viewField: ApplicantField },
-              items: {},
-            },
-          },
-        },
-        // If applicant has second marriage, is it ongoing?
-        page18f2: {
-          path: 'applicant-remarriage/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} remarriage status`,
-          depends: (formData, index) => depends18f2(formData, index),
-          uiSchema: remarriageDetailsSchema.uiSchema,
-          schema: remarriageDetailsSchema.schema,
-        },
         // Marriage dates (sponsor living or dead) when applicant did not remarry
         page18f3: {
           path: 'applicant-marriage-date/:index',
@@ -1026,36 +974,6 @@ const formConfig = {
           depends: (formData, index) => depends18f3(formData, index),
           uiSchema: marriageDatesSchema.noRemarriageUiSchema,
           schema: marriageDatesSchema.noRemarriageSchema,
-        },
-        // Applicant remarried after sponsor died
-        page18f4: {
-          path: 'applicant-remarriage-date/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f4(formData, index),
-          uiSchema: marriageDatesSchema.remarriageUiSchema,
-          schema: marriageDatesSchema.remarriageSchema,
-        },
-        // Applicant remarried after sponsor died but separated from 2nd spouse
-        page18f5: {
-          path: 'applicant-remarriage-separation-date/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f5(formData, index),
-          uiSchema: marriageDatesSchema.remarriageSeparatedUiSchema,
-          schema: marriageDatesSchema.remarriageSeparatedSchema,
-        },
-        // Applicant separated from sponsor before sponsor's death
-        page18f6: {
-          path: 'applicant-information/married-separated-dates/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} marriage dates`,
-          depends: (formData, index) => depends18f6(formData, index),
-          uiSchema: marriageDatesSchema.separatedUiSchema,
-          schema: marriageDatesSchema.separatedSchema,
         },
         page18f: {
           path: 'applicant-marriage-upload/:index',
@@ -1068,18 +986,7 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse' &&
-              ((get('sponsorIsDeceased', formData) &&
-                [
-                  'marriedTillDeathNoRemarriage',
-                  'marriedTillDeathRemarriedAfter55',
-                ].includes(
-                  get(
-                    'applicantSponsorMarriageDetails.relationshipToVeteran',
-                    formData?.applicants?.[index],
-                  ),
-                )) ||
-                !get('sponsorIsDeceased', formData))
+              ) === 'spouse'
             );
           },
           CustomPage: FileFieldWrapped,
@@ -1090,70 +997,6 @@ const formConfig = {
             titleSchema,
             ...applicantMarriageCertConfig.schema,
             applicantMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        page18f7: {
-          path: 'applicant-remarriage-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item => `${applicantWording(item)} second marriage documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55'
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantSecondMarriageCert: fileWithMetadataSchema(
-              acceptableFiles.spouseCert,
-            ),
-          }),
-        },
-        // If applicant remarried after 55 but the second marriage is not viable,
-        // upload a certificate proving the marriage dissolved
-        page18f8: {
-          path: 'applicant-remarriage-separation-upload/:index',
-          arrayPath: 'applicants',
-          showPagePerItem: true,
-          title: item =>
-            `${applicantWording(item)} second marriage dissolution documents`,
-          depends: (formData, index) => {
-            if (index === undefined) return true;
-            return (
-              get(
-                'applicantRelationshipToSponsor.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'spouse' &&
-              get(
-                'applicantSponsorMarriageDetails.relationshipToVeteran',
-                formData?.applicants?.[index],
-              ) === 'marriedTillDeathRemarriedAfter55' &&
-              !get('remarriageIsViable', formData?.applicants?.[index])
-            );
-          },
-          CustomPage: FileFieldWrapped,
-          CustomPageReview: null,
-          customPageUsesPagePerItemData: true,
-          uiSchema: applicantSecondMarriageDivorceCertUploadUiSchema,
-          schema: applicantListSchema([], {
-            titleSchema,
-            ...applicantSecondMarriageDivorceCertConfig.schema,
-            applicantSecondMarriageDivorceCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),

@@ -7,54 +7,58 @@ import formConfig from '../../../config/form';
 import PrefillCopy from '../../../helpers/PrefillCopy';
 import PrefilledAddress from '../../../helpers/prefilledAddress';
 import { CustomSSNReviewPage } from '../../../helpers/CustomSSN';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 
-const props = {
-  route: {
-    path: 'prefillcopy',
-    pageList: [],
-    formConfig,
+const getData = ({ loggedIn = true, isVerified = true } = {}) => ({
+  props: {
+    loggedIn,
+    route: {
+      formConfig,
+      pageList: [{ path: '/introduction' }, { path: '/next', formConfig }],
+    },
   },
-};
-
-const mockStore = {
-  getState: () => ({
-    user: {
-      login: {
-        currentlyLoggedIn: true,
-      },
-      profile: {
-        savedForms: [],
-        prefillsAvailable: [],
-        verified: false,
-        dob: '2000-01-01',
-        claims: {
-          appeals: false,
+  mockStore: {
+    getState: () => ({
+      isVerified,
+      user: {
+        login: {
+          currentlyLoggedIn: loggedIn,
+        },
+        profile: {
+          savedForms: [],
+          prefillsAvailable: [],
         },
       },
-    },
-    form: {
-      formId: formConfig.formId,
-      loadedStatus: 'success',
-      savedStatus: '',
-      loadedData: {
-        metadata: {},
+      form: {
+        formId: formConfig.formId,
+        loadedData: {
+          metadata: {},
+        },
       },
-      data: {},
-    },
-    scheduledDowntime: {
-      globalDowntime: null,
-      isReady: true,
-      isPending: false,
-      serviceMap: { get() {} },
-      dismissedDowntimeWarnings: [],
-    },
-  }),
-  subscribe: () => {},
-  dispatch: () => {},
-};
+      route: {
+        formConfig: {},
+      },
+    }),
+    subscribe: () => {},
+    dispatch: () => {},
+  },
+});
 
 describe('Prefill', () => {
   it('should render', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <PrefillCopy {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
+});
+
+describe('Prefill Copy not logged', () => {
+  it('should render empty div', () => {
+    const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
         <PrefillCopy {...props} />
@@ -66,6 +70,19 @@ describe('Prefill', () => {
 
 describe('PrefilledAddress', () => {
   it('should render', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <PrefilledAddress {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
+});
+
+describe('PrefilledAddress not logged in', () => {
+  it('should render empty div', () => {
+    const { props, mockStore } = getData({ loggedIn: false });
     const { container } = render(
       <Provider store={mockStore}>
         <PrefilledAddress {...props} />
@@ -77,10 +94,32 @@ describe('PrefilledAddress', () => {
 
 describe('CustomSSNPage', () => {
   it('should render', () => {
+    const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
-        <CustomSSNReviewPage {...props} />
+        <CustomSSNReviewPage {...props.data} />
       </Provider>,
+    );
+    expect(container).to.exist;
+  });
+});
+
+describe('CustomSSNPage', () => {
+  it('should render with a file number if ssn is empty', () => {
+    const component = (
+      <CustomSSNReviewPage
+        data={{
+          ...mockData.data,
+          veteranSocialSecurityNumber: {
+            ssn: undefined,
+            vaFileNumber: '589631256',
+          },
+        }}
+      />
+    );
+    const { mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>{component}</Provider>,
     );
     expect(container).to.exist;
   });

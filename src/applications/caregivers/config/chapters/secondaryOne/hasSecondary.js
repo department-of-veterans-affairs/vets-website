@@ -7,7 +7,7 @@ import {
 import {
   hasPrimaryCaregiver,
   hideCaregiverRequiredAlert,
-} from '../../../utils/helpers';
+} from '../../../utils/helpers/form-config';
 import { validateCaregivers } from '../../../utils/validation';
 import { emptySchema } from '../../../definitions/sharedSchema';
 import { SecondayCaregiverOneIntro } from '../../../components/FormDescriptions/SecondayCaregiverIntros';
