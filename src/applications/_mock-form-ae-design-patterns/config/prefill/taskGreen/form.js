@@ -3,17 +3,20 @@ import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { EditAddress } from '../../../components/EditContactInfo';
-import { MailingAddressInfoPage } from '../../../containers/MailingAddressInfoPage';
-import manifest from '../../../manifest.json';
 
+import manifest from '../../../manifest.json';
+import content from '../../../locales/en/content.json';
+
+import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
+
+import { MailingAddressInfoPage } from '../../../containers/MailingAddressInfoPage';
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
-import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
-import { GetFormHelp } from '../../../components/GetFormHelp';
+import { Completion } from '../../../containers/Completion';
 
-import content from '../../../locales/en/content.json';
+import { EditAddress } from '../../../components/EditContactInfo';
+import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
+import { GetFormHelp } from '../../../components/GetFormHelp';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -104,8 +107,7 @@ const formConfig = {
           uiSchema: {
             'ui:title': ' ',
             'ui:description': MailingAddressInfoPage,
-            'ui:required': () => true, // don't allow progressing without all contact info
-            'ui:validations': [contactInfoValidation], // needed to block form progression
+            'ui:required': () => false, // don't allow progressing without all contact info// needed to block form progression
             'ui:options': {
               hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
               forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
@@ -136,6 +138,14 @@ const formConfig = {
             }),
           CustomPageReview: null,
           depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        taskCompleted: {
+          title: "You're done!",
+          path: 'complete',
+          CustomPage: props => Completion({ ...props }),
+          CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
