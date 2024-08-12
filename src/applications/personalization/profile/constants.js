@@ -3,11 +3,9 @@ export const PROFILE_TOGGLES = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileShowMhvNotificationSettings: false,
   profileLighthouseDirectDeposit: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
-  profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
   profileShowDirectDepositSingleForm: false,
   profileShowDirectDepositSingleFormUAT: false,
@@ -151,27 +149,6 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
   [NOTIFICATION_CHANNEL_IDS.TEXT]: 'text',
   [NOTIFICATION_CHANNEL_IDS.EMAIL]: 'email',
 });
-
-/**
- * These notification item IDs are not currently supported by the VA Profile
- * they are blocked via feature toggle 'profile_show_mhv_notification_settings'
- *
- * 7 - RX refill shipment notification
- * 8 - VA Appointment reminders
- * 9 - Securing messaging alert
- * 10 - Medical images and reports available
- * 11 - Biweekly MHV newsletter
- *
- * These are all email based notifications
- *
- */
-export const BLOCKED_MHV_NOTIFICATION_IDS = [
-  'item7',
-  'item8',
-  'item9',
-  'item10',
-  'item11',
-];
 
 // used for api status GA events
 export const API_STATUS = Object.freeze({

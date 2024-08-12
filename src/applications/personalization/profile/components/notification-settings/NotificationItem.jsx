@@ -9,16 +9,16 @@ import {
   NOTIFICATION_CHANNEL_IDS,
 } from '@@profile/constants';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import {
   selectVAPEmailAddress,
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 
+import { useNotificationSettingsUtils } from '@@profile/hooks';
+import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
-import { LOADING_STATES } from '~/applications/personalization/common/constants';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
   return Object.values(channelEntities).filter(
@@ -27,21 +27,29 @@ const getChannelsByItemId = (itemId, channelEntities) => {
 };
 
 const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const emailNotificationsEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowEmailNotificationSettings,
-  );
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
+
+  const {
+    profileShowMhvNotificationSettingsEmailAppointmentReminders,
+  } = useNotificationSettingsUtils();
+
   const filteredChannels = useMemo(
     () => {
-      return channelIds.filter(channelId => {
-        return emailNotificationsEnabled
-          ? channelId
-          : channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT);
-      });
+      if (itemId === 'item3') {
+        return profileShowMhvNotificationSettingsEmailAppointmentReminders
+          ? channelIds
+          : channelIds.filter(channelId =>
+              channelId.endsWith(NOTIFICATION_CHANNEL_IDS.TEXT),
+            );
+      }
+      return channelIds;
     },
-    [channelIds, emailNotificationsEnabled],
+    [
+      channelIds,
+      itemId,
+      profileShowMhvNotificationSettingsEmailAppointmentReminders,
+    ],
   );
 
   const channelsByItemId = useSelector(state =>
@@ -86,9 +94,14 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     [channelsByItemId],
   );
 
+  const getMobilePhone = useSelector(state => selectVAPMobilePhone(state));
+  const shouldBlockAptReminder =
+    itemId === 'item3' &&
+    !profileShowMhvNotificationSettingsEmailAppointmentReminders &&
+    !getMobilePhone;
   return (
     <>
-      {userHasAtLeastOneChannelContactInfo ? (
+      {userHasAtLeastOneChannelContactInfo && !shouldBlockAptReminder ? (
         <NotificationChannelCheckboxesFieldset
           itemName={itemName}
           description={description}

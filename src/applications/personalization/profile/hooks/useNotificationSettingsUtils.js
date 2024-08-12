@@ -6,11 +6,7 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
-import {
-  BLOCKED_MHV_NOTIFICATION_IDS,
-  NOTIFICATION_CHANNEL_IDS,
-  NOTIFICATION_GROUPS,
-} from '../constants';
+import { NOTIFICATION_CHANNEL_IDS, NOTIFICATION_GROUPS } from '../constants';
 
 // helper function to get the communication preferences entities
 function getEntities(prefs) {
@@ -63,12 +59,20 @@ export const useNotificationSettingsUtils = () => {
 
   const loading = useToggleLoadingValue();
 
-  const showEmailNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowEmailNotificationSettings,
+  const profileShowMhvNotificationSettingsEmailAppointmentReminders = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders,
   );
 
-  const showMhvNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
+  const profileShowMhvNotificationSettingsNewSecureMessaging = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging,
+  );
+
+  const profileShowMhvNotificationSettingsEmailRxShipment = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment,
+  );
+
+  const profileShowMhvNotificationSettingsMedicalImages = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages,
   );
 
   const showPaymentsNotificationSetting = useToggleValue(
@@ -83,18 +87,22 @@ export const useNotificationSettingsUtils = () => {
     () => {
       return {
         loading,
-        showEmailNotificationSettings,
-        showMhvNotificationSettings,
         showPaymentsNotificationSetting,
         showQuickSubmitNotificationSetting,
+        profileShowMhvNotificationSettingsEmailAppointmentReminders,
+        profileShowMhvNotificationSettingsNewSecureMessaging,
+        profileShowMhvNotificationSettingsEmailRxShipment,
+        profileShowMhvNotificationSettingsMedicalImages,
       };
     },
     [
       loading,
-      showEmailNotificationSettings,
-      showMhvNotificationSettings,
       showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
+      profileShowMhvNotificationSettingsEmailAppointmentReminders,
+      profileShowMhvNotificationSettingsNewSecureMessaging,
+      profileShowMhvNotificationSettingsEmailRxShipment,
+      profileShowMhvNotificationSettingsMedicalImages,
     ],
   );
 
@@ -129,15 +137,34 @@ export const useNotificationSettingsUtils = () => {
     ).filter(({ id }) => {
       // these will be removed once the feature toggles are removed
       return (
-        (toggles.showQuickSubmitNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.QUICK_SUBMIT) &&
+        id !== NOTIFICATION_GROUPS.QUICK_SUBMIT &&
         (toggles.showPaymentsNotificationSetting ||
           id !== NOTIFICATION_GROUPS.PAYMENTS) &&
-        (toggles.showMhvNotificationSettings ||
-          id !== NOTIFICATION_GROUPS.GENERAL)
+        id !== NOTIFICATION_GROUPS.GENERAL
       );
     });
   };
+
+  const activeHealthcareItems = useMemo(
+    () => {
+      const emailIds = [];
+      if (profileShowMhvNotificationSettingsNewSecureMessaging) {
+        emailIds.push('item9');
+      }
+      if (profileShowMhvNotificationSettingsMedicalImages) {
+        emailIds.push('item10');
+      }
+      return emailIds;
+    },
+    [
+      profileShowMhvNotificationSettingsEmailRxShipment,
+      profileShowMhvNotificationSettingsMedicalImages,
+      profileShowMhvNotificationSettingsNewSecureMessaging,
+    ],
+  );
+
+  const getEmailAddress = useSelector(state => selectVAPEmailAddress(state));
+  const getMobilePhone = useSelector(state => selectVAPMobilePhone(state));
 
   // creates a list of unavailable items
   // also filters out any items that are blocked by feature toggles
@@ -154,49 +181,75 @@ export const useNotificationSettingsUtils = () => {
         : [NOTIFICATION_GROUPS.PAYMENTS]),
     ];
 
-    const excludedItemIds = [
-      ...(toggles.showMhvNotificationSettings
-        ? []
-        : BLOCKED_MHV_NOTIFICATION_IDS),
-    ];
-
     const itemIds = Object.keys(items);
     const excludedGroupItems = excludedGroupIds.flatMap(groupId => {
       const group = groups[groupId];
       return group ? group.items : [];
     });
-
     return itemIds.reduce((acc, itemId) => {
+      // Rx refill shipment = item7, va appointment reminders = item8
+      // Biweekly MHV newsletter = item11, Quick Submit = item12
+      const excludedItems = ['item7', 'item8', 'item11', 'item12'];
+      if (excludedItems.includes(itemId)) {
+        return acc;
+      }
       if (
-        !excludedGroupItems.includes(itemId) &&
-        !excludedItemIds.includes(itemId)
+        !activeHealthcareItems.includes(itemId) &&
+        channelsWithContactInfo.includes(NOTIFICATION_CHANNEL_IDS.TEXT)
       ) {
+        return acc;
+      }
+
+      if (!excludedGroupItems.includes(itemId)) {
         const item = items[itemId];
         const itemChannels = item.channels.map(
           channelId => channels[channelId],
         );
 
+        const noContactInfo = !itemChannels.some(channel =>
+          channelsWithContactInfo.includes(channel.channelType),
+        );
+        if (noContactInfo) acc.push(item);
+
+        const isItem3 = itemId === 'item3';
         if (
-          !itemChannels.some(channel =>
-            channelsWithContactInfo.includes(channel.channelType),
-          )
+          isItem3 &&
+          profileShowMhvNotificationSettingsEmailAppointmentReminders &&
+          !getEmailAddress
         ) {
           acc.push(item);
         }
+        if (isItem3 && !getMobilePhone) acc.push(item);
       }
 
       return acc;
     }, []);
   };
 
+  /*
+    These notification item IDs are not currently supported by the VA Profile'
+
+    items                                       - itemId
+    Prescription shipment and tracking updates    - 4 
+    Rx refill shipment notification               - 7 (needs to be removed)
+    VA Appointment reminders                      - 8 (needs to be removed)
+    Securing messaging alert                      - 9
+    Medical images and reports available          - 10
+  */
+
   const useFilteredItemsForMHVNotifications = itemIds =>
     useMemo(
       () => {
-        return toggles.showMhvNotificationSettings
-          ? itemIds
-          : itemIds.filter(itemId => {
-              return !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId);
-            });
+        const settingsMap = {
+          item4: profileShowMhvNotificationSettingsEmailRxShipment,
+          item9: profileShowMhvNotificationSettingsNewSecureMessaging,
+          item10: profileShowMhvNotificationSettingsMedicalImages,
+        };
+
+        const filteredIds = itemIds.filter(
+          itemId => !['item7', 'item8', 'item11'].includes(itemId),
+        );
+        return filteredIds.filter(itemId => settingsMap[itemId] !== false);
       },
       [itemIds],
     );
@@ -209,5 +262,6 @@ export const useNotificationSettingsUtils = () => {
     useAvailableGroups,
     useUnavailableItems,
     useFilteredItemsForMHVNotifications,
+    profileShowMhvNotificationSettingsEmailAppointmentReminders,
   };
 };

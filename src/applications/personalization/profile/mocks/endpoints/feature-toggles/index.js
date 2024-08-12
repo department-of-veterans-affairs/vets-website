@@ -7,7 +7,10 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileShowMhvNotificationSettings: false,
+  profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+  profileShowMhvNotificationSettingsNewSecureMessaging: true,
+  profileShowMhvNotificationSettingsEmailRxShipment: true,
+  profileShowMhvNotificationSettingsMedicalImages: true,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
@@ -15,7 +18,6 @@ const profileToggles = {
   profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
   profileShowDirectDepositSingleFormEduDowntime: false,
-  profileShowEmailNotificationSettings: false,
   profileShowPrivacyPolicy: false,
 };
 
