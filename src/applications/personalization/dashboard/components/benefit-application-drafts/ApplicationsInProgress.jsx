@@ -20,7 +20,8 @@ import {
 import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
-import ApplicationInProgress from './ApplicationInProgress';
+import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
+import Draft from './Draft';
 import Received from './Received';
 
 const ApplicationsInProgress = ({
@@ -87,36 +88,93 @@ const ApplicationsInProgress = ({
       )}
 
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
-        {allFormSorted.length > 0 ? (
-          <div className="vads-l-row">
-            <Toggler.Enabled>
-              {allFormSorted.map(form => {
-                const formId = form.form;
-                const formTitle = isUsingNewSipConfig
-                  ? `application for ${
-                      MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                    }`
-                  : `application for ${FORM_BENEFITS[formId]}`;
-                const presentableFormId = isUsingNewSipConfig
-                  ? presentableFormIDsV2[formId]
-                  : presentableFormIDs[formId];
-                const { lastUpdated } = form || {};
-                const lastSavedDate = format(
-                  fromUnixTime(lastUpdated),
-                  'MMMM d, yyyy',
-                );
+        <DashboardWidgetWrapper>
+          {allFormSorted.length > 0 ? (
+            <div>
+              <Toggler.Enabled>
+                {allFormSorted.map(form => {
+                  const formId = form.form;
+                  const formTitle = isUsingNewSipConfig
+                    ? `application for ${
+                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                      }`
+                    : `application for ${FORM_BENEFITS[formId]}`;
+                  const presentableFormId = isUsingNewSipConfig
+                    ? presentableFormIDsV2[formId]
+                    : presentableFormIDs[formId];
+                  const { lastUpdated } = form || {};
+                  const lastSavedDate = format(
+                    fromUnixTime(lastUpdated),
+                    'MMMM d, yyyy',
+                  );
 
-                // if form is draft, then render Draft
-                if (Object.hasOwn(form, 'savedAt')) {
-                  const { expiresAt } = form || {};
+                  // if form is draft, then render Draft
+                  if (Object.hasOwn(form, 'savedAt')) {
+                    const { expiresAt } = form || {};
+                    const expirationDate = format(
+                      fromUnixTime(expiresAt),
+                      'MMMM d, yyyy',
+                    );
+                    const continueUrl = `${getFormLink(formId)}resume`;
+
+                    return (
+                      <Draft
+                        key={formId}
+                        continueUrl={continueUrl}
+                        expirationDate={expirationDate}
+                        formId={formId}
+                        formTitle={formTitle}
+                        lastSavedDate={lastSavedDate}
+                        presentableFormId={presentableFormId}
+                      />
+                    );
+                  }
+
+                  // if form is Received, then render Received
+                  if (Object.hasOwn(form, 'status')) {
+                    const { createdAt } = form || {};
+                    const submittedDate = format(
+                      new Date(createdAt),
+                      'MMMM d, yyyy',
+                    );
+                    return (
+                      <Received
+                        key={formId}
+                        formId={formId}
+                        formTitle={formTitle}
+                        lastSavedDate={lastSavedDate}
+                        submittedDate={submittedDate}
+                        presentableFormId={presentableFormId}
+                      />
+                    );
+                  }
+
+                  return null;
+                })}
+              </Toggler.Enabled>
+              <Toggler.Disabled>
+                {verifiedSavedForms.map(form => {
+                  const formId = form.form;
+                  const formTitle = isUsingNewSipConfig
+                    ? `application for ${
+                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                      }`
+                    : `application for ${FORM_BENEFITS[formId]}`;
+                  const presentableFormId = isUsingNewSipConfig
+                    ? presentableFormIDsV2[formId]
+                    : presentableFormIDs[formId];
+                  const { lastUpdated, expiresAt } = form.metadata || {};
+                  const lastSavedDate = format(
+                    fromUnixTime(lastUpdated),
+                    'MMMM d, yyyy',
+                  );
                   const expirationDate = format(
                     fromUnixTime(expiresAt),
                     'MMMM d, yyyy',
                   );
                   const continueUrl = `${getFormLink(formId)}resume`;
-
                   return (
-                    <ApplicationInProgress
+                    <Draft
                       key={formId}
                       continueUrl={continueUrl}
                       expirationDate={expirationDate}
@@ -126,70 +184,15 @@ const ApplicationsInProgress = ({
                       presentableFormId={presentableFormId}
                     />
                   );
-                }
-
-                // if form is Received, then render Received
-                if (Object.hasOwn(form, 'status')) {
-                  const { createdAt } = form || {};
-                  const submittedDate = format(
-                    new Date(createdAt),
-                    'MMMM d, yyyy',
-                  );
-                  return (
-                    <Received
-                      key={formId}
-                      formId={formId}
-                      formTitle={formTitle}
-                      lastSavedDate={lastSavedDate}
-                      submittedDate={submittedDate}
-                      presentableFormId={presentableFormId}
-                    />
-                  );
-                }
-
-                return null;
-              })}
-            </Toggler.Enabled>
-            <Toggler.Disabled>
-              {verifiedSavedForms.map(form => {
-                const formId = form.form;
-                const formTitle = isUsingNewSipConfig
-                  ? `application for ${
-                      MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                    }`
-                  : `application for ${FORM_BENEFITS[formId]}`;
-                const presentableFormId = isUsingNewSipConfig
-                  ? presentableFormIDsV2[formId]
-                  : presentableFormIDs[formId];
-                const { lastUpdated, expiresAt } = form.metadata || {};
-                const lastSavedDate = format(
-                  fromUnixTime(lastUpdated),
-                  'MMMM d, yyyy',
-                );
-                const expirationDate = format(
-                  fromUnixTime(expiresAt),
-                  'MMMM d, yyyy',
-                );
-                const continueUrl = `${getFormLink(formId)}resume`;
-                return (
-                  <ApplicationInProgress
-                    key={formId}
-                    continueUrl={continueUrl}
-                    expirationDate={expirationDate}
-                    formId={formId}
-                    formTitle={formTitle}
-                    lastSavedDate={lastSavedDate}
-                    presentableFormId={presentableFormId}
-                  />
-                );
-              })}
-            </Toggler.Disabled>
-          </div>
-        ) : (
-          <p data-testid="applications-in-progress-empty-state">
-            {emptyStateText}
-          </p>
-        )}
+                })}
+              </Toggler.Disabled>
+            </div>
+          ) : (
+            <p data-testid="applications-in-progress-empty-state">
+              {emptyStateText}
+            </p>
+          )}
+        </DashboardWidgetWrapper>
       </Toggler>
     </div>
   );
