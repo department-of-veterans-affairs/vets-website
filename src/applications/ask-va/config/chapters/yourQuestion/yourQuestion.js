@@ -1,6 +1,9 @@
 import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
+import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_2 } from '../../../constants';
+
+const subjectReq = 'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
 
 export const fileSchema = {
   type: 'array',
@@ -30,18 +33,17 @@ export const fileSchema = {
 const yourQuestionPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
+    'ui:objectViewField': PageFieldSummary,
     subject: {
       'ui:title': 'Subject',
       'ui:required': formData =>
-        formData.selectCategory ===
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-        formData.selectTopic !== 'Veteran Readiness and Employment',
+        formData.selectCategory === subjectReq ||
+        formData.selectTopic === subjectReq,
       'ui:options': {
         hideIf: formData =>
           !(
-            formData.selectCategory ===
-              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-            formData.selectTopic !== 'Veteran Readiness and Employment'
+            formData.selectCategory === subjectReq ||
+            formData.selectTopic === subjectReq
           ),
       },
     },

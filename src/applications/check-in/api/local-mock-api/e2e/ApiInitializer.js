@@ -26,20 +26,7 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: true,
-        }),
-      );
-    },
-    withPreCheckInActionLinkTopPlacementDisabled: () => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles({
-          checkInExperienceEnabled: true,
-          preCheckInEnabled: true,
-          checkInExperienceTravelReimbursement: false,
-          checkInExperiencePreCheckInActionLinkTopPlacement: false,
+          checkInExperienceTravelReimbursement: true,
         }),
       );
     },
@@ -63,6 +50,7 @@ class ApiInitializer {
           checkInExperienceEnabled: true,
           preCheckInEnabled: true,
           checkInExperienceTravelReimbursement: true,
+          checkInExperienceUpcomingAppointmentsEnabled: true,
         }),
       );
     },
@@ -211,9 +199,9 @@ class ApiInitializer {
       });
       return data;
     },
-    withPast15MinuteWindow: () => {
+    withDayOfAppointment: () => {
       const data = preCheckInData.get.createMockSuccessResponse(
-        preCheckInData.get.past15MinuteUUID,
+        preCheckInData.get.withDayofAppointmentUUID,
       );
       cy.intercept('GET', '/check_in/v2/pre_check_ins/*', req => {
         req.reply(data);
@@ -359,6 +347,14 @@ class ApiInitializer {
     withUuidNotFound: () => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
         req.reply(404, sharedData.get.createMockNotFoundResponse());
+      });
+    },
+    withPast15MinuteWindow: () => {
+      cy.intercept(`/check_in/v2/patient_check_ins/*`, req => {
+        const rv = sharedData.get.createAppointments(
+          sharedData.get.checkInTooLateUUID,
+        );
+        req.reply(rv);
       });
     },
     withSuccessAndUpdate: ({
@@ -510,6 +506,20 @@ class ApiInitializer {
     withUuidNotFound: () => {
       cy.intercept('GET', `/check_in/v2/patient_check_ins/*`, req => {
         req.reply(404, sharedData.get.createMockNotFoundResponse());
+      });
+    },
+  };
+
+  initializeUpcomingAppointmentsDataGet = {
+    withSuccess: ({ uuid = sharedData.get.defaultUUID } = {}) => {
+      cy.intercept('GET', '/check_in/v2/sessions/*/appointments', req => {
+        req.reply(sharedData.get.createUpcomingAppointments(uuid));
+      });
+      return sharedData.get.createUpcomingAppointments(uuid);
+    },
+    withFailure: (errorCode = 400) => {
+      cy.intercept('GET', `/check_in/v2/sessions/*/appointments`, req => {
+        req.reply(errorCode, sharedData.get.createMockFailedResponse());
       });
     },
   };

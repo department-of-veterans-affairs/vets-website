@@ -1,14 +1,24 @@
-import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import sinon from 'sinon';
+import upperFirst from 'lodash/upperFirst';
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom-v5-compat';
 
-import POARequestsTable from '../../components/POARequestsTable/POARequestsTable';
-import { mockPOARequests } from '../../mocks/mockPOARequests';
+import POARequestsTable, {
+  createRelationshipCell,
+  formatDate,
+} from '../../components/POARequestsTable/POARequestsTable';
+import mockPOARequestsResponse from '../../mocks/mockPOARequestsResponse.json';
 
-describe('POARequestsTable content', () => {
+const MOCK_POA_REQUESTS = mockPOARequestsResponse.data;
+
+describe('POARequestsTable', () => {
   const getPOARequestsTable = () =>
-    render(<POARequestsTable poaRequests={mockPOARequests} />);
+    render(
+      <MemoryRouter>
+        <POARequestsTable poaRequests={MOCK_POA_REQUESTS} />
+      </MemoryRouter>,
+    );
 
   it('renders table', () => {
     const { getByTestId } = getPOARequestsTable();
@@ -17,99 +27,53 @@ describe('POARequestsTable content', () => {
 
   it('renders headers', () => {
     const { getByTestId } = getPOARequestsTable();
-    expect(
-      getByTestId('poa-requests-table-headers-claimant').textContent,
-    ).to.eq('Claimant');
-    expect(
-      getByTestId('poa-requests-table-headers-submitted').textContent,
-    ).to.eq('Submitted');
-    expect(
-      getByTestId('poa-requests-table-headers-description').textContent,
-    ).to.eq('Description');
     expect(getByTestId('poa-requests-table-headers-status').textContent).to.eq(
       'Status',
     );
-    expect(getByTestId('poa-requests-table-headers-actions').textContent).to.eq(
-      'Actions',
+    expect(getByTestId('poa-requests-table-headers-name').textContent).to.eq(
+      'Veteran/Claimant',
     );
+    expect(
+      getByTestId('poa-requests-table-headers-limitations').textContent,
+    ).to.eq('Limitations of consent');
+    expect(getByTestId('poa-requests-table-headers-city').textContent).to.eq(
+      'City',
+    );
+    expect(getByTestId('poa-requests-table-headers-state').textContent).to.eq(
+      'State',
+    );
+    expect(getByTestId('poa-requests-table-headers-zip').textContent).to.eq(
+      'Zip',
+    );
+    expect(
+      getByTestId('poa-requests-table-headers-received').textContent,
+    ).to.eq('Date received');
   });
 
   it('renders POA requests', () => {
     const { getByTestId } = getPOARequestsTable();
-    mockPOARequests.forEach(({ id, name, date, description, status }) => {
-      expect(
-        getByTestId(`poa-requests-table-${id}-claimant`).textContent,
-      ).to.eq(name);
-      expect(
-        getByTestId(`poa-requests-table-${id}-submitted`).textContent,
-      ).to.eq(date);
-      expect(
-        getByTestId(`poa-requests-table-${id}-description`).textContent,
-      ).to.eq(description);
+    MOCK_POA_REQUESTS.forEach(({ id, attributes }) => {
       expect(getByTestId(`poa-requests-table-${id}-status`).textContent).to.eq(
-        status,
+        upperFirst(attributes.status),
       );
-      if (status === 'Pending') {
-        expect(
-          getByTestId(`poa-requests-table-${id}-accept-button`),
-        ).to.have.attribute('text', 'Accept');
-        expect(
-          getByTestId(`poa-requests-table-${id}-decline-button`),
-        ).to.have.attribute('text', 'Decline');
-      }
+      expect(getByTestId(`poa-requests-table-${id}-name`).textContent).to.eq(
+        `${attributes.claimant.lastName}, ${attributes.claimant.firstName}`,
+      );
+      expect(
+        getByTestId(`poa-requests-table-${id}-relationship`).textContent,
+      ).to.eq(createRelationshipCell(attributes));
+      expect(getByTestId(`poa-requests-table-${id}-city`).textContent).to.eq(
+        attributes.claimantAddress.city,
+      );
+      expect(getByTestId(`poa-requests-table-${id}-state`).textContent).to.eq(
+        attributes.claimantAddress.state,
+      );
+      expect(getByTestId(`poa-requests-table-${id}-zip`).textContent).to.eq(
+        attributes.claimantAddress.zip,
+      );
+      expect(
+        getByTestId(`poa-requests-table-${id}-received`).textContent,
+      ).to.eq(formatDate(attributes.submittedAt));
     });
-  });
-});
-
-describe('POARequestsTable accept and decline functionality', () => {
-  const getPOARequestsTable = (acceptPOARequest, declinePOARequest) =>
-    render(
-      <POARequestsTable
-        poaRequests={mockPOARequests}
-        acceptPOARequest={acceptPOARequest}
-        declinePOARequest={declinePOARequest}
-      />,
-    );
-
-  it('calls acceptPOARequest with correct id when accept button is clicked', () => {
-    const acceptPOARequest = sinon.spy();
-    const declinePOARequest = sinon.spy();
-    const { getByTestId } = getPOARequestsTable(
-      acceptPOARequest,
-      declinePOARequest,
-    );
-
-    const pendingRequest = mockPOARequests.find(
-      request => request.status === 'Pending',
-    );
-
-    if (pendingRequest) {
-      fireEvent.click(
-        getByTestId(`poa-requests-table-${pendingRequest.id}-accept-button`),
-      );
-      expect(acceptPOARequest.callCount).to.eq(1);
-      expect(acceptPOARequest.lastCall.args[0]).to.eq(pendingRequest.id);
-    }
-  });
-
-  it('calls declinePOARequest with correct id when decline button is clicked', () => {
-    const acceptPOARequest = sinon.spy();
-    const declinePOARequest = sinon.spy();
-    const { getByTestId } = getPOARequestsTable(
-      acceptPOARequest,
-      declinePOARequest,
-    );
-
-    const pendingRequest = mockPOARequests.find(
-      request => request.status === 'Pending',
-    );
-
-    if (pendingRequest) {
-      fireEvent.click(
-        getByTestId(`poa-requests-table-${pendingRequest.id}-decline-button`),
-      );
-      expect(declinePOARequest.callCount).to.eq(1);
-      expect(declinePOARequest.lastCall.args[0]).to.eq(pendingRequest.id);
-    }
   });
 });

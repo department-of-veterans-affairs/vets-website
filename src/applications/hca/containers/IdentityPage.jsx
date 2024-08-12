@@ -72,6 +72,7 @@ const IdentityPage = props => {
       } = localData;
       setFormData({
         ...formData,
+        veteranDateOfBirth,
         'view:isUserInMvi': isUserInMPI,
         'view:veteranInformation': {
           veteranFullName: fullName,

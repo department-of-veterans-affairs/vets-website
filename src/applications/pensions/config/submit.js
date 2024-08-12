@@ -1,4 +1,3 @@
-import * as Sentry from '@sentry/browser';
 import moment from 'moment';
 import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
@@ -26,57 +25,6 @@ export function replacer(key, value) {
   return value;
 }
 
-function checkStatus(guid) {
-  return apiRequest(`${environment.API_URL}/v0/pension_claims/${guid}`, {
-    mode: 'cors',
-  }).catch(res => {
-    if (res instanceof Error) {
-      Sentry.captureException(res);
-      Sentry.captureMessage('vets_pension_poll_client_error');
-
-      // keep polling because we know they submitted earlier
-      // and this is likely a network error
-      return Promise.resolve();
-    }
-
-    // if we get here, it's likely that we hit a server error
-    return Promise.reject(res);
-  });
-}
-
-const POLLING_INTERVAL = 1000;
-
-function pollStatus(
-  { guid, confirmationNumber, regionalOffice },
-  onDone,
-  onError,
-) {
-  setTimeout(() => {
-    checkStatus(guid)
-      .then(res => {
-        if (!res || res.data.attributes.state === 'pending') {
-          pollStatus(
-            { guid, confirmationNumber, regionalOffice },
-            onDone,
-            onError,
-          );
-        } else if (res.data.attributes.state === 'success') {
-          const response = res.data.attributes.response || {
-            confirmationNumber,
-            regionalOffice,
-          };
-          onDone(response);
-        } else {
-          // needs to start with this string to get the right message on the form
-          throw new Error(
-            `vets_server_error_pensions: status ${res.data.attributes.state}`,
-          );
-        }
-      })
-      .catch(onError);
-  }, window.VetsGov.pollTimeout || POLLING_INTERVAL);
-}
-
 export function transform(formConfig, form) {
   const formData = transformForSubmit(formConfig, form, replacer);
   return JSON.stringify({
@@ -88,30 +36,21 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig) {
+export function submit(form, formConfig, apiPath = '/v0/pension_claims') {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
-  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
+  return apiRequest(`${environment.API_URL}${apiPath}`, {
     body,
     headers,
     method: 'POST',
     mode: 'cors',
   })
     .then(resp => {
-      const { guid, confirmationNumber, regionalOffice } = resp.data.attributes;
-      return new Promise((resolve, reject) => {
-        pollStatus(
-          { guid, confirmationNumber, regionalOffice },
-          response => {
-            window.dataLayer.push({
-              event: `${formConfig.trackingPrefix}-submission-successful`,
-            });
-            return resolve(response);
-          },
-          error => reject(error),
-        );
+      window.dataLayer.push({
+        event: `${formConfig.trackingPrefix}-submission-successful`,
       });
+      return resp.data.attributes;
     })
     .catch(respOrError => {
       if (respOrError instanceof Response && respOrError.status === 429) {

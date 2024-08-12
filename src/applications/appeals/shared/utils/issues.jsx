@@ -1,14 +1,16 @@
 import React from 'react';
+import { isValid, startOfDay, isBefore } from 'date-fns';
 
 // import the toggleValues helper
 import {
   FORMAT_READABLE_DATE_FNS,
   FORMAT_YMD_DATE_FNS,
+  AMA_DATE,
   LEGACY_TYPE,
   REGEXP,
   SELECTED,
 } from '../constants';
-import { parseDate } from './dates';
+import { parseDate, parseDateToDateObj } from './dates';
 
 import { replaceDescriptionContent } from './replace';
 import '../definitions';
@@ -61,7 +63,7 @@ export const getSelected = formData => {
  */
 export const getIssuesListItems = data =>
   getSelected(data || []).map((issue, index) => (
-    <li key={index} className="vads-u-margin-bottom--0">
+    <li key={index} className="vads-u-margin-bottom--0 overflow-wrap-word">
       <span className="dd-privacy-hidden" data-dd-action-name="issue name">
         {getIssueName(issue)}
       </span>
@@ -88,9 +90,9 @@ export const hasDuplicates = (data = {}) => {
 };
 
 /**
- * Removes deferred issues and issues > 1 year past their decision date. This
- * function removes issues with no title, cleans up whitespace & sorts the list
- * by descending (newest first) decision date, then ensures the list only
+ * Removes disqualifying issues and issues > 1 year past their decision date.
+ * This function removes issues with no title, cleans up whitespace & sorts the
+ * list by descending (newest first) decision date, then ensures the list only
  * includes unique entries
  * @param {ContestableIssues} contestableIssues
  * @returns {ContestableIssues} Cleaned up & sorted list
@@ -183,6 +185,61 @@ export const appStateSelector = state => ({
   additionalIssues: state.form?.data?.additionalIssues || [],
 });
 
+export const isDeferredIssue = (text, description) =>
+  ['', text, description, '']
+    .join(' ')
+    .replace(REGEXP.WHITESPACE, ' ')
+    .includes(' deferred ');
+
+export const isDisqualifyingIssue = (text, description) => {
+  const content = ['', text, description, '']
+    .join(' ')
+    .replace(REGEXP.WHITESPACE, ' ');
+  return (
+    content.includes(' deferred ') ||
+    content.includes(' apportionment ') ||
+    content.includes(' attorney fees ')
+  );
+};
+
+/**
+ * @typedef EligibleOptions
+ * @type {Object}
+ * @property {Boolean} isNod - bool indicating that the function call originated
+ *  from within the NOD form; as far as we know, all DR forms need "deferred"
+ *  issues filtered out and only HLR & Supplemental Claims need "apportionment"
+ *  and "attorney fees" issues filtered out. See va.gov-team/issues/88513
+ */
+/**
+ * Filter out ineligible contestable issues (used by 995 & 10182):
+ * - remove issues with an invalid decision date
+ * - remove issues that are disqualifying
+ * @param {ContestableIssues} - Array of both eligible & ineligible contestable
+ *  issues, plus legacy issues
+ * @param {EligibleOptions} - options
+ * @return {ContestableIssues} - filtered list
+ */
+export const getEligibleContestableIssues = (issues, options = {}) => {
+  const result = (issues || []).filter(issue => {
+    const {
+      approxDecisionDate,
+      ratingIssueSubjectText = '',
+      description = '',
+    } = issue?.attributes || {};
+    const isDisqualifying = options?.isNod
+      ? isDeferredIssue
+      : isDisqualifyingIssue;
+
+    return (
+      ratingIssueSubjectText &&
+      approxDecisionDate &&
+      !isDisqualifying(ratingIssueSubjectText, description) &&
+      isValid(parseDateToDateObj(approxDecisionDate, FORMAT_YMD_DATE_FNS))
+    );
+  });
+  return processContestableIssues(result);
+};
+
 /**
  * Find legacy appeal array included with contestable issues & return length
  * Note: we are using the length of this array instead of trying to do a 1:1
@@ -200,3 +257,29 @@ export const getLegacyAppealsLength = issues =>
     }
     return count;
   }, 0);
+
+const amaCutoff = startOfDay(parseDateToDateObj(AMA_DATE, FORMAT_YMD_DATE_FNS));
+/**
+ * Are there any legacy appeals in the API, or did the Veteran manually add an
+ * issue of unknown legacy status?
+ * @param {Number} legacyCount - legacy appeal array size
+ * @returns {Boolean}
+ */
+export const mayHaveLegacyAppeals = ({
+  legacyCount = 0,
+  contestedIssues = [],
+  additionalIssues = [],
+} = {}) => {
+  if (legacyCount > 0 || additionalIssues?.length > 0) {
+    return true;
+  }
+  return contestedIssues?.some(issue => {
+    const decisionDate = startOfDay(
+      parseDateToDateObj(
+        issue.attributes.approxDecisionDate,
+        FORMAT_YMD_DATE_FNS,
+      ),
+    );
+    return isBefore(decisionDate, amaCutoff);
+  });
+};

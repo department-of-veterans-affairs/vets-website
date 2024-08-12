@@ -887,7 +887,8 @@
         }
       }
     },
-    {    "id": "vha_674BY",
+    {
+      "id": "vha_674BY",
       "type": "facility",
       "attributes": {
         "access": {
@@ -1020,8 +1021,8 @@
         "uniqueId": "674BY",
         "visn": "17",
         "website": "https://www.centraltexas.va.gov/locations/Austin.asp"
-      }}
-
+      }
+    }
   ],
   "links": {
     "self": "http://www.example.com/v0/facilities/va?bbox%5B%5D=-118.53149414062501&bbox%5B%5D=33.91487347147951&bbox%5B%5D=-118.07762145996095&bbox%5B%5D=34.199308935560154&page=1",

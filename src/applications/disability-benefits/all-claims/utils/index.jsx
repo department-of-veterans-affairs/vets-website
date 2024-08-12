@@ -605,7 +605,7 @@ export const DISABILITY_SHARED_CONFIG = {
   },
   ratedDisabilities: {
     path: 'disabilities/rated-disabilities',
-    depends: formData => isClaimingIncrease(formData) && !isBDD(formData),
+    depends: formData => isClaimingIncrease(formData),
   },
   addDisabilities: {
     path: 'new-disabilities/add',

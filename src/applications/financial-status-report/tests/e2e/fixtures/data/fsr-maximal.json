@@ -390,6 +390,7 @@
     "view:streamlinedWaiver": true,
     "view:streamlinedWaiverAssetUpdate": true,
     "view:reviewPageNavigationToggle": true,
+    "view:showUpdatedExpensePages": true,
     "income": [
     {
         "veteranOrSpouse":   "VETERAN"

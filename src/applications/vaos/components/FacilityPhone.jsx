@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import classNames from 'classnames';
 
 export default function FacilityPhone({
   contact,
+  extension,
   className = 'vads-u-font-weight--bold',
   level,
   icon,
@@ -13,8 +13,7 @@ export default function FacilityPhone({
   if (!contact) {
     return null;
   }
-
-  const [number, extension] = contact.split('x');
+  const isClinic = !!heading.includes('Clinic');
   const Heading = `h${level}`;
 
   return (
@@ -33,23 +32,21 @@ export default function FacilityPhone({
         typeof level === 'undefined' &&
         `${heading} `}
       {!!icon === true && (
-        // eslint-disable-next-line @department-of-veterans-affairs/prefer-icon-component
-        <i
-          aria-hidden="true"
-          className={classNames(
-            'fas',
-            'fa-phone-alt',
-            'vads-u-margin-right--1',
-            'vads-u-color--gray',
-          )}
-        />
+        <span>
+          <va-icon icon="phone" size="3" srtext="Phone icon" />{' '}
+        </span>
       )}
       <VaTelephone
-        contact={number}
+        contact={contact}
         extension={extension}
-        data-testid="facility-telephone"
-      />{' '}
-      (<VaTelephone contact="711" tty data-testid="tty-telephone" />)
+        data-testid={!isClinic ? 'facility-telephone' : 'clinic-telephone'}
+      />
+      {!isClinic && (
+        <span>
+          &nbsp;(
+          <VaTelephone contact="711" tty data-testid="tty-telephone" />)
+        </span>
+      )}
     </>
   );
 }
@@ -57,6 +54,7 @@ export default function FacilityPhone({
 FacilityPhone.propTypes = {
   className: PropTypes.string,
   contact: PropTypes.string,
+  extension: PropTypes.string,
   heading: PropTypes.string,
   icon: PropTypes.bool,
   level: PropTypes.number,

@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
@@ -22,12 +22,21 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
-  margin-top: 1rem;
+  margin-top: 0.625rem;
+}
+
+.schemaform-label {
+  display: inline;
+  max-width: 30rem;
+}
+
+.schemaform-widget-wrapper {
+  max-width: 480px;
 }
 
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
-  margin-top: 1rem;
+  margin-top: 0.625rem;
 }
 
 .inbox-replies,
@@ -41,23 +50,23 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .empty-message {
   width: 50%;
-  padding: 1.25rem;
+  padding: 0.78125rem;
   font-weight: 600;
 
   @media (max-width: $small-screen) {
     width: 92%;
-    padding: 1.25rem;
+    padding: 0.78125rem;
     font-weight: 400;
   }
 }
 
 .no-messages {
-  margin: 5rem 0;
+  margin: 3.125rem 0;
 }
 
 .attachment-box {
-  padding: 1.25rem 2.5rem;
-  margin: 1rem 0;
+  padding: 0.78125rem 1.5625rem;
+  margin: 0.625rem 0;
   align-items: center;
 
   @media (max-width: $small-screen) {
@@ -70,7 +79,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 }
 
 .need-help-footer {
-  margin: 3rem 0;
+  margin: 1.875rem 0;
 }
 
 .multiline-ellipsis-2 {
@@ -137,13 +146,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     margin-top: 0;
   }
 
-  i.fa {
-    width: 18px;
-    text-align: center;
-    margin-right: 8px;
-    color: $color-link-default;
-  }
-
   .clearfix {
     content: "";
     display: block;
@@ -154,6 +156,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 24px 16px 0 12px;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
+    max-width: 480px;
 
     select:disabled {
       background: $color-gray-lightest;
@@ -162,6 +165,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     #facility-search-controls {
       display: flex;
       flex-direction: column;
+      max-width: 480px;
 
       input,
       textarea,
@@ -184,7 +188,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
       input[type="submit"] {
         width: 100%;
-        padding: 0 1rem;
+        padding: 0 0.625rem;
         margin-top: 0;
 
         @media (min-width: $small-desktop-screen) {
@@ -200,7 +204,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin: 0;
 
         label {
-          min-width: 50%;
+          min-width: 62%;
         }
 
         @media (min-width: $small-desktop-screen) {
@@ -208,7 +212,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
 
         @media (max-width: $small-screen) {
-          // flex: none;
           display: block;
         }
       }
@@ -216,8 +219,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
       .search-input {
         display: flex;
         flex-direction: row;
-        margin-top: 2rem;
-        margin-bottom: 4rem;
+        margin-top: 1.25rem;
+        margin-bottom: 2.5rem;
 
         #facility-search {
           border-top-left-radius: 0px;
@@ -229,7 +232,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         input {
           margin: 0;
           width: 100%;
-          height: 5.25rem;
+          height: 3.28125rem;
         }
       }
 
@@ -247,17 +250,8 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
 
         @media (max-width: $small-screen) {
-          margin-top: 2rem;
+          margin-top: 1.25rem;
         }
-      }
-
-      .use-my-location-button {
-        width: 18px;
-        height: 18px;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        padding: 0 1.5em 0 0;
       }
 
       #search-controls-bottom-row {
@@ -275,10 +269,9 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     float: right;
     background-color: rgba(255, 255, 255, 0);
     color: $color-black;
-    font-family: "Font Awesome 5 Free";
-    max-width: 2rem;
+    max-width: 1.25rem;
     left: 68%;
-    padding-left: 0.5rem;
+    padding-left: 0.3125rem;
 
     &:hover {
       background-color: unset;
@@ -296,5 +289,42 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     @media (max-width: $small-screen) {
       padding-right: 48px !important;
     }
+  }
+}
+
+.ava-progress-bar {
+  border: 1px solid $color-gray-lightest;
+  background-color: $color-gray-lightest;
+  border-radius: 3px;
+  height: 1rem;
+  width: 100%;
+  display: block;
+  margin: 2rem 0 4rem 0;
+}
+
+.ava-progress-bar-inner {
+  height: 100%;
+  background-color: $color-orange;
+  border: 1px solid $color-orange;
+  border-radius: 3px;
+  display: block;
+}
+
+.ava-progress-bar-text {
+  font-weight: 600;
+  display: block;
+}
+
+.progress-box {
+  padding-left: 0;
+}
+
+.health-facility-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include media($medium-screen) {
+    flex-direction: row;
   }
 }

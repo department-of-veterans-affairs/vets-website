@@ -7,7 +7,7 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { sponsorWording } from '../../helpers/wordingCustomization';
+import { sponsorWording } from '../../helpers/utilities';
 
 function descriptionText(formData) {
   // Base: if sponsor
@@ -35,15 +35,15 @@ export const sponsorNameDobConfig = {
       ({ formData }) => descriptionText(formData),
     ),
     veteransFullName: fullNameUI(),
-    sponsorDOB: dateOfBirthUI(),
+    sponsorDob: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
-    required: ['sponsorDOB'],
+    required: ['sponsorDob'],
     properties: {
       titleSchema,
       veteransFullName: fullNameSchema,
-      sponsorDOB: dateOfBirthSchema,
+      sponsorDob: dateOfBirthSchema,
     },
   },
 };

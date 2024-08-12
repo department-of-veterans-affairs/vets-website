@@ -4,70 +4,52 @@ import { expect } from 'chai';
 
 import AuthProfileInformation from '../../../../components/VeteranInformation/AuthProfileInformation';
 
-describe('hca AuthProfileInformation', () => {
+describe('hca <AuthProfileInformation>', () => {
   const getData = ({ dob = undefined }) => ({
     props: {
       user: {
-        userFullName: { first: 'John', middle: null, last: 'Smith' },
-        dob,
+        veteranFullName: { first: 'John', middle: null, last: 'Smith' },
+        veteranDateOfBirth: dob,
+        totalDisabilityRating: 30,
       },
     },
   });
+  const subject = ({ props }) => {
+    const { container } = render(<AuthProfileInformation {...props} />);
+    const selectors = {
+      vetName: container.querySelector('[data-dd-action-name="Veteran name"]'),
+      vetDOB: container.querySelector('[data-dd-action-name="Date of birth"]'),
+      disabilityRating: container.querySelector(
+        '[data-dd-action-name="Disability rating"]',
+      ),
+    };
+    return { selectors };
+  };
 
-  context('when the component renders', () => {
-    it('should render full name from the user profile', () => {
-      const { props } = getData({});
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-fullname"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('John Smith');
-    });
-  });
-
-  context('when date of birth is not in the profile data', () => {
+  it('should render full name from profile', () => {
     const { props } = getData({});
-
-    it('should only reference `name` in the opening paragraph', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-profile-intro"]',
-      );
-      expect(selector).to.contain.text(
-        'Here’s the name we have on file for you.',
-      );
-    });
-
-    it('should not render date of birth container', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-dob"]',
-      );
-      expect(selector).to.not.exist;
-    });
+    const { selectors } = subject({ props });
+    expect(selectors.vetName).to.exist;
+    expect(selectors.vetName).to.contain.text('John Smith');
   });
 
-  context('when date of birth is in the profile data', () => {
+  it('should render total disability rating from form data', () => {
+    const { props } = getData({});
+    const { selectors } = subject({ props });
+    expect(selectors.disabilityRating).to.exist;
+    expect(selectors.disabilityRating).to.contain.text('30%');
+  });
+
+  it('should not render birthdate container when profile data omits date of birth value', () => {
+    const { props } = getData({});
+    const { selectors } = subject({ props });
+    expect(selectors.vetDOB).to.not.exist;
+  });
+
+  it('should render birthdate container when profile data contains date of birth value', () => {
     const { props } = getData({ dob: '1990-01-01' });
-
-    it('should reference `personal information` in the opening paragraph', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-profile-intro"]',
-      );
-      expect(selector).to.contain.text(
-        'This is the personal information we have on file for you.',
-      );
-    });
-
-    it('should render date of birth container', () => {
-      const { container } = render(<AuthProfileInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-dob"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('January 01, 1990');
-    });
+    const { selectors } = subject({ props });
+    expect(selectors.vetDOB).to.exist;
+    expect(selectors.vetDOB).to.contain.text('January 01, 1990');
   });
 });

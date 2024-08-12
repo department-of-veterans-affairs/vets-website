@@ -45,6 +45,7 @@
       "first": "Jane",
       "last": "Doe"
     },
+    "hasTeraResponse": true,
     "privacyAgreementAccepted": true
   }
 }

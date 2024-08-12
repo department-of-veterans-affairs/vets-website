@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import { isLOA3, isLoggedIn } from 'platform/user/selectors';
 import { IntroductionPageView } from '../../shared/components/IntroductionPageView';
@@ -14,6 +16,29 @@ const IntroductionPage = props => {
   // WIP: need to keep unit-tests passing with these new selector-hooks
   const userLoggedIn = useSelector(state => isLoggedIn(state));
   const userIdVerified = useSelector(state => isLOA3(state));
+
+  const dispatch = useDispatch();
+  const formData = useSelector(state => state.form.data);
+
+  useEffect(() => {
+    const { livingSituation, otherReasons, otherHousingRisks } = formData;
+
+    const formNotStarted = ![
+      livingSituation,
+      otherReasons,
+      otherHousingRisks,
+    ].some(obj => obj && Object.values(obj).some(el => el != null));
+
+    if (formNotStarted) {
+      const dataTransfer = JSON.parse(
+        sessionStorage.getItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`),
+      );
+      if (dataTransfer && Date.now() < dataTransfer.expiry) {
+        dispatch(setData({ ...formData, ...dataTransfer.data }));
+      }
+    }
+    sessionStorage.removeItem(`dataTransfer-${VA_FORM_IDS.FORM_20_10207}`);
+  }, []);
 
   const childContent = (
     <>

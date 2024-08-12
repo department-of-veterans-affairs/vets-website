@@ -149,12 +149,12 @@ describe('Direct Deposit', () => {
       fillInBankInfoForm('CNP');
       exitBankInfoForm('CNP');
       cy.get('va-modal').should('exist');
-      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(/cancel changes/i);
       cy.get('va-modal').contains(
         /disability compensation and pension direct deposit information/i,
       );
       cy.get('va-modal')
-        .contains(/cancel/i)
+        .contains(/cancel my changes/i)
         .click();
       cy.get('va-modal').should('not.exist');
       cy.findByRole('button', {
@@ -178,7 +178,9 @@ describe('Direct Deposit', () => {
       fillInBankInfoForm('CNP');
       exitBankInfoForm('CNP');
       cy.get('va-modal').should('exist');
-      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal')
+        .shadow()
+        .contains(/cancel changes/i);
       cy.get('va-modal').contains(
         /disability compensation and pension direct deposit information/i,
       );
@@ -248,10 +250,10 @@ describe('Direct Deposit', () => {
       fillInBankInfoForm('EDU');
       exitBankInfoForm('EDU');
       cy.get('va-modal').should('exist');
-      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(/cancel changes/i);
       cy.get('va-modal').contains(/education direct deposit information/i);
       cy.get('va-modal')
-        .contains(/cancel/i)
+        .contains(/cancel my changes/i)
         .click();
       cy.get('va-modal').should('not.exist');
       cy.findByRole('button', {
@@ -273,7 +275,7 @@ describe('Direct Deposit', () => {
       fillInBankInfoForm('EDU');
       exitBankInfoForm('EDU');
       cy.get('va-modal').should('exist');
-      cy.get('va-modal').contains(/are you sure/i);
+      cy.get('va-modal').contains(/cancel changes/i);
       cy.get('va-modal').contains(/education direct deposit information/i);
       cy.get('va-modal')
         .contains(/back to editing/i)

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import recordEvent from '~/platform/monitoring/record-event';
 import DownloadPDFModal from './DownloadPDFModal';
 import InvalidFormDownload from './InvalidFormAlert';
 import { sentryLogger } from './index';
@@ -35,12 +34,6 @@ const DownloadPDFGuidance = ({
     );
 
     parentEl.insertBefore(div, link); // Insert modal on DOM
-
-    recordEvent({
-      event: 'int-modal-click',
-      'modal-status': 'opened',
-      'modal-title': 'Download this PDF and open it in Acrobat Reader',
-    });
   } else {
     let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
 

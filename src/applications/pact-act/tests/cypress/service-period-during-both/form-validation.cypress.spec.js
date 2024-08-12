@@ -57,6 +57,17 @@ describe('PACT Act', () => {
       h.verifyFormErrorNotShown(h.BURN_PIT_2_1_2_INPUT);
       h.clickContinue();
 
+      // BURN_PIT_2_1_3 --------------------------------
+      h.verifyUrl(ROUTES.BURN_PIT_2_1_3);
+      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.BURN_PIT_2_1_3_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.BURN_PIT_2_1_3_INPUT, 2);
+      h.verifyFormErrorNotShown(h.BURN_PIT_2_1_3_INPUT);
+      h.clickContinue();
+
       // ORANGE_2_2_A --------------------------------
       h.verifyUrl(ROUTES.ORANGE_2_2_A);
       h.verifyFormErrorNotShown(h.ORANGE_2_2_A_INPUT);
@@ -169,6 +180,16 @@ describe('PACT Act', () => {
       h.checkFormAlertText(h.LEJEUNE_2_4_INPUT, 'Error Select a response.');
 
       h.selectRadio(h.LEJEUNE_2_4_INPUT, 0);
+      h.clickContinue();
+
+      // MAIN_FLOW_2_5 ------------------------------
+      h.verifyUrl(ROUTES.MAIN_FLOW_2_5);
+      h.verifyFormErrorNotShown(h.MAIN_FLOW_2_5_INPUT);
+
+      h.clickContinue();
+      h.checkFormAlertText(h.MAIN_FLOW_2_5_INPUT, 'Error Select a response.');
+
+      h.selectRadio(h.MAIN_FLOW_2_5_INPUT, 0);
       h.clickContinue();
     });
   });

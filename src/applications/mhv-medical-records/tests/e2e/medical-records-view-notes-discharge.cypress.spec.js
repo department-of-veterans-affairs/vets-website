@@ -13,12 +13,9 @@ describe('Medical Records Care Summary Page', () => {
     NotesListPage.clickGotoNotesLink();
   });
 
-  it('Discharge Summary Details  ', () => {
-    // Verify Care Summary Page title
-    NotesListPage.verifyCareSummariesAndNotesPageTitle();
-
+  it('Discharge Summary Details, DS with discharged date', () => {
     // should display Discharge Summary
-    NotesDetailsPage.clickDischargeSummaryLink(1);
+    NotesDetailsPage.clickDischargeSummaryLink(4);
 
     NotesDetailsPage.verifyDischargeSummaryTitle(
       notes.entry[1].resource.content[0].attachment.title,

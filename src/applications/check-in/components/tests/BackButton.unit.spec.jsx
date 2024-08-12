@@ -15,12 +15,7 @@ describe('check-in', () => {
   });
   describe('BackButton', () => {
     const store = {
-      formPages: [
-        'loading-appointments',
-        'second-page',
-        'third-page',
-        'fourth-page',
-      ],
+      formPages: ['verify', 'second-page', 'third-page', 'fourth-page'],
     };
     const mockRouterThirdPage = {
       currentPage: '/third-page',

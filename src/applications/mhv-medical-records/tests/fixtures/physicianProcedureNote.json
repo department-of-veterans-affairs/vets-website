@@ -82,7 +82,7 @@
   "subject": {
     "reference": "Patient/ex-MHV-patient-1"
   },
-  "date": "2022-08-05T16:56:00Z",
+  "date": "2022-08-05T16:56:00-0400",
   "author": [
     {
       "reference": "#ex-MHV-practitioner-36556"

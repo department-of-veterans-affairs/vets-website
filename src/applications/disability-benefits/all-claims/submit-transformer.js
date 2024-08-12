@@ -245,7 +245,7 @@ export function transform(formConfig, form) {
   };
 
   const fullyDevelopedClaim = formData => {
-    if (isBDD) {
+    if (isBDDForm) {
       const clonedData = _.cloneDeep(formData);
       // standardClaim = false means it's a fully developed claim (FDC); but
       // this value is ignored in the BDD flow unless the submission falls out

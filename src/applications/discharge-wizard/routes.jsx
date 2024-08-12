@@ -19,6 +19,8 @@ import PrevApplication from './components/v2/questions/PrevApplication';
 import PrevApplicationYear from './components/v2/questions/PrevApplicationYear';
 import PriorService from './components/v2/questions/PriorService';
 import FailureToExhaust from './components/v2/questions/FailureToExhaust';
+import ReviewPage from './components/v2/ReviewPage';
+import ResultsPage from './components/v2/ResultsPage';
 
 const envChildRoutes = environment.isProduction()
   ? [
@@ -45,6 +47,8 @@ const envChildRoutes = environment.isProduction()
       { path: 'prev-application-year', component: PrevApplicationYear },
       { path: 'prior-service', component: PriorService },
       { path: 'failure-to-exhaust', component: FailureToExhaust },
+      { path: 'review', component: ReviewPage },
+      { path: 'results', component: ResultsPage },
     ];
 const routes = {
   path: '/',

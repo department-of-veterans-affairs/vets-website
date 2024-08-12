@@ -10,7 +10,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.yourQuestion.pages.tellUsYourQuestion;
+} = formConfig.chapters.yourQuestionPart2.pages.question;
 
 describe('yourQuestionPage', () => {
   it('should render', () => {
@@ -24,6 +24,6 @@ describe('yourQuestionPage', () => {
       />,
     );
 
-    expect($('h2', container).textContent).to.eq('Your question');
+    expect($('h3', container).textContent).to.eq('Your question');
   });
 });

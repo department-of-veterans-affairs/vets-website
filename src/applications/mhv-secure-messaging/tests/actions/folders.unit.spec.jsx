@@ -2,8 +2,9 @@ import {
   mockApiRequest,
   mockFetch,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
-import configureMockStore from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import sinon from 'sinon';
 import { expect } from 'chai';
 import { Actions } from '../../util/actionTypes';
 import * as foldersListResponse from '../e2e/fixtures/folder-response.json';
@@ -19,10 +20,24 @@ import {
   retrieveFolder,
 } from '../../actions/folders';
 import * as Constants from '../../util/constants';
+import * as apiCalls from '../../api/SmApi';
 
 describe('folders actions', () => {
   const middlewares = [thunk];
-  const mockStore = configureMockStore(middlewares);
+  const mockStore = configureStore(middlewares);
+  const initialState = {
+    sm: {
+      app: undefined,
+    },
+  };
+  const isPilotState = {
+    sm: {
+      app: {
+        isPilot: true,
+      },
+    },
+  };
+
   const errorResponse = {
     errors: [
       {
@@ -44,14 +59,33 @@ describe('folders actions', () => {
     ],
   };
 
+  let sinonSandbox;
+
+  beforeEach(() => {
+    sinonSandbox = sinon.createSandbox();
+  });
+
+  afterEach(() => {
+    sinonSandbox.restore();
+  });
+
   it('should dispatch response on getFolders action', async () => {
     mockApiRequest(foldersListResponse);
-    const store = mockStore();
+    const store = mockStore(initialState);
     await store.dispatch(getFolders()).then(() => {
       expect(store.getActions()).to.deep.include({
         type: Actions.Folder.GET_LIST,
         response: foldersListResponse,
       });
+    });
+  });
+
+  it('should call getFolderList with arg true when isPilot', async () => {
+    mockApiRequest(foldersListResponse);
+    const store = mockStore(isPilotState);
+    const getFolderListSpy = sinonSandbox.spy(apiCalls, 'getFolderList');
+    await store.dispatch(getFolders()).then(() => {
+      expect(getFolderListSpy.calledWith(true)).to.be.true;
     });
   });
 
@@ -81,6 +115,16 @@ describe('folders actions', () => {
         type: Actions.Folder.GET,
         response: folderInboxResponse,
       });
+    });
+  });
+
+  it('should call getFolder with arg true when isPilot', async () => {
+    mockApiRequest(folderInboxResponse);
+    const store = mockStore(isPilotState);
+    const getFolderSpy = sinonSandbox.spy(apiCalls, 'getFolder');
+    await store.dispatch(retrieveFolder(0)).then(() => {
+      expect(getFolderSpy.calledWith({ folderId: 0, isPilot: true })).to.be
+        .true;
     });
   });
 

@@ -11,12 +11,13 @@ import InterstitialPage from './InterstitialPage';
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const { drafts, error, messages, threadViewCount } = useSelector(
+  const { drafts, error, messages } = useSelector(
     state => state.sm.threadDetails,
   );
   const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
-  const recipients = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
+  const [isEditing, setIsEditing] = useState(true);
 
   useEffect(
     () => {
@@ -52,12 +53,15 @@ const MessageReply = () => {
         </va-alert>
       );
     }
+
     return (
       <ReplyForm
-        drafts={drafts}
+        drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
     );
   };
@@ -65,7 +69,7 @@ const MessageReply = () => {
   const thread = () => {
     return (
       <>
-        <MessageThread messageHistory={messages} viewCount={threadViewCount} />
+        <MessageThread messageHistory={messages} />
       </>
     );
   };
@@ -83,7 +87,6 @@ const MessageReply = () => {
         <>
           <div className="vads-l-grid-container compose-container">
             <AlertBackgroundBox closeable />
-
             {content()}
             {messages?.length && thread()}
           </div>

@@ -1,7 +1,7 @@
+import * as Sentry from '@sentry/browser';
 import { DEBT_TYPES } from '../constants';
-import { getMonthlyIncome, safeNumber } from './calculateIncome';
+import { getCalculatedMonthlyIncomeApi, safeNumber } from './calculateIncome';
 import { getTotalAssets } from './helpers';
-import { getMonthlyExpenses } from './calculateExpenses';
 
 const VHA_LIMIT = 5000;
 
@@ -85,17 +85,55 @@ export const isStreamlinedLongForm = formData => {
 // =============================================================================
 
 /**
- * Calculate total annual income based on the following monthly income sources:
- * - employment income
- * - "other" income
- * - benefits
- *
- * @param {object} formData - all formData
- * @returns {number} Total yearly income
+ * Check if calculated income is below GMT thresholds
+ * @param {object} data - all formData
+ * @param {function} setFormData - function to update formData
  */
-export const calculateTotalAnnualIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  return totalMonthlyNetIncome * 12;
+export const checkIncomeGmt = async (data, setFormData) => {
+  const { gmtData } = data;
+
+  try {
+    const response = await getCalculatedMonthlyIncomeApi(data);
+    if (!response)
+      throw new Error(
+        'No response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
+      );
+
+    // response is an object of calculated income values for vet & spouse, we just need total monthly
+    const { totalMonthlyNetIncome } = response;
+    if (!totalMonthlyNetIncome && totalMonthlyNetIncome !== 0)
+      throw new Error(
+        'No value destructured in response from getCalculatedMonthlyIncomeApi in checkIncomeGmt',
+      );
+
+    // calculate annual income & set relevant gmt flags compared to thresholds
+    const calculatedIncome = totalMonthlyNetIncome * 12;
+
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
+        incomeBelowOneFiftyGmt:
+          calculatedIncome < gmtData?.incomeUpperThreshold,
+      },
+    });
+  } catch (error) {
+    // something went wrong, and we likely don't have accurate data to set gmt flags
+    //  so we'll just set them to false and send them down the full FSR for manual review
+    setFormData({
+      ...data,
+      gmtData: {
+        ...gmtData,
+        incomeBelowGmt: false,
+        incomeBelowOneFiftyGmt: false,
+      },
+    });
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(`checkIncomeGmt failed: ${error}`);
+    });
+  }
 };
 
 /**
@@ -119,16 +157,4 @@ export const calculateLiquidAssets = formData => {
   return formData['view:streamlinedWaiverAssetUpdate']
     ? liquidAssets
     : getTotalAssets(formData);
-};
-
-/**
- * Discresionary income total baseed on total income less expenses
- *  Long form only
- * @param {object} formData - all formData
- * @returns {number} Discretionary income
- */
-export const calculateDiscretionaryIncome = formData => {
-  const { totalMonthlyNetIncome } = getMonthlyIncome(formData);
-  const expenses = getMonthlyExpenses(formData);
-  return totalMonthlyNetIncome - expenses;
 };

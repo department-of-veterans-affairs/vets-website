@@ -1,0 +1,10 @@
+{
+  "formData": {
+    "certifierRole": "sponsor"
+  },
+  "metadata": {
+    "version": 1,
+    "prefill": true,
+    "returnUrl": "/signer"
+  }
+}

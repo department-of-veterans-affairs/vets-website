@@ -3,11 +3,11 @@ import {
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { ServerErrorAlert } from '../config/helpers';
+import { envUrl } from '../constants';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
@@ -18,9 +18,7 @@ const DashboardCards = () => {
   const formatDate = dateString => {
     return moment(dateString, 'MM/DD/YY').format('MMM D, YYYY');
   };
-  const DASHBOARD_DATA = `${
-    environment.API_URL
-  }/ask_va_api/v0/inquiries?mock=true`;
+  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');

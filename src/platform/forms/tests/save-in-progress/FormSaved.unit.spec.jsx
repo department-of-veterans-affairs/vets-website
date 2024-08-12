@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 
 import {
   $,
@@ -43,7 +43,7 @@ describe('Schemaform <FormSaved>', () => {
   const lastSavedDate = 1497300513914;
   const expirationDate = moment().unix() + 2000;
 
-  it('should render', () => {
+  it('should render', async () => {
     const { container } = render(
       <FormSaved
         scrollParams={{}}
@@ -55,13 +55,19 @@ describe('Schemaform <FormSaved>', () => {
         user={user()}
       />,
     );
+
     const alertText = $('va-alert', container).textContent;
     expect(alertText).to.contain('June 12, 2017, at');
     expect(alertText).to.contain('will expire on');
-    expect(alertText).to.contain(
+    expect($$('va-alert', container).length).to.equal(1);
+
+    const alertH2 = $('va-alert h2', container);
+    expect(alertH2.textContent).to.contain(
       'Your education benefits (123) application has been saved.',
     );
-    expect($$('va-alert', container).length).to.equal(1);
+    await waitFor(() => {
+      expect(document.activeElement).to.eq(alertH2);
+    });
   });
   it('should display verify link if user is not verified', () => {
     const { container } = render(

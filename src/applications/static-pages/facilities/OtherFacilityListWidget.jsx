@@ -1,8 +1,9 @@
 import React from 'react';
 import { apiRequest } from 'platform/utilities/api';
 import FacilityApiAlert from './FacilityApiAlert';
-import { cleanPhoneNumber, sortFacilitiesByName } from './facilityUtilities';
+import { sortFacilitiesByName } from './facilityUtilities';
 import FacilityAddress from './FacilityAddress';
+import { processPhoneNumber } from './vet-center/components/VAFacilityPhone';
 
 export default class OtherFacilityListWidget extends React.Component {
   constructor(props) {
@@ -13,8 +14,13 @@ export default class OtherFacilityListWidget extends React.Component {
   }
 
   componentDidMount() {
-    this.request = apiRequest(`/facilities/va?ids=${this.props.facilities}`, {
-      apiVersion: 'v1',
+    this.request = apiRequest('/va', {
+      apiVersion: 'facilities_api/v2',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ ids: this.props.facilities }),
     })
       .then(this.handleFacilitiesSuccess)
       .catch(this.handleFacilitiesError);
@@ -44,39 +50,52 @@ export default class OtherFacilityListWidget extends React.Component {
     }
 
     const facilitiesList = sortFacilitiesByName(this.state.facilities).map(
-      facility => (
-        <div
-          key={facility.id}
-          className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
-        >
-          <section key={facility.id} className="usa-width-one-half">
-            <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
-              <a href={`/find-locations/facility/${facility.id}`}>
-                {facility.attributes.name}
-              </a>
-            </h3>
-            <FacilityAddress facility={facility} />
-            <div className="vads-u-margin-bottom--0">
-              {facility.attributes.phone.main && (
-                <div className="main-phone vads-u-margin-bottom--1">
-                  <strong>Main phone: </strong>
-                  <va-telephone
-                    contact={cleanPhoneNumber(facility.attributes.phone.main)}
-                  />
-                </div>
-              )}
-              {facility.attributes.classification && (
-                <div className="facility-type">
-                  <p className="vads-u-margin--0">
-                    <strong>Facility type:</strong>
-                    {` ${facility.attributes.classification}`}
-                  </p>
-                </div>
-              )}
-            </div>
-          </section>
-        </div>
-      ),
+      facility => {
+        const processed = processPhoneNumber(facility.attributes.phone.main);
+        const phone = processed.processed ? (
+          <va-telephone
+            contact={processed.phone}
+            message-aria-describedby="Main phone"
+            extension={processed.ext}
+          />
+        ) : (
+          <a href={facility.attributes.phone.main}>
+            {facility.attributes.phone.main}
+          </a>
+        );
+        return (
+          <div
+            key={facility.id}
+            className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row facility vads-u-margin-bottom--2p5 small-screen:vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
+          >
+            <section key={facility.id} className="usa-width-one-half">
+              <h3 className="vads-u-margin-bottom--1 vads-u-font-size--md medium-screen:vads-u-font-size--lg">
+                <va-link
+                  href={`/find-locations/facility/${facility.id}`}
+                  text={facility.attributes.name}
+                />
+              </h3>
+              <FacilityAddress facility={facility} />
+              <div className="vads-u-margin-bottom--0">
+                {facility.attributes.phone.main && (
+                  <div className="main-phone vads-u-margin-bottom--1">
+                    <strong>Main phone: </strong>
+                    {phone}
+                  </div>
+                )}
+                {facility.attributes.classification && (
+                  <div className="facility-type">
+                    <p className="vads-u-margin--0">
+                      <strong>Facility type:</strong>
+                      {` ${facility.attributes.classification}`}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </section>
+          </div>
+        );
+      },
     );
     return <div className="locations">{facilitiesList}</div>;
   }

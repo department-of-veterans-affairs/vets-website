@@ -1,4 +1,3 @@
-import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import {
   loincCodes,
@@ -12,7 +11,7 @@ import {
   isArrayAndHasItems,
   macroCase,
   extractContainedResource,
-  dateFormat,
+  dateFormatWithoutTimezone,
 } from '../util/helpers';
 
 const initialState = {
@@ -27,12 +26,17 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
 
   /**
-   * The list of vaccines returned from the api
-   * @type {array}
+   * The list of vitals returned from the api
+   * @type {Array}
    */
   vitalsList: undefined,
   /**
-   * The vaccine currently being displayed to the user
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
+  /**
+   * The vital currently being displayed to the user
    */
   vitalDetails: undefined,
 };
@@ -79,10 +83,7 @@ export const convertVital = record => {
     id: record.id,
     measurement: getMeasurement(record, type) || EMPTY_FIELD,
     date: record?.effectiveDateTime
-      ? formatDateLong(record.effectiveDateTime)
-      : EMPTY_FIELD,
-    dateTime: record?.effectiveDateTime
-      ? dateFormat(record.effectiveDateTime)
+      ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
     location: extractLocation(record),
     notes:
@@ -101,14 +102,36 @@ export const vitalReducer = (state = initialState, action) => {
       };
     }
     case Actions.Vitals.GET_LIST: {
+      const oldList = state.vitalsList;
+      const newList =
+        action.response.entry?.map(vital => {
+          return convertVital(vital.resource);
+        }) || [];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        vitalsList:
-          action.response.entry?.map(vital => {
-            return convertVital(vital.resource);
-          }) || [],
+        vitalsList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Vitals.COPY_UPDATED_LIST: {
+      const originalList = state.vitalsList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          vitalsList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Vitals.CLEAR_DETAIL: {

@@ -88,25 +88,22 @@ const HomePage = ({
         </li>
       </ul>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="income-limits-current"
         href="#"
-        className="vads-u-display--block vads-u-margin-bottom--1 vads-u-margin-top--3 vads-c-action-link--green"
         onClick={goToCurrent}
-      >
-        Check current income limits
-      </a>
+        text="Check current income limits"
+      />
       <h2>Past income limits</h2>
       <p>You can also use this tool to review income limits for past years.</p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="income-limits-past"
         href="#"
-        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--blue"
         onClick={goToPast}
-      >
-        Check income limits for a previous year
-      </a>
+        text="Check income limits for a previous year"
+        type="secondary"
+      />
     </>
   );
 };

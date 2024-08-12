@@ -6,9 +6,15 @@ import { Prompts } from '../../util/constants';
 const RemoveAttachmentModal = props => {
   return (
     <VaModal
-      id="remove-attachment-modal"
-      data-testid="remove-attachment-modal"
-      data-dd-action-name="Remove Attachment Modal Closed"
+      id={`remove-attachment-modal${
+        props.draftSequence ? `-${props.draftSequence}` : ''
+      }`}
+      data-testid={`remove-attachment-modal${
+        props.draftSequence ? `-${props.draftSequence}` : ''
+      }`}
+      data-dd-action-name={`Remove Attachment Modal Closed${
+        props.draftSequence ? `-${props.draftSequence}` : ''
+      }`}
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
       onCloseEvent={props.onClose}
       visible={props.visible}
@@ -25,18 +31,32 @@ const RemoveAttachmentModal = props => {
         small-screen:vads-u-flex-direction--row"
       >
         <va-button
-          data-testid="confirm-remove-attachment-button"
+          data-testid={`confirm-remove-attachment-button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
+          id={`confirm-remove-attachment-button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
           text="Remove"
           onClick={props.onDelete}
-          data-dd-action-name="Confirm Remove Attachment Button"
+          data-dd-action-name={`Confirm Remove Attachment Button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
         />
         <va-button
           class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
-          data-testid="cancel-remove-attachment-button"
+          data-testid={`cancel-remove-attachment-button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
+          id={`cancel-remove-attachment-button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
           secondary
           text="Cancel"
           onClick={props.onClose}
-          data-dd-action-name="Cancel Remove Attachment Button"
+          data-dd-action-name={`Cancel Remove Attachment Button${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`}
         />
       </div>
     </VaModal>
@@ -44,6 +64,7 @@ const RemoveAttachmentModal = props => {
 };
 
 RemoveAttachmentModal.propTypes = {
+  draftSequence: PropTypes.number,
   id: PropTypes.number,
   visible: PropTypes.bool,
   onClose: PropTypes.func,

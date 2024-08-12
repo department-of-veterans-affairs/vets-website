@@ -5,24 +5,21 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
-  const landingPage = new PatientInboxPage();
-  const composePage = new PatientComposePage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
   it('verify user can send a message', () => {
-    composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(requestBody.category);
-    composePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    composePage
-      .getMessageBodyField()
-      .type(`${requestBody.body}`, { force: true });
-    composePage.sendMessage(requestBody);
-    composePage.verifySendMessageConfirmationMessageText();
-    composePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectCategory(requestBody.category);
+    PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
+      force: true,
+    });
+    PatientComposePage.sendMessage(requestBody);
+    PatientComposePage.verifySendMessageConfirmationMessageText();
+    PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -39,16 +36,15 @@ describe('Secure Messaging Compose', () => {
       `${charsLimit}`,
     );
 
-    composePage
-      .getMessageSubjectField()
-      .type(normalText, { waitForAnimations: true });
+    PatientComposePage.getMessageSubjectField().type(normalText, {
+      waitForAnimations: true,
+    });
     cy.get(Locators.INFO.SUBJECT_LIMIT).should(
       'have.text',
       `${charsLimit - normalText.length} characters left`,
     );
 
-    composePage
-      .getMessageSubjectField()
+    PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
     cy.get(Locators.INFO.SUBJECT_LIMIT).should(
@@ -56,8 +52,7 @@ describe('Secure Messaging Compose', () => {
       `${charsLimit - maxText.length} characters left`,
     );
 
-    composePage
-      .getMessageSubjectField()
+    PatientComposePage.getMessageSubjectField()
       .clear()
       .type(maxText, { waitForAnimations: true });
     cy.get(Locators.FIELDS.MESS_SUBJECT).should(

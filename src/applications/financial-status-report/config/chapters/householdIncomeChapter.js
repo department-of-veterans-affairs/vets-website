@@ -38,7 +38,7 @@ export default {
     pages: {
       employmentQuestion: {
         path: 'employment-question',
-        title: 'Employment',
+        title: 'Your employment history',
         CustomPage: EmploymentQuestion,
         CustomPageReview: EmploymentQuestionReview,
         uiSchema: {},
@@ -46,7 +46,7 @@ export default {
       },
       enhancedEmploymentRecords: {
         path: 'enhanced-employment-records',
-        title: 'Employment',
+        title: 'Employment records',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData => formData?.questions?.vetIsEmployed,
@@ -56,7 +56,7 @@ export default {
       },
       employmentWorkDates: {
         path: 'employment-work-dates',
-        title: 'Employment',
+        title: 'Employment work dates',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData => formData?.questions?.vetIsEmployed,
@@ -85,7 +85,7 @@ export default {
         CustomPageReview: null,
       },
       payrollDeductionInputList: {
-        title: 'Deduction amounts',
+        title: 'Paryoll deduction amounts',
         path: 'deduction-values',
         // listOfIssues defined in next section
         uiSchema: {},
@@ -98,7 +98,7 @@ export default {
       // loop ends with option to re enter here
       employmentHistorySummary: {
         path: 'employment-history',
-        title: 'Employment',
+        title: 'Employment summary',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData => formData.questions.vetIsEmployed,
@@ -114,7 +114,7 @@ export default {
       },
       editBenefitsEnhanced: {
         path: 'edit-benefits',
-        title: 'Benefits',
+        title: 'VA Benefits values',
         CustomPage: EnhancedBenefitsEdit,
         CustomPageReview: null, // TODO: Add review page (or check if reviewpage on normal)
         uiSchema: {},
@@ -177,7 +177,7 @@ export default {
       },
       enhancedSpouseEmploymentRecords: {
         path: 'enhanced-spouse-employment-records',
-        title: 'Employment',
+        title: 'Spouse employment record',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -188,7 +188,7 @@ export default {
       },
       spouseEmploymentWorkDates: {
         path: 'spouse-employment-work-dates',
-        title: 'Employment',
+        title: 'Spouse employment work dates',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -200,7 +200,7 @@ export default {
       },
       enhancedSpouseGrossMonthlyIncome: {
         path: 'spouse-gross-monthly-income',
-        title: 'Gross monthly income',
+        title: 'Spouse gross monthly income',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -211,7 +211,7 @@ export default {
       },
       spousePayrollDeductionChecklist: {
         path: 'spouse-deduction-checklist',
-        title: 'Payroll deductions',
+        title: 'Spouse payroll deductions',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -235,7 +235,7 @@ export default {
       },
       spouseEmploymentHistory: {
         path: 'spouse-employment-history',
-        title: 'Employment',
+        title: 'Spouse employment summary',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         depends: formData =>
@@ -247,14 +247,14 @@ export default {
       // whats the deal with this path?
       spouseBenefits: {
         path: 'spouse-benefits',
-        title: 'Spouse benefits',
+        title: 'Spouse VA benefits',
         uiSchema: spouseBenefits.uiSchema,
         schema: spouseBenefits.schema,
         depends: formData => formData.questions.isMarried,
       },
       spouseBenefitRecords: {
         path: 'spouse-benefit-records',
-        title: 'Spouse benefits',
+        title: 'Spouse VA benefits values',
         uiSchema: spouseBenefitRecords.uiSchema,
         schema: spouseBenefitRecords.schema,
         depends: formData =>
@@ -269,7 +269,7 @@ export default {
       // =================================================
       spouseAdditionalIncomeCheckList: {
         path: 'spouse-additional-income-checklist',
-        title: 'Additional income options',
+        title: 'Spouse additional income options',
         CustomPage: SpouseAdditionalIncomeCheckList,
         CustomPageReview: null,
         uiSchema: {},
@@ -278,7 +278,7 @@ export default {
       },
       spouseAdditionalIncomeValues: {
         path: 'spouse-additional-income-values',
-        title: 'Additional income values',
+        title: 'Spouse additional income values',
         uiSchema: spouseAdditionalIncomeValues.uiSchema,
         schema: spouseAdditionalIncomeValues.schema,
         depends: formData =>
@@ -303,7 +303,7 @@ export default {
       },
       spouseAddOtherIncome: {
         path: 'spouse-add-other-income',
-        title: 'Add your other sources of income',
+        title: 'Spouse additional sources of income',
         CustomPage: SpouseAddIncome,
         CustomPageReview: null,
         uiSchema: {},

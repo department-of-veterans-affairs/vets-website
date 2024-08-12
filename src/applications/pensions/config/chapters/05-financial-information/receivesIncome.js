@@ -1,8 +1,10 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+
+const { receivesIncome } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -20,7 +22,7 @@ export default {
     type: 'object',
     required: ['receivesIncome'],
     properties: {
-      receivesIncome: yesNoSchema,
+      receivesIncome,
     },
   },
 };

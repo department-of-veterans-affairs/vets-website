@@ -7,6 +7,7 @@ import {
 } from '../constants';
 import { reduceAllowedProviders, getQueryParams } from '../utilities';
 import LoginButton from './LoginButton';
+import LoginNote from './LoginNote';
 import CreateAccountLink from './CreateAccountLink';
 
 export default function LoginActions({ externalApplication }) {
@@ -40,6 +41,7 @@ export default function LoginActions({ externalApplication }) {
             <LoginButton csp={csp} key={csp} useOAuth={useOAuth} />
           ),
         )}
+        <LoginNote />
         {externalApplication?.includes(EXTERNAL_APPS.VA_OCC_MOBILE) &&
         isRegisteredApp === OCC_MOBILE.REGISTERED_APPS ? null : (
           <div id="create-account">

@@ -2,6 +2,9 @@
 const defaultUser = {
   data: {
     attributes: {
+      account: {
+        account_uuid: '28bc5722-2d2b-4e70-8ba9-a47e34194c8a',
+      },
       profile: {
         sign_in: {
           service_name: 'idme',

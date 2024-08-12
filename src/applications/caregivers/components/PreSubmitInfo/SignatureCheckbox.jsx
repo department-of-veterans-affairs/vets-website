@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from 'platform/monitoring/record-event';
+import { normalizeFullName, replaceStrValues } from '../../utils/helpers';
 import SignatureInput from './SignatureInput';
+import content from '../../locales/en/content.json';
 
-const SignatureCheckbox = ({
-  children,
-  fullName,
-  isRequired,
-  label,
-  setSignatures,
-  showError,
-  submission,
-  isRepresentative,
-}) => {
-  const [hasError, setError] = useState(false);
+const SignatureCheckbox = props => {
+  const {
+    children,
+    fullName,
+    isRequired,
+    label,
+    setSignatures,
+    showError,
+    submission,
+    isRepresentative,
+  } = props;
+  const [error, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
-  const normalizedFullName = `${fullName?.first} ${fullName?.middle || ''} ${
-    fullName?.last
-  }`.replace(/ +(?= )/g, '');
+  const normalizedFullName = normalizeFullName(fullName, true);
   const representativeLabelId = isRepresentative
     ? `${label}-signature-label`
     : undefined;
   const ariaDescribedbyMessage = isRepresentative
-    ? `on behalf of ${normalizedFullName}`
+    ? replaceStrValues(
+        content['sign-as-rep-on-behalf-text'],
+        normalizedFullName,
+      )
     : undefined;
 
   const handleCheck = event => {
-    setIsChecked(
-      event.target.shadowRoot.querySelector('#checkbox-element').checked,
-    );
+    const value = event.target.checked;
+    setIsChecked(value);
     recordEvent({
-      'caregivers-poa-certification-checkbox-checked': event.target.value,
+      'caregivers-poa-certification-checkbox-checked': value,
       fullName,
       label,
       isRepresentative,
@@ -42,8 +44,12 @@ const SignatureCheckbox = ({
 
   useEffect(
     () => {
-      const error = isChecked === true || hasSubmittedForm ? false : showError;
-      setError(error);
+      const hasError =
+        isChecked === true || hasSubmittedForm ? false : showError;
+      const message = hasError
+        ? content['validation-signature-required']
+        : null;
+      setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
   );
@@ -69,7 +75,7 @@ const SignatureCheckbox = ({
 
       {isRepresentative && (
         <p className="signature-box--representative" id={representativeLabelId}>
-          On behalf of
+          {content['signature-on-behalf-text']}
           <strong className="vads-u-font-size--lg">{normalizedFullName}</strong>
         </p>
       )}
@@ -78,9 +84,8 @@ const SignatureCheckbox = ({
         required={isRequired}
         onVaChange={handleCheck}
         class="signature-checkbox"
-        error={hasError ? 'Must certify by checking box' : undefined}
-        label="I certify the information above is correct and true to the best of my knowledge and belief."
-        uswds
+        error={error}
+        label={content['signature-checkbox-label']}
       />
     </fieldset>
   );

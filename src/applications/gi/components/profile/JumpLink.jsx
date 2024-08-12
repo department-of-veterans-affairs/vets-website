@@ -36,7 +36,13 @@ export default function JumpLink({
         onClick={handleClick}
       >
         <p>
-          {iconToggle && <i className="fa fa-arrow-down" aria-hidden="true" />}
+          {iconToggle && (
+            <va-icon
+              icon="arrow_downward"
+              aria-hidden="true"
+              class="iconToggle"
+            />
+          )}
           <span>{label}</span>
         </p>
       </a>
@@ -53,7 +59,11 @@ export default function JumpLink({
     >
       <p className={customClass && 'filter-before-res-link'}>
         {iconToggle && (
-          <i className="fa fa-arrow-down iconToggle" aria-hidden="true" />
+          <va-icon
+            icon="arrow_downward"
+            aria-hidden="true"
+            class="iconToggle"
+          />
         )}
         {label}
       </p>

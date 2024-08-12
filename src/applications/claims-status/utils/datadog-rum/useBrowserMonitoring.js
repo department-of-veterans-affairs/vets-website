@@ -17,11 +17,11 @@ const defaultLogSettings = {
   site: 'ddog-gov.com',
   // see src/site/constants/vsp-environments.js for defaults
   env: environment.vspEnvironment(), // 'production'
-  sessionSampleRate: 5,
+  sessionSampleRate: environment.vspEnvironment() === 'staging' ? 100 : 5,
   forwardErrorsToLogs: true,
   forwardConsoleLogs: ['error'],
   forwardReports: [],
-  telemetrySampleRate: 20, // default 20
+  telemetrySampleRate: environment.vspEnvironment() === 'staging' ? 100 : 20, // default 20
 };
 
 const initializeBrowserLogging = customLogSettings => {

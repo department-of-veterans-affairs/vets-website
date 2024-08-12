@@ -21,22 +21,6 @@ export const isActiveITF = currentITF => {
 };
 
 /**
- * Checks to see if the given pathname should be blocked from making any ITF
- * calls. Using includes because these shouldn't be repeated within this form
- * and it will allow search parameters, e.g. /introduction/?next=loginModal, etc
- */
-const nonITFPages = [
-  '/start',
-  '/introduction',
-  '/confirmation',
-  '/form-saved',
-  '/error',
-  '/resume',
-];
-export const shouldBlockITF = pathname =>
-  nonITFPages.some(noITFPath => pathname.includes(noITFPath));
-
-/**
  * ITF only supports "compensation" and "pension", but the subtask includes
  * "pensionSurvivorsBenefits" and we're not sure if ITF supports it
  * @param {String} benefitType - benefit type from subtask (e.g. compensation)

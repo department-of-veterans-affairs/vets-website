@@ -65,7 +65,6 @@ const StartPage = ({ setPageState, state = {} }) => {
           aria-describedby={
             state.selected === option.value ? option.page || option.value : null
           }
-          uswds={false}
         />
       ))}
     </VaRadio>

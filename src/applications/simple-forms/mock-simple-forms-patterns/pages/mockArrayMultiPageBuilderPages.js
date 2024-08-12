@@ -7,6 +7,7 @@ import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 
@@ -105,7 +106,7 @@ export const employersPageNameAndAddressPage = {
 /** @returns {PageSchema} */
 export const employersDatesPage = {
   uiSchema: {
-    ...titleUI(
+    ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         formData?.name
           ? `Dates you were employed at ${formData.name}`

@@ -5,20 +5,19 @@ import React from 'react';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
-import formConfig from '../../../config/form';
-
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.yourQuestion.pages.reasonYoureContactingUs;
+// const {
+//   schema,
+//   uiSchema,
+// } = formConfig.chapters.yourQuestion.pages.reasonYoureContactingUs;
 
 describe('reasonContactingPage', () => {
-  it('should render', () => {
+  // We are currently not using this question for the accessbiility study, skipping
+  it.skip('should render', () => {
     const { container } = render(
       <DefinitionTester
         definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
+        // schema={schema}
+        // uiSchema={uiSchema}
         data={{}}
         formData={{}}
       />,
@@ -27,12 +26,12 @@ describe('reasonContactingPage', () => {
     expect($('h2', container).textContent).to.eq('Reason you contacted us');
   });
 
-  it('should allow selecting a reason', () => {
+  it.skip('should allow selecting a reason', () => {
     const { getByLabelText } = render(
       <DefinitionTester
         definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
+        // schema={schema}
+        // uiSchema={uiSchema}
         data={{}}
         formData={{}}
       />,

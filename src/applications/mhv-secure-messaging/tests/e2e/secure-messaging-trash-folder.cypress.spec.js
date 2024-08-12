@@ -6,11 +6,10 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Trash Folder checks', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    PatientMessageTrashPage.loadMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    FolderLoadPage.loadFolders();
+    FolderLoadPage.loadDeletedMessages();
   });
 
   it('Verify folder header', () => {
@@ -34,5 +33,16 @@ describe('Secure Messaging Trash Folder checks', () => {
       );
     });
     FolderLoadPage.verifyPaginationElements();
+  });
+
+  it('verify breadcrumbs', () => {
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    FolderLoadPage.verifyBreadCrumbsLength(4);
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
+    FolderLoadPage.verifyBreadCrumbText(3, 'Trash');
   });
 });

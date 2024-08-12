@@ -65,19 +65,6 @@ const cypressSetup = ({ authenticated, isEnabled = true } = {}) => {
     },
   }).as('submitApplication');
 
-  cy.intercept(
-    'GET',
-    `${PENSIONS_CLAIMS_URL}/${SUBMISSION_CONFIRMATION_NUMBER}`,
-    {
-      data: {
-        attributes: {
-          submittedAt: SUBMISSION_DATE,
-          state: 'success',
-        },
-      },
-    },
-  ).as('pollSubmission');
-
   if (!authenticated) {
     cy.visit(TEST_URL);
     return;

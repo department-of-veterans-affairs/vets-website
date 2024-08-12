@@ -99,7 +99,6 @@ describe('Avs: List Block', () => {
       itemType: 'test-list-type',
       items,
       keyName: 'code',
-      itemName: 'text',
     };
 
     const screen = render(<ListBlock {...props} />);
@@ -116,7 +115,6 @@ describe('Avs: List Block', () => {
       itemType: 'test-list-type',
       items,
       keyName: 'code',
-      itemName: 'text',
     };
 
     const screen = render(<ListBlock {...props} />);

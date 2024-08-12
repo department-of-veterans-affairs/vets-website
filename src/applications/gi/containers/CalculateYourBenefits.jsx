@@ -217,21 +217,6 @@ export function CalculateYourBenefits({
             &nbsp;
             {profile.attributes.yr ? 'Yes' : 'No'}
           </div>
-
-          <div className="vads-u-padding-bottom--1 small-screen-font">
-            <LearnMoreLabel
-              text="Veteran Rapid Retraining Assistance Program (VRRAP)"
-              onClick={() => {
-                dispatchShowModal('vrrap');
-              }}
-              buttonClassName="small-screen-font"
-              bold
-              buttonId="vrrap-learn-more"
-            />
-            <strong>:</strong>
-            &nbsp;
-            {profile.attributes.vrrap ? 'Yes' : 'No'}
-          </div>
         </>
       )}
     </div>

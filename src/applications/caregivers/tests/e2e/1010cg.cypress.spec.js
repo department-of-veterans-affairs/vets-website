@@ -3,77 +3,27 @@ import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
+import content from '../../locales/en/content.json';
 import {
-  veteranSignatureContent,
-  primaryCaregiverContent,
-  secondaryCaregiverContent,
-  veteranLabel,
-  primaryLabel,
-  secondaryOneLabel,
-  secondaryTwoLabel,
-  representativeLabel,
-  representativeSignatureContent,
-} from '../../definitions/content';
+  goToNextPage,
+  selectYesNoWebComponent,
+  selectCheckboxWebComponent,
+  fillStatementOfTruthPattern,
+  fillAddressWebComponentPattern,
+} from './utils';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUpload from './fixtures/mocks/mock-upload.json';
 import mockFacilities from './fixtures/mocks/mock-facilities.json';
+import mockSubmission from './fixtures/mocks/mock-submission.json';
 
-export const mockVeteranSignatureContent = [
-  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me upon being approved as Primary and/or Secondary Family Caregivers in the Program of Comprehensive Assistance for Family Caregivers.',
-];
-export const mockRepresentativeSignatureContent = [
-  'Signed by the Veteran’s legal representative on behalf of the Veteran.',
-  'I certify that I give consent to the individual(s) named in this application to perform personal care services for me (or if the Veteran’s Representative, the Veteran) upon being approved as a Primary and/or Secondary Family Caregiver(s) in the Program of Comprehensive Assistance for Family Caregivers.',
-];
-export const mockPrimaryCaregiverContent = [
-  'I certify that I am at least 18 years of age.',
-  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Primary Family Caregiver.',
-  'I agree to perform personal care services as the Primary Family Caregiver for the Veteran named on this application.',
-  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Primary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
-  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
-];
-export const mockSecondaryCaregiverContent = [
-  'I certify that I am at least 18 years of age.',
-  'I certify that either: (1) I am a member of the Veteran\u2019s family (including a parent, spouse, a son or daughter, a step-family member, or an extended family member) OR (2) I am not a member of the Veteran\u2019s family, and I reside with the Veteran full-time or will do so upon designation as the Veteran\u2019s Secondary Family Caregiver.',
-  'I agree to perform personal care services as the Secondary Family Caregiver for the Veteran named on this application.',
-  'I understand that the Veteran or the Veteran\u2019s surrogate may request my discharge from the Program of Comprehensive Assistance for Family Caregivers (PCAFC) at any time and that my designation as a Secondary Family Caregiver may be revoked or I may be discharged from PCAFC by the Secretary of Veterans Affairs (or designee) as set forth in 38 CFR 71.45.',
-  'I understand that participation in the PCAFC does not create an employment relationship between me and the Department of Veterans Affairs.',
-];
-
-const checkContent = (partyLabel, content, mockContent) => {
-  content.forEach((contentItem, idx) => {
-    cy.get(`[data-testid="${partyLabel}"]`)
-      .contains(contentItem, { matchCase: true })
-      .should(signatureParagraph =>
-        expect(signatureParagraph[0].innerText).to.eq(mockContent[idx]),
-      );
-  });
-};
-
-const signAsParty = (partyLabel, signature) => {
-  cy.findByTestId(partyLabel)
-    .find('.signature-input')
-    .shadow()
-    .find('input')
-    .first()
-    .type(signature);
-
-  cy.findByTestId(partyLabel)
-    .find('.signature-checkbox')
-    .shadow()
-    .find('label')
-    .click();
-};
-
-const testSecondaryTwo = createTestConfig(
+const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
     dataSets: [
       'requiredOnly',
       'secondaryOneOnly',
-      'oneSecondaryCaregivers',
+      'oneSecondaryCaregiver',
       'twoSecondaryCaregivers',
-      // 'signAsRepresentativeNoRep',
       'signAsRepresentativeNo',
       'signAsRepresentativeYes',
     ],
@@ -81,24 +31,34 @@ const testSecondaryTwo = createTestConfig(
       data: path.join(__dirname, 'fixtures', 'data'),
       mocks: path.join(__dirname, 'fixtures', 'mocks'),
     },
-
     setupPerTest: () => {
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
       cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
         'getFacilities',
       );
+      cy.intercept('POST', '/v0/caregivers_assistance_claims', mockSubmission);
     },
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
-          // Hit the start button
-          cy.findAllByText(/start/i, { selector: 'a' })
+          cy.get('[href="#start"]')
             .first()
             .click();
         });
       },
-      'select-facility': ({ afterHook }) => {
+      'veteran-information/home-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'veteranAddress';
+            const fieldData = data[fieldName];
+            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'veteran-information/va-medical-center/locator': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
           cy.get('va-text-input')
@@ -114,147 +74,123 @@ const testSecondaryTwo = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
-      'primary-3': ({ afterHook }) => {
+      'primary-caregiver/home-address': ({ afterHook }) => {
         afterHook(() => {
-          cy.fillPage();
-          cy.get('#root_primaryAddress_autofill')
-            .shadow()
-            .find('label')
-            .click();
-          cy.get('.usa-button-primary').click();
+          cy.get('@testData').then(data => {
+            const fieldName = 'primaryAddress';
+            const fieldData = data[fieldName];
+            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'secondary-caregiver/home-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'view:secondaryOneHomeSameAsMailingAddress';
+            const fieldData = data[fieldName];
+            selectCheckboxWebComponent('caregiverAddress_autofill', true);
+            selectYesNoWebComponent(fieldName, fieldData);
+            goToNextPage();
+          });
+        });
+      },
+      'secondary-caregiver/mailing-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'secondaryOneMailingAddress';
+            const fieldData = data[fieldName];
+            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'additional-secondary-caregiver/home-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'secondaryTwoAddress';
+            const fieldData = data[fieldName];
+            fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
         });
       },
       'review-and-submit': () => {
         cy.get('@testKey').then(testKey => {
+          const parties = {
+            veteran: 'Micky Mouse',
+            primary: 'Mini Mouse',
+            secondaryOne: 'George Geef Goofus II',
+            secondaryTwo: 'Donald Duck',
+          };
+
           switch (testKey) {
             case 'secondaryOneOnly':
-              // Check veteran content && sign
-              checkContent(
-                veteranLabel,
-                veteranSignatureContent,
-                mockVeteranSignatureContent,
+              fillStatementOfTruthPattern(
+                content['vet-input-label'],
+                parties.veteran,
               );
-              signAsParty(veteranLabel, 'Micky Mouse');
-
-              // check secondary caregiver content && sign
-              checkContent(
-                secondaryOneLabel,
-                secondaryCaregiverContent,
-                mockSecondaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['secondary-one-signature-label'],
+                parties.secondaryOne,
               );
-              signAsParty(secondaryOneLabel, 'George Geef Goofus');
-
               break;
-            case 'oneSecondaryCaregivers':
-              // check veteran content && sign
-              checkContent(
-                veteranLabel,
-                veteranSignatureContent,
-                mockVeteranSignatureContent,
+            case 'oneSecondaryCaregiver':
+              fillStatementOfTruthPattern(
+                content['vet-input-label'],
+                parties.veteran,
               );
-              signAsParty(veteranLabel, 'Micky Mouse');
-
-              // Check primary caregiver content && sign
-              checkContent(
-                primaryLabel,
-                primaryCaregiverContent,
-                mockPrimaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['primary-signature-label'],
+                parties.primary,
               );
-              signAsParty(primaryLabel, 'Mini Mouse');
-
-              // Check secondaryOne caregiver content && sign
-              checkContent(
-                secondaryOneLabel,
-                secondaryCaregiverContent,
-                mockSecondaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['secondary-one-signature-label'],
+                parties.secondaryOne,
               );
-              signAsParty(secondaryOneLabel, 'George Geef Goofus');
-
               break;
             case 'twoSecondaryCaregivers':
-              // check veteran content && sign
-              checkContent(
-                veteranLabel,
-                veteranSignatureContent,
-                mockVeteranSignatureContent,
+              fillStatementOfTruthPattern(
+                content['vet-input-label'],
+                parties.veteran,
               );
-              signAsParty(veteranLabel, 'Micky Mouse');
-
-              // Check primary caregiver content && sign
-              checkContent(
-                primaryLabel,
-                primaryCaregiverContent,
-                mockPrimaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['primary-signature-label'],
+                parties.primary,
               );
-              signAsParty(primaryLabel, 'Mini Mouse');
-
-              // Check secondaryOne caregiver content && sign
-              checkContent(
-                secondaryOneLabel,
-                secondaryCaregiverContent,
-                mockSecondaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['secondary-one-signature-label'],
+                parties.secondaryOne,
               );
-              signAsParty(secondaryOneLabel, 'George Geef Goofus');
-
-              // Check secondaryTwo caregiver content && sign
-              checkContent(
-                secondaryTwoLabel,
-                secondaryCaregiverContent,
-                mockSecondaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['secondary-two-signature-label'],
+                parties.secondaryTwo,
               );
-              signAsParty(secondaryTwoLabel, 'Donald Duck');
               break;
             case 'signAsRepresentativeYes':
-            case 'signAsRepresentativeNoRep':
-              // check veteran content && sign as representative
-              checkContent(
-                representativeLabel,
-                representativeSignatureContent,
-                mockRepresentativeSignatureContent,
+              fillStatementOfTruthPattern(
+                content['sign-as-rep-signature-label'],
+                parties.primary,
               );
-              signAsParty(representativeLabel, 'Mini Mouse');
-
-              // Check primary caregiver && sign
-              checkContent(
-                primaryLabel,
-                primaryCaregiverContent,
-                mockPrimaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['primary-signature-label'],
+                parties.primary,
               );
-              signAsParty(primaryLabel, 'Mini Mouse');
               break;
             default:
-              // check veteran content && sign
-              checkContent(
-                veteranLabel,
-                veteranSignatureContent,
-                mockVeteranSignatureContent,
+              fillStatementOfTruthPattern(
+                content['vet-input-label'],
+                parties.veteran,
               );
-              signAsParty(veteranLabel, 'Micky Mouse');
-
-              // Check primary caregiver && sign
-              checkContent(
-                primaryLabel,
-                primaryCaregiverContent,
-                mockPrimaryCaregiverContent,
+              fillStatementOfTruthPattern(
+                content['primary-signature-label'],
+                parties.primary,
               );
-              signAsParty(primaryLabel, 'Mini Mouse');
               break;
           }
-        });
-        // sign signature as veteran
-
-        cy.intercept('POST', '/v0/caregivers_assistance_claims', {
-          statusCode: 200,
-          body: {
-            data: {
-              id: '',
-              type: 'form1010cg_submissions',
-              attributes: {
-                confirmationNumber: 'aB935000000F3VnCAK',
-                submittedAt: '2020-08-06T19:18:11+00:00',
-              },
-            },
-          },
         });
       },
     },
@@ -263,4 +199,4 @@ const testSecondaryTwo = createTestConfig(
   formConfig,
 );
 
-testForm(testSecondaryTwo);
+testForm(testConfig);

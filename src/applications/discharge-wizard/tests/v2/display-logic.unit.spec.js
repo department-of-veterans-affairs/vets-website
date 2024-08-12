@@ -24,7 +24,7 @@ describe('utilities: display logic', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',
-        REASON: RESPONSES.REASON_8,
+        REASON: RESPONSES.REASON_DD215_UPDATE_TO_DD214,
       };
 
       const router = {
@@ -42,11 +42,11 @@ describe('utilities: display logic', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',
-        REASON: RESPONSES.REASON_3,
-        DISCHARGE_TYPE: RESPONSES.DISCHARGE_TYPE_2,
-        INTENTION: RESPONSES.INTENTION_1,
-        COURT_MARTIAL: RESPONSES.COURT_MARTIAL_2,
-        PREV_APPLICATION: RESPONSES.PREV_APPLICATION_2,
+        REASON: RESPONSES.REASON_SEXUAL_ORIENTATION,
+        DISCHARGE_TYPE: RESPONSES.DISCHARGE_DISHONORABLE,
+        INTENTION: RESPONSES.INTENTION_YES,
+        COURT_MARTIAL: RESPONSES.COURT_MARTIAL_YES,
+        PREV_APPLICATION: RESPONSES.NO,
       };
 
       const router = {

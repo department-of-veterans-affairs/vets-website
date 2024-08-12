@@ -6,7 +6,8 @@ import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 // Relative imports.
 
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 import { CTA_WIDGET_TYPES, ctaWidgetsLookup } from '../ctaWidgets';
 import { CallToActionWidget } from '../index';
 
@@ -128,6 +129,7 @@ describe('<CallToActionWidget>', () => {
     const signIn = tree.find('SignIn');
     expect(tree.find('LoadingIndicator').exists()).to.be.false;
     expect(signIn.exists()).to.be.true;
+    expect(tree.find('h3').exists()).to.be.true;
     expect(signIn.prop('ariaLabel')).to.eq('test aria-label');
     expect(signIn.prop('ariaDescribedby')).to.eq('test-id');
     tree.unmount();
@@ -149,6 +151,7 @@ describe('<CallToActionWidget>', () => {
       </Provider>,
     );
     expect(tree.find('Unauthed').exists()).to.be.true;
+    expect(tree.find('h3').exists()).to.be.true;
 
     const authReturnUrl = sessionStorage.getItem('authReturnUrl');
     const derivedUrl = ctaWidgetsLookup[
@@ -181,6 +184,7 @@ describe('<CallToActionWidget>', () => {
     );
 
     expect(tree.find('Verify').exists()).to.be.true;
+    expect(tree.find('h3').exists()).to.be.true;
     tree.unmount();
   });
   it('should show link and description', () => {
@@ -420,6 +424,7 @@ describe('<CallToActionWidget>', () => {
       expect(
         tree.find('[data-testid="direct-deposit-id-me-sign-up-link"]').exists(),
       ).to.be.true;
+      expect(tree.find('h3').exists()).to.be.true;
       tree.unmount();
     });
 
@@ -801,6 +806,70 @@ describe('<CallToActionWidget>', () => {
       expect(fetchMHVAccount.called).to.be.true;
       expect(tree.find('NoMHVAccount').exists()).to.be.true;
       tree.unmount();
+    });
+  });
+
+  describe('haCpapSuppliesCta feature', () => {
+    const setup = ({
+      isLoggedIn = false,
+      haCpapSuppliesCta = false,
+      verified = false,
+    } = {}) => {
+      return mount(
+        <CallToActionWidget
+          isLoggedIn={isLoggedIn}
+          appId={CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES}
+          profile={{
+            loading: false,
+            verified,
+          }}
+          mhvAccount={{}}
+          mviStatus="OK"
+          featureToggles={{
+            loading: false,
+            [featureFlagNames.haCpapSuppliesCta]: haCpapSuppliesCta,
+          }}
+        />,
+      );
+    };
+
+    describe('enabled', () => {
+      it('promps to sign in w/ h4 when enabled and user signed out', () => {
+        const tree = setup({ haCpapSuppliesCta: true });
+        expect(tree.find('h3').exists()).to.be.true;
+        expect(tree.find('SignIn').exists()).to.be.true;
+      });
+
+      it('promps to verify w/ h4 when enabled and user is unverified', () => {
+        const tree = setup({ haCpapSuppliesCta: true, isLoggedIn: true });
+        expect(tree.find('h3').exists()).to.be.true;
+        expect(tree.find('Verify').exists()).to.be.true;
+      });
+
+      it('renders a CTA link when enabled and verified user signed in', () => {
+        const ctaWidget = ctaWidgetsLookup[CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES];
+        const { url } = ctaWidget.deriveToolUrlDetails();
+        const { serviceDescription: desc } = ctaWidget;
+        const text = `${desc[0].toUpperCase()}${desc.slice(1)}`;
+
+        const tree = setup({
+          haCpapSuppliesCta: true,
+          isLoggedIn: true,
+          verified: true,
+        });
+
+        const result = tree.find('a');
+        expect(result.props().href).to.contain(url);
+        expect(result.props().target).to.equal('_self');
+        expect(result.text()).to.contain(text);
+      });
+    });
+
+    describe('disabled', () => {
+      it('renders nothing when feature disabled', () => {
+        const tree = setup();
+        expect(tree.children()).to.be.empty;
+      });
     });
   });
 });

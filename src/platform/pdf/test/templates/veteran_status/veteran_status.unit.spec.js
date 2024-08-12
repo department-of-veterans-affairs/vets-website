@@ -43,7 +43,7 @@ describe('Veteran Status PDF template', () => {
       expect(content.items.filter(item => item.tag === 'H1').length).to.eq(1);
       expect(content.items[3].str).to.eq(data.details.fullName);
       // H1 in this case is set to 14 px
-      expect(content.items[3].height).to.eq(14);
+      expect(content.items[3].height).to.eq(10.5);
     });
 
     it('All sections are contained by a root level Document element', async () => {
@@ -129,7 +129,7 @@ describe('Veteran Status PDF template', () => {
       expect(ratingContent.length).to.eq(1);
     });
 
-    it('Shows date of birth', async () => {
+    it('Shows DoD ID Number', async () => {
       const data = require('./fixtures/veteran_status.json');
       const { pdf } = await generateAndParsePdf(data);
 
@@ -138,12 +138,34 @@ describe('Veteran Status PDF template', () => {
       const page = await pdf.getPage(pageNumber);
 
       const content = await page.getTextContent({ includeMarkedContent: true });
-      const dobTitle = content.items.filter(
-        item => item.str === 'Date of birth:',
+      const dodIdTitle = content.items.filter(
+        item => item.str === 'DoD ID Number:',
       );
-      expect(dobTitle.length).to.eq(1);
-      const dob = content.items.filter(item => item.str === data.details.dob);
-      expect(dob.length).to.eq(1);
+      expect(dodIdTitle.length).to.eq(1);
+      const dodId = content.items.filter(
+        item => item.str === data.details.edipi,
+      );
+      expect(dodId.length).to.eq(1);
+    });
+
+    it("Doesn't show DoD ID Number if it is unavailable", async () => {
+      const data = require('./fixtures/veteran_status.json');
+      data.details.edipi = null;
+      const { pdf } = await generateAndParsePdf(data);
+
+      // Fetch the first page
+      const pageNumber = 1;
+      const page = await pdf.getPage(pageNumber);
+
+      const content = await page.getTextContent({ includeMarkedContent: true });
+      const dodIdTitle = content.items.filter(
+        item => item.str === 'DoD ID Number:',
+      );
+      expect(dodIdTitle.length).to.eq(0);
+      const dodId = content.items.filter(
+        item => item.str === data.details.edipi,
+      );
+      expect(dodId.length).to.eq(0);
     });
 
     it('Has a default language (english)', async () => {

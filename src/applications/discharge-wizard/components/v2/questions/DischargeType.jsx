@@ -21,7 +21,7 @@ const DischargeType = ({
   const shortName = SHORT_NAME_MAP.DISCHARGE_TYPE;
   const H1 = QUESTION_MAP[shortName];
   const dischargeType = formResponses[shortName];
-  const { DISCHARGE_TYPE_1, DISCHARGE_TYPE_2 } = RESPONSES;
+  const { DISCHARGE_HONORABLE, DISCHARGE_DISHONORABLE } = RESPONSES;
 
   useEffect(
     () => {
@@ -45,7 +45,7 @@ const DischargeType = ({
       formResponses={formResponses}
       formValue={dischargeType}
       H1={H1}
-      responses={[DISCHARGE_TYPE_1, DISCHARGE_TYPE_2]}
+      responses={[DISCHARGE_HONORABLE, DISCHARGE_DISHONORABLE]}
       router={router}
       setFormError={setFormError}
       shortName={shortName}

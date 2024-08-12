@@ -16,19 +16,16 @@ import {
 import {
   getSchedulingConfigurationMock,
   getV2ClinicMock,
-} from '../../../mocks/v2';
+} from '../../../mocks/mock';
 import {
   mockSchedulingConfigurations,
   mockVAOSParentSites,
-} from '../../../mocks/helpers.v2';
+} from '../../../mocks/helpers';
 import {
-  mockEligibilityFetchesByVersion,
-  mockFacilitiesFetchByVersion,
+  mockEligibilityFetches,
+  mockFacilitiesFetch,
 } from '../../../mocks/fetch';
-import {
-  createMockClinicByVersion,
-  createMockFacilityByVersion,
-} from '../../../mocks/data';
+import { createMockClinic, createMockFacility } from '../../../mocks/data';
 
 describe('VAOS Page: VAFacilityPage eligibility check', () => {
   describe('when there is a single supported facility', () => {
@@ -51,7 +48,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
       mockVAOSParentSites(
         siteIds,
         [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
             name: 'San Diego VA Medical Center',
             isParent: true,
@@ -59,9 +56,9 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
         ],
         true,
       );
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '442',
             name: 'San Diego VA Medical Center',
             address: {
@@ -85,7 +82,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: false,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
       });
@@ -112,16 +109,16 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           patientHistoryRequired: 'Yes',
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
-          createMockClinicByVersion({
+          createMockClinic({
             id: '308',
             stationId: '983',
             friendlyName: 'Green team clinic',
           }),
-          createMockClinicByVersion({
+          createMockClinic({
             id: '309',
             stationId: '983',
             friendlyName: 'Red team clinic',
@@ -153,11 +150,11 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
-          createMockClinicByVersion({
+          createMockClinic({
             id: '308',
             stationId: '983',
             friendlyName: 'Green team clinic',
@@ -216,7 +213,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
 
     const facilityIds = ['983', '984'];
     const facilities = facilityIds.map((id, index) =>
-      createMockFacilityByVersion({
+      createMockFacility({
         id,
         name: `Fake facility name ${index + 1}`,
         lat: Math.random() * 90,
@@ -233,7 +230,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
     beforeEach(() => {
       mockFetch();
 
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         facilities,
         children: true,
       });
@@ -258,7 +255,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           patientHistoryDuration: 365,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'socialWork',
         directPastVisits: true,
@@ -269,7 +266,6 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
             serviceName: 'Clinic name',
           }),
         ],
-        version: 2,
       });
       const store = createTestStore(initialState);
       await setTypeOfCare(store, /social work/i);
@@ -309,7 +305,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: false,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
         clinics: [
@@ -365,7 +361,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           directEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'amputation',
         directPastVisits: true,
@@ -417,7 +413,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           directEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         directPastVisits: true,
@@ -461,7 +457,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           directEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         directPastVisits: true,
@@ -505,7 +501,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           directEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         directPastVisits: false,
@@ -587,7 +583,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'primaryCare',
         clinics: [
@@ -641,7 +637,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [
@@ -693,7 +689,7 @@ describe('VAOS Page: VAFacilityPage eligibility check', () => {
           requestEnabled: true,
         }),
       ]);
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: 'outpatientMentalHealth',
         clinics: [

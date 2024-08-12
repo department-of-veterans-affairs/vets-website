@@ -1,7 +1,6 @@
 import cloneDeep from 'platform/utilities/data/cloneDeep';
 import moment from 'moment';
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 
 export function transform(formConfig, form) {
@@ -24,13 +23,6 @@ export function transform(formConfig, form) {
     },
   });
 }
-export const isProductionOfTestProdEnv = automatedTest => {
-  return (
-    environment.isProduction() ||
-    automatedTest ||
-    (global && global?.window && global?.window?.buildType)
-  );
-};
 
 export const relationshipLabels = {
   child: 'Child, stepchild, adopted child',

@@ -1,5 +1,10 @@
 import React from 'react';
-import { createId, formatCurrency, formatNumber } from '../../utils/helpers';
+import {
+  createId,
+  formatCurrency,
+  formatNumber,
+  showSchoolContentBasedOnType,
+} from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
 
@@ -51,6 +56,7 @@ export default function VeteranProgramsAndSupport({
   const available = Object.keys(programs).filter(
     key => !!institution[key] === true,
   );
+  const { type } = institution;
 
   const programLabel = programKey => {
     const program = programs[programKey];
@@ -73,8 +79,8 @@ export default function VeteranProgramsAndSupport({
       '';
 
     return (
-      <div key={programKey}>
-        <i className="fa fa-check vads-u-color--green" />
+      <div className="veteran-programs" key={programKey}>
+        <va-icon icon="check" size={3} class="vads-u-color--green" />
         &nbsp;
         <strong>
           <LearnMoreLabel
@@ -121,11 +127,13 @@ export default function VeteranProgramsAndSupport({
             <span>{formatNumber(institution.p911Recipients)}</span>
             <span>{formatCurrency(institution.p911TuitionFees)}</span>
           </va-table-row>
-          <va-table-row>
-            <span>Yellow Ribbon</span>
-            <span>{formatNumber(institution.p911YrRecipients)}</span>
-            <span>{formatCurrency(institution.p911YellowRibbon)}</span>
-          </va-table-row>
+          {showSchoolContentBasedOnType(type) && (
+            <va-table-row>
+              <span>Yellow Ribbon</span>
+              <span>{formatNumber(institution.p911YrRecipients)}</span>
+              <span>{formatCurrency(institution.p911YellowRibbon)}</span>
+            </va-table-row>
+          )}
         </va-table>
       </div>
     </div>

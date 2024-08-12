@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 export default function ClaimCardLink({
   ariaLabel,
   href,
-  text = 'View details',
+  text = 'Details',
   onClick,
 }) {
   return (
@@ -16,7 +16,7 @@ export default function ClaimCardLink({
       onClick={onClick}
     >
       {text}
-      <i aria-hidden="true" />
+      <va-icon icon="chevron_right" size={3} aria-hidden="true" />
     </Link>
   );
 }

@@ -1,9 +1,11 @@
 import { expect } from 'chai';
 import {
+  conditionReducer,
   extractLocation,
   extractProvider,
   extractProviderNote,
 } from '../../reducers/conditions';
+import { Actions } from '../../util/actionTypes';
 
 describe('Condition Extraction Functions', () => {
   const EMPTY_FIELD = 'None noted'; // Define EMPTY_FIELD as per your implementation
@@ -54,5 +56,67 @@ describe('Condition Extraction Functions', () => {
       const providerNotes = extractProviderNote(condition);
       expect(providerNotes).to.equal(EMPTY_FIELD);
     });
+  });
+});
+
+describe('conditionReducer', () => {
+  it('creates a list', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'Condition',
+    };
+    const newState = conditionReducer(
+      {},
+      { type: Actions.Conditions.GET_LIST, response },
+    );
+    expect(newState.conditionsList.length).to.equal(3);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('puts updated records in updatedList', () => {
+    const response = {
+      entry: [
+        { resource: { id: 1 } },
+        { resource: { id: 2 } },
+        { resource: { id: 3 } },
+      ],
+      resourceType: 'Condition',
+    };
+    const newState = conditionReducer(
+      {
+        conditionsList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Conditions.GET_LIST, response },
+    );
+    expect(newState.conditionsList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into conditionsList on request', () => {
+    const newState = conditionReducer(
+      {
+        conditionsList: [{ resource: { id: 1 } }],
+        updatedList: [{ resource: { id: 1 } }, { resource: { id: 2 } }],
+      },
+      { type: Actions.Conditions.COPY_UPDATED_LIST },
+    );
+    expect(newState.conditionsList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into conditionsList if updatedList does not exist', () => {
+    const newState = conditionReducer(
+      {
+        conditionsList: [{ resource: { id: 1 } }],
+        updatedList: undefined,
+      },
+      { type: Actions.Conditions.COPY_UPDATED_LIST },
+    );
+    expect(newState.conditionsList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
   });
 });

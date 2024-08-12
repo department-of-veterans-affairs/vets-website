@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import SchemaForm from '~/platform/forms-system/src/js/components/SchemaForm';
 import ConfirmCancelModal from '~/platform/user/profile/vap-svc/components/ContactInformationFieldInfo/ConfirmCancelModal';
-import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
-import { BankNumberFaq } from './BankNumberFaq';
 import {
   VaTextInputField,
   VaRadioField,
 } from '~/platform/forms-system/src/js/web-component-fields';
-import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
+import { ACCOUNT_TYPES_OPTIONS } from '../../constants';
+import { BankNumberFaq } from './BankNumberFaq';
+import { UpdateErrorAlert } from './alerts/UpdateErrorAlert';
 
 const schema = {
   type: 'object',

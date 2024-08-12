@@ -18,7 +18,6 @@ import {
   hasHighCompensation,
   notShortFormEligible,
   dischargePapersRequired,
-  teraInformationEnabled,
   includeTeraInformation,
   includeGulfWarServiceDates,
   includeOtherExposureDates,
@@ -296,7 +295,6 @@ const formConfig = {
         toxicExposure: {
           path: 'military-service/toxic-exposure',
           title: 'Toxic exposure',
-          depends: teraInformationEnabled,
           uiSchema: toxicExposure.uiSchema,
           schema: toxicExposure.schema,
         },

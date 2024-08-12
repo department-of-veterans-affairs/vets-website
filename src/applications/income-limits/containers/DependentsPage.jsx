@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
   VaButtonPair,
-  VaNumberInput,
+  VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -78,6 +78,8 @@ const DependentsPage = ({
   const onBlurInput = () => {
     if (validDependents) {
       setError(false);
+    } else {
+      setError(true);
     }
   };
 
@@ -103,11 +105,12 @@ const DependentsPage = ({
     <>
       <h1>{determineH1()}</h1>
       <form>
-        <VaNumberInput
+        <VaTextInput
           className="vads-u-margin-bottom--1"
           data-testid="il-dependents"
           error={
-            (submitted && error && 'Enter a number between 0 and 100.') || null
+            ((submitted || error) && 'Enter a number between 0 and 100.') ||
+            null
           }
           hint={`Enter the total number of dependents for ${getPreviousYear(
             pastMode,

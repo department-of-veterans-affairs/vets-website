@@ -8,13 +8,14 @@ import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/
 
 import {
   ContactRepresentativeTitle,
+  ContactRepresentativeDescription,
   RepresentativeFirstNameTitle,
   RepresentativeLastNameTitle,
   RepresentativePhoneTitle,
   RepresentativePhoneExtensionTitle,
   RepresentativeEmailTitle,
   RepresentativeReviewWidget,
-} from '../content/InformalConference';
+} from '../content/InformalConferenceRep';
 import { validatePhone } from '../validations';
 import { errorMessages } from '../constants';
 
@@ -28,6 +29,7 @@ export default {
     },
     informalConferenceRep: {
       'ui:title': ContactRepresentativeTitle,
+      'ui:description': ContactRepresentativeDescription,
       firstName: {
         'ui:title': RepresentativeFirstNameTitle,
         'ui:webComponentField': VaTextInputField,

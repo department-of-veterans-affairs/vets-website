@@ -64,22 +64,6 @@ describe('AppointmentListItem', () => {
   afterEach(() => {
     teardownI18n();
   });
-  describe('day-of', () => {
-    describe('intro page', () => {
-      it('Renders appointment action', () => {
-        const screen = render(
-          <CheckInProvider router={mockRouter}>
-            <AppointmentListItem
-              app="dayOf"
-              appointment={appointments[0]}
-              page="intro"
-            />
-          </CheckInProvider>,
-        );
-        expect(screen.getByTestId('appointment-action')).to.exist;
-      });
-    });
-  });
   describe('pre-check-in', () => {
     describe('In person appointment context', () => {
       it('Renders appointment details', () => {

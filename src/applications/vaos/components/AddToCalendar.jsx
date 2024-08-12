@@ -60,14 +60,16 @@ export default function AddToCalendar({
   }
 
   return (
-    <va-link
-      calendar
-      href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
-      filename={filename}
-      aria-label={`Add ${formattedDate} appointment to your calendar`}
-      text="Add to calendar"
-      data-testid="add-to-calendar-link"
-    />
+    <div className="vaos-hide-for-print vads-u-margin-left--0p5">
+      <va-link
+        calendar
+        href={`data:text/calendar;charset=utf-8,${encodeURIComponent(text)}`}
+        filename={filename}
+        aria-label={`Add ${formattedDate} appointment to your calendar`}
+        text="Add to calendar"
+        data-testid="add-to-calendar-link"
+      />
+    </div>
   );
 }
 

@@ -11,11 +11,16 @@ import { FilesPage } from '../../containers/FilesPage';
 import * as AdditionalEvidencePage from '../../components/claim-files-tab/AdditionalEvidencePage';
 import { renderWithRouter } from '../utils';
 
-const getStore = (cstUseClaimDetailsV2Enabled = true) =>
+const getStore = (
+  cstUseClaimDetailsV2Enabled = true,
+  cst5103UpdateEnabled = false,
+) =>
   createStore(() => ({
     featureToggles: {
       // eslint-disable-next-line camelcase
       cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
+      // eslint-disable-next-line camelcase
+      cst_5103_update_enabled: cst5103UpdateEnabled,
     },
   }));
 
@@ -133,6 +138,82 @@ describe('<FilesPage>', () => {
         expect($('.documents-filed-container', container)).to.exist;
         expect($('.claims-requested-files-container', container)).to.not.exist;
       });
+
+      context('when cst5103UpdateEnabled feature flag is disabled', () => {
+        it('should not render ask va to decide component', () => {
+          const claim = {
+            id: 1,
+            type: 'claim',
+            attributes: {
+              claimPhaseDates: {
+                currentPhaseBack: false,
+                phaseChangeDate: '2023-03-04',
+                latestPhaseType: 'GATHERING_OF_EVIDENCE',
+                previousPhases: {
+                  phase1CompleteDate: '2023-02-08',
+                  phase2CompleteDate: '2023-03-04',
+                },
+              },
+              documentsNeeded: false,
+              decisionLetterSent: false,
+              evidenceWaiverSubmitted5103: false,
+              status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+              supportingDocuments: [],
+              trackedItems: [],
+            },
+          };
+
+          const { getByText } = renderWithRouter(
+            <Provider store={getStore()}>
+              <FilesPage
+                claim={claim}
+                message={{ title: 'Test', body: 'Body' }}
+                clearNotification={() => {}}
+              />
+            </Provider>,
+          );
+
+          getByText('Ask for your Claim Decision');
+        });
+      });
+
+      context('when cst5103UpdateEnabled feature flag is enabled', () => {
+        it('should not render ask va to decide component', () => {
+          const claim = {
+            id: 1,
+            type: 'claim',
+            attributes: {
+              claimPhaseDates: {
+                currentPhaseBack: false,
+                phaseChangeDate: '2023-03-04',
+                latestPhaseType: 'GATHERING_OF_EVIDENCE',
+                previousPhases: {
+                  phase1CompleteDate: '2023-02-08',
+                  phase2CompleteDate: '2023-03-04',
+                },
+              },
+              documentsNeeded: false,
+              decisionLetterSent: false,
+              evidenceWaiverSubmitted5103: false,
+              status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+              supportingDocuments: [],
+              trackedItems: [],
+            },
+          };
+
+          const { queryByText } = renderWithRouter(
+            <Provider store={getStore(true, true)}>
+              <FilesPage
+                claim={claim}
+                message={{ title: 'Test', body: 'Body' }}
+                clearNotification={() => {}}
+              />
+            </Provider>,
+          );
+
+          expect(queryByText('Ask for your Claim Decision')).to.not.exist;
+        });
+      });
     });
 
     context('when claim is closed', () => {
@@ -227,6 +308,81 @@ describe('<FilesPage>', () => {
   });
 
   context('cstUseClaimDetailsV2 feature flag disabled', () => {
+    context('when cst5103UpdateEnabled feature flag is disabled', () => {
+      it('should not render ask va to decide component', () => {
+        const claim = {
+          id: 1,
+          type: 'claim',
+          attributes: {
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-03-04',
+              latestPhaseType: 'GATHERING_OF_EVIDENCE',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+                phase2CompleteDate: '2023-03-04',
+              },
+            },
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            evidenceWaiverSubmitted5103: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+            supportingDocuments: [],
+            trackedItems: [],
+          },
+        };
+
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <FilesPage
+              claim={claim}
+              message={{ title: 'Test', body: 'Body' }}
+              clearNotification={() => {}}
+            />
+          </Provider>,
+        );
+
+        getByText('Ask for your Claim Decision');
+      });
+    });
+
+    context('when cst5103UpdateEnabled feature flag is enabled', () => {
+      it('should not render ask va to decide component', () => {
+        const claim = {
+          id: 1,
+          type: 'claim',
+          attributes: {
+            claimPhaseDates: {
+              currentPhaseBack: false,
+              phaseChangeDate: '2023-03-04',
+              latestPhaseType: 'GATHERING_OF_EVIDENCE',
+              previousPhases: {
+                phase1CompleteDate: '2023-02-08',
+                phase2CompleteDate: '2023-03-04',
+              },
+            },
+            documentsNeeded: false,
+            decisionLetterSent: false,
+            evidenceWaiverSubmitted5103: false,
+            status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+            supportingDocuments: [],
+            trackedItems: [],
+          },
+        };
+
+        const { queryByText } = renderWithRouter(
+          <Provider store={getStore(false, true)}>
+            <FilesPage
+              claim={claim}
+              message={{ title: 'Test', body: 'Body' }}
+              clearNotification={() => {}}
+            />
+          </Provider>,
+        );
+
+        expect(queryByText('Ask for your Claim Decision')).to.not.exist;
+      });
+    });
     it('should hide requested files when closed', () => {
       const claim = {
         id: '1',
@@ -280,36 +436,6 @@ describe('<FilesPage>', () => {
 
       const tree = SkinDeep.shallowRender(<FilesPage claim={claim} />);
       expect(tree.subTree('RequestedFilesInfo')).not.to.be.false;
-    });
-
-    it('should render ask va to decide component', () => {
-      const claim = {
-        id: 1,
-        type: 'claim',
-        attributes: {
-          claimPhaseDates: {
-            currentPhaseBack: false,
-            phaseChangeDate: '2023-03-04',
-            latestPhaseType: 'GATHERING_OF_EVIDENCE',
-            previousPhases: {
-              phase1CompleteDate: '2023-02-08',
-              phase2CompleteDate: '2023-03-04',
-            },
-          },
-          documentsNeeded: false,
-          decisionLetterSent: false,
-          evidenceWaiverSubmitted5103: false,
-          status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
-          supportingDocuments: [],
-          trackedItems: [],
-        },
-      };
-
-      const tree = SkinDeep.shallowRender(
-        <FilesPage params={{ id: 2 }} claim={claim} />,
-      );
-
-      expect(tree.everySubTree('AskVAToDecide')).not.to.be.empty;
     });
 
     it('should display turned in docs', () => {

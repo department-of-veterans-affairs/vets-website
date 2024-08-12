@@ -141,5 +141,10 @@
     "appName": "Representative Status",
     "rootUrl": "/representative-status",
     "widgetType": "representative-status"
+  },
+  {
+    "appName": "Verify Your Enrollment Widget",
+    "rootUrl": "/education/verify-school-enrollment",
+    "widgetType": "vye-enrollment-login-widget"
   }
 ]

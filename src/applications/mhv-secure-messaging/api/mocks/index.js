@@ -15,7 +15,7 @@ const allRecipients = require('./allrecipients');
 const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
-  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
+  'GET /v0/feature_toggles': featureToggles.generateFeatureToggles(),
   'GET /my_health/v1/messaging/folders': folders.allFolders,
   'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
   'GET /my_health/v1/messaging/folders/:index/messages': folders.messages,

@@ -14,10 +14,7 @@ describe('Medical Records Care Summary Page ', () => {
   });
 
   it('Progress Note Details', () => {
-    // Verify Care Summary Page title
-    NotesListPage.verifyCareSummariesAndNotesPageTitle();
-
-    NotesDetailsPage.clickProgressNoteLink(0);
+    NotesDetailsPage.clickProgressNoteLink(3);
 
     NotesDetailsPage.verifyProgressNoteTitle(
       notes.entry[0].resource.content[0].attachment.title,
@@ -27,12 +24,12 @@ describe('Medical Records Care Summary Page ', () => {
     NotesDetailsPage.verifyProgressNoteLocation(
       notes.entry[0].resource.contained[1].name,
     );
-    // Verify Progress Note Details Signed by
-    NotesDetailsPage.verifyProgressNoteSignedBy(
+    // Verify Progress Note Details Written by
+    NotesDetailsPage.verifyProgressNoteWrittenBy(
       notes.entry[0].resource.contained[0].name[0].text,
     );
-    // Verify Progress Note Details Cosigned by
-    NotesDetailsPage.verifyProgressNoteCoSignedBy(
+    // Verify Progress Note Details Signed by
+    NotesDetailsPage.verifyProgressNoteSignedBy(
       notes.entry[0].resource.contained[2].name[0].text,
     );
     // Verify Progress Note Details Signed Date

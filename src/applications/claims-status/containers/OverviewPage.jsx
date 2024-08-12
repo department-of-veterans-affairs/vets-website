@@ -2,23 +2,27 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import { clearNotification } from '../actions';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
 import ClaimTimeline from '../components/ClaimTimeline';
-import ClaimOverviewHeader from '../components/ClaimOverviewHeader';
+import ClaimOverviewHeader from '../components/claim-overview-tab/ClaimOverviewHeader';
+import DesktopClaimPhaseDiagram from '../components/claim-overview-tab/DesktopClaimPhaseDiagram';
+import MobileClaimPhaseDiagram from '../components/claim-overview-tab/MobileClaimPhaseDiagram';
+
 import {
-  buildDateFormatter,
   claimAvailable,
-  getClaimType,
   getItemDate,
   getStatusMap,
   getTrackedItemDate,
   getUserPhase,
-  setDocumentTitle,
+  isDisabilityCompensationClaim,
+  setPageFocus,
+  setTabDocumentTitle,
 } from '../utils/helpers';
-import { setUpPage, isTab, setFocus } from '../utils/page';
+import { setUpPage, isTab } from '../utils/page';
+import ClaimPhaseStepper from '../components/claim-overview-tab/ClaimPhaseStepper';
 
 // HELPERS
 const STATUSES = getStatusMap();
@@ -149,29 +153,23 @@ const generateEventTimeline = claim => {
 
 class OverviewPage extends React.Component {
   componentDidMount() {
-    this.setTitle();
+    const { claim } = this.props;
+    setTabDocumentTitle(claim, 'Overview');
 
-    if (!isTab(this.props.lastPage)) {
-      if (!this.props.loading) {
-        setUpPage();
-      } else {
-        scrollToTop();
-      }
-    } else {
-      setFocus('#tabPanelStatus');
-    }
+    setTimeout(() => {
+      const { lastPage, loading } = this.props;
+      setPageFocus(lastPage, loading);
+    }, 100);
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      !this.props.loading &&
-      prevProps.loading &&
-      !isTab(this.props.lastPage)
-    ) {
+    const { claim, lastPage, loading } = this.props;
+
+    if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
-    if (this.props.loading !== prevProps.loading) {
-      this.setTitle();
+    if (loading !== prevProps.loading) {
+      setTabDocumentTitle(claim, 'Overview');
     }
   }
 
@@ -187,32 +185,46 @@ class OverviewPage extends React.Component {
       return null;
     }
 
-    const { claimPhaseDates } = claim.attributes;
+    const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
+    const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
 
     return (
       <div className="overview-container">
-        <ClaimOverviewHeader />
-        <ClaimTimeline
-          id={claim.id}
-          phase={getPhaseFromStatus(claimPhaseDates.latestPhaseType)}
-          currentPhaseBack={claimPhaseDates.currentPhaseBack}
-          events={generateEventTimeline(claim)}
-        />
+        <ClaimOverviewHeader claimTypeCode={claimTypeCode} />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstClaimPhases}>
+          <Toggler.Enabled>
+            {isDisabilityCompensationClaim(claimTypeCode) ? (
+              <>
+                <div className="claim-phase-diagram">
+                  <MobileClaimPhaseDiagram currentPhase={currentPhase} />
+                  <DesktopClaimPhaseDiagram currentPhase={currentPhase} />
+                </div>
+                <ClaimPhaseStepper
+                  claimDate={claimDate}
+                  currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
+                  currentPhase={currentPhase}
+                />
+              </>
+            ) : (
+              <ClaimTimeline
+                id={claim.id}
+                phase={currentPhase}
+                currentPhaseBack={claimPhaseDates.currentPhaseBack}
+                events={generateEventTimeline(claim)}
+              />
+            )}
+          </Toggler.Enabled>
+          <Toggler.Disabled>
+            <ClaimTimeline
+              id={claim.id}
+              phase={currentPhase}
+              currentPhaseBack={claimPhaseDates.currentPhaseBack}
+              events={generateEventTimeline(claim)}
+            />
+          </Toggler.Disabled>
+        </Toggler>
       </div>
     );
-  }
-
-  setTitle() {
-    const { claim } = this.props;
-
-    if (claimAvailable(claim)) {
-      const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-      const claimType = getClaimType(claim);
-      const title = `Overview Of ${claimDate} ${claimType} Claim`;
-      setDocumentTitle(title);
-    } else {
-      setDocumentTitle('Overview Of Your Claim');
-    }
   }
 
   render() {

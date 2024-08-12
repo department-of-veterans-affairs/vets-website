@@ -5,6 +5,8 @@ import {
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as apiCalls from '../../api/SmApi';
 import { Actions } from '../../util/actionTypes';
 import {
   runAdvancedSearch,
@@ -49,6 +51,26 @@ describe('search actions', () => {
     expect(store.getActions()).to.deep.include({
       type: Actions.Search.RUN_ADVANCED,
       response: { folder: inbox, keyword, query, data: matches },
+    });
+  });
+
+  it('should call searchFolderAdvanced with arg true when isPilot', async () => {
+    const keyword = 'test';
+    const query = { category: 'covid', queryData: {} };
+    const isPilot = true;
+    const isPilotState = {
+      sm: {
+        app: {
+          isPilot,
+        },
+      },
+    };
+    const searchFolderAdvancedSpy = sinon.spy(apiCalls, 'searchFolderAdvanced');
+    const store = mockStore(isPilotState);
+    mockApiRequest(searchResponse);
+    await store.dispatch(runAdvancedSearch(inbox, query, keyword)).then(() => {
+      expect(searchFolderAdvancedSpy.calledWith(inbox.folderId, query, isPilot))
+        .to.be.true;
     });
   });
 

@@ -1,16 +1,5 @@
 import React from 'react';
 
-export const HasEvidenceLabel = () => {
-  const content =
-    'Do you want to upload any other documents or evidence at this time?';
-
-  return (
-    <>
-      {content} <span className="schemaform-required-span">(*Required)</span>
-    </>
-  );
-};
-
 export const evidenceTypeTitle = (
   <h3 className="vads-u-font-size--h4">
     What type of evidence do you want to submit as part of your claim?

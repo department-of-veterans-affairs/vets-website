@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -33,9 +32,7 @@ export default function RequestListItem({ appointment, facility }) {
   const typeOfCareText = sentenceCase(appointment.type?.coding?.[0]?.display);
   const ccFacilityName = getPreferredCommunityCareProviderName(appointment);
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const preferredDate = moment(appointment.requestedPeriod[0].start).format(
-    'MMMM D, YYYY',
-  );
+  const preferredDate = appointment?.preferredDate;
   const idClickable = `id-${appointment.id?.replace('.', '\\.')}`;
 
   const featureBreadcrumbUrlUpdate = useSelector(state =>
@@ -90,10 +87,9 @@ export default function RequestListItem({ appointment, facility }) {
             text="Details"
             data-testid="appointment-detail-link"
           />
-          <i
-            aria-hidden="true"
-            className="fas fa-chevron-right vads-u-color--link-default vads-u-margin-left--1"
-          />
+          <span className="vads-u-color--link-default vads-u-margin-left--1">
+            <va-icon icon="navigate_next" size="3" aria-hidden="true" />
+          </span>
         </div>
       </div>
     </li>

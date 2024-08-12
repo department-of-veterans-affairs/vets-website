@@ -49,7 +49,6 @@ export {
   replaceWithStagingDomain,
   replaceDomainsInData,
 } from './environment/stagingDomains';
-export { default as isVATeamSiteSubdomain } from './environment/va-subdomain';
 
 /* feature-toggles */
 export {

@@ -21,7 +21,7 @@ const ConfirmCancelModal = props => {
 
   return (
     <VaModal
-      modalTitle="Are you sure?"
+      modalTitle="Cancel changes?"
       status="warning"
       visible={isVisible}
       onCloseEvent={onHide}

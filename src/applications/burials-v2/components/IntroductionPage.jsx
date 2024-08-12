@@ -49,7 +49,7 @@ const IntroductionPage = ({ route }) => {
           </p>
           <p>
             <strong>
-              You’ll also need to provide copies of these documents:
+              You may also need to provide copies of these documents:
             </strong>
           </p>
           <ul>
@@ -65,21 +65,27 @@ const IntroductionPage = ({ route }) => {
             We also recommend providing a copy of the Veteran’s DD214 or other
             separation documents, you can request these documents now.
           </p>
-          <va-link
-            href="/records/get-military-service-records/"
-            text="Learn more about requesting military service records"
-          />
+          <p>
+            If you don’t have their DD214 or other separation documents, you can
+            request these documents now.
+            <br />
+            <va-link
+              href="/records/get-military-service-records/"
+              text="Learn more about requesting military service records"
+            />
+          </p>
           <p>
             <strong>What if I need help with my application?</strong>
           </p>
           <p>
-            An accredited representative, like a Veterans Service Officer (VSO),
-            can help you fill out your application.
+            An accredited representative, like a Veterans Service Organization
+            (VSO), can help you fill out your application.
+            <br />
+            <va-link
+              href="/disability/get-help-filing-claim/"
+              text="Learn more about getting help from an accredited representative"
+            />
           </p>
-          <va-link
-            href="/disability/get-help-filing-claim/"
-            text="Learn more about getting help from an accredited representative"
-          />
         </va-process-list-item>
         <va-process-list-item header="Apply">
           <p>

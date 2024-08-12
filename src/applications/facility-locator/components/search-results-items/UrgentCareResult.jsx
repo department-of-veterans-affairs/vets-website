@@ -7,6 +7,7 @@ import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
 import LocationDistance from './common/LocationDistance';
+import ProviderTraining from './common/ProviderTraining';
 
 const UrgentCareResult = ({ provider, query }) => {
   const { name } = provider.attributes;
@@ -24,6 +25,7 @@ const UrgentCareResult = ({ provider, query }) => {
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
+        <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
         <LocationDirectionsLink
           location={provider}
@@ -36,24 +38,24 @@ const UrgentCareResult = ({ provider, query }) => {
           query={query}
         />
         <p>Call to confirm services and hours</p>
-        <div className="usa-alert usa-alert-info background-color-only vads-u-padding--1  vads-u-font-weight--bold">
-          <i
-            aria-hidden="true"
-            className="fa fa-info-circle vads-u-margin-top--1 icon-base"
-          />
-          <div className="usa-alert-body">
-            <a
-              href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
-              target="_/blank"
-              onClick={() => {
-                // Record event
-                recordEvent({ event: 'cta-primary-button-click' });
-              }}
-            >
-              Learn about your in-network urgent care benefits{' '}
-            </a>
-          </div>
-        </div>
+        <va-alert
+          class="vads-u-margin-top--3"
+          slim
+          status="info"
+          visible
+          full-width="false"
+        >
+          <a
+            href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
+            target="_/blank"
+            onClick={() => {
+              recordEvent({ event: 'cta-primary-button-click' });
+            }}
+          >
+            Learn about your in-network urgent care benefits (opens in a new
+            tab)
+          </a>
+        </va-alert>
       </div>
     </div>
   );

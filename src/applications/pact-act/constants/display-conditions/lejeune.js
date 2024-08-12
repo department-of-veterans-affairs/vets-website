@@ -58,21 +58,22 @@ export const lejeuneDCs = Object.freeze({
         FORK: {
           SHORT: {
             SERVICE_PERIOD: [DURING_BOTH_PERIODS],
+            BURN_PIT_2_1: [YES, NO, NOT_SURE],
             ONE_OF: {
-              BURN_PIT_2_1: [YES],
               BURN_PIT_2_1_1: [YES],
+              BURN_PIT_2_1_2: [YES],
               ORANGE_2_2_B: ORANGE_2_2_B_LOCATIONS,
               ORANGE_2_2_1_B: ORANGE_2_2_1_B_LOCATIONS,
               ORANGE_2_2_2: [YES],
-              RADIATION_2_3_A: [YES],
               RADIATION_2_3_B: RADIATION_2_3_B_LOCATIONS,
             },
           },
           LONG: {
             SERVICE_PERIOD: [DURING_BOTH_PERIODS],
-            BURN_PIT_2_1: [NO, NOT_SURE],
+            BURN_PIT_2_1: [YES, NO, NOT_SURE],
             BURN_PIT_2_1_1: [NO, NOT_SURE],
-            BURN_PIT_2_1_2: [YES, NO, NOT_SURE],
+            BURN_PIT_2_1_2: [NO, NOT_SURE],
+            BURN_PIT_2_1_3: [YES, NO, NOT_SURE],
             ORANGE_2_2_A: [NO, NOT_SURE],
             ORANGE_2_2_1_A: [NO, NOT_SURE],
             ORANGE_2_2_2: [NO, NOT_SURE],

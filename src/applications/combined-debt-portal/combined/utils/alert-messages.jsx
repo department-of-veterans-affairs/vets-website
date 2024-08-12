@@ -10,7 +10,7 @@ const alertMessage = (alertType, appType) => {
         header: `You don’t have any current VA debt or copay bills`,
         body: (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans">
+            <p>
               Our records show you don’t have any current VA benefit debt and
               you haven’t received a copay bill in the past 6 months.
             </p>
@@ -19,13 +19,13 @@ const alertMessage = (alertType, appType) => {
         secondHeader: `What to do if you think you have a VA debt or copay bill:`,
         secondBody: (
           <ul>
-            <li className="vads-u-font-family--sans">
+            <li>
               <strong>For benefit debts</strong>, call the Debt Management
               Center (DMC) at <va-telephone contact="8008270648" /> (
               <va-telephone tty contact="711" />
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </li>
-            <li className="vads-u-font-family--sans">
+            <li>
               <strong>For medical copay bills</strong>, call the VA Health
               Resource Center at <va-telephone contact="8664001238" /> (
               <va-telephone tty contact="711" />
@@ -46,13 +46,13 @@ const alertMessage = (alertType, appType) => {
           <>
             {appType === APP_TYPES.DEBT ? (
               <>
-                <p className="vads-u-font-size--base vads-u-font-family--sans">
+                <p>
                   We’re sorry. Information about{' '}
                   {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you
                   might have is unavailable because something went wrong on our
                   end. Please check back soon.
                 </p>
-                <p className="vads-u-font-family--sans">
+                <p>
                   If you continue having trouble viewing information about your{' '}
                   {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`},
                   contact us online through{' '}
@@ -60,7 +60,7 @@ const alertMessage = (alertType, appType) => {
                 </p>
               </>
             ) : (
-              <p className="vads-u-font-family--sans">
+              <p>
                 Please check back soon. If you continue having trouble viewing
                 information about your copays, call the VA Health Resource
                 Center at <va-telephone contact="8664001238" /> (
@@ -82,7 +82,7 @@ const alertMessage = (alertType, appType) => {
             : `You haven't received a copay bill in the past 6 months`,
         body:
           appType === APP_TYPES.DEBT ? (
-            <p className="vads-u-font-family--sans">
+            <p>
               Our records show you don’t have any current debt related to VA
               benefits. If you think this is incorrect, call the Debt Management
               Center (DMC) at <va-telephone contact="8008270648" /> (
@@ -90,7 +90,7 @@ const alertMessage = (alertType, appType) => {
               ). We’re here Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
             </p>
           ) : (
-            <p className="vads-u-font-family--sans">
+            <p>
               If you think this is incorrect, contact the VA Health Resource
               Center at <va-telephone contact="8664001238" /> (
               <va-telephone tty contact="711" />
@@ -106,7 +106,7 @@ const alertMessage = (alertType, appType) => {
         header: `We can’t access your debt and copay records right now`,
         body: (
           <>
-            <p className="vads-u-font-size--base vads-u-font-family--sans">
+            <p>
               We’re sorry. Information about debts and copays you might have is
               unavailable because something went wrong on our end. Please check
               back soon.
@@ -115,12 +115,19 @@ const alertMessage = (alertType, appType) => {
         ),
         secondHeader: `What you can do`,
         secondBody: (
-          <p className="vads-u-font-family--sans">
-            If you continue having trouble viewing information about your
-            current debts and bills, contact us online through{' '}
-            <a href="https://ask.va.gov">Ask VA</a>
-            ..
-          </p>
+          <>
+            <p>
+              If you continue having trouble viewing information about your
+              current debts and bills, contact us online through{' '}
+              <a href="https://ask.va.gov">Ask VA</a>.
+            </p>
+            <va-link
+              href="https://ask.va.gov"
+              active
+              text="Contact us at Ask VA"
+              class="vads-u-margin-top--2"
+            />
+          </>
         ),
       };
   }

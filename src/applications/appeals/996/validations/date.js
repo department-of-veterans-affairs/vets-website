@@ -15,7 +15,7 @@ export const validateDate = (errors, rawDateString = '') => {
   const hasMessages = addDateErrorMessages(errors, errorMessages, date);
 
   if (!hasMessages && isBefore(date.dateObj, minDate)) {
-    errors.addError(errorMessages.decisions.newerDate);
+    errors.addError(errorMessages.decisions.recentDate);
     date.errors.year = true; // only the year is invalid at this point
   }
 

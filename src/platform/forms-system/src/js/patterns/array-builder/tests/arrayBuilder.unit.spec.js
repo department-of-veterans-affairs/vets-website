@@ -2,7 +2,11 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages, getPageAfterPageKey } from '../arrayBuilder';
+import {
+  arrayBuilderPages,
+  assignGetItemName,
+  getPageAfterPageKey,
+} from '../arrayBuilder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoUI,
@@ -22,28 +26,113 @@ const validYesNoPattern = arrayBuilderYesNoUI({
   required: false,
 });
 
+const validIntroPage = {
+  title: 'Employment history',
+  path: 'employers-intro',
+  uiSchema: {},
+  schema: {},
+};
+
+const validSummaryPage = {
+  title: 'Employment history',
+  path: 'employers-summary',
+  uiSchema: {
+    hasEmployment: validYesNoPattern,
+  },
+  schema: {},
+};
+
+const validFirstPage = {
+  title: 'Name of employer',
+  path: 'employers/name/:index',
+  uiSchema: {},
+  schema: {},
+};
+
+const validLastPage = {
+  title: 'Address of employer',
+  path: 'employers/address/:index',
+  uiSchema: {},
+  schema: {},
+};
+
 const validPages = pageBuilder => ({
-  summaryPage: pageBuilder.summaryPage({
-    title: 'Employment history',
-    path: '/summary',
-    uiSchema: {
-      hasEmployment: validYesNoPattern,
-    },
-    schema: {},
-  }),
-  firstPage: pageBuilder.itemPage({
-    title: 'Name of employer',
-    path: '/name/:index',
-    uiSchema: {},
-    schema: {},
-  }),
-  lastPage: pageBuilder.itemPage({
-    title: 'Address of employer',
-    path: '/address/:index',
-    uiSchema: {},
-    schema: {},
-  }),
+  summaryPage: pageBuilder.summaryPage(validSummaryPage),
+  firstPage: pageBuilder.itemPage(validFirstPage),
+  lastPage: pageBuilder.itemPage(validLastPage),
 });
+
+const validPagesWithIntro = pageBuilder => ({
+  introPage: pageBuilder.introPage(validIntroPage),
+  summaryPage: pageBuilder.summaryPage(validSummaryPage),
+  firstPage: pageBuilder.itemPage(validFirstPage),
+  lastPage: pageBuilder.itemPage(validLastPage),
+});
+
+const mockPageList = [
+  {
+    pageKey: 'introduction',
+    path: '/introduction',
+  },
+  {
+    path: '/mock-custom-page',
+    title: 'Mock Custom Page',
+    uiSchema: {},
+    schema: {},
+    chapterTitle: 'Miscellaneous',
+    chapterKey: 'miscellaneous',
+    pageKey: 'mockCustomPage',
+  },
+  {
+    title: 'Employers',
+    path: '/employers-intro',
+    uiSchema: {},
+    schema: {},
+    chapterTitle: 'Employers',
+    chapterKey: 'arrayMultiPageBuilder',
+    pageKey: 'introPage',
+  },
+  {
+    title: 'Array with multiple page builder summary',
+    path: '/employers-summary',
+    uiSchema: {},
+    schema: {},
+    chapterTitle: 'Array Multi-Page Builder (WIP)',
+    chapterKey: 'arrayMultiPageBuilder',
+    pageKey: 'summaryPage',
+  },
+  {
+    showPagePerItem: true,
+    allowPathWithNoItems: true,
+    arrayPath: 'employers',
+    customPageUsesPagePerItemData: true,
+    title: 'Multiple Page Item Title',
+    path: '/employers/name/:index',
+    uiSchema: {},
+    schema: {},
+    chapterTitle: 'Array Multi-Page Builder (WIP)',
+    chapterKey: 'arrayMultiPageBuilder',
+    pageKey: 'firstPage',
+  },
+  {
+    showPagePerItem: true,
+    allowPathWithNoItems: true,
+    arrayPath: 'employers',
+    customPageUsesPagePerItemData: true,
+    title: 'Multiple Page Item Title',
+    path: '/employers/address/:index',
+    uiSchema: {},
+    schema: {},
+    chapterTitle: 'Array Multi-Page Builder (WIP)',
+    chapterKey: 'arrayMultiPageBuilder',
+    pageKey: 'lastPage',
+  },
+  {
+    pageKey: 'review-and-submit',
+    path: '/review-and-submit',
+    chapterKey: 'review',
+  },
+];
 
 describe('arrayBuilderPages required parameters and props tests', () => {
   it('should throw an error if incorrect config is passed', () => {
@@ -81,9 +170,9 @@ describe('arrayBuilderPages required parameters and props tests', () => {
   it('should throw an error if required is not passed', () => {
     try {
       arrayBuilderPages({ ...validOptions, required: undefined }, validPages);
-      expect(true).to.be.false;
     } catch (e) {
-      expect(e.message).to.include('must include a `required`');
+      expect(e.message).to.include('arrayBuilderPages options must include');
+      expect(e.message).to.include('required');
     }
   });
 
@@ -208,6 +297,40 @@ describe('arrayBuilderPages required parameters and props tests', () => {
     }
   });
 
+  it('should throw error if intro page is not defined first', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        summaryPage: pageBuilder.summaryPage(validSummaryPage),
+        introPage: pageBuilder.introPage(validIntroPage),
+        firstPage: pageBuilder.itemPage(validFirstPage),
+        lastPage: pageBuilder.itemPage(validLastPage),
+      }));
+    } catch (e) {
+      expect(e.message).to.include('must be first and defined only once');
+    }
+  });
+
+  it('should include a summary page', () => {
+    try {
+      arrayBuilderPages(validOptions, pageBuilder => ({
+        introPage: pageBuilder.introPage(validIntroPage),
+        firstPage: pageBuilder.itemPage(validFirstPage),
+        lastPage: pageBuilder.itemPage(validLastPage),
+      }));
+    } catch (e) {
+      expect(e.message).to.include('must include a summary page');
+    }
+  });
+
+  it('should throw error if required is not passed', () => {
+    try {
+      arrayBuilderPages({ ...validOptions, required: undefined }, validPages);
+    } catch (e) {
+      expect(e.message).to.include('arrayBuilderPages options must include');
+      expect(e.message).to.include('required');
+    }
+  });
+
   it('should pass if everything is provided correctly', () => {
     try {
       arrayBuilderPages(validOptions, validPages);
@@ -215,97 +338,116 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       expect(e.message).to.eq('Did not expect error');
     }
   });
+
+  it('should navigate forward correctly on the intro page', () => {
+    const goPath = sinon.spy();
+    const goNextPath = sinon.spy();
+    const pages = arrayBuilderPages(validOptions, validPagesWithIntro);
+
+    let mockFormData = {
+      hasEmployment: true,
+      employers: [
+        {
+          name: 'test',
+          address: '123 test st',
+        },
+      ],
+    };
+
+    let { introPage } = pages;
+    introPage.onNavForward({
+      goPath,
+      goNextPath,
+      formData: mockFormData,
+    });
+    expect(goPath.args[0][0]).to.eql('employers-summary');
+
+    mockFormData = {
+      hasEmployment: true,
+      employers: [],
+    };
+
+    introPage = pages.introPage;
+    introPage.onNavForward({
+      goPath,
+      goNextPath,
+      formData: mockFormData,
+    });
+    expect(goPath.args[1][0]).to.eql('employers/name/0?add=true');
+  });
+
+  it('should navigate forward correctly on the summary page', () => {
+    const goPath = sinon.spy();
+    const pages = arrayBuilderPages(validOptions, validPages);
+
+    let mockFormData = {
+      hasEmployment: true,
+      employers: [
+        {
+          name: 'test',
+          address: '123 test st',
+        },
+      ],
+    };
+
+    const { summaryPage } = pages;
+    summaryPage.onNavForward({
+      goPath,
+      formData: mockFormData,
+      pageList: mockPageList,
+    });
+    expect(goPath.args[0][0]).to.eql('employers/name/1?add=true');
+
+    mockFormData = {
+      hasEmployment: false,
+      employers: [
+        {
+          name: 'test',
+          address: '123 test st',
+        },
+      ],
+    };
+
+    summaryPage.onNavForward({
+      goPath,
+      formData: mockFormData,
+      pageList: mockPageList,
+    });
+    expect(goPath.args[1][0]).to.eql('/review-and-submit');
+  });
+
+  it('should navigate forward correctly on the last item page', () => {
+    const goPath = sinon.spy();
+    const pages = arrayBuilderPages(validOptions, validPages);
+
+    const { lastPage } = pages;
+    lastPage.onNavForward({
+      goPath,
+      urlParams: { add: true },
+      pathname: '/employers/address/0',
+    });
+    expect(goPath.args[0][0]).to.eql('employers-summary');
+
+    lastPage.onNavForward({
+      goPath,
+      urlParams: { edit: true },
+      pathname: '/employers/address/0',
+    });
+    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
+
+    lastPage.onNavForward({
+      goPath,
+      urlParams: { edit: true, review: true },
+      pathname: '/employers/address/0',
+    });
+    expect(goPath.args[2][0]).to.eql('review-and-submit?updated=employer-0');
+  });
 });
 
 describe('getPageAfterPageKey', () => {
   it('should get the next page provided a pageKey', () => {
-    const mockPageList = [
-      {
-        pageKey: 'introduction',
-        path: '/introduction',
-      },
-      {
-        path: '/mock-custom-page',
-        title: 'Mock Custom Page',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Miscellaneous',
-        chapterKey: 'miscellaneous',
-        pageKey: 'mockCustomPage',
-      },
-      {
-        path: '/array-single-page',
-        title: 'Information for Single Page',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Single Page',
-        chapterKey: 'arraySinglePage',
-        pageKey: 'arraySinglePage',
-      },
-      {
-        title: 'Multiple Page Start Title',
-        path: '/array-multiple-page-aggregate',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Multi-Page Aggregate',
-        chapterKey: 'arrayMultiPageAggregate',
-        pageKey: 'multiPageStart',
-      },
-      {
-        title: 'Multiple Page Details Title',
-        path: '/array-multiple-page-aggregate-details/:index',
-        showPagePerItem: true,
-        arrayPath: 'exampleArrayData',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Multi-Page Aggregate',
-        chapterKey: 'arrayMultiPageAggregate',
-        pageKey: 'multiPageItem',
-      },
-      {
-        title: 'Array with multiple page builder summary',
-        path: '/array-multiple-page-builder-summary',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Multi-Page Builder (WIP)',
-        chapterKey: 'arrayMultiPageBuilder',
-        pageKey: 'multiPageBuilderStart',
-      },
-      {
-        showPagePerItem: true,
-        allowPathWithNoItems: true,
-        arrayPath: 'employers',
-        customPageUsesPagePerItemData: true,
-        title: 'Multiple Page Item Title',
-        path: '/array-multiple-page-builder-item-page-1/:index',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Multi-Page Builder (WIP)',
-        chapterKey: 'arrayMultiPageBuilder',
-        pageKey: 'multiPageBuilderStepOne',
-      },
-      {
-        showPagePerItem: true,
-        allowPathWithNoItems: true,
-        arrayPath: 'employers',
-        customPageUsesPagePerItemData: true,
-        title: 'Multiple Page Item Title',
-        path: '/array-multiple-page-builder-item-page-2/:index',
-        uiSchema: {},
-        schema: {},
-        chapterTitle: 'Array Multi-Page Builder (WIP)',
-        chapterKey: 'arrayMultiPageBuilder',
-        pageKey: 'multiPageBuilderStepTwo',
-      },
-      {
-        pageKey: 'review-and-submit',
-        path: '/review-and-submit',
-        chapterKey: 'review',
-      },
-    ];
-
-    let page = getPageAfterPageKey(mockPageList, 'multiPageBuilderStepOne');
-    expect(page.pageKey).to.eq('multiPageBuilderStepTwo');
+    let page = getPageAfterPageKey(mockPageList, 'firstPage');
+    expect(page.pageKey).to.eq('lastPage');
 
     page = getPageAfterPageKey(mockPageList, 'introduction');
     expect(page.pageKey).to.eq('mockCustomPage');
@@ -370,5 +512,66 @@ describe('arrayBuilderPatterns', () => {
         'You must add at least one employer for us to process this form.',
       ),
     ).to.not.exist;
+  });
+});
+
+describe('assignGetItemName', () => {
+  it('should default to looking for object.name for getItemName if not defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test' })).to.eq('test');
+  });
+
+  it('should use getItemName if defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      getItemName: item => item.otherName,
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should use getItemName if defined on text', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.otherName,
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should gracefully return null if we get an exception on getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.value.otherName,
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({})).to.eq(null);
   });
 });

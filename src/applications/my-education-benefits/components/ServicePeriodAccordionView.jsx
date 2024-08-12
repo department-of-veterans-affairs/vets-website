@@ -21,6 +21,7 @@ export default function ServicePeriodAccordionView({ formData }) {
     let key = 0;
     return periods.map(period => (
       <span
+        // eslint-disable-next-line no-plusplus
         key={`service-period-${key++}`}
         className="service-history-details_period"
       >

@@ -2,8 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatList } from '../../../utils/formatters';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
@@ -13,7 +13,7 @@ const TravelReview = props => {
   const { t } = useTranslation();
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { facilitiesToFile } = data;
+  const { appointmentToFile } = data;
   const { jumpToPage, goToNextPage } = useFormRouting(router);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
@@ -37,16 +37,6 @@ const TravelReview = props => {
     jumpToPage('/travel-mileage');
   };
 
-  const claimList = formatList(
-    facilitiesToFile.map(facility => {
-      return `${facility.appointmentCount} ${t('appointments-at', {
-        count: facility.appointmentCount,
-      })} ${facility.facility}`;
-    }),
-    t('and'),
-    false,
-  );
-
   const bodyText = (
     <div data-testid="review-body">
       <p>{t('you-can-submit-your-claim-now-in-this-tool')}</p>
@@ -59,12 +49,25 @@ const TravelReview = props => {
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
-        <dd
-          className="vads-u-margin-top--0p5"
-          data-testid={`claiming-${facilitiesToFile.length}-facilities`}
-        >
-          <span data-testid="claim-list">
-            {t('mileage-only-reimbursement-for')} {claimList}
+        <dd className="vads-u-margin-top--0p5">
+          <span data-testid="claim-info">
+            {`${t('mileage-only-reimbursement-for-your', {
+              facility: appointmentToFile.facility,
+              provider: appointmentToFile.doctorName
+                ? ` ${'with'} ${appointmentToFile.doctorName}`
+                : '',
+              date: {
+                date: utcToZonedTime(
+                  appointmentToFile.startTime,
+                  appointmentToFile.timezone,
+                ),
+                timezone: appointmentToFile.timezone,
+              },
+            })}${
+              appointmentToFile.clinicFriendlyName
+                ? `, ${appointmentToFile.clinicFriendlyName}`
+                : ''
+            }`}
           </span>
         </dd>
       </dl>

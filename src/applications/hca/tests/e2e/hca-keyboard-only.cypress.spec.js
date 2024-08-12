@@ -1,6 +1,6 @@
 import { format, subYears } from 'date-fns';
 import manifest from '../../manifest.json';
-import featureToggles from './fixtures/mocks/feature-toggles-with-tera.json';
+import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
 import mockEnrollmentStatus from './fixtures/mocks/mockEnrollmentStatus.json';
 import mockPrefill from './fixtures/mocks/mockPrefill.json';

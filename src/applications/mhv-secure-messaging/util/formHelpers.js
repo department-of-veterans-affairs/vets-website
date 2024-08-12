@@ -4,9 +4,8 @@ export const focusOnErrorField = () => {
   const errors = document.querySelectorAll('[error]:not([error=""])');
   const firstError =
     errors.length > 0 &&
-    errors[0]?.shadowRoot?.querySelector(
-      '[aria-describedby="error-message"], #error-message, #input-error-message, .usa-error-message',
-    );
+    (errors[0]?.shadowRoot?.querySelector('select, input, textarea') ||
+      errors[0].querySelector('input'));
   if (firstError) {
     focusElement(firstError);
   }

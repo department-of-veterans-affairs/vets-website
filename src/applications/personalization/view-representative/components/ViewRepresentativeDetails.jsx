@@ -8,34 +8,45 @@ export const ViewRepresentativeDetails = props => (
     <ul className="usa-unstyled-list vads-u-margin-top--2" role="list">
       <li>
         <a href="#selectedRepresentative">
-          <i
+          <va-icon
+            icon="arrow_downward"
+            size={3}
+            className="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
             aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
           />
           Your selected representative for claims
         </a>
       </li>
       <li className="vads-u-margin-top--3">
         <a href="#whatCanRepresentativeDo">
-          <i
+          <va-icon
+            icon="arrow_downward"
+            size={3}
+            className="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
             aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
           />
           What can a representative do?
         </a>
       </li>
       <li className="vads-u-margin-top--3">
         <a href="#whatDoesItCost">
-          <i
+          <va-icon
+            icon="arrow_downward"
+            size={3}
+            className="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
             aria-hidden="true"
-            className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
           />
           What does it cost to use a recognized representative or a VSO?
         </a>
       </li>
       <li className="vads-u-margin-top--3">
         <a href="/">
-          <i className="fas fa-arrow-down va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1" />
+          <va-icon
+            icon="arrow_downward"
+            size={3}
+            className="va-c-font-size--xs vads-u-margin-top--1 vads-u-margin-right--1"
+            aria-hidden="true"
+          />
           Need help?
         </a>
       </li>

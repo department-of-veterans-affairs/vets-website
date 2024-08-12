@@ -1,7 +1,6 @@
 // Node modules.
 import React from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { connect } from 'react-redux';
 // Relative imports.
 import SearchForm from '../../containers/SearchForm';
@@ -38,11 +37,9 @@ export const SearchResultsPage = ({
           type="button"
         >
           Change search criteria{' '}
-          <i
-            className={classNames('fa', 'vads-u-padding-left--0p5', {
-              'fa-chevron-down': !showMobileForm,
-              'fa-chevron-up': showMobileForm,
-            })}
+          <va-icon
+            icon={showMobileForm ? 'expand_less' : 'expand_more'}
+            size={3}
           />
         </button>
 

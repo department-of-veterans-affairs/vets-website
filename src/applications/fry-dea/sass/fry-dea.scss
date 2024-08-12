@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
 .process ul.vads-u-margin-bottom--0 {
@@ -48,9 +48,6 @@ legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
 .fry-dea-benefits-list {
   list-style-type: none;
 }
-.fry-dea-benefit-selection-icon {
-  min-width: 28px;
-}
 
 // Review Page
 .fry-dea-review-page-only {
@@ -73,7 +70,7 @@ legend.legend-label.fry-dea-veterans-checkboxes_legend + .form-radio-buttons {
 
 // Benefit Selection Page
 $border-width: 4px;
-$error-left-padding-width: 1.5rem;
+$error-left-padding-width: 0.9375rem;
 #root_benefitSelection-label,
 #root_benefitSelection-label + .schemaform-widget-wrapper {
   border-left: $border-width solid var(--vads-color-primary-alt-dark);
@@ -124,14 +121,11 @@ $error-left-padding-width: 1.5rem;
 #root_benefitSelection-label + .schemaform-widget-wrapper .form-radio-buttons:last-child label {
   padding-bottom: .65em;
 }
-.fa-check-circle {
-  color: var(--vads-color-success-dark);
-}
 // END - Benefit Selection Page
 
 // Confirmation Page: Under Review
 .custom-fry-hr {
-  margin: 1rem 0;
+  margin: 0.625rem 0;
   width: 62/16 + 0em;
 }
 

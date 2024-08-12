@@ -1,9 +1,11 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { ownsHome } from './helpers';
+
+const { homeAcreageMoreThanTwo } = fullSchemaPensions.properties;
 
 /** @type {PageSchema} */
 export default {
@@ -20,7 +22,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      homeAcreageMoreThanTwo: yesNoSchema,
+      homeAcreageMoreThanTwo,
     },
   },
 };

@@ -1,8 +1,8 @@
 export const buildOperatingStatusProps = attrs => {
   const { opStatus, opStatusExtra } = attrs;
-
-  let status;
+  let statusLabel;
   let iconType;
+  let statusType;
 
   if (opStatus === 'normal') {
     return;
@@ -10,27 +10,32 @@ export const buildOperatingStatusProps = attrs => {
 
   switch (opStatus) {
     case 'limited':
-      status = 'Limited services and hours';
+      statusLabel = 'Limited services and hours';
       iconType = 'info-circle';
+      statusType = 'warning';
       break;
     case 'closed':
-      status = 'Facility closed';
+      statusLabel = 'Facility closed';
       iconType = 'exclamation-circle';
+      statusType = 'error';
       break;
     case 'notice':
-      status = 'Facility notice';
+      statusLabel = 'Facility notice';
       iconType = 'exclamation-circle';
+      statusType = 'info';
       break;
     default:
-      status = 'Facility status';
+      statusLabel = 'Facility status';
       iconType = 'exclamation-triangle';
+      statusType = 'info';
   }
 
   // eslint-disable-next-line consistent-return
   return {
     operatingStatusFacility: opStatus,
-    statusLabel: status,
+    statusLabel,
     iconType,
     extraInfo: opStatusExtra,
+    statusType,
   };
 };

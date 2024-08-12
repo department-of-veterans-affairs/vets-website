@@ -47,7 +47,7 @@ export function getReasonCode({ data, isCC, isDS }) {
     appointmentInfo = `${facility}|${modality}|${phone}|${email}|${preferredDates}|${reasonCode}`;
   }
   if (isDS) {
-    appointmentInfo = `reasonCode:${apptReasonCode}`;
+    appointmentInfo = `reason code:${apptReasonCode}`;
     reasonText = `comments:${data.reasonAdditionalInfo.slice(0, 250)}`;
   }
   return {

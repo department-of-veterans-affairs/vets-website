@@ -523,6 +523,9 @@ describe('<ProfilePageHeader>', () => {
         },
       ],
       vetTecProvider: true,
+      cautionFlags: [
+        { title: 'Test caution flag', description: 'Test caution flag' },
+      ],
     };
 
     const screen = renderWithStoreAndRouter(

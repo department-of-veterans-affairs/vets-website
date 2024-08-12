@@ -1,7 +1,8 @@
 // Relative imports.
-import backendServices from 'platform/user/profile/constants/backendServices';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import { getAppUrl } from 'platform/utilities/registry-helpers';
+import backendServices from '~/platform/user/profile/constants/backendServices';
+import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import { getAppUrl } from '~/platform/utilities/registry-helpers';
 import { MHV_ACCOUNT_TYPES } from './constants';
 
 const viewDependentsUrl = getAppUrl('dependents-view-dependents');
@@ -24,6 +25,7 @@ export const CTA_WIDGET_TYPES = {
   EDUCATION_LETTERS: 'education-letters',
   ENROLLMENT_VERIFICATION: 'enrollment-verification',
   GI_BILL_BENEFITS: 'gi-bill-benefits',
+  HA_CPAP_SUPPLIES: 'ha-cpap-supplies',
   HEALTH_RECORDS: 'health-records',
   HEARING_AID_SUPPLIES: 'hearing-aid-supplies',
   HIGHER_LEVEL_REVIEW: 'higher-level-review',
@@ -139,6 +141,19 @@ export const ctaWidgetsLookup = {
     mhvToolName: null,
     requiredServices: backendServices.EVSS_CLAIMS,
     serviceDescription: 'check your GI Bill Benefits',
+  },
+  [CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES]: {
+    id: CTA_WIDGET_TYPES.HA_CPAP_SUPPLIES,
+    deriveToolUrlDetails: () => ({
+      url: '/health-care/order-hearing-aid-or-CPAP-supplies-form',
+      redirect: true,
+    }),
+    hasRequiredMhvAccount: () => false,
+    isHealthTool: false,
+    mhvToolName: null,
+    requiredServices: null,
+    serviceDescription: 'order hearing aid and CPAP supplies',
+    featureToggle: featureFlagNames.haCpapSuppliesCta,
   },
   [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,

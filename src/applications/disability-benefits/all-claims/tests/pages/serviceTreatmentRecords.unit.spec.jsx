@@ -1,20 +1,23 @@
 import React from 'react';
-import { mount } from 'enzyme';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import userEvent from '@testing-library/user-event';
+import { render } from '@testing-library/react';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../config/form';
 
 describe('serviceTreatmentRecords', () => {
-  const errorClass = '.usa-input-error-message';
   const {
     uiSchema,
     schema,
   } = formConfig.chapters.supportingEvidence.pages.serviceTreatmentRecords;
 
   it('should render', () => {
-    const form = mount(
+    render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -24,13 +27,12 @@ describe('serviceTreatmentRecords', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio-option').length).to.equal(2);
   });
 
   it('should submit when "yes" option selected', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -45,15 +47,15 @@ describe('serviceTreatmentRecords', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find(errorClass).length).to.equal(0);
-    form.unmount();
+    expect($('va-radio').error).to.be.null;
   });
 
   it('should submit when user selects "no" to upload', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         uiSchema={uiSchema}
@@ -68,14 +70,9 @@ describe('serviceTreatmentRecords', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
+    expect($('va-radio').error).to.be.null;
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find(errorClass).length).to.equal(0);
-    const noRadioId = form.find('input[value="N"]').props()['aria-describedby'];
-    const alertId = form.find('.service-treatment-records-submit-later').props()
-      .id;
-    expect(noRadioId).to.not.be.undefined;
-    expect(noRadioId).to.eq(alertId);
-    form.unmount();
   });
 });

@@ -31,7 +31,7 @@ describe('editing form', () => {
     h.checkListItemText(h.DEPENDENTSANSWER, h.DEPENDENTS);
     h.getEditLink(0).click();
 
-    // Dependents
+    // Year
     h.verifyElement(h.YEARINPUT);
     h.selectFromDropdown(h.YEARINPUT, h.NEWYEAR);
     h.clickContinue();
@@ -73,8 +73,8 @@ describe('editing form', () => {
     h.typeInInput(h.ZIPINPUT, h.NEWZIP);
     h.clickContinue();
 
-    // // Review
-    // h.verifyElement(h.REVIEWPAGE);
+    // Review
+    h.verifyElement(h.REVIEWPAGE);
     h.checkListItemText(h.ZIPANSWER, h.NEWZIP);
     h.checkListItemText(h.DEPENDENTSANSWER, h.DEPENDENTS);
   });

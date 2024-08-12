@@ -16,7 +16,7 @@ const yourRolePage = {
     type: 'object',
     required: ['yourRole'],
     properties: {
-      yourRole: radioSchema(Object.keys(yourRoleOptions)),
+      yourRole: radioSchema(Object.values(yourRoleOptions)),
     },
   },
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { isNumber } from '../../utils/helpers';
@@ -172,7 +172,7 @@ const DependentAges = ({
   // Determine whether to render inputs or plain text based on mode
   const renderAgeInput = (dependent, i) => (
     <div key={`dependentAge-${i}`}>
-      <VaNumberInput
+      <VaTextInput
         id={`dependentAge-${i}`}
         label={DEPENDENT_AGE_LABELS[i + 1]}
         name={`dependentAge-${i}`}
@@ -181,7 +181,7 @@ const DependentAges = ({
         width="md"
         onBlur={event => handlers.handleBlur(event, i)}
         error={errors[i]}
-        inputMode="numeric"
+        inputmode="numeric"
         required
         min={0}
         max={MAXIMUM_DEPENDENT_AGE}
@@ -266,7 +266,7 @@ const DependentAges = ({
                 {
                   label: continueButtonText,
                   onClick: handlers.onSubmit,
-                  isSubmitting: true, // If this button submits a form
+                  isSubmitting: 'prevent', // If this button submits a form
                 },
               ]}
             />

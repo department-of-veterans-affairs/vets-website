@@ -220,7 +220,7 @@ const EmploymentWorkDates = props => {
             {
               label: handlers.getContinueButtonText(),
               onClick: handlers.onUpdate,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />

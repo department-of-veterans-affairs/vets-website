@@ -4,7 +4,7 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { getConditionsList } from '../actions/conditions';
+import { getConditionsList, reloadRecords } from '../actions/conditions';
 import {
   recordType,
   pageTitles,
@@ -15,11 +15,15 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const HealthConditions = () => {
+  const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.conditions.updatedList,
+  );
   const listState = useSelector(state => state.mr.conditions.listState);
   const conditions = useSelector(state => state.mr.conditions.conditionsList);
-  const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const refresh = useSelector(state => state.mr.refresh);
   const conditionsCurrentAsOf = useSelector(
@@ -34,6 +38,18 @@ const HealthConditions = () => {
     dispatchAction: getConditionsList,
     dispatch,
   });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -62,6 +78,30 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(conditions) &&
+            Array.isArray(updatedRecordList) &&
+            conditions.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+        <va-additional-info
+          trigger="About the codes in some condition names"
+          class="no-print vads-u-margin-bottom--3"
+        >
+          <p>
+            Some of your health conditions may have diagnosis codes in the name
+            that start with SCT or ICD. Providers use these codes to track your
+            health conditions and to communicate with other providers about your
+            care. If you have a question about these codes or a health
+            condition, ask your provider at your next appointment.
+          </p>
+        </va-additional-info>
         <RecordList records={conditions} type={recordType.HEALTH_CONDITIONS} />
       </RecordListSection>
     </>

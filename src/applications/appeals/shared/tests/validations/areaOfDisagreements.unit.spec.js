@@ -46,18 +46,24 @@ describe('hasAreaOfDisagreementChoice && areaOfDisagreementRequired', () => {
   });
 });
 
-describe.skip('areaOfDisagreementMaxLength', () => {
-  it('should show an error when a name is too long', () => {
+describe('areaOfDisagreementMaxLength', () => {
+  it('should set an error when a name is too long', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementMaxLength(
-      errors,
-      'ab '.repeat(MAX_LENGTH.DISAGREEMENT_REASON / 2),
-    );
+    areaOfDisagreementMaxLength(errors, {
+      disagreementOptions: {},
+      otherEntry: 'ab '.repeat(MAX_LENGTH.DISAGREEMENT_REASON / 2),
+    });
     expect(errors.addError.called).to.be.true;
+    expect(errors.addError.args[0][0]).to.eq(
+      'This field should be less than 90 characters',
+    );
   });
-  it('should show an error when a name is not too long', () => {
+  it('should not set an error when a text is not too long', () => {
     const errors = { addError: sinon.spy() };
-    areaOfDisagreementMaxLength(errors, 'test');
+    areaOfDisagreementMaxLength(errors, {
+      disagreementOptions: {},
+      otherEntry: 'test',
+    });
     expect(errors.addError.called).to.be.false;
   });
 });

@@ -11,14 +11,16 @@ const CustomMessaging = () => (
     uswds
   >
     <h2 slot="headline">
-      You can’t manage your direct deposit information right now
+      You can’t manage your direct deposit information online right now
     </h2>
 
     <p>
       We’re updating our systems for online direct deposit management. We expect
-      to complete this work by Thursday, May 2, 2024, at 8:00 p.m. ET.
+      to complete this work by <strong>Monday, July 29, 2024</strong> at 5:00
+      p.m. ET.
     </p>
-    <p className="vads-u-margin-bottom--0">
+
+    <p>
       If you need to manage your direct deposit information for disability
       compensation, pension, or education benefits during this time, call us at{' '}
       <HelpDeskContact />. We’re here Monday through Friday, 8:00 a.m. to 9:00

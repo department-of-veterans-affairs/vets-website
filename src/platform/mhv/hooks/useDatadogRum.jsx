@@ -13,14 +13,12 @@ const initializeDatadogRum = config => {
 };
 
 const setRumUser = user => {
-  if (user.loggedIn && environment.isStaging()) {
-    datadogRum.setUser({
-      id: user.accountUuid || 'no-account-uuid-found',
-    });
-  }
+  datadogRum.setUser({
+    id: user.id || 'no-id-found',
+  });
 };
 
-const useDatadogRum = (config, userInfo) => {
+const useDatadogRum = config => {
   useEffect(
     () => {
       if (
@@ -31,13 +29,25 @@ const useDatadogRum = (config, userInfo) => {
         !window.Mocha
       ) {
         initializeDatadogRum(config);
-        if (userInfo) {
-          setRumUser(userInfo);
-        }
       }
     },
-    [config, userInfo],
+    [config],
   );
 };
 
-export { useDatadogRum };
+// REMINDER: Always be conscience of PII and Datadog
+const setDatadogRumUser = user => {
+  if (
+    // // Prevent RUM from running on local/CI environments.
+    environment.BASE_URL.indexOf('localhost') < 0 &&
+    // Only run if DD is configured.
+    window.DD_RUM?.getInitConfiguration() &&
+    // Not during unit tests
+    !window.Mocha &&
+    user?.id
+  ) {
+    setRumUser({ id: user.id });
+  }
+};
+
+export { useDatadogRum, setDatadogRumUser };

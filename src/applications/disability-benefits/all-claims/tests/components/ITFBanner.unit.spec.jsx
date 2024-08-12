@@ -8,7 +8,7 @@ describe('ITFBanner', () => {
   it('should render an error message', () => {
     const tree = mount(<ITFBanner status="error" />);
     expect(tree.text()).to.contain(
-      'Your Intent to File request didn’t go through',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
     tree.unmount();
   });

@@ -226,7 +226,7 @@ const EmploymentRecord = props => {
             {
               label: 'Continue',
               onClick: updateFormData,
-              isSubmitting: true,
+              isSubmitting: 'prevent',
             },
           ]}
         />

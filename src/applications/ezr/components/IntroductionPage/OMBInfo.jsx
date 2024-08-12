@@ -1,7 +1,7 @@
 import React from 'react';
 
 const OMBInfo = () => {
-  const expDate = '06/30/2024';
+  const expDate = '07/31/2027';
   const ombNum = '2900-0091';
   const resBurden = '27';
   return (
@@ -27,7 +27,7 @@ const OMBInfo = () => {
           VACOPaperworkReduAct@va.gov
         </a>
         . Please refer to OMB Control No. {ombNum} in any correspondence. Do not
-        send your completed VA Form 10-10EZ to this email address.
+        send your completed VA Form 10-10EZR to this email address.
       </p>
 
       <p>

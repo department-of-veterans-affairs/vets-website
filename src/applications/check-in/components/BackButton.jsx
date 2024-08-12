@@ -38,7 +38,7 @@ const BackButton = props => {
     [app, currentPage, action],
   );
 
-  if (previousPage && previousPage === URLS.LOADING) {
+  if (previousPage && previousPage === URLS.VERIFY) {
     return '';
   }
   return (
@@ -48,7 +48,7 @@ const BackButton = props => {
         className="row check-in-back-button columns"
       >
         <Link onClick={handleClick} to={prevUrl} data-testid="back-button">
-          <va-icon icon="chevron_left" size={2} />
+          <va-icon icon="chevron_left" size={3} />
           {text || t('back-to-last-screen')}
         </Link>
       </nav>

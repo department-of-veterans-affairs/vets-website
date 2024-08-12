@@ -12,6 +12,8 @@ import { DefinitionTester } from '@department-of-veterans-affairs/platform-testi
 import {
   testNumberOfWebComponentFields,
   testNumberOfErrorsOnSubmitForWebComponents,
+  testSubmitsWithoutErrors,
+  testNumberOfFieldsByType,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
 import formConfig from '../../../../config/form';
@@ -36,6 +38,18 @@ describe('web component tests', () => {
     schema,
     uiSchema,
     expectedNumberOfErrorsOnSubmitForWebComponents,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(formConfig, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });

@@ -10,7 +10,7 @@
     height: auto;
   }
   .va-sidenav-default-trigger {
-    padding: 5px 0 0 0px;
+    padding: 0;
     background-color: transparent;
     font-weight: bold;
     cursor: pointer;
@@ -20,6 +20,7 @@
     cursor: pointer;
     width: calc(100% - 45px);
     margin-left: 22px;
+    line-height: inherit;
 
     &::after {
       content: "\A";
@@ -32,7 +33,7 @@
       top: 15px;
     }
 
-    i.fa {
+    va-icon {
       font-size: inherit;
       float: right;
       position: absolute;
@@ -72,10 +73,6 @@
       text-align: left;
       text-decoration: none;
       text-transform: uppercase;
-    }
-
-    .fa {
-      color: var(--vads-color-primary);
     }
 
     .line {

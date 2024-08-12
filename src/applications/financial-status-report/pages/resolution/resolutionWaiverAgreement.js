@@ -38,6 +38,7 @@ export const schema = {
       type: 'array',
       items: {
         type: 'object',
+        required: ['resolutionWaiverCheck'],
         properties: {
           resolutionWaiverCheck: {
             type: 'boolean',

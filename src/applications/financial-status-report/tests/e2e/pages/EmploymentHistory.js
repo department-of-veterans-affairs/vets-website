@@ -33,16 +33,17 @@ const fillEmploymentInformation = employer => {
 
     // deduction-checklist
     // spouse-deduction-checklist
-    for (let i = 0; i < employer.deductions.length; i++) {
-      cy.get(
-        `input[type="checkbox"][value='${employer.deductions[i].name}']`,
-      ).check();
-    }
+    employer.deductions.forEach(deduction => {
+      cy.get(`va-checkbox[name="${deduction.name}"]`)
+        .shadow()
+        .find('input')
+        .check({ force: true });
+    });
     cy.get('.usa-button-primary').click();
 
     // deduction-values
     // spouse-deduction-values
-    cy.get('va-number-input')
+    cy.get('va-text-input')
       .as('InputList')
       .should('have.length', employer.deductions.length);
     cy.get('@InputList').each((input, index) => {

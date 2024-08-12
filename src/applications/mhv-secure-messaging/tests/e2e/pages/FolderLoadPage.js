@@ -3,7 +3,10 @@ import mockCategories from '../fixtures/categories-response.json';
 import mockFolders from '../fixtures/folder-response.json';
 import mockToggles from '../fixtures/toggles-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
-import { Data, Assertions, Locators, Paths } from '../utils/constants';
+import mockDraftMessages from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockSentMessages from '../fixtures/sentResponse/sent-messages-response.json';
+import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
+import { Data, Assertions, Locators, Paths, Alerts } from '../utils/constants';
 
 class FolderLoadPage {
   foldersSetup = () => {
@@ -16,9 +19,9 @@ class FolderLoadPage {
     cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER, mockFolders).as(
       'folders',
     );
-    cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
-      'inboxMessages',
-    );
+    // cy.intercept('GET', Paths.INTERCEPT.MESSAGE_FOLDER_THREAD, mockMessages).as(
+    //   'inboxMessages',
+    // );
     cy.visit('my-health/secure-messages/inbox/', {
       onBeforeLoad: win => {
         cy.stub(win, 'print');
@@ -26,38 +29,48 @@ class FolderLoadPage {
     });
   };
 
-  loadFolderMessages = (folderName, folderNumber, folderResponseIndex) => {
+  loadFolders = () => {
+    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
+      'foldersResponse',
+    );
+    cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
+  };
+
+  loadFolderMessages = (
+    folderName,
+    folderNumber,
+    folderResponseIndex,
+    messagesList,
+  ) => {
     this.foldersSetup();
+    this.loadFolders();
     cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}*`, {
       data: mockFolders.data[folderResponseIndex],
     }).as('folderMetaData');
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderNumber}/threads*`,
-      mockMessages,
+      messagesList,
     ).as('folderThreadResponse');
 
-    cy.get(`[data-testid="${folderName}-sidebar"]`).click();
-    cy.wait('@folderMetaData');
-    cy.wait('@folderThreadResponse');
-    cy.wait('@featureToggle');
-    cy.wait('@mockUser');
+    cy.get(`[data-testid=${folderName}]>a`).click({ force: true });
+    // cy.wait('@folderMetaData');
+    // cy.wait('@folderThreadResponse');
+    // cy.wait('@featureToggle');
+    // cy.wait('@mockUser');
   };
 
-  loadInboxMessages = () => {
-    this.loadFolderMessages('inbox', 0, 0);
+  loadDraftMessages = (messagesList = mockDraftMessages) => {
+    this.loadFolderMessages('Drafts', -2, 1, messagesList);
   };
 
-  loadDraftMessages = () => {
-    this.loadFolderMessages('drafts', -2, 1);
+  // this method no longer needed as sent folder link was moved to nav-bar
+  loadSentMessages = (messagesList = mockSentMessages) => {
+    this.loadFolderMessages('Sent', -1, 2, messagesList);
   };
 
-  loadSentMessages = () => {
-    this.loadFolderMessages('sent', -1, 2);
-  };
-
-  loadDeletedMessages = () => {
-    this.loadFolderMessages('trash', -3, 3);
+  loadDeletedMessages = (messagesList = mockTrashMessages) => {
+    this.loadFolderMessages('Deleted', -3, 3, messagesList);
   };
 
   verifyFolderHeaderText = text => {
@@ -84,6 +97,42 @@ class FolderLoadPage {
     cy.get(Locators.ALERTS.PAGIN_LIST).each(el => {
       cy.wrap(el).should('be.visible');
     });
+  };
+
+  backToInbox = () => {
+    cy.get('.sm-breadcrumb-list-item > a').click({ force: true });
+  };
+
+  backToFolder = name => {
+    cy.get(Locators.LINKS.CRUMB)
+      .contains(name)
+      .click({ force: true });
+  };
+
+  verifyBreadCrumbsLength = num => {
+    cy.get(Locators.LINKS.CRUMB).should('have.length', num);
+  };
+
+  verifyBreadCrumbText = (index, text) => {
+    cy.get(Locators.LINKS.CRUMB_LIST).within(() => {
+      cy.get('a')
+        .eq(index)
+        .should('contain.text', text);
+    });
+  };
+
+  verifyUrlError = () => {
+    cy.visit(`${Paths.UI_MAIN}/dummy`);
+    cy.get('[data-testid="secure-messaging"]')
+      .find('h1')
+      .should('have.text', Alerts.PAGE_NOT_FOUND);
+    cy.get('[data-testid="secure-messaging"]')
+      .find('p')
+      .should('have.text', Alerts.TRY_SEARCH);
+    cy.get('#mobile-query').should('be.visible');
+    cy.get('input[type="submit"]').should('be.visible');
+    cy.get('#common-questions').should('be.visible');
+    cy.get('#popular-on-vagov').should('be.visible');
   };
 }
 

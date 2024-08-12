@@ -20,12 +20,12 @@ const relationshipToVeteranPage = {
     }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
-        if (formData.questionAbout === 'MYSELF') {
+        if (formData.questionAbout === 'Myself') {
           return {
             ...formSchema,
             properties: {
               personalRelationship: radioSchema(
-                Object.keys(relationshipOptionsMyself),
+                Object.values(relationshipOptionsMyself),
               ),
             },
           };
@@ -34,7 +34,7 @@ const relationshipToVeteranPage = {
           ...formSchema,
           properties: {
             personalRelationship: radioSchema(
-              Object.keys(relationshipOptionsSomeoneElse),
+              Object.values(relationshipOptionsSomeoneElse),
             ),
           },
         };
@@ -46,7 +46,7 @@ const relationshipToVeteranPage = {
     required: ['personalRelationship'],
     properties: {
       personalRelationship: radioSchema(
-        Object.keys(relationshipOptionsSomeoneElse),
+        Object.values(relationshipOptionsSomeoneElse),
       ),
     },
   },

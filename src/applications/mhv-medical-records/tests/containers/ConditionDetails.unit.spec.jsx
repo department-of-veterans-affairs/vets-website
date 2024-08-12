@@ -9,6 +9,7 @@ import ConditionDetails from '../../containers/ConditionDetails';
 import { convertCondition } from '../../reducers/conditions';
 import condition from '../fixtures/condition.json';
 import conditionWithFieldsMissing from '../fixtures/conditionWithFieldsMissing.json';
+import conditions from '../fixtures/conditions.json';
 
 describe('Condition details container', () => {
   const initialState = {
@@ -40,7 +41,7 @@ describe('Condition details container', () => {
 
   it('displays the condition name', () => {
     const conditionName = screen.getByText(
-      initialState.mr.conditions.conditionDetails.name.split(' (')[0],
+      `Health Conditions: ${initialState.mr.conditions.conditionDetails.name}`,
       {
         exact: true,
         selector: 'h1',
@@ -76,6 +77,41 @@ describe('Condition details container', () => {
   it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
+  });
+
+  it('displays about codes info when there is an SCT or ICD code in the name of the record', () => {
+    expect(
+      screen.getByText('About the code in this condition name', {
+        exact: false,
+      }),
+    ).to.exist;
+  });
+});
+
+describe('Condition details container with record with no ICD/SCT code in the name', () => {
+  const initialState = {
+    mr: { conditions: { conditionDetails: convertCondition(conditions[4]) } },
+    featureToggles: {
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_allow_txt_downloads: true,
+    },
+    user,
+  };
+
+  let screen;
+  beforeEach(() => {
+    screen = renderWithStoreAndRouter(<ConditionDetails runningUnitTest />, {
+      initialState,
+      reducers: reducer,
+      path: '/conditions/6a2be107-501e-458f-8f17-0ada297d34d8',
+    });
+  });
+
+  it('does not display ICD/SCT codes info when there is no SCT or ICD code in the name of the record', () => {
+    const recordDetailsLink = screen.queryByText(
+      'About the code in this condition name',
+    );
+    expect(recordDetailsLink, screen.container).to.not.exist;
   });
 });
 

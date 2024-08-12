@@ -2,15 +2,17 @@ import React, { useLayoutEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-// eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { recordAnswer } from '../../../actions/universal';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { useStorage } from '../../../hooks/useStorage';
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { makeSelectCurrentContext, makeSelectApp } from '../../../selectors';
-import { URLS } from '../../../utils/navigation';
+import {
+  makeSelectCurrentContext,
+  makeSelectApp,
+  makeSelectForm,
+} from '../../../selectors';
 
 import BackButton from '../../BackButton';
 import Wrapper from '../../layout/Wrapper';
@@ -44,8 +46,12 @@ const TravelPage = ({
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
 
+  const selectForm = useMemo(makeSelectForm, []);
+  const { data } = useSelector(selectForm);
+
   const onClick = event => {
     const answer = event.target.attributes.value.value;
+    // const nextPage = getNextPageFromRouter();
     recordEvent({
       event: createAnalyticsSlug(
         `${answer}-to-${pageType}${
@@ -59,7 +65,7 @@ const TravelPage = ({
     if (answer === 'no' && noFunction) {
       noFunction();
     } else if (answer === 'no') {
-      jumpToPage(URLS.DETAILS);
+      jumpToPage(`complete/${data.activeAppointmentId}`);
     } else if (yesFunction) {
       yesFunction();
     } else {
@@ -69,7 +75,7 @@ const TravelPage = ({
   const { getCheckinComplete } = useStorage(app);
   useLayoutEffect(() => {
     if (getCheckinComplete(window)) {
-      jumpToPage(URLS.DETAILS);
+      jumpToPage(`complete/${data.activeAppointmentId}`);
     }
   });
   return (

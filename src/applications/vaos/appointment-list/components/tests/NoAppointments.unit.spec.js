@@ -31,8 +31,6 @@ describe('VAOS Component: NoAppointments', () => {
       .to.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
     userEvent.click(screen.queryByTestId('schedule-appointment-link'));
-
-    expect(screen.history.push.called).to.be.true;
   });
   it('should display additional detail', async () => {
     const screen = renderWithStoreAndRouter(
@@ -52,8 +50,6 @@ describe('VAOS Component: NoAppointments', () => {
     ).to.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
     userEvent.click(screen.queryByTestId('schedule-appointment-link'));
-
-    expect(screen.history.push.called).to.be.true;
   });
   it('should not display schedule an appointment link', async () => {
     const screen = renderWithStoreAndRouter(

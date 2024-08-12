@@ -1,9 +1,17 @@
 import environment from 'platform/utilities/environment';
 import { submitToUrl } from 'platform/forms-system/src/js/actions';
 
-export const buildEventData = ({ informalConference }) => {
+import { showNewHlrContent, hideNewHlrContent } from '../utils/helpers';
+
+export const buildEventData = formData => {
+  const { informalConference, informalConferenceChoice } = formData;
   let informalConf = 'no';
-  if (informalConference !== 'no') {
+  if (
+    (showNewHlrContent(formData) &&
+      informalConferenceChoice &&
+      informalConference !== 'no') ||
+    (hideNewHlrContent(formData) && informalConference !== 'no')
+  ) {
     informalConf = informalConference === 'rep' ? 'yes-with-rep' : 'yes';
   }
   return {

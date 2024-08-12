@@ -1,7 +1,14 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
 .address-change-form-container{
    position: relative;
     .address-submit-btn-auto-width{
         width: auto !important;
+        padding: 12px 30px !important;
+        font-size: 16.96px !important;
+        @media (max-width: $small-screen) {
+            width: 100% !important;
+        }
     }
     .loader{
         position: absolute;
@@ -18,3 +25,12 @@
     opacity: 0 !important;
     position: absolute !important;
 }
+
+.button-container{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+@media (max-width: $small-screen) {
+      flex-direction: column;
+    }
+  }

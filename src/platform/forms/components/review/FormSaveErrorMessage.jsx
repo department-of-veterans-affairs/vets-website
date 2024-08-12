@@ -2,6 +2,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import PropTypes from 'prop-types';
 
 // platform - forms - actions
 import {
@@ -78,8 +79,9 @@ function FormSaveErrorMessage(props) {
           We’re working to fix the problem. Please make sure you’re connected to
           the Internet, and then try saving your {appType} again.
         </p>
-        {saveLink}.
-        {!user.login.currentlyLoggedIn && (
+        {user.login.currentlyLoggedIn ? (
+          <>{saveLink}.</>
+        ) : (
           <p>
             If you don’t have an account, you’ll have to start over. Try
             submitting your {appType} again tomorrow.
@@ -123,3 +125,14 @@ export default withRouter(
     mapDispatchToProps,
   )(FormSaveErrorMessage),
 );
+
+FormSaveErrorMessage.propTypes = {
+  form: PropTypes.object,
+  formConfig: PropTypes.object,
+  location: PropTypes.object,
+  route: PropTypes.object,
+  saveAndRedirectToReturnUrl: PropTypes.func,
+  showLoginModal: PropTypes.bool,
+  toggleLoginModal: PropTypes.func,
+  user: PropTypes.object,
+};

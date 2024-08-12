@@ -14,7 +14,7 @@ const reasonContactPage = {
     type: 'object',
     required: ['contactReason'],
     properties: {
-      contactReason: radioSchema(Object.keys(reasonOptions)),
+      contactReason: radioSchema(Object.values(reasonOptions)),
     },
   },
 };

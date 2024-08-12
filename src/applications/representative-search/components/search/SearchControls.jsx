@@ -110,7 +110,8 @@ const SearchControls = props => {
             >
               <p>
                 <strong>
-                  An accredited Veterans Service Officer (VSO) representative
+                  An accredited Veterans Service Organization (VSO)
+                  representative
                 </strong>{' '}
                 can help you gather evidence, file a claim, or request a
                 decision review. They can also communicate with VA on your
@@ -124,9 +125,9 @@ const SearchControls = props => {
               </p>
               <br />
               <p>
-                Accredited VSO representatives work for Veterans Service
-                Organizations, like the American Legion, Disabled American
-                Veterans, and Veterans of Foreign Wars.
+                Accredited VSO representatives work for organizations like the
+                American Legion, Disabled American Veterans, and Veterans of
+                Foreign Wars.
               </p>
             </va-additional-info>
           </div>
@@ -230,17 +231,12 @@ const SearchControls = props => {
                 <button
                   onClick={handleGeolocationButtonClick}
                   type="button"
-                  className="use-my-location-button"
+                  className="use-my-location-link"
                   aria-label="Use my location"
                   style={{ order: 2 }}
                 >
-                  <va-icon
-                    size={4}
-                    icon="see Storybook for icon names: https://design.va.gov/storybook/?path=/docs/uswds-va-icon--default"
-                    className="use-my-location-icon"
-                    aria-hidden="true"
-                  />
-                  <div className="button-text">Use my location</div>
+                  <va-icon size={4} icon="near_me" aria-hidden="true" />
+                  Use my location
                 </button>
               )}
             </div>

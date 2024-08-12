@@ -46,7 +46,7 @@ describe('VAOS Page: TypeOfFacilityPage', () => {
 
     fireEvent.click(await screen.findByText(/continue »/i));
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'You must provide a response',
     );
   });
 

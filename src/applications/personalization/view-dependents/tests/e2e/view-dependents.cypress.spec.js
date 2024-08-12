@@ -72,17 +72,6 @@ const testServerError = () => {
 
 describe('View VA dependents', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/v0/feature_toggles*', {
-      data: {
-        type: 'feature_toggles',
-        features: [
-          {
-            name: 'va_view_dependents_access',
-            value: true,
-          },
-        ],
-      },
-    });
     cy.login();
   });
 

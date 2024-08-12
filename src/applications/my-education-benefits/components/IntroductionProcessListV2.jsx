@@ -3,9 +3,8 @@ import { connect } from 'react-redux';
 
 function IntroductionProcessListV2() {
   return (
-    <va-process-list uswds="false">
-      <li>
-        <h3>Check your eligibility</h3>
+    <va-process-list>
+      <va-process-list-item header="Check your eligibility">
         <p>Make sure you meet our eligibility requirements before you apply.</p>
         <va-additional-info trigger="What are the Post-9/11 GI Bill eligibility requirements?">
           <p className="vads-u-margin-top--0">
@@ -30,9 +29,8 @@ function IntroductionProcessListV2() {
             </li>
           </ul>
         </va-additional-info>
-      </li>
-      <li>
-        <h3>Gather your information</h3>
+      </va-process-list-item>
+      <va-process-list-item header="Gather your information">
         <p>
           <strong>Here’s what you’ll need to apply</strong>:
         </p>
@@ -40,9 +38,8 @@ function IntroductionProcessListV2() {
           <li>Knowledge of your military service history</li>
           <li>Your current address and contact information</li>
         </ul>
-      </li>
-      <li>
-        <h3>Start your application</h3>
+      </va-process-list-item>
+      <va-process-list-item header="Start your application">
         <p>
           We’ll take you through each step of the process. It should take about
           15 minutes.
@@ -62,7 +59,7 @@ function IntroductionProcessListV2() {
             days. And we’ll contact you if we need more information.
           </p>
         </va-additional-info>
-      </li>
+      </va-process-list-item>
     </va-process-list>
   );
 }

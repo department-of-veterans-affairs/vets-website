@@ -23,7 +23,7 @@ export default {
     pages: {
       optionExplainer: {
         path: 'option-explainer',
-        title: 'Resolution Option Explainer',
+        title: 'Resolution options explainer',
         CustomPage: ResolutionExplainerWidget,
         CustomPageReview: ResolutionExplainerReview,
         uiSchema: {},
@@ -32,7 +32,7 @@ export default {
           !isStreamlinedShortForm(formData) && !isStreamlinedLongForm(formData),
       },
       resolutionOption: {
-        title: 'Resolution Option',
+        title: 'Select resolution option',
         depends: formData =>
           formData.selectedDebtsAndCopays?.length > 0 &&
           !isStreamlinedShortForm(formData) &&
@@ -59,7 +59,7 @@ export default {
         schema: resolutionComment.schema,
       },
       resolutionWaiverCheck: {
-        title: 'Resolution Waiver Agreement',
+        title: 'Resolution waiver agreement',
         depends: formData =>
           formData.selectedDebtsAndCopays?.length > 0 &&
           !isStreamlinedShortForm(formData) &&

@@ -1,9 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 .schemaform-sip-alert .usa-alert-text > ul > li:first-child {
@@ -18,19 +18,19 @@
 #root_claimOwnership-label,
 #root_claimantType-label {
   font-family: "Bitter", "Georgia", "Cambria", "Times New Roman", "Times", serif;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 700;
 
   .schemaform-required-span {
     font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
       Arial, sans-serif;
-    font-size: 1.6rem;
+    font-size: 1rem;
     font-weight: 400;
   }
 }
 
 #root_witnessRelationshipToClaimant-label {
-  margin-bottom: -1.5rem;
+  margin-bottom: -0.9375rem;
   &.usa-input-error-label {
     font-weight: bold;
   }
@@ -52,7 +52,7 @@
 }
 
 .schemaform-label[for="root_witnessRelationshipToClaimant_family-or-friend"] {
-  margin-top: 0.8rem;
+  margin-top: 0.5rem;
 }
 .schemaform-label[for="root_witnessRelationshipToClaimant_coworker-or-supervisor"] {
   margin-top: 0;
@@ -64,23 +64,23 @@
   display: none !important;
 
   & + .schemaform-widget-wrapper {
-    margin-top: 3rem;
+    margin-top: 1.875rem;
   }
 }
 
 .schemaform-label[for="root_witnessRelationshipToVeteran_served-with"] {
-  margin-top: 1.2rem !important;
+  margin-top: 0.75rem !important;
 }
 
 .schemaform-label[for="root_witnessRelationshipToVeteran_family-or-friend"],
 .schemaform-label[for="root_witnessRelationshipToVeteran_coworker-or-supervisor"] {
-  margin-top: 1.5rem !important;
+  margin-top: 0.9375rem !important;
 }
 
 .form-review-panel[data-chapter="statementInfoChapter"] .review-row dt > span {
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto", Arial,
     sans-serif !important;
-  font-size: 1.6rem !important;
+  font-size: 1rem !important;
   font-weight: 400 !important;
 }
 

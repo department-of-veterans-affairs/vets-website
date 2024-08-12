@@ -19,9 +19,14 @@ const initialState = {
   listState: loadStates.PRE_FETCH,
   /**
    * The list of allergies returned from the api
-   * @type {array}
+   * @type {Array}
    */
   allergiesList: undefined,
+  /**
+   * New list of records retrieved. This list is NOT displayed. It must manually be copied into the display list.
+   * @type {Array}
+   */
+  updatedList: undefined,
   /**
    * The condition currently being displayed to the user
    */
@@ -88,16 +93,38 @@ export const allergyReducer = (state = initialState, action) => {
       };
     }
     case Actions.Allergies.GET_LIST: {
+      const oldList = state.allergiesList;
+      const newList =
+        action.response.entry
+          ?.map(allergy => {
+            return convertAllergy(allergy.resource);
+          })
+          .sort((a, b) => new Date(b.date) - new Date(a.date)) || [];
+
       return {
         ...state,
         listCurrentAsOf: action.isCurrent ? new Date() : null,
         listState: loadStates.FETCHED,
-        allergiesList:
-          action.response.entry
-            ?.map(allergy => {
-              return convertAllergy(allergy.resource);
-            })
-            .sort((a, b) => new Date(b.date) - new Date(a.date)) || [],
+        allergiesList: typeof oldList === 'undefined' ? newList : oldList,
+        updatedList: typeof oldList !== 'undefined' ? newList : undefined,
+      };
+    }
+    case Actions.Allergies.COPY_UPDATED_LIST: {
+      const originalList = state.allergiesList;
+      const { updatedList } = state;
+      if (
+        Array.isArray(originalList) &&
+        Array.isArray(updatedList) &&
+        originalList.length !== updatedList.length
+      ) {
+        return {
+          ...state,
+          allergiesList: state.updatedList,
+          updatedList: undefined,
+        };
+      }
+      return {
+        ...state,
       };
     }
     case Actions.Allergies.CLEAR_DETAIL: {

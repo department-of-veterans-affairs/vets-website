@@ -1,4 +1,4 @@
-import moment from 'moment';
+import { getTime } from 'date-fns';
 import manifest from '../../manifest.json';
 import featureToggles from './fixtures/mocks/feature-toggles.json';
 import mockUser from './fixtures/mocks/mockUser';
@@ -43,7 +43,7 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -120,6 +120,10 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     cy.wait('@mockSip');
 
+    // TERA response
+    goToNextPage('/military-service/toxic-exposure');
+    cy.get('[name="root_hasTeraResponse"]').check('N');
+
     // medicaid
     goToNextPage('/insurance-information/medicaid');
     shortFormAdditionalHelpAssertion();
@@ -183,7 +187,7 @@ describe('HCA-Shortform-Authenticated-Low-Disability', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });
@@ -245,7 +249,7 @@ describe('HCA-Shortform-UnAuthenticated', () => {
       statusCode: 200,
       body: {
         formSubmissionId: '123fake-submission-id-567',
-        timestamp: moment().format('YYYY-MM-DD'),
+        timestamp: getTime(new Date()),
       },
     }).as('mockSubmit');
   });

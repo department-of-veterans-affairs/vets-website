@@ -1,5 +1,4 @@
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import moment from 'moment';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min';
@@ -8,12 +7,6 @@ import FacilityPhone from '../../../components/FacilityPhone';
 import VAFacilityLocation from '../../../components/VAFacilityLocation';
 import { selectRequestedAppointmentDetails } from '../../redux/selectors';
 import ListBestTimeToCall from '../ListBestTimeToCall';
-
-const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
 
 export default function CancelPageLayoutRequest() {
   const { id } = useParams();
@@ -27,30 +20,31 @@ export default function CancelPageLayoutRequest() {
     phone,
     preferredDates,
     preferredLanguage,
-    preferredProvider,
     preferredTimesForPhoneCall,
+    provider: preferredProvider,
     typeOfCareName,
     typeOfVisit,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
   );
-  const [reason, otherDetails] = bookingNotes.split(':');
+  let [reason, otherDetails] = bookingNotes.split(':');
+  if (isCC) {
+    reason = null;
+    otherDetails = bookingNotes;
+  }
 
   return (
     <>
-      <h2 className="vads-u-font-size--h3">
+      <h2 className="vads-u-font-size--h3 vads-u-margin-y--0">
         {`Request for ${isCC ? 'community care appointment' : 'appointment'}`}
       </h2>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Preferred date and time
       </h3>
       <ul className="usa-unstyled-list">
-        {preferredDates.map((option, optionIndex) => (
-          <li key={`${id}-option-${optionIndex}`}>
-            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-          </li>
+        {preferredDates.map((date, index) => (
+          <li key={`${id}-option-${index}`}>{date}</li>
         ))}
       </ul>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
@@ -62,15 +56,12 @@ export default function CancelPageLayoutRequest() {
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Scheduling facility
           </h3>
-          <p className="vads-u-margin-top--0">
-            This facility will contact you if we need more information about
-            your request.
-          </p>
           <span>{facility?.name}</span>
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Preferred community care provider
           </h3>
-          {preferredProvider?.name || 'Provider information not available'}
+          {preferredProvider?.providerName ||
+            'Provider information not available'}
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Language you’d prefer the provider speak
           </h3>
@@ -105,10 +96,10 @@ export default function CancelPageLayoutRequest() {
         Details you’d like to share with your provider
       </h3>
       <span>
-        Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+        Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+      <span>Other details: {`${otherDetails || 'Not available'}`}</span>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Your contact details
       </h3>

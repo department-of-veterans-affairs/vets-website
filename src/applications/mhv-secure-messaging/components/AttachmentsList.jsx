@@ -10,6 +10,7 @@ const AttachmentsList = props => {
   const {
     attachments,
     compose,
+    draftSequence,
     reply,
     setAttachments,
     setNavigationError,
@@ -137,7 +138,7 @@ const AttachmentsList = props => {
           >
             <p className="vads-u-margin-y--0">File attached</p>
             <button
-              className="close-success-alert-button vads-u-padding--0p5"
+              className="close-success-alert-button vads-u-padding--0p5 vads-u-color--base"
               id="close-success-alert-button"
               data-testid="close-success-alert-button"
               aria-label="Close notification"
@@ -147,9 +148,9 @@ const AttachmentsList = props => {
                 handleSuccessAlertClose();
               }}
             >
-              <i
-                className="fas fa-times-circle vads-u-color--black"
-                style={{ fontSize: '2.4rem' }}
+              <va-icon
+                icon="cancel"
+                size={3}
                 alt="Close notification icon"
                 aria-hidden="true"
                 role="presentation"
@@ -167,7 +168,7 @@ const AttachmentsList = props => {
                   <span
                     data-dd-privacy="mask"
                     ref={attachmentReference}
-                    className="vads-u-flex--1"
+                    className="vads-u-flex--1 vads-u-align-items--center vads-u-display--flex vads-u-flex-direction--row"
                     role="alert"
                     aria-live="polite"
                     aria-label={
@@ -178,13 +179,18 @@ const AttachmentsList = props => {
                           )}, button available: Remove ${file.name}`
                     }
                   >
-                    <i
-                      className="fas fa-paperclip"
-                      alt="Attachment icon"
-                      aria-hidden="true"
-                    />
-                    <span className="attachment-name-text">{file.name}</span>(
-                    {getSize(file.size || file.attachmentSize)})
+                    <div className="vads-u-flex--auto vads-u-margin-right--0p5 vads-u-color--link-default">
+                      <va-icon
+                        icon="attach_file"
+                        size={2}
+                        alt="Attachment icon"
+                        aria-hidden="true"
+                      />
+                    </div>
+                    <div className="vads-u-flex--1">
+                      <span className="attachment-name-text">{file.name}</span>(
+                      {getSize(file.size || file.attachmentSize)})
+                    </div>
                   </span>
                   <button
                     type="button"
@@ -212,7 +218,7 @@ const AttachmentsList = props => {
                         ? `attachment-link-metadata-${file.id}`
                         : `attachment-link-metadata-for-print-${file.id}`
                     }
-                    href={file.link}
+                    href={file.download}
                     target="_blank"
                     rel="noreferrer"
                     onClick={() => {
@@ -223,9 +229,9 @@ const AttachmentsList = props => {
                       });
                     }}
                   >
-                    <i
+                    <va-icon
                       aria-labelledby={attachmentNameId(file.id)}
-                      className="fas fa-paperclip"
+                      icon="attach_file"
                       aria-hidden="true"
                       alt="Attachment icon"
                     />
@@ -248,6 +254,7 @@ const AttachmentsList = props => {
       </ul>
       {(compose || reply) && (
         <RemoveAttachmentModal
+          draftSequence={draftSequence}
           visible={isModalVisible}
           onClose={() => {
             setIsModalVisible(false);
@@ -258,7 +265,9 @@ const AttachmentsList = props => {
             setIsModalVisible(false);
             removeAttachment(fileToRemove);
           }}
-          data-testid="remove-attachment-modal"
+          data-testid={`remove-attachment-modal${
+            draftSequence ? `-${draftSequence}` : ''
+          }`}
         />
       )}
       {isAttachmentRemoved ? (
@@ -268,7 +277,9 @@ const AttachmentsList = props => {
             role="status"
             aria-live="polite"
             className="sr-only"
-            id="attachment-removed-successfully"
+            id={`attachment-removed-successfully${
+              draftSequence ? `-${draftSequence}` : ''
+            }`}
             data-dd-privacy="mask"
           >
             {`File ${removedAttachmentName} successfully removed. Attach file, button.`}
@@ -283,6 +294,7 @@ AttachmentsList.propTypes = {
   attachFileSuccess: PropTypes.bool,
   attachments: PropTypes.array,
   compose: PropTypes.bool,
+  draftSequence: PropTypes.number,
   editingEnabled: PropTypes.bool,
   forPrint: PropTypes.bool,
   reply: PropTypes.bool,

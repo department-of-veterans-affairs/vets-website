@@ -1,6 +1,6 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-$anchor-font-size: 1.9rem;
+$anchor-font-size: 1.25rem; // == 20px
 
 // Font smoothing adjustment for macOS users
 // https://github.com/department-of-veterans-affairs/va.gov-team/issues/54087
@@ -17,11 +17,11 @@ $anchor-font-size: 1.9rem;
 .mhv-c-indicator::after {
   background-color: var(--vads-color-secondary);
   content: "";
-  height: 1rem;
-  width: 1rem;
-  border-radius: 1rem;
+  height: 0.625rem;
+  width: 0.625rem;
+  border-radius: 0.625rem;
   display: inline-block;
-  margin-left: 1rem;
+  margin-left: 0.625rem;
 }
 
 .mhv-u-list-style--none {
@@ -37,12 +37,12 @@ $anchor-font-size: 1.9rem;
 
   .mhv-c-indicator::after {
     background-color: var(--vads-color-secondary);
-    border-radius: 1rem;
+    border-radius: 0.625rem;
     content: "";
     display: inline-block;
-    height: 1rem;
-    margin-right: .5rem;
-    width: 1rem;
+    height: 0.625rem;
+    margin-right: 0.3125rem;
+    width: 0.625rem;
   }
 
   > a {
@@ -91,25 +91,18 @@ $anchor-font-size: 1.9rem;
     text-decoration: none;
   }
 
-  i::before {
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-font-smoothing: antialiased;
-    display: inline;
-    font-family: "Font Awesome 5 Free";
-    font-style: normal;
-    font-size: 2.4rem;
-    font-variant: normal;
-    line-height: 1;
-    margin-right: 0.8rem;
-    text-rendering: auto;
+  > {
+    span,
+    va-icon {
+      vertical-align: middle;
+    }
   }
+}
 
-  i::before {
-    content: "\f105"; /* fa-angle-right */
-    margin-left: 0.8rem;
-    margin-right: 0;
-    vertical-align: middle;
-  }
+.mhv-c-navlink-external {
+  font-size: $anchor-font-size;
+  display: inline-block;
+  align-items: center;
 }
 
 .visibility\:hidden {
@@ -120,9 +113,42 @@ $anchor-font-size: 1.9rem;
   .mhv-c-navlink {
     display: flex;
     justify-content: space-between;
+  }
+}
 
-    i::before {
-      margin-left: 4rem;
+// Match the va-alert styling.
+.mhv-c-reg-alert {
+  border-left: 0.5rem solid;
+  padding: 1rem 1.25rem 0.875rem 1.875rem;
+  position: relative;
+
+  &.mhv-u-reg-alert-warning {
+    background-color: var(--vads-color-warning-lighter);
+    border-left-color: var(--vads-color-warning);
+  }
+
+  va-icon {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+  }
+
+  h2  {
+    font-size: 21.28px;
+  }
+
+  .mhv-u-reg-alert-body {
+    font-size: 1.06rem;
+  }
+
+  @media (min-width: 64em) {
+    .mhv-u-reg-alert-col {
+      padding-left: 1rem;
+      padding-right: 4rem;
+    }
+
+    va-icon {
+      padding-left: 0.75rem;
     }
   }
 }

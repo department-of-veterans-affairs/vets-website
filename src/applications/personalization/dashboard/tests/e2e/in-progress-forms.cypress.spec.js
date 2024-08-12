@@ -136,33 +136,33 @@ describe('The My VA Dashboard', () => {
     // TODO: add task to properly handle in-progress forms that have expired
   });
 
-  describe('regression test for SiP Forms (#78504)', () => {
+  describe('regression test for SiP Forms (#78504, #81525)', () => {
     beforeEach(() => {
       const now = Date.now() / 1000;
+      const mockMeta = (formId = 0) => ({
+        version: 0,
+        returnUrl: '/#',
+        savedAt: 1604951152710,
+        expiresAt: now + oneYearInSeconds,
+        lastUpdated: 1604951152,
+        inProgressFormId: formId,
+      });
+
       const savedForms = [
         {
           form: '26-1880',
-          metadata: {
-            version: 0,
-            returnUrl: '/#',
-            savedAt: 1604951152710,
-            expiresAt: now + oneYearInSeconds,
-            lastUpdated: 1604951152,
-            inProgressFormId: 5105,
-          },
-          lastUpdated: 1604951152,
+          metadata: mockMeta(5105),
+          lastUpdated: mockMeta.lastUpdated,
         },
         {
           form: '28-8832',
-          metadata: {
-            version: 0,
-            returnUrl: '/#',
-            savedAt: 1611946775267,
-            expiresAt: now + oneYearInSeconds,
-            lastUpdated: 1607012813,
-            inProgressFormId: 5179,
-          },
-          lastUpdated: 1607012813,
+          metadata: mockMeta(5179),
+          lastUpdated: mockMeta.lastUpdated,
+        },
+        {
+          form: '21P-530',
+          metadata: mockMeta(5199),
+          lastUpdated: mockMeta.lastUpdated,
         },
       ];
       mockUser.data.attributes.inProgressForms = savedForms;
@@ -170,9 +170,10 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
 
-    it('should show in-progress 26-1880 and 28-8832 forms', () => {
+    it('should show in-progress 26-1880, 28-8832 and 21P-530 forms', () => {
       cy.findByText(/26-1880/i).should('exist');
       cy.findByText(/28-8832/i).should('exist');
+      cy.findByText(/21P-530/i).should('exist');
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();

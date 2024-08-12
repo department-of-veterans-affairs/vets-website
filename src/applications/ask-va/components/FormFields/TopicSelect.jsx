@@ -1,5 +1,8 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import {
+  VaRadio,
+  VaRadioOption,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -8,7 +11,7 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setTopicID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInTopics } from '../../constants';
+import { URL, envUrl, requireSignInTopics } from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const TopicSelect = props => {
@@ -18,10 +21,7 @@ const TopicSelect = props => {
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const errorMessages = { required: 'Please provide a response' };
 
   const onModalNo = () => {
     onChange('');
@@ -35,17 +35,8 @@ const TopicSelect = props => {
     );
     dispatch(setTopicID(selected.id));
     onChange(selectedValue);
-    setDirty(true);
     if (requireSignInTopics.includes(selectedValue) && !loggedIn)
       setShowModal({ show: true, selected: selectedValue });
-  };
-
-  const handleBlur = () => {
-    setDirty(true);
-  };
-
-  const showError = () => {
-    return dirty && !value ? errorMessages.required : false;
   };
 
   const getApiData = url => {
@@ -64,9 +55,7 @@ const TopicSelect = props => {
   useEffect(
     () => {
       getApiData(
-        `${environment.API_URL}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${
-          URL.GET_TOPICS
-        }`,
+        `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
       );
     },
     [loggedIn],
@@ -81,22 +70,39 @@ const TopicSelect = props => {
 
   return !error ? (
     <>
-      <VaSelect
-        id={id}
-        name={id}
-        value={value}
-        error={showError() || null}
-        onVaSelect={handleChange}
-        onBlur={handleBlur}
-        uswds
-      >
-        <option value="">&nbsp;</option>
-        {apiData.map(topic => (
-          <option key={topic.id} value={topic.attributes.name} id={topic.id}>
-            {topic.attributes.name}
-          </option>
-        ))}
-      </VaSelect>
+      {apiData.length > 15 ? (
+        <VaSelect
+          id={id}
+          name={id}
+          value={value}
+          onVaSelect={handleChange}
+          uswds
+        >
+          <option value="">&nbsp;</option>
+          {apiData.map(topic => (
+            <option key={topic.id} value={topic.attributes.name} id={topic.id}>
+              {topic.attributes.name}
+            </option>
+          ))}
+        </VaSelect>
+      ) : (
+        <VaRadio
+          onVaValueChange={handleChange}
+          className="vads-u-margin-top--neg3"
+          uswds
+        >
+          {apiData.map(topic => (
+            <VaRadioOption
+              key={topic.id}
+              name={topic.attributes.name}
+              id={topic.id}
+              value={topic.attributes.name}
+              label={topic.attributes.name}
+              uswds
+            />
+          ))}
+        </VaRadio>
+      )}
 
       <RequireSignInModal
         onClose={onModalNo}

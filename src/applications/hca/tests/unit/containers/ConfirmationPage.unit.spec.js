@@ -75,7 +75,7 @@ describe('hca ConfirmationPage', () => {
       const { mockStore } = getData({
         submission: {
           response: {
-            timestamp: '2010-01-01',
+            timestamp: 1262322000000,
             formSubmissionId: '3702390024',
           },
         },

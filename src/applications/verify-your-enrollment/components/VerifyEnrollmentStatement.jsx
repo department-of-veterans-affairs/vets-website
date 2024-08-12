@@ -6,7 +6,7 @@ const VerifyEnrollmentStatement = () => {
       <h1>Verify your enrollment</h1>
 
       <p className="va-introtext">
-        VA Form 22-8979 STUDENT VERIFICATION OF ENROLLMENT
+        Student Verification of Enrollment (VA Form 22-8979)
       </p>
     </div>
   );

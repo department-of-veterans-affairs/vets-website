@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 const ConfirmationPrintView = ({ name, timestamp }) => {
   return (
@@ -42,7 +42,7 @@ const ConfirmationPrintView = ({ name, timestamp }) => {
             className="hca-application-date dd-privacy-mask vads-u-margin-bottom--0"
             data-dd-action-name="application date"
           >
-            {moment(timestamp).format('MMM D, YYYY')}
+            {format(new Date(timestamp), 'MMM. d, yyyy')}
           </p>
         </>
       ) : null}

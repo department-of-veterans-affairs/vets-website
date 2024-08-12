@@ -168,7 +168,7 @@ const ProfilePageHeader = ({
         {showLeftIconSection && (
           <div className="usa-width-one-half">
             <IconWithInfo
-              icon="calendar"
+              icon="calendar_today"
               present={lowerType !== 'ojt' && highestDegree}
             >
               {'  '}
@@ -177,18 +177,18 @@ const ProfilePageHeader = ({
                 : highestDegree}{' '}
               program
             </IconWithInfo>
-            <IconWithInfo icon="briefcase" present={lowerType === 'ojt'}>
+            <IconWithInfo icon="work" present={lowerType === 'ojt'}>
               {'   '}
               On-the-job training
             </IconWithInfo>
             <IconWithInfo
-              icon="university"
+              icon="account_balance"
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
               {_.capitalize(lowerType)} school
             </IconWithInfo>
-            <IconWithInfo icon="award" present={accreditationType}>
+            <IconWithInfo icon="bookmark" present={accreditationType}>
               {'   '}
               <LearnMoreLabel
                 text={<>{_.capitalize(accreditationType)} Accreditation</>}
@@ -199,7 +199,7 @@ const ProfilePageHeader = ({
                 buttonId="typeAccredited-button"
               />
             </IconWithInfo>
-            <IconWithInfo icon="building" present>
+            <IconWithInfo icon="location_city" present>
               {'   '}
               Institutional Ownership: {ownershipName || 'N/A'}
             </IconWithInfo>
@@ -208,7 +208,7 @@ const ProfilePageHeader = ({
         {showRightIconSection && (
           <div className="usa-width-one-half">
             <IconWithInfo
-              icon="users"
+              icon="groups"
               present={lowerType && lowerType !== 'ojt'}
             >
               {'   '}
@@ -221,7 +221,7 @@ const ProfilePageHeader = ({
               {'   '}
               {_.capitalize(localeType)} locale
             </IconWithInfo>
-            <IconWithInfo icon="globe" present={website}>
+            <IconWithInfo icon="public" present={website}>
               <a
                 href={website}
                 target="_blank"
@@ -271,7 +271,7 @@ const ProfilePageHeader = ({
               {_.capitalize(programs[0].schoolLocale)} locale
             </IconWithInfo>
           )}
-          <IconWithInfo icon="globe" present={programs.length > 0}>
+          <IconWithInfo icon="public" present={programs.length > 0}>
             <a
               href={programs[0].providerWebsite}
               target="_blank"
@@ -305,7 +305,7 @@ const ProfilePageHeader = ({
               <LearnMoreLabel
                 text={
                   <>
-                    <i className="fa fa-star vads-u-color--gold" />
+                    <va-icon icon="star" size={3} class="vads-u-color--gold" />
                     <strong> Preferred Provider</strong>
                   </>
                 }

@@ -101,7 +101,7 @@ describe('Landing dashboard', () => {
   it('displays a MHV URL Link', () => {
     const screen = setup();
     const link = screen.getByText(
-      `Go back to the previous version of secure messaging`,
+      `Go back to the previous version of secure messaging (opens in new tab)`,
       {
         selector: 'a',
       },

@@ -1,5 +1,5 @@
 import mapValues from 'lodash/mapValues';
-import moment from 'moment';
+import { endOfDay, isAfter, isValid, isWithinInterval } from 'date-fns';
 import vaMedicalFacilities from 'vets-json-schema/dist/vaMedicalFacilities.json';
 
 import set from '~/platform/utilities/data/set';
@@ -205,11 +205,10 @@ export function transform(formConfig, form) {
   }
 
   // use logging to track volume of forms submitted with future discharge dates
+  const { lastDischargeDate } = form.data;
   if (
-    form.data.lastDischargeDate &&
-    moment(form.data.lastDischargeDate, 'YYYY-MM-DD').isAfter(
-      moment().endOf('day'),
-    )
+    lastDischargeDate &&
+    isAfter(new Date(lastDischargeDate), endOfDay(new Date()))
   ) {
     recordEvent({
       event: 'hca-future-discharge-date-submission',
@@ -293,8 +292,14 @@ export function normalizeFullName(name = {}, outputMiddle = false) {
  */
 export function parseVeteranDob(birthdate) {
   if (!birthdate) return null;
-  if (!moment(birthdate).isValid()) return null;
-  if (!moment(birthdate).isBetween('1900-01-01', undefined)) return null;
+  if (!isValid(new Date(birthdate))) return null;
+  if (
+    !isWithinInterval(new Date(birthdate), {
+      start: new Date('1900-01-01'),
+      end: endOfDay(new Date()),
+    })
+  )
+    return null;
   return birthdate;
 }
 

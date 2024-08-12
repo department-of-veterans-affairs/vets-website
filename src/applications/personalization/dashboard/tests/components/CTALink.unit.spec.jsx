@@ -15,7 +15,7 @@ describe('<CTALink />', () => {
 
     expect(tree.getByTestId('12345')).to.not.be.null;
     expect(tree.getByText(linkText)).to.not.be.null;
-    expect(tree.container.querySelector('i.fa-chevron-right')).to.be.null;
+    expect(tree.container.querySelector('va-icon')).to.be.null;
     tree.unmount();
   });
 
@@ -38,7 +38,7 @@ describe('<CTALink />', () => {
       />,
     );
 
-    expect(tree.container.querySelector('i.fa-chevron-right')).to.not.be.null;
+    expect(tree.container.querySelector('va-icon')).to.not.be.null;
     tree.unmount();
   });
 

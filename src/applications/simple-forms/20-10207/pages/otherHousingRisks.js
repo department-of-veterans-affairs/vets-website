@@ -10,9 +10,6 @@ export default {
     otherHousingRisks: {
       'ui:title': 'Tell us about other housing risks you are experiencing',
       'ui:webComponentField': VaTextareaField,
-      'ui:errorMessages': {
-        required: 'List other housing risks you are experiencing',
-      },
       'ui:options': {
         charcount: true,
       },
@@ -33,6 +30,5 @@ export default {
         properties: {},
       },
     },
-    required: ['otherHousingRisks'],
   },
 };

@@ -92,13 +92,11 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileContacts: true,
-            profileHideDirectDeposit: false,
+            profileHideDirectDeposit: true,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,
             profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
-            profileShowProofOfVeteranStatus: true,
             profileShowQuickSubmitNotificationSetting: true,
             profileUseExperimental: true,
             profileUsePowerTools: true,
@@ -106,6 +104,7 @@ const responses = {
             profileShowDirectDepositSingleFormUAT: false,
             profileShowDirectDepositSingleFormAlert: true,
             profileShowDirectDepositSingleFormEduDowntime: true,
+            profileShowPrivacyPolicy: true,
           }),
         ),
       secondsOfDelay,

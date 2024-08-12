@@ -71,7 +71,7 @@ describe('<NameSearchForm>', () => {
     );
 
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const btn = screen.getByRole('button', { name: 'Search' });
@@ -146,7 +146,7 @@ describe('<NameSearchForm>', () => {
       },
     );
     const input = screen.getByLabelText(
-      'School, employer, or training provider',
+      'School, employer, or training provider(*Required)',
     );
     userEvent.type(input, 'Test School');
     const submitButton = screen.getByRole('button', { name: 'Search' });
@@ -394,14 +394,12 @@ describe('<NameSearchForm>', () => {
       const { newValue, expectedBaseUrl } = setupRTL(
         'new jersey',
         null,
-        'Clear filters',
+        'Reset search',
       );
 
       const fetchUrl = fetchStub.firstCall.args[0];
       expect(fetchUrl.startsWith(expectedBaseUrl)).to.be.true;
-      expect(fetchUrl).to.include(
-        `${expectedBaseUrl}?name=${newValue}&page=1&exclude_schools=true&exclude_employers=true&exclude_vettec=true`,
-      );
+      expect(fetchUrl).to.include(`${expectedBaseUrl}?name=${newValue}&page=1`);
     });
     it('should add special-mission-hbcuall when button is clicked ', async () => {
       const { newValue, expectedBaseUrl } = setupRTL(

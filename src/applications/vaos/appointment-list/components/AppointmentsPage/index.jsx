@@ -8,6 +8,7 @@ import DowntimeNotification, {
 import PropTypes from 'prop-types';
 import {
   selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureCCDirectScheduling,
   // selectFeatureBookingExclusion,
 } from '../../../redux/selectors';
 import UpcomingAppointmentsList from '../UpcomingAppointmentsList';
@@ -26,6 +27,7 @@ import RequestedAppointmentsListGroup from '../RequestedAppointmentsListGroup';
 import CernerAlert from '../../../components/CernerAlert';
 // import CernerTransitionAlert from '../../../components/CernerTransitionAlert';
 // import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
+import ReferralAppLink from '../../../referral-appointments/components/ReferralAppLink';
 
 function renderWarningNotification() {
   return (props, childContent) => {
@@ -46,6 +48,10 @@ export default function AppointmentsPage() {
   const location = useLocation();
   const [hasTypeChanged, setHasTypeChanged] = useState(false);
   let [pageTitle] = useState('VA online scheduling');
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
+  );
 
   const pendingAppointments = useSelector(state =>
     selectPendingAppointments(state),
@@ -144,6 +150,14 @@ export default function AppointmentsPage() {
       />
       {/* {!hideScheduleLink() && <ScheduleNewAppointment />} */}
       <ScheduleNewAppointment />
+      {featureCCDirectScheduling && (
+        <div>
+          <ReferralAppLink
+            linkText="Review and manage your appointment notifications"
+            linkPath="/appointment-notifications"
+          />
+        </div>
+      )}
       <AppointmentListNavigation count={count} callback={setHasTypeChanged} />
       <Switch>
         <Route exact path="/">

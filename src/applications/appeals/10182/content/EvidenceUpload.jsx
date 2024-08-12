@@ -30,6 +30,7 @@ export const EvidenceUploadDescription = (
     <ul>
       <li>File types you can upload: {fileTypes()}</li>
       <li>{`Maximum file size: ${MAX_FILE_SIZE_MB}MB`}</li>
+      <li>Maximum file width and height: 78 inches by 101 inches</li>
     </ul>
     <p>
       <em>

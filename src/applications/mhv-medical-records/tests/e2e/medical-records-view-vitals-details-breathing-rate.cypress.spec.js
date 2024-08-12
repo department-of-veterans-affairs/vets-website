@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import defaultVitals from '../fixtures/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,42 +14,54 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Breathing Rate', () => {
     VitalsListPage.goToVitals();
-    // click vitals page Breathing Rate Link
+    // click breathing rate Link
     VitalsListPage.clickLinkByRecordListItemIndex(2);
 
-    // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October',
-      '15 breaths per minute',
-      'ADTP BURNETT',
+      moment
+        .parseZone(defaultVitals.entry[7].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${
+        defaultVitals.entry[7].resource.valueQuantity.value
+      } breaths per minute`,
+      defaultVitals.entry[4].resource.contained[0].name,
       'None noted',
     );
 
-    // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August',
-      '15 breaths per minute',
-      '23 HOUR OBSERVATION',
+      moment
+        .parseZone(defaultVitals.entry[17].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${
+        defaultVitals.entry[17].resource.valueQuantity.value
+      } breaths per minute`,
+      defaultVitals.entry[17].resource.contained[0].name,
       'None noted',
     );
 
-    // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August',
-      '12 breaths per minute',
-      'ADMISSIONS (LOC)',
+      moment
+        .parseZone(defaultVitals.entry[27].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${
+        defaultVitals.entry[27].resource.valueQuantity.value
+      } breaths per minute`,
+      defaultVitals.entry[27].resource.contained[0].name,
       'None noted',
     );
 
-    // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May',
-      '12 breaths per minute',
-      'ADTP SCREENING',
+      moment
+        .parseZone(defaultVitals.entry[37].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${
+        defaultVitals.entry[37].resource.valueQuantity.value
+      } breaths per minute`,
+      defaultVitals.entry[37].resource.contained[0].name,
       'None noted',
     );
 

@@ -1,48 +1,15 @@
+/* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { getObjectsWithAttachmentId } from '../helpers/utilities';
 
-/**
- * Convert a list of strings into an object with boolean
- * keys indicating the presence or absence of a key. E.g.,
- * if given list ['prop1', 'prop2'], return would be:
- * {is_prop1: true, is_prop2: true}
- * @param {array} listOfStr List of health insurance types (e.g., ['ppo', 'medigap'])
- * @returns Object of boolean properties based on list of strings provided, e.g.,:
- * {is_prop1: true, is_prop2: true}
- */
-function listOfStrToBools(listOfStr) {
-  let retVal = {};
-  if (listOfStr !== undefined) {
-    listOfStr
-      .map(key => {
-        return { [`is_${key}`]: true };
-      })
-      .forEach(obj => {
-        retVal = { ...retVal, ...obj };
-      });
-  }
-  return retVal;
-}
-
-/**
- * This function recursively finds all object properties with a value of "yes" or "no"
- * and converts those values in-place to booleans. E.g., if provided obj = {prop1: "yes"},
- * will modify obj so that it === {prop1: true}.
- * @param {object} data Object we're searching for string values to convert to bools
- * @param {number} depth Current recursion depth (used to prevent runaway)
- * @param {number} maxDepth Maximum recursion depth
- * @returns undefined, operates on obj in place
- */
-function yesNoToBool(data, depth = 0, maxDepth = 5) {
-  const obj = data;
-  // Prevent infinite recursion if we somehow have self-referencing object
-  if (depth > maxDepth) return;
-  // Check all keys on current object and recurse if necessary
-  Object.keys(obj).forEach(k => {
-    if (obj[k] === 'yes') obj[k] = true;
-    else if (obj[k] === 'no') obj[k] = false;
-    else if (typeof obj[k] === 'object')
-      yesNoToBool(obj[k], depth + 1, maxDepth);
-  });
+function getPrimaryContact(data) {
+  // For callback API we need to know what data in the form should be
+  // treated as the primary contact.
+  return {
+    name: data?.applicantName ?? false,
+    email: false, // We don't collect email
+    phone: data?.applicantPhone ?? false,
+  };
 }
 
 export default function transformForSubmit(formConfig, form) {
@@ -50,23 +17,40 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
-  // Convert insurance types to array of boolean keys
-  transformedData.applicants.forEach(el => {
-    const app = el; // Updates will be in-place
-    app.applicantPrimaryInsuranceType = listOfStrToBools(
-      app?.applicantPrimaryInsuranceType?.split(',').map(v => v.trim()),
-    );
-    app.applicantSecondaryInsuranceType = listOfStrToBools(
-      app?.applicantSecondaryInsuranceType?.split(',').map(v => v.trim()),
-    );
+  const copyOfData = JSON.parse(JSON.stringify(transformedData));
+
+  copyOfData.applicantMedicareAdvantage =
+    copyOfData.applicantMedicareClass === 'advantage';
+
+  copyOfData.hasOtherHealthInsurance =
+    copyOfData.applicantHasPrimary || copyOfData.applicantHasSecondary;
+
+  if (copyOfData.applicantName?.middle) {
+    copyOfData.applicantName.middle =
+      copyOfData.applicantName?.middle?.charAt(0) ?? '';
+  }
+
+  // Get today's date as YYYY-MM-DD
+  copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
+
+  // Make sure all dates are in MM-DD-YYYY format
+  Object.keys(copyOfData).forEach(key => {
+    if (key.toLowerCase().includes('date')) {
+      const date = copyOfData[key];
+      copyOfData[key] = `${date.slice(5)}-${date.slice(0, 4)}`;
+    }
   });
 
-  // Convert all "yes" or "no" values to true booleans
-  const copyOfData = JSON.parse(JSON.stringify(transformedData));
-  yesNoToBool(copyOfData);
+  copyOfData.supportingDocs = getObjectsWithAttachmentId(copyOfData);
+
+  // Set this for the callback API so it knows who to contact if there's
+  // a status event notification
+  copyOfData.primaryContactInfo = getPrimaryContact(copyOfData);
+
+  copyOfData.statementOfTruthSignature = copyOfData.signature;
 
   return JSON.stringify({
     ...copyOfData,
-    formNumber: formConfig.formId,
+    form_number: formConfig.formId,
   });
 }

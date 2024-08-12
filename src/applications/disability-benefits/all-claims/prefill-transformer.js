@@ -132,11 +132,23 @@ export default function prefillTransformer(pages, formData, metadata) {
     return newData;
   };
 
+  const prefillStartedFormVersion = data => {
+    const newData = _.omit(['startedFormVersion'], data);
+    const { startedFormVersion } = data;
+
+    if (startedFormVersion) {
+      newData.startedFormVersion = startedFormVersion;
+    }
+
+    return newData;
+  };
+
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
+    prefillStartedFormVersion,
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);

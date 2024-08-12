@@ -4,7 +4,7 @@ This package provides a place for shared code and components relevant to My Heal
 
 ## Technical notes
 
-This is configured as a yarn workspace, so code can be imported using the `@department-of-veterans-affairs/my-health` identifier.
+This is configured as a yarn workspace, so code can be imported using the `@department-of-veterans-affairs/mhv` identifier.
 
 For more information, please read [the Platform documentation on "Yarn Workspaces"](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces).
 

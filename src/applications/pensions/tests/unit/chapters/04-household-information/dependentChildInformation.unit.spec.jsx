@@ -11,6 +11,8 @@ import {
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
+import { FakeProvider, testNumberOfFieldsByType } from '../pageTests.spec';
+import { fillRadio } from '../../testHelpers/webComponents';
 
 const definitions = formConfig.defaultDefinitions;
 const {
@@ -216,4 +218,110 @@ describe('Child information page', () => {
 
     expect($('#root_disabledYes', container)).to.not.be.null;
   });
+
+  it('should show warnings', async () => {
+    const data = {
+      'view:hasDependents': true,
+      dependents: [
+        {
+          fullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          childPlaceOfBirth: 'Brooklyn',
+          childSocialSecurityNumber: '111223333',
+          disabled: false,
+          previouslyMarried: false,
+          childDateOfBirth: moment()
+            .subtract(19, 'years')
+            .toISOString(),
+        },
+      ],
+    };
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={data}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+
+    await fillRadio(
+      $('va-radio[name="root_childRelationship"]', container),
+      'ADOPTED',
+    );
+    expect($$('va-alert', container).length).to.equal(1);
+
+    await fillRadio(
+      $('va-radio[name="root_attendingCollege"]', container),
+      'Y',
+    );
+    expect($$('va-alert', container).length).to.equal(2);
+
+    await fillRadio($('va-radio[name="root_disabled"]', container), 'Y');
+    expect($$('va-alert', container).length).to.equal(3);
+  });
+
+  it('should ask if currently married', async () => {
+    const data = {
+      'view:hasDependents': true,
+      dependents: [
+        {
+          fullName: {
+            first: 'Jane',
+            last: 'Doe',
+          },
+          previouslyMarried: true,
+          childDateOfBirth: moment()
+            .subtract(25, 'years')
+            .toISOString(),
+        },
+      ],
+    };
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+          schema={schema}
+          data={data}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+
+    await fillRadio(
+      $('va-radio[name="root_previouslyMarried"]', container),
+      'Y',
+    );
+    expect($('va-radio[name="root_married"]', container).length).not.to.be.null;
+  });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-alert': 1,
+      'va-text-input': 2,
+      'va-checkbox': 1,
+      'va-radio': 4,
+    },
+    'dependent information',
+    dependentData,
+    {
+      arrayPath,
+      pagePerItemIndex: 0,
+    },
+  );
 });

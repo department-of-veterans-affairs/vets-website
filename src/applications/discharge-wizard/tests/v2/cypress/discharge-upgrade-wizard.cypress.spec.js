@@ -141,8 +141,12 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
       h.clickBack();
 
-      //   // REVIEW
-      //   h.verifyUrl(ROUTES.REVIEW);
+      // REVIEW
+      h.verifyUrl(ROUTES.REVIEW);
+
+      // FAILURE_TO_EXHAUST
+      h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
+      h.clickBack();
 
       // PREVIOUS_APPLICATION_TYPE
       h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);

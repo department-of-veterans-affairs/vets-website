@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { cleanup } from '@testing-library/react';
 import { within } from '@testing-library/dom';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 import AccountSecurityContent from '../../../components/account-security/AccountSecurityContent';
 import {
   createCustomProfileState,
   createFeatureTogglesState,
   renderWithProfileReducersAndRouter,
 } from '../../unit-test-helpers';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 describe('AccountSecurityContent component', () => {
   afterEach(cleanup);

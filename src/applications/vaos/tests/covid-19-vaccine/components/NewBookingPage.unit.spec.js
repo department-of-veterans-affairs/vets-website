@@ -8,10 +8,10 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
 import { NewBookingSection } from '../../../covid-19-vaccine';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { createMockFacilityByVersion } from '../../mocks/data';
-import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../mocks/v2';
+import { mockFacilitiesFetch } from '../../mocks/fetch';
+import { createMockFacility } from '../../mocks/data';
+import { mockSchedulingConfigurations } from '../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -37,14 +37,14 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           name: 'A facility',
         }),
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '984',
           name: 'B facility',
         }),
@@ -79,10 +79,10 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
       ...initialState,
     });
 
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
@@ -93,7 +93,7 @@ describe('VAOS vaccine flow: NewBookingSection', () => {
           },
           phone: '5555555555x1234',
         }),
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '984',
           name: 'Facility 2',
         }),

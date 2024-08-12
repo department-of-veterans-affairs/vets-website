@@ -61,28 +61,25 @@ class ProviderDetail extends Component {
         </div>
         {fax && (
           <div>
-            <i className="fa fa-fax" />
+            <va-icon icon="fax" size="3" />
             <strong>Fax number:</strong>
             <br />
-            <i className="fa fa-fw" />
             {fax}
           </div>
         )}
         {email && (
           <div>
-            <i className="fa fa-envelope" />
+            <va-icon icon="mail" size="3" />
             <strong>Email address:</strong>
             <br />
-            <i className="fa fa-fw" />
             <a href={`mailto:${email}`}>{email}</a>
           </div>
         )}
         {website && (
           <div>
-            <i className="fa fa-globe" />
+            <va-icon icon="language" size="3" />
             <strong>Website:</strong>
             <br />
-            <i className="fa fa-fw" />
             <a href={website} rel="noopener noreferrer" target="_blank">
               {website}
             </a>

@@ -1,6 +1,6 @@
-# Form: 21P-527EZ - Application for Veterans Pension
+#### Form 21P-527EZ
 
-## Routes (URLs)
+# Application for Veterans Pension
 
 ### Base URLs
 
@@ -8,106 +8,49 @@
 
 [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez)
 
-Note: All of the following urls are listed with the `va.gov` base url
+### Content
 
-### Introduction
+#### Introduction
 
-[https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/introduction](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/introduction)
+```json
+{
+  "title": "Introduction",
+  "path": "/introduction"
+}
+```
 
-### Chapters and Pages
+#### Chapters and Pages
 
-#### Applicant Information
+The details of the chapters and pages of the form can be found in the generated [structure.json](../structure.json) file. The `generate-form-docs` script outputs the title and page details of each chapter, including page 'titles', 'paths', and 'depends' values. This file serves as a general reference of the structure of the Application for Veterans Pension form.
 
-- Applicant Information
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/applicant/information](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/applicant/information)
+##### How to generate structure.json
 
-#### Military History
+1. Run the `generate-form-docs` script
 
-- Service Periods
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/history](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/history)
-- General History
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/general](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/general)
-- Reserve and National Guard
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/reserve-national-guard](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/reserve-national-guard)
-- Pow Status & Severance Pay
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/pow-severance](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/military/pow-severance)
+This will output the latest form documentation to the 'structure.json' file
 
-#### Work History
-
-- Disability History
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/disability/history](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/disability/history)
-- Employment History
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/employment/history](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/employment/history)
-
-#### Household Information
-
-- Marriage History
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/marriage-info](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/marriage-info)
-- Current Marriage / 1st Marriage / 2nd Marriage / Etc.
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/marriages/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/marriages/:index)
-- Spouse Information (Required if married)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/spouse-info](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/spouse-info)
-- Spouse Marriage History (Required if spouse married more than once)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/spouse-marriages/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/spouse-marriages/:index)
-- Dependent Children
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents)
-- Children Information (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents/children/information/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents/children/information/:index)
-- Children Address (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents/children/address/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/household/dependents/children/address/:index)
-
-#### Financial Disclosure
-
-- Net Worth
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth)
-- Monthly Income
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income)
-- Expected Income
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income)
-- Other Expenses
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses)
-- Spouse Net Worth (Required if married)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth/spouse](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth/spouse)
-- Spouse Monthly Income (Required if married)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income/spouse](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income/spouse)
-- Spouse Expected Income (Required if married)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income/spouse](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income/spouse)
-- Spouse Other Expenses (Required if married)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses/spouse](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses/spouse)
-- Dependents Net Worth (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth/dependents/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/net-worth/dependents/:index)
-- Dependents Monthly Income (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income/dependents/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/monthly-income/dependents/:index)
-- Dependents Expected Income (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income/dependents/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/expected-income/dependents/:index)
-- Dependents Other Expenses (Required if dependents)
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses/dependents/:index](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/financial-disclosure/other-expenses/dependents/:index)
-
-#### Additional Information
-
-- Direct Deposit
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/direct-deposit](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/direct-deposit)
-- Contact Information
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/contact](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/contact)
-- Aid and Attendance and Housebound benefits
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/aid-attendance](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/aid-attendance)
-- Document Upload
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/documents](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/documents)
-- Fully Developed Claim Program
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/fdc](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/additional-information/fdc)
+```sh
+yarn generate-form-docs -- pensions
+```
 
 #### Review and Submit
 
-- Review Application
-  [https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/review-and-submit](https://www.va.gov/pension/apply-for-veteran-pension-form-21p-527ez/review-and-submit)
+```json
+{
+  "title": "Review and submit",
+  "path": "/review-and-submit"
+}
+```
 
-## Context
+### Context
 
 VA Form 21P-527EZ (Application for Veterans Pension) is intended for wartime Veterans who want to file a pension claim.
 
 This form, 21P-527EZ, should not be confused with VA Form 21P-527 (Income, Net Worth, and Employment Statement), which allows Veterans who have already filed a claim for pension benefits to add financial evidence to their existing claim. VA21-527 is paper-only.
 
-### Async and Error Handling for Form Submission
+### Form Submission
+
+#### Async and Error Handling
 
 527EZ is submitted via a POST request to /v0/in_progress_forms/21P-527EZ.
 

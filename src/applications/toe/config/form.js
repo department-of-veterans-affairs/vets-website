@@ -1310,7 +1310,7 @@ const formConfig = {
                 >
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />

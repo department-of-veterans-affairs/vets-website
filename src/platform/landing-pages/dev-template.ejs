@@ -29,7 +29,7 @@
     <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin-- FOR REMOVAL -->
 
     <!-- Scripts and CSS -->
     <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
@@ -52,9 +52,31 @@
 
   <body class="merger">
     <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
+    <% if (typeof minimalHeader !== 'undefined') { %>
+    <!-- Header Minimal -->
+    <div
+      id="header-minimal"
+      class="vads-u-display--none vads-u-background-color--primary-darkest"
+      <% if (minimalHeader.excludePaths) { %>
+        data-exclude-paths='<%= JSON.stringify(minimalHeader.excludePaths).replace(/"/g, "&quot;") %>'
+      <% } %>
+    >
+      <va-header-minimal
+        <% if (minimalHeader.title) { %>
+          header="<%= minimalHeader.title %>"
+        <% } %>
+        <% if (minimalHeader.subtitle) { %>
+          subheader="<%= minimalHeader.subtitle %>"
+        <% } %>
+        <% if (minimalHeader.disableHeadings) { %>
+          disable-headings="<%= minimalHeader.disableHeadings %>"
+        <% } %>
+      ></va-header-minimal>
+    </div>
+    <% } %>
 
-    <!-- Header -->
-    <header class="header" role="banner">
+    <!-- Header Default -->
+    <header class="header" role="banner" id="header-default">
       <!-- Mobile Layout -->
       <div
         data-widget-type="header"

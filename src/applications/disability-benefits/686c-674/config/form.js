@@ -47,7 +47,6 @@ import {
 import {
   studentNameAndSsn,
   studentAddressMarriageTuition,
-  studentSchoolAddress,
   studentTermDates,
   studentLastTerm,
   studentIncomeInformation,
@@ -208,6 +207,8 @@ const formConfig = {
             typeof formData?.currentMarriageInformation?.type === 'string' &&
             formData?.currentMarriageInformation?.type !==
               MARRIAGE_TYPES.ceremonial &&
+            formData?.currentMarriageInformation?.type !==
+              MARRIAGE_TYPES.civil &&
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Additional evidence needed to add spouse',
           path: 'add-spouse-evidence',
@@ -284,15 +285,6 @@ const formConfig = {
           uiSchema: studentAddressMarriageTuition.uiSchema,
           schema: studentAddressMarriageTuition.schema,
           updateFormData: studentAddressMarriageTuition.updateFormData,
-        },
-        studentSchoolAddress: {
-          depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: School addresses',
-          path: 'report-674-student-school-address',
-          uiSchema: studentSchoolAddress.uiSchema,
-          schema: studentSchoolAddress.schema,
         },
         studentTermDates: {
           depends: formData =>

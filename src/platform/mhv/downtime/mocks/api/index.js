@@ -13,7 +13,6 @@ const responses = {
   ...commonResponses,
   'GET /v0/user': user.defaultUser,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
-    mhvLandingPageEnabled: true,
     mhvLandingPagePersonalization: true,
   }),
   'GET /my_health/v1/messaging/folders': folders.allFoldersWithUnreadMessages,

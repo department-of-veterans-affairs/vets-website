@@ -381,4 +381,24 @@ describe('<ClaimPhase>', () => {
       expect($('.claims-evidence-item', container)).to.not.exist;
     });
   });
+
+  it('should mask filenames in DataDog (no PII)', () => {
+    const newActivity = {
+      1: [
+        {
+          type: 'supporting_document',
+          date: '2010-05-04',
+          originalFileName: 'test.txt',
+        },
+      ],
+    };
+
+    const { container } = renderWithRouter(
+      <ClaimPhase id="2" current={1} phase={1} activity={newActivity} />,
+    );
+
+    expect(
+      $('.claims-evidence-item', container).getAttribute('data-dd-privacy'),
+    ).to.equal('mask');
+  });
 });

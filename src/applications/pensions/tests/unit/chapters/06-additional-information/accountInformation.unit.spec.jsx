@@ -12,6 +12,7 @@ import {
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
 } from '../pageTests.spec';
 import getData from '../../../fixtures/mocks/mockStore';
@@ -39,6 +40,18 @@ describe('web component tests', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-alert': 1,
+      'va-text-input': 3,
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });

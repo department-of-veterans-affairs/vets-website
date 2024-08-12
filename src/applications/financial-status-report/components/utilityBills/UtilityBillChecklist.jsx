@@ -10,28 +10,21 @@ const UtilityBillChecklist = () => {
 
   const { utilityRecords = [] } = formData;
 
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return utilityRecords.some(source => source.name === value)
-      ? dispatch(
-          setData({
-            ...formData,
-            utilityRecords: utilityRecords.filter(
-              source => source.name !== value,
-            ),
-          }),
-        )
-      : dispatch(
-          setData({
-            ...formData,
-            utilityRecords: [...utilityRecords, { name: value, amount: '' }],
-          }),
-        );
+  const onChange = ({ name, checked }) => {
+    dispatch(
+      setData({
+        ...formData,
+        utilityRecords: checked
+          ? [...utilityRecords, { name, amount: '' }]
+          : utilityRecords.filter(utility => utility.name !== name),
+      }),
+    );
   };
 
   const isBoxChecked = option => {
     return utilityRecords.some(utility => utility.name === option);
   };
+
   const title = 'Your monthly utility bills';
   const prompt = 'Which of the following utilities do you pay for?';
 

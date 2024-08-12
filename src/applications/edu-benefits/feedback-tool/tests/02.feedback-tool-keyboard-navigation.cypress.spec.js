@@ -17,7 +17,8 @@ context('Keyboard Navigation', () => {
      */
     cy.tabToElement('[name="root_onBehalfOf"]');
 
-    cy.chooseRadio('Myself');
+    // cy.chooseRadio('Myself');
+    cy.get('va-radio-option[value="Myself"]').click();
 
     cy.tabToElement('#2-continueButton');
 

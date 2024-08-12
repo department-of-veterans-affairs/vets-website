@@ -5,39 +5,26 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
-  const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
-  const composePage = new PatientComposePage();
-
   it('Check confirmation message after save draft', () => {
-    site.login();
-    inboxPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
 
-    inboxPage.navigateToComposePage(true);
-    composePage.selectRecipient(requestBody.recipientId);
-    composePage.selectCategory(requestBody.category);
+    PatientInboxPage.navigateToComposePage(true);
+    PatientComposePage.selectRecipient(requestBody.recipientId);
+    PatientComposePage.selectCategory(requestBody.category);
 
-    composePage.getMessageSubjectField().type(`${requestBody.subject}`);
-    composePage
-      .getMessageBodyField()
-      .type(`${requestBody.body}`, { force: true });
-    composePage.saveDraftByKeyboard();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
+    PatientComposePage.getMessageSubjectField().type(`${requestBody.subject}`);
+    PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
+      force: true,
     });
-    // next line is for checking if assertion works properly
-    composePage.verifyDraftSaveButtonOnFocus();
+    PatientComposePage.saveDraftByKeyboard();
 
-    // cy.get('.last-save-time').should('be.focused');
-    // cy.reload();
-    // cy.pause();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+
+    PatientComposePage.verifyDraftSaveButtonOnFocus();
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
   });
 });

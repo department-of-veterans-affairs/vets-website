@@ -36,10 +36,9 @@ export default function AppointmentColumn({
   children,
   className,
   first,
-  icon,
   last,
   padding,
-  size,
+  size = 1,
   style,
   ...props
 }) {
@@ -56,13 +55,6 @@ export default function AppointmentColumn({
       {...props}
       role="cell"
     >
-      {icon && (
-        <i
-          aria-hidden="true"
-          className={classNames('fas', 'vads-u-margin-right--1', icon)}
-        />
-      )}
-
       {children}
     </div>
   );
@@ -80,9 +72,6 @@ AppointmentColumn.propTypes = {
 
   /** First appointment flag */
   first: PropTypes.bool,
-
-  /** Modality icon to display */
-  icon: PropTypes.string,
 
   /** Last appointment flag */
   last: PropTypes.bool,

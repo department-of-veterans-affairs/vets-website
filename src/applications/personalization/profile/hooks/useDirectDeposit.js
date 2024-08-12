@@ -114,11 +114,10 @@ export const useDirectDeposit = () => {
           accountNumber: formData.accountNumber,
           routingNumber: formData.routingNumber,
         },
-        controlInformation,
       };
       dispatch(saveDirectDeposit(payload));
     },
-    [dispatch, formData, controlInformation],
+    [dispatch, formData],
   );
 
   const {

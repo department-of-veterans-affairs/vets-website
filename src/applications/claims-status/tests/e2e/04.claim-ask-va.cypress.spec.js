@@ -7,7 +7,7 @@ describe('Ask VA Claim Test', () => {
     const trackClaimsPage = new TrackClaimsPage();
     trackClaimsPage.loadPage(claimsList, claimDetails, true);
     trackClaimsPage.verifyInProgressClaim(false);
-    trackClaimsPage.verifyNumberOfTrackedItems(3);
+    trackClaimsPage.verifyNumberOfTrackedItems(4);
     trackClaimsPage.verifyNumberOfFiles(15);
     trackClaimsPage.askForClaimDecision();
     cy.expandAccordions();

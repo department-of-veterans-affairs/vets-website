@@ -2,7 +2,9 @@ import fullSchemaPensions from '../../../../config/form';
 
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
+  testNumberOfFieldsByType,
   testNumberOfWebComponentFields,
+  testSubmitsWithoutErrors,
 } from '../pageTests.spec';
 
 describe('Pensions directDeposit', () => {
@@ -27,6 +29,18 @@ describe('Pensions directDeposit', () => {
     schema,
     uiSchema,
     expectedNumberOfErrors,
+    pageTitle,
+  );
+
+  testSubmitsWithoutErrors(fullSchemaPensions, schema, uiSchema, pageTitle);
+
+  testNumberOfFieldsByType(
+    fullSchemaPensions,
+    schema,
+    uiSchema,
+    {
+      'va-radio': 1,
+    },
     pageTitle,
   );
 });

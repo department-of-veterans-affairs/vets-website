@@ -200,6 +200,19 @@
           "status": "NEEDED_FROM_OTHERS",
           "uploaded": false,
           "uploadsAllowed": false
+        },
+        {
+          "closedDate": null,
+          "description": "Automated 5103 Notice Response",
+          "displayName": "Automated 5103 Notice Response",
+          "overdue": false,
+          "receivedDate": "2024-06-13",
+          "requestedDate": "2024-06-13",
+          "suspenseDate": "2024-07-14",
+          "id": 13,
+          "status": "NEEDED_FROM_YOU",
+          "uploaded": false,
+          "uploadsAllowed": true
         }
       ]
     }

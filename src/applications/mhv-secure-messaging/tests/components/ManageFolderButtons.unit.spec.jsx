@@ -53,7 +53,7 @@ describe('Manage Folder Buttons component', () => {
         path: Paths.FOLDERS,
       },
     );
-    fireEvent.click(screen.getByText('Remove folder'));
+    fireEvent.click(screen.getByTestId('remove-folder-button'));
     await waitFor(() => {
       expect(screen.getByTestId('remove-this-folder')).to.have.attribute(
         'visible',
@@ -86,7 +86,7 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    fireEvent.click(screen.getByText('Remove folder'));
+    fireEvent.click(screen.getByTestId('remove-folder-button'));
     fireEvent.click(
       document.querySelector('va-button[text="Yes, remove this folder"]'),
     );
@@ -101,7 +101,7 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    fireEvent.click(screen.getByText('Edit folder name'));
+    fireEvent.click(screen.getByTestId('edit-folder-button'));
 
     const renameModal = screen.getByTestId('rename-folder-modal');
     expect(renameModal).to.have.attribute('visible', 'true');
@@ -117,7 +117,7 @@ describe('Manage Folder Buttons component', () => {
         reducers: reducer,
       },
     );
-    fireEvent.click(screen.getByText('Edit folder name'));
+    fireEvent.click(screen.getByTestId('edit-folder-button'));
     const renameModal = screen.getByTestId('rename-folder-modal');
     const input = renameModal.querySelector('va-text-input');
 

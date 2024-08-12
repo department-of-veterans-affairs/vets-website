@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import classnames from 'classnames';
 import moment from 'moment';
 
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // FIXME: figure out why cypress doesn't like this import.
@@ -147,41 +149,25 @@ class Batteries extends Component {
               </div>
               {currentDate.diff(batterySupply.nextAvailabilityDate, 'days') <
               0 ? (
-                <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
-                  <div className="usa-alert-body">
-                    <h3 className="usa-alert-heading vads-u-font-family--sans">
-                      You can't reorder batteries for this device until{' '}
-                      {moment(batterySupply.nextAvailabilityDate).format(
-                        'MMMM D, YYYY',
-                      )}
-                    </h3>
-                  </div>
-                </div>
+                <va-alert status="warning">
+                  <h3 className="usa-alert-heading vads-u-font-family--sans">
+                    You can't reorder batteries for this device until{' '}
+                    {moment(batterySupply.nextAvailabilityDate).format(
+                      'MMMM D, YYYY',
+                    )}
+                  </h3>
+                </va-alert>
               ) : (
                 <div>
-                  <input
+                  <VaCheckbox
                     id={batterySupply.productId}
                     className="vads-u-margin-left--0"
-                    type="checkbox"
-                    onChange={e =>
+                    onVaChange={e =>
                       this.handleChecked(e.target.checked, batterySupply)
                     }
                     checked={isBatterySelected(batterySupply.productId)}
+                    label="Order batteries for this device"
                   />
-                  <label
-                    className={classnames({
-                      'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
-                      'vads-u-color--white': isBatterySelected(
-                        batterySupply.productId,
-                      ),
-                      'vads-u-background-color--white vads-u-color--primary': !isBatterySelected(
-                        batterySupply.productId,
-                      ),
-                    })}
-                    htmlFor={batterySupply.productId}
-                  >
-                    Order batteries for this device
-                  </label>
                 </div>
               )}
             </div>

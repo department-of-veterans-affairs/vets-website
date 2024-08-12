@@ -1,5 +1,4 @@
 import merge from 'lodash/merge';
-import React from 'react';
 import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
@@ -18,7 +17,6 @@ const { get, omit, set } = dataUtils;
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SchoolSelectField from '../components/SchoolSelectField.jsx';
-// import GetFormHelp from '../../components/GetFormHelp';
 
 import {
   accreditationLabel,
@@ -31,7 +29,6 @@ import {
   PREFILL_FLAGS,
   prefillTransformer,
   qualityLabel,
-  recordApplicantRelationship,
   recruitingLabel,
   refundIssuesLabel,
   studentLoansLabel,
@@ -41,15 +38,16 @@ import {
   transform,
   validateMatch,
 } from '../helpers';
+import { applicantRelationship } from '../pages/index';
 
 import migrations from './migrations';
 
 import manifest from '../manifest.json';
 import NeedHelp from '../components/NeedHelp';
+import { maxCharAllowed } from '../constants';
 
 const {
   address: applicantAddress,
-  anonymousEmail,
   applicantEmail,
   educationDetails,
   fullName,
@@ -57,7 +55,6 @@ const {
   issueDescription,
   issueResolution,
   issueUIDescription,
-  onBehalfOf,
   phone,
   serviceAffiliation,
   serviceBranch,
@@ -189,50 +186,8 @@ const formConfig = {
         applicantRelationship: {
           path: 'applicant-relationship',
           title: 'Applicant Relationship',
-          uiSchema: {
-            'ui:description': recordApplicantRelationship,
-            onBehalfOf: {
-              'ui:widget': 'radio',
-              'ui:title': 'I’m submitting feedback on behalf of...',
-              'ui:options': {
-                nestedContent: {
-                  [myself]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      We’ll only share your name with the school.
-                    </div>
-                  ),
-                  [someoneElse]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Your name is shared with the school, not the name of the
-                      person you’re submitting feedback for.
-                    </div>
-                  ),
-                  [anonymous]: () => (
-                    <div className="usa-alert usa-alert-info background-color-only">
-                      Anonymous feedback is shared with the school. Your
-                      personal information, however, isn’t shared with anyone
-                      outside of VA.
-                    </div>
-                  ),
-                },
-                expandUnderClassNames: 'schemaform-expandUnder',
-              },
-            },
-            anonymousEmail: merge({}, emailUI('Email'), {
-              'ui:options': {
-                expandUnder: 'onBehalfOf',
-                expandUnderCondition: anonymous,
-              },
-            }),
-          },
-          schema: {
-            type: 'object',
-            required: ['onBehalfOf'],
-            properties: {
-              onBehalfOf,
-              anonymousEmail,
-            },
-          },
+          uiSchema: applicantRelationship.default.uiSchema,
+          schema: applicantRelationship.default.schema,
         },
         applicantInformation: {
           path: 'applicant-information',
@@ -624,8 +579,9 @@ const formConfig = {
             },
             issueDescription: {
               'ui:title':
-                'Please write your feedback and any details about your issue in the space below. (32,000 characters maximum)',
+                'Please write your feedback and any details about your issue in the space below.',
               'ui:widget': 'textarea',
+              'ui:description': maxCharAllowed('32,000'),
               'ui:options': {
                 rows: 5,
                 maxLength: 32000,
@@ -633,7 +589,8 @@ const formConfig = {
             },
             issueResolution: {
               'ui:title':
-                'What do you think would be a fair way to resolve your issue? (1,000 characters maximum)',
+                'What do you think would be a fair way to resolve your issue?',
+              'ui:description': maxCharAllowed('1,000'),
               'ui:widget': 'textarea',
               'ui:options': {
                 rows: 5,

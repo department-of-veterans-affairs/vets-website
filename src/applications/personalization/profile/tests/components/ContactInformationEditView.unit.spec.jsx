@@ -26,9 +26,10 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
     emailAddress: {
       'ui:title': 'Email Address',
       'ui:errorMessages': {
-        required: 'Please enter your email address, using this format: X@X.com',
+        required:
+          'You must enter your email address, using this format: X@X.com',
         pattern:
-          'Please enter your email address again, using this format: X@X.com',
+          'You must enter your email address again, using this format: X@X.com',
       },
     },
   };
@@ -140,7 +141,7 @@ describe('<ProfileInformationEditView/> - Email Address', () => {
     it('is visible when the transactionRequest is not pending', () => {
       props.transactionRequest = { isPending: false };
       component = enzyme.mount(<ProfileInformationEditView {...props} />);
-      expect(component.text()).to.include('Cancel');
+      expect(component.html()).to.include('Cancel');
       component.unmount();
     });
   });

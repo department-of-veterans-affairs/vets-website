@@ -1,11 +1,6 @@
 import { expect } from 'chai';
 
-import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
-
-import {
-  wantsToUploadEvidence,
-  noticeOfDisagreementFeature,
-} from '../../utils/helpers';
+import { wantsToUploadEvidence } from '../../utils/helpers';
 
 describe('wantsToUploadEvidence', () => {
   it('should return falsy value', () => {
@@ -34,19 +29,5 @@ describe('wantsToUploadEvidence', () => {
         'view:additionalEvidence': true,
       }),
     ).to.be.true;
-  });
-});
-
-describe('noticeOfDisagreementFeature', () => {
-  it('should return undefined', () => {
-    expect(noticeOfDisagreementFeature({})).to.be.undefined;
-  });
-  it('should return true', () => {
-    const state = {
-      featureToggles: {
-        [FEATURE_FLAG_NAMES.form10182Nod]: true,
-      },
-    };
-    expect(noticeOfDisagreementFeature(state)).to.be.true;
   });
 });

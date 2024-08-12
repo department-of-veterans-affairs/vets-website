@@ -114,12 +114,21 @@ describe('<IntroductionPage/>', () => {
     wrapper.unmount();
   });
 
-  it('should display default prepare overview when not BDD flow', () => {
+  it('should display default process steps when not BDD flow', () => {
     const wrapper = shallow(<IntroductionPage {...defaultProps} showWizard />);
 
     expect(
       wrapper.find('[data-testid="process-step1-prepare"]').text(),
     ).contains('When you file a disability claim');
+    expect(wrapper.find('[data-testid="process-step2-apply"]').text()).contains(
+      'Complete this disability compensation benefits form',
+    );
+    expect(
+      wrapper.find('[data-testid="process-step3-vareview"]').text(),
+    ).contains('We process applications in the order we receive them');
+    expect(
+      wrapper.find('[data-testid="process-step4-decision"]').text(),
+    ).contains('Once we’ve processed your claim');
 
     wrapper.unmount();
   });

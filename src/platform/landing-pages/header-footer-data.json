@@ -87,7 +87,7 @@
       "href": "/ogc/accreditation.asp",
       "order": 3,
       "target": null,
-      "title": "Accredited claims representatives"
+      "title": "Get help from an accredited representative or VSO"
     },
     {
       "column": 2,
@@ -356,7 +356,7 @@
                 },
                 {
                   "text": "Apply now for health care",
-                  "href": "/health-care/apply/application"
+                  "href": "/health-care/apply-for-health-care-form-10-10ez/"
                 }
               ]
             },

@@ -87,7 +87,7 @@ export const addressConvertCleanDataToPayload = (data, fieldName) => {
 
 export const formatAddressTitle = title => title.replace('address', '').trim();
 
-export const getErrorsFromDom = () => $$('.usa-input-error-message');
+export const getErrorsFromDom = () => $$('.usa-input-error-message, [error]');
 
 export const handleUpdateButtonClick = (
   queryForErrors,

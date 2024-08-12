@@ -33,10 +33,7 @@ export default function SelectedProvider({
             recordEvent({ event: `${GA_PREFIX}-choose-provider-click` });
           }}
         >
-          <i
-            className="fas fa-plus vads-u-padding-right--0p5"
-            aria-hidden="true"
-          />
+          <va-icon icon="add" size="3" aria-hidden="true" />
           Find a provider
         </button>
       )}

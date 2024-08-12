@@ -29,13 +29,6 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="chem-hem-ordered-by"]').should('contain', orderedBy);
   };
 
-  verifyLabOrderingLocation = locationOrdered => {
-    cy.get('[data-testid="chem-hem-ordering-location"]').should(
-      'contain',
-      locationOrdered,
-    );
-  };
-
   verifyLabCollectingLocation = locationCollected => {
     cy.get('[data-testid="chem-hem-collecting-location"]').should(
       'contain',
@@ -43,8 +36,12 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     );
   };
 
-  verifyProviderNotes = notes => {
+  verifyProviderNotesSingle = notes => {
     cy.get('[data-testid="list-item-single"]').should('contain', notes);
+  };
+
+  verifyProviderNotesMultiple = notes => {
+    cy.get('[data-testid="list-item-multiple"]').should('contain', notes);
   };
 
   verifyDownloadTextFileHeadless = (

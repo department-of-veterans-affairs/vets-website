@@ -10,14 +10,17 @@ class RepresentativeStatusApi {
       'Content-Type': 'application/json',
       mode: 'cors',
       credentials: 'include',
-      'X-Key-Inflection': 'camel',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+      },
     };
     const startTime = new Date().getTime();
 
     return new Promise((resolve, reject) => {
       fetch(requestUrl, apiSettings)
         .then(response => {
-          if (!response.ok) {
+          if (!response.ok && response.status !== 422) {
             throw Error(response.statusText);
           }
 

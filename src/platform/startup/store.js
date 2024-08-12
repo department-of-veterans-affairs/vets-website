@@ -18,6 +18,7 @@ import drupalStaticData from '../site-wide/drupal-static-data/reducers';
 import login from '../user/authentication/reducers';
 import megaMenu from '../site-wide/mega-menu/reducers';
 import navigation from '../site-wide/user-nav/reducers';
+import layout from '../site-wide/layout/reducers';
 import profile from '../user/profile/reducers';
 import scheduledDowntime from '../monitoring/DowntimeNotification/reducer';
 import { FeatureToggleReducer } from '../site-wide/feature-toggles/reducers';
@@ -40,6 +41,7 @@ export const commonReducer = {
   scheduledDowntime,
   i18State: i18Reducer,
   user: combineReducers({ login, profile }),
+  layout,
   ...brandConsolidatedReducers,
 };
 

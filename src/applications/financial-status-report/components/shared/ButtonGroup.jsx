@@ -19,14 +19,14 @@ const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
 };
 
 Button.defaultProps = {
-  isSubmitting: false,
+  isSubmitting: 'submit',
   isSecondary: false,
 };
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   isSecondary: PropTypes.bool,
-  isSubmitting: PropTypes.bool,
+  isSubmitting: PropTypes.string,
   onClick: PropTypes.func,
 };
 

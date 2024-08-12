@@ -4,20 +4,20 @@ import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-INTEGRATION-schema
 
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 
-import { serviceRecordsUI } from '../../utils/helpers';
+import { selfServiceRecordsUI } from '../../utils/helpers';
 
 const { veteran } = fullSchemaPreNeed.properties.application.properties;
 
 export const uiSchema = {
   application: {
     veteran: {
-      serviceRecords: merge({}, serviceRecordsUI, {
+      serviceRecords: merge({}, selfServiceRecordsUI, {
         'ui:title': 'Sponsor’s service period(s)',
         items: {
           'ui:order': [
             'serviceBranch',
-            'highestRank',
             'dateRange',
+            'highestRank',
             'dischargeType',
             'nationalGuardState',
           ],
@@ -25,8 +25,8 @@ export const uiSchema = {
             'ui:title': 'Sponsor’s branch of service',
           },
           dateRange: dateRangeUI(
-            'Sponsor’s service start date',
-            'Sponsor’s service end date',
+            'Sponsor’s Service Start Date',
+            'Sponsor’s Service End Date',
             'Service start date must be before end date',
           ),
           dischargeType: {
@@ -34,6 +34,10 @@ export const uiSchema = {
           },
           highestRank: {
             'ui:title': 'Sponsor’s highest rank attained',
+            'ui:options': {
+              hint:
+                'This field may clear if the branch of service or service start and end dates are updated.',
+            },
           },
           nationalGuardState: {
             'ui:title': 'Sponsor’s state (for National Guard Service only)',

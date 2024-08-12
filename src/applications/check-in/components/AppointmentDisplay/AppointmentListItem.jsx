@@ -1,30 +1,27 @@
 import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
-import AppointmentMessage from './AppointmentMessage';
-import AppointmentAction from './AppointmentAction';
+import { useSelector } from 'react-redux';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import {
   appointmentIcon,
   clinicName,
   getAppointmentId,
 } from '../../utils/appointment';
 import { APP_NAMES } from '../../utils/appConstants';
-import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 
 const AppointmentListItem = props => {
   const { appointment, goToDetails, router, app, page } = props;
   const { t } = useTranslation();
-
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isMedicationReviewContentEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
   const pagesToShowDetails = ['details', 'complete', 'confirmation'];
   const showDetailsLink = pagesToShowDetails.includes(page) && goToDetails;
-
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { is45MinuteReminderEnabled } = useSelector(selectFeatureToggles);
 
   const detailsAriaLabel = () => {
     let modality;
@@ -82,16 +79,11 @@ const AppointmentListItem = props => {
         </span>
       );
     }
-    if (is45MinuteReminderEnabled && appointment) {
-      return (
-        <span data-testid="in-person-msg-confirmation">
-          {t('remember-to-bring-your-insurance-cards-with-you')}
-        </span>
-      );
-    }
     return (
       <span data-testid="in-person-msg-confirmation">
-        {t('please-bring-your-insurance-cards-with-you-to-your-appointment')}
+        {isMedicationReviewContentEnabled
+          ? t('on-day-of-appointment-we-send-text')
+          : t('remember-to-bring-your-insurance-cards-with-you')}
       </span>
     );
   };
@@ -122,7 +114,7 @@ const AppointmentListItem = props => {
 
   return (
     <li
-      className="vads-u-border-bottom--1px check-in--appointment-item"
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light check-in--appointment-item"
       data-testid="appointment-list-item"
     >
       <div className="check-in--appointment-summary vads-u-margin-bottom--2 vads-u-margin-top--2p5">
@@ -131,12 +123,12 @@ const AppointmentListItem = props => {
             {t('date-long', { date: appointmentDateTime })}
           </div>
         )}
-        <div
+        <h3
           data-testid="appointment-time"
-          className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
+          className="vads-u-font-size--h2 vads-u-margin-top--0 vads-u-font-family--serif vads-u-font-weight--bold vads-u-line-height--1 vads-u-margin-bottom--2"
         >
           {t('date-time', { date: appointmentDateTime })}{' '}
-        </div>
+        </h3>
         <div
           data-testid="appointment-type-and-provider"
           className="vads-u-font-weight--bold"
@@ -174,17 +166,6 @@ const AppointmentListItem = props => {
             </a>
           </div>
         )}
-        {app === APP_NAMES.CHECK_IN &&
-          page !== 'confirmation' && (
-            <div data-testid="appointment-action">
-              <AppointmentMessage appointment={appointment} />
-              <AppointmentAction
-                appointment={appointment}
-                router={router}
-                event="check-in-clicked-VAOS-design"
-              />
-            </div>
-          )}
       </div>
       {app === APP_NAMES.PRE_CHECK_IN &&
         page === 'confirmation' && (

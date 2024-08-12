@@ -36,18 +36,9 @@ export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
   }
 };
 
-export const customizeTitle = h1 => {
-  if (h1) {
-    return `${h1} | How to Apply for A Discharge Upgrade | Veterans Affairs`;
-  }
-
-  return 'How to Apply for A Discharge Upgrade | Veterans Affairs';
-};
-
-export const pageSetup = H1 => {
+export const pageSetup = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   waitForRenderThenFocus('h1');
-  document.title = customizeTitle(H1);
 };
 
 export const applyErrorFocus = id => {

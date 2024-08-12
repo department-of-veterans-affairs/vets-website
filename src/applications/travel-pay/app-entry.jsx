@@ -8,6 +8,7 @@ import reducer from './redux/reducer';
 import manifest from './manifest.json';
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

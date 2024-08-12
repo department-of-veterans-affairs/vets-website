@@ -29,9 +29,10 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                   onClick={toggleExpansion}
                 >
                   An official website of the United States government
-                  <i
-                    aria-hidden="true"
-                    className="fa fa-chevron-down vads-u-margin-left--0p5"
+                  <va-icon
+                    icon="expand_more"
+                    size={3}
+                    className="vads-u-margin-left--0p5"
                   />
                 </button>
               </>

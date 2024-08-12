@@ -256,9 +256,10 @@ export default function SchoolLocations({
               onClick={showMoreClicked}
             >
               Show next {showNextCount}
-              <i
-                className="fas fa-chevron-down fa-xs vads-u-padding-left--1"
-                aria-hidden="true"
+              <va-icon
+                icon="expand_more"
+                size={3}
+                className="vads-u-padding-left--1"
               />
             </button>
             <span className="vads-u-padding--2">|</span>
@@ -290,9 +291,9 @@ export default function SchoolLocations({
   const renderViewCount = () => {
     return (
       <div className="vads-u-padding-top--2">
-        <i>
+        <em>
           Showing {viewableRowCount} of {totalRowCount} locations
-        </i>
+        </em>
       </div>
     );
   };

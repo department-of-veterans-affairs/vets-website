@@ -10,11 +10,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({
-  location,
-  index,
-  showCovidVaccineWalkInAvailabilityText,
-}) => {
+const Covid19Result = ({ location, index }) => {
   const {
     name,
     website,
@@ -60,17 +56,9 @@ const Covid19Result = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {showCovidVaccineWalkInAvailabilityText && (
-          <strong className="vads-u-margin-bottom--2 vads-u-display--block">
-            Walk-ins accepted
-          </strong>
-        )}
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
-            showCovidVaccineWalkInAvailabilityText={
-              showCovidVaccineWalkInAvailabilityText
-            }
             labelId={`${location.id}-phoneLabel`}
           />
         ) : (
@@ -104,7 +92,6 @@ Covid19Result.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
-  showCovidVaccineWalkInAvailabilityText: PropTypes.bool,
 };
 
 export default Covid19Result;

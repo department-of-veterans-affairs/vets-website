@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import {
   VaAlert,
   VaTelephone,
@@ -28,12 +27,8 @@ import CancelAppointmentModal from './cancel/CancelAppointmentModal';
 import { FETCH_STATUS, GA_PREFIX } from '../../utils/constants';
 import FacilityAddress from '../../components/FacilityAddress';
 import FacilityPhone from '../../components/FacilityPhone';
-
-const TIME_TEXT = {
-  AM: 'in the morning',
-  PM: 'in the afternoon',
-  'No Time Selected': '',
-};
+import VARequestLayout from '../../components/layout/VARequestLayout';
+import CCRequestLayout from '../../components/layout/CCRequestLayout';
 
 function Content() {
   const { id } = useParams();
@@ -126,11 +121,8 @@ function Content() {
       </h2>
       {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
       <ul className="usa-unstyled-list" role="list">
-        {preferredDates.map((option, optionIndex) => (
-          <li key={`${id}-option-${optionIndex}`}>
-            {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-            {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-          </li>
+        {preferredDates.map((date, index) => (
+          <li key={`${id}-option-${index}`}>{date}</li>
         ))}
       </ul>
       <div className="vaos-u-word-break--break-word" data-dd-privacy="mask">
@@ -163,11 +155,7 @@ function Content() {
       <div className="vaos-u-word-break--break-word">
         {!canceled && (
           <>
-            <div className="vads-u-display--flex vads-u-align-items--center vads-u-color--link-default vads-u-margin-top--3 vaos-hide-for-print">
-              <i
-                aria-hidden="true"
-                className="fas fa-times vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-right--1"
-              />
+            <div className="vads-u-margin-top--3 vaos-hide-for-print">
               <button
                 type="button"
                 aria-label="Cancel request"
@@ -179,6 +167,9 @@ function Content() {
                   dispatch(startAppointmentCancel(appointment));
                 }}
               >
+                <span className="vads-u-margin-right--0p5">
+                  <va-icon icon="cancel" size="3" aria-hidden="true" />
+                </span>
                 Cancel Request
               </button>
             </div>
@@ -229,6 +220,10 @@ export default function RequestedAppointmentDetailsPage() {
         } ${typeOfCareText} appointment`;
 
         if (featureBreadcrumbUrlUpdate) {
+          title = `${isCanceled ? 'Canceled request for' : 'Request for'} 
+            ${typeOfCareText} ${
+            isCC ? 'community care appointment' : 'appointment'
+          }`;
           title = title.concat(` | Veterans Affairs`);
         }
 
@@ -285,30 +280,37 @@ export default function RequestedAppointmentDetailsPage() {
   }
 
   if (featureAppointmentDetailsRedesign) {
-    if (cancelInfo.showCancelModal === false) {
-      return <Content />;
+    if (isCC && cancelInfo.showCancelModal === false) {
+      return <CCRequestLayout data={appointment} />;
+    }
+    if (isCC === false && cancelInfo.showCancelModal === false) {
+      return <VARequestLayout data={appointment} />;
     }
     if (
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
       cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
     ) {
       return (
-        <CancelWarningPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelWarningPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
       return (
-        <CancelConfirmationPage
-          {...{
-            appointment,
-            cancelInfo,
-          }}
-        />
+        <PageLayout showNeedHelp>
+          <CancelConfirmationPage
+            {...{
+              appointment,
+              cancelInfo,
+            }}
+          />
+        </PageLayout>
       );
     }
     if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
@@ -330,7 +332,7 @@ export default function RequestedAppointmentDetailsPage() {
                     <FacilityAddress
                       facility={facility}
                       showPhone
-                      phoneHeading="Scheduling facility phone:"
+                      phoneHeading="Facility phone:"
                     />
                   </>
                 )}

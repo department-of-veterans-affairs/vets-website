@@ -242,6 +242,10 @@ export default function formReducer(state = initialState, action) {
         ...state,
         pageChangeInProgress: false,
         previousPages: updatedPreviousPages,
+        currentPageKey:
+          action.direction === 'next'
+            ? action.pageKeyNext
+            : updatedPreviousPages[action.pageKey],
       };
     }
     case FORM_SHOW_PODIATRY_APPOINTMENT_UNAVAILABLE_MODAL: {
@@ -318,14 +322,12 @@ export default function formReducer(state = initialState, action) {
         isTypeOfCareSupported(facility, typeOfCareId, cernerSiteIds),
       );
 
-      newData = {
-        ...newData,
-        vaFacility:
-          typeOfCareFacilities.length === 1
-            ? typeOfCareFacilities[0]?.id
-            : null,
-        isSingleVaFacility: typeOfCareFacilities.length === 1,
-      };
+      if (typeOfCareFacilities.length === 1) {
+        newData = {
+          ...newData,
+          vaFacility: typeOfCareFacilities[0]?.id,
+        };
+      }
 
       newSchema = set(
         'properties.vaFacility',
@@ -338,7 +340,10 @@ export default function formReducer(state = initialState, action) {
       );
 
       const { data, schema } = setupFormData(
-        newData,
+        (newData = {
+          ...newData,
+          isSingleVaFacility: typeOfCareFacilities.length === 1,
+        }),
         newSchema,
         action.uiSchema,
       );

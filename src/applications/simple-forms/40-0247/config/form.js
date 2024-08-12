@@ -35,6 +35,7 @@ const formConfig = {
   trackingPrefix: '0247-pmc',
   dev: {
     showNavLinks: !window.Cypress,
+    collapsibleNavLinks: !window.Cypress,
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,

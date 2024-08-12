@@ -8,22 +8,16 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { SHOW_PART3, SHOW_PART3_REDIRECT } from '../../constants';
 
 const {
   schema,
   uiSchema,
-  onContinue,
 } = formConfig.chapters.conditions.pages.extensionRequest;
 
 describe('extension request page', () => {
   const mockStore = () => ({
     getState: () => ({
-      form: {
-        data: {
-          [SHOW_PART3_REDIRECT]: 'redirected',
-        },
-      },
+      form: { data: {} },
     }),
     subscribe: () => {},
     dispatch: () => {},
@@ -43,26 +37,6 @@ describe('extension request page', () => {
     );
 
     expect($('va-radio', container)).to.exist;
-  });
-
-  it('should render v2 redirect alert', () => {
-    const { container } = render(
-      <Provider store={mockStore()}>
-        <DefinitionTester
-          definitions={{}}
-          schema={schema}
-          uiSchema={uiSchema}
-          data={{}}
-          formData={{}}
-        />
-      </Provider>,
-    );
-
-    const alert = $('va-alert', container);
-    expect(alert).to.exist;
-    expect(alert.innerHTML).to.contain(
-      'updated the Board Appeal with new question',
-    );
   });
 
   it('should allow submit with radios unselected (optional)', () => {
@@ -102,24 +76,5 @@ describe('extension request page', () => {
     expect(container.innerHTML).to.contain('value="Y" checked');
     expect($('.usa-input-error', container)).to.not.exist;
     expect(onSubmit.called).to.be.true;
-  });
-
-  it('should not change redirect form data', () => {
-    const setDataSpy = sinon.spy();
-    const formData = { [SHOW_PART3]: true, [SHOW_PART3_REDIRECT]: 'done' };
-    onContinue(formData, setDataSpy);
-
-    expect(setDataSpy.called).to.be.false;
-  });
-  it('should set redirect form data to "done"', () => {
-    const setDataSpy = sinon.spy();
-    const formData = { [SHOW_PART3]: true };
-    onContinue(formData, setDataSpy);
-
-    expect(setDataSpy.called).to.be.true;
-    expect(setDataSpy.args[0][0]).to.deep.equal({
-      ...formData,
-      [SHOW_PART3_REDIRECT]: 'done',
-    });
   });
 });

@@ -12,6 +12,7 @@ import {
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import formConfig from '../../../../config/form';
 import dependentChildAddress from '../../../../config/chapters/04-household-information/dependentChildAddress';
+import { testNumberOfFieldsByType } from '../pageTests.spec';
 
 const { schema, uiSchema } = dependentChildAddress;
 const definitions = formConfig.defaultDefinitions;
@@ -116,4 +117,21 @@ describe('Child address page', () => {
       expect(onSubmit.called).to.be.true;
     });
   });
+
+  testNumberOfFieldsByType(
+    formConfig,
+    schema,
+    uiSchema,
+    {
+      'va-text-input': 7,
+      'va-select': 3,
+      input: 1,
+    },
+    'dependent address',
+    dependentData,
+    {
+      arrayPath,
+      pagePerItemIndex: 0,
+    },
+  );
 });

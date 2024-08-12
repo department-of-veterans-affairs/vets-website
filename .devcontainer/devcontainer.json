@@ -53,6 +53,7 @@
 		6080
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
+	"postStartCommand": "./.devcontainer/codespaces-start.sh",
 	"remoteUser": "node",
 	"hostRequirements": {
 		"cpus": 16,

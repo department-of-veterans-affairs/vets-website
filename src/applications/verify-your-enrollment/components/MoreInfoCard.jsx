@@ -1,5 +1,6 @@
 import React from 'react';
 import PropType from 'prop-types';
+import { useSelector } from 'react-redux';
 import PageLink from './PageLink';
 
 const MoreInfoCard = ({
@@ -10,12 +11,14 @@ const MoreInfoCard = ({
   className,
   linkDescription,
 }) => {
+  const response = useSelector(state => state.personalInfo);
+  if (response?.error?.error === 'Forbidden') return null;
   return (
     <div className={`vads-u-margin-top--${marginTop}`}>
       <va-card background>
-        <h6 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-top--0">
-          More Information
-        </h6>
+        <h3 className="vads-u-font-family--serif vads-u-font-size--lg vads-u-font-weight--bold vads-u-margin-top--0">
+          More information
+        </h3>
         <hr className="vads-u-margin-top--0" />
         <PageLink
           linkText={linkText}
@@ -23,7 +26,7 @@ const MoreInfoCard = ({
           URL={URL}
           className={className}
         />
-        <p className="vads-u-color--base vads-u-margin-top--0">
+        <p className="vads-u-color--base vads-u-margin-top--0 vads-u-text-align--justify">
           {linkDescription}
         </p>
         <PageLink

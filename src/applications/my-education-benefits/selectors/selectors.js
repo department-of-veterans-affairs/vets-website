@@ -36,6 +36,7 @@ export const getAppData = state => ({
   showMebDgi40Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi40Features
   ],
+  merge1995And5490: !!toggleValues(state)[FEATURE_FLAG_NAMES.merge1995And5490],
   showMebDgi42Features: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebDgi42Features
   ],
@@ -61,5 +62,8 @@ export const getAppData = state => ({
   ],
   mebAutoPopulateRelinquishmentDate: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.mebAutoPopulateRelinquishmentDate
+  ],
+  dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
   ],
 });

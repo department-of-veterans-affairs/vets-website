@@ -7,11 +7,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import chapterSelect from '../pages/chapterSelect';
 import textInput from '../pages/mockTextInput';
-import textInputWidgets1 from '../pages/mockTextInputWidgets1';
+import textEmailPhone from '../pages/mockTextEmailPhone';
 import numberInput from '../pages/mockNumberInput';
-import textInputFullName from '../pages/mockTextInputFullName';
-import textInputAddress from '../pages/mockTextInputAddress';
-import textInputSsn from '../pages/mockTextInputSsn';
+import fullName from '../pages/mockFullName';
+import address from '../pages/mockAddress';
+import ssn from '../pages/mockSsn';
 import checkboxAndTextInput from '../pages/mockCheckboxAndTextInput';
 import checkboxGroup from '../pages/mockCheckboxGroup';
 import radio from '../pages/mockRadio';
@@ -36,20 +36,22 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
+import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
 const chapterSelectInitialData = {
   chapterSelect: {
-    textInput: true,
-    numberInput: true,
-    formsPattern: true,
-    checkbox: true,
-    radio: true,
-    select: true,
-    date: true,
-    miscellaneous: true,
-    arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arraySinglePage: true,
+    checkbox: true,
+    confirmationPageNew: false,
+    date: true,
+    formsPattern: true,
+    miscellaneous: true,
+    numberInput: true,
+    radio: true,
+    select: true,
+    textInput: true,
   },
 };
 
@@ -103,34 +105,34 @@ const formConfig = {
           schema: textInput.schema,
           depends: includeChapter('textInput'),
         },
-        textInputWidgets1: {
+        textEmailPhone: {
           path: 'text-input-widgets1',
           title: 'Text Input Widgets 1', // for review page (has to be more than one word)
-          uiSchema: textInputWidgets1.uiSchema,
-          schema: textInputWidgets1.schema,
+          uiSchema: textEmailPhone.uiSchema,
+          schema: textEmailPhone.schema,
           depends: includeChapter('textInput'),
         },
-        textInputFullName: {
+        fullName: {
           path: 'text-input-full-name',
           title: 'Text Input Full Name', // for review page (has to be more than one word)
-          uiSchema: textInputFullName.uiSchema,
-          schema: textInputFullName.schema,
-          initialData: textInputFullName.initialData,
+          uiSchema: fullName.uiSchema,
+          schema: fullName.schema,
+          initialData: fullName.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputAddress: {
+        address: {
           title: 'Text Input Address', // for review page (has to be more than one word)
           path: 'text-input-address',
-          uiSchema: textInputAddress.uiSchema,
-          schema: textInputAddress.schema,
-          initialData: textInputAddress.initialData,
+          uiSchema: address.uiSchema,
+          schema: address.schema,
+          initialData: address.initialData,
           depends: includeChapter('textInput'),
         },
-        textInputSsn: {
+        ssn: {
           title: 'SSN Pattern', // for review page (has to be more than one word)
           path: 'ssn-pattern',
-          uiSchema: textInputSsn.uiSchema,
-          schema: textInputSsn.schema,
+          uiSchema: ssn.uiSchema,
+          schema: ssn.schema,
           depends: includeChapter('textInput'),
         },
       },
@@ -349,6 +351,20 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
+      },
+    },
+    staticPages: {
+      title: 'Static Pages',
+      pages: {
+        confirmationPageNew: {
+          path: 'confirmation-page-new',
+          title: 'New Confirmation Page',
+          CustomPage: NewConfirmationPage,
+          uiSchema: mockCustomPage.uiSchema,
+          schema: mockCustomPage.schema,
+          pageKey: 'confirmation-page-new',
+          depends: () => false,
+        },
       },
     },
   },

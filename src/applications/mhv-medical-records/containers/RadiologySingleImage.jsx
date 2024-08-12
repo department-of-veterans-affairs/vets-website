@@ -15,7 +15,7 @@ const RadiologySingleImage = () => {
     return {
       name: 'ANKLE LEFT 3 VIEWS',
       category: 'Radiology',
-      orderedBy: 'Beth M. Smith',
+      orderedBy: 'DOE, JANE A',
       reason: 'Injury',
       clinicalHistory: 'Information',
       imagingProvider: 'John J. Lydon',
@@ -87,17 +87,15 @@ const RadiologySingleImage = () => {
               type="button"
               className="link-button vads-u-margin-right--4 vads-u-margin-y--0"
             >
-              <i
-                className="fas fa-download vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
+              <span className="vads-u-margin-right--0p5" aria-hidden="true">
+                <va-icon icon="file_download" size={2} />
+              </span>
               Download JPG
             </button>
             <button type="button" className="link-button  vads-u-margin-y--0">
-              <i
-                className="fas fa-download vads-u-margin-right--0p5"
-                aria-hidden="true"
-              />
+              <span className="vads-u-margin-right--0p5" aria-hidden="true">
+                <va-icon icon="file_download" size={2} />
+              </span>
               Download DICOM
             </button>
           </div>
@@ -117,10 +115,9 @@ const RadiologySingleImage = () => {
                         }/${labAndTestDetails.images.length}`
                   }
                 >
-                  <i
-                    className="fas fa-angle-double-left vads-u-margin-right--1"
-                    aria-hidden="true"
-                  />
+                  <span aria-hidden="true">
+                    <va-icon icon="navigate_far_before" size={2} />
+                  </span>
                   Previous
                 </a>
               )}
@@ -139,10 +136,9 @@ const RadiologySingleImage = () => {
                   }
                 >
                   Next
-                  <i
-                    className="fas fa-angle-double-right vads-u-margin-left--1"
-                    aria-hidden="true"
-                  />
+                  <span aria-hidden="true">
+                    <va-icon icon="navigate_far_next" size={2} />
+                  </span>
                 </a>
               )}
             </div>

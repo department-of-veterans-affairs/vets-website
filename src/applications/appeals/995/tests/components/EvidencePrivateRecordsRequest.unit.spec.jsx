@@ -26,7 +26,6 @@ describe('<EvidencePrivateRecordsRequest>', () => {
     );
 
     expect($('va-radio', container)).to.exist;
-    expect($('va-additional-info', container)).to.exist;
     expect($$('button', container).length).to.eq(2);
   });
 

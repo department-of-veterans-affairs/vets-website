@@ -70,8 +70,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
 
 ### Travel-claim
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
-  - multiApptSingleFacilityUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
-  - multiApptMultiFacilityUUID: `8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0`
+  - multiOHAppointmentsUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
 
 ## Design system
 99% of the styling comes from the VA design system [component library](https://design.va.gov/components/) and [utility classes](https://design.va.gov/foundation/utilities/). For the remaining 1% of styling there is an scss file in the `sass` directory in the project root.
@@ -141,24 +140,44 @@ We use Cypress to capture screenshots of each page of this application. The scre
 
 Current features PCI, day-of, and travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.all.cypress.spec.js`
 
-Current features PCI only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.pci.cypress.spec.js`
+Day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-day-of-check-in.cypress.spec.js`
 
-Current features day-of only: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-current.day-of.cypress.spec.js`
-
-Phone appointments PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-phone.pci.cypress.spec.js`
+Pre-check-in: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-pre-check-in.cypress.spec.js`
 
 Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
 
-Errors only day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.day-of.cypress.spec.js`
-
-Errors only PCI: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-errors.pci.cypress.spec.js`
-
-Current and errors Travel-claim: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-claim.cypress.spec.js`
 
 ### Adding additional screenshots
 There is a cypress command that gets imported in our local commands named `createScreenshots`. It is best used after an axe check on the page you wish to capture. Add cy.createScreenshots([filename]) and also make sure that the test is imported in one of the screenshot scripts listed above. Filename syntax should be `application--page-name` example: `Pre-check-in--Validate-with-DOB`. The command will automatically get screenshots for translated versions of the page.
 
-## Adding Feature Toggles
+## Feature toggles
+
+We are currently using an HOC located at `src/applications/pre-check-in/containers/withFeatureFlip.jsx` to control the feature flips. The whole app is wrapped around one, and each new feature should have its own toggle.
+
+Though we have the HOC, its now considered best practice to query redux using the useSelector hook.
+
+### Current toggles
+
+- `check_in_experience_enabled` : Enables or disabled the whole day-of check-in app on va.gov
+  - when to sunset: never.
+- `check_in_experience_pre_check_in_enabled` : Enables or disabled the whole pre-check-in app on va.gov
+  - when to sunset: never.
+- `check_in_experience_translation_disclaimer_spanish_enabled` : Enables or disables the mixed language disclaimer (there may be some untranslated content) for spanish pages of the site
+  - when to sunset: when we are in a situation where new content is not added to the site until it is translated into spanish.
+- `check_in_experience_travel_reimbursement`: Enables or disables travel reimbursement workflow for day-of check-in.
+  - when to sunset: never.
+- `check_in_experience_browser_monitoring`: Enables browser monitoring for check-in applications.
+  - when to sunset: never.
+- `check_in_experience_upcoming_appointments_enabled`: Enables the upcoming appointments block.
+  - when to sunset: After it is confirmed that upcoming appointments consistently works and adds value to the veterans.
+
+### How to test this?
+
+Each feature should have unit tests and e2e tests.
+
+For testing in staging, use the instructions at [https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/checkin/engineering/qa/test-data-setup.md](https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/checkin/engineering/qa/test-data-setup.md).
+
+### Adding Feature Toggles
 
 To add a feature toggle follow the steps oulined in the VA Platform Documentation on [Feature Toggles](https://depo-platform-documentation.scrollhelp.site/developer-docs/feature-toggles-guide). Additionally add the feature toggle to selectors, mocks and the readme for Pre-check-in and/or Check-in apps.
 

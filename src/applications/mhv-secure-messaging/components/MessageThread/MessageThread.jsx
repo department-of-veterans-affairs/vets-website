@@ -22,7 +22,7 @@ const MessageThread = props => {
       <section
         aria-label={
           messageHistory?.length > 0 &&
-          `${messageHistory?.length} Message${
+          `${messageHistory?.length} message${
             messageHistory?.length > 1 ? 's' : ''
           } in this conversation`
         }
@@ -33,7 +33,7 @@ const MessageThread = props => {
           className="messages-in-conversation vads-u-font-weight--bold vads-u-margin-bottom--0p5"
         >
           {messageHistory?.length > 0 &&
-            `${messageHistory?.length} Message${
+            `${messageHistory?.length} message${
               messageHistory?.length > 1 ? 's' : ''
             } in this conversation`}
         </h2>
@@ -63,7 +63,6 @@ MessageThread.propTypes = {
   isDraftThread: PropType.bool,
   messageHistory: PropType.array,
   replyMessage: PropType.object,
-  viewCount: PropType.number,
 };
 
 export default MessageThread;

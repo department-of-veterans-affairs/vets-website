@@ -1,0 +1,57 @@
+<!--
+  IMPORTANT: This template is only used when running vets-website in standalone mode for development.
+  Changes to this file must also be made to src/site/layouts/accredited-representative-portal.html in the content-build repository.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= htmlWebpackPlugin.options.title %></title>
+
+    <!-- Icons -->
+    <link rel="shortcut icon" href="/img/design/icons/favicon.ico" />
+
+    <!-- Preload main fonts -->
+    <link rel="preload" href="/generated/sourcesanspro-bold-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/sourcesanspro-regular-webfont.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/generated/bitter-bold.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- rel="preload" href="/generated/fa-solid-900.woff2" as="font" type="font/woff2" crossorigin-- FOR REMOVAL -->
+
+    <!-- Scripts and CSS -->
+    <%= modifyScriptAndStyleTags(htmlWebpackPlugin.tags.headTags) %>
+
+    <script nonce="**CSP_NONCE**" type="text/javascript">
+      function focusContent(e) {
+        e.preventDefault();
+        const contentElement = document.querySelector('#content h1') || document.querySelector('#content');
+        contentElement.setAttribute('tabindex', '-1');
+        contentElement.addEventListener('blur', function(event) {
+          event.target.removeAttribute('tabindex');
+        }, true);
+        window.scrollTo(0, contentElement.offsetTop);
+        contentElement.focus();
+      }
+      window.VetsGov = window.VetsGov || {};
+      window.VetsGov.headerFooter = <%= JSON.stringify(headerFooterData) %>;
+    </script>
+  </head>
+
+  <body class="merger">
+    <a class="show-on-focus" href="#content" onclick="focusContent(event)">Skip to Content</a>
+    <div id="content">
+      <main id="main" class="main">
+        <div class="section">
+          <div id="react-root">
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- If remove this div it breaks this layout so currently hiding this with scss in vets-website Footer.scss -->
+    <div
+    class="arp-footer-hidden"
+    id="footerNav"
+  ></div>
+  </body>
+</html>

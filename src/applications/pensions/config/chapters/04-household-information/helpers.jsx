@@ -1,4 +1,5 @@
 import get from 'platform/forms-system/src/js/utilities/data/get';
+import moment from 'moment';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
 import { createSelector } from 'reselect';
@@ -32,6 +33,17 @@ export function showSpouseAddress(formData) {
     isMarried(formData) &&
     (formData.maritalStatus === 'SEPARATED' ||
       get(['view:liveWithSpouse'], formData) === false)
+  );
+}
+
+export function isBetween18And23(childDOB) {
+  return moment(childDOB).isBetween(
+    moment()
+      .startOf('day')
+      .subtract(23, 'years'),
+    moment()
+      .startOf('day')
+      .subtract(18, 'years'),
   );
 }
 

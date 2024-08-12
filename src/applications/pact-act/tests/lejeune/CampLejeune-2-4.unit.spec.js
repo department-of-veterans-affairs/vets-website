@@ -171,7 +171,7 @@ describe('displayConditionsAreMet', () => {
   it('LEJEUNE_2_4: should return true when the display conditions are met', () => {
     const formResponses = {
       BURN_PIT_2_1: YES,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
       ORANGE_2_2_A: NO,
       ORANGE_2_2_B: null,
@@ -189,7 +189,7 @@ describe('displayConditionsAreMet', () => {
 
   it('LEJEUNE_2_4: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: null,
+      BURN_PIT_2_1: YES,
       BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
       ORANGE_2_2_A: NO,
@@ -208,8 +208,8 @@ describe('displayConditionsAreMet', () => {
 
   it('LEJEUNE_2_4: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: null,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1: NO,
+      BURN_PIT_2_1_1: NOT_SURE,
       BURN_PIT_2_1_2: YES,
       ORANGE_2_2_A: YES,
       ORANGE_2_2_B: [VIETNAM_REP],

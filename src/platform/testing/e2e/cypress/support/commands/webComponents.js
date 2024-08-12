@@ -1,7 +1,8 @@
 const FORCE_OPTION = { force: true };
+const DELAY_OPTION = { force: true, delay: 100 };
 
 Cypress.Commands.add('fillVaTextInput', (field, value) => {
-  if (value) {
+  if (typeof value !== 'undefined') {
     const strValue = value.toString();
     const element =
       typeof field === 'string'
@@ -11,16 +12,23 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
     element
       .shadow()
       .find('input')
-      .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .as('currentElement');
+
+    cy.get('@currentElement').click();
+
+    cy.get('@currentElement').clear(DELAY_OPTION);
+
+    if (strValue !== '') {
+      // using type requires a non-empty value
+      cy.get('@currentElement').type(strValue, FORCE_OPTION);
+    }
 
     cy.get('@currentElement').should('have.value', strValue);
   }
 });
 
 Cypress.Commands.add('fillVaTextarea', (field, value) => {
-  if (value) {
+  if (typeof value !== 'undefined') {
     const strValue = value.toString();
     const element =
       typeof field === 'string'
@@ -30,9 +38,14 @@ Cypress.Commands.add('fillVaTextarea', (field, value) => {
     element
       .shadow()
       .find('textarea')
-      .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .as('currentElement');
+
+    cy.get('@currentElement').clear(DELAY_OPTION);
+
+    if (strValue !== '') {
+      // using type requires a non-empty value
+      cy.get('@currentElement').type(strValue, FORCE_OPTION);
+    }
 
     cy.get('@currentElement').should('have.value', strValue);
   }

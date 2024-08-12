@@ -22,6 +22,9 @@ export const SC_OTHER_WAYS_URL = `${SC_INFO_URL}#file-by-mail-in-person-or-with`
 export const SC_FORM_URL =
   'https://www.vba.va.gov/pubs/forms/VBA-20-0995-ARE.pdf';
 
+// TODO: placeholder while waiting for Lighthouse
+export const NOD_PDF_DOWNLOAD_URL = '';
+
 // session storage keys
 export const REVIEW_ISSUES = 'onReviewPageIssues';
 
@@ -45,6 +48,9 @@ export const COVID_FAQ_URL =
 
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const PROFILE_URL = '/profile';
+export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
+export const MST_COORD_URL =
+  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
 
 export const REVIEW_AND_SUBMIT = '/review-and-submit';
 
@@ -126,7 +132,7 @@ export const DISAGREEMENT_TYPES = {
   serviceConnection: 'The service connection',
   effectiveDate: 'The effective date of award',
   evaluation: 'Your evaluation of my condition',
-  otherEntry: 'Something else:',
+  otherEntry: 'Something else',
 };
 
 // Using MAX_LENGTH.DISAGREEMENT_REASON (90) and with all checkboxes selected,

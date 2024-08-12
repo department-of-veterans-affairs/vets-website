@@ -60,13 +60,18 @@ describe('Schemaform FormNav', () => {
   it('should render current chapter stepText', () => {
     const currentPath = 'testing1';
     const formConfigDefaultData = getDefaultData();
-    const tree = render(
+    const { container } = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
-
-    expect(tree.getByTestId('navFormHeader').textContent).to.contain(
-      'Step 1 of 4: Testing',
+    const v3SegmentedProgressBar = container.querySelector(
+      'va-segmented-progress-bar',
     );
+
+    expect(v3SegmentedProgressBar.getAttribute('heading-text')).to.eq(
+      'Testing',
+    );
+    expect(v3SegmentedProgressBar.getAttribute('current')).to.eq('1');
+    expect(v3SegmentedProgressBar.getAttribute('total')).to.eq('4');
   });
   it('should optionally hide current chapter progress-bar & stepText', () => {
     const currentPath = 'testing1';
@@ -97,11 +102,14 @@ describe('Schemaform FormNav', () => {
       return '[no params provided to function]';
     };
 
-    const tree = render(
+    const { container } = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
+    const v3SegmentedProgressBar = container.querySelector(
+      'va-segmented-progress-bar',
+    );
 
-    expect(tree.getByTestId('navFormHeader').textContent).to.include(
+    expect(v3SegmentedProgressBar.getAttribute('heading-text')).to.eq(
       'Title [from function]',
     );
   });
@@ -138,12 +146,15 @@ describe('Schemaform FormNav', () => {
       return formPageChapterTitle;
     };
 
-    const tree = render(
+    const { container } = render(
       <FormNav formConfig={formConfigDefaultData} currentPath="testing1" />,
+    );
+    const v3SegmentedProgressBar = container.querySelector(
+      'va-segmented-progress-bar',
     );
 
     // assert actual chapter title on form-page
-    expect(tree.getByTestId('navFormHeader').textContent).to.include(
+    expect(v3SegmentedProgressBar.getAttribute('heading-text')).to.eq(
       formPageChapterTitle,
     );
 
@@ -158,15 +169,20 @@ describe('Schemaform FormNav', () => {
     const formConfigReviewData = getReviewData();
     const currentPath = 'review-and-submit';
 
-    const tree = render(
+    const { container } = render(
       <FormNav formConfig={formConfigReviewData} currentPath={currentPath} />,
     );
-    expect(tree.getByText('Custom Review Page Title', { exact: false })).to.not
-      .be.null;
+    const v3SegmentedProgressBar = container.querySelector(
+      'va-segmented-progress-bar',
+    );
+
+    expect(v3SegmentedProgressBar.getAttribute('heading-text')).to.eq(
+      'Custom Review Page Title',
+    );
   });
-  it('should display the auto-save message & application ID', () => {
+  it('should display the auto-save message & in-progress ID on the first page', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'review-and-submit';
+    const currentPath = 'testing1';
 
     const tree = render(
       <FormNav
@@ -182,7 +198,7 @@ describe('Schemaform FormNav', () => {
       }),
     ).to.not.be.null;
     expect(
-      tree.getByText('Your application ID number is 12345', {
+      tree.getByText('Your in-progress ID number is 12345', {
         exact: false,
       }),
     ).to.not.be.null;
@@ -199,8 +215,7 @@ describe('Schemaform FormNav', () => {
         isLoggedIn={false}
       />,
     );
-    expect(tree.getByText(/^step [0-9]+ of [0-9]+: Custom Review Page Title$/i))
-      .to.not.be.null;
+    expect(tree.queryByTestId('navFormDiv').textContent).to.eq('');
   });
 
   // Can't get this test to work... useEffect callback is calling the focus
@@ -232,9 +247,13 @@ describe('Schemaform FormNav', () => {
   it('should render current chapter stepText', () => {
     const currentPath = 'testing4';
     const formConfigDefaultData = getDefaultData();
-    const tree = render(
+    const { container } = render(
       <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />,
     );
-    expect(tree.getByTestId('navFormDiv').textContent).to.eq('');
+    const v3SegmentedProgressBar = container.querySelector(
+      'va-segmented-progress-bar',
+    );
+
+    expect(v3SegmentedProgressBar.getAttribute('heading-text')).to.eq('');
   });
 });

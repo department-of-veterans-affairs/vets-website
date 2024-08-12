@@ -28,17 +28,20 @@ function RemoveFileModal({
       status="warning"
     >
       <p>
-        We’ll remove <strong>{removeFileName}</strong>
+        We’ll remove{' '}
+        <strong data-dd-privacy="mask" data-dd-action-name="file to be removed">
+          {removeFileName}
+        </strong>
       </p>
     </VaModal>
   );
 }
 
 RemoveFileModal.propTypes = {
-  removeFileName: PropTypes.string.isRequired,
-  showRemoveFileModal: PropTypes.bool.isRequired,
   closeModal: PropTypes.func.isRequired,
   removeFile: PropTypes.func.isRequired,
+  showRemoveFileModal: PropTypes.bool.isRequired,
+  removeFileName: PropTypes.string,
 };
 
 export default RemoveFileModal;

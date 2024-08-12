@@ -9,7 +9,6 @@ import {
   renderWithStoreAndRouter,
   setTypeOfFacility,
 } from '../../mocks/setup';
-import { startDirectScheduleFlow } from '../../../new-appointment/redux/actions';
 
 const initialState = {
   featureToggles: {
@@ -244,7 +243,7 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
       fireEvent.click(screen.getByText(/Continue/));
 
       expect(await screen.findByRole('alert')).to.contain.text(
-        'Please provide a response',
+        'You must provide a response',
       );
     });
 
@@ -280,30 +279,5 @@ describe('VAOS Page: ReasonForAppointmentPage', () => {
         ),
       );
     });
-  });
-
-  it.skip('should show alternate textbox char length if navigated via direct schedule flow', async () => {
-    const store = createTestStore(initialState);
-    store.dispatch(startDirectScheduleFlow());
-
-    const screen = renderWithStoreAndRouter(<ReasonForAppointmentPage />, {
-      store,
-    });
-
-    fireEvent.click(
-      await screen.findByLabelText(/Routine or follow-up visit/i),
-    );
-
-    const textBox = screen.getByRole('textbox');
-    expect(textBox).to.exist;
-    expect(textBox)
-      .to.have.attribute('maxlength')
-      .to.equal('250');
-
-    expect(
-      screen.getByRole('heading', {
-        name: /If you have an urgent medical need, please:/i,
-      }),
-    );
   });
 });

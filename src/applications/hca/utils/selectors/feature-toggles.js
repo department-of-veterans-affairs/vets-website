@@ -11,6 +11,5 @@ export const selectFeatureToggles = state => {
       toggles[FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled],
     isFacilitiesApiEnabled: toggles[FEATURE_FLAG_NAMES.hcaUseFacilitiesApi],
     isSigiEnabled: toggles[FEATURE_FLAG_NAMES.hcaSigiEnabled],
-    isTeraEnabled: toggles[FEATURE_FLAG_NAMES.hcaTeraEnabled],
   };
 };

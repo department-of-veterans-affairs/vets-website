@@ -36,8 +36,8 @@ function formatHeader(appointment) {
 
 export default function DetailsVideo({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[locationId];
-
+  const facility =
+    facilityData?.[locationId] || appointment?.vaos?.facilityData;
   const header = formatHeader(appointment);
 
   return (
@@ -74,6 +74,7 @@ DetailsVideo.propTypes = {
       isPastAppointment: PropTypes.bool.isRequired,
       isUpcomingAppointment: PropTypes.bool.isRequired,
       isPendingAppointment: PropTypes.bool.isRequired,
+      facilityData: PropTypes.object,
     }),
     location: PropTypes.shape({
       vistaId: PropTypes.string.isRequired,

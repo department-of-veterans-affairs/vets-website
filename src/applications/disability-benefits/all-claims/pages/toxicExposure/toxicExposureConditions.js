@@ -20,7 +20,6 @@ export const uiSchema = {
       description: conditionsDescription,
       labels: {},
       required: false,
-      uswds: false,
       replaceSchema: makeTEConditionsSchema,
       updateUiSchema: makeTEConditionsUISchema,
     }),

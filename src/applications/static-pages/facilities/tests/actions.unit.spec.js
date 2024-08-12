@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
+import { mockApiRequest } from 'platform/testing/unit/helpers';
 import {
   FETCH_FACILITY_STARTED,
   FETCH_FACILITY_SUCCESS,
@@ -9,7 +10,6 @@ import {
   fetchFacilityFailed,
   fetchFacility,
 } from '../actions';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
 import { mockFacilityLocatorApiResponse } from './mockFacilitiesData';
 
 const getState = () => ({
@@ -68,9 +68,7 @@ describe('Facilities actions', () => {
       mockApiRequest({ data: mockFacilityLocatorApiResponse.data[0] });
       thunk(dispatch, getState)
         .then(() => {
-          expect(global.fetch.args[0][0]).to.contain(
-            '/v1/facilities/va/vha_646',
-          );
+          expect(global.fetch.args[0][0]).to.contain('/facilities_api/v2/va');
           done();
         })
         .catch(err => {

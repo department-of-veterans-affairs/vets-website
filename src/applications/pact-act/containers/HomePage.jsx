@@ -34,14 +34,13 @@ const HomePage = ({ router, setIntroPageViewed }) => {
         to apply.
       </p>
       {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-      <a
+      <va-link-action
         data-testid="paw-start-form"
         href="#"
-        className="vads-u-display--block vads-u-margin-top--4 vads-c-action-link--green"
+        class="vads-u-margin-top--2"
         onClick={startForm}
-      >
-        Get started
-      </a>
+        text="Get Started"
+      />
       <p>
         <strong>Note:</strong> This tool can only provide information and won’t
         start a claim or benefit application.

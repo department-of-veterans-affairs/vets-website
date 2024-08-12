@@ -18,6 +18,7 @@ export const TASK_KEYS = {
 
 export const MARRIAGE_TYPES = {
   ceremonial: 'CEREMONIAL',
+  civil: 'CIVIL',
   commonLaw: 'COMMON-LAW',
   tribal: 'TRIBAL',
   proxy: 'PROXY',

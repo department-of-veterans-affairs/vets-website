@@ -6,10 +6,18 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import recordEvent from 'platform/monitoring/record-event';
 import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
-import { PageTitles } from '../util/constants';
+import {
+  BlockedTriageAlertStyles,
+  Breadcrumbs,
+  PageTitles,
+  ParentComponent,
+} from '../util/constants';
 import FoldersList from '../components/FoldersList';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CreateFolderModal from '../components/Modals/CreateFolderModal';
+import InnerNavigation from '../components/InnerNavigation';
+import ComposeMessageButton from '../components/MessageActionButtons/ComposeMessageButton';
+import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 
 const Folders = () => {
   const dispatch = useDispatch();
@@ -17,6 +25,10 @@ const Folders = () => {
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folders = useSelector(state => state.sm.folders.folderList);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const { noAssociations, allTriageGroupsBlocked } = useSelector(
+    state => state.sm.recipients,
+  );
 
   // clear out alerts if user navigates away from this component
   useEffect(
@@ -87,9 +99,33 @@ const Folders = () => {
     return (
       <>
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
-          My folders
+          {Breadcrumbs.FOLDERS.label}
         </h1>
+        {(noAssociations || allTriageGroupsBlocked) && (
+          <BlockedTriageGroupAlert
+            alertStyle={
+              noAssociations
+                ? BlockedTriageAlertStyles.INFO
+                : BlockedTriageAlertStyles.WARNING
+            }
+            blockedTriageGroupList={[]}
+            parentComponent={ParentComponent.FOLDER_HEADER}
+          />
+        )}
 
+        {!noAssociations && !allTriageGroupsBlocked && <ComposeMessageButton />}
+
+        <InnerNavigation />
+
+        {folderCount > 0 && (
+          <>
+            <FoldersList
+              folders={folders.filter(
+                folder => folder.id !== -1 && folder.id !== 0,
+              )}
+            />
+          </>
+        )}
         <va-button
           onClick={() => {
             openNewModal();
@@ -103,11 +139,6 @@ const Folders = () => {
           data-testid="create-new-folder"
           data-dd-action-name="Create New Folder Button"
         />
-        {folderCount > 0 && (
-          <>
-            <FoldersList folders={folders.filter(folder => folder.id > 0)} />
-          </>
-        )}
         <CreateFolderModal
           isCreateNewModalVisible={isModalVisible}
           setIsCreateNewModalVisible={setIsModalVisible}

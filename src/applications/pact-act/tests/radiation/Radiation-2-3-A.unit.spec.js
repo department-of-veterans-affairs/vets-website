@@ -160,8 +160,9 @@ describe('displayConditionsAreMet', () => {
   it('RADIATION_2_3_A: should return true when the display conditions are met', () => {
     const formResponses = {
       BURN_PIT_2_1: YES,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
+      BURN_PIT_2_1_3: null,
       ORANGE_2_2_A: NO,
       ORANGE_2_2_B: null,
       ORANGE_2_2_1_A: NO,
@@ -176,9 +177,10 @@ describe('displayConditionsAreMet', () => {
 
   it('RADIATION_2_3_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: null,
+      BURN_PIT_2_1: YES,
       BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
+      BURN_PIT_2_1_3: null,
       ORANGE_2_2_A: NO,
       ORANGE_2_2_B: null,
       ORANGE_2_2_1_A: NO,
@@ -193,9 +195,10 @@ describe('displayConditionsAreMet', () => {
 
   it('RADIATION_2_3_A: should return true when the display conditions are met', () => {
     const formResponses = {
-      BURN_PIT_2_1: null,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1: YES,
+      BURN_PIT_2_1_1: NOT_SURE,
       BURN_PIT_2_1_2: YES,
+      BURN_PIT_2_1_3: null,
       ORANGE_2_2_A: YES,
       ORANGE_2_2_B: [VIETNAM_REP],
       ORANGE_2_2_1_A: null,
@@ -211,8 +214,9 @@ describe('displayConditionsAreMet', () => {
   it('RADIATION_2_3_A: should return true when the display conditions are met', () => {
     const formResponses = {
       BURN_PIT_2_1: YES,
-      BURN_PIT_2_1_1: null,
+      BURN_PIT_2_1_1: YES,
       BURN_PIT_2_1_2: null,
+      BURN_PIT_2_1_3: null,
       ORANGE_2_2_A: NO,
       ORANGE_2_2_B: null,
       ORANGE_2_2_1_A: YES,

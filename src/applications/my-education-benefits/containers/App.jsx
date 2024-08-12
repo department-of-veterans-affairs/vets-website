@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 
@@ -22,6 +22,7 @@ import { duplicateArrays } from '../utils/validation';
 export const App = ({
   children,
   claimantInfo,
+  dgiRudisillHideBenefitsSelectionStep,
   eligibility,
   exclusionPeriods,
   featureTogglesLoaded,
@@ -296,6 +297,15 @@ export const App = ({
           mebAutoPopulateRelinquishmentDate,
         });
       }
+      if (
+        dgiRudisillHideBenefitsSelectionStep !==
+        formData.dgiRudisillHideBenefitsSelectionStep
+      ) {
+        setFormData({
+          ...formData,
+          dgiRudisillHideBenefitsSelectionStep,
+        });
+      }
 
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
@@ -329,6 +339,7 @@ export const App = ({
       }
     },
     [
+      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
@@ -367,7 +378,12 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+        if (
+          showDgiDirectDeposit1990EZ &&
+          isLoggedIn &&
+          isLOA3 &&
+          !fetchedDirectDeposit
+        ) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
@@ -404,13 +420,29 @@ export const App = ({
 
   return (
     <>
-      <va-breadcrumbs uswds="false">
-        <a href="/">Home</a>
-        <a href="/education">Education and training</a>
-        <a href="/education/apply-for-benefits-form-22-1990">
-          Apply for education benefits
-        </a>
-      </va-breadcrumbs>
+      <div className="row">
+        <div className="vads-u-margin-bottom--4">
+          <VaBreadcrumbs
+            label="Breadcrumbs"
+            wrapping
+            breadcrumbList={[
+              {
+                href: '/',
+                label: 'Home',
+              },
+              {
+                href: '/education',
+                label: 'Education and training',
+              },
+              {
+                href: '/education/apply-for-benefits-form-22-1990',
+                label: 'Apply for education benefits',
+              },
+            ]}
+          />
+        </div>
+      </div>
+
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
@@ -421,6 +453,7 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),

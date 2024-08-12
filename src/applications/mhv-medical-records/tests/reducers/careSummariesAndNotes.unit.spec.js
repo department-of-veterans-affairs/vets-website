@@ -1,18 +1,22 @@
 import { expect } from 'chai';
 import {
   careSummariesAndNotesReducer,
+  convertAdmissionAndDischargeDetails,
   convertCareSummariesAndNotesRecord,
   extractAuthenticator,
   extractAuthor,
   extractLocation,
+  getAdmissionDate,
   getAttending,
+  getDateFromBody,
   getDateSigned,
+  getDischargeDate,
   getNote,
   getRecordType,
   getTitle,
   getType,
 } from '../../reducers/careSummariesAndNotes';
-import { noteTypes } from '../../util/constants';
+import { dischargeSummarySortFields, noteTypes } from '../../util/constants';
 import dischargeSummary from '../fixtures/dischargeSummary.json';
 import progressNote from '../fixtures/physicianProcedureNote.json';
 import consultResultNote from '../fixtures/consultResultNote.json';
@@ -108,7 +112,7 @@ describe('extractAuthenticator', () => {
   it('should return null if no "name" item contains a "text" field', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [{ ignore: 'the wrong object' }] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
@@ -116,7 +120,7 @@ describe('extractAuthenticator', () => {
   it('should return null if "name" is empty', () => {
     const badRec = {
       contained: [{ id: 'Provider-0', name: [] }],
-      authenticator: { reference: '#Provider-1' },
+      authenticator: { reference: '#Provider-0' },
     };
     expect(extractAuthenticator(badRec)).to.be.null;
   });
@@ -366,12 +370,115 @@ describe('getAttending', () => {
   });
 });
 
+describe('getDateFromBody', () => {
+  it('should return null if there is an invalid date', () => {
+    const summary = '  DATE OF ADMISSION:  INVALID-DATE  ';
+    expect(getDateFromBody(summary, 'DATE OF ADMISSION')).to.eq(null);
+  });
+});
+
+describe('getAdmissionDate', () => {
+  it('should return the context.period.start field if it exists', () => {
+    const record = { context: { period: { start: '2022-08-05T13:41:23Z' } } };
+    expect(getAdmissionDate(record, '')).to.deep.equal(
+      new Date('2022-08-05T13:41:23Z'),
+    );
+  });
+
+  it('should parse the note text if context.period.start does not exist', () => {
+    const record = { context: { period: { start: null } } };
+    const summary = '  DATE OF ADMISSION: AUG 18,2022  ';
+    const actualDate = getAdmissionDate(record, summary)
+      .toISOString()
+      .split('T')[0];
+    const expectedDate = new Date('2022-08-18T00:00:00.000Z')
+      .toISOString()
+      .split('T')[0];
+    expect(actualDate).to.equal(expectedDate);
+  });
+
+  it('should return null if there is no admission date', () => {
+    const record = { context: { period: { start: null } } };
+    const summary = '  DATE OF ADMISSION:  ';
+    expect(getAdmissionDate(record, summary)).to.eq(null);
+  });
+});
+
+describe('getDischargeDate', () => {
+  it('should return the context.period.end field if it exists', () => {
+    const record = { context: { period: { end: '2022-08-05T13:41:23Z' } } };
+    expect(getDischargeDate(record, '')).to.deep.equal(
+      new Date('2022-08-05T13:41:23Z'),
+    );
+  });
+
+  it('should parse the note text if context.period.end does not exist', () => {
+    const record = { context: { period: { end: null } } };
+    const summary = '  DATE OF DISCHARGE: AUG 18,2022  ';
+    const actualDate = getDischargeDate(record, summary)
+      .toISOString()
+      .split('T')[0];
+    const expectedDate = new Date('2022-08-18T00:00:00.000Z')
+      .toISOString()
+      .split('T')[0];
+    expect(actualDate).to.equal(expectedDate);
+  });
+
+  it('should return null if there is no discharge date', () => {
+    const record = { context: { period: { end: null } } };
+    const summary = '  DATE OF DISCHARGE: ';
+    expect(getDischargeDate(record, summary)).to.eq(null);
+  });
+});
+
+describe('convertAdmissionAndDischargeDetails', () => {
+  it('should properly convert dates', () => {
+    const record = {
+      context: {
+        period: {
+          start: '2022-08-05T13:41:23-0500',
+          end: '2022-08-18T04:00:00-0500',
+        },
+      },
+    };
+    const dsNote = convertAdmissionAndDischargeDetails(record);
+    expect(dsNote.admissionDate).to.eq('August 5, 2022');
+    expect(dsNote.dischargeDate).to.eq('August 18, 2022');
+  });
+
+  it('should set up sort first by admission date', () => {
+    const record = {
+      context: {
+        period: { start: '2022-08-05T13:41:23Z', end: '2022-08-06T13:41:23Z' },
+      },
+      date: '2022-08-07T13:41:23Z',
+    };
+    const dsNote = convertAdmissionAndDischargeDetails(record);
+    expect(dsNote.sortByField).to.eq(dischargeSummarySortFields.ADMISSION_DATE);
+  });
+
+  it('should set up sort second by discharge date', () => {
+    const record = {
+      context: { period: { end: '2022-08-06T13:41:23Z' } },
+      date: '2022-08-07T13:41:23Z',
+    };
+    const dsNote = convertAdmissionAndDischargeDetails(record);
+    expect(dsNote.sortByField).to.eq(dischargeSummarySortFields.DISCHARGE_DATE);
+  });
+
+  it('should set up sort third by date entered', () => {
+    const record = { date: '2022-08-07T13:41:23Z' };
+    const dsNote = convertAdmissionAndDischargeDetails(record);
+    expect(dsNote.sortByField).to.eq(dischargeSummarySortFields.DATE_ENTERED);
+  });
+});
+
 describe('convertCareSummariesAndNotesRecord', () => {
   it('should properly convert discharge summaries', () => {
     const note = convertCareSummariesAndNotesRecord(dischargeSummary);
     expect(note.type).to.equal('18842-5');
-    expect(note.admissionDate).to.be.not.null;
-    expect(note.dischargeDate).to.be.not.null;
+    expect(note.admissionDate).to.eq('August 5, 2022');
+    expect(note.dischargeDate).to.eq('August 9, 2022');
     expect(note.dateSigned).to.be.undefined;
   });
 
@@ -407,6 +514,7 @@ describe('careSummariesAndNotesReducer', () => {
       { type: Actions.CareSummariesAndNotes.GET_LIST, response },
     );
     expect(newState.careSummariesAndNotesList.length).to.equal(3);
+    expect(newState.updatedList).to.equal(undefined);
   });
 
   it('creates an empty list if "entry" is empty', () => {
@@ -422,6 +530,7 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: undefined,
     });
   });
 
@@ -437,6 +546,104 @@ describe('careSummariesAndNotesReducer', () => {
       listCurrentAsOf: null,
       listState: 'fetched',
       careSummariesAndNotesList: [],
+      updatedList: undefined,
     });
+  });
+
+  it('puts updated records in updatedList', () => {
+    const response = {
+      entry: [
+        { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        { resource: { type: { coding: [{ code: '11488-4' }] } } },
+      ],
+      resourceType: 'Bundle',
+    };
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+          { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        ],
+      },
+      { type: Actions.CareSummariesAndNotes.GET_LIST, response },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(2);
+    expect(newState.updatedList.length).to.equal(3);
+  });
+
+  it('moves updatedList into careSummariesAndNotesList on request', () => {
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        ],
+        updatedList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+          { resource: { type: { coding: [{ code: '11506-3' }] } } },
+        ],
+      },
+      { type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(2);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('does not move updatedList into careSummariesAndNotesList if updatedList does not exist', () => {
+    const newState = careSummariesAndNotesReducer(
+      {
+        careSummariesAndNotesList: [
+          { resource: { type: { coding: [{ code: '18842-5' }] } } },
+        ],
+        updatedList: undefined,
+      },
+      { type: Actions.CareSummariesAndNotes.COPY_UPDATED_LIST },
+    );
+    expect(newState.careSummariesAndNotesList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+
+  it('sorts the list in descending date order, with nulls at the end', () => {
+    const response = {
+      entry: [
+        {
+          resource: {
+            id: 1,
+            type: { coding: [{ code: '18842-5' }] },
+            context: {
+              period: { start: '2022-08-01' },
+            },
+          },
+        },
+        {
+          resource: { id: 'NULL1', type: { coding: [{ code: '18842-5' }] } },
+        },
+        {
+          resource: {
+            id: 3,
+            type: { coding: [{ code: '11506-3' }] },
+            date: '2022-08-03',
+          },
+        },
+        {
+          resource: { id: 'NULL2', type: { coding: [{ code: '11506-3' }] } },
+        },
+        {
+          resource: {
+            id: 2,
+            type: { coding: [{ code: '18842-5' }] },
+            date: '2022-08-02',
+          },
+        },
+      ],
+      resourceType: 'Bundle',
+    };
+    const newState = careSummariesAndNotesReducer(
+      {},
+      { type: Actions.CareSummariesAndNotes.GET_LIST, response },
+    );
+    expect(newState.careSummariesAndNotesList.map(rec => rec.id)).to.deep.equal(
+      [3, 2, 1, 'NULL1', 'NULL2'],
+    );
   });
 });

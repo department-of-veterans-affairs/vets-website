@@ -63,7 +63,7 @@ const Wrapper = props => {
         data-testid={testID}
       >
         <MixedLanguageDisclaimer />
-        <LanguagePicker withTopMargin={!withBackButton} />
+        <LanguagePicker />
         {pageTitle && (
           <h1 tabIndex="-1" data-testid="header">
             {eyebrow && (
@@ -77,6 +77,7 @@ const Wrapper = props => {
         <DowntimeNotification
           appTitle={appTitle}
           dependencies={[downtimeDependency]}
+          customText={{ appType: 'tool' }}
         >
           {children}
         </DowntimeNotification>

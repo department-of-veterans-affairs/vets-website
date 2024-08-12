@@ -18,7 +18,7 @@ const stateOrFacilityPage = {
     type: 'object',
     required: ['stateOrFacility'],
     properties: {
-      stateOrFacility: radioSchema(Object.keys(stateOrFacilityOptions)),
+      stateOrFacility: radioSchema(Object.values(stateOrFacilityOptions)),
     },
   },
 };

@@ -2,7 +2,7 @@ import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import { validateCurrentOrFutureDate } from 'platform/forms-system/src/js/validation';
 import { genderLabels } from '../../utils/labels';
-import { ageWarning, eighteenOrOver } from '../helpers';
+import { ageWarning, isEighteenOrOlder } from '../helpers';
 
 export const uiSchema = {
   veteranFullName: {
@@ -56,12 +56,12 @@ export const uiSchema = {
     'ui:description': ageWarning,
     'ui:options': {
       // expandUnder: ['dateOfBirth'],
-      hideIf: formData => eighteenOrOver(formData.dateOfBirth),
+      hideIf: formData => isEighteenOrOlder(formData.dateOfBirth),
     },
     minorHighSchoolQuestion: {
       'ui:title': 'Applicant has graduated high school or received GED?',
       'ui:widget': 'yesNo',
-      'ui:required': formData => !eighteenOrOver(formData.dateOfBirth),
+      'ui:required': formData => !isEighteenOrOlder(formData.dateOfBirth),
     },
     highSchoolGedGradDate: {
       ...currentOrPastDateUI('Date graduated'),
@@ -70,7 +70,7 @@ export const uiSchema = {
       },
       'ui:required': formData => {
         let isRequired = false;
-        if (!eighteenOrOver(formData.dateOfBirth)) {
+        if (!isEighteenOrOlder(formData.dateOfBirth)) {
           const yesNoResults =
             formData.minorHighSchoolQuestions.minorHighSchoolQuestion;
           if (yesNoResults) {

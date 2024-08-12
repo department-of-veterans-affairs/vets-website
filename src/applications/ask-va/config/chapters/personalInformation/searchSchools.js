@@ -15,7 +15,7 @@ const searchSchoolsPage = {
   },
   schema: {
     type: 'object',
-    required: [],
+    required: ['school'],
     properties: {
       school: {
         type: 'string',

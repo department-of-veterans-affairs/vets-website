@@ -20,6 +20,8 @@ import {
   specializedMissionDefinitions,
   sortedSpecializedMissionDefinitions,
   validateSearchTerm,
+  isShowVetTec,
+  isShowCommunityFocusVACheckbox,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
 import {
@@ -31,7 +33,275 @@ import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
-import { useFilterBtn } from '../../hooks/useFilterbtn';
+import VACheckboxGroupGi from '../../components/VaCheckboxGroupGi';
+// import { useFilterBtn } from '../../hooks/useFilterbtn';
+
+const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
+  if (isShowVetTec(automatedTest)) {
+    return [
+      {
+        name: 'employers',
+        dataTestId: 'employers',
+        checked: employers,
+        optionLabel: 'On-the-job training and apprenticeships',
+      },
+      {
+        name: 'vettec',
+        dataTestId: 'vettec',
+        checked: vettec,
+        optionLabel: 'VET TEC providers',
+      },
+    ];
+  }
+  return [
+    {
+      name: 'employers',
+      dataTestId: 'employers',
+      checked: employers,
+      optionLabel: 'On-the-job training and apprenticeships',
+    },
+  ];
+};
+
+export function schoolTypesCheckboxes(
+  handleIncludedSchoolTypesChange,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        className="about-school-checkbox"
+        label={
+          <h3
+            className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
+            aria-level={2}
+          >
+            School types
+          </h3>
+        }
+        onChange={handleIncludedSchoolTypesChange}
+        options={options}
+        row={!smallScreen}
+        padding={!smallScreen}
+        colNum="1p5"
+        labelMargin="3"
+        // setIsCleared={setIsCleared}
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      className="about-school-checkbox"
+      label={
+        <h3
+          className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
+          aria-level={2}
+        >
+          School types
+        </h3>
+      }
+      onChange={handleIncludedSchoolTypesChange}
+      options={options}
+      row={!smallScreen}
+      colNum="1p5"
+      labelMargin="3"
+      // setIsCleared={setIsCleared}
+    />
+  );
+}
+
+export function aboutTheSchoolOptions(
+  excludeCautionFlags,
+  accredited,
+  studentVeteran,
+  yellowRibbonScholarship,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return [
+      {
+        name: 'excludeCautionFlags',
+        checked: excludeCautionFlags,
+        dataTestId: 'exclude-caution-flags',
+        optionLabel: 'Has no cautionary warnings',
+      },
+      {
+        name: 'accredited',
+        dataTestId: 'accredited',
+        checked: accredited,
+        optionLabel: 'Is accredited',
+      },
+      {
+        name: 'studentVeteran',
+        dataTestId: 'student-veteran',
+        checked: studentVeteran,
+        optionLabel: 'Has a Student Veteran Group',
+      },
+      {
+        name: 'yellowRibbonScholarship',
+        dataTestId: 'yellow-ribbon',
+        checked: yellowRibbonScholarship,
+        optionLabel: 'Offers Yellow Ribbon Program',
+      },
+    ];
+  }
+  return [
+    {
+      name: 'excludeCautionFlags',
+      checked: excludeCautionFlags,
+      dataTestId: 'exclude-caution-flags',
+      optionLabel: (
+        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+          Has no cautionary warnings
+        </label>
+      ),
+    },
+    {
+      name: 'accredited',
+      dataTestId: 'accredited',
+      checked: accredited,
+      optionLabel: (
+        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+          Is accredited
+        </label>
+      ),
+    },
+    {
+      name: 'studentVeteran',
+      dataTestId: 'student-veteran',
+      checked: studentVeteran,
+      optionLabel: 'Has a Student Veteran Group',
+    },
+    {
+      name: 'yellowRibbonScholarship',
+      dataTestId: 'yellow-ribbon',
+      checked: yellowRibbonScholarship,
+      optionLabel: 'Offers Yellow Ribbon Program',
+    },
+  ];
+}
+
+export function aboutTheSchool(
+  onChangeCheckbox,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        // setIsCleared={setIsCleared}
+        className="about-school-checkbox"
+        label={
+          <h3 className="about-school-label" aria-level={2}>
+            About the school
+          </h3>
+        }
+        onChange={onChangeCheckbox}
+        options={options}
+        row={!smallScreen}
+        padding={!smallScreen}
+        colNum="1p5"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      // setIsCleared={setIsCleared}
+      className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
+      label={
+        <h3
+          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
+          aria-level={2}
+        >
+          About the school
+        </h3>
+      }
+      onChange={onChangeCheckbox}
+      options={options}
+      row={!smallScreen}
+      padding={!smallScreen}
+      colNum="4p5"
+    />
+  );
+}
+
+export function otherCheckboxes(
+  handleVetTechPreferredProviderChange,
+  options,
+  smallScreen,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        className="other-checkbox"
+        label={
+          <h3 className="about-school-label" aria-level={2}>
+            Other
+          </h3>
+        }
+        onChange={handleVetTechPreferredProviderChange}
+        options={options}
+        // setIsCleared={setIsCleared}
+        row={!smallScreen}
+        colNum="4p5"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
+      label={
+        <h3
+          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
+          aria-level={2}
+        >
+          Other
+        </h3>
+      }
+      onChange={handleVetTechPreferredProviderChange}
+      options={options}
+      // setIsCleared={setIsCleared}
+      row={!smallScreen}
+      colNum="4p5"
+    />
+  );
+}
+
+export function communityFocusCheckboxes(
+  onChangeCheckbox,
+  sortedOptions,
+  smallScreen,
+  automatedTest = false,
+) {
+  if (isShowCommunityFocusVACheckbox(automatedTest)) {
+    return (
+      <VACheckboxGroupGi
+        class="vads-u-margin-y--4"
+        className="my-filters-margin"
+        onChange={onChangeCheckbox}
+        options={sortedOptions}
+        // setIsCleared={setIsCleared}
+        row={!smallScreen}
+        colNum="4"
+      />
+    );
+  }
+  return (
+    <CheckboxGroup
+      class="vads-u-margin-y--4"
+      className="my-filters-margin"
+      onChange={onChangeCheckbox}
+      options={sortedOptions}
+      // setIsCleared={setIsCleared}
+      row={!smallScreen}
+      colNum="4"
+    />
+  );
+}
 
 export function FilterBeforeResults({
   dispatchFilterChange,
@@ -49,12 +319,7 @@ export function FilterBeforeResults({
   const history = useHistory();
   const { version } = preview;
   const { error } = errorReducer;
-  const {
-    isCleared,
-    setIsCleared,
-    focusOnFirstInput,
-    loading,
-  } = useFilterBtn();
+  // const { isCleared, setIsCleared, loading } = useFilterBtn();
   const {
     schools,
     excludedSchoolTypes,
@@ -124,8 +389,17 @@ export function FilterBeforeResults({
     });
   };
 
-  const handleVetTechPreferredProviderChange = e => {
-    const { checked, name } = e.target;
+  const recordCheckboxHomeEvent = e => {
+    recordEvent({
+      event: 'gibct-home-form-change',
+      'gibct-home-form-field': e.target.name,
+      'gibct-home-form-value': e.target.checked,
+    });
+  };
+
+  const handleVetTechPreferredProviderChange = (e, currentName) => {
+    const { checked } = e.target;
+    const name = currentName || e.target.name;
     if (checked && name === 'vettec') {
       dispatchFilterChange({
         ...filters,
@@ -133,6 +407,7 @@ export function FilterBeforeResults({
         preferredProvider: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
     if (!checked && name === 'vettec') {
       dispatchFilterChange({
@@ -141,6 +416,7 @@ export function FilterBeforeResults({
         preferredProvider: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (checked && name === 'employers') {
@@ -149,6 +425,7 @@ export function FilterBeforeResults({
         employers: true,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
 
     if (!checked && name === 'employers') {
@@ -157,6 +434,7 @@ export function FilterBeforeResults({
         employers: false,
       });
       recordCheckboxEvent(e);
+      recordCheckboxHomeEvent(e);
     }
   };
 
@@ -174,12 +452,14 @@ export function FilterBeforeResults({
     }
   };
 
-  const onChangeCheckbox = e => {
+  const onChangeCheckbox = (e, currentName) => {
+    const name = currentName || e.target.name;
     recordCheckboxEvent(e);
-    updateInstitutionFilters(e.target.name, e.target.checked);
+    recordCheckboxHomeEvent(e);
+    updateInstitutionFilters(name, e.target.checked);
   };
 
-  const handleIncludedSchoolTypesChange = e => {
+  const handleIncludedSchoolTypesChange = (e, currentName) => {
     // The filter consumes these as exclusions
     /* 
       if schools boolean is false, no matter what school type filter
@@ -191,7 +471,8 @@ export function FilterBeforeResults({
       makes it true if any of the school types filters
       are checked.
     */
-    const { name } = e.target;
+    // const { name } = e.target;
+    const name = currentName || e.target.name;
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
@@ -217,117 +498,32 @@ export function FilterBeforeResults({
 
     return (
       <div className="filter-your-results">
-        <CheckboxGroup
-          className="about-school-checkbox"
-          label={
-            <h3
-              className={
-                isProductionOrTestProdEnv() ? 'school-types-label' : ''
-              }
-              aria-level={2}
-            >
-              School types
-            </h3>
-          }
-          onChange={handleIncludedSchoolTypesChange}
-          options={options}
-          row={!smallScreen}
-          colNum="1p5"
-          labelMargin="3"
-          focusOnFirstInput={focusOnFirstInput}
-          setIsCleared={setIsCleared}
-        />
+        {schoolTypesCheckboxes(
+          handleIncludedSchoolTypesChange,
+          options,
+          smallScreen,
+        )}
       </div>
     );
   };
 
   const schoolAttributes = () => {
-    const options = [
-      {
-        name: 'excludeCautionFlags',
-        checked: excludeCautionFlags,
-        dataTestId: 'exclude-caution-flags',
-        optionLabel: (
-          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-            Has no cautionary warnings
-          </label>
-        ),
-      },
-      {
-        name: 'accredited',
-        dataTestId: 'accredited',
-        checked: accredited,
-        optionLabel: (
-          <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
-            Is accredited
-          </label>
-        ),
-      },
-      {
-        name: 'studentVeteran',
-        dataTestId: 'student-veteran',
-        checked: studentVeteran,
-        optionLabel: 'Has a Student Veteran Group',
-      },
-      {
-        name: 'yellowRibbonScholarship',
-        dataTestId: 'yellow-ribbon',
-        checked: yellowRibbonScholarship,
-        optionLabel: 'Offers Yellow Ribbon Program',
-      },
-    ];
-
-    return (
-      <CheckboxGroup
-        setIsCleared={setIsCleared}
-        className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
-            About the school
-          </h3>
-        }
-        onChange={onChangeCheckbox}
-        options={options}
-        row={!smallScreen}
-        colNum="4p5"
-      />
+    const options = aboutTheSchoolOptions(
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
     );
+
+    return aboutTheSchool(onChangeCheckbox, options, smallScreen);
   };
+
   const vetTecOJT = () => {
-    const options = [
-      {
-        name: 'employers',
-        dataTestId: 'employers',
-        checked: employers,
-        optionLabel: 'On-the-job training and apprenticeships',
-      },
-      {
-        name: 'vettec',
-        dataTestId: 'vettec',
-        checked: vettec,
-        optionLabel: 'VET TEC providers',
-      },
-    ];
-    return (
-      <CheckboxGroup
-        className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-            aria-level={2}
-          >
-            Other
-          </h3>
-        }
-        onChange={handleVetTechPreferredProviderChange}
-        options={options}
-        setIsCleared={setIsCleared}
-        row={!smallScreen}
-        colNum="4p5"
-      />
+    const options = etTecOJTOptions(employers, vettec);
+    return otherCheckboxes(
+      handleVetTechPreferredProviderChange,
+      options,
+      smallScreen,
     );
   };
 
@@ -504,20 +700,11 @@ export function FilterBeforeResults({
               }
             />
           )}
-          <CheckboxGroup
-            class="vads-u-margin-y--4"
-            className={isProductionOrTestProdEnv() ? 'my-filters-margin' : ''}
-            label={
-              <h3 className="visually-hidden" aria-level={2}>
-                Community focus
-              </h3>
-            }
-            onChange={onChangeCheckbox}
-            options={sortedOptions}
-            setIsCleared={setIsCleared}
-            row={!smallScreen}
-            colNum="4"
-          />
+          {communityFocusCheckboxes(
+            onChangeCheckbox,
+            sortedOptions,
+            smallScreen,
+          )}
         </div>
       </div>
     );
@@ -571,7 +758,6 @@ export function FilterBeforeResults({
       </>
     );
   };
-
   const typeOfInstitution = () => {
     const title = 'Filter your results';
     return (
@@ -601,10 +787,11 @@ export function FilterBeforeResults({
             {isProductionOrTestProdEnv() ? (
               <ClearFiltersBtn
                 testId="clear-button"
-                isCleared={isCleared}
-                setIsCleared={setIsCleared}
+                // isCleared={isCleared}
+                // setIsCleared={setIsCleared}
+                onClick={onApplyFilterClick}
               >
-                Clear filters
+                Reset search
               </ClearFiltersBtn>
             ) : (
               <button
@@ -615,7 +802,7 @@ export function FilterBeforeResults({
                     : 'clear-filters-button'
                 }
               >
-                Clear filters
+                Reset search
               </button>
             )}
           </div>
@@ -657,7 +844,7 @@ export function FilterBeforeResults({
 
   return (
     <div className="filter-your-results vads-u-margin-bottom--2">
-      {loading && <Loader className="search-loader" />}
+      {/* {loading && <Loader className="search-loader" />} */}
       {!smallScreen && (
         <div>
           {search.inProgress && (

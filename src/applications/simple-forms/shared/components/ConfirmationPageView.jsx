@@ -77,13 +77,11 @@ export const ConfirmationPageView = ({
 
         <h4>Confirmation for your records</h4>
         <p>You can print this confirmation page for your records</p>
-        <button
-          type="button"
+        <va-button
           className="usa-button vads-u-margin-top--0 screen-only"
           onClick={window.print}
-        >
-          Print this page
-        </button>
+          text="Print this page"
+        />
       </div>
       {childContent || null}
       <a className="vads-c-action-link--green vads-u-margin-bottom--4" href="/">

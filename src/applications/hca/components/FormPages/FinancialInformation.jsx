@@ -1,7 +1,7 @@
-import moment from 'moment';
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+import { LAST_YEAR } from '../../utils/constants';
 
 const HouseholdFinancialOnboarding = props => {
   const {
@@ -10,7 +10,6 @@ const HouseholdFinancialOnboarding = props => {
     contentBeforeButtons,
     contentAfterButtons,
   } = props;
-  const previousYear = moment().subtract(1, 'years');
 
   return (
     <>
@@ -18,8 +17,8 @@ const HouseholdFinancialOnboarding = props => {
         Financial information you’ll need
       </h3>
       <p>
-        We’ll ask for income information from {previousYear.format('Y')} for
-        you, your spouse (if you’re married), and any dependents you may have.
+        We’ll ask for income information from {LAST_YEAR} for you, your spouse
+        (if you’re married), and any dependents you may have.
       </p>
 
       <p className="vads-u-font-weight--bold">
@@ -45,7 +44,7 @@ const HouseholdFinancialOnboarding = props => {
 
       <p>
         And we’ll ask for you or your spouse’s deductible expenses from{' '}
-        {previousYear.format('Y')}.
+        {LAST_YEAR}.
       </p>
 
       <p className="vads-u-font-weight--bold">

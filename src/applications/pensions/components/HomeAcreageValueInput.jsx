@@ -112,7 +112,7 @@ const HomeAcreageValueInput = props => {
         <legend className="schemaform-block-title">
           <Title title="Income and assets" />
         </legend>
-        <va-number-input
+        <va-text-input
           currency
           label="What’s the value of the land that’s more than 2 acres?"
           hint="Don’t include the value of the residence or the first 2 acres"
