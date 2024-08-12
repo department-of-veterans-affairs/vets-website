@@ -22,7 +22,7 @@ const CategorySelectPage = props => {
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const onModalNo = () => {
-    onChange('');
+    onChange({ ...formData, selectCategory: null });
     setShowModal({ show: false, selected: '' });
   };
 
@@ -59,9 +59,15 @@ const CategorySelectPage = props => {
   useEffect(
     () => {
       getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
-      focusElement('h2');
     },
     [loggedIn],
+  );
+
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
   );
 
   // render loading indicator while we fetch

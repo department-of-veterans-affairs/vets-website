@@ -115,38 +115,15 @@ describe('startConvoAndTrackUtterances', () => {
       expect(processMicrophoneActivityStub.calledOnce).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
-    it('should call processPostActivity when action is DIRECT_LINE/CONNECT_FULFILLED if root-bot toggle on', async () => {
+    it('should not call addActivityData for an unknown event if root-bot toggle off', async () => {
       const store = { dispatch: 'fake-dispatch' };
       const nextSpy = sinon.spy();
-      const action = { type: 'DIRECT_LINE/POST_ACTIVITY' };
+      const action = { type: 'unknown' };
 
-      const processPostActivityStub = sandbox.spy();
-      sandbox
-        .stub(ActionHelpersModule, ActionHelpersModule.processPostActivity.name)
-        .returns(processPostActivityStub);
-
-      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
-        csrfToken: 'csrfToken',
-        apiSession: 'apiSession',
-        apiURL: 'apiURL',
-        baseURL: 'baseURL',
-        userFirstName: 'userFirstName',
-        userUuid: 'userUuid',
-        isRootBotToggleOn: true,
-      })(store)(nextSpy)(action);
-
-      expect(processPostActivityStub.calledOnce).to.be.true;
-      expect(nextSpy.calledOnce).to.be.true;
-    });
-    it('should not call processPostActivity when action is DIRECT_LINE/CONNECT_FULFILLED if root-bot toggle off', async () => {
-      const store = { dispatch: 'fake-dispatch' };
-      const nextSpy = sinon.spy();
-      const action = { type: 'DIRECT_LINE/POST_ACTIVITY' };
-
-      const processPostActivityStub = sandbox.spy();
-      sandbox
-        .stub(ActionHelpersModule, ActionHelpersModule.processPostActivity.name)
-        .returns(processPostActivityStub);
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
 
       await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
         csrfToken: 'csrfToken',
@@ -158,18 +135,18 @@ describe('startConvoAndTrackUtterances', () => {
         isRootBotToggleOn: false,
       })(store)(nextSpy)(action);
 
-      expect(processPostActivityStub.notCalled).to.be.true;
+      expect(addActivityDataSpy.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
-    it('should not call processPostActivity when action is unknown if root-bot toggle on', async () => {
+    it('should call addActivityData for an unknown event if root-bot toggle on', async () => {
       const store = { dispatch: 'fake-dispatch' };
       const nextSpy = sinon.spy();
       const action = { type: 'unknown' };
 
-      const processPostActivityStub = sandbox.spy();
-      sandbox
-        .stub(ActionHelpersModule, ActionHelpersModule.processPostActivity.name)
-        .returns(processPostActivityStub);
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
 
       await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
         csrfToken: 'csrfToken',
@@ -181,7 +158,63 @@ describe('startConvoAndTrackUtterances', () => {
         isRootBotToggleOn: true,
       })(store)(nextSpy)(action);
 
-      expect(processPostActivityStub.notCalled).to.be.true;
+      expect(addActivityDataSpy.calledOnce).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
+    it('should call addActivityData for a known event if root-bot toggle on', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'WEB_CHAT/SET_DICTATE_STATE' };
+
+      sandbox.stub(
+        ActionHelpersModule,
+        ActionHelpersModule.processMicrophoneActivity.name,
+      );
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: true,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.calledOnce).to.be.true;
+      expect(nextSpy.calledOnce).to.be.true;
+    });
+    it('should not call addActivityData for a known event if root-bot toggle off', async () => {
+      const store = { dispatch: 'fake-dispatch' };
+      const nextSpy = sinon.spy();
+      const action = { type: 'WEB_CHAT/SET_DICTATE_STATE' };
+
+      sandbox.stub(
+        ActionHelpersModule,
+        ActionHelpersModule.processMicrophoneActivity.name,
+      );
+
+      const addActivityDataSpy = sandbox.spy(
+        ActionHelpersModule,
+        'addActivityData',
+      );
+
+      await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances({
+        csrfToken: 'csrfToken',
+        apiSession: 'apiSession',
+        apiURL: 'apiURL',
+        baseURL: 'baseURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+        isRootBotToggleOn: false,
+      })(store)(nextSpy)(action);
+
+      expect(addActivityDataSpy.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
     it('should not call any of the process function when action is unknown', async () => {
@@ -221,11 +254,6 @@ describe('startConvoAndTrackUtterances', () => {
         )
         .returns(processMicrophoneActivityStub);
 
-      const processPostActivityStub = sandbox.spy();
-      sandbox
-        .stub(ActionHelpersModule, ActionHelpersModule.processPostActivity.name)
-        .returns(processPostActivityStub);
-
       await StartConvoAndTrackUtterances.makeBotStartConvoAndTrackUtterances(
         'csrfToken',
         'apiSession',
@@ -239,7 +267,6 @@ describe('startConvoAndTrackUtterances', () => {
       expect(processIncomingActivityStub.notCalled).to.be.true;
       expect(processSendMessageActivityStub.notCalled).to.be.true;
       expect(processMicrophoneActivityStub.notCalled).to.be.true;
-      expect(processPostActivityStub.notCalled).to.be.true;
       expect(nextSpy.calledOnce).to.be.true;
     });
   });

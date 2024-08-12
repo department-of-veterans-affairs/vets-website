@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { adjustYearString } from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -16,7 +17,7 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
-  const copyOfData = JSON.parse(JSON.stringify(transformedData));
+  let copyOfData = JSON.parse(JSON.stringify(transformedData));
 
   // Set this for the callback API so it knows who to contact if there's
   // a status event notification
@@ -40,6 +41,20 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.secondaryEob = secondaryEob;
   // ---
 
+  // Combine all three street strings into one
+  copyOfData.applicantAddress.streetCombined = `${
+    copyOfData.applicantAddress.street
+  } ${copyOfData.applicantAddress.street2 ?? ''} ${copyOfData.applicantAddress
+    .street3 ?? ''}`;
+
+  if (copyOfData.certifierAddress) {
+    // Combine streets for 3rd party certifier
+    copyOfData.certifierAddress.streetCombined = `${
+      copyOfData.certifierAddress.street
+    } ${copyOfData.certifierAddress.street2 ?? ''} ${copyOfData.certifierAddress
+      .street3 ?? ''}`;
+  }
+
   // Date of signature
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
 
@@ -53,6 +68,8 @@ export default function transformForSubmit(formConfig, form) {
     .filter(el => el); // drop any nulls
 
   copyOfData.fileNumber = copyOfData.applicantMemberNumber;
+
+  copyOfData = adjustYearString(copyOfData);
 
   return JSON.stringify({
     ...copyOfData,

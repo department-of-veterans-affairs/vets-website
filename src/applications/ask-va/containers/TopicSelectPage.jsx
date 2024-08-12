@@ -77,9 +77,15 @@ const TopicSelectPage = props => {
       getApiData(
         `${envUrl}${URL.GET_CATEGORIESTOPICS}/${categoryID}/${URL.GET_TOPICS}`,
       );
-      focusElement('h2');
     },
     [loggedIn],
+  );
+
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
   );
 
   // render loading indicator while we fetch
