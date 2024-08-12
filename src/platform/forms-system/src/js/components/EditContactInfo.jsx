@@ -24,7 +24,7 @@ import { usePrevious } from '../../../../utilities/react-hooks';
 export const BuildPage = ({ title, field, id, goToPath, contactPath }) => {
   const headerRef = useRef(null);
 
-  const modalState = useSelector(state => state?.vapService?.modal);
+  const modalState = useSelector(state => state?.vapService.modal);
   const prevModalState = usePrevious(modalState);
 
   useEffect(
