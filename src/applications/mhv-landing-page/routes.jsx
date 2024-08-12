@@ -11,8 +11,8 @@ const routes = (
   // <ErrorBoundary>
   <AppConfig>
     <Routes>
-      <Route exact path="/" element={<LandingPageContainer />} />
-      <Route exact path="/records" element={<MedicalRecordsContainer />} />
+      <Route path="/" element={<LandingPageContainer />} />
+      <Route path="records" element={<MedicalRecordsContainer />} />
       <Route path="*" element={<PageNotFound />} />
     </Routes>
   </AppConfig>
