@@ -34,6 +34,7 @@ const ThreadDetails = props => {
   const [isCreateNewModalVisible, setIsCreateNewModalVisible] = useState(false);
   const [isLoaded, setIsLoaded] = useState(testing);
   const [isEditing, setIsEditing] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const header = useRef();
 
@@ -43,6 +44,15 @@ const ThreadDetails = props => {
       dispatch(getFolders());
     },
     [dispatch],
+  );
+
+  useEffect(
+    () => {
+      if (isSending === true) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+    },
+    [isSending],
   );
 
   useEffect(
@@ -105,25 +115,36 @@ const ThreadDetails = props => {
     }
     if (drafts?.length > 0 && messages?.length > 0) {
       return (
-        <div className="compose-container">
-          <ReplyForm
-            cannotReply={cannotReply}
-            drafts={drafts || []}
-            header={header}
-            messages={messages}
-            recipients={recipients}
-            replyMessage={messages[0]}
-            isCreateNewModalVisible={isCreateNewModalVisible}
-            setIsCreateNewModalVisible={setIsCreateNewModalVisible}
-            threadId={message?.threadId}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
+        <>
+          <va-loading-indicator
+            message="Sending message..."
+            data-testid="loading-indicator"
+            style={{ display: isSending ? 'block' : 'none' }}
           />
+          <div
+            className="compose-container"
+            style={{ display: isSending && 'none' }}
+          >
+            <ReplyForm
+              cannotReply={cannotReply}
+              drafts={drafts || []}
+              header={header}
+              messages={messages}
+              recipients={recipients}
+              replyMessage={messages[0]}
+              isCreateNewModalVisible={isCreateNewModalVisible}
+              setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+              threadId={message?.threadId}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+              setIsSending={setIsSending}
+            />
 
-          <MessageThreadForPrint messageHistory={messages} />
+            <MessageThreadForPrint messageHistory={messages} />
 
-          <MessageThread isDraftThread messageHistory={messages} />
-        </div>
+            <MessageThread isDraftThread messageHistory={messages} />
+          </div>
+        </>
       );
     }
     if (drafts?.length === 1 && !messages?.length) {

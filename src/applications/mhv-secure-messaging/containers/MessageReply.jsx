@@ -22,6 +22,15 @@ const MessageReply = () => {
 
   useEffect(
     () => {
+      if (isSending === true) {
+        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      }
+    },
+    [isSending],
+  );
+
+  useEffect(
+    () => {
       dispatch(retrieveMessageThread(replyId));
     },
     [replyId, dispatch],
