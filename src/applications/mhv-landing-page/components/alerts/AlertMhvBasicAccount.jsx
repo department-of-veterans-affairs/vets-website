@@ -2,13 +2,14 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { logoutUrl } from 'platform/user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import {
   VaAlert,
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
+const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
   useEffect(() => {
     recordEvent({
       event: 'nav-alert-box-load',
@@ -19,7 +20,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId }) => {
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const signOut = () => {
-    window.location = logoutUrlSiS;
+    window.location = ssoe ? logoutUrl() : logoutUrlSiS();
   };
 
   return (
@@ -86,12 +87,14 @@ AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
   recordEvent: recordEventFn,
+  ssoe: false,
   testId: 'mhv-alert--mhv-basic-account',
 };
 
 AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
+  ssoe: PropTypes.bool,
   testId: PropTypes.string,
 };
 
