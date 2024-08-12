@@ -11,11 +11,11 @@ import {
 
 import formConfig from '../../config/form';
 
-describe('Report 674 term information', () => {
+describe('Report 674 last term information', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.report674.pages.studentTermDates;
+  } = formConfig.chapters.report674.pages.studentLastTerm;
 
   const formData = {
     'view:selectable686Options': {
@@ -46,12 +46,11 @@ describe('Report 674 term information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
-    expect(form.find('select').length).to.equal(6);
+    expect(form.find('input').length).to.equal(2);
     form.unmount();
   });
 
-  it('should not progress without the required fields', () => {
+  it('should submit if a student did not attend school last term', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -62,76 +61,14 @@ describe('Report 674 term information', () => {
         onSubmit={onSubmit}
       />,
     );
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(4);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-
-  it('should submit with valid term dates and full-time enrollment', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        definitions={formConfig.defaultDefinitions}
-        data={formData}
-        onSubmit={onSubmit}
-      />,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_officialSchoolStartDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_officialSchoolStartDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_officialSchoolStartDateYear',
-      2010,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedStudentStartDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedStudentStartDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_expectedStudentStartDateYear',
-      2010,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedGraduationDateMonth',
-      1,
-    );
-    changeDropdown(
-      form,
-      'select#root_currentTermDates_expectedGraduationDateDay',
-      1,
-    );
-    fillData(
-      form,
-      'input#root_currentTermDates_expectedGraduationDateYear',
-      2010,
-    );
-    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'Y');
+    selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'N');
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 
-  it('should submit with valid term dates and program information', () => {
+  it('should submit if a student did attend school last term in the US', () => {
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -142,59 +79,77 @@ describe('Report 674 term information', () => {
         onSubmit={onSubmit}
       />,
     );
+    selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
     changeDropdown(
       form,
-      'select#root_currentTermDates_officialSchoolStartDateMonth',
+      'select#root_lastTermSchoolInformation_termBeginMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_currentTermDates_officialSchoolStartDateDay',
+      'select#root_lastTermSchoolInformation_termBeginDay',
       1,
     );
-    fillData(
-      form,
-      'input#root_currentTermDates_officialSchoolStartDateYear',
-      2010,
-    );
+    fillData(form, 'input#root_lastTermSchoolInformation_termBeginYear', 2009);
     changeDropdown(
       form,
-      'select#root_currentTermDates_expectedStudentStartDateMonth',
+      'select#root_lastTermSchoolInformation_dateTermEndedMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_currentTermDates_expectedStudentStartDateDay',
+      'select#root_lastTermSchoolInformation_dateTermEndedDay',
       1,
     );
     fillData(
       form,
-      'input#root_currentTermDates_expectedStudentStartDateYear',
-      2010,
+      'input#root_lastTermSchoolInformation_dateTermEndedYear',
+      2009,
     );
+    form.find('form').simulate('submit');
+    expect(form.find('.usa-input-error').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
+    form.unmount();
+  });
+
+  it('should submit if a student did attend school last term abroad', () => {
+    const onSubmit = sinon.spy();
+    const form = mount(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        definitions={formConfig.defaultDefinitions}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    selectRadio(form, 'root_studentDidAttendSchoolLastTerm', 'Y');
     changeDropdown(
       form,
-      'select#root_currentTermDates_expectedGraduationDateMonth',
+      'select#root_lastTermSchoolInformation_termBeginMonth',
       1,
     );
     changeDropdown(
       form,
-      'select#root_currentTermDates_expectedGraduationDateDay',
+      'select#root_lastTermSchoolInformation_termBeginDay',
+      1,
+    );
+    fillData(form, 'input#root_lastTermSchoolInformation_termBeginYear', 2009);
+    changeDropdown(
+      form,
+      'select#root_lastTermSchoolInformation_dateTermEndedMonth',
+      1,
+    );
+    changeDropdown(
+      form,
+      'select#root_lastTermSchoolInformation_dateTermEndedDay',
       1,
     );
     fillData(
       form,
-      'input#root_currentTermDates_expectedGraduationDateYear',
-      2010,
+      'input#root_lastTermSchoolInformation_dateTermEndedYear',
+      2009,
     );
-    selectRadio(form, 'root_programInformation_studentIsEnrolledFullTime', 'N');
-    fillData(
-      form,
-      'input#root_programInformation_courseOfStudy',
-      'Marine Biology',
-    );
-    fillData(form, 'input#root_programInformation_classesPerWeek', 2);
-    fillData(form, 'input#root_programInformation_hoursPerWeek', 2);
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
     expect(onSubmit.called).to.be.true;
