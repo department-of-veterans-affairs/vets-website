@@ -34,14 +34,24 @@ export class ConfirmationPage extends React.Component {
         </p>
 
         <va-button
+          id="shareYourResults"
           message-aria-describedby="Share your results"
           text="Share your results"
           onClick={() => {}}
         />
 
         <div id="resultsContainer">
-          <div id="filtersSection">
+          <div id="filtersSectionDesktop">
             <b>Filters</b>
+          </div>
+
+          <div id="filtersSectionMobile">
+            <va-link-action
+              href="#"
+              message-aria-describedby="Filter and sort"
+              text="Filter and sort"
+              type="secondary"
+            />
           </div>
 
           <div id="resultsSection">

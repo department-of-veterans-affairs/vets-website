@@ -16,6 +16,7 @@ const BenefitCard = () => (
           href="#"
           message-aria-describedby="Learn more"
           text="Learn more"
+          type="secondary"
         />
       </div>
       <div className="vads-u-display--inline-block">
@@ -23,6 +24,7 @@ const BenefitCard = () => (
           href="#"
           message-aria-describedby="Apply now"
           text="Apply now"
+          type="secondary"
         />
       </div>
     </div>
