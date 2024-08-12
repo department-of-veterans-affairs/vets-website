@@ -21,9 +21,9 @@ export const URL = {
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-  'Compensation (Service-Connected Bens)',
-  'Veteran Affairs  - Debt', // *double space after 'Affairs'
-  'Benefits Issues Outside the US',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
 ];
 
 export const requireSignInTopics = [
@@ -436,6 +436,11 @@ export const CHAPTER_3 = {
     PATH: 'your-personal-information',
     TITLE: `Your personal information`,
     DESCRIPTION: 'This is the personal information we have on file for you.',
+  },
+  YOUR_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: 'Your VA health facility',
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
   },
 };
 
