@@ -1,4 +1,8 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { EditAddress } from '../../../components/EditContactInfo';
 import { MailingAddressInfoPage } from '../../../containers/MailingAddressInfoPage';
 import manifest from '../../../manifest.json';
@@ -8,6 +12,8 @@ import ConfirmationPage from '../../../containers/ConfirmationPage';
 import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 import { GetFormHelp } from '../../../components/GetFormHelp';
+
+import content from '../../../locales/en/content.json';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -104,10 +110,16 @@ const formConfig = {
               hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
               forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
             },
+            'view:doesMailingMatchHomeAddress': yesNoUI(
+              content['vet-address-match-title'],
+            ),
           },
           schema: {
             type: 'object',
-            properties: {}, // no form elements on this page
+            properties: {
+              'view:doesMailingMatchHomeAddress': yesNoSchema,
+            },
+            required: ['view:doesMailingMatchHomeAddress'],
           },
         },
         editMailingAddress: {
