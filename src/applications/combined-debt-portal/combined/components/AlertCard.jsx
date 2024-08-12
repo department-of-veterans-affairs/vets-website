@@ -16,7 +16,7 @@ const AlertCard = ({ appType }) => {
           We can’t access your{' '}
           {`${appType === APP_TYPES.DEBT ? 'debt' : 'copay'}`} records right now
         </h2>
-        <p className="vads-u-font-size--base vads-u-font-family--sans">
+        <p>
           We’re sorry. Information about{' '}
           {`${appType === APP_TYPES.DEBT ? 'debts' : 'copays'}`} you might have
           is unavailable because something went wrong on our end. Please check

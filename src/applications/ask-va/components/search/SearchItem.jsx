@@ -2,7 +2,8 @@ import {
   VaPagination,
   VaRadio,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import React, { useState } from 'react';
+import { focusElement } from 'platform/utilities/ui';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 const SearchItem = ({
@@ -16,6 +17,16 @@ const SearchItem = ({
   const onPageChange = page => {
     getData(`${pageURL}&page=${page}&per_page=10`);
   };
+  const alertRef = useRef(null);
+
+  useEffect(
+    () => {
+      if (alertRef?.current) {
+        focusElement(alertRef.current);
+      }
+    },
+    [alertRef],
+  );
 
   const handleChange = event => {
     const selectedValue = event.detail.value;
@@ -29,21 +40,30 @@ const SearchItem = ({
     const facilityAddress = `${info.attributes.address.physical.city}, ${
       info.attributes.address.physical.state
     } ${facilityZip}`;
-    return `${facilityName},
-    ${facilityAddress}`;
+    return `${facilityName}, ${facilityAddress}`;
   };
+
+  const resultsPerPage = 10;
+  const currentPage = facilityData?.meta?.pagination?.currentPage || 1;
+  const totalEntries = facilityData?.meta?.pagination?.totalEntries || 0;
+
+  const startEntry = (currentPage - 1) * resultsPerPage + 1;
+  const endEntry = Math.min(currentPage * resultsPerPage, totalEntries);
+
+  const displayResults = `Showing ${startEntry}-${endEntry} of ${totalEntries} results for `;
+
   return (
-    facilityData.data.length > 0 && (
+    facilityData?.data?.length > 0 && (
       <>
-        <p>
-          {`Showing ${facilityData.data.length} results for `}
+        <p ref={alertRef} className="vads-u-margin-bottom--0">
+          {displayResults}
           <strong>{`"${searchInput.place_name || searchInput}"`}</strong>{' '}
         </p>
-        <p>
+        <p className="vads-u-margin-top--1">
           The results are listed from nearest to farthest from your location.
         </p>
         <VaRadio
-          class="vads-u-margin-y--2"
+          class="vads-u-margin-y--2 vads-u-width--100"
           label="Select VA health facility"
           onVaValueChange={handleChange}
           required
@@ -63,8 +83,8 @@ const SearchItem = ({
         </VaRadio>
         <VaPagination
           onPageSelect={e => onPageChange(e.detail.page)}
-          page={facilityData.meta.pagination.currentPage}
-          pages={5}
+          page={currentPage}
+          pages={facilityData.meta.pagination.totalPages}
           maxPageListLength={5}
           showLastPage
           uswds

@@ -212,9 +212,12 @@ export function selectAppointmentDetails(appointment) {
   if (appointment.vaos.isCommunityCare) {
     return comment || 'none';
   }
-  return appointment.reason && comment
-    ? `${appointment.reason}: ${comment}`
-    : comment || (appointment.reason ? appointment.reason : null);
+  return appointment.reasonForAppointment && comment
+    ? `${appointment.reasonForAppointment}: ${comment}`
+    : comment ||
+        (appointment.reasonForAppointment
+          ? appointment.reasonForAppointment
+          : null);
 }
 
 export function selectProviderAddress(appointment) {
@@ -349,11 +352,11 @@ export function selectIsCanceled(appointment) {
 }
 
 export function selectIsCommunityCare(appointment) {
-  return appointment.vaos.isCommunityCare;
+  return appointment?.vaos?.isCommunityCare;
 }
 
 export function selectIsVideo(appointment) {
-  return appointment.vaos.isVideo;
+  return appointment?.vaos?.isVideo;
 }
 
 export function selectIsInPerson(appointment) {
@@ -365,6 +368,8 @@ export function selectIsInPerson(appointment) {
 }
 
 export function selectPractitionerName(appointment) {
+  if (!appointment) return null;
+
   if (selectIsCommunityCare(appointment)) {
     // NOTE: appointment.communityCareProvider is populated for booked CC only
     const { providerName, name } = appointment.communityCareProvider || {
@@ -388,11 +393,15 @@ export function selectPractitionerName(appointment) {
   // layer. See the following link for details.
   //
   // https://github.com/department-of-veterans-affairs/va.gov-team/blob/master/products/health-care/appointments/va-online-scheduling/engineering/architecture/front_end_architecture.md
-  let { practitioners } = appointment;
-  practitioners = practitioners.map(practitioner => {
-    const { name = { given: '', family: '' } } = practitioner;
-    return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
-  });
+  let { practitioners = [] } = appointment;
+  practitioners = practitioners
+    .map(practitioner => {
+      const { name } = practitioner;
+      if (name)
+        return `${name.given.toString().replaceAll(',', ' ')} ${name.family}`;
+      return null;
+    })
+    .filter(Boolean);
 
   return practitioners.length > 0 ? practitioners[0] : '';
 }
@@ -405,7 +414,7 @@ export function selectIsPending(appointment) {
 }
 
 export function selectIsPast(appointment) {
-  if (appointment) {
+  if (appointment && appointment.vaos) {
     const { isPastAppointment } = appointment.vaos;
     return isPastAppointment;
   }
@@ -672,6 +681,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
   const atlasConfirmationCode = selectAtlasConfirmationCode(appointment);
   const isCanceledAppointment = selectIsCanceled(appointment);
   const isUpcoming = appointment?.vaos?.isUpcomingAppointment;
+  const practitionerName = selectPractitionerName(appointment);
 
   return {
     appointment,
@@ -700,6 +710,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     isPhone,
     locationId,
     phone,
+    practitionerName,
     providerAddress,
     showCancelButton: selectFeatureCancel(state),
     startDate,
