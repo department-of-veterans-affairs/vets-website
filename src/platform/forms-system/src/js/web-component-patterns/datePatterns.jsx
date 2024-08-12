@@ -43,6 +43,13 @@ const currentOrPastDateUI = options => {
     'ui:options': {
       ...uiOptions,
     },
+    'ui:confirmationData': ({ formData }) => ({
+      data: new Date(`${formData}T00:00:00`).toLocaleDateString('en-us', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }),
+    }),
     'ui:reviewField': ({ children }) => (
       <div className="review-row">
         <dt>{uiTitle}</dt>
