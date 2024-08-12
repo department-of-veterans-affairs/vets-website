@@ -57,6 +57,7 @@ const defaultUser = {
           },
         ],
         mhvAccountState: 'OK',
+        vaPatient: true,
       },
     },
   },
@@ -125,12 +126,18 @@ const cernerUser = {
 };
 
 const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
+  const vaPatient = facilities.length > 0;
   return {
     ...defaultUser,
     data: {
       ...defaultUser.data,
       attributes: {
         ...defaultUser.data.attributes,
+        vaProfile: {
+          ...defaultUser.data.attributes.va_profile,
+          facilities,
+          vaPatient,
+        },
         profile: {
           ...defaultUser.data.attributes.profile,
           facilities,
