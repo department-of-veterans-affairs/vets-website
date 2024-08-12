@@ -61,5 +61,8 @@ describe('Secure Messaging Pilot feature flag', () => {
     };
 
     PilotEnvPage.verifySorting('Oldest to newest', sortedResponse);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
