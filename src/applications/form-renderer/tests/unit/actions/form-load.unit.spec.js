@@ -3,9 +3,12 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { formConfig1, normalizedForm } from '../../../_config/formConfig';
 import {
+  DIGITAL_FORMS_FILENAME,
+  FORM_LOADING_SUCCEEDED,
+  INTEGRATION_DEPLOYMENT,
+  fetchDrupalDigitalForms,
   fetchFormConfig,
   findFormByFormId,
-  FORM_LOADING_SUCCEEDED,
 } from '../../../actions/form-load';
 
 const sinon = require('sinon');
@@ -22,6 +25,39 @@ const initialState = {
 };
 
 describe('form-load actions', () => {
+  describe('fetchDrupalDigitalForms', () => {
+    let mockFetch;
+    let url;
+
+    const jsonOK = body =>
+      new Response(JSON.stringify(body), {
+        status: 200,
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+
+    beforeEach(async () => {
+      mockFetch = sinon.stub(global, 'fetch').resolves(jsonOK(['test data']));
+
+      await fetchDrupalDigitalForms();
+
+      [[url]] = mockFetch.args;
+    });
+
+    afterEach(() => {
+      global.fetch.restore();
+    });
+
+    it('fetches from the integration branch Tugboat', () => {
+      expect(url).to.have.string(INTEGRATION_DEPLOYMENT);
+    });
+
+    it('fetches the correct file', () => {
+      expect(url).to.have.string(DIGITAL_FORMS_FILENAME);
+    });
+  });
+
   describe('fetchFormConfig', () => {
     let store;
     let stub;
