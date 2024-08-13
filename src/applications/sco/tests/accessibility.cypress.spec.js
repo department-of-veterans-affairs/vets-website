@@ -122,6 +122,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.realPress('Tab');
+    cy.realPress('Tab');
     cy.focused().should('contain.text', '85/15');
     cy.realPress('Tab');
     cy.realPress('Tab');
@@ -134,6 +135,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'About GI Bill Benefits');
+    cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
