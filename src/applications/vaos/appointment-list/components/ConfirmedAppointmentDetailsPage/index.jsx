@@ -168,7 +168,7 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   if (featureAppointmentDetailsRedesign) {
     return (
-      <PageLayout showNeedHelp>
+      <PageLayout isDetailPage showNeedHelp>
         {isVA && (
           <DetailsVA
             appointment={appointment}
@@ -189,7 +189,10 @@ export default function ConfirmedAppointmentDetailsPage() {
   }
 
   return (
-    <PageLayout showNeedHelp={featureAppointmentDetailsRedesign}>
+    <PageLayout
+      isDetailPage={featureAppointmentDetailsRedesign}
+      showNeedHelp={featureAppointmentDetailsRedesign}
+    >
       {isVideo && (
         <DetailsVideo appointment={appointment} facilityData={facilityData} />
       )}
