@@ -6,6 +6,7 @@ import {
   processMicrophoneActivity,
   processIncomingActivity,
   processSendMessageActivity,
+  processPostActivity,
 } from '../../utils/actions';
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
@@ -587,6 +588,33 @@ describe('actions', () => {
       processMicrophoneActivity({ action })();
 
       expect(recordEventStub.notCalled).to.be.true;
+    });
+  });
+
+  describe('processPostActivity', () => {
+    it('should add values to the activity', () => {
+      const action = {
+        payload: {
+          activity: {
+            values: {},
+          },
+        },
+      };
+      const updatedAction = processPostActivity({
+        action,
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+      })();
+      expect(updatedAction.payload.activity.values).to.deep.equal({
+        apiSession: 'apiSession',
+        csrfToken: 'csrfToken',
+        apiURL: 'apiURL',
+        userFirstName: 'userFirstName',
+        userUuid: 'userUuid',
+      });
     });
   });
 });

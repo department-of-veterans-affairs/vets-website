@@ -86,9 +86,11 @@ class AppointmentsPage {
   };
 
   clickDetails = (appointment = 0) => {
-    cy.get(`[data-testid="details-link-${appointment}"]`).click({
-      waitForAnimations: true,
-    });
+    cy.get('[data-testid="details-link"]')
+      .eq(appointment)
+      .click({
+        waitForAnimations: true,
+      });
   };
 
   clickUpcomingAppointmentDetails = (appointment = 2) => {
