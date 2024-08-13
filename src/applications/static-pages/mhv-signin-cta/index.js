@@ -69,9 +69,9 @@ MhvSigninCallToAction.propTypes = {
 export const mapStateToProps = state => {
   return {
     hasSsoe: isAuthenticatedWithSSOe(state),
-    serviceName: isLoggedIn(state) ? signInServiceName(state) : undefined,
+    serviceName: signInServiceName(state),
     userIsLoggedIn: isLoggedIn(state),
-    userIsVerified: isLoggedIn(state) ? isLOA3(state) : undefined,
+    userIsVerified: isLOA3(state),
   };
 };
 

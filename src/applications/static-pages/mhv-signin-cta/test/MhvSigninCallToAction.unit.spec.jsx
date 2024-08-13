@@ -16,6 +16,11 @@ describe('MHV Signin CTA', () => {
           login: {
             currentlyLoggedIn: false,
           },
+          profile: {
+            loa: {
+              current: null,
+            },
+          },
         },
       };
       const result = mapStateToProps(state);
