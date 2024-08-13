@@ -27,6 +27,7 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+const healthConditions = require('./medical-records/health-conditions');
 
 const responses = {
   ...commonResponses,
@@ -95,6 +96,8 @@ const responses = {
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
+  'GET /my_health/v1/medical_records/conditions': healthConditions.all,
+  'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
