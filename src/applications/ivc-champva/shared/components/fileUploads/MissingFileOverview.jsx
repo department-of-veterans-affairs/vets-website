@@ -27,7 +27,7 @@ user acknowledges that they will have to mail or fax the missing documents.
 */
 import React, { useState, useEffect } from 'react';
 import {
-  VaCheckboxGroup,
+  VaCheckbox,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
@@ -436,21 +436,20 @@ export default function MissingFileOverview({
           {requiredFilesStillMissing && showConsent ? (
             <>
               <h3>Supporting documents acknowledgement</h3>
-              <VaCheckboxGroup onVaChange={onGroupChange} error={error}>
-                {requiredFilesStillMissing ? (
-                  <>
-                    <va-checkbox
-                      required
-                      label="I understand that VA can’t process this form until they receive any required documents by mail or fax"
-                      onBlur={function noRefCheck() {}}
-                      checked={isChecked}
-                      name="consent-checkbox"
-                      tile
-                      uswds
-                    />
-                  </>
-                ) : null}
-              </VaCheckboxGroup>
+              {requiredFilesStillMissing ? (
+                <VaCheckbox
+                  onVaChange={onGroupChange}
+                  error={error}
+                  hint={null}
+                  required
+                  label="I understand that VA can’t process this form until they receive any required documents by mail or fax"
+                  onBlur={function noRefCheck() {}}
+                  checked={isChecked}
+                  name="consent-checkbox"
+                  tile
+                  uswds
+                />
+              ) : null}
             </>
           ) : null}
         </>
