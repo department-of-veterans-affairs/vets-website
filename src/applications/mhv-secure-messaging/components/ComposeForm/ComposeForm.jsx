@@ -247,6 +247,7 @@ const ComposeForm = props => {
                 history,
               );
             }, 1000);
+            // Timeout neccessary for UCD requested 1 second delay
           })
           .catch(
             () => setSendMessageFlag(false),
@@ -634,7 +635,7 @@ const ComposeForm = props => {
       <va-loading-indicator
         message="Sending message..."
         setFocus
-        data-testid="loading-indicator"
+        data-testid="sending-indicator"
       />
     );
   }
