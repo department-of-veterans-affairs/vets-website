@@ -28,6 +28,11 @@ const TrainingAndWebinar = () => {
         hrefText="Sign up for trainings, webinars, and office hour updates"
         pText="Subscribe to the GovDelivery mailing list to receive updates and other routine communications from Education Service about trainings, office hours, and more."
       />
+      <LiSpanAndVaLinkAndPTag
+        href="https://www.benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/gov-delivery.asp"
+        hrefText="GovDelivery Message Archive"
+        pText="Access past GovDelivery messages on the archive page."
+      />
     </MainContentSubDiv>
   );
 };
