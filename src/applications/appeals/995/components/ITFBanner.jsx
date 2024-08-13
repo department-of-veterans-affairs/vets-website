@@ -31,7 +31,7 @@ const ITFBanner = props => {
 
   if (messageDismissed) {
     // Showing review page content doesn't re-render the progress bar
-    if (props.router.location.pathname.endsWith('review-and-submit')) {
+    if (props.router?.location.pathname.endsWith('review-and-submit')) {
       scrollTo('topScrollElement');
       // Focus on review & submit page h2 in stepper
       waitForRenderThenFocus('va-segmented-progress-bar', document, 250, 'h2');
