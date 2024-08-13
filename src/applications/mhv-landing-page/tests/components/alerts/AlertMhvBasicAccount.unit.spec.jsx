@@ -29,7 +29,6 @@ describe('<AlertMhvBasicAccount />', () => {
     it('redirects to logoutUrlSis() when ssoe is false', async () => {
       const props = { ...defaultProps, ssoe: false };
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
-      // getByRole('button', { label: 'Sign out' }).click();
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
         expect(window.location).to.equal(logoutUrlSiS());
@@ -39,7 +38,6 @@ describe('<AlertMhvBasicAccount />', () => {
     it('redirects to logoutUrl() when ssoe is true', async () => {
       const props = { ...defaultProps, ssoe: true };
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
-      // getByRole('button', { label: 'Sign out' }).click();
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
         expect(window.location).to.equal(logoutUrl());
