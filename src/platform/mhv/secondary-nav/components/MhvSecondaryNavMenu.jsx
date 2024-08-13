@@ -21,46 +21,65 @@ const MhvSecondaryNavMenu = ({ items }) => {
   const [isLargeText, setIsLargeText] = useState(false);
 
   const checkFontSize = useCallback(() => {
-    // Check root font size
-    const rootFontSize = parseFloat(
-      getComputedStyle(document.documentElement).fontSize,
-    );
+    try {
+      // Check root font size
+      const rootFontSize = parseFloat(
+        getComputedStyle(document.documentElement).fontSize,
+      );
 
-    // Check actual rendered text size
-    const testDiv = document.createElement('div');
-    testDiv.style.fontSize = '1rem';
-    testDiv.style.padding = '0';
-    testDiv.style.position = 'absolute';
-    testDiv.style.left = '-9999px';
-    testDiv.style.lineHeight = 'normal';
-    testDiv.textContent = 'M';
+      // Check actual rendered text size
+      const testDiv = document.createElement('div');
+      testDiv.style.fontSize = '1rem';
+      testDiv.style.padding = '0';
+      testDiv.style.position = 'absolute';
+      testDiv.style.left = '-9999px';
+      testDiv.style.lineHeight = 'normal';
+      testDiv.textContent = 'M';
 
-    document.body.appendChild(testDiv);
-    const actualSize = testDiv.clientHeight;
-    document.body.removeChild(testDiv);
+      document.body.appendChild(testDiv);
+      const actualSize = testDiv.clientHeight;
+      document.body.removeChild(testDiv);
 
-    // Determine if text is large
-    const newIsLargeText = rootFontSize > 16 || actualSize > 20;
+      // Determine if text is large
+      const newIsLargeText = rootFontSize > 16 || actualSize > 20;
 
-    setIsLargeText(newIsLargeText);
+      setIsLargeText(newIsLargeText);
+    } catch (error) {
+      console.log('Error checking font size:', error.message);
+    }
   }, []);
 
   useEffect(
     () => {
       const checkAndUpdateFontSize = () => {
-        setTimeout(checkFontSize, 0);
+        try {
+          setTimeout(checkFontSize, 0);
+        } catch (error) {
+          console.log('Error in checkAndUpdateFontSize:', error.message);
+        }
       };
 
       checkAndUpdateFontSize();
 
-      const resizeObserver = new ResizeObserver(checkAndUpdateFontSize);
-      resizeObserver.observe(document.documentElement);
+      let resizeObserver;
+      try {
+        resizeObserver = new ResizeObserver(checkAndUpdateFontSize);
+        resizeObserver.observe(document.documentElement);
+      } catch (error) {
+        console.log('Error setting up ResizeObserver:', error.message);
+      }
 
       window.addEventListener('resize', checkAndUpdateFontSize);
 
       return () => {
-        resizeObserver.disconnect();
-        window.removeEventListener('resize', checkAndUpdateFontSize);
+        try {
+          if (resizeObserver) {
+            resizeObserver.disconnect();
+          }
+          window.removeEventListener('resize', checkAndUpdateFontSize);
+        } catch (error) {
+          console.log('Error in cleanup function:', error.message);
+        }
       };
     },
     [checkFontSize],
