@@ -8,20 +8,12 @@ import profileContactInfo from 'platform/forms-system/src/js/definitions/profile
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
 
-import IntroductionPage from '../containers/IntroductionPage';
+import IntroductionPage from '../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import applicantInformation from '../pages/applicantInformation';
 import contactInfoSettings from '../pages/contactInfoSettings';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
-// const {
-//   address: applicantAddress,
-//   applicantEmail,
-//   phone,
-// } = fullSchema.properties;
+import VeteranProfileInformation from '../components/FormPages/VeteranProfileInformation';
+import { VIEW_FIELD_SCHEMA } from '../utils/constants';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -42,17 +34,15 @@ const formConfig = {
   },
   version: 0,
   prefillTransformer(pages, formData, metadata) {
-    const fullName = {
-      first: formData.data.attributes.veteran.firstName,
-      middle: formData.data.attributes.veteran.middleName,
-      last: formData.data.attributes.veteran.lastName,
+    // console.log({ formData });
+
+    const transformedData = {
+      veteranSocialSecurityNumber:
+        formData?.data?.attributes?.veteran?.ssn || null,
     };
-
-    const newFormData = { fullName };
-
     return {
       metadata,
-      formData: newFormData,
+      formData: transformedData,
       pages,
     };
   },
@@ -66,6 +56,19 @@ const formConfig = {
   title: 'Mock Form AE Design Patterns',
   defaultDefinitions: {},
   chapters: {
+    veteranInformation: {
+      title: 'Veteran information',
+      pages: {
+        profileInformation: {
+          path: 'veteran-information/personal-information',
+          title: 'Veteran\u2019s personal information',
+          CustomPage: VeteranProfileInformation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: VIEW_FIELD_SCHEMA,
+        },
+      },
+    },
     applicantInformationChapter: {
       title: 'Chapter Title: Applicant Information',
       pages: {

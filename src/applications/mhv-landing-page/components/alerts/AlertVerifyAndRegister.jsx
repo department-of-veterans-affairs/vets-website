@@ -1,19 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import {
   CSP_IDS,
   SERVICE_PROVIDERS,
 } from '~/platform/user/authentication/constants';
 
-const VerifyAndRegisterAlert = ({ cspId, testId }) => {
-  const serviceProviderLabel = SERVICE_PROVIDERS[cspId]?.label;
+// eslint-disable-next-line import/no-named-default
+import { default as recordEventFn } from '~/platform/monitoring/record-event';
+
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
+const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
+  const headline = 'Verify and register your account to access My HealtheVet';
+  const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
+
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   return (
     <VaAlert data-testid={testId} status="warning" visible>
-      <h2 slot="headline">
-        Verify and register your account to access My HealtheVet
-      </h2>
+      <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--2">
           We need you to verify your identity and register your account before
@@ -43,13 +59,16 @@ const VerifyAndRegisterAlert = ({ cspId, testId }) => {
   );
 };
 
-VerifyAndRegisterAlert.defaultProps = {
-  testId: 'mhv-alert--verify-and-register-idme-logingov-nonloa3',
+AlertVerifyAndRegister.defaultProps = {
+  cspId: CSP_IDS.LOGIN_GOV,
+  recordEvent: recordEventFn,
+  testId: 'mhv-alert--verify-and-register',
 };
 
-VerifyAndRegisterAlert.propTypes = {
+AlertVerifyAndRegister.propTypes = {
   cspId: PropTypes.oneOf([CSP_IDS.ID_ME, CSP_IDS.LOGIN_GOV]),
+  recordEvent: PropTypes.func,
   testId: PropTypes.string,
 };
 
-export default VerifyAndRegisterAlert;
+export default AlertVerifyAndRegister;

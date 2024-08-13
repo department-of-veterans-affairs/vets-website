@@ -860,4 +860,225 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     ).to.exist;
     expect(screen.getByText(/Mountain time/i)).to.exist;
   });
+
+  describe('Document titles', () => {
+    it('should display document tile for ATLAS video appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createAtlasResponses({
+        localStartTime: today,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Video appointment at an ATLAS location on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for ATLAS video appointment', async () => {
+      // Arrange
+      const yesterday = moment().subtract(1, 'day');
+      const responses = MockAppointmentResponse.createAtlasResponses({
+        localStartTime: yesterday,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Past video appointment at an ATLAS location on ${yesterday.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for ATLAS video appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createAtlasResponses({
+        localStartTime: today,
+      });
+      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Canceled video appointment at an ATLAS location on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for video appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createGfeResponses({
+        localStartTime: today,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Video appointment on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for past video appointment', async () => {
+      // Arrange
+      const yesterday = moment().subtract(1, 'day');
+      const responses = MockAppointmentResponse.createGfeResponses({
+        localStartTime: yesterday,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Past video appointment on ${yesterday.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for canceled video appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createGfeResponses({
+        localStartTime: today,
+      });
+      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Canceled video appointment on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for video at VA location appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: today,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Video appointment at a VA location on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for past video at VA location appointment', async () => {
+      // Arrange
+      const yesterday = moment().subtract(1, 'day');
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: yesterday,
+      });
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Past video appointment at a VA location on ${yesterday.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+
+    it('should display document tile for canceled video at VA location appointment', async () => {
+      // Arrange
+      const today = moment();
+      const responses = MockAppointmentResponse.createClinicResponses({
+        localStartTime: today,
+      });
+      responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
+      mockAppointmentApi({ response: responses[0] });
+
+      // Act
+      renderWithStoreAndRouter(<AppointmentList />, {
+        initialState,
+        path: `/${responses[0].id}`,
+      });
+
+      // Assert
+      await waitFor(() => {
+        expect(global.document.title).to.equal(
+          `Canceled video appointment at a VA location on ${today.format(
+            'dddd, MMMM D, YYYY',
+          )} | Veterans Affairs`,
+        );
+      });
+    });
+  });
 });
