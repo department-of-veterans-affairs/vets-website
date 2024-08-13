@@ -256,7 +256,7 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
-    const tokens = req.body.reasonCode?.text.split('comments:');
+    const tokens = req.body.reasonCode?.text?.split('comments:');
     let patientComments;
     if (tokens) {
       if (tokens.length > 1) [, patientComments] = tokens;

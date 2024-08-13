@@ -43,7 +43,7 @@ export default function VARequestLayout({ data: appointment }) {
     heading = 'Canceled request for appointment';
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
