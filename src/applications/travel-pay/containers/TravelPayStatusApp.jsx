@@ -10,6 +10,8 @@ import {
   VaBackToTop,
   VaPagination,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+// TODO switch to native Set operations once browser support is more widespread
+import { intersection, difference } from 'lodash';
 
 import PropTypes from 'prop-types';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
@@ -50,10 +52,24 @@ export default function App({ children }) {
 
   if (travelClaims.length > 0 && statusesToFilterBy.length === 0) {
     // Sets initial status filters after travelClaims load
-    const initialStatusFilters = [
-      ...new Set(travelClaims.map(claim => claim.claimStatus)),
-    ];
-    setStatusesToFilterBy(initialStatusFilters);
+
+    const topStatuses = new Set(['On Hold', 'Denied', 'In Manual Review']);
+    const availableStatuses = new Set(travelClaims.map(c => c.claimStatus));
+
+    const availableTopStatuses = intersection(
+      Array.from(topStatuses),
+      Array.from(availableStatuses),
+    );
+
+    const availableNonTopStatuses = difference(
+      Array.from(availableStatuses),
+      Array.from(topStatuses),
+    ).sort(); // .sort() ensures statuses are alphabetized
+
+    const orderedStatusFilters = availableTopStatuses.concat(
+      availableNonTopStatuses,
+    );
+    setStatusesToFilterBy(orderedStatusFilters);
   }
 
   const dateFilters = getDateFilters();
@@ -180,6 +196,41 @@ export default function App({ children }) {
     displayedClaims = displayedClaims.slice(pageStart - 1, pageEnd);
   }
 
+  const resultsText = () => {
+    let sortAndFilterText;
+
+    if (orderClaimsBy === 'mostRecent') {
+      sortAndFilterText = 'date (most recent)';
+    }
+
+    if (orderClaimsBy === 'oldest') {
+      sortAndFilterText = 'date (oldest)';
+    }
+
+    let appliedFiltersLength = appliedStatusFilters.length;
+    if (appliedDateFilter !== 'all') {
+      appliedFiltersLength += 1;
+    }
+
+    if (appliedFiltersLength > 0) {
+      sortAndFilterText += `, with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    if (numResults === 0 && appliedFiltersLength > 0) {
+      // Note that appliedFiltersLength === 1 should never be true here, since
+      // 0 claims matching a single filter should mean the filter isn't shown
+      return `Showing 0 claims with ${appliedFiltersLength} ${
+        appliedFiltersLength === 1 ? 'filter' : 'filters'
+      } applied`;
+    }
+
+    return numResults === 0
+      ? `Showing ${numResults} claims`
+      : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} claims, sorted by ${sortAndFilterText}.`;
+  };
+
   const onPageSelect = useCallback(
     selectedPage => {
       setCurrentPage(selectedPage);
@@ -267,6 +318,7 @@ export default function App({ children }) {
                     <va-button
                       onClick={() => onSortClick()}
                       data-testid="Sort travel claims"
+                      secondary
                       text="Sort"
                       label="Sort"
                     />
@@ -285,9 +337,7 @@ export default function App({ children }) {
                 </div>
 
                 <h2 tabIndex={-1} ref={filterInfoRef} id="pagination-info">
-                  {numResults === 0
-                    ? `Showing ${numResults} events`
-                    : `Showing ${pageStart} ‒ ${pageEnd} of ${numResults} events`}
+                  {resultsText()}
                 </h2>
 
                 <section

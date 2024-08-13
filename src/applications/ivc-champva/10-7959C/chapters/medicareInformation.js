@@ -1,5 +1,4 @@
 import React from 'react';
-import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import {
   titleUI,
   titleSchema,
@@ -192,7 +191,7 @@ export const applicantMedicarePartBCarrierSchema = {
     applicantMedicarePartBCarrier: textUI({
       title: 'Name of insurance carrier',
       hint:
-        'Your insurance is "Medicare Health Insurance" or your insurance company.',
+        'Your insurance carrier may be listed as "Medicare Health Insurance" on your insurance card.',
     }),
     applicantMedicarePartBEffectiveDate: currentOrPastDateUI({
       title: 'Medicare Part B effective date',
@@ -364,31 +363,6 @@ export const applicantMedicareDUploadSchema = {
         ['Front of Medicare Part D card', 'Back of Medicare Part D card'],
         2,
       ),
-    },
-  },
-};
-
-export const applicantMedicareAdditionalCommentsSchema = {
-  uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${nameWording(
-          formData,
-          undefined,
-          undefined,
-          true,
-        )} Medicare additional comments`,
-    ),
-    applicantMedicareAdditionalComments: {
-      'ui:title': 'Any additional comments about this Medicare plan?',
-      'ui:webComponentField': VaTextareaField,
-    },
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      titleSchema,
-      applicantMedicareAdditionalComments: { type: 'string' },
     },
   },
 };

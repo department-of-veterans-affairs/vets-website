@@ -4,33 +4,30 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../../simple-forms/shared/components/GetFormHelp';
-// Example of an imported schema:
-// In a real app this would be imported from `vets-json-schema`:
-// import fullSchema from 'vets-json-schema/dist/NA-schema.json';
-
-// import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-// import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import * as address from 'platform/forms-system/src/js/definitions/address';
-// import fullSchema from '../NA-schema.json';
-
-// import fullSchema from 'vets-json-schema/dist/NA-schema.json';
+import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
-
 // pages
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
+import militaryService from '../pages/militaryService';
 import separation from '../pages/separation';
+import giBillStatus from '../pages/giBillStatus';
+import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+const isOnReviewPage = currentLocation => {
+  return currentLocation?.pathname.includes('/review-and-submit');
+};
+
+const isOnConfirmationPage = currentLocation => {
+  return currentLocation?.pathname.includes('/confirmation');
+};
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -42,8 +39,16 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Disability;Separation',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill',
   formId: 'T-QSTNR',
+  customText: {
+    submitButtonText: 'Submit',
+  },
+  preSubmitInfo: {
+    CustomComponent: PreSubmitInfo,
+    required: true,
+    field: 'privacyAgreementAccepted',
+  },
   saveInProgress: {
     messages: {
       inProgress: 'Your benefits questionnaire is in progress.',
@@ -58,9 +63,23 @@ const formConfig = {
     notFound: 'Please start over to apply for benefits.',
     noAuth: 'Please sign in again to continue your application for benefits.',
   },
-  title: 'Complete the benefit eligibility questionnaire',
-  subTitle:
-    'Please answer the questions to help us recommend helpful resources and benefits.',
+  title: ({ currentLocation }) => {
+    if (isOnConfirmationPage(currentLocation)) {
+      return 'Your benefits and resources';
+    }
+    if (isOnReviewPage(currentLocation)) {
+      return 'Review your entries';
+    }
+    return 'Complete the benefit eligibility questionnaire';
+  },
+  subTitle: ({ currentLocation }) => {
+    if (
+      isOnReviewPage(currentLocation) ||
+      isOnConfirmationPage(currentLocation)
+    )
+      return '';
+    return 'Please answer the questions to help us recommend helpful resources and benefits.';
+  },
   defaultDefinitions: {
     fullName,
     ssn,
@@ -81,13 +100,13 @@ const formConfig = {
       },
     },
     chapter2: {
-      title: 'Disability',
+      title: 'Service',
       pages: {
-        disabilityRating: {
-          path: 'disability-rating',
-          title: 'Disability Rating',
-          uiSchema: disabilityRating.uiSchema,
-          schema: disabilityRating.schema,
+        militaryService: {
+          path: 'military-service',
+          title: 'Military Service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
         },
       },
     },
@@ -99,6 +118,39 @@ const formConfig = {
           title: 'Separation',
           uiSchema: separation.uiSchema,
           schema: separation.schema,
+        },
+      },
+    },
+    chapter4: {
+      title: 'Character of Discharge',
+      pages: {
+        characterOfDischarge: {
+          path: 'character-of-discharge',
+          title: 'Character of Discharge',
+          uiSchema: characterOfDischarge.uiSchema,
+          schema: characterOfDischarge.schema,
+        },
+      },
+    },
+    chapter5: {
+      title: 'Disability',
+      pages: {
+        disabilityRating: {
+          path: 'disability-rating',
+          title: 'Disability Rating',
+          uiSchema: disabilityRating.uiSchema,
+          schema: disabilityRating.schema,
+        },
+      },
+    },
+    chapter6: {
+      title: 'GI Bill Status',
+      pages: {
+        giBillStatus: {
+          path: 'gi-bill-status',
+          title: 'GI Bill Status',
+          uiSchema: giBillStatus.uiSchema,
+          schema: giBillStatus.schema,
         },
       },
     },

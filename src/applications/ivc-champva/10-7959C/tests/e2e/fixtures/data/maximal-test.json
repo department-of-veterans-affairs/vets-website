@@ -1,4 +1,5 @@
 {
+  "description": "Has Medicare (ABD), both OHIs (Medigap), US address (new), third party signer",
   "data": {
     "secondaryAdditionalComments": "Secondary comments",
     "secondaryMedigapPlan": "C",
@@ -44,7 +45,6 @@
       "last": "Jones",
       "suffix": "Jr."
     },
-    "applicantDOB": "1950-01-02",
     "missingUploads": [
       {
         "name": "applicantMedicarePartAPartBCard",

@@ -1,4 +1,5 @@
 {
+  "description": "No Medicare, no OHIs, US address (new), third party signer",
   "data": {
     "applicantHasPrimary": false,
     "applicantMedicareStatus": false,
@@ -18,7 +19,6 @@
       "last": "Jones",
       "suffix": "III"
     },
-    "applicantDOB": "2000-02-01",
     "certifierRole": "other",
     "signature": "Certifier Jones"
   }

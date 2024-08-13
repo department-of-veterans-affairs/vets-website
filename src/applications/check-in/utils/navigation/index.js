@@ -1,9 +1,5 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-
-const isWithInDays = (days, pageLastUpdated) => {
-  const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
-  return daysAgo <= days;
-};
+import { getDemographicsStatuses } from '../demographics';
 
 const updateFormPages = (
   patientDemographicsStatus,
@@ -13,44 +9,22 @@ const updateFormPages = (
   travelPaySent = '',
 ) => {
   const skippedPages = [];
-  const {
-    demographicsNeedsUpdate,
-    demographicsConfirmedAt,
-    nextOfKinNeedsUpdate,
-    nextOfKinConfirmedAt,
-    emergencyContactNeedsUpdate,
-    emergencyContactConfirmedAt,
-  } = patientDemographicsStatus;
 
-  const skippablePages = [
-    {
-      url: URLS.DEMOGRAPHICS,
-      confirmedAt: demographicsConfirmedAt,
-      needsUpdate: demographicsNeedsUpdate,
-    },
-    {
-      url: URLS.NEXT_OF_KIN,
-      confirmedAt: nextOfKinConfirmedAt,
-      needsUpdate: nextOfKinNeedsUpdate,
-    },
-    {
-      url: URLS.EMERGENCY_CONTACT,
-      confirmedAt: emergencyContactConfirmedAt,
-      needsUpdate: emergencyContactNeedsUpdate,
-    },
-  ];
-  skippablePages.forEach(page => {
-    const pageLastUpdated = page.confirmedAt
-      ? new Date(page.confirmedAt)
-      : null;
-    if (
-      pageLastUpdated &&
-      isWithInDays(7, pageLastUpdated) &&
-      page.needsUpdate === false
-    ) {
-      skippedPages.push(page.url);
-    }
-  });
+  const {
+    demographicsUpToDate,
+    nextOfKinUpToDate,
+    emergencyContactUpToDate,
+  } = getDemographicsStatuses(patientDemographicsStatus);
+
+  if (demographicsUpToDate) {
+    skippedPages.push(URLS.DEMOGRAPHICS);
+  }
+  if (nextOfKinUpToDate) {
+    skippedPages.push(URLS.NEXT_OF_KIN);
+  }
+  if (emergencyContactUpToDate) {
+    skippedPages.push(URLS.EMERGENCY_CONTACT);
+  }
 
   const travelPayPages = [
     URLS.TRAVEL_QUESTION,
@@ -76,13 +50,13 @@ const URLS = Object.freeze({
   ERROR: 'error',
   INTRODUCTION: 'introduction',
   LANDING: '',
+  LOADING: 'loading',
+  APPOINTMENTS: 'appointments',
   NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   VERIFY: 'verify',
   COMPLETE: 'complete',
-  DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
-  LOADING: 'loading-appointments',
   TRAVEL_AGREEMENT: 'travel-agreement',
   TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
@@ -92,6 +66,7 @@ const URLS = Object.freeze({
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
   ARRIVED: 'arrived',
+  RESOURCES: 'what-to-bring',
 });
 
 export { updateFormPages, URLS };

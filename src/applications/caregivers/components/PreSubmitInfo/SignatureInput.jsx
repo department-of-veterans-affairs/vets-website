@@ -2,6 +2,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { replaceStrValues } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
 
 const SignatureInput = props => {
   const {
@@ -16,20 +18,20 @@ const SignatureInput = props => {
     ariaDescribedBy,
   } = props;
 
-  const [error, setError] = useState();
-  const [signature, setSignature] = useState({
+  const [error, setError] = useState(null);
+  const [data, setData] = useState({
     value: '',
     dirty: false,
   });
 
   // set label and error message strings
   const textInputLabel = isRepresentative
-    ? `Enter your name to sign as the Veteran\u2019s representative`
-    : `${label} full name`;
+    ? content['sign-as-rep--signature-text-label']
+    : replaceStrValues(content['sign-as-rep--signature-vet-text-label'], label);
 
   const errorMessage = isRepresentative
-    ? 'You must sign as representative.'
-    : `Your signature must match previously entered name: ${fullName}`;
+    ? content['validation-sign-as-rep']
+    : replaceStrValues(content['validation-sign-as-rep--vet-name'], fullName);
 
   /*
    * validate input string against the desired value
@@ -38,47 +40,41 @@ const SignatureInput = props => {
    * signatureMatches: compare the normalizedSignature string again the desired value
    * isSignatureComplete: complete if the value & desired string match and the parent checkbox is checked
    */
-  const normalizedSignature = signature.value.replace(/ +(?= )/g, '');
-
+  const normalizedSignature = data.value.replace(/ +(?= )/g, '');
   const signatureMatches =
     normalizedSignature.toLocaleLowerCase() === fullName.toLocaleLowerCase();
-
   const isSignatureComplete = signatureMatches && isChecked;
 
-  // set blur event for the input
-  const onBlur = useCallback(
+  const handleChange = value => {
+    setSignatures(prevState => ({ ...prevState, [label]: value }));
+  };
+
+  const handleBlur = useCallback(
     event => {
-      setSignature({ value: event.target.value, dirty: true });
+      setData({ value: event.target.value, dirty: true });
     },
-    [setSignature],
+    [setData],
   );
 
-  // set signature value if all checks pass
   useEffect(
     () => {
       if (!isSignatureComplete) return;
-
-      setSignatures(prevState => {
-        return { ...prevState, [label]: signature.value };
-      });
+      handleChange(data.value);
     },
-
-    [isSignatureComplete, label, setSignatures, signature.value],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [data.value, isSignatureComplete],
   );
 
-  // validate input on dirty/value change
   useEffect(
     () => {
-      const isDirty = signature.dirty;
+      const isDirty = data.dirty;
 
       /* 
        * show error if the user has touched input and the value does not match OR 
        * if there is a form error and the form has not been submitted
        */
       if ((isDirty && !signatureMatches) || (showError && !hasSubmittedForm)) {
-        setSignatures(prevState => {
-          return { ...prevState, [label]: '' };
-        });
+        handleChange('');
         setError(errorMessage);
       }
 
@@ -91,22 +87,18 @@ const SignatureInput = props => {
         (isDirty && signatureMatches) ||
         (isDirty && isRepresentative && !!normalizedSignature)
       ) {
-        setSignatures(prevState => {
-          return { ...prevState, [label]: signature.value };
-        });
-        setError();
+        handleChange(data.value);
+        setError(null);
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [
-      signatureMatches,
-      showError,
-      hasSubmittedForm,
-      isRepresentative,
-      normalizedSignature,
-      signature,
-      setSignatures,
-      label,
+      data.value,
       errorMessage,
+      hasSubmittedForm,
+      normalizedSignature,
+      showError,
+      signatureMatches,
     ],
   );
 
@@ -116,10 +108,9 @@ const SignatureInput = props => {
       class="signature-input"
       label={textInputLabel}
       required={required}
-      value={signature.value}
+      value={data.value}
       error={error}
-      onBlur={onBlur}
-      uswds
+      onBlur={handleBlur}
     />
   );
 };

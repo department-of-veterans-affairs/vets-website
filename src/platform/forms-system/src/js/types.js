@@ -35,6 +35,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
  * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
@@ -47,6 +48,7 @@
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
  * @property {SaveInProgress} [saveInProgress]
+ * @property {string | Function} [scrollAndFocusTarget] Applies when useCustomScrollAndFocus is true. Default scroll and focus for the form. will be overridden by individual page scrollAndFocusTarget
  * @property {boolean} [showReviewErrors]
  * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
@@ -171,28 +173,35 @@
  */
 
 /**
- * @typedef {({
- *   name,
- *   title,
- *   data,
- *   pagePerItemIndex,
- *   onReviewPage,
- *   trackingPrefix,
- *   uploadFile,
- *   schema,
- *   uiSchema,
- *   goBack,
- *   goForward,
- *   goToPath,
- *   onContinue,
- *   onChange,
- *   onSubmit,
- *   setFormData,
- *   contentBeforeButtons,
- *   contentAfterButtons,
- *   appStateData,
- *   formContext,
- * }) => React.ReactNode} CustomPageType
+ * @typedef {Object} CustomPageProps
+ * @property {string} name route.pageConfig.pageKey
+ * @property {string} title route.pageConfig.title
+ * @property {Object} data
+ * @property {number} pagePerItemIndex
+ * @property {boolean} onReviewPage
+ * @property {string} trackingPrefix
+ * @property {Function} uploadFile
+ * @property {Object} schema
+ * @property {Object} uiSchema
+ * @property {() => void} goBack
+ * @property {({ formData }) => void} goForward
+ * @property {(customPath: string, options?: { force: boolean }) => void} goToPath
+ * @property {() => void} onContinue
+ * @property {(formData) => void} onChange
+ * @property {({ formData }) => void} onSubmit
+ * @property {(pageName: string, index?: number) => boolean} recalculateErrors Only available
+ * on review page. Recalculates errors for the page including the red chapter level styling.
+ * Pass the prop.name to the pageName param. If the page is an array, pass the index as the second param.
+ * @property {Function} setFormData
+ * @property {React.ReactNode} contentBeforeButtons
+ * @property {React.ReactNode} contentAfterButtons
+ * @property {Object} appStateData
+ * @property {Object} formContext
+ * @property {Object} NavButtons Standard buttons at the bottom of the form e.g. back/continue
+ */
+
+/**
+ * @typedef {(props: CustomPageProps) => React.ReactNode} CustomPageType
  */
 
 /**
@@ -292,6 +301,7 @@
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
  * @property {Record<string, string>} [labels] Used to specify radio button or yes/no labels
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] The header level for the label. For web components such as radio buttons or checkboxes.
+ * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {boolean} [monthSelect] For VaMemorableDate web component. If true, will use a select dropdown for the month instead of an input.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.

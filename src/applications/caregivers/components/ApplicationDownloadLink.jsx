@@ -7,7 +7,7 @@ import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
-import { submitTransform } from '../utils/helpers';
+import submitTransformer from '../config/submit-transformer';
 import formConfig from '../config/form';
 import content from '../locales/en/content.json';
 
@@ -21,7 +21,7 @@ const ApplicationDownloadLink = () => {
 
   // define local use variables
   const form = useSelector(state => state.form);
-  const formData = submitTransform(formConfig, form);
+  const formData = submitTransformer(formConfig, form);
   const { veteranFullName: name } = form.data;
 
   // fetch a custom error message based on status code

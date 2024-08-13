@@ -3,10 +3,6 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "mhv_secure_messaging_to_va_gov_release",
-        "value": true
-      },
-      {
         "name": "mhv_secure_messaging_to_phase_1",
         "value": true
       },
@@ -20,6 +16,10 @@
       },
       {
         "name": "cerner_transition_556_t5",
+        "value": true
+      },
+      {
+        "name": "mhv_secure_messaging_edit_contact_list",
         "value": true
       }
     ]
