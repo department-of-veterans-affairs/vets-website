@@ -9,7 +9,7 @@ const { socialSecurityDisability } = fullSchemaPensions.properties;
 
 const path = showMedicalEvidenceClarification()
   ? 'medical/history/social-security-disability'
-  : 'temporarily-hidden';
+  : 'temporarily-hidden-social-security-disability';
 
 /** @type {PageSchema} */
 export default {
