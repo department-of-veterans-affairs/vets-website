@@ -12,7 +12,7 @@ import {
   debtResponses,
 } from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
-describe('Medical Copays', () => {
+describe('CDP - Copay card content', () => {
   const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
 
   beforeEach(() => {

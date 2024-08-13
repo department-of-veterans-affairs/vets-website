@@ -5,7 +5,7 @@ import {
   debtResponses,
 } from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
-describe('Debt Balances Page Diary Codes', () => {
+describe('CDP - Debt Balances Page Diary Codes', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(

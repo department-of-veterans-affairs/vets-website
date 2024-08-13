@@ -5,7 +5,7 @@ import {
   debtResponses,
 } from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
-describe('Debt Letters - downloads enabled', () => {
+describe('CDP - Debt Letters downloads enabled', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(

@@ -14,7 +14,7 @@ import {
   vbmsResponses,
 } from './helpers/cdp-helpers';
 
-describe('Your VA debt and bills (overview)', () => {
+describe('CDP - Your VA debt and bills (overview)', () => {
   beforeEach(() => {
     cy.login(mockUser81);
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(

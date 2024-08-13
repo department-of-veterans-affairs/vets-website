@@ -5,7 +5,7 @@ import {
   vbmsResponses,
 } from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
-describe('Debt Letters - CDP Alerts', () => {
+describe('CDP - VBA Debt Alerts', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', {
