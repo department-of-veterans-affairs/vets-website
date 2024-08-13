@@ -3,10 +3,10 @@ import { useSelector } from 'react-redux';
 import {
   VaCard,
   VaIcon,
-  VaLink,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getFileSize, getFormNumber, mask } from '../helpers';
+import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
   const { form } = useSelector(state => state || {});
@@ -57,10 +57,7 @@ const CustomReviewTopContent = () => {
     <>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h4>Personal information</h4>
-        <VaLink
-          href={`/form-upload/${getFormNumber()}/name-and-zip-code`}
-          text="Edit"
-        />
+        <EditLink href={`/${getFormNumber()}/name-and-zip-code`} />
       </div>
       {renderPersonalInfo()}
       <p className="vads-u-margin-bottom--5">
@@ -72,7 +69,7 @@ const CustomReviewTopContent = () => {
       </p>
       <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
         <h4>Uploaded file</h4>
-        <VaLink href={`/form-upload/${getFormNumber()}/upload`} text="Edit" />
+        <EditLink href={`/${getFormNumber()}/upload`} />
       </div>
       {uploadedFile && renderFileInfo(uploadedFile)}
     </>
