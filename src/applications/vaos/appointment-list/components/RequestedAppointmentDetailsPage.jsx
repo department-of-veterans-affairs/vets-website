@@ -220,6 +220,10 @@ export default function RequestedAppointmentDetailsPage() {
         } ${typeOfCareText} appointment`;
 
         if (featureBreadcrumbUrlUpdate) {
+          title = `${isCanceled ? 'Canceled request for' : 'Request for'} 
+            ${typeOfCareText} ${
+            isCC ? 'community care appointment' : 'appointment'
+          }`;
           title = title.concat(` | Veterans Affairs`);
         }
 

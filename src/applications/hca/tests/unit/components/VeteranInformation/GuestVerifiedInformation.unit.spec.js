@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import GuestVerifiedInformation from '../../../../components/VeteranInformation/GuestVerifiedInformation';
 
-describe('hca GuestVerifiedInformation', () => {
+describe('hca <GuestVerifiedInformation>', () => {
   const getData = () => ({
     props: {
       user: {
@@ -17,35 +17,36 @@ describe('hca GuestVerifiedInformation', () => {
       },
     },
   });
+  const subject = ({ props }) => {
+    const { container } = render(<GuestVerifiedInformation {...props} />);
+    const selectors = {
+      vetName: container.querySelector('[data-dd-action-name="Veteran name"]'),
+      vetDOB: container.querySelector('[data-dd-action-name="Date of birth"]'),
+      vetSSN: container.querySelector(
+        '[data-dd-action-name="Social Security number"]',
+      ),
+    };
+    return { selectors };
+  };
 
-  context('when the component renders', () => {
+  it('should render full name from form data', () => {
     const { props } = getData();
+    const { selectors } = subject({ props });
+    expect(selectors.vetName).to.exist;
+    expect(selectors.vetName).to.contain.text('John Smith');
+  });
 
-    it('should render full name from props data', () => {
-      const { container } = render(<GuestVerifiedInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-fullname"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('John Smith');
-    });
+  it('should render properly-formatted date of birth from form data', () => {
+    const { props } = getData();
+    const { selectors } = subject({ props });
+    expect(selectors.vetDOB).to.exist;
+    expect(selectors.vetDOB).to.contain.text('January 01, 1986');
+  });
 
-    it('should render properly-masked social security number from props data', () => {
-      const { container } = render(<GuestVerifiedInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-ssn"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('xxx-xx-4444');
-    });
-
-    it('should render properly-formatted date of birth from props data', () => {
-      const { container } = render(<GuestVerifiedInformation {...props} />);
-      const selector = container.querySelector(
-        '[data-testid="hca-veteran-dob"]',
-      );
-      expect(selector).to.exist;
-      expect(selector).to.contain.text('January 01, 1986');
-    });
+  it('should render properly-masked social security number from form data', () => {
+    const { props } = getData();
+    const { selectors } = subject({ props });
+    expect(selectors.vetSSN).to.exist;
+    expect(selectors.vetSSN).to.contain.text('●●●–●●–4444');
   });
 });
