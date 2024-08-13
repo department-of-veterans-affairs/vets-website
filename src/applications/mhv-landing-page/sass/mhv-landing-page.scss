@@ -119,6 +119,12 @@ $anchor-font-size: 1.25rem; // == 20px
   align-items: center;
 }
 
+.mhv-c-navlink,
+.mhv-c-navlink-external {
+  text-wrap: balance;
+  word-break: break-word;
+}
+
 .visibility\:hidden {
   visibility: hidden;
 }
@@ -166,4 +172,3 @@ $anchor-font-size: 1.25rem; // == 20px
     }
   }
 }
-

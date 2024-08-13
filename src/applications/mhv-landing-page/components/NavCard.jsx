@@ -27,15 +27,14 @@ const NavCard = ({
         }}
         rel="noreferrer"
       >
-        <span className="mhv-c-link-content">
-          <span
-            className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
-          >
-            {text} {isExternal && externalLinkText}
-          </span>
+        <span
+          className={ariaLabel?.includes('unread') ? 'mhv-c-indicator' : ''}
+        >
+          {text}
+          {isExternal && ` ${externalLinkText}`}
           {!isExternal && (
             <va-icon
-              class="mhv-c-link-icon vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+              class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
               icon="navigate_next"
               size={4}
             />
