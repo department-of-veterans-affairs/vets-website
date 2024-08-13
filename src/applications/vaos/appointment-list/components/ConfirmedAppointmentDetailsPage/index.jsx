@@ -2,15 +2,20 @@ import React, { useEffect } from 'react';
 import { shallowEqual, useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
+import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import moment from '../../../lib/moment-tz';
 import {
   selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
 } from '../../../redux/selectors';
+import {
+  isAtlasVideoAppointment,
+  isClinicVideoAppointment,
+  isVAPhoneAppointment,
+} from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
@@ -25,7 +30,6 @@ import PageLayout from '../PageLayout';
 import DetailsCC from './DetailsCC';
 import DetailsVA from './DetailsVA';
 import DetailsVideo from './DetailsVideo';
-import { isVAPhoneAppointment } from '../../../services/appointment';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -69,28 +73,51 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   useEffect(
     () => {
-      let pageTitle;
+      let pageTitle = 'VA appointment on';
       let prefix = null;
 
-      if (isPast) prefix = 'Past';
-      else if (isCanceled) prefix = 'Canceled';
+      if (selectIsPast(appointment)) prefix = 'Past';
+      else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
-        pageTitle = prefix ? `${prefix} community care` : 'Community care';
+        pageTitle = prefix
+          ? `${prefix} community care appointment on`
+          : 'Community care appointment on';
       else if (isInPerson) {
         if (appointment?.vaos?.isCompAndPenAppointment)
-          pageTitle = prefix ? `${prefix} claim exam` : 'Claim exam';
-        else pageTitle = prefix ? `${prefix} in-person` : 'In-person';
-      } else if (isVideo) pageTitle = prefix ? `${prefix} video` : 'Video';
-      else if (isVAPhoneAppointment) {
-        pageTitle = prefix ? `${prefix} phone` : 'Phone';
+          pageTitle = prefix
+            ? `${prefix} claim exam appointment on`
+            : 'Claim exam appointment on';
+        else
+          pageTitle = prefix
+            ? `${prefix} in-person appointment on`
+            : 'In-person appointment on';
       }
-
+      if (isVideo) {
+        pageTitle = prefix
+          ? `${prefix} video appointment on`
+          : 'Video appointment on';
+        if (isClinicVideoAppointment(appointment)) {
+          pageTitle = prefix
+            ? `${prefix} video appointment at a VA location on`
+            : 'Video appointment at a VA location on';
+        }
+        if (isAtlasVideoAppointment(appointment)) {
+          pageTitle = prefix
+            ? `${prefix} video appointment at an ATLAS location on`
+            : 'Video appointment at an ATLAS location on';
+        }
+      } else if (isVAPhoneAppointment(appointment)) {
+        pageTitle = prefix
+          ? `${prefix} phone appointment on`
+          : 'Phone appointment on';
+      }
       const pageTitleSuffix = featureBreadcrumbUrlUpdate
         ? ' | Veterans Affairs'
         : '';
+
       if (appointment && appointmentDate) {
-        document.title = `${pageTitle} appointment on ${appointmentDate.format(
+        document.title = `${pageTitle} ${appointmentDate.format(
           'dddd, MMMM D, YYYY',
         )}${pageTitleSuffix}`;
         scrollAndFocus();
