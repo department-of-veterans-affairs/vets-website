@@ -5,10 +5,12 @@
  * @testrailinfo groupId 3090
  * @testrailinfo runName MCP-e2e-Main
  */
-import mockDebt from '../../../combined/utils/mocks/mockDebts.json';
 import mockFeatureToggles from './fixtures/mocks/feature-toggles.json';
-import mockCopays from './fixtures/mocks/copays.json';
 import mockUser from './fixtures/mocks/mock-user.json';
+import {
+  copayResponses,
+  debtResponses,
+} from '../../../combined/tests/e2e/helpers/cdp-helpers';
 
 describe('Medical Copays', () => {
   const id = 'f4385298-08a6-42f8-a86f-50e97033fb85';
@@ -18,8 +20,8 @@ describe('Medical Copays', () => {
     cy.intercept('GET', '/v0/feature_toggles*', mockFeatureToggles).as(
       'features',
     );
-    cy.intercept('GET', '/v0/debts', mockDebt).as('debts');
-    cy.intercept('GET', '/v0/medical_copays', mockCopays).as('copays');
+    debtResponses.good('debts');
+    copayResponses.good('copays');
     cy.visit('/manage-va-debt/summary/copay-balances');
 
     // Page load
