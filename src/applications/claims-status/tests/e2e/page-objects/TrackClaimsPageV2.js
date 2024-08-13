@@ -745,7 +745,7 @@ class TrackClaimsPageV2 {
       'contain',
       'Learn about the VA claim process and what happens after you file your claim.',
     );
-    cy.get('.claim-timeline').should('be.visible');
+    cy.get('va-process-list').should('be.visible');
   }
 
   verifyOverviewShowPastUpdates() {
