@@ -35,6 +35,9 @@ const Vitals = () => {
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -128,18 +131,20 @@ const Vitals = () => {
     if (cards?.length) {
       return (
         <>
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vitals) &&
-              Array.isArray(updatedRecordList) &&
-              vitals.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
+          {!mockPhr && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.VPR}
+              newRecordsFound={
+                Array.isArray(vitals) &&
+                Array.isArray(updatedRecordList) &&
+                vitals.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
           <RecordList
             records={cards}
             type={recordType.VITALS}

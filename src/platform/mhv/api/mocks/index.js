@@ -87,6 +87,8 @@ const responses = {
   'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
 
   // medical records
+  'GET /my_health/v1/medical_records/session/status':
+    session.phrRefreshInProgressNoNewRecords,
   'GET /my_health/v1/medical_records/session': session.error,
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
@@ -95,6 +97,8 @@ const responses = {
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
+  'GET /my_health/v1/health_records/sharing/status': { status: 200 },
+  'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
@@ -117,4 +121,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 3000);
+module.exports = delay(responses, 500);
