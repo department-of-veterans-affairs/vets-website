@@ -98,7 +98,7 @@ const MessageReply = () => {
         <>
           <va-loading-indicator
             message="Sending message..."
-            data-testid="loading-indicator"
+            data-testid="sending-indicator"
             style={{ display: isSending ? 'block' : 'none' }}
           />
           <div

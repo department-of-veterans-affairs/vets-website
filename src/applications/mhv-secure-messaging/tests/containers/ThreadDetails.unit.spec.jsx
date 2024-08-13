@@ -536,6 +536,45 @@ describe('Thread Details container', () => {
     });
   });
 
+  it('renders the sending message spinner when sent', async () => {
+    const folderId = '112233';
+    const state = {
+      sm: {
+        threadDetails: {
+          drafts: [
+            {
+              ...replyDraftMessage,
+              threadFolderId: folderId,
+              replyToMessageId: 1234,
+            },
+          ],
+          messages: [replyMessage],
+        },
+        recipients: {
+          allRecipients: noBlockedRecipients.mockAllRecipients,
+          allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
+          blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+          associatedTriageGroupsQty:
+            noBlockedRecipients.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noBlockedRecipients.associatedBlockedTriageGroupsQty,
+          noAssociations: noBlockedRecipients.noAssociations,
+          allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
+        },
+      },
+    };
+    const screen = setup(state);
+    await waitFor(() => {
+      screen.getByTestId('send-button');
+    });
+    expect(screen.getByTestId('send-button')).to.exist;
+    mockApiRequest({ method: 'POST', data: {}, status: 200 });
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.exist;
+    });
+  });
+
   it('responds to Save Draft button click on Reply Form', async () => {
     const state = {
       sm: {
