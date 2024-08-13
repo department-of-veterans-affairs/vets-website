@@ -116,12 +116,13 @@ export default function InstitutionProfile({
           <h2 className="vads-u-padding-top--2 small-screen-header">
             On this page
           </h2>
-          {showSchoolContentBasedOnType(type) && (
-            <JumpLink
-              label="Calculate your benefits"
-              jumpToId="calculate-your-benefits"
-            />
-          )}
+          {showSchoolContentBasedOnType(type) &&
+            type !== 'FOREIGN' && (
+              <JumpLink
+                label="Calculate your benefits"
+                jumpToId="calculate-your-benefits"
+              />
+            )}
           <JumpLink
             label="Getting started with benefits"
             jumpToId="getting-started-with-benefits"
@@ -150,16 +151,30 @@ export default function InstitutionProfile({
           />
         </div>
       </div>
-      {showSchoolContentBasedOnType(type) && (
-        <ProfileSection
-          label="Calculate your benefits"
-          id="calculate-your-benefits"
-        >
-          <CalculateYourBenefits
-            gibctEybBottomSheet={gibctEybBottomSheet}
-            isOJT={isOJT}
-          />
-        </ProfileSection>
+      {showSchoolContentBasedOnType(type) &&
+        type !== 'FOREIGN' && (
+          <ProfileSection
+            label="Calculate your benefits"
+            id="calculate-your-benefits"
+          >
+            <CalculateYourBenefits
+              gibctEybBottomSheet={gibctEybBottomSheet}
+              isOJT={isOJT}
+            />
+          </ProfileSection>
+        )}
+      {type === 'FOREIGN' && (
+        <p>
+          Limited programs are approved at foreign schools, please contact
+          <a
+            href="mailto:federal.approvals@va.gov"
+            className="vads-u-margin-x--0p5"
+          >
+            federal.approvals@va.gov
+          </a>
+          to verify if your intended program is approved at this foreign
+          location.
+        </p>
       )}
       <ProfileSection
         label="Getting started with benefits"

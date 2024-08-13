@@ -127,7 +127,7 @@
     "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0",
     "@cypress/code-coverage": "^3.11.0",
     "@department-of-veterans-affairs/eslint-plugin": "^1.18.2",
-    "@department-of-veterans-affairs/generator-vets-website": "^3.9.1",
+    "@department-of-veterans-affairs/generator-vets-website": "^3.9.2",
     "@octokit/rest": "^18.11.0",
     "@sentry/browser": "^6.13.2",
     "@testing-library/dom": "^7.26.6",
