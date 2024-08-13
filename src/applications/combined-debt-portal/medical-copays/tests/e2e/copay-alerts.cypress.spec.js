@@ -24,7 +24,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.good('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId(`balance-card-${id}`).should('exist');
       cy.findByTestId(`amount-${id}`).contains('$15.00');
       cy.findByTestId(`facility-city-${id}`).contains(
@@ -39,7 +39,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.bad('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId(`balance-card-${id}`).should('exist');
       cy.findByTestId(`amount-${id}`).contains('$15.00');
       cy.findByTestId(`facility-city-${id}`).contains(
@@ -60,7 +60,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.bad('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId('all-error-alert').should('exist');
       cy.findByTestId('other-va-debt-body').should('not.exist');
       cy.injectAxeThenAxeCheck();
@@ -71,7 +71,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.good('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId('error-copay-alert').should('exist');
       cy.findByTestId('other-va-debt-body').should('exist');
       cy.injectAxeThenAxeCheck();
@@ -82,7 +82,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.empty('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId('error-copay-alert').should('exist');
       cy.findByTestId('other-va-debt-body').should('not.exist');
       cy.injectAxeThenAxeCheck();
@@ -98,7 +98,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.good('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId('zero-copay-alert').should('exist');
       cy.findByTestId('other-va-debt-body').should('exist');
       cy.injectAxeThenAxeCheck();
@@ -109,7 +109,7 @@ describe('CDP - VHA Copay Alerts', () => {
       debtResponses.empty('debts');
       cy.wait(['@copays', '@debts', '@features']);
 
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
       cy.findByTestId('zero-copay-alert').should('exist');
       cy.findByTestId('other-va-debt-body').should('not.exist');
       cy.injectAxeThenAxeCheck();
@@ -127,7 +127,7 @@ describe('CDP - VHA Copay Alerts', () => {
       cy.wait(['@copays', '@debts', '@features']);
 
       // Ensure the page has loaded
-      cy.findByTestId('overview-page-title').should('exist');
+      cy.findByTestId('summary-page-title').should('exist');
 
       // Check for the "not enrolled in healthcare" alert
       cy.findByTestId('no-healthcare-alert').should('exist');

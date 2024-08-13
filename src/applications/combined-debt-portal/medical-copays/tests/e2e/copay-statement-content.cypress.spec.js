@@ -26,12 +26,12 @@ describe('CDP - Copay card content', () => {
 
     // Page load
     cy.wait(['@copays', '@debts', '@features']);
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('displays copay balances - C12576', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
     cy.findByTestId(`facility-city-${id}`).contains(
@@ -46,7 +46,7 @@ describe('CDP - Copay card content', () => {
   });
 
   it('navigates to the detail page - C12577', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`how-to-pay`).contains('How to pay your copay bill');
@@ -54,7 +54,7 @@ describe('CDP - Copay card content', () => {
   });
 
   it('displays view statements section - C12578', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
@@ -64,7 +64,7 @@ describe('CDP - Copay card content', () => {
 
   it('navigates to view statements page - C12579', () => {
     // get to page
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
@@ -79,7 +79,7 @@ describe('CDP - Copay card content', () => {
 
   it('displays account summary - C12580', () => {
     // get to page
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`view-statements`).should('exist');

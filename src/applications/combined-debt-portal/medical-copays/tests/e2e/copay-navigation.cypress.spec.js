@@ -26,12 +26,12 @@ describe('CDP - Copay generic navigation & content', () => {
 
     // Page load
     cy.wait(['@copays', '@debts', '@features']);
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.injectAxeThenAxeCheck();
   });
 
   it('displays copay balances - C12576', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`balance-card-${id}`).should('exist');
     cy.findByTestId(`amount-${id}`).contains('$15.00');
     cy.findByTestId(`facility-city-${id}`).contains(
@@ -41,7 +41,7 @@ describe('CDP - Copay generic navigation & content', () => {
   });
 
   it('navigates to the detail page - C12577', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`updated-date`).contains('November 15, 2019');
@@ -53,7 +53,7 @@ describe('CDP - Copay generic navigation & content', () => {
   });
 
   it('displays download statements - C12578', () => {
-    cy.findByTestId('overview-page-title').should('exist');
+    cy.findByTestId('summary-page-title').should('exist');
     cy.findByTestId(`detail-link-${id}`).click();
     cy.findByTestId('detail-page-title').should('exist');
     cy.findByTestId(`view-statements`).should('exist');
