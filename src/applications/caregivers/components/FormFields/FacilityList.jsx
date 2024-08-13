@@ -25,8 +25,8 @@ const FacilityList = props => {
 
   const getFacilityName = useCallback(
     val => {
-      const facility = facilities.find(f => f.id.split('_').pop() === val);
-      return facility?.name || '&mdash;';
+      const facility = facilities.find(f => f.id === val);
+      return facility?.attributes?.name || '&mdash;';
     },
     [facilities],
   );
@@ -42,7 +42,7 @@ const FacilityList = props => {
       key={f.id}
       name="facility"
       label={f.attributes.name}
-      value={f.id.split('_').pop()}
+      value={f.id}
       description={formatAddress(f.attributes.address.physical)}
       tile
     />

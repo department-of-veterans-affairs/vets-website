@@ -15,11 +15,22 @@ const FacilitySearch = props => {
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
-  const listProps = useMemo(() => ({ ...props, facilities, query }), [
-    facilities,
-    props,
-    query,
-  ]);
+  const listProps = useMemo(
+    () => {
+      const { onChange, ...restOfProps } = props;
+      const setSelectedFacilities = facilityId => {
+        const facility = facilities.find(f => f.id === facilityId);
+        onChange({ veteranSelected: facility });
+      };
+      return {
+        ...restOfProps,
+        onChange: setSelectedFacilities,
+        facilities,
+        query,
+      };
+    },
+    [facilities, props, query],
+  );
 
   const handleChange = e => {
     setQuery(e.target.value);

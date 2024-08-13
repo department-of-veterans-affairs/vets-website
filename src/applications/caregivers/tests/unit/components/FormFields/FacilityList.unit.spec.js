@@ -36,6 +36,15 @@ describe('CG <FacilityList>', () => {
       const { props } = getData({ reviewMode: true, value: 'vha_111AA' });
       const { selectors } = subject({ props });
       expect(selectors().name).to.exist;
+      expect(selectors().name.textContent).to.contain('Test VA Clinic');
+      expect(selectors().vaRadio).to.not.exist;
+    });
+
+    it('should render &mdash; when facility id is not found in review mode', () => {
+      const { props } = getData({ reviewMode: true, value: 'flerp' });
+      const { selectors } = subject({ props });
+      expect(selectors().name).to.exist;
+      expect(selectors().name.textContent).to.contain('&mdash;');
       expect(selectors().vaRadio).to.not.exist;
     });
   });
@@ -53,7 +62,7 @@ describe('CG <FacilityList>', () => {
       const { props } = getData({});
       const { selectors } = subject({ props });
       await waitFor(() => {
-        const value = props.facilities[0].id.split('_').pop();
+        const value = props.facilities[0].id;
         selectors().vaRadio.__events.vaValueChange({ detail: { value } });
         expect(props.onChange.calledWith(value)).to.be.true;
         expect(selectors().vaRadio).to.not.have.attr('error');

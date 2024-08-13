@@ -1,5 +1,6 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -11,10 +12,11 @@ import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../
 import content from '../../../../locales/en/content.json';
 
 describe('CG <FacilitySearch>', () => {
+  const onChange = sinon.spy();
   const getData = ({ reviewMode = false, submitted = false, value = '' }) => ({
     props: {
       formContext: { reviewMode, submitted },
-      onChange: sinon.spy(),
+      onChange,
       value,
     },
   });
@@ -41,7 +43,7 @@ describe('CG <FacilitySearch>', () => {
       const { selectors } = subject({ props: {} });
       await waitFor(() => {
         const message = content['validation-facilities--default-required'];
-        fireEvent.click(selectors().button);
+        userEvent.click(selectors().button);
         expect(selectors().input).to.have.attr('error', message);
       });
     });
@@ -72,7 +74,7 @@ describe('CG <FacilitySearch>', () => {
 
       await waitFor(() => {
         inputVaTextInput(container, 'Tampa', selectors().input);
-        fireEvent.click(selectors().button);
+        userEvent.click(selectors().button);
         expect(selectors().loader).to.exist;
       });
 
@@ -83,40 +85,69 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    it('should render appropriate error message when bbox coordinate fetch fails', async () => {
+    it('calls onChange callback with facility object', async () => {
       const { props } = getData({});
       const { container, selectors } = subject({ props });
-      coordinatesStub.rejects({ errorMessage: 'Some bad error occurred.' });
+      const facilities =
+        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+      coordinatesStub.resolves(coordinates);
+      facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
         inputVaTextInput(container, 'Tampa', selectors().input);
-        fireEvent.click(selectors().button);
+        userEvent.click(selectors().button);
         expect(selectors().loader).to.exist;
       });
 
       await waitFor(() => {
-        expect(selectors().radioList).to.not.exist;
+        expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
-        expect(selectors().input).to.have.attr('error');
       });
+
+      const facilityId = facilities[0].id;
+      selectors().radioList.__events.vaValueChange({
+        detail: { value: facilityId },
+      });
+      expect(onChange.calledWith({ veteranSelected: facilities[0] })).to.be
+        .true;
     });
 
-    it('should render appropriate error message when facilities fetch fails', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
-      coordinatesStub.resolves(coordinates);
-      facilitiesStub.rejects({ errorMessage: 'Some bad error occurred.' });
+    context('handles errors', () => {
+      it('should render appropriate error message when bbox coordinate fetch fails', async () => {
+        const { props } = getData({});
+        const { container, selectors } = subject({ props });
+        coordinatesStub.rejects({ errorMessage: 'Some bad error occurred.' });
 
-      await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        fireEvent.click(selectors().button);
-        expect(selectors().loader).to.exist;
+        await waitFor(() => {
+          inputVaTextInput(container, 'Tampa', selectors().input);
+          userEvent.click(selectors().button);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.not.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(selectors().input).to.have.attr('error');
+        });
       });
 
-      await waitFor(() => {
-        expect(selectors().radioList).to.not.exist;
-        expect(selectors().loader).to.not.exist;
-        expect(selectors().input).to.have.attr('error');
+      it('should render appropriate error message when facilities fetch fails', async () => {
+        const { props } = getData({});
+        const { container, selectors } = subject({ props });
+        coordinatesStub.resolves(coordinates);
+        facilitiesStub.rejects({ errorMessage: 'Some bad error occurred.' });
+
+        await waitFor(() => {
+          inputVaTextInput(container, 'Tampa', selectors().input);
+          userEvent.click(selectors().button);
+          expect(selectors().loader).to.exist;
+        });
+
+        await waitFor(() => {
+          expect(selectors().radioList).to.not.exist;
+          expect(selectors().loader).to.not.exist;
+          expect(selectors().input).to.have.attr('error');
+        });
       });
     });
   });
