@@ -583,7 +583,7 @@ const ComposeForm = props => {
   const beforeUnloadHandler = useCallback(
     e => {
       if (
-        selectedRecipient.toString() !==
+        selectedRecipient?.toString() !==
           (draft ? draft?.recipientId.toString() : '0') ||
         category !== (draft ? draft?.category : null) ||
         subject !== (draft ? draft?.subject : '') ||

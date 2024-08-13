@@ -7,7 +7,6 @@ import { retrieveMessageThread } from '../actions/messages';
 import ComposeForm from '../components/ComposeForm/ComposeForm';
 import InterstitialPage from './InterstitialPage';
 import { closeAlert } from '../actions/alerts';
-import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { PageTitles, Paths } from '../util/constants';
 import { getPatientSignature } from '../actions/preferences';
 
@@ -35,8 +34,14 @@ const Compose = () => {
       } else {
         dispatch(retrieveMessageThread(draftId));
       }
+
+      const checkNextPath = history.listen(nextPath => {
+        if (nextPath.pathname !== Paths.CONTACT_LIST) {
+          dispatch(clearThread());
+        }
+      });
       return () => {
-        dispatch(clearThread());
+        checkNextPath();
       };
     },
     [dispatch, draftId, location.pathname],
@@ -134,8 +139,6 @@ const Compose = () => {
         <>
           {draftType && (
             <div className="vads-l-grid-container compose-container">
-              <AlertBackgroundBox closeable />
-
               {content()}
             </div>
           )}

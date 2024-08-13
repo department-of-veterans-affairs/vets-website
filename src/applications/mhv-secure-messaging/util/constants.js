@@ -151,6 +151,7 @@ export const Alerts = {
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
+    SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
   },
 
   Folder: {

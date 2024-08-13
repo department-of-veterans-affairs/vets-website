@@ -5,18 +5,24 @@ import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/sour
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
+import { useHistory } from 'react-router-dom';
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import {
+  ALERT_TYPE_SUCCESS,
+  Alerts,
   BlockedTriageAlertStyles,
   PageTitles,
   ParentComponent,
+  Paths,
 } from '../util/constants';
 import { updateTriageTeamRecipients } from '../actions/recipients';
+import { addAlert } from '../actions/alerts';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [navigationError, setNavigationError] = useState(false);
   const [allTriageTeams, setAllTriageTeams] = useState([]);
 
@@ -24,6 +30,10 @@ const EditContactList = () => {
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
+
+  const draftMessageId = useSelector(
+    state => state.sm?.threadDetails?.drafts[0]?.messageId,
+  );
 
   const {
     allFacilities,
@@ -82,6 +92,18 @@ const EditContactList = () => {
   const onFormSubmit = e => {
     e.preventDefault();
     dispatch(updateTriageTeamRecipients(allTriageTeams));
+    dispatch(
+      addAlert(
+        ALERT_TYPE_SUCCESS,
+        null,
+        Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+      ),
+    );
+    if (draftMessageId) {
+      history.push(`/thread/${draftMessageId}`);
+    } else {
+      history.push(Paths.INBOX);
+    }
   };
 
   return (
@@ -91,7 +113,7 @@ const EditContactList = () => {
         onCloseEvent={() => {
           setNavigationError(false);
         }}
-        onPrimaryButtonClick={function noRefCheck() {}}
+        onPrimaryButtonClick={onFormSubmit}
         onSecondaryButtonClick={() => setNavigationError(false)}
         primaryButtonText="Save and exit"
         secondaryButtonText="Continue editing"
