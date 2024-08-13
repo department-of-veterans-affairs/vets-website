@@ -60,7 +60,7 @@ describe('Applicant Name/DOB page title', () => {
     formConfig,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.schema,
     formConfig.chapters.applicantInformation.pages.applicantNameDob.uiSchema,
-    5,
+    4,
     'Applicant name/DOB',
     { ...mockData.data },
   );

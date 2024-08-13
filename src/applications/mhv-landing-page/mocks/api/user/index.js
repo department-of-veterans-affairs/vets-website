@@ -71,7 +71,7 @@ const defaultUser = {
 };
 
 const generateUser = ({
-  serviceProvider = 'idme',
+  serviceName = 'idme',
   loa = 3,
   mhvAccountState = 'OK',
   vaPatient = true,
@@ -91,7 +91,7 @@ const generateUser = ({
           ...defaultUser.data.attributes.profile,
           loa: { current: loa },
           sign_in: {
-            service_name: serviceProvider,
+            service_name: serviceName,
           },
         },
       },
@@ -99,7 +99,23 @@ const generateUser = ({
   };
 };
 
+const CSP_IDS = {
+  MHV: 'mhv',
+  ID_ME: 'idme',
+  DS_LOGON: 'dslogon',
+  LOGIN_GOV: 'logingov',
+};
+
+const USER_MOCKS = Object.freeze({
+  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
+  DS_LOGON_UNVERIFIED: generateUser({ loa: 1, serviceName: CSP_IDS.DS_LOGON }),
+  NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
+  MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
+  DEFAULT: generateUser(),
+});
+
 module.exports = {
-  defaultUser,
   generateUser,
+  USER_MOCKS,
 };

@@ -27,8 +27,8 @@ const OtherResources = () => {
           User guides and essential information
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager User Guide (PPTX, 315 pages)"
-              href="https://benefits.va.gov/gibill/enrollment-manager/enrollment-manager-sco-user-guide.pptx"
+              hrefText="Enrollment Manager User Guide"
+              href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
             />
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
@@ -125,6 +125,10 @@ const OtherResources = () => {
               hrefText="How to apply for VR&amp;E"
               href="https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply/"
             />
+            <LiSpanAndVaLink
+              hrefText="VetSuccess on Campus (VSOC)"
+              href="https://www.benefits.va.gov/vocrehab/vsoc.asp"
+            />
           </ul>
         </va-accordion-item>
         <va-accordion-item
@@ -195,6 +199,11 @@ const OtherResources = () => {
           href="https://www.va.gov/education/other-va-education-benefits/"
           hrefText="Other VA education benefits"
           pText="Explore additional GI Bill benefits and alternative programs for Veterans, National Guard, and Reserve members ineligible for the Post-9/11 GI Bill."
+        />
+        <LiSpanAndVaLinkAndPTag
+          href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/"
+          hrefText="How to Use GI Bill Benefits"
+          pText="Learn how students may use their GI Bill benefits to advance their education and training."
         />
       </MainContentSubSection>
     </div>
