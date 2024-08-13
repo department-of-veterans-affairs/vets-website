@@ -43,3 +43,11 @@
 #resultsSection {
     flex: 1 1 auto;
 }
+
+#root_characterOfDischarge-label .schemaform-required-span {
+  display: none;
+}
+
+#root_characterOfDischarge-label p .schemaform-required-span {
+  display: inline;
+}

@@ -18,7 +18,7 @@ const UnderMaintenance = () => {
         </h2>
         <p>
           We are currently updating the Montgomery GI Bill enrollment
-          verification application from July 29th to August 5th. In the
+          verification application from July 29th to August 19th. In the
           meantime, you can use the{' '}
           <VaLink
             text="WAVE appliction"

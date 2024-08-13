@@ -9,7 +9,7 @@ const adjustLocation = currentLocation => {
   if (currentLocation.startsWith('/introduction')) {
     return '/introduction';
   }
-  return '/newInquiry';
+  return '/newQuestion';
 };
 
 const BreadCrumbs = ({ currentLocation }) => {

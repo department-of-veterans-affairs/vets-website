@@ -43,7 +43,7 @@ describe('Pre-need ConfirmationPage component', () => {
         <ConfirmationPage />
       </Provider>,
     );
-    expect(screen.getByText('Your claim has been submitted.')).to.exist;
+    expect(screen.getByText('You’ve submitted your application')).to.exist;
   });
 
   it('it should show response dependent text', () => {

@@ -2,15 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import BenefitCard from '../components/BenefitCard';
+import AdditionalSupport from '../components/AdditionalSupport';
+import GetFormHelp from '../../simple-forms/shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
     scrollToTop('topScrollElement');
   }
 
@@ -85,6 +85,18 @@ export class ConfirmationPage extends React.Component {
                 id="show"
               />
             </va-accordion>
+          </div>
+        </div>
+
+        <AdditionalSupport />
+
+        <div className="row vads-u-margin-bottom--2">
+          <div className="usa-width-one-whole medium-8 columns">
+            <va-need-help>
+              <div slot="content">
+                <GetFormHelp formConfig={this.props.formConfig} />
+              </div>
+            </va-need-help>
           </div>
         </div>
       </div>

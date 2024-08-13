@@ -173,7 +173,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
       // Assert
       expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
         .exist;
-
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
       expect(
         screen.getByText((content, element) => {
           return (
@@ -266,6 +267,14 @@ describe('VAOS Component: ClaimExamLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -298,9 +307,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /claim exam/i,
         }),
       );
-      expect(
-        screen.getByRole('heading', { level: 2, name: /How to prepare/i }),
-      );
       expect(screen.getByRole('heading', { level: 2, name: /When/i }));
       expect(
         screen.container.querySelector('va-button[text="Add to calendar"]'),
@@ -308,6 +314,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.queryByText('Claim exam'), { exact: true });
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
@@ -453,25 +462,10 @@ describe('VAOS Component: ClaimExamLayout', () => {
       );
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(/You don't need to bring anything to your exam./i),
-      );
-      expect(
-        screen.getByText(
-          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
-        ),
-      ).to.be.ok;
-      expect(screen.getByText(/Learn more about claim exam appointments/i));
+      ).not.to.exist;
 
       expect(
         screen.queryByRole('heading', {

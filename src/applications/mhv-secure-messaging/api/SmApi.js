@@ -359,6 +359,20 @@ export const getAllRecipients = () => {
 };
 
 /**
+ * Update list of preferred recipients in triage teams.
+ * @returns
+ */
+export const updatePreferredRecipients = updatedTriageTeams => {
+  return apiRequest(`${apiBasePath}/messaging/preferences/recipients`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ updatedTriageTeams }),
+  });
+};
+
+/**
  * Search a folder for messages based on criteria
  * @param {Int} folderId
  * @param {Object} query
