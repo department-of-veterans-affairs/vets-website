@@ -88,12 +88,13 @@ const SubTopicSelectPage = props => {
           label-header-level={CHAPTER_1.PAGE_3.QUESTION_1}
           error={validationError}
           required
+          name="select_subtopic"
           uswds
         >
           {apiData.map(subTopic => (
             <VaRadioOption
               key={subTopic.id}
-              name={subTopic.attributes.name}
+              name="select_subtopic"
               id={subTopic.id}
               value={subTopic.attributes.name}
               label={subTopic.attributes.name}

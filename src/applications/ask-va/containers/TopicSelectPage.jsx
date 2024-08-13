@@ -106,13 +106,14 @@ const TopicSelectPage = props => {
           label={CHAPTER_1.PAGE_2.QUESTION_1}
           label-header-level={CHAPTER_1.PAGE_2.QUESTION_1}
           error={validationError}
+          name="select_topic"
           required
           uswds
         >
           {apiData.map(topic => (
             <VaRadioOption
               key={topic.id}
-              name={topic.attributes.name}
+              name="select_topic"
               id={topic.id}
               value={topic.attributes.name}
               label={topic.attributes.name}
