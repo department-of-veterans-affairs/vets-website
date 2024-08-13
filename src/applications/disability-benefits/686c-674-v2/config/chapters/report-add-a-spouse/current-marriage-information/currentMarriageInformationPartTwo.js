@@ -2,6 +2,8 @@ import React from 'react';
 import {
   radioSchema,
   radioUI,
+  textUI,
+  textSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { addSpouse } from '../../../utilities';
 import {
@@ -19,7 +21,7 @@ export const schema = {
       type: 'object',
       properties: {
         type: radioSchema(marriageTypeArr),
-        typeOther: currentMarriageInformation.properties.typeOther,
+        typeOther: textSchema,
         'view:marriageTypeInformation':
           currentMarriageInformation.properties['view:marriageTypeInformation'],
       },
@@ -39,18 +41,15 @@ export const uiSchema = {
       },
       classNames: 'vads-u-margin-bottom--2 vads-u-margin-top--5',
     }),
-    typeOther: {
-      'ui:required': formData =>
+    typeOther: textUI({
+      title: 'Other type of marriage',
+      required: formData =>
         formData?.currentMarriageInformation?.type === 'OTHER',
-      'ui:title': 'Other type of marriage',
-      'ui:options': {
-        expandUnder: 'type',
-        expandUnderCondition: 'OTHER',
-        showFieldLabel: true,
-        keepInPageOnReview: true,
-        // widgetClassNames: 'vads-u-margin-y--0',
-      },
-    },
+      expandUnder: 'type',
+      expandUnderCondition: 'OTHER',
+      showFieldLabel: true,
+      keepInPageOnReview: true,
+    }),
     'view:marriageTypeInformation': {
       'ui:description': <SupportingEvidenceNeeded />,
     },

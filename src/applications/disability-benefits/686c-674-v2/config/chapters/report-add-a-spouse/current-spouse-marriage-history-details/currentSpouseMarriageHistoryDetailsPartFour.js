@@ -50,29 +50,9 @@ export const uiSchema = {
               required: 'Select a state',
             },
             'ui:options': {
-              updateSchema: (formData, _schema, _uiSchema, index) => {
-                const updatedSchemaUI = { ..._uiSchema };
-                const updatedSchema = { ..._schema };
-                const location =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
-                    ?.location;
-                const outsideUsa =
-                  formData?.spouseMarriageHistory[`${index}`]?.startLocation
-                    ?.outsideUsa;
-
-                if (outsideUsa) {
-                  updatedSchemaUI['ui:options'].inert = true;
-                  location.state = undefined;
-                  return updatedSchema;
-                }
-
-                updatedSchemaUI['ui:options'].inert = false;
-                return updatedSchema;
-              },
-              // updateUISchema: formData => {
-              //   console.log({ formData });
-              //   return {};
-              // },
+              hideIf: (formData, index) =>
+                formData?.spouseMarriageHistory[`${index}`]?.startLocation
+                  ?.outsideUsa,
             },
           },
         },
@@ -80,3 +60,63 @@ export const uiSchema = {
     },
   },
 };
+
+// export const uiSchema = {
+//   spouseMarriageHistory: {
+//     items: {
+//       'ui:title': FormerSpouseHeader,
+//       startLocation: {
+//         outsideUsa: {
+//           'ui:title': 'I got married outside the U.S.',
+//           'ui:webComponentField': VaCheckboxField,
+//         },
+//         location: {
+//           city: {
+//             'ui:title': 'City',
+//             'ui:required': () => true,
+//             'ui:autocomplete': 'address-level2',
+//             'ui:errorMessages': {
+//               required: 'Enter the city where you were married',
+//             },
+//             'ui:webComponentField': VaTextInputField,
+//           },
+//           state: {
+//             'ui:title': 'State',
+//             'ui:webComponentField': VaSelectField,
+//             'ui:required': (formData, index) =>
+//               !formData?.spouseMarriageHistory[`${index}`]?.startLocation
+//                 ?.outsideUsa,
+//             'ui:errorMessages': {
+//               required: 'Select a state',
+//             },
+//             'ui:options': {
+//               // updateSchema: (formData, _schema, _uiSchema, index) => {
+//               //   const updatedSchemaUI = { ..._uiSchema };
+//               //   const updatedSchema = { ..._schema };
+//               //   const location =
+//               //     formData?.spouseMarriageHistory[`${index}`]?.startLocation
+//               //       ?.location;
+//               //   const outsideUsa =
+//               //     formData?.spouseMarriageHistory[`${index}`]?.startLocation
+//               //       ?.outsideUsa;
+//               //   if (outsideUsa) {
+//               //     updatedSchemaUI['ui:options'].inert = true;
+//               //     location.state = undefined;
+//               //     return updatedSchema;
+//               //   }
+//               //   updatedSchemaUI['ui:options'].inert = false;
+//               //   return updatedSchema;
+//               // },
+//               hideIf: (formData, index) => {
+//                 console.log(formData);
+//                 console.log(index);
+//                 console.log(formData?.spouseMarriageHistory[0]?.outsideUsa);
+//                 return formData?.spouseMarriageHistory[`${index}`]?.outsideUsa;
+//               },
+//             },
+//           },
+//         },
+//       },
+//     },
+//   },
+// };

@@ -217,7 +217,7 @@ export const formConfig = {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Address information',
-          path: 'current-marriage-address',
+          path: 'current-marriage-information/living-together',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
         },

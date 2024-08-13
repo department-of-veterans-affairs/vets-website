@@ -9,7 +9,7 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../../config/form';
 
 describe('686 veteran marriage history details', () => {
   const {
