@@ -26,7 +26,7 @@ const UnverifiedAlert = ({
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
 
-  const defaultAlert = () => {
+  const DefaultAlert = () => {
     return (
       <CustomAlert
         headline={headline}
@@ -58,7 +58,7 @@ const UnverifiedAlert = ({
     );
   };
 
-  const mhvAlert = () => {
+  const MhvAlert = () => {
     return (
       <CustomAlert headline={headline} icon="lock" status="warning">
         <div>
@@ -117,9 +117,9 @@ const UnverifiedAlert = ({
     );
   };
 
-  if (signInService === CSP_IDS.MHV) return mhvAlert();
+  if (signInService === CSP_IDS.MHV) return MhvAlert();
 
-  return defaultAlert();
+  return DefaultAlert();
 };
 
 UnverifiedAlert.propTypes = {

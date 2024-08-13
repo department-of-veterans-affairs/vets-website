@@ -65,11 +65,7 @@ describe('MHV Signin CTA', () => {
       const widgetContent = document.createElement('div');
       widgetContent.className = 'static-widget-content';
       widgetContent.appendChild(linkEl);
-
-      // The HTML collection
-      const docFragment = document.createDocumentFragment();
-      docFragment.appendChild(widgetContent);
-      return docFragment.children;
+      return widgetContent;
     };
 
     it('unanthenticated user', async () => {

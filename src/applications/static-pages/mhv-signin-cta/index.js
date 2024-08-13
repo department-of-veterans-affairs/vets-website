@@ -10,7 +10,7 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
 /**
  * MHV Signin CTA widget. This widget displays an alert if the user is not authenticated or verified.
  * Otherwise, it displays provided HTML content.
- * @property {HTMLCollection} noAlertContent optional content to display if no alerts are shown
+ * @property {HTMLElement} noAlertContent optional content to display if no alerts are shown
  * @property {String} signInServiceName the signin service name is available
  * @property {bool} userIsLoggedIn true if the user is logged in
  * @property {bool} userIsVerified true if the user is verified
@@ -36,21 +36,16 @@ export const MhvSigninCallToAction = ({
   }
 
   // Display the provided content. Note these are HTMLElements and not React.
-  const content = Array.from(noAlertContent).map((el, index) => (
+  return (
     <div
-      key={index}
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{
-        __html: DOMPurify.sanitize(el.innerHTML),
-      }}
+      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(noAlertContent) }}
     />
-  ));
-
-  return <div>{content}</div>;
+  );
 };
 
 MhvSigninCallToAction.propTypes = {
-  noAlertContent: PropTypes.instanceOf(HTMLCollection),
+  noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
   userIsLoggedIn: PropTypes.bool,

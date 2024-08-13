@@ -7,7 +7,7 @@ import classNames from 'classnames';
 /**
  * Custom alert similar to VAAlert that allows to set the icon.
  * @property {*} children the children components to include inside the alert
- * @property {bool} disableAnalitics true to disable analytics
+ * @property {bool} disableAnalytics true to disable analytics
  * @property {string} headline the text for the headline of the alert
  * @property {*} recordEvent the function to record the event
  * @property {string} status the status of the alert ('info', 'success', 'warning' or 'continue')
