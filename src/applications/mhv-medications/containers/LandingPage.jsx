@@ -110,7 +110,7 @@ const LandingPage = () => {
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-font-size--base">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
