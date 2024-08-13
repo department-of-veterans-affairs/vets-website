@@ -5,7 +5,9 @@ import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import {
   SERVICE_PROVIDERS,
   CSP_IDS,
-} from '~/platform/user/authentication/constants';
+} from '@department-of-veterans-affairs/platform-user/authentication/constants';
+import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import CustomAlert from './CustomAlert';
 
 export const headingPrefix = 'Verify your identity';
@@ -17,6 +19,7 @@ export const headingPrefix = 'Verify your identity';
  * @property {string} signInService the ID of the sign in service
  */
 const UnverifiedAlert = ({
+  hasSsoe = false,
   recordEvent = recordEventFn,
   serviceDescription,
   signInService = CSP_IDS.ID_ME,
@@ -26,6 +29,16 @@ const UnverifiedAlert = ({
     ? `${headingPrefix} to ${serviceDescription}`
     : headingPrefix;
 
+  /**
+   * Directs the user to the sign out page.
+   */
+  const signOut = () => {
+    window.location = hasSsoe ? logoutUrl() : logoutUrlSiS();
+  };
+
+  /**
+   * The default alert to show a user.
+   */
   const DefaultAlert = () => {
     return (
       <CustomAlert
@@ -58,6 +71,9 @@ const UnverifiedAlert = ({
     );
   };
 
+  /**
+   * The alert to show a user that is logged in with an MHV account.
+   */
   const MhvAlert = () => {
     return (
       <CustomAlert headline={headline} icon="lock" status="warning">
@@ -104,7 +120,12 @@ const UnverifiedAlert = ({
             can then try to reset your password.
           </p>
           <p>
-            <va-button text="Sign out" />
+            <va-button
+              data-testid="sign-out-button"
+              text="Sign out"
+              onClick={signOut}
+              label="Sign out"
+            />
           </p>
           <p>
             <va-link
@@ -124,6 +145,7 @@ const UnverifiedAlert = ({
 
 UnverifiedAlert.propTypes = {
   signInService: PropTypes.string.isRequired,
+  hasSsoe: PropTypes.bool,
   recordEvent: PropTypes.func,
   serviceDescription: PropTypes.string,
 };

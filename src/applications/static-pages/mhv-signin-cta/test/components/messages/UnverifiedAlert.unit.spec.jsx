@@ -5,6 +5,8 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
+import { logoutUrl } from '~/platform/user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import UnverifiedAlert, {
   headingPrefix,
 } from '../../../components/messages/UnverifiedAlert';
@@ -60,6 +62,32 @@ describe('Unverified Alert component', () => {
     );
     await waitFor(() => {
       expect(recordEventSpy.calledOnce).to.be.true;
+    });
+  });
+
+  describe('sign out', () => {
+    it('with ssoe', async () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <UnverifiedAlert hasSsoe={false} signInService={CSP_IDS.MHV} />
+        </Provider>,
+      );
+      const button = getByTestId('sign-out-button');
+      expect(button).to.exist;
+      button.click();
+      expect(window.location).to.be.eql(logoutUrlSiS());
+    });
+
+    it('without ssoe', async () => {
+      const { getByTestId } = render(
+        <Provider store={mockStore()}>
+          <UnverifiedAlert hasSsoe signInService={CSP_IDS.MHV} />
+        </Provider>,
+      );
+      const button = getByTestId('sign-out-button');
+      expect(button).to.exist;
+      button.click();
+      expect(window.location).to.be.eql(logoutUrl());
     });
   });
 });

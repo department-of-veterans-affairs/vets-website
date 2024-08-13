@@ -2,8 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import DOMPurify from 'dompurify';
-import { isLoggedIn, isLOA3 } from '~/platform/user/selectors';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
+import {
+  signInServiceName,
+  isAuthenticatedWithSSOe,
+} from '@department-of-veterans-affairs/platform-user/authentication/selectors';
+import {
+  isLoggedIn,
+  isLOA3,
+} from '@department-of-veterans-affairs/platform-user/selectors';
 import UnauthenticatedAlert from './components/messages/UnauthenticatedAlert';
 import UnverifiedAlert from './components/messages/UnverifiedAlert';
 
@@ -16,6 +22,7 @@ import UnverifiedAlert from './components/messages/UnverifiedAlert';
  * @property {bool} userIsVerified true if the user is verified
  */
 export const MhvSigninCallToAction = ({
+  hasSsoe = false,
   noAlertContent,
   serviceDescription,
   serviceName,
@@ -29,6 +36,7 @@ export const MhvSigninCallToAction = ({
   if (!userIsVerified) {
     return (
       <UnverifiedAlert
+        hasSsoe={hasSsoe}
         signInService={serviceName}
         serviceDescription={serviceDescription}
       />
@@ -45,6 +53,7 @@ export const MhvSigninCallToAction = ({
 };
 
 MhvSigninCallToAction.propTypes = {
+  hasSsoe: PropTypes.bool,
   noAlertContent: PropTypes.instanceOf(HTMLElement),
   serviceDescription: PropTypes.string,
   serviceName: PropTypes.string,
@@ -59,6 +68,7 @@ MhvSigninCallToAction.propTypes = {
  */
 export const mapStateToProps = state => {
   return {
+    hasSsoe: isAuthenticatedWithSSOe(state),
     serviceName: isLoggedIn(state) ? signInServiceName(state) : undefined,
     userIsLoggedIn: isLoggedIn(state),
     userIsVerified: isLoggedIn(state) ? isLOA3(state) : undefined,
