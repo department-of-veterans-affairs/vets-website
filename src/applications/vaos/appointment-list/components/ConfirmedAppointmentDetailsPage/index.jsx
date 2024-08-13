@@ -99,8 +99,8 @@ export default function ConfirmedAppointmentDetailsPage() {
           : 'Video appointment on';
         if (isClinicVideoAppointment(appointment)) {
           pageTitle = prefix
-            ? `${prefix} video appointment at VA location on`
-            : 'Video appointment at VA location on';
+            ? `${prefix} video appointment at a VA location on`
+            : 'Video appointment at a VA location on';
         }
         if (isAtlasVideoAppointment(appointment)) {
           pageTitle = prefix
