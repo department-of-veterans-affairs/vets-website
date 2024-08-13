@@ -70,20 +70,6 @@ $anchor-font-size: 1.25rem; // == 20px
   }
 }
 
-
-.mhv-c-link-content {
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  width: 100%;
-}
-
-.mhv-c-link-content > span:first-child {
-  flex: 1;
-  min-width: 0;
-  padding-right: 4px;
-}
-
 .mhv-c-link {
   display: inline-block;
   font-size: $anchor-font-size;

@@ -32,6 +32,11 @@ const HeaderLayout = ({
           .alert-expandable-icon {
             vertical-align: middle !important;
           }
+          @media screen and (min-width: 400px) and (max-width: 450px) {
+          .alert-expandable-trigger {
+            width: 85% !important;
+          }
+        }
         `;
         alertExpandable.shadowRoot.appendChild(style);
       } catch (error) {
