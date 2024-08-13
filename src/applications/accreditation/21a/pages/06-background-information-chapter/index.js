@@ -9,6 +9,9 @@ import HasBeenTerminatedByVSOrg from '../../components/06-background-information
 import HasConditionThatAffectsRepresentation from '../../components/06-background-information-chapter/HasConditionThatAffectsRepresentation';
 import ConditionThatAffectsRepresentationDetails from '../../components/06-background-information-chapter/ConditionThatAffectsRepresentationDetails';
 
+const convictionDetailsQuestion =
+  'Provide the date, a detailed explanation, and the location of the conviction as well as the name and address of the military authority or court involved.';
+
 /** @type {PageSchema} */
 export default {
   title: 'Background information',
@@ -25,8 +28,7 @@ export default {
       title: 'Conviction details',
       path: 'conviction-details',
       depends: formData => formData.conviction,
-      question:
-        'Provide the date, a detailed explanation, and the location of the conviction as well as the name and address of the military authority or court involved.',
+      question: convictionDetailsQuestion,
       explanationDescription: ExplanationDescription,
     }),
     hasBeenCourtMartialed: yesNoPageSchema({
@@ -40,8 +42,7 @@ export default {
       title: 'Court martialed details',
       path: 'court-martialed-details',
       depends: formData => formData.courtMartialed,
-      question:
-        'Provide the date, a detailed explanation, and the location of the conviction as well as the name and address of the military authority or court involved.',
+      question: convictionDetailsQuestion,
       explanationDescription: ExplanationDescription,
     }),
     isUnderCharges: yesNoPageSchema({

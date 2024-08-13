@@ -36,12 +36,11 @@ export const formatReviewDate = (dateString, monthYear = false) => {
       day = dateString.substring(6, 8);
     }
 
-    const formattedMonth = monthNames[parseInt(month, 10) - 1];
-    const formattedDay = day ? parseInt(day, 10).toString() : '';
+    const formattedMonth = monthNames[Number(month) - 1];
 
     return monthYear || !day
       ? `${formattedMonth} ${year}`
-      : `${formattedMonth} ${formattedDay}, ${year}`;
+      : `${formattedMonth} ${day}, ${year}`;
   }
 
   return undefined;
