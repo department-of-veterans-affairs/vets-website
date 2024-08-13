@@ -14,7 +14,9 @@ describe('LabsAndTestsListItem component', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[0].resource,
+        ),
       },
     },
   };
@@ -23,7 +25,7 @@ describe('LabsAndTestsListItem component', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -67,7 +69,9 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[0]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[0].resource,
+        ),
       },
     },
   };
@@ -76,7 +80,7 @@ describe('LabsAndTestsListItem component with chem/hem record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[0])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[0].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -117,7 +121,9 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[4]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[4].resource,
+        ),
       },
     },
   };
@@ -126,7 +132,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[4])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[4].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -146,7 +152,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getAllByText('January 20, 2021', {
+    const date = screen.getAllByText('January 20, 2021, 4:38 p.m.', {
       selector: 'div',
       exact: true,
     });
@@ -167,7 +173,9 @@ describe('LabsAndTestsListItem component with pathology record', () => {
     mr: {
       labsAndTests: {
         labsAndTestsList: labsAndTests,
-        labsAndTestsDetails: convertLabsAndTestsRecord(labsAndTests.entry[5]),
+        labsAndTestsDetails: convertLabsAndTestsRecord(
+          labsAndTests.entry[5].resource,
+        ),
       },
     },
   };
@@ -176,7 +184,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   beforeEach(() => {
     screen = renderWithStoreAndRouter(
       <RecordListItem
-        record={convertLabsAndTestsRecord(labsAndTests.entry[5])}
+        record={convertLabsAndTestsRecord(labsAndTests.entry[5].resource)}
         type={recordType.LABS_AND_TESTS}
       />,
       {
@@ -196,7 +204,7 @@ describe('LabsAndTestsListItem component with pathology record', () => {
   });
 
   it('should display the date of the record', () => {
-    const date = screen.getByText('August 11, 1999', {
+    const date = screen.getByText('August 11, 1999, 4:09 p.m.', {
       selector: 'div',
       exact: true,
     });
