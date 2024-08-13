@@ -39,8 +39,10 @@ const IntroductionPage = props => {
         <strong>Note:</strong> A Veterans Pension is different from a military
         retirement pension.
       </p>
-      {/* Add href when content has this page ready */}
-      <va-link href="" text="Learn about the different types of pensions" />
+      <va-link
+        href="https://www.va.gov/resources/how-are-pension-benefits-and-disability-compensation-different/"
+        text="Learn about the different types of pensions"
+      />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>

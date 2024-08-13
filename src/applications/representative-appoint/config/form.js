@@ -25,13 +25,13 @@ import {
   claimantPersonalInformation,
   confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
+  claimantContactMailing,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
 import {
   preparerIsVeteranAndHasPrefill,
   preparerIsVeteran,
-  isLoggedIn,
 } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
@@ -56,7 +56,7 @@ const formConfig = {
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '21-22-AND-21-22A',
+  formId: '21-22',
   saveInProgress: {
     messages: {
       inProgress:
@@ -131,11 +131,6 @@ const formConfig = {
         confirmClaimantPersonalInformation: {
           path: 'confirm-claimant-personal-information',
           depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
-          initialData:
-            /* istanbul ignore next */
-            !!mockData && environment.isLocalhost() && !window.Cypress
-              ? mockData
-              : undefined,
           title: 'Your Personal Information',
           uiSchema: confirmClaimantPersonalInformation.uiSchema,
           schema: confirmClaimantPersonalInformation.schema,
@@ -150,11 +145,6 @@ const formConfig = {
         },
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo',
-          // contactPath: 'claimant-contact', // default path
-          // contactInfoRequiredKeys: [], // nothing required
-          // included: ['primaryPhone', 'mailingAddress', 'email'], // default
-          depends: formData => isLoggedIn({ formData }),
-          // ** These are ALL default values **
           contactPath: 'claimant-contact',
           phoneSchema: {
             type: 'object',
@@ -238,12 +228,12 @@ const formConfig = {
           // ** { veteran: { mailingAddress: {}, primaryPhone: {}, ... } }
           wrapperKey: 'veteran',
           addressKey: 'mailingAddress',
-          primaryPhoneKey: 'primaryPhone',
+          homePhoneKey: 'homePhone',
           emailKey: 'email',
-          contactInfoRequiredKeys: ['mailingAddress', 'email', 'primaryPhone'],
+          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
 
           // ** Use the same keys as defined above **
-          included: ['primaryPhone', 'mailingAddress', 'email'],
+          included: ['homePhone', 'mailingAddress', 'email'],
 
           content: {
             title: 'Contact information',
@@ -258,7 +248,7 @@ const formConfig = {
             ),
 
             // ** Page titles & link aria-labels **
-            editPrimaryNumber: 'Edit primary phone number',
+            editHomePhone: 'Edit home phone number',
             editEmail: 'Edit email address',
             editMailingAddress: 'Edit mailing address',
 
@@ -268,7 +258,7 @@ const formConfig = {
             updated: 'updated', // alert updated text
 
             // ** Missing info alert messaging **
-            missingPrimaryNumber: 'primary phone',
+            missingHomePhone: 'home phone',
             missingAddress: 'mailing address',
             missingEmail: 'email address',
             alertContent:
@@ -276,7 +266,7 @@ const formConfig = {
 
             // ** Review & submit & section titles **
             mailingAddress: 'Mailing address',
-            primaryPhone: 'Home phone number',
+            homePhone: 'Home number',
             email: 'Email address',
             country: 'Country',
             address1: 'Street address',
@@ -294,6 +284,13 @@ const formConfig = {
             // depends = null,
           },
         }),
+        claimantContactMailing: {
+          path: 'claimant-contact-mailing',
+          title: 'Veteran’s mailing address',
+          uiSchema: claimantContactMailing.uiSchema,
+          schema: claimantContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
       },
     },
     authorization: {
