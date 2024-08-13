@@ -28,6 +28,7 @@ describe('<AlertMhvRegistration />', () => {
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
       expect(recordEvent.calledWith(event)).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 });

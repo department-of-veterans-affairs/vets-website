@@ -12,14 +12,17 @@ const AlertNotVerified = ({ cspId, recordEvent }) => {
   const serviceLabel = SERVICE_PROVIDERS[cspId].label;
   const headline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
 
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': 'continue',
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'continue',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   return (
     <IdentityNotVerified

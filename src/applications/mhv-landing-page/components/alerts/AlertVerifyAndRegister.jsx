@@ -15,14 +15,17 @@ const AlertVerifyAndRegister = ({ cspId, recordEvent, testId }) => {
   const headline = 'Verify and register your account to access My HealtheVet';
   const serviceProviderLabel = SERVICE_PROVIDERS[cspId].label;
 
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': 'warning',
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   return (
     <VaAlert data-testid={testId} status="warning" visible>

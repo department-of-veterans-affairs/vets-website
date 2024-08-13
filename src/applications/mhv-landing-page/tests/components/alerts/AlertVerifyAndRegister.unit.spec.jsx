@@ -15,6 +15,7 @@ describe('<AlertVerifyAndRegister />', () => {
     getByTestId(defaultProps.testId);
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 });

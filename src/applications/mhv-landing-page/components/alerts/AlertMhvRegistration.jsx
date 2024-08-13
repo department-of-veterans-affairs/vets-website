@@ -5,14 +5,17 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 const AlertMhvRegistration = ({ headline, recordEvent, ssoe, testId }) => {
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': 'warning',
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   const mhvLink = `${mhvUrl(ssoe, '')}home&postLogin=true`;
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
-import { logoutUrl } from 'platform/user/authentication/utilities';
+import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 import {
   VaAlert,
@@ -10,14 +10,17 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': 'warning',
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   const signOut = () => {
     window.location = ssoe ? logoutUrl() : logoutUrlSiS();
@@ -71,7 +74,12 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
           password for that account.
         </p>
         <div className="vads-u-margin-top--2">
-          <VaButton label="Sign out" onClick={signOut} text="Sign out" />
+          <VaButton
+            data-testid="mhv-button--sign-out"
+            label="Sign out"
+            onClick={signOut}
+            text="Sign out"
+          />
         </div>
         <p className="vads-u-margin-top--2">
           <a href="/resources/how-to-access-my-healthevet-on-vagov">

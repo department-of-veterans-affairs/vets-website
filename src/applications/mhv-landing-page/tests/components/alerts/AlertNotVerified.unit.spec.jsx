@@ -13,6 +13,7 @@ describe('<AlertNotVerified />', () => {
     getByTestId('verify-identity-alert-headline');
     await waitFor(() => {
       expect(recordEvent.calledOnce).to.be.true;
+      expect(recordEvent.calledTwice).to.be.false;
     });
   });
 });
