@@ -1025,7 +1025,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       // Assert
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Video appointment at VA location on ${today.format(
+          `Video appointment at a VA location on ${today.format(
             'dddd, MMMM D, YYYY',
           )} | Veterans Affairs`,
         );
@@ -1049,7 +1049,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       // Assert
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Past video appointment at VA location on ${yesterday.format(
+          `Past video appointment at a VA location on ${yesterday.format(
             'dddd, MMMM D, YYYY',
           )} | Veterans Affairs`,
         );
@@ -1074,7 +1074,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       // Assert
       await waitFor(() => {
         expect(global.document.title).to.equal(
-          `Canceled video appointment at VA location on ${today.format(
+          `Canceled video appointment at a VA location on ${today.format(
             'dddd, MMMM D, YYYY',
           )} | Veterans Affairs`,
         );
