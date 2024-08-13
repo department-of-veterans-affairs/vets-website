@@ -1,4 +1,22 @@
 import { format } from 'date-fns';
+import { srSubstitute } from 'platform/forms-system/src/js/utilities/ui/mask-string';
+
+/**
+ * Helper that visually-masks the Veteran's Social Security number and separates
+ * each number so screenreaders will read "ending with 1 2 3 4" instead of
+ * "ending with 1,234"
+ * @param {String} value - the Social Security number string from the form data
+ * @returns {Element} - React element containing the masked string and
+ * screenreader-compatible output
+ */
+export function maskSSN(value = '') {
+  if (!value) return srSubstitute('', 'is blank');
+  const number = value.toString().slice(-4);
+  return srSubstitute(
+    `●●●–●●–${number}`,
+    `ending with ${number.split('').join(' ')}`,
+  );
+}
 
 /**
  * Helper that replaces specified parts of a string with a dynamic value
