@@ -96,11 +96,11 @@ const WhatToDoNext = props => {
                         })}
                       </ul>
                     ) : (
-                      <div data-testid="appointment-bullet">
+                      <p data-testid="appointment-bullet">
                         {t('day-of-week-month-day-time', {
                           date: new Date(appointment.startTime),
                         })}
-                      </div>
+                      </p>
                     )}
                     {showDetailsLink && (
                       <p>
