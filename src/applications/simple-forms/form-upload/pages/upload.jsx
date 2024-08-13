@@ -27,9 +27,29 @@ export const uploadPage = {
         }/simple_forms_api/v1/scanned_form_upload`,
         title,
         formNumber,
-        required: () => true,
+        required: () => false,
       }),
     },
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      'view:uploadGuidelines': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedFile: fileInputSchema,
+      'view:alertTooManyPages': {
+        type: 'object',
+        properties: {},
+      },
+    },
+    required: ['uploadedFile'],
+  },
+};
+
+export const uploadReviewPage = {
+  uiSchema: {
     'view:alertTooManyPages': {
       'ui:description': ALERT_TOO_MANY_PAGES(
         formNumber,
@@ -63,19 +83,22 @@ export const uploadPage = {
           !formData.uploadedFile?.warnings?.includes('wrong_form'),
       },
     },
+    uploadedFile: {
+      ...fileInputUI({
+        errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
+        name: 'form-upload-file-input',
+        fileUploadUrl: `${
+          environment.API_URL
+        }/simple_forms_api/v1/scanned_form_upload`,
+        title: 'Your file',
+        formNumber,
+        required: () => false,
+      }),
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      'view:uploadGuidelines': {
-        type: 'object',
-        properties: {},
-      },
-      uploadedFile: fileInputSchema,
-      'view:alertTooManyPages': {
-        type: 'object',
-        properties: {},
-      },
       'view:alertTooFewPages': {
         type: 'object',
         properties: {},
@@ -84,6 +107,11 @@ export const uploadPage = {
         type: 'object',
         properties: {},
       },
+      'view:alertTooManyPages': {
+        type: 'object',
+        properties: {},
+      },
+      uploadedFile: fileInputSchema,
     },
     required: ['uploadedFile'],
   },
