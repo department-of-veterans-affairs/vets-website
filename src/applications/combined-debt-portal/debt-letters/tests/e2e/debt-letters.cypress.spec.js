@@ -58,4 +58,10 @@ describe('Debt Letters - downloads disabled', () => {
     cy.get('#downloadDebtLetters').should('not.exist');
     cy.injectAxeThenAxeCheck();
   });
+
+  it('displays letters currently unavailable for download alert', () => {
+    cy.visit('/manage-va-debt/summary/debt-balances/letters');
+    cy.findByTestId('letters-disabled-alert').should('exist');
+    cy.injectAxeThenAxeCheck();
+  });
 });
