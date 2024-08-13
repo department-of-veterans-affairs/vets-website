@@ -352,11 +352,11 @@ export function selectIsCanceled(appointment) {
 }
 
 export function selectIsCommunityCare(appointment) {
-  return appointment?.vaos.isCommunityCare;
+  return appointment?.vaos?.isCommunityCare;
 }
 
 export function selectIsVideo(appointment) {
-  return appointment.vaos.isVideo;
+  return appointment?.vaos?.isVideo;
 }
 
 export function selectIsInPerson(appointment) {
@@ -414,7 +414,7 @@ export function selectIsPending(appointment) {
 }
 
 export function selectIsPast(appointment) {
-  if (appointment) {
+  if (appointment && appointment.vaos) {
     const { isPastAppointment } = appointment.vaos;
     return isPastAppointment;
   }
