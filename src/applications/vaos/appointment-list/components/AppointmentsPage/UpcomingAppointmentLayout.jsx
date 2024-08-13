@@ -61,12 +61,9 @@ export default function UpcomingAppointmentLayout({
                         'medium-screen:vads-u-margin-x--1p5',
                         'medium-screen:vads-u-margin-y--0',
                         'medium-screen:vads-u-padding--0',
-
-                        'small-desktop-screen:vads-u-margin-x--1',
-                        'small-desktop-screen:vads-u-margin-y--0',
                         {
                           'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
-                          // 'medium-screen:vads-u-padding-y--2': isFirstInDay,
+                          'medium-screen:vads-u-padding-y--2': isFirstInDay,
                         },
                       )}
                     >
@@ -121,9 +118,6 @@ export default function UpcomingAppointmentLayout({
                 'medium-screen:vads-u-margin-x--1p5',
                 'medium-screen:vads-u-margin-y--0',
                 'medium-screen:vads-u-padding--0',
-
-                'small-desktop-screen:vads-u-margin-x--1',
-                'small-desktop-screen:vads-u-margin-y--0',
               )}
             >
               <AppointmentColumnLayout first data={appt} link={link} />
