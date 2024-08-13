@@ -352,12 +352,13 @@ const ComposeForm = props => {
       return messageValid;
     },
     [
-      category,
-      messageBody,
       selectedRecipient,
       subject,
+      messageBody,
+      category,
       isSignatureRequired,
       electronicSignature,
+      signatureError,
       checkboxMarked,
     ],
   );
@@ -365,9 +366,11 @@ const ComposeForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       if (type === 'manual') {
-        setLastFocusableElement(e.target);
+        setLastFocusableElement(e?.target || lastFocusableElement);
         setMessageInvalid(false);
-        if (checkMessageValidity({ isDraft: true }) === true) {
+
+        // if all checks are valid, then save the draft
+        if (checkMessageValidity()) {
           setNavigationError(null);
           setSavedDraft(true);
         } else
@@ -394,7 +397,6 @@ const ComposeForm = props => {
 
         if (errorType) {
           setSaveError(errorType);
-
           if (
             errorType.title !==
             ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
@@ -427,8 +429,8 @@ const ComposeForm = props => {
         subject,
         body: messageBody,
       };
-
-      if (checkMessageValidity({ draft: true }) === true) {
+      // saves the draft if all checks are valid or can save draft without signature
+      if (checkMessageValidity() || saveError?.saveDraft) {
         dispatch(saveDraft(formData, type, draftId));
       }
     },
@@ -446,6 +448,14 @@ const ComposeForm = props => {
       messageBody,
       selectedRecipient,
       subject,
+      isSignatureRequired,
+      electronicSignature,
+      checkboxError,
+      lastFocusableElement,
+      setUnsavedNavigationError,
+      setNavigationError,
+      setSaveError,
+      saveError,
     ],
   );
 
