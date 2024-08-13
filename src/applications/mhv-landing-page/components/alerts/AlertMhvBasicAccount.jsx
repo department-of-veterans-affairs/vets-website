@@ -2,29 +2,32 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
+import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
-  useEffect(() => {
-    recordEvent({
-      event: 'nav-alert-box-load',
-      action: 'load',
-      'alert-box-headline': headline,
-      'alert-box-status': status,
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
+  useEffect(
+    () => {
+      recordEvent({
+        event: 'nav-alert-box-load',
+        action: 'load',
+        'alert-box-headline': headline,
+        'alert-box-status': 'warning',
+      });
+    },
+    [headline, recordEvent],
+  );
 
   const signOut = () => {
-    window.location = logoutUrlSiS;
+    window.location = ssoe ? logoutUrl() : logoutUrlSiS();
   };
 
   return (
-    <VaAlert
-      status={status}
-      data-testid="mhv-basic-account-alert"
-      disableAnalytics
-    >
+    <VaAlert status="warning" data-testid={testId} disableAnalytics>
       <h2 slot="headline">{headline}</h2>
       <div>
         <p className="vads-u-margin-y--0">
@@ -71,10 +74,15 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
           password for that account.
         </p>
         <div className="vads-u-margin-top--2">
-          <va-button label="Sign out" onClick={signOut} text="Sign out" />
+          <VaButton
+            data-testid="mhv-button--sign-out"
+            label="Sign out"
+            onClick={signOut}
+            text="Sign out"
+          />
         </div>
         <p className="vads-u-margin-top--2">
-          <a href="https://www.va.gov/resources/how-to-access-my-healthevet-on-vagov/">
+          <a href="/resources/how-to-access-my-healthevet-on-vagov">
             Learn more about how to access My HealtheVet on Va.gov
           </a>
         </p>
@@ -83,17 +91,19 @@ const MhvBasicAccountAlert = ({ headline, recordEvent, status }) => {
   );
 };
 
-MhvBasicAccountAlert.defaultProps = {
+AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
   recordEvent: recordEventFn,
-  status: 'warning',
+  ssoe: false,
+  testId: 'mhv-alert--mhv-basic-account',
 };
 
-MhvBasicAccountAlert.propTypes = {
+AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
   recordEvent: PropTypes.func,
-  status: PropTypes.string,
+  ssoe: PropTypes.bool,
+  testId: PropTypes.string,
 };
 
-export default MhvBasicAccountAlert;
+export default AlertMhvBasicAccount;
