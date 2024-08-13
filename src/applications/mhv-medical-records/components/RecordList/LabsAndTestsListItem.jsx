@@ -21,21 +21,15 @@ const LabsAndTestsListItem = props => {
         {/* date */}
         <div>{record.date}</div>
 
-        {/* location */}
-        {(record.type === labTypes.CHEM_HEM ||
-          record.type === labTypes.MICROBIOLOGY) && (
-          <div>{record.collectingLocation}</div>
-        )}
-        {record.type === labTypes.PATHOLOGY && <div>{record.labLocation}</div>}
-        {record.type === labTypes.RADIOLOGY && (
-          <div>{record.imagingLocation}</div>
-        )}
-
         {/* ordered by */}
         {(record.type === labTypes.CHEM_HEM ||
           record.type === labTypes.MICROBIOLOGY ||
-          record.type === labTypes.RADIOLOGY) && (
+          record.type === labTypes.RADIOLOGY ||
+          record.type === labTypes.PATHOLOGY) && (
           <div>{`Ordered by ${record.orderedBy}`}</div>
+        )}
+        {record.type === labTypes.EKG && (
+          <div>{`Signed by ${record.signedBy}`}</div>
         )}
       </div>
     </va-card>
