@@ -16,6 +16,7 @@ export async function onDownloadLinkClick(event, reduxStore) {
   // This function purpose is to determine if the PDF is valid on click.
   // Once it's done, it passes information to DownloadPDFGuidance() which determines what to render.
   event.preventDefault();
+  console.log('event: ', event);
 
   const link = event.target;
   const { formNumber, href: downloadUrl } = link.dataset;
@@ -30,11 +31,15 @@ export async function onDownloadLinkClick(event, reduxStore) {
   try {
     const forms = await fetchFormsApi(formNumber);
 
-    form = forms.results.find(
+    console.log('results: ', forms?.results);
+
+    form = forms?.results.find(
       f => f?.attributes?.formName === link?.dataset?.formNumber,
     );
 
     formPdfIsValid = form?.attributes.validPdf;
+
+    console.log('formPdfIsValid: ', formPdfIsValid);
 
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
 
@@ -45,7 +50,9 @@ export async function onDownloadLinkClick(event, reduxStore) {
         method: 'HEAD', // HEAD METHOD SHOULD NOT RETURN BODY, WE ONLY CARE IF REQ WAS SUCCESSFUL
       });
 
-      if (!response.ok) formPdfUrlIsValid = false;
+      if (!response.ok) {
+        formPdfUrlIsValid = false;
+      }
     }
   } catch (err) {
     if (err) {
@@ -60,7 +67,11 @@ export async function onDownloadLinkClick(event, reduxStore) {
     );
   }
 
+  console.log(formPdfIsValid,
+    formPdfUrlIsValid,)
+
   return DownloadPDFGuidance({
+    clickedId: link.id,
     downloadUrl,
     form,
     formNumber,
