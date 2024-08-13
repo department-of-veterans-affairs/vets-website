@@ -72,9 +72,7 @@ describe('Unverified Alert component', () => {
           <UnverifiedAlert hasSsoe={false} signInService={CSP_IDS.MHV} />
         </Provider>,
       );
-      const button = getByTestId('sign-out-button');
-      expect(button).to.exist;
-      button.click();
+      getByTestId('sign-out-button').click();
       expect(window.location).to.be.eql(logoutUrlSiS());
     });
 
@@ -84,9 +82,7 @@ describe('Unverified Alert component', () => {
           <UnverifiedAlert hasSsoe signInService={CSP_IDS.MHV} />
         </Provider>,
       );
-      const button = getByTestId('sign-out-button');
-      expect(button).to.exist;
-      button.click();
+      getByTestId('sign-out-button').click();
       expect(window.location).to.be.eql(logoutUrl());
     });
   });
