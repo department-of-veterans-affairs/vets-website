@@ -13,9 +13,6 @@ export default function TravelClaimCard(props) {
     modifiedOn,
   } = props;
 
-  const [appointmentDate, appointmentTime] = formatDateTime(
-    appointmentDateTime,
-  );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
@@ -23,6 +20,9 @@ export default function TravelClaimCard(props) {
   if (appointmentDateTime == null) {
     appointmentDateTitle = 'Appointment information not available';
   } else {
+    const [appointmentDate, appointmentTime] = formatDateTime(
+      appointmentDateTime,
+    );
     appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
   }
 

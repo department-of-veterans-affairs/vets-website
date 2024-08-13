@@ -88,22 +88,19 @@ export default function App({ children }) {
   }
 
   // TODO: Move this logic to the API-side
+  const compareClaimsDate = (a, b) => {
+    return (
+      Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
+      Date.parse(b.createdOn) - Date.parse(a.createdOn)
+    );
+  };
+
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(b.appointmentDateTime) -
-            Date.parse(a.appointmentDateTime) ||
-          Date.parse(b.createdOn) - Date.parse(a.createdOn),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(a.appointmentDateTime) -
-            Date.parse(b.appointmentDateTime) ||
-          Date.parse(a.createdOn) - Date.parse(b.createdOn),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
