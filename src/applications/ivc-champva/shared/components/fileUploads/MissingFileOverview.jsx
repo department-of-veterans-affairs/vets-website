@@ -25,7 +25,7 @@ This component provides the user with details on what is missing, and
 can upload the files. Otherwise, it can provide a consent checkbox where the
 user acknowledges that they will have to mail or fax the missing documents.
 */
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   VaCheckbox,
   VaTelephone,
@@ -33,10 +33,7 @@ import {
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
-import {
-  getConditionalPages,
-  addStyleToShadowDomOnPages,
-} from '../../utilities';
+import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
@@ -229,14 +226,6 @@ export default function MissingFileOverview({
   const [isChecked, setIsChecked] = useState(
     data?.consentToMailMissingRequiredFiles || false,
   );
-  useEffect(() => {
-    // Hides non-removable `&nbsp` label from VaCheckboxGroup on missing docs consent page
-    addStyleToShadowDomOnPages(
-      ['/consent-mail'],
-      ['va-checkbox-group'],
-      '.input-wrap .usa-fieldset .usa-legend {display: none}',
-    );
-  });
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const chapters = contentAfterButtons?.props?.formConfig?.chapters;
   const verifier = new SupportingDocsVerification(requiredFiles);
