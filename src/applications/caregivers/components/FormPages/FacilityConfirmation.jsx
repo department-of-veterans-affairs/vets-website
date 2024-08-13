@@ -1,9 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
-const FacilityConfirmation = () => {
-  const data = useSelector(state => state.form.data);
-  const selectedFacility = data['view:selectedFacilityAddressData'].attributes;
+const FacilityConfirmation = props => {
+  const { data, goBack, goForward } = props;
+  const selectedFacility =
+    data['view:veteranPlannedClinic'].veteranSelected.attributes;
 
   return (
     <div>
@@ -22,8 +24,15 @@ const FacilityConfirmation = () => {
         <br />
         {selectedFacility.address.physical.address3}
       </p>
+      <FormNavButtons goBack={goBack} goForward={goForward} />
     </div>
   );
+};
+
+FacilityConfirmation.propTypes = {
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
 };
 
 export default FacilityConfirmation;

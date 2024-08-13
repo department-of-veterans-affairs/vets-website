@@ -1,42 +1,36 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import FacilityConfirmation from '../../../../components/FormFields/FacilityConfirmation';
+import sinon from 'sinon';
+import userEvent from '@testing-library/user-event';
 import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
+import FacilityConfirmation from '../../../../components/FormPages/FacilityConfirmation';
 
 describe('CG <FacilityConfirmation>', () => {
   const facilities =
     mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
-
   const selectedFacility = facilities[0];
-  const preferredFacility = facilities[1];
 
-  const getData = () => ({
-    mockStore: {
-      getState: () => ({
-        form: {
-          data: {
-            veteranPreferredFacility: 'my-facility-id',
-            'view:selectedFacilityAddressData': selectedFacility,
-            'view:preferredFacilityAddressData': preferredFacility,
-          },
-        },
-      }),
-      subscribe: () => {},
-      dispatch: () => {},
+  const goBack = sinon.spy();
+  const goForward = sinon.spy();
+
+  const defaultProps = {
+    data: {
+      'view:veteranPlannedClinic': {
+        veteranSelected: facilities[0],
+      },
     },
-  });
+    goBack,
+    goForward,
+  };
 
-  const subject = () => {
-    const { mockStore } = getData();
+  const subject = (props = defaultProps) => {
     const { getByText, getByRole } = render(
-      <Provider store={mockStore}>
-        <FacilityConfirmation />
-      </Provider>,
+      <FacilityConfirmation {...props} />,
     );
     const selectedFacilityAddress =
       selectedFacility.attributes.address.physical;
+
     const selectors = () => ({
       descriptionText: {
         header3: getByRole('heading', {
@@ -57,9 +51,33 @@ describe('CG <FacilityConfirmation>', () => {
         address2: getByText(new RegExp(selectedFacilityAddress.address2)),
         address3: getByText(new RegExp(selectedFacilityAddress.address3)),
       },
+      formNavButtons: {
+        back: getByText('Back'),
+        forward: getByText('Continue'),
+      },
     });
     return { selectors };
   };
+
+  context('formNavButtons', () => {
+    it('renders back and forward buttons', () => {
+      const { selectors } = subject();
+      expect(selectors().formNavButtons.back).to.exist;
+      expect(selectors().formNavButtons.forward).to.exist;
+    });
+
+    it('calls goBack callback on click', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().formNavButtons.back);
+      expect(goBack.calledOnce).to.be.true;
+    });
+
+    it('calls goForward callback on click', () => {
+      const { selectors } = subject();
+      userEvent.click(selectors().formNavButtons.forward);
+      expect(goForward.calledOnce).to.be.true;
+    });
+  });
 
   it('renders selected facility description text', () => {
     const { selectors } = subject();
