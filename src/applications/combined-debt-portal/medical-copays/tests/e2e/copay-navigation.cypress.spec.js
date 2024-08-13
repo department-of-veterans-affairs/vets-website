@@ -6,7 +6,7 @@
  * @testrailinfo runName MCP-e2e-Main
  */
 import mockFeatureToggles from '../../../combined/tests/e2e/fixtures/mocks/feature-toggles.json';
-import mockUser from './fixtures/mocks/mock-user.json';
+import mockUser from '../../../combined/tests/e2e/fixtures/mocks/mock-user-81.json';
 import {
   copayResponses,
   debtResponses,
