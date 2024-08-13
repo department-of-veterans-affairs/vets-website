@@ -79,9 +79,10 @@ const WhatToDoNext = props => {
                     >
                       {cardTitle}
                     </h3>
-                    <ul>
-                      {app === APP_NAMES.PRE_CHECK_IN ? (
-                        actionableAppointments.map(actionableAppointment => {
+                    {actionableAppointments.length > 1 &&
+                    app === APP_NAMES.PRE_CHECK_IN ? (
+                      <ul>
+                        {actionableAppointments.map(actionableAppointment => {
                           return (
                             <li
                               data-testid="appointment-bullet"
@@ -92,15 +93,15 @@ const WhatToDoNext = props => {
                               })}
                             </li>
                           );
-                        })
-                      ) : (
-                        <li data-testid="appointment-bullet">
-                          {t('day-of-week-month-day-time', {
-                            date: new Date(appointment.startTime),
-                          })}
-                        </li>
-                      )}
-                    </ul>
+                        })}
+                      </ul>
+                    ) : (
+                      <div data-testid="appointment-bullet">
+                        {t('day-of-week-month-day-time', {
+                          date: new Date(appointment.startTime),
+                        })}
+                      </div>
+                    )}
                     {showDetailsLink && (
                       <p>
                         <a
