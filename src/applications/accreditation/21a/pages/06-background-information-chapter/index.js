@@ -21,7 +21,7 @@ export default {
       title: 'Conviction',
       path: 'conviction',
       question:
-        'Have you ever been convicted, imprisoned, sentenced to probation or parole?',
+        'Have you ever been convicted, imprisoned, or sentenced to probation or parole?',
       description: HasAConviction,
     }),
     convictionDetails: backgroundInformationDetailsPageSchema({
@@ -160,7 +160,7 @@ export default {
       title: 'Applied for VA accreditation',
       path: 'applied-for-va-accreditation',
       question:
-        'Have you ever applied for accreditation by the Department of Veterans Affairs as a representative of a Veteran Service Organization (VSO), agent, or attorney?',
+        'Have you ever applied for accreditation by the Department of Veterans Affairs as a representative of a Veterans Service Organization (VSO), agent, or attorney?',
     }),
     appliedForVaAccreditationDetails: backgroundInformationDetailsPageSchema({
       title: 'Applied for VA accreditation details',
@@ -173,7 +173,7 @@ export default {
       title: 'Terminated by VSOrg',
       path: 'terminated-by-vsorg',
       question:
-        'If you were previously accredited as a representative of a Veteran Service Organization, was that accreditation terminated or suspended at the request of the organization?',
+        'If you were previously accredited as a representative of a VSO, was that accreditation terminated or suspended at the request of the organization?',
       description: HasBeenTerminatedByVSOrg,
     }),
     terminatedByVSOrgDetails: backgroundInformationDetailsPageSchema({

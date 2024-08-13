@@ -48,7 +48,7 @@ const backgroundInformationDetails = ({
         title: 'Certification',
         errorMessages: {
           required:
-            'You must certify you have provided all information you wish to provide to continue.',
+            'You must certify you have provided all information you wish to provide',
         },
         required: true,
         labels: {

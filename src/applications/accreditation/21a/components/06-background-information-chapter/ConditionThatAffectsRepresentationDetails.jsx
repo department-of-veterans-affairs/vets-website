@@ -11,7 +11,7 @@ const ConditionThatAffectsRepresentationDetails = () => (
       <li>current diagnosis</li>
       <li>treatment regiment</li>
       <li>prognosis</li>
-      <li>bearing on your fitness to represent claimants before the VA</li>
+      <li>bearing on your fitness to represent claimants before VA</li>
     </ul>
   </>
 );

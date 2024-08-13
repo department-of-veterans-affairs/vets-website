@@ -48,7 +48,7 @@ const agencyOrCourtPage = {
     }),
     agencyOrCourt: selectUI('Agency/court'),
     otherAgencyOrCourt: textUI({
-      title: 'Name of agency or court',
+      title: 'Name of agency/court',
       expandUnder: 'agencyOrCourt',
       expandUnderCondition: 'Other',
       required: (formData, index) =>
