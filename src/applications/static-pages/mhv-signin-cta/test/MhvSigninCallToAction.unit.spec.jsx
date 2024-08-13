@@ -1,5 +1,5 @@
 import React from 'react';
-import createMockStore from 'redux-mock-store';
+import configureStore from 'redux-mock-store';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -46,7 +46,7 @@ describe('MHV Signin CTA', () => {
   });
 
   describe('render widget', () => {
-    const mockStore = createMockStore([]);
+    const mockStore = configureStore([]);
     const serviceDescription = 'order supplies';
     const linkText = 'order medical supplies';
 
