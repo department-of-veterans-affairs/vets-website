@@ -12,20 +12,10 @@ const BenefitCard = () => (
     </p>
     <div>
       <div className="vads-u-display--inline-block vads-u-margin-right--2">
-        <va-link-action
-          href="#"
-          message-aria-describedby="Learn more"
-          text="Learn more"
-          type="secondary"
-        />
+        <va-link-action href="#" text="Learn more" type="secondary" />
       </div>
       <div className="vads-u-display--inline-block">
-        <va-link-action
-          href="#"
-          message-aria-describedby="Apply now"
-          text="Apply now"
-          type="secondary"
-        />
+        <va-link-action href="#" text="Apply now" type="secondary" />
       </div>
     </div>
   </va-card>
