@@ -1,7 +1,7 @@
 import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
 import LandingPage from '../pages/LandingPage';
-import MhvRegistrationAlert from '../../../components/MhvRegistrationAlert';
+import MhvRegistrationAlert from '../../../components/alerts/AlertMhvRegistration';
 
 describe(`${appName} - MHV Registration Alert - `, () => {
   beforeEach(() => {

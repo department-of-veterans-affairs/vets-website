@@ -55,19 +55,19 @@ describe('Edit Contact List container', () => {
     expect(facilityGroups[0]).to.have.attribute('label', 'Test Facility 2');
     expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
-    const selectAllTeams = screen.getAllByTestId(
-      'contact-list-select-all-teams',
-    );
-    expect(selectAllTeams[0]).to.have.attribute(
-      'label',
-      'Select all Test Facility 2 teams',
-    );
-    expect(selectAllTeams[1]).to.have.attribute(
-      'label',
-      'Select all Test Facility 1 teams',
-    );
-
     await waitFor(() => {
+      const selectAllTeams = screen.getAllByTestId(
+        'contact-list-select-all-teams',
+      );
+      expect(selectAllTeams[0]).to.have.attribute(
+        'label',
+        'Select all 4 Test Facility 2 teams',
+      );
+      expect(selectAllTeams[1]).to.have.attribute(
+        'label',
+        'Select all 2 Test Facility 1 teams',
+      );
+
       const allTriageTeams = screen.getAllByTestId('contact-list-select-team');
       expect(allTriageTeams.length).to.equal(
         noBlockedRecipients.associatedTriageGroupsQty,

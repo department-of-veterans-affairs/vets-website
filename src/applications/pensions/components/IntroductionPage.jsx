@@ -39,8 +39,10 @@ const IntroductionPage = props => {
         <strong>Note:</strong> A Veterans Pension is different from a military
         retirement pension.
       </p>
-      {/* Add href when content has this page ready */}
-      <va-link href="" text="Learn about the different types of pensions" />
+      <va-link
+        href="https://www.va.gov/resources/how-are-pension-benefits-and-disability-compensation-different/"
+        text="Learn about the different types of pensions"
+      />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
@@ -79,55 +81,57 @@ const IntroductionPage = props => {
             trigger="Other information we may ask for"
             disable-border
           >
-            <p>
-              Based on your answers, you may need to submit supporting documents
-              and additional evidence.
-            </p>
-            <p>
-              We’ll tell you if you need to submit any of these supporting
-              documents:
-            </p>
-            <ul>
-              <li>
-                Examination for Housebound Status or Permanent Need for Regular
-                Aid and Attendance (
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21-2680/"
-                  text="VA Form 21-2680"
-                />
-                )
-              </li>
-              <li>
-                Request for Nursing Home Information in Connection with Claim
-                for Aid and Attendance (
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21-0779/"
-                  text="VA Form 21-20779"
-                />
-                )
-              </li>
-              <li>
-                Request for Approval of School Attendance (
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21-674/"
-                  text="VA Form 21-674"
-                />
-                )
-              </li>
-              <li>
-                Income and Asset Statement in Support of Claim for Pension or
-                Parents’ Dependency and Indemnity Compensation (
-                <va-link
-                  href="https://www.va.gov/find-forms/about-form-21p-0969/"
-                  text="VA Form 21P-0969"
-                />
-                )
-              </li>
-            </ul>
-            <p>
-              And we’ll tell you the additional evidence you’ll need to submit
-              depending on your situation.
-            </p>
+            <div>
+              <p>
+                Based on your answers, you may need to submit supporting
+                documents and additional evidence.
+              </p>
+              <p>
+                We’ll tell you if you need to submit any of these supporting
+                documents:
+              </p>
+              <ul>
+                <li>
+                  Examination for Housebound Status or Permanent Need for
+                  Regular Aid and Attendance (
+                  <va-link
+                    href="https://www.va.gov/find-forms/about-form-21-2680/"
+                    text="VA Form 21-2680"
+                  />
+                  )
+                </li>
+                <li>
+                  Request for Nursing Home Information in Connection with Claim
+                  for Aid and Attendance (
+                  <va-link
+                    href="https://www.va.gov/find-forms/about-form-21-0779/"
+                    text="VA Form 21-20779"
+                  />
+                  )
+                </li>
+                <li>
+                  Request for Approval of School Attendance (
+                  <va-link
+                    href="https://www.va.gov/find-forms/about-form-21-674/"
+                    text="VA Form 21-674"
+                  />
+                  )
+                </li>
+                <li>
+                  Income and Asset Statement in Support of Claim for Pension or
+                  Parents’ Dependency and Indemnity Compensation (
+                  <va-link
+                    href="https://www.va.gov/find-forms/about-form-21p-0969/"
+                    text="VA Form 21P-0969"
+                  />
+                  )
+                </li>
+              </ul>
+              <p>
+                And we’ll tell you the additional evidence you’ll need to submit
+                depending on your situation.
+              </p>
+            </div>
           </va-additional-info>
         </va-process-list-item>
         <va-process-list-item header="Start your application">
@@ -139,16 +143,18 @@ const IntroductionPage = props => {
             trigger="What happens after you apply"
             disable-border
           >
-            <p>
-              We’ll process your application and send you a letter in the mail
-              with our decision.
-            </p>
-            <p>
-              We may request more information from you to make a decision about
-              your pension claim. If we request more information, you’ll need to
-              respond within 30 days. If you don’t, we may decide your pension
-              claim with the evidence that’s available to us.
-            </p>
+            <div>
+              <p>
+                We’ll process your application and send you a letter in the mail
+                with our decision.
+              </p>
+              <p>
+                We may request more information from you to make a decision
+                about your pension claim. If we request more information, you’ll
+                need to respond within 30 days. If you don’t, we may decide your
+                pension claim with the evidence that’s available to us.
+              </p>
+            </div>
           </va-additional-info>
         </va-process-list-item>
       </va-process-list>
