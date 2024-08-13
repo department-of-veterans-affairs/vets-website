@@ -114,7 +114,7 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_21_686C]: 'dependent status',
   [VA_FORM_IDS.FORM_21P_0847]: 'substitute claimant',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'Veterans pension benefits',
-  [VA_FORM_IDS.FORM_21P_530]: 'burial benefits',
+  [VA_FORM_IDS.FORM_21P_530V2]: 'burial benefits',
   [VA_FORM_IDS.FORM_22_0993]: 'opt out',
   [VA_FORM_IDS.FORM_22_0994]: 'VET TEC',
   [VA_FORM_IDS.FORM_22_10203]: 'Rogers STEM Scholarship',
