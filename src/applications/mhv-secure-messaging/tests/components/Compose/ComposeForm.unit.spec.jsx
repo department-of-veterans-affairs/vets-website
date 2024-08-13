@@ -250,12 +250,14 @@ describe('Compose form component', () => {
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
+      isSignatureRequired: false,
+      messageValid: true,
     });
 
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('save-draft-button'));
+      expect(saveDraftSpy.calledOnce).to.be.true;
     });
-    expect(saveDraftSpy.calledOnce).to.be.true;
   });
 
   it('displays user signature on /new-message when signature is enabled', async () => {
@@ -331,7 +333,10 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
+    const screen = setup(initialState, Paths.COMPOSE, {
+      isSignatureRequired: false,
+      messageValid: false,
+    });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -343,20 +348,18 @@ describe('Compose form component', () => {
     expect(uploader.files[0].name).to.equal('test.png');
     let modal = null;
 
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('save-draft-button'));
-      modal = screen.getByTestId('quit-compose-double-dare');
+      modal = screen.queryByTestId('quit-compose-double-dare');
+      expect(modal).to.exist;
     });
 
-    expect(modal).to.exist;
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
     );
 
-    fireEvent.click(
-      document.querySelector('va-button[text="Continue editing"]'),
-    );
+    fireEvent.click(document.querySelector('va-button[text="Keep editing"]'));
   });
 
   it('renders without errors to category selection', async () => {

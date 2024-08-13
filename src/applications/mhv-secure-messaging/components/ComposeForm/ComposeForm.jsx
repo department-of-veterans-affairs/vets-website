@@ -317,6 +317,9 @@ const ComposeForm = props => {
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
+      let signatureValid = true;
+      let checkboxValid = true;
+
       if (
         selectedRecipient === '0' ||
         selectedRecipient === '' ||
@@ -337,19 +340,23 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (isSignatureRequired && !electronicSignature) {
+      if (
+        (isSignatureRequired && !electronicSignature) ||
+        isSignatureRequired === null
+      ) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
-        messageValid = false;
+        signatureValid = false;
       }
-      if (signatureError !== '') {
-        messageValid = false;
-      }
-      if (isSignatureRequired && !checkboxMarked) {
+      if (
+        (isSignatureRequired === true && !checkboxMarked) ||
+        isSignatureRequired === null
+      ) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
-        messageValid = false;
+        checkboxValid = false;
       }
-      setMessageInvalid(!messageValid);
-      return messageValid;
+
+      setMessageInvalid(!messageValid || !signatureValid || !checkboxValid);
+      return { messageValid, signatureValid, checkboxValid };
     },
     [
       selectedRecipient,
@@ -358,19 +365,27 @@ const ComposeForm = props => {
       category,
       isSignatureRequired,
       electronicSignature,
-      signatureError,
       checkboxMarked,
     ],
   );
 
   const saveDraftHandler = useCallback(
     async (type, e) => {
+      const {
+        messageValid,
+        signatureValid,
+        checkboxValid,
+      } = checkMessageValidity();
+
       if (type === 'manual') {
-        setLastFocusableElement(e?.target || lastFocusableElement);
+        setLastFocusableElement(e?.target);
         setMessageInvalid(false);
 
         // if all checks are valid, then save the draft
-        if (checkMessageValidity()) {
+        if (
+          (messageValid && !isSignatureRequired) ||
+          (isSignatureRequired && signatureValid && checkboxValid && !saveError)
+        ) {
           setNavigationError(null);
           setSavedDraft(true);
         } else
@@ -430,7 +445,10 @@ const ComposeForm = props => {
         body: messageBody,
       };
       // saves the draft if all checks are valid or can save draft without signature
-      if (checkMessageValidity() || saveError?.saveDraft) {
+      if (
+        (messageValid && !isSignatureRequired) ||
+        (isSignatureRequired && messageValid && saveError !== null)
+      ) {
         dispatch(saveDraft(formData, type, draftId));
       }
     },
