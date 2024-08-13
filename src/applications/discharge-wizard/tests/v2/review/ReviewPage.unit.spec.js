@@ -65,16 +65,16 @@
 //     expect(screen.getByTestId('label-SERVICE_BRANCH').textContent).to.equal(
 //       'Air Force',
 //     );
-//     expect(screen.getByTestId('label-DISCHARGE_YEAR').textContent).to.equal(
-//       '2022',
-//     );
-//     expect(screen.getByTestId('label-REASON').textContent).to.equal(
-//       'I received a DD215 that shows my discharge upgrade or correction. But I want an updated DD214.',
-//     );
-//     expect(
-//       screen.getByTestId('label-PREV_APPLICATION_TYPE').textContent,
-//     ).to.equal(
-//       'I applied to a Discharge Review Board (DRB) for a Documentary Review.',
-//     );
+//     // expect(screen.getByTestId('label-DISCHARGE_YEAR').textContent).to.equal(
+//     //   '2022',
+//     // );
+//     // expect(screen.getByTestId('label-REASON').textContent).to.equal(
+//     //   'I received a DD215 that shows my discharge upgrade or correction. But I want an updated DD214.',
+//     // );
+//     // expect(
+//     //   screen.getByTestId('label-PREV_APPLICATION_TYPE').textContent,
+//     // ).to.equal(
+//     //   'I applied to a Discharge Review Board (DRB) for a Documentary Review.',
+//     // );
 //   });
 // });

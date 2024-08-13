@@ -7,12 +7,17 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { forkableQuestions } from '../../../../constants';
 import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
-import { updateEditMode, updateFormStore } from '../../../../actions';
+import {
+  updateEditMode,
+  updateFormStore,
+  updateQuestionFlowChanged,
+} from '../../../../actions';
 import {
   determineErrorMessage,
   determineLabel,
@@ -33,6 +38,7 @@ const Dropdown = ({
   updateCleanedFormStore,
   editMode,
   toggleEditMode,
+  toggleQuestionsFlowChanged,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
@@ -60,7 +66,12 @@ const Dropdown = ({
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead will change.
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+        if (forkableQuestions.includes(shortName) && editMode) {
+          toggleQuestionsFlowChanged(true);
+        }
       }
+
       toggleEditMode(false);
       setFormError(false);
       navigateForward(shortName, formResponses, router, editMode);
@@ -88,6 +99,18 @@ const Dropdown = ({
       >
         {options}
       </VaSelect>
+      {editMode &&
+        forkableQuestions.includes(shortName) && (
+          <va-alert-expandable
+            class="vads-u-margin-top--4"
+            status="info"
+            trigger="Changing your answer will lead to a new set of questions."
+          >
+            If you change your answer to this question, you will be asked for
+            more information to ensure that we provide you with the best
+            results.
+          </va-alert-expandable>
+        )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
@@ -116,6 +139,7 @@ Dropdown.propTypes = {
 const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
+  toggleQuestionsFlowChanged: updateQuestionFlowChanged,
 };
 
 const mapStateToProps = state => ({

@@ -97,7 +97,7 @@ export const RESPONSES = Object.freeze({
 export const REVIEW_LABEL_MAP = Object.freeze({
   SERVICE_BRANCH: 'Branch of service:',
   DISCHARGE_YEAR: 'Year of discharge:',
-  DISCHARGE_MONTH: 'Month of discharge',
+  DISCHARGE_MONTH: 'Month of discharge:',
   REASON: 'Reason for changing discharge paperwork:',
   DISCHARGE_TYPE: 'Category that best describes you:',
   INTENTION: 'Information you want to change:',

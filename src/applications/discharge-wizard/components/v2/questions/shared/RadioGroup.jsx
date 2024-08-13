@@ -99,13 +99,17 @@ const RadioGroup = ({
         form-heading={H1}
         form-heading-level={1}
         error={formError ? determineErrorMessage(shortName) : null}
-        hint={hint}
         id="duw-radio"
         onVaValueChange={e => onValueChange(e.detail.value)}
         onLoad={applyFocus('duw-radio', headerHasFocused, setHeaderHasFocused)}
         use-forms-pattern="single"
       >
         {renderRadioOptions()}
+        {hint && (
+          <div slot="form-description">
+            <p>{hint}</p>
+          </div>
+        )}
       </VaRadio>
       {editMode &&
         forkableQuestions.includes(shortName) && (

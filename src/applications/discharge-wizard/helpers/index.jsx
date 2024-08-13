@@ -299,7 +299,9 @@ export const answerReviewLabel = (key, formValues) => {
         return 'I was discharged before 1992.';
       }
 
-      return `I was discharged in ${dischargeMonth} ${formValues[key]}.`;
+      return `I was discharged in ${formValues[key]}.`;
+    case SHORT_NAME_MAP.DISCHARGE_MONTH:
+      return dischargeMonth;
     case SHORT_NAME_MAP.PREV_APPLICATION:
       if (answer === RESPONSES.YES) {
         return 'I have previously applied for a discharge upgrade for this period of service.';
