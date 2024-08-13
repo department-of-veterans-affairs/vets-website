@@ -34,7 +34,7 @@ describe('AuthApp', () => {
   it('should display an error page', () => {
     const tree = render(
       <Provider store={mockStore}>
-        <AuthApp location={{ query: { code: '001' } }} />
+        <AuthApp location={{ query: { code: '001', auth: 'fail' } }} />
       </Provider>,
     );
 
