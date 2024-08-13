@@ -34,10 +34,7 @@ const AppointmentBlock = props => {
 
   return (
     <div>
-      <h2
-        className="vads-u-margin-top--0 vads-u-font-size--h3"
-        data-testid="appointment-text"
-      >
+      <h2 className="vads-u-margin-top--0" data-testid="appointment-text">
         {t('your-appointments', { count: sortedAppointments.length })}
       </h2>
       <ul
