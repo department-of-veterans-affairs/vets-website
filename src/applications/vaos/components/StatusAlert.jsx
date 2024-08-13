@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -18,18 +18,16 @@ import {
 } from '../redux/selectors';
 import AfterVisitSummary from './AfterVisitSummary';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
 export default function StatusAlert({ appointment, facility }) {
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const { search } = useLocation();
@@ -52,11 +50,7 @@ export default function StatusAlert({ appointment, facility }) {
   ]);
   const { status } = appointment;
 
-  if (
-    featureAfterVisitSummary &&
-    featureAppointmentDetailsRedesign &&
-    APPOINTMENT_STATUS.proposed === status
-  ) {
+  if (APPOINTMENT_STATUS.proposed === status) {
     return (
       <InfoAlert backgroundOnly status={showConfirmMsg ? 'success' : 'info'}>
         <p>
@@ -81,8 +75,8 @@ export default function StatusAlert({ appointment, facility }) {
               <va-link
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                tabindex="0"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
               />
             </div>
           </>
@@ -136,8 +130,8 @@ export default function StatusAlert({ appointment, facility }) {
             <va-link
               text="Schedule a new appointment"
               data-testid="schedule-appointment-link"
-              onClick={handleClick(history, dispatch, typeOfCare)}
-              tabindex="0"
+              onClick={handleClick(dispatch)}
+              href={`${root.url}${typeOfCare.url}`}
             />
           </div>
         </InfoAlert>
@@ -156,8 +150,8 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </InfoAlert>
       );
@@ -179,8 +173,8 @@ export default function StatusAlert({ appointment, facility }) {
               <va-link
                 text="Schedule a new appointment"
                 data-testid="schedule-appointment-link"
-                onClick={handleClick(history, dispatch, typeOfCare)}
-                tabindex="0"
+                onClick={handleClick(dispatch)}
+                href={`${root.url}${typeOfCare.url}`}
               />
             </>
           )}
@@ -216,8 +210,8 @@ export default function StatusAlert({ appointment, facility }) {
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
-            tabindex="0"
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </div>
       </InfoAlert>

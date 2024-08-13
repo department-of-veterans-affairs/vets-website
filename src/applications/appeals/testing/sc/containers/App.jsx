@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import * as Sentry from '@sentry/browser';
+// import * as Sentry from '@sentry/browser';
 import PropTypes from 'prop-types';
 
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { getStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import RoutedSavableApp from '~/platform/forms/save-in-progress/RoutedSavableApp';
@@ -20,16 +20,16 @@ import {
 
 import ITFWrapper from './ITFWrapper';
 import {
-  DATA_DOG_ID,
-  DATA_DOG_TOKEN,
-  DATA_DOG_SERVICE,
+  // DATA_DOG_ID,
+  // DATA_DOG_TOKEN,
+  // DATA_DOG_SERVICE,
   SUPPORTED_BENEFIT_TYPES_LIST,
 } from '../constants';
 
 import { FETCH_CONTESTABLE_ISSUES_SUCCEEDED } from '../../../shared/actions';
 import { wrapInH1 } from '../../../shared/content/intro';
 import { wrapWithBreadcrumb } from '../../../shared/components/Breadcrumbs';
-import { useBrowserMonitoring } from '../../../shared/utils/useBrowserMonitoring';
+// import { useBrowserMonitoring } from '../../../shared/utils/useBrowserMonitoring';
 import {
   issuesNeedUpdating,
   processContestableIssues,
@@ -63,17 +63,17 @@ export const App = ({
     subTaskBenefitType,
   );
 
-  useEffect(
-    () => {
-      // Set user account & application id in Sentry so we can access their form
-      // data for any thrown errors
-      if (accountUuid && inProgressFormId) {
-        Sentry.setTag('account_uuid', accountUuid);
-        Sentry.setTag('in_progress_form_id', inProgressFormId);
-      }
-    },
-    [accountUuid, inProgressFormId],
-  );
+  // useEffect(
+  //   () => {
+  //     // Set user account & application id in Sentry so we can access their form
+  //     // data for any thrown errors
+  //     if (accountUuid && inProgressFormId) {
+  //       Sentry.setTag('account_uuid', accountUuid);
+  //       Sentry.setTag('in_progress_form_id', inProgressFormId);
+  //     }
+  //   },
+  //   [accountUuid, inProgressFormId],
+  // );
 
   useEffect(
     () => {
@@ -162,17 +162,17 @@ export const App = ({
   }
 
   // Add Datadog UX monitoring to the application
-  useBrowserMonitoring({
-    loggedIn,
-    formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
-    version: '1.0.0',
-    // record 100% of staging sessions, but only 10% of production
-    sessionReplaySampleRate:
-      environment.vspEnvironment() === 'staging' ? 100 : 10,
-    applicationId: DATA_DOG_ID,
-    clientToken: DATA_DOG_TOKEN,
-    service: DATA_DOG_SERVICE,
-  });
+  // useBrowserMonitoring({
+  //   loggedIn,
+  //   formId: 'sc', // becomes "scBrowserMonitoringEnabled" feature flag
+  //   version: '1.0.0',
+  //   // record 100% of staging sessions, but only 10% of production
+  //   sessionReplaySampleRate:
+  //     environment.vspEnvironment() === 'staging' ? 100 : 10,
+  //   applicationId: DATA_DOG_ID,
+  //   clientToken: DATA_DOG_TOKEN,
+  //   service: DATA_DOG_SERVICE,
+  // });
 
   return wrapWithBreadcrumb(
     'sc',
