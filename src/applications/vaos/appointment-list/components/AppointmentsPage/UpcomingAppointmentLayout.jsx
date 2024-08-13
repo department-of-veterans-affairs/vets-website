@@ -63,7 +63,6 @@ export default function UpcomingAppointmentLayout({
                         'medium-screen:vads-u-padding--0',
                         {
                           'xsmall-screen:vads-u-margin-y--1': !isFirstInDay,
-                          'medium-screen:vads-u-padding-y--2': isFirstInDay,
                         },
                       )}
                     >
