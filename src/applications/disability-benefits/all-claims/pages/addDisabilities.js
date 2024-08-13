@@ -25,7 +25,7 @@ import {
   addDisabilitiesInstructions,
   increaseAndNewAlertRevised,
   newOnlyAlertRevised,
-} from '../content/addDisabilitiesRevised';
+} from '../content/addDisabilities';
 
 const { condition } = fullSchema.definitions.newDisabilities.items.properties;
 

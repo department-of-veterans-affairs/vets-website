@@ -53,7 +53,7 @@ import { disabilitiesOrientation } from '../content/disabilitiesOrientation';
 import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrientation';
 import {
   adaptiveBenefits,
-  addDisabilitiesRevised,
+  addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -326,9 +326,9 @@ const formConfig = {
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
           depends: formData =>
             DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
-          uiSchema: addDisabilitiesRevised.uiSchema,
-          schema: addDisabilitiesRevised.schema,
-          updateFormData: addDisabilitiesRevised.updateFormData,
+          uiSchema: addDisabilities.uiSchema,
+          schema: addDisabilities.schema,
+          updateFormData: addDisabilities.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
             // & submit page. Validation functions are provided the pageData and

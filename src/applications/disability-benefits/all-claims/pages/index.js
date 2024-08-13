@@ -112,11 +112,11 @@ import * as vaEmployee from './vaEmployee';
 import * as vaMedicalRecords from './vaMedicalRecords';
 import * as veteranInfo from './veteranInfo';
 import * as workBehaviorChanges from './workBehaviorChanges';
-import * as addDisabilitiesRevised from './addDisabilitiesRevised';
+import * as addDisabilities from './addDisabilities';
 
 export {
   adaptiveBenefits,
-  addDisabilitiesRevised,
+  addDisabilities,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalExposures,

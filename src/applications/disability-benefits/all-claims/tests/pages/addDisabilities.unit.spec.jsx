@@ -6,7 +6,7 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import set from 'platform/utilities/data/set';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-import { updateFormData } from '../../pages/addDisabilitiesRevised';
+import { updateFormData } from '../../pages/addDisabilities';
 
 describe('showRevisedNewDisabilitiesPage', () => {
   it('should show new combobox container', () => {
