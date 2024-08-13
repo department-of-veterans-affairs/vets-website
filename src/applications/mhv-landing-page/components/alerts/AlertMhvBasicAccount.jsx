@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom-v5-compat';
+
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
@@ -10,6 +12,8 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
+  const navigate = useNavigate();
+
   useEffect(
     () => {
       recordEvent({
@@ -23,7 +27,8 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
   );
 
   const signOut = () => {
-    window.location = ssoe ? logoutUrl() : logoutUrlSiS();
+    const redirectUrl = ssoe ? logoutUrl() : logoutUrlSiS();
+    navigate(redirectUrl);
   };
 
   return (
