@@ -22,10 +22,10 @@ class PathologyDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="pathology-location"]').should('contain', location);
   };
 
-  verifyDateCompleted = dateCompleted => {
-    cy.get('[data-testid="pathology-date-completed"]').should(
+  verifyLabComments = labComments => {
+    cy.get('[data-testid="pathology-lab-comments"]').should(
       'contain',
-      dateCompleted,
+      labComments,
     );
   };
 

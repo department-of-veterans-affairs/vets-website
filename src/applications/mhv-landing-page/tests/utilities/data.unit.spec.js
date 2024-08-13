@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { expect } from 'chai';
-import { countUnreadMessages } from './index';
+import { countUnreadMessages, isLinkData } from '../../utilities/data/index';
 import manifest from '../../manifest.json';
 
 describe(manifest.appName, () => {
@@ -90,6 +90,25 @@ describe(manifest.appName, () => {
           ],
         });
         expect(count).to.equal(10);
+      });
+    });
+    describe('isLinkData', () => {
+      it('checks that inputs are objects have href and text properties', () => {
+        const validLinkData = {
+          href: '/link',
+          text: 'text',
+        };
+        expect(isLinkData(validLinkData)).to.be.true;
+
+        const missingHref = { text: 'foo' };
+        expect(isLinkData(missingHref)).to.be.false;
+
+        const missingText = { href: '/link' };
+        expect(isLinkData(missingText)).to.be.false;
+
+        // Test non-objects, since
+        expect(isLinkData(null)).to.be.false;
+        expect(isLinkData(false)).to.be.false;
       });
     });
   });

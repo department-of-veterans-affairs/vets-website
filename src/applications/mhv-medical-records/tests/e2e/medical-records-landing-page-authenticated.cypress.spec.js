@@ -5,8 +5,8 @@ import LandingPage from './pages/MedicalRecordsLandingPage';
 describe('Medical Records Authenticated Users', () => {
   it('Visits Medical Records Authenticated Users', () => {
     const site = new MedicalRecordsSite();
-    site.login(true);
-    site.loadPageAuthenticated();
+    site.login();
+    site.loadPage();
     cy.visit('my-health/medical-records');
     LandingPage.verifyDownloadOnMhvLink(
       'Go back to the previous version of My HealtheVet to download your records',
