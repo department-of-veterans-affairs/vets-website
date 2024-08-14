@@ -4,7 +4,10 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { selectFacilitiesRadioWidget } from '../../redux/selectors';
+import {
+  selectFacilitiesRadioWidget,
+  getFacilityPageV2Info,
+} from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
 import {
@@ -16,8 +19,9 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
 
-const INITIAL_FACILITY_DISPLAY_COUNT = 5;
+import { selectFeatureOHDirectSchedule } from '../../../redux/selectors';
 
+const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the
@@ -36,6 +40,17 @@ export default function FacilitiesRadioWidget({
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+
+  const { typeOfCare } = useSelector(
+    state => getFacilityPageV2Info(state),
+    shallowEqual,
+  );
+
+  const featureOHDirectSchedule = useSelector(selectFeatureOHDirectSchedule);
+
+  const OHDirectScheduleEnabled =
+    featureOHDirectSchedule && typeOfCare.idV2 === 'foodAndNutrition';
+
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
@@ -168,11 +183,12 @@ export default function FacilitiesRadioWidget({
                     {distance} miles
                   </span>
                 )}
-                {isCerner && (
-                  <a href={getCernerURL('/pages/scheduling/upcoming')}>
-                    Schedule online at <strong>My VA Health</strong>
-                  </a>
-                )}
+                {isCerner &&
+                  !OHDirectScheduleEnabled && (
+                    <a href={getCernerURL('/pages/scheduling/upcoming')}>
+                      Schedule online at <strong>My VA Health</strong>
+                    </a>
+                  )}
               </label>
             </div>
           );
