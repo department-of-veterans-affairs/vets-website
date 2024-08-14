@@ -11,11 +11,12 @@ const GetFormHelp = () => {
         ).
       </p>
       <p>
-        If you need help to gather your information or fill out your form,
-        <a href="https://www.va.gov/vso/" className="vads-u-margin-left--0p5">
-          contact a local Veterans Service Organization (VSO)
+        If you need help with your request, you can appoint a VA accredited
+        representative.
+        <br />
+        <a href="https://www.va.gov/get-help-from-accredited-representative/">
+          Get help filling out a form
         </a>
-        .
       </p>
       <p>
         If you have questions about your benefit overpayments, call us at{' '}
