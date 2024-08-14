@@ -5,7 +5,7 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 const FacilityConfirmation = props => {
   const { data, goBack, goForward } = props;
   const selectedFacility =
-    data['view:veteranPlannedClinic'].veteranSelected.attributes;
+    data['view:plannedClinic'].veteranSelected.attributes;
 
   return (
     <div>

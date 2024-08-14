@@ -10,7 +10,7 @@ const vaMedicalCenterApi = {
       content['vet-info-title--facility'],
       PreferredFacilityApiDescription,
     ),
-    'view:veteranPlannedClinic': {
+    'view:plannedClinic': {
       'ui:field': FacilitySearch,
       'ui:validations': [validatePlannedClinic],
       'ui:options': {
@@ -21,7 +21,7 @@ const vaMedicalCenterApi = {
   schema: {
     type: 'object',
     properties: {
-      'view:veteranPlannedClinic': {
+      'view:plannedClinic': {
         type: 'object',
         properties: {
           parent: {

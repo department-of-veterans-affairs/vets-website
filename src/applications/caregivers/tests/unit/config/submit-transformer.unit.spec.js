@@ -7,6 +7,7 @@ import oneSecondaryCaregiver from '../../e2e/fixtures/data/oneSecondaryCaregiver
 import twoSecondaryCaregivers from '../../e2e/fixtures/data/twoSecondaryCaregivers.json';
 import signAsRepresentativeNo from '../../e2e/fixtures/data/signAsRepresentativeNo.json';
 import signAsRepresentativeYes from '../../e2e/fixtures/data/signAsRepresentativeYes.json';
+import { mockLightHouseFacilitiesResponse } from '../../mocks/responses';
 
 describe('CG `submitTransformer` method', () => {
   it('should transform required parties correctly (minimal with primary)', () => {
@@ -262,5 +263,38 @@ describe('CG `submitTransformer` method', () => {
     ]);
 
     expect(poaAttachmentId).to.be.undefined;
+  });
+
+  context('view:useFacilitiesAPI is turned on', () => {
+    it('sets plannedClinic from view:plannedClinic', () => {
+      const veteranSelectedPlannedClinic =
+        mockLightHouseFacilitiesResponse.data[0];
+      const plannedClinicId = veteranSelectedPlannedClinic.id.split('_').pop();
+
+      const requiredOnlyFormData = {
+        ...requiredOnly,
+        'view:useFacilitiesAPI': true,
+        'view:plannedClinic': veteranSelectedPlannedClinic,
+      };
+
+      const formData = { data: requiredOnlyFormData };
+      const transformedData = submitTransformer(formConfig, formData);
+      const { caregiversAssistanceClaim } = JSON.parse(transformedData);
+      const { veteran } = JSON.parse(caregiversAssistanceClaim.form);
+
+      const veteranKeys = Object.keys(veteran);
+
+      expect(veteranKeys).to.deep.equal([
+        'plannedClinic',
+        'address',
+        'primaryPhoneNumber',
+        'fullName',
+        'signature',
+        'ssnOrTin',
+        'dateOfBirth',
+        'gender',
+      ]);
+      expect(veteran.plannedClinic).to.equal(plannedClinicId);
+    });
   });
 });

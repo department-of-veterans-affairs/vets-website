@@ -16,7 +16,7 @@ describe('CG <FacilityConfirmation>', () => {
 
   const defaultProps = {
     data: {
-      'view:veteranPlannedClinic': {
+      'view:plannedClinic': {
         veteranSelected: facilities[0],
       },
     },
