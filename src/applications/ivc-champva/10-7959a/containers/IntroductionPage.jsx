@@ -9,6 +9,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 export default function IntroductionPage(props) {
   const { route } = props;
   const { formConfig, pageList } = route;
+  const { appType } = formConfig?.customText || 'application';
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -21,12 +22,12 @@ export default function IntroductionPage(props) {
         subTitle="CHAMPVA Claim Form (VA Form 10-7959a)"
       />
       <p>
-        Use this form if you’re currently enrolled in The Civilian Health and
-        Medical Program of the Department of Veterans Affairs (CHAMPVA) and want
-        to file a claim for reimbursement.
+        Use this {appType} if you’re currently enrolled in The Civilian Health
+        and Medical Program of the Department of Veterans Affairs (CHAMPVA) and
+        want to file a claim for reimbursement.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        What to know before you fill out this form
+        What to know before you fill out this {appType}
       </h2>
       <ul>
         <li>
@@ -35,8 +36,8 @@ export default function IntroductionPage(props) {
           1 year of when you left the hospital.
         </li>
         <li>
-          Each claim needs its own form. If you need to submit more than one
-          claim, you’ll need to submit a new form for each claim.
+          Each claim needs its own {appType}. If you need to submit more than
+          one claim, you’ll need to submit a new {appType} for each claim.
         </li>
         <li>
           You’ll need to submit separate claims for each beneficiary, even if
