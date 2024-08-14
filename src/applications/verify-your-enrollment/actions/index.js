@@ -114,9 +114,10 @@ export const updateBankInfo = bankInfo => {
   return async dispatch => {
     dispatch({ type: UPDATE_BANK_INFO });
     try {
+      const processedBankInfo = removeCommas(bankInfo);
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
-        body: JSON.stringify(removeCommas(bankInfo)),
+        body: JSON.stringify(processedBankInfo),
         headers: customHeaders,
       });
 
