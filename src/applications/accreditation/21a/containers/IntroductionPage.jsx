@@ -72,7 +72,7 @@ const IntroductionPage = ({ route }) => {
           </p>
         </li>
         <li>
-          <h3>Employment history</h3>
+          <h3>Employment information</h3>
           <p>
             You will need to enter your employment information for the past five
             years. If you are not employed you can select another status
@@ -89,9 +89,9 @@ const IntroductionPage = ({ route }) => {
           </p>
         </li>
         <li>
-          <h3>Practicing information</h3>
+          <h3>Professional affiliations</h3>
           <p>
-            You will need to provide each jurisdiction your are currently a
+            You will need to provide each jurisdiction you are currently a
             member of good standing. Along with the name, you will also need to
             provide the date of admission and your membership or registration
             number.
