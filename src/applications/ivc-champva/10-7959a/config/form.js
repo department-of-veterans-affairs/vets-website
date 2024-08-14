@@ -65,6 +65,9 @@ const formConfig = {
       saved: 'Your CHAMPVA claim form application has been saved.',
     },
   },
+  appType: 'form',
+  continueAppButtonText: 'Continue your form',
+  startNewAppButtonText: 'Start a new form',
   preSubmitInfo: {
     statementOfTruth: {
       body:
