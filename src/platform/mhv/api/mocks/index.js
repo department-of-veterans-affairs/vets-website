@@ -12,7 +12,6 @@ const prescriptions = require('./medications/prescriptions/index');
 // You can user fixtures for mocks, if desired
 // const prescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
 // const refillablePrescriptionsFixture = require('../../tests/e2e/fixtures/prescriptions.json');
-const allergiesFixture = require('./medications/allergies/allergies.json');
 
 const folders = require('./secure-messaging/folders');
 const threads = require('./secure-messaging/threads');
@@ -27,6 +26,8 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+const allergies = require('./medical-records/allergies');
+const vaccines = require('./medical-records/vaccines');
 
 const responses = {
   ...commonResponses,
@@ -68,7 +69,6 @@ const responses = {
   // 'GET /my_health/v1/prescriptions': prescriptionsFixture,
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
-  'GET /my_health/v1/medical_records/allergies': allergiesFixture,
 
   'GET /my_health/v1/messaging/folders': folders.allFolders,
   'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
@@ -99,6 +99,10 @@ const responses = {
     careSummariesAndNotes.single,
   'GET /my_health/v1/health_records/sharing/status': { status: 200 },
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
+  'GET /my_health/v1/medical_records/allergies': allergies.all,
+  'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
+  'GET /my_health/v1/medical_records/vaccines': vaccines.all,
+  'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner
