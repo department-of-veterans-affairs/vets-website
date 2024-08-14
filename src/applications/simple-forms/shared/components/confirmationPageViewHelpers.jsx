@@ -47,14 +47,14 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
 
 const fieldEntries = (key, uiSchema, data, schema) => {
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
-  if (schema.properties[key] === undefined) return null;
+  if (schema.properties[key] === undefined || !uiSchema) return null;
 
   const {
-    'ui:title': label,
-    'ui:description': description,
     'ui:confirmationField': ConfirmationField,
+    'ui:description': description,
     'ui:reviewField': ReviewField,
     'ui:reviewWidget': ReviewWidget,
+    'ui:title': label,
   } = uiSchema;
 
   let refinedData = typeof data === 'object' ? data[key] : data;
@@ -72,6 +72,25 @@ const fieldEntries = (key, uiSchema, data, schema) => {
     if (isReactComponent(ConfirmationField)) {
       return <ConfirmationField formData={refinedData} />;
     }
+
+    return null;
+  }
+
+  if (
+    uiSchema['ui:widget'] === 'date' ||
+    ['VaMemorableDate', 'VaDate'].includes(
+      uiSchema['ui:webComponentField']?.name,
+    )
+  ) {
+    const confirmData = new Date(`${refinedData}T00:00:00`).toLocaleDateString(
+      'en-us',
+      {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      },
+    );
+    return reviewEntry(description, key, uiSchema, label, confirmData);
   }
 
   if (isReactComponent(ReviewField)) {

@@ -17,13 +17,6 @@ export default {
         required: 'Please provide a date of birth',
         pattern: 'Please provide a valid date of birth',
       },
-      'ui:confirmationField': ({ formData }) => ({
-        data: new Date(`${formData}T00:00:00`).toLocaleDateString('en-us', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        }),
-      }),
     },
   },
   schema: {
