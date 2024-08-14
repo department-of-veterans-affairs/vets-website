@@ -12,7 +12,7 @@ export default {
       title: 'Optional supplemental statement',
       labelHeaderLevel: 3,
       description:
-        'Provide any necessary explanation for your answers and include the associated question number.',
+        'Provide any necessary explanation for your answers and include the associated question.',
     }),
     personalStatement: textareaUI({
       title: 'Optional personal statement',
