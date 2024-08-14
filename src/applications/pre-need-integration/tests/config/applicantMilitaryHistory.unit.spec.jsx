@@ -2,11 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import ReactTestUtils from 'react-dom/test-utils';
 import { Provider } from 'react-redux';
-import {
-  getFormDOM,
-  DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import configureMockStore from 'redux-mock-store';
 import formConfig from '../../config/form';
 
@@ -51,9 +47,8 @@ describe('Pre-need applicant military history', () => {
       </div>,
     );
 
-    const formDOM = getFormDOM(form);
-    expect($$('input', formDOM).length).to.equal(2);
-    expect($$('select', formDOM).length).to.equal(2);
-    expect($$('va-memorable-date', formDOM).length).to.equal(2);
+    expect(form.find('input').length).to.equal(2);
+    expect(form.find('select').length).to.equal(2);
+    expect(form.find('va-memorable-date').length).to.equal(2);
   });
 });

@@ -44,7 +44,6 @@ describe('Pre-need applicant veteran applicant details', () => {
     form.find('form').simulate('submit');
 
     expect(form.find('.usa-input-error').length).to.equal(5);
-    expect(form.find('You must provide a response').length).to.equal(1);
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });

@@ -73,7 +73,7 @@ describe('Pre-need service periods', () => {
 
       form.find('form').simulate('submit');
 
-      expect(form.find('.usa-input-error').length).to.equal(1);
+      expect(form.find('.usa-input-error-message').length).to.equal(1);
       expect(onSubmit.called).to.be.false;
       form.unmount();
     });
