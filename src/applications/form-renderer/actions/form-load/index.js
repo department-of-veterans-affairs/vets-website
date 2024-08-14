@@ -6,11 +6,7 @@ export const INTEGRATION_DEPLOYMENT =
   'https://pr18811-ps4nwwul37jtyembecv4bg0gafmyl3oj.ci.cms.va.gov';
 
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
-import {
-  formConfig1,
-  formConfig2,
-  normalizedForm,
-} from '../../_config/formConfig';
+import mockForms from '../../_config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
 
 export const formLoadingInitiated = formId => {
@@ -42,11 +38,8 @@ export const fetchDrupalDigitalForms = () =>
  * Keeping this here so that we can easily test new patterns without dealing
  * with content-build.
  */
-export const mockFetchForms = async () => {
-  const forms = [formConfig1, formConfig2, normalizedForm];
-
-  return new Promise(r => setTimeout(r, 200, forms));
-};
+export const mockFetchForms = async () =>
+  new Promise(r => setTimeout(r, 200, mockForms));
 
 export const findFormByFormId = (forms, formId) => {
   const form = forms.find(f => f.formId === formId);
@@ -57,10 +50,7 @@ export const findFormByFormId = (forms, formId) => {
   throw new Error(`Form config not found for form id '${formId}'`);
 };
 
-export const fetchFormConfig = (
-  formId,
-  fetchMethod = fetchDrupalDigitalForms,
-) => {
+export const fetchFormConfig = (formId, fetchMethod = mockFetchForms) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
     try {

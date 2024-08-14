@@ -109,79 +109,6 @@ export const formConfig1 = {
   },
 };
 
-export const formConfig2 = {
-  rootUrl: `${manifest.rootUrl}/456-xyz`,
-  urlPrefix: '/456-xyz/',
-  trackingPrefix: '456-xyz-',
-  // eslint-disable-next-line no-console
-  submit: () => console.log('submit form 2'),
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
-  formId: '456-xyz',
-  saveInProgress: {},
-  version: 0,
-  prefillEnabled: true,
-  savedFormMessages: {
-    notFound: 'Form 2 NOT FOUND',
-    noAuth: 'Please sign in again to continue Form 2.',
-  },
-  title: 'Form 456-XYZ',
-  defaultDefinitions: {},
-  chapters: {
-    f2c1: {
-      title: 'Form 2 Chapter 1',
-      pages: {
-        f2c1p1: {
-          path: 'f2c1p1',
-          title: 'Form 2 Chapter 1 Page 1',
-          uiSchema: {
-            favoriteFood: {
-              'ui:title': 'Favorite Food',
-              'ui:widget': 'radio',
-              'ui:options': {
-                labels: {
-                  P: 'Pizza',
-                  H: 'Hamburger',
-                  S: 'Salad',
-                },
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {
-              favoriteFood: {
-                type: 'string',
-                enum: ['P', 'H', 'S'],
-              },
-            },
-          },
-        },
-        f2c1p2: {
-          path: 'f2c1p2',
-          title: 'Form 2 Chapter 1 Page 2',
-          uiSchema: {
-            otherInformation: {
-              'ui:title': 'Other Information',
-              'ui:widget': 'textarea',
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [],
-            properties: {
-              otherInformation: {
-                type: 'string',
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
 // This is a sample of the data structure produced by content-build.
 export const normalizedForm = {
   id: 71160,
@@ -209,3 +136,28 @@ export const normalizedForm = {
     },
   ],
 };
+
+/**
+ * This is a mock of VA Form 21-4140. It will provide a blueprint we can test
+ * against, and it will serve as the output goal for Drupal and content-build
+ * tickets related to the Form Engine: Recreating VA Form 21-4140 epic.
+ */
+export const employmentQuestionnaire = {
+  id: 10001,
+  formId: '21-4140',
+  title: 'Employment Questionnaire',
+  ombNumber: '2900-0079',
+  chapters: [
+    {
+      id: 20001,
+      chapterTitle: 'Dummy Chapter',
+      type: 'digital_form_name_and_date_of_bi',
+      pageTitle: 'Name and Date of Birth',
+      additionalFields: {
+        includeDateOfBirth: true,
+      },
+    },
+  ],
+};
+
+export default [formConfig1, normalizedForm, employmentQuestionnaire];
