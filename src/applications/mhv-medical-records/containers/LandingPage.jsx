@@ -23,6 +23,7 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
   selectLabsAndTestsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 
 const LandingPage = () => {
@@ -33,6 +34,7 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
+  const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
 
   useEffect(
     () => {
@@ -187,6 +189,24 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+      {displayMedicalRecordsSettings && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Manage your medical records settings
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Review and update your medical records sharing and notification
+            settings.
+          </p>
+          <Link
+            to="/settings"
+            className="vads-c-action-link--blue"
+            data-testid="settings-link"
+          >
+            Go to your lab and test results
+          </Link>
+        </section>
+      )}
       {(!displayLabsAndTest ||
         !displayNotes ||
         !displayVaccines ||
@@ -227,13 +247,13 @@ const LandingPage = () => {
       )}
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Download your VA medical records
+          Download your Blue Button report or health summary
         </h2>
         <p className="vads-u-margin-bottom--2">
-          We’re working on a way for you to download your VA medical records
-          here on VA.gov. For now, you can continue to download your VA Blue
-          Button® report or your VA Health Summary on the previous version of My
-          HealtheVet.
+          We’re working on a way to download all your medical records here as a
+          single file or a summary. For now, you can continue to download your
+          VA Blue Button® report or your VA Health Summary on the previous
+          version of My HealtheVet.
         </p>
         <p
           data-testid="go-to-mhv-download-records"
