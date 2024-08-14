@@ -150,7 +150,11 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record" className="monospace">
+        <p
+          data-testid="note-record"
+          style={{ lineHeight: '40px' }}
+          className="monospace"
+        >
           {record.note}
         </p>
       </div>
