@@ -16,6 +16,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
+import { createName } from '../helpers/createName';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
@@ -78,9 +79,12 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${formData.fullName.last}'s address`
-          : "Reference's address",
+        `${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'Reference',
+        })} address`,
     ),
     address: addressUI({
       labels: {
@@ -105,11 +109,12 @@ const contactInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${
-              formData.fullName.last
-            }'s contact information`
-          : "Reference's contact information",
+        `${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'Reference',
+        })} contact information`,
     ),
     phone: internationalPhoneUI('Primary number'),
     email: emailUI(),
@@ -129,11 +134,13 @@ const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `Relationship to ${formData.fullName.first} ${
-              formData.fullName.last
-            }`
-          : 'Relationship to reference',
+        `Relationship to ${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'reference',
+          isPossessive: false,
+        })}`,
     ),
     relationship: textareaUI('What is your relationship to this reference?'),
   },
