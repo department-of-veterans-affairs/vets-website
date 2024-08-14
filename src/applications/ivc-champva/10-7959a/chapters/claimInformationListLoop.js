@@ -38,11 +38,20 @@ const options = {
   nounSingular: 'claim',
   nounPlural: 'claims',
   required: true,
-  isItemIncomplete: item => !item?.name && !item?.type, // include all required fields here
+  isItemIncomplete: item => {
+    return (
+      !item.claimIsAutoRelated &&
+      !item.claimIsWorkRelated &&
+      !item.claimType &&
+      !(item.medicalUpload || !item.pharmacyUpload)
+    );
+  }, // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => item.name,
-    cardDescription: (item, index) => `${item?.claimType} (Claim ${index})`,
+    cardDescription: (item, _index) =>
+      `${item?.claimType &&
+        item?.claimType[0]?.toUpperCase() + item?.claimType?.slice(1)} claim`,
     summaryTitle: 'Beneficiary claims review',
     cancelAddButtonText: 'Cancel adding this claim',
   },
