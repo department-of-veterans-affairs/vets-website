@@ -31,16 +31,38 @@ const AppointmentBlock = props => {
   };
 
   const sortedAppointments = sortAppointmentsByStartTime(appointments);
+  const AppointmentWrapper = wrapperProps => {
+    const { children, count } = wrapperProps;
+    if (count === 1) {
+      return (
+        <div
+          className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
+          data-testid="appointment-list"
+        >
+          {children}
+        </div>
+      );
+    }
+    return (
+      <ul
+        className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
+        data-testid="appointment-list"
+      >
+        {children}
+      </ul>
+    );
+  };
+  AppointmentWrapper.propTypes = {
+    children: PropTypes.node.isRequired,
+    count: PropTypes.number.isRequired,
+  };
 
   return (
     <div>
       <h2 className="vads-u-margin-top--0" data-testid="appointment-text">
         {t('your-appointments', { count: sortedAppointments.length })}
       </h2>
-      <ul
-        className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
-        data-testid="appointment-list"
-      >
+      <AppointmentWrapper count={sortedAppointments.length}>
         {sortedAppointments.map(appointment => {
           return (
             <AppointmentListItem
@@ -50,10 +72,11 @@ const AppointmentBlock = props => {
               goToDetails={handleDetailClick}
               app={app}
               router={router}
+              count={sortedAppointments.length}
             />
           );
         })}
-      </ul>
+      </AppointmentWrapper>
     </div>
   );
 };
