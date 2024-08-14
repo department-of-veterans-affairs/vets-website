@@ -18,12 +18,9 @@ const prefill = {
             phoneNumber: '5561289',
           },
           emailAddressText: 'sample@email.com',
+          ssn: '3607',
         },
       },
-    },
-    nonPrefill: {
-      veteranSsnLastFour: '3607',
-      veteranVaFileNumberLastFour: '3607',
     },
   },
   metadata: {

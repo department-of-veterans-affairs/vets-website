@@ -12,7 +12,7 @@ import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import applicantInformation from '../../../pages/applicantInformation';
 import contactInfoSettings from '../../../pages/contactInfoSettings';
-import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
+import VeteranProfileInformationTaskYellow from '../../../components/FormPages/VeteranProfileInformationTaskYellow';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 
 const formConfig = {
@@ -21,7 +21,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: '_mock-form-ae-design-patterns-',
+  trackingPrefix: 'task-yellow',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
@@ -34,8 +34,6 @@ const formConfig = {
   },
   version: 0,
   prefillTransformer(pages, formData, metadata) {
-    // console.log({ formData });
-
     const transformedData = {
       veteranSocialSecurityNumber:
         formData?.data?.attributes?.veteran?.ssn || null,
@@ -62,7 +60,7 @@ const formConfig = {
         profileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
-          CustomPage: VeteranProfileInformation,
+          CustomPage: VeteranProfileInformationTaskYellow,
           CustomPageReview: null,
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,

@@ -262,9 +262,9 @@ const baseUserResponses = {
         },
         profile: {
           email: 'vets.gov.user+75@gmail.com',
-          firstName: 'MITCHELL',
+          firstName: 'Mitchell',
           middleName: 'G',
-          lastName: 'JENKINS',
+          lastName: 'Jenkins',
           birthDate: '1949-03-04',
           gender: 'M',
           zip: '97063',
