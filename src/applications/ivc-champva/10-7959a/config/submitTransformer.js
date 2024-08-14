@@ -59,11 +59,14 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
 
   // Compile files
-  copyOfData.supportingDocs = [
-    copyOfData.medicalUpload,
-    copyOfData.primaryEob,
-    copyOfData.secondaryEob,
-  ]
+  copyOfData.supportingDocs = [];
+  copyOfData.claims.forEach(claim => {
+    copyOfData.supportingDocs.push(claim?.medicalUpload);
+    copyOfData.supportingDocs.push(claim?.pharmacyUpload);
+    copyOfData.supportingDocs.push(claim?.primaryEob);
+    copyOfData.supportingDocs.push(claim?.secondaryEob);
+  });
+  copyOfData.supportingDocs
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
 
