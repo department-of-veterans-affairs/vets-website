@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/browser';
 import { fetchFormsApi } from '../../api';
-import DownloadPDFGuidance from './DownloadPDFGuidance';
+import DownloadHandler from './DownloadHandler';
 
 // HOF for reusable situations in Component.
 export function sentryLogger(form, formNumber, downloadUrl, message) {
@@ -14,9 +14,8 @@ export function sentryLogger(form, formNumber, downloadUrl, message) {
 
 export async function onDownloadLinkClick(event, reduxStore) {
   // This function purpose is to determine if the PDF is valid on click.
-  // Once it's done, it passes information to DownloadPDFGuidance() which determines what to render.
+  // Once it's done, it passes information to DownloadHandler() which determines what to render.
   event.preventDefault();
-  console.log('event: ', event);
 
   const link = event.target;
   const { formNumber, href: downloadUrl } = link.dataset;
@@ -31,15 +30,11 @@ export async function onDownloadLinkClick(event, reduxStore) {
   try {
     const forms = await fetchFormsApi(formNumber);
 
-    console.log('results: ', forms?.results);
-
     form = forms?.results.find(
       f => f?.attributes?.formName === link?.dataset?.formNumber,
     );
 
     formPdfIsValid = form?.attributes.validPdf;
-
-    console.log('formPdfIsValid: ', formPdfIsValid);
 
     const isSameOrigin = downloadUrl?.startsWith(window.location.origin);
 
@@ -67,10 +62,7 @@ export async function onDownloadLinkClick(event, reduxStore) {
     );
   }
 
-  console.log(formPdfIsValid,
-    formPdfUrlIsValid,)
-
-  return DownloadPDFGuidance({
+  return DownloadHandler({
     clickedId: link.id,
     downloadUrl,
     form,
@@ -78,7 +70,7 @@ export async function onDownloadLinkClick(event, reduxStore) {
     formPdfIsValid,
     formPdfUrlIsValid,
     networkRequestError,
-    reduxStore
+    reduxStore,
   });
 }
 
@@ -88,6 +80,8 @@ export default (reduxStore, widgetType) => {
   );
 
   for (const downloadLink of [...downloadLinks]) {
-    downloadLink.addEventListener('click', e => onDownloadLinkClick(e, reduxStore));
+    downloadLink.addEventListener('click', e =>
+      onDownloadLinkClick(e, reduxStore),
+    );
   }
 };

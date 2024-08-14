@@ -13,8 +13,9 @@ const InvalidFormDownload = ({ downloadUrl }) => {
     <va-alert status="error">
       <h3 slot="headline">This form link isn’t working</h3>
       We’re sorry, but the form you’re trying to download appears to have an
-      invalid link. Please <va-link href={mailto} text="email the forms managers" /> for
-      help with this form.
+      invalid link. Please{' '}
+      <va-link href={mailto} text="email the forms managers" /> for help with{' '}
+      this form.
     </va-alert>
   );
 };

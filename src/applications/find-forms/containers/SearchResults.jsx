@@ -127,7 +127,7 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <va-alert status="error" uswds>
+      <va-alert status="error">
         <h3 slot="headline">Something went wrong</h3>
         {error}
       </va-alert>
@@ -222,7 +222,6 @@ export const SearchResults = ({
             setSortByPropertyNameState(formMetaInfo)(value);
           }}
           value={sortByPropertyName}
-          uswds
         >
           {FAF_SORT_OPTIONS.map(opt => (
             <option key={opt} value={opt}>
@@ -240,9 +239,11 @@ export const SearchResults = ({
       <div className="pdf-alert-modal">
         <PdfModal
           isOpen={isOpen}
+          pdfLabel={pdfLabel}
           pdfUrl={pdfUrl}
           pdfSelected={pdfSelected}
           prevFocusedLink={prevFocusedLink}
+          searchResults={true}
           toggleModalState={toggleModalState}
         />
       </div>
@@ -256,7 +257,6 @@ export const SearchResults = ({
           page={page}
           pages={totalPages}
           showLastPage
-          uswds
         />
       )}
     </>
