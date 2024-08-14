@@ -1,6 +1,3 @@
-// TODO: Add Ask-VA form schema when we know the full scope of the form
-// import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
-
 import {
   CHAPTER_1,
   CHAPTER_2,
@@ -24,8 +21,8 @@ import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
 import {
-  aboutMyselfRelationshipVeteranPages,
   aboutMyselfRelationshipFamilyMemberPages,
+  aboutMyselfRelationshipVeteranPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkPages,
   aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
@@ -42,21 +39,14 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 
 // Review Page
 import Footer from '../components/Footer';
-import ReviewPage from '../containers/ReviewPage';
 import CategorySelectPage from '../containers/CategorySelectPage';
-import TopicSelectPage from '../containers/TopicSelectPage';
+import ReviewPage from '../containers/ReviewPage';
 import SubTopicSelectPage from '../containers/SubTopicSelectPage';
+import TopicSelectPage from '../containers/TopicSelectPage';
 
-// const mockUser = {
-//   first: 'Mark',
-//   last: 'Webb',
-//   dateOfBirth: '1950-10-04',
-//   socialOrServiceNum: {
-//     ssn: '1112223333',
-//     service: null,
-//   },
-// };
-
+import CustomCategoryReviewField from '../components/CustomCategoryReviewField';
+import CustomSubtopicReviewField from '../components/CustomSubtopicReviewField';
+import CustomTopicReviewField from '../components/CustomTopicReviewField';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
@@ -68,7 +58,6 @@ const formConfig = {
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // v3SegmentedProgressBar: true,
   formId: '0873',
   saveInProgress: {
     messages: {
@@ -107,30 +96,33 @@ const formConfig = {
           },
         },
         selectCategory: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
           CustomPage: CategorySelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomCategoryReviewField,
           uiSchema: {
             selectCategory: { 'ui:title': CHAPTER_1.PAGE_1.QUESTION_1 },
           },
           schema: selectCategoryPage.schema,
         },
         selectTopic: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
           CustomPage: TopicSelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomTopicReviewField,
           uiSchema: {
             selectTopic: { 'ui:title': CHAPTER_1.PAGE_2.QUESTION_1 },
           },
           schema: selectTopicPage.schema,
         },
         selectSubtopic: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
           CustomPage: SubTopicSelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomSubtopicReviewField,
           uiSchema: {
             selectTopic: { 'ui:title': CHAPTER_1.PAGE_3.QUESTION_1 },
           },
@@ -168,80 +160,6 @@ const formConfig = {
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
-          // onNavForward: ({ formData, goPath }) => {
-          //   console.log(formData.questionAbout, formData.personalRelationship);
-          //   if (
-          //     formData.questionAbout === 'Myself' &&
-          //     formData.personalRelationship === "I'm the Veteran"
-          //   ) {
-          //     goPath(`/${flowPaths.aboutMyselfRelationshipVeteran}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Myself' &&
-          //     formData.personalRelationship ===
-          //       "I'm a family member of a Veteran"
-          //   ) {
-          //     goPath(`/${flowPaths.aboutMyselfRelationshipFamilyMember}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship === "I'm the Veteran" &&
-          //     formData.selectCategory !==
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(`/${flowPaths.aboutSomeoneElseRelationshipVeteran}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm a family member of a Veteran" &&
-          //     formData.selectCategory !==
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${flowPaths.aboutSomeoneElseRelationshipFamilyMember}-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship !==
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)"
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipConnectedThroughWork
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipConnectedThroughWorkEducation
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === "It's a general question" ||
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(`/${flowPaths.general}-1`);
-          //   } else {
-          //     goPath('/review-then-submit');
-          //   }
-          // },
         },
       },
     },
