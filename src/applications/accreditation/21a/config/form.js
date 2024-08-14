@@ -14,7 +14,7 @@ import educationHistoryChapter from '../pages/04-education-history-chapter';
 import lawPracticeInformationChapter from '../pages/05-law-practice-information-chapter';
 import backgroundInformationChapter from '../pages/06-background-information-chapter';
 import characterReferencesChapter from '../pages/07-character-references-chapter';
-import supplementaryStatementsChapter from '../pages/08-supplemental-statements-chapter';
+import supplementaryStatementsChapter from '../pages/08-supplementary-statements-chapter';
 
 /** @type {FormConfig} */
 const formConfig = {

@@ -3,7 +3,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import SupplementaryInformationIntro from '../../components/08-supplemental-statements-chapter/SupplementaryInformationIntro';
+import SupplementaryInformationIntro from '../../components/08-supplementary-statements-chapter/SupplementaryInformationIntro';
 
 /** @type {PageSchema} */
 export default {
