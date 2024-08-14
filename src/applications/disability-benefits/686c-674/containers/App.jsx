@@ -23,16 +23,21 @@ function App({
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  const flipperV2 = featureToggles.vaDependentsV2;
-  const hasV1Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686C,
+  const isFlipperV2Enabled = featureToggles.vaDependentsV2;
+
+  const useVersion2 = savedForms?.length === 0;
+
+  const hasV2InProgress = savedForms?.some(
+    ({ form }) => form === VA_FORM_IDS.FORM_21_686CV2,
   );
-  const hasV2Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686CV2,
+  const hasNoV1InProgress = savedForms?.some(
+    ({ form }) => !form.includes(VA_FORM_IDS.FORM_21_686C),
   );
 
-  const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
-  if (shouldUseV2) {
+  if (
+    isFlipperV2Enabled &&
+    (useVersion2 || hasV2InProgress || hasNoV1InProgress)
+  ) {
     window.location.href =
       '/view-change-dependents/add-remove-form-21-686c-v2/';
     return <></>;
