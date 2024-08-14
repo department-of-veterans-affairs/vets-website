@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
