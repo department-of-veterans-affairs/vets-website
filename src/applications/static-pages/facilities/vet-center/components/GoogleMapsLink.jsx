@@ -8,7 +8,7 @@ const GoogleMapsLink = props => {
     <va-link
       text="Get directions on Google Maps"
       href={`https://www.google.com/maps?saddr=Current+Location&daddr=${addressDirections}`}
-      label={`to ${title}`}
+      label={`Get directions on Google Maps to ${title}`}
     />
   );
 };
