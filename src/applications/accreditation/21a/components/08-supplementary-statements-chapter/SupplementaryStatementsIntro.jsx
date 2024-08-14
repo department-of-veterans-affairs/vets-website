@@ -1,6 +1,6 @@
 import React from 'react';
 
-const SupplementaryInformationIntro = () => (
+const SupplementaryStatementsIntro = () => (
   <p>
     On the next page you will be asked to provide any additional explanations
     for your answers in previous sections and additional information about why
@@ -8,4 +8,4 @@ const SupplementaryInformationIntro = () => (
   </p>
 );
 
-export default SupplementaryInformationIntro;
+export default SupplementaryStatementsIntro;

@@ -3,7 +3,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import SupplementaryInformationIntro from '../../components/08-supplementary-statements-chapter/SupplementaryInformationIntro';
+import SupplementaryStatementsIntro from '../../components/08-supplementary-statements-chapter/SupplementaryStatementsIntro';
 
 /** @type {PageSchema} */
 export default {
@@ -11,7 +11,7 @@ export default {
   path: 'supplementary-statements-intro',
   uiSchema: {
     ...titleUI('Optional supplemental and personal statements'),
-    ...descriptionUI(SupplementaryInformationIntro),
+    ...descriptionUI(SupplementaryStatementsIntro),
   },
   schema: {
     type: 'object',
