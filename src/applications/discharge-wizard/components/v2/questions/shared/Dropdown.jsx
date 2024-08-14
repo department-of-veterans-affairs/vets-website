@@ -17,6 +17,7 @@ import {
   updateEditMode,
   updateFormStore,
   updateQuestionFlowChanged,
+  updateRouteMap,
 } from '../../../../actions';
 import {
   determineErrorMessage,
@@ -39,8 +40,11 @@ const Dropdown = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  setRouteMap,
+  routeMap,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const isForkableQuestion = forkableQuestions.includes(shortName);
 
   useEffect(() => {
     waitForRenderThenFocus('h1');
@@ -74,12 +78,23 @@ const Dropdown = ({
 
       toggleEditMode(false);
       setFormError(false);
-      navigateForward(shortName, formResponses, router, editMode);
+      navigateForward(
+        shortName,
+        formResponses,
+        router,
+        editMode,
+        setRouteMap,
+        routeMap,
+      );
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(router);
+    if (valueHasChanged && editMode && isForkableQuestion) {
+      cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+    }
+    toggleEditMode(false);
+    navigateBackward(router, setRouteMap, routeMap, editMode);
   };
 
   return (
@@ -94,7 +109,7 @@ const Dropdown = ({
         label={determineLabel(shortName)}
         error={formError ? determineErrorMessage(shortName) : null}
         name={`${shortName}_dropdown`}
-        value={formValue}
+        value={formValue || ''}
         onVaSelect={e => onValueChange(e.detail.value)}
       >
         {options}
@@ -140,10 +155,12 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  setRouteMap: updateRouteMap,
 };
 
 const mapStateToProps = state => ({
   editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
+  routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
 });
 
 export default connect(

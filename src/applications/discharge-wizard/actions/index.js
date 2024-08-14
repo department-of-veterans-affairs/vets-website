@@ -17,6 +17,7 @@ import {
   DUW_UPDATE_FAILURE_TO_EXHAUST,
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
+  DUW_ROUTE_MAP,
 } from '../constants';
 
 export const updateField = (key, value) => {
@@ -51,6 +52,13 @@ export const updateEditMode = value => {
 export const updateQuestionFlowChanged = value => {
   return {
     type: DUW_QUESTION_FLOW_CHANGED,
+    payload: value,
+  };
+};
+
+export const updateRouteMap = value => {
+  return {
+    type: DUW_ROUTE_MAP,
     payload: value,
   };
 };

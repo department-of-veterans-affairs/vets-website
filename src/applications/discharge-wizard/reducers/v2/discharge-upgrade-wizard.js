@@ -15,6 +15,7 @@ import {
   DUW_UPDATE_FAILURE_TO_EXHAUST,
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
+  DUW_ROUTE_MAP,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -36,11 +37,11 @@ const {
 } = SHORT_NAME_MAP;
 
 const initialState = {
-  currentPage: SHORT_NAME_MAP.HOME,
   form: createFormStore(SHORT_NAME_MAP),
   viewedIntroPage: false,
   editMode: false,
   questionFlowChanged: false,
+  routeMap: ['introduction', 'service-branch'],
 };
 
 export default (state = initialState, action) => {
@@ -92,6 +93,12 @@ export default (state = initialState, action) => {
         ...state,
         questionFlowChanged: action.payload,
       };
+    case DUW_ROUTE_MAP:
+      return {
+        ...state,
+        routeMap: action.payload,
+      };
+
     default:
       return state;
   }

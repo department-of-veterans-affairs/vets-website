@@ -128,6 +128,7 @@ export const DUW_UPDATE_FAILURE_TO_EXHAUST =
 export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
 export const DUW_QUESTION_FLOW_CHANGED =
   'discharge-upgrade-wizard/DUW_QUESTION_FLOW_CHANGED';
+export const DUW_ROUTE_MAP = 'discharge-upgrade-wizard/DUW_ROUTE_MAP';
 
 export const DRB = 'DRB';
 export const BCMR = 'BCMR';

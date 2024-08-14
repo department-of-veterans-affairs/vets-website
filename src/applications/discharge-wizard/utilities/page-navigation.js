@@ -1,9 +1,49 @@
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
 import { displayConditionsMet, makeRoadmap } from './display-logic-questions';
 import { printErrorMessage, pushToRoute } from './shared';
+import { ROUTES } from '../constants';
 
-export const navigateBackward = router => {
-  router.goBack();
+/** ================================================================
+ * Responsible for determining previous question in the flow,
+ * logic is added to account for scenarios where we may need
+ * to change the route tree by going backward during edit mode.
+ *
+ * @param {string} SHORT_NAME - name for the current question
+ * @param {object} formResponses - all answers in the store
+ */
+
+export const navigateBackward = (
+  router,
+  setRouteMap,
+  routeMap,
+  shortName,
+  editMode,
+  isForkableQuestion,
+  valueHasChanged,
+) => {
+  const lastRoute = routeMap[routeMap.length - 2];
+
+  if (routeMap.length > 2) {
+    if (editMode && isForkableQuestion && valueHasChanged) {
+      // When clicking back during edit mode we want to show the previous question in the flow for forkable questions.
+      // We edit the route map, save it and push the correct route based on the current question.
+      const indexOfQuestion = routeMap.indexOf(ROUTES[shortName]);
+      const newRouteMap = routeMap.slice(0, indexOfQuestion + 1);
+
+      setRouteMap(newRouteMap);
+      router.push(newRouteMap[newRouteMap.length - 2]);
+    } else if (editMode) {
+      // For non-forkable questions we want to go back to the review screen.
+      router.push(routeMap[routeMap.length - 1]);
+    } else {
+      //  All other back question logic.
+      setRouteMap(routeMap.slice(0, -1));
+      router.push(lastRoute);
+    }
+  } else {
+    // Initial question back logic.
+    router.push(lastRoute);
+  }
 };
 
 /** ================================================================
@@ -17,6 +57,8 @@ export const navigateForward = (
   formResponses,
   router,
   editMode,
+  updateRouteMap,
+  routeMap,
 ) => {
   const roadmap = makeRoadmap();
 
@@ -50,10 +92,12 @@ export const navigateForward = (
           !formResponses[nextShortName] &&
           editMode
         ) {
+          updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
           pushToRoute(nextShortName, router);
           return;
         }
         if (displayConditionsMet(nextShortName, formResponses) && !editMode) {
+          updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
           pushToRoute(nextShortName, router);
           return;
         }

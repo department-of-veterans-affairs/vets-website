@@ -17,6 +17,7 @@ import {
   updateEditMode,
   updateFormStore,
   updateQuestionFlowChanged,
+  updateRouteMap,
 } from '../../../../actions';
 import { determineErrorMessage } from '../../../../utilities/shared';
 
@@ -36,9 +37,13 @@ const RadioGroup = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  routeMap,
+  setRouteMap,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
+
+  const isForkableQuestion = forkableQuestions.includes(shortName);
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -49,20 +54,39 @@ const RadioGroup = ({
         // Remove answers from the Redux store if the display path ahead has changed
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
 
-        // Set the question flow changed flag to true for review page alert
-        if (forkableQuestions.includes(shortName) && editMode) {
+        // Set the question flow changed flag to true for review page alert for forkable questions.
+        if (isForkableQuestion && editMode) {
           toggleQuestionsFlowChanged(true);
         }
       }
 
       toggleEditMode(false);
       setFormError(false);
-      navigateForward(shortName, formResponses, router, editMode);
+      navigateForward(
+        shortName,
+        formResponses,
+        router,
+        editMode,
+        setRouteMap,
+        routeMap,
+      );
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(router);
+    if (valueHasChanged && editMode && isForkableQuestion) {
+      cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+    }
+    toggleEditMode(false);
+    navigateBackward(
+      router,
+      setRouteMap,
+      routeMap,
+      shortName,
+      editMode,
+      isForkableQuestion,
+      valueHasChanged,
+    );
   };
 
   const onValueChange = value => {
@@ -116,7 +140,7 @@ const RadioGroup = ({
           <va-alert-expandable
             class="vads-u-margin-top--4"
             status="info"
-            trigger="Changing your answer will lead to a new set of questions."
+            trigger="Changing your answer may lead to a new set of questions."
           >
             If you change your answer to this question, you will be asked for
             more information to ensure that we provide you with the best
@@ -153,10 +177,12 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  setRouteMap: updateRouteMap,
 };
 
 const mapStateToProps = state => ({
   editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
+  routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
 });
 
 export default connect(
