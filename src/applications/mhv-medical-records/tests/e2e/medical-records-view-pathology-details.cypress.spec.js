@@ -2,24 +2,24 @@ import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import PathologyDetailsPage from './pages/PathologyDetailsPage';
-import pathology from './fixtures/labs-and-tests/pathology.json';
+import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
+// import pathology from './fixtures/labs-and-tests/pathology.json';
 
 describe('Medical Records View Labs And Tests', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
     const site = new MedicalRecordsSite();
     site.login();
     LabsAndTestsListPage.goToLabsAndTests();
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(9, pathology);
-    PathologyDetailsPage.verifyLabName(pathology.code.text);
+    const record = labsAndTests.entry[8].resource;
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[8]);
+    PathologyDetailsPage.verifyLabName(record.code.text);
     PathologyDetailsPage.verifyLabDate(
-      moment(pathology.effectiveDateTime).format('MMMM D, YYYY'),
+      moment(record.effectiveDateTime).format('MMMM D, YYYY'),
     );
-    PathologyDetailsPage.verifySampleTested('None noted');
+    PathologyDetailsPage.verifySampleTested(record.contained[0].type.text);
     PathologyDetailsPage.verifyLabLocation('None noted');
-    PathologyDetailsPage.verifyDateCompleted(
-      moment(pathology.effectiveDateTime).format('MMMM D, YYYY'),
-    );
-    PathologyDetailsPage.verifyReport(pathology.conclusion);
+    PathologyDetailsPage.verifyLabComments('None noted');
+    PathologyDetailsPage.verifyReport('None noted');
     // Axe check
     cy.injectAxe();
     cy.axeCheck('main');

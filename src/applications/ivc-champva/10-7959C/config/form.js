@@ -8,6 +8,7 @@ import transformForSubmit from './submitTransformer';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import {
   applicantNameDobSchema,
@@ -81,6 +82,7 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
   footerContent: GetFormHelp,
+  submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
     showNavLinks: false,
@@ -125,7 +127,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name and date of birth',
+          title: 'Beneficiary’s name',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {

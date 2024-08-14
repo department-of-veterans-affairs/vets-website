@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-
+import { useSelector } from 'react-redux';
+import { makeSelectFeatureToggles } from '../../utils/selectors/feature-toggles';
 import {
   appointmentIcon,
   clinicName,
@@ -12,7 +13,10 @@ import { APP_NAMES } from '../../utils/appConstants';
 const AppointmentListItem = props => {
   const { appointment, goToDetails, router, app, page } = props;
   const { t } = useTranslation();
-
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isMedicationReviewContentEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
 
@@ -77,7 +81,9 @@ const AppointmentListItem = props => {
     }
     return (
       <span data-testid="in-person-msg-confirmation">
-        {t('remember-to-bring-your-insurance-cards-with-you')}
+        {isMedicationReviewContentEnabled
+          ? t('on-day-of-appointment-we-send-text')
+          : t('remember-to-bring-your-insurance-cards-with-you')}
       </span>
     );
   };

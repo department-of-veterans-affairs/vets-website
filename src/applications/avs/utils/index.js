@@ -59,7 +59,7 @@ const getFormattedGenerationDate = avs => {
 };
 
 const fieldHasValue = value => {
-  return value !== null && value !== '';
+  return value !== null && value !== '' && value !== undefined;
 };
 
 const allArraysEmpty = item => {

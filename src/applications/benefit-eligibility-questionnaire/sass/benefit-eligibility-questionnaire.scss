@@ -6,7 +6,30 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 
+#root_characterOfDischarge-label .schemaform-required-span {
+  display: none;
+}
 
-.usa-width-two-thirds {
-    width: 80%;
+#root_characterOfDischarge-label p .schemaform-required-span {
+  display: inline;
+}
+
+@media (max-width: 40.063em) {
+  .vads-l-grid-container {
+    padding-left: 0;
+    padding-right: 0;
+
+    .progress-box {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .form-progress-buttons {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .columns {
+      width: 100%;
+    }
+  }
 }

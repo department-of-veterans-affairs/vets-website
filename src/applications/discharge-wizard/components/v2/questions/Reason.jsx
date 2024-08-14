@@ -19,14 +19,14 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
   const hint =
     'Note: If more than one of these descriptions matches your situation, choose the one that started the events that led to your discharge. For example, if you sustained a traumatic brain injury, which led to posttraumatic stress disorder (PTSD), choose number 2.';
   const {
-    REASON_1,
-    REASON_2,
-    REASON_3,
-    REASON_4,
-    REASON_5,
-    REASON_6,
-    REASON_7,
-    REASON_8,
+    REASON_PTSD,
+    REASON_TBI,
+    REASON_SEXUAL_ORIENTATION,
+    REASON_SEXUAL_ASSAULT,
+    REASON_TRANSGENDER,
+    REASON_ERROR,
+    REASON_UNJUST,
+    REASON_DD215_UPDATE_TO_DD214,
   } = RESPONSES;
 
   useEffect(
@@ -53,14 +53,14 @@ const Reason = ({ formResponses, setReason, router, viewedIntroPage }) => {
       hint={hint}
       H1={H1}
       responses={[
-        REASON_1,
-        REASON_2,
-        REASON_3,
-        REASON_4,
-        REASON_5,
-        REASON_8,
-        REASON_6,
-        REASON_7,
+        REASON_PTSD,
+        REASON_TBI,
+        REASON_SEXUAL_ORIENTATION,
+        REASON_SEXUAL_ASSAULT,
+        REASON_TRANSGENDER,
+        REASON_DD215_UPDATE_TO_DD214,
+        REASON_ERROR,
+        REASON_UNJUST,
       ]}
       router={router}
       setFormError={setFormError}

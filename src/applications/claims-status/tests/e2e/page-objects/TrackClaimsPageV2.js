@@ -509,7 +509,7 @@ class TrackClaimsPageV2 {
       .find('.due-date-header')
       .should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
@@ -524,12 +524,27 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyPrimaryAlertfor5103Notice() {
-    cy.get('[data-testid="item-13"]').should('be.visible');
-    cy.get('[data-testid="item-13"]')
+  verifyPrimaryAlertfor5103Notice(isStandard = false) {
+    const testId = isStandard
+      ? '[data-testid="standard-5103-notice-alert"]'
+      : '[data-testid="item-13"]';
+    const url = isStandard
+      ? '/track-claims/your-claims/189685/5103-evidence-notice'
+      : '/track-claims/your-claims/189685/document-request/13';
+    cy.get(testId).should('be.visible');
+    if (isStandard) {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', '5103 Evidence Notice');
+    } else {
+      cy.get(testId)
+        .find('h4')
+        .should('contain', 'Automated 5103 Notice Response');
+    }
+    cy.get(testId)
       .find('a')
       .should('contain', 'Details');
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('.alert-description > p')
       .first()
       .should(
@@ -541,13 +556,10 @@ class TrackClaimsPageV2 {
         'contain',
         'Upload the waiver attached to the letter if you’re finished adding evidence.',
       );
-    cy.get('[data-testid="item-13"]')
+    cy.get(testId)
       .find('a')
       .click();
-    cy.url().should(
-      'contain',
-      '/track-claims/your-claims/189685/document-request/13',
-    );
+    cy.url().should('contain', url);
   }
 
   verifyDocRequestforDefaultPage(is5103Notice = false) {
@@ -560,14 +572,20 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
     cy.get('va-additional-info').should('be.visible');
   }
 
-  verifyDocRequestfor5103Notice() {
-    cy.get('#automated-5103-notice-page').should('be.visible');
+  verifyDocRequestfor5103Notice(isStandard = false) {
+    cy.get('#default-5103-notice-page').should('be.visible');
+    if (!isStandard) {
+      cy.get('[data-testid="due-date-information"]').should(
+        'contain',
+        'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
+      );
+    }
     cy.get('a.active-va-link').should('contain', 'Go to claim letters');
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',

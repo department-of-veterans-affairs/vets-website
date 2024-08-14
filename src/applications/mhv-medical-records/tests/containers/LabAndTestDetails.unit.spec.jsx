@@ -52,7 +52,7 @@ describe('LabsAndTests details container', () => {
   it('displays the type of test', () => {
     const element = screen.getByTestId('chem-hem-category');
     expect(element).to.exist;
-    expect(element.textContent).to.equal('Chemistry/Hematology');
+    expect(element.textContent).to.equal('Chemistry and hematology');
   });
 
   it('displays the site or sample tested', () => {
@@ -63,7 +63,7 @@ describe('LabsAndTests details container', () => {
     expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
   });
 
-  it('displays the collecting location', () => {
+  it('displays the location', () => {
     expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
   });
 
@@ -100,7 +100,7 @@ describe('LabAndTestDetails microbiology', () => {
     screen = renderWithStoreAndRouter(<LabAndTestDetails />, {
       initialState,
       reducers: reducer,
-      path: '/labs-and-tests/ex-MHV-chReport-1',
+      path: '/labs-and-tests/ex-MHV-labReport-3',
     });
   });
 
