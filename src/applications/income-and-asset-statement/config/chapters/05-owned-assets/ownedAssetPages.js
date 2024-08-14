@@ -17,7 +17,7 @@ import {
   RequestFarmIncomeFormAlert,
 } from '../../../components/FormAlerts';
 import {
-  otherExplanationRequired,
+  otherRecipientRelationshipExplanationRequired,
   recipientNameRequired,
   showRecipientName,
 } from '../../../helpers';
@@ -108,7 +108,12 @@ const ownedAssetRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: 'OTHER',
       },
-      'ui:required': otherExplanationRequired,
+      'ui:required': (formData, index) =>
+        otherRecipientRelationshipExplanationRequired(
+          formData,
+          index,
+          'ownedAssets',
+        ),
     },
     recipientName: {
       'ui:title': 'Tell us the income recipient’s name',
@@ -118,7 +123,8 @@ const ownedAssetRecipientPage = {
         expandUnder: 'recipientRelationship',
         expandUnderCondition: showRecipientName,
       },
-      'ui:required': recipientNameRequired,
+      'ui:required': (formData, index) =>
+        recipientNameRequired(formData, index, 'ownedAssets'),
     },
   },
   schema: {
