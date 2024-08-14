@@ -85,6 +85,9 @@ jobs:
           
       - name: Output Deploy src
         run: echo s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/${{ env.DEPLOYMENT_ENVIRONMENT.environment }}.tar.bz2
+
+      - name: Log GitHub Sha
+        run: echo ${{ github.event.client_payload.github_sha }}
         
       # - name: Deploy
       #   if: steps.check-deployability.outputs.is_deployable == 'true'
