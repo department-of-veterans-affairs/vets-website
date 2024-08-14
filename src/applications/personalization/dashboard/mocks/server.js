@@ -36,6 +36,25 @@ const responses = {
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
+  'GET /v0/profile/service_history': {
+    data: {
+      id: '',
+      type: 'arrays',
+      attributes: {
+        dataSource: 'api.va_profile',
+        serviceHistory: [
+          {
+            branchOfService: 'Air Force',
+            beginDate: '2009-04-12',
+            endDate: '2013-04-11',
+            periodOfServiceTypeCode: 'V',
+            periodOfServiceTypeText: 'Reserve member',
+            characterOfDischargeCode: 'A',
+          },
+        ],
+      },
+    },
+  },
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/benefits_claims': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
