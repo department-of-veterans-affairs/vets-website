@@ -17,7 +17,7 @@
 }
 .battery-page, .accessory-page {
   [type=checkbox] + label>span.icon-wrap {
-    display:none;
+    display: none;
     }
   [type=checkbox]:checked + label>span.icon-wrap {
     background-color: var(--vads-color-white);
