@@ -52,6 +52,7 @@ const URLS = Object.freeze({
   LANDING: '',
   LOADING: 'loading',
   APPOINTMENTS: 'appointments',
+  UPCOMING_APPOINTMENTS: 'upcoming-appointments',
   NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   VERIFY: 'verify',
