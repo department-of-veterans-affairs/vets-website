@@ -19,7 +19,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
       resource: {
         resourceType: 'DiagnosticReport',
-        id: '625811',
+        id: '6258114',
         contained: [
           {
             resourceType: 'Specimen',
@@ -47,6 +47,7 @@ const all = {
             ],
             name: [
               {
+                text: 'Beth M. Smith',
                 family: 'Smith',
                 given: ['Beth', 'M.'],
               },
@@ -482,7 +483,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
       resource: {
         resourceType: 'DiagnosticReport',
-        id: '625822',
+        id: '6258223',
         contained: [
           {
             resourceType: 'Specimen',
@@ -510,6 +511,7 @@ const all = {
             ],
             name: [
               {
+                text: 'Beth M. Smith',
                 family: 'Smith',
                 given: ['Beth', 'M.'],
               },
@@ -945,7 +947,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/12321',
       resource: {
         resourceType: 'DocumentReference',
-        id: 'ex-MHV-ecg-03',
+        id: '1234567',
         meta: {
           profile: [
             'https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.ecg',
@@ -1020,7 +1022,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/12321',
       resource: {
         resourceType: 'DiagnosticReport',
-        id: 'ex-MHV-labReport-3',
+        id: '1234561',
         meta: {
           profile: [
             'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.MBlabReport',
@@ -1835,7 +1837,7 @@ const all = {
       resource: {
         physician: 'Gregory House, M.D.',
         resourceType: 'DiagnosticReport',
-        id: 'ex-MHV-labReport-6',
+        id: '1234562',
         meta: {
           profile: [
             'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.SPlabReport',
@@ -1954,7 +1956,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/12321',
       resource: {
         resourceType: 'DocumentReference',
-        id: 'ex-MHV-ecg-07',
+        id: '1234563',
         meta: {
           profile: [
             'https://johnmoehrke.github.io/MHV-PHR/StructureDefinition/VA.MHV.PHR.ecg',
@@ -2029,7 +2031,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
       resource: {
         resourceType: 'DiagnosticReport',
-        id: '62588',
+        id: '625881',
         meta: {
           versionId: '1',
           lastUpdated: '2024-05-21T15:39:30.126-04:00',
@@ -2300,7 +2302,7 @@ const all = {
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DiagnosticReport/6258',
       resource: {
         resourceType: 'DiagnosticReport',
-        id: '62581',
+        id: '6258121',
         contained: [
           {
             resourceType: 'Specimen',
@@ -2328,8 +2330,7 @@ const all = {
             ],
             name: [
               {
-                family: 'Smith',
-                given: ['Beth', 'M.'],
+                text: 'Gregory House M.D.',
               },
             ],
           },
@@ -2818,9 +2819,7 @@ const all = {
             ],
             name: [
               {
-                text: 'Gregory House, M.D.',
-                family: 'House',
-                given: ['Gregory'],
+                text: 'Spencer Reid',
               },
             ],
           },
