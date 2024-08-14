@@ -52,7 +52,8 @@ describe('Pre-need applicant military history', () => {
     );
 
     const formDOM = getFormDOM(form);
-    expect($$('input', formDOM).length).to.equal(4);
-    expect($$('select', formDOM).length).to.equal(5);
+    expect($$('input', formDOM).length).to.equal(2);
+    expect($$('select', formDOM).length).to.equal(2);
+    expect($$('va-memorable-date', formDOM).length).to.equal(2);
   });
 });

@@ -45,8 +45,9 @@ describe('Pre-need sponsor military history', () => {
       </Provider>,
     );
 
-    expect(form.find('input').length).to.equal(4);
-    expect(form.find('select').length).to.equal(5);
+    expect(form.find('input').length).to.equal(2);
+    expect(form.find('select').length).to.equal(1);
+    expect(form.find('va-memorable-date').length).to.equal(2);
     form.unmount();
   });
 });
