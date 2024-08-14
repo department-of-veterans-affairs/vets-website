@@ -60,7 +60,15 @@ export default function IntroductionPage(props) {
         prefillEnabled={formConfig.prefillEnabled}
         messages={formConfig.savedFormMessages}
         pageList={pageList}
-        startText="Start the Application"
+        startText="Start the form"
+        unauthStartText="Sign in to start your form"
+        formConfig={{
+          customText: {
+            appType: 'form',
+            continueAppButtonText: 'Continue your form',
+            startNewAppButtonText: 'Start a new form',
+          },
+        }}
       >
         Please complete the 10-7959A form to apply for CHAMPVA claim form.
       </SaveInProgressIntro>
