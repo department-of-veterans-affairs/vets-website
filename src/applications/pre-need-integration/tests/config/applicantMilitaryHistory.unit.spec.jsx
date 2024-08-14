@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import configureMockStore from 'redux-mock-store';
@@ -34,21 +34,20 @@ describe('Pre-need applicant military history', () => {
   } = formConfig.chapters.militaryHistory.pages.applicantMilitaryHistorySelf;
 
   it('should render HighestRankAutoSuggest without crashing', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <div>
-        <Provider store={store}>
-          <DefinitionTester
-            schema={schema}
-            data={{}}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}
-          />
-        </Provider>
-      </div>,
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
     expect(form.find('input').length).to.equal(2);
     expect(form.find('select').length).to.equal(2);
     expect(form.find('va-memorable-date').length).to.equal(2);
+    form.unmount();
   });
 });
