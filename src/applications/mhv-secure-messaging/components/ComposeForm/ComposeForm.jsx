@@ -469,7 +469,6 @@ const ComposeForm = props => {
       isSignatureRequired,
       electronicSignature,
       checkboxError,
-      lastFocusableElement,
       setUnsavedNavigationError,
       setNavigationError,
       setSaveError,
@@ -479,10 +478,20 @@ const ComposeForm = props => {
 
   const sendMessageHandler = useCallback(
     async e => {
+      const {
+        messageValid,
+        signatureValid,
+        checkboxValid,
+      } = checkMessageValidity();
+
       // TODO add GA event
       await setMessageInvalid(false);
       await setSendMessageFlag(false);
-      if (checkMessageValidity()) {
+      const validSignatureNotRequired = messageValid && !isSignatureRequired;
+      const validSignatureRequired =
+        isSignatureRequired && signatureValid && checkboxValid;
+
+      if (validSignatureNotRequired || validSignatureRequired) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
@@ -490,7 +499,7 @@ const ComposeForm = props => {
         setSendMessageFlag(false);
       }
     },
-    [checkMessageValidity],
+    [checkMessageValidity, isSignatureRequired],
   );
 
   useEffect(
