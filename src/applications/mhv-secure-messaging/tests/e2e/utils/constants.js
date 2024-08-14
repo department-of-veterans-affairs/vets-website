@@ -24,6 +24,7 @@ export const Paths = {
   FIND_LOCATION: '/find-locations',
   HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
   THREAD: '/thread',
+  CONTACT_LIST: '/contact-list',
   INTERCEPT: {
     MESSAGE_RECIPIENT: '/my_health/v1/messaging/recipients*',
     MESSAGE_CATEGORY: '/my_health/v1/messaging/messages/categories',
@@ -48,8 +49,8 @@ export const Locators = {
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
   FROM: '[data-testid="from"]',
-  MESS_ID: '[data-testid="message-id"]',
-  MES_DATE: '[data-testid="message-date"]',
+  MSG_ID: '[data-testid="message-id"]',
+  MSG_DATE: '[data-testid="message-date"]',
   DATE_RECEIVED: '[data-testid="received-date"]',
   HEADER_FOLDER: '[data-testid*=folder-header]',
   ATTACH_FILE_INPUT: '[data-testid="attach-file-input"]',
@@ -108,8 +109,8 @@ export const Locators = {
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',
     DELETE_RADIOBTN: '[data-testid=radiobutton-Deleted]',
-    BUTTON_MOVE: 'button:contains("Move")',
-    BUTTON_TRASH: 'button:contains("Trash")',
+    MOVE: `#move-button`,
+    TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
@@ -214,6 +215,10 @@ export const Locators = {
   },
   BLOCKS: {
     ATTACHMENTS: '.attachments-list',
+  },
+  CHECKBOX: {
+    CL_ALL: '[data-testid="contact-list-select-all-teams"]',
+    CL_SINGLE: '[data-testid="contact-list-select-team"]',
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',

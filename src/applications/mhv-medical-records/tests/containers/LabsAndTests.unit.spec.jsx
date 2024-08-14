@@ -6,8 +6,8 @@ import { beforeEach } from 'mocha';
 import LabsAndTests from '../../containers/LabsAndTests';
 import reducer from '../../reducers';
 import labsAndTests from '../fixtures/labsAndTests.json';
-import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
+import radiologyTests from '../fixtures/radiologyRecordsMhv.json';
 import user from '../fixtures/user.json';
 
 describe('LabsAndTests list container', () => {
