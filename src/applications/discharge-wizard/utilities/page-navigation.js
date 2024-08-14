@@ -28,10 +28,10 @@ export const navigateBackward = (
       // When clicking back during edit mode we want to show the previous question in the flow for forkable questions.
       // We edit the route map, save it and push the correct route based on the current question.
       const indexOfQuestion = routeMap.indexOf(ROUTES[shortName]);
-      const newRouteMap = routeMap.slice(0, indexOfQuestion + 1);
+      const newRouteMap = routeMap.slice(0, indexOfQuestion);
 
       setRouteMap(newRouteMap);
-      router.push(newRouteMap[newRouteMap.length - 2]);
+      router.push(newRouteMap[newRouteMap.length - 1]);
     } else if (editMode) {
       // For non-forkable questions we want to go back to the review screen.
       router.push(routeMap[routeMap.length - 1]);
