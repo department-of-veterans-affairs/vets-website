@@ -35,9 +35,9 @@ const StepOne = ({ formResponses }) => {
 
   /* eslint-enable quote-props */
   const strongCaseTips = () => {
-    const { name } = reasonsObj[reason];
-    const { type } = reasonsObj[reason];
     if (specialReason) {
+      const { name } = reasonsObj[reason];
+      const { type } = reasonsObj[reason];
       return (
         <div>
           <span>
