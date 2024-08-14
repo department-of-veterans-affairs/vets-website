@@ -48,6 +48,7 @@ const responses = {
         data: {
           attributes: {
             veteran: {
+              ssn: '123-456-7890',
               address: {
                 addressLine1: '623 Lesser Dr',
                 city: 'Fort Collins',

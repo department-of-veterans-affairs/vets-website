@@ -14,6 +14,7 @@ import {
   addressLabel,
   noSuggestedAddress,
   prepareAddressData,
+  removeCommas,
 } from '../helpers';
 
 const SuggestedAddress = ({
@@ -116,7 +117,7 @@ const SuggestedAddress = ({
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
-          formData={formData}
+          formData={removeCommas(formData)}
           setChooseAddress={setChooseAddress}
         />
       </div>
@@ -143,7 +144,7 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {addressLabel(formData)}
+              {addressLabel(removeCommas(formData))}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
