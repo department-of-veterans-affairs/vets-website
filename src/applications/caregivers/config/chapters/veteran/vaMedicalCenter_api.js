@@ -23,12 +23,7 @@ const vaMedicalCenterApi = {
     properties: {
       'view:plannedClinic': {
         type: 'object',
-        properties: {
-          parent: {
-            type: 'object',
-          },
-          child: '',
-        },
+        properties: {},
       },
     },
   },
