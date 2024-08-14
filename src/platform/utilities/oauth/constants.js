@@ -29,7 +29,9 @@ export const CLIENT_IDS = {
   VAWEB: 'vaweb',
   VAMOBILE: 'vamobile',
   VAMOCK: 'vamock',
-  ARP: 'arp', // NOTE: 'arp' is the default ARP Client ID, but varies by environment
+  // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value for
+  // the ARP frontend on localhost calling the ARP backend on localhost.
+  ARP: 'arp',
 };
 
 export const COOKIES = {
