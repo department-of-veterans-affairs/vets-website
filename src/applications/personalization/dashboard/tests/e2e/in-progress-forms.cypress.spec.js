@@ -227,7 +227,7 @@ describe('The My VA Dashboard', () => {
         cy.findByRole('heading', {
           name: /benefit application drafts/i,
         }).should('exist');
-        cy.findAllByTestId('application-in-progress').should('have.length', 2);
+        cy.findAllByTestId('application-in-progress').should('have.length', 5);
         cy.findByText(/you have no benefit application drafts to show/i).should(
           'not.exist',
         );
