@@ -50,7 +50,7 @@ ${
             }
 ${
               'collectingLocation' in record && record.type !== 'pathology'
-                ? `Collecting location: ${record.collectingLocation}`
+                ? `Location: ${record.collectingLocation}`
                 : ''
             }
 ${'labLocation' in record ? `Lab location: ${record.labLocation}` : ''}

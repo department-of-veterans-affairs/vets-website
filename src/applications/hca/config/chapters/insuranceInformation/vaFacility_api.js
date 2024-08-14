@@ -1,12 +1,12 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 // define default schema properties
 const {
@@ -16,15 +16,7 @@ const {
 
 export default {
   uiSchema: {
-    'view:facilityShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:vaFacilityTitle': {
-      'ui:title': 'VA facility',
-    },
+    ...titleUI(content['insurance-info--facility-title']),
     isEssentialAcaCoverage: {
       'ui:title':
         'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
@@ -47,8 +39,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:facilityShortFormMessage': emptyObjectSchema,
-      'view:vaFacilityTitle': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {

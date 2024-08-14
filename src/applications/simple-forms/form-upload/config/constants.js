@@ -17,6 +17,42 @@ PrimaryActionLink.propTypes = {
   onClick: PropTypes.func,
 };
 
+export const MUST_MATCH_ALERT = (variant, onCloseEvent, formData) => {
+  const isLoa3 = formData?.loa === 3;
+  return (
+    <VaAlert
+      close-btn-aria-label="Close notification"
+      status="info"
+      visible
+      closeable
+      onCloseEvent={onCloseEvent}
+    >
+      {variant === 'name-and-zip-code' ? (
+        <h2 slot="headline">Name and zip code must match your form</h2>
+      ) : (
+        <h2 slot="headline">Identification information must match your form</h2>
+      )}
+      {isLoa3 ? (
+        <p>
+          Since you’re signed in to your account, we prefilled part of your
+          application based on your account details.
+        </p>
+      ) : null}
+      {variant === 'name-and-zip-code' ? (
+        <p>
+          If your name and zip code here don’t match your form, it will cause
+          processing delays.
+        </p>
+      ) : (
+        <p>
+          If the identification information you enter here don’t match your
+          form, it will cause processing delays.
+        </p>
+      )}
+    </VaAlert>
+  );
+};
+
 export const UPLOAD_GUIDELINES = Object.freeze(
   <>
     <h3 className="vads-u-margin-bottom--3">Upload your file</h3>
@@ -44,8 +80,7 @@ export const SAVE_IN_PROGRESS_CONFIG = {
   },
 };
 
-export const PROGRESS_BAR_LABELS =
-  'Upload your file;Review your information;Submit your form';
+export const PROGRESS_BAR_LABELS = 'Personal information;File upload;Review';
 
 export const SUBTITLE_0779 =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
