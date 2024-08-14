@@ -15,6 +15,7 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 const {
   prefill,
+  createSaveInProgressUpdate,
 } = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 // transaction status that is used for address, email, phone number update flows
@@ -42,43 +43,19 @@ const {
 } = require('./script/utils');
 
 const responses = {
-  'GET /v0/in_progress_forms/FORM_MOCK_AE_DESIGN_PATTERNS': (_req, res) => {
-    return res.json({
-      formData: {
-        data: {
-          attributes: {
-            veteran: {
-              ssn: '123-456-7890',
-              address: {
-                addressLine1: '623 Lesser Dr',
-                city: 'Fort Collins',
-                stateCode: 'CO',
-                zipCode5: '80524',
-                countryName: 'USA',
-              },
-              firstName: 'John',
-              lastName: 'Donut',
-              middleName: 'Jelly',
-              phone: {
-                areaCode: '970',
-                phoneNumber: '5561289',
-              },
-              emailAddressText: 'sample@email.com',
-            },
-          },
-        },
-        nonPrefill: {
-          veteranSsnLastFour: '3607',
-          veteranVaFileNumberLastFour: '3607',
-        },
-      },
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/veteran-details',
-      },
-    });
+  'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(prefill), secondsOfDelay);
   },
+
+  'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.json(createSaveInProgressUpdate()),
+      secondsOfDelay,
+    );
+  },
+
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
     delaySingleResponse(
@@ -212,11 +189,6 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
-  },
-
-  'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
-    const secondsOfDelay = 1;
-    delaySingleResponse(() => res.json(prefill), secondsOfDelay);
   },
 };
 
