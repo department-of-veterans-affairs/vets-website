@@ -9,10 +9,6 @@
       {
         "name": "hcaSigiEnabled",
         "value": false
-      },
-      {
-        "name": "ezrTeraEnabled",
-        "value": false
       }
     ]
   }
