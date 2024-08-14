@@ -58,7 +58,7 @@ const IntroductionPage = props => {
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          <h4 className="vads-u-margiin-y--1">
+          <h4 className="vads-u-margin-y--1">
             Here’s what you’ll need to apply:
           </h4>
           <ul>
