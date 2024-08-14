@@ -357,7 +357,7 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
       height: 1rem;
       vertical-align: bottom;
       display: inline-block;
-      background-color: #fff;
+      background-color: var(--vads-color-white);
       mask-position: 0;
       mask-size: contain;
     }
