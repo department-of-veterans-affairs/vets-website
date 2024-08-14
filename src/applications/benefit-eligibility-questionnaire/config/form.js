@@ -3,7 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import getHelp from '../../simple-forms/shared/components/GetFormHelp';
+import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
