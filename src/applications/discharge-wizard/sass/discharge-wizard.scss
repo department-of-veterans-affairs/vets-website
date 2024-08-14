@@ -127,7 +127,11 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
   .answer-review-label {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+  }
+
+  .answer-review {
+    display: grid;
+    row-gap: 10px;
   }
 
   va-button-pair {

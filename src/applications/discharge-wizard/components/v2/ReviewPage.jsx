@@ -60,14 +60,15 @@ const ReviewPage = ({
         reviewLabel && (
           <li
             key={shortName}
-            className="vads-u-margin-bottom--0 vads-u-padding-y--3 vads-u-padding-x--1p5 answer-review-box"
+            className="vads-u-margin-bottom--0 vads-u-padding-y--3 answer-review-box"
           >
             <div className="answer-review-label">
               <p
-                className="vads-u-font-weight--bold vads-u-margin--0"
+                className="vads-u-margin--0 answer-review"
                 data-testid={`label-${shortName}`}
               >
-                {reviewLabel}
+                <span className="vads-u-font-weight--bold">{reviewLabel}</span>
+                <span>{reviewAnswer}</span>
               </p>
               <va-link
                 class="vads-u-padding-left--2"
@@ -81,7 +82,6 @@ const ReviewPage = ({
                 text="Edit"
               />
             </div>
-            <p>{reviewAnswer}</p>
           </li>
         )
       );
