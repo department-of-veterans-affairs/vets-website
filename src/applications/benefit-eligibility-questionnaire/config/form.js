@@ -15,6 +15,8 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import giBillStatus from '../pages/giBillStatus';
 import characterOfDischarge from '../pages/characterOfDischarge';
@@ -107,6 +109,18 @@ const formConfig = {
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
+        },
+        militaryServiceTimeServed: {
+          path: 'military-service/time-served',
+          title: 'Military Service Time Served',
+          uiSchema: militaryServiceTimeServed.uiSchema,
+          schema: militaryServiceTimeServed.schema,
+        },
+        militaryServiceCompleted: {
+          path: 'military-service/completed',
+          title: 'Military Service Completed',
+          uiSchema: militaryServiceCompleted.uiSchema,
+          schema: militaryServiceCompleted.schema,
         },
       },
     },
