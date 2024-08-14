@@ -15,7 +15,6 @@ import { fetchFormStatuses } from '../../actions/form-status';
 import ApplicationsInProgress from './ApplicationsInProgress';
 
 const BenefitApplications = ({
-  formsWithStatus,
   getESREnrollmentStatus,
   getFormStatuses,
   isLOA1,
@@ -49,11 +48,7 @@ const BenefitApplications = ({
           ? 'Benefit applications and forms'
           : 'Benefit application drafts'}
       </h2>
-      <ApplicationsInProgress
-        formsWithStatus={formsWithStatus}
-        hideH3
-        isLOA1={isLOA1}
-      />
+      <ApplicationsInProgress hideH3 isLOA1={isLOA1} />
     </div>
   );
 };
@@ -68,16 +63,12 @@ const mapStateToProps = state => {
 
   const shouldGetESRStatus = !hasHCAInProgress && !isPatient && isLOA3(state);
 
-  const formsWithStatus = state.allFormsWithStatuses.forms || [];
-
   return {
     shouldGetESRStatus,
-    formsWithStatus,
   };
 };
 
 BenefitApplications.propTypes = {
-  formsWithStatus: PropTypes.array,
   getESREnrollmentStatus: PropTypes.func,
   getFormStatuses: PropTypes.func,
   isLOA1: PropTypes.bool,

@@ -208,6 +208,7 @@ ApplicationsInProgress.propTypes = {
 const mapStateToProps = state => {
   return {
     savedForms: selectProfile(state).savedForms || [],
+    formsWithStatus: state.allFormsWithStatuses.forms || [],
   };
 };
 
