@@ -25,7 +25,6 @@ const CareSummariesAndNotes = () => {
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
-
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -37,6 +36,9 @@ const CareSummariesAndNotes = () => {
   );
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -94,18 +96,20 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(careSummariesAndNotes) &&
-            Array.isArray(updatedRecordList) &&
-            careSummariesAndNotes.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!mockPhr && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(careSummariesAndNotes) &&
+              Array.isArray(updatedRecordList) &&
+              careSummariesAndNotes.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"
