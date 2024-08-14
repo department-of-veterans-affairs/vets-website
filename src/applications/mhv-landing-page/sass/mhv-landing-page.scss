@@ -158,3 +158,21 @@ $anchor-font-size: 1.25rem; // == 20px
     }
   }
 }
+
+.mhv-c-link-icon-desktop {
+  display: none;
+}
+
+.mhv-c-link-icon-mobile {
+  display: inline-block;
+}
+
+@media screen and (min-width: 768px) {
+  .desktop-icon {
+    display: inline-block;
+  }
+
+  .mobile-icon {
+    display: none;
+  }
+}

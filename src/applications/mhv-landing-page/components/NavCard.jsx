@@ -34,12 +34,19 @@ const NavCard = ({
           {isExternal && ` ${externalLinkText}`}
           {!isExternal && (
             <va-icon
-              class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
+              class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0 mhv-c-link-icon-desktop"
               icon="navigate_next"
               size={4}
             />
           )}
         </span>
+        {!isExternal && (
+          <va-icon
+            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0 mhv-c-link-icon-mobile"
+            icon="navigate_next"
+            size={4}
+          />
+        )}
       </a>
     </li>
   ));
