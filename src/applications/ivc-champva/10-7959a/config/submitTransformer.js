@@ -68,11 +68,11 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.supportingDocs = [];
   copyOfData.claims.forEach((claim, index) => {
     // eslint-disable-next-line no-param-reassign
-    claim.index = index;
+    claim.claim_id = index;
     fileProps.forEach(f => {
       if (claim[f]) {
         // eslint-disable-next-line no-param-reassign
-        claim[f].index = index;
+        claim[f].claim_id = index;
         copyOfData.supportingDocs.push(claim[f]);
       }
     });
