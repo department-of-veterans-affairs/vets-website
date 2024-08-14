@@ -32,6 +32,7 @@ class PatientComposePage {
   };
 
   pushSendMessageWithKeyboardPress = () => {
+    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
