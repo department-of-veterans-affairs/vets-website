@@ -138,3 +138,16 @@ export function adjustYearString(data) {
   });
   return copy;
 }
+
+/**
+ * Combine all street fields from an address into a single string.
+ * @param {Object} addr Standard form address object containing one or more `street` properties (e.g., street, street1, street2)
+ * @returns String of all street fields combined.
+ */
+export function concatStreets(addr) {
+  let res = '';
+  for (const [k, v] of Object.entries(addr)) {
+    res += k.includes('street') ? `${v} ` : '';
+  }
+  return res;
+}
