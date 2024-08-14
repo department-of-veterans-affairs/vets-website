@@ -352,11 +352,14 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::after,
     &::before {
+      content: "";
       width: 1rem;
       height: 1rem;
       vertical-align: bottom;
       display: inline-block;
-      background-size: 100% 100%;
+      background-color: #fff;
+      mask-position: 0;
+      mask-size: contain;
     }
   }
 }
@@ -364,9 +367,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Back"] {
   &::part(button) {
     &::before {
-      content: "";
-      background: url("/img/sprite.svg#arrow_back") no-repeat;
       margin-right: 8px;
+      -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
+      mask-image: url("/img/navigate_far_before.svg#icon")t;
     }
   }
 }
@@ -375,9 +378,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Continue to review page"] {
   &::part(button) {
     &::after {
-      content: "";
-      background: url("/img/sprite.svg#arrow_forward") no-repeat;
       margin-left: 8px;
+      -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
+      mask-image: url("/img/navigate_far_next.svg#icon")t;
     }
   }
 }
