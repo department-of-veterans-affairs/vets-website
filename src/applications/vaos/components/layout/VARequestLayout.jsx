@@ -4,10 +4,7 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import {
-  selectModalityText,
-  selectRequestedAppointmentData,
-} from '../../appointment-list/redux/selectors';
+import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
@@ -33,7 +30,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
-  const modiality = selectModalityText(appointment, true);
+  const modiality = appointment?.preferredModality;
   const [reason, otherDetails] = bookingNotes?.split(':') || [];
 
   let heading = 'We have received your request';
