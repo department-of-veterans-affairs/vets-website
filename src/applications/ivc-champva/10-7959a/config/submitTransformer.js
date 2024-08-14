@@ -59,16 +59,30 @@ export default function transformForSubmit(formConfig, form) {
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
 
   // Compile files
-  copyOfData.supportingDocs = [
-    copyOfData.medicalUpload,
-    copyOfData.primaryEob,
-    copyOfData.secondaryEob,
-  ]
+  const fileProps = [
+    'medicalUpload',
+    'pharmacyUpload',
+    'primaryEob',
+    'secondaryEob',
+  ];
+  copyOfData.supportingDocs = [];
+  copyOfData.claims.forEach((claim, index) => {
+    // eslint-disable-next-line no-param-reassign
+    claim.claim_id = index;
+    fileProps.forEach(f => {
+      if (claim[f]) {
+        // eslint-disable-next-line no-param-reassign
+        claim[f].claim_id = index;
+        copyOfData.supportingDocs.push(claim[f]);
+      }
+    });
+  });
+
+  copyOfData.supportingDocs
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
 
   copyOfData.fileNumber = copyOfData.applicantMemberNumber;
-
   copyOfData = adjustYearString(copyOfData);
 
   return JSON.stringify({
