@@ -4,15 +4,13 @@ import { expect } from 'chai';
 import { maximalSetOfPreferences } from '@@profile/mocks/endpoints/communication-preferences';
 
 import { waitForElementToBeRemoved } from '@testing-library/dom';
-import NotificationSettings from '../../../components/notification-settings/NotificationSettings';
-import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
-
 import {
   mockFetch,
   setFetchJSONResponse,
 } from '~/platform/testing/unit/helpers';
-
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
+import NotificationSettings from '../../../components/notification-settings/NotificationSettings';
+import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
 
 describe('<NotificationSettings />', () => {
   beforeEach(() => {
@@ -26,8 +24,10 @@ describe('<NotificationSettings />', () => {
         featureToggles: {
           loading: false,
           [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
-          [featureFlagNames.profileShowMhvNotificationSettings]: true,
-          [featureFlagNames.profileShowEmailNotificationSettings]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsMedicalImages]: true,
           [featureFlagNames.profileShowQuickSubmitNotificationSetting]: true,
         },
         user: {
@@ -62,7 +62,7 @@ describe('<NotificationSettings />', () => {
 
     expect(await view.findByText('Payments')).to.exist;
 
-    expect(await view.findByText('General VA Updates and Information')).to
+    expect(await view.queryByText('General VA Updates and Information')).to.not
       .exist;
 
     expect(await view.findByText('QuickSubmit')).to.exist;
@@ -74,8 +74,10 @@ describe('<NotificationSettings />', () => {
         featureToggles: {
           loading: false,
           [featureFlagNames.profileShowPaymentsNotificationSetting]: true,
-          [featureFlagNames.profileShowMhvNotificationSettings]: true,
-          [featureFlagNames.profileShowEmailNotificationSettings]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailRxShipment]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsMedicalImages]: true,
           [featureFlagNames.profileShowQuickSubmitNotificationSetting]: true,
         },
         user: {
@@ -141,7 +143,7 @@ describe('<NotificationSettings />', () => {
       initialState: {
         featureToggles: {
           loading: false,
-          [featureFlagNames.profileShowEmailNotificationSettings]: true,
+          [featureFlagNames.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         },
       },
       path: '/profile/notifications',

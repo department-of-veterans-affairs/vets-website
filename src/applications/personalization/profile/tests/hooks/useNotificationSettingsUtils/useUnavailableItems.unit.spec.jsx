@@ -23,14 +23,16 @@ const TestingComponent = () => {
 };
 
 const emailNotificationNames = [
-  'RX refill shipment notification',
-  'VA Appointment reminders',
+  'Appointment reminders',
   'Secure messaging alert',
   'Medical images and reports available',
-  'Biweekly MHV newsletter',
+  // 'RX refill shipment notification',
+  // 'VA Appointment reminders',
+  // 'Biweekly MHV newsletter',
 ];
 
 const textNotificationNames = [
+  'Appointment reminders',
   "Board of Veterans' Appeals hearing reminder",
   'Appeal status updates',
   'Disability and pension deposit notifications',
@@ -44,7 +46,10 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -67,20 +72,13 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
     );
 
     const hookResults = JSON.parse(getByTestId('hookResults').textContent);
-
     const includedNames = hookResults.map(({ name }) =>
       emailNotificationNames.includes(name),
     );
 
     expect(includedNames.every(result => result === true)).to.be.true;
 
-    const excludedNames = hookResults.map(({ name }) =>
-      textNotificationNames.includes(name),
-    );
-
-    expect(excludedNames.every(result => result === false)).to.be.true;
-
-    expect(hookResults.length).to.equal(5);
+    expect(hookResults.length).to.equal(3);
   });
 
   it('returns items with text notifications when mobile phone is missing from contact info', () => {
@@ -89,7 +87,7 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -113,15 +111,8 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
     const includedNames = hookResults.map(({ name }) =>
       textNotificationNames.includes(name),
     );
-
     expect(includedNames.every(result => result === true)).to.be.true;
 
-    const excludedNames = hookResults.map(({ name }) =>
-      emailNotificationNames.includes(name),
-    );
-
-    expect(excludedNames.every(result => result === false)).to.be.true;
-
-    expect(hookResults.length).to.equal(4);
+    expect(hookResults.length).to.equal(5);
   });
 });

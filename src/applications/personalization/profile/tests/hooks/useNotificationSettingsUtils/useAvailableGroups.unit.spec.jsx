@@ -28,8 +28,8 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -52,12 +52,13 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
     );
 
     const hookResults = JSON.parse(getByTestId('hookResults').textContent);
-    expect(hookResults.length).to.equal(5);
+    expect(hookResults.length).to.equal(4);
 
     const expectedGroupNames = [
       'Your health care',
       'Applications, claims, decision reviews, and appeals',
-      'General VA Updates and Information',
+      //  ticket: 89524: hiding the below group
+      // 'General VA Updates and Information',
       'Payments',
       'QuickSubmit',
     ];
@@ -72,8 +73,8 @@ describe('useNotificationSettingsUtils hook -> useAvailableGroups', () => {
       communicationPreferences,
       featureToggles: {
         loading: false,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: false,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: false,
       },
       user: {

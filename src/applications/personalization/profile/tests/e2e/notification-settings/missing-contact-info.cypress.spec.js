@@ -43,8 +43,10 @@ describe('Notification Settings', () => {
             'GET',
             '/v0/feature_toggles*',
             generateFeatureToggles({
-              profileShowEmailNotificationSettings: true,
-              profileShowMhvNotificationSettings: true,
+              profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+              profileShowMhvNotificationSettingsNewSecureMessaging: true,
+              profileShowMhvNotificationSettingsEmailRxShipment: true,
+              profileShowMhvNotificationSettingsMedicalImages: true,
               profileShowPaymentsNotificationSetting: true,
             }),
           );
@@ -64,10 +66,11 @@ describe('Notification Settings', () => {
           cy.findAllByTestId('notification-group').should('exist');
 
           // email based notifications should be shown
-          cy.findByText('RX refill shipment notification').should('exist');
-          cy.findByText('VA Appointment reminders').should('exist');
+          cy.findByText('RX refill shipment notification').should('not.exist');
+          cy.findByText('VA Appointment reminders').should('not.exist');
           cy.findByText('Secure messaging alert').should('exist');
           cy.findByText('Medical images and reports available').should('exist');
+          cy.findByText('Biweekly MHV newsletter').should('not.exist');
 
           cy.get('va-alert-expandable').click();
 
@@ -76,7 +79,7 @@ describe('Notification Settings', () => {
             cy.findByRole('link', {
               name: 'Add your mobile number to your profile',
             }).should('exist');
-            cy.findByText('Appointment reminders').should('exist');
+            cy.findAllByText('Appointment reminders').should('exist');
             cy.findByText('Prescription shipment and tracking updates').should(
               'exist',
             );
@@ -84,6 +87,7 @@ describe('Notification Settings', () => {
             cy.findByText(
               'Disability and pension deposit notifications',
             ).should('exist');
+            cy.findByText('QuickSubmit Upload Status').should('exist');
           });
 
           cy.injectAxeThenAxeCheck();
@@ -95,8 +99,10 @@ describe('Notification Settings', () => {
             'GET',
             '/v0/feature_toggles*',
             generateFeatureToggles({
-              profileShowEmailNotificationSettings: true,
-              profileShowMhvNotificationSettings: true,
+              profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+              profileShowMhvNotificationSettingsNewSecureMessaging: true,
+              profileShowMhvNotificationSettingsEmailRxShipment: true,
+              profileShowMhvNotificationSettingsMedicalImages: true,
               profileShowPaymentsNotificationSetting: true,
             }),
           );
@@ -119,7 +125,7 @@ describe('Notification Settings', () => {
           cy.findAllByTestId('notification-group').should('exist');
 
           // text based notifications should be shown
-          cy.findByText('Appointment reminders').should('exist');
+          cy.findAllByText('Appointment reminders').should('exist');
           cy.findByText('Prescription shipment and tracking updates').should(
             'exist',
           );
@@ -138,13 +144,15 @@ describe('Notification Settings', () => {
             cy.findByRole('link', {
               name: 'Add your email address to your profile',
             }).should('exist');
-            cy.findByText('RX refill shipment notification').should('exist');
-            cy.findByText('VA Appointment reminders').should('exist');
+            cy.findByText('RX refill shipment notification').should(
+              'not.exist',
+            );
+            cy.findByText('VA Appointment reminders').should('not.exist');
             cy.findByText('Secure messaging alert').should('exist');
             cy.findByText('Medical images and reports available').should(
               'exist',
             );
-            cy.findByText('Biweekly MHV newsletter').should('exist');
+            cy.findByText('Biweekly MHV newsletter').should('not.exist');
           });
 
           cy.injectAxeThenAxeCheck();
@@ -158,8 +166,10 @@ describe('Notification Settings', () => {
               'GET',
               '/v0/feature_toggles*',
               generateFeatureToggles({
-                profileShowEmailNotificationSettings: true,
-                profileShowMhvNotificationSettings: true,
+                profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+                profileShowMhvNotificationSettingsNewSecureMessaging: true,
+                profileShowMhvNotificationSettingsEmailRxShipment: true,
+                profileShowMhvNotificationSettingsMedicalImages: true,
               }),
             );
             const user = makeMockUser();
@@ -251,12 +261,15 @@ describe('Notification Settings', () => {
         });
       });
       context('when user is missing email address', () => {
-        it('when profileShowEmailNotificationSettings is false, should not show missing contact info alert  - C9507', () => {
+        it('when all new toggles are false, should not show missing contact info alert  - C9507', () => {
           cy.intercept(
             'GET',
             '/v0/feature_toggles*',
             generateFeatureToggles({
-              profileShowEmailNotificationSettings: false,
+              profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+              profileShowMhvNotificationSettingsNewSecureMessaging: false,
+              profileShowMhvNotificationSettingsEmailRxShipment: false,
+              profileShowMhvNotificationSettingsMedicalImages: false,
             }),
           );
           const user = makeMockUser();

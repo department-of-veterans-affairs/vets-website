@@ -251,9 +251,11 @@ const mockCommunicationPreferencesState = {
 const baseState = {
   ...createBasicInitialState(),
   featureToggles: {
-    [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-    [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
-    [TOGGLE_NAMES.profileShowEmailNotificationSettings]: true,
+    [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
+    [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };
@@ -276,29 +278,186 @@ describe('NotificationGroup component', () => {
     expect(await view.findByTestId('checkbox-channel5-1')).to.exist;
   });
 
-  it('should filter out MHV notifications from group2 when profileShowMhvNotificationSettings is false', () => {
+  it('should only see Appointment reminders group when all the notification toggles are turned off', () => {
     const initialState = cloneDeep(baseState);
 
     set(
       initialState,
-      `featureToggles[${TOGGLE_NAMES.profileShowMhvNotificationSettings}]`,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      false,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      false,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
       false,
     );
 
     const view = renderWithProfileReducersAndRouter(
-      <NotificationGroup groupId="group2" />,
+      <NotificationGroup groupId="group3" />,
       {
         initialState,
       },
     );
 
-    expect(view.queryByText('RX refill shipment notification')).to.not.exist;
+    expect(view.queryByText('Appointment reminders')).to.exist;
 
-    expect(view.queryByText('VA Appointment reminders')).to.not.exist;
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
 
-    expect(view.queryByText('Securing messaging alert')).to.not.exist;
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .not.exist;
 
     expect(view.queryByText('Medical images and reports available')).to.not
       .exist;
+  });
+
+  it('should display Medical images and reports available group when profileShowMhvNotificationSettingsMedicalImages is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .not.exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.exist;
+  });
+
+  it('should display Securing messaging alert group when profileShowMhvNotificationSettingsNewSecureMessaging is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.exist;
+
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .not.exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
+  });
+
+  it('should display Prescription shipment and tracking updates group when profileShowMhvNotificationSettingsEmailRxShipment is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.not.exist;
+
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.not
+      .exist;
+  });
+
+  it('should never display Rx refill shipment and Biweekly MHV newsletter even when all the notification toggles are on', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment
+      }]`,
+      true,
+    );
+
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group3" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('Appointment reminders')).to.exist;
+
+    expect(view.queryByText('Secure messaging alert')).to.exist;
+
+    expect(view.queryByText('Prescription shipment and tracking updates')).to
+      .exist;
+
+    expect(view.queryByText('Medical images and reports available')).to.exist;
+
+    expect(view.queryByText('Rx refill shipment')).to.not.exist;
+
+    expect(view.queryByText('Biweekly MHV newsletter')).to.not.exist;
   });
 });
