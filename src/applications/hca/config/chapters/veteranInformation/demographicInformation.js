@@ -1,9 +1,6 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import DemographicField from '../../../components/FormFields/DemographicViewField';
 import { DemographicInfoDescription } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
-import { emptyObjectSchema } from '../../../definitions';
 
 const {
   isAmericanIndianOrAlaskanNative,
@@ -17,10 +14,6 @@ const {
 
 export default {
   uiSchema: {
-    'view:dmShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': { hideIf: notShortFormEligible },
-    },
     'view:demographicCategories': {
       'ui:title': ' ',
       'ui:description': DemographicInfoDescription,
@@ -29,7 +22,7 @@ export default {
         'ui:title': 'American Indian or Alaskan Native',
       },
       isSpanishHispanicLatino: {
-        'ui:title': ' Hispanic, Latino, or Spanish',
+        'ui:title': 'Hispanic, Latino, or Spanish',
       },
       isAsian: {
         'ui:title': 'Asian',
@@ -51,7 +44,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:dmShortFormMessage': emptyObjectSchema,
       'view:demographicCategories': {
         type: 'object',
         required: [],

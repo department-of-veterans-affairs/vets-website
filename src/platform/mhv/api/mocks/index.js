@@ -26,6 +26,7 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
 const vaccines = require('./medical-records/vaccines');
 
@@ -99,6 +100,8 @@ const responses = {
     careSummariesAndNotes.single,
   'GET /my_health/v1/health_records/sharing/status': { status: 200 },
   'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
+  'GET /my_health/v1/medical_records/conditions': healthConditions.all,
+  'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
   'GET /my_health/v1/medical_records/allergies': allergies.all,
   'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
