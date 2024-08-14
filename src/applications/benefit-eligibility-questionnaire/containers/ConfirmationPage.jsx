@@ -2,60 +2,96 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+
+import { setSubmission } from 'platform/forms-system/src/js/actions';
+import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../../simple-forms/shared/components/GetFormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
     scrollToTop('topScrollElement');
   }
+
+  handleClick = e => {
+    e.preventDefault();
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+    this.props.router.goBack();
+  };
 
   render() {
     return (
       <div>
         <p>
-          Based on your goals and experiences, we recommend exploring the
-          benefits listed below. You may be eligible for these benefits, but
-          please double-check the eligibility requirements before applying.
+          Based on your answers, you may be eligible for these benefits and
+          services. Learn more about each benefit. And check your eligibility
+          before you apply.
         </p>
-        <p>
-          You can filter and sort the recommended benefits. If you want to copy
-          the link to your personalized results or email the results to
-          yourself, select the “Share results” button.
-        </p>
-
-        <div className="vads-u-margin-y--2">
-          <va-alert-expandable
-            status="info"
-            trigger="Time-sensitive benefits"
-          />
-        </div>
 
         <va-button
+          id="shareYourResults"
           message-aria-describedby="Share your results"
           text="Share your results"
           onClick={() => {}}
         />
 
-        <hr className="divider vads-u-margin-y--2" />
+        <div id="resultsContainer">
+          <div id="filtersSectionDesktop">
+            <b>Filters</b>
+          </div>
 
-        <va-accordion>
-          <va-accordion-item
-            header="Recommended benefits and resources"
-            id="recommended"
-          />
-          <va-accordion-item
-            header="Show benefits that I may not qualify for"
-            id="show"
-          />
-        </va-accordion>
+          <div id="filtersSectionMobile">
+            <va-link-action
+              href="#"
+              message-aria-describedby="Filter and sort"
+              text="Filter and sort"
+              type="secondary"
+            />
+          </div>
+
+          <div id="resultsSection">
+            <b>
+              Showing 1 result, filtered to show all results, sorted by
+              relevance
+            </b>
+
+            <p>
+              <va-link
+                href="#"
+                onClick={this.handleClick}
+                text="Go back and review your entries"
+              />
+            </p>
+
+            <div className="vads-u-margin-y--2">
+              <va-alert-expandable
+                status="info"
+                trigger="Time-sensitive benefits"
+              />
+            </div>
+
+            <div>
+              <BenefitCard />
+            </div>
+
+            <va-accordion>
+              <va-accordion-item
+                header="Show benefits that I may not qualify for"
+                id="show"
+              />
+            </va-accordion>
+          </div>
+        </div>
 
         <AdditionalSupport />
 
         <div className="row vads-u-margin-bottom--2">
-          <div className="usa-width-two-thirds medium-8 columns">
+          <div className="usa-width-one-whole medium-8 columns">
             <va-need-help>
               <div slot="content">
                 <GetFormHelp formConfig={this.props.formConfig} />
@@ -68,10 +104,29 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  setSubmission,
+};
+
 function mapStateToProps(state) {
   return {
     form: state.form,
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationPage);
+ConfirmationPage.propTypes = {
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.object,
+    }),
+  }),
+  router: PropTypes.object,
+  setSubmission: PropTypes.func,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);
