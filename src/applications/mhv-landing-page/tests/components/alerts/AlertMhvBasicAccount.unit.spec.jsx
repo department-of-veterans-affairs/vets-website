@@ -3,6 +3,7 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
+import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 
