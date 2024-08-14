@@ -6,7 +6,7 @@ import {
   processMicrophoneActivity,
   processIncomingActivity,
   processSendMessageActivity,
-  processPostActivity,
+  addActivityData,
 } from '../../utils/actions';
 import * as SessionStorageModule from '../../utils/sessionStorage';
 import * as EventsModule from '../../utils/events';
@@ -591,24 +591,24 @@ describe('actions', () => {
     });
   });
 
-  describe('processPostActivity', () => {
+  describe('addActivityData', () => {
     it('should add values to the activity', () => {
       const action = {
         payload: {
           activity: {
-            values: {},
+            value: { language: 'en-US' },
           },
         },
       };
-      const updatedAction = processPostActivity({
-        action,
+      const updatedAction = addActivityData(action, {
         apiSession: 'apiSession',
         csrfToken: 'csrfToken',
         apiURL: 'apiURL',
         userFirstName: 'userFirstName',
         userUuid: 'userUuid',
-      })();
-      expect(updatedAction.payload.activity.values).to.deep.equal({
+      });
+      expect(updatedAction.payload.activity.value).to.deep.equal({
+        language: 'en-US',
         apiSession: 'apiSession',
         csrfToken: 'csrfToken',
         apiURL: 'apiURL',
