@@ -38,6 +38,7 @@ const defaultUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',
@@ -96,6 +97,7 @@ const cernerUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',
