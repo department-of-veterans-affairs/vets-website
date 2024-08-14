@@ -56,7 +56,7 @@ const RegistrationOnlyAlert = ({ headingLevel = 3 }) => {
         first section, be sure to select only <strong>Registration</strong>.
       </p>
       <p>Mail your completed application to this address:</p>
-      <p>
+      <p className="va-address-block">
         Health Eligibility Center
         <br role="presentation" />
         PO Box 5207
