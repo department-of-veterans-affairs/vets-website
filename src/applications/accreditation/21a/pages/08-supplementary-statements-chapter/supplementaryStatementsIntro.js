@@ -1,7 +1,4 @@
-import {
-  descriptionUI,
-  titleUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { descriptionUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import SupplementaryStatementsIntro from '../../components/08-supplementary-statements-chapter/SupplementaryStatementsIntro';
 
@@ -10,7 +7,6 @@ export default {
   title: 'Supplementary statements intro',
   path: 'supplementary-statements-intro',
   uiSchema: {
-    ...titleUI('Optional supplemental and personal statements'),
     ...descriptionUI(SupplementaryStatementsIntro),
   },
   schema: {
