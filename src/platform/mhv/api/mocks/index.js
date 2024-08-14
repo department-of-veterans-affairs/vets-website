@@ -29,6 +29,7 @@ const careSummariesAndNotes = require('./medical-records/care-summaries-and-note
 const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
 const vaccines = require('./medical-records/vaccines');
+const vitals = require('./medical-records/vitals');
 
 const responses = {
   ...commonResponses,
@@ -106,6 +107,7 @@ const responses = {
   'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
   'GET /my_health/v1/medical_records/vaccines/:id': vaccines.single,
+  'GET /my_health/v1/medical_records/vitals': vitals.all,
 
   'GET /v0/maintenance_windows': (_req, res) => {
     // three different scenarios for testing downtime banner

@@ -1,69 +1,79 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  selectSchema,
+  selectUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { jurisdictionOptions } from '../../constants/jurisdictions';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'jurisdictions',
   nounSingular: 'jurisdiction',
   nounPlural: 'jurisdictions',
-  required: true,
+  required: false,
   isItemIncomplete: item =>
-    !item?.name ||
+    !item?.jurisdiction ||
+    (item?.jurisdiction === 'Other' && !item?.otherJurisdiction) ||
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
-    getItemName: item => item.name,
-    cardDescription: item => formatReviewDate(item?.admissionDate),
-  },
-};
-
-/** @returns {PageSchema} */
-const introPage = {
-  uiSchema: {
-    ...titleUI(
-      'Your practicing information',
-      "Over the next couple of pages, we'll ask for information about jurisdictions and the agencies or courts you are currently admitted to practice before.",
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {},
+    getItemName: item =>
+      item?.jurisdiction === 'Other'
+        ? item?.otherJurisdiction
+        : item?.jurisdiction,
+    cardDescription: item =>
+      `${formatReviewDate(item?.admissionDate)}, #${
+        item?.membershipOrRegistrationNumber
+      }`,
   },
 };
 
 /** @returns {PageSchema} */
 const jurisdictionPage = {
   uiSchema: {
-    ...titleUI(
-      'Jurisdiction',
-      'Add details of a jurisdiction that you are admitted to practice before.',
-    ),
-    name: textUI('Name of jurisdiction'),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Jurisdiction',
+      description:
+        'List each jurisdiction to which you are admitted. You will be able to add additional jurisdictions on the next screen.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
+    jurisdiction: selectUI('Jurisdiction'),
+    otherJurisdiction: textUI({
+      title: 'Name of jurisdiction',
+      expandUnder: 'jurisdiction',
+      expandUnderCondition: 'Other',
+      required: (formData, index) =>
+        formData?.jurisdictions?.[index]?.jurisdiction === 'Other',
+    }),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      jurisdiction: selectSchema(jurisdictionOptions),
+      otherJurisdiction: textSchema,
       admissionDate: currentOrPastDateSchema,
       membershipOrRegistrationNumber: textSchema,
     },
-    required: ['name', 'admissionDate', 'membershipOrRegistrationNumber'],
+    required: [
+      'jurisdiction',
+      'admissionDate',
+      'membershipOrRegistrationNumber',
+    ],
   },
 };
 
 /**
- * This page is skipped on the first loop for required flow
  * Cards are populated on this page above the uiSchema if items are present
  *
  * @returns {PageSchema}
@@ -72,9 +82,15 @@ const summaryPage = {
   uiSchema: {
     'view:hasJurisdictions': arrayBuilderYesNoUI(
       arrayBuilderOptions,
-      {},
+      {
+        title:
+          'Are you currently admitted to practice before any jurisdictions?',
+        labelHeaderLevel: 'p',
+        hint: ' ',
+      },
       {
         labelHeaderLevel: 'p',
+        hint: 'List each jurisdiction to which you are admitted.',
       },
     ),
   },
@@ -90,12 +106,6 @@ const summaryPage = {
 const jurisdictionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
-    jurisdictions: pageBuilder.introPage({
-      title: 'Practicing information',
-      path: 'practicing-information',
-      uiSchema: introPage.uiSchema,
-      schema: introPage.schema,
-    }),
     jurisdictionsSummary: pageBuilder.summaryPage({
       title: 'Review your jurisdictions',
       path: 'jurisdictions-summary',
