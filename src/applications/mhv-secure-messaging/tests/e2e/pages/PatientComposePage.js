@@ -32,7 +32,6 @@ class PatientComposePage {
   };
 
   pushSendMessageWithKeyboardPress = () => {
-    cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
     cy.get(Locators.MESSAGES_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
@@ -63,7 +62,7 @@ class PatientComposePage {
     cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
-  selectRecipient = (recipient = 1) => {
+  selectRecipient = (recipient = 'Jeasmitha-Cardio-Clinic') => {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()

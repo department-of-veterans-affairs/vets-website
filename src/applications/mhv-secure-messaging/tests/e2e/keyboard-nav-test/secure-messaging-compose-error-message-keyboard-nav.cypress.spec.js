@@ -10,13 +10,15 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
+  afterEach(() => {
+    FolderLoadPage.backToInbox();
+    PatientComposePage.clickOnDeleteDraftButton();
+  });
 
   it('focus on error message for no provider', () => {
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
-    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
-      force: true,
-    });
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
     PatientComposePage.verifyFocusOnErrorMessage();
@@ -24,13 +26,13 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
   });
 
   it('focus on error message for empty category', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient(`Jeasmitha-Cardio-Clinic`);
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
     PatientComposePage.verifyFocusOnErrorMessage();
@@ -39,13 +41,12 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.selectCategory();
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
   });
 
   it('focus on error message for empty message subject', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
     PatientComposePage.selectCategory();
+    PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
     PatientComposePage.verifyFocusOnErrorMessage();
@@ -53,16 +54,11 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.getMessageSubjectField().type(
-      Data.TEST_MESSAGE_SUBJECT,
-      { force: true },
-    );
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.getMessageSubjectField().type(Data.TEST_MESSAGE_SUBJECT);
   });
 
   it('focus on error message for empty message body', () => {
-    PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
+    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
       force: true,
@@ -75,7 +71,5 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
-    FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
   });
 });
