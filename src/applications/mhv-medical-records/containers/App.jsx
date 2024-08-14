@@ -35,6 +35,7 @@ import { downtimeNotificationParams } from '../util/constants';
 const App = ({ children }) => {
   const user = useSelector(selectUser);
   const userServices = user.profile.services;
+  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
@@ -64,6 +65,17 @@ const App = ({ children }) => {
   );
   const globalDowntime = useSelector(
     state => state.scheduledDowntime?.globalDowntime,
+  );
+
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
   );
 
   const mhvMrDown = useMemo(
@@ -212,14 +224,18 @@ const App = ({ children }) => {
   );
 
   const isMissingRequiredService = (loggedIn, services) => {
-    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+    if (
+      loggedIn &&
+      hasMhvAccount &&
+      !services.includes(backendServices.MEDICAL_RECORDS)
+    ) {
       window.location.replace('/health-care/get-medical-records');
       return true;
     }
     return false;
   };
 
-  if (featureTogglesLoading) {
+  if (featureTogglesLoading || user.profile.loading) {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator

@@ -75,7 +75,7 @@ ${txtLine}\n\n
 Reason for test: ${record.reason} \n
 Clinical history: ${record.clinicalHistory} \n
 Ordered by: ${record.orderedBy} \n
-Performing lab location: ${record.imagingLocation} \n
+Location: ${record.imagingLocation} \n
 Imaging provider: ${record.imagingProvider} \n
 ${txtLine}\n\n
 Results\n
@@ -126,7 +126,7 @@ ${record.results}`;
         </h3>
         <p data-testid="radiology-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Performing lab location
+          Location
         </h3>
         <p data-testid="radiology-imaging-location">{record.imagingLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
