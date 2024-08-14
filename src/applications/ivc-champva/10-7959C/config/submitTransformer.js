@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { getObjectsWithAttachmentId } from '../helpers/utilities';
+import { concatStreets } from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -29,6 +30,11 @@ export default function transformForSubmit(formConfig, form) {
     copyOfData.applicantName.middle =
       copyOfData.applicantName?.middle?.charAt(0) ?? '';
   }
+
+  // Combine all street strings for main address into one
+  copyOfData.applicantAddress.streetCombined = concatStreets(
+    copyOfData.applicantAddress,
+  );
 
   // Get today's date as YYYY-MM-DD
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
