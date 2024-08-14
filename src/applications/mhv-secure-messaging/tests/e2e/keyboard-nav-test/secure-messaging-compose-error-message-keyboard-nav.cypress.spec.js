@@ -26,11 +26,11 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
+    PatientComposePage.selectRecipient();
   });
 
   it('focus on error message for empty category', () => {
-    PatientComposePage.selectRecipient(`Jeasmitha-Cardio-Clinic`);
+    PatientComposePage.selectRecipient();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
     PatientComposePage.pushSendMessageWithKeyboardPress();
@@ -40,11 +40,11 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.selectCategory();
+    // PatientComposePage.selectCategory();
   });
 
   it('focus on error message for empty message subject', () => {
-    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY);
     PatientComposePage.pushSendMessageWithKeyboardPress();
@@ -58,7 +58,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   });
 
   it('focus on error message for empty message body', () => {
-    PatientComposePage.selectRecipient('Jeasmitha-Cardio-Clinic');
+    PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT, {
       force: true,

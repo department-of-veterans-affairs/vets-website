@@ -62,12 +62,12 @@ class PatientComposePage {
     cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
-  selectRecipient = (recipient = 'Jeasmitha-Cardio-Clinic') => {
+  selectRecipient = (index = 1) => {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient, { force: true });
+      .select(index, { force: true });
   };
 
   selectCategory = (category = 'OTHER') => {
