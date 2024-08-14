@@ -103,14 +103,14 @@ const LandingPage = () => {
     return (
       <>
         <div className="main-content">
-          <section>
+          <section className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
             <h1
               data-testid="landing-page-heading"
               className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif vads-u-margin-top--1">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -197,12 +197,12 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
-            <h2 className="vads-u-margin-top--0">
+            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
               What to know as you try out this tool
             </h2>
-            <p>
+            <p className="vads-u-margin-top--0">
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. In this new tool, you can find all your medication
               records in a single list.

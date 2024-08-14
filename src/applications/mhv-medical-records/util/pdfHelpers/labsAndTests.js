@@ -27,7 +27,7 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Collecting location',
+        title: 'Location',
         value: record.collectingLocation,
         inline: true,
       },
@@ -100,7 +100,7 @@ export const generateMicrobioContent = record => ({
         inline: true,
       },
       {
-        title: 'Collecting location',
+        title: 'Location',
         value: record.collectingLocation,
         inline: true,
       },

@@ -16,9 +16,9 @@ import {
   selectVAPMobilePhone,
 } from '~/platform/user/selectors';
 
+import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
-import { LOADING_STATES } from '~/applications/personalization/common/constants';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
   return Object.values(channelEntities).filter(
