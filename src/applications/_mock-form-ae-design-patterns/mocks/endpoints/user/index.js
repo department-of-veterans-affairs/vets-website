@@ -373,7 +373,7 @@ const baseUserResponses = {
           },
           mailingAddress: {
             addressLine1: '123 Mailing Address St.',
-            addressLine2: 'Apt 1',
+            addressLine2: null,
             addressLine3: null,
             addressPou: 'CORRESPONDENCE',
             addressType: 'DOMESTIC',
@@ -1479,6 +1479,12 @@ const loa3UserWithoutLighthouseServiceAvailable = set(
   ),
 );
 
+const loa3UserWithUpdatedMailingAddress = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
+  '345 Mailing Address St.',
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1494,6 +1500,7 @@ const responses = {
       { name: 'ratingInfo', value: false },
     ],
   ),
+  loa3UserWithUpdatedMailingAddress,
   loa3UserWithNoHomeAddress,
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,

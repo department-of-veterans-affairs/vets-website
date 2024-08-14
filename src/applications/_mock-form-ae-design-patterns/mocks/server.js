@@ -135,7 +135,7 @@ const responses = {
     //   ]),
     // );
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': address.addressValidationMatch,
   'GET /v0/profile/service_history': (_req, res) => {
     // user doesnt have any service history or is not authorized
     // return res.status(403).json(genericErrors.error403);
@@ -195,7 +195,7 @@ const responses = {
     // }
 
     // default response
-    return res.json(address.homeAddressUpdateReceived);
+    return res.json(address.mailingAddressUpdateReceivedPrefillTaskGreen);
   },
   'POST /v0/profile/addresses': (req, res) => {
     return res.json(address.homeAddressUpdateReceived);
