@@ -26,6 +26,7 @@ const status = require('./medical-records/status');
 const labsAndTests = require('./medical-records/labs-and-tests');
 const mhvRadiology = require('./medical-records/mhv-radiology');
 const careSummariesAndNotes = require('./medical-records/care-summaries-and-notes');
+const healthConditions = require('./medical-records/health-conditions');
 const allergies = require('./medical-records/allergies');
 const vaccines = require('./medical-records/vaccines');
 
@@ -87,6 +88,8 @@ const responses = {
   'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
 
   // medical records
+  'GET /my_health/v1/medical_records/session/status':
+    session.phrRefreshInProgressNoNewRecords,
   'GET /my_health/v1/medical_records/session': session.error,
   'GET /my_health/v1/medical_records/status': status.error,
   'GET /my_health/v1/medical_records/labs_and_tests': labsAndTests.all,
@@ -95,6 +98,10 @@ const responses = {
   'GET /my_health/v1/medical_records/clinical_notes': careSummariesAndNotes.all,
   'GET /my_health/v1/medical_records/clinical_notes/:id':
     careSummariesAndNotes.single,
+  'GET /my_health/v1/health_records/sharing/status': { status: 200 },
+  'POST /my_health/v1/health_records/sharing/:endpoint': { status: 200 },
+  'GET /my_health/v1/medical_records/conditions': healthConditions.all,
+  'GET /my_health/v1/medical_records/conditions/:id': healthConditions.single,
   'GET /my_health/v1/medical_records/allergies': allergies.all,
   'GET /my_health/v1/medical_records/allergies/:id': allergies.single,
   'GET /my_health/v1/medical_records/vaccines': vaccines.all,
@@ -121,4 +128,4 @@ const responses = {
   },
 };
 
-module.exports = delay(responses, 3000);
+module.exports = delay(responses, 500);
