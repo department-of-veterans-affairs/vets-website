@@ -1,11 +1,11 @@
-import intro from './intro';
+import supplementaryStatementsIntro from './supplementaryStatementsIntro';
 import statements from './statements';
 
 /** @type {PageSchema} */
 export default {
   title: 'Optional supplementary statements',
   pages: {
-    intro,
+    supplementaryStatementsIntro,
     statements,
   },
 };
