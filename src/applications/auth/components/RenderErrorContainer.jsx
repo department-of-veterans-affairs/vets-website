@@ -78,8 +78,12 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <ContactCenterInformation />
           <va-button onClick={openLoginModal} text="Try signing in again" />
+          <br />
+          <ContactCenterInformation
+            startSentance
+            className="vads-u-margin-top--2"
+          />
         </>
       );
       break;
@@ -132,10 +136,14 @@ export default function RenderErrorContainer({
               Login.gov/contact.
             </a>
           </p>
-          <ContactCenterInformation>
+          <va-button onClick={openLoginModal} text="Try signing in again" />
+          <br />
+          <ContactCenterInformation
+            startSentance
+            className="vads-u-margin-top--2"
+          >
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
-          <va-button onClick={openLoginModal} text="Try signing in again" />
         </>
       );
       break;
@@ -206,7 +214,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>What you can do:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -223,7 +231,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -239,7 +247,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -255,7 +263,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>To fix this issue:</h2>
-          <ContactCenterInformation />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -381,7 +389,7 @@ export default function RenderErrorContainer({
               in—especially if you’re using a public or shared computer.
             </p>
           </div>
-          <ContactCenterInformation>
+          <ContactCenterInformation startSentance>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
@@ -398,7 +406,7 @@ export default function RenderErrorContainer({
         <>
           <h2>How can I fix this issue?</h2>
           <p>Try signing in again in a few minutes.</p>
-          <ContactCenterInformation startScentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -412,7 +420,7 @@ export default function RenderErrorContainer({
       troubleshootingContent = (
         <>
           <h2>How can I fix this issue?</h2>
-          <ContactCenterInformation startScentence />
+          <ContactCenterInformation startSentance />
         </>
       );
       break;
@@ -483,7 +491,7 @@ export default function RenderErrorContainer({
               information in the “Tools,” “Settings,” or “Preferences” menu.
             </li>
           </ul>
-          <ContactCenterInformation>
+          <ContactCenterInformation startSentance>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
@@ -546,7 +554,7 @@ export default function RenderErrorContainer({
               you’ve updated your browser with the latest updates.
             </li>
           </ul>
-          <ContactCenterInformation>
+          <ContactCenterInformation startSentance>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
