@@ -10,6 +10,7 @@ import {
   formatAddress,
   hasAddressFormChanged,
   prepareAddressData,
+  removeCommas,
   scrollToElement,
 } from '../helpers';
 import {
@@ -92,7 +93,7 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
       address: addressData,
     };
     try {
-      dispatch(validateAddress(fields, applicantName));
+      dispatch(validateAddress(removeCommas(fields), applicantName));
     } catch (err) {
       throw new Error(err);
     }
