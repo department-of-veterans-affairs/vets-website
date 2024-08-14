@@ -47,6 +47,7 @@ const all = {
             ],
             name: [
               {
+                text: 'Beth M. Smith',
                 family: 'Smith',
                 given: ['Beth', 'M.'],
               },
@@ -510,6 +511,7 @@ const all = {
             ],
             name: [
               {
+                text: 'Beth M. Smith',
                 family: 'Smith',
                 given: ['Beth', 'M.'],
               },
@@ -2328,8 +2330,7 @@ const all = {
             ],
             name: [
               {
-                family: 'Smith',
-                given: ['Beth', 'M.'],
+                text: 'Gregory House M.D.',
               },
             ],
           },
@@ -2818,9 +2819,7 @@ const all = {
             ],
             name: [
               {
-                text: 'Gregory House, M.D.',
-                family: 'House',
-                given: ['Gregory'],
+                text: 'Spencer Reid',
               },
             ],
           },
