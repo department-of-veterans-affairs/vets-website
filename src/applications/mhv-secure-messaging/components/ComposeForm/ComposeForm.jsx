@@ -17,6 +17,7 @@ import {
   navigateToFolderByFolderId,
   resetUserSession,
   updateTriageGroupRecipientStatus,
+  scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -218,7 +219,7 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (sendMessageFlag && isSaving !== true) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        scrollToTop();
         const messageData = {
           category,
           body: `${messageBody} ${
@@ -249,13 +250,10 @@ const ComposeForm = props => {
             }, 1000);
             // Timeout neccessary for UCD requested 1 second delay
           })
-          .catch(
-            () => setSendMessageFlag(false),
-            window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }),
-          );
+          .catch(() => setSendMessageFlag(false), scrollToTop());
       }
     },
-    [sendMessageFlag, isSaving],
+    [sendMessageFlag, isSaving, scrollToTop],
   );
 
   useEffect(
