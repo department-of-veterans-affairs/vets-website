@@ -116,7 +116,7 @@ export const updateBankInfo = bankInfo => {
     try {
       const response = await apiRequest(`${API_URL}/bank_info`, {
         method: 'POST',
-        body: JSON.stringify(bankInfo),
+        body: JSON.stringify(removeCommas(bankInfo)),
         headers: customHeaders,
       });
 
