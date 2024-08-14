@@ -80,6 +80,9 @@ const VitalDetails = props => {
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
   );
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -252,18 +255,20 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vitalsList) &&
-            Array.isArray(updatedRecordList) &&
-            vitalsList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!mockPhr && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitalsList) &&
+              Array.isArray(updatedRecordList) &&
+              vitalsList.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}
