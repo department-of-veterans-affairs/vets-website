@@ -183,8 +183,7 @@ ${record.summary}`;
         <h2>Summary</h2>
         <p
           data-testid="note-summary"
-          style={{ lineHeight: '40px' }}
-          className="monospace"
+          className="monospace vads-u-line-height--6"
         >
           {record.summary}
         </p>

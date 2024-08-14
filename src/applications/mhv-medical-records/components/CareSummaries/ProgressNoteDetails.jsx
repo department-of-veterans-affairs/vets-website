@@ -152,8 +152,7 @@ ${record.note}`;
         <h2>Note</h2>
         <p
           data-testid="note-record"
-          style={{ lineHeight: '40px' }}
-          className="monospace"
+          className="monospace vads-u-line-height--6"
         >
           {record.note}
         </p>
