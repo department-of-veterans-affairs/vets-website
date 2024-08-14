@@ -44,7 +44,7 @@ describe('create MHV Signin Call To Action widget', () => {
 
   it('no element to replace', async () => {
     const div = document.createElement('div');
-    div.innerHTML = '<div id="div1" data-widget-type="not-a-widget-class" />';
+    div.innerHTML = '<div data-widget-type="not-a-widget-class" />';
     document.body.appendChild(div);
     createMhvSigninCallToAction(mockStore(state), widgetTypes.MHV_SIGNIN_CTA);
     await waitFor(() => {
