@@ -189,7 +189,7 @@ export const convertAdmissionAndDischargeDetails = record => {
 const convertProgressNote = record => {
   return {
     id: record.id || null,
-    name: getTitle(record) || 'EMPTY_FIELD',
+    name: getTitle(record) || EMPTY_FIELD,
     type: getType(record),
     date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     dateSigned: getDateSigned(record) || EMPTY_FIELD,
