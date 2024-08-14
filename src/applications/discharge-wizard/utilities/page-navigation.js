@@ -97,7 +97,10 @@ export const navigateForward = (
           return;
         }
         if (displayConditionsMet(nextShortName, formResponses) && !editMode) {
-          updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+          if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
+            updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+          }
+
           pushToRoute(nextShortName, router);
           return;
         }

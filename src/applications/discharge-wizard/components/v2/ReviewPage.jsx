@@ -11,7 +11,6 @@ import {
 import { updateEditMode } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
-import { navigateBackward } from '../../utilities/page-navigation';
 
 const ReviewPage = ({
   formResponses,
@@ -19,6 +18,7 @@ const ReviewPage = ({
   viewedIntroPage,
   questionFlowChanged,
   toggleEditMode,
+  routeMap,
 }) => {
   const H1 = 'Review your answers';
 
@@ -41,6 +41,11 @@ const ReviewPage = ({
   const onEditAnswerClick = route => {
     toggleEditMode(true);
     router.push(route);
+  };
+
+  const onBackClick = () => {
+    const lastRoute = routeMap[routeMap.length - 2];
+    router.push(lastRoute);
   };
 
   const renderReviewAnswers = () => {
@@ -103,7 +108,7 @@ const ReviewPage = ({
         data-testid="duw-buttonPair"
         class="small-screen:vads-u-margin-x--0p5"
         onPrimaryClick={() => router.push('/results')}
-        onSecondaryClick={() => navigateBackward(router)}
+        onSecondaryClick={onBackClick}
         continue
       />
     </>
@@ -128,6 +133,7 @@ const mapStateToProps = state => ({
   viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+  routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
 });
 
 export default connect(
