@@ -18,7 +18,6 @@ import {
 } from '../../components/contactInfo/EditContactInfo';
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
-import DependentAgesReview from '../../components/household/DependentAgesReview';
 import SpouseTransitionExplainer from '../../components/householdIncome/SpouseTransitionExplainer';
 import { getGlobalState } from '../../utils/checkGlobalState';
 
@@ -104,7 +103,7 @@ export default {
         title: 'Spouse name',
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData => formData.questions?.isMarried,
       },
       spouseTransition: {
         path: 'spouse-transition',
@@ -116,8 +115,8 @@ export default {
         depends: formData => {
           const globalState = getGlobalState();
           return (
-            formData.questions.isMarried &&
-            !formData.reviewNavigation &&
+            formData.questions?.isMarried &&
+            !formData?.reviewNavigation &&
             globalState.spouseChanged
           );
         },
@@ -125,7 +124,7 @@ export default {
       dependentCount: {
         path: 'dependents-count',
         title: 'Dependents count',
-        uiSchema: dependents.uiSchemaEnhanced,
+        uiSchema: {},
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,
@@ -137,10 +136,9 @@ export default {
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0' &&
+          formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
-        CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,
       },
     },

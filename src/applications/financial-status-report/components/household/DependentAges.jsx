@@ -7,22 +7,20 @@ import { DEPENDENT_AGE_LABELS } from '../../constants/dependentLabels';
 import { isNumber } from '../../utils/helpers';
 import DependentExplainer from './DependentExplainer';
 import ButtonGroup from '../shared/ButtonGroup';
-import ReviewControl from '../shared/ReviewControl';
 
 const DependentAges = ({
   contentBeforeButtons,
   contentAfterButtons,
+  setFormData,
   goForward,
   goToPath,
-  isReviewMode = false,
+  goBack,
 }) => {
   const dispatch = useDispatch();
   const formData = useSelector(state => state.form.data);
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
-    reviewNavigation = false,
-    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
 
   const MAXIMUM_DEPENDENT_AGE = 150;
@@ -31,14 +29,6 @@ const DependentAges = ({
   const [errors, setErrors] = useState(
     Array(stateDependents.length).fill(null),
   );
-  const [isEditing, setIsEditing] = useState(!isReviewMode);
-  const [hasDependentsChanged, setHasDependentsChanged] = useState(false);
-
-  // notify user they are returning to review page if they are in review mode
-  const continueButtonText =
-    reviewNavigation && showReviewNavigation
-      ? 'Continue to review page'
-      : 'Continue';
 
   useEffect(
     () => {
@@ -62,23 +52,9 @@ const DependentAges = ({
             },
           }),
         );
-        if (isReviewMode) {
-          setHasDependentsChanged(true);
-        } else {
-          setHasDependentsChanged(false); // Reset the hasDependentsChanged state variable
-        }
       }
     },
-    [dispatch, hasDependents, isReviewMode, formData, stateDependents],
-  );
-
-  useEffect(
-    () => {
-      if (isReviewMode) {
-        setIsEditing(hasDependentsChanged);
-      }
-    },
-    [isReviewMode, hasDependentsChanged],
+    [dispatch, hasDependents, formData, stateDependents],
   );
 
   const updateDependents = useCallback(
@@ -100,13 +76,12 @@ const DependentAges = ({
     [stateDependents, dispatch, formData],
   );
 
-  const onSubmit = event => {
+  const validateForm = () => {
     const hasEmptyInput = stateDependents.some(
       dependent => dependent.dependentAge === '',
     );
 
     if (errors.some(error => error !== null) || hasEmptyInput) {
-      event.preventDefault(); // Prevent the form from being submitted when there are errors
       if (hasEmptyInput) {
         const newErrors = stateDependents.map(
           (dependent, i) =>
@@ -116,32 +91,20 @@ const DependentAges = ({
         );
         setErrors(newErrors);
       }
-
-      return null;
+      return false;
     }
-
-    if (isReviewMode) {
-      return setIsEditing(false);
-    }
-
-    if (reviewNavigation && showReviewNavigation) {
-      dispatch(
-        setData({
-          ...formData,
-          reviewNavigation: false,
-        }),
-      );
-      return goToPath('/review-and-submit');
-    }
-
-    return formData['view:streamlinedWaiver']
-      ? goForward(formData)
-      : goToPath('/monetary-asset-checklist');
+    return true;
   };
 
-  const onCancel = event => {
+  const onSubmit = event => {
     event.preventDefault();
-    goToPath('/dependent-count');
+    if (validateForm()) {
+      if (formData['view:streamlinedWaiver']) {
+        goForward(formData);
+      } else {
+        goToPath('/monetary-asset-checklist');
+      }
+    }
   };
 
   const handleBlur = useCallback(
@@ -162,14 +125,27 @@ const DependentAges = ({
     [errors],
   );
 
-  const handlers = {
-    onSubmit,
-    onCancel,
-    handleBlur,
-    updateDependents,
+  const handleGoBack = event => {
+    event.preventDefault();
+    // Only save the hasDependents value when going back
+    const updatedFormData = {
+      ...formData,
+      questions: {
+        ...formData.questions,
+        hasDependents: formData.questions.hasDependents,
+      },
+    };
+    setFormData(updatedFormData);
+    goBack();
   };
 
-  // Determine whether to render inputs or plain text based on mode
+  const handlers = {
+    onSubmit,
+    handleBlur,
+    updateDependents,
+    handleGoBack,
+  };
+
   const renderAgeInput = (dependent, i) => (
     <div key={`dependentAge-${i}`}>
       <VaTextInput
@@ -189,89 +165,41 @@ const DependentAges = ({
     </div>
   );
 
-  const renderAgeText = (dependent, i) => (
-    <div
-      key={`dependentAge-${i}`}
-      className={`review-row ${i > 0 ? 'vads-u-border-top--1' : ''}`}
-    >
-      <dt>{DEPENDENT_AGE_LABELS[i + 1]}</dt>
-      <dd>{dependent.dependentAge || ''}</dd>
-    </div>
+  const dependentAgeInputs = stateDependents.map((dependent, i) =>
+    renderAgeInput(dependent, i),
   );
-
-  const HeaderTag = isReviewMode && !isEditing ? 'h4' : 'h3';
-  const className =
-    isReviewMode && !isEditing
-      ? 'form-review-panel-page-header vads-u-font-size--h5'
-      : 'vads-u-margin--0';
-
-  let dependentAgeInputs = stateDependents.map(
-    (dependent, i) =>
-      isEditing ? renderAgeInput(dependent, i) : renderAgeText(dependent, i),
-  );
-
-  if (!isEditing) {
-    dependentAgeInputs = (
-      <dl className="review vads-u-border-bottom--1">{dependentAgeInputs}</dl>
-    );
-  }
 
   return (
     <form onSubmit={handlers.onSubmit}>
       <fieldset className="vads-u-margin-y--2">
-        <legend
-          className={`${
-            isReviewMode
-              ? 'form-review-panel-page-header-row'
-              : 'schemaform-block-title'
-          }`}
-        >
-          <HeaderTag className={className}>Dependents ages</HeaderTag>
-
-          {!isReviewMode ? (
-            <>
-              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-                Enter each dependent’s age separately.
-              </p>
-              <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--gray-medium">
-                Dependents include your spouse, unmarried children under 18
-                years old, and other dependents.
-              </p>
-            </>
-          ) : null}
+        <legend className="schemaform-block-title">
+          <h3 className="vads-u-margin--0">Dependents ages</h3>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Enter each dependent’s age separately.
+          </p>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--1 vads-u-padding-bottom--0p25 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-color--gray-medium">
+            Dependents include your spouse, unmarried children under 18 years
+            old, and other dependents.
+          </p>
         </legend>
         {dependentAgeInputs}
-        {!isReviewMode ? <DependentExplainer /> : null}
+        <DependentExplainer />
         {contentBeforeButtons}
-        {isReviewMode && isEditing ? (
-          <div className="vads-u-margin-top--2">
-            <ReviewControl
-              // readOnly
-              position="footer"
-              isEditing
-              type="submit"
-              ariaLabel={`Update ${DEPENDENT_AGE_LABELS[1]}`}
-              buttonText="Update"
-            />
-          </div>
-        ) : (
-          !isReviewMode && (
-            <ButtonGroup
-              buttons={[
-                {
-                  label: 'Back',
-                  onClick: handlers.onCancel, // Define this function based on page-specific logic
-                  isSecondary: true,
-                },
-                {
-                  label: continueButtonText,
-                  onClick: handlers.onSubmit,
-                  isSubmitting: 'prevent', // If this button submits a form
-                },
-              ]}
-            />
-          )
-        )}
+        <ButtonGroup
+          buttons={[
+            {
+              label: 'Back',
+              onClick: handlers.handleGoBack,
+              isSecondary: true,
+              isSubmitting: 'prevent',
+            },
+            {
+              label: 'Continue',
+              onClick: handlers.onSubmit,
+              isSubmitting: 'prevent',
+            },
+          ]}
+        />
         {contentAfterButtons}
       </fieldset>
     </form>
@@ -281,9 +209,9 @@ const DependentAges = ({
 DependentAges.propTypes = {
   contentAfterButtons: PropTypes.object,
   contentBeforeButtons: PropTypes.object,
+  goBack: PropTypes.func,
   goForward: PropTypes.func,
   goToPath: PropTypes.func,
-  isReviewMode: PropTypes.bool,
 };
 
 export default DependentAges;

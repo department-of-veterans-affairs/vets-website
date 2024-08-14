@@ -128,6 +128,7 @@ const DependentCount = ({
             label: 'Back',
             onClick: goBack,
             isSecondary: true,
+            isSubmitting: 'prevent',
           },
           {
             label: 'Continue',
