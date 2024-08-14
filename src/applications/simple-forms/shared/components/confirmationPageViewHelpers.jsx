@@ -52,7 +52,7 @@ const fieldEntries = (key, uiSchema, data, schema) => {
   const {
     'ui:title': label,
     'ui:description': description,
-    'ui:confirmationData': confirmationData,
+    'ui:confirmationField': ConfirmationField,
     'ui:reviewField': ReviewField,
     'ui:reviewWidget': ReviewWidget,
   } = uiSchema;
@@ -60,12 +60,18 @@ const fieldEntries = (key, uiSchema, data, schema) => {
   let refinedData = typeof data === 'object' ? data[key] : data;
   const dataType = schema.properties[key].type;
 
-  if (typeof confirmationData === 'function') {
-    const {
-      data: confirmData = refinedData,
-      label: confirmLabel = label,
-    } = confirmationData({ formData: refinedData });
-    return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+  if (ConfirmationField) {
+    if (typeof ConfirmationField === 'function') {
+      const {
+        data: confirmData = refinedData,
+        label: confirmLabel = label,
+      } = ConfirmationField({ formData: refinedData });
+      return reviewEntry(description, key, uiSchema, confirmLabel, confirmData);
+    }
+
+    if (isReactComponent(ConfirmationField)) {
+      return <ConfirmationField formData={refinedData} />;
+    }
   }
 
   if (isReactComponent(ReviewField)) {

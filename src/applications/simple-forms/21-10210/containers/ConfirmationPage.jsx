@@ -35,8 +35,7 @@ export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const showNewConfirmationPage = useSelector(
     state =>
-      toggleValues(state)[FEATURE_FLAG_NAMES.show10210NewConfirmationPage] ||
-      false,
+      toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
   );
   const ConfirmationPageView = showNewConfirmationPage
     ? NewConfirmationPageView

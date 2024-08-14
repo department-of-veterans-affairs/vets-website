@@ -6,6 +6,13 @@ import {
   validateDateRange,
 } from '../validation';
 
+const formatDate = formData =>
+  new Date(`${formData}T00:00:00`).toLocaleDateString('en-us', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+
 /**
  * Web component v3 uiSchema for current or past dates
  *
@@ -28,7 +35,6 @@ import {
 const currentOrPastDateUI = options => {
   const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
-
   const uiTitle = title ?? 'Date';
 
   return {
@@ -43,27 +49,15 @@ const currentOrPastDateUI = options => {
     'ui:options': {
       ...uiOptions,
     },
-    'ui:confirmationData': ({ formData }) => ({
-      data: new Date(`${formData}T00:00:00`).toLocaleDateString('en-us', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }),
+    'ui:confirmationField': ({ formData }) => ({
+      data: formatDate(formData),
     }),
     'ui:reviewField': ({ children }) => (
       <div className="review-row">
         <dt>{uiTitle}</dt>
         <dd>
           {children.props.formData && (
-            <>
-              {new Date(
-                `${children.props.formData}T00:00:00`,
-              ).toLocaleDateString('en-us', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
-            </>
+            <>{formatDate(children.props.formData)}</>
           )}
         </dd>
       </div>
