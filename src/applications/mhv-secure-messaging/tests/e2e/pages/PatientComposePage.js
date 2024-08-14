@@ -456,6 +456,19 @@ class PatientComposePage {
       .should(`have.attr`, `aria-expanded`, value);
   };
 
+  verifyRecipientsDropdownLinks = () => {
+    // verify `find-locations` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="preferences"]`)
+      .should(`be.visible`);
+
+    // verify `preferences` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="locations"]`)
+      .should(`be.visible`)
+      .and('not.have.attr', `target`, `_blank`);
+  };
+
   openRecipientsDropdown = () => {
     cy.get(Locators.DROPDOWN.RECIPIENTS)
       .shadow()

@@ -22,10 +22,7 @@ describe('Secure Messaging Compose', () => {
 
     cy.get(Locators.DROPDOWN.RECIPIENTS).should(`be.visible`);
 
-    // verify `find-locations` link won't open in new window
-    cy.get(Locators.DROPDOWN.RECIPIENTS)
-      .find(`a[href*="locations"]`)
-      .should('not.have.attr', `target`, `_blank`);
+    PatientComposePage.verifyRecipientsDropdownLinks();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
