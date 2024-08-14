@@ -23,6 +23,14 @@ const routes = [
     childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
   },
   {
+    path: '/task-purple',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/task-purple/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
+  },
+  {
     path: '*',
     component: NotFoundPage,
   },
