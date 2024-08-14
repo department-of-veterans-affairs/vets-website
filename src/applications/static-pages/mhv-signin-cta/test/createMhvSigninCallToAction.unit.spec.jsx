@@ -31,6 +31,7 @@ describe('create MHV Signin Call To Action widget', () => {
     </a>
   </span>`;
   const serviceDescription = 'a description';
+  const divId = 'div1';
 
   beforeEach(() => {
     sinon.spy(ReactDOM, 'render');
@@ -54,7 +55,7 @@ describe('create MHV Signin Call To Action widget', () => {
   it('widget rendered with no content', async () => {
     const div = document.createElement('div');
     div.innerHTML = `
-    <div id="div1" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
+    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
      service-description="${serviceDescription}" />`;
     document.body.appendChild(div);
     createMhvSigninCallToAction(mockStore(state), widgetTypes.MHV_SIGNIN_CTA);
@@ -64,13 +65,16 @@ describe('create MHV Signin Call To Action widget', () => {
       expect(components).to.exist;
       expect(components.props.serviceDescription).to.eql(serviceDescription);
       expect(components.props.noAlertContent).to.not.exist;
+      const replacedEl = ReactDOM.render.getCall(0).args[1];
+      expect(replacedEl).to.exist;
+      expect(replacedEl.id).to.eql(divId);
     });
   });
 
   it('widget rendered with content', async () => {
     const div = document.createElement('div');
     div.innerHTML = `
-    <div id="div1" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
+    <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
      service-description="${serviceDescription}">
       ${noAlertContent}
     </div>`;
@@ -85,6 +89,9 @@ describe('create MHV Signin Call To Action widget', () => {
       expect(components.props.noAlertContent.innerHTML).to.include(
         'order-hearing-aid-or-CPAP-supplies-form',
       );
+      const replacedEl = ReactDOM.render.getCall(0).args[1];
+      expect(replacedEl).to.exist;
+      expect(replacedEl.id).to.eql(divId);
     });
   });
 });
