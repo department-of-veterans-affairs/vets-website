@@ -146,8 +146,10 @@ export function adjustYearString(data) {
  */
 export function concatStreets(addr) {
   let res = '';
-  for (const [k, v] of Object.entries(addr)) {
-    res += k.includes('street') ? `${v} ` : '';
+  if (addr) {
+    for (const [k, v] of Object.entries(addr)) {
+      res += k.includes('street') ? `${v} ` : '';
+    }
   }
   return res;
 }
