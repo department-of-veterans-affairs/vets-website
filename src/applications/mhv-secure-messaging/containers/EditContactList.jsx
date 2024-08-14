@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { useHistory } from 'react-router-dom';
@@ -13,18 +12,22 @@ import {
   ALERT_TYPE_SUCCESS,
   Alerts,
   BlockedTriageAlertStyles,
+  ErrorMessages,
   PageTitles,
   ParentComponent,
   Paths,
 } from '../util/constants';
 import { updateTriageTeamRecipients } from '../actions/recipients';
 import { addAlert } from '../actions/alerts';
+import RouteLeavingGuard from '../components/shared/RouteLeavingGuard';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [navigationError, setNavigationError] = useState(false);
+  const [navigationError, setNavigationError] = useState(null);
   const [allTriageTeams, setAllTriageTeams] = useState([]);
+  const [modalVisible, updateModalVisible] = useState(false);
+  const [isSaveClicked, setIsSaveClicked] = useState(false);
 
   const [
     showBlockedTriageGroupAlert,
@@ -91,6 +94,7 @@ const EditContactList = () => {
 
   const onFormSubmit = e => {
     e.preventDefault();
+    setIsSaveClicked(true);
     dispatch(updateTriageTeamRecipients(allTriageTeams));
     dispatch(
       addAlert(
@@ -108,17 +112,23 @@ const EditContactList = () => {
 
   return (
     <div>
-      <VaModal
-        modalTitle="Save changes to your contact list?"
-        onCloseEvent={() => {
-          setNavigationError(false);
+      <RouteLeavingGuard
+        when={!!navigationError}
+        modalVisible={modalVisible}
+        updateModalVisible={updateModalVisible}
+        navigate={path => {
+          history.push(path);
         }}
-        onPrimaryButtonClick={onFormSubmit}
-        onSecondaryButtonClick={() => setNavigationError(false)}
-        primaryButtonText="Save and exit"
-        secondaryButtonText="Continue editing"
-        visible={navigationError}
-        status="warning"
+        shouldBlockNavigation={() => {
+          return !!navigationError;
+        }}
+        saveDraftHandler={onFormSubmit}
+        title={navigationError?.title}
+        confirmButtonText={navigationError?.confirmButtonText}
+        cancelButtonText={navigationError?.cancelButtonText}
+        swapModalButtons
+        isSaveClicked={isSaveClicked}
+        parentComponent={ParentComponent.CONTACT_LIST}
       />
 
       <h1>Contact list</h1>
@@ -190,7 +200,8 @@ const EditContactList = () => {
             text="Cancel"
             secondary
             onClick={() => {
-              setNavigationError(true);
+              setNavigationError(ErrorMessages.ContactList.SAVE_AND_EXIT);
+              updateModalVisible(true);
             }}
           />
         </div>
