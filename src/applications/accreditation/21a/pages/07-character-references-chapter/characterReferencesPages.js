@@ -125,7 +125,7 @@ const contactInformationPage = {
 };
 
 /** @returns {PageSchema} */
-const relationshipInformationPage = {
+const relationshipPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
@@ -205,10 +205,10 @@ const characterReferencesPages = arrayBuilderPages(
       schema: contactInformationPage.schema,
     }),
     characterReferenceRelationshipPage: pageBuilder.itemPage({
-      title: 'Character reference relationship information',
+      title: 'Character reference relationship',
       path: 'character-references/:index/relationship',
-      uiSchema: relationshipInformationPage.uiSchema,
-      schema: relationshipInformationPage.schema,
+      uiSchema: relationshipPage.uiSchema,
+      schema: relationshipPage.schema,
     }),
   }),
 );
