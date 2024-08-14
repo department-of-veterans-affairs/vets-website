@@ -119,7 +119,7 @@ const Dropdown = ({
           <va-alert-expandable
             class="vads-u-margin-top--4"
             status="info"
-            trigger="Changing your answer will lead to a new set of questions."
+            trigger="Changing your answer may lead to a new set of questions."
           >
             If you change your answer to this question, you will be asked for
             more information to ensure that we provide you with the best
