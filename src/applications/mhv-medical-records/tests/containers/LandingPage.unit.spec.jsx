@@ -52,7 +52,7 @@ describe('Landing Page', () => {
       }),
     ).to.exist;
     expect(
-      screen.getByText('We’re working on a way for you to download', {
+      screen.getByText('We’re working on a way to download', {
         selector: 'p',
         exact: false,
       }),
