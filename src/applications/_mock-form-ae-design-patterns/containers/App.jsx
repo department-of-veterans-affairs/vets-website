@@ -11,6 +11,7 @@ import { teardownProfileSession } from 'platform/user/profile/utilities';
 import fallbackFormConfig from '../config/fallbackForm';
 import greenFormConfig from '../config/prefill/taskGreen/form';
 import yellowFormConfig from '../config/prefill/taskYellow/form';
+import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { TaskButtons } from '../components/TaskButtons';
 
@@ -21,6 +22,10 @@ const getFormConfig = location => {
 
   if (location.pathname.includes('task-yellow')) {
     return yellowFormConfig;
+  }
+
+  if (location.pathname.includes('task-purple')) {
+    return purpleFormConfig;
   }
 
   return fallbackFormConfig;
