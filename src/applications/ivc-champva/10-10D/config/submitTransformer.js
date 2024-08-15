@@ -70,10 +70,6 @@ function transformApplicants(applicants) {
       gender: app.applicantGender?.gender ?? '',
     };
 
-    // eslint-disable-next-line dot-notation
-    transformedApp.address['postal_code'] = transformedApp.address.postalCode;
-    delete transformedApp.address.postalCode;
-
     applicantsPostTransform.push(transformedApp);
   });
 
@@ -209,11 +205,6 @@ export default function transformForSubmit(formConfig, form) {
     .flat()
     .concat(supDocs)
     .filter(el => el); // remove undefineds
-
-  // eslint-disable-next-line dot-notation
-  dataPostTransform.veteran.address['postal_code'] =
-    dataPostTransform.veteran.address.postalCode || '';
-  delete dataPostTransform.veteran.address.postalCode;
 
   dataPostTransform.certifierRole = transformedData.certifierRole;
   dataPostTransform.statementOfTruthSignature =

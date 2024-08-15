@@ -4,33 +4,6 @@ import transformForSubmit from '../../../config/submitTransformer';
 import mockData from '../../e2e/fixtures/data/test-data.json';
 
 describe('transform for submit', () => {
-  it('should adjust zip code keyname', () => {
-    const transformed = JSON.parse(
-      transformForSubmit(formConfig, {
-        data: {
-          sponsorAddress: { postalCode: '12345' },
-        },
-      }),
-    );
-    expect(transformed.veteran.address.postal_code).to.not.equal(undefined);
-  });
-  it('should adjust zip code keyname for applicants', () => {
-    const zip = '12345';
-    const transformed = JSON.parse(
-      transformForSubmit(formConfig, {
-        data: {
-          applicants: [
-            {
-              applicantAddress: {
-                postalCode: zip,
-              },
-            },
-          ],
-        },
-      }),
-    );
-    expect(transformed.applicants[0].address.postal_code).to.equal(zip);
-  });
   it('should return passed in relationship if already flat', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
