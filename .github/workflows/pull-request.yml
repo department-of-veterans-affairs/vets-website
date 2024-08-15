@@ -257,6 +257,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
@@ -277,16 +279,19 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get files changed
+      - name: Get changed files
         id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.4
         continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
         with:
-          output: 'json'
+          delimiter: ','
+          output-type: 'entry_name, url'
 
       - name: Filter files
         id: get-lint-files
-        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+        run: node ./script/github-actions/filter-files-changed.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.get-files-changed.outputs.changed_files }}
 
       - name: Annotate ESLint results for all files if eslint config has been modified
         if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')

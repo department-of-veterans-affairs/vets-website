@@ -137,7 +137,7 @@ Provider Notes: ${processList(record.comments)}\n`;
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   function containsSctOrIcd(inputString) {
-    const regex = /\b(sct|icd)\b/i;
+    const regex = /\b(sct|icd)/i;
     return regex.test(inputString);
   }
 
