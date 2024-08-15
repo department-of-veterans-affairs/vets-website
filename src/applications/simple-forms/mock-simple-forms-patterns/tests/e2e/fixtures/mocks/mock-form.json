@@ -1,6 +1,7 @@
 {
   "data": {
     "preparerType": "veteran",
+    "view:additionalInfoPreparerType": {},
     "veteranFullName": {
       "first": "John",
       "last": "Veteran"
@@ -17,35 +18,14 @@
       "street": "123 Any St",
       "city": "Anytown",
       "state": "CA",
-      "postalCode": "12345"
+      "postalCode": "12345",
+      "view:militaryBaseDescription": {}
     },
     "veteranPhone": "1234567890",
     "view:hasReceivedMedicalTreatment": true,
     "medicalTreatments": [
       {
-        "facilityName": "First Facility",
-        "facilityAddress": {
-          "country": "USA",
-          "street": "123 Any St",
-          "city": "Anytown",
-          "state": "CA",
-          "postalCode": "12345"
-        },
-        "startDate": "2013-01-05"
-      },
-      {
-        "facilityName": "Second Facility",
-        "facilityAddress": {
-          "country": "USA",
-          "street": "123 Any St",
-          "city": "Anytown",
-          "state": "CA",
-          "postalCode": "12345"
-        },
-        "startDate": "2013-01-05"
-      },
-      {
-        "facilityName": "Third Facility",
+        "facilityName": "Facility Name",
         "facilityAddress": {
           "country": "USA",
           "street": "123 Any St",
@@ -55,6 +35,19 @@
         },
         "startDate": "2013-01-05"
       }
-    ]
+    ],
+    "thirdPartyFullName": {},
+    "view:additionalInfoThirdPartyType": {},
+    "nonVeteranFullName": {},
+    "nonVeteranId": {},
+    "view:additionalInfo": {},
+    "nonVeteranMailingAddress": {
+      "view:militaryBaseDescription": {}
+    },
+    "otherReasons": {}
+  },
+  "submission": {
+    "timestamp": 1721999975,
+    "response": { "confirmationNumber": "2106a7e8-27dd-46b4-886a-29b780723f4c" }
   }
 }
