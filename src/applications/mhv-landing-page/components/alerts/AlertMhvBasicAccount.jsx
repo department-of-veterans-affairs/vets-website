@@ -111,8 +111,10 @@ AlertMhvBasicAccount.defaultProps = {
 
 AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
+  recordEvent: PropTypes.func,
   ssoe: PropTypes.bool,
   testId: PropTypes.string,
+  useEffect: PropTypes.func,
 };
 
 export default AlertMhvBasicAccount;
