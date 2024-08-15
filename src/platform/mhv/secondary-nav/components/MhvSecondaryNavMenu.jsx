@@ -14,33 +14,35 @@ import MhvSecondaryNavItem from './MhvSecondaryNavItem';
  * @returns the navigation bar
  */
 const MhvSecondaryNavMenu = ({ items }) => {
-  /**
-   * Check if the text is set to large in the browser settings,
-   * and apply a class to prevent the nav items from wrapping.
-   */
+  // State to track if the text size is considered "large"
   const [isLargeText, setIsLargeText] = useState(false);
 
+  /**
+   * Function to check the font size and determine if it's "large"
+   * This is wrapped in useCallback to optimize performance by preventing unnecessary re-renders
+   */
   const checkFontSize = useCallback(() => {
     try {
-      // Check root font size
+      // Get the root font size (set in HTML or body)
       const rootFontSize = parseFloat(
         getComputedStyle(document.documentElement).fontSize,
       );
 
-      // Check actual rendered text size
+      // Create a test div to measure actual rendered text size
       const testDiv = document.createElement('div');
-      testDiv.style.fontSize = '1rem';
+      testDiv.style.fontSize = '1rem'; // Set font size to 1rem for relative measurement
       testDiv.style.padding = '0';
       testDiv.style.position = 'absolute';
-      testDiv.style.left = '-9999px';
+      testDiv.style.left = '-9999px'; // Position off-screen
       testDiv.style.lineHeight = 'normal';
-      testDiv.textContent = 'M';
+      testDiv.textContent = 'M'; // Use 'M' as it's typically the widest character in most fonts
 
+      // Append the test div to the body, measure it, then remove it
       document.body.appendChild(testDiv);
       const actualSize = testDiv.clientHeight;
       document.body.removeChild(testDiv);
 
-      // Determine if text is large
+      // Consider text "large" if root font size > 16px or actual rendered size > 20px
       const newIsLargeText = rootFontSize > 16 || actualSize > 20;
 
       setIsLargeText(newIsLargeText);
@@ -49,8 +51,10 @@ const MhvSecondaryNavMenu = ({ items }) => {
     }
   }, []);
 
+  // Effect to set up font size checking and window resize handling
   useEffect(
     () => {
+      // Function to check and update font size, wrapped in setTimeout for browser consistency
       const checkAndUpdateFontSize = () => {
         try {
           setTimeout(checkFontSize, 0);
@@ -59,18 +63,22 @@ const MhvSecondaryNavMenu = ({ items }) => {
         }
       };
 
+      // Initial check
       checkAndUpdateFontSize();
 
       let resizeObserver;
       try {
+        // Set up ResizeObserver to detect changes in document element size
         resizeObserver = new ResizeObserver(checkAndUpdateFontSize);
         resizeObserver.observe(document.documentElement);
       } catch (error) {
         console.log('Error setting up ResizeObserver:', error.message);
       }
 
+      // Add window resize event listener as a fallback for browsers not supporting ResizeObserver
       window.addEventListener('resize', checkAndUpdateFontSize);
 
+      // Cleanup function to remove listeners and disconnect observer
       return () => {
         try {
           if (resizeObserver) {
@@ -83,7 +91,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
       };
     },
     [checkFontSize],
-  );
+  ); // Re-run effect if checkFontSize changes
   /**
    * Strip the trailing slash in a path if it exists.
    * @param {String} path the path
