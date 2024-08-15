@@ -2,6 +2,7 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 
 import greenFormConfig from './config/prefill/taskGreen/form';
 import yellowFormConfig from './config/prefill/taskYellow/form';
+import purpleFormConfig from './config/prefill/taskPurple/form';
 import App from './containers/App';
 import { NotFoundPage } from './containers/NotFoundPage';
 
@@ -28,7 +29,7 @@ const routes = [
     indexRoute: {
       onEnter: (nextState, replace) => replace('/task-purple/introduction'),
     },
-    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
+    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
   {
     path: '*',
