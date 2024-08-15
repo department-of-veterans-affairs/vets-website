@@ -80,7 +80,7 @@ const LandingPage = () => {
       {displayLabsAndTest && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Lab and Test results
+            Lab and test results
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get results of your VA medical tests. This includes blood tests,
