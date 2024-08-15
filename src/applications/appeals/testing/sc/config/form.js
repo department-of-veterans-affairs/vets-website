@@ -27,6 +27,10 @@ import MockContactInfo from '../components/_MockContactInfo';
 import veteranInfo from '../pages/veteranInfo';
 // import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
+
+import housingRisk from '../pages/housingRisk';
+import livingSituation from '../pages/livingSituation';
+
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
@@ -69,6 +73,7 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
+import { hasHousingRisk } from '../utils/livingSituation';
 
 import maximalData from '../tests/fixtures/data/maximal-test.json';
 
@@ -170,6 +175,27 @@ const formConfig = {
           CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+      },
+    },
+
+    housing: {
+      title: 'Living situation',
+      pages: {
+        housingRisk: {
+          title: 'Housing risk',
+          path: 'housing-risk',
+          uiSchema: housingRisk.uiSchema,
+          schema: housingRisk.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        livingSituation: {
+          title: 'Living situation',
+          path: 'living-situation',
+          uiSchema: livingSituation.uiSchema,
+          schema: livingSituation.schema,
+          depends: hasHousingRisk,
           scrollAndFocusTarget: focusRadioH3,
         },
       },
