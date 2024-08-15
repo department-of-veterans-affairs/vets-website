@@ -1,7 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-import { isLoggedIn } from '~/platform/user/selectors';
 
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
@@ -148,7 +147,10 @@ const formConfig = {
             'mobilePhone',
           ],
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
-          depends: isLoggedIn,
+          depends: formData => {
+            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            return isLoggedIn;
+          },
         }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
