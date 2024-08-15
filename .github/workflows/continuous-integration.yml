@@ -1862,7 +1862,7 @@ jobs:
   deploy:
     name: Deploy
     needs: [build, set-deploy-environments]
-    if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    # if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
