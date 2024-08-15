@@ -20,7 +20,6 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 export const BuildPage = props => {
   const { title, field, id, goToPath, subTitle } = props;
@@ -56,10 +55,8 @@ export const BuildPage = props => {
   );
 
   // const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  // const returnPath = onReviewPage
-  //   ? '/review-and-submit'
-  //   : `${contactPath}`;
-  const returnPath = 'task-purple/veteran-information';
+  // const returnPath = onReviewPage ? '/review-and-submit' : `${contactPath}`;
+  const returnPath = '/task-purple/veteran-information';
 
   const handlers = {
     onSubmit: event => {
@@ -79,17 +76,6 @@ export const BuildPage = props => {
 
   return (
     <>
-      <FormTitle
-        title="Request a Board Appeal"
-        subTitle="VA Form 10182 (Notice of Disagreement)"
-      />
-      <div>
-        <va-segmented-progress-bar
-          current={1}
-          heading-text="Veteran information"
-          total={2}
-        />
-      </div>
       <va-card background>
         <h4 ref={headerRef} className="vads-u-margin-top--1">
           {title}

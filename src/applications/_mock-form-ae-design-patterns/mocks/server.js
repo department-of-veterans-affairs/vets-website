@@ -6,6 +6,7 @@ const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
 const phoneNumber = require('./endpoints/phone-number');
+const telephone = require('./endpoints/telephones');
 
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 
@@ -126,7 +127,8 @@ const responses = {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
     }
-    return res.status(200).json(phoneNumber.transactions.received);
+    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
+    // return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (_req, res) => {
     return res.status(200).json(phoneNumber.transactions.received);
