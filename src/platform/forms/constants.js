@@ -280,6 +280,7 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_21P_0847]: '21P-0847-substitute-claimant-',
   [VA_FORM_IDS.FORM_21P_527EZ]: 'pensions-527EZ-',
   [VA_FORM_IDS.FORM_21P_530V2]: 'burials-530-',
+  [VA_FORM_IDS.FORM_21P_530V2]: 'burials-530-',
   [VA_FORM_IDS.FORM_22_0993]: 'edu-0993-',
   [VA_FORM_IDS.FORM_22_0994]: 'edu-0994-',
   [VA_FORM_IDS.FORM_22_10203]: 'edu-10203-',
