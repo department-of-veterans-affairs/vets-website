@@ -6,9 +6,9 @@ import { RESPONSES, SHORT_NAME_MAP } from '../../constants/question-data-map';
 
 describe('utilities: display logic', () => {
   describe('navigateForward', () => {
-    describe('routing to discharge year', () => {
+    describe('Routing to discharge year', () => {
       const formResponses = { SERVICE_BRANCH: RESPONSES.ARMY };
-      const routeMap = ['introduction', 'service-branch'];
+      const routeMap = [ROUTES.HOMEPAGE, ROUTES.SERVICE_BRANCH];
 
       const router = {
         push: sinon.spy(),
@@ -28,24 +28,24 @@ describe('utilities: display logic', () => {
       });
     });
 
-    describe('routing to prev application type question by skip ahead', () => {
+    describe('Routing to prev application type question by skip ahead', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',
         REASON: RESPONSES.REASON_DD215_UPDATE_TO_DD214,
       };
       const routeMap = [
-        'introduction',
-        'service-branch',
-        'discharge-year',
-        'reason',
+        ROUTES.HOMEPAGE,
+        ROUTES.SERVICE_BRANCH,
+        ROUTES.DISCHARGE_YEAR,
+        ROUTES.REASON,
       ];
 
       const router = {
         push: sinon.spy(),
       };
 
-      it('Reason: should correctly route to the next question based on the specific answer', () => {
+      it('Should correctly route to the next question based on the specific answer', () => {
         navigateForward(
           SHORT_NAME_MAP.REASON,
           formResponses,
@@ -59,7 +59,7 @@ describe('utilities: display logic', () => {
       });
     });
 
-    describe('routing to prior service question by skip ahead', () => {
+    describe('Routing to prior service question by skip ahead', () => {
       const formResponses = {
         SERVICE_BRANCH: RESPONSES.ARMY,
         DISCHARGE_YEAR: '2024',
@@ -71,21 +71,21 @@ describe('utilities: display logic', () => {
       };
 
       const routeMap = [
-        'introduction',
-        'service-branch',
-        'discharge-year',
-        'reason',
-        'discharge-type',
-        'intention',
-        'court-martial',
-        'prev-application',
+        ROUTES.HOMEPAGE,
+        ROUTES.SERVICE_BRANCH,
+        ROUTES.DISCHARGE_YEAR,
+        ROUTES.REASON,
+        ROUTES.DISCHARGE_TYPE,
+        ROUTES.INTENTION,
+        ROUTES.COURT_MARTIAL,
+        ROUTES.PREV_APPLICATION,
       ];
 
       const router = {
         push: sinon.spy(),
       };
 
-      it('Reason: should correctly route to the next question based on the specific answer', () => {
+      it('Should correctly route to the next question based on the specific answer', () => {
         navigateForward(
           SHORT_NAME_MAP.PREV_APPLICATION,
           formResponses,

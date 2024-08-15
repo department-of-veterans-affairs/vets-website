@@ -361,6 +361,27 @@ export const DISPLAY_CONDITIONS = Object.freeze({
           PREV_APPLICATION_DRB_PERSONAL,
         ],
       },
+      10: {
+        SERVICE_BRANCH: [ARMY, NAVY, AIR_FORCE, COAST_GUARD, MARINE_CORPS],
+        DISCHARGE_YEAR: yearResponses,
+        DISCHARGE_MONTH: [],
+        REASON: [
+          REASON_PTSD,
+          REASON_TBI,
+          REASON_SEXUAL_ORIENTATION,
+          REASON_SEXUAL_ASSAULT,
+          REASON_ERROR,
+          REASON_UNJUST,
+        ],
+        PREV_APPLICATION: [YES],
+        PREV_APPLICATION_TYPE: [
+          PREV_APPLICATION_DRB_DOCUMENTARY,
+          PREV_APPLICATION_DRB_PERSONAL,
+          PREV_APPLICATION_BCMR,
+          PREV_APPLICATION_BCNR,
+          NOT_SURE,
+        ],
+      },
     },
   },
   REVIEW: {

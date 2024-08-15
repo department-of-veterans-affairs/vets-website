@@ -16,6 +16,7 @@ import {
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
   DUW_ROUTE_MAP,
+  ROUTES,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -41,7 +42,7 @@ const initialState = {
   viewedIntroPage: false,
   editMode: false,
   questionFlowChanged: false,
-  routeMap: ['introduction', 'service-branch'],
+  routeMap: [ROUTES.HOMEPAGE, ROUTES.SERVICE_BRANCH],
 };
 
 export default (state = initialState, action) => {

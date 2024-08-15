@@ -44,8 +44,8 @@ const ReviewPage = ({
   };
 
   const onBackClick = () => {
-    const lastRoute = routeMap[routeMap.length - 2];
-    router.push(lastRoute);
+    const previousRoute = routeMap[routeMap.length - 2];
+    router.push(previousRoute);
   };
 
   const renderReviewAnswers = () => {
@@ -121,7 +121,9 @@ ReviewPage.propTypes = {
     push: PropTypes.func,
   }).isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  routeMap: PropTypes.array.isRequired,
 };
 
 const mapDispatchToProps = {

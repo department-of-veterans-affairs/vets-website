@@ -59,6 +59,7 @@ export const navigateForward = (
   editMode,
   updateRouteMap,
   routeMap,
+  questionFlowChanged,
 ) => {
   const roadmap = makeRoadmap();
 
@@ -96,7 +97,18 @@ export const navigateForward = (
           pushToRoute(nextShortName, router);
           return;
         }
-        if (displayConditionsMet(nextShortName, formResponses) && !editMode) {
+
+        if (
+          displayConditionsMet(nextShortName, formResponses) &&
+          !editMode &&
+          formResponses[nextShortName] &&
+          questionFlowChanged
+        ) {
+          nextIndex += 1;
+        } else if (
+          displayConditionsMet(nextShortName, formResponses) &&
+          !editMode
+        ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
             updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
           }

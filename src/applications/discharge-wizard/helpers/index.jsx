@@ -9,6 +9,7 @@ import {
   BCNR,
   DRB,
   AFDRB,
+  monthLabelMap,
 } from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
@@ -282,11 +283,9 @@ export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
 // Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
-  const monthObj = options.months.find(
-    m => String(m.value) === formValues[SHORT_NAME_MAP.DISCHARGE_MONTH],
-  );
 
-  const dischargeMonth = (monthObj && monthObj.label) || '';
+  const dischargeMonth =
+    monthLabelMap[formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]] || '';
 
   switch (key) {
     case SHORT_NAME_MAP.SERVICE_BRANCH:

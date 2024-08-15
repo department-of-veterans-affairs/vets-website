@@ -42,6 +42,7 @@ const Dropdown = ({
   toggleQuestionsFlowChanged,
   setRouteMap,
   routeMap,
+  questionFlowChanged,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const isForkableQuestion = forkableQuestions.includes(shortName);
@@ -85,6 +86,7 @@ const Dropdown = ({
         editMode,
         setRouteMap,
         routeMap,
+        questionFlowChanged,
       );
     }
   };
@@ -121,7 +123,7 @@ const Dropdown = ({
             status="info"
             trigger="Changing your answer may lead to a new set of questions."
           >
-            If you change your answer to this question, you will be asked for
+            If you change your answer to this question, you may be asked for
             more information to ensure that we provide you with the best
             results.
           </va-alert-expandable>
@@ -148,6 +150,12 @@ Dropdown.propTypes = {
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  routeMap: PropTypes.array.isRequired,
+  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   formValue: PropTypes.string,
 };
 
@@ -161,6 +169,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
+  questionFlowChanged:
+    state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
 });
 
 export default connect(

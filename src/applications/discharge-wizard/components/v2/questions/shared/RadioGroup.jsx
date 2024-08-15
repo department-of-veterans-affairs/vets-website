@@ -39,6 +39,7 @@ const RadioGroup = ({
   toggleQuestionsFlowChanged,
   routeMap,
   setRouteMap,
+  questionFlowChanged,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -69,6 +70,7 @@ const RadioGroup = ({
         editMode,
         setRouteMap,
         routeMap,
+        questionFlowChanged,
       );
     }
   };
@@ -142,7 +144,7 @@ const RadioGroup = ({
             status="info"
             trigger="Changing your answer may lead to a new set of questions."
           >
-            If you change your answer to this question, you will be asked for
+            If you change your answer to this question, you may be asked for
             more information to ensure that we provide you with the best
             results.
           </va-alert-expandable>
@@ -159,14 +161,20 @@ const RadioGroup = ({
 };
 
 RadioGroup.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
   H1: PropTypes.string.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
+  routeMap: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
   formValue: PropTypes.string,
@@ -183,6 +191,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
+  questionFlowChanged:
+    state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
 });
 
 export default connect(
