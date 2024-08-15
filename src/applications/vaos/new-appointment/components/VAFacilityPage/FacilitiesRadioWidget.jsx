@@ -4,10 +4,7 @@ import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import {
-  selectFacilitiesRadioWidget,
-  getFacilityPageV2Info,
-} from '../../redux/selectors';
+import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
 import {
@@ -18,8 +15,7 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
-
-import { selectFeatureOHDirectSchedule } from '../../../redux/selectors';
+import { useOHDirectScheduling } from '../../hooks/useOHDirectScheduling';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
 /*
@@ -40,16 +36,6 @@ export default function FacilitiesRadioWidget({
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
-
-  const { typeOfCare } = useSelector(
-    state => getFacilityPageV2Info(state),
-    shallowEqual,
-  );
-
-  const featureOHDirectSchedule = useSelector(selectFeatureOHDirectSchedule);
-
-  const OHDirectScheduleEnabled =
-    featureOHDirectSchedule && typeOfCare.idV2 === 'foodAndNutrition';
 
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
@@ -84,6 +70,8 @@ export default function FacilitiesRadioWidget({
       </option>
     );
   });
+
+  const useOHDirectSchedule = useOHDirectScheduling();
 
   useEffect(
     () => {
@@ -184,7 +172,7 @@ export default function FacilitiesRadioWidget({
                   </span>
                 )}
                 {isCerner &&
-                  !OHDirectScheduleEnabled && (
+                  !useOHDirectSchedule && (
                     <a href={getCernerURL('/pages/scheduling/upcoming')}>
                       Schedule online at <strong>My VA Health</strong>
                     </a>
