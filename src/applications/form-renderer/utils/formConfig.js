@@ -34,6 +34,8 @@ const selectSchemas = ({ pageTitle, additionalFields }) => {
 const formatChapters = chapters =>
   chapters.reduce((formattedChapters, chapter) => {
     const pages = {
+      // For now, all chapters contain only one page, and there are no
+      // separate IDs for pages. This will probably change at some point.
       [chapter.id]: {
         path: chapter.id.toString(),
         title: chapter.pageTitle,
