@@ -22,9 +22,10 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
+import MockContactInfo from '../components/_MockContactInfo';
 
 import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInformation';
+// import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
@@ -68,6 +69,8 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
+
+import maximalData from '../tests/fixtures/data/maximal-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
 import NeedHelp from '../../../shared/content/NeedHelp';
@@ -144,9 +147,20 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
           scrollAndFocusTarget: focusH3,
+          initialData: maximalData.data, // FOR NON-AUTH TESTING ONLY
         },
 
-        ...contactInfo,
+        // ...contactInfo,
+        mockContactInfo: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description': MockContactInfo,
+          },
+          schema: blankSchema,
+        },
+
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
@@ -213,9 +227,6 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
-          initialData: {
-            form5103Acknowledged: false,
-          },
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
