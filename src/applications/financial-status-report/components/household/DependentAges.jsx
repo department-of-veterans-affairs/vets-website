@@ -20,6 +20,8 @@ const DependentAges = ({
   const {
     questions: { hasDependents } = {},
     personalData: { dependents = [] } = {},
+    reviewNavigation = false,
+    'view:reviewPageNavigationToggle': showReviewNavigation,
   } = formData;
 
   const MAXIMUM_DEPENDENT_AGE = 150;
@@ -28,6 +30,11 @@ const DependentAges = ({
   const [errors, setErrors] = useState(
     Array(stateDependents.length).fill(null),
   );
+
+  const continueButtonText =
+    reviewNavigation && showReviewNavigation
+      ? 'Continue to review page'
+      : 'Continue';
 
   useEffect(
     () => {
@@ -94,11 +101,36 @@ const DependentAges = ({
     }
     return true;
   };
-
   const onSubmit = event => {
     event.preventDefault();
+
+    const hasEmptyInput = stateDependents.some(
+      dependent => dependent.dependentAge === '',
+    );
+
+    if (errors.some(error => error !== null) || hasEmptyInput) {
+      if (hasEmptyInput) {
+        const newErrors = stateDependents.map(
+          (dependent, i) =>
+            dependent.dependentAge === ''
+              ? 'Please enter your dependent(s) age.'
+              : errors[i],
+        );
+        setErrors(newErrors);
+      }
+      return; // Return early if there are errors
+    }
+
     if (validateForm()) {
-      if (formData['view:streamlinedWaiver']) {
+      if (reviewNavigation && showReviewNavigation) {
+        dispatch(
+          setData({
+            ...formData,
+            reviewNavigation: false,
+          }),
+        );
+        goToPath('/review-and-submit');
+      } else if (formData['view:streamlinedWaiver']) {
         goForward(formData);
       } else {
         goToPath('/monetary-asset-checklist');
@@ -181,12 +213,10 @@ const DependentAges = ({
               label: 'Back',
               onClick: goBack,
               isSecondary: true,
-              isSubmitting: 'prevent',
             },
             {
-              label: 'Continue',
+              label: continueButtonText,
               onClick: handlers.onSubmit,
-              isSubmitting: 'prevent',
             },
           ]}
         />

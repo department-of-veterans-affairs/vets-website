@@ -19,7 +19,7 @@ const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
 };
 
 Button.defaultProps = {
-  isSubmitting: 'submit',
+  isSubmitting: 'prevent',
   isSecondary: false,
 };
 
