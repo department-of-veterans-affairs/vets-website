@@ -4,8 +4,11 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { uploadPage, uploadReviewPage } from '../pages/upload';
-import { reviewPage } from '../pages/review';
+import {
+  uploadPage,
+  UploadReviewPage,
+  uploadReviewPage,
+} from '../pages/upload';
 import {
   NameAndZipCodePage,
   nameAndZipCodePage,
@@ -95,7 +98,7 @@ const formConfig = (pathname = null) => {
             title: 'Review Your File Upload',
             uiSchema: uploadReviewPage.uiSchema,
             schema: uploadReviewPage.schema,
-            pageClass: 'upload-review',
+            CustomPage: UploadReviewPage,
             scrollAndFocusTarget,
           },
         },
