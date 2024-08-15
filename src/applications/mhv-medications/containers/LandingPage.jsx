@@ -657,7 +657,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>
