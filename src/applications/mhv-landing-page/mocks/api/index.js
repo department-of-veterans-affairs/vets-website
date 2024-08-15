@@ -14,4 +14,4 @@ const responses = (userMock = USER_MOCKS.DEFAULT) => ({
   '/data/cms/vamc-ehr.json': '',
 });
 
-module.exports = responses(USER_MOCKS.MHV_BASIC_ACCOUNT);
+module.exports = responses(USER_MOCKS.DEFAULT);
