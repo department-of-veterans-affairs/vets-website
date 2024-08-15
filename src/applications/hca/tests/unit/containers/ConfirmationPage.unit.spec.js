@@ -71,7 +71,7 @@ describe('hca ConfirmationPage', () => {
       expect(selector).to.not.exist;
     });
 
-    it.skip('should render application date container when there is response data', () => {
+    it('should render application date container when there is response data', () => {
       const { mockStore } = getData({
         submission: {
           response: {

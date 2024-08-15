@@ -17,7 +17,7 @@ describe('apiRequestWithRetry', () => {
     callCount = 0;
   });
 
-  it.skip('times out if success is not returned quickly enough', async () => {
+  it('times out if success is not returned quickly enough', async () => {
     try {
       const endTime = Date.now() + 100;
       await testableApiRequestWithRetry(200, mockedApiRequest)(

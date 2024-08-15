@@ -125,7 +125,7 @@ describe('getOverallPhase', () => {
     expect(result).to.equal(refreshPhases.IN_PROGRESS);
   });
 
-  it.skip('should return STALE if no extracts are IN_PROGRESS but at least one is STALE', () => {
+  it('should return STALE if no extracts are IN_PROGRESS but at least one is STALE', () => {
     const refreshStatus = [
       {
         ...staleStatus,
