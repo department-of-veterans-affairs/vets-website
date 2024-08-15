@@ -16,7 +16,7 @@ import {
 } from '../../utils/appConstants';
 
 const ReloadWrapper = props => {
-  const { children, router, app } = props;
+  const { children, router, app, reloadUpcoming } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -90,7 +90,9 @@ const ReloadWrapper = props => {
             }),
           );
           refreshCheckInData();
-          refreshUpcomingData();
+          if (reloadUpcoming) {
+            refreshUpcomingData();
+          }
         } else {
           setRefreshData(false);
         }
@@ -107,6 +109,7 @@ const ReloadWrapper = props => {
       dispatch,
       getPermissions,
       progressState,
+      reloadUpcoming,
     ],
   );
 
