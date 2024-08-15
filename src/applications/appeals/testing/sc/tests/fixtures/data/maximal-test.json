@@ -82,6 +82,8 @@
       }
     ],
     "socOptIn": true,
+    "mstOption": true,
+    "vhaNotification": "revoke",
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
     "locations": [

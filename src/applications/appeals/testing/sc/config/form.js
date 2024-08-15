@@ -35,6 +35,7 @@ import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
 import optionForMst from '../pages/optionForMst';
+import vhaNotifications from '../pages/vhaNotifications';
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
@@ -49,6 +50,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  hasMstOption,
 } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
@@ -252,6 +254,13 @@ const formConfig = {
           uiSchema: optionForMst.uiSchema,
           schema: optionForMst.schema,
           scrollAndFocusTarget: focusRadioH3,
+        },
+        vhaNotifications: {
+          title: 'VHA notifications',
+          path: 'vha-notifications',
+          uiSchema: vhaNotifications.uiSchema,
+          schema: vhaNotifications.schema,
+          depends: hasMstOption,
         },
         notice5103: {
           title: 'Notice of evidence needed',

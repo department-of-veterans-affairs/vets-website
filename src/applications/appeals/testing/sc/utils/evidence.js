@@ -5,6 +5,7 @@ import { getIssueName, getSelected } from '../../../shared/utils/issues';
 export const hasVAEvidence = formData => formData?.[EVIDENCE_VA];
 export const hasPrivateEvidence = formData => formData?.[EVIDENCE_PRIVATE];
 export const hasOtherEvidence = formData => formData?.[EVIDENCE_OTHER];
+export const hasMstOption = formData => formData?.mstOption;
 
 export const hasErrors = errors =>
   Object.values(errors).filter(err => (Array.isArray(err) ? err.length : err))
