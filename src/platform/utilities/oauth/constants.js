@@ -29,7 +29,7 @@ export const CLIENT_IDS = {
   VAWEB: 'vaweb',
   VAMOBILE: 'vamobile',
   VAMOCK: 'vamock',
-  ARP: 'arp', // NOTE: 'arp' is the default ARP Client ID, but varies by environment
+  ARP: 'arp',
 };
 
 export const COOKIES = {
