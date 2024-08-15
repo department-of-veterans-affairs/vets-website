@@ -30,7 +30,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
-  const modiality = appointment?.preferredModality;
+  const preferredModality = appointment?.preferredModality;
   const [reason, otherDetails] = bookingNotes?.split(':') || [];
 
   let heading = 'We have received your request';
@@ -53,7 +53,7 @@ export default function VARequestLayout({ data: appointment }) {
           {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="How you prefer to attend">
-          <span>{modiality}</span>
+          <span>{preferredModality}</span>
         </Section>
         <Section heading="Facility">
           {!!facility?.name && (
