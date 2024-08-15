@@ -107,8 +107,12 @@ $anchor-font-size: 1.25rem; // == 20px
 
 .mhv-c-navlink,
 .mhv-c-navlink-external {
-  text-wrap: balance;
+  /* Older browser support */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
   word-break: break-word;
+  /* Modern browsers */
+  text-wrap: balance;
 }
 
 .visibility\:hidden {
@@ -168,11 +172,11 @@ $anchor-font-size: 1.25rem; // == 20px
 }
 
 @media screen and (min-width: 768px) {
-  .desktop-icon {
+  .mhv-c-link-icon-desktop {
     display: inline-block;
   }
 
-  .mobile-icon {
+  .mhv-c-link-icon-mobile {
     display: none;
   }
 }
