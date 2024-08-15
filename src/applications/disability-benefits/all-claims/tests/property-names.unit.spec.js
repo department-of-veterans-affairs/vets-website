@@ -9,7 +9,6 @@ const ignoreList = {
   // propName: ['list', 'of', 'pages'],
   newDisabilities: [
     'addDisabilities',
-    'addDisabilitiesRevised',
     'newDisabilityFollowUp',
     'unemployabilityDisabilities',
   ],
