@@ -69,7 +69,7 @@ describe('MHV Landing Page -- Header Layout', () => {
       });
     });
 
-    it('renders the ssoe link (hash changes warning)', async () => {
+    it('renders the ssoe link', async () => {
       const store = mockStore({
         ssoe: true,
       });
