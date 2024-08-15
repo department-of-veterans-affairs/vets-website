@@ -7,7 +7,7 @@ import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authent
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 
 import AlertMhvBasicAccount from '../../../components/alerts/AlertMhvBasicAccount';
-import { renderWithRouter } from '../../unit-test-helpers';
+import { renderWithRouter } from '../../unit-spec-helpers';
 
 const { defaultProps } = AlertMhvBasicAccount;
 

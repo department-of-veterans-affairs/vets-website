@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { render } from '../unit-test-helpers';
+import { render } from '../unit-spec-helpers';
 
 import Alerts from '../../containers/Alerts';
 
