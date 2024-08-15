@@ -46,7 +46,7 @@ describe('Landing Page', () => {
   it('displays a section linking to My HealtheVet classic to download all records', () => {
     const screen = renderWithStoreAndRouter(<LandingPage />, {});
     expect(
-      screen.getByText('Download your VA medical records', {
+      screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
         exact: true,
       }),
