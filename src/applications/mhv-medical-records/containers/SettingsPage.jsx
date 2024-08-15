@@ -220,7 +220,7 @@ const SettingsPage = () => {
       </section>
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your sharing settings
+          Manage your electronic sharing settings
         </h2>
         <p>
           We securely share your electronic health information with
