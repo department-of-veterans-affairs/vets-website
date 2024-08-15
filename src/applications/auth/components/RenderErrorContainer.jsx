@@ -79,10 +79,9 @@ export default function RenderErrorContainer({
         <>
           <h2>What you can do:</h2>
           <va-button onClick={openLoginModal} text="Try signing in again" />
-          <br />
           <ContactCenterInformation
             startSentance
-            className="vads-u-margin-top--2"
+            className="vads-u-display--block vads-u-margin-top--2"
           />
         </>
       );
@@ -137,10 +136,9 @@ export default function RenderErrorContainer({
             </a>
           </p>
           <va-button onClick={openLoginModal} text="Try signing in again" />
-          <br />
           <ContactCenterInformation
             startSentance
-            className="vads-u-margin-top--2"
+            className="vads-u-display--block vads-u-margin-top--2"
           >
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
