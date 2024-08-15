@@ -75,6 +75,7 @@ export default function App({ location, children }) {
       }
       handleEditPageDisplayTweaks(location);
 
+      // having the pollTimeout allows api calls to be attempted locally
       if (!window?.VetsGov?.pollTimeout) {
         window.VetsGov.pollTimeout = 5000;
       }

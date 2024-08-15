@@ -18,7 +18,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '17356',
+        id: '12341',
         meta: {
           versionId: '1',
           lastUpdated: '2024-02-07T15:44:39.979-05:00',
@@ -163,7 +163,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '1000',
+        id: '12342',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -308,7 +308,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10001',
+        id: '12343',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -453,7 +453,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10002',
+        id: '12344',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -598,7 +598,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10003',
+        id: '12345',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -743,7 +743,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10004',
+        id: '12346',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -888,7 +888,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10005',
+        id: '12347',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1034,7 +1034,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1102',
       resource: {
-        id: '1102',
+        id: '12348',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1185,7 +1185,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10006',
+        id: '12349',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1331,7 +1331,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1102',
       resource: {
-        id: '11021',
+        id: '123410',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1482,7 +1482,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10007',
+        id: '123411',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1627,7 +1627,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10008',
+        id: '123412',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1772,7 +1772,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10009',
+        id: '123413',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1917,7 +1917,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10009',
+        id: '123414',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -2065,7 +2065,7 @@ const all = {
 const single = (req, res) => {
   const { id } = req.params;
   const response = all.entry.find(item => {
-    return item.id === id;
+    return +item.id === +id;
   });
   return res.json(response);
 };

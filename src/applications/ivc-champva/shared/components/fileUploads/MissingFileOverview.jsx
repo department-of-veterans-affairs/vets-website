@@ -27,7 +27,7 @@ user acknowledges that they will have to mail or fax the missing documents.
 */
 import React, { useState } from 'react';
 import {
-  VaCheckboxGroup,
+  VaCheckbox,
   VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
@@ -37,7 +37,14 @@ import { getConditionalPages } from '../../utilities';
 import SupportingDocsVerification from './supportingDocsVerification';
 import MissingFileList from './MissingFileList';
 
-const mailInfo = (showOpt = true, address, officeName, faxNum, preamble) => {
+const mailInfo = (
+  showOpt = true,
+  address,
+  officeName,
+  faxNum,
+  preamble,
+  appType,
+) => {
   const faxNumMarkup = (
     <VaTelephone
       contact={JSON.stringify({
@@ -51,15 +58,15 @@ const mailInfo = (showOpt = true, address, officeName, faxNum, preamble) => {
       {preamble ?? (
         <>
           <p>
-            Your application will not be considered complete until VA receives
-            all of your remaining required files.
+            Your {appType} will not be considered complete until we receive all
+            of your remaining required files.
           </p>
-          <p>Mail your application and supporting document copies to:</p>
+          <p>Mail your {appType} and supporting document copies to:</p>
         </>
       )}
       {showOpt ? (
         <p>
-          Optional files are not required to complete your application, but may
+          Optional files are not required to complete your {appType}, but may
           prevent delays in your processing time.
           <br />
         </p>
@@ -222,6 +229,9 @@ export default function MissingFileOverview({
   const navButtons = <FormNavButtons goBack={goBack} submitToContinue />;
   const chapters = contentAfterButtons?.props?.formConfig?.chapters;
   const verifier = new SupportingDocsVerification(requiredFiles);
+  const appType =
+    contentAfterButtons?.props?.formConfig?.customText?.appType ??
+    'application';
   // Create single list of pages from multiple chapter objects
   const pages =
     allPages ||
@@ -408,28 +418,27 @@ export default function MissingFileOverview({
                 officeName,
                 faxNum,
                 mailPreamble,
+                appType,
               )}
             </>
           ) : null}
           {requiredFilesStillMissing && showConsent ? (
             <>
               <h3>Supporting documents acknowledgement</h3>
-              <VaCheckboxGroup onVaChange={onGroupChange} error={error}>
-                {requiredFilesStillMissing ? (
-                  <>
-                    <va-checkbox
-                      hint={null}
-                      required
-                      label="I understand that VA can’t process this form until they receive any required documents by mail or fax"
-                      onBlur={function noRefCheck() {}}
-                      checked={isChecked}
-                      name="consent-checkbox"
-                      tile
-                      uswds
-                    />
-                  </>
-                ) : null}
-              </VaCheckboxGroup>
+              {requiredFilesStillMissing ? (
+                <VaCheckbox
+                  onVaChange={onGroupChange}
+                  error={error}
+                  hint={null}
+                  required
+                  label="I understand that VA can’t process this form until they receive any required documents by mail or fax"
+                  onBlur={function noRefCheck() {}}
+                  checked={isChecked}
+                  name="consent-checkbox"
+                  tile
+                  uswds
+                />
+              ) : null}
             </>
           ) : null}
         </>
