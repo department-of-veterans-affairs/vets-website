@@ -20,7 +20,7 @@ describe('fetchDrupalStaticDataFile', () => {
   });
 
   afterEach(() => {
-    global.fetch.restore();
+    mockFetch.restore();
   });
 
   it('uses the environment base URL by default', async () => {
