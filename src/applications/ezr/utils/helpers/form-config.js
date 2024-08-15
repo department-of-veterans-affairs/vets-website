@@ -10,6 +10,15 @@ export function isMissingVeteranDob(formData) {
 }
 
 /**
+ * Helper that determines if the form data has emergency contact address enabled
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield is empty
+ */
+export function hasEmergencyContactAddress(formData) {
+  return formData['view:hasEmergencyContactAddress'];
+}
+
+/**
  * Helper that determines if the form data is missing the Veteran's birth sex
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is empty
