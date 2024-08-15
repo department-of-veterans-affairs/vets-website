@@ -39,7 +39,7 @@ describe('CG <FacilityConfirmation>', () => {
         }),
         header4: getByRole('heading', {
           level: 4,
-          name: "The Veteran's Facility you selected",
+          name: 'The Veteran’s Facility you selected',
         }),
         paragraph: getByText(
           'This is the facility where you told us the Veteran receives or plans to receive treatment.',
