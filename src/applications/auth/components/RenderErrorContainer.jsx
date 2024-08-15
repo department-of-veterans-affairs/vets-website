@@ -136,10 +136,7 @@ export default function RenderErrorContainer({
             </a>
           </p>
           <va-button onClick={openLoginModal} text="Try signing in again" />
-          <ContactCenterInformation
-            startSentance
-            className="vads-u-display--block vads-u-margin-top--2"
-          >
+          <ContactCenterInformation className="vads-u-display--block vads-u-margin-top--2">
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
@@ -387,7 +384,7 @@ export default function RenderErrorContainer({
               in—especially if you’re using a public or shared computer.
             </p>
           </div>
-          <ContactCenterInformation startSentance>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
@@ -440,8 +437,8 @@ export default function RenderErrorContainer({
             below
           </p>
           <a href="/my-health">Access My HealtheVet</a>
-          <ContactCenterInformation>
-            If you’re still running into issues
+          <ContactCenterInformation className="vads-u-display--block">
+            If you’re still running into issues,
           </ContactCenterInformation>
         </>
       );
@@ -489,7 +486,7 @@ export default function RenderErrorContainer({
               information in the “Tools,” “Settings,” or “Preferences” menu.
             </li>
           </ul>
-          <ContactCenterInformation startSentance>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
@@ -552,7 +549,7 @@ export default function RenderErrorContainer({
               you’ve updated your browser with the latest updates.
             </li>
           </ul>
-          <ContactCenterInformation startSentance>
+          <ContactCenterInformation>
             If you’ve taken the steps above and still can’t sign in,
           </ContactCenterInformation>
         </>
