@@ -80,8 +80,7 @@ export const SAVE_IN_PROGRESS_CONFIG = {
   },
 };
 
-export const PROGRESS_BAR_LABELS =
-  'Personal information;File upload;Submit your form';
+export const PROGRESS_BAR_LABELS = 'Personal information;File upload;Review';
 
 export const SUBTITLE_0779 =
   'Request for Nursing Home Information in Connection with Claim for Aid and Attendance';
