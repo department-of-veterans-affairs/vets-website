@@ -19,14 +19,11 @@ import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { usePrevious } from 'platform/utilities/react-hooks';
-import {
-  REVIEW_CONTACT,
-  setReturnState,
-} from 'platform/forms-system/src/js/utilities/data/profile';
+import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 export const BuildPage = props => {
-  const { title, field, id, goToPath, contactPath, subTitle } = props;
+  const { title, field, id, goToPath, subTitle } = props;
 
   const headerRef = useRef(null);
 
@@ -58,7 +55,7 @@ export const BuildPage = props => {
     [modalState, prevModalState],
   );
 
-  const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
+  // const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
   // const returnPath = onReviewPage
   //   ? '/review-and-submit'
   //   : `${contactPath}`;
