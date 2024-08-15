@@ -184,7 +184,7 @@ export const formConfig2 = {
 
 // This is a sample of the data structure produced by content-build.
 export const normalizedForm = {
-  id: 71160,
+  cmsId: 71160,
   formId: '2121212',
   title: 'Form with Two Steps',
   ombNumber: '1212-1212',

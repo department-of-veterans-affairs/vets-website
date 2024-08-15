@@ -12,6 +12,7 @@ import {
   clearSharingStatus,
 } from '../actions/sharing';
 import { pageTitles } from '../util/constants';
+import ExternalLink from '../components/shared/ExternalLink';
 
 const SettingsPage = () => {
   const dispatch = useDispatch();
@@ -70,9 +71,10 @@ const SettingsPage = () => {
               facility.
             </p>
             <p>
-              <a href="https://www.va.gov/resources/about-electronic-health-information-sharing-at-va/">
-                Learn how to opt {optInError ? 'in' : 'out'} by form
-              </a>
+              <ExternalLink
+                href="https://www.va.gov/resources/about-electronic-health-information-sharing-at-va/"
+                text={`Learn how to opt ${optInError ? 'in' : 'out'} by form`}
+              />
             </p>
           </va-alert>
         );
@@ -94,9 +96,10 @@ const SettingsPage = () => {
             for the medical records Release of Information office.
           </p>
           <p>
-            <a href="/find-locations/?facilityType=health">
-              Find your VA health facility
-            </a>
+            <ExternalLink
+              href="/find-locations/?facilityType=health"
+              text="Find your VA health facility"
+            />
           </p>
         </va-alert>
       );
@@ -113,42 +116,31 @@ const SettingsPage = () => {
       );
     }
     return (
-      <va-card background className="vads-u-padding--3">
-        <h3 className="vads-u-margin-top--0">
-          Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
-        </h3>
-        <va-alert
-          background-only
-          class="vads-u-margin-bottom--1"
-          close-btn-aria-label="Close notification"
-          disable-analytics="false"
-          full-width="false"
-          status="success"
-          visible={showSuccessAlert}
-        >
-          <p className="vads-u-margin-y--0">
-            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
-          </p>
-        </va-alert>
-        {isSharing ? (
-          <p>
-            We’ll share your electronic health information with participating
-            non-VA providers when they’re treating you. You can opt out (ask us
-            not to share your records) at any time.
-          </p>
-        ) : (
-          <p>
-            We’re not currently sharing your records online with your community
-            care providers. If you want us to start sharing your records, you
-            can opt back in.
-          </p>
-        )}
-        <va-button
-          data-testid="open-opt-in-out-modal-button"
-          text={isSharing ? 'Opt out' : 'Opt back in'}
-          onClick={() => setShowSharingModal(true)}
-        />
-      </va-card>
+      <>
+        <va-card background className="vads-u-padding--3">
+          <h3 className="vads-u-margin-top--0">
+            Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
+          </h3>
+          {isSharing ? (
+            <p>
+              We’ll share your electronic health information with participating
+              non-VA providers when they’re treating you. You can opt out (ask
+              us not to share your records) at any time.
+            </p>
+          ) : (
+            <p>
+              We’re not currently sharing your records online with your
+              community care providers. If you want us to start sharing your
+              records, you can opt back in.
+            </p>
+          )}
+          <va-button
+            data-testid="open-opt-in-out-modal-button"
+            text={isSharing ? 'Opt out' : 'Opt back in'}
+            onClick={() => setShowSharingModal(true)}
+          />
+        </va-card>
+      </>
     );
   };
 
@@ -206,6 +198,19 @@ const SettingsPage = () => {
 
   return (
     <div className="settings vads-u-margin-bottom--5">
+      <va-alert
+        background-only
+        class="vads-u-margin-bottom--4"
+        close-btn-aria-label="Close notification"
+        disable-analytics="false"
+        full-width="false"
+        status="success"
+        visible={showSuccessAlert}
+      >
+        <p className="vads-u-margin-y--0">
+          You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+        </p>
+      </va-alert>
       <section>
         <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">
@@ -269,14 +274,13 @@ const SettingsPage = () => {
           page on the My HealtheVet website.
         </p>
         <p>
-          <a
+          <ExternalLink
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-          >
-            Go to your profile on the My Healthevet website
-          </a>
+            text="Go to your profile on the My Healthevet website"
+          />
         </p>
       </section>
     </div>

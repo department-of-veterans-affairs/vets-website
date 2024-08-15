@@ -8,7 +8,7 @@ on:
 jobs:
   set-deploy-environments:
     name: Set Environments to Deploy
-    if: always() && github.event.client_payload.github_ref == 'refs/heads/main'
+    # if: always() && github.event.client_payload.github_ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
@@ -30,10 +30,10 @@ jobs:
   deploy:
     name: Deploy
     needs: [set-deploy-environments]
-    if: always() && github.event.client_payload.github_ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    # if: always() && github.event.client_payload.github_ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
     runs-on: ubuntu-latest
     env:
-      DEPLOYMENT_ENVIRONMENT: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
+      DEPLOYMENT_ENVIRONMENT: ${{ needs.set-deploy-environments.outputs.environments }}
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -49,6 +49,9 @@ jobs:
           path: |
             .cache/yarn
             node_modules
+
+      - name: Log Environment
+        run: echo ${{ env.DEPLOYMENT_ENVIRONMENT }}
 
       - name: Check if commit can be deployed
         id: check-deployability
@@ -85,6 +88,9 @@ jobs:
           
       - name: Output Deploy src
         run: echo s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/${{ env.DEPLOYMENT_ENVIRONMENT.environment }}.tar.bz2
+
+      - name: Log GitHub Sha
+        run: echo ${{ github.event.client_payload.github_sha }}
         
       # - name: Deploy
       #   if: steps.check-deployability.outputs.is_deployable == 'true'
