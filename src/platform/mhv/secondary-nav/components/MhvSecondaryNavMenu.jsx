@@ -18,7 +18,7 @@ const MhvSecondaryNavMenu = ({ items }) => {
   const [isLargeText, setIsLargeText] = useState(false);
 
   /**
-   * Function to check the font size and determine if it's "large"
+   * Function to check the font size and determine if the user has custom browser large font settings.
    * This is wrapped in useCallback to optimize performance by preventing unnecessary re-renders
    */
   const checkFontSize = useCallback(() => {
