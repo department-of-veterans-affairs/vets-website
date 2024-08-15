@@ -30,6 +30,8 @@ import primaryPhone from '../pages/primaryPhone';
 
 import housingRisk from '../pages/housingRisk';
 import livingSituation from '../pages/livingSituation';
+import otherHousingRisk from '../pages/otherHousingRisk';
+import pointOfContact from '../pages/pointOfContact';
 
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
@@ -73,7 +75,7 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
-import { hasHousingRisk } from '../utils/livingSituation';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 
 import maximalData from '../tests/fixtures/data/maximal-test.json';
 
@@ -198,6 +200,20 @@ const formConfig = {
           depends: hasHousingRisk,
           scrollAndFocusTarget: focusRadioH3,
         },
+        otherHousingRisk: {
+          title: 'Other housing risks',
+          path: 'other-housing-risks',
+          uiSchema: otherHousingRisk.uiSchema,
+          schema: otherHousingRisk.schema,
+          depends: hasOtherHousingRisk,
+        },
+        contact: {
+          title: 'Your point of contact',
+          path: 'point-of-contact',
+          uiSchema: pointOfContact.uiSchema,
+          schema: pointOfContact.schema,
+          depends: hasHousingRisk,
+        },
       },
     },
 
@@ -253,6 +269,13 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
+          initialData: {
+            form5103Acknowledged: false,
+            housingRisk: true,
+            livingSituation: { other: true },
+            pointOfContactName: 'John Doe',
+            pointOfContactPhone: '8005551212',
+          },
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
