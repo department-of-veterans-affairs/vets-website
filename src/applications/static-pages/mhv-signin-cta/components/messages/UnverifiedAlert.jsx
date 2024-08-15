@@ -41,33 +41,35 @@ const UnverifiedAlert = ({
    */
   const DefaultAlert = () => {
     return (
-      <CustomAlert
-        headline={headline}
-        icon="lock"
-        status="warning"
-        recordEvent={recordEvent}
-      >
-        <div>
-          <p>
-            We need you to verify your identity for your{' '}
-            <strong>{signinServiceLabel}</strong> account. This step helps us
-            keep your information safe and prevent fraud and identity theft.
-          </p>
-          <p>
-            This one-time process often takes about 10 minutes. You’ll need to
-            provide certain personal information and identification.
-          </p>
-          <p>
-            <a
-              className="vads-c-action-link--green"
-              href="/resources/verifying-your-identity-on-vagov/"
-              hrefLang="en"
-            >
-              Verify your identity with {signinServiceLabel}
-            </a>
-          </p>
-        </div>
-      </CustomAlert>
+      <div data-testid="mhv-unverified-alert">
+        <CustomAlert
+          headline={headline}
+          icon="lock"
+          status="warning"
+          recordEvent={recordEvent}
+        >
+          <div>
+            <p>
+              We need you to verify your identity for your{' '}
+              <strong>{signinServiceLabel}</strong> account. This step helps us
+              keep your information safe and prevent fraud and identity theft.
+            </p>
+            <p>
+              This one-time process often takes about 10 minutes. You’ll need to
+              provide certain personal information and identification.
+            </p>
+            <p>
+              <a
+                className="vads-c-action-link--green"
+                href="/resources/verifying-your-identity-on-vagov/"
+                hrefLang="en"
+              >
+                Verify your identity with {signinServiceLabel}
+              </a>
+            </p>
+          </div>
+        </CustomAlert>
+      </div>
     );
   };
 

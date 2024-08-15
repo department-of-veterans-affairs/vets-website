@@ -5,8 +5,6 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { MhvSigninCallToAction, mapStateToProps } from '../index';
-import { headingPrefix as unanthenticatedHeadingPrefix } from '../components/messages/UnauthenticatedAlert';
-import { headingPrefix as unverfiedHeadingPrefix } from '../components/messages/UnverifiedAlert';
 
 describe('MHV Signin CTA', () => {
   describe('map state properties', () => {
@@ -74,7 +72,7 @@ describe('MHV Signin CTA', () => {
     };
 
     it('unanthenticated user', async () => {
-      const { queryByRole } = render(
+      const { queryByTestId, queryByRole, getByText } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -83,16 +81,14 @@ describe('MHV Signin CTA', () => {
           />
         </Provider>,
       );
-      expect(
-        queryByRole('heading', { name: RegExp(unanthenticatedHeadingPrefix) }),
-      ).to.exist;
-      expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
-        .to.be.null;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.be.null;
+      expect(queryByTestId('mhv-unverified-alert')).to.be.null;
+      expect(queryByTestId('mhv-unauthenticated-alert')).to.exist;
+      expect(getByText(RegExp(serviceDescription))).to.exist;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
     });
 
     it('unverified user', async () => {
-      const { queryByRole } = render(
+      const { queryByTestId, queryByRole, getByText } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -103,16 +99,14 @@ describe('MHV Signin CTA', () => {
           />
         </Provider>,
       );
-      expect(
-        queryByRole('heading', { name: RegExp(unanthenticatedHeadingPrefix) }),
-      ).to.be.null;
-      expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
-        .to.exist;
-      expect(queryByRole('link', { name: RegExp(linkText) })).to.be.null;
+      expect(queryByTestId('mhv-unverified-alert')).to.exist;
+      expect(getByText(RegExp(serviceDescription))).to.exist;
+      expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
+      expect(queryByRole('link', { name: RegExp(linkText) })).to.not.exist;
     });
 
     it('verified user', async () => {
-      const { queryByRole } = render(
+      const { queryByTestId, queryByRole } = render(
         <Provider store={mockStore()}>
           <MhvSigninCallToAction
             serviceDescription={serviceDescription}
@@ -123,11 +117,8 @@ describe('MHV Signin CTA', () => {
           />
         </Provider>,
       );
-      expect(
-        queryByRole('heading', { name: RegExp(unanthenticatedHeadingPrefix) }),
-      ).to.be.null;
-      expect(queryByRole('heading', { name: RegExp(unverfiedHeadingPrefix) }))
-        .to.be.null;
+      expect(queryByTestId('mhv-unverified-alert')).to.be.null;
+      expect(queryByTestId('mhv-unauthenticated-alert')).to.be.null;
       expect(queryByRole('link', { name: RegExp(linkText) })).to.exist;
     });
   });

@@ -56,7 +56,7 @@ describe('create MHV Signin Call To Action widget', () => {
     const div = document.createElement('div');
     div.innerHTML = `
     <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
-     service-description="${serviceDescription}" />`;
+     data-service-description="${serviceDescription}" />`;
     document.body.appendChild(div);
     createMhvSigninCallToAction(mockStore(state), widgetTypes.MHV_SIGNIN_CTA);
     await waitFor(() => {
@@ -75,7 +75,7 @@ describe('create MHV Signin Call To Action widget', () => {
     const div = document.createElement('div');
     div.innerHTML = `
     <div id="${divId}" data-widget-type=${widgetTypes.MHV_SIGNIN_CTA} 
-     service-description="${serviceDescription}">
+     data-service-description="${serviceDescription}">
       ${noAlertContent}
     </div>`;
     document.body.appendChild(div);

@@ -22,38 +22,43 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
   };
 
   return (
-    <CustomAlert
-      headline={headline}
-      icon="lock"
-      status="continue"
-      recordEvent={recordEvent}
-    >
-      <div>
-        <p>
-          You’ll need to sign in with a verified account through one of our
-          account providers. Identity verification helps us protect your
-          information and prevent fraud and identity theft.
-        </p>
-        <p>
-          <strong>Don’t yet have a verified account?</strong> Create a{' '}
-          <strong>Login.gov</strong> or <strong>ID.me</strong> account now. Then
-          come back here and sign in. We’ll help you verify.
-        </p>
-        <p>
-          <strong>Not sure if your account is verified?</strong> Sign in here.
-          We’ll tell you if you need to verify.
-        </p>
-        <p>
-          <va-button onClick={handleSignIn} text="Sign in or create account" />
-        </p>
-        <p>
-          <va-link
-            href="/resources/creating-an-account-for-vagov/"
-            text="Learn about creating an account"
-          />
-        </p>
-      </div>
-    </CustomAlert>
+    <div data-testid="mhv-unauthenticated-alert">
+      <CustomAlert
+        headline={headline}
+        icon="lock"
+        status="continue"
+        recordEvent={recordEvent}
+      >
+        <div>
+          <p>
+            You’ll need to sign in with a verified account through one of our
+            account providers. Identity verification helps us protect your
+            information and prevent fraud and identity theft.
+          </p>
+          <p>
+            <strong>Don’t yet have a verified account?</strong> Create a{' '}
+            <strong>Login.gov</strong> or <strong>ID.me</strong> account now.
+            Then come back here and sign in. We’ll help you verify.
+          </p>
+          <p>
+            <strong>Not sure if your account is verified?</strong> Sign in here.
+            We’ll tell you if you need to verify.
+          </p>
+          <p>
+            <va-button
+              onClick={handleSignIn}
+              text="Sign in or create account"
+            />
+          </p>
+          <p>
+            <va-link
+              href="/resources/creating-an-account-for-vagov/"
+              text="Learn about creating an account"
+            />
+          </p>
+        </div>
+      </CustomAlert>
+    </div>
   );
 };
 

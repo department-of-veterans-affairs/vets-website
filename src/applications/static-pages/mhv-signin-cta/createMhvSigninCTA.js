@@ -30,7 +30,7 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
       ReactDOM.render(
         <Provider store={store}>
           <MhvSigninCallToAction
-            serviceDescription={el.getAttribute('service-description')}
+            serviceDescription={el.getAttribute('data-service-description')}
             noAlertContent={widgetContent}
           />
         </Provider>,
