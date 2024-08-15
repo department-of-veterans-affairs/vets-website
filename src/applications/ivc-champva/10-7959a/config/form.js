@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import SubmissionError from '../../shared/components/SubmissionError';
@@ -49,6 +50,7 @@ const formConfig = {
   transformForSubmit,
   // submit: () =>
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  footerContent: GetFormHelp,
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -62,6 +64,11 @@ const formConfig = {
         'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
       saved: 'Your CHAMPVA claim form application has been saved.',
     },
+  },
+  customText: {
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
   },
   preSubmitInfo: {
     statementOfTruth: {
