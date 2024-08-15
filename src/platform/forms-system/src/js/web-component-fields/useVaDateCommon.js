@@ -8,7 +8,7 @@ import {
 
 export function useVaDateCommon(props) {
   const mappedProps = vaDateCommonFieldMapping(props);
-  const [values, setValues] = useState(parseISODate(props.value));
+  const [values, setValues] = useState(parseISODate(mappedProps.value));
   const monthYearOnly = props?.uiOptions?.monthYearOnly;
 
   const formatter = monthYearOnly
@@ -24,7 +24,7 @@ export function useVaDateCommon(props) {
    * parseISODate(XXXX-03-XX) => { year: 1999, month: '', day: '01' }
    * formatISOPartialDate({ day, month, year }) => XXXX-03-XX
    */
-  const formattedValue = formatISOPartialDate(values)
+  const formattedValue = formatter(values)
     ?.replace(/X/g, '')
     ?.replace(/-0(\d)/g, '-$1');
 
