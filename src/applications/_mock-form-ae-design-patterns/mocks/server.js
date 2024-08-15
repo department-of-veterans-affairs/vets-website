@@ -42,12 +42,13 @@ const {
 } = require('./script/utils');
 
 const responses = {
-  'GET /v0/in_progress_forms/FORM_MOCK_AE_DESIGN_PATTERNS': (_req, res) => {
+  'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
     return res.json({
       formData: {
         data: {
           attributes: {
             veteran: {
+              ssn: '123-456-7890',
               address: {
                 addressLine1: '623 Lesser Dr',
                 city: 'Fort Collins',

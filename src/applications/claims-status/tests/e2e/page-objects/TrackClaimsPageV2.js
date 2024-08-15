@@ -509,7 +509,7 @@ class TrackClaimsPageV2 {
       .find('.due-date-header')
       .should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
@@ -572,7 +572,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
     cy.get('va-additional-info').should('be.visible');

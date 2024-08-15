@@ -13,10 +13,8 @@ import {
   PolicyOrGroupDescription,
   TricarePolicyDescription,
 } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { validatePolicyNumber } from '../../../utils/validation';
 import { getInsuranceAriaLabel } from '../../../utils/helpers';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
 
 const { providers, isCoveredByHealthInsurance } = fullSchemaHca.properties;
@@ -24,15 +22,7 @@ const { items: provider } = providers;
 
 export default {
   uiSchema: {
-    'view:generalShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:healthInsuranceDescription': {
-      'ui:description': HealthInsuranceDescription,
-    },
+    'ui:description': HealthInsuranceDescription,
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
       'ui:description': HealthInsuranceCoverageDescription,
@@ -109,8 +99,6 @@ export default {
     type: 'object',
     required: ['isCoveredByHealthInsurance'],
     properties: {
-      'view:generalShortFormMessage': emptyObjectSchema,
-      'view:healthInsuranceDescription': emptyObjectSchema,
       isCoveredByHealthInsurance,
       providers: {
         type: 'array',
