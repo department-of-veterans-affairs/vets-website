@@ -1890,46 +1890,46 @@ jobs:
         env:
           BUILDTYPE: ${{ matrix.environment }}
 
-      - name: Configure AWS credentials (1)
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
+      # - name: Configure AWS credentials (1)
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   uses: ./.github/workflows/configure-aws-credentials
+      #   with:
+      #     aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: us-gov-west-1
           
 
-      - name: Get AWS IAM role
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/inject-secrets
-        with:
-          ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
-          env_variable_name: ${{ matrix.iam_role }}
+      # - name: Get AWS IAM role
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   uses: ./.github/workflows/inject-secrets
+      #   with:
+      #     ssm_parameter: /frontend-team/github-actions/parameters/${{ matrix.iam_role }}
+      #     env_variable_name: ${{ matrix.iam_role }}
 
-      - name: Configure AWS Credentials (2)
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        uses: ./.github/workflows/configure-aws-credentials
-        with:
-          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: us-gov-west-1
-          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
-          role_duration: 900
-          session_name: vsp-frontendteam-githubaction
+      # - name: Configure AWS Credentials (2)
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   uses: ./.github/workflows/configure-aws-credentials
+      #   with:
+      #     aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     aws_region: us-gov-west-1
+      #     role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
+      #     role_duration: 900
+      #     session_name: vsp-frontendteam-githubaction
           
 
-      - name: Deploy
-        if: steps.check-deployability.outputs.is_deployable == 'true'
-        run: |
-          if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
-            ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-          else
-            ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
-          fi
-        env:
-          SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
-          DEST: s3://${{ matrix.bucket }}
-          ASSET_DEST: s3://${{ matrix.asset_bucket }}
+      # - name: Deploy
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   run: |
+      #     if [[ "${{ env.IS_ISOLATED_APP_BUILD }}" == "true" ]]; then
+      #       ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+      #     else
+      #       ./script/github-actions/deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+      #     fi
+      #   env:
+      #     SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
+      #     DEST: s3://${{ matrix.bucket }}
+      #     ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
   notify-failure:
     name: Notify Failure
