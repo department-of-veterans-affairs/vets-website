@@ -48,7 +48,7 @@ const VaPrescription = prescription => {
                 prescriptionName={prescription.prescriptionName}
               />
             )}
-            <h2 className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--3 vads-u-margin-bottom--2">
+            <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2">
               About your prescription
             </h2>
             {prescription && <ExtraDetails {...prescription} />}
