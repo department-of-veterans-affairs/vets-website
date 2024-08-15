@@ -215,6 +215,7 @@ const DependentAges = ({
               isSecondary: true,
             },
             {
+              isSubmitting: 'prevent',
               label: continueButtonText,
               onClick: handlers.onSubmit,
             },
