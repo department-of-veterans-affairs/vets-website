@@ -31,25 +31,25 @@ const selectSchemas = ({ pageTitle, additionalFields }) => {
   return schemas;
 };
 
-const formatChapters = chapters => {
-  const formattedChapters = {};
-
-  chapters.forEach(chapter => {
-    const pages = {};
-    pages[chapter.id] = {
-      path: chapter.id.toString(),
-      title: chapter.pageTitle,
-      ...selectSchemas(chapter),
+const formatChapters = chapters =>
+  chapters.reduce((formattedChapters, chapter) => {
+    const pages = {
+      [chapter.id]: {
+        path: chapter.id.toString(),
+        title: chapter.pageTitle,
+        ...selectSchemas(chapter),
+      },
     };
 
-    formattedChapters[chapter.id] = {
-      title: chapter.chapterTitle,
-      pages,
+    const formattedChapter = {
+      [chapter.id]: {
+        title: chapter.chapterTitle,
+        pages,
+      },
     };
-  });
 
-  return formattedChapters;
-};
+    return { ...formattedChapters, ...formattedChapter };
+  }, {});
 
 export const createFormConfig = ({ chapters, formId, title }) => {
   const subTitle = `VA Form ${formId}`;
