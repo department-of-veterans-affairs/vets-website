@@ -166,7 +166,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -191,12 +191,12 @@ const all = {
             },
             effectiveDateTime: '1994-01-20T16:38:59-05:00',
             valueQuantity: {
-              value: 12.4,
+              value: 5.0,
               unit: 'tril/L',
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -217,7 +217,7 @@ const all = {
             ],
             status: 'Final',
             code: {
-              text: 'RBC',
+              text: 'HGB',
             },
             effectiveDateTime: '1994-01-20T16:38:59-05:00',
             valueQuantity: {
@@ -226,7 +226,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -261,7 +261,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -291,7 +291,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -321,7 +321,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -356,7 +356,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -391,7 +391,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -630,7 +630,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -660,7 +660,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -681,7 +681,7 @@ const all = {
             ],
             status: 'Final',
             code: {
-              text: 'RBC',
+              text: 'HGB',
             },
             effectiveDateTime: '1994-01-20T16:38:59-05:00',
             valueQuantity: {
@@ -690,7 +690,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -720,7 +720,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -755,7 +755,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -785,7 +785,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -820,7 +820,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -855,7 +855,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2330,7 +2330,7 @@ const all = {
             ],
             name: [
               {
-                text: 'Gregory House M.D.',
+                text: 'Spencer Reid',
               },
             ],
           },
@@ -2447,7 +2447,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2477,7 +2477,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2507,7 +2507,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2542,7 +2542,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2572,7 +2572,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2607,7 +2607,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2642,7 +2642,7 @@ const all = {
             ],
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2672,7 +2672,7 @@ const all = {
             },
             note: [
               {
-                text: 'ref. range prior to 1/16/03 was 26-71 mg/dL.',
+                text: '',
               },
             ],
             specimen: {
@@ -2819,7 +2819,7 @@ const all = {
             ],
             name: [
               {
-                text: 'Spencer Reid',
+                text: 'Gregory House, M.D.',
               },
             ],
           },
@@ -3185,12 +3185,12 @@ const all = {
               text: 'URINE KETONES',
             },
             valueQuantity: {
-              value: 'Neg',
+              value: 'NEG',
               unit: 'MG/DL',
             },
             referenceRange: [
               {
-                text: 'Neg',
+                text: 'NEG',
               },
             ],
           },
@@ -3275,7 +3275,7 @@ const all = {
               text: 'URINE BLOOD',
             },
             valueQuantity: {
-              value: 'Neg',
+              value: 'NEG',
               unit: '',
             },
             interpretation: [
@@ -3301,7 +3301,7 @@ const all = {
               text: 'URINE BILIRUBIN',
             },
             valueQuantity: {
-              value: 'Neg',
+              value: 'NEG',
               unit: '',
             },
             note: [
@@ -3322,7 +3322,7 @@ const all = {
               text: 'URINE GLUCOSE',
             },
             valueQuantity: {
-              value: 'Neg',
+              value: 'NEG',
               unit: 'MG/DL',
             },
             interpretation: [
