@@ -1469,7 +1469,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
           id: '983',
-          typeOfCareId: 'primaryCare',
+          typeOfCareId: 'foodAndNutrition',
           directEnabled: true,
         }),
         getSchedulingConfigurationMock({
@@ -1505,7 +1505,7 @@ describe('VAOS Page: VAFacilityPage', () => {
       expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
       expect(await screen.getByText(/Second Cerner facility/i)).to.be.ok;
 
-      // Make sure Cerner link shows up for primaryCare
+      // Make sure Cerner link does not show up for foodAndNutrition
       const cernerSiteLabel = document.querySelector(
         `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
       );
