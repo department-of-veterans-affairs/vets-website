@@ -11,7 +11,6 @@ import ButtonGroup from '../shared/ButtonGroup';
 const DependentAges = ({
   contentBeforeButtons,
   contentAfterButtons,
-  setFormData,
   goForward,
   goToPath,
   goBack,
@@ -127,15 +126,6 @@ const DependentAges = ({
 
   const handleGoBack = event => {
     event.preventDefault();
-    // Only save the hasDependents value when going back
-    const updatedFormData = {
-      ...formData,
-      questions: {
-        ...formData.questions,
-        hasDependents: formData.questions.hasDependents,
-      },
-    };
-    setFormData(updatedFormData);
     goBack();
   };
 
@@ -189,7 +179,7 @@ const DependentAges = ({
           buttons={[
             {
               label: 'Back',
-              onClick: handlers.handleGoBack,
+              onClick: goBack,
               isSecondary: true,
               isSubmitting: 'prevent',
             },

@@ -26,7 +26,7 @@ Button.defaultProps = {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   isSecondary: PropTypes.bool,
-  isSubmitting: PropTypes.bool || PropTypes.string,
+  isSubmitting: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onClick: PropTypes.func,
 };
 
@@ -52,7 +52,7 @@ ButtonGroup.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       onClick: PropTypes.func.isRequired,
-      isSubmitting: PropTypes.bool,
+      isSubmitting: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
       isSecondary: PropTypes.bool,
     }),
   ).isRequired,

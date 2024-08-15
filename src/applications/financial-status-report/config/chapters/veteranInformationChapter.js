@@ -139,6 +139,7 @@ export default {
           formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
+        CustomPageReview: null,
         editModeOnReviewPage: false,
       },
     },
