@@ -4,7 +4,7 @@ import {
   VaButton,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fetchMapBoxBBoxCoordinates } from '../../actions/fetchMapBoxBBoxCoordinates';
+import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
@@ -15,7 +15,7 @@ const FacilitySearch = props => {
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
-  const listProps = useMemo(
+  const facilityListProps = useMemo(
     () => {
       const { onChange, ...restOfProps } = props;
       const setSelectedFacilities = facilityId => {
@@ -24,6 +24,7 @@ const FacilitySearch = props => {
       };
       return {
         ...restOfProps,
+        value: restOfProps?.formData?.veteranSelected?.id,
         onChange: setSelectedFacilities,
         facilities,
         query,
@@ -44,11 +45,11 @@ const FacilitySearch = props => {
 
     setLoading(true);
     setError(null);
-    setFacilities(null);
+    setFacilities([]);
 
     try {
-      const coordinates = await fetchMapBoxBBoxCoordinates(query);
-      const facilityList = await fetchFacilities(coordinates);
+      const coordinates = await fetchMapBoxGeocoding(query);
+      const facilityList = await fetchFacilities(coordinates.center);
       setFacilities(facilityList);
     } catch (err) {
       setError(err.errorMessage);
@@ -68,7 +69,7 @@ const FacilitySearch = props => {
       );
     }
     if (facilities?.length) {
-      return <FacilityList {...listProps} />;
+      return <FacilityList {...facilityListProps} />;
     }
     return null;
   };

@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import { inputVaTextInput } from 'platform/testing/unit/helpers';
-import * as bboxFetch from '../../../../actions/fetchMapBoxBBoxCoordinates';
+import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
 import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
@@ -13,11 +13,15 @@ import content from '../../../../locales/en/content.json';
 
 describe('CG <FacilitySearch>', () => {
   const onChange = sinon.spy();
-  const getData = ({ reviewMode = false, submitted = false, value = '' }) => ({
+  const getData = ({
+    reviewMode = false,
+    submitted = false,
+    formData = {},
+  }) => ({
     props: {
       formContext: { reviewMode, submitted },
       onChange,
-      value,
+      formData,
     },
   });
   const subject = ({ props }) => {
@@ -55,7 +59,7 @@ describe('CG <FacilitySearch>', () => {
     let facilitiesStub;
 
     beforeEach(() => {
-      coordinatesStub = sinon.stub(bboxFetch, 'fetchMapBoxBBoxCoordinates');
+      coordinatesStub = sinon.stub(bboxFetch, 'fetchMapBoxGeocoding');
       facilitiesStub = sinon.stub(facilitiesFetch, 'fetchFacilities');
     });
 
@@ -104,12 +108,37 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const facilityId = facilities[0].id;
+      const selectedFacility = facilities[0];
+
       selectors().radioList.__events.vaValueChange({
-        detail: { value: facilityId },
+        detail: { value: selectedFacility.id },
       });
-      expect(onChange.calledWith({ veteranSelected: facilities[0] })).to.be
+      expect(onChange.calledWith({ veteranSelected: selectedFacility })).to.be
         .true;
+    });
+
+    it('loads radio value from formData veteranSelected when set', async () => {
+      const facilityId = 'my_facility_id';
+      const { props } = getData({
+        formData: { veteranSelected: { id: facilityId } },
+      });
+      const { container, selectors } = subject({ props });
+      const facilities =
+        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+      coordinatesStub.resolves(coordinates);
+      facilitiesStub.resolves(facilities);
+
+      await waitFor(() => {
+        inputVaTextInput(container, 'Tampa', selectors().input);
+        userEvent.click(selectors().button);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+        expect(selectors().radioList.value).to.equal(facilityId);
+      });
     });
 
     context('handles errors', () => {

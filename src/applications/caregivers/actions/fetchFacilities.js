@@ -8,25 +8,13 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
     return mapBoxResponse.errorMessage;
   }
 
-  // Increase the area of the boundary to improve search results
-  const adjustedBoundaryCoordinates = [
-    // min X
-    mapBoxResponse[0] - 0.3,
-    // min Y
-    mapBoxResponse[1] - 0.3,
-    // max X
-    mapBoxResponse[2] + 0.3,
-    // max Y
-    mapBoxResponse[3] + 0.3,
-  ];
+  const [longitude, latitude] = mapBoxResponse;
+  const radius = 500;
+  const perPage = 500;
 
   const lightHouseRequestUrl = `${
     environment.API_URL
-  }/v1/facilities/va?bbox%5B%5D=${adjustedBoundaryCoordinates[0]}%2C%20${
-    adjustedBoundaryCoordinates[1]
-  }%2C%20${adjustedBoundaryCoordinates[2]}%2C%20${
-    adjustedBoundaryCoordinates[3]
-  }&per_page=500`;
+  }/v1/facilities/va?lat=${latitude}&long=${longitude}&radius=${radius}&per_page=${perPage}`;
 
   const fetchRequest = request || apiRequest(`${lightHouseRequestUrl}`, {});
 
