@@ -32,7 +32,7 @@ const ChemHemResults = props => {
                 {result.status}
               </p>
               <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
-                Lab comments
+                Interpretation
               </h4>
               <p className="vads-u-margin--0 vads-u-padding-bottom--2">
                 {result.labComments}
