@@ -50,6 +50,9 @@ jobs:
             .cache/yarn
             node_modules
 
+      - name: Log Environment
+        run: echo ${{ env.DEPLOYMENT_ENVIRONMENT }}
+
       - name: Check if commit can be deployed
         id: check-deployability
         run: node ./script/github-actions/check-deployability.js
