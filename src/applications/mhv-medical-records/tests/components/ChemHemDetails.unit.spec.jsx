@@ -105,7 +105,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the result and interpretation in parentheses', () => {
     expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
-    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
+    expect(screen.getByText('138.0 mEq/L (Low)', { selector: 'p' })).to.exist;
   });
 
   it('should display the reference range with units', () => {
@@ -117,7 +117,7 @@ describe('Chem Hem details component', () => {
 
   it('should display lab comments', () => {
     expect(
-      screen.getAllByText('Lab comments', { selector: 'h4' }).length,
+      screen.getAllByText('Interpretation', { selector: 'h4' }).length,
     ).to.eq(2);
     expect(
       screen.getByText('Normal Range Prior to 8-22-02 was: 3.6 - 5.0 mEq/L.', {
