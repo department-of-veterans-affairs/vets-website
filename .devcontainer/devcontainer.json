@@ -53,8 +53,9 @@
 		6080
 	],
 	"postCreateCommand": "./.devcontainer/codespaces-create.sh",
-	"postStartCommand": "./.devcontainer/codespaces-start.sh",
+	"postStartCommand": "chmod +x ./.devcontainer/codespaces-start.sh && ./.devcontainer/codespaces-start.sh",
 	"remoteUser": "node",
+	"containerUser": "node",
 	"hostRequirements": {
 		"cpus": 16,
 		"memory": "32gb",
