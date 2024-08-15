@@ -18,7 +18,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 
   const dispatch = useDispatch();
   const handleSignIn = () => {
-    dispatch(toggleLoginModal(true));
+    dispatch(toggleLoginModal(true, 'mhv-signin-cta'));
   };
 
   return (
