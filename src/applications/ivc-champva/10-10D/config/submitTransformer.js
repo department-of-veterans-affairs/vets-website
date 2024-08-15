@@ -1,4 +1,6 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
+import { adjustYearString } from '../../shared/utilities';
 
 // Rearranges date string from YYYY-MM-DD to MM-DD-YYYY
 function fmtDate(date) {
@@ -29,53 +31,35 @@ function transformRelationship(obj) {
   return rel;
 }
 
+// For each applicant, adjust organization of the object, add supporting documents array
 function transformApplicants(applicants) {
   const applicantsPostTransform = [];
-
   applicants.forEach(app => {
-    const transformedApp = {
-      fullName: app.applicantName ?? '',
+    let transformedApp = {
+      ...app,
       ssnOrTin: app.applicantSSN?.ssn ?? '',
-      dateOfBirth: fmtDate(app.applicantDob) ?? '',
-      phoneNumber: app.applicantPhone ?? '',
-      email: app.applicantEmailAddress ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
-      // sponsorMarriageDetails:
-      // app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
-      isEnrolledInMedicare:
-        app?.applicantMedicareStatus?.eligibility === 'enrolled',
-      hasOtherHealthInsurance: app?.applicantHasOhi?.hasOhi === 'yes',
-      applicantSupportingDocuments: [
-        app?.applicantMedicareCardFront,
-        app?.applicantMedicareCardBack,
-        app?.applicantOHICardFront,
-        app?.applicantOHICardBack,
-        app?.applicantBirthCertOrSocialSecCard,
-        app?.applicantSchoolCert,
-        app?.applicantAdoptionPapers,
-        app?.applicantStepMarriageCert,
-        app?.applicantMarriageCert,
-        // app?.applicantSecondMarriageCert,
-        // app?.applicantSecondMarriageDivorceCert,
-        app?.applicantMedicarePartAPartBCard,
-        app?.applicantMedicarePartDCard,
-        app?.applicantMedicareIneligibleProof,
-        app?.applicantOhiCard,
-        app?.applicantOtherInsuranceCertification,
-        app?.applicantHelplessCert,
-      ],
-      address: app.applicantAddress ?? {},
-      gender: app.applicantGender?.gender ?? '',
+      // Grab any file upload properties from this applicant and combine into a
+      // supporting documents array:
+      applicantSupportingDocuments: Object.keys({
+        ...REQUIRED_FILES,
+        ...OPTIONAL_FILES,
+      })
+        .filter(k => k.includes('applicant')) // Ignore sponsor files
+        .map(f => app?.[f]) // Grab the upload obj from top-level in applicant
+        .filter(el => el), // Drop any undefineds/nulls
     };
-
+    transformedApp = adjustYearString(transformedApp);
     applicantsPostTransform.push(transformedApp);
   });
 
   return applicantsPostTransform;
 }
 
+// Since the certifier data may be the sponsor's or a third party, this maps
+// the sponsor's info into the certifier property names for simplicity on BE
 function parseCertifier(transformedData) {
   return {
     date: new Date().toJSON().slice(0, 10),
@@ -92,8 +76,7 @@ function parseCertifier(transformedData) {
 }
 
 function getPrimaryContact(data) {
-  // If a certification name is present, we know the form was filled by
-  // a third party or the sponsor, and that they should be primary contact.
+  // If a certification name is present, third party signer is the certifier
   const useCert =
     data?.certification?.firstName && data?.certification?.firstName !== '';
 
@@ -102,10 +85,7 @@ function getPrimaryContact(data) {
     data?.applicants?.filter(app => app.email && app.email.length > 0)[0] ??
     data?.applicants?.[0];
 
-  // Depending on the result of useCert, grab the first and last name, phone,
-  // and email from either the `certification` object or the first applicant,
-  // then return so we can set up the `primaryContactInfo` for the backend
-  // notification API service.
+  // Set up the `primaryContactInfo` for the backend notification API service.
   return {
     name: {
       first:
@@ -146,7 +126,6 @@ export default function transformForSubmit(formConfig, form) {
       sponsorIsDeceased: transformedData?.sponsorIsDeceased,
       dateOfDeath: fmtDate(transformedData?.sponsorDOD) || '',
       // Find the first applicant with a date of marriage to sponsor
-      // (there should only be one) and return that date
       dateOfMarriage:
         fmtDate(
           transformedData?.applicants?.find(
@@ -210,9 +189,7 @@ export default function transformForSubmit(formConfig, form) {
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
 
-  // For our backend callback API, we need to designate which contact info
-  // should be used if there is a notification event pertaining to this specific
-  // form submission. We do this by adding the `primaryContactInfo` key:
+  // `primaryContactInfo` is who BE callback API emails if there's a notification event
   dataPostTransform.primaryContactInfo = getPrimaryContact(dataPostTransform);
 
   return JSON.stringify({
