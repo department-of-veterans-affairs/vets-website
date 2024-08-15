@@ -33,15 +33,12 @@ import {
   buildNonVAPrescriptionTXT,
   buildAllergiesTXT,
 } from '../util/txtConfigs';
-import {
-  PDF_TXT_GENERATE_STATUS,
-  DD_ACTIONS_PAGE_TYPE,
-  DOWNLOAD_FORMAT,
-} from '../util/constants';
+import { PDF_TXT_GENERATE_STATUS, DOWNLOAD_FORMAT } from '../util/constants';
 import PrescriptionPrintOnly from '../components/PrescriptionDetails/PrescriptionPrintOnly';
 import AllergiesPrintOnly from '../components/shared/AllergiesPrintOnly';
 import { Actions } from '../util/actionTypes';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
+import { pageType } from '../util/dataDogConstants';
 
 const PrescriptionDetails = () => {
   const prescription = useSelector(
@@ -372,15 +369,13 @@ const PrescriptionDetails = () => {
                 )}
                 <div className="no-print">
                   <PrintDownload
-                    download={handleFileDownload}
+                    onDownload={handleFileDownload}
                     isSuccess={
                       pdfTxtGenerateStatus.status ===
                       PDF_TXT_GENERATE_STATUS.Success
                     }
                   />
-                  <BeforeYouDownloadDropdown
-                    page={DD_ACTIONS_PAGE_TYPE.DETAILS}
-                  />
+                  <BeforeYouDownloadDropdown page={pageType.DETAILS} />
                 </div>
                 {nonVaPrescription ? (
                   <NonVaPrescription {...prescription} />

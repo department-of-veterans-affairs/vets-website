@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import environment from 'platform/utilities/environment';
 import Validate from './pages/Validate';
-import Introduction from './pages/Introduction';
+import AppointmentsPage from '../components/pages/Appointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -11,6 +11,7 @@ import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
 import AppointmentDetails from '../components/pages/AppointmentDetails';
+import AppointmentResources from './pages/AppointmentResources';
 import { URLS } from '../utils/navigation';
 import { APP_NAMES } from '../utils/appConstants';
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -32,6 +33,14 @@ const routes = [
     component: Validate,
     permissions: {
       requiresForm: true,
+    },
+  },
+  {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
     },
   },
   {
@@ -62,14 +71,6 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.INTRODUCTION,
-    component: Introduction,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
     path: URLS.CONFIRMATION,
     component: Confirmation,
     permissions: {
@@ -85,6 +86,15 @@ const routes = [
   {
     path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
     component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: URLS.RESOURCES,
+    component: AppointmentResources,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,

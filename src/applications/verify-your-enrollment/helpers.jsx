@@ -225,7 +225,8 @@ export const getDateRangesBetween = (date1, date2) => {
 
   return ranges;
 };
-export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
+const enrollmentInfoClassName = 'vads-u-margin--0 vads-u-font-size--base';
+export const getPeriodsToVerify = pendingEnrollments => {
   return pendingEnrollments
     .map(enrollmentToBeVerified => {
       const {
@@ -238,41 +239,21 @@ export const getPeriodsToVerify = (pendingEnrollments, review = false) => {
 
       return (
         <div
-          className={
-            review ? 'vads-u-margin-y--2 vye-left-border' : 'vads-u-margin-y--2'
-          }
+          className="vads-u-margin-y--2"
           key={`Enrollment-to-be-verified-${myUUID}`}
         >
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               {translateDatePeriod(actBegin, actEnd)}
             </span>
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">
               Total credit hours:
             </span>{' '}
             {numberHours === null ? 'Hours unavailable' : numberHours}
           </p>
-          <p
-            className={
-              review
-                ? 'vads-u-margin--0 vads-u-margin-left--1p5 vads-u-font-size--base'
-                : 'vads-u-margin--0 vads-u-font-size--base'
-            }
-          >
+          <p className={enrollmentInfoClassName}>
             <span className="vads-u-font-weight--bold">Monthly rate:</span>{' '}
             {monthlyRate === null
               ? 'Rate unavailable'
@@ -845,4 +826,36 @@ export function hasAddressFormChanged(currentState) {
         : initialState.stateCode,
   };
   return !deepEqual(initialState, filledCurrentState);
+}
+export function splitAddressLine(addressLine, maxLength) {
+  if (addressLine.length <= maxLength) {
+    return { line1: addressLine, line2: '' };
+  }
+
+  // Find the last space within the maxLength
+  let lastSpaceIndex = addressLine.lastIndexOf(' ', maxLength);
+
+  // If there's no space, we can't split without breaking a word, so just split at maxLength
+  if (lastSpaceIndex === -1) {
+    lastSpaceIndex = maxLength;
+  }
+
+  return {
+    line1: addressLine.substring(0, lastSpaceIndex),
+    line2: addressLine.substring(lastSpaceIndex).trim(),
+  };
+}
+export function removeCommas(obj) {
+  const newObj = {};
+
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'string') {
+      newObj[key] = obj[key].replace(/,/g, '');
+    } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      newObj[key] = removeCommas(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

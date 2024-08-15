@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
-import { VaNumberInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { isValidCurrency } from '../../utils/validations';
 import { currency as currencyFormatter } from '../../utils/helpers';
@@ -129,12 +129,13 @@ const CashOnHand = ({
         {reviewNavigation && showReviewNavigation ? (
           <ReviewPageNavigationAlert data={data} title="household assets" />
         ) : null}
-        <VaNumberInput
+        <VaTextInput
           currency
           error={error}
           hint={null}
           id="cash"
           inputmode="decimal"
+          type="decimal"
           label="What is the dollar amount of available cash (not in a bank) you currently have?"
           name="cash"
           onBlur={onBlur}

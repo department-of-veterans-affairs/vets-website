@@ -256,6 +256,13 @@ const responses = {
     const localTime = momentTz(selectedTime[0])
       .tz('America/Denver')
       .format('YYYY-MM-DDTHH:mm:ss');
+    const tokens = req.body.reasonCode?.text?.split('comments:');
+    let patientComments;
+    if (tokens) {
+      if (tokens.length > 1) [, patientComments] = tokens;
+      else [patientComments] = tokens;
+    }
+
     const submittedAppt = {
       id: `mock${currentMockId}`,
       attributes: {
@@ -276,6 +283,7 @@ const responses = {
         },
         physicalLocation:
           selectedClinic[0]?.attributes.physicalLocation || null,
+        patientComments,
       },
     };
     currentMockId += 1;

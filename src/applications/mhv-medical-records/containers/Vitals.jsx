@@ -6,7 +6,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getVitals } from '../actions/vitals';
+import { getVitals, reloadRecords } from '../actions/vitals';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
@@ -21,17 +21,22 @@ import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Vitals = () => {
+  const dispatch = useDispatch();
+  const updatedRecordList = useSelector(state => state.mr.vitals.updatedList);
   const listState = useSelector(state => state.mr.vitals.listState);
   const vitals = useSelector(state => state.mr.vitals.vitalsList);
   const user = useSelector(state => state.user.profile);
   const refresh = useSelector(state => state.mr.refresh);
   const [cards, setCards] = useState(null);
-  const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const vitalsCurrentAsOf = useSelector(
     state => state.mr.vitals.listCurrentAsOf,
+  );
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
   );
 
   useListRefresh({
@@ -42,6 +47,18 @@ const Vitals = () => {
     dispatchAction: getVitals,
     dispatch,
   });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -113,12 +130,28 @@ const Vitals = () => {
     }
     if (cards?.length) {
       return (
-        <RecordList
-          records={cards}
-          type={recordType.VITALS}
-          perPage={7}
-          hidePagination
-        />
+        <>
+          {!mockPhr && (
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes.VPR}
+              newRecordsFound={
+                Array.isArray(vitals) &&
+                Array.isArray(updatedRecordList) &&
+                vitals.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                dispatch(reloadRecords());
+              }}
+            />
+          )}
+          <RecordList
+            records={cards}
+            type={recordType.VITALS}
+            perPage={7}
+            hidePagination
+          />
+        </>
       );
     }
     return (

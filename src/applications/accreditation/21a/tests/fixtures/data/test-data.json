@@ -1,7 +1,7 @@
 {
   "data": {
     "role": "ATTORNEY",
-    "barStanding": true,
+    "standingWithBar": true,
     "fullName": {
       "first": "First",
       "middle": "Middle",
@@ -11,13 +11,12 @@
     "dateOfBirth": "1995-01-09",
     "placeOfBirthAddress": {
       "country": "USA",
-      "street": "1234 Main St",
       "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
+      "state": "CA"
     },
-    "phone": "3453453455",
+    "phone": "34-51-3451-3455",
     "typeOfPhone": "HOME",
+    "canReceiveTexts": true,
     "email": "person.name@testmail.com",
     "homeAddress": {
       "view:militaryBaseDescription": {},
@@ -28,8 +27,9 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "employmentStatus": "UNEMPLOYED",
+    "employmentStatus": "OTHER",
     "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
+    "workName": "My Company",
     "workAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -39,7 +39,7 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "communicationAddress": "OTHER",
+    "primaryMailingAddress": "OTHER",
     "otherAddress": {
       "view:militaryBaseDescription": {},
       "country": "USA",
@@ -56,7 +56,8 @@
           "from": "2000-01-01",
           "to": "2004-12-31"
         },
-        "characterOfDischarge": "Honorable"
+        "characterOfDischarge": "Dishonorable",
+        "explanationOfDischarge": "My discharge was dishonorable"
       }
     ],
     "employers": [
@@ -78,9 +79,11 @@
         "dateRange": {
           "from": "2000-01-01",
           "to": "2004-12-31"
-        }
+        },
+        "reasonForLeaving": "Found a better opportunity"
       }
     ],
+    "employmentActivities": ["FINANCIAL", "HOME"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
@@ -89,6 +92,7 @@
           "from": "2010-01-01",
           "to": "2014-12-31"
         },
+        "degreeReceived": true,
         "degree": "Bachelor of Science",
         "major": "Computer Science"
       }
@@ -96,45 +100,62 @@
     "view:hasEducationalInstitutions": false,
     "jurisdictions": [
       {
-        "name": "California",
+        "jurisdiction": "Other",
+        "otherJurisdiction": "Other Jurisdiction",
         "admissionDate": "2000-01-01",
         "membershipOrRegistrationNumber": "12345"
       }
     ],
-    "view:hasJurisdictions": false,
     "agenciesOrCourts": [
       {
-        "name": "California State Bar",
+        "agencyOrCourt": "Other",
+        "otherAgencyOrCourt": "Other Agency or Court",
         "admissionDate": "2010-01-01",
         "membershipOrRegistrationNumber": "54321"
       }
     ],
     "conviction": true,
-    "convictionPlace": "Kansas City, Missouri",
-    "convictionDate": "2010-01-01",
-    "convictionExplanation": "Violation explanation",
+    "convictionDetailsExplanation": "Conviction explanation",
+    "convictionDetailsCertification": ["CERTIFIED"],
     "courtMartialed": true,
-    "militaryAuthorityName": "U.S. Army",
-    "militaryAuthorityAddress": {
-      "country": "USA",
-      "street": "1234 Main St",
-      "street2": "Apt 1",
-      "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
-    },
-    "underCharges": false,
-    "resignedFromEducation": false,
-    "disciplinedForDishonesty": false,
-    "resignedForDishonesty": false,
-    "representativeForAgency": false,
-    "reprimandedInAgency": false,
-    "appliedForVaAccreditation": false,
-    "terminatedByVsorg": false,
+    "courtMartialedDetailsExplanation": "Court martialed explanation",
+    "courtMartialedDetailsCertification": ["CERTIFIED"],
+    "underCharges": true,
+    "underChargesDetailsExplanation": "Under charges explanation",
+    "underChargesDetailsCertification": ["CERTIFIED"],
+    "resignedFromEducation": true,
+    "resignedFromEducationDetailsExplanation": "Resigned from education explanation",
+    "resignedFromEducationDetailsCertification": ["CERTIFIED"],
+    "withdrawnFromEducation": true,
+    "withdrawnFromEducationDetailsExplanation": "Withdrawn from education explanation",
+    "withdrawnFromEducationDetailsCertification": ["CERTIFIED"],
+    "disciplinedForDishonesty": true,
+    "disciplinedForDishonestyDetailsExplanation": "Disciplined for dishonesty explanation",
+    "disciplinedForDishonestyDetailsCertification": ["CERTIFIED"],
+    "resignedForDishonesty": true,
+    "resignedForDishonestyDetailsExplanation": "Resigned for dishonesty explanation",
+    "resignedForDishonestyDetailsCertification": ["CERTIFIED"],
+    "representativeForAgency": true,
+    "representativeForAgencyDetailsExplanation": "Representative for agency explanation",
+    "representativeForAgencyDetailsCertification": ["CERTIFIED"],
+    "reprimandedInAgency": true,
+    "reprimandedInAgencyDetailsExplanation": "Reprimanded in agency explanation",
+    "reprimandedInAgencyDetailsCertification": ["CERTIFIED"],
+    "resignedFromAgency": true,
+    "resignedFromAgencyDetailsExplanation": "Resigned from agency explanation",
+    "resignedFromAgencyDetailsCertification": ["CERTIFIED"],
+    "appliedForVaAccreditation": true,
+    "appliedForVaAccreditationDetailsExplanation": "Applied for VA accreditation explanation",
+    "appliedForVaAccreditationDetailsCertification": ["CERTIFIED"],
+    "terminatedByVsorg": true,
+    "terminatedByVsorgDetailsExplanation": "Terminated by VSORG explanation",
+    "terminatedByVsorgDetailsCertification": ["CERTIFIED"],
     "conditionThatAffectsRepresentation": true,
-    "conditionThatAffectsRepresentationDetails": "Condition that affects representation details",
+    "conditionThatAffectsRepresentationDetailsExplanation": "Condition that affects representation explanation",
+    "conditionThatAffectsRepresentationDetailsCertification": ["CERTIFIED"],
     "conditionThatAffectsExamination": true,
-    "conditionThatAffectsExaminationDetails": "Condition that affects examination details",
+    "conditionThatAffectsExaminationDetailsExplanation": "Condition that affects examination explanation",
+    "conditionThatAffectsExaminationDetailsCertification": ["CERTIFIED"],
     "characterReferences": [
       {
         "fullName": {

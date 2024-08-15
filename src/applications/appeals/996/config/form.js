@@ -13,6 +13,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
 import SubTaskContainer from '../subtask/SubTaskContainer';
+import InformalConference from '../components/InformalConference';
+import InformalConferenceContact from '../components/InformalConferenceContact';
 
 // Pages
 import veteranInformation from '../pages/veteranInformation';
@@ -25,7 +27,10 @@ import AreaOfDisagreement from '../../shared/components/AreaOfDisagreement';
 import optIn from '../pages/optIn';
 import authorization from '../pages/authorization';
 import issueSummary from '../pages/issueSummary';
-import informalConference from '../pages/informalConference';
+import informalConference from '../pages/informalConferenceChoice';
+import InformalConferenceReview from '../components/InformalConferenceReview';
+import informalConferenceContact from '../pages/informalConference';
+import InformalConferenceContactReview from '../components/InformalConferenceContactReview';
 import informalConferenceRepV2 from '../pages/informalConferenceRep';
 import informalConferenceTime from '../pages/informalConferenceTime';
 import informalConferenceTimeRep from '../pages/informalConferenceTimeRep';
@@ -36,12 +41,13 @@ import {
   showNewHlrContent,
   hideNewHlrContent,
   onFormLoaded,
+  showConferenceContact,
   showConferenceVeteranPage,
   showConferenceRepPages,
 } from '../utils/helpers';
 import { homelessPageTitle } from '../content/homeless';
 import NeedHelp from '../content/NeedHelp';
-import { formTitle, FormSubTitle } from '../content/title';
+import { formTitle, subTitle } from '../content/title';
 
 import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
@@ -108,7 +114,7 @@ const formConfig = {
   },
 
   title: formTitle,
-  subTitle: FormSubTitle,
+  subTitle,
   defaultDefinitions: {},
   preSubmitInfo,
   submissionError,
@@ -226,6 +232,21 @@ const formConfig = {
           title: 'Request an informal conference',
           uiSchema: informalConference.uiSchema,
           schema: informalConference.schema,
+          // original page choices: 'me', 'rep' or 'no'
+          // new page choices: 'yes' or 'no'
+          CustomPage: InformalConference,
+          CustomPageReview: InformalConferenceReview,
+          scrollAndFocusTarget: focusToggledHeader,
+        },
+        conferenceContact: {
+          path: 'informal-conference/contact',
+          title: 'Scheduling your informal conference',
+          depends: showConferenceContact,
+          uiSchema: informalConferenceContact.uiSchema,
+          schema: informalConferenceContact.schema,
+          // new page choices: 'me' or 'rep'
+          CustomPage: InformalConferenceContact,
+          CustomPageReview: InformalConferenceContactReview,
           scrollAndFocusTarget: focusRadioH3,
         },
         representativeInfoV2: {

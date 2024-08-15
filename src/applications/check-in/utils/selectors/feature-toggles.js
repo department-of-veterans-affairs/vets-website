@@ -21,14 +21,14 @@ const selectFeatureToggles = createSelector(
     isTravelReimbursementEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceTravelReimbursement
     ],
-    is45MinuteReminderEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperience45MinuteReminder
-    ],
     isBrowserMonitoringEnabled: toggleValues(state)[
       FEATURE_FLAG_NAMES.checkInExperienceBrowserMonitoring
     ],
-    isUnifiedLandingPageEnabled: toggleValues(state)[
-      FEATURE_FLAG_NAMES.checkInExperienceUnifiedLandingPage
+    isUpcomingAppointmentsEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceUpcomingAppointmentsEnabled
+    ],
+    isMedicationReviewContentEnabled: toggleValues(state)[
+      FEATURE_FLAG_NAMES.checkInExperienceMedicationReviewContent
     ],
   }),
   toggles => toggles,

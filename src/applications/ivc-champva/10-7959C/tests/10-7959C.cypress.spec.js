@@ -13,6 +13,8 @@ import {
   verifyAllDataWasSubmitted,
 } from '../../shared/tests/helpers';
 
+import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+
 // Put all page objects into an object where pagename maps to page data
 // E.g., {page1: {path: '/blah'}}
 const ALL_PAGES = getAllPages(formConfig);
@@ -33,7 +35,6 @@ const testConfig = createTestConfig(
       'test-data.json',
       'maximal-test.json',
       'minimal-test.json',
-      'no-medicare-no-ohi.json',
       'no-medicare-yes-ohi.json',
       'no-medicare-yes-primary.json',
       'yes-medicare-no-ohi.json',
@@ -89,7 +90,7 @@ const testConfig = createTestConfig(
               .shadow()
               .find('input')
               .click({ force: true });
-            cy.findByText('Submit application', {
+            cy.findByText('Submit form', {
               selector: 'button',
             }).click();
           });
@@ -97,11 +98,13 @@ const testConfig = createTestConfig(
       },
     },
     setupPerTest: () => {
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+
       cy.intercept('POST', formConfig.submitUrl, req => {
         cy.get('@testData').then(data => {
           verifyAllDataWasSubmitted(data, req.body);
         });
-        // Mock the backend response on form submit:
+        // Mock response
         req.reply({ status: 200 });
       });
       cy.config('includeShadowDom', true);

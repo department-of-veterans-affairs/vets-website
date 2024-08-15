@@ -109,7 +109,7 @@ describe('ConfirmationPageV2', () => {
       '●●●–●●–8765V A file number ending with 8 7 6 5',
       'February 3, 1990',
       'No',
-      '<va-telephone contact="5558001111" extension="2" not-clickable="true"></va-telephone>',
+      '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
       'user@example.com',
       '123 Main StNew York, NY 30012',
       'Yes',

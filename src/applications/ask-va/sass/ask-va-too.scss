@@ -30,6 +30,10 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   max-width: 30rem;
 }
 
+.schemaform-widget-wrapper {
+  max-width: 480px;
+}
+
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
   margin-top: 0.625rem;
@@ -152,6 +156,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     padding: 24px 16px 0 12px;
     border: solid thin $color-gray-lightest;
     background: $color-gray-lightest;
+    max-width: 480px;
 
     select:disabled {
       background: $color-gray-lightest;
@@ -160,6 +165,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
     #facility-search-controls {
       display: flex;
       flex-direction: column;
+      max-width: 480px;
 
       input,
       textarea,
@@ -198,7 +204,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin: 0;
 
         label {
-          min-width: 50%;
+          min-width: 62%;
         }
 
         @media (min-width: $small-desktop-screen) {
@@ -206,7 +212,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
 
         @media (max-width: $small-screen) {
-          // flex: none;
           display: block;
         }
       }
@@ -247,15 +252,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         @media (max-width: $small-screen) {
           margin-top: 1.25rem;
         }
-      }
-
-      .use-my-location-button {
-        width: 18px;
-        height: 18px;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        padding: 0 1.5em 0 0;
       }
 
       #search-controls-bottom-row {
@@ -321,4 +317,14 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .progress-box {
   padding-left: 0;
+}
+
+.health-facility-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include media($medium-screen) {
+    flex-direction: row;
+  }
 }

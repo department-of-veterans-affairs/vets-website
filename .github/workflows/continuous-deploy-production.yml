@@ -1,0 +1,153 @@
+name: Continuous Deploy Production
+
+on:
+  repository_dispatch:
+    types: [cd-production-deploy]
+
+
+jobs:
+  set-deploy-environments:
+    name: Set Environments to Deploy
+    # if: always() && github.event.client_payload.github_ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    outputs:
+      environments: ${{ steps.set-environments.outputs.environments }}
+    env:
+      DEPLOY_TO_PRODUCTION: true # Enables production deployments for apps on the allowlist when set to true
+      PROD: "{
+        \\\"environment\\\": \\\"vagovprod\\\",
+        \\\"bucket\\\": \\\"www.va.gov\\\",
+        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
+        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
+        }"
+    steps:
+      - name: Set environments for deploy env.DEPLOYMENT_ENVIRONMENT
+        id: set-environments
+        run: |
+          echo environments={\"include\":[${{env.PROD}}]} >> $GITHUB_OUTPUT
+        
+
+  deploy:
+    name: Deploy
+    needs: [set-deploy-environments]
+    # if: always() && github.event.client_payload.github_ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    runs-on: ubuntu-latest
+    env:
+      DEPLOYMENT_ENVIRONMENT: ${{ needs.set-deploy-environments.outputs.environments }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Check if commit can be deployed
+        id: check-deployability
+        run: node ./script/github-actions/check-deployability.js
+        env:
+          BUILDTYPE: ${{ env.DEPLOYMENT_ENVIRONMENT.environment }}
+
+      - name: Configure AWS credentials (1)
+        if: steps.check-deployability.outputs.is_deployable == 'true'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          
+
+      - name: Get AWS IAM role
+        if: steps.check-deployability.outputs.is_deployable == 'true'
+        uses: ./.github/workflows/inject-secrets
+        with:
+          ssm_parameter: /frontend-team/github-actions/parameters/${{ env.DEPLOYMENT_ENVIRONMENT.iam_role }}
+          env_variable_name: ${{ env.DEPLOYMENT_ENVIRONMENT.iam_role }}
+
+      - name: Configure AWS Credentials (2)
+        if: steps.check-deployability.outputs.is_deployable == 'true'
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
+          role: ${{ env.AWS_FRONTEND_NONPROD_ROLE != '' && env.AWS_FRONTEND_NONPROD_ROLE || env.AWS_FRONTEND_PROD_ROLE }}
+          role_duration: 900
+          session_name: vsp-frontendteam-githubaction
+          
+      - name: Output Deploy src
+        run: echo s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/${{ env.DEPLOYMENT_ENVIRONMENT.environment }}.tar.bz2
+
+      - name: Log GitHub Sha
+        run: echo ${{ github.event.client_payload.github_sha }}
+        
+      # - name: Deploy
+      #   if: steps.check-deployability.outputs.is_deployable == 'true'
+      #   run: ./script/github-actions/partial-deploy.sh -s $SRC -d $DEST -a $ASSET_DEST -v
+
+      #   env:
+      #     SRC: s3://vetsgov-website-builds-s3-upload/${{ github.event.client_payload.github_sha }}/${{ env.DEPLOYMENT_ENVIRONMENT.environment }}.tar.bz2
+      #     DEST: s3://${{ env.DEPLOYMENT_ENVIRONMENT.bucket }}
+      #     ASSET_DEST: s3://${{ env.DEPLOYMENT_ENVIRONMENT.asset_bucket }}
+
+  # notify-failure:
+  #   name: Notify Failure
+  #   runs-on: ubuntu-latest
+  #   if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
+  #   needs: [deploy]
+  #   env:
+  #     ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
+  #     DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+  #     VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+  #       with:
+  #         fetch-depth: 0
+
+  #     - name: Install dependencies
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/install
+  #       timeout-minutes: 30
+  #       with:
+  #         key: ${{ hashFiles('yarn.lock') }}
+  #         yarn_cache_folder: .cache/yarn
+  #         path: |
+  #           .cache/yarn
+  #           node_modules
+
+  #     - name: Get changed applications
+  #       id: get-changed-apps
+  #       if: env.ALERT_TEAMS == 'true'
+  #       uses: ./.github/workflows/get-changed-apps
+  #       with:
+  #         output-type: 'slack_group'
+
+  #     - name: Notify application team in Slack
+  #       if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+  #     - name: Notify Slack
+  #       if: steps.get-changed-apps.outputs.slack_groups == ''
+  #       uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+  #       continue-on-error: true
+  #       with:
+  #         payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+  #         channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}

@@ -3,7 +3,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
 import footerContent from 'platform/forms/components/FormFooter';
-import getHelp from '../../simple-forms/shared/components/GetFormHelp';
+import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
 
 import manifest from '../manifest.json';
@@ -15,8 +15,11 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import goals from '../pages/goals';
 import disabilityRating from '../pages/disabilityRating';
 import militaryService from '../pages/militaryService';
+import militaryServiceTimeServed from '../pages/militaryServiceTimeServed';
+import militaryServiceCompleted from '../pages/militaryServiceCompleted';
 import separation from '../pages/separation';
 import giBillStatus from '../pages/giBillStatus';
+import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -38,7 +41,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Disability;GI Bill',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -107,6 +110,18 @@ const formConfig = {
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
         },
+        militaryServiceTimeServed: {
+          path: 'military-service/time-served',
+          title: 'Military Service Time Served',
+          uiSchema: militaryServiceTimeServed.uiSchema,
+          schema: militaryServiceTimeServed.schema,
+        },
+        militaryServiceCompleted: {
+          path: 'military-service/completed',
+          title: 'Military Service Completed',
+          uiSchema: militaryServiceCompleted.uiSchema,
+          schema: militaryServiceCompleted.schema,
+        },
       },
     },
     chapter3: {
@@ -121,6 +136,17 @@ const formConfig = {
       },
     },
     chapter4: {
+      title: 'Character of Discharge',
+      pages: {
+        characterOfDischarge: {
+          path: 'character-of-discharge',
+          title: 'Character of Discharge',
+          uiSchema: characterOfDischarge.uiSchema,
+          schema: characterOfDischarge.schema,
+        },
+      },
+    },
+    chapter5: {
       title: 'Disability',
       pages: {
         disabilityRating: {
@@ -131,12 +157,12 @@ const formConfig = {
         },
       },
     },
-    chapter5: {
+    chapter6: {
       title: 'GI Bill Status',
       pages: {
         giBillStatus: {
           path: 'gi-bill-status',
-          title: 'gi-bill-status',
+          title: 'GI Bill Status',
           uiSchema: giBillStatus.uiSchema,
           schema: giBillStatus.schema,
         },

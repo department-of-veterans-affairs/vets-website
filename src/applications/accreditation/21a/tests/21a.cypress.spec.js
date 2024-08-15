@@ -5,7 +5,11 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 
 import formConfig from '../config/form';
 import manifest from '../manifest.json';
-import { selectDropdownWebComponent, selectYesNoWebComponent } from './helpers';
+import {
+  selectCheckboxGroupWebComponent,
+  selectDropdownWebComponent,
+  selectYesNoWebComponent,
+} from './helpers';
 
 const selectDropdownHook = (field, dataPath) => ({ afterHook }) => {
   afterHook(() => {
@@ -27,6 +31,16 @@ const selectYesNoHook = (selector, conditions) => ({ afterHook }) => {
         }
       });
       cy.findByText(/continue/i, { selector: 'button' }).click();
+    });
+  });
+};
+
+const selectCheckboxGroupHook = field => ({ afterHook }) => {
+  afterHook(() => {
+    cy.get('@testData').then(data => {
+      cy.fillPage();
+      selectCheckboxGroupWebComponent(data[`${field}`]);
+      cy.findByText(/Continue/i, { selector: 'button' }).click();
     });
   });
 };
@@ -89,20 +103,78 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.employers[0].address.state,
       ),
-      'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
+      'employment-activities': selectCheckboxGroupHook('employmentActivities'),
+      jurisdictions: selectDropdownHook(
+        'jurisdiction',
+        data => data.jurisdiction,
+      ),
+      'jurisdictions-summary': selectYesNoHook('view:hasJurisdictions', [
         {
           text:
-            'Are you currently permitted to practice before any state or federal agency or any federal court?',
+            'Are you currently admitted to practice before any jurisdictions?',
           value: true,
         },
         {
-          text: 'Do you have another agency or court to add?',
+          text: 'Do you have another jurisdiction to add?',
           value: false,
         },
       ]),
-      'court-martial-details': selectDropdownHook(
-        'militaryAuthorityAddress_state',
-        data => data.militaryAuthorityAddress.state,
+      'agencies-courts': selectDropdownHook(
+        'agencyOrCourt',
+        data => data.agencyOrCourt,
+      ),
+      'agencies-courts-summary': selectYesNoHook('view:hasAgenciesOrCourts', [
+        {
+          text:
+            'Are you currently admitted to practice before any state or Federal agency or any Federal court?',
+          value: true,
+        },
+        {
+          text: 'Do you have another state or Federal agency or court to add?',
+          value: false,
+        },
+      ]),
+      'conviction-details': selectCheckboxGroupHook(
+        'convictionDetailsCertification',
+      ),
+      'court-martial-details': selectCheckboxGroupHook(
+        'courtMartialedDetailsCertification',
+      ),
+      'under-charges-details': selectCheckboxGroupHook(
+        'underChargesDetailsCertification',
+      ),
+      'resigned-from-education-details': selectCheckboxGroupHook(
+        'resignedFromEducationDetailsCertification',
+      ),
+      'withdrawn-from-education-details': selectCheckboxGroupHook(
+        'withdrawnFromEducationDetailsCertification',
+      ),
+      'disciplined-for-dishonesty-details': selectCheckboxGroupHook(
+        'disciplinedForDishonestyDetailsCertification',
+      ),
+      'resigned-for-dishonesty-details': selectCheckboxGroupHook(
+        'resignedForDishonestyDetailsCertification',
+      ),
+      'representative-for-agency-details': selectCheckboxGroupHook(
+        'representativeForAgencyDetailsCertification',
+      ),
+      'reprimanded-in-agency-details': selectCheckboxGroupHook(
+        'reprimandedInAgencyDetailsCertification',
+      ),
+      'resigned-from-agency-details': selectCheckboxGroupHook(
+        'resignedFromAgencyDetailsCertification',
+      ),
+      'applied-for-va-accreditation-details': selectCheckboxGroupHook(
+        'appliedForVaAccreditationDetailsCertification',
+      ),
+      'terminated-by-vsorg-details': selectCheckboxGroupHook(
+        'terminatedByVsorgDetailsCertification',
+      ),
+      'condition-that-affects-representation-details': selectCheckboxGroupHook(
+        'conditionThatAffectsRepresentationDetailsCertification',
+      ),
+      'condition-that-affects-examination-details': selectCheckboxGroupHook(
+        'conditionThatAffectsExaminationDetailsCertification',
       ),
       'character-references/0/address': selectDropdownHook(
         'address_state',
