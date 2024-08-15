@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate as useNavigateHook } from 'react-router-dom-v5-compat';
 
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -16,10 +15,7 @@ const AlertMhvBasicAccount = ({
   recordEvent = recordEventFn,
   testId,
   ssoe,
-  useNavigate = useNavigateHook,
 } = {}) => {
-  const navigate = useNavigate();
-
   useEffect(
     () => {
       recordEvent({
@@ -33,8 +29,8 @@ const AlertMhvBasicAccount = ({
   );
 
   const signOut = () => {
-    const redirectUrl = ssoe ? logoutUrl() : logoutUrlSiS();
-    navigate(redirectUrl);
+    const url = ssoe ? logoutUrl() : logoutUrlSiS();
+    window.location = url;
   };
 
   return (
@@ -114,7 +110,6 @@ AlertMhvBasicAccount.propTypes = {
   recordEvent: PropTypes.func,
   ssoe: PropTypes.bool,
   testId: PropTypes.string,
-  useEffect: PropTypes.func,
 };
 
 export default AlertMhvBasicAccount;

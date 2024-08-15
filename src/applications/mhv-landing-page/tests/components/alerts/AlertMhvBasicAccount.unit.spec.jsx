@@ -40,8 +40,7 @@ describe('<AlertMhvBasicAccount />', () => {
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
-        expect(navigate.calledOnce).to.be.true;
-        expect(navigate.calledWith(logoutUrlSiS())).to.be.true;
+        expect(window.location).to.eq(logoutUrlSiS());
       });
     });
 
@@ -50,8 +49,7 @@ describe('<AlertMhvBasicAccount />', () => {
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
-        expect(navigate.calledOnce).to.be.true;
-        expect(navigate.calledWith(logoutUrl())).to.be.true;
+        expect(window.location).to.eq(logoutUrl());
       });
     });
   });
