@@ -104,7 +104,7 @@ describe('CG `validatePlannedClinic` form validation', () => {
   it('should not set an error if planned clinic has been declared', () => {
     const { errors, formData } = getData({
       spy: addErrorSpy,
-      formData: { veteranPlannedClinic: '675' },
+      formData: { 'view:plannedClinic': { id: 'my-id' } },
     });
     validatePlannedClinic(errors, {}, formData);
     expect(errors.addError.called).to.be.false;
