@@ -9,7 +9,6 @@ import {
   NOTIFICATION_CHANNEL_IDS,
 } from '@@profile/constants';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { selectPatientFacilities } from '~/platform/user/cerner-dsot/selectors';
 import {
   selectVAPEmailAddress,
@@ -19,6 +18,7 @@ import {
 import { LOADING_STATES } from '~/applications/personalization/common/constants';
 import NotificationChannel from './NotificationChannel';
 import { NotificationChannelCheckboxesFieldset } from './NotificationChannelCheckboxesFieldset';
+import { useNotificationSettingsUtils } from '../../hooks';
 
 const getChannelsByItemId = (itemId, channelEntities) => {
   return Object.values(channelEntities).filter(
@@ -27,10 +27,23 @@ const getChannelsByItemId = (itemId, channelEntities) => {
 };
 
 const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const emailNotificationsEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowEmailNotificationSettings,
-  );
+  const {
+    profileShowMhvNotificationSettingsEmailAppointmentReminders: aptReminderToggle,
+    profileShowMhvNotificationSettingsEmailRxShipment: shipmentToggle,
+  } = useNotificationSettingsUtils().toggles;
+
+  // Determine which toggle applies based on itemId
+  const emailNotificationsEnabled = (() => {
+    switch (itemId) {
+      case 'item3':
+        return aptReminderToggle;
+      case 'item4':
+        return shipmentToggle;
+      default:
+        return true;
+    }
+  })();
+
   // this is filtering all the channels that end with 1, which is the text channel
   // once the support for email is added, we'll need to remove this filter along with the feature toggle reliance
   const filteredChannels = useMemo(
@@ -85,6 +98,16 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
     },
     [channelsByItemId],
   );
+
+  // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
+  const getMobilePhone = useSelector(state => selectVAPMobilePhone(state));
+  const shouldBlock =
+    userHasAtLeastOneChannelContactInfo &&
+    ((itemId === 'item3' && !aptReminderToggle) ||
+      (itemId === 'item4' && !shipmentToggle)) &&
+    !getMobilePhone;
+
+  if (shouldBlock) return null;
 
   return (
     <>

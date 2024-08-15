@@ -42,6 +42,7 @@ describe('Notification Settings For Mobile Phone', () => {
               .findByRole('progressbar', { name: /loading/i })
               .should('exist');
           });
+
         cy.injectAxeThenAxeCheck();
 
         // and then the loading indicator should be removed
@@ -76,7 +77,7 @@ describe('Notification Settings For Mobile Phone', () => {
         cy.intercept(
           'v0/feature_toggles*',
           generateFeatureToggles({
-            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
           }),
         );
         const user = makeMockUser();

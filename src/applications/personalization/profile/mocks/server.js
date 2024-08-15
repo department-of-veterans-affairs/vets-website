@@ -94,10 +94,12 @@ const responses = {
             authExpVbaDowntimeMessage: false,
             profileHideDirectDeposit: true,
             profileShowCredentialRetirementMessaging: true,
-            profileShowEmailNotificationSettings: true,
-            profileShowMhvNotificationSettings: true,
             profileShowPaymentsNotificationSetting: true,
-            profileShowQuickSubmitNotificationSetting: true,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+            profileShowMhvNotificationSettingsEmailRxShipment: false,
+            profileShowMhvNotificationSettingsNewSecureMessaging: false,
+            profileShowMhvNotificationSettingsMedicalImages: false,
+            profileShowQuickSubmitNotificationSetting: false,
             profileUseExperimental: true,
             profileShowDirectDepositSingleForm: true,
             profileShowDirectDepositSingleFormUAT: false,
@@ -118,7 +120,7 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
@@ -129,7 +131,7 @@ const responses = {
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
-    // return res.json(user.loa3UserWithNoEmail); // user with no email address
+    return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
     // return res.json(user.loa3UserWithoutMailingAddress); // user with no mailing address

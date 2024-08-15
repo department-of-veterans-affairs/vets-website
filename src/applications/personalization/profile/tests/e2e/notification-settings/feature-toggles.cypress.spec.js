@@ -64,7 +64,7 @@ describe('Notification Settings Feature Toggles', () => {
   });
 
   describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
-    it('should SHOW the QuickSubmit notif setting when toggle is TRUE', () => {
+    it('should NOT SHOW the QuickSubmit if setting EVEN when toggle is TRUE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -78,13 +78,13 @@ describe('Notification Settings Feature Toggles', () => {
       NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
 
       NotificationSettingsFeature.confirmQuickSubmitNotificationSetting({
-        exists: true,
+        exists: false,
       });
 
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should NOT SHOW the QuickSubmit notif setting when toggle is FALSE', () => {
+    it('should NOT SHOW the QuickSubmit if setting when toggle is FALSE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
@@ -106,14 +106,16 @@ describe('Notification Settings Feature Toggles', () => {
   });
 
   describe('Shows/Hides MHV settings via feature toggle', () => {
-    it('should SHOW the MHV settings when profileShowMhvNotificationSettings toggle is TRUE', () => {
+    it('should SHOW the MHV settings when all the notification settings toggles are TRUE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          profileShowMhvNotificationSettings: true,
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+          profileShowMhvNotificationSettingsNewSecureMessaging: true,
+          profileShowMhvNotificationSettingsEmailRxShipment: true,
+          profileShowMhvNotificationSettingsMedicalImages: true,
           profileShowPaymentsNotificationSetting: true,
-          profileShowEmailNotificationSettings: true,
         }),
       );
 
@@ -125,23 +127,30 @@ describe('Notification Settings Feature Toggles', () => {
         exists: true,
       });
 
-      cy.findByText('General VA Updates and Information').should('exist');
-      cy.findByText('Biweekly MHV newsletter').should('exist');
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
 
-      cy.findByText('RX refill shipment notification').should('exist');
-      cy.findByText('VA Appointment reminders').should('exist');
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Prescription shipment and tracking updates').should(
+        'exist',
+      );
       cy.findByText('Secure messaging alert').should('exist');
       cy.findByText('Medical images and reports available').should('exist');
 
       cy.injectAxeThenAxeCheck();
     });
 
-    it('should NOT SHOW the payment notification setting when profileShowMhvNotificationSettings toggle is FALSE', () => {
+    it('should NOT SHOW any MHV settings beside Appointment reminder for text when all the toggles are FALSE', () => {
       cy.intercept(
         'GET',
         '/v0/feature_toggles*',
         generateFeatureToggles({
-          profileShowMhvNotificationSettings: false,
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+          profileShowMhvNotificationSettingsNewSecureMessaging: false,
+          profileShowMhvNotificationSettingsEmailRxShipment: false,
+          profileShowMhvNotificationSettingsMedicalImages: false,
           profileShowPaymentsNotificationSetting: false,
         }),
       );
@@ -154,12 +163,151 @@ describe('Notification Settings Feature Toggles', () => {
         exists: false,
       });
 
+      cy.findByText('Appointment reminders').should('exist');
+
       cy.findByText('General VA Updates and Information').should('not.exist');
       cy.findByText('Biweekly MHV newsletter').should('not.exist');
-
       cy.findByText('RX refill shipment notification').should('not.exist');
       cy.findByText('VA Appointment reminders').should('not.exist');
       cy.findByText('Secure messaging alert').should('not.exist');
+      cy.findByText('Medical images and reports available').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show Appointment reminder settings for text when all the profileShowMhvNotificationSettingsEmailAppointmentReminders toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
+          profileShowMhvNotificationSettingsNewSecureMessaging: false,
+          profileShowMhvNotificationSettingsEmailRxShipment: false,
+          profileShowMhvNotificationSettingsMedicalImages: false,
+          profileShowPaymentsNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      cy.findByText('Appointment reminders').should('exist');
+
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
+      cy.findByText('Secure messaging alert').should('not.exist');
+      cy.findByText('Medical images and reports available').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show Secure messaging alert settings for text when all the profileShowMhvNotificationSettingsNewSecureMessaging toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+          profileShowMhvNotificationSettingsNewSecureMessaging: true,
+          profileShowMhvNotificationSettingsEmailRxShipment: false,
+          profileShowMhvNotificationSettingsMedicalImages: false,
+          profileShowPaymentsNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Secure messaging alert').should('exist');
+
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
+      cy.findByText('Medical images and reports available').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show Prescription shipment and tracking updates settings for text when all the profileShowMhvNotificationSettingsEmailRxShipment toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+          profileShowMhvNotificationSettingsNewSecureMessaging: false,
+          profileShowMhvNotificationSettingsEmailRxShipment: true,
+          profileShowMhvNotificationSettingsMedicalImages: false,
+          profileShowPaymentsNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Prescription shipment and tracking updates').should(
+        'exist',
+      );
+
+      cy.findByText('Secure messaging alert').should('not.exist');
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
+      cy.findByText('Medical images and reports available').should('not.exist');
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should show Medical images and reports available settings for text when all the profileShowMhvNotificationSettingsMedicalImages toggle is TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+          profileShowMhvNotificationSettingsNewSecureMessaging: false,
+          profileShowMhvNotificationSettingsEmailRxShipment: true,
+          profileShowMhvNotificationSettingsMedicalImages: false,
+          profileShowPaymentsNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      cy.findByText('Appointment reminders').should('exist');
+      cy.findByText('Prescription shipment and tracking updates').should(
+        'exist',
+      );
+
+      cy.findByText('Secure messaging alert').should('not.exist');
+      cy.findByText('General VA Updates and Information').should('not.exist');
+      cy.findByText('Biweekly MHV newsletter').should('not.exist');
+      cy.findByText('RX refill shipment notification').should('not.exist');
+      cy.findByText('VA Appointment reminders').should('not.exist');
       cy.findByText('Medical images and reports available').should('not.exist');
 
       cy.injectAxeThenAxeCheck();

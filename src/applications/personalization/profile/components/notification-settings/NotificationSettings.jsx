@@ -46,12 +46,13 @@ const NotificationSettings = ({
 
   const {
     toggles: notificationToggles,
+    showEmail,
     useAvailableGroups,
   } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
-      return notificationToggles?.showEmailNotificationSettings
+      return showEmail
         ? !!(emailAddress || mobilePhoneNumber)
         : !!mobilePhoneNumber;
     },
@@ -131,9 +132,7 @@ const NotificationSettings = ({
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
           missingEmailAddress={!emailAddress}
-          showEmailNotificationSettings={
-            notificationToggles.showEmailNotificationSettings
-          }
+          showEmailNotificationSettings={showEmail}
         />
       )}
       {shouldShowNotificationGroups && (
@@ -142,14 +141,10 @@ const NotificationSettings = ({
           <ContactInfoOnFile
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
-            showEmailNotificationSettings={
-              notificationToggles.showEmailNotificationSettings
-            }
+            showEmailNotificationSettings={showEmail}
           />
           <MissingContactInfoExpandable
-            showEmailNotificationSettings={
-              notificationToggles.showEmailNotificationSettings
-            }
+            showEmailNotificationSettings={showEmail}
           />
           <hr aria-hidden="true" />
           {availableGroups.map(({ id }) => {

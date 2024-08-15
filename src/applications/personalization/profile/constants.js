@@ -168,9 +168,8 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
 export const BLOCKED_MHV_NOTIFICATION_IDS = [
   'item7',
   'item8',
-  'item9',
-  'item10',
   'item11',
+  'item12',
 ];
 
 // used for api status GA events
