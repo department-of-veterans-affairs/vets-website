@@ -10,6 +10,7 @@ describe('Secure Messaging Compose', () => {
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
+
   it('verify user can send a message', () => {
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(requestBody.category);
@@ -18,8 +19,10 @@ describe('Secure Messaging Compose', () => {
       force: true,
     });
     PatientComposePage.sendMessage(requestBody);
+    cy.get(Locators.SPINNER, { timeout: 15000 }).should('be.visible');
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    cy.get(Locators.SPINNER).should('exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
