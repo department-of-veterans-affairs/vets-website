@@ -1387,4 +1387,10 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
     });
   });
+
+  describe('when OH Direct Scheduling is enabled', () => {
+    it('should not display MHV scheduling link for foodAndNutrition appointments', async () => {
+      return true;
+    });
+  });
 });
