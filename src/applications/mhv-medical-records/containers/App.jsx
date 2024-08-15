@@ -67,6 +67,17 @@ const App = ({ children }) => {
     state => state.scheduledDowntime?.globalDowntime,
   );
 
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
+  );
+
   const mhvMrDown = useMemo(
     () => {
       if (scheduledDowntimes.size > 0) {

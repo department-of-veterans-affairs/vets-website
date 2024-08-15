@@ -63,7 +63,7 @@ const IntroductionPage = ({ route }) => {
               <li>
                 First we’ll ask you for some personal details. The information
                 you provide needs to match the form. If it doesn’t, it will
-                cause delays
+                cause delays.
               </li>
               <li>Then we’ll ask you to upload your completed form.</li>
               <li>
