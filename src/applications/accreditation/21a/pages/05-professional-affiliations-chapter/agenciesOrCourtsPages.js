@@ -1,50 +1,75 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  selectSchema,
+  selectUI,
   textSchema,
   textUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+
+import { agenciesOrCourtsOptions } from '../../constants/agenciesOrCourts';
+import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'agenciesOrCourts',
-  nounSingular: 'agency or court',
-  nounPlural: 'agencies or courts',
+  nounSingular: 'state or Federal agency or court',
+  nounPlural: 'state or Federal agencies or courts',
   required: false,
   isItemIncomplete: item =>
-    !item?.name ||
+    !item?.agencyOrCourt ||
+    (item?.agencyOrCourt === 'Other' && !item?.otherAgencyOrCourt) ||
     !item?.admissionDate ||
     !item?.membershipOrRegistrationNumber,
   text: {
-    getItemName: item => item.name,
-    cardDescription: item => formatReviewDate(item?.admissionDate),
+    getItemName: item =>
+      item?.agencyOrCourt === 'Other'
+        ? item?.otherAgencyOrCourt
+        : item?.agencyOrCourt,
+    cardDescription: item =>
+      `${formatReviewDate(item?.admissionDate)}, #${
+        item?.membershipOrRegistrationNumber
+      }`,
   },
 };
 
 /** @returns {PageSchema} */
 const agencyOrCourtPage = {
   uiSchema: {
-    ...titleUI(
-      'State or federal agency or court',
-      'Add details of an agency or court you are admitted to practice before.',
-    ),
-    name: textUI('Name of agency/court'),
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'State or Federal agency or court',
+      description:
+        'List each agency or court to which you are admitted. You will be able to add additional agencies or courts on the next screen.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
+    agencyOrCourt: selectUI('Agency/court'),
+    otherAgencyOrCourt: textUI({
+      title: 'Name of agency/court',
+      expandUnder: 'agencyOrCourt',
+      expandUnderCondition: 'Other',
+      required: (formData, index) =>
+        formData?.agenciesOrCourts?.[index]?.agencyOrCourt === 'Other',
+    }),
     admissionDate: currentOrPastDateUI('Date of admission'),
     membershipOrRegistrationNumber: textUI('Membership or registration number'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: textSchema,
+      agencyOrCourt: selectSchema(agenciesOrCourtsOptions),
+      otherAgencyOrCourt: textSchema,
       admissionDate: currentOrPastDateSchema,
       membershipOrRegistrationNumber: textSchema,
     },
-    required: ['name', 'admissionDate', 'membershipOrRegistrationNumber'],
+    required: [
+      'agencyOrCourt',
+      'admissionDate',
+      'membershipOrRegistrationNumber',
+    ],
   },
 };
 
@@ -59,12 +84,13 @@ const summaryPage = {
       arrayBuilderOptions,
       {
         title:
-          'Are you currently permitted to practice before any state or federal agency or any federal court?',
+          'Are you currently admitted to practice before any state or Federal agency or any Federal court?',
         labelHeaderLevel: 'p',
         hint: ' ',
       },
       {
         labelHeaderLevel: 'p',
+        hint: 'List each agency or court to which you are admitted.',
       },
     ),
   },
@@ -81,13 +107,13 @@ const agenciesOrCourtsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     agenciesOrCourtsSummary: pageBuilder.summaryPage({
-      title: 'Review your state or federal agencies or courts',
+      title: 'Review your state or Federal agencies or courts',
       path: 'agencies-courts-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     agencyOrCourtPage: pageBuilder.itemPage({
-      title: 'State or federal agency or court',
+      title: 'State or Federal agency or court',
       path: 'agencies-courts/:index/agency-court',
       uiSchema: agencyOrCourtPage.uiSchema,
       schema: agencyOrCourtPage.schema,

@@ -76,17 +76,19 @@ const convertChemHemObservation = record => {
     const { observationValue, observationUnit } = getObservationValueWithUnits(
       result,
     );
-    let observationValueWithUnits = `${observationValue} ${observationUnit}`;
+    const fixedObservationValue =
+      typeof observationValue === 'number'
+        ? observationValue.toFixed(1)
+        : observationValue;
+    let observationValueWithUnits = `${fixedObservationValue} ${observationUnit}`;
     const interpretation = concatObservationInterpretations(result);
     if (observationValueWithUnits && interpretation) {
       observationValueWithUnits += ` (${interpretation})`;
     }
-    let standardRange;
-    if (observationUnit) {
-      standardRange = isArrayAndHasItems(result.referenceRange)
-        ? `${result.referenceRange[0].text} ${observationUnit}`
-        : null;
-    }
+    const standardRange = isArrayAndHasItems(result.referenceRange)
+      ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+      : null;
+
     return {
       name: result.code.text,
       result: observationValueWithUnits || EMPTY_FIELD,
