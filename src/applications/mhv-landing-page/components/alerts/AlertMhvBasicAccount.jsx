@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useNavigate } from 'react-router-dom-v5-compat';
+import { useNavigate as useNavigateHook } from 'react-router-dom-v5-compat';
 
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
@@ -11,7 +11,13 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
+const AlertMhvBasicAccount = ({
+  headline,
+  recordEvent = recordEventFn,
+  testId,
+  ssoe,
+  useNavigate = useNavigateHook,
+} = {}) => {
   const navigate = useNavigate();
 
   useEffect(
@@ -99,14 +105,12 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
 AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
-  recordEvent: recordEventFn,
   ssoe: false,
   testId: 'mhv-alert--mhv-basic-account',
 };
 
 AlertMhvBasicAccount.propTypes = {
   headline: PropTypes.string,
-  recordEvent: PropTypes.func,
   ssoe: PropTypes.bool,
   testId: PropTypes.string,
 };

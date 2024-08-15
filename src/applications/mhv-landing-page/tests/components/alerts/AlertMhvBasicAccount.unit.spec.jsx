@@ -3,11 +3,11 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
 
 import AlertMhvBasicAccount from '../../../components/alerts/AlertMhvBasicAccount';
+import { renderWithRouter } from '../../unit-test-helpers';
 
 const { defaultProps } = AlertMhvBasicAccount;
 
@@ -15,7 +15,7 @@ describe('<AlertMhvBasicAccount />', () => {
   it('renders', async () => {
     const recordEvent = sinon.spy();
     const props = { ...defaultProps, recordEvent };
-    const { getByRole, getByTestId } = render(
+    const { getByRole, getByTestId } = renderWithRouter(
       <AlertMhvBasicAccount {...props} />,
     );
     getByTestId(defaultProps.testId);
@@ -27,21 +27,31 @@ describe('<AlertMhvBasicAccount />', () => {
   });
 
   describe('Sign out button', () => {
+    let navigate;
+    let useNavigate;
+
+    beforeEach(() => {
+      navigate = sinon.spy();
+      useNavigate = () => navigate;
+    });
+
     it('redirects to logoutUrlSis() when ssoe is false', async () => {
-      const props = { ...defaultProps, ssoe: false };
+      const props = { ...defaultProps, ssoe: false, useNavigate };
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
-        expect(window.location).to.equal(logoutUrlSiS());
+        expect(navigate.calledOnce).to.be.true;
+        expect(navigate.calledWith(logoutUrlSiS())).to.be.true;
       });
     });
 
     it('redirects to logoutUrl() when ssoe is true', async () => {
-      const props = { ...defaultProps, ssoe: true };
+      const props = { ...defaultProps, ssoe: true, useNavigate };
       const { getByTestId } = render(<AlertMhvBasicAccount {...props} />);
       getByTestId('mhv-button--sign-out').click();
       await waitFor(() => {
-        expect(window.location).to.equal(logoutUrl());
+        expect(navigate.calledOnce).to.be.true;
+        expect(navigate.calledWith(logoutUrl())).to.be.true;
       });
     });
   });
