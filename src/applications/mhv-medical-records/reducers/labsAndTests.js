@@ -103,9 +103,10 @@ const getPractitioner = (record, serviceRequest) => {
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
     const practitionerName = practitioner?.name[0];
+    const name = practitionerName?.text;
     const familyName = practitionerName?.family;
-    const givenNames = practitionerName?.given.join(' ');
-    return `${familyName ? `${familyName}, ` : ''}${givenNames}`;
+    const givenNames = practitionerName?.given?.join(' ');
+    return name || `${familyName ? `${familyName}, ` : ''}${givenNames}`;
   }
   return null;
 };
