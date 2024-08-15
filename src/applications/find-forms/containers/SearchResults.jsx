@@ -243,7 +243,7 @@ export const SearchResults = ({
           pdfUrl={pdfUrl}
           pdfSelected={pdfSelected}
           prevFocusedLink={prevFocusedLink}
-          searchResults={true}
+          searchResults
           toggleModalState={toggleModalState}
         />
       </div>

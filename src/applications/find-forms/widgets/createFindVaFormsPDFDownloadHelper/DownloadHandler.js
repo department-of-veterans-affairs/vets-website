@@ -21,15 +21,18 @@ const DownloadHandler = ({
   networkRequestError,
   reduxStore,
 }) => {
-  const div = document.createElement('div');
-  div.className = 'faf-pdf-alert-modal-root';
+  const pdfDownloadButton = document.getElementById(clickedId);
+  let pdfDownloadParent = null;
 
-  const pdfDownloadContainer = document.getElementById(
-    'main-download-container',
-  );
-  const pdfDownloadButton = document.getElementById('main-download-button');
+  if (clickedId === 'main-download-button') {
+    pdfDownloadParent = document.getElementById('main-download-container');
+  } else {
+    pdfDownloadParent = document.getElementById(`${clickedId}-parent`);
+  }
 
   if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
+    const modalDiv = document.createElement('div');
+
     ReactDOM.render(
       <Provider store={reduxStore}>
         <div
@@ -46,11 +49,13 @@ const DownloadHandler = ({
           url={downloadUrl}
         />
       </Provider>,
-      div,
+      modalDiv,
     );
 
-    pdfDownloadContainer?.insertBefore(div, pdfDownloadButton);
+    pdfDownloadParent?.insertBefore(modalDiv, pdfDownloadButton);
   } else {
+    const alertDiv = document.createElement('div');
+
     let errorMessage = 'Find Forms - Form Detail - invalid PDF accessed';
 
     if (networkRequestError) {
@@ -70,10 +75,10 @@ const DownloadHandler = ({
     sentryLogger(form, formNumber, downloadUrl, errorMessage);
 
     const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
+    ReactDOM.render(alertBox, alertDiv);
 
-    ReactDOM.render(alertBox, div);
-    pdfDownloadContainer?.insertBefore(div, pdfDownloadButton);
-    pdfDownloadContainer?.removeChild(pdfDownloadButton);
+    pdfDownloadParent?.insertBefore(alertDiv, pdfDownloadButton);
+    pdfDownloadParent?.removeChild(pdfDownloadButton);
   }
 };
 
