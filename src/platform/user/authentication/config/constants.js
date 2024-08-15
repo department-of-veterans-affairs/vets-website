@@ -42,5 +42,5 @@ export const arpWebOAuthOptions = {
 export const OAuthEnabledApplications = [
   undefined /* default */,
   EXTERNAL_APPS.VA_FLAGSHIP_MOBILE,
-  EXTERNAL_APPS.ARP,
+  EXTERNAL_APPS.ARP, // NOTE: 'arp' is the default ARP Client ID, but varies by environment
 ];
