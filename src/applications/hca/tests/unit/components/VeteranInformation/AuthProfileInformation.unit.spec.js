@@ -5,18 +5,19 @@ import { expect } from 'chai';
 import AuthProfileInformation from '../../../../components/VeteranInformation/AuthProfileInformation';
 
 describe('hca <AuthProfileInformation>', () => {
-  const getData = ({ dob = undefined }) => ({
+  const getData = ({ disabilityRating = 30, dob = undefined }) => ({
     props: {
       user: {
         veteranFullName: { first: 'John', middle: null, last: 'Smith' },
         veteranDateOfBirth: dob,
-        totalDisabilityRating: 30,
+        totalDisabilityRating: disabilityRating,
       },
     },
   });
   const subject = ({ props }) => {
     const { container } = render(<AuthProfileInformation {...props} />);
     const selectors = {
+      alert: container.querySelector('va-alert-expandable'),
       vetName: container.querySelector('[data-dd-action-name="Veteran name"]'),
       vetDOB: container.querySelector('[data-dd-action-name="Date of birth"]'),
       disabilityRating: container.querySelector(
@@ -36,8 +37,15 @@ describe('hca <AuthProfileInformation>', () => {
   it('should render total disability rating from form data', () => {
     const { props } = getData({});
     const { selectors } = subject({ props });
+    expect(selectors.alert).to.not.exist;
     expect(selectors.disabilityRating).to.exist;
     expect(selectors.disabilityRating).to.contain.text('30%');
+  });
+
+  it('should render short form alert when disability rating meets the requirement', () => {
+    const { props } = getData({ disabilityRating: 80 });
+    const { selectors } = subject({ props });
+    expect(selectors.alert).to.exist;
   });
 
   it('should not render birthdate container when profile data omits date of birth value', () => {
