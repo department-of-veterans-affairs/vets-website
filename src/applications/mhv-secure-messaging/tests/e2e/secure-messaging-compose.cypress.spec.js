@@ -22,7 +22,7 @@ describe('Secure Messaging Compose', () => {
     cy.get(Locators.SPINNER).should('be.visible');
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
-    cy.get(Locators.SPINNER).should('exist');
+    cy.get(Locators.SPINNER).should('not.exist');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
