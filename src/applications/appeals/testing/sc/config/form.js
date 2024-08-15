@@ -22,10 +22,11 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
-import MockContactInfo from '../components/_MockContactInfo';
 
 import veteranInfo from '../pages/veteranInfo';
-// import contactInfo from '../pages/contactInformation';
+import mockContactInfo, {
+  MockContactInfoReview,
+} from '../pages/_mockContactInfo';
 import primaryPhone from '../pages/primaryPhone';
 
 import housingRisk from '../pages/housingRisk';
@@ -147,6 +148,7 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: MockContactInfoReview, // FOR NON_AUTH TESTING ONLY
       pages: {
         veteranInfo: {
           title: 'Veteran information',
@@ -161,11 +163,8 @@ const formConfig = {
         mockContactInfo: {
           title: 'Contact information',
           path: 'contact-information',
-          uiSchema: {
-            'ui:title': ' ',
-            'ui:description': MockContactInfo,
-          },
-          schema: blankSchema,
+          uiSchema: mockContactInfo.uiSchema,
+          schema: mockContactInfo.schema,
         },
 
         choosePrimaryPhone: {
@@ -269,13 +268,6 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
-          initialData: {
-            form5103Acknowledged: false,
-            housingRisk: true,
-            livingSituation: { other: true },
-            pointOfContactName: 'John Doe',
-            pointOfContactPhone: '8005551212',
-          },
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
