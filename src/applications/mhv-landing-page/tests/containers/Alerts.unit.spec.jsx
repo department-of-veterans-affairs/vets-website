@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 
 import { CSP_IDS } from '~/platform/user/authentication/constants';
-import { render } from '../unit-spec-helpers';
+import { renderInReduxProvider } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 
 import Alerts from '../../containers/Alerts';
 
@@ -23,7 +23,7 @@ const stateFn = ({
 });
 
 const setup = ({ initialState = stateFn() } = {}) =>
-  render(<Alerts />, { initialState });
+  renderInReduxProvider(<Alerts />, { initialState });
 
 describe('<Alerts /> container', () => {
   it('renders nothing', () => {

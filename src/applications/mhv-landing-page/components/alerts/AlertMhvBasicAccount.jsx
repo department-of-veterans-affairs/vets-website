@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-
 // eslint-disable-next-line import/no-named-default
 import { default as recordEventFn } from '~/platform/monitoring/record-event';
 import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
@@ -10,12 +9,7 @@ import {
   VaButton,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const AlertMhvBasicAccount = ({
-  headline,
-  recordEvent = recordEventFn,
-  testId,
-  ssoe,
-} = {}) => {
+const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
   useEffect(
     () => {
       recordEvent({
@@ -29,8 +23,7 @@ const AlertMhvBasicAccount = ({
   );
 
   const signOut = () => {
-    const url = ssoe ? logoutUrl() : logoutUrlSiS();
-    window.location = url;
+    window.location = ssoe ? logoutUrl() : logoutUrlSiS();
   };
 
   return (
@@ -101,6 +94,7 @@ const AlertMhvBasicAccount = ({
 AlertMhvBasicAccount.defaultProps = {
   headline:
     'You need to sign in with a different account to access My HealtheVet',
+  recordEvent: recordEventFn,
   ssoe: false,
   testId: 'mhv-alert--mhv-basic-account',
 };
