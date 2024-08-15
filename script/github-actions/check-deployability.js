@@ -57,6 +57,7 @@ const getInProgressWorkflowRuns = workflow_id => {
  * @returns {string} Commit hash of the latest full deploy.
  */
 const getLastFullDeployCommit = async env => {
+  console.log(env);
   const envBucketUrl = BUCKETS[env];
   const buildTextUrl = new URL(path.join(envBucketUrl, 'BUILD.txt'));
 
