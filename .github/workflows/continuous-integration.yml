@@ -338,7 +338,7 @@ jobs:
           output-type: 'folder'
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage verbose
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level trace
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           CHANGED_FILES: ${{ steps.get-changed-apps.outputs.changed_files }}
