@@ -111,7 +111,7 @@ export const formConfig1 = {
 
 // This is a sample of the data structure produced by content-build.
 export const normalizedForm = {
-  id: 71160,
+  cmsId: 71160,
   formId: '2121212',
   title: 'Form with Two Steps',
   ombNumber: '1212-1212',
@@ -143,7 +143,7 @@ export const normalizedForm = {
  * tickets related to the Form Engine: Recreating VA Form 21-4140 epic.
  */
 export const employmentQuestionnaire = {
-  id: 10001,
+  cmsId: 10001,
   formId: '21-4140',
   title: 'Employment Questionnaire',
   ombNumber: '2900-0079',
