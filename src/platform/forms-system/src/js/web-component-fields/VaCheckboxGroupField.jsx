@@ -52,9 +52,9 @@ export default function VaCheckboxGroupField(props) {
   const onGroupChange = event => {
     const checkboxKey = event.target.dataset.key;
     const value =
-      event.target.tagName === 'VA-CHECKBOX'
-        ? event.detail.checked
-        : event.target.value;
+      event.target.tagName === 'VA-TEXT-INPUT'
+        ? event.target.value
+        : event.detail.checked;
 
     const newVal = {
       ...props.childrenProps.formData,
@@ -105,7 +105,14 @@ export default function VaCheckboxGroupField(props) {
               label: uiSchema?.['ui:title'] || schema.title,
             };
 
-            return schema.type === 'boolean' ? (
+            return schema.type === 'string' ? (
+              <va-text-input
+                {...elmProps}
+                value={formData}
+                onInput={onGroupChange}
+                {...uiSchema['ui:options']}
+              />
+            ) : (
               <va-checkbox
                 {...elmProps}
                 checked={formData === 'undefined' ? false : formData}
@@ -113,13 +120,6 @@ export default function VaCheckboxGroupField(props) {
                 checkbox-description={
                   uiSchema?.['ui:description'] || schema.description
                 }
-              />
-            ) : (
-              <va-text-input
-                {...elmProps}
-                value={formData}
-                onInput={onGroupChange}
-                {...uiSchema['ui:options']}
               />
             );
           })}
