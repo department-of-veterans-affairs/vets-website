@@ -60,6 +60,7 @@
   "enrollmentVerification": "enrollment_verification",
   "ezrProdEnabled": "ezr_prod_enabled",
   "ezrUploadEnabled": "ezr_upload_enabled",
+  "ezrEmergencyContactsEnabled": "ezr_emergency_contacts_enabled",
   "facilitiesPpmsSuppressAll": "facilities_ppms_suppress_all",
   "facilitiesPpmsSuppressCommunityCare": "facilities_ppms_suppress_community_care",
   "facilitiesPpmsSuppressPharmacies": "facilities_ppms_suppress_pharmacies",

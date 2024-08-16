@@ -37,6 +37,15 @@ export function isSigiEnabled(formData) {
 }
 
 /**
+ * Helper that determines if emergency contacts is enabled
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the viewfield is empty
+ */
+export function isEmergencyContactsEnabled(formData) {
+  return formData['view:isEmergencyContactsEnabled'];
+}
+
+/**
  * Helper that determines if the Veteran's home and mailing address are the same
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the viewfield is set to `false`

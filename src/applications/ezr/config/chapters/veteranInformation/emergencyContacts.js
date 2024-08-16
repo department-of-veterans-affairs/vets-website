@@ -14,7 +14,7 @@ import {
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import content from '../../../locales/en/content.json';
-import { hasEmergencyContactAddress } from '../../../utils/helpers/form-config';
+import { isEmergencyContactsEnabled } from '../../../utils/helpers/form-config';
 
 const {
   veteranContacts: { items: contact },
@@ -27,33 +27,47 @@ const arrayBuilderOptions = {
   nounSingular: 'emergency contact',
   nounPlural: 'emergency contacts',
   required: false,
+  maxItems: 2,
+  isItemIncomplete: item =>
+    !item?.fullName?.first ||
+    !item?.fullName?.last ||
+    !item?.primaryPhone ||
+    !item?.relationship,
   text: {
-    getItemName: item => item?.fullName?.first,
+    getItemName: item => `${item?.fullName?.first} ${item?.fullName?.last}`,
+    cardDescription: item => `${item?.primaryPhone}`,
+    deleteTitle: _ => 'Remove',
+    deleteYes: _ => 'Yes, remove this emergency contact',
+    deleteDescription: item =>
+      `This will remove ${item?.fullName?.first} ${
+        item?.fullName?.last
+      } and all the information from your list of emergency contacts.`,
   },
+  depends: isEmergencyContactsEnabled,
 };
 
 const emergencyContactsPage = {
   uiSchema: {
     ...titleUI(
-      'Emergency Contact',
-      'The person you want us to contact in an emergency. You can add up to two emergency contacts.',
+      content['emergency-contact-title'],
+      content['emergency-contact-description'],
     ),
     fullName: fullNameUI(),
     primaryPhone: {
-      ...phoneUI(content['vet-home-phone-label']),
+      ...phoneUI(content['emergency-contact-phone']),
       'ui:errorMessages': {
         required: content['phone-number-error-message'],
         pattern: content['phone-number-error-message'],
       },
     },
     relationship: selectUI({
-      title: "What is the emergency contact's relationship to you?",
+      title: content['emergency-contact-relationship'],
       errorMessages: {
-        required: 'Please select the relationship',
+        required: content['emergency-contact-relationship-error-message'],
       },
     }),
     'view:hasEmergencyContactAddress': yesNoUI(
-      "Do you want to share your emergency contact's address?",
+      content['emergency-contact-address-label'],
     ),
   },
   schema: {
@@ -64,13 +78,18 @@ const emergencyContactsPage = {
       relationship,
       'view:hasEmergencyContactAddress': yesNoSchema,
     },
-    required: ['fullName', 'view:hasEmergencyContactAddress'],
+    required: [
+      'fullName',
+      'primaryPhone',
+      'relationship',
+      'view:hasEmergencyContactAddress',
+    ],
   },
 };
 
 const emergencyContactsAddressPage = {
   uiSchema: {
-    ...titleUI('Emergency Contact Address', ' '),
+    ...titleUI(content['emergency-contact-address-title'], ' '),
     address: addressUI(),
   },
   schema: {
@@ -87,7 +106,7 @@ const emergencyContactsAddressPage = {
 const summaryPage = {
   uiSchema: {
     'view:hasEmergencyContacts': arrayBuilderYesNoUI(arrayBuilderOptions, {
-      title: 'Do you have emergency contacts to report?',
+      title: content['emergency-contact-add-contacts-label'],
       labelHeaderLevel: 'p',
       hint: ' ',
     }),
@@ -103,23 +122,27 @@ const summaryPage = {
 
 const emergencyContactPages = arrayBuilderPages(
   arrayBuilderOptions,
-  pageBuilder => ({
+  (pageBuilder, helpers) => ({
     emergencyContactsSummary: pageBuilder.summaryPage({
-      title: 'Review your emergency contacts',
+      title: content['emergency-contact-summary-title'],
       path: 'emergency-contacts-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
     emergencyContactsPage: pageBuilder.itemPage({
-      title: 'Emergency Contact',
+      title: content['emergency-contact-title'],
       path: 'emergency-contacts/:index/contact',
       uiSchema: emergencyContactsPage.uiSchema,
       schema: emergencyContactsPage.schema,
+      onNavForward: props => {
+        return props.formData['view:hasEmergencyContactAddress']
+          ? helpers.navForwardKeepUrlParams(props) // go to next page
+          : helpers.navForwardFinishedItem(props); // return to summary
+      },
     }),
     emergencyContactsAddressPage: pageBuilder.itemPage({
-      title: 'Emergency Contact Address',
+      title: content['emergency-contact-address-title'],
       path: 'emergency-contacts/:index/contact-address',
-      depends: hasEmergencyContactAddress,
       uiSchema: emergencyContactsAddressPage.uiSchema,
       schema: emergencyContactsAddressPage.schema,
     }),
