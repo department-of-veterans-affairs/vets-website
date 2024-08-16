@@ -8,7 +8,7 @@ import {
 export default {
   title: 'Other address',
   path: 'other-address',
-  depends: formData => formData.primaryMailingAddress === 'OTHER',
+  depends: formData => formData.primaryMailingAddress === 'other',
   uiSchema: {
     ...titleUI(
       'Other address',

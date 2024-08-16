@@ -17,9 +17,9 @@ export default {
         'What address would you like to receive communication from the Office of General Counsel (OGC)?',
       labels: primaryMailingAddressOptions,
       descriptions: {
-        WORK:
+        work:
           'You will enter this address in Step 3, “Employment Information.”',
-        OTHER:
+        other:
           'If you select this option, you will enter an address on the next screen.',
       },
     }),
