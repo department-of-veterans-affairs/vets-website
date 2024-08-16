@@ -87,3 +87,39 @@ export const domesticViolenceInfo = (
     private and confidential.
   </va-additional-info>
 );
+
+/**
+ * Other housing risks page
+ */
+export const OtherHousingRisksTitle = (
+  <>
+    <h3>Other housing risks</h3>
+    <p>
+      We understand that you may have other housing risks. If you feel
+      comfortable sharing more about your situation, you can do that here. Or
+      you can simply not include any details. We’ll use this information only to
+      prioritize your request.
+    </p>
+  </>
+);
+
+export const otherHousingRisksLabel =
+  'Tell us about other housing risks you’re experiencing.';
+
+/**
+ * Point of contact page
+ */
+export const pointOfContactTitle = (
+  <>
+    <h3>Your point of contact</h3>
+    <p>
+      To help us process your request, it helps us to be able to get in touch
+      with you. Please provide the name and telephone number of someone who can
+      help us locate you.
+    </p>
+  </>
+);
+
+export const pointOfContactNameLabel = 'Name of your point of contact';
+export const pointOfContactPhoneLabel =
+  'Telephone number of your point of contact';
