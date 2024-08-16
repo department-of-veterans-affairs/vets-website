@@ -162,8 +162,8 @@ export const useNotificationSettingsUtils = () => {
     });
   };
 
-  const getEmailAddress = useSelector(state => selectVAPEmailAddress(state));
-  const getMobilePhone = useSelector(state => selectVAPMobilePhone(state));
+  const getEmailAddress = useSelector(selectVAPEmailAddress);
+  const getMobilePhone = useSelector(selectVAPMobilePhone);
 
   // creates a list of unavailable items
   // also filters out any items that are blocked by feature toggles
@@ -206,32 +206,34 @@ export const useNotificationSettingsUtils = () => {
           channelId => channels[channelId],
         );
 
-        const isItem3 = itemId === 'item3';
-        const isItem4 = itemId === 'item4';
-        if (
-          isItem3 &&
-          profileShowMhvNotificationSettingsEmailAppointmentReminders &&
-          !getEmailAddress
-        ) {
-          acc.push(item);
-        }
-        if (isItem3 && !getMobilePhone) acc.push(item);
-
-        if (
-          isItem4 &&
-          profileShowMhvNotificationSettingsEmailRxShipment &&
-          !getEmailAddress
-        ) {
-          acc.push(item);
-        }
-        if (isItem4 && !getMobilePhone) acc.push(item);
-
         if (
           !itemChannels.some(channel =>
             channelsWithContactInfo.includes(channel.channelType),
           )
         ) {
           acc.push(item);
+        }
+
+        const isItem3 = itemId === 'item3';
+        const isItem4 = itemId === 'item4';
+        if (isItem3) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailAppointmentReminders &&
+            !getEmailAddress;
+          const noPhone = !getMobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
+        } else if (isItem4) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailRxShipment &&
+            !getEmailAddress;
+          const noPhone = !getMobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
         }
       }
 

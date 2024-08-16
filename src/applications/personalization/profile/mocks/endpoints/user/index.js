@@ -936,20 +936,7 @@ const baseUserResponses = {
           gender: 'M',
           givenNames: ['Mitchell', 'G'],
           isCernerPatient: false,
-          facilities: [
-            {
-              facilityId: '989',
-              isCerner: false,
-            },
-            {
-              facilityId: '987',
-              isCerner: false,
-            },
-            {
-              facilityId: '983',
-              isCerner: false,
-            },
-          ],
+          facilities: [],
           vaPatient: false,
           mhvAccountState: 'NONE',
         },
