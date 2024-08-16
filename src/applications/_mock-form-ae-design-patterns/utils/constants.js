@@ -4,6 +4,12 @@ import { isOfCollegeAge, hasGrossIncome } from './helpers/household';
 import { replaceStrValues } from './helpers/general';
 import content from '../locales/en/content.json';
 
+export const TASKS = {
+  GREEN: 'task-green',
+  YELLOW: 'task-yellow',
+  PURPLE: 'task-purple',
+};
+
 // declare previous year for form questions and content
 export const LAST_YEAR = new Date().getFullYear() - 1;
 

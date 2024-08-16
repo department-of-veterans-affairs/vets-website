@@ -8,6 +8,8 @@ import { selectAuthStatus } from '../../utils/selectors/auth-status';
 import VerifiedPrefillAlert from '../FormAlerts/VerifiedPrefillAlert';
 import UpdatedFormAlertDescription from '../FormDescriptions/UpdatedFormAlertDescription';
 import content from '../../locales/en/content.json';
+import { getTaskFromUrl } from '../../utils/helpers/task';
+import { TASKS } from '../../utils/constants';
 
 const SaveInProgressInfo = ({ formConfig, pageList }) => {
   const { isLoggedOut } = useSelector(selectAuthStatus);
@@ -19,6 +21,10 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     customText,
   } = formConfig;
 
+  const task = getTaskFromUrl(formConfig.urlPrefix);
+
+  const buttonOnly = isLoggedOut || task === TASKS.YELLOW;
+
   // set the props to use for the SaveInProgressIntro components
   const sipProps = {
     startText: content['sip-start-form-text'],
@@ -27,7 +33,7 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
     formConfig: { customText },
     headingLevel: 3,
     verifiedPrefillAlert: VerifiedPrefillAlert,
-    buttonOnly: isLoggedOut,
+    buttonOnly,
     hideUnauthedStartLink: true,
     prefillEnabled,
     downtime,
