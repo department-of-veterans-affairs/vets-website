@@ -28,7 +28,6 @@ import {
 const currentOrPastDateUI = options => {
   const { title, errorMessages, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
-
   const uiTitle = title ?? 'Date';
 
   return {

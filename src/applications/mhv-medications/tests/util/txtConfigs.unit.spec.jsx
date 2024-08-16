@@ -8,7 +8,8 @@ import {
 import prescriptions from '../fixtures/prescriptions.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
 import nonVAPrescription from '../fixtures/nonVaPrescription.json';
-import { validateField } from '../../util/helpers';
+import { validateField, convertHtmlForDownload } from '../../util/helpers';
+import { DOWNLOAD_FORMAT } from '../../util/constants';
 
 describe('Prescriptions List Txt Config', () => {
   it('Should show all rxs with prescription name', () => {
@@ -125,5 +126,23 @@ describe('Non VA prescription Config', () => {
 
     const txt = buildNonVAPrescriptionTXT(nonVaRxWithoutProviderName);
     expect(txt).to.include('Documented by: None noted');
+  });
+});
+
+describe('Medication Information Config', () => {
+  it('should convert HTML to text (string) for TXT', () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = convertHtmlForDownload(htmlContent);
+    expect(txt).to.include('- Item 1');
+    expect(txt).to.include('- Item 2');
+    expect(txt).to.include('Test\n');
+  });
+
+  it('should convert HTML to text (array) for PDF', () => {
+    const htmlContent = `<div><p>Test\n</p><ul><li>Item 1</li><li>Item 2</li></ul></div>`;
+
+    const txt = convertHtmlForDownload(htmlContent, DOWNLOAD_FORMAT.PDF);
+    expect(txt).to.be.a('array');
   });
 });

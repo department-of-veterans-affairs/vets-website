@@ -346,7 +346,7 @@ const PrescriptionDetails = () => {
               <>
                 <p
                   id="last-filled"
-                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--0p5"
+                  className="title-last-filled-on vads-u-font-family--sans vads-u-margin-top--2 medium-screen:vads-u-margin-bottom--4 vads-u-margin-bottom--3"
                   data-testid="rx-last-filled-date"
                 >
                   {filledEnteredDate()}
@@ -369,7 +369,7 @@ const PrescriptionDetails = () => {
                 )}
                 <div className="no-print">
                   <PrintDownload
-                    download={handleFileDownload}
+                    onDownload={handleFileDownload}
                     isSuccess={
                       pdfTxtGenerateStatus.status ===
                       PDF_TXT_GENERATE_STATUS.Success
