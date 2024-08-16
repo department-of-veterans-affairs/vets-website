@@ -22,10 +22,15 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
+import MockContactInfo from '../components/_MockContactInfo';
 
 import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInformation';
+// import contactInfo from '../pages/contactInformation';
 import primaryPhone from '../pages/primaryPhone';
+
+import housingRisk from '../pages/housingRisk';
+import livingSituation from '../pages/livingSituation';
+
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
@@ -68,9 +73,12 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
+import { hasHousingRisk } from '../utils/livingSituation';
+
+import maximalData from '../tests/fixtures/data/maximal-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
-import GetFormHelp from '../../../shared/content/GetFormHelp';
+import NeedHelp from '../../../shared/content/NeedHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   focusAlertH3,
@@ -144,9 +152,20 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
           scrollAndFocusTarget: focusH3,
+          initialData: maximalData.data, // FOR NON-AUTH TESTING ONLY
         },
 
-        ...contactInfo,
+        // ...contactInfo,
+        mockContactInfo: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description': MockContactInfo,
+          },
+          schema: blankSchema,
+        },
+
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
@@ -156,6 +175,27 @@ const formConfig = {
           CustomPageReview: PrimaryPhoneReview,
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+      },
+    },
+
+    housing: {
+      title: 'Living situation',
+      pages: {
+        housingRisk: {
+          title: 'Housing risk',
+          path: 'housing-risk',
+          uiSchema: housingRisk.uiSchema,
+          schema: housingRisk.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        livingSituation: {
+          title: 'Living situation',
+          path: 'living-situation',
+          uiSchema: livingSituation.uiSchema,
+          schema: livingSituation.schema,
+          depends: hasHousingRisk,
           scrollAndFocusTarget: focusRadioH3,
         },
       },
@@ -213,9 +253,6 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
-          initialData: {
-            form5103Acknowledged: false,
-          },
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
@@ -302,7 +339,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: GetFormHelp,
+  getHelp: NeedHelp,
 };
 
 export default formConfig;

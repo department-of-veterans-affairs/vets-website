@@ -83,6 +83,10 @@ const WebChat = ({
     TOGGLE_NAMES.virtualAgentComponentTesting,
   );
 
+  const isRootBotToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableRootBot,
+  );
+
   validateParameters({
     csrfToken,
     apiSession,
@@ -100,6 +104,7 @@ const WebChat = ({
     isMobile,
     environment,
     isComponentToggleOn,
+    isRootBotToggleOn,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);

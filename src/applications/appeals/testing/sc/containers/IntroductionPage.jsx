@@ -23,7 +23,7 @@ const IntroductionPage = props => {
     formId,
     gaStartEventName: 'decision-reviews-va20-0995-start-form',
     headingLevel: 2,
-    hideUnauthedStartLink: true,
+    hideUnauthedStartLink: false, // true, // once testing is complete
     messages: savedFormMessages,
     pageList,
     pathname: '/introduction',
@@ -43,7 +43,7 @@ const IntroductionPage = props => {
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
-      <va-process-list uswds>
+      <va-process-list>
         <va-process-list-item header="Check your eligibility">
           <p>
             You can file a Supplemental Claim if you meet at least 1 of these
@@ -51,7 +51,7 @@ const IntroductionPage = props => {
           </p>
           <ul>
             <li>
-              You have new and relevant evidence that we didn’t consider before,
+              You have new and relevant evidence that we didn’t consider before,{' '}
               <strong>or</strong>
             </li>
             <li>
@@ -63,7 +63,7 @@ const IntroductionPage = props => {
               )
             </li>
           </ul>
-          <va-additional-info trigger="What’s a presumptive condition?" uswds>
+          <va-additional-info trigger="What’s a presumptive condition?">
             <div>
               <p className="vads-u-margin-top--0">
                 For some conditions, we automatically assume (or “presume”) that
@@ -83,14 +83,12 @@ const IntroductionPage = props => {
             </div>
           </va-additional-info>
           <p>
-            You can file a Supplemental Claim if you have new and relevant
-            evidence that we didn’t have when we reviewed your case before. You
-            can file your claim anytime, but we recommend you file within 1 year
-            from the date on your decision letter.
+            You can file your claim anytime, but we recommend you file within 1
+            year from the date on your decision letter.
           </p>
           <p>
-            <strong>Note:</strong> You can’t file a Supplemental Claim if you
-            have a fiduciary claim or a contested claim.
+            <strong>Note:</strong> You can’t file a Supplemental Claim online if
+            you have a fiduciary claim or a contested claim.
           </p>
           <p>
             <a href="/decision-reviews/fiduciary-claims">
@@ -111,29 +109,29 @@ const IntroductionPage = props => {
           </p>
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          Here’s what you’ll need to apply:
+          <p>Here’s what you’ll need to apply:</p>
           <ul>
             <li>
               New evidence. You can either submit new evidence (supporting
               documents) or identify new evidence you want us to gather for you.
-              <strong> Note:</strong> If you have a condition that we consider
-              presumptive under a new law or regulation (such as the PACT Act),
-              you don’t need to submit evidence to prove that your service
-              caused the condition.
+              <p>
+                <strong> Note:</strong> If you have a condition that we consider
+                presumptive under a new law or regulation (such as the PACT
+                Act), you don’t need to submit evidence to prove that your
+                service caused the condition.
+              </p>
             </li>
             <li>
               The decision date of any issue you want us to review. You can ask
               us to review more than 1 issue.
             </li>
             <li>
-              The name and address of any private medical facility you’d like us
+              The name and address of any non-VA medical facility you’d like us
               to request your records from.
             </li>
-            <li>
-              The dates you were treated at that private medical facility.
-            </li>
+            <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
-          <va-additional-info trigger="Types of Evidence" uswds>
+          <va-additional-info trigger="Types of Evidence">
             <div>
               <p className="vads-u-margin-top--0">
                 VA medical records and hospital records that relate to your
@@ -141,7 +139,7 @@ const IntroductionPage = props => {
                 has gotten worse
               </p>
               <p>
-                Private medical records and hospital reports that relate to your
+                Non-VA medical records and hospital reports that relate to your
                 claimed condition or show that your disability has gotten worse
               </p>
               <p className="vads-u-margin-bottom--0">
@@ -160,7 +158,7 @@ const IntroductionPage = props => {
             We’ll take you through each step of the process. It should take
             about 15 minutes.
           </p>
-          <va-additional-info trigger="What happens after I apply?" uswds>
+          <va-additional-info trigger="What happens after I apply?">
             You don’t need to do anything while you’re waiting unless we contact
             you to ask for more information. If we schedule exams for you, be
             sure not to miss them.

@@ -234,7 +234,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',

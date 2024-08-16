@@ -474,6 +474,7 @@ class PatientComposePage {
       .shadow()
       .find(`a`)
       .click({ force: true });
+    cy.get(Locators.HEADER, { timeout: 5000 }).should('have.text', text);
   };
 }
 

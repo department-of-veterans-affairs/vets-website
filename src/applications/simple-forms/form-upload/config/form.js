@@ -3,18 +3,21 @@ import footerContent from '~/platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import IntroductionPage from '../containers/IntroductionPage';
 import { uploadPage } from '../pages/upload';
-import { reviewPage } from '../pages/review';
-import { identificationInformationPage, zipCodePage } from '../pages/loa1';
+import {
+  NameAndZipCodePage,
+  nameAndZipCodePage,
+} from '../pages/nameAndZipCode';
 import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
 import prefillTransformer from './prefill-transformer';
 import submitTransformer from './submit-transformer';
 import CustomReviewTopContent from '../containers/CustomReviewTopContent';
+import { scrollAndFocusTarget, getFormContent } from '../helpers';
 import {
-  isUnverifiedUser,
-  scrollAndFocusTarget,
-  getFormContent,
-} from '../helpers';
+  VeteranIdentificationInformationPage,
+  veteranIdentificationInformationPage,
+} from '../pages/veteranIdentificationInformation';
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
@@ -34,6 +37,7 @@ const formConfig = (pathname = null) => {
       appType: 'form',
     },
     hideReviewChapters: true,
+    introduction: IntroductionPage,
     formId: 'FORM-UPLOAD-FLOW',
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,
@@ -52,6 +56,27 @@ const formConfig = (pathname = null) => {
     },
     stepLabels: PROGRESS_BAR_LABELS,
     chapters: {
+      personalInformationChapter: {
+        title: 'Personal information',
+        pages: {
+          nameAndZipCodePage: {
+            path: 'name-and-zip-code',
+            title: 'Personal information',
+            uiSchema: nameAndZipCodePage.uiSchema,
+            schema: nameAndZipCodePage.schema,
+            CustomPage: NameAndZipCodePage,
+            scrollAndFocusTarget,
+          },
+          veteranIdentificationInformationPage: {
+            path: 'identification-information',
+            title: 'Identification information',
+            uiSchema: veteranIdentificationInformationPage.uiSchema,
+            schema: veteranIdentificationInformationPage.schema,
+            CustomPage: VeteranIdentificationInformationPage,
+            scrollAndFocusTarget,
+          },
+        },
+      },
       uploadChapter: {
         title: 'Upload',
         pages: {
@@ -61,37 +86,6 @@ const formConfig = (pathname = null) => {
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
             pageClass: 'upload',
-            scrollAndFocusTarget,
-          },
-        },
-      },
-      reviewChapter: {
-        title: 'Review',
-        pages: {
-          reviewPage: {
-            path: 'review',
-            title: 'Review Your Information',
-            uiSchema: reviewPage.uiSchema,
-            schema: reviewPage.schema,
-            pageClass: 'review',
-            scrollAndFocusTarget,
-          },
-          identificationInformationPage: {
-            depends: formData => isUnverifiedUser(formData),
-            path: 'identification-info',
-            title: 'Identification information',
-            uiSchema: identificationInformationPage.uiSchema,
-            schema: identificationInformationPage.schema,
-            pageClass: 'review',
-            scrollAndFocusTarget,
-          },
-          zipCodePage: {
-            depends: formData => isUnverifiedUser(formData),
-            path: 'zip-code',
-            title: 'Your zip code',
-            uiSchema: zipCodePage.uiSchema,
-            schema: zipCodePage.schema,
-            pageClass: 'review',
             scrollAndFocusTarget,
           },
         },
