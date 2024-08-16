@@ -65,11 +65,10 @@ import {
   appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
-  applicantMarriageCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
-  applicantMarriageCertUploadUiSchema,
+  applicantRemarriageCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
@@ -986,17 +985,17 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse'
+              ) === 'spouse' && get('sponsorIsDeceased', formData)
             );
           },
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          uiSchema: applicantMarriageCertUploadUiSchema,
+          uiSchema: applicantRemarriageCertUploadUiSchema,
           schema: applicantListSchema([], {
             titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: fileWithMetadataSchema(
+            'view:fileUploadBlurb': blankSchema,
+            applicantRemarriageCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),
