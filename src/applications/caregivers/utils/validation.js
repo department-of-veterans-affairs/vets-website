@@ -32,7 +32,7 @@ export const validatePlannedClinic = (errors, _, formData) => {
    * in the the facility search field. The field component handles all validation messaging, we
    * just need to block navigation.
    */
-  if (!formData['view:plannedClinic']) {
+  if (Object.keys(formData['view:plannedClinic'] ?? {}).length === 0) {
     errors.addError(' ');
   }
 };
