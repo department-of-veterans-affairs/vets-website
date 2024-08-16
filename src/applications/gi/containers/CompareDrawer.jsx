@@ -287,16 +287,11 @@ export function CompareDrawer({
                 You can compare 2 to 3 institutions
               </div>
               <div className="vads-l-row vads-u-padding-top--1">
-                <ol id="compare-list-item" className="compare-list">
-                  {loadedCards}
-                  {blanks}
-                </ol>
-
                 <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell compare-button">
                   <div className="large-function-label compare-name">
                     You can compare 2 to 3 institutions
                   </div>
-                  <div>
+                  <div className="vads-u-margin-right--2">
                     <button
                       type="button"
                       className="usa-button vads-u-width--full"
@@ -307,6 +302,10 @@ export function CompareDrawer({
                     </button>
                   </div>
                 </div>
+                <ol id="compare-list-item" className="compare-list">
+                  {loadedCards}
+                  {blanks}
+                </ol>
               </div>
             </div>
           )}

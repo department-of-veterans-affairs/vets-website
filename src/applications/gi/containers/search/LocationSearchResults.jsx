@@ -57,7 +57,6 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
-
   const MAX_PAGE_LIST_LENGTH = 10;
 
   const [pagination, setPagination] = useState({
@@ -74,7 +73,6 @@ function LocationSearchResults({
     },
     [cardResults],
   );
-
   const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
   const endIdx = pagination.currentPage * MAX_PAGE_LIST_LENGTH;
   const paginatedRenewablePrescriptions = cardResults?.slice(startIdx, endIdx);
@@ -100,7 +98,6 @@ function LocationSearchResults({
   /**
    * When map is moved update distance from center to NorthEast corner
    */
-
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
     const newMapState = {
@@ -634,16 +631,18 @@ function LocationSearchResults({
           className={containerClassNames}
         >
           {resultCards}
-          <VaPagination
-            className="vads-u-border-top--0 location-pagination"
-            onPageSelect={e => onPageChange(e.detail.page)}
-            page={pagination.currentPage}
-            pages={pagination.totalPages}
-            unbounded
-            uswds
-            maxPageListLength={5}
-            showLastPage
-          />
+          <div>
+            <VaPagination
+              className="vads-u-border-top--0 location-pagination"
+              onPageSelect={e => onPageChange(e.detail.page)}
+              page={pagination.currentPage}
+              pages={pagination.totalPages}
+              unbounded
+              uswds
+              maxPageListLength={5}
+              showLastPage
+            />
+          </div>
         </div>
       );
     }
@@ -666,7 +665,7 @@ function LocationSearchResults({
     const isMobileDevice = smallScreen || landscape;
     return (
       <div
-        tabIndex="0"
+        tabIndex="-1"
         role="region"
         className={containerClassNames}
         aria-label="Find VA locations on an interactive map. Tab again to interact with map"
