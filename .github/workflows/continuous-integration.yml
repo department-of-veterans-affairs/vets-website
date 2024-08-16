@@ -1826,6 +1826,7 @@ jobs:
     name: Set Environments to Deploy
     needs: [archive, build]
     # if: always() && github.ref == 'refs/heads/main' && needs.archive.result == 'success'
+    if: always()
     runs-on: ubuntu-latest
     outputs:
       environments: ${{ steps.set-environments.outputs.environments }}
@@ -1863,6 +1864,8 @@ jobs:
     name: Deploy
     needs: [build, set-deploy-environments]
     # if: always() && github.ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    if: always()
+
     runs-on: ubuntu-latest
     strategy:
       matrix: ${{ fromJson(needs.set-deploy-environments.outputs.environments) }}
