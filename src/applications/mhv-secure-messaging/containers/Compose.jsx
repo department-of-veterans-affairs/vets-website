@@ -86,10 +86,9 @@ const Compose = () => {
     if (!isDraftPage && recipients) {
       return (
         <>
-          <h1 className="page-title vads-u-margin-top--0" ref={header}>
-            {pageTitle}
-          </h1>
           <ComposeForm
+            pageTitle={pageTitle}
+            headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}
