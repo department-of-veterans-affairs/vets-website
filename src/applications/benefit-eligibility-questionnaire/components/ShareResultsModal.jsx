@@ -36,7 +36,14 @@ const ShareResultsModal = () => {
         large
       >
         <p>Copy link</p>
-        <input id="url-input" name="url-input" type="text" value={currentUrl} />
+        <input
+          id="url-input"
+          name="url-input"
+          aria-label="URL"
+          type="text"
+          value={currentUrl}
+          onChange={() => {}}
+        />
         <button
           id="copy-button"
           className="usa-button-primary"
