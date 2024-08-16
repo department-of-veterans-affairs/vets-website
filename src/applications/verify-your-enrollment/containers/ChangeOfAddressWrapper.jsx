@@ -176,7 +176,9 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
             <p>
               <>
                 <span className="vads-u-display--block">
-                  {`${newAddress?.street ?? ''}`}
+                  {newAddress?.street ?? ''}
+                  {newAddress?.street2 && <br />}
+                  {newAddress?.street2 ?? ''}
                 </span>
                 <span className="vads-u-display--block">
                   {formatAddress(newAddress)}
