@@ -17,7 +17,16 @@
   "enrollment-alert-facility-label": "Your preferred VA medical center is:",
   "form-title": "Apply for VA health care",
   "form-subtitle": "Enrollment Application for Health Benefits (VA Form 10-10EZ)",
+  "insurance-info--facility-title": "VA facility",
   "load-app": "Loading application...",
   "load-enrollment-status": "Verifying your enrollment status...",
-  "sip-start-form-text": "Start the health care application"
+  "sip-start-form-text": "Start the health care application",
+  "vet-info--birthplace-title" :"Your place of birth",
+  "vet-info--birthplace-description" :"Enter your place of birth, including city and state, province or region.",
+  "vet-info--home-address-title": "Home address",
+  "vet-info--home-address-description": "Any updates you make here to your address will apply only to this application.",
+  "vet-info--mailing-address-title": "Mailing address",
+  "vet-info--mailing-address-description": "We’ll send any important information about your application to this address. Any updates you make here to your address will apply only to this application.",
+  "vet-info--demographic-info-title": "What is your race, ethnicity, or origin? (Please check all that apply.)",
+  "vet-info--demographic-info-description": "Information is gathered for statistical purposes only."
 }

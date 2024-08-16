@@ -12,6 +12,14 @@ const handleUserUpdate = history => {
     return [true, user.loa3UserWithNoHomeAddress];
   }
 
+  if (
+    lastTwoItems?.some(item =>
+      item?.params?.id.includes('update-mailing-address'),
+    )
+  ) {
+    return [true, user.loa3UserWithUpdatedMailingAddress];
+  }
+
   return [false, null];
 };
 
