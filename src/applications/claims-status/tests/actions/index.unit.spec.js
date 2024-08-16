@@ -69,6 +69,9 @@ describe('Actions', () => {
 
     before(() => {
       server.listen();
+    });
+
+    beforeEach(() => {
       server.events.on('request:start', req => {
         expectedUrl = req.url.href;
       });
@@ -481,6 +484,9 @@ describe('Actions', () => {
 
       before(() => {
         server.listen();
+      });
+
+      beforeEach(() => {
         server.events.on('request:start', req => {
           expectedUrl = req.url.href;
         });

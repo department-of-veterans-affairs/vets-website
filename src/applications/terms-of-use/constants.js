@@ -1,5 +1,6 @@
 export const errorMessages = {
   network: `We had a connection issue on our end. Please try again in a few minutes.`,
+  tooManyRequests: `There are too many requests. Please try again in a few minutes.`,
 };
 
 export const touStyles = `

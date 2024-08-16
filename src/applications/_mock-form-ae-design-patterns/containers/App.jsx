@@ -37,7 +37,11 @@ const handleEditPageDisplayTweaks = location => {
     '.schemaform-chapter-progress',
   );
   const formTitle = document.querySelector('.schemaform-title');
-  if (location.pathname.includes('edit-')) {
+  if (
+    location.pathname.includes(
+      'task-green/veteran-information/edit-mailing-address',
+    )
+  ) {
     if (navHeader) {
       // hide header on edit pages
       navHeader.style.display = 'none';
@@ -75,6 +79,11 @@ export default function App({ location, children }) {
         teardownProfileSession();
       }
       handleEditPageDisplayTweaks(location);
+
+      // having the pollTimeout allows api calls to be attempted locally
+      if (!window?.VetsGov?.pollTimeout) {
+        window.VetsGov.pollTimeout = 5000;
+      }
     },
     [location, setHasSession],
   );

@@ -7,6 +7,30 @@ import { AltReviewRowView } from '../../../components/ReviewRowView';
 import { fasterClaimLabels } from '../../../utils/labels';
 import { generateTitle } from '../../../utils/helpers';
 
+export const FdcWarning = (
+  <div className="usa-alert usa-alert-info background-color-only">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Your application will be submitted as a fully developed claim.
+      </div>
+    </div>
+  </div>
+);
+
+export const NoFDCWarning = (
+  <div className="usa-alert usa-alert-info background-color-only">
+    <div className="usa-alert-body">
+      <div className="usa-alert-text">
+        Your application doesn’t qualify for the Fully Developed Claim (FDC)
+        program. We’ll review your claim through the standard claim process.
+        Submit any additional information or documents to support your claim as
+        soon as you can after you submit your application. We’ll tell you how to
+        submit additional supporting documents at the end of this application.
+      </div>
+    </div>
+  </div>
+);
+
 export default {
   uiSchema: {
     'ui:title': generateTitle('Faster claim processing'),
@@ -28,12 +52,34 @@ export default {
       }),
       'ui:reviewField': AltReviewRowView,
     },
+    fdcWarning: {
+      'ui:description': FdcWarning,
+      'ui:options': {
+        expandUnder: 'processOption',
+        expandUnderCondition: true,
+      },
+    },
+    noFDCWarning: {
+      'ui:description': NoFDCWarning,
+      'ui:options': {
+        expandUnder: 'processOption',
+        expandUnderCondition: false,
+      },
+    },
   },
 
   schema: {
     type: 'object',
     properties: {
       processOption: yesNoSchema,
+      fdcWarning: {
+        type: 'object',
+        properties: {},
+      },
+      noFDCWarning: {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
