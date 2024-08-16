@@ -22,14 +22,17 @@ import EvidenceSummary from '../components/EvidenceSummary';
 import EvidenceSummaryReview from '../components/EvidenceSummaryReview';
 import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
-import MockContactInfo from '../components/_MockContactInfo';
 
 import veteranInfo from '../pages/veteranInfo';
-// import contactInfo from '../pages/contactInformation';
+import mockContactInfo, {
+  MockContactInfoReview,
+} from '../pages/_mockContactInfo';
 import primaryPhone from '../pages/primaryPhone';
 
 import housingRisk from '../pages/housingRisk';
 import livingSituation from '../pages/livingSituation';
+import otherHousingRisk from '../pages/otherHousingRisk';
+import pointOfContact from '../pages/pointOfContact';
 
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
@@ -73,7 +76,7 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
-import { hasHousingRisk } from '../utils/livingSituation';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 
 import maximalData from '../tests/fixtures/data/maximal-test.json';
 
@@ -145,6 +148,7 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: MockContactInfoReview, // FOR NON_AUTH TESTING ONLY
       pages: {
         veteranInfo: {
           title: 'Veteran information',
@@ -159,11 +163,8 @@ const formConfig = {
         mockContactInfo: {
           title: 'Contact information',
           path: 'contact-information',
-          uiSchema: {
-            'ui:title': ' ',
-            'ui:description': MockContactInfo,
-          },
-          schema: blankSchema,
+          uiSchema: mockContactInfo.uiSchema,
+          schema: mockContactInfo.schema,
         },
 
         choosePrimaryPhone: {
@@ -197,6 +198,20 @@ const formConfig = {
           schema: livingSituation.schema,
           depends: hasHousingRisk,
           scrollAndFocusTarget: focusRadioH3,
+        },
+        otherHousingRisk: {
+          title: 'Other housing risks',
+          path: 'other-housing-risks',
+          uiSchema: otherHousingRisk.uiSchema,
+          schema: otherHousingRisk.schema,
+          depends: hasOtherHousingRisk,
+        },
+        contact: {
+          title: 'Your point of contact',
+          path: 'point-of-contact',
+          uiSchema: pointOfContact.uiSchema,
+          schema: pointOfContact.schema,
+          depends: hasHousingRisk,
         },
       },
     },
