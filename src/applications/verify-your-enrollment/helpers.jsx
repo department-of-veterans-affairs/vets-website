@@ -676,6 +676,8 @@ export const addressLabel = address => {
   const {
     addressLine1,
     addressLine2,
+    addressLine3,
+    addressLine4,
     city,
     province,
     stateCode,
@@ -685,6 +687,8 @@ export const addressLabel = address => {
 
   const line1 = addressLine1 || '';
   const line2 = addressLine2 || '';
+  const line3 = addressLine3 || '';
+  const line4 = addressLine4 || '';
 
   const cityState = city && (province || stateCode) ? `${city}, ` : city;
 
@@ -696,6 +700,9 @@ export const addressLabel = address => {
     <span>
       {line1 && <>{line1} </>}
       {line2 && <>{` ${line2}`}</>}
+      {line3 && <br />}
+      {line3 && <>{line3} </>}
+      {line4 && <>{` ${line4}`}</>}
       {cityState && (
         <>
           <br /> {cityState}
@@ -826,4 +833,36 @@ export function hasAddressFormChanged(currentState) {
         : initialState.stateCode,
   };
   return !deepEqual(initialState, filledCurrentState);
+}
+export function splitAddressLine(addressLine, maxLength) {
+  if (addressLine.length <= maxLength) {
+    return { line1: addressLine, line2: '' };
+  }
+
+  // Find the last space within the maxLength
+  let lastSpaceIndex = addressLine.lastIndexOf(' ', maxLength);
+
+  // If there's no space, we can't split without breaking a word, so just split at maxLength
+  if (lastSpaceIndex === -1) {
+    lastSpaceIndex = maxLength;
+  }
+
+  return {
+    line1: addressLine.substring(0, lastSpaceIndex),
+    line2: addressLine.substring(lastSpaceIndex).trim(),
+  };
+}
+export function removeCommas(obj) {
+  const newObj = {};
+
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'string') {
+      newObj[key] = obj[key].replace(/,/g, '');
+    } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      newObj[key] = removeCommas(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
 }

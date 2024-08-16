@@ -160,7 +160,7 @@ describe('The My VA Dashboard', () => {
           lastUpdated: mockMeta.lastUpdated,
         },
         {
-          form: '21P-530',
+          form: '21P-530V2',
           metadata: mockMeta(5199),
           lastUpdated: mockMeta.lastUpdated,
         },
@@ -170,10 +170,10 @@ describe('The My VA Dashboard', () => {
       cy.visit(manifest.rootUrl);
     });
 
-    it('should show in-progress 26-1880, 28-8832 and 21P-530 forms', () => {
+    it('should show in-progress 26-1880, 28-8832 and 21P-530V2 forms', () => {
       cy.findByText(/26-1880/i).should('exist');
       cy.findByText(/28-8832/i).should('exist');
-      cy.findByText(/21P-530/i).should('exist');
+      cy.findByText(/21P-530EZ/i).should('exist');
       // make the a11y check
       cy.injectAxe();
       cy.axeCheck();
