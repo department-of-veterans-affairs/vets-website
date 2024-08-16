@@ -23,12 +23,16 @@ import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { APP_NAMES } from '../../../utils/appConstants';
 import ConfirmationAccordionBlock from '../../../components/ConfirmationAccordionBlock';
+import BackToAppointments from '../../../components/BackToAppointments';
 
 const CheckInConfirmation = props => {
   const { selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { isTravelReimbursementEnabled } = featureToggles;
+  const {
+    isTravelReimbursementEnabled,
+    isUpcomingAppointmentsEnabled,
+  } = featureToggles;
   const selectForm = useMemo(makeSelectForm, []);
   const form = useSelector(selectForm);
   const {
@@ -170,7 +174,13 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        <LinkList router={router} />
+
+        {isUpcomingAppointmentsEnabled ? (
+          <LinkList router={router} />
+        ) : (
+          // @TODO: Remove this component once the feature toggle is removed
+          <BackToAppointments router={router} />
+        )}
 
         <ConfirmationAccordionBlock appointments={[appointment]} />
       </Wrapper>
