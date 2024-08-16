@@ -103,7 +103,7 @@ const LinkList = ({ router }) => {
 
   return (
     <>
-      <nav aria-live="polite">
+      <nav aria-live="polite" data-testid="link-list-block">
         <h2 className="highlight vads-u-font-size--h4 vads-u-margin-top--8">
           {t('manage-your-appointments')}
         </h2>
