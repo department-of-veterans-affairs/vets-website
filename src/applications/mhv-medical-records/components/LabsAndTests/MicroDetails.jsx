@@ -153,7 +153,7 @@ ${record.results}`;
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace">
+        <p className="vads-u-font-size--base monospace vads-u-line-height--3">
           {record.results}
         </p>{' '}
       </div>

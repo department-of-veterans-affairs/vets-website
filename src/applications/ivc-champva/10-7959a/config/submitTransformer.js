@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { adjustYearString } from '../../shared/utilities';
+import { adjustYearString, concatStreets } from '../../shared/utilities';
 
 function getPrimaryContact(data) {
   // For callback API we need to know what data in the form should be
@@ -42,17 +42,15 @@ export default function transformForSubmit(formConfig, form) {
   // ---
 
   // Combine all three street strings into one
-  copyOfData.applicantAddress.streetCombined = `${
-    copyOfData.applicantAddress.street
-  } ${copyOfData.applicantAddress.street2 ?? ''} ${copyOfData.applicantAddress
-    .street3 ?? ''}`;
+  copyOfData.applicantAddress.streetCombined = concatStreets(
+    copyOfData.applicantAddress,
+  );
 
   if (copyOfData.certifierAddress) {
     // Combine streets for 3rd party certifier
-    copyOfData.certifierAddress.streetCombined = `${
-      copyOfData.certifierAddress.street
-    } ${copyOfData.certifierAddress.street2 ?? ''} ${copyOfData.certifierAddress
-      .street3 ?? ''}`;
+    copyOfData.certifierAddress.streetCombined = concatStreets(
+      copyOfData.certifierAddress.streetCombined,
+    );
   }
 
   // Date of signature
