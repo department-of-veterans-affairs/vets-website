@@ -71,7 +71,11 @@ class Confirmation {
   };
 
   attemptGoBackToAppointments = () => {
-    cy.get('[data-testid=go-to-appointments-button]').click();
+    cy.get('[data-testid=go-to-appointments-link]').click();
+  };
+
+  attemptGoBackToUpcomingAppointments = () => {
+    cy.get('[data-testid=go-to-upcoming-appointments-link]').click();
   };
 
   clickDetails = () => {
