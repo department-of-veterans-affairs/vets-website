@@ -17,12 +17,24 @@ const FacilityConfirmation = props => {
       </p>
       <p className="va-address-block">
         {selectedFacility.name}
-        <br />
-        {selectedFacility.address.physical.address1}
-        <br />
-        {selectedFacility.address.physical.address2}
-        <br />
-        {selectedFacility.address.physical.address3}
+        {selectedFacility?.address?.physical?.address1 && (
+          <>
+            <br />
+            {selectedFacility.address.physical.address1}
+          </>
+        )}
+        {selectedFacility?.address?.physical?.address2 && (
+          <>
+            <br />
+            {selectedFacility.address.physical.address2}
+          </>
+        )}
+        {selectedFacility?.address?.physical?.address3 && (
+          <>
+            <br />
+            {selectedFacility.address.physical.address3}
+          </>
+        )}
       </p>
       <FormNavButtons goBack={goBack} goForward={goForward} />
     </div>

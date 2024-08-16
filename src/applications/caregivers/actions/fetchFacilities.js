@@ -20,7 +20,7 @@ export const fetchFacilities = async (mapBoxResponse, request = null) => {
 
   // Helper function to join address parts, filtering out null or undefined values
   const joinAddressParts = (...parts) => {
-    return parts.filter(part => part !== null).join(', ');
+    return parts.filter(part => part != null).join(', ');
   };
 
   return fetchRequest
