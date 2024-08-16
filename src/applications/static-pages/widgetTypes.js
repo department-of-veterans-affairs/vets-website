@@ -4,7 +4,6 @@ export default {
   BANNER: 'banner',
   BASIC_FACILITY_LOCATIONS_LIST: 'basic-facility-locations-list',
   BURIAL_HOW_DO_I_APPLY_WIDGET: 'burial-how-do-i-apply-widget',
-  BURIALS_V2_HOW_DO_I_APPLY_WIDGET: 'burials-v2-how-do-i-apply-widget',
   BTSSS_LOGIN: 'btsss-login',
   CHAPTER_31_CTA: 'chapter-31-cta',
   CHAPTER_31_WIZARD: 'chapter-31-Wizard',
