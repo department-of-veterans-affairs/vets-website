@@ -1,0 +1,7 @@
+{
+  "appName": "Seamless Call",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "seamless-call",
+  "rootUrl": "/call-veterans-crisis-line",
+  "productId": "2082fd03-84c4-4a4e-8848-73326d435071"
+}

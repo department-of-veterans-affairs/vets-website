@@ -1,0 +1,26 @@
+{
+  "name": "@department-of-veterans-affairs/seamless-call",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "echo Your build script goes here",
+    "test": "echo Your test script goes here",
+    "demo": "echo DEMOING $npm_package_name v $npm_package_version with WORKSPACES"
+  },
+  "dependencies": {
+    "classnames": "^2.5.1",
+    "jssip": "^3.10.1"
+  },
+  "devDependencies": {
+    "sinon": "^17.0.1"
+  },
+  "peerDependecies": {
+    "react": "*",
+    "react-redux": "*",
+    "react-router": "*",
+    "react-router-dom": "*",
+    "redux": "*",
+    "redux-thunk": "*"
+  },
+  "private": true
+}
