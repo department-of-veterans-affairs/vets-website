@@ -27,10 +27,11 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
       const widgetContent = origElement
         .getElementsByClassName('static-widget-content')
         .item(0);
+      const serviceDescription = el.getAttribute('data-service-description');
       ReactDOM.render(
         <Provider store={store}>
           <MhvSigninCallToAction
-            serviceDescription={el.getAttribute('data-service-description')}
+            serviceDescription={serviceDescription}
             noAlertContent={widgetContent}
           />
         </Provider>,
