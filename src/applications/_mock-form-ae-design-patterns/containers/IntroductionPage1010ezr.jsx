@@ -17,7 +17,9 @@ import SaveInProgressInfo from '../components/IntroductionPage/SaveInProgressInf
 import OMBInfo from '../components/IntroductionPage/OMBInfo';
 import content from '../locales/en/content.json';
 
-const IntroductionPage = ({ route }) => {
+const IntroductionPage = props => {
+  const { route } = props;
+
   const { isUserLOA1, isUserLOA3 } = useSelector(selectAuthStatus);
   const { formConfig, pageList } = route;
   const sipProps = { formConfig, pageList };
