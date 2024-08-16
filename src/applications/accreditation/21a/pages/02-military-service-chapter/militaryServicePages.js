@@ -127,39 +127,31 @@ const branchAndDateRangePage = {
 const characterOfDischargePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ item }) =>
-        item?.branch && item?.dateRange
-          ? `${item?.branch} (${getDateRange(item)}) character of discharge`
+      ({ formData }) =>
+        formData?.branch && formData?.dateRange
+          ? `${formData?.branch} (${getDateRange(
+              formData,
+            )}) character of discharge`
           : 'Character of discharge',
     ),
     characterOfDischarge: selectUI('Character of discharge'),
+    explanationOfDischarge: textareaUI({
+      title: 'Explain the nature of your discharge.',
+      expandUnder: 'characterOfDischarge',
+      expandUnderCondition: requireExplanation,
+      required: (formData, index) =>
+        requireExplanation(
+          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
+        ),
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
-    },
-    required: ['characterOfDischarge'],
-  },
-};
-
-/** @returns {PageSchema} */
-const explanationOfDischargePage = {
-  uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ item }) =>
-        item?.branch && item?.dateRange
-          ? `${item?.branch} (${getDateRange(item)}) explanation of discharge`
-          : 'Explanation of discharge',
-    ),
-    explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
-  },
-  schema: {
-    type: 'object',
-    properties: {
       explanationOfDischarge: textareaSchema,
     },
-    required: ['explanationOfDischarge'],
+    required: ['characterOfDischarge'],
   },
 };
 
@@ -217,16 +209,6 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
       path: 'military-service-experiences/:index/discharge-character',
       uiSchema: characterOfDischargePage.uiSchema,
       schema: characterOfDischargePage.schema,
-    }),
-    militaryServiceExperienceExplanationOfDischargePage: pageBuilder.itemPage({
-      title: 'Military service experience explanation of discharge',
-      path: 'military-service-experiences/:index/discharge-explanation',
-      depends: (formData, index) =>
-        requireExplanation(
-          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
-        ),
-      uiSchema: explanationOfDischargePage.uiSchema,
-      schema: explanationOfDischargePage.schema,
     }),
   }),
 );
