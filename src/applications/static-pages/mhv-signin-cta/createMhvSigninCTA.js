@@ -2,11 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
-// Unit tests don't like @imports, so we load the sass conditionally
-if (global.navigator?.userAgent !== 'node.js') {
-  import('./sass/mhv-signin-cta.scss');
-}
-
 /**
  * Create the MHV Signin CTA widget on a page as needed.
  * @param {*} store the React store
