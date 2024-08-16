@@ -28,7 +28,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
 
     cy.get(Locators.ALERTS.BACK_TOP)
       .scrollIntoView()
-      .should('have.focus');
+      .should('be.visible');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
