@@ -26,7 +26,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
       <CustomAlert
         headline={headline}
         icon="lock"
-        status="continue"
+        status="info"
         recordEvent={recordEvent}
       >
         <div>
