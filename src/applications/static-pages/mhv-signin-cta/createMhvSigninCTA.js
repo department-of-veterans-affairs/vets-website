@@ -24,9 +24,9 @@ export default async function createMhvSigninCallToAction(store, widgetType) {
     widgets.forEach(el => {
       // Grab the content that will show if no alerts.
       const origElement = el.cloneNode(true);
-      const widgetContent = origElement
-        .getElementsByClassName('static-widget-content')
-        .item(0);
+      const widgetContent = origElement.getElementsByClassName(
+        'static-widget-content',
+      )[0];
       const serviceDescription = el.getAttribute('data-service-description');
       ReactDOM.render(
         <Provider store={store}>
