@@ -156,7 +156,11 @@ const createRoutesWithStore = () => {
           /* eslint-disable react/jsx-props-no-spreading */
           if (route.reloadable) {
             return (
-              <ReloadWrapper app={APP_NAMES.PRE_CHECK_IN} {...props}>
+              <ReloadWrapper
+                reloadUpcoming={route.reloadUpcoming}
+                app={APP_NAMES.PRE_CHECK_IN}
+                {...props}
+              >
                 <Component {...props} />
               </ReloadWrapper>
             );

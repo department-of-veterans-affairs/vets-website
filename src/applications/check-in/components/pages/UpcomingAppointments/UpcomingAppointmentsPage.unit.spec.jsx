@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import format from 'date-fns/format';
-import { render } from '@testing-library/react';
+import { render, fireEvent } from '@testing-library/react';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import UpcomingAppointmentsPage from './index';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
@@ -75,9 +75,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
 
-      expect(getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming appointments',
-      );
+      expect(getByTestId('upcoming-appointments-list')).to.exist;
 
       // Restore the hook
       useGetUpcomingAppointmentsDataStub.restore();
@@ -123,10 +121,6 @@ describe('unified check-in experience', () => {
           <UpcomingAppointmentsPage />
         </CheckInProvider>,
       );
-
-      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming appointments',
-      );
       expect(screen.getByTestId('upcoming-appointments-error-message')).to
         .exist;
 
@@ -137,20 +131,34 @@ describe('unified check-in experience', () => {
       const sandbox = sinon.createSandbox();
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
-      const screen = render(
+      render(
         <CheckInProvider
           store={{ upcomingAppointments: [], features: appointmentsOn }}
         >
           <UpcomingAppointmentsPage />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming appointments',
-      );
       sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
     it('does not fetch data if already exists', () => {
+      const sandbox = sinon.createSandbox();
+      const { v2 } = api;
+      sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
+      render(
+        <CheckInProvider
+          store={{
+            upcomingAppointments: multipleAppointments,
+            features: appointmentsOn,
+          }}
+        >
+          <UpcomingAppointmentsPage />
+        </CheckInProvider>,
+      );
+      sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
+      sandbox.restore();
+    });
+    it('should fetch data again if refresh is clicked', () => {
       const sandbox = sinon.createSandbox();
       const { v2 } = api;
       sandbox.stub(v2, 'getUpcomingAppointmentsData').resolves({});
@@ -164,38 +172,11 @@ describe('unified check-in experience', () => {
           <UpcomingAppointmentsPage />
         </CheckInProvider>,
       );
-      expect(screen.getByTestId('upcoming-appointments-header')).to.have.text(
-        'Upcoming appointments',
-      );
-      sandbox.assert.notCalled(v2.getUpcomingAppointmentsData);
+      const refreshButton = screen.getByTestId('refresh-appointments-button');
+      expect(refreshButton).to.exist;
+      fireEvent.click(refreshButton);
+      sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
-    // Don't know why this isn't working
-    // it('should fetch data again if refresh is clicked', () => {
-    //   const refreshUpcomingDataSpy = sinon.spy();
-    //   const useGetUpcomingAppointmentsDataStub = sinon
-    //     .stub(
-    //       useGetUpcomingAppointmentsDataModule,
-    //       'useGetUpcomingAppointmentsData',
-    //     )
-    //     .returns({
-    //       refreshUpcomingData: refreshUpcomingDataSpy,
-    //     });
-    //   const screen = render(
-    //     <CheckInProvider
-    //       store={{
-    //         upcomingAppointments: multipleAppointments,
-    //         features: appointmentsOn,
-    //       }}
-    //     >
-    //       <UpcomingAppointmentsPage />
-    //     </CheckInProvider>,
-    //   );
-    //   const refreshButton = screen.queryByTestId('refresh-appointments-button');
-    //   expect(refreshButton).to.exist;
-    //   refreshButton.click();
-    //   sinon.assert.calledOnce(refreshUpcomingDataSpy);
-    //   useGetUpcomingAppointmentsDataStub.restore();
-    // });
   });
 });

@@ -56,7 +56,10 @@ const UpcomingAppointmentsList = props => {
     );
   }
   return (
-    <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light">
+    <div
+      data-testid="upcoming-appointments-list"
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light"
+    >
       {groupedAppointments.map(month => {
         const { firstAppointmentStartTime, days } = month;
         const monthDate = new Date(firstAppointmentStartTime);
