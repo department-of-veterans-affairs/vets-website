@@ -25,9 +25,9 @@ const UpcomingAppointmentsList = props => {
   const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
-      event: createAnalyticsSlug('details-link-clicked', 'nav', app),
+      event: createAnalyticsSlug('upcoming-details-link-clicked', 'nav', app),
     });
-    jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    jumpToPage(`upcoming-appointment-details/${getAppointmentId(appointment)}`);
   };
 
   if (groupedAppointments.length < 1) {
