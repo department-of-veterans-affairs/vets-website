@@ -8,16 +8,11 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { typeOfPhoneOptions } from '../../constants/options';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../helpers/internationalPhonePatterns';
-
-const typeOfPhoneOptions = {
-  CELL: 'Cell',
-  HOME: 'Home',
-  WORK: 'Work',
-};
 
 /** @type {PageSchema} */
 export default {

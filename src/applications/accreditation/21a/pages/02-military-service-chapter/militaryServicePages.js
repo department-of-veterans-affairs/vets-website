@@ -15,6 +15,11 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
+import {
+  branchOptions,
+  characterOfDischargeOptions,
+  explanationRequired,
+} from '../../constants/options';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 const getDateRange = item => {
@@ -22,31 +27,6 @@ const getDateRange = item => {
     item?.currentlyServing ? 'Present' : formatReviewDate(item?.dateRange?.to)
   }`;
 };
-
-const serviceBranchOptions = [
-  'Army',
-  'Navy',
-  'Air Force',
-  'Marine Corps',
-  'Space Force',
-  'Coast Guard',
-];
-
-const characterOfDischargeOptions = [
-  'Honorable',
-  'General',
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
-
-const explanationRequired = [
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
 
 const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
@@ -110,7 +90,7 @@ const branchAndDateRangePage = {
   schema: {
     type: 'object',
     properties: {
-      branch: selectSchema(serviceBranchOptions),
+      branch: selectSchema(branchOptions),
       dateRange: {
         ...currentOrPastDateRangeSchema,
         required: ['from'],

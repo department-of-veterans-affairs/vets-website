@@ -1,4 +1,4 @@
-import intro from './intro';
+import personalInformationIntro from './personalInformationIntro';
 import role from './role';
 import standingWithBar from './standingWithBar';
 import notInGoodStanding from './notInGoodStanding';
@@ -13,7 +13,7 @@ import otherAddress from './otherAddress';
 export default {
   title: 'Personal information',
   pages: {
-    intro,
+    personalInformationIntro,
     role,
     standingWithBar,
     notInGoodStanding,

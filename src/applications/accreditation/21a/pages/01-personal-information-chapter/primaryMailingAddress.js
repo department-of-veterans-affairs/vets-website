@@ -4,11 +4,7 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const primaryMailingAddressOptions = {
-  HOME: 'Home',
-  WORK: 'Work',
-  OTHER: 'Other',
-};
+import { primaryMailingAddressOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {

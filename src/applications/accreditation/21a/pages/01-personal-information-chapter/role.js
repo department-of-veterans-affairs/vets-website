@@ -4,11 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import RoleDescription from '../../components/01-personal-information-chapter/RoleDescription';
-
-const roleOptions = {
-  ATTORNEY: 'Attorney',
-  CLAIMS_AGENT: 'Claims agent (non-attorney representative)',
-};
+import { roleOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {
