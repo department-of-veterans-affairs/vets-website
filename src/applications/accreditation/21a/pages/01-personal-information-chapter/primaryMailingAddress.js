@@ -4,16 +4,10 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const primaryMailingAddressOptions = {
-  HOME: 'Home',
-  WORK: 'Work',
-  OTHER: 'Other',
-};
-
-const primaryMailingAddressOptionsNoWork = {
-  HOME: 'Home',
-  OTHER: 'Other',
-};
+import {
+  primaryMailingAddressOptions,
+  primaryMailingAddressOptionsNoWork,
+} from '../../constants/options';
 
 const getUiOptions = formData => ({
   'ui:options': {

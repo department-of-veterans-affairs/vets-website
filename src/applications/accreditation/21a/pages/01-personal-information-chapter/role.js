@@ -3,10 +3,7 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const roleOptions = {
-  ATTORNEY: 'Attorney',
-  CLAIMS_AGENT: 'Claims agent',
-};
+import { roleOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {
