@@ -264,9 +264,7 @@ describe('Thread Details container', () => {
     expect(await screen.findByText(`${category}: ${subject}`, { exact: false }))
       .to.exist;
 
-    expect(global.document.title).to.equal(
-      `${category}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
-    );
+    expect(global.document.title).to.equal(PageTitles.CONVERSATION_TITLE_TAG);
 
     expect(document.querySelector('va-textarea')).to.not.exist;
 
@@ -351,9 +349,7 @@ describe('Thread Details container', () => {
       }),
     ).to.exist;
 
-    expect(global.document.title).to.equal(
-      `${category}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
-    );
+    expect(global.document.title).to.equal(PageTitles.CONVERSATION_TITLE_TAG);
 
     expect(screen.queryByTestId('expired-alert-message')).to.be.null;
     expect(screen.queryByText('This conversation is too old for new replies'))

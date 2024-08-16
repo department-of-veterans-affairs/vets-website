@@ -53,7 +53,13 @@ const formatChapters = chapters =>
     return { ...formattedChapters, ...formattedChapter };
   }, {});
 
-export const createFormConfig = ({ chapters, formId, title }) => {
+export const createFormConfig = form => {
+  if (form.rootUrl) {
+    // It's probably already a Form Config object
+    return form;
+  }
+
+  const { chapters, formId, title } = form;
   const subTitle = `VA Form ${formId}`;
 
   return {

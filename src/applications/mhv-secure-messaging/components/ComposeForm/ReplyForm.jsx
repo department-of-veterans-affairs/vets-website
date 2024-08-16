@@ -85,11 +85,7 @@ const ReplyForm = props => {
     () => {
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
-      updatePageTitle(
-        `${replyMessage.category}: ${replyMessage.subject} ${
-          PageTitles.PAGE_TITLE_TAG
-        }`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [replyMessage],
   );

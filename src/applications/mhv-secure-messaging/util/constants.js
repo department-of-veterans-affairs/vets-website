@@ -360,6 +360,8 @@ export const BreadcrumbViews = {
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  CONVERSATION_TITLE_TAG:
+    'Conversation - MHV Secure Messaging | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
