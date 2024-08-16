@@ -47,15 +47,22 @@ const FacilitySearch = props => {
     setError(null);
     setFacilities([]);
 
-    try {
-      const coordinates = await fetchMapBoxGeocoding(query);
-      const facilityList = await fetchFacilities(coordinates.center);
-      setFacilities(facilityList);
-    } catch (err) {
-      setError(err.errorMessage);
-    } finally {
+    const mapboxResponse = await fetchMapBoxGeocoding(query);
+    if (mapboxResponse.errorMessage) {
+      setError(mapboxResponse.errorMessage);
       setLoading(false);
+      return;
     }
+
+    const facilitiesResponse = await fetchFacilities(mapboxResponse.center);
+    if (facilitiesResponse.errorMessage) {
+      setError(facilitiesResponse.errorMessage);
+      setLoading(false);
+      return;
+    }
+
+    setFacilities(facilitiesResponse);
+    setLoading(false);
   };
 
   const searchResults = () => {
