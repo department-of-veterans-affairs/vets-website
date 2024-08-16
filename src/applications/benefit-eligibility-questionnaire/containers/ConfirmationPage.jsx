@@ -36,12 +36,12 @@ export class ConfirmationPage extends React.Component {
 
         <ShareResultsModal />
 
-        <div id="resultsContainer">
-          <div id="filtersSectionDesktop">
+        <div id="results-container">
+          <div id="filters-section-desktop">
             <b>Filters</b>
           </div>
 
-          <div id="filtersSectionMobile">
+          <div id="filters-section-mobile">
             <va-link-action
               href="#"
               message-aria-describedby="Filter and sort"
@@ -50,7 +50,7 @@ export class ConfirmationPage extends React.Component {
             />
           </div>
 
-          <div id="resultsSection">
+          <div id="results-section">
             <b>
               Showing 1 result, filtered to show all results, sorted by
               relevance
