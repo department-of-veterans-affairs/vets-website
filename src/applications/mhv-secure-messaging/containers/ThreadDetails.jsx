@@ -13,7 +13,7 @@ import ComposeForm from '../components/ComposeForm/ComposeForm';
 import { PageTitles } from '../util/constants';
 import { closeAlert } from '../actions/alerts';
 import { getFolders, retrieveFolder } from '../actions/folders';
-import { navigateToFolderByFolderId } from '../util/helpers';
+import { navigateToFolderByFolderId, scrollToTop } from '../util/helpers';
 import MessageThreadForPrint from '../components/MessageThread/MessageThreadForPrint';
 
 const ThreadDetails = props => {
@@ -49,7 +49,7 @@ const ThreadDetails = props => {
   useEffect(
     () => {
       if (isSending === true) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        scrollToTop();
       }
     },
     [isSending],

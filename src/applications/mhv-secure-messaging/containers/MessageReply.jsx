@@ -7,6 +7,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
+import { scrollToTop } from '../util/helpers';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const MessageReply = () => {
   useEffect(
     () => {
       if (isSending === true) {
-        window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+        scrollToTop();
       }
     },
     [isSending],
