@@ -377,7 +377,7 @@
   "submit-claim": "Submit claim",
   "review-body-text-unified": "You can submit your claim now or choose to file later. Either way, you can still complete the check-in process.",
   "we-cant-find-any-upcoming-appointments": "We can’t find any upcoming VA medical appointments for you",
-  "our-online-check-in-tool-doesnt-include-all": "Our online check-in tool doesn’t include all appointment types at this time. To find all your appointments, you can use our appointments tool on VA.gov or call your VA or community care health facility.",
+  "our-online-check-in-tool-doesnt-include-all": "Our online check-in tool doesn’t include all appointment types at this time. To find all your appointments, you can use our appointments tool on VA.gov, or call your VA or community care health facility.",
   "go-to-all-your-va-appointments": "Go to all your VA appointments",
   "find-your-health-facilities-phone-number": "Find your health facility’s phone number",
   "canceled": "Canceled",
@@ -434,5 +434,7 @@
   "manage-your-appointments": "Manage your appointments",
   "sign-in-to-vagov-and-schedule": "Sign in to VA.gov and schedule",
   "review-your-upcoming-appointments": "Review your upcoming appointments",
-  "review-todays-appointments": "Review today’s appointments"
+  "review-todays-appointments": "Review today’s appointments",
+  "were-sorry-weve-run-into-a-problem": "We’re sorry. We’ve run into a problem.",
+  "were-having-trouble-getting-your-upcoming-appointments": "We’re having trouble getting your upcoming appointments. Please try again later."
 }
