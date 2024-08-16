@@ -6,7 +6,7 @@ import sinon from 'sinon';
 
 import VeteranInformation from '../../../../components/FormPages/VeteranInformation';
 
-describe('hca VeteranInformation', () => {
+describe('hca VeteranInformation page', () => {
   const authUser = {
     login: {
       currentlyLoggedIn: true,
@@ -56,86 +56,58 @@ describe('hca VeteranInformation', () => {
       dispatch: () => {},
     },
   });
+  const subject = ({ mockStore, props }) => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <VeteranInformation {...props} />
+      </Provider>,
+    );
+    const selectors = {
+      primaryBtn: container.querySelector('.usa-button-primary'),
+      secondaryBtn: container.querySelector('.usa-button-secondary'),
+      profileCard: container.querySelector('[data-testid="hca-profile-card"]'),
+      guestCard: container.querySelector('[data-testid="hca-guest-card"]'),
+    };
+    return { container, selectors };
+  };
 
-  context('when the user is logged in', () => {
-    it('should render Veteran information from profile', () => {
-      const { mockStore, props } = getData({
-        user: authUser,
-        formData: { ...mockData, 'view:isLoggedIn': true },
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VeteranInformation {...props} />
-        </Provider>,
-      );
-      const selectors = {
-        profile: container.querySelector(
-          '[data-testid="hca-veteran-profile-intro"]',
-        ),
-        guest: container.querySelector(
-          '[data-testid="hca-guest-confirm-intro"]',
-        ),
-      };
-      expect(selectors.profile).to.exist;
-      expect(selectors.guest).to.not.exist;
+  it('should render Veteran information from profile when the user is logged in', () => {
+    const { mockStore, props } = getData({
+      user: authUser,
+      formData: { ...mockData, 'view:isLoggedIn': true },
     });
+    const { selectors } = subject({ mockStore, props });
+    expect(selectors.profileCard).to.exist;
+    expect(selectors.guestCard).to.not.exist;
   });
 
-  context('when the user is not logged in', () => {
-    it('should render Veteran information from ID form', () => {
-      const { mockStore, props } = getData({
-        user: guestUser,
-        formData: mockData,
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VeteranInformation {...props} />
-        </Provider>,
-      );
-      const selectors = {
-        profile: container.querySelector(
-          '[data-testid="hca-veteran-profile-intro"]',
-        ),
-        guest: container.querySelector(
-          '[data-testid="hca-guest-confirm-intro"]',
-        ),
-      };
-      expect(selectors.profile).to.not.exist;
-      expect(selectors.guest).to.exist;
+  it('should render Veteran information from ID form when the user is not logged in', () => {
+    const { mockStore, props } = getData({
+      user: guestUser,
+      formData: mockData,
     });
+    const { selectors } = subject({ mockStore, props });
+    expect(selectors.profileCard).to.not.exist;
+    expect(selectors.guestCard).to.exist;
   });
 
-  context('when the `back` button is clicked', () => {
-    it('should fire `goBack` method', () => {
-      const { mockStore, props } = getData({
-        user: guestUser,
-        formData: mockData,
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VeteranInformation {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('.usa-button-secondary');
-      fireEvent.click(selector);
-      expect(props.goBack.called).to.be.true;
+  it('should fire `goBack` method when the `back` button is clicked', () => {
+    const { mockStore, props } = getData({
+      user: guestUser,
+      formData: mockData,
     });
+    const { selectors } = subject({ mockStore, props });
+    fireEvent.click(selectors.secondaryBtn);
+    expect(props.goBack.called).to.be.true;
   });
 
-  context('when the `continue` button is clicked', () => {
-    it('should fire `goForward` spy', () => {
-      const { mockStore, props } = getData({
-        user: guestUser,
-        formData: mockData,
-      });
-      const { container } = render(
-        <Provider store={mockStore}>
-          <VeteranInformation {...props} />
-        </Provider>,
-      );
-      const selector = container.querySelector('.usa-button-primary');
-      fireEvent.click(selector);
-      expect(props.goForward.called).to.be.true;
+  it('should fire `goForward` spy when the `continue` button is clicked', () => {
+    const { mockStore, props } = getData({
+      user: guestUser,
+      formData: mockData,
     });
+    const { selectors } = subject({ mockStore, props });
+    fireEvent.click(selectors.primaryBtn);
+    expect(props.goForward.called).to.be.true;
   });
 });

@@ -58,6 +58,9 @@ const Allergies = props => {
   const user = useSelector(state => state.user.profile);
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -160,18 +163,20 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.ALLERGY}
-          newRecordsFound={
-            Array.isArray(allergies) &&
-            Array.isArray(updatedRecordList) &&
-            allergies.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!mockPhr && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.ALLERGY}
+            newRecordsFound={
+              Array.isArray(allergies) &&
+              Array.isArray(updatedRecordList) &&
+              allergies.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}

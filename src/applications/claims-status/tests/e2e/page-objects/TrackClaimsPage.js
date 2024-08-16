@@ -319,7 +319,7 @@ class TrackClaimsPage {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
   }
