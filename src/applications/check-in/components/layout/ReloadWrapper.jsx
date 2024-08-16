@@ -16,7 +16,7 @@ import {
 } from '../../utils/appConstants';
 
 const ReloadWrapper = props => {
-  const { children, router, app, reloadUpcoming } = props;
+  const { children, router, app, reloadUpcoming = false } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -134,6 +134,7 @@ const ReloadWrapper = props => {
 ReloadWrapper.propTypes = {
   app: PropTypes.string.isRequired,
   children: PropTypes.node,
+  reloadUpcoming: PropTypes.bool,
   router: PropTypes.object,
 };
 
