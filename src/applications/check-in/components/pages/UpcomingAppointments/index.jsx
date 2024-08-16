@@ -4,12 +4,14 @@ import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 
 import Wrapper from '../../layout/Wrapper';
+import BackButton from '../../BackButton';
 import UpcomingAppointmentsList from '../../UpcomingAppointmentsList';
 import AppointmentListInfoBlock from '../../AppointmentListInfoBlock';
 
 import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { useGetUpcomingAppointmentsData } from '../../../hooks/useGetUpcomingAppointmentsData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
+import { useFormRouting } from '../../../hooks/useFormRouting';
 import { APP_NAMES } from '../../../utils/appConstants';
 
 const UpcomingAppointmentsPage = props => {
@@ -19,6 +21,7 @@ const UpcomingAppointmentsPage = props => {
   const { app } = useSelector(selectApp);
   const { t } = useTranslation();
   const { updateError } = useUpdateError();
+  const { goToPreviousPage } = useFormRouting(router);
   const {
     isComplete,
     isLoading,
@@ -117,15 +120,24 @@ const UpcomingAppointmentsPage = props => {
   }
 
   return (
-    <Wrapper pageTitle={t('upcoming-appointments')} withBackButton>
-      <section data-testid="upcoming-appointments-vaos">
-        <h2 data-testid="upcoming-appointments-header">
-          {t('upcoming-appointments')}
-        </h2>
-        {body}
-        <AppointmentListInfoBlock />
-      </section>
-    </Wrapper>
+    <>
+      <BackButton
+        router={router}
+        action={goToPreviousPage}
+        prevUrl="#back"
+        text={t('back-to-last-screen')}
+      />
+      <Wrapper
+        pageTitle={t('upcoming-appointments')}
+        withBackButton
+        testID="upcoming-appointments-header"
+      >
+        <section data-testid="upcoming-appointments-vaos">
+          {body}
+          <AppointmentListInfoBlock />
+        </section>
+      </Wrapper>
+    </>
   );
 };
 
