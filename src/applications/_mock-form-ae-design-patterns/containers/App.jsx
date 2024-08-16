@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 import { useDispatch } from 'react-redux';
 
@@ -13,7 +14,7 @@ import greenFormConfig from '../config/prefill/taskGreen/form';
 import yellowFormConfig from '../config/prefill/taskYellow/form';
 import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { TaskButtons } from '../components/TaskButtons';
+import { TaskTabs } from '../components/TaskTabs';
 
 const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
@@ -92,16 +93,19 @@ export default function App({ location, children }) {
 
   dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
 
+  const headerV2 = document.getElementById('header-v2');
+
   return (
     <div className="vads-u-margin-top--4">
-      <RoutedSavableApp
-        formConfig={getFormConfig(location)}
-        currentLocation={location}
-      >
+      {createPortal(
+        <TaskTabs location={location} formConfig={formConfig} />,
+        headerV2,
+      )}
+
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
       <FormFooter formConfig={formConfig} />
-      <TaskButtons rootUrl={formConfig.rootUrl} />
     </div>
   );
 }
