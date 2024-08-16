@@ -5,16 +5,20 @@ $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "~@department-of-veterans-affairs/formation/sass/core";
 // @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 .vads-u-color--primary-darker {
+// eslint-disable-line
     color: #162e51;
   }
   .vads-u-color--primary-dark {
+// eslint-disable-line
     color: #1a4480;
   }
   .vads-u-background-color--primary-dark {
+// eslint-disable-line
     background-color: #1a4480;
   }
 
   .vads-u-background-color--primary-darker {
+// eslint-disable-line
     background-color: #162e51;
   }
 
