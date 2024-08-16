@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
 import { formConfig1, normalizedForm } from '../../../_config/formConfig';
 import {
   DIGITAL_FORMS_FILENAME,
@@ -26,35 +27,18 @@ const initialState = {
 
 describe('form-load actions', () => {
   describe('fetchDrupalDigitalForms', () => {
-    let mockFetch;
-    let url;
-
-    const jsonOK = body =>
-      new Response(JSON.stringify(body), {
-        status: 200,
-        headers: {
-          'Content-type': 'application/json',
-        },
-      });
-
-    beforeEach(async () => {
-      mockFetch = sinon.stub(global, 'fetch').resolves(jsonOK(['test data']));
+    it('fetches from the correct URL', async () => {
+      const mock = sinon.mock(global);
+      mock
+        .expects('fetch')
+        .once()
+        .withArgs(
+          `${INTEGRATION_DEPLOYMENT}/${DATA_FILES_PATH}/${DIGITAL_FORMS_FILENAME}`,
+        );
 
       await fetchDrupalDigitalForms();
 
-      [[url]] = mockFetch.args;
-    });
-
-    afterEach(() => {
-      global.fetch.restore();
-    });
-
-    it('fetches from the integration branch Tugboat', () => {
-      expect(url).to.have.string(INTEGRATION_DEPLOYMENT);
-    });
-
-    it('fetches the correct file', () => {
-      expect(url).to.have.string(DIGITAL_FORMS_FILENAME);
+      mock.verify();
     });
   });
 

@@ -1,39 +1,37 @@
 import environment from 'platform/utilities/environment';
+import { DATA_FILES_PATH } from '../../constants';
 
 const sinon = require('sinon');
-const { expect } = require('chai');
 const { fetchDrupalStaticDataFile } = require('../../connect/fetch');
 
 describe('fetchDrupalStaticDataFile', () => {
-  let mockFetch;
+  let mock;
+  let expectation;
 
-  const jsonOK = body =>
-    new Response(JSON.stringify(body), {
-      status: 200,
-      headers: {
-        'Content-type': 'application/json',
-      },
-    });
+  const filename = 'test-file.json';
 
   beforeEach(() => {
-    mockFetch = sinon.stub(global, 'fetch').resolves(jsonOK(['test data']));
-  });
-
-  afterEach(() => {
-    global.fetch.restore();
+    mock = sinon.mock(global);
+    expectation = mock.expects('fetch').once();
   });
 
   it('uses the environment base URL by default', async () => {
-    await fetchDrupalStaticDataFile('test-file.json');
+    expectation = expectation.withArgs(
+      `${environment.BASE_URL}/${DATA_FILES_PATH}/${filename}`,
+    );
+    await fetchDrupalStaticDataFile(filename);
 
-    expect(mockFetch.args[0][0]).to.have.string(environment.BASE_URL);
+    mock.verify();
   });
 
   it('uses a custom server when given one', async () => {
     const testServer = 'https://example.com';
+    expectation = expectation.withArgs(
+      `${testServer}/${DATA_FILES_PATH}/${filename}`,
+    );
 
-    await fetchDrupalStaticDataFile('test-file.json', testServer);
+    await fetchDrupalStaticDataFile(filename, testServer);
 
-    expect(mockFetch.args[0][0]).to.have.string(testServer);
+    mock.verify();
   });
 });

@@ -11,6 +11,7 @@ import { teardownProfileSession } from 'platform/user/profile/utilities';
 import fallbackFormConfig from '../config/fallbackForm';
 import greenFormConfig from '../config/prefill/taskGreen/form';
 import yellowFormConfig from '../config/prefill/taskYellow/form';
+import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { TaskButtons } from '../components/TaskButtons';
 
@@ -23,6 +24,10 @@ const getFormConfig = location => {
     return yellowFormConfig;
   }
 
+  if (location.pathname.includes('task-purple')) {
+    return purpleFormConfig;
+  }
+
   return fallbackFormConfig;
 };
 
@@ -32,7 +37,11 @@ const handleEditPageDisplayTweaks = location => {
     '.schemaform-chapter-progress',
   );
   const formTitle = document.querySelector('.schemaform-title');
-  if (location.pathname.includes('edit-')) {
+  if (
+    location.pathname.includes(
+      'task-green/veteran-information/edit-mailing-address',
+    )
+  ) {
     if (navHeader) {
       // hide header on edit pages
       navHeader.style.display = 'none';
@@ -70,6 +79,11 @@ export default function App({ location, children }) {
         teardownProfileSession();
       }
       handleEditPageDisplayTweaks(location);
+
+      // having the pollTimeout allows api calls to be attempted locally
+      if (!window?.VetsGov?.pollTimeout) {
+        window.VetsGov.pollTimeout = 5000;
+      }
     },
     [location, setHasSession],
   );

@@ -31,25 +31,27 @@ const selectSchemas = ({ pageTitle, additionalFields }) => {
   return schemas;
 };
 
-const formatChapters = chapters => {
-  const formattedChapters = {};
-
-  chapters.forEach(chapter => {
-    const pages = {};
-    pages[chapter.id] = {
-      path: chapter.id.toString(),
-      title: chapter.pageTitle,
-      ...selectSchemas(chapter),
+const formatChapters = chapters =>
+  chapters.reduce((formattedChapters, chapter) => {
+    const pages = {
+      // For now, all chapters contain only one page, and there are no
+      // separate IDs for pages. This will probably change at some point.
+      [chapter.id]: {
+        path: chapter.id.toString(),
+        title: chapter.pageTitle,
+        ...selectSchemas(chapter),
+      },
     };
 
-    formattedChapters[chapter.id] = {
-      title: chapter.chapterTitle,
-      pages,
+    const formattedChapter = {
+      [chapter.id]: {
+        title: chapter.chapterTitle,
+        pages,
+      },
     };
-  });
 
-  return formattedChapters;
-};
+    return { ...formattedChapters, ...formattedChapter };
+  }, {});
 
 export const createFormConfig = form => {
   if (form.rootUrl) {

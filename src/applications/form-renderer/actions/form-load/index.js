@@ -50,7 +50,10 @@ export const findFormByFormId = (forms, formId) => {
   throw new Error(`Form config not found for form id '${formId}'`);
 };
 
-export const fetchFormConfig = (formId, fetchMethod = mockFetchForms) => {
+export const fetchFormConfig = (
+  formId,
+  fetchMethod = fetchDrupalDigitalForms,
+) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
     try {
