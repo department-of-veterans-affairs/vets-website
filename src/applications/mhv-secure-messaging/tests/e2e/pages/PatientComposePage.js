@@ -470,6 +470,10 @@ class PatientComposePage {
   getAlertEditDraftBtn = () => {
     return cy.get(Locators.ALERTS.ES_ALERT).find('va-button');
   };
+
+  verifyHeader = text => {
+    cy.get(Locators.HEADER, { timeout: 5000 }).should('have.text', text);
+  };
 }
 
 export default new PatientComposePage();

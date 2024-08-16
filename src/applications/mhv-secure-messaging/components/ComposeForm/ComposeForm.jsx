@@ -18,6 +18,7 @@ import {
   resetUserSession,
   updateTriageGroupRecipientStatus,
   dateFormat,
+  scrollToTop,
 } from '../../util/helpers';
 import { sendMessage } from '../../actions/messages';
 import { focusOnErrorField } from '../../util/formHelpers';
@@ -43,7 +44,7 @@ import ElectronicSignature from './ElectronicSignature';
 import RecipientsSelect from './RecipientsSelect';
 
 const ComposeForm = props => {
-  const { draft, recipients, signature } = props;
+  const { pageTitle, headerRef, draft, recipients, signature } = props;
   const {
     noAssociations,
     allTriageGroupsBlocked,
@@ -222,6 +223,7 @@ const ComposeForm = props => {
     () => {
       const today = dateFormat(new Date(), 'YYYY-MM-DD');
       if (sendMessageFlag && isSaving !== true) {
+        scrollToTop();
         const messageData = {
           category,
           body: `${messageBody} ${
@@ -243,16 +245,19 @@ const ComposeForm = props => {
           sendData = JSON.stringify(messageData);
         }
         dispatch(sendMessage(sendData, attachments.length > 0))
-          .then(() =>
-            navigateToFolderByFolderId(
-              currentFolder?.folderId || DefaultFolders.INBOX.id,
-              history,
-            ),
-          )
-          .catch(setSendMessageFlag(false));
+          .then(() => {
+            setTimeout(() => {
+              navigateToFolderByFolderId(
+                currentFolder?.folderId || DefaultFolders.INBOX.id,
+                history,
+              );
+            }, 1000);
+            // Timeout neccessary for UCD requested 1 second delay
+          })
+          .catch(() => setSendMessageFlag(false), scrollToTop());
       }
     },
-    [sendMessageFlag, isSaving],
+    [sendMessageFlag, isSaving, scrollToTop],
   );
 
   useEffect(
@@ -675,8 +680,22 @@ const ComposeForm = props => {
     [beforeUnloadHandler],
   );
 
+  if (sendMessageFlag === true) {
+    return (
+      <va-loading-indicator
+        message="Sending message..."
+        setFocus
+        data-testid="sending-indicator"
+      />
+    );
+  }
+
   return (
     <>
+      <h1 className="page-title vads-u-margin-top--0" ref={headerRef}>
+        {pageTitle}
+      </h1>
+
       {showBlockedTriageGroupAlert &&
       (noAssociations || allTriageGroupsBlocked) ? (
         <BlockedTriageGroupAlert
