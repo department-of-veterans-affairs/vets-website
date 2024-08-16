@@ -57,48 +57,42 @@ const IntroductionPage = ({ route }) => {
         Fill out the following information:
       </h2>
       <va-process-list>
-        <li>
-          <h3>Personal information</h3>
+        <va-process-list-item header="Personal information">
           <p>
             You will need to fill out your personal information, up to date
             contact information, and any military service information.
           </p>
-        </li>
-        <li>
-          <h3>Military service history</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Military service history">
           <p>
             If you served in a military branch of service, you will need to
             provide information about your tours.
           </p>
-        </li>
-        <li>
-          <h3>Employment information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Employment information">
           <p>
             You will need to enter your employment information for the past five
             years. If you are not employed you can select another status
             (unemployed, self-employed, student).
           </p>
-        </li>
-        <li>
-          <h3>Education history</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Education history">
           <p>
             You will need to provide your education institution’s name and
             address starting from high school graduation, undergraduate, to
             post-graduate. You will also need to provide the dates you attended
             and the degree received (or major).
           </p>
-        </li>
-        <li>
-          <h3>Professional affiliations</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Professional affiliations">
           <p>
             You will need to provide each jurisdiction you are currently a
             member of good standing. Along with the name, you will also need to
             provide the date of admission and your membership or registration
             number.
           </p>
-        </li>
-        <li>
-          <h3>Background information</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Background information">
           <p>
             Truthfulness and candor are essential elements of good moral
             character and reputation relevant to practice before VA. In order to
@@ -106,28 +100,25 @@ const IntroductionPage = ({ route }) => {
             details on any convictions, imprisonments, sentences, terminations
             due to unethical or unlawful behavior, and related topics.
           </p>
-        </li>
-        <li>
-          <h3>Character references</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Character references">
           <p>
             You will need to provide 3-4 character references who have personal
             knowledge of your character and qualification to serve as a claims
             agent or attorney. These references cannot be immediate family
             members.
           </p>
-        </li>
-        <li>
-          <h3>Optional supplementary statements</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Optional supplementary statements">
           <p>
             Provide any additional explanations for your answers in previous
             sections and additional information about why you are applying.
             These questions are optional.
           </p>
-        </li>
-        <li>
-          <h3>Review application</h3>
+        </va-process-list-item>
+        <va-process-list-item header="Review application">
           <p>Review your answers before submitting.</p>
-        </li>
+        </va-process-list-item>
       </va-process-list>
       <SaveInProgressIntro
         headingLevel={2}
