@@ -9,7 +9,7 @@ const MilitaryServiceIntro = () => (
     </p>
     <ul>
       <li>Branch of service</li>
-      <li>Active service start and end dates (month/year)</li>
+      <li>Service start and end dates (month/year)</li>
       <li>Character of discharge</li>
     </ul>
   </>
