@@ -7,6 +7,7 @@ import {
   getIsRxSkill,
   getIsTrackingUtterances,
   getRecentUtterances,
+  setEventSkillValue,
   setIsRxSkill,
   setIsTrackingUtterances,
   setRecentUtterances,
@@ -70,6 +71,10 @@ function handleSkillEvent(action, eventName, isRxSkillState) {
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
     sendWindowEventWithActionPayload('rxSkill', action);
+  } else if (actionEventName === eventName && !isEventRxSkill(eventValue)) {
+    setIsRxSkill(false);
+    setEventSkillValue(eventValue);
+    sendWindowEventWithActionPayload(eventValue, action);
   }
 }
 

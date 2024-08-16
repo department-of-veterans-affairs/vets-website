@@ -155,6 +155,32 @@ describe('cardAction', () => {
 
         expect(recordEventStub.notCalled).to.be.true;
       });
+
+      it('should call recordEvent with correct topic when a button is clicked and skill is disability ratings', () => {
+        const card = generateFakeCard(
+          'https://www.va.gov/v0/claim_letters/abc',
+          'notOpenUrl',
+        );
+        card.target = {
+          classList: ['webchat__suggested-action'],
+        };
+
+        sandbox
+          .stub(SessionStorageModule, 'getEventSkillValue')
+          .returns('disability ratings');
+
+        const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+        cardActionMiddleware()(sandbox.stub())(card);
+
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(recordEventStub.firstCall.args[0]).to.deep.equal({
+          event: 'chatbot-button-click',
+          clickText: card.cardAction.value,
+          topic: 'disability ratings',
+        });
+      });
+
       describe('When there are unexpected values', () => {
         it('should not throw an error when cardAction.value is not a string', () => {
           const card = generateFakeCard({}, 'notOpenUrl');

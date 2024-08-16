@@ -339,9 +339,7 @@ describe('actions', () => {
           activity: {
             type: 'message',
             text: 'Other',
-            from: {
-              role: 'user',
-            },
+            from: { role: 'user' },
             name: 'Skill_Entry',
             value: 'Other_Skill',
           },
@@ -353,10 +351,21 @@ describe('actions', () => {
         SessionStorageModule,
         'setIsRxSkill',
       );
+      const sendWindowEventWithActionPayloadStub = sandbox.stub(
+        EventsModule,
+        'sendWindowEventWithActionPayload',
+      );
 
       processIncomingActivity({ action, dispatch })();
 
-      expect(setIsRxSkillStub.notCalled).to.be.true;
+      expect(setIsRxSkillStub.calledOnce).to.be.true;
+      expect(setIsRxSkillStub.calledWithExactly(false)).to.be.true;
+      expect(
+        sendWindowEventWithActionPayloadStub.calledWithExactly(
+          'Other_Skill',
+          action,
+        ),
+      ).to.be.true;
     });
     it('should set is rx skill to false and trigger rxSkill event if exiting rx', () => {
       const action = {
@@ -364,9 +373,7 @@ describe('actions', () => {
           activity: {
             type: 'message',
             text: 'Other',
-            from: {
-              role: 'user',
-            },
+            from: { role: 'user' },
             name: 'Skill_Exit',
             value: 'RX_Skill',
           },
@@ -400,9 +407,7 @@ describe('actions', () => {
           activity: {
             type: 'message',
             text: 'Other',
-            from: {
-              role: 'user',
-            },
+            from: { role: 'user' },
             name: 'Skill_Exit',
             value: 'Other_Skill',
           },
@@ -414,10 +419,21 @@ describe('actions', () => {
         SessionStorageModule,
         'setIsRxSkill',
       );
+      const sendWindowEventWithActionPayloadStub = sandbox.stub(
+        EventsModule,
+        'sendWindowEventWithActionPayload',
+      );
 
       processIncomingActivity({ action, dispatch })();
 
-      expect(setIsRxSkillStub.notCalled).to.be.true;
+      expect(setIsRxSkillStub.calledOnce).to.be.true;
+      expect(setIsRxSkillStub.calledWithExactly(false)).to.be.true;
+      expect(
+        sendWindowEventWithActionPayloadStub.calledWithExactly(
+          'Other_Skill',
+          action,
+        ),
+      ).to.be.true;
     });
 
     it('should call submitForm when activity is FormPostButton and component toggle is on', () => {
