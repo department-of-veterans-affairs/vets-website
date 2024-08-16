@@ -9,7 +9,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import BackToAppointments from '../../../components/BackToAppointments';
+import LinkList from '../../../components/LinkList';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
 import { useSendTravelPayClaim } from '../../../hooks/useSendTravelPayClaim';
@@ -170,7 +170,7 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        <BackToAppointments />
+        <LinkList router={router} />
 
         <ConfirmationAccordionBlock appointments={[appointment]} />
       </Wrapper>

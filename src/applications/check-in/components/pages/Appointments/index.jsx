@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { useTranslation, Trans } from 'react-i18next';
 
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
-import { useFormRouting } from '../../../hooks/useFormRouting';
 import Wrapper from '../../layout/Wrapper';
 import { APP_NAMES } from '../../../utils/appConstants';
 import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
@@ -13,13 +12,13 @@ import { useUpdateError } from '../../../hooks/useUpdateError';
 import { useStorage } from '../../../hooks/useStorage';
 import UpcomingAppointmentsVista from '../../UpcomingAppointmentsVista';
 import ActionItemDisplay from '../../ActionItemDisplay';
+import LinkList from '../../LinkList';
 
 import { intervalUntilNextAppointmentIneligibleForCheckin } from '../../../utils/appointment';
 import AppointmentListInfoBlock from '../../AppointmentListInfoBlock';
 
 const AppointmentsPage = props => {
   const { router } = props;
-  const { jumpToPage } = useFormRouting(router);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const selectApp = useMemo(makeSelectApp, []);
@@ -118,11 +117,6 @@ const AppointmentsPage = props => {
     [appointments, checkInDataError, updateError, refreshCheckInData, app],
   );
 
-  const goToUpcomingAppointments = e => {
-    e.preventDefault();
-    jumpToPage('upcoming-appointments');
-  };
-
   if (isLoading) {
     window.scrollTo(0, 0);
     return (
@@ -158,22 +152,7 @@ const AppointmentsPage = props => {
           secondary
           data-testid="refresh-appointments-button"
         />
-        {isUpcomingAppointmentsEnabled && (
-          <>
-            <h2 className="highlight vads-u-font-size--h4 vads-u-margin-top--8">
-              {t('manage-your-appointments')}
-            </h2>
-            <p className="vads-u-margin-bottom--4">
-              <a
-                data-testid="upcoming-appointments-link"
-                href={`${router.location.basename}/upcoming-appointments/`}
-                onClick={goToUpcomingAppointments}
-              >
-                {t('review-your-upcoming-appointments')}
-              </a>
-            </p>
-          </>
-        )}
+        {isUpcomingAppointmentsEnabled && <LinkList router={router} />}
       </div>
       <AppointmentListInfoBlock />
     </Wrapper>

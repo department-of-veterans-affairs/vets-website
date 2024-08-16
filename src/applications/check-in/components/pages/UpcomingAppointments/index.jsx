@@ -7,6 +7,7 @@ import Wrapper from '../../layout/Wrapper';
 import BackButton from '../../BackButton';
 import UpcomingAppointmentsList from '../../UpcomingAppointmentsList';
 import AppointmentListInfoBlock from '../../AppointmentListInfoBlock';
+import LinkList from '../../LinkList';
 
 import { makeSelectApp, makeSelectVeteranData } from '../../../selectors';
 import { useGetUpcomingAppointmentsData } from '../../../hooks/useGetUpcomingAppointmentsData';
@@ -114,6 +115,7 @@ const UpcomingAppointmentsPage = props => {
             secondary
             data-testid="refresh-appointments-button"
           />
+          <LinkList router={router} />
         </div>
       </>
     );
