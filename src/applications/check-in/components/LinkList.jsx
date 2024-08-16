@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import { Link, withRouter } from 'react-router';
 import { useTranslation } from 'react-i18next';
 
@@ -7,6 +8,7 @@ import PropTypes from 'prop-types';
 // eslint-disable-next-line import/no-unresolved
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
@@ -14,11 +16,15 @@ import { useFormRouting } from '../hooks/useFormRouting';
 import { URLS } from '../utils/navigation';
 import ExternalLink from './ExternalLink';
 
-const BackToAppointments = ({ router }) => {
+const LinkList = ({ router }) => {
   const { jumpToPage, getCurrentPageFromRouter } = useFormRouting(router);
   const page = getCurrentPageFromRouter();
   const { t } = useTranslation();
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const featureToggles = useSelector(selectFeatureToggles);
+  const { isUpcomingAppointmentsEnabled } = featureToggles;
 
   const handleClick = (e, location) => {
     e.preventDefault();
@@ -76,12 +82,16 @@ const BackToAppointments = ({ router }) => {
   if (page.includes(URLS.COMPLETE)) {
     body = (
       <>
-        <p className="vads-u-margin-bottom--2">
-          <UpcomingAppointmentsLink />
-        </p>
-        <p className="vads-u-margin-bottom--2">
-          <AppointmentsLink />
-        </p>
+        {isUpcomingAppointmentsEnabled && (
+          <>
+            <p className="vads-u-margin-bottom--2">
+              <UpcomingAppointmentsLink />
+            </p>
+            <p className="vads-u-margin-bottom--2">
+              <AppointmentsLink />
+            </p>
+          </>
+        )}
         <p className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">
             {t('sign-in-to-vagov-and-schedule')}
@@ -103,8 +113,8 @@ const BackToAppointments = ({ router }) => {
   );
 };
 
-BackToAppointments.propTypes = {
+LinkList.propTypes = {
   router: PropTypes.object,
 };
 
-export default withRouter(BackToAppointments);
+export default withRouter(LinkList);
