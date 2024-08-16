@@ -23,7 +23,6 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
   selectLabsAndTestsFlag,
-  selectSettingsPageFlag,
 } from '../util/selectors';
 
 const LandingPage = () => {
@@ -34,8 +33,7 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
-  const displayMedicalRecordsSettings = true;
-  useSelector(selectSettingsPageFlag);
+  const displayMedicalRecordsSettings = true; // until "useSelector(selectSettingsPageFlag)" is working;
 
   useEffect(
     () => {
