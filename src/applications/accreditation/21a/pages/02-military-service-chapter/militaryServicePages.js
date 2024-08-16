@@ -17,6 +17,12 @@ import {
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+const getDateRange = item => {
+  return `${formatReviewDate(item?.dateRange?.from)} - ${
+    item?.currentlyServing ? 'Present' : formatReviewDate(item?.dateRange?.to)
+  }`;
+};
+
 const serviceBranchOptions = [
   'Army',
   'Navy',
@@ -59,12 +65,7 @@ const arrayBuilderOptions = {
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
-    cardDescription: item =>
-      `${formatReviewDate(item?.dateRange?.from)} - ${
-        item?.currentlyServing
-          ? 'Present'
-          : formatReviewDate(item?.dateRange?.to)
-      }`,
+    cardDescription: item => getDateRange(item),
   },
 };
 
@@ -126,9 +127,9 @@ const branchAndDateRangePage = {
 const characterOfDischargePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch
-          ? `${formData.branch} character of discharge`
+      ({ item }) =>
+        item?.branch && item?.dateRange
+          ? `${item?.branch} (${getDateRange(item)}) character of discharge`
           : 'Character of discharge',
     ),
     characterOfDischarge: selectUI('Character of discharge'),
@@ -146,9 +147,9 @@ const characterOfDischargePage = {
 const explanationOfDischargePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch
-          ? `${formData.branch} explanation of discharge`
+      ({ item }) =>
+        item?.branch && item?.dateRange
+          ? `${item?.branch} (${getDateRange(item)}) explanation of discharge`
           : 'Explanation of discharge',
     ),
     explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
