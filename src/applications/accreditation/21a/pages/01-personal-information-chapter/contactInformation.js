@@ -25,7 +25,10 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    phone: internationalPhoneUI('Primary number'),
+    phone: internationalPhoneUI({
+      title: 'Primary phone number',
+      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
+    }),
     typeOfPhone: radioUI({
       title: 'Type of phone',
       labels: typeOfPhoneOptions,

@@ -10,28 +10,6 @@ const primaryMailingAddressOptions = {
   OTHER: 'Other',
 };
 
-const primaryMailingAddressOptionsNoWork = {
-  HOME: 'Home',
-  OTHER: 'Other',
-};
-
-const getUiOptions = formData => ({
-  'ui:options': {
-    labels: formData.workAddress.country
-      ? primaryMailingAddressOptions
-      : primaryMailingAddressOptionsNoWork,
-  },
-});
-
-const getSchemaOptions = formData =>
-  radioSchema(
-    Object.keys(
-      formData.workAddress.country
-        ? primaryMailingAddressOptions
-        : primaryMailingAddressOptionsNoWork,
-    ),
-  );
-
 /** @type {PageSchema} */
 export default {
   title: 'Primary mailing address',
@@ -41,16 +19,20 @@ export default {
     primaryMailingAddress: radioUI({
       title:
         'What address would you like to receive communication from the Office of General Counsel (OGC)?',
-      labels: primaryMailingAddressOptionsNoWork,
-      updateUiSchema: formData => getUiOptions(formData),
-      updateSchema: formData => getSchemaOptions(formData),
+      labels: primaryMailingAddressOptions,
+      descriptions: {
+        WORK:
+          'You will enter this address in Step 3, “Employment Information.”',
+        OTHER:
+          'If you select this option, you will enter an address on the next screen.',
+      },
     }),
   },
   schema: {
     type: 'object',
     properties: {
       primaryMailingAddress: radioSchema(
-        Object.keys(primaryMailingAddressOptionsNoWork),
+        Object.keys(primaryMailingAddressOptions),
       ),
     },
     required: ['primaryMailingAddress'],

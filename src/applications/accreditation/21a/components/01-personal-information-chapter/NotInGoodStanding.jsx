@@ -13,10 +13,11 @@ const NotInGoodStanding = ({ goToPath }) => {
         <p>
           In order to be accredited by VA as an attorney, an individual must be
           a member in good standing of the bar of the highest court of a state
-          or territory of the United States. If you still desire to become
-          accredited by VA, please apply for accreditation as a claims agent or
-          through a VA recognized Veterans Service Organization as a service
-          organization representative, using{' '}
+          or territory of the United States. You may continue with the
+          application, but it may be rejected. If you still desire to become
+          accredited by VA, you should consider applying for accreditation as a
+          claims agent or through a VA recognized Veterans Service Organization
+          (VSO) as a service organization representative, using{' '}
           <va-link
             href="https://www.va.gov/vaforms/va/pdf/va21.pdf"
             text="VA Form 21"
@@ -26,7 +27,7 @@ const NotInGoodStanding = ({ goToPath }) => {
       </va-alert>
       <FormNavButtons
         goBack={() => goToPath('/standing-with-bar')}
-        goForward={() => goToPath('/introduction')}
+        goForward={() => goToPath('/name-date-of-birth')}
         submitToContinue={false}
       />
     </>

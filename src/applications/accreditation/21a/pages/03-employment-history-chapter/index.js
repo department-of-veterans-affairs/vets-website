@@ -1,3 +1,4 @@
+import employmentStatus from './employmentStatus';
 import employersPages from './employersPages';
 import employmentActivities from './employmentActivities';
 
@@ -6,6 +7,7 @@ export default {
   title: 'Employment history',
   pages: {
     ...employersPages,
+    employmentStatus,
     employmentActivities,
   },
 };
