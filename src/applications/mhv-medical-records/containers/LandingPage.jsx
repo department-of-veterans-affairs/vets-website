@@ -34,7 +34,8 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
-  const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
+  const displayMedicalRecordsSettings = true;
+  useSelector(selectSettingsPageFlag);
 
   useEffect(
     () => {
@@ -199,11 +200,14 @@ const LandingPage = () => {
             settings.
           </p>
           <Link
-            to="/settings"
+            to={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'electronic-record-sharing-options',
+            )}
             className="vads-c-action-link--blue"
             data-testid="settings-link"
           >
-            Go to your lab and test results
+            Go to your medical records settings
           </Link>
         </section>
       )}
