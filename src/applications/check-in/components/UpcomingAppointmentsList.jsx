@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { URLS } from '../utils/navigation';
 
 import {
   getAppointmentId,
@@ -15,8 +16,9 @@ import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
 
 const UpcomingAppointmentsList = props => {
   const { router, app, upcomingAppointments } = props;
-  const { jumpToPage } = useFormRouting(router);
+  const { jumpToPage, getCurrentPageFromRouter } = useFormRouting(router);
   const { t } = useTranslation();
+  const page = getCurrentPageFromRouter();
 
   const groupedAppointments = organizeAppointmentsByYearMonthDay(
     upcomingAppointments,
@@ -25,9 +27,15 @@ const UpcomingAppointmentsList = props => {
   const handleDetailClick = (e, appointment) => {
     e.preventDefault();
     recordEvent({
-      event: createAnalyticsSlug('upcoming-details-link-clicked', 'nav', app),
+      event: createAnalyticsSlug('details-link-clicked', 'nav', app),
     });
-    jumpToPage(`upcoming-appointment-details/${getAppointmentId(appointment)}`);
+    if (page === URLS.UPCOMING_APPOINTMENTS) {
+      jumpToPage(
+        `upcoming-appointment-details/${getAppointmentId(appointment)}`,
+      );
+    } else {
+      jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    }
   };
 
   if (groupedAppointments.length < 1) {
