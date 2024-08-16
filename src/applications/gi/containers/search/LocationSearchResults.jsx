@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
@@ -56,6 +57,34 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
+
+  const MAX_PAGE_LIST_LENGTH = 10;
+
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+  });
+
+  useEffect(
+    () => {
+      setPagination(prevState => ({
+        ...prevState,
+        totalPages: Math.ceil(cardResults?.length / MAX_PAGE_LIST_LENGTH),
+      }));
+    },
+    [cardResults],
+  );
+
+  const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
+  const endIdx = pagination.currentPage * MAX_PAGE_LIST_LENGTH;
+  const paginatedRenewablePrescriptions = cardResults?.slice(startIdx, endIdx);
+
+  const onPageChange = page => {
+    setPagination(prevState => ({
+      ...prevState,
+      currentPage: page,
+    }));
+  };
   const usingUserLocation = () => {
     const currentPositions = document.getElementsByClassName(
       'current-position',
@@ -71,6 +100,7 @@ function LocationSearchResults({
   /**
    * When map is moved update distance from center to NorthEast corner
    */
+
   const updateMapState = () => {
     const mapBounds = map.current.getBounds();
     const newMapState = {
@@ -351,34 +381,36 @@ function LocationSearchResults({
   /**
    * Creates result cards for display
    */
-  const resultCards = cardResults?.map((institution, index) => {
-    const { distance, name } = institution;
-    const miles = Number.parseFloat(distance).toFixed(2);
+  const resultCards = paginatedRenewablePrescriptions?.map(
+    (institution, index) => {
+      const { distance, name } = institution;
+      const miles = Number.parseFloat(distance).toFixed(2);
 
-    const header = (
-      <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">
-          {index + 1}
-        </span>
-        {usingUserLocation() && (
-          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-            <strong>{miles} miles</strong>
+      const header = (
+        <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
+          <span className="location-letter vads-u-font-size--sm">
+            {index + 1}
           </span>
-        )}
-      </div>
-    );
+          {usingUserLocation() && (
+            <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+              <strong>{miles} miles</strong>
+            </span>
+          )}
+        </div>
+      );
 
-    return (
-      <ResultCard
-        institution={institution}
-        location
-        header={header}
-        active={activeMarker === name}
-        version={preview.version}
-        key={institution.facilityCode}
-      />
-    );
-  });
+      return (
+        <ResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+          version={preview.version}
+          key={institution.facilityCode}
+        />
+      );
+    },
+  );
 
   /**
    * Called when user uses "Search this area of the map"
@@ -602,6 +634,16 @@ function LocationSearchResults({
           className={containerClassNames}
         >
           {resultCards}
+          <VaPagination
+            className="vads-u-border-top--0 location-pagination"
+            onPageSelect={e => onPageChange(e.detail.page)}
+            page={pagination.currentPage}
+            pages={pagination.totalPages}
+            unbounded
+            uswds
+            maxPageListLength={5}
+            showLastPage
+          />
         </div>
       );
     }
