@@ -63,15 +63,13 @@ const ReviewPage = ({
             className="vads-u-margin-bottom--0 vads-u-padding-y--3 answer-review-box"
           >
             <div className="answer-review-label">
-              <p
-                className="vads-u-margin--0 answer-review"
-                data-testid={`label-${shortName}`}
-              >
+              <p className="vads-u-margin--0 answer-review">
                 <span className="vads-u-font-weight--bold">{reviewLabel}</span>
-                <span>{reviewAnswer}</span>
+                <span data-testid={`answer-${shortName}`}>{reviewAnswer}</span>
               </p>
               <va-link
                 class="vads-u-padding-left--2"
+                data-testid="duw-edit-link"
                 href="#"
                 onClick={event => {
                   event.preventDefault();

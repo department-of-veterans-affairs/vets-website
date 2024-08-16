@@ -310,7 +310,7 @@ export const answerReviewLabel = (key, formValues) => {
     case SHORT_NAME_MAP.PREV_APPLICATION_YEAR:
       // The .toLowerCase() corrects the casing of "After {year}" as it is
       // at the end of the sentence
-      return `I made my previous application ${answer.toLowerCase()}.`;
+      return `I made my previous application ${answer?.toLowerCase()}.`;
     case SHORT_NAME_MAP.COURT_MARTIAL:
       if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure if my discharge was the outcome of a general court-martial.`;
