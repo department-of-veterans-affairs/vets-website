@@ -151,6 +151,7 @@ const summaryPage = {
       },
       {
         labelHeaderLevel: 'p',
+        hint: 'Include all periods of military service.',
       },
     ),
   },
