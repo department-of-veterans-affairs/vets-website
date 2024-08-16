@@ -60,7 +60,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
       // Homelessness radios
       cy.url().should('include', chapters.infoPages.pages.homeless.path);
-      cy.tabToElement('input[name="root_homeless"]');
+      cy.tabToElement('input#root_homelessYesinput');
       cy.chooseRadio(data.homeless ? 'Y' : 'N');
       cy.tabToContinueForm();
 
@@ -78,6 +78,8 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.conditions.pages.contestableIssues.path,
       );
+      // eslint-disable-next-line cypress/no-unnecessary-waiting
+      cy.wait(100);
       cy.tabToElement('#root_contestedIssues_0'); // Tinnitus
       cy.realPress('Space');
       cy.tabToContinueForm();
@@ -112,7 +114,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         chapters.informalConference.pages.requestConference.path,
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
-      cy.wait(250); // wait for H3 focus before tabbing to radios
+      // cy.wait(250); // wait for H3 focus before tabbing to radios
       cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
       cy.tabToContinueForm();
