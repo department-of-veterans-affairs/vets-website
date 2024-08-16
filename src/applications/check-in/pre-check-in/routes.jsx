@@ -51,6 +51,8 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
+    reloadUpcoming: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
@@ -100,6 +102,16 @@ const routes = [
       requireAuthorization: true,
     },
     reloadable: true,
+  },
+  {
+    path: `${URLS.UPCOMING_APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
   },
   {
     path: URLS.RESOURCES,

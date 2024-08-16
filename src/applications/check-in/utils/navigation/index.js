@@ -66,6 +66,7 @@ const URLS = Object.freeze({
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  UPCOMING_APPOINTMENT_DETAILS: 'upcoming-appointment-details',
   ARRIVED: 'arrived',
   RESOURCES: 'what-to-bring',
 });

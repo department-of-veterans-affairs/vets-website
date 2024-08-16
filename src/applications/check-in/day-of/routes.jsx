@@ -57,6 +57,8 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+    reloadable: true,
+    reloadUpcoming: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
@@ -163,6 +165,16 @@ const routes = [
     reloadable: true,
   },
   {
+    path: `${URLS.UPCOMING_APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
+  },
+  {
     path: URLS.ARRIVED,
     component: ArrivedAtFacility,
     permissions: {
@@ -214,7 +226,11 @@ const createRoutesWithStore = () => {
           if (route.reloadable) {
             // If the page is able to restore state on reload add the wrapper.
             return (
-              <ReloadWrapper app={APP_NAMES.CHECK_IN} {...props}>
+              <ReloadWrapper
+                reloadUpcoming={route.reloadUpcoming}
+                app={APP_NAMES.CHECK_IN}
+                {...props}
+              >
                 <Component {...props} />
               </ReloadWrapper>
             );
