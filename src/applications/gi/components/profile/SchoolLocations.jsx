@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
+// import scrollTo from 'platform/utilities/ui/scrollTo';
+// import { getScrollOptions } from 'platform/utilities/ui';
 
 export default function SchoolLocations({
   calculator,
@@ -42,9 +44,38 @@ export default function SchoolLocations({
     () => {
       // Necessary so screen reader users are aware that the school locations table has changed.
       if (focusedElementIndex) {
-        document
-          .getElementsByClassName('school-name')
-          [focusedElementIndex].focus();
+        // document
+        //   .getElementsByClassName('school-name')
+        // [focusedElementIndex].focus();
+        // document.getElementsByClassName('school-link')[0].focus();
+        // scrollTo(document
+        //   .getElementsByClassName('school-link').item(0), getScrollOptions());
+
+        // Get all the elements under the school name column
+        // console.log(document.querySelectorAll("va-table-row > span > p,div.school-name"))
+
+        // console logs of the slicing index
+        // console.log('focus', focusedElementIndex);
+        // console.log('totalrowCount', totalRowCount);
+
+        // Create an array out of NodeList to be able to slice to get only newly viewed rows. Then filter out all elements that dont have child (elements don't have a child if they dont have a link)
+        const rows1 = [
+          ...document.querySelectorAll(
+            'va-table-row > span > p,div.school-name',
+          ),
+        ]
+          .slice(focusedElementIndex, totalRowCount)
+          .filter(row => row.childElementCount > 0);
+        // console.log(rows1);
+
+        const elem = rows1[0];
+        const linkElem = elem.childNodes[0];
+        // console.log('linkElem', elem.childNodes[0]);
+
+        linkElem.style.scrollBehavior = 'smooth';
+        // try to focus and scroll to link
+        linkElem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        linkElem.focus();
       }
     },
     [focusedElementIndex],
@@ -61,7 +92,9 @@ export default function SchoolLocations({
 
     return (
       <div className="school-name">
-        <Link to={`${facilityCode}${query}`}>{name}</Link>
+        <Link className="school-link" to={`${facilityCode}${query}`}>
+          {name}
+        </Link>
       </div>
     );
   };
