@@ -60,9 +60,11 @@ const arrayBuilderOptions = {
   text: {
     getItemName: item => item?.branch,
     cardDescription: item =>
-      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
-        item?.dateRange?.to,
-      )}`,
+      `${formatReviewDate(item?.dateRange?.from)} - ${
+        item?.currentlyServing
+          ? 'Present'
+          : formatReviewDate(item?.dateRange?.to)
+      }`,
   },
 };
 
@@ -96,28 +98,27 @@ const branchAndDateRangePage = {
       {
         title: 'Service end date',
         hideIf: (formData, index) => isCurrentlyServing(formData, index),
-        required: (formData, index) => !isCurrentlyServing(formData, index),
       },
     ),
     currentlyServing: {
       'ui:required': false,
       'ui:title': 'I am currently in the military.',
       'ui:webComponentField': VaCheckboxField,
-      'ui:options': {
-        hideEmptyValueInReview: true,
-      },
     },
   },
   schema: {
     type: 'object',
     properties: {
       branch: selectSchema(serviceBranchOptions),
-      dateRange: currentOrPastDateRangeSchema,
+      dateRange: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
       currentlyServing: {
         type: 'boolean',
       },
     },
-    required: ['branch', 'dateRange'],
+    required: ['branch'],
   },
 };
 
@@ -212,13 +213,13 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     }),
     militaryServiceExperienceCharacterOfDischargePage: pageBuilder.itemPage({
       title: 'Military service experience character of discharge',
-      path: 'military-service-experiences/:index/character-of-discharge',
+      path: 'military-service-experiences/:index/discharge-character',
       uiSchema: characterOfDischargePage.uiSchema,
       schema: characterOfDischargePage.schema,
     }),
     militaryServiceExperienceExplanationOfDischargePage: pageBuilder.itemPage({
       title: 'Military service experience explanation of discharge',
-      path: 'military-service-experiences/:index/explanation-of-discharge',
+      path: 'military-service-experiences/:index/discharge-explanation',
       depends: (formData, index) =>
         requireExplanation(
           formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
