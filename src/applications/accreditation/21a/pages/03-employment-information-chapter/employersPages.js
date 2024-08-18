@@ -157,10 +157,6 @@ const addressAndPhoneNumberPage = {
   },
 };
 
-const isCurrentlyEmployed = (formData, index) => {
-  return formData?.employers?.[index]?.currentlyEmployed;
-};
-
 /** @returns {PageSchema} */
 const dateRangePage = {
   uiSchema: {
@@ -176,7 +172,8 @@ const dateRangePage = {
       { title: 'Employment start date' },
       {
         title: 'Employment end date',
-        hideIf: (formData, index) => isCurrentlyEmployed(formData, index),
+        hideIf: (formData, index) =>
+          formData?.employers?.[index]?.currentlyEmployed,
       },
     ),
     currentlyEmployed: {
@@ -250,8 +247,8 @@ const summaryPage = {
 
 const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
   employers: pageBuilder.introPage({
-    title: 'Employers',
-    path: 'employers',
+    title: 'Employment information intro',
+    path: 'employment-information-intro',
     uiSchema: introPage.uiSchema,
     schema: introPage.schema,
   }),
