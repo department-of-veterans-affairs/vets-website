@@ -103,11 +103,27 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'employers/0/address-phone-number': selectDropdownHook(
-        'address_state',
-        data => data.employers[0].address.state,
-      ),
+      'employers/0/address-phone-number': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
+            selectDropdownWebComponent(
+              'address_state',
+              data.employers[0].address.state,
+            );
+            selectCheckboxGroupWebComponent(
+              data.employers[0].primaryWorkAddress,
+            );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'employment-status': selectCheckboxGroupHook('employmentStatus'),
       'employment-activities': selectCheckboxGroupHook('employmentActivities'),
+      'educational-institutions/0/address': selectDropdownHook(
+        'address_state',
+        data => data.educationalInstitutions[0].address.state,
+      ),
       jurisdictions: selectDropdownHook(
         'jurisdiction',
         data => data.jurisdiction,
