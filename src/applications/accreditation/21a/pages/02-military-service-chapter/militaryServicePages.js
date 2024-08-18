@@ -39,7 +39,8 @@ const arrayBuilderOptions = {
   required: false,
   isItemIncomplete: item =>
     !item?.branch ||
-    !item?.dateRange ||
+    !item?.dateRange?.from ||
+    (!item?.dateRange?.to && !item?.currentlyServing) ||
     !item?.characterOfDischarge ||
     (requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
