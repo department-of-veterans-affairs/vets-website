@@ -229,32 +229,69 @@ export function getUpdatedItemFromPath(search = window?.location?.search) {
   return updatedItem;
 }
 
+const minItemsHint = (len, nounSingular, nounPlural, minItems) => {
+  const remaining = minItems - len;
+
+  if (!len) {
+    return `You need at least ${minItems} ${
+      minItems === 1 ? nounSingular : nounPlural
+    }.`;
+  }
+
+  return `You need at least ${remaining} more ${
+    remaining === 1 ? nounSingular : nounPlural
+  }.`;
+};
+
+const maxItemsHint = (len, nounSingular, nounPlural, maxItems) => {
+  const remaining = maxItems - len;
+
+  if (!len || maxItems === 1 || len >= maxItems) {
+    return `You can add up to ${maxItems} ${
+      maxItems === 1 ? nounSingular : nounPlural
+    }.`;
+  }
+
+  return `You can add ${remaining} more ${
+    remaining === 1 ? nounSingular : nounPlural
+  }.`;
+};
+
 /**
  * @param {{
  *  arrayPath: string,
  *  nounSingular: string,
  *  nounPlural: string,
+ *  minItems: number,
  *  maxItems: boolean,
  * }} options
  */
-export const maxItemsHint = ({
+export const minMaxItemsHint = ({
   arrayData,
   nounSingular,
   nounPlural,
+  minItems,
   maxItems,
 }) => {
-  let hint = '';
   const len = arrayData?.length;
 
-  if (maxItems) {
-    if (!len || maxItems === 1 || len >= maxItems) {
-      hint = `You can add up to ${maxItems}.`;
-    } else if (len && maxItems - len === 1) {
-      hint = `You can add 1 more ${nounSingular}.`;
-    } else if (len && maxItems - len > 1) {
-      hint = `You can add ${maxItems - len} more ${nounPlural}.`;
-    }
+  if (minItems && maxItems && minItems === maxItems) {
+    return `You need exactly ${minItems} ${
+      minItems === 1 ? nounSingular : nounPlural
+    }.`;
   }
 
-  return hint;
+  if (minItems && maxItems) {
+    return `You need a minimum of ${minItems} and maximum of ${maxItems} ${nounPlural}.`;
+  }
+
+  if (minItems) {
+    return minItemsHint(len, nounSingular, nounPlural, minItems);
+  }
+
+  if (maxItems) {
+    return maxItemsHint(len, nounSingular, nounPlural, maxItems);
+  }
+
+  return '';
 };

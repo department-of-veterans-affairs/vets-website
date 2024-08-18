@@ -3,7 +3,7 @@ import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
 import {
   getArrayUrlSearchParams,
-  maxItemsHint,
+  minMaxItemsHint,
 } from '../patterns/array-builder/helpers';
 
 /**
@@ -125,6 +125,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  *   arrayPath: string,
  *   nounSingular: string,
  *   required: boolean | (formData) => boolean,
+ *   minItems?: number,
  *   maxItems?: number,
  * }} arrayBuilderOptions partial of same options you pass into `arrayBuilderPages`
  * @param {ArrayBuilderYesNoUIOptions} yesNoOptions yesNoUI options for 0 items
@@ -140,6 +141,7 @@ export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
  *   arrayPath: 'employers',
  *   nounSingular: 'employer',
  *   required: false,
+ *   minItems: 2,
  *   maxItems: 5
  * })
  *
@@ -172,6 +174,7 @@ export const arrayBuilderYesNoUI = (
     arrayPath,
     nounSingular,
     nounPlural,
+    minItems,
     maxItems,
     required,
   } = arrayBuilderOptions;
@@ -210,12 +213,14 @@ export const arrayBuilderYesNoUI = (
                       arrayData,
                       nounSingular,
                       nounPlural,
+                      minItems,
                       maxItems,
                     })
-                  : maxItemsHint({
+                  : minMaxItemsHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
+                      minItems,
                       maxItems,
                     }),
                 labels: {
@@ -240,14 +245,13 @@ export const arrayBuilderYesNoUI = (
                       nounPlural,
                       maxItems,
                     })
-                  : `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
-                      {
-                        arrayData,
-                        nounSingular,
-                        nounPlural,
-                        maxItems,
-                      },
-                    )}`,
+                  : `If you select yes, ${minMaxItemsHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      minItems: minItems || 1,
+                      maxItems,
+                    }).replace(/^You/, 'you will')}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',
@@ -264,11 +268,23 @@ export const arrayBuilderYesNoUI = (
     'ui:validations': [
       (errors, yesNoBoolean, formData) => {
         const arrayData = formData?.[arrayPath];
+
+        const currItems = arrayData?.length;
+        const remainingTilMin = minItems - currItems;
+
+        if (currItems && currItems < minItems && !yesNoBoolean) {
+          errors.addError(
+            `You need at least ${remainingTilMin} more ${
+              remainingTilMin === 1 ? nounSingular : nounPlural
+            }.`,
+          );
+        }
+
         // This validation may not be visible,
         // but helps the review page error work correctly
-        if (!arrayData?.length && !yesNoBoolean && requiredFn(formData)) {
+        if (!currItems && !yesNoBoolean && requiredFn(formData)) {
           errors.addError(
-            `You must add at least one ${nounSingular} for us to process this form.`,
+            `You need at least one ${nounSingular} for us to process this form.`,
           );
         }
       },

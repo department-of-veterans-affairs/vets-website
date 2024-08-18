@@ -165,13 +165,6 @@ export function validateReviewPath(reviewPath) {
   }
 }
 
-export function validateMinItems(minItems) {
-  if (minItems != null) {
-    // eslint-disable-next-line no-console
-    console.warn('minItems is not yet implemented. Use "required" instead.');
-  }
-}
-
 export function assignGetItemName(options) {
   const safeGetItemName = getItemFn => {
     return item => {
@@ -286,7 +279,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   validatePages(orderedPageTypes);
   validateRequired(userRequired);
   validateReviewPath(reviewPath);
-  validateMinItems(options.minItems);
   const required =
     typeof userRequired === 'function' ? userRequired : () => userRequired;
   const pageKeys = Object.keys(testConfig);
@@ -398,6 +390,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       introPath,
       isItemIncomplete,
       maxItems,
+      minItems,
       nounPlural,
       nounSingular,
       required,
