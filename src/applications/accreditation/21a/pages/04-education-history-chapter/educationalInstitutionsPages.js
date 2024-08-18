@@ -1,6 +1,10 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
+  addressSchema,
+  addressUI,
   arrayBuilderItemFirstPageTitleUI,
+  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -18,6 +22,7 @@ import {
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
 import { degreeOptions } from '../../constants/options';
+import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
@@ -28,11 +33,11 @@ const arrayBuilderOptions = {
   required: true,
   isItemIncomplete: item =>
     !item?.name ||
-    !item?.dateRange ||
+    !item?.dateRange?.from ||
+    (!item?.dateRange?.to && !item?.currentlyEnrolled) ||
     item?.degreeReceived === undefined ||
     (item?.degreeReceived === true && !item?.degree) ||
-    (item?.degreeReceived === false && !item?.reasonForNotCompleting) ||
-    (item?.degreeReceived !== false && !item?.major),
+    (item?.degreeReceived === false && !item?.reasonForNotCompleting),
   text: {
     getItemName: item => item?.name,
     cardDescription: item =>
@@ -54,35 +59,43 @@ const introPage = {
 };
 
 /** @returns {PageSchema} */
-const educationalInstitutionPage = {
+const institutionAndDegreePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Institution and degree information',
       description:
-        'Enter your education institutions starting with high school. List all the colleges and universities attended and degrees received. You will be able to add additional education institutions on the next screen.',
+        'List your education history starting with high school. Include all the colleges and universities attended and degrees received. You will be able to add additional schools on subsequent screens.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of school'),
-    dateRange: currentOrPastDateRangeUI('Start date', 'End date'),
+    dateRange: currentOrPastDateRangeUI(
+      { title: 'Start date' },
+      {
+        title: 'End date',
+        hideIf: (formData, index) =>
+          formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
+      },
+    ),
+    currentlyEnrolled: {
+      'ui:required': false,
+      'ui:title': 'I still go to school here.',
+      'ui:webComponentField': VaCheckboxField,
+    },
     degreeReceived: yesNoUI('Degree received?'),
     degree: selectUI({
-      title: 'Degree',
+      title: 'Type of degree',
       expandUnder: 'degreeReceived',
       required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived === true, // TODO: Required is not working correctly on edi
+        formData?.educationalInstitutions?.[index]?.degreeReceived, // TODO: Required is not behaving correctly on list loop edit
     }),
     reasonForNotCompleting: textareaUI({
-      title: 'Reason for not completing studies',
+      title: 'Explain why you did not complete this degree.',
       expandUnder: 'degreeReceived',
       expandUnderCondition: degreeReceived => degreeReceived === false,
       required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived === false, // TODO: Required is not working correctly on edit
+        formData?.educationalInstitutions?.[index]?.degreeReceived === false, // TODO: Required is not behaving correctly on list loop edit
     }),
-    major: textUI({
-      title: 'Major',
-      required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived !== false, // TODO: Required is not working correctly on edit
-    }),
+    major: textUI('Major'),
   },
   schema: {
     type: 'object',
@@ -95,6 +108,34 @@ const educationalInstitutionPage = {
       major: textSchema,
     },
     required: ['name', 'dateRange', 'degreeReceived'],
+  },
+};
+
+/** @returns {PageSchema} */
+const addressPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${createName({
+          firstName: formData?.name,
+          fallback: 'Institution',
+        })} address`,
+    ),
+    address: addressUI({
+      labels: {
+        militaryCheckbox:
+          'Institution is on a United States military base outside of the U.S.',
+      },
+      omit: ['street3'],
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      address: addressSchema({
+        omit: ['street3'],
+      }),
+    },
   },
 };
 
@@ -128,8 +169,8 @@ const educationalInstitutionsPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     educationalInstitutions: pageBuilder.introPage({
-      title: 'Educational institutions',
-      path: 'educational-institutions',
+      title: 'Education history intro',
+      path: 'education-history-intro',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -139,11 +180,17 @@ const educationalInstitutionsPages = arrayBuilderPages(
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    educationalInstitutionPage: pageBuilder.itemPage({
-      title: 'Educational institution',
-      path: 'educational-institutions/:index/educational-institution',
-      uiSchema: educationalInstitutionPage.uiSchema,
-      schema: educationalInstitutionPage.schema,
+    educationalInstitutionAndDegreePage: pageBuilder.itemPage({
+      title: 'Educational institution and degree information',
+      path: 'educational-institutions/:index/institution-degree-information',
+      uiSchema: institutionAndDegreePage.uiSchema,
+      schema: institutionAndDegreePage.schema,
+    }),
+    educationalInstitutionAddressPage: pageBuilder.itemPage({
+      title: 'Educational institution address',
+      path: 'educational-institutions/:index/address',
+      uiSchema: addressPage.uiSchema,
+      schema: addressPage.schema,
     }),
   }),
 );
