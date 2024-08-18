@@ -2,7 +2,7 @@
 
 export const roleOptions = Object.freeze({
   attorney: 'Attorney',
-  claimsAgent: 'Claims agent',
+  claimsAgent: 'Claims agent (non-attorney representative)',
 });
 
 export const typeOfPhoneOptions = Object.freeze({
