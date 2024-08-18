@@ -1,3 +1,7 @@
+const makePossessive = name => {
+  return name.endsWith('s') ? `${name}'` : `${name}'s`;
+};
+
 export const createName = ({
   firstName,
   lastName,
@@ -9,12 +13,14 @@ export const createName = ({
 
   if (firstName && lastName) {
     baseName = `${firstName} ${lastName}${suffix ? `, ${suffix}` : ''}`;
+  } else if (firstName) {
+    baseName = firstName;
   } else {
     baseName = fallback;
   }
 
   if (isPossessive) {
-    return baseName.endsWith('s') ? `${baseName}'` : `${baseName}'s`;
+    return makePossessive(baseName);
   }
 
   return baseName;

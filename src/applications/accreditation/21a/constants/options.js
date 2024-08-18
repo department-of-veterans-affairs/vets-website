@@ -70,10 +70,10 @@ export const employmentActivitiesOptions = Object.freeze({
   business: 'Business or service that advertises predominately to Veterans',
   consulting: 'Consulting or referral services for Veterans',
   financial: 'Financial planning',
-  funeral: 'Funeral industry',
-  home: 'Home care',
+  homeOrNursing: 'Home care or nursing care',
   medical: 'Medical services',
-  nursing: 'Nursing care',
+  socialWork: 'Social work',
+  vocationalRehabilitation: 'Vocational rehabilitation',
 });
 
 // Chapter 4

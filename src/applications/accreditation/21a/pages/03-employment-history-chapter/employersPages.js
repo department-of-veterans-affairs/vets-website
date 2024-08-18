@@ -1,4 +1,5 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   addressSchema,
   addressUI,
@@ -6,6 +7,8 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  checkboxGroupSchema,
+  checkboxGroupUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateRangeUI,
   descriptionUI,
@@ -16,11 +19,18 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
+import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../helpers/internationalPhonePatterns';
+
+const getDateRange = item => {
+  return `${formatReviewDate(item?.dateRange?.from)} - ${
+    item?.currentlyEmployed ? 'Present' : formatReviewDate(item?.dateRange?.to)
+  }${item?.primaryWorkAddress?.selected ? '; Primary work address' : ''}`;
+};
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -34,14 +44,12 @@ const arrayBuilderOptions = {
     !item?.supervisorName ||
     !item?.address ||
     !item?.phone ||
-    !item?.dateRange ||
+    !item?.dateRange?.from ||
+    (!item?.dateRange?.to && !item?.currentlyEmployed) ||
     !item?.reasonForLeaving,
   text: {
     getItemName: item => item?.name,
-    cardDescription: item =>
-      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
-        item?.dateRange?.to,
-      )}`,
+    cardDescription: item => getDateRange(item),
   },
 };
 
@@ -61,6 +69,8 @@ const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Employer and position information',
+      description:
+        'List your employment information for the past ten years. You may start with your current employer. You will be able to add additional employers on subsequent screens.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of employer'),
@@ -81,14 +91,24 @@ const informationPage = {
   },
 };
 
+const hasPreviouslySelectedPrimary = (formData, currentItemIndex) => {
+  return formData?.employers?.some(
+    (employer, index) =>
+      currentItemIndex === index
+        ? false
+        : employer?.primaryWorkAddress?.selected,
+  );
+};
+
 /** @returns {PageSchema} */
 const addressAndPhoneNumberPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `${formData.name} address and phone number`
-          : 'Address and phone number',
+        `${createName({
+          firstName: formData?.name,
+          fallback: 'Employer',
+        })} address and phone number`,
     ),
     address: addressUI({
       labels: {
@@ -97,12 +117,25 @@ const addressAndPhoneNumberPage = {
       },
       omit: ['street3'],
     }),
-    phone: internationalPhoneUI(),
+    phone: internationalPhoneUI({
+      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
+    }),
     extension: textUI({
       title: 'Extension',
       width: 'sm',
       errorMessages: {
         pattern: 'Enter an extension with only numbers and letters',
+      },
+    }),
+    primaryWorkAddress: checkboxGroupUI({
+      title: 'Primary work address',
+      hint: 'You may only select this for one employer address.',
+      hideIf: (formData, index) =>
+        hasPreviouslySelectedPrimary(formData, index),
+      required: false,
+      labels: {
+        selected:
+          'This is the work address I want kept on file as my primary work address.',
       },
     }),
   },
@@ -118,9 +151,14 @@ const addressAndPhoneNumberPage = {
         pattern: '^[a-zA-Z0-9]{1,10}$',
         maxLength: 10,
       },
+      primaryWorkAddress: checkboxGroupSchema(['selected']),
     },
     required: ['phone'],
   },
+};
+
+const isCurrentlyEmployed = (formData, index) => {
+  return formData?.employers?.[index]?.currentlyEmployed;
 };
 
 /** @returns {PageSchema} */
@@ -128,21 +166,36 @@ const dateRangePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `Dates you were employed at ${formData.name}`
-          : 'Dates you were employed',
+        `Date range you were employed at ${createName({
+          firstName: formData?.name,
+          fallback: 'Employer',
+          isPossessive: false,
+        })}`,
     ),
     dateRange: currentOrPastDateRangeUI(
-      'Employment start date',
-      'Employment end date',
+      { title: 'Employment start date' },
+      {
+        title: 'Employment end date',
+        hideIf: (formData, index) => isCurrentlyEmployed(formData, index),
+      },
     ),
+    currentlyEmployed: {
+      'ui:required': false,
+      'ui:title': 'I still work here.',
+      'ui:webComponentField': VaCheckboxField,
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      dateRange: currentOrPastDateRangeSchema,
+      dateRange: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
+      currentlyEmployed: {
+        type: 'boolean',
+      },
     },
-    required: ['dateRange'],
   },
 };
 
@@ -151,9 +204,11 @@ const reasonForLeavingPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.name
-          ? `Reason for leaving ${formData.name}`
-          : 'Reason for leaving',
+        `Reason for leaving ${createName({
+          firstName: formData?.name,
+          fallback: 'Employer',
+          isPossessive: false,
+        })}`,
     ),
     reasonForLeaving: textareaUI('Explain why you left this employer.'),
   },
@@ -179,7 +234,8 @@ const summaryPage = {
       {},
       {
         labelHeaderLevel: 'p',
-        hint: 'Include your employment information for the past ten years.',
+        hint:
+          'Include your employment information for the past ten years or since the age of 18, whichever period is shorter. Also, include any employment related to Veterans’ benefits, to include educational services and consulting, regardless of when this employment took place.',
       },
     ),
   },
