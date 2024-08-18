@@ -18,7 +18,7 @@ import {
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmploymentIntro from '../../components/03-employment-history-chapter/EmploymentIntro';
+import EmploymentIntro from '../../components/03-employment-information-chapter/EmploymentIntro';
 import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
