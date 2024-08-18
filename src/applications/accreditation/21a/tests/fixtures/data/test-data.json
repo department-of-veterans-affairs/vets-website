@@ -27,18 +27,6 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "employmentStatus": "other",
-    "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
-    "workName": "My Company",
-    "workAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "1234 Main St",
-      "street2": "Apt 1",
-      "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "primaryMailingAddress": "other",
     "otherAddress": {
       "view:militaryBaseDescription": {},

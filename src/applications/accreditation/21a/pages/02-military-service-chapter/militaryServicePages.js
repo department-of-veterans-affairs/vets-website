@@ -39,7 +39,8 @@ const arrayBuilderOptions = {
   required: false,
   isItemIncomplete: item =>
     !item?.branch ||
-    !item?.dateRange ||
+    !item?.dateRange?.from ||
+    (!item?.dateRange?.to && !item?.currentlyServing) ||
     !item?.characterOfDischarge ||
     (requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
@@ -60,10 +61,6 @@ const introPage = {
   },
 };
 
-const isCurrentlyServing = (formData, index) => {
-  return formData?.militaryServiceExperiences?.[index]?.currentlyServing;
-};
-
 /** @returns {PageSchema} */
 const branchAndDateRangePage = {
   uiSchema: {
@@ -78,7 +75,8 @@ const branchAndDateRangePage = {
       { title: 'Service start date' },
       {
         title: 'Service end date',
-        hideIf: (formData, index) => isCurrentlyServing(formData, index),
+        hideIf: (formData, index) =>
+          formData?.militaryServiceExperiences?.[index]?.currentlyServing,
       },
     ),
     currentlyServing: {
@@ -168,8 +166,8 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
   arrayBuilderOptions,
   pageBuilder => ({
     militaryServicesExperiences: pageBuilder.introPage({
-      title: 'Military service experiences',
-      path: 'military-service-experiences',
+      title: 'Military service history intro',
+      path: 'military-service-history-intro',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -187,7 +185,7 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     }),
     militaryServiceExperienceCharacterOfDischargePage: pageBuilder.itemPage({
       title: 'Military service experience character of discharge',
-      path: 'military-service-experiences/:index/discharge-character',
+      path: 'military-service-experiences/:index/discharge',
       uiSchema: characterOfDischargePage.uiSchema,
       schema: characterOfDischargePage.schema,
     }),
