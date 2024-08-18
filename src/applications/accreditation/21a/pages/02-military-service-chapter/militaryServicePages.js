@@ -185,7 +185,7 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     }),
     militaryServiceExperienceCharacterOfDischargePage: pageBuilder.itemPage({
       title: 'Military service experience character of discharge',
-      path: 'military-service-experiences/:index/discharge-character',
+      path: 'military-service-experiences/:index/discharge',
       uiSchema: characterOfDischargePage.uiSchema,
       schema: characterOfDischargePage.schema,
     }),

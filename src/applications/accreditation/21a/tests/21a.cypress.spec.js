@@ -65,10 +65,6 @@ const testConfig = createTestConfig(
         'homeAddress_state',
         data => data.homeAddress.state,
       ),
-      'work-address': selectDropdownHook(
-        'workAddress_state',
-        data => data.workAddress.state,
-      ),
       'other-address': selectDropdownHook(
         'otherAddress_state',
         data => data.otherAddress.state,
@@ -83,7 +79,7 @@ const testConfig = createTestConfig(
           },
         ],
       ),
-      'military-service-experiences/0/experience': ({ afterHook }) => {
+      'military-service-experiences/0/branch-date-range': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillPage();
@@ -91,6 +87,14 @@ const testConfig = createTestConfig(
               'branch',
               data.militaryServiceExperiences[0].branch,
             );
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      'military-service-experiences/0/discharge': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.fillPage();
             selectDropdownWebComponent(
               'characterOfDischarge',
               data.militaryServiceExperiences[0].characterOfDischarge,
