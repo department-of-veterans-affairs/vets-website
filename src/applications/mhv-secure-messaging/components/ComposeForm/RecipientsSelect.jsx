@@ -33,6 +33,7 @@ import {
 import PropTypes from 'prop-types';
 import { sortRecipients } from '../../util/helpers';
 import { Prompts } from '../../util/constants';
+import CantFindYourTeam from './CantFindYourTeam';
 
 const RecipientsSelect = ({
   recipientsList,
@@ -101,6 +102,7 @@ const RecipientsSelect = ({
         data-dd-privacy="mask"
         data-dd-action-name="Compose Recipient Dropdown List"
       >
+        <CantFindYourTeam />
         {sortRecipients(recipientsList)?.map(item => (
           <option key={item.id} value={item.id}>
             {item.name}

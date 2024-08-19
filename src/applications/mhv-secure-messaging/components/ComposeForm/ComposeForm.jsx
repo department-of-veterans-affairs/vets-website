@@ -770,8 +770,6 @@ const ComposeForm = props => {
           saveDraftHandler={saveDraftHandler}
         />
         <div>
-          <EditPreferences />
-
           {showBlockedTriageGroupAlert &&
             (!noAssociations && !allTriageGroupsBlocked) && (
               <div
@@ -921,6 +919,7 @@ const ComposeForm = props => {
             setUnsavedNavigationError={setUnsavedNavigationError}
             savedComposeDraft={!!draft}
           />
+          <EditPreferences />
         </div>
       </form>
     </>

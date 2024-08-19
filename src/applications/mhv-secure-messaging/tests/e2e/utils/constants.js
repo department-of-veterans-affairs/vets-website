@@ -58,7 +58,6 @@ export const Locators = {
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
-  DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
   DELETE_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
@@ -211,7 +210,7 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    ATTACH_INFO: '[class="additional-info-title"]',
+    ADDITIONAL_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
   BLOCKS: {
@@ -223,6 +222,10 @@ export const Locators = {
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
+  },
+  DROPDOWN: {
+    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    SORT: '#sort-order-dropdown',
   },
 };
 
