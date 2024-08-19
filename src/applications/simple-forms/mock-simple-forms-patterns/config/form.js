@@ -25,6 +25,10 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import employersMaxItemsPages from '../pages/mockArrayMultiPageMaxItems';
+import employersMinItemsPages from '../pages/mockArrayMultiPageMinItems';
+import employersMinMaxItemsPages from '../pages/mockArrayMultiPageMinMaxItems';
+import employersMinMaxItemsSamePages from '../pages/mockArrayMultiPageMinMaxItemsSame';
 // import arrayAddresses from '../pages/mockArrayAddresses';
 
 import {
@@ -349,6 +353,15 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
+      },
+    },
+    arrayMultiPageVariations: {
+      title: 'Array Multi-Page Variations',
+      pages: {
+        ...employersMinMaxItemsSamePages,
+        ...employersMinMaxItemsPages,
+        ...employersMinItemsPages,
+        ...employersMaxItemsPages,
       },
     },
   },

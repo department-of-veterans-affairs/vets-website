@@ -98,6 +98,32 @@ class IntroductionPage extends React.Component {
                 Array - multiple page - builder pattern
               </Link>
             </li>
+            <li>
+              Array - multiple page variations
+              <ul>
+                <li>
+                  <Link to="/employers-min-max-same">
+                    Array - multiple page - min and max items and they are the
+                    same
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/employers-min-max">
+                    Array - multiple page - min and max items
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/employers-min">
+                    Array - multiple page - min items
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/employers-max">
+                    Array - multiple page - max items
+                  </Link>
+                </li>
+              </ul>
+            </li>
           </ul>
         </div>
         <SaveInProgressIntro

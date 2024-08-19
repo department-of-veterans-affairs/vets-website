@@ -143,6 +143,10 @@
       }
     ],
     "view:hasEmployment": false,
+    "view:hasEmploymentMinMaxSame": false,
+    "view:hasEmploymentMinMax": false,
+    "view:hasEmploymentMin": false,
+    "view:hasEmploymentMax": false,
     "nameCustom": "Test"
   }
 }
