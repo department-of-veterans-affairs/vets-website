@@ -1,6 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
@@ -21,7 +25,12 @@ export default function App({ location, children }) {
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
       <VaBreadcrumbs breadcrumbList={breadcrumbList} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
+        <DowntimeNotification
+          appTitle={`CHAMPVA Form ${formConfig.formId}`}
+          dependencies={[externalServices.pega]}
+        >
+          {children}
+        </DowntimeNotification>
       </RoutedSavableApp>
     </div>
   );
