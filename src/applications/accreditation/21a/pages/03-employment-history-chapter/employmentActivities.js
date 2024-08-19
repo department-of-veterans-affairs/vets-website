@@ -4,16 +4,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EmploymentActivitiesDescription from '../../components/03-employment-history-chapter/EmploymentActivitiesDescription';
-
-const employmentActivitiesOptions = Object.freeze({
-  FINANCIAL: 'Financial planning',
-  HOME: 'Home care',
-  NURSING: 'Nursing care',
-  FUNERAL: 'Funeral industry',
-  MEDICAL: 'Medical services',
-  CONSULTING: 'Consulting or referral services for Veterans',
-  BUSINESS: 'Business or service that advertises predominately to Veterans',
-});
+import { employmentActivitiesOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {
