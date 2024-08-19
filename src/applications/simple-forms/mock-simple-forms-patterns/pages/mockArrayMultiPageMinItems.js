@@ -10,8 +10,8 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-min',
-  nounSingular: 'employer',
-  nounPlural: 'employers',
+  nounSingular: 'employer (min)',
+  nounPlural: 'employers (min)',
   required: false,
   isItemIncomplete: item => !item?.name,
   minItems: 2,
@@ -59,13 +59,13 @@ const namePage = {
 };
 
 const employersMinItemsPages = arrayBuilderPages(options, pageBuilder => ({
-  employersSummary: pageBuilder.summaryPage({
+  employersMinItemsSummary: pageBuilder.summaryPage({
     title: 'Employers Min Items',
     path: 'employers-min',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  employerNamePage: pageBuilder.itemPage({
+  employerMinItemsNamePage: pageBuilder.itemPage({
     title: 'Employers Min Items - Name',
     path: 'employers-min/:index/name',
     uiSchema: namePage.uiSchema,

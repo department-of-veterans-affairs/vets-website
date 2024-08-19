@@ -10,8 +10,8 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-max',
-  nounSingular: 'employer',
-  nounPlural: 'employers',
+  nounSingular: 'employer (max)',
+  nounPlural: 'employers (max)',
   required: false,
   isItemIncomplete: item => !item?.name,
   maxItems: 4,
@@ -59,13 +59,13 @@ const namePage = {
 };
 
 const employersMaxItemsPages = arrayBuilderPages(options, pageBuilder => ({
-  employersSummary: pageBuilder.summaryPage({
+  employersMaxItemsSummary: pageBuilder.summaryPage({
     title: 'Employers Max Items',
     path: 'employers-max',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
   }),
-  employerNamePage: pageBuilder.itemPage({
+  employerMaxItemsNamePage: pageBuilder.itemPage({
     title: 'Employers Max Items - Name',
     path: 'employers-max/:index/name',
     uiSchema: namePage.uiSchema,
