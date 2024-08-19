@@ -2,8 +2,7 @@ import * as Sentry from '@sentry/browser';
 
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
-import { apiRequest } from '../../utilities/api';
-import { inProgressApi, removeFormApi, saveFormApi } from './api';
+import { formApi, removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
@@ -317,13 +316,12 @@ export function fetchInProgressForm(
   //  redux store, but form.migrations doesn’t exist (nor should it, really)
   return (dispatch, getState) => {
     const { trackingPrefix } = getState().form;
-    const apiUrl = inProgressApi(formId);
 
     // Update UI while we’re waiting for the API
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return apiRequest(apiUrl, { method: 'GET' })
+    return formApi(formId, { method: 'GET' })
       .then(resBody => {
         // Return not-found if empty object
         if (

@@ -12,9 +12,13 @@ export function inProgressApi(formId) {
   return `${environment.API_URL}${apiUrl}${formId}`;
 }
 
-export function removeFormApi(formId) {
+export function formApi(formId, optionalSettings) {
   const apiUrl = inProgressApi(formId);
-  return apiRequest(apiUrl, {
+  return apiRequest(apiUrl, optionalSettings);
+}
+
+export function removeFormApi(formId) {
+  return formApi(formId, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -48,7 +52,6 @@ export function saveFormApi(
     },
     formData,
   });
-  const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
     'X-Key-Inflection': 'camel',
     'Content-Type': 'application/json',
@@ -57,7 +60,7 @@ export function saveFormApi(
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return apiRequest(apiUrl, {
+  return formApi(formId, {
     method: 'PUT',
     headers: saveFormApiHeaders,
     body,
