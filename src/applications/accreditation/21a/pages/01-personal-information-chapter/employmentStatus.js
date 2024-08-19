@@ -6,16 +6,10 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const employmentStatusOptions = {
-  EMPLOYED: 'Employed',
-  UNEMPLOYED: 'Unemployed',
-  SELF_EMPLOYED: 'Self-employed',
-  STUDENT: 'Student',
-  RETIRED: 'Retired',
-  OTHER: 'Other',
-};
-
-const descriptionRequired = ['UNEMPLOYED', 'SELF_EMPLOYED', 'OTHER'];
+import {
+  descriptionRequired,
+  employmentStatusOptions,
+} from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {
