@@ -503,7 +503,7 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a no-auth if the api returns a 401', () => {
         server.use(
           rest.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-            return res(ctx.status(401), ctx.json({ status: 401 }));
+            return res(ctx.status(401));
           }),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);
@@ -530,7 +530,7 @@ describe('Schemaform save / load actions:', () => {
       it('dispatches a success if the api returns an empty object', () => {
         server.use(
           rest.get(inProgressApi(VA_FORM_IDS.FORM_10_10EZ), (req, res, ctx) => {
-            return res(ctx.status(401), ctx.json({}));
+            return res(ctx.status(200), ctx.json({}));
           }),
         );
         const thunk = fetchInProgressForm(VA_FORM_IDS.FORM_10_10EZ, {}, true);

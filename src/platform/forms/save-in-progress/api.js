@@ -20,7 +20,6 @@ export function formApi(formId, optionalSettings) {
       return response;
     }
 
-    if (isJson(response)) return response.json().then(v => Promise.reject(v));
     return Promise.reject(response);
   });
 }
