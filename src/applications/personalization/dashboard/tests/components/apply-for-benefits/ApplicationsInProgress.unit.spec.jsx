@@ -305,7 +305,7 @@ describe('ApplicationsInProgress component', () => {
       expect(applicationsInProgress.length).to.equal(3);
 
       expect(applicationsInProgress[0]).to.contain.text('Draft');
-      expect(applicationsInProgress[0]).to.contain.text('VA Form 21-526EZ');
+      expect(applicationsInProgress[0]).to.contain.text('VA FORM 21-526EZ');
       expect(applicationsInProgress[0]).to.contain.text(
         'Application expires on: ',
       );
@@ -318,7 +318,7 @@ describe('ApplicationsInProgress component', () => {
       );
 
       expect(applicationsInProgress[1]).to.contain.text('Draft');
-      expect(applicationsInProgress[1]).to.contain.text('VA Form 686C-674');
+      expect(applicationsInProgress[1]).to.contain.text('VA FORM 686C-674');
       expect(applicationsInProgress[1]).to.contain.text(
         'Application expires on: ',
       );
@@ -331,7 +331,7 @@ describe('ApplicationsInProgress component', () => {
       );
 
       expect(applicationsInProgress[2]).to.contain.text('Draft');
-      expect(applicationsInProgress[2]).to.contain.text('VA Form 1010ez');
+      expect(applicationsInProgress[2]).to.contain.text('VA FORM 10-10EZ');
       expect(applicationsInProgress[2]).to.contain.text(
         'Application expires on: ',
       );
@@ -360,7 +360,7 @@ describe('ApplicationsInProgress component', () => {
       );
       expect(receivedApplications.length).to.equal(1);
       expect(receivedApplications[0]).to.contain.text('Received');
-      expect(receivedApplications[0]).to.contain.text('VA Form 21-0845');
+      expect(receivedApplications[0]).to.contain.text('VA FORM 21-0845');
       expect(receivedApplications[0]).to.contain.text('Submitted on: ');
       expect(receivedApplications[0]).to.contain.text('December 15, 2023');
       expect(receivedApplications[0]).to.contain.text('Received on: ');

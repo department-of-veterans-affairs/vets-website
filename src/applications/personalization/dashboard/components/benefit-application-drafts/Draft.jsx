@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   recordDashboardClick,
@@ -18,39 +17,19 @@ const Draft = ({
   const content = (
     <>
       <div className="vads-u-width--full">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
-          <Toggler.Enabled>
-            <span className="usa-label">Draft</span>
-            <h3
-              aria-describedby={formId}
-              className="vads-u-font-size--h3 vads-u-margin-top--2"
-            >
-              {formatFormTitle(formTitle)}
-            </h3>
-            <p
-              id={formId}
-              className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
-            >
-              VA Form {presentableFormId}
-            </p>
-          </Toggler.Enabled>
-
-          <Toggler.Disabled>
-            <p
-              id={formId}
-              className="vads-u-text-transform--uppercase vads-u-margin-y--0"
-            >
-              {presentableFormId}
-            </p>
-            <h3
-              aria-describedby={formId}
-              className="vads-u-font-size--h3 vads-u-margin-top--0"
-            >
-              {formatFormTitle(formTitle)}
-            </h3>
-          </Toggler.Disabled>
-        </Toggler>
-
+        <span className="usa-label">Draft</span>
+        <h3
+          aria-describedby={formId}
+          className="vads-u-font-size--h3 vads-u-margin-top--2"
+        >
+          {formatFormTitle(formTitle)}
+        </h3>
+        <p
+          id={formId}
+          className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
+        >
+          VA {presentableFormId}
+        </p>
         <div className="vads-u-display--flex">
           <span className="vads-u-margin-right--1 vads-u-margin-top--0p5">
             <va-icon icon="error" size={3} />

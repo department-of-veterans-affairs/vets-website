@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 
 import { formatFormTitle } from '../../helpers';
 
-const Received = ({ formId, formTitle, lastSavedDate, submittedDate }) => {
+const Received = ({
+  formId,
+  formTitle,
+  lastSavedDate,
+  submittedDate,
+  presentableFormId,
+}) => {
   const content = (
     <>
       <div className="vads-u-width--full">
@@ -18,7 +24,7 @@ const Received = ({ formId, formTitle, lastSavedDate, submittedDate }) => {
           id={formId}
           className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
         >
-          VA Form {formId}
+          VA {presentableFormId}
         </p>
         <p className="vads-u-margin-bottom--0">Submitted on: {submittedDate}</p>
         <p className="vads-u-margin-y--0">Received on: {lastSavedDate}</p>
@@ -55,6 +61,7 @@ Received.propTypes = {
   formTitle: PropTypes.string.isRequired,
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
+  presentableFormId: PropTypes.string.isRequired,
   submittedDate: PropTypes.string.isRequired,
 };
 

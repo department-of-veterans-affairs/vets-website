@@ -20,6 +20,7 @@ import {
 import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
+import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import Draft from './Draft';
 import Received from './Received';
@@ -174,7 +175,7 @@ const ApplicationsInProgress = ({
                   );
                   const continueUrl = `${getFormLink(formId)}resume`;
                   return (
-                    <Draft
+                    <ApplicationInProgress
                       key={formId}
                       continueUrl={continueUrl}
                       expirationDate={expirationDate}

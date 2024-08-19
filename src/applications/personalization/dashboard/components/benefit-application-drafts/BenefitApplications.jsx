@@ -20,6 +20,11 @@ const BenefitApplications = ({
   isLOA1,
   shouldGetESRStatus,
 }) => {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const isFormSubmissionStatusWork = useToggleValue(
+    TOGGLE_NAMES.myVaFormSubmissionStatuses,
+  );
+
   useEffect(
     () => {
       if (shouldGetESRStatus) {
@@ -31,14 +36,11 @@ const BenefitApplications = ({
 
   useEffect(
     () => {
-      getFormStatuses();
+      if (isFormSubmissionStatusWork) {
+        getFormStatuses();
+      }
     },
     [getFormStatuses],
-  );
-
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isFormSubmissionStatusWork = useToggleValue(
-    TOGGLE_NAMES.myVaFormSubmissionStatuses,
   );
 
   return (
