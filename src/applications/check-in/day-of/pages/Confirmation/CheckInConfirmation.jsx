@@ -142,7 +142,7 @@ const CheckInConfirmation = props => {
           </p>
         </div>
         <h2>{t('your-appointments', { count: 1 })}</h2>
-        <ul
+        <div
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
@@ -154,8 +154,9 @@ const CheckInConfirmation = props => {
             router={router}
             page="confirmation"
             app={APP_NAMES.CHECK_IN}
+            count={1}
           />
-        </ul>
+        </div>
         {isTravelReimbursementEnabled ? (
           <>
             <h2 data-testid="travel-reimbursement-heading">
