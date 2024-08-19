@@ -264,15 +264,15 @@ const formConfig = {
       title: 'New and relevant evidence',
       pages: {
         optionForMst: {
-          title: 'Option for MST',
-          path: 'view-option',
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
           uiSchema: optionForMst.uiSchema,
           schema: optionForMst.schema,
           scrollAndFocusTarget: focusRadioH3,
         },
         vhaNotifications: {
-          title: 'VHA notifications',
-          path: 'vha-notifications',
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
           uiSchema: vhaNotifications.uiSchema,
           schema: vhaNotifications.schema,
           depends: hasMstOption,
