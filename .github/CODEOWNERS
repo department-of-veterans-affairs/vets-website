@@ -161,19 +161,19 @@ src/applications/static-pages/ezr-submission-options @department-of-veterans-aff
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
 # IIR
-src/applications/yellow-ribbon @department-of-veterans-affairs/va-iir @department-of-veterans-affairs/va-platform-cop-frontend
-
 
 # /--- VSA
 
 # GOVCIO Team
 
+src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-reviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+
 
 # CTO Health Products
 
