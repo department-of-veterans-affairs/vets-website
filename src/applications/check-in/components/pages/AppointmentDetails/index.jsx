@@ -369,21 +369,30 @@ const AppointmentDetails = props => {
                     )}
                 </div>
               )}
-              <p className="vads-u-margin-top--2">
+              <div className="vads-u-margin-top--2">
                 {clinic && (
-                  <div data-testid="appointment-details--clinic-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--clinic-value"
+                  >
                     {`${t('clinic')}:`} {clinic}
-                  </div>
+                  </p>
                 )}
                 {(isInPersonAppointment || isCvtAppointment) &&
                   appointment.clinicLocation && (
-                    <div data-testid="appointment-details--location-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--location-value"
+                    >
                       {`${t('location')}: ${appointment.clinicLocation}`}
-                    </div>
+                    </p>
                   )}
                 {appointment.clinicPhoneNumber && (
                   <div data-testid="appointment-details--phone">
-                    <div data-testid="appointment-details--phone-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--phone-value"
+                    >
                       {`${t('clinic-phone')}: `}
                       <va-telephone
                         onClick={handlePhoneNumberClick}
@@ -396,10 +405,10 @@ const AppointmentDetails = props => {
                         ariaLabel="7 1 1."
                       />
                       )
-                    </div>
+                    </p>
                   </div>
                 )}
-              </p>
+              </div>
               {app === APP_NAMES.CHECK_IN && link}
               {app === APP_NAMES.PRE_CHECK_IN && (
                 <PrepareContent
