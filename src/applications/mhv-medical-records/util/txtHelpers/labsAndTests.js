@@ -53,7 +53,7 @@ ${
                 ? `Location: ${record.collectingLocation}`
                 : ''
             }
-${'labLocation' in record ? `Lab location: ${record.labLocation}` : ''}
+${'labLocation' in record ? `Location: ${record.labLocation}` : ''}
 ${'date' in record ? `Date completed: ${record.date}` : ''}
 ${
               'comments' in record

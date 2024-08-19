@@ -81,7 +81,7 @@ Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
 Sample tested: ${record.sampleTested} \n
-Lab location: ${record.labLocation} \n
+Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
 ${record.results} \n`;

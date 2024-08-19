@@ -214,8 +214,8 @@ const convertMicrobiologyRecord = record => {
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
-    name: 'Microbiology',
-    category: '',
+    name: 'Microbiology', // If nothing is populated in the lab test field, the link in the card will be “Microbiology”
+    category: '', // an optional field, may be left empty and will not be rendered
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)

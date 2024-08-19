@@ -60,7 +60,7 @@ export const generateChemHemContent = record => ({
           inline: true,
         },
         {
-          title: 'Lab location',
+          title: 'Location',
           value: item.labLocation,
           inline: true,
         },
@@ -74,63 +74,63 @@ export const generateChemHemContent = record => ({
   },
 });
 
-export const generateMicrobioContent = record => ({
-  details: {
-    header: 'Details about this test',
-    sectionSeparators: true,
-    items: [
-      {
-        title: 'Sample tested',
-        value: record.sampleTested,
-        inline: true,
-      },
-      {
-        title: 'Sample from',
-        value: record.sampleFrom,
-        inline: true,
-      },
-      {
-        title: 'Ordered by',
-        value: record.orderedBy,
-        inline: true,
-      },
-      {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
-        title: 'Location',
-        value: record.collectingLocation,
-        inline: true,
-      },
-      {
-        title: 'Lab location',
-        value: record.labLocation,
-        inline: true,
-      },
-      {
-        title: 'Date completed',
-        value: record.dateCompleted,
-        inline: true,
-      },
-    ],
-  },
-  results: {
-    header: 'Results',
-    sectionSeparators: false,
-    items: [
-      {
-        items: [
-          {
-            value: record.results,
-            monospace: true,
-          },
-        ],
-      },
-    ],
-  },
-});
+export const generateMicrobioContent = record => {
+  const data = {
+    details: {
+      header: 'Details about this test',
+      sectionSeparators: true,
+      items: [
+        {
+          title: 'Sample or sample tested',
+          value: record.sampleTested,
+          inline: true,
+        },
+        {
+          title: 'Collection sample',
+          value: record.sampleFrom,
+          inline: true,
+        },
+        {
+          title: 'Ordered by',
+          value: record.orderedBy,
+          inline: true,
+        },
+        {
+          title: 'Location',
+          value: record.collectingLocation,
+          inline: true,
+        },
+        {
+          title: 'Date completed',
+          value: record.dateCompleted,
+          inline: true,
+        },
+      ],
+    },
+    results: {
+      header: 'Results',
+      sectionSeparators: false,
+      items: [
+        {
+          items: [
+            {
+              value: record.results,
+              monospace: true,
+            },
+          ],
+        },
+      ],
+    },
+  };
+  if (record.category) {
+    data.details.items.unshift({
+      title: 'Lab type',
+      value: record.category,
+      inline: true,
+    });
+  }
+  return data;
+};
 
 export const generatePathologyContent = record => ({
   details: {
@@ -142,7 +142,7 @@ export const generatePathologyContent = record => ({
         inline: true,
       },
       {
-        title: 'Lab location',
+        title: 'Location',
         value: record.labLocation,
         inline: true,
       },
