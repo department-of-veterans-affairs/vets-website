@@ -1,7 +1,16 @@
 import * as Sentry from '@sentry/browser';
 import { apiRequest } from '../../utilities/api';
-import { inProgressApi } from '../helpers';
-import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
+import {
+  VA_FORM_IDS_SKIP_INFLECTION,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from '../constants';
+import environment from '../../utilities/environment';
+
+export function inProgressApi(formId) {
+  const apiUrl =
+    VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId] || '/v0/in_progress_forms/';
+  return `${environment.API_URL}${apiUrl}${formId}`;
+}
 
 export function removeFormApi(formId) {
   const apiUrl = inProgressApi(formId);

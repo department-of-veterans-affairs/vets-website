@@ -74,7 +74,11 @@ import {
   removeInProgressForm,
 } from './save-in-progress/actions';
 
-import { removeFormApi, saveFormApi } from './save-in-progress/api';
+import {
+  removeFormApi,
+  saveFormApi,
+  inProgressApi,
+} from './save-in-progress/api';
 
 import ApplicationStatus from './save-in-progress/ApplicationStatus';
 
@@ -114,7 +118,6 @@ import {
 import { makeField, dirtyAllFields } from './fields';
 
 import {
-  inProgressApi,
   getPageList,
   groupPagesIntoChapters,
   isInProgressPath,

@@ -24,7 +24,7 @@ import {
 } from '../../save-in-progress/actions';
 
 import { logOut } from '../../../user/authentication/actions';
-import { inProgressApi } from '../../helpers';
+import { inProgressApi } from '../../save-in-progress/api';
 
 const getState = () => ({ form: { trackingPrefix: 'test' } });
 

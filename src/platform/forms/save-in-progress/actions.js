@@ -3,8 +3,7 @@ import * as Sentry from '@sentry/browser';
 import recordEvent from '../../monitoring/record-event';
 import { logOut } from '../../user/authentication/actions';
 import { apiRequest } from '../../utilities/api';
-import { inProgressApi } from '../helpers';
-import { removeFormApi, saveFormApi } from './api';
+import { inProgressApi, removeFormApi, saveFormApi } from './api';
 import { REMOVING_SAVED_FORM_SUCCESS } from '../../user/profile/actions';
 
 export const SET_SAVE_FORM_STATUS = 'SET_SAVE_FORM_STATUS';
