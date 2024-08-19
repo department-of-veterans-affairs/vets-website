@@ -34,7 +34,7 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
-  const displayMedicalRecordsSettings = true; // until "useSelector(selectSettingsPageFlag)" is working;
+  const displayMedicalRecordsSettings = false; // until "useSelector(selectSettingsPageFlag)" is working;
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
