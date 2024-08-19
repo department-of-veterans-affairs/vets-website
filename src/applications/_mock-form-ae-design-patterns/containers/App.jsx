@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import { createPortal } from 'react-dom';
 
 import { useDispatch } from 'react-redux';
 
@@ -7,6 +6,7 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 // removes local storage for user profile session indicators
+
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 
 import fallbackFormConfig from '../config/fallbackForm';
@@ -15,6 +15,7 @@ import yellowFormConfig from '../config/prefill/taskYellow/form';
 import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { TaskTabs } from '../components/TaskTabs';
+import { Portal } from '../components/Portal';
 
 const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
@@ -32,15 +33,28 @@ const getFormConfig = location => {
   return fallbackFormConfig;
 };
 
-const handleEditPageDisplayTweaks = location => {
+const locationsWhereFormHeaderShouldBeRemoved = [
+  'task-green/veteran-information/edit-mailing-address',
+  '/complete',
+];
+
+const isPathIncludedInPossibleLocations = (location, possibleLocations) => {
+  return possibleLocations.some(possibleLocation =>
+    location.pathname.includes(possibleLocation),
+  );
+};
+
+export const handleEditPageDisplayTweaks = location => {
   const navHeader = document.querySelector('#nav-form-header');
   const chapterProgress = document.querySelector(
     '.schemaform-chapter-progress',
   );
   const formTitle = document.querySelector('.schemaform-title');
+
   if (
-    location.pathname.includes(
-      'task-green/veteran-information/edit-mailing-address',
+    isPathIncludedInPossibleLocations(
+      location,
+      locationsWhereFormHeaderShouldBeRemoved,
     )
   ) {
     if (navHeader) {
@@ -81,7 +95,7 @@ export default function App({ location, children }) {
       }
       handleEditPageDisplayTweaks(location);
 
-      // having the pollTimeout allows api calls to be attempted locally
+      // having the pollTimeout allows api calls locally
       if (!window?.VetsGov?.pollTimeout) {
         window.VetsGov.pollTimeout = 5000;
       }
@@ -93,14 +107,14 @@ export default function App({ location, children }) {
 
   dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
 
-  const headerV2 = document.getElementById('header-v2');
+  // we need to get the header element to append the tabs to it
+  const header = document.getElementById('header-default');
 
   return (
     <div className="vads-u-margin-top--4">
-      {createPortal(
+      <Portal target={header}>
         <TaskTabs location={location} formConfig={formConfig} />,
-        headerV2,
-      )}
+      </Portal>
 
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}

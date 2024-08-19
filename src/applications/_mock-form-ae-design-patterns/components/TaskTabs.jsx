@@ -1,29 +1,30 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
+const tabs = [
+  {
+    name: 'Home',
+    path: '/',
+    baseClass: 'vads-u-background-color--primary vads-u-color--white',
+  },
+  {
+    name: 'Green',
+    path: '/task-green',
+    baseClass: 'vads-u-background-color--green vads-u-color--white',
+  },
+  {
+    name: 'Yellow',
+    path: '/task-yellow',
+    baseClass: 'vads-u-background-color--gold-light vads-u-color--black',
+  },
+  {
+    name: 'Purple',
+    path: '/task-purple',
+    baseClass: 'vads-u-background-color--hub-records vads-u-color--white',
+  },
+];
 
 export const TaskTabs = ({ location, formConfig }) => {
-  const tabs = [
-    {
-      name: 'Home',
-      path: '/',
-      baseClass: 'vads-u-background-color--primary vads-u-color--white',
-    },
-    {
-      name: 'Green',
-      path: '/task-green',
-      baseClass: 'vads-u-background-color--green vads-u-color--white',
-    },
-    {
-      name: 'Yellow',
-      path: '/task-yellow',
-      baseClass: 'vads-u-background-color--gold-light vads-u-color--black',
-    },
-    {
-      name: 'Purple',
-      path: '/task-purple',
-      baseClass: 'vads-u-background-color--hub-records vads-u-color--white',
-    },
-  ];
-
   const activeTab = tabs.find(
     tab => location.pathname.includes(tab.path) && tab.path !== '/',
   );
@@ -35,7 +36,7 @@ export const TaskTabs = ({ location, formConfig }) => {
   };
 
   return (
-    <nav className="vads-u-border-bottom--1px vads-u-border-color--gray-light">
+    <nav>
       <ul
         className="vads-l-row vads-u-margin-y--0 vads-u-padding-left--0"
         style={{ listStyleType: 'none' }}
@@ -64,4 +65,10 @@ export const TaskTabs = ({ location, formConfig }) => {
       />
     </nav>
   );
+};
+
+// add prop types
+TaskTabs.propTypes = {
+  formConfig: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired,
 };
