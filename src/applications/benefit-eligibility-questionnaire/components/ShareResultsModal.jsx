@@ -52,8 +52,11 @@ const ShareResultsModal = () => {
           Copy
         </button>
         <va-alert
+          id="copy-alert"
           close-btn-aria-label="Close notification"
           status="success"
+          slim
+          full-width
           visible={showAlert}
         >
           <p>URL has been copied to your clipboard.</p>

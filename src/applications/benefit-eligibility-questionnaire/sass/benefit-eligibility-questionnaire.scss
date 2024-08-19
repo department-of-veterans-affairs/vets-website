@@ -57,6 +57,13 @@
   display: inline;
 }
 
+#copy-alert {
+  margin-top: 20px;
+  & > p {
+    margin-bottom: 0 !important;
+  }
+}
+
 @media (max-width: 40.063em) {
   .vads-l-grid-container {
     padding-left: 0;
