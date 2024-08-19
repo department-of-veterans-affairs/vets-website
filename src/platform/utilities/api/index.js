@@ -11,7 +11,7 @@ import {
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
-export const isJson = response => {
+const isJson = response => {
   const contentType = response.headers.get('Content-Type');
   return contentType && contentType.includes('application/json');
 };
