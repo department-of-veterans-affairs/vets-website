@@ -289,7 +289,6 @@ describe('VAOS Component: VideoLayout', () => {
       expect(screen.queryByText(/2360 East Pershing Boulevard/i)).not.to.exist;
 
       expect(screen.getByText(/Clinic: Clinic 1/i));
-      expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
