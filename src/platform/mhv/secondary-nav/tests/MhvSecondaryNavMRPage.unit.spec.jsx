@@ -6,13 +6,17 @@ import MhvSecondaryNav, { mhvSecNavItems } from '../containers/MhvSecondaryNav';
 
 const mockStore = ({
   mhvTransitionalMedicalRecordsLandingPage = false,
+  mhvMedicalRecordsPhase1Launch = false,
 } = {}) => ({
   getState: () => ({
     featureToggles: {
       loading: false,
       mhvTransitionalMedicalRecordsLandingPage,
+      mhvMedicalRecordsPhase1Launch,
       // eslint-disable-next-line camelcase
       mhv_transitional_medical_records_landing_page: mhvTransitionalMedicalRecordsLandingPage,
+      // eslint-disable-next-line camelcase
+      mhv_medical_records_phase_1_launch: mhvMedicalRecordsPhase1Launch,
     },
   }),
   subscribe: () => {},
@@ -47,6 +51,50 @@ describe('MHV Secondary Nav Component', () => {
       );
       const result = await findByRole('link', { name: /Records$/ });
       expect(result.getAttribute('href')).to.eq('/my-health/medical-records');
+    });
+  });
+
+  describe('Medical Records phase 1 rollout', () => {
+    it('phase 1 only toggle enabled', async () => {
+      const store = mockStore({
+        mhvMedicalRecordsPhase1Launch: true,
+        mhvTransitionalMedicalRecordsLandingPage: false,
+      });
+      const { findByRole } = render(
+        <Provider store={store}>
+          <MhvSecondaryNav items={mhvSecNavItems} />
+        </Provider>,
+      );
+      const link = await findByRole('link', { name: /Records$/ });
+      expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
+    });
+
+    it('phase 1 toggle enabled takes precedence over transitional page', async () => {
+      const store = mockStore({
+        mhvMedicalRecordsPhase1Launch: true,
+        mhvTransitionalMedicalRecordsLandingPage: true,
+      });
+      const { findByRole } = render(
+        <Provider store={store}>
+          <MhvSecondaryNav items={mhvSecNavItems} />
+        </Provider>,
+      );
+      const link = await findByRole('link', { name: /Records$/ });
+      expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
+    });
+
+    it('feature toggles disabled', async () => {
+      const store = mockStore({
+        mhvMedicalRecordsPhase1Launch: false,
+        mhvTransitionalMedicalRecordsLandingPage: false,
+      });
+      const { findByRole } = render(
+        <Provider store={store}>
+          <MhvSecondaryNav items={mhvSecNavItems} />
+        </Provider>,
+      );
+      const link = await findByRole('link', { name: /Records$/ });
+      expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
     });
   });
 });

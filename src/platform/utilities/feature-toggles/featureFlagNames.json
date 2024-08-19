@@ -131,6 +131,7 @@
   "mhvMedicalRecordsDisplaySidenav": "mhv_medical_records_display_sidenav",
   "mhvMedicalRecordsDisplayVaccines": "mhv_medical_records_display_vaccines",
   "mhvMedicalRecordsDisplayVitals": "mhv_medical_records_display_vitals",
+  "mhvMedicalRecordsPhase1Launch": "mhv_medical_records_phase_1_launch",
   "mhvMedicalRecordsToVaGovRelease": "mhv_medical_records_to_va_gov_release",
   "mhvMedicationsDisplayAllergies": "mhv_medications_display_allergies",
   "mhvMedicationsDisplayDocumentationContent": "mhv_medications_display_documentation_content",
