@@ -6,16 +6,21 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
+  descriptionUI,
   emailSchema,
   emailUI,
   fullNameSchema,
   fullNameUI,
-  phoneSchema,
-  phoneUI,
-  titleUI,
+  textareaSchema,
+  textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import YourCharacterReferencesDescription from '../../components/07-character-references-chapter/YourCharacterReferencesDescription';
+import CharacterReferencesIntro from '../../components/07-character-references-chapter/CharacterReferencesIntro';
+import { createName } from '../helpers/createName';
+import {
+  internationalPhoneSchema,
+  internationalPhoneUI,
+} from '../helpers/internationalPhonePatterns';
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -24,22 +29,26 @@ const arrayBuilderOptions = {
   nounPlural: 'character references',
   required: true,
   isItemIncomplete: item =>
-    !item?.fullName || !item?.address || !item?.phone || !item?.email,
+    !item?.fullName ||
+    !item?.address ||
+    !item?.phone ||
+    !item?.email ||
+    !item?.relationship,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
   text: {
-    getItemName: item => `${item?.fullName?.first} ${item?.fullName?.last}`,
-    cardDescription: item =>
-      `${item?.address?.street}, ${item?.address?.city}, ${
-        item?.address?.state
-      } ${item?.address?.postalCode}`,
+    getItemName: item =>
+      `${item?.fullName?.first} ${item?.fullName?.last}${
+        item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
+      }`,
+    cardDescription: item => `${item?.phone}, ${item?.email}`,
   },
 };
 
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI('Your character references', YourCharacterReferencesDescription),
+    ...descriptionUI(CharacterReferencesIntro),
   },
   schema: {
     type: 'object',
@@ -70,14 +79,17 @@ const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${formData.fullName.last}'s address`
-          : "Reference's address",
+        `${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'Reference',
+        })} address`,
     ),
     address: addressUI({
       labels: {
         militaryCheckbox:
-          'This address is on a United States military base outside of the U.S.',
+          'Reference lives on a United States military base outside of the U.S.',
       },
       omit: ['street3'],
     }),
@@ -97,22 +109,47 @@ const contactInformationPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        formData?.fullName?.first && formData?.fullName?.last
-          ? `${formData.fullName.first} ${
-              formData.fullName.last
-            }'s contact information`
-          : "Reference's contact information",
+        `${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'Reference',
+        })} contact information`,
     ),
-    phone: phoneUI('Primary number'),
+    phone: internationalPhoneUI('Primary number'),
     email: emailUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      phone: phoneSchema,
+      phone: internationalPhoneSchema,
       email: emailSchema,
     },
     required: ['phone', 'email'],
+  },
+};
+
+/** @returns {PageSchema} */
+const relationshipPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `Relationship to ${createName({
+          firstName: formData?.fullName?.first,
+          lastName: formData?.fullName?.last,
+          suffix: formData?.fullName?.suffix,
+          fallback: 'reference',
+          isPossessive: false,
+        })}`,
+    ),
+    relationship: textareaUI('What is your relationship to this reference?'),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      relationship: textareaSchema,
+    },
+    required: ['relationship'],
   },
 };
 
@@ -173,6 +210,12 @@ const characterReferencesPages = arrayBuilderPages(
       path: 'character-references/:index/contact-information',
       uiSchema: contactInformationPage.uiSchema,
       schema: contactInformationPage.schema,
+    }),
+    characterReferenceRelationshipPage: pageBuilder.itemPage({
+      title: 'Character reference relationship',
+      path: 'character-references/:index/relationship',
+      uiSchema: relationshipPage.uiSchema,
+      schema: relationshipPage.schema,
     }),
   }),
 );
