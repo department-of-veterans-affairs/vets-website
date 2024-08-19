@@ -2875,19 +2875,19 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
+"@department-of-veterans-affairs/css-library@0.8.6":
+  version "0.8.6"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.8.6.tgz#66a48eb841e97de1fdad79cb854e482ba72a6e9a"
+  integrity sha512-OxyDZaj2RbKBv3YMV+B6pS2wHWL9IIhUX0vbmvSYH9QjZ/BbXchNR5vK6tdSJjupSylHCBTsACJYf/4NjjowNw==
+  dependencies:
+    "@divriots/style-dictionary-to-figma" "^0.4.0"
+    "@uswds/uswds" "^3.8.1"
+    rimraf "^5.0.5"
+
 "@department-of-veterans-affairs/css-library@^0.8.1":
   version "0.8.3"
   resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.3.tgz#b5bf4fe1cb0ac5193ae8182b0e14ef2da8b4645a"
   integrity sha512-nQRTmjZKbFFHsBiW9kK6QlWKi9KJcPnDPvWLt2i6fJu8icNoET19n4TE5JPJPdR63zzMtgJUfYaAXd81HMB/uA==
-  dependencies:
-    "@divriots/style-dictionary-to-figma" "^0.4.0"
-    "@uswds/uswds" "^3.7.1"
-    rimraf "^5.0.5"
-
-"@department-of-veterans-affairs/css-library@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
-  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.7.1"
@@ -4861,6 +4861,15 @@
   integrity sha512-bKG/B9mJF1v0yoqth48wQDzST5Xyu3OxxpePIPDyhKWS84oDrCehnu3Z88JhSjdIAJMl8dtjtH8YvdO9kZUpAg==
   dependencies:
     classlist-polyfill "1.2.0"
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
+
+"@uswds/uswds@^3.8.1":
+  version "3.8.2"
+  resolved "https://registry.yarnpkg.com/@uswds/uswds/-/uswds-3.8.2.tgz#230668293c33f6866995ba9d03d6f42aba251336"
+  integrity sha512-8sTx/GqlbTwSIK+0AFOGrYdaW1rKVB7Bp0+v9AMVt3I5vPK7CL0+I6vlclSf3U7ysJZeTTdkNS8q89sIAeL+AA==
+  dependencies:
     object-assign "4.1.1"
     receptor "1.0.0"
     resolve-id-refs "0.1.0"
