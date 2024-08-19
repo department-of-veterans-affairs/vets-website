@@ -164,3 +164,8 @@ export const APP_URLS = {
   verify: getAppUrl('verify'),
   facilities: getAppUrl('facilities'),
 };
+
+export const LOCATIONS_TO_REMOVE_FORM_HEADER = [
+  'task-green/veteran-information/edit-mailing-address',
+  '/complete',
+];

@@ -16,6 +16,7 @@ import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
+import { LOCATIONS_TO_REMOVE_FORM_HEADER } from '../utils/constants';
 
 const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
@@ -33,11 +34,6 @@ const getFormConfig = location => {
   return fallbackFormConfig;
 };
 
-const locationsWhereFormHeaderShouldBeRemoved = [
-  'task-green/veteran-information/edit-mailing-address',
-  '/complete',
-];
-
 const isPathIncludedInPossibleLocations = (location, possibleLocations) => {
   return possibleLocations.some(possibleLocation =>
     location.pathname.includes(possibleLocation),
@@ -52,10 +48,7 @@ export const handleEditPageDisplayTweaks = location => {
   const formTitle = document.querySelector('.schemaform-title');
 
   if (
-    isPathIncludedInPossibleLocations(
-      location,
-      locationsWhereFormHeaderShouldBeRemoved,
-    )
+    isPathIncludedInPossibleLocations(location, LOCATIONS_TO_REMOVE_FORM_HEADER)
   ) {
     if (navHeader) {
       // hide header on edit pages
