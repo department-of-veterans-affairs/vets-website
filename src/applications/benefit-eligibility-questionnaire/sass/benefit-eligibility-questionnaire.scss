@@ -5,3 +5,69 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
+
+#resultsContainer {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    @media (max-width: $small-screen) {
+        flex-direction: column;
+    }
+}
+
+#filtersSectionDesktop {
+    flex: 1 1 200px;
+    margin-right: 20px;
+    border-right: 2px solid var(--vads-color-gray-medium);
+    min-height: 200px;
+    text-align: left;
+    @media (max-width: $small-screen) {
+        display: none;
+    }
+}
+
+#filtersSectionMobile {
+    flex: 1 1 auto;
+    margin-bottom: 20px;
+    @media (min-width: $small-screen) {
+        display: none;
+    }
+}
+
+#shareYourResults {
+    @media (max-width: $small-screen) {
+        width: 100%;
+    }
+}
+
+#resultsSection {
+    flex: 1 1 auto;
+}
+
+#root_characterOfDischarge-label .schemaform-required-span {
+  display: none;
+}
+
+#root_characterOfDischarge-label p .schemaform-required-span {
+  display: inline;
+}
+
+@media (max-width: 40.063em) {
+  .vads-l-grid-container {
+    padding-left: 0;
+    padding-right: 0;
+
+    .progress-box {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+  .form-progress-buttons {
+    display: flex;
+    flex-direction: column-reverse;
+
+    .columns {
+      width: 100%;
+    }
+  }
+}

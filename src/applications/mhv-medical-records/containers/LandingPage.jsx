@@ -24,6 +24,7 @@ import {
   selectVitalsFlag,
   selectLabsAndTestsFlag,
 } from '../util/selectors';
+import ExternalLink from '../components/shared/ExternalLink';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -34,6 +35,9 @@ const LandingPage = () => {
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
   const displayMedicalRecordsSettings = true; // until "useSelector(selectSettingsPageFlag)" is working;
+  const killExternalLinks = useSelector(
+    state => state.featureToggles.mhv_medical_records_kill_external_links,
+  );
 
   useEffect(
     () => {
@@ -77,7 +81,7 @@ const LandingPage = () => {
       {displayLabsAndTest && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            Lab and Test results
+            Lab and test results
           </h2>
           <p className="vads-u-margin-bottom--2">
             Get results of your VA medical tests. This includes blood tests,
@@ -235,15 +239,13 @@ const LandingPage = () => {
             the My HealtheVet website.
           </p>
           <p className="vads-u-margin-bottom--2">
-            <a
+            <ExternalLink
               href={mhvUrl(
                 isAuthenticatedWithSSOe(fullState),
                 'download-my-data',
               )}
-              rel="noreferrer"
-            >
-              Go to medical records on the My HealtheVet website
-            </a>
+              text="Go to medical records on the My HealtheVet website"
+            />
           </p>
         </section>
       )}
@@ -261,16 +263,13 @@ const LandingPage = () => {
           data-testid="go-to-mhv-download-records"
           className="vads-u-margin-bottom--2"
         >
-          <a
+          <ExternalLink
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            rel="noreferrer"
-          >
-            Go back to the previous version of My HealtheVet to download your
-            records.
-          </a>
+            text="Go back to the previous version of My HealtheVet to download your records."
+          />
         </p>
       </section>
       <section>
@@ -282,22 +281,22 @@ const LandingPage = () => {
           here on VA.gov. And we need your feedback to help us keep making this
           tool better for you and all Veterans.
         </p>
-        <p className="vads-u-margin-bottom--2">
-          Email your feedback and questions to us at <FeedbackEmail />.
-        </p>
+        {!killExternalLinks && (
+          <p className="vads-u-margin-bottom--2">
+            Email your feedback and questions to us at <FeedbackEmail />.
+          </p>
+        )}
         <p className="vads-u-margin-bottom--2">
           <span className="vads-u-font-weight--bold">Note:</span> You still have
           access to your medical records on the My HealtheVet website. You can
           go back to that site at any time.{' '}
-          <a
+          <ExternalLink
             href={mhvUrl(
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            rel="noreferrer"
-          >
-            Go back to medical records on the My HealtheVet website
-          </a>
+            text="Go back to medical records on the My HealtheVet website"
+          />
         </p>
       </section>
       <section className="vads-u-margin-bottom--4">
@@ -339,15 +338,13 @@ const LandingPage = () => {
               </>
             )}
             <p className="vads-u-margin-bottom--2">
-              <a
+              <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'download-my-data',
                 )}
-                rel="noreferrer"
-              >
-                Go to medical records on the My HealtheVet website
-              </a>
+                text="Go to medical records on the My HealtheVet website"
+              />
             </p>
           </va-accordion-item>
           <va-accordion-item>
@@ -365,14 +362,13 @@ const LandingPage = () => {
               update your records.
             </p>
             <p className="vads-u-margin-bottom--2">
-              <a
+              <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'compose-message',
                 )}
-              >
-                Compose a message on the My HealtheVet website
-              </a>
+                text="Compose a message on the My HealtheVet website"
+              />
             </p>
           </va-accordion-item>
           <va-accordion-item>
@@ -404,14 +400,13 @@ const LandingPage = () => {
               Send a secure message to your care team.
             </p>
             <p className="vads-u-margin-bottom--2">
-              <a
+              <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'compose-message',
                 )}
-              >
-                Compose a message on the My HealtheVet website
-              </a>
+                text="Compose a message on the My HealtheVet website"
+              />
             </p>
             <p className="vads-u-margin-bottom--2">
               Only use messages for non-urgent needs. Your care team may take up
@@ -434,7 +429,7 @@ const LandingPage = () => {
                   <va-button
                     secondary="true"
                     text="Connect with the Veterans Crisis Line"
-                    onClick={openCrisisModal}
+                    onClick={killExternalLinks ? () => {} : openCrisisModal}
                   />
                 </div>
               </li>
@@ -445,14 +440,18 @@ const LandingPage = () => {
                 call 911 or go to the nearest emergency room.
               </li>
             </ul>
-            <p className="vads-u-margin-bottom--2">
-              <span className="vads-u-font-weight--bold">
-                For questions about how to use this tool
-              </span>
-            </p>
-            <p className="vads-u-margin-bottom--2">
-              Email us at <FeedbackEmail />.
-            </p>
+            {!killExternalLinks && (
+              <>
+                <p className="vads-u-margin-bottom--2">
+                  <span className="vads-u-font-weight--bold">
+                    For questions about how to use this tool
+                  </span>
+                </p>
+                <p className="vads-u-margin-bottom--2">
+                  Email us at <FeedbackEmail />.
+                </p>
+              </>
+            )}
           </va-accordion-item>
         </va-accordion>
       </section>

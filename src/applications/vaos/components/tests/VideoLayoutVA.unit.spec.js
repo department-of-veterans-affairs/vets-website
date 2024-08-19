@@ -189,7 +189,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(
         screen.getByRole('heading', {
           level: 1,
-          name: /Video appointment at VA location/i,
+          name: /Video appointment at a VA location/i,
         }),
       );
 
@@ -342,7 +342,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: /Video appointment at VA location/i,
+            name: /Video appointment at a VA location/i,
           }),
         );
 
@@ -483,7 +483,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: /Video appointment at VA location/i,
+            name: /Video appointment at a VA location/i,
           }),
         );
 

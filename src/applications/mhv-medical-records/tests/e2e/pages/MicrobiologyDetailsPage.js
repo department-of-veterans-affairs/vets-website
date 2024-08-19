@@ -43,13 +43,6 @@ class MicrobiologyDetailsPage extends BaseDetailsPage {
     );
   };
 
-  verifyLabLocation = labLocation => {
-    cy.get('[data-testid="microbio-lab-location"]').should(
-      'contain',
-      labLocation,
-    );
-  };
-
   verifyDateCompleted = dateCompleted => {
     cy.get('[data-testid="microbio-date-completed"]').should(
       'contain',
