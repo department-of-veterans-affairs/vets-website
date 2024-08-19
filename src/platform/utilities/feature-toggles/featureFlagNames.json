@@ -116,7 +116,6 @@
   "manageDependents": "dependents_management",
   "mebAutoPopulateRelinquishmentDate": "meb_auto_populate_relinquishment_date",
   "mebExclusionPeriodEnabled": "meb_exclusion_period_enabled",
-  "medicalCopaysHtmlMedicalStatementsViewEnabled": "medical_copays_html_medical_statements_view_enabled",
   "merge1995And5490": "merge_1995_and_5490",
   "mgibVerificationsMaintenance": "mgib_verifications_maintenance",
   "mhvLandingPagePersonalization": "mhv_landing_page_personalization",

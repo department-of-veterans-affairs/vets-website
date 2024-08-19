@@ -49,11 +49,6 @@ export const currency = amount => {
 export const mcpFeatureToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
 
-export const mcpHTMLStatementToggle = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
-  ];
-
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
