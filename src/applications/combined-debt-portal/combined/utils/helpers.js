@@ -46,9 +46,6 @@ export const currency = amount => {
   return formatter.format(parseFloat(amount));
 };
 
-export const mcpFeatureToggle = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
-
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
