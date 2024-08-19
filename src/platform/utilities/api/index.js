@@ -76,37 +76,11 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
   });
 }
 
-/**
- *
- * @param {string} resource - The URL to fetch. If it starts with a leading "/"
- * it will be appended to the baseUrl. Otherwise it will be used as an absolute
- * URL.
- * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
- * the fetch request. Will be mixed with, and potentially override, the
- * defaultSettings
- * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
- * the initial fetch request.
- * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
- */
-export function apiRequest(resource, optionalSettings, success, error) {
+function apiRequestWithResponse(resource, optionalSettings) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
-
-  if (success) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "success" callback has been deprecated, please use a promise chain instead',
-    );
-  }
-
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "error" callback has been deprecated, please use a promise chain instead',
-    );
-  }
 
   const defaultSettings = {
     method: 'GET',
@@ -147,6 +121,39 @@ export function apiRequest(resource, optionalSettings, success, error) {
         }
       }
 
+      return response;
+    });
+}
+
+/**
+ *
+ * @param {string} resource - The URL to fetch. If it starts with a leading "/"
+ * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * URL.
+ * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
+ * the fetch request. Will be mixed with, and potentially override, the
+ * defaultSettings
+ * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
+ * the initial fetch request.
+ * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ */
+export function apiRequest(resource, optionalSettings, success, error) {
+  if (success) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'the "success" callback has been deprecated, please use a promise chain instead',
+    );
+  }
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'the "error" callback has been deprecated, please use a promise chain instead',
+    );
+  }
+
+  return apiRequestWithResponse(resource, optionalSettings)
+    .then(response => {
       const data = isJson(response)
         ? response.json()
         : Promise.resolve(response);
