@@ -11,7 +11,7 @@ import Confirmation from './pages/Confirmation';
 const dateFns = require('date-fns');
 
 describe('Check In Experience | Day Of |', () => {
-  xdescribe('Patient who completes check-in and navigates back to list', () => {
+  describe('Patient who completes check-in and navigates back to list', () => {
     const {
       initializeFeatureToggle,
       initializeSessionGet,
