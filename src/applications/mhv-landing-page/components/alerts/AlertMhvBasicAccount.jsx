@@ -83,7 +83,7 @@ const AlertMhvBasicAccount = ({ headline, recordEvent, testId, ssoe }) => {
         </div>
         <p className="vads-u-margin-top--2">
           <a href="/resources/how-to-access-my-healthevet-on-vagov">
-            Learn more about how to access My HealtheVet on Va.gov
+            Learn more about how to access My HealtheVet on VA.gov
           </a>
         </p>
       </div>

@@ -10,14 +10,14 @@ export default {
   path: 'place-of-birth',
   uiSchema: {
     ...titleUI('Place of birth'),
-    placeOfBirthAddress: addressNoMilitaryUI({
+    placeOfBirth: addressNoMilitaryUI({
       omit: ['street', 'street2', 'street3', 'postalCode'],
     }),
   },
   schema: {
     type: 'object',
     properties: {
-      placeOfBirthAddress: addressNoMilitarySchema({
+      placeOfBirth: addressNoMilitarySchema({
         omit: ['street', 'street2', 'street3', 'postalCode'],
       }),
     },
