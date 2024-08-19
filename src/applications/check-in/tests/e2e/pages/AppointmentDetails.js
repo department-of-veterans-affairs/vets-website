@@ -108,7 +108,7 @@ class AppointmentDetails {
   };
 
   returnToAppointmentsPage = () => {
-    cy.get('button[data-testid="back-button"]').click({
+    cy.get('[data-testid="back-button"]').click({
       waitForAnimations: true,
     });
   };
