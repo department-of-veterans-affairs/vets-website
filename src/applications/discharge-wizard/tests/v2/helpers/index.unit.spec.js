@@ -87,7 +87,7 @@ describe('Discharge Wizard helpers', () => {
     );
 
     expect(serviceBranchLabel).to.equal('I served in the Army.');
-    expect(dischargeYearLabel).to.equal('I was discharged in  2022.');
+    expect(dischargeYearLabel).to.equal('I was discharged in 2022.');
     expect(prevApplicationLabel).to.equal(
       'I have previously applied for a discharge upgrade for this period of service.',
     );
