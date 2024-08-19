@@ -1,12 +1,18 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const envUrl = environment.API_URL;
+
+// Used to test against dev
+// export const envUrl = 'https://dev-api.va.gov';
+
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `/topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
+  GET_TOPICS: `topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
-  GET_INQUIRY: '',
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `/v0/gi/institutions/search?name=`,
@@ -15,9 +21,9 @@ export const URL = {
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-  'Compensation (Service-Connected Bens)',
-  'Veteran Affairs  - Debt', // *double space after 'Affairs'
-  'Benefits Issues Outside the US',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
 ];
 
 export const requireSignInTopics = [
@@ -28,10 +34,19 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'Caregiver support',
+  'VA Caregiver Support Program',
   'Family member health benefits',
-  'Prosthetics',
+  'VHA Prosthetics',
+  'Veteran Health ID (VHIC – Facility Access/Check-In)',
+  'Veteran ID (Retailer Discount)',
 ];
+
+// Check to show Your Personal Information page and NOT About Yourself page
+export const hasPrefillInformation = form => {
+  const { first, last, dateOfBirth, socialOrServiceNum } = form.aboutYourself;
+
+  return !!(first && last && dateOfBirth && socialOrServiceNum);
+};
 
 // Response Page headers
 export const RESPONSE_PAGE = {
@@ -56,6 +71,14 @@ export const RESPONSE_PAGE = {
     LIST_ITEM_1: 'You can upload a .pdf, .jpeg, or .png file',
     LIST_ITEM_2: 'Your file should be no larger than 25MB',
   },
+};
+
+export const pronounLabels = {
+  heHimHis: 'He/him/his',
+  sheHerHers: 'She/her/hers',
+  theyThemTheirs: 'They/them/theirs',
+  zeZirZirs: 'Ze/zir/zirs',
+  useMyPreferredName: 'Use my preferred name',
 };
 
 // Used for yes/no radio questions
@@ -113,9 +136,9 @@ export const addressFields = {
 export const aboutRelationship = {
   SPOUSE: "I'm the Veteran's spouse",
   CHILD: "I'm the Veteran's child",
-  STEPCHILD: "I'm the Veteran's stepchild",
+  STEPCHILD: "I'm the Veteran's step child",
   PARENT: "I'm the Veteran's parent",
-  NOT_LISTED: "I have a relationship to the Veteran that's not listed",
+  NOT_LISTED: "We have a relationship that's not listed",
 };
 
 // What is your relationship to the family member
@@ -202,22 +225,22 @@ export const yourRoleOptionsEducation = {
 
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
-  CHAPTER_TITLE: 'Category and Topic',
+  CHAPTER_TITLE: 'Category and topic',
   PAGE_1: {
     PATH: 'category-topic-1',
-    TITLE: 'Category selected',
+    TITLE: 'Category',
     PAGE_DESCRIPTION: 'Category',
     QUESTION_1: 'Select the category that best describes your question:',
   },
   PAGE_2: {
     PATH: 'category-topic-2',
-    TITLE: 'Topic selected',
+    TITLE: 'Topic',
     PAGE_DESCRIPTION: 'Topic',
     QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
-    TITLE: 'Subtopic selected',
+    TITLE: 'Subtopic',
     PAGE_DESCRIPTION: 'Subtopic',
     QUESTION_1: 'Select the subtopic that best describes your question:',
   },
@@ -225,40 +248,40 @@ export const CHAPTER_1 = {
 
 // Chapter 2 labels: titles, questions, descriptions
 export const CHAPTER_2 = {
-  CHAPTER_TITLE: 'Your Question',
+  CHAPTER_TITLE: 'Your question',
   PAGE_1: {
-    PATH: 'question-1',
+    PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select who your question is about:',
   },
   PAGE_2: {
-    PATH: 'question-2',
+    PATH: 'reason-you-contacted-us',
     TITLE: 'Reason you contacted us',
     PAGE_DESCRIPTION: '',
     QUESTION_1: 'Select the reason you contacted us today:',
   },
   PAGE_3: {
-    PATH: 'question-3',
+    PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
+    QUESTION_1: "What's your question?",
   },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'Personal Information',
+  CHAPTER_TITLE: 'Your Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
     TITLE: 'What is your relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  ABOUT_YOUR_RELATIONSHIP: {
-    TITLE: 'Tell us more about your relationship to the Veteran',
+  MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN: {
+    TITLE: 'Tell us more about your relationship?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the Veteran:',
+    QUESTION_1: '',
   },
   THEIR_RELATIONSHIP_TO_VET: {
     TITLE: 'What is their relationship to the veteran?',
@@ -279,22 +302,31 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
-  VET_POSTAL_CODE: {
+  FAMILY_MEMBERS_POSTAL_CODE: {
+    TITLE: "Family member's postal code",
+    PAGE_DESCRIPTION: '',
+    QUESTION_1:
+      'Family member receives mail outside of the United States on a U.S. military base.',
+    QUESTION_2: 'Post office',
+    QUESTION_3: 'State',
+    QUESTION_4: 'Postal code',
+  },
+  VETERANS_POSTAL_CODE: {
     TITLE: "Veteran's postal code",
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'The Veteran lives on a United States military base outside of the country.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   YOUR_POSTAL_CODE: {
     TITLE: 'Your postal code',
     PAGE_DESCRIPTION: '',
     QUESTION_1:
-      'I receive mail outside of the United States on a U.S. military base.',
+      'Veteran receives mail outside of the United States on a U.S. military base.',
     QUESTION_2: 'Post office',
-    QUESTION_3: 'Region',
+    QUESTION_3: 'State',
     QUESTION_4: 'Postal code',
   },
   WHO_QUES_IS_ABOUT: {
@@ -331,7 +363,12 @@ export const CHAPTER_3 = {
   CONTACT_PREF: {
     TITLE: 'Your contact preference',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'How should we contact you?',
+    QUESTION_1: {
+      QUESTION: 'Preferred name',
+      HINT: 'Let us know how we should refer to you.',
+      ERROR: 'This field accepts alphabetic characters only',
+    },
+    QUESTION_2: 'How should we contact you?',
   },
   YOUR_COUNTRY: {
     TITLE: 'Your country', // country
@@ -339,8 +376,8 @@ export const CHAPTER_3 = {
     QUESTION_1:
       'I live on a United States military base outside of the country',
   },
-  YOUR_ADDRESS: {
-    TITLE: 'Your address', // full address
+  YOUR_MAILING_ADDRESS: {
+    TITLE: 'Your mailing address', // full address
     PAGE_DESCRIPTION: '',
   },
   ADDRESS_CONFIRM: {
@@ -348,10 +385,13 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: '',
     QUESTION_1: '',
   },
+  ADDRESS_VALIDATION: {
+    TITLE: 'Check your mailing address',
+  },
   ABOUT_YOUR_FAM_MEM: {
-    TITLE: 'Your relationship to the family member',
+    TITLE: 'Tell us about your family member',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select your relationship to the family member',
+    QUESTION_1: '',
   },
   RELATIONSHIP_TO_FAM_MEM: {
     TITLE: 'What is your relationship to the family member?',
@@ -380,35 +420,59 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: 'School or state of residency',
     QUESTION_1: 'Please provide one of the following',
   },
+  VETERAN_LOCATION_OF_RESIDENCE: {
+    TITLE: `Veteran's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  FAMILY_MEMBERS_LOCATION_OF_RESIDENCE: {
+    TITLE: `Family member's location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_LOCATION_OF_RESIDENCE: {
+    TITLE: `Your location of residence`,
+    QUESTION_1: 'State/Province/Region',
+  },
+  YOUR_PERSONAL_INFORMATION: {
+    PATH: 'your-personal-information',
+    TITLE: `Your personal information`,
+    DESCRIPTION: 'This is the personal information we have on file for you.',
+  },
+  YOUR_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: 'Your VA health facility',
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
 };
 
 export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
-  CHAPTER_3.ABOUT_YOUR_RELATIONSHIP.TITLE,
+  CHAPTER_2.PAGE_1.TITLE,
+  CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
+  CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
-export const homeBreadcrumbs = [{ href: '/', title: 'Home', key: 'home' }];
+export const homeBreadcrumbs = [{ href: '/', label: 'Home', key: 'home' }];
 
 export const contactUsBreadcrumbs = [
   ...homeBreadcrumbs,
-  { href: '/contact-us', title: 'Contact Us', key: 'contactUs' },
+  { href: '/contact-us', label: 'Contact Us', key: 'contactUs' },
 ];
 
 export const askVABreadcrumbs = [
   ...contactUsBreadcrumbs,
-  { href: '/contact-us/ask-va-too', title: 'Ask VA', key: 'askVA' },
+  { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
 export const responsePageBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'Response Page', key: 'responsePage' },
+  { href: '/user/dashboard', label: 'Response Page', key: 'responsePage' },
 ];
 
-export const newInquiryBreadcrumbs = [
+export const newQuestionBreadcrumbs = [
   ...askVABreadcrumbs,
-  { title: 'New Inquiry', key: 'newInquiry' },
+  { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
 export const breadcrumbsDictionary = {
@@ -416,5 +480,8 @@ export const breadcrumbsDictionary = {
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': responsePageBreadcrumbs,
-  '/newInquiry': newInquiryBreadcrumbs,
+  '/newQuestion': newQuestionBreadcrumbs,
 };
+
+// Health care label is currently different on local/dev and staging (pulling from CRM updated list)
+export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];

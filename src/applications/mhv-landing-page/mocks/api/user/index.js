@@ -1,7 +1,12 @@
 /* eslint-disable camelcase */
 const defaultUser = {
   data: {
+    id: '',
+    type: 'user_scaffolds',
     attributes: {
+      account: {
+        account_uuid: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
+      },
       profile: {
         sign_in: {
           service_name: 'idme',
@@ -57,78 +62,19 @@ const defaultUser = {
             is_cerner: false,
           },
         ],
-        mhvAccountState: 'OK',
+        va_patient: true,
+        mhv_account_state: 'OK',
       },
     },
   },
   meta: { errors: null },
 };
 
-const cernerUser = {
-  data: {
-    attributes: {
-      profile: {
-        sign_in: {
-          service_name: 'idme',
-        },
-        email: 'fake@fake.com',
-        loa: { current: 3 },
-        first_name: 'Cersei',
-        middle_name: '',
-        last_name: 'Smith',
-        gender: 'F',
-        birth_date: '1985-01-01',
-        verified: true,
-      },
-      veteran_status: {
-        status: 'OK',
-        is_veteran: true,
-        served_in_military: true,
-      },
-      in_progress_forms: [],
-      prefills_available: ['21-526EZ'],
-      services: [
-        'facilities',
-        'hca',
-        'edu-benefits',
-        'evss-claims',
-        'form526',
-        'user-profile',
-        'health-records',
-        'rx',
-        'messaging',
-      ],
-      va_profile: {
-        status: 'OK',
-        birth_date: '19511118',
-        family_name: 'Hunter',
-        gender: 'M',
-        given_names: ['Julio', 'E'],
-        active_status: 'active',
-        facilities: [
-          {
-            facility_id: '983',
-            is_cerner: false,
-          },
-          {
-            facility_id: '984',
-            is_cerner: false,
-          },
-          {
-            facility_id: '757',
-            is_cerner: true,
-          },
-        ],
-        mhvAccountState: 'OK',
-      },
-    },
-  },
-  meta: { errors: null },
-};
-
-const generateUserWithFacilities = ({
-  facilities = [],
-  name = 'Harry',
+const generateUser = ({
+  serviceName = 'idme',
+  loa = 3,
+  mhvAccountState = 'OK',
+  vaPatient = true,
 } = {}) => {
   return {
     ...defaultUser,
@@ -136,60 +82,16 @@ const generateUserWithFacilities = ({
       ...defaultUser.data,
       attributes: {
         ...defaultUser.data.attributes,
-        profile: {
-          ...defaultUser.data.attributes.profile,
-          facilities,
-          first_name: name,
-        },
         va_profile: {
           ...defaultUser.data.attributes.va_profile,
-          mhvAccountState: 'OK',
-        },
-      },
-    },
-  };
-};
-
-const generateUserWithServiceProvider = ({ serviceProvider = 'idme' }) => {
-  return {
-    ...defaultUser,
-    data: {
-      ...defaultUser.data,
-      attributes: {
-        ...defaultUser.data.attributes,
-        profile: {
-          ...defaultUser.data.attributes.profile,
-          sign_in: {
-            service_name: serviceProvider,
-          },
-        },
-        va_profile: {
-          ...defaultUser.data.attributes.va_profile,
-          mhvAccountState: 'OK',
-        },
-      },
-    },
-  };
-};
-
-const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
-  return {
-    ...defaultUser,
-    data: {
-      ...defaultUser.data,
-      attributes: {
-        ...defaultUser.data.attributes,
-        va_profile: {
-          ...defaultUser.data.attributes.va_profile,
-          facilities:
-            facilities || defaultUser.data.attributes.va_profile.facilities,
-          mhvAccountState: 'OK',
+          mhv_account_state: mhvAccountState,
+          va_patient: vaPatient,
         },
         profile: {
           ...defaultUser.data.attributes.profile,
           loa: { current: loa },
           sign_in: {
-            service_name: serviceProvider,
+            service_name: serviceName,
           },
         },
       },
@@ -197,69 +99,23 @@ const generateUser = ({ serviceProvider = 'idme', facilities, loa = 3 }) => {
   };
 };
 
-const noFacilityUser = generateUserWithFacilities({ facilities: [] });
-
-const hasMHVAccount = {
-  ...defaultUser,
-  data: {
-    ...defaultUser.data,
-    attributes: {
-      ...defaultUser.data.attributes,
-      profile: {
-        ...defaultUser.data.attributes.profile,
-      },
-      va_profile: {
-        ...defaultUser.data.attributes.va_profile,
-        mhvAccountState: 'OK',
-      },
-    },
-  },
+const CSP_IDS = {
+  MHV: 'mhv',
+  ID_ME: 'idme',
+  DS_LOGON: 'dslogon',
+  LOGIN_GOV: 'logingov',
 };
 
-const noMHVAccount = {
-  ...defaultUser,
-  data: {
-    ...defaultUser.data,
-    attributes: {
-      ...defaultUser.data.attributes,
-      profile: {
-        ...defaultUser.data.attributes.profile,
-      },
-      va_profile: {
-        ...defaultUser.data.attributes.va_profile,
-        mhvAccountState: 'NONE',
-      },
-    },
-  },
-};
-
-const generateUserWithMHVAccountState = ({ mhvAccountState = 'OK' }) => {
-  return {
-    ...defaultUser,
-    data: {
-      ...defaultUser.data,
-      attributes: {
-        ...defaultUser.data.attributes,
-        profile: {
-          ...defaultUser.data.attributes.profile,
-        },
-        va_profile: {
-          ...defaultUser.data.attributes.va_profile,
-          mhvAccountState,
-        },
-      },
-    },
-  };
-};
+const USER_MOCKS = Object.freeze({
+  UNREGISTERED: generateUser({ vaPatient: false }),
+  UNVERIFIED: generateUser({ loa: 1, vaPatient: false }),
+  DS_LOGON_UNVERIFIED: generateUser({ loa: 1, serviceName: CSP_IDS.DS_LOGON }),
+  NO_MHV_ACCOUNT: generateUser({ mhvAccountState: 'NONE' }),
+  MHV_BASIC_ACCOUNT: generateUser({ loa: 1, serviceName: CSP_IDS.MHV }),
+  DEFAULT: generateUser(),
+});
 
 module.exports = {
-  defaultUser,
-  cernerUser,
-  noFacilityUser,
   generateUser,
-  generateUserWithServiceProvider,
-  generateUserWithFacilities,
-  hasMHVAccount,
-  noMHVAccount,
-  generateUserWithMHVAccountState,
+  USER_MOCKS,
 };

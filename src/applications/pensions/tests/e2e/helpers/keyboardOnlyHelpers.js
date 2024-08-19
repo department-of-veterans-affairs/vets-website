@@ -3,7 +3,10 @@ import isEmpty from 'lodash/isEmpty';
 import ArrayCountWidget from 'platform/forms-system/src/js/widgets/ArrayCountWidget';
 import { replaceRefSchemas } from 'platform/forms-system/src/js/state/helpers';
 
-import { fillDateWebComponentPattern } from './index';
+import {
+  fillDateWebComponentPattern,
+  shouldNotHaveValidationErrors,
+} from './index';
 import formConfig from '../../../config/form';
 
 export const shouldIncludePage = (page, data, index) =>
@@ -85,7 +88,7 @@ export const fillSelectByTyping = (str, handleFailure, attempt = 0) => {
 
   if (attempt > 3) {
     cy.log(`Unable to enter ${str} in select after 3 tries.`);
-    handleFailure(str);
+    return handleFailure(str);
   }
 
   return cy
@@ -342,6 +345,7 @@ const keyboardTestArrayPage = (page, data, fieldKey, i) => {
     data,
   });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
 };
 
 export const keyboardTestArrayPages = (page, chapter, data) => {
@@ -374,6 +378,7 @@ export const keyboardTestPage = (page, data) => {
 
   fillSchema({ schema: page.schema, uiSchema: page.uiSchema, data });
   cy.tabToContinueForm();
+  shouldNotHaveValidationErrors();
   return [page.path];
 };
 

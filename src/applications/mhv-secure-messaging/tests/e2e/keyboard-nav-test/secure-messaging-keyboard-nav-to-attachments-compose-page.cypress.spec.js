@@ -6,12 +6,10 @@ import requestBody from '../fixtures/message-compose-request-body.json';
 
 describe('Secure Messaging Keyboard Nav to Attachment', () => {
   it('Keyboard Nav to Focus on Attachment', () => {
-    const landingPage = new PatientInboxPage();
     // const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);
     PatientComposePage.selectCategory(`${requestBody.category}`);
     // cy.tabToElement('#OTHEROTHERinput');
@@ -22,29 +20,29 @@ describe('Secure Messaging Keyboard Nav to Attachment', () => {
     PatientComposePage.getMessageBodyField().type(`${requestBody.body}`, {
       force: true,
     });
+
     // verify attachments button has "Attach file" with no attachments
     PatientComposePage.verifyAttachmentButtonText(0);
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
     PatientComposePage.verifyFocusOnMessageAttachment();
+
     // verify attachments button has "Attach additional file" with one or more attachments
     PatientComposePage.verifyAttachmentButtonText(1);
     PatientComposePage.attachMessageFromFile(Data.SAMPLE_DOC);
     PatientComposePage.verifyFocusOnMessageAttachment();
-    //
+
     cy.realPress('Enter');
+
     // After closing the attachment banner, first attachment remove button has focus
     PatientComposePage.verifyRemoveAttachmentButtonHasFocus(0);
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
     PatientComposePage.sendMessage();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+
+    PatientComposePage.verifyHeader('Inbox');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

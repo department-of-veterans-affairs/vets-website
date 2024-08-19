@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getCareSummariesAndNotesList } from '../actions/careSummariesAndNotes';
+import {
+  getCareSummariesAndNotesList,
+  reloadRecords,
+} from '../actions/careSummariesAndNotes';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import useListRefresh from '../hooks/useListRefresh';
 import {
@@ -15,9 +18,13 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(
+    state => state.mr.careSummariesAndNotes.updatedList,
+  );
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -29,6 +36,9 @@ const CareSummariesAndNotes = () => {
   );
   const refresh = useSelector(state => state.mr.refresh);
   const activeAlert = useAlerts(dispatch);
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -38,6 +48,18 @@ const CareSummariesAndNotes = () => {
     dispatchAction: getCareSummariesAndNotesList,
     dispatch,
   });
+
+  useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
+    () => {
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -74,6 +96,20 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        {!mockPhr && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(careSummariesAndNotes) &&
+              Array.isArray(updatedRecordList) &&
+              careSummariesAndNotes.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

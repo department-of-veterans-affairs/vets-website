@@ -3,6 +3,7 @@ const dateFns = require('date-fns');
 const { utcToZonedTime, zonedTimeToUtc, format } = require('date-fns-tz');
 const {
   singleAppointment,
+  singleUpcomingAppointment,
 } = require('../../../../../tests/unit/mocks/mock-appointments');
 
 const isoDateWithoutTimezoneFormat = "yyyy-LL-dd'T'HH:mm:ss";
@@ -14,14 +15,15 @@ const defaultUUID = '46bebc0a-b99c-464f-a5c5-560bc9eae287';
 const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
+const checkInTooLateUUID = '127c6f75-ea5f-4986-b0f5-d411d9d5e55c';
 
 // travel-claim UUIDS
-const multiApptSingleFacilityUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
-const multiApptTwoFacilityUUID = '0791fe85-36b0-4a28-85ea-48f5f4306b5b';
-const multiApptMultiFacilityUUID = '8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0';
+const multiOHAppointmentsUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
 
 // Minutes before start time that the window for check-in starts.
 const checkInStartWindowMinutes = 45;
+
+const kinds = ['clinic', 'phone', 'cvt', 'vvc'];
 
 const mockDemographics = {
   emergencyContact: {
@@ -99,6 +101,49 @@ const getAppointmentStartTime = (
   return startTime;
 };
 
+const createUpcomingAppointment = ({
+  id = singleUpcomingAppointment[0].id,
+  status = singleUpcomingAppointment[0].attributes.status,
+  serviceType = singleUpcomingAppointment[0].attributes.serviceType,
+  locationId = singleUpcomingAppointment[0].attributes.locationId,
+  clinic = singleUpcomingAppointment[0].attributes.clinic,
+  kind = singleUpcomingAppointment[0].attributes.kind,
+  start = singleUpcomingAppointment[0].attributes.start,
+  end = singleUpcomingAppointment[0].attributes.end,
+  minutesDuration = singleUpcomingAppointment[0].attributes.minutesDuration,
+  facilityName = singleUpcomingAppointment[0].attributes.facilityName,
+  facilityVistaSite = singleUpcomingAppointment[0].attributes.facilityVistaSite,
+  facilityTimezone = singleUpcomingAppointment[0].attributes.facilityTimezone,
+  facilityPhoneMain = singleUpcomingAppointment[0].attributes.facilityPhoneMain,
+  clinicServiceName = singleUpcomingAppointment[0].attributes.clinicServiceName,
+  clinicPhysicalLocation = singleUpcomingAppointment[0].attributes
+    .clinicPhysicalLocation,
+  clinicFriendlyName = singleUpcomingAppointment[0].attributes
+    .clinicFriendlyName,
+}) => {
+  return {
+    id,
+    type: 'appointments',
+    attributes: {
+      status,
+      serviceType,
+      locationId,
+      clinic,
+      kind,
+      start,
+      end,
+      minutesDuration,
+      facilityName,
+      facilityVistaSite,
+      facilityTimezone,
+      facilityPhoneMain,
+      clinicServiceName,
+      clinicPhysicalLocation,
+      clinicFriendlyName,
+    },
+  };
+};
+
 const createAppointment = ({
   facility = singleAppointment[0].facility,
   eligibility = singleAppointment[0].eligibility,
@@ -119,6 +164,7 @@ const createAppointment = ({
   clinicIen = singleAppointment[0].clinicIen,
   facilityAddress = singleAppointment[0].facilityAddress,
   clinicPhoneNumber = singleAppointment[0].clinicPhoneNumber,
+  checkedInTime = '',
 } = {}) => {
   const formattedStartTime = dateFns.format(
     startTime,
@@ -174,7 +220,7 @@ const createAppointment = ({
     eligibility,
     checkInWindowStart: formattedCheckInWindowStart,
     checkInWindowEnd: formattedCheckInWindowEnd,
-    checkedInTime: '',
+    checkedInTime,
     status,
     stationNo,
     clinicLocation,
@@ -209,6 +255,23 @@ const createAppointments = (
     }),
   ];
 
+  if (token === checkInTooLateUUID) {
+    appointments = [
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        clinicIen: '0001',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_TOO_LATE',
+        clinicIen: '0001',
+        appointmentIen: '0000',
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+    ];
+  }
+
   if (token === allAppointmentTypesUUID) {
     appointments = [
       createAppointment({
@@ -216,6 +279,19 @@ const createAppointments = (
         clinicIen: '0001',
         appointmentIen: '0000',
         clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+        clinicIen: '0001',
+        appointmentIen: `0001`,
+        clinicFriendlyName: `HEART CLINIC-1`,
+      }),
+      createAppointment({
+        eligibility: 'INELIGIBLE_ALREADY_CHECKED_IN',
+        clinicIen: '0001',
+        appointmentIen: `0001`,
+        clinicFriendlyName: `HEART CLINIC-1`,
+        checkedInTime: '2024-06-26T17:31:30.768Z',
       }),
     ];
     for (let i = 0; i < number; i += 1) {
@@ -267,6 +343,38 @@ const createAppointments = (
   };
 };
 
+const createUpcomingAppointments = (token, number = 4) => {
+  const appointments = [
+    createUpcomingAppointment({
+      id: '123123',
+      clincFriendlyName: `HEART CLINIC-1`,
+      start: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
+    }),
+  ];
+  for (let i = 0; i < number; i += 1) {
+    appointments.push(
+      createUpcomingAppointment({
+        id: `12300${i + 1}`,
+        clincFriendlyName: `HEART CLINIC-${i}`,
+        start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
+        kind: kinds[i],
+      }),
+    );
+  }
+  appointments.push(
+    createUpcomingAppointment({
+      id: `123456`,
+      clincFriendlyName: `HEART CLINIC-E`,
+      start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
+      status: 'CANCELLED BY CLINIC',
+    }),
+  );
+
+  return {
+    data: appointments,
+  };
+};
+
 const createMockFailedResponse = _data => {
   return {
     error: true,
@@ -297,7 +405,7 @@ const createAppointmentOH = ({
     state: 'DC',
     zip: '20002',
   },
-  stationNo = '530',
+  stationNo = '500',
   clinicIen = '32216049',
   clinicLocation = '',
   doctorName = 'Dr. Smith',
@@ -328,58 +436,17 @@ const createAppointmentOH = ({
 const createAppointmentsOH = (token = defaultUUID) => {
   const appointments = [createAppointmentOH()];
 
-  if (token === multiApptSingleFacilityUUID) {
+  if (token === multiOHAppointmentsUUID) {
     appointments.push(
       createAppointmentOH({
         appointmentIen: '2222',
         startTime: dateFns.addHours(new Date(), 1).toISOString(),
         type: 'Mental Health',
-      }),
-    );
-  }
-
-  if (token === multiApptTwoFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-        facility: 'VA Facility 2',
         stationNo: '500',
       }),
     );
   }
 
-  if (token === multiApptMultiFacilityUUID) {
-    appointments.push(
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 1).toISOString(),
-        type: 'Mental Health',
-      }),
-      createAppointmentOH({
-        appointmentIen: '1111',
-        startTime: dateFns.addHours(new Date(), 3).toISOString(),
-        type: 'Primary Care',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '2222',
-        startTime: dateFns.addHours(new Date(), 2).toISOString(),
-        type: 'Anesthesiology',
-        stationNo: '500',
-        facility: 'VA Facility 2',
-      }),
-      createAppointmentOH({
-        appointmentIen: '6767',
-        startTime: dateFns.addHours(new Date(), 4).toISOString(),
-        type: 'Neurology',
-        stationNo: '622',
-        facility: 'VA Facility 3',
-      }),
-    );
-  }
   return {
     id: token,
     payload: {
@@ -391,14 +458,15 @@ const createAppointmentsOH = (token = defaultUUID) => {
 
 module.exports = {
   aboutToExpireUUID,
+  checkInTooLateUUID,
   createAppointments,
   createAppointmentsOH,
   createAppointment,
-  defaultUUID,
-  mockDemographics,
+  createUpcomingAppointment,
+  createUpcomingAppointments,
   createMockFailedResponse,
   createMockNotFoundResponse,
-  multiApptSingleFacilityUUID,
-  multiApptMultiFacilityUUID,
-  multiApptTwoFacilityUUID,
+  multiOHAppointmentsUUID,
+  defaultUUID,
+  mockDemographics,
 };

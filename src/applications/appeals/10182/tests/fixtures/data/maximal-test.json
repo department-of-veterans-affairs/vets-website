@@ -4,6 +4,7 @@
       "ssnLastFour": "9876",
       "vaFileLastFour": "8765",
       "address": {
+        "addressType": "DOMESTIC",
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
         "addressLine3": "Box 45678901234",
@@ -17,7 +18,7 @@
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
-        "phoneNumberExt": "2"
+        "extension": "2345"
       },
       "email": "user@example.com"
     },
@@ -28,8 +29,7 @@
     "view:additionalEvidence": true,
     "requestingExtension": true,
     "extensionReason": "Lorem ipsum",
-    "appealingVHADenial": false,
-    "view:showPart3": true,
+    "appealingVHADenial": true,
 
     "contestedIssues": [
       {

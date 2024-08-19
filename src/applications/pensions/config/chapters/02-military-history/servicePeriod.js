@@ -5,10 +5,9 @@ import {
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   serviceNumberUI,
-  serviceNumberSchema,
   checkboxGroupUI,
-  checkboxGroupSchema,
   titleUI,
+  checkboxGroupSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { serviceBranchLabels } from '../../../labels';
@@ -76,7 +75,9 @@ export default {
     properties: {
       serviceBranch: checkboxGroupSchema(Object.keys(serviceBranchLabels)),
       activeServiceDateRange: currentOrPastDateRangeSchema,
-      serviceNumber: serviceNumberSchema,
+      serviceNumber: {
+        type: 'string',
+      },
       placeOfSeparation,
       'view:wartimeWarning': {
         type: 'object',

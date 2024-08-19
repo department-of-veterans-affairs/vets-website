@@ -1,7 +1,8 @@
 const FORCE_OPTION = { force: true };
+const DELAY_OPTION = { force: true, delay: 100 };
 
 Cypress.Commands.add('fillVaTextInput', (field, value) => {
-  if (value) {
+  if (typeof value !== 'undefined') {
     const strValue = value.toString();
     const element =
       typeof field === 'string'
@@ -11,16 +12,23 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
     element
       .shadow()
       .find('input')
-      .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .as('currentElement');
+
+    cy.get('@currentElement').click();
+
+    cy.get('@currentElement').clear(DELAY_OPTION);
+
+    if (strValue !== '') {
+      // using type requires a non-empty value
+      cy.get('@currentElement').type(strValue, FORCE_OPTION);
+    }
 
     cy.get('@currentElement').should('have.value', strValue);
   }
 });
 
 Cypress.Commands.add('fillVaTextarea', (field, value) => {
-  if (value) {
+  if (typeof value !== 'undefined') {
     const strValue = value.toString();
     const element =
       typeof field === 'string'
@@ -30,9 +38,14 @@ Cypress.Commands.add('fillVaTextarea', (field, value) => {
     element
       .shadow()
       .find('textarea')
-      .as('currentElement')
-      .clear({ force: true })
-      .type(strValue, { force: true });
+      .as('currentElement');
+
+    cy.get('@currentElement').clear(DELAY_OPTION);
+
+    if (strValue !== '') {
+      // using type requires a non-empty value
+      cy.get('@currentElement').type(strValue, FORCE_OPTION);
+    }
 
     cy.get('@currentElement').should('have.value', strValue);
   }
@@ -93,22 +106,10 @@ Cypress.Commands.add('selectVaCheckbox', (field, isChecked) => {
   }
 });
 
-Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
-  if (dateString) {
-    const element =
-      typeof field === 'string'
-        ? cy.get(`va-date[name="${field}"]`)
-        : cy.wrap(field);
-
-    const [year, month, day] = dateString.split('-').map(
-      dateComponent =>
-        // eslint-disable-next-line no-restricted-globals
-        isFinite(dateComponent)
-          ? parseInt(dateComponent, 10).toString()
-          : dateComponent,
-    );
-
-    element.shadow().then(el => {
+function fillVaDateFields(year, month, day, monthYearOnly) {
+  cy.get('@currentElement')
+    .shadow()
+    .then(el => {
       cy.wrap(el)
         .find('va-select.select-month')
         .shadow()
@@ -127,6 +128,31 @@ Cypress.Commands.add('fillVaDate', (field, dateString, monthYearOnly) => {
         .find('input')
         .type(year);
     });
+}
+
+Cypress.Commands.add('fillVaDate', (field, dateString, isMonthYearOnly) => {
+  if (dateString) {
+    const element =
+      typeof field === 'string'
+        ? cy.get(`va-date[name="${field}"]`)
+        : cy.wrap(field);
+    element.as('currentElement');
+
+    const [year, month, day] = dateString.split('-').map(
+      dateComponent =>
+        // eslint-disable-next-line no-restricted-globals
+        isFinite(dateComponent)
+          ? parseInt(dateComponent, 10).toString()
+          : dateComponent,
+    );
+
+    if (isMonthYearOnly == null) {
+      element.invoke('attr', 'month-year-only').then(monthYearOnlyAttr => {
+        fillVaDateFields(year, month, day, monthYearOnlyAttr === 'true');
+      });
+    } else {
+      fillVaDateFields(year, month, day, isMonthYearOnly);
+    }
   }
 });
 

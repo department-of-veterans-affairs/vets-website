@@ -6,10 +6,8 @@ import { AXE_CONTEXT, Data } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Reply', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
   });
   it('Axe Pagination Test', () => {
     const threadLength = 28;
@@ -23,19 +21,47 @@ describe('Secure Messaging Reply', () => {
       currentItem.attributes.threadPageSize = threadLength;
     });
 
-    landingPage.loadInboxMessages(mockMessagesPageOne);
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
     cy.get('va-pagination').should('be.visible');
-    site.clickAndLoadVAPaginationNextMessagesButton(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayedText(11, 20, threadLength);
+    SecureMessagingSite.clickAndLoadVAPaginationNextMessagesButton(
+      2,
+      mockMessagesPageTwo,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayedText(
+      11,
+      20,
+      threadLength,
+    );
     FolderLoadPage.verifyPaginationElements();
-    site.clickAndLoadVAPaginationPreviousMessagesButton(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayedText(1, 10, threadLength);
+    SecureMessagingSite.clickAndLoadVAPaginationPreviousMessagesButton(
+      1,
+      mockMessagesPageOne,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayedText(
+      1,
+      10,
+      threadLength,
+    );
     FolderLoadPage.verifyPaginationElements();
 
-    site.clickAndLoadVAPaginationPageMessagesLink(2, mockMessagesPageTwo);
-    site.verifyPaginationMessagesDisplayedText(11, 20, threadLength);
-    site.clickAndLoadVAPaginationPageMessagesLink(1, mockMessagesPageOne);
-    site.verifyPaginationMessagesDisplayedText(1, 10, threadLength);
+    SecureMessagingSite.clickAndLoadVAPaginationPageMessagesLink(
+      2,
+      mockMessagesPageTwo,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayedText(
+      11,
+      20,
+      threadLength,
+    );
+    SecureMessagingSite.clickAndLoadVAPaginationPageMessagesLink(
+      1,
+      mockMessagesPageOne,
+    );
+    SecureMessagingSite.verifyPaginationMessagesDisplayedText(
+      1,
+      10,
+      threadLength,
+    );
 
     cy.get('.usa-pagination__list li').then(pagesList => {
       const lastPageIndex = pagesList.length - 2;
@@ -63,8 +89,8 @@ describe('Secure Messaging Reply', () => {
       data: [mockMessagesPageOne.data[mockMessagesPageOne.data.length - 1]],
     };
 
-    landingPage.loadInboxMessages(mockMessagesPageOne);
-    site.clickAndLoadVAPaginationLastPageButton(
+    PatientInboxPage.loadInboxMessages(mockMessagesPageOne);
+    SecureMessagingSite.clickAndLoadVAPaginationLastPageButton(
       pageNumber,
       mockSingleMessageThread,
     );

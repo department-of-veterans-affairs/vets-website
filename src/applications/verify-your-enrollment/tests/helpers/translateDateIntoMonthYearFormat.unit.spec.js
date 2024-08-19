@@ -15,4 +15,7 @@ describe('translateDateIntoMonthYearFormat', () => {
       'June 2021',
     );
   });
+  it('should returns Date unavailable if there no data', () => {
+    expect(translateDateIntoMonthYearFormat(null)).to.equal('Date unavailable');
+  });
 });

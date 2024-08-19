@@ -1,15 +1,15 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientMessageTrashPage from '../pages/PatientMessageTrashPage';
+import FolderLoadPage from '../pages/FolderLoadPage';
 import { AXE_CONTEXT } from '../utils/constants';
+import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 
-describe('Secure Messaging Trash Folder checks', () => {
+describe('Secure Messaging Trash Folder filter-sort checks', () => {
   beforeEach(() => {
-    const landingPage = new PatientInboxPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    landingPage.loadInboxMessages();
-    PatientMessageTrashPage.loadMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(mockTrashMessages);
+    FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });
 
   it('Verify filter works correctly', () => {
@@ -30,7 +30,16 @@ describe('Secure Messaging Trash Folder checks', () => {
   });
 
   it('Check sorting works properly', () => {
-    PatientMessageTrashPage.verifySorting();
+    const sortedResponse = {
+      ...mockTrashMessages,
+      data: [...mockTrashMessages.data].sort(
+        (a, b) =>
+          new Date(a.attributes.sentDate) - new Date(b.attributes.sentDate),
+      ),
+    };
+
+    PatientMessageTrashPage.verifySorting('Oldest to newest', sortedResponse);
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

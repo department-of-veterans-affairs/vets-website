@@ -139,4 +139,4 @@ class SecureMessagingSite {
   };
 }
 
-export default SecureMessagingSite;
+export default new SecureMessagingSite();

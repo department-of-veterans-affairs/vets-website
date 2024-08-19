@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { APP_TYPES } from '../utils/helpers';
 
 const OtherVADebts = ({ module, subHeading }) => {
@@ -11,7 +10,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         data-testid="other-va-debts-head"
         id="other-va-debts"
       >
-        Your other VA {`${module === APP_TYPES.DEBT ? `debt` : 'bills'}`}
+        Your VA {`${module === APP_TYPES.DEBT ? `debt` : 'copay bills'}`}
       </h3>
       <p className="vads-u-font-family--sans">
         Our records show you have
@@ -40,18 +39,14 @@ const OtherVADebts = ({ module, subHeading }) => {
           </span>
         )}
       </p>
-      <Link
-        className="vads-u-font-weight--bold"
-        aria-label="View all your VA debt and bills"
-        to="/manage-va-debt/summary"
+
+      <va-link
+        href="/manage-va-debt/summary/"
         data-testid="other-va-debts-link"
-      >
-        View all your VA debt and bills
-        <i
-          className="fa fa-angle-right vads-u-margin-left--1"
-          aria-hidden="true"
-        />
-      </Link>
+        active
+        text="View all your VA debt and bills"
+        class="vads-u-margin-top--2"
+      />
     </>
   );
 };

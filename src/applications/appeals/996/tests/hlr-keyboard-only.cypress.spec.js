@@ -31,7 +31,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       const { chapters } = formConfig;
       cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      });
+      }).as('getIssues');
       cy.visit(
         '/decision-reviews/higher-level-review/request-higher-level-review-form-20-0996/start',
       );
@@ -55,6 +55,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
         'include',
         chapters.infoPages.pages.veteranInformation.path,
       );
+      cy.wait('@getIssues');
       cy.tabToContinueForm();
 
       // Homelessness radios
@@ -112,7 +113,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
       );
       // eslint-disable-next-line cypress/no-unnecessary-waiting
       cy.wait(250); // wait for H3 focus before tabbing to radios
-      cy.tabToElement('input[name="root_informalConference"]');
+      cy.tabToElement('input[name="informalConference"]');
       cy.chooseRadio('rep');
       cy.tabToContinueForm();
 

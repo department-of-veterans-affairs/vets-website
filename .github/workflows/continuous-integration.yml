@@ -236,9 +236,23 @@ jobs:
         id: cypress-tests
         run: echo selected=$TESTS >> $GITHUB_OUTPUT
 
+      - name: Upload artifact of Cypress Tests to Test
+        if: ${{ steps.cypress-tests.outputs.selected == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-tests-to-test
+          path: e2e_tests_to_test.json
+
       - name: Set output of CYPRESS_TESTS_TO_STRESS_TEST
         id: cypress-tests-to-stress-test
         run: echo tests=$CYPRESS_TESTS_TO_STRESS_TEST >> $GITHUB_OUTPUT
+
+      - name: Upload artifact of Cypress Tests to Stress Test
+        if: ${{ steps.cypress-tests-to-stress-test.outputs.tests == 'true' }}
+        uses: ./.github/workflows/upload-artifact
+        with:
+          name: e2e-tests-to-stress-test
+          path: e2e_tests_to_stress_test.json
 
       - name: Set output of NUM_CONTAINERS
         id: containers
@@ -340,8 +354,6 @@ jobs:
           name: unit-test-report-${{ matrix.ci_node_index }}
           path: mocha/results
 
-      # - name: Generate coverage report by app
-      #   run: node script/app-coverage-report.js > test-results/coverage_report-${{ matrix.ci_node_index }}.txt
       - name: Rename Coverage Summary file
         if: ${{ env.NO_APPS_TO_RUN == 'false' }}
         run: |
@@ -361,7 +373,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: [fetch-allow-lists, tests-prep]
-    if: ${{ always() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
+    if: ${{ always() && !cancelled() && needs.tests-prep.outputs.unit-tests-to-stress-test == 'true' && github.ref != 'refs/heads/main' && needs.fetch-allow-lists.result == 'success' && needs.tests-prep.result == 'success' }}
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
@@ -405,7 +417,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level trace
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
@@ -742,6 +754,12 @@ jobs:
             .cache/yarn
             /github/home/.cache/Cypress
             node_modules
+            
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: e2e-tests-to-test
+          path: .
 
       - name: Check for newly added disallowed tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -794,7 +812,7 @@ jobs:
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success' &&
-      needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' &&
+      needs.tests-prep.outputs.cypress-tests-to-stress-test == 'true' &&
       github.ref != 'refs/heads/main'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node16.13.2-chrome100-ff98
@@ -810,11 +828,9 @@ jobs:
 
     steps:
       - name: Checkout vets-website
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
       - name: Configure AWS credentials
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/configure-aws-credentials
         with:
           aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
@@ -822,19 +838,16 @@ jobs:
           aws_region: us-gov-west-1
 
       - name: Download production build artifact
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
 
       - name: Unpack build
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: |
           mkdir -p build/vagovprod
           tar -C build/vagovprod -xjf vagovprod.tar.bz2
 
       - name: Install dependencies
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         uses: ./.github/workflows/install
         timeout-minutes: 20
         with:
@@ -846,30 +859,33 @@ jobs:
             node_modules
 
       - name: Start server
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
+      - name: Download Tests to verify
+        uses: ./.github/workflows/download-artifact
+        with:
+          name: e2e-tests-to-stress-test
+          path: .
+
       - name: Run Cypress tests
-        if: needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]'
         run: node script/github-actions/run-cypress-stress-tests.js
-        timeout-minutes: 90
+        timeout-minutes: 180
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
-          TESTS: ${{ needs.tests-prep.outputs.cypress-tests-to-stress-test }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: 1
           IS_STRESS_TEST: true
 
       - name: Archive test videos
-        if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
+        if: ${{ failure() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-videos-${{ matrix.ci_node_index }}
           path: cypress/videos
 
       - name: Archive Mochawesome test results
-        if: ${{ needs.tests-prep.outputs.cypress-tests-to-stress-test != '[]' && always() }}
+        if: ${{ always() }}
         uses: ./.github/workflows/upload-artifact
         with:
           name: cypress-stress-test-results-${{ matrix.ci_node_index }}
@@ -999,7 +1015,7 @@ jobs:
     name: Testing Reports - Unit Tests
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() }}
+    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure')}}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1229,7 +1245,7 @@ jobs:
     name: Testing Reports - Unit Tests Coverage
     runs-on: ubuntu-latest
     needs: [testing-reports-prep, unit-tests]
-    if: ${{ always() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
+    if: ${{ always() && !cancelled() && (needs.unit-tests.result == 'success' || needs.unit-tests.result == 'failure') }}
     continue-on-error: true
     env:
       APPLICATION_LIST: ${{ needs.testing-reports-prep.outputs.app_list }}
@@ -1596,7 +1612,7 @@ jobs:
           conclusion: ${{ needs.stress-test-cypress-tests.result }}
           output: |
             {"summary":${{ env.MOCHAWESOME_REPORT_RESULTS }}}
-
+  
   test-stability-review-merge-status:
     name: QA Merge Status
     runs-on: ubuntu-latest
@@ -1610,7 +1626,7 @@ jobs:
         update-e2e-allow-list,
         update-unit-test-allow-list,
       ]
-    if: ${{ always() && github.ref != 'refs/heads/main' }}
+    if: ${{ always() && !cancelled() && github.ref != 'refs/heads/main' }}
     continue-on-error: true
     steps:
       - name: Checkout

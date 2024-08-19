@@ -1,11 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
 
 @mixin schemaform-padding {
   // query borrowed from _m-schemaform.scss
   @media(max-width: 40.063em) {
-    padding-right: 2rem - .9375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
 }
 
@@ -41,7 +41,7 @@
 
   .usa-alert {
     .address-block h5 {
-      margin-top: 0.5rem;
+      margin-top: 0.3125rem;
     }
   }
 
@@ -62,7 +62,7 @@
       margin-top: 2em;
 
       &.va-modal-close {
-        margin-top: .25rem;
+        margin-top: 0.15625rem;
       }
 
       &.address-help-btn {
@@ -89,7 +89,7 @@
 
   .progress-bar-segmented {
     @include schemaform-padding;
-    padding-right: 2rem;
+    padding-right: 1.25rem;
   }
 
   .letters-address {
@@ -97,9 +97,9 @@
   }
 
   .accordion-header > button {
-    min-height: 6rem;
-    padding-bottom: 1.5rem;
-    padding-top: 1.5rem;
+    min-height: 3.75rem;
+    padding-bottom: 0.9375rem;
+    padding-top: 0.9375rem;
   }
 
   .download-button {
@@ -193,12 +193,12 @@ label + div {
 
 // Copied from .schemaform-chapter-progress
 .section-content {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
-    padding-left: 2rem - .9375rem;
-    padding-right: 2rem - .9375rem;
+    padding-left: 1.25rem - 0.5859375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
   > h4 {
     padding-bottom: 0 !important;

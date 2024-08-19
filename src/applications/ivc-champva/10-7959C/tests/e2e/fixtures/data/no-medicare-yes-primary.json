@@ -1,0 +1,43 @@
+{
+  "description": "No Medicare, one OHI (Medigap), US address (new), third party signer",
+  "data": {
+    "primaryAdditionalComments": "Primary comments",
+    "primaryMedigapPlan": "D",
+    "applicantPrimaryInsuranceType": "medigap",
+    "applicantPrimaryHasPrescription": false,
+    "applicantPrimaryThroughEmployer": true,
+    "applicantPrimaryProvider": "Primary Provider Name",
+    "applicantPrimaryEffectiveDate": "2000-01-01",
+    "applicantPrimaryExpirationDate": "2024-01-01",
+    "applicantHasPrimary": true,
+    "applicantHasSecondary": false,
+    "applicantMedicareStatus": false,
+    "applicantPhone": "6661231234",
+    "applicantGender": "male",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "123 Avenue Road",
+      "city": "Citytown",
+      "state": "CT",
+      "postalCode": "33322"
+    },
+    "applicantSsn": "222111234",
+    "applicantName": {
+      "first": "Applicant",
+      "last": "Jones",
+      "suffix": "IV"
+    },
+    "applicantNewAddress": "yes",
+    "missingUploads": [
+      {
+        "name": "primaryInsuranceCard",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
+  }
+}

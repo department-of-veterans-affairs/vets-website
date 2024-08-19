@@ -13,7 +13,7 @@ describe('Medical Records Care Summary Page', () => {
     NotesListPage.clickGotoNotesLink();
   });
 
-  it('Discharge Summary Details  ', () => {
+  it('Discharge Summary Details, DS with discharged date', () => {
     // should display Discharge Summary
     NotesDetailsPage.clickDischargeSummaryLink(4);
 

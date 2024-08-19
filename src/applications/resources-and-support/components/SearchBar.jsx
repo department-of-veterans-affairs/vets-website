@@ -115,29 +115,38 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
 
   return (
     <div className="vads-u-border-bottom--0 medium-screen:vads-u-border-top--2px vads-u-border-color--gray-light vads-u-padding-top--3 vads-u-padding-bottom--0 medium-screen:vads-u-padding-bottom--3">
-      <div className="vads-u-padding-x--1 large-screen:vads-u-padding-x--0">
+      <div>
         {/* Mobile expand/collapse */}
         <button
-          className={`${
-            expanded ? 'va-border-bottom-radius--0 ' : ''
-          }vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-padding-x--2 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none`}
+          className={classNames(
+            'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
+            { 'va-border-bottom-radius--0': expanded },
+          )}
           onClick={() => setExpanded(!expanded)}
           type="button"
         >
           Search resources and support
-          <i
-            className={`${
-              expanded ? 'vads-u-display--none ' : ''
-            }fa fa-sliders-h vads-u-font-size--base vads-u-color--primary-darker`}
-            id="sliders-icon"
-            aria-hidden="true"
+          <va-icon
+            class={classNames(
+              'vads-u-font-size--base vads-u-color--primary-darker',
+              {
+                'vads-u-display--none': expanded,
+                'vads-u-visibility--visible': !expanded,
+              },
+            )}
+            icon="add"
+            size="3"
           />
-          <i
-            className={`${
-              expanded ? '' : 'vads-u-display--none '
-            }fa fa-times vads-u-font-size--base vads-u-color--primary-darker`}
-            id="times-icon"
-            aria-hidden="true"
+          <va-icon
+            class={classNames(
+              'vads-u-font-size--base vads-u-color--primary-darker',
+              {
+                'vads-u-display--none': !expanded,
+                'vads-u-visibility--visible': expanded,
+              },
+            )}
+            icon="remove"
+            size="3"
           />
         </button>
         <div

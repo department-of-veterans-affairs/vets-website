@@ -120,7 +120,7 @@ function removeItem1() {
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('h2')
-    .should('contain', 'Are you sure you want to remove');
+    .should('contain', 'Delete');
   cy.get('va-modal[status="warning"]')
     .shadow()
     .get('.va-modal-alert-body va-button')

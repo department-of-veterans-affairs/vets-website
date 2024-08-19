@@ -28,15 +28,11 @@ $medium-phone-screen: 375px;
   }
 
   .va-modal {
-    font-size: 1.6rem;
+    font-size: 1rem;
   }
 
   #modal-crisisline {
     display: block;
-
-    p {
-      font-size: 100%;
-    }
   }
 
   #dashboard-title {
@@ -51,7 +47,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  @import "iconography";
   @import "modules/m-right-rail";
 
   section.usa-grid {
@@ -125,13 +120,6 @@ $medium-phone-screen: 375px;
     padding-bottom: 3em;
   }
 
-  h3,
-  h4 {
-    .fa {
-      padding-right: 0.35em;
-    }
-  }
-
   .merger-majorlinks {
     .link {
       margin-bottom: 1em;
@@ -153,23 +141,6 @@ $medium-phone-screen: 375px;
     li {
       list-style: none;
       margin: 0 0 1.375em 0;
-    }
-  }
-
-  .hub-main-title {
-    width: 90%;
-  }
-
-  .usa-grid {
-    .usa-width-two-thirds {
-      .hub-main-icon {
-        vertical-align: top;
-        margin-top: 8px;
-
-        > .icon-large {
-          margin-right: 10px;
-        }
-      }
     }
   }
 
@@ -289,7 +260,7 @@ $medium-phone-screen: 375px;
           font-weight: 600;
           padding-left: 0;
           margin-right: 1em;
-          background-position: right 1.5rem center;
+          background-position: right 0.9375rem center;
           line-height: unset;
 
           span {
@@ -336,8 +307,8 @@ $medium-phone-screen: 375px;
     }
 
     .va-navigation-nextprevious {
-      padding-left: 0.9375rem;
-      padding-right: 0.9375rem;
+      padding-left: 0.5859375rem;
+      padding-right: 0.5859375rem;
     }
   }
 
@@ -447,12 +418,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  .va-modal-close {
-    .fa {
-      color: inherit;
-    }
-  }
-
   .hub-links-container {
     flex: 1;
   }
@@ -486,6 +451,7 @@ $medium-phone-screen: 375px;
 
   .sign-in-link {
     margin: 0;
+    line-height: 16px;
 
     @include media($medium-screen) {
 
@@ -624,4 +590,8 @@ div[data-widget-type="events"] {
       display: none;
     }
   }
+}
+
+#content {
+  min-height: 150px;
 }

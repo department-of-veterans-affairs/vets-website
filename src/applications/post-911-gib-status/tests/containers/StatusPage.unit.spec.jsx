@@ -3,10 +3,10 @@ import { Provider } from 'react-redux';
 import { shallow, mount } from 'enzyme';
 import { expect } from 'chai';
 
+import createCommonStore from 'platform/startup/store';
 import StatusPage from '../../containers/StatusPage';
 
 import reducer from '../../reducers/index.js';
-import createCommonStore from 'platform/startup/store';
 
 const store = createCommonStore(reducer);
 const defaultProps = store.getState();
@@ -39,12 +39,12 @@ describe('<StatusPage>', () => {
         <StatusPage {...defaultProps} />
       </Provider>,
     );
-    expect(tree.find('.schemaform-title').text()).to.contain(
-      'Post-9/11 GI Bill Statement of Benefits',
+    expect(tree.find('h1').text()).to.equal(
+      'Your Post-9/11 GI Bill Statement of Benefits',
     );
-    expect(tree.find('.usa-button-primary').text()).to.contain(
-      'Get Printable Statement of Benefits',
-    );
+
+    expect(tree.find({ text: 'Get printable statement of benefits' }).exists());
+
     tree.unmount();
   });
 

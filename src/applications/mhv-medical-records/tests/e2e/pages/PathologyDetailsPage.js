@@ -22,10 +22,10 @@ class PathologyDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="pathology-location"]').should('contain', location);
   };
 
-  verifyDateCompleted = dateCompleted => {
-    cy.get('[data-testid="pathology-date-completed"]').should(
+  verifyLabComments = labComments => {
+    cy.get('[data-testid="pathology-lab-comments"]').should(
       'contain',
-      dateCompleted,
+      labComments,
     );
   };
 
@@ -37,6 +37,10 @@ class PathologyDetailsPage extends BaseDetailsPage {
       .invoke('attr', 'href')
       .should('contain', 'myhealth.va.gov/mhv-portal-web/compose-message');
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/compose-message
+  };
+
+  verifyReport = reportText => {
+    cy.get('[data-testid="pathology-report"]').should('contain', reportText);
   };
 }
 

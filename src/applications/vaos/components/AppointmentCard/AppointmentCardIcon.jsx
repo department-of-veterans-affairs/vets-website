@@ -18,7 +18,7 @@ const appointmentIcon = appointment => {
     isPendingAppointment,
   } = appointment.vaos;
 
-  if (isPhone) {
+  if (isPhone && !isPendingAppointment) {
     return 'phone';
   }
 

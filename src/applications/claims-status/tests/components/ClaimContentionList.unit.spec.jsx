@@ -35,4 +35,14 @@ describe('ClaimContentionList', () => {
 
     expect(noContentionsMessage).to.exist;
   });
+
+  it('should mask contentions in DataDog (no PII)', () => {
+    const { container } = render(
+      <ClaimContentionList contentions={mockContentions} />,
+    );
+
+    expect($('ul li', container).getAttribute('data-dd-privacy')).to.equal(
+      'mask',
+    );
+  });
 });

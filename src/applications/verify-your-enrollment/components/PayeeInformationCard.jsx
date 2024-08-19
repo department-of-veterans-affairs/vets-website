@@ -14,19 +14,23 @@ const PayeeInformationCard = ({
     A: 'Montgomery GI Bill (MGIB) – Selective Reserve (Chapter 1606)',
     B: 'Montgomery GI Bill (MGIB) – Active Duty (Chapter 30)',
     E: 'Reservist Educational Assistance Program (REAP) – (Chapter 1607)',
+    D: "Survivors' and Dependents' Educational Assistance (DEA) - (Chapter 35)",
   };
   return (
     <div
       className="medium-screen:vads-u-padding--4"
       id="benefits-gi-bill-profile-statement"
     >
-      <p className="vads-u-font-weight--bold">{title}</p>
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
+        {title}
+      </h3>
       {showAdditionalInformation && (
         <>
           {loading ? (
             <va-loading-indicator
               label="Loading"
               message="Loading applicant Name..."
+              aria-hidden="true"
             />
           ) : (
             <>

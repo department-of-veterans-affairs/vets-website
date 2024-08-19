@@ -69,11 +69,6 @@ export const ResultsList = ({
   const renderResultItems = (searchQuery, apiResults) => {
     return apiResults.map((result, index) => {
       let item;
-      const services = result?.attributes?.detailedServices;
-      const walkInsAccepted = Array.isArray(services)
-        ? services[0]?.walkInsAccepted
-        : 'false';
-
       const showHealthConnectNumber = isHealthAndHealthConnect(result, query);
 
       switch (searchQuery.facilityType) {
@@ -83,14 +78,7 @@ export const ResultsList = ({
         case 'vet_center':
           item =
             searchQuery.serviceType === Covid19Vaccine ? (
-              <Covid19Result
-                location={result}
-                key={result.id}
-                index={index}
-                showCovidVaccineWalkInAvailabilityText={
-                  (walkInsAccepted || '').toLowerCase() === 'true'
-                }
-              />
+              <Covid19Result location={result} key={result.id} index={index} />
             ) : (
               <VaFacilityResult
                 location={result}

@@ -2,8 +2,8 @@ import { SELECTED } from '../constants';
 
 export const validateRequireRatedDisability = (
   errors = {},
-  fieldData,
-  errorMsgs,
+  fieldData = [],
+  errorMsgs = {},
 ) => {
   if (!fieldData.some(entry => entry[SELECTED])) {
     // The actual validation error is displayed as an alert field. The message

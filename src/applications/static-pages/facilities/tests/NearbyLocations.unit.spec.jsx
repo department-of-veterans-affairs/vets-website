@@ -289,41 +289,92 @@ describe('NearbyVetCenters', () => {
     expect(wrapper.find('h2').exists()).to.be.false;
     wrapper.unmount();
   });
+});
+describe('automated', () => {
+  const automatedState = {
+    facility: { loading: false },
+    featureToggles: {
+      loading: false,
+    },
+  };
 
-  describe('automated', () => {
-    const automatedState = {
-      facility: { loading: false },
-      featureToggles: {
-        loading: false,
-      },
-    };
+  it('should render auto-fetched vet center', done => {
+    const fakeStore = createFakeStore(automatedState);
+    fetchedVetCenters.data[0].attributes.operatingStatus.code = 'NORMAL';
+    fetchedVetCenters.data[0].attributes.operatingStatus.additionalInfo = undefined;
+    mockApiRequest(fetchedVetCenters);
 
-    it('should render auto-fetched vet center', done => {
-      const fakeStore = createFakeStore(automatedState);
-      mockApiRequest(fetchedVetCenters);
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0434V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
 
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <NearbyVetCenters
-            mainVetCenterAddress={mainVetCenterAddress}
-            mainVetCenterId="vc_0434V"
-            mainVetCenterPhone="906-233-0244"
-          />
-        </Provider>,
-      );
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
+      expect(wrapper.find('VetCenterInfoSection')).to.exist;
+      expect(wrapper.find('va-alert-expandable').exists()).to.be.false;
+      wrapper.unmount();
+      done();
+    }, 0);
+  });
+  it('should render auto-fetched vet center with alert', done => {
+    const fakeStore = createFakeStore(automatedState);
+    fetchedVetCenters.data[0].attributes.operatingStatus.code = 'LIMITED';
+    fetchedVetCenters.data[0].attributes.operatingStatus.additionalInfo =
+      'Some information';
+    mockApiRequest(fetchedVetCenters);
 
-      // wait for useEffect
-      setTimeout(() => {
-        wrapper.update();
-        expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
-        expect(wrapper.find('VetCenterInfoSection')).to.exist;
-        expect(wrapper.find('ExpandableOperatingStatus')).to.exist;
-        wrapper.unmount();
-        done();
-      }, 0);
-    });
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0434V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
+
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
+      expect(wrapper.find('VetCenterInfoSection')).to.exist;
+      expect(wrapper.find('va-alert-expandable').exists()).to.be.true;
+      wrapper.unmount();
+      done();
+    }, 0);
+  });
+  it('should render no nearby vet center with alert', done => {
+    const fakeStore = createFakeStore(automatedState);
+    mockApiRequest(fetchedVetCenters);
+
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0441V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
+
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('#other-near-locations-not-found')).to.exist;
+      wrapper.unmount();
+      done();
+    }, 0);
   });
 });
+
 describe('NearbyVALocations', () => {
   it('should render spinner while any subset of multiLoading is loading', () => {
     const state = {
@@ -384,56 +435,56 @@ describe('NearbyVALocations', () => {
     expect(wrapper.find('p').text()).to.equal('No nearby VA locations found.');
     wrapper.unmount();
   });
+});
 
-  describe('automated', () => {
-    const automatedState = {
-      facility: {
-        multiLoading: { Health: false, VetCenter: false, Cemetery: false },
-        multidata: {
-          Health: {
-            data: fetchedVALocationsData.map(d => ({ ...d, source: 'Health' })),
-          },
-          VetCenter: {
-            data: [],
-          },
-          Cemetery: {
-            data: [],
-          },
+describe('automated', () => {
+  const automatedState = {
+    facility: {
+      multiLoading: { Health: false, VetCenter: false, Cemetery: false },
+      multidata: {
+        Health: {
+          data: fetchedVALocationsData.map(d => ({ ...d, source: 'Health' })),
+        },
+        VetCenter: {
+          data: [],
+        },
+        Cemetery: {
+          data: [],
         },
       },
-      featureToggles: {
-        loading: false,
-      },
-    };
+    },
+    featureToggles: {
+      loading: false,
+    },
+  };
 
-    it('should render auto-fetched VA Facility', done => {
-      const fakeStore = createFakeStore(automatedState);
-      mockApiRequest({ data: fetchedVALocationsData });
+  it('should render auto-fetched VA Facility', done => {
+    const fakeStore = createFakeStore(automatedState);
+    mockApiRequest({ data: fetchedVALocationsData });
 
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <NearByVALocations
-            mainAddress={mainVALocationAddress}
-            mainFacilityApiId="vba_325"
-            mainPhone="800-827-1000"
-          />
-        </Provider>,
-      );
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearByVALocations
+          mainAddress={mainVALocationAddress}
+          mainFacilityApiId="vba_325"
+          mainPhone="800-827-1000"
+        />
+      </Provider>,
+    );
 
-      // wait for useEffect
-      setTimeout(() => {
-        wrapper.update();
-        const el = wrapper.find('va-link').first();
-        const props = el.props();
-        expect(props).to.deep.equal({
-          href:
-            'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
-          text: 'Cleveland VA Clinic-Euclid',
-        });
-        wrapper.unmount();
-        done();
-      }, 100);
-    });
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      const el = wrapper.find('va-link').first();
+      const props = el.props();
+      expect(props).to.deep.equal({
+        href:
+          'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
+        text: 'Cleveland VA Clinic-Euclid',
+      });
+      wrapper.unmount();
+      done();
+    }, 100);
   });
 });
 describe('VAFacilityInfoSection', () => {

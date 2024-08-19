@@ -28,12 +28,14 @@ import {
   selectSidenavFlag,
   selectVaccinesFlag,
   selectVitalsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
   const user = useSelector(selectUser);
   const userServices = user.profile.services;
+  const hasMhvAccount = user.profile.mhvAccountState !== 'NONE';
 
   const { featureTogglesLoading, appEnabled } = useSelector(
     flagsLoadedAndMhvEnabled,
@@ -49,6 +51,7 @@ const App = ({ children }) => {
   const showNotes = useSelector(selectNotesFlag);
   const showVaccines = useSelector(selectVaccinesFlag);
   const showVitals = useSelector(selectVitalsFlag);
+  const showSettingsPage = useSelector(selectSettingsPageFlag);
 
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
@@ -62,6 +65,17 @@ const App = ({ children }) => {
   );
   const globalDowntime = useSelector(
     state => state.scheduledDowntime?.globalDowntime,
+  );
+
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
   );
 
   const mhvMrDown = useMemo(
@@ -97,7 +111,7 @@ const App = ({ children }) => {
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
-    defaultPrivacyLevel: 'mask-user-input',
+    defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
 
@@ -122,12 +136,7 @@ const App = ({ children }) => {
             //   path: '/download-all',
             //   label: 'Download all medical records',
             //   datatestid: 'download-your-medical-records-sidebar',
-            // },
-            // {
-            //   path: '/settings',
-            //   label: 'Medical records settings',
-            //   datatestid: 'settings-sidebar',
-            // },
+            // }
           ],
         },
       ];
@@ -152,10 +161,23 @@ const App = ({ children }) => {
         'Health conditions',
       );
       addSideNavItem(navPaths, showVitals, '/vitals', 'Vitals');
+      addSideNavItem(
+        navPaths,
+        showSettingsPage,
+        '/settings',
+        'Medical records settings',
+      );
 
       setPaths(navPaths);
     },
-    [showConditions, showLabsAndTests, showNotes, showVaccines, showVitals],
+    [
+      showConditions,
+      showLabsAndTests,
+      showNotes,
+      showVaccines,
+      showVitals,
+      showSettingsPage,
+    ],
   );
 
   useEffect(
@@ -202,14 +224,18 @@ const App = ({ children }) => {
   );
 
   const isMissingRequiredService = (loggedIn, services) => {
-    if (loggedIn && !services.includes(backendServices.MEDICAL_RECORDS)) {
+    if (
+      loggedIn &&
+      hasMhvAccount &&
+      !services.includes(backendServices.MEDICAL_RECORDS)
+    ) {
       window.location.replace('/health-care/get-medical-records');
       return true;
     }
     return false;
   };
 
-  if (featureTogglesLoading) {
+  if (featureTogglesLoading || user.profile.loading) {
     return (
       <div className="vads-l-grid-container">
         <va-loading-indicator
@@ -255,7 +281,7 @@ const App = ({ children }) => {
           ) : (
             <>
               <MrBreadcrumbs />
-              <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+              <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
                 {showSideNav && (
                   <>
                     <Navigation paths={paths} data-testid="mhv-mr-navigation" />

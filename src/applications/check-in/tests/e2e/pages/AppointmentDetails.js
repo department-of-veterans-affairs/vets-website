@@ -13,28 +13,18 @@ class AppointmentDetails {
       .and('include.text', 'Phone appointment');
   };
 
-  validateSubtitleInPerson = () => {
-    cy.get('p[data-testid="in-person-appointment-subtitle"]').should(
-      'be.visible',
-    );
-  };
-
-  validateSubtitlePhone = () => {
-    cy.get('p[data-testid="phone-appointment-subtitle"]').should('be.visible');
-  };
-
   validateWhen = () => {
-    cy.get('div[data-testid="appointment-details--when"]').should('be.visible');
-    cy.get('div[data-testid="appointment-details--date-value"]').should(
+    cy.get('[data-testid="appointment-details--when"]').should('be.visible');
+    cy.get('[data-testid="appointment-details--date-value"]').should(
       'be.visible',
     );
   };
 
   validateProvider = () => {
-    cy.get('div[data-testid="appointment-details--provider"]').should(
+    cy.get('[data-testid="appointment-details--provider"]').should(
       'be.visible',
     );
-    cy.get('div[data-testid="appointment-details--provider-value"]').should(
+    cy.get('[data-testid="appointment-details--provider-value"]').should(
       'be.visible',
     );
   };
@@ -49,45 +39,41 @@ class AppointmentDetails {
 
   validateFacilityAddress = visible => {
     if (visible) {
-      cy.get('div[data-testid="address-block"]').should('be.visible');
+      cy.get('[data-testid="address-block"]').should('be.visible');
     } else {
-      cy.get('div[data-testid="address-block"]').should('not.exist');
+      cy.get('[data-testid="address-block"]').should('not.exist');
     }
   };
 
   validateNeedToMakeChanges = () => {
-    cy.get(
-      'div[data-testid="appointment-details--need-to-make-changes"]',
-    ).should('be.visible');
+    cy.get('[data-testid="appointment-details--need-to-make-changes"]').should(
+      'be.visible',
+    );
   };
 
   validateWhere = () => {
-    cy.get('div[data-testid="appointment-details--where"]').should(
+    cy.get('[data-testid="appointment-details--where"]').should('be.visible');
+    cy.get('[data-testid="appointment-details--clinic-value"]').should(
       'be.visible',
     );
-    cy.get('div[data-testid="appointment-details--clinic-value"]').should(
-      'be.visible',
-    );
-    cy.get('div[data-testid="appointment-details--facility-value"]').should(
+    cy.get('[data-testid="appointment-details--facility-value"]').should(
       'be.visible',
     );
 
-    cy.get('div[data-testid="appointment-details--location-value"]').should(
+    cy.get('[data-testid="appointment-details--location-value"]').should(
       'be.visible',
     );
   };
 
   validatePhone = () => {
-    cy.get('div[data-testid="appointment-details--phone"]').should(
-      'be.visible',
-    );
-    cy.get('div[data-testid="appointment-details--phone-value"]').should(
+    cy.get('[data-testid="appointment-details--phone"]').should('be.visible');
+    cy.get('[data-testid="appointment-details--phone-value"]').should(
       'be.visible',
     );
   };
 
   validateAppointmentMessage = () => {
-    cy.get('div[data-testid="appointment-message"]').should('be.visible');
+    cy.get('[data-testid="appointment-message"]').should('be.visible');
   };
 
   validateCheckedInMessage = () => {
@@ -97,7 +83,7 @@ class AppointmentDetails {
   };
 
   validateNoAppointmentMessage = () => {
-    cy.get('div[data-testid="appointment-message"]').should('not.exist');
+    cy.get('[data-testid="appointment-message"]').should('not.exist');
   };
 
   validateCheckInButton = () => {
@@ -125,6 +111,16 @@ class AppointmentDetails {
     cy.get('button[data-testid="back-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  clickReview = () => {
+    cy.get('[data-testid="review-information-button"] a').click({
+      waitForAnimations: true,
+    });
+  };
+
+  clickToResourcePage = () => {
+    cy.get('[data-testid=what-to-bring-link]').click();
   };
 }
 

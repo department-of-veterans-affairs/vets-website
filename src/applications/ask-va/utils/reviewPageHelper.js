@@ -58,3 +58,76 @@ export const getPageKeysForReview = config => {
   const titles = pages.map(item => Object.keys(item[1].pages));
   return titles.flat();
 };
+
+export function createPageListByChapterAskVa(formConfig, pagesToMoveConfig) {
+  const pagesByChapter = {};
+  const modifiedFormConfig = {
+    chapters: {},
+  };
+
+  // Process each chapter in pagesToMoveConfig
+  Object.keys(pagesToMoveConfig).forEach(targetChapter => {
+    if (!pagesByChapter[targetChapter]) {
+      pagesByChapter[targetChapter] = [];
+      modifiedFormConfig.chapters[targetChapter] = {
+        pages: {},
+        expandedPages: [],
+      };
+    }
+
+    pagesToMoveConfig[targetChapter].forEach(pageKey => {
+      Object.keys(formConfig.chapters).forEach(chapterKey => {
+        const chapter = formConfig.chapters[chapterKey];
+        if (chapter.pages && chapter.pages[pageKey]) {
+          const page = {
+            ...chapter.pages[pageKey],
+            pageKey,
+            chapterKey: targetChapter,
+          };
+
+          pagesByChapter[targetChapter].push(page);
+          modifiedFormConfig.chapters[targetChapter].pages[pageKey] = page;
+          modifiedFormConfig.chapters[targetChapter].expandedPages.push(page);
+        }
+      });
+    });
+  });
+
+  // Extra check for dupes
+  Object.keys(pagesByChapter).forEach(chapter => {
+    pagesByChapter[chapter] = Array.from(
+      new Map(
+        pagesByChapter[chapter].map(page => [page.pageKey, page]),
+      ).values(),
+    );
+
+    modifiedFormConfig.chapters[chapter].pages = Array.from(
+      new Map(
+        Object.entries(modifiedFormConfig.chapters[chapter].pages),
+      ).values(),
+    ).reduce((acc, page) => {
+      acc[page.pageKey] = page;
+      return acc;
+    }, {});
+
+    modifiedFormConfig.chapters[chapter].expandedPages = Array.from(
+      new Map(
+        modifiedFormConfig.chapters[chapter].expandedPages.map(page => [
+          page.pageKey,
+          page,
+        ]),
+      ).values(),
+    );
+  });
+
+  return { pagesByChapter, modifiedFormConfig };
+}
+
+export function getChapterFormConfigAskVa(modifiedFormConfig, chapterName) {
+  const chapterFormConfig = modifiedFormConfig.chapters[chapterName];
+  if (!chapterFormConfig) {
+    throw new Error(`Chapter "${chapterName}" does not exist in formConfig.`);
+  }
+
+  return chapterFormConfig;
+}

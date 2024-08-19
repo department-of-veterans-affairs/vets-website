@@ -113,13 +113,23 @@ const FolderThreadListView = props => {
           updatePageTitle(`${folder.name} ${PageTitles.PAGE_TITLE_TAG}`);
         }
         if (folder.folderId !== threadSort?.folderId) {
-          dispatch(
-            setThreadSortOrder(
-              threadSortingOptions.SENT_DATE_DESCENDING.value,
-              folder.folderId,
-              1,
-            ),
-          );
+          if (location.pathname === Paths.DRAFTS) {
+            dispatch(
+              setThreadSortOrder(
+                threadSortingOptions.DRAFT_DATE_DESCENDING.value,
+                folder.folderId,
+                1,
+              ),
+            );
+          } else {
+            dispatch(
+              setThreadSortOrder(
+                threadSortingOptions.SENT_DATE_DESCENDING.value,
+                folder.folderId,
+                1,
+              ),
+            );
+          }
           // updates page title
         } else {
           dispatch(

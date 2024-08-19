@@ -6,8 +6,9 @@ import routes from './routes';
 import './sass/health-care-supply-reordering.scss';
 
 startApp({
-  url: manifest.rootUrl,
+  analyticsEvents: [],
+  entryName: manifest.entryName,
   reducer,
   routes,
-  analyticsEvents: [],
+  url: manifest.rootUrl,
 });

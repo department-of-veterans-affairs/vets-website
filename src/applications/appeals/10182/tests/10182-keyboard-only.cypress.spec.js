@@ -28,7 +28,7 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
 
       cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-      });
+      }).as('getIssues');
       cy.visit(
         '/decision-reviews/board-appeal/request-board-appeal-form-10182',
       );
@@ -39,6 +39,8 @@ describe.skip('Notice of Disagreement keyboard only navigation', () => {
       // target action links
       cy.tabToElement('.vads-c-action-link--green');
       cy.realPress('Enter');
+
+      cy.wait('@getIssues');
 
       // Veteran details
       cy.url().should(

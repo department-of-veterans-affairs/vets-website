@@ -605,7 +605,7 @@ export const DISABILITY_SHARED_CONFIG = {
   },
   ratedDisabilities: {
     path: 'disabilities/rated-disabilities',
-    depends: formData => isClaimingIncrease(formData) && !isBDD(formData),
+    depends: formData => isClaimingIncrease(formData),
   },
   addDisabilities: {
     path: 'new-disabilities/add',
@@ -754,7 +754,9 @@ export const formTitle = title => (
  * @returns {string} markup with h4 tag and consistent styling
  */
 export const formSubtitle = subtitle => (
-  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2 vads-u-color--gray-dark">
+    {subtitle}
+  </h4>
 );
 
 /**

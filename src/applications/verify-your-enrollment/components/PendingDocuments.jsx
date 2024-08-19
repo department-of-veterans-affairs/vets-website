@@ -46,6 +46,7 @@ const PendingDocuments = ({ loading, pendingDocuments }) => {
           <va-loading-indicator
             label="Loading"
             message="Loading Pending Documents..."
+            aria-hidden="true"
           />
         )}
         {!loading && pendingDocuments?.length > 0 && handlePendingDocuments()}

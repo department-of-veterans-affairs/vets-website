@@ -1,8 +1,10 @@
 import {
   radioSchema,
   radioUI,
-} from '@department-of-veterans-affairs/platform-forms-system/src/js/web-component-patterns/radioPattern';
-import FormElementTitle from '../../../components/FormElementTitle';
+} from 'platform/forms-system/src/js/web-component-patterns';
+import PageFieldSummary from '../../../components/PageFieldSummary';
+// Temp remove for research-testing
+// import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
 import {
   CHAPTER_2,
   questionAboutDescriptions,
@@ -11,12 +13,15 @@ import {
 
 const questionAboutPage = {
   uiSchema: {
-    'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_1.TITLE }),
+    // 'ui:description': SignInMayBeRequired,
+    'ui:objectViewField': PageFieldSummary,
     questionAbout: {
       ...radioUI({
-        title: CHAPTER_2.PAGE_1.QUESTION_1,
+        title: CHAPTER_2.PAGE_1.TITLE,
+        labelHeaderLevel: '3',
         labels: questionAboutLabels,
         descriptions: questionAboutDescriptions,
+        required: () => true,
       }),
     },
   },
@@ -24,7 +29,7 @@ const questionAboutPage = {
     type: 'object',
     required: ['questionAbout'],
     properties: {
-      questionAbout: radioSchema(Object.keys(questionAboutLabels)),
+      questionAbout: radioSchema(Object.values(questionAboutLabels)),
     },
   },
 };

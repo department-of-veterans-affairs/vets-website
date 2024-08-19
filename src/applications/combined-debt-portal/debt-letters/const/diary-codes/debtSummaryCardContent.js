@@ -1,18 +1,35 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { endDate } from '../../utils/helpers';
 
-const TriangleIcon = () => (
-  <>
-    <i aria-hidden="true" className="fas fa-exclamation-triangle icon-right" />
-    <span className="sr-only">important</span>
-  </>
+const WarningIcon = () => (
+  <va-icon
+    icon="warning"
+    size={3}
+    class="icon-color--warning vads-u-padding-right--1"
+    srtext="Important"
+  />
 );
-const CircleIcon = () => (
-  <>
-    <i aria-hidden="true" className="fas fa-info-circle icon-right" />
-    <span className="sr-only">informational</span>
-  </>
+const InfoIcon = () => (
+  <va-icon
+    icon="info"
+    size={3}
+    class="icon-color--info vads-u-padding-right--1"
+    srtext="Informational"
+  />
 );
+
+const DebtSummaryMessage = ({ IconComponent, children }) => (
+  <div className="vads-u-display--flex vads-u-margin-bottom--1p5">
+    <IconComponent />
+    <p className="vads-u-margin-y--0">{children}</p>
+  </div>
+);
+
+DebtSummaryMessage.propTypes = {
+  IconComponent: PropTypes.elementType.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
   const endDateText = endDate(dateOfLetter, diaryCode);
@@ -20,32 +37,23 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
   switch (diaryCode) {
     case '71':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Contact us to verify your military status
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Contact us to verify your military status.
+        </DebtSummaryMessage>
       );
     case '655':
     case '817':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Submit a Financial Status Report so that we can make a decision on
-            your request
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Submit a Financial Status Report so that we can make a decision on
+          your request.
+        </DebtSummaryMessage>
       );
     case '212':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Contact us to update your address
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Contact us to update your address.
+        </DebtSummaryMessage>
       );
     case '061':
     case '065':
@@ -55,107 +63,73 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '448':
     case '453':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            We’ve paused collection on this debt as you requested
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’ve paused collection on this debt as you requested.
+        </DebtSummaryMessage>
       );
     case '439': // TODO: Date logic TBD
     case '449':
     case '459': // This one is 30 days
-      return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by {endDateText}
-          </p>
-        </div>
-      );
-    case '109':
-      return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by {endDateText}
-            to avoid more interest charges
-          </p>
-        </div>
-      );
     case '100': // TODO: Date Not Listed
     case '102':
     case '130':
     case '140':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help by {endDateText}.
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your balance now or request help by <strong>{endDateText}</strong>
+          .
+        </DebtSummaryMessage>
+      );
+    case '109':
+      return (
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your {balance} balance now or request help by {endDateText}
+          to avoid more interest charges.
+        </DebtSummaryMessage>
       );
     case '117':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} past due balance in full or request help before{' '}
-            {endDateText}
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your {balance} past due balance in full or request help before{' '}
+          {endDateText}.
+        </DebtSummaryMessage>
       );
     case '123':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} past due balance now or request help by{' '}
-            {endDateText}
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your {balance} past due balance now or request help by{' '}
+          {endDateText}.
+        </DebtSummaryMessage>
       );
     case '680':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your {balance} balance now or request help
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your {balance} balance now or request help.{' '}
+        </DebtSummaryMessage>
       );
     case '681':
     case '682':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            The U.S. Department of the Treasury is offsetting your federal
-            payments until your debt is paid
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          The U.S. Department of the Treasury is reducing your federal payments
+          until your debt is paid.
+        </DebtSummaryMessage>
       );
     // case '18': Passthrough status for a CRA referral being made
     case '600':
     case '601':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments until your balance is paid
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments until your balance is paid.
+        </DebtSummaryMessage>
       );
     case '430':
     case '431':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            We’re offsetting your education benefits each month until your debt
-            is paid
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’re reducing your education benefits each month until your debt is
+          paid.
+        </DebtSummaryMessage>
       );
     case '101':
     case '450':
@@ -168,24 +142,18 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '615':
     case '617':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            We’re offsetting your benefit payments each month until your debt is
-            paid
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’re reducing your benefit payments each month until your debt is
+          paid.
+        </DebtSummaryMessage>
       );
     case '603': // TODO: Date Not Listed
     case '613':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Make a payment on your {balance} balance or request help by{' '}
-            {endDateText}
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Make a payment on your {balance} balance or request help by{' '}
+          {endDateText}.
+        </DebtSummaryMessage>
       );
     // case '122': TODO: Passthrough status for a CRA referral being made
     case '080':
@@ -194,41 +162,31 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '860':
     case '855':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Contact the U.S. Department of the Treasury to pay this debt
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Contact the U.S. Department of the Treasury’s Debt Management Services
+          at <va-telephone contact="8008270648" />, 8:30 a.m. to 6:30 p.m. ET.
+          to pay this debt.
+        </DebtSummaryMessage>
       );
     case '811':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments while we review your compromise
-            offer
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments while we review your compromise
+          offer.
+        </DebtSummaryMessage>
       );
     case '815': // TODO: Date Not Listed
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <TriangleIcon />
-          <p className="vads-u-margin-y--0">
-            Pay your one time payment as part of your compromise agreement by{' '}
-            {endDateText}
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          Pay your one time payment as part of your compromise agreement by{' '}
+          {endDateText}.
+        </DebtSummaryMessage>
       );
     case '816':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            We’re processing your compromise offer payment
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’re processing your compromise offer payment.
+        </DebtSummaryMessage>
       );
     case '801':
     case '802':
@@ -237,42 +195,39 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '809':
     case '820':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments while we review your waiver request
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments while we review your waiver request.
+        </DebtSummaryMessage>
       );
     // case '818', '819', '830', '842' Omitted
     case '822':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments while we review your dispute
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments while we review your dispute.
+        </DebtSummaryMessage>
       );
     case '825':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments while we review your request for a
-            hearing
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments while we review your request for a
+          hearing.
+        </DebtSummaryMessage>
       );
     case '821':
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">
-            Continue making monthly payments while we review your Notice of
-            Disagreement
-          </p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          Continue making monthly payments while we review your Notice of
+          Disagreement.
+        </DebtSummaryMessage>
+      );
+    case '481':
+    case '482':
+    case '483':
+    case '484':
+      return (
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’re reviewing your account.
+        </DebtSummaryMessage>
       );
     case '002':
     case '005':
@@ -284,22 +239,6 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '421':
     case '422':
     case '627':
-      return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">We’re updating your account</p>
-        </div>
-      );
-    case '481':
-    case '482':
-    case '483':
-    case '484':
-      return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">We’re reviewing your account</p>
-        </div>
-      );
     case '425': // ok - defined in spreadsheet
     case '081': // TODO: No Definition in mockup
     case '500':
@@ -307,10 +246,9 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '503':
     default:
       return (
-        <div className="vads-u-display--flex vads-u-align-items--baseline vads-u-margin-bottom--1p5">
-          <CircleIcon />
-          <p className="vads-u-margin-y--0">We’re updating your account.</p>
-        </div>
+        <DebtSummaryMessage IconComponent={InfoIcon}>
+          We’re updating your account.
+        </DebtSummaryMessage>
       );
   }
 };

@@ -5,38 +5,30 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import mockThreadResponse from './fixtures/single-draft-response.json';
-import { AXE_CONTEXT, Data, Locators } from './utils/constants';
+import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {
-  const site = new SecureMessagingSite();
-  const inboxPage = new PatientInboxPage();
-  const draftsPage = new PatientMessageDraftsPage();
   it(' Delete Existing Draft', () => {
-    site.login();
-    inboxPage.loadInboxMessages();
-    draftsPage.loadDraftMessages(mockDraftMessages, mockDraftResponse);
-    draftsPage.loadMessageDetails(mockDraftResponse, mockThreadResponse);
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientMessageDraftsPage.loadDraftMessages(
+      mockDraftMessages,
+      mockDraftResponse,
+    );
+    PatientMessageDraftsPage.loadMessageDetails(
+      mockDraftResponse,
+      mockThreadResponse,
+    );
     PatientInterstitialPage.getContinueButton().should('not.exist');
-    draftsPage.clickDeleteButton();
+    PatientMessageDraftsPage.clickDeleteButton();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
-    draftsPage.confirmDeleteDraft(mockDraftResponse, false);
-    draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDeleteConfirmationHasFocus();
-    cy.get(Locators.FOLDERS.DRAFTS)
-      .find('a')
-      .should('have.class', Data.IS_ACTIVE);
-    draftsPage.verifyDraftMessageBannerTextHasFocus();
+    cy.axeCheck(AXE_CONTEXT);
+
+    PatientMessageDraftsPage.confirmDeleteDraft(mockDraftResponse);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDeleteConfirmationButton();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-        'color-contrast': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

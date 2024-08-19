@@ -65,7 +65,7 @@ export const RadioCategories = {
     value: 'MEDICATIONS',
     label: 'Medication',
     description:
-      'Request to renew a medication or ask a question about medication',
+      'Request to renew a prescription or ask a question about medication',
   },
   TEST_RESULTS: {
     id: 'category-test',

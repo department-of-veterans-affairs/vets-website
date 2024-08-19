@@ -4,30 +4,28 @@ import mockMessages from './fixtures/messages-response.json';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Reply', () => {
   it('Axe Check Message Reply', () => {
-    const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const testMessage = landingPage.getNewMessageDetails();
-    landingPage.loadInboxMessages(mockMessages, testMessage);
+    SecureMessagingSite.login();
+    const testMessage = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientMessageDetailsPage.loadMessageDetails(testMessage);
+    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    PatientReplyPage.getMessageBodyField().type('Test message body', {
+    PatientReplyPage.getMessageBodyField().type('\nTest message body', {
       force: true,
     });
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     PatientReplyPage.clickSendReplyMessageDetailsButton(testMessage);
+    cy.get(Locators.SPINNER).should('be.visible');
     PatientReplyPage.verifySendMessageConfirmationMessageText();
     PatientReplyPage.verifySendMessageConfirmationHasFocus();
-    // PatientReplyPage.verifySendMessageConfirmationMessageHasFocus();
+    cy.get(Locators.SPINNER).should('not.exist');
   });
 });

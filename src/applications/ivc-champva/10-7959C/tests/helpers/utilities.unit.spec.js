@@ -1,6 +1,11 @@
 import { expect } from 'chai';
-import { isRequiredFile, nameWording } from '../../helpers/utilities';
+import {
+  isRequiredFile,
+  nameWording,
+  getObjectsWithAttachmentId,
+} from '../../helpers/utilities';
 import { requiredFiles } from '../../config/constants';
+import { concatStreets } from '../../../shared/utilities';
 
 describe('isRequiredFile', () => {
   it("should return '(Required)' if required file in formContext", () => {
@@ -45,5 +50,37 @@ describe('nameWording', () => {
         false, // capitalize
       ),
     ).to.equal('John William Ferrell');
+  });
+});
+
+describe('getObjectsWithAttachmentId', () => {
+  it('should return list of objects with the `attachmentId` property', () => {
+    const objectList = [
+      [{ attachmentId: '1' }],
+      [{ name: 'abc' }],
+      [{ attachmentId: '2' }],
+    ];
+    expect(getObjectsWithAttachmentId(objectList).length).to.equal(2);
+  });
+});
+
+describe('concatStreets function', () => {
+  it('should concatenate all streets together', () => {
+    const addr = {
+      street: '123 St',
+      street2: 'Unit 1C',
+      street3: 'Apt A',
+      state: 'MD',
+    };
+    expect(concatStreets(addr).trim()).to.equal(
+      `${addr.street} ${addr.street2} ${addr.street3}`,
+    );
+  });
+  it('should return single street(1) value if no 2 and 3 are present', () => {
+    const addr = {
+      street: '123 St',
+      state: 'MD',
+    };
+    expect(concatStreets(addr).trim()).to.equal(`${addr.street}`);
   });
 });

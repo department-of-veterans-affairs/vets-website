@@ -37,6 +37,7 @@ describe('Compose form component', () => {
       triageTeams: { triageTeams },
       categories: { categories },
       recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -57,6 +58,7 @@ describe('Compose form component', () => {
       categories: { categories },
       threadDetails: { ...threadDetailsReducer.threadDetails },
       recipients: {
+        allRecipients: noBlockedRecipients.mockAllRecipients,
         allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
         blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
         associatedTriageGroupsQty:
@@ -149,8 +151,8 @@ describe('Compose form component', () => {
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const sendButton = await screen.getByTestId('send-button');
+    const saveDraftButton = await screen.getByTestId('save-draft-button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -159,7 +161,7 @@ describe('Compose form component', () => {
   it('displays error states on empty fields when send button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = screen.getByTestId('Send-Button');
+    const sendButton = screen.getByTestId('send-button');
 
     fireEvent.click(sendButton);
 
@@ -232,9 +234,36 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('Send-Button'));
+    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
       expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+  });
+
+  it('renders sending message spinner without errors', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.exist;
     });
   });
 
@@ -246,7 +275,7 @@ describe('Compose form component', () => {
     });
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
     });
     expect(saveDraftSpy.calledOnce).to.be.true;
   });
@@ -337,7 +366,7 @@ describe('Compose form component', () => {
     let modal = null;
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
       modal = screen.getByTestId('quit-compose-double-dare');
     });
 
@@ -408,7 +437,7 @@ describe('Compose form component', () => {
         path: Paths.COMPOSE,
       },
     );
-    const val = initialState.sm.recipients.allowedRecipients[0].name;
+    const val = initialState.sm.recipients.allowedRecipients[0].id;
     selectVaSelect(screen.container, val);
     waitFor(() => {
       expect(screen.getByTestId('compose-recipient-select')).to.have.value(val);
@@ -542,6 +571,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: oneBlockedRecipient.mockAllRecipients,
           allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
           blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -586,6 +616,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: twoBlockedRecipients.mockAllRecipients,
           allowedRecipients: twoBlockedRecipients.mockAllowedRecipients,
           blockedRecipients: twoBlockedRecipients.mockBlockedRecipients,
           blockedFacilities: [],
@@ -629,6 +660,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: lostAssociation.mockAllRecipients,
           allowedRecipients: lostAssociation.mockAllowedRecipients,
           blockedRecipients: lostAssociation.mockBlockedRecipients,
           associatedTriageGroupsQty: lostAssociation.associatedTriageGroupsQty,
@@ -669,6 +701,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: noAssociationsAtAll.mockAllRecipients,
           allowedRecipients: noAssociationsAtAll.mockAllowedRecipients,
           blockedRecipients: noAssociationsAtAll.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -723,7 +756,7 @@ describe('Compose form component', () => {
         );
       }
     });
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
   it('displays BlockedTriageGroupAlert if blocked from one facility', async () => {
@@ -732,6 +765,7 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
+          allRecipients: blockedFacility.mockAllRecipients,
           allowedRecipients: blockedFacility.mockAllowedRecipients,
           blockedRecipients: blockedFacility.mockBlockedRecipients,
           blockedFacilities: blockedFacility.mockBlockedFacilities,
@@ -769,6 +803,7 @@ describe('Compose form component', () => {
       sm: {
         ...initialState.sm,
         recipients: {
+          allRecipients: blockedFacilityAndTeam.mockAllRecipients,
           allowedRecipients: blockedFacilityAndTeam.mockAllowedRecipients,
           blockedRecipients: blockedFacilityAndTeam.mockBlockedRecipients,
           blockedFacilities: blockedFacilityAndTeam.mockBlockedFacilities,
@@ -812,6 +847,7 @@ describe('Compose form component', () => {
       sm: {
         ...draftState.sm,
         recipients: {
+          allRecipients: allBlockedAssociations.mockAllRecipients,
           allowedRecipients: allBlockedAssociations.mockAllowedRecipients,
           blockedRecipients: allBlockedAssociations.mockBlockedRecipients,
           associatedTriageGroupsQty:
@@ -844,6 +880,43 @@ describe('Compose form component', () => {
       'trigger',
       "You can't send messages to your care teams right now",
     );
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
+  });
+
+  it('displays an alert and Digital Signature component if signature is required', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm recipients={initialState.sm.recipients} />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    const val = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, val);
+
+    const digitalSignature = await screen.findByText('Digital signature', {
+      selector: 'h2',
+    });
+    expect(digitalSignature).to.exist;
+    const alert = screen.getByTestId('signature-alert');
+    expect(alert).to.have.attribute('visible', 'true');
+    expect(alert.textContent).to.contain(Prompts.Compose.SIGNATURE_REQUIRED);
+    const signatureTextFieldSelector = 'va-text-input[label="Your full name"]';
+    const signatureTextField = screen.container.querySelector(
+      signatureTextFieldSelector,
+    );
+    inputVaTextInput(
+      screen.container,
+      'Test$# User',
+      signatureTextFieldSelector,
+    );
+    expect(signatureTextField).to.have.attribute(
+      'error',
+      'You entered a character we can’t accept. Try removing $, #',
+    );
+    inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
+    expect(signatureTextField).to.have.attribute('error', '');
   });
 });

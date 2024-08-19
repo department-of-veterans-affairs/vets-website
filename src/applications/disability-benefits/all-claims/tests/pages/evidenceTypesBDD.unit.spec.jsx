@@ -1,13 +1,15 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
-import { mount } from 'enzyme';
-import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { render } from '@testing-library/react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import { HasEvidenceLabel } from '../../content/evidenceTypesBDD';
+import {
+  $,
+  $$,
+} from '@department-of-veterans-affairs/platform-forms-system/ui';
 import formConfig from '../../config/form';
 
 describe('evidenceTypes', () => {
@@ -17,7 +19,7 @@ describe('evidenceTypes', () => {
   } = formConfig.chapters.supportingEvidence.pages.evidenceTypesBDD;
 
   it('should render', () => {
-    const form = mount(
+    render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -27,13 +29,12 @@ describe('evidenceTypes', () => {
       />,
     );
 
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+    expect($$('va-radio-option').length).to.equal(2);
   });
 
   it('should submit when no evidence selected', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -46,16 +47,16 @@ describe('evidenceTypes', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    form.unmount();
+    expect($('va-radio').error).to.be.null;
   });
 
   /* TODO: Fix with https://github.com/department-of-veterans-affairs/va.gov-team/issues/58050 */
   it.skip('should require at least one evidence type when evidence selected', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -68,15 +69,15 @@ describe('evidenceTypes', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
-    expect(onSubmit.called).to.be.false;
-    expect(form.find('.usa-input-error-message').length).to.equal(1);
-    form.unmount();
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
+    expect(onSubmit.calledOnce).to.be.false;
+    expect($('va-radio').error).to.eq('Please provide a response');
   });
 
   it('should submit with all required info', () => {
     const onSubmit = sinon.spy();
-    const form = mount(
+    const { getByText } = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
@@ -94,18 +95,10 @@ describe('evidenceTypes', () => {
       />,
     );
 
-    form.find('form').simulate('submit');
+    const submitButton = getByText('Submit');
+    userEvent.click(submitButton);
     expect(onSubmit.calledOnce).to.be.true;
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    form.unmount();
-  });
-
-  it('should display default evidence label when BDD SHA is not enabled', () => {
-    const screen = render(<HasEvidenceLabel />);
-
-    screen.getByText(
-      'Do you want to upload any other documents or evidence at this time?',
-    );
+    expect($('va-radio').error).to.be.null;
   });
 
   it('should display alert when BDD SHA enabled and user selects no, submit info later', () => {
@@ -113,7 +106,7 @@ describe('evidenceTypes', () => {
       featureToggles: {},
     }));
 
-    const screen = render(
+    const { getByText, container } = render(
       <Provider store={fakeStore}>
         <DefinitionTester
           definitions={formConfig.defaultDefinitions}
@@ -125,12 +118,14 @@ describe('evidenceTypes', () => {
       </Provider>,
     );
 
-    userEvent.click(
-      screen.getByLabelText('No, I will submit more information later'),
-    );
+    $('va-radio', container).__events.vaValueChange({
+      detail: { value: 'N' },
+    });
 
-    screen.getByText(
-      'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
-    );
+    expect(
+      getByText(
+        'Submit your Separation Health Assessment - Part A Self-Assessment as soon as you can',
+      ),
+    ).to.exist;
   });
 });

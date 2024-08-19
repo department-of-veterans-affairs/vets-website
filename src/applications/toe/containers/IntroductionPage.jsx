@@ -3,26 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { getIntroState } from 'platform/forms/save-in-progress/selectors';
-import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 import IntroductionLogin from '../components/IntroductionLogin';
 
 import { getAppData } from '../selectors';
-import { START_APPLICATION_TEXT } from '../constants';
 
-export const IntroductionPage = ({
-  isLOA3,
-  isLoggedIn,
-  isPersonalInfoFetchComplete,
-  isPersonalInfoFetchFailed,
-  isSponsorsFetchComplete,
-  showMeb1990EMaintenanceAlert,
-  route,
-  user,
-}) => {
-  const apiCallsComplete =
-    isPersonalInfoFetchComplete && isSponsorsFetchComplete;
-
+export const IntroductionPage = ({ route, user }) => {
   return (
     <div className="schemaform-intro">
       <h1>Apply to use transferred education benefits</h1>
@@ -36,21 +22,6 @@ export const IntroductionPage = ({
         <strong>Transfer of Entitlement for Post-9/11 GI Bill</strong> (Chapter
         33) education benefits.
       </p>
-
-      {isLoggedIn &&
-      isPersonalInfoFetchFailed === false && // Ensure the error didn't occur.
-      showMeb1990EMaintenanceAlert === false && // Ensure the mainenance flag is not on.
-        apiCallsComplete &&
-        isLOA3 && (
-          <SaveInProgressIntro
-            buttonOnly
-            user={user}
-            prefillEnabled={route.formConfig.prefillEnabled}
-            messages={route.formConfig.savedFormMessages}
-            pageList={route.pageList}
-            startText={START_APPLICATION_TEXT}
-          />
-        )}
 
       <h2 className="vads-u-font-size--h3">
         Follow these steps to get started
@@ -148,11 +119,5 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.array,
   }).isRequired,
-  isLOA3: PropTypes.bool,
-  isLoggedIn: PropTypes.bool,
-  isPersonalInfoFetchComplete: PropTypes.bool,
-  isPersonalInfoFetchFailed: PropTypes.bool,
-  isSponsorsFetchComplete: PropTypes.bool,
-  showMeb1990EMaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };

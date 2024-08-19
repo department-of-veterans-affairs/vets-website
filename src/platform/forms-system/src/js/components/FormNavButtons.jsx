@@ -42,3 +42,22 @@ FormNavButtons.propTypes = {
 };
 
 export default FormNavButtons;
+
+export const FormNavButtonContinue = ({ goForward, submitToContinue }) => (
+  <div className="row form-progress-buttons schemaform-buttons vads-u-margin-y--2">
+    <div className="medium-8 columns">
+      <ProgressButton
+        submitButton={submitToContinue}
+        onButtonClick={goForward}
+        buttonText="Continue"
+        buttonClass="usa-button-primary"
+        afterText="»"
+      />
+    </div>
+  </div>
+);
+
+FormNavButtonContinue.propTypes = {
+  goForward: propTypes.func,
+  submitToContinue: propTypes.bool,
+};

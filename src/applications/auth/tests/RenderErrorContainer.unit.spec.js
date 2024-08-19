@@ -36,7 +36,7 @@ describe('RenderErrorContainer', () => {
 
   it('should render generic content if codes dont match', () => {
     const wrapper = shallow(<RenderErrorContainer auth="fail" code="900" />);
-    expect(wrapper.find('Helpdesk').exists()).to.be.true;
+    expect(wrapper.find('ContactCenterInformation').exists()).to.be.true;
     expect(wrapper.find('[data-testid="error-code"]').text()).to.include('900');
     wrapper.unmount();
   });
@@ -64,7 +64,7 @@ describe('RenderErrorContainer', () => {
         />,
       );
 
-      const button = wrapper.find('button');
+      const button = wrapper.find('va-button');
       button.simulate('click');
 
       expect(renderOptions.openLoginModal.called).to.be.true;

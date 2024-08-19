@@ -8,9 +8,9 @@ const CC_PROVIDER = 'Community providers (in VA’s network)';
 const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
-  MentalHealthCare: 'Mental health care',
+  MentalHealth: 'Mental health care',
   Covid19Vaccine: 'COVID-19 vaccine',
-  DentalServices: 'Dental services',
+  Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',
@@ -100,20 +100,20 @@ describe('Facility VA search', () => {
   beforeEach(() => {
     cy.intercept('GET', '/v0/feature_toggles?*', { data: { features: [] } });
     cy.intercept('GET', '/v0/maintenance_windows', []);
-    cy.intercept('GET', '/facilities_api/v1/ccp/specialties', mockServices).as(
+    cy.intercept('GET', '/facilities_api/v2/ccp/specialties', mockServices).as(
       'mockServices',
     );
     cy.intercept(
       'GET',
-      '/facilities_api/v1/ccp/provider?**',
+      '/facilities_api/v2/ccp/provider?**',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesCCP');
     cy.intercept(
-      'GET',
-      '/facilities_api/v1/va?type=**',
+      'POST',
+      '/facilities_api/v2/va',
       mockFacilitiesSearchResultsV1,
     ).as('searchFacilitiesVA');
-    cy.intercept('GET', '/facilities_api/v1/va/vba**', mockFacilityDataV1).as(
+    cy.intercept('GET', '/facilities_api/v2/va/vba_**', mockFacilityDataV1).as(
       'facilityDetail',
     );
   });
@@ -164,7 +164,7 @@ describe('Facility VA search', () => {
         cy.get('.facility-result a').should('exist');
         cy.intercept(
           'GET',
-          '/v1/facilities/va/vha_674BY',
+          '/facilities_api/v2/va/vha_674BY',
           mockFacilitiesSearchResultsV1,
         ).as('fetchFacility');
 
@@ -208,7 +208,7 @@ describe('Facility VA search', () => {
 
   it('shows search result header even when no results are found', () => {
     cy.visit('/find-locations');
-    cy.intercept('GET', '/facilities_api/v1/ccp/provider?**', {
+    cy.intercept('GET', '/facilities_api/v2/ccp/provider?**', {
       data: [],
       meta: { pagination: { totalEntries: 0 } },
     }).as('searchFacilities');
@@ -242,7 +242,9 @@ describe('Facility VA search', () => {
       .shadow()
       .find('select')
       .select('VA benefits');
-    cy.get('#facility-search').click({ waitForAnimations: true });
+    cy.get('#facility-search').click({
+      waitForAnimations: true,
+    });
     cy.get('#search-results-subheader').contains(
       'Results for "VA benefits", "All VA benefit services" near "Los Angeles, California"',
     );
@@ -257,7 +259,9 @@ describe('Facility VA search', () => {
       selector: 'a',
     })
       .first()
-      .click({ waitForAnimations: true });
+      .click({
+        waitForAnimations: true,
+      });
 
     // Note - we're using mock data so the names don't match.
     cy.get('h1').contains('Austin VA Clinic');
@@ -301,7 +305,7 @@ describe('Facility VA search', () => {
     cy.get('#search-results-subheader').contains(
       'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
     );
-    cy.get('.search-result-emergency-care-subheader').should('exist');
+    cy.get('#emergency-care-info-note').should('exist');
     cy.get('.facility-result h3 a').contains('Alexandria Vet Center');
 
     cy.injectAxe();

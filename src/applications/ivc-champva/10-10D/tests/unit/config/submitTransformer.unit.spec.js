@@ -2,35 +2,9 @@ import { expect } from 'chai';
 import formConfig from '../../../config/form';
 import transformForSubmit from '../../../config/submitTransformer';
 import mockData from '../../e2e/fixtures/data/test-data.json';
+import { REQUIRED_FILES } from '../../../config/constants';
 
 describe('transform for submit', () => {
-  it('should adjust zip code keyname', () => {
-    const transformed = JSON.parse(
-      transformForSubmit(formConfig, {
-        data: {
-          sponsorAddress: { postalCode: '12345' },
-        },
-      }),
-    );
-    expect(transformed.veteran.address.postal_code).to.not.equal(undefined);
-  });
-  it('should adjust zip code keyname for applicants', () => {
-    const zip = '12345';
-    const transformed = JSON.parse(
-      transformForSubmit(formConfig, {
-        data: {
-          applicants: [
-            {
-              applicantAddress: {
-                postalCode: zip,
-              },
-            },
-          ],
-        },
-      }),
-    );
-    expect(transformed.applicants[0].address.postal_code).to.equal(zip);
-  });
   it('should return passed in relationship if already flat', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, {
@@ -60,7 +34,7 @@ describe('transform for submit', () => {
     const transformed = JSON.parse(
       transformForSubmit(formConfig, { data: {} }),
     );
-    expect(transformed.veteran.ssn_or_tin).to.equal('');
+    expect(transformed.veteran.ssnOrTin).to.equal('');
   });
   it('should format certifier information', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
@@ -72,14 +46,15 @@ describe('transform for submit', () => {
   });
   it('should attach applicant name to each uploaded file', () => {
     const modified = JSON.parse(JSON.stringify(mockData));
-    modified.data.applicants[0].applicantMedicareCardFront = [
+    const fileKey = Object.keys(REQUIRED_FILES)[0]; // grab a file we expect to be uploaded
+    modified.data.applicants[0][fileKey] = [
       {
         name: 'file.png',
       },
     ];
     const transformed = JSON.parse(transformForSubmit(formConfig, modified));
-    expect(transformed.supporting_docs[0].applicantName.first).to.equal(
-      transformed.applicants[0].full_name.first,
+    expect(transformed.supportingDocs[0].applicantName.first).to.equal(
+      transformed.applicants[0].applicantName.first,
     );
   });
   it('should set sponsor info as primary contact if certifierRole == sponsor', () => {
@@ -122,15 +97,20 @@ describe('transform for submit', () => {
       certifierCert.data.certifierPhone,
     );
   });
-  it('should set first applicant info as primary contact if certifierRole == applicant', () => {
+  it('should set first applicant info as primary contact if no applicants have an email address and certifierRole == applicant', () => {
     const appCert = {
       data: {
         certifierRole: 'applicant',
         applicants: [
           {
-            applicantAddress: {},
+            applicantAddress: { street: 'fake' },
             applicantName: { first: 'Jack', last: 'Applicant' },
             applicantPhone: '1231231234',
+          },
+          {
+            applicantAddress: { street: 'fake' },
+            applicantName: { first: 'John', last: 'Applicant' },
+            applicantPhone: '555333222',
           },
         ],
       },
@@ -151,5 +131,44 @@ describe('transform for submit', () => {
       transformForSubmit(formConfig, { data: {} }),
     );
     expect(transformed.primaryContactInfo.name.first).to.be.false;
+  });
+  it('should set primary contact to first applicant with an email if certifierRole == applicant', () => {
+    const appCert = {
+      data: {
+        certifierRole: 'applicant',
+        applicants: [
+          {
+            applicantAddress: { street: 'fake' },
+            applicantName: { first: 'First', last: 'Applicant' },
+            applicantPhone: '5554443333',
+          },
+          {
+            applicantAddress: { street: 'fake' },
+            applicantName: { first: 'Second', last: 'Applicant' },
+            applicantPhone: '1112223333',
+            applicantEmailAddress: 'second@applicant.com',
+          },
+          {
+            applicantAddress: { street: 'fake' },
+            applicantName: { first: 'Third', last: 'Applicant' },
+            applicantPhone: '5552223333',
+            applicantEmailAddress: 'third@applicant.com',
+          },
+        ],
+      },
+    };
+    const transformed = JSON.parse(transformForSubmit(formConfig, appCert));
+    expect(transformed.primaryContactInfo.name.first).to.equal(
+      appCert.data.applicants[1].applicantName.first,
+    );
+    expect(transformed.primaryContactInfo.name.last).to.equal(
+      appCert.data.applicants[1].applicantName.last,
+    );
+    expect(transformed.primaryContactInfo.phone).to.equal(
+      appCert.data.applicants[1].applicantPhone,
+    );
+    expect(transformed.primaryContactInfo.email).to.equal(
+      appCert.data.applicants[1].applicantEmailAddress,
+    );
   });
 });

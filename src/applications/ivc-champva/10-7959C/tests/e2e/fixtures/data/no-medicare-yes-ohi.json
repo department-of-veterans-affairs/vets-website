@@ -1,0 +1,65 @@
+{
+  "description": "No Medicare, both OHIs (Medigap), US address (new), third party signer",
+  "data": {
+    "secondaryAdditionalComments": "Secondary comment",
+    "secondaryMedigapPlan": "D",
+    "applicantSecondaryInsuranceType": "medigap",
+    "applicantSecondaryEOB": true,
+    "applicantSecondaryHasPrescription": true,
+    "applicantSecondaryThroughEmployer": true,
+    "applicantSecondaryProvider": "Secondary Provider Name",
+    "applicantSecondaryEffectiveDate": "2020-10-03",
+    "applicantSecondaryExpirationDate": "2023-06-02",
+    "applicantHasSecondary": true,
+    "primaryAdditionalComments": "Additional primary comment",
+    "primaryMedigapPlan": "B",
+    "applicantPrimaryInsuranceType": "medigap",
+    "applicantPrimaryEOB": false,
+    "applicantPrimaryHasPrescription": true,
+    "applicantPrimaryThroughEmployer": true,
+    "applicantPrimaryProvider": "Primary Provider Name",
+    "applicantPrimaryEffectiveDate": "2001-01-02",
+    "applicantPrimaryExpirationDate": "2020-03-03",
+    "applicantHasPrimary": true,
+    "applicantMedicareStatus": false,
+    "applicantPhone": "5551112222",
+    "applicantGender": "male",
+    "applicantAddress": {
+      "country": "USA",
+      "street": "456 Street Avenue",
+      "city": "Cityland",
+      "state": "CA",
+      "postalCode": "43212"
+    },
+    "applicantNewAddress": "yes",
+    "applicantSsn": "333221111",
+    "applicantName": {
+      "first": "Applicant",
+      "last": "Jones",
+      "suffix": "Sr."
+    },
+    "missingUploads": [
+      {
+        "name": "primaryInsuranceCard",
+        "path": "insurance-upload",
+        "required": true,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceScheduleOfBenefits",
+        "path": "secondary-insurance-sob",
+        "required": false,
+        "uploaded": false
+      },
+      {
+        "name": "secondaryInsuranceCard",
+        "path": "secondary-insurance-card-upload",
+        "required": true,
+        "uploaded": false
+      }
+    ],
+    "consentToMailMissingRequiredFiles": true,
+    "certifierRole": "other",
+    "signature": "Certifier Jones"
+  }
+}

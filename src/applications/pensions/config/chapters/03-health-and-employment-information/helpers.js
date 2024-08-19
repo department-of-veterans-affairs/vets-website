@@ -10,10 +10,8 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import ListItemView from '../../../components/ListItemView';
-import {
-  getJobTitleOrType,
-  updateMultiresponseUiOptions,
-} from '../../../helpers';
+import { getJobTitleOrType } from '../../../helpers';
+import ArrayDescription from '../../../components/ArrayDescription';
 
 export function hasFederalTreatmentHistory(formData) {
   return formData.federalTreatmentHistory === true;
@@ -81,9 +79,11 @@ export const generateMedicalCentersSchemas = (
 ) => {
   return {
     uiSchema: {
-      ...titleUI(medicalCentersTitle),
+      ...titleUI(
+        medicalCentersTitle,
+        <ArrayDescription message={medicalCenterMessage} />,
+      ),
       [medicalCentersKey]: {
-        'ui:title': medicalCenterMessage,
         'ui:options': {
           itemName: 'Medical center',
           itemAriaLabel: data => data.medicalCenter,
@@ -94,7 +94,8 @@ export const generateMedicalCentersSchemas = (
           confirmRemove: true,
           useDlWrap: true,
           useVaCards: true,
-          updateSchema: updateMultiresponseUiOptions,
+          showSave: true,
+          reviewMode: true,
         },
         items: {
           medicalCenter: {
@@ -146,12 +147,11 @@ const generateEmployersUISchema = ({
   showJobDateField,
   showJobTitleField,
 }) => ({
-  ...titleUI(employersTitle),
+  ...titleUI(employersTitle, <ArrayDescription message={employerMessage} />),
   [employersKey]: {
-    'ui:title': employerMessage,
     'ui:options': {
       itemName: 'Job',
-      itemAriaLabel: data => getJobTitleOrType(data.jobTitle),
+      itemAriaLabel: data => getJobTitleOrType(data),
       viewField: EmployerView,
       reviewTitle: employersReviewTitle,
       keepInPageOnReview: true,
@@ -159,7 +159,8 @@ const generateEmployersUISchema = ({
       confirmRemove: true,
       useDlWrap: true,
       useVaCards: true,
-      updateSchema: updateMultiresponseUiOptions,
+      showSave: true,
+      reviewMode: true,
     },
     items: {
       ...(showJobDateField && {
@@ -264,3 +265,54 @@ export const generateEmployersSchemas = ({
     }),
   };
 };
+
+export function MedicalConditionDescription() {
+  return (
+    <div>
+      <p>
+        We need to know about any medical conditions that prevent you from
+        working.
+      </p>
+      <p>
+        A medical condition is an illness or injury that affects your mind or
+        body. It doesn't have to be service connected.
+      </p>
+      <va-additional-info
+        trigger="How we define a medical condition that prevents you from working"
+        uswds
+      >
+        <div>
+          <p>
+            If your medical condition prevents you from working, both of these
+            must be true:
+          </p>
+          <ul>
+            <li>
+              Your medical condition is reasonably certain to continue
+              throughout your lifetime, <strong>and</strong>
+            </li>
+            <li>
+              Your medical condition makes it impossible to be gainfully
+              employed
+            </li>
+          </ul>
+        </div>
+      </va-additional-info>
+    </div>
+  );
+}
+
+export function MedicalEvidenceNotice() {
+  return (
+    <div>
+      <p>
+        Based on your answer, you’ll need to submit additional evidence about
+        your medical condition or disability.
+      </p>
+      <p>
+        We’ll give you instructions for submitting your additional evidence at
+        the end of this application.
+      </p>
+    </div>
+  );
+}
