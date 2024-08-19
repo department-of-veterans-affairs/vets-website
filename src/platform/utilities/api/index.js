@@ -163,15 +163,13 @@ export function apiRequest(resource, optionalSettings, success, error) {
 
   return apiRequestWithResponse(resource, optionalSettings)
     .then(response => {
-      const data = isJson(response)
-        ? response.json()
-        : Promise.resolve(response);
-
       if (response.ok || response.status === 304) {
-        return data;
+        if (isJson(response)) return response.json();
+        return response;
       }
 
-      return data.then(Promise.reject.bind(Promise));
+      if (isJson(response)) return response.json().then(v => Promise.reject(v));
+      return Promise.reject(response);
     })
     .then(success)
     .catch(error);
