@@ -5,18 +5,21 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { URLS } from '../utils/navigation';
 
 import {
   getAppointmentId,
   organizeAppointmentsByYearMonthDay,
 } from '../utils/appointment';
 
+import ListWrapper from './ListWrapper';
 import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
 
 const UpcomingAppointmentsList = props => {
   const { router, app, upcomingAppointments } = props;
-  const { jumpToPage } = useFormRouting(router);
+  const { jumpToPage, getCurrentPageFromRouter } = useFormRouting(router);
   const { t } = useTranslation();
+  const page = getCurrentPageFromRouter();
 
   const groupedAppointments = organizeAppointmentsByYearMonthDay(
     upcomingAppointments,
@@ -27,7 +30,13 @@ const UpcomingAppointmentsList = props => {
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav', app),
     });
-    jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    if (page === URLS.UPCOMING_APPOINTMENTS) {
+      jumpToPage(
+        `upcoming-appointment-details/${getAppointmentId(appointment)}`,
+      );
+    } else {
+      jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    }
   };
 
   if (groupedAppointments.length < 1) {
@@ -56,7 +65,10 @@ const UpcomingAppointmentsList = props => {
     );
   }
   return (
-    <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light">
+    <div
+      data-testid="upcoming-appointments-list"
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light"
+    >
       {groupedAppointments.map(month => {
         const { firstAppointmentStartTime, days } = month;
         const monthDate = new Date(firstAppointmentStartTime);
@@ -87,9 +99,10 @@ const UpcomingAppointmentsList = props => {
                       </h4>
                     </div>
                     <div className="vads-l-col--10 vads-u-border-top--1px vads-u-border-color--gray-light">
-                      <ul
+                      <ListWrapper
+                        count={appointments.length}
                         className="vads-u-margin-bottom--3 check-in--appointment-list appointment-list"
-                        data-testid="appointment-list"
+                        testId="appointment-list"
                       >
                         {appointments.map((appointment, number) => {
                           return (
@@ -100,10 +113,11 @@ const UpcomingAppointmentsList = props => {
                               router={router}
                               border={number !== appointments.length - 1}
                               app={app}
+                              count={appointments.length}
                             />
                           );
                         })}
-                      </ul>
+                      </ListWrapper>
                     </div>
                   </div>
                 </div>

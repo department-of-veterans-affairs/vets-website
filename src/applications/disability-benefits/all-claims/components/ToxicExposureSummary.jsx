@@ -38,10 +38,8 @@ export function ToxicExposureSummary({
             return (
               checkboxes[item] === true && (
                 <li key={item}>
-                  <h5 className="vads-u-font-size--h6">
-                    {checkboxDefinitions[item]}
-                  </h5>
-                  <p className="vads-u-margin-y--1">
+                  <strong>{checkboxDefinitions[item]}</strong>
+                  <p className="vads-u-margin-y--0">
                     {datesDescription(toxicExposure[datesObjectName][item])}
                   </p>
                 </li>
@@ -50,10 +48,8 @@ export function ToxicExposureSummary({
           })}
         {otherFieldDescription && (
           <li key="other">
-            <strong className="vads-u-font-size--h6">
-              {toxicExposure[otherObjectName].description}
-            </strong>
-            <p className="vads-u-margin-y--1">
+            <strong>{toxicExposure[otherObjectName].description}</strong>
+            <p className="vads-u-margin-y--0">
               {datesDescription(toxicExposure[otherObjectName])}
             </p>
           </li>

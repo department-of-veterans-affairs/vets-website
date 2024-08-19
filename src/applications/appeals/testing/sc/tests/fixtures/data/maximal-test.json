@@ -29,6 +29,13 @@
     },
     "benefitType": "compensation",
     "view:primaryPhone": "home",
+    "housingRisk": true,
+    "livingSituation": {
+      "other": true
+    },
+    "pointOfContactName": "John Doe",
+    "pointOfContactPhone": "8005551212",
+    "otherHousingRisks": "Lorem ipsum",
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -82,6 +89,8 @@
       }
     ],
     "socOptIn": true,
+    "mstOption": true,
+    "vhaNotification": "revoke",
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
     "locations": [
