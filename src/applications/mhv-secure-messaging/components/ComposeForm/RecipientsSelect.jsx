@@ -40,6 +40,8 @@ const RecipientsSelect = ({
   defaultValue,
   error,
   isSignatureRequired,
+  setCheckboxMarked,
+  setElectronicSignature,
 }) => {
   const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
@@ -61,9 +63,16 @@ const RecipientsSelect = ({
     () => {
       if (selectedRecipient) {
         onValueChange(selectedRecipient);
+        setCheckboxMarked(false);
+        setElectronicSignature('');
       }
     },
-    [selectedRecipient],
+    [
+      onValueChange,
+      selectedRecipient,
+      setCheckboxMarked,
+      setElectronicSignature,
+    ],
   );
 
   const handleRecipientSelect = useCallback(

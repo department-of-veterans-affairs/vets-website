@@ -85,6 +85,8 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
+  const [signatureInvalid, setSignatureInvalid] = useState(false);
+  const [checkboxInvalid, setCheckboxInvalid] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -262,11 +264,15 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (messageInvalid) {
+      if (
+        messageInvalid ||
+        (isSignatureRequired && signatureInvalid) ||
+        (isSignatureRequired && checkboxInvalid)
+      ) {
         focusOnErrorField();
       }
     },
-    [messageInvalid],
+    [checkboxInvalid, isSignatureRequired, messageInvalid, signatureInvalid],
   );
 
   useEffect(
@@ -275,7 +281,7 @@ const ComposeForm = props => {
         focusElement(lastFocusableElement);
       }
     },
-    [alertStatus],
+    [alertStatus, lastFocusableElement],
   );
 
   const recipientExists = useCallback(
@@ -360,7 +366,9 @@ const ComposeForm = props => {
         checkboxValid = false;
       }
 
-      setMessageInvalid(!messageValid || !signatureValid || !checkboxValid);
+      setMessageInvalid(!messageValid);
+      setSignatureInvalid(!signatureValid);
+      setCheckboxInvalid(!checkboxValid);
       return { messageValid, signatureValid, checkboxValid };
     },
     [
@@ -371,6 +379,7 @@ const ComposeForm = props => {
       isSignatureRequired,
       electronicSignature,
       checkboxMarked,
+      setMessageInvalid,
     ],
   );
 
@@ -384,7 +393,6 @@ const ComposeForm = props => {
 
       if (type === 'manual') {
         setLastFocusableElement(e?.target);
-        setMessageInvalid(false);
 
         // if all checks are valid, then save the draft
         if (
@@ -458,26 +466,24 @@ const ComposeForm = props => {
       }
     },
     [
-      attachments.length,
-      category,
       checkMessageValidity,
-      debouncedCategory,
-      debouncedMessageBody,
-      debouncedRecipient,
-      debouncedSubject,
-      dispatch,
       draft,
-      fieldsString,
-      messageBody,
+      debouncedRecipient,
       selectedRecipient,
+      debouncedCategory,
+      category,
+      debouncedSubject,
       subject,
+      debouncedMessageBody,
+      messageBody,
+      fieldsString,
       isSignatureRequired,
+      saveError,
+      setUnsavedNavigationError,
+      attachments.length,
       electronicSignature,
       checkboxError,
-      setUnsavedNavigationError,
-      setNavigationError,
-      setSaveError,
-      saveError,
+      dispatch,
     ],
   );
 
@@ -602,7 +608,12 @@ const ComposeForm = props => {
         setUnsavedNavigationError();
       }
     },
-    [setRecipientError, setUnsavedNavigationError],
+    [
+      setRecipientError,
+      setUnsavedNavigationError,
+      setCheckboxMarked,
+      setElectronicSignature,
+    ],
   );
 
   const subjectHandler = e => {
@@ -787,6 +798,8 @@ const ComposeForm = props => {
                 error={recipientError}
                 defaultValue={+selectedRecipient}
                 isSignatureRequired={isSignatureRequired}
+                setCheckboxMarked={setCheckboxMarked}
+                setElectronicSignature={setElectronicSignature}
               />
             )}
 
@@ -890,6 +903,7 @@ const ComposeForm = props => {
               onInput={electronicSignatureHandler}
               onCheckboxCheck={electronicCheckboxHandler}
               checked={checkboxMarked}
+              electronicSignature={electronicSignature}
             />
           )}
 

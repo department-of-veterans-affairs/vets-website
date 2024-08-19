@@ -41,6 +41,8 @@ describe('RecipientsSelect', () => {
       <RecipientsSelect
         recipientsList={recipientsList}
         onValueChange={onValueChange}
+        setCheckboxMarked={() => {}}
+        setElectronicSignature={() => {}}
       />,
     );
     const select = wrapper.find('VaSelect');
@@ -75,6 +77,8 @@ describe('RecipientsSelect', () => {
       <RecipientsSelect
         recipientsList={recipientsList}
         onValueChange={() => {}}
+        setCheckboxMarked={() => {}}
+        setElectronicSignature={() => {}}
       />,
     );
     const select = wrapper.find('VaSelect');

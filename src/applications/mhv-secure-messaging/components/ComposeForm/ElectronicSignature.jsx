@@ -9,6 +9,7 @@ const ElectronicSignature = ({
   checkboxError,
   onCheckboxCheck,
   checked,
+  electronicSignature,
 }) => {
   return (
     <>
@@ -30,6 +31,7 @@ const ElectronicSignature = ({
           error={nameError}
           onInput={onInput}
           required
+          value={electronicSignature}
         />
         <VaCheckbox
           class="vads-u-width--full"
@@ -37,6 +39,7 @@ const ElectronicSignature = ({
           label={ElectronicSignatureBox.CHECKBOX_LABEL}
           onVaChange={onCheckboxCheck}
           required
+          checked={checked}
         />
       </va-card>
     </>
