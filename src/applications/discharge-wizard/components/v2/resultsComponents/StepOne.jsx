@@ -36,14 +36,13 @@ const StepOne = ({ formResponses }) => {
   /* eslint-enable quote-props */
   const strongCaseTips = () => {
     if (specialReason) {
-      const { name } = reasonsObj[reason];
-      const { type } = reasonsObj[reason];
+      const { name, type } = reasonsObj[reason];
       return (
-        <div>
-          <span>
+        <>
+          <p>
             For discharges related to {name}, be sure to answer these questions
             to make the strongest case:
-          </span>
+          </p>
           <ul>
             <li>
               Did you have {type === 'experience' ? 'an' : 'a'} {type} that may
@@ -65,7 +64,7 @@ const StepOne = ({ formResponses }) => {
               may have been discharged for?
             </li>
           </ul>
-        </div>
+        </>
       );
     }
     return null;
