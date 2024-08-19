@@ -62,7 +62,8 @@ export const getContent = (appName = 'application') => ({
         updates or information about your {appName} to this address.
       </p>
       <p>
-        <strong>Note:</strong> Any updates you make here will only be reflected in this form.
+        <strong>Note:</strong> Any updates you make here will only be reflected
+        in this form.
       </p>
     </>
   ),

@@ -231,17 +231,17 @@ class SchemaForm extends React.Component {
 
 SchemaForm.propTypes = {
   name: PropTypes.string.isRequired,
-  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   schema: PropTypes.object.isRequired,
+  title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]).isRequired,
   uiSchema: PropTypes.object.isRequired,
-  data: PropTypes.any,
-  appStateData: PropTypes.object,
-  reviewMode: PropTypes.bool,
-  editModeOnReviewPage: PropTypes.bool,
-  onSubmit: PropTypes.func,
-  onChange: PropTypes.func,
-  hideTitle: PropTypes.bool,
   addNameAttribute: PropTypes.bool,
+  appStateData: PropTypes.object,
+  data: PropTypes.any,
+  editModeOnReviewPage: PropTypes.bool,
+  hideTitle: PropTypes.bool,
+  reviewMode: PropTypes.bool,
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 SchemaForm.defaultProps = {
