@@ -84,10 +84,10 @@ const UpcomingAppointmentsPage = props => {
         status="error"
       >
         <h3 className="vads-u-margin-top--0">
-          {t('we-cant-access-appointments')}
+          {t('were-sorry-weve-run-into-a-problem')}
         </h3>
         <p className="vads-u-margin-bottom--0">
-          {t('were-sorry-theres-a-problem-with-system')}
+          {t('were-having-trouble-getting-your-upcoming-appointments')}
         </p>
       </va-alert>
     );
@@ -99,24 +99,26 @@ const UpcomingAppointmentsPage = props => {
           app={app}
           upcomingAppointments={upcomingAppointments}
         />
-        <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-padding-top--1p5 vads-u-padding-bottom--5">
-          <p data-testid="update-text">
-            <Trans
-              i18nKey="latest-update"
-              components={{ bold: <strong /> }}
-              values={{ date: new Date() }}
+        {upcomingAppointments.length > 0 && (
+          <div className="vads-u-display--flex vads-u-align-itmes--stretch vads-u-flex-direction--column vads-u-padding-top--1p5 vads-u-padding-bottom--5">
+            <p data-testid="update-text">
+              <Trans
+                i18nKey="latest-update"
+                components={{ bold: <strong /> }}
+                values={{ date: new Date() }}
+              />
+            </p>
+            <va-button
+              uswds
+              text={t('refresh')}
+              big
+              onClick={() => setRefresh(true)}
+              secondary
+              data-testid="refresh-appointments-button"
             />
-          </p>
-          <va-button
-            uswds
-            text={t('refresh')}
-            big
-            onClick={() => setRefresh(true)}
-            secondary
-            data-testid="refresh-appointments-button"
-          />
-          <LinkList router={router} />
-        </div>
+            <LinkList router={router} />
+          </div>
+        )}
       </>
     );
   }
