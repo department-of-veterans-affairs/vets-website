@@ -6,10 +6,12 @@ import content from '../../locales/en/content.json';
 
 const RegistrationOnlyGuest = ({ goBack }) => {
   return (
-    <>
-      <RegistrationOnlyAlert />
+    <form className="rjsf" noValidate>
+      <div className="vads-u-margin-y--2 rjsf-object-field">
+        <RegistrationOnlyAlert />
+      </div>
       <div className="row form-progress-buttons schemaform-buttons">
-        <div className="small-5 medium-4 columns">
+        <div className="small-6 medium-5 columns">
           <ProgressButton
             buttonClass="hca-button-progress usa-button-secondary"
             onButtonClick={goBack}
@@ -18,7 +20,7 @@ const RegistrationOnlyGuest = ({ goBack }) => {
           />
         </div>
       </div>
-    </>
+    </form>
   );
 };
 
