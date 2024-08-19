@@ -11,6 +11,7 @@ import {
   organizeAppointmentsByYearMonthDay,
 } from '../utils/appointment';
 
+import ListWrapper from './ListWrapper';
 import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
 
 const UpcomingAppointmentsList = props => {
@@ -87,9 +88,10 @@ const UpcomingAppointmentsList = props => {
                       </h4>
                     </div>
                     <div className="vads-l-col--10 vads-u-border-top--1px vads-u-border-color--gray-light">
-                      <ul
+                      <ListWrapper
+                        count={appointments.length}
                         className="vads-u-margin-bottom--3 check-in--appointment-list appointment-list"
-                        data-testid="appointment-list"
+                        testId="appointment-list"
                       >
                         {appointments.map((appointment, number) => {
                           return (
@@ -100,10 +102,11 @@ const UpcomingAppointmentsList = props => {
                               router={router}
                               border={number !== appointments.length - 1}
                               app={app}
+                              count={appointments.length}
                             />
                           );
                         })}
-                      </ul>
+                      </ListWrapper>
                     </div>
                   </div>
                 </div>
