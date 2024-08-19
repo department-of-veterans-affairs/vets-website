@@ -88,6 +88,7 @@ describe('unified check-in experience', () => {
             appointment={appointments[0]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -115,6 +116,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -130,6 +132,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -143,6 +146,7 @@ describe('unified check-in experience', () => {
             goToDetails={goToDetails}
             dayKey=""
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -155,6 +159,7 @@ describe('unified check-in experience', () => {
             appointment={appointments[1]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
@@ -169,10 +174,37 @@ describe('unified check-in experience', () => {
             appointment={appointments[4]}
             goToDetails={goToDetails}
             router={mockRouter}
+            count={5}
           />
         </CheckInProvider>,
       );
       expect(screen.getByTestId('appointment-details-cancelled')).to.exist;
+    });
+    it('renders as a list item when more than one', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            router={mockRouter}
+            count={5}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByRole('listitem')).to.exist;
+    });
+    it('does not render as a list item when only one', () => {
+      const screen = render(
+        <CheckInProvider>
+          <UpcomingAppointmentsListItem
+            appointment={appointments[0]}
+            goToDetails={() => {}}
+            router={mockRouter}
+            count={1}
+          />
+        </CheckInProvider>,
+      );
+      expect(screen.queryByRole('listitem')).to.not.exist;
     });
   });
 });

@@ -80,6 +80,7 @@ export const Locators = {
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
+  SPINNER: `[data-testid="loading-indicator"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',

@@ -16,10 +16,7 @@ export function EnrollmentVerificationLogin({ toggleLoginModal, user }) {
 
   const visitorUI = (
     <va-alert status="continue" visible>
-      <h3
-        className="vads-u-font-size--h1 vads-u-font-weight--bold"
-        slot="headline"
-      >
+      <h3 slot="headline">
         Sign in to verify your enrollment for Post-9/11 GI Bill benefits
       </h3>
       <p>

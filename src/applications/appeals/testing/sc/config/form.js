@@ -24,11 +24,21 @@ import Notice5103 from '../components/Notice5103';
 import reviewErrors from '../content/reviewErrors';
 
 import veteranInfo from '../pages/veteranInfo';
-import contactInfo from '../pages/contactInformation';
+import mockContactInfo, {
+  MockContactInfoReview,
+} from '../pages/_mockContactInfo';
 import primaryPhone from '../pages/primaryPhone';
+
+import housingRisk from '../pages/housingRisk';
+import livingSituation from '../pages/livingSituation';
+import otherHousingRisk from '../pages/otherHousingRisk';
+import pointOfContact from '../pages/pointOfContact';
+
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+import optionForMst from '../pages/optionForMst';
+import vhaNotifications from '../pages/vhaNotifications';
 import notice5103 from '../pages/notice5103';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
@@ -43,6 +53,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  hasMstOption,
 } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
@@ -68,6 +79,9 @@ import submitForm from './submitForm';
 import fullSchema from './form-0995-schema.json';
 
 import { focusEvidence } from '../utils/focus';
+import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
+
+import maximalData from '../tests/fixtures/data/maximal-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
 import NeedHelp from '../../../shared/content/NeedHelp';
@@ -137,6 +151,7 @@ const formConfig = {
   chapters: {
     infoPages: {
       title: 'Veteran information',
+      reviewDescription: MockContactInfoReview, // FOR NON_AUTH TESTING ONLY
       pages: {
         veteranInfo: {
           title: 'Veteran information',
@@ -144,9 +159,17 @@ const formConfig = {
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
           scrollAndFocusTarget: focusH3,
+          initialData: maximalData.data, // FOR NON-AUTH TESTING ONLY
         },
 
-        ...contactInfo,
+        // ...contactInfo,
+        mockContactInfo: {
+          title: 'Contact information',
+          path: 'contact-information',
+          uiSchema: mockContactInfo.uiSchema,
+          schema: mockContactInfo.schema,
+        },
+
         choosePrimaryPhone: {
           title: 'Primary phone number',
           path: 'primary-phone-number',
@@ -157,6 +180,41 @@ const formConfig = {
           uiSchema: primaryPhone.uiSchema,
           schema: primaryPhone.schema,
           scrollAndFocusTarget: focusRadioH3,
+        },
+      },
+    },
+
+    housing: {
+      title: 'Living situation',
+      pages: {
+        housingRisk: {
+          title: 'Housing risk',
+          path: 'housing-risk',
+          uiSchema: housingRisk.uiSchema,
+          schema: housingRisk.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        livingSituation: {
+          title: 'Living situation',
+          path: 'living-situation',
+          uiSchema: livingSituation.uiSchema,
+          schema: livingSituation.schema,
+          depends: hasHousingRisk,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        otherHousingRisk: {
+          title: 'Other housing risks',
+          path: 'other-housing-risks',
+          uiSchema: otherHousingRisk.uiSchema,
+          schema: otherHousingRisk.schema,
+          depends: hasOtherHousingRisk,
+        },
+        contact: {
+          title: 'Your point of contact',
+          path: 'point-of-contact',
+          uiSchema: pointOfContact.uiSchema,
+          schema: pointOfContact.schema,
+          depends: hasHousingRisk,
         },
       },
     },
@@ -205,6 +263,20 @@ const formConfig = {
     evidence: {
       title: 'New and relevant evidence',
       pages: {
+        optionForMst: {
+          title: 'Option for MST',
+          path: 'view-option',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        vhaNotifications: {
+          title: 'VHA notifications',
+          path: 'vha-notifications',
+          uiSchema: vhaNotifications.uiSchema,
+          schema: vhaNotifications.schema,
+          depends: hasMstOption,
+        },
         notice5103: {
           title: 'Notice of evidence needed',
           path: 'notice-of-evidence-needed',
@@ -213,9 +285,6 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
-          initialData: {
-            form5103Acknowledged: false,
-          },
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',
