@@ -130,32 +130,29 @@ export function apiRequest(resource, optionalSettings, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
-      const data = isJson(response)
-        ? response.json()
-        : Promise.resolve(response);
-
       // Get CSRF Token from API header
       const csrfToken = response.headers.get('X-CSRF-Token');
-
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (response.ok || response.status === 304) {
-        return data;
-      }
-
       if (environment.isProduction()) {
-        const { pathname } = window.location;
-
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
-          !pathname.includes('auth/login/callback') &&
+          !window.location.pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
           window.location = '/session-expired';
         }
+      }
+
+      const data = isJson(response)
+        ? response.json()
+        : Promise.resolve(response);
+
+      if (response.ok || response.status === 304) {
+        return data;
       }
 
       return data.then(Promise.reject.bind(Promise));
