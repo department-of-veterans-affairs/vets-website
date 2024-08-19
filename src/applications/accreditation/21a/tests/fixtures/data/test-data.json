@@ -1,7 +1,7 @@
 {
   "data": {
     "role": "attorney",
-    "standingWithBar": true,
+    "lawLicense": true,
     "fullName": {
       "first": "First",
       "middle": "Middle",
