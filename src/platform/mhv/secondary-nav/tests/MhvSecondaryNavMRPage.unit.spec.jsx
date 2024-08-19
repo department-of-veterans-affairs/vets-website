@@ -55,11 +55,7 @@ describe('MHV Secondary Nav Component', () => {
   });
 
   describe('Medical Records phase 1 rollout', () => {
-    it('phase 1 only toggle enabled', async () => {
-      const store = mockStore({
-        mhvMedicalRecordsPhase1Launch: true,
-        mhvTransitionalMedicalRecordsLandingPage: false,
-      });
+    const testForLink = async store => {
       const { findByRole } = render(
         <Provider store={store}>
           <MhvSecondaryNav items={mhvSecNavItems} />
@@ -67,6 +63,14 @@ describe('MHV Secondary Nav Component', () => {
       );
       const link = await findByRole('link', { name: /Records$/ });
       expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
+    };
+
+    it('phase 1 only toggle enabled', async () => {
+      const store = mockStore({
+        mhvMedicalRecordsPhase1Launch: true,
+        mhvTransitionalMedicalRecordsLandingPage: false,
+      });
+      testForLink(store);
     });
 
     it('phase 1 toggle enabled takes precedence over transitional page', async () => {
@@ -74,13 +78,7 @@ describe('MHV Secondary Nav Component', () => {
         mhvMedicalRecordsPhase1Launch: true,
         mhvTransitionalMedicalRecordsLandingPage: true,
       });
-      const { findByRole } = render(
-        <Provider store={store}>
-          <MhvSecondaryNav items={mhvSecNavItems} />
-        </Provider>,
-      );
-      const link = await findByRole('link', { name: /Records$/ });
-      expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
+      testForLink(store);
     });
 
     it('feature toggles disabled', async () => {
@@ -88,13 +86,7 @@ describe('MHV Secondary Nav Component', () => {
         mhvMedicalRecordsPhase1Launch: false,
         mhvTransitionalMedicalRecordsLandingPage: false,
       });
-      const { findByRole } = render(
-        <Provider store={store}>
-          <MhvSecondaryNav items={mhvSecNavItems} />
-        </Provider>,
-      );
-      const link = await findByRole('link', { name: /Records$/ });
-      expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
+      testForLink(store);
     });
   });
 });
