@@ -120,6 +120,20 @@ function LocationSearchResults({
     [search.query.mapState],
   );
 
+  // This Effect is to change the style of the pagination
+  useEffect(
+    () => {
+      document.querySelector('va-pagination')?.shadowRoot.append(
+        Object.assign(document.createElement('STYLE'), {
+          innerText: `nav ul li.va-pagination__item:not(:has(a.usa-current)) {
+                                              display:none
+                                            }`,
+        }),
+      );
+    },
+    [pagination],
+  );
+
   /**
    * Initialize map if the element is present
    */

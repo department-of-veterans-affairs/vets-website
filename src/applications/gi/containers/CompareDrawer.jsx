@@ -247,7 +247,13 @@ export function CompareDrawer({
 
   return (
     <>
-      <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
+      <div
+        className={compareDrawerClasses}
+        ref={drawer}
+        id="compare-drawer"
+        role="dialog"
+        aria-modal="true"
+      >
         <div className={expandCollapse}>
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal
@@ -268,6 +274,7 @@ export function CompareDrawer({
             onKeyDown={expandOnClick}
           >
             <button
+              tabIndex={0}
               aria-expanded={open}
               aria-controls="compare-body"
               className={headerLabelClasses}
@@ -294,6 +301,7 @@ export function CompareDrawer({
                   <div className="vads-u-margin-right--2">
                     <button
                       type="button"
+                      tabIndex={0}
                       className="usa-button vads-u-width--full"
                       disabled={loaded.length < 2}
                       onClick={openCompare}
