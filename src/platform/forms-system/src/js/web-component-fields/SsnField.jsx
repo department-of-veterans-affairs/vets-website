@@ -30,6 +30,7 @@ export default function SsnField(fieldProps) {
   const [val, setVal] = useState(props.value);
   const [displayVal, setDisplayVal] = useState(props.value);
   const vaTextInput = useRef();
+  const className = `${props.class || ''} masked-ssn`;
 
   const handleChange = event => {
     const { value } = event.target;
@@ -55,11 +56,13 @@ export default function SsnField(fieldProps) {
   return (
     <VaTextInput
       {...props}
+      class={className}
       value={displayVal}
       onInput={handleChange}
       onBlur={handleBlur}
       onFocus={handleFocus}
       ref={vaTextInput}
+      data-is-masked
     />
   );
 }
