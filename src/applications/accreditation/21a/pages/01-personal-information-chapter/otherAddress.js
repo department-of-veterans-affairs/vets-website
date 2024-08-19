@@ -12,7 +12,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Other address',
-      'We will send any important information about your form to this address.',
+      'We will send information about your form to this address.',
     ),
     otherAddress: addressUI({
       labels: {

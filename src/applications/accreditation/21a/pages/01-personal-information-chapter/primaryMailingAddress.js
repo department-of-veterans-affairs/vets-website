@@ -18,7 +18,7 @@ export default {
       labels: primaryMailingAddressOptions,
       descriptions: {
         work:
-          'You will enter this address in Step 3, “Employment Information.”',
+          'You will enter this address in Step 3, “Employment information.”',
         other:
           'If you select this option, you will enter an address on the next screen.',
       },
