@@ -6,17 +6,17 @@ import MhvSecondaryNav, { mhvSecNavItems } from '../containers/MhvSecondaryNav';
 
 const mockStore = ({
   mhvTransitionalMedicalRecordsLandingPage = false,
-  mhvMedicalRecordsPhase1Launch = false,
+  mhvIntegrationMedicalRecordsToPhase1 = false,
 } = {}) => ({
   getState: () => ({
     featureToggles: {
       loading: false,
       mhvTransitionalMedicalRecordsLandingPage,
-      mhvMedicalRecordsPhase1Launch,
+      mhvIntegrationMedicalRecordsToPhase1,
       // eslint-disable-next-line camelcase
       mhv_transitional_medical_records_landing_page: mhvTransitionalMedicalRecordsLandingPage,
       // eslint-disable-next-line camelcase
-      mhv_medical_records_phase_1_launch: mhvMedicalRecordsPhase1Launch,
+      mhv_integration_medical_records_to_phase_1: mhvIntegrationMedicalRecordsToPhase1,
     },
   }),
   subscribe: () => {},
@@ -67,7 +67,7 @@ describe('MHV Secondary Nav Component', () => {
 
     it('phase 1 only toggle enabled', () => {
       const store = mockStore({
-        mhvMedicalRecordsPhase1Launch: true,
+        mhvIntegrationMedicalRecordsToPhase1: true,
         mhvTransitionalMedicalRecordsLandingPage: false,
       });
       testForLink(store);
@@ -75,7 +75,7 @@ describe('MHV Secondary Nav Component', () => {
 
     it('phase 1 toggle enabled takes precedence over transitional page', () => {
       const store = mockStore({
-        mhvMedicalRecordsPhase1Launch: true,
+        mhvIntegrationMedicalRecordsToPhase1: true,
         mhvTransitionalMedicalRecordsLandingPage: true,
       });
       testForLink(store);
@@ -83,7 +83,7 @@ describe('MHV Secondary Nav Component', () => {
 
     it('feature toggles disabled', () => {
       const store = mockStore({
-        mhvMedicalRecordsPhase1Launch: false,
+        mhvIntegrationMedicalRecordsToPhase1: false,
         mhvTransitionalMedicalRecordsLandingPage: false,
       });
       testForLink(store);
