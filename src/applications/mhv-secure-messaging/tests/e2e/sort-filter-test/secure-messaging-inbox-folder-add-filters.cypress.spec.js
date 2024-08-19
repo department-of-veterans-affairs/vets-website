@@ -19,38 +19,18 @@ describe('Secure Messaging Inbox Folder add filter checks', () => {
   });
 
   it('verify filter buttons and dropdowns', () => {
-    // verify filter buttons visible
-    cy.get(`[data-testid="search-form"]`)
-      .find(`va-button`)
-      .each(el => {
-        cy.wrap(el).should(`be.visible`);
-      });
+    PatientInboxPage.verifyFilterButtons();
 
-    // verify dropdown not visible
+    // verify additional fields not visible
     cy.get(`#content`).should('have.attr', 'hidden');
 
-    // verify add filters
-    cy.get(`.va-accordion__header`).click({ false: true });
+    PatientInboxPage.clickAdditionalFilterButton();
 
-    // verify category dropdown
-    cy.get(`[data-testid="category-dropdown"]>option`).each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(
-            mockCategories.data.attributes.messageCategoryType,
-          );
-        });
-    });
+    PatientInboxPage.verifyFilterCategoryDropdown(
+      mockCategories.data.attributes.messageCategoryType,
+    );
 
-    // verify date range dropdown
-    cy.get('[data-testid="date-range-dropdown"]>option').each(option => {
-      cy.wrap(option)
-        .invoke('text')
-        .then(el => {
-          expect(el.toUpperCase()).to.be.oneOf(dateRange);
-        });
-    });
+    PatientInboxPage.verifyFilterdateRangeDropdown(dateRange);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
