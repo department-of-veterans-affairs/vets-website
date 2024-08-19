@@ -25,6 +25,7 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import {
   setReturnState,
   getReturnState,
@@ -34,8 +35,7 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
-} from 'platform/forms-system/src/js/utilities/data/profile';
-import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+} from '../../utils/data/task-purple/profile';
 
 /**
  * Render contact info page
@@ -212,20 +212,6 @@ const ContactInfo = ({
     ' ',
   );
 
-  // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
-  // delay to move focus away from the h3
-  // const showSuccessAlert = (id, text) => (
-  //   <va-alert
-  //     id={`updated-${id}`}
-  //     visible={editState === `${id},updated`}
-  //     class="vads-u-margin-y--1"
-  //     status="success"
-  //     background-only
-  //     role="alert"
-  //   >
-  //     {`${text} ${content.updated}`}
-  //   </va-alert>
-  // );
   const showSuccessAlert = id => (
     <va-alert
       id={`updated-${id}`}
@@ -235,7 +221,7 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      <h2 slot="headline">Your home phome number has been updated</h2>
+      <h2 slot="headline">Your home phone number has been updated</h2>
       <p className="vads-u-margin-y--0">
         These changes will only be reflected in this form.
       </p>
@@ -243,6 +229,8 @@ const ContactInfo = ({
   );
 
   const editText = content.edit;
+
+  console.log(dataWrap[keys.homePhone])
 
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
@@ -364,6 +352,8 @@ const ContactInfo = ({
       {contentAfterButtons}
     </>
   );
+
+  console.log(data)
 
   return (
     <div className="vads-u-margin-y--2">

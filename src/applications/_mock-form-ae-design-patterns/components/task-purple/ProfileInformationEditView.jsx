@@ -6,7 +6,6 @@ import { focusElement } from 'platform/utilities/ui';
 import LoadingButton from 'platform/site-wide/loading-button/LoadingButton';
 import recordEvent from 'platform/monitoring/record-event';
 import { isEmptyAddress } from 'platform/forms/address/helpers';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 import { getFocusableElements } from 'platform/forms-system/src/js/utilities/ui';
 import {
   createTransaction,
@@ -52,6 +51,8 @@ import CopyMailingAddress from 'platform/user/profile/vap-svc/containers/CopyMai
 import { createPersonalInfoUpdate } from 'platform/user/profile/vap-svc/actions/personalInformation';
 
 import ProfileInformationActionButtons from 'platform/user/profile/vap-svc/components/ProfileInformationActionButtons';
+// import SchemaForm from './SchemaForm';
+import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {

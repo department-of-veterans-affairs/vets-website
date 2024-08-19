@@ -3,22 +3,25 @@ import React from 'react';
 import { merge, once } from 'lodash';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
-import set from '../../../../utilities/data/set';
+import set from 'platform/utilities/data/set';
 
-import { uiSchemaValidate, transformErrors } from '../validation';
-import FieldTemplate from './FieldTemplate';
-import * as reviewWidgets from '../review/widgets';
-import ReviewFieldTemplate from '../review/ReviewFieldTemplate';
-import StringField from '../review/StringField';
-import widgets from '../widgets/index';
-import ObjectField from '../fields/ObjectField';
-import ArrayField from '../fields/ArrayField';
-import ReadOnlyArrayField from '../review/ReadOnlyArrayField';
-import BasicArrayField from '../fields/BasicArrayField';
-import TitleField from '../fields/TitleField';
-import ReviewObjectField from '../review/ObjectField';
-import { scrollToFirstError } from '../utilities/ui';
-import getFormDataFromSchemaId from '../utilities/data/getFormDataFromSchemaId';
+import {
+  uiSchemaValidate,
+  transformErrors,
+} from 'platform/forms-system/src/js/validation';
+import FieldTemplate from 'platform/forms-system/src/js/components/FieldTemplate';
+import * as reviewWidgets from 'platform/forms-system/src/js/review/widgets';
+import ReviewFieldTemplate from 'platform/forms-system/src/js/review/ReviewFieldTemplate';
+import StringField from 'platform/forms-system/src/js/review/StringField';
+import widgets from 'platform/forms-system/src/js/widgets/index';
+import ObjectField from 'platform/forms-system/src/js/fields/ObjectField';
+import ArrayField from 'platform/forms-system/src/js/fields/ArrayField';
+import ReadOnlyArrayField from 'platform/forms-system/src/js/review/ReadOnlyArrayField';
+import BasicArrayField from 'platform/forms-system/src/js/fields/BasicArrayField';
+import TitleField from 'platform/forms-system/src/js/fields/TitleField';
+import ReviewObjectField from 'platform/forms-system/src/js/review/ObjectField';
+import { scrollToFirstError } from 'platform/forms-system/src/js/utilities/ui/index';
+import getFormDataFromSchemaId from 'platform/forms-system/src/js/utilities/data/getFormDataFromSchemaId';
 
 /*
  * Each page uses this component and passes in config. This is where most of the page level
@@ -202,11 +205,34 @@ class SchemaForm extends React.Component {
       'va-text-input[name="root_inputPhoneNumber"]',
     );
 
-    
-    
-    if (inputElement) {
-    inputElement.value = '';
-    }
+
+    const initialValue = data.inputPhoneNumber;
+    const button = document.querySelector('button[data-action="save-edit"]');
+
+    console.log(data);
+    console.log(
+      `input elem: ${inputElement?.value}, data: ${data.inputPhoneNumber}`,
+    );
+
+      // if (inputElement.value !== '') {
+        inputElement.value = '';
+      // }
+
+    // if (inputElement) {
+    //   let userHasInteracted = false;
+    //   console.log(userHasInteracted)
+
+
+    //   if (inputElement.value !== '' && userHasInteracted === false) {
+    //     inputElement.value = '';
+    //   }
+
+    //   inputElement?.addEventListener('input', (e) => {
+    //     userHasInteracted = true
+    //     inputElement.value = e.target.value;
+    //   })
+
+    // }
 
     return (
       <Form
