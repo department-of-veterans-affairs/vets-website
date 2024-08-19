@@ -11,7 +11,7 @@ import {
 } from '../oauth/utilities';
 import { checkAndUpdateSSOeSession } from '../sso';
 
-const isJson = response => {
+export const isJson = response => {
   const contentType = response.headers.get('Content-Type');
   return contentType && contentType.includes('application/json');
 };
@@ -76,7 +76,16 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
   });
 }
 
-function apiRequestWithResponse(resource, optionalSettings) {
+/**
+ * @param {string} resource - The URL to fetch. If it starts with a leading "/"
+ * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * URL.
+ * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
+ * the fetch request. Will be mixed with, and potentially override, the
+ * defaultSettings.
+ * @returns {Promise<Response>} A promise that resolves with a response.
+ */
+export function apiRequestWithResponse(resource, optionalSettings) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;

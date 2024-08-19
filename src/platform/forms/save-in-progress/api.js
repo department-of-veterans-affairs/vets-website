@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from '../../utilities/api';
+import { apiRequestWithResponse, isJson } from '../../utilities/api';
 import {
   VA_FORM_IDS_SKIP_INFLECTION,
   VA_FORM_IDS_IN_PROGRESS_FORMS_API,
@@ -14,7 +14,15 @@ export function inProgressApi(formId) {
 
 export function formApi(formId, optionalSettings) {
   const apiUrl = inProgressApi(formId);
-  return apiRequest(apiUrl, optionalSettings);
+  return apiRequestWithResponse(apiUrl, optionalSettings).then(response => {
+    const data = isJson(response) ? response.json() : Promise.resolve(response);
+
+    if (response.ok || response.status === 304) {
+      return data;
+    }
+
+    return data.then(Promise.reject.bind(Promise));
+  });
 }
 
 export function removeFormApi(formId) {
