@@ -24,9 +24,6 @@ export const API_RESPONSES = Object.freeze({
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
-export const debtLettersShowLetters = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLetters];
-
 export const debtLettersShowLettersVBMS = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
 
