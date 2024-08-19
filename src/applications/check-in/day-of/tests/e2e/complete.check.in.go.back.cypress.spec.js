@@ -61,7 +61,7 @@ describe('Check In Experience | Day Of |', () => {
       Confirmation.validatePageLoaded();
     });
     it('should see appointment card removed when going back to appointments', () => {
-      Confirmation.attemptGoBackToAppointments();
+      Confirmation.attemptGoBackToAppointmentsButton();
 
       AppointmentsPage.validatePageLoaded();
       AppointmentsPage.validateNoTaskCards();
