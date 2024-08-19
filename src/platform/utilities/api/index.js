@@ -168,6 +168,7 @@ export function apiRequest(resource, optionalSettings, success, error) {
         return response;
       }
 
+      // JSON parse errors are masking HTTP errors here, probably for the worse.
       if (isJson(response)) return response.json().then(v => Promise.reject(v));
       return Promise.reject(response);
     })
