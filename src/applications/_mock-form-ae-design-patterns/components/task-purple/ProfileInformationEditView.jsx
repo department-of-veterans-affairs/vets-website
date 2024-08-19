@@ -51,8 +51,8 @@ import CopyMailingAddress from 'platform/user/profile/vap-svc/containers/CopyMai
 import { createPersonalInfoUpdate } from 'platform/user/profile/vap-svc/actions/personalInformation';
 
 import ProfileInformationActionButtons from 'platform/user/profile/vap-svc/components/ProfileInformationActionButtons';
-// import SchemaForm from './SchemaForm';
-import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
+import SchemaForm from './SchemaForm';
+// import SchemaForm from 'platform/forms-system/src/js/components/SchemaForm';
 
 export class ProfileInformationEditView extends Component {
   componentDidMount() {

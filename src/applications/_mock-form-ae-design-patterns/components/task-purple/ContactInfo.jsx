@@ -84,7 +84,10 @@ const ContactInfo = ({
       ? generateMockUser({ authBroker: 'iam' }).data.attributes
           .vet360ContactInformation
       : profile.vapContactInfo || {};
-
+  // const contactInfo =
+  //   loggedIn && environment.isLocalhost()
+  //     ? generateMockUser({ authBroker: 'iam' }).data.attributes.veteran
+  //     : profile.vapContactInfo || {};
   const dataWrap = data[keys.wrapper] || {};
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
@@ -230,8 +233,6 @@ const ContactInfo = ({
 
   const editText = content.edit;
 
-  console.log(dataWrap[keys.homePhone])
-
   // Loop to separate pages when editing
   // Each Link includes an ID for focus management on the review & submit page
   const contactSection = [
@@ -352,8 +353,6 @@ const ContactInfo = ({
       {contentAfterButtons}
     </>
   );
-
-  console.log(data)
 
   return (
     <div className="vads-u-margin-y--2">

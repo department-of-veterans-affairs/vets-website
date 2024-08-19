@@ -1487,6 +1487,8 @@ const loa3UserWithUpdatedMailingAddress = set(
 
 const loa3UserWithUpdatedHomePhone = set(
   cloneDeep(baseUserResponses.loa3User72),
+  // 'data.attributes.vet360ContactInformation.homePhone.areaCode',
+  // '702',
   'data.attributes.vet360ContactInformation.homePhone.phoneNumber',
   '8985555',
 );

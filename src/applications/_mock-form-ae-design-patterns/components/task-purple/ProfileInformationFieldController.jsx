@@ -37,7 +37,8 @@ import {
 
 import { isFieldEmpty } from 'platform/user/profile/vap-svc/util/index';
 import { recordCustomProfileEvent } from 'platform/user/profile/vap-svc/util/analytics';
-import { getInitialFormValues } from 'platform/user/profile/vap-svc/util/contact-information/formValues';
+// import { getInitialFormValues } from 'platform/user/profile/vap-svc/util/contact-information/formValues';
+import { getInitialFormValues } from '../../utils/data/task-purple/formValues';
 import getProfileInfoFieldAttributes from 'platform/user/profile/vap-svc/util/getProfileInfoFieldAttributes';
 // Helper function that generates a string that can be used for a contact info
 // field's edit button.

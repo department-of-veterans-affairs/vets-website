@@ -214,8 +214,8 @@ class SchemaForm extends React.Component {
       `input elem: ${inputElement?.value}, data: ${data.inputPhoneNumber}`,
     );
 
-      // if (inputElement.value !== '') {
-        inputElement.value = '';
+      // if (inputElement) {
+      //   inputElement.value = '';
       // }
 
     // if (inputElement) {
