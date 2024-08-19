@@ -65,7 +65,7 @@ describe('MHV Secondary Nav Component', () => {
       expect(link.getAttribute('href')).to.eq('/my-health/medical-records');
     };
 
-    it('phase 1 only toggle enabled', async () => {
+    it('phase 1 only toggle enabled', () => {
       const store = mockStore({
         mhvMedicalRecordsPhase1Launch: true,
         mhvTransitionalMedicalRecordsLandingPage: false,
@@ -73,7 +73,7 @@ describe('MHV Secondary Nav Component', () => {
       testForLink(store);
     });
 
-    it('phase 1 toggle enabled takes precedence over transitional page', async () => {
+    it('phase 1 toggle enabled takes precedence over transitional page', () => {
       const store = mockStore({
         mhvMedicalRecordsPhase1Launch: true,
         mhvTransitionalMedicalRecordsLandingPage: true,
@@ -81,7 +81,7 @@ describe('MHV Secondary Nav Component', () => {
       testForLink(store);
     });
 
-    it('feature toggles disabled', async () => {
+    it('feature toggles disabled', () => {
       const store = mockStore({
         mhvMedicalRecordsPhase1Launch: false,
         mhvTransitionalMedicalRecordsLandingPage: false,
