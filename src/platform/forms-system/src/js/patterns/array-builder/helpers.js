@@ -238,9 +238,13 @@ const minItemsHint = (len, nounSingular, nounPlural, minItems) => {
     }.`;
   }
 
-  return `You need at least ${remaining} more ${
-    remaining === 1 ? nounSingular : nounPlural
-  }.`;
+  if (remaining >= 1) {
+    return `You need at least ${remaining} more ${
+      remaining === 1 ? nounSingular : nounPlural
+    }.`;
+  }
+
+  return '';
 };
 
 const maxItemsHint = (len, nounSingular, nounPlural, maxItems) => {
