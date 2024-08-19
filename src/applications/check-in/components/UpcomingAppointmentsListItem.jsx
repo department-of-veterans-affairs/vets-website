@@ -16,7 +16,7 @@ import AppointmentMessage from './AppointmentDisplay/AppointmentMessage';
 import UpcomingAppointmentsListItemAction from './UpcomingAppointmentsListItemAction';
 
 const UpcomingAppointmentsListItem = props => {
-  const { app, appointment, goToDetails, router, border } = props;
+  const { app, appointment, goToDetails, router, border, count } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
@@ -87,13 +87,8 @@ const UpcomingAppointmentsListItem = props => {
       </div>
     );
   };
-
-  return (
-    <li
-      className={`check-in--appointment-item ${border &&
-        'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
-      data-testid="appointment-list-item"
-    >
+  const appointmentItem = (
+    <>
       {isCancelled ? (
         <del>{appointmentDetails('appointment-details-cancelled')}</del>
       ) : (
@@ -127,6 +122,26 @@ const UpcomingAppointmentsListItem = props => {
             </div>
           )}
       </div>
+    </>
+  );
+  if (count === 1) {
+    return (
+      <div
+        className={`check-in--appointment-item ${border &&
+          'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
+        data-testid="appointment-item"
+      >
+        {appointmentItem}
+      </div>
+    );
+  }
+  return (
+    <li
+      className={`check-in--appointment-item ${border &&
+        'vads-u-border-bottom--1px vads-u-border-color--gray-light'}`}
+      data-testid="appointment-list-item"
+    >
+      {appointmentItem}
     </li>
   );
 };
@@ -135,6 +150,7 @@ UpcomingAppointmentsListItem.propTypes = {
   app: PropTypes.string.isRequired,
   appointment: PropTypes.object.isRequired,
   border: PropTypes.bool.isRequired,
+  count: PropTypes.number.isRequired,
   goToDetails: PropTypes.func,
   router: PropTypes.object,
 };
