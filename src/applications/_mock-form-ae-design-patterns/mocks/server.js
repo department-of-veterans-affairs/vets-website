@@ -131,7 +131,8 @@ const responses = {
     // return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (_req, res) => {
-    return res.status(200).json(phoneNumber.transactions.received);
+    // return res.status(200).json(phoneNumber.transactions.received);
+    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
   },
   'POST /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);

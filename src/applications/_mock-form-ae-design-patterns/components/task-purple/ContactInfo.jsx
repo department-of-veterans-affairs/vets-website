@@ -9,14 +9,11 @@ import {
   scrollTo,
   scrollAndFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
-import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 
 // import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
@@ -79,15 +76,7 @@ const ContactInfo = ({
   // vapContactInfo is an empty object locally, so mock it
   const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
-  const contactInfo =
-    loggedIn && environment.isLocalhost()
-      ? generateMockUser({ authBroker: 'iam' }).data.attributes
-          .vet360ContactInformation
-      : profile.vapContactInfo || {};
-  // const contactInfo =
-  //   loggedIn && environment.isLocalhost()
-  //     ? generateMockUser({ authBroker: 'iam' }).data.attributes.veteran
-  //     : profile.vapContactInfo || {};
+  const contactInfo = profile.vapContactInfo || {};
   const dataWrap = data[keys.wrapper] || {};
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};

@@ -1487,10 +1487,13 @@ const loa3UserWithUpdatedMailingAddress = set(
 
 const loa3UserWithUpdatedHomePhone = set(
   cloneDeep(baseUserResponses.loa3User72),
-  // 'data.attributes.vet360ContactInformation.homePhone.areaCode',
-  // '702',
   'data.attributes.vet360ContactInformation.homePhone.phoneNumber',
   '8985555',
+);
+const loa3UserWithUpdatedHomePhoneTimeStamp = set(
+  cloneDeep(loa3UserWithUpdatedHomePhone),
+  'data.attributes.vet360ContactInformation.homePhone.updatedAt',
+  '2023-03-11T16:31:56.000Z',
 );
 
 const responses = {
@@ -1511,6 +1514,7 @@ const responses = {
   loa3UserWithUpdatedMailingAddress,
   loa3UserWithNoHomeAddress,
   loa3UserWithUpdatedHomePhone,
+  loa3UserWithUpdatedHomePhoneTimeStamp,
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,

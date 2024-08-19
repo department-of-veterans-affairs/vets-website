@@ -23,7 +23,7 @@ const handleUserUpdate = history => {
   if (
     lastTwoItems?.some(item => item?.params?.id.includes('update-home-phone'))
   ) {
-    return [true, user.loa3UserWithUpdatedHomePhone];
+    return [true, user.loa3UserWithUpdatedHomePhoneTimeStamp];
   }
 
   return [false, null];

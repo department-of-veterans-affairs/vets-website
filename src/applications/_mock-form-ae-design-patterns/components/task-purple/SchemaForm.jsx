@@ -201,39 +201,6 @@ class SchemaForm extends React.Component {
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
 
-    const inputElement = document.querySelector(
-      'va-text-input[name="root_inputPhoneNumber"]',
-    );
-
-
-    const initialValue = data.inputPhoneNumber;
-    const button = document.querySelector('button[data-action="save-edit"]');
-
-    console.log(data);
-    console.log(
-      `input elem: ${inputElement?.value}, data: ${data.inputPhoneNumber}`,
-    );
-
-      // if (inputElement) {
-      //   inputElement.value = '';
-      // }
-
-    // if (inputElement) {
-    //   let userHasInteracted = false;
-    //   console.log(userHasInteracted)
-
-
-    //   if (inputElement.value !== '' && userHasInteracted === false) {
-    //     inputElement.value = '';
-    //   }
-
-    //   inputElement?.addEventListener('input', (e) => {
-    //     userHasInteracted = true
-    //     inputElement.value = e.target.value;
-    //   })
-
-    // }
-
     return (
       <Form
         safeRenderCompletion={safeRenderCompletion}
