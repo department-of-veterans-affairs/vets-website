@@ -87,7 +87,7 @@ describe('The My VA Dashboard', () => {
       },
       lastUpdated: 1612535290,
     },
-    // the next three forms are for regression testing (#78504, #81525)
+    // the following forms are for regression testing (#78504, #81525)
     {
       form: '26-1880',
       metadata: {
@@ -113,7 +113,7 @@ describe('The My VA Dashboard', () => {
       lastUpdated: 1604951152,
     },
     {
-      form: '21P-530',
+      form: '21P-530V2',
       metadata: {
         version: 0,
         returnUrl: '/#',
@@ -145,13 +145,13 @@ describe('The My VA Dashboard', () => {
           ],
         },
       });
-      cy.login(mockUser);
-      cy.visit(manifest.rootUrl);
     });
 
     describe('there are draft forms', () => {
       beforeEach(() => {
         mockUser.data.attributes.inProgressForms = savedForms;
+        cy.login(mockUser);
+        cy.visit(manifest.rootUrl);
       });
 
       it('should show benefit applications that were saved in progress and have not expired', () => {
@@ -167,10 +167,9 @@ describe('The My VA Dashboard', () => {
         cy.axeCheck();
       });
 
-      it('should show in-progress 26-1880, 28-8832, 21P-530 and 21P-530V2 forms', () => {
+      it('should show in-progress 26-1880, 28-8832, and 21P-530V2 forms', () => {
         cy.findByText(/26-1880/i).should('exist');
         cy.findByText(/28-8832/i).should('exist');
-        cy.findByText(/21P-530/i).should('exist');
         cy.findByText(/21P-530EZ/i).should('exist');
         // make the a11y check
         cy.injectAxe();
@@ -181,6 +180,8 @@ describe('The My VA Dashboard', () => {
     describe('when there are no draft forms', () => {
       beforeEach(() => {
         mockUser.data.attributes.inProgressForms = [];
+        cy.login(mockUser);
+        cy.visit(manifest.rootUrl);
       });
       it('should show fallback content when there are no benefit applications saved in progress', () => {
         cy.findByRole('heading', {
@@ -214,8 +215,6 @@ describe('The My VA Dashboard', () => {
           ],
         },
       });
-      cy.login(mockUser);
-      cy.visit(manifest.rootUrl);
     });
 
     describe('when there are in-progress forms', () => {
@@ -223,6 +222,8 @@ describe('The My VA Dashboard', () => {
         // four forms, but one will fail the `isSIPEnabledForm()` check so only
         // three will be shown on the dashboard
         mockUser.data.attributes.inProgressForms = savedForms;
+        cy.login(mockUser);
+        cy.visit(manifest.rootUrl);
       });
       it('should show benefit applications that were saved in progress and have not expired', () => {
         cy.findByRole('heading', {
@@ -241,6 +242,8 @@ describe('The My VA Dashboard', () => {
     describe('when there are no in-progress forms', () => {
       beforeEach(() => {
         mockUser.data.attributes.inProgressForms = [];
+        cy.login(mockUser);
+        cy.visit(manifest.rootUrl);
       });
       it('should show fallback content when there are no benefit applications saved in progress', () => {
         cy.findByRole('heading', {

@@ -31,7 +31,7 @@ const Draft = ({
               id={formId}
               className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
             >
-              VA Form {formId}
+              VA Form {presentableFormId}
             </p>
           </Toggler.Enabled>
 
