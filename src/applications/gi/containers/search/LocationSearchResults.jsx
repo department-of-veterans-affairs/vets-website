@@ -428,8 +428,9 @@ function LocationSearchResults({
       const { distance, name } = institution;
       const miles = Number.parseFloat(distance).toFixed(2);
       const { currentPage } = pagination;
-      const itemsPerPage = 10;
-      const originalIndex = (currentPage - 1) * itemsPerPage + index + 1;
+
+      const originalIndex =
+        (currentPage - 1) * MAX_PAGE_LIST_LENGTH + index + 1;
       const header = (
         <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
           <span className="location-letter vads-u-font-size--sm">
