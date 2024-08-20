@@ -113,7 +113,7 @@ describe('<ClaimStatusPage>', () => {
             expect(document.title).to.equal(
               'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('.claim-timeline', container)).not.to.exist;
+            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');
@@ -169,7 +169,7 @@ describe('<ClaimStatusPage>', () => {
             expect(document.title).to.equal(
               'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
-            expect($('.claim-timeline', container)).not.to.exist;
+            expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
             expect($('.what-were-doing-container', container)).to.exist;
             getByText('What you need to do');

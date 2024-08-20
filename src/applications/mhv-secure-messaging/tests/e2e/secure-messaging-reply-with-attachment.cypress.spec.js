@@ -37,7 +37,9 @@ describe('Reply with attachments', () => {
   it('verify attachments info', () => {
     const optList = Data.ATTACH_INFO;
 
-    cy.get(Locators.INFO.ATTACH_INFO).click({ force: true });
+    cy.get(Locators.INFO.ADDITIONAL_INFO)
+      .contains(`attaching`)
+      .click({ force: true });
     PatientComposePage.verifyAttachmentInfo(optList);
 
     cy.injectAxe();
@@ -49,6 +51,9 @@ describe('Reply with attachments', () => {
     PatientComposePage.removeAttachedFile();
 
     cy.get(Locators.BLOCKS.ATTACHMENTS).should('not.be.visible');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
 
