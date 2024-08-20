@@ -101,6 +101,8 @@ describe('ArrayBuilderSummaryPage', () => {
     urlParams = '',
     arrayData = [],
     title = 'Name and address of employer',
+    customSummaryPageHeader,
+    customSummaryPageDescription,
     required = () => false,
     maxItems = 5,
     isReviewPage = false,
@@ -151,6 +153,8 @@ describe('ArrayBuilderSummaryPage', () => {
       maxItems,
       nounPlural: 'employers',
       nounSingular: 'employer',
+      customSummaryPageHeader,
+      customSummaryPageDescription,
       required,
       summaryRoute: '/summary',
       introRoute: '/intro',
@@ -313,5 +317,40 @@ describe('ArrayBuilderSummaryPage', () => {
       'va-alert[name="employersReviewError"]',
     );
     expect($errorAlert).to.not.exist;
+  });
+
+  it('should display custom header and description when it is not the review page', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      customSummaryPageHeader: 'Custom header text',
+      customSummaryPageDescription: 'Custom description text',
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom header text');
+    const description = $fieldset.querySelector('p');
+    expect(description).to.exist;
+    expect(description).to.include.text('Custom description text');
+  });
+
+  it('should not display custom header and description on the review page', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      customSummaryPageHeader: 'Custom header text',
+      customSummaryPageDescription: 'Custom description text',
+      arrayData: [],
+      urlParams: '',
+      isReviewPage: true,
+      maxItems: 5,
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).not.to.exist;
   });
 });

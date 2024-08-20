@@ -71,6 +71,8 @@ function getYesNoReviewErrorMessage(reviewErrors, hasItemsKey) {
  *   nounSingular: string,
  *   required: (formData) => boolean,
  *   titleHeaderLevel: string,
+ *   customSummaryPageHeader: string | React.node,
+ *   customSummaryPageDescription: string | React.node,
  * }} props
  * @returns {CustomPageType}
  */
@@ -87,6 +89,8 @@ export default function ArrayBuilderSummaryPage({
   nounSingular,
   required,
   titleHeaderLevel = '3',
+  customSummaryPageHeader,
+  customSummaryPageDescription,
 }) {
   /** @type {CustomPageType} */
   function CustomPage(props) {
@@ -111,6 +115,8 @@ export default function ArrayBuilderSummaryPage({
     const reviewErrorAlertRef = useRef(null);
     const { uiSchema, schema } = props;
     const Heading = `h${titleHeaderLevel}`;
+    const customHeader = customSummaryPageHeader;
+    const customDescription = customSummaryPageDescription;
     const isMaxItemsReached = arrayData?.length >= maxItems;
     const hasReviewError =
       isReviewPage && checkHasYesNoReviewError(props.reviewErrors, hasItemsKey);
@@ -431,8 +437,8 @@ export default function ArrayBuilderSummaryPage({
       // ensure new reference to trigger re-render
       uiSchema['ui:description'] = <Cards />;
     } else {
-      uiSchema['ui:title'] = undefined;
-      uiSchema['ui:description'] = undefined;
+      uiSchema['ui:title'] = customHeader || undefined;
+      uiSchema['ui:description'] = customDescription || undefined;
     }
 
     if (schema?.properties && maxItems && arrayData?.length >= maxItems) {
@@ -488,6 +494,14 @@ export default function ArrayBuilderSummaryPage({
     setData: PropTypes.func, // available regardless of review page or not
     setFormData: PropTypes.func, // not available on review page
     title: PropTypes.string,
+    customSummaryPageHeader: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ]),
+    customSummaryPageDescription: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.element,
+    ]),
     trackingPrefix: PropTypes.string,
   };
 
