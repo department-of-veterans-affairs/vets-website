@@ -171,6 +171,7 @@ To **open the Cypress test runner UI in Codespaces and run any tests within it**
 ```sh
 yarn cy:open-codespaces
 ```
+
 Then visit http://localhost:6080/ and log in with the password `vscode`.
 
 To **run Cypress tests from the command line**:
@@ -271,7 +272,7 @@ for doing very specific things.
 | run the site for local development with automatic rebuilding of Javascript and sass **with** css sourcemaps | `yarn watch:css-sourcemaps` then visit `http://localhost:3001/`. You may also set `--env buildtype` and `NODE_ENV` though setting `NODE_ENV` to production will make incremental builds slow.                                             |
 | run the site for local development with automatic rebuilding of code and styles for specific **apps**       | `yarn watch --env entry=disability-benefits,static-pages`. Valid application names are in each app's `manifest.json` under `entryName`                                                                                                    |
 | run the site so that devices on your local network can access it                                            | `yarn watch --env host=0.0.0.0 --env public=192.168.x.x:3001` Note that we use CORS to limit what hosts can access different APIs, so accessing with a `192.168.x.x` address may run into problems                                        |
-| run the site so that it can be accessed from a public codespaces URL                                        | `yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev public=https://${CODESPACE_NAME}-3001.app.github.dev` (only works from a codespaces terminal with mocks running and public port visibility) |
+| run the site so that it can be accessed from a public codespaces URL                                        | `yarn watch --env api=https://${CODESPACE_NAME}-3000.app.github.dev public=https://${CODESPACE_NAME}-3001.app.github.dev` (only works from a codespaces terminal with mocks running and public port visibility)                           |
 | watch file changes without starting the server                                                              | `yarn watch:no-server`                                                                                                                                                                                                                    |
 | run all unit tests and watch                                                                                | `yarn test:watch`                                                                                                                                                                                                                         |
 | run only E2E tests (headless)                                                                               | Make sure the site is running locally (`yarn watch`) and run the tests with `yarn cy:run`                                                                                                                                                 |
@@ -312,5 +313,6 @@ Create a .env file in the root of vets-website, and assign the above token to a 
 1. [Using yarn Workspaces](https://depo-platform-documentation.scrollhelp.site/developer-docs/yarn-workspaces)
 
 ## Not a member of the repository and want to be added?
+
 - If you're on a VA.gov Platform team, contact your Program Manager.
 - If you're on a VFS team, you must complete [Platform Orientation](https://depo-platform-documentation.scrollhelp.site/getting-started/platform-orientation) to be added to this repository. This includes completing your Platform Orientation ticket(s) in GitHub.

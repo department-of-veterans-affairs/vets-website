@@ -1437,7 +1437,7 @@ jobs:
         # --------------------------------------
         # | Publish Cypress E2E Testing Report |
         # -------------------------------------
-      - name: Download Cypress E2E Mochawesome test results
+      - name: Download Cypress E2E Mochawesome test resultss
         uses: ./.github/workflows/download-artifact
         with:
           pattern: cypress-mochawesome-test-results-*
