@@ -16,8 +16,6 @@ const refreshExtractTypes = {
   CHEM_HEM: 'ChemistryHematology',
 };
 
-const extractType = refreshExtractTypes.CHEM_HEM;
-
 const minutesAgo = (date, minutes) => {
   return new Date(date.getTime() - minutes * 60 * 1000).getTime();
 };
@@ -27,14 +25,12 @@ const mockStatusResponse = (retrieved, requested, completed, successful) => {
   return {
     retrievedDate: minutesAgo(now, retrieved),
     lastRefreshDate: null,
-    facilityExtractStatusList: [
-      {
-        extract: extractType,
-        lastRequested: minutesAgo(now, requested),
-        lastCompleted: minutesAgo(now, completed),
-        lastSuccessfulCompleted: minutesAgo(now, successful),
-      },
-    ],
+    facilityExtractStatusList: Object.values(refreshExtractTypes).map(type => ({
+      extract: type,
+      lastRequested: minutesAgo(now, requested),
+      lastCompleted: minutesAgo(now, completed),
+      lastSuccessfulCompleted: minutesAgo(now, successful),
+    })),
   };
 };
 
