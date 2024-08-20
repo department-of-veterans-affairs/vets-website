@@ -2,7 +2,6 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -42,8 +41,8 @@ const arrayBuilderOptions = {
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyServing) ||
     (!item?.currentlyServing && !item?.characterOfDischarge) ||
-    ((!item?.currentlyServing ||
-      requireExplanation(item?.characterOfDischarge)) &&
+    (!item?.currentlyServing &&
+      requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
@@ -82,7 +81,7 @@ const branchAndDateRangePage = {
           !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
       },
     ),
-    'view:dateRangeEndDate': {
+    'view:dateRangeEndDateLabel': {
       'ui:description': 'Service end date',
       'ui:options': {
         hideIf: (formData, index) =>
@@ -99,7 +98,7 @@ const branchAndDateRangePage = {
     properties: {
       branch: selectSchema(branchOptions),
       dateRange: currentOrPastDateRangeSchema,
-      'view:dateRangeEndDate': {
+      'view:dateRangeEndDateLabel': {
         type: 'object',
         properties: {},
       },
@@ -114,14 +113,6 @@ const branchAndDateRangePage = {
 /** @returns {PageSchema} */
 const characterOfDischargePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch && formData?.dateRange
-          ? `${formData?.branch} (${getDateRange(
-              formData,
-            )}) character of discharge`
-          : 'Military service experience character of discharge',
-    ),
     characterOfDischarge: selectUI('Character of discharge'),
   },
   schema: {
@@ -136,14 +127,6 @@ const characterOfDischargePage = {
 /** @returns {PageSchema} */
 const explanationOfDischargePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch && formData?.dateRange
-          ? `${formData?.branch} (${getDateRange(
-              formData,
-            )}) explanation of discharge`
-          : 'Military service experience explanation of discharge',
-    ),
     explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
   },
   schema: {
