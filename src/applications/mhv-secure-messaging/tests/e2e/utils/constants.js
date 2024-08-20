@@ -100,7 +100,7 @@ export const Locators = {
     THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
-    ADDITIONAL_FILTER: '#additional-filter-accordion',
+    ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -134,7 +134,6 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
-    ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
   },
   LINKS: {
@@ -203,6 +202,8 @@ export const Locators = {
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     DATE_RANGE_DROPDOWN: '#date-range-dropdown',
+    CATEGORY_OPTION: `[data-testid="category-dropdown"]>option`,
+    DATE_RANGE_OPTION: '[data-testid="date-range-dropdown"]>option',
     SEARCH_MESSAGE_HEADING: '[data-testid="search-messages"] h2',
     SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
