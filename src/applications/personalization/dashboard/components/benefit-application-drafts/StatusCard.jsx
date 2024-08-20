@@ -48,7 +48,7 @@ const StatusCard = ({
   return (
     <div
       className="vads-u-width--full vads-u-margin-bottom--3"
-      data-testid="application-with-status"
+      data-testid="submitted-application"
     >
       <va-card>
         <div className="vads-u-padding--1">{content}</div>

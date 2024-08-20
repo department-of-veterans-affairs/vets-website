@@ -186,11 +186,12 @@ describe('The My VA Dashboard', () => {
         cy.visit(manifest.rootUrl);
       });
 
-      it('should show benefit applications that and have a status', () => {
+      it('should show benefit applications that and have a submission status', () => {
         cy.findByRole('heading', {
           name: /benefit applications and forms/i,
         }).should('exist');
-        cy.findAllByTestId('application-with-status').should('have.length', 2);
+        cy.findAllByTestId('submitted-application').should('have.length', 2);
+        // TODO: flesh out tests in follow up tickets for UI variants for StatusCards
         // make the a11y check
         cy.injectAxe();
         cy.axeCheck();

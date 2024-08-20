@@ -6,6 +6,8 @@ import { recordDashboardClick } from '~/applications/personalization/dashboard/h
 
 const formatTitle = (title = '') => capitalize(title).replace(/\bva\b/, 'VA');
 
+// TODO: remove this file and replace with "DraftCard"
+// when we remove isFormSubmissionStatusWork toggle
 const ApplicationInProgress = ({
   continueUrl,
   expirationDate,

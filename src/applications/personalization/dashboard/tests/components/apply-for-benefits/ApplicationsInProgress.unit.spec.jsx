@@ -2,7 +2,7 @@ import React from 'react';
 import { expect } from 'chai';
 import { Provider } from 'react-redux';
 import { render } from '@testing-library/react';
-import { format, fromUnixTime, sub } from 'date-fns';
+import { format, fromUnixTime } from 'date-fns';
 import {
   oneDayAgo,
   oneDayFromNow,
@@ -17,13 +17,18 @@ import ApplicationsInProgress from '../../../components/benefit-application-draf
 /**
  * TODO: move the savedForms and formsWithStatus to /fixtures
  */
+const dayAgo = oneDayAgo();
+const dayFromNow = oneDayFromNow();
+const weekFromNow = oneWeekFromNow();
+const yearFromNow = oneYearFromNow();
+
 const savedForms = [
   {
     form: '686C-674',
     metadata: {
       version: 1,
       returnUrl: '/net-worth',
-      savedAt: oneDayAgo(),
+      savedAt: dayAgo,
       submission: {
         status: false,
         errorMessage: false,
@@ -31,18 +36,18 @@ const savedForms = [
         timestamp: false,
         hasAttemptedSubmit: false,
       },
-      expiresAt: oneWeekFromNow() / 1000,
-      lastUpdated: oneDayAgo() / 1000,
+      expiresAt: weekFromNow / 1000,
+      lastUpdated: dayAgo / 1000,
       inProgressFormId: 5179,
     },
-    lastUpdated: oneDayAgo() / 1000,
+    lastUpdated: dayAgo / 1000,
   },
   {
     form: '21-526EZ',
     metadata: {
       version: 1,
       returnUrl: '/net-worth',
-      savedAt: oneDayAgo(),
+      savedAt: dayAgo,
       submission: {
         status: false,
         errorMessage: false,
@@ -50,18 +55,18 @@ const savedForms = [
         timestamp: false,
         hasAttemptedSubmit: false,
       },
-      expiresAt: oneDayFromNow() / 1000,
-      lastUpdated: oneDayAgo() / 1000,
+      expiresAt: dayFromNow / 1000,
+      lastUpdated: dayAgo / 1000,
       inProgressFormId: 5179,
     },
-    lastUpdated: oneDayAgo() / 1000,
+    lastUpdated: dayAgo / 1000,
   },
   {
     form: '1010ez',
     metadata: {
       version: 1,
       returnUrl: '/net-worth',
-      savedAt: oneDayAgo(),
+      savedAt: dayAgo,
       submission: {
         status: false,
         errorMessage: false,
@@ -69,11 +74,11 @@ const savedForms = [
         timestamp: false,
         hasAttemptedSubmit: false,
       },
-      expiresAt: oneYearFromNow() / 1000,
-      lastUpdated: oneDayAgo() / 1000,
+      expiresAt: yearFromNow / 1000,
+      lastUpdated: dayAgo / 1000,
       inProgressFormId: 5179,
     },
-    lastUpdated: oneDayAgo() / 1000,
+    lastUpdated: dayAgo / 1000,
   },
   {
     // non-existent form
@@ -81,21 +86,23 @@ const savedForms = [
     metadata: {
       version: 1,
       returnUrl: '/example',
-      savedAt: oneDayAgo(),
+      savedAt: dayAgo,
       submission: {
         status: false,
         errorMessage: false,
         id: false,
         hasAttemptedSubmit: false,
       },
-      expiresAt: oneYearFromNow() / 1000,
-      lastUpdated: oneDayAgo() / 1000,
+      expiresAt: yearFromNow / 1000,
+      lastUpdated: dayAgo / 1000,
       inProgressFormId: 5179,
     },
-    lastUpdated: oneDayAgo() / 1000,
+    lastUpdated: dayAgo / 1000,
   },
 ];
 
+const STATUS_CREATED_AT = '2023-12-15T20:40:47.583Z';
+const STATUS_UPDATED_AT = '2023-12-15T22:40:47.583Z';
 const formsWithStatus = [
   {
     id: '3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80',
@@ -106,8 +113,8 @@ const formsWithStatus = [
       formType: '21-0845',
       message: null,
       status: 'received',
-      createdAt: '2023-12-15T20:40:47.583Z',
-      updatedAt: sub(Date.now(), { days: 1 }),
+      createdAt: STATUS_CREATED_AT,
+      updatedAt: STATUS_UPDATED_AT,
     },
   },
 ];
@@ -161,11 +168,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[0]).to.contain.text(
-        format(fromUnixTime(oneDayFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[0]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[0]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
 
       expect(applicationsInProgress[1]).to.contain.text('FORM 686C-674');
@@ -173,11 +180,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[1]).to.contain.text(
-        format(fromUnixTime(oneWeekFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(weekFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[1]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[1]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
 
       expect(applicationsInProgress[2]).to.contain.text('FORM 10-10EZ');
@@ -185,11 +192,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[2]).to.contain.text(
-        format(fromUnixTime(oneYearFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(yearFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[2]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[2]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
     });
 
@@ -310,11 +317,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[0]).to.contain.text(
-        format(fromUnixTime(oneDayFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[0]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[0]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
 
       expect(applicationsInProgress[1]).to.contain.text('Draft');
@@ -323,11 +330,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[1]).to.contain.text(
-        format(fromUnixTime(oneWeekFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(weekFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[1]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[1]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
 
       expect(applicationsInProgress[2]).to.contain.text('Draft');
@@ -336,11 +343,11 @@ describe('ApplicationsInProgress component', () => {
         'Application expires on: ',
       );
       expect(applicationsInProgress[2]).to.contain.text(
-        format(fromUnixTime(oneYearFromNow() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(yearFromNow / 1000), 'MMMM d, yyyy'),
       );
       expect(applicationsInProgress[2]).to.contain.text('Last saved on: ');
       expect(applicationsInProgress[2]).to.contain.text(
-        format(fromUnixTime(oneDayAgo() / 1000), 'MMMM d, yyyy'),
+        format(fromUnixTime(dayAgo / 1000), 'MMMM d, yyyy'),
       );
     });
 
@@ -355,9 +362,7 @@ describe('ApplicationsInProgress component', () => {
         </Provider>,
       );
 
-      const receivedApplications = view.getAllByTestId(
-        'benefit-application-received',
-      );
+      const receivedApplications = view.getAllByTestId('submitted-application');
       expect(receivedApplications.length).to.equal(1);
       expect(receivedApplications[0]).to.contain.text('Received');
       expect(receivedApplications[0]).to.contain.text('VA FORM 21-0845');
@@ -365,7 +370,7 @@ describe('ApplicationsInProgress component', () => {
       expect(receivedApplications[0]).to.contain.text('December 15, 2023');
       expect(receivedApplications[0]).to.contain.text('Received on: ');
       expect(receivedApplications[0]).to.contain.text(
-        format(sub(Date.now(), { days: 1 }), 'MMMM d, yyyy'),
+        format(new Date(STATUS_UPDATED_AT), 'MMMM d, yyyy'),
       );
     });
   });
