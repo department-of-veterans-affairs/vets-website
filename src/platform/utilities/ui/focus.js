@@ -66,16 +66,18 @@ export function focusElement(selectorOrElement, options, root) {
  *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
+const defaultTime = Cypress?.env('CI') ? 0 : 250;
+const defaultMax = Cypress?.env('CI') ? 1 : 6;
 export function waitForRenderThenFocus(
   selector,
   root = document,
-  timeInterval = 250,
+  timeInterval = defaultTime,
   // added because we first need to wait for a component to be rendered, then we
   // need to target an element inside the component (in regular or in a web
   // component's shadow DOM)
   internalSelector,
 ) {
-  const maxIterations = 6; // 1.5 seconds
+  const maxIterations = defaultMax; // 6 iterations * 250 ms = 1.5 seconds
   let count = 0;
 
   let interval = setInterval(() => {
