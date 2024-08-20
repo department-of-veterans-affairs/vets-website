@@ -72,6 +72,9 @@ describe('<SchoolLocations>', () => {
       const currentDataLabels = dataLabels.at(index);
       if (currentDataLabels.text() !== '') {
         expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
       }
     });
 
@@ -132,6 +135,9 @@ describe('<SchoolLocations>', () => {
       const currentDataLabels = dataLabels.at(index);
       if (currentDataLabels.text() !== '') {
         expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
       }
     });
 
@@ -218,6 +224,9 @@ describe('<SchoolLocations>', () => {
       const currentDataLabels = dataLabels.at(index);
       if (currentDataLabels.text() !== '') {
         expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
       }
     });
 
@@ -228,6 +237,9 @@ describe('<SchoolLocations>', () => {
         const currentDataLabels = dataLabels.at(index);
         if (currentDataLabels.text() !== '') {
           expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
         }
       },
     );
@@ -311,6 +323,9 @@ describe('<SchoolLocations>', () => {
       const currentDataLabels = dataLabels.at(index);
       if (currentDataLabels.text() !== '') {
         expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
       }
     });
 
@@ -322,6 +337,9 @@ describe('<SchoolLocations>', () => {
         const currentDataLabels = dataLabels.at(index);
         if (currentDataLabels.text() !== '') {
           expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
         }
       },
     );
