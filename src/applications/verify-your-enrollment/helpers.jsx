@@ -827,3 +827,35 @@ export function hasAddressFormChanged(currentState) {
   };
   return !deepEqual(initialState, filledCurrentState);
 }
+export function splitAddressLine(addressLine, maxLength) {
+  if (addressLine.length <= maxLength) {
+    return { line1: addressLine, line2: '' };
+  }
+
+  // Find the last space within the maxLength
+  let lastSpaceIndex = addressLine.lastIndexOf(' ', maxLength);
+
+  // If there's no space, we can't split without breaking a word, so just split at maxLength
+  if (lastSpaceIndex === -1) {
+    lastSpaceIndex = maxLength;
+  }
+
+  return {
+    line1: addressLine.substring(0, lastSpaceIndex),
+    line2: addressLine.substring(lastSpaceIndex).trim(),
+  };
+}
+export function removeCommas(obj) {
+  const newObj = {};
+
+  Object.keys(obj).forEach(key => {
+    if (typeof obj[key] === 'string') {
+      newObj[key] = obj[key].replace(/,/g, '');
+    } else if (typeof obj[key] === 'object' && !Array.isArray(obj[key])) {
+      newObj[key] = removeCommas(obj[key]);
+    } else {
+      newObj[key] = obj[key];
+    }
+  });
+  return newObj;
+}
