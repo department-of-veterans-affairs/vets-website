@@ -59,6 +59,13 @@ const SubTopicSelectPage = props => {
     [loggedIn],
   );
 
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [loading],
+  );
+
   // render loading indicator while we fetch
   if (loading) {
     return (
@@ -81,15 +88,17 @@ const SubTopicSelectPage = props => {
           label-header-level={CHAPTER_1.PAGE_3.QUESTION_1}
           error={validationError}
           required
+          name="select_subtopic"
           uswds
         >
           {apiData.map(subTopic => (
             <VaRadioOption
               key={subTopic.id}
-              name={subTopic.attributes.name}
+              name="select_subtopic"
               id={subTopic.id}
               value={subTopic.attributes.name}
               label={subTopic.attributes.name}
+              checked={subTopic.attributes.name === formData.selectSubtopic}
               uswds
             />
           ))}

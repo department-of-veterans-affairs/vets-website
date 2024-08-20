@@ -17,7 +17,7 @@ describe('Check In Experience | Pre-Check-In | Appointment Errors', () => {
       initializeSessionGet.withSuccessfulNewSession();
       initializeSessionPost.withValidation();
       cy.visitPreCheckInWithUUID('354d5b3a-b7b7-4e5c-99e4-8d563f15c521');
-      initializePreCheckInDataGet.withDayOfAppointment();
+      initializePreCheckInDataGet.withExpired();
       ValidateVeteran.validateVeteran();
       cy.injectAxeThenAxeCheck();
       ValidateVeteran.attemptToGoToNextPage();

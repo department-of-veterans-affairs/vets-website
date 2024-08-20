@@ -7,26 +7,37 @@ import { VaButton } from '@department-of-veterans-affairs/component-library/dist
  */
 
 const Button = ({ label, onClick, isSubmitting, isSecondary }) => {
+  if (isSubmitting) {
+    return (
+      <VaButton
+        data-testid="custom-button-group-button"
+        text={label}
+        onClick={onClick}
+        submit={isSubmitting}
+        secondary={isSecondary}
+      />
+    );
+  }
+
   return (
     <VaButton
       data-testid="custom-button-group-button"
       text={label}
       onClick={onClick}
-      submit={isSubmitting}
       secondary={isSecondary}
     />
   );
 };
 
 Button.defaultProps = {
-  isSubmitting: 'submit',
+  isSubmitting: false,
   isSecondary: false,
 };
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   isSecondary: PropTypes.bool,
-  isSubmitting: PropTypes.string,
+  isSubmitting: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   onClick: PropTypes.func,
 };
 
@@ -52,7 +63,7 @@ ButtonGroup.propTypes = {
     PropTypes.shape({
       label: PropTypes.string.isRequired,
       onClick: PropTypes.func.isRequired,
-      isSubmitting: PropTypes.bool,
+      isSubmitting: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
       isSecondary: PropTypes.bool,
     }),
   ).isRequired,

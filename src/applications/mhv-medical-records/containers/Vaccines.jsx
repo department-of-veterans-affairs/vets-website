@@ -62,6 +62,9 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+  const mockPhr = useSelector(
+    state => state.featureToggles.mhv_medical_records_mock_phr,
+  );
 
   useListRefresh({
     listState,
@@ -146,10 +149,12 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to
         vaccines), go to your allergy records.{' '}
+      </p>
+      <div className="vads-u-margin-bottom--4">
         <Link to="/allergies" className="no-print">
           Go to your allergy records
         </Link>
-      </p>
+      </div>
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -159,18 +164,20 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vaccines) &&
-            Array.isArray(updatedRecordList) &&
-            vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {!mockPhr && (
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vaccines) &&
+              Array.isArray(updatedRecordList) &&
+              vaccines.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
+        )}
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

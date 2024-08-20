@@ -49,8 +49,8 @@ export const Locators = {
   MESSAGES: '[data-testid="message-list-item"]',
   TO: '[data-testid="to"]',
   FROM: '[data-testid="from"]',
-  MESS_ID: '[data-testid="message-id"]',
-  MES_DATE: '[data-testid="message-date"]',
+  MSG_ID: '[data-testid="message-id"]',
+  MSG_DATE: '[data-testid="message-date"]',
   DATE_RECEIVED: '[data-testid="received-date"]',
   HEADER_FOLDER: '[data-testid*=folder-header]',
   ATTACH_FILE_INPUT: '[data-testid="attach-file-input"]',
@@ -58,7 +58,6 @@ export const Locators = {
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
-  DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
   DELETE_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
@@ -80,6 +79,7 @@ export const Locators = {
   ADDITIONAL_FILTER: '#additional-filter-accordion',
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
+  SPINNER: `[data-testid="loading-indicator"]`,
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -109,8 +109,8 @@ export const Locators = {
     TESTAGAIN: '[data-testid=radiobutton-TESTAGAIN]',
     NEW_FOLDER_RADIOBTN: '[data-testid=folder-list-radio-button]',
     DELETE_RADIOBTN: '[data-testid=radiobutton-Deleted]',
-    BUTTON_MOVE: 'button:contains("Move")',
-    BUTTON_TRASH: 'button:contains("Trash")',
+    MOVE: `#move-button`,
+    TRASH: `#trash-button`,
     BUTTON_TEXT: '[data-testid="trash-button-text"]',
     MOVE_BUTTON_TEXT: '[data-testid="move-button-text"]',
     FILTER: '[data-testid="filter-messages-button"]',
@@ -210,7 +210,7 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    ATTACH_INFO: '[class="additional-info-title"]',
+    ADDITIONAL_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
   BLOCKS: {
@@ -222,6 +222,10 @@ export const Locators = {
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
+  },
+  DROPDOWN: {
+    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    SORT: '#sort-order-dropdown',
   },
 };
 

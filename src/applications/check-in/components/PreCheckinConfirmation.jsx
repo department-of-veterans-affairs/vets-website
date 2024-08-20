@@ -3,11 +3,9 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import AppointmentBlock from './AppointmentBlock';
-import ExternalLink from './ExternalLink';
+import LinkList from './LinkList';
 import ConfirmationAccordionBlock from './ConfirmationAccordionBlock';
-import HowToLink from './HowToLink';
 import PrepareContent from './PrepareContent';
 import Wrapper from './layout/Wrapper';
 
@@ -15,18 +13,10 @@ import { makeSelectForm } from '../selectors';
 
 const PreCheckinConfirmation = props => {
   const { appointments, isLoading, router } = props;
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const selectForm = useMemo(makeSelectForm, []);
   const currentForm = useSelector(selectForm);
-
-  // appt link will be /my-health/appointments if toggle is on
-  const apptLink = useToggleValue(
-    TOGGLE_NAMES.vaOnlineSchedulingBreadcrumbUrlUpdate,
-  )
-    ? 'https://va.gov/my-health/appointments/'
-    : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
-
   const { t } = useTranslation();
+
   const pageTitle =
     currentForm.pages.length < 5
       ? t('your-information-is-up-to-date')
@@ -61,13 +51,7 @@ const PreCheckinConfirmation = props => {
           router={router}
           appointmentCount={appointments.length}
         />
-        <HowToLink />
-        <p className="vads-u-margin-bottom--4">
-          <ExternalLink href={apptLink} hrefLang="en">
-            {t('sign-in-to-manage')}
-          </ExternalLink>
-        </p>
-
+        <LinkList router={router} />
         <ConfirmationAccordionBlock appointments={appointments} />
       </Wrapper>
     );
