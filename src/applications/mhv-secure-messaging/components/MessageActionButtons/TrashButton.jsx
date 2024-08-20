@@ -69,7 +69,12 @@ const TrashButton = props => {
           <div className="vads-u-margin-right--0p5">
             <va-icon icon="delete" aria-hidden />
           </div>
-          <span className="message-action-button-text">Trash</span>
+          <span
+            className="message-action-button-text"
+            data-testid="trash-button-text"
+          >
+            Trash
+          </span>
         </button>
         {isDeleteVisible && deleteMessageModal()}
       </>
