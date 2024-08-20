@@ -41,8 +41,9 @@ const arrayBuilderOptions = {
     !item?.branch ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyServing) ||
-    !item?.characterOfDischarge ||
-    (requireExplanation(item?.characterOfDischarge) &&
+    (!item?.currentlyServing && !item?.characterOfDischarge) ||
+    ((!item?.currentlyServing ||
+      requireExplanation(item?.characterOfDischarge)) &&
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
@@ -77,8 +78,17 @@ const branchAndDateRangePage = {
         title: 'Service end date',
         hideIf: (formData, index) =>
           formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+        required: (formData, index) =>
+          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
       },
     ),
+    'view:dateRangeEndDate': {
+      'ui:description': 'Service end date',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+      },
+    },
     currentlyServing: {
       'ui:title': 'I am currently in the military.',
       'ui:webComponentField': VaCheckboxField,
@@ -88,9 +98,10 @@ const branchAndDateRangePage = {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: {
-        ...currentOrPastDateRangeSchema,
-        required: ['from'],
+      dateRange: currentOrPastDateRangeSchema,
+      'view:dateRangeEndDate': {
+        type: 'object',
+        properties: {},
       },
       currentlyServing: {
         type: 'boolean',
@@ -191,6 +202,11 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     militaryServiceExperienceBranchDateRangePage: pageBuilder.itemPage({
       title: 'Military service experience branch and date range',
       path: 'military-service-experiences/:index/branch-date-range',
+      onNavForward: props => {
+        return !props.formData.currentlyServing
+          ? helpers.navForwardKeepUrlParams(props)
+          : helpers.navForwardFinishedItem(props);
+      },
       uiSchema: branchAndDateRangePage.uiSchema,
       schema: branchAndDateRangePage.schema,
     }),
