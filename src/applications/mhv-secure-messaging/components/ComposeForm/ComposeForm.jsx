@@ -265,10 +265,8 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
-        messageInvalid || 
-  (isSignatureRequired && (signatureInvalid || checkboxInvalid))
-        (isSignatureRequired && signatureInvalid) ||
-        (isSignatureRequired && checkboxInvalid)
+        messageInvalid ||
+        (isSignatureRequired && (signatureInvalid || checkboxInvalid))
       ) {
         focusOnErrorField();
       }
