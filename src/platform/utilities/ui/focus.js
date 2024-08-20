@@ -66,8 +66,9 @@ export function focusElement(selectorOrElement, options, root) {
  *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
-const defaultTime = Cypress?.env('CI') ? 0 : 250;
-const defaultMax = Cypress?.env('CI') ? 1 : 6;
+const isCypressRunning = typeof Cypress !== 'undefined' && Cypress.env('CI');
+const defaultTime = isCypressRunning ? 0 : 250;
+const defaultMax = isCypressRunning ? 1 : 6;
 export function waitForRenderThenFocus(
   selector,
   root = document,
