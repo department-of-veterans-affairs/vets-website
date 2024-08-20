@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/utils';
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
@@ -11,21 +10,21 @@ import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import {
-  // ALERT_TYPE_SUCCESS,
-  // Alerts,
+  ALERT_TYPE_SUCCESS,
+  Alerts,
   BlockedTriageAlertStyles,
   ErrorMessages,
   PageTitles,
   ParentComponent,
   Paths,
 } from '../util/constants';
-// import { updateTriageTeamRecipients } from '../actions/recipients';
-// import { addAlert } from '../actions/alerts';
+import { updateTriageTeamRecipients } from '../actions/recipients';
+import { addAlert } from '../actions/alerts';
 // import SmRouteLeavingGuard from '../components/shared/SmRouteLeavingGuard';
 import NavigationGuardTest from '../components/shared/NavigationGuardTest';
 
 const EditContactList = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const history = useHistory();
   // const [navigationError, setNavigationError] = useState(null);
   const [allTriageTeams, setAllTriageTeams] = useState([]);
@@ -130,28 +129,39 @@ const EditContactList = () => {
     );
   };
 
-  const handleSaveAndExit = e => {
+  // const handleConfirmSaveAndExit = e => {
+  //   e.preventDefault();
+  //   navigateBack();
+  // };
+
+  const handleSaveAndExit = async (e, forceSave) => {
     e.preventDefault();
-    // setBypassModal(true);
-    // setModalVisible(false);
-    // dispatch(updateTriageTeamRecipients(allTriageTeams));
-    // dispatch(
-    //   addAlert(
-    //     ALERT_TYPE_SUCCESS,
-    //     null,
-    //     Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
-    //   ),
-    // );
+    if (forceSave) {
+      await setIsNavigationBlocked(false);
+    }
+    if (forceSave || !isNavigationBlocked) {
+      dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(
+        addAlert(
+          ALERT_TYPE_SUCCESS,
+          null,
+          Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+        ),
+      );
+    }
+
     navigateBack();
   };
 
-  const handleCancel = () => {
-    if (isContactListChanged) {
-      // setBypassModal(false);
-      // setModalVisible(true);
-    } else {
-      navigateBack();
-    }
+  const handleCancel = e => {
+    e.preventDefault();
+    // if (isContactListChanged) {
+    //   console.log('handleCancel');
+    //   // setBypassModal(false);
+    //   // setModalVisible(true);
+    // } else {
+    navigateBack();
+    // }
   };
 
   useEffect(
@@ -282,7 +292,7 @@ const EditContactList = () => {
               vads-u-margin-bottom--1
               small-screen:vads-u-margin-bottom--0
             "
-            onClick={handleSaveAndExit}
+            onClick={e => handleSaveAndExit(e, true)}
           >
             Save and exit
           </button>

@@ -1,79 +1,7 @@
-// import React, { useState, useCallback, useEffect } from 'react';
-// import { Prompt, useLocation, useHistory } from 'react-router-dom';
-// import PropTypes from 'prop-types';
-
-// const NavigationGuardTest = ({
-//   when,
-//   onCancelNavigation,
-//   onConfirmNavigation,
-//   modalTitle,
-//   modalText,
-//   confirmButtonText,
-//   cancelButtonText,
-//   bypassModal,
-//   setBypassModal,
-// }) => {
-//   const [isBlocking, setIsBlocking] = useState(false);
-//   const [nextPath, setNextPath] = useState(null); // Renamed to avoid conflict
-//   const location = useLocation();
-//   const history = useHistory();
-
-//   const handleBlockedNavigation = useCallback(
-//     nextLocation => {
-//       if (when && nextLocation.pathname !== location.pathname) {
-//         setNextPath(nextLocation.pathname); // Only store the path
-//         setIsBlocking(true);
-//         return false; // Block navigation
-//       }
-//       return true;
-//     },
-//     [when, location.pathname],
-//   );
-
-//   const handleConfirm = e => {
-//     e.preventDefault(); // Prevent default navigation
-//     setIsBlocking(false);
-//     onConfirmNavigation();
-//     if (nextPath) {
-//       history.push(nextPath);
-//     }
-//   };
-
-//   const handleCancel = () => {
-//     setIsBlocking(false);
-//     onCancelNavigation();
-//   };
-
-//   return (
-//     <>
-//       <Prompt when={when} message={handleBlockedNavigation} />
-//       {isBlocking && (
-//         <div className="modal">
-//           <h2>{modalTitle}</h2>
-//           <p>{modalText}</p>
-//           <button onClick={handleConfirm}>{confirmButtonText}</button>
-//           <button onClick={handleCancel}>{cancelButtonText}</button>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// NavigationGuardTest.propTypes = {
-//   when: PropTypes.bool.isRequired,
-//   cancelButtonText: PropTypes.string,
-//   confirmButtonText: PropTypes.string,
-//   modalText: PropTypes.string,
-//   modalTitle: PropTypes.string,
-//   onCancelNavigation: PropTypes.func,
-//   onConfirmNavigation: PropTypes.func,
-// };
-
-// export default NavigationGuardTest;
-
 import React, { useEffect, useState, useCallback } from 'react';
-import { Prompt, useHistory } from 'react-router-dom';
+import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 const NavigationGuardTest = ({
   when,
@@ -84,11 +12,11 @@ const NavigationGuardTest = ({
   confirmButtonText,
   cancelButtonText,
 }) => {
-  const [isBlocking, setIsBlocking] = useState(when);
+  const [isBlocking, setIsBlocking] = useState(false);
   // const [nextLocation, setNextLocation] = useState(null);
-  const [isModalVisible, setIsModalVisible] = useState(false);
-  const history = useHistory();
-
+  const [modalVisible, updateModalVisible] = useState(false);
+  // const history = useHistory();
+  // console.log('isBlocking', isBlocking);
   // Handle blocking navigation
   // useEffect(
   //   () => {
@@ -116,50 +44,71 @@ const NavigationGuardTest = ({
     [when],
   );
 
+  const closeModal = () => {
+    setIsBlocking(true);
+    updateModalVisible(false);
+  };
+
   const handleConfirm = useCallback(
     e => {
-      setIsBlocking(false);
+      // setIsBlocking(false);
       onConfirmNavigation(e);
       // if (nextLocation) {
       // history.push(nextLocation.pathname);
       // }
     },
-    [history, onConfirmNavigation],
+    [onConfirmNavigation],
   );
 
   const handleCancel = useCallback(
     () => {
-      // setIsBlocking(true); // Keep blocking if the user cancels
+      // e.preventDeafult();
+      setIsBlocking(true); // Keep blocking if the user cancels
       // setNextLocation(null); // Clear the next location to prevent navigation
+      updateModalVisible(false);
       // onCancelNavigation();
-      setIsModalVisible(false);
     },
-    [isModalVisible],
+    [modalVisible],
   );
 
   const handleBlockedNavigation = useCallback(
     () => {
       if (isBlocking) {
-        setIsModalVisible(true);
+        updateModalVisible(true);
+        setIsBlocking(false);
         return false;
       }
       // setIsModalVisible(false)
       return true;
     },
-    [isBlocking, setIsModalVisible],
+    [isBlocking, setIsBlocking, updateModalVisible],
   );
 
   return (
     <>
-      <Prompt when={isBlocking} message={handleBlockedNavigation} />
-      {isModalVisible && (
-        <div className="modal">
-          <h2>{modalTitle}</h2>
-          <p>{modalText}</p>
-          <button onClick={handleConfirm}>{confirmButtonText}</button>
-          <button onClick={handleCancel}>{cancelButtonText}</button>
-        </div>
-      )}
+      <Prompt when={when} message={handleBlockedNavigation} />
+      <VaModal
+        modalTitle={modalTitle}
+        onCloseEvent={closeModal}
+        status="warning"
+        visible={modalVisible}
+        // data-dd-action-name="Navigation Warning Modal Closed"
+      >
+        <p>{modalText}</p>
+        <va-button
+          class="vads-u-margin-top--1"
+          text={confirmButtonText}
+          onClick={handleConfirm}
+          // data-dd-action-name="Cancel Navigation Continue Editing Button"
+        />
+        <va-button
+          class="vads-u-margin-top--1"
+          secondary
+          text={cancelButtonText}
+          onClick={handleCancel}
+          // data-dd-action-name="Confirm Navigation Leaving Button"
+        />
+      </VaModal>
     </>
   );
 };
