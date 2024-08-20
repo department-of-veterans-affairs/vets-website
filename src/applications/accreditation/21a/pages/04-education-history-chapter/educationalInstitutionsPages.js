@@ -25,6 +25,12 @@ import { degreeOptions } from '../../constants/options';
 import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
+const getDateRange = item => {
+  return `${formatReviewDate(item?.dateRange?.from)} - ${
+    item?.currentlyEnrolled ? 'Present' : formatReviewDate(item?.dateRange?.to)
+  }`;
+};
+
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
   arrayPath: 'educationalInstitutions',
@@ -40,10 +46,7 @@ const arrayBuilderOptions = {
     (item?.degreeReceived === false && !item?.reasonForNotCompleting),
   text: {
     getItemName: item => item?.name,
-    cardDescription: item =>
-      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
-        item?.dateRange?.to,
-      )}`,
+    cardDescription: item => getDateRange(item),
   },
 };
 
@@ -77,7 +80,6 @@ const institutionAndDegreePage = {
       },
     ),
     currentlyEnrolled: {
-      'ui:required': false,
       'ui:title': 'I still go to school here.',
       'ui:webComponentField': VaCheckboxField,
     },
@@ -101,7 +103,13 @@ const institutionAndDegreePage = {
     type: 'object',
     properties: {
       name: textSchema,
-      dateRange: currentOrPastDateRangeSchema,
+      dateRange: {
+        ...currentOrPastDateRangeSchema,
+        required: ['from'],
+      },
+      currentlyEnrolled: {
+        type: 'boolean',
+      },
       degreeReceived: yesNoSchema,
       degree: selectSchema(degreeOptions),
       reasonForNotCompleting: textareaSchema,
