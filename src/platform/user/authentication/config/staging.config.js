@@ -103,8 +103,6 @@ export default {
     },
     oAuthOptions: {
       ...arpWebOAuthOptions,
-      // TODO: refactor `CLIENT_IDS` to vary by environment. This is the value
-      // for the ARP frontend in staging.
       clientId: 'ce6db4d7974daf061dccdd21ba9add14',
     },
     OAuthEnabled: true,

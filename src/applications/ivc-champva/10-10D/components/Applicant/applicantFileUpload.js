@@ -1,5 +1,6 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { fileUploadBlurbCustom } from 'applications/ivc-champva/shared/components/fileUploads/attachments';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
@@ -38,6 +39,21 @@ const marriageDocumentList = (
         A document showing proof of a civil union, <b>or</b>
       </li>
       <li>Common-law marriage affidavit</li>
+    </ul>
+  </>
+);
+
+const divorceDocumentList = (
+  <>
+    <b>If the remarriage has ended</b>, upload a copy of one of these documents:
+    <ul>
+      <li>
+        Divorce decree, <b>or</b>
+      </li>
+      <li>
+        Annulment decree, <b>or</b>
+      </li>
+      <li>Death certificate</li>
     </ul>
   </>
 );
@@ -430,9 +446,9 @@ export const applicantOtherInsuranceCertificationUploadUiSchema = {
   },
 };
 
-export const applicantMarriageCertConfig = uploadWithInfoComponent(
+export const applicantRemarriageCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.spouseCert,
-  'marriage certificates',
+  'remarriage certificates',
 );
 
 // When in list loop, formData is just the list element's data, but when editing
@@ -444,13 +460,19 @@ export function getTopLevelFormData(formContext) {
     : formContext.contentAfterButtons.props.form.data;
 }
 
-export const applicantMarriageCertUploadUiSchema = {
+// If the beneficiary remarried, collect proof of that remarriage
+// and any other marital docs they want to include
+export const applicantRemarriageCertUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        ({ _formData, formContext }) =>
-          `Upload proof of marriage or legal union ${isRequiredFile(
+        ({ formData, formContext }) =>
+          `If ${applicantWording(
+            formData,
+            false,
+            false,
+          )} remarried, upload proof of remarriage ${isRequiredFile(
             formContext,
           )}`,
         ({ formData, formContext }) => {
@@ -460,22 +482,24 @@ export const applicantMarriageCertUploadUiSchema = {
           const vetName = getTopLevelFormData(formContext)?.veteransFullName;
           return (
             <>
-              You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{nonPosessive}</b> and{' '}
-              <b>
-                {vetName?.first ?? ''} {vetName?.last ?? ''}
-              </b>
-              .<br />
+              If {nonPosessive} remarried after the death of{' '}
+              {vetName?.first ?? ''} {vetName?.last ?? ''}, you can help us
+              process your application by submitting documents showing proof of
+              that remarriage.
+              <br />
               <br />
               {marriageDocumentList}
-              {mailOrFaxLaterMsg}
+              {divorceDocumentList}
             </>
           );
         },
       ),
-      ...applicantMarriageCertConfig.uiSchema,
-      applicantMarriageCert: fileUploadUI({
-        label: 'Upload proof of marriage or legal union',
+      ...fileUploadBlurbCustom(
+        <li>You can upload more than one file here.</li>,
+        'You can also upload all your supporting documents at the end of this form. Or you can send copies by mail or fax.',
+      ),
+      applicantRemarriageCert: fileUploadUI({
+        label: 'Upload proof of remarriage',
       }),
     },
   },
@@ -505,7 +529,7 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           );
         },
       ),
-      ...applicantMarriageCertConfig.uiSchema,
+      ...applicantRemarriageCertConfig.uiSchema,
       applicantSecondMarriageCert: fileUploadUI({
         label: 'Upload proof of marriage or legal union',
       }),
