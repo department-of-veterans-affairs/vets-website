@@ -3,13 +3,17 @@ import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityList from '../../../../components/FormFields/FacilityList';
 
 describe('CG <FacilityList>', () => {
-  const getData = ({ reviewMode = false, submitted = false, value = '' }) => ({
+  const getData = ({
+    reviewMode = false,
+    submitted = false,
+    value = undefined,
+  }) => ({
     props: {
-      facilities: mockLightHouseFacilitiesResponseWithTransformedAddresses.data,
+      facilities: mockFetchFacilitiesResponse,
       formContext: { reviewMode, submitted },
       onChange: sinon.spy(),
       query: 'Tampa',
@@ -33,10 +37,10 @@ describe('CG <FacilityList>', () => {
     });
 
     it('should render facility name container when in review mode', () => {
-      const { props } = getData({ reviewMode: true, value: 'vha_111AA' });
+      const { props } = getData({ reviewMode: true, value: 'vha_757QC' });
       const { selectors } = subject({ props });
       expect(selectors().name).to.exist;
-      expect(selectors().name.textContent).to.contain('Test VA Clinic');
+      expect(selectors().name.textContent).to.contain('Columbus VA Clinic');
       expect(selectors().vaRadio).to.not.exist;
     });
 

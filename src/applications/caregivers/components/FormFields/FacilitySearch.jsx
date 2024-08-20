@@ -54,7 +54,11 @@ const FacilitySearch = props => {
       return;
     }
 
-    const facilitiesResponse = await fetchFacilities(mapboxResponse.center);
+    const [longitude, latitude] = mapboxResponse.center;
+    const facilitiesResponse = await fetchFacilities({
+      long: longitude,
+      lat: latitude,
+    });
     if (facilitiesResponse.errorMessage) {
       setError(facilitiesResponse.errorMessage);
       setLoading(false);

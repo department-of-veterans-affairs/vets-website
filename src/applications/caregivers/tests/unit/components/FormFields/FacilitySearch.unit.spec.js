@@ -8,7 +8,7 @@ import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
-import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import content from '../../../../locales/en/content.json';
 
 describe('CG <FacilitySearch>', () => {
@@ -54,7 +54,7 @@ describe('CG <FacilitySearch>', () => {
   });
 
   context('when search is attempted with valid data', () => {
-    const successResponse = {};
+    const successResponse = { center: [1, 2] };
     let mapboxStub;
     let facilitiesStub;
 
@@ -72,9 +72,7 @@ describe('CG <FacilitySearch>', () => {
       const { props } = getData({});
       const { container, selectors } = subject({ props });
       mapboxStub.resolves(successResponse);
-      facilitiesStub.resolves(
-        mockLightHouseFacilitiesResponseWithTransformedAddresses.data,
-      );
+      facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
         inputVaTextInput(container, 'Tampa', selectors().input);
@@ -92,8 +90,7 @@ describe('CG <FacilitySearch>', () => {
     it('calls onChange callback with facility object', async () => {
       const { props } = getData({});
       const { container, selectors } = subject({ props });
-      const facilities =
-        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+      const facilities = mockFetchFacilitiesResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(facilities);
 
@@ -123,8 +120,7 @@ describe('CG <FacilitySearch>', () => {
         formData: { veteranSelected: { id: facilityId } },
       });
       const { container, selectors } = subject({ props });
-      const facilities =
-        mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+      const facilities = mockFetchFacilitiesResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(facilities);
 
