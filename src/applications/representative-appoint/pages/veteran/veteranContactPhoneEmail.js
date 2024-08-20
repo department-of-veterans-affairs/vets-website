@@ -7,10 +7,16 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { preparerIsVeteran } from '../../utilities/helpers';
+
 export const blankSchema = { type: 'object', properties: {} };
 
 export const uiSchema = {
-  ...titleUI('Veteran’s phone number and email address'),
+  ...titleUI(
+    `${
+      preparerIsVeteran ? 'Veteran’s' : 'Your'
+    }} phone number and email address`,
+  ),
   Primary: phoneUI({
     required: true,
   }),
