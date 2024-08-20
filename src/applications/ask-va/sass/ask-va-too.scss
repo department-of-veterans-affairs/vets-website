@@ -8,11 +8,6 @@
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
-.dashboard-card {
-  background-color: var(--vads-color-base-lightest);
-  border: none;
-}
-
 .card-heading {
   font-weight: 600;
 }
@@ -37,15 +32,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
   margin-top: 0.625rem;
-}
-
-.inbox-replies,
-.attachment-box {
-  width: 70%;
-
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
 }
 
 .empty-message {
@@ -88,9 +74,18 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(
-    1.2em * 2
-  ); /* Renders 3 lines and then ellipsis to keep card height uniform */
+  height: calc(1.2em * 2);
+  line-height: 1.2;
+  font-size: 16px;
+}
+
+.multiline-ellipsis-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: calc(1.2em * 3);
   line-height: 1.2;
   font-size: 16px;
 }
@@ -364,14 +359,26 @@ ul.react-tabs__tab-list {
   justify-content: space-between;
   height: 346px;
   border: solid 1px var(--vads-color-base-light);
+  padding: 24px;
 }
 
 .inquiry-question {
-  height: "93px";
+  height: 93px;
   overflow: "hidden";
   display: -webkit-box !important;
   -webkit-line-clamp: 3;
   -webkit-box-orient: "vertical";
   text-overflow: "ellipsis";
   white-space: normal;
+}
+
+.dashboard-card {
+  background-color: var(--vads-color-base-lightest);
+  border: none;
+}
+
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }

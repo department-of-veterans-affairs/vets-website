@@ -1,11 +1,13 @@
 import {
   VaAlert,
+  VaBreadcrumbs,
   VaCard,
   VaLink,
   VaLoadingIndicator,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { format, parse } from 'date-fns';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
@@ -25,7 +27,8 @@ const DashboardCards = () => {
   const [loading, setLoading] = useState(true);
 
   const formatDate = dateString => {
-    return moment(dateString, 'MM/DD/YY').format('MMM D, YYYY');
+    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    return format(parsedDate, 'MMM d, yyyy');
   };
 
   const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
@@ -90,25 +93,22 @@ const DashboardCards = () => {
     const sortedInquiries = filterAndSortInquiries(category);
 
     return (
-      <div className="vads-u-display--flex vads-u-flex-wrap--wrap vads-u-padding--1 vads-u-padding-top--0 vads-l-grid-container">
+      <div className="dashboard-cards-grid">
         {sortedInquiries.map(card => (
-          <div
-            className="vads-l-col--12 medium-screen:vads-l-col--6 vads-u-padding--1"
-            key={card.inquiryNumber}
-          >
+          <div className="" key={card.inquiryNumber}>
             <VaCard className="vacard">
               <div>
                 <span className="usa-label">{card.status}</span>
               </div>
               <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                {formatDate(card.createdOn)}
+                Submitted on {formatDate(card.createdOn)}
               </h3>
               <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
                 Last Updated: {formatDate(card.lastUpdate)}
               </p>
               <p className="vads-u-margin--0">Category: {card.category}</p>
               <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
-              <p className="vads-u-margin-y--1p5 multiline-ellipsis-4">
+              <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
                 {card.submitterQuestion}
               </p>
               <Link to={`/user/dashboard/${card.id}`}>
@@ -140,6 +140,7 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full">
+      <VaBreadcrumbs />
       <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
         Your questions
       </h2>
