@@ -210,8 +210,8 @@ const MoveMessageToFolderBtn = props => {
         <button
           id="move-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
-          style={{ minWidth: '100px' }}
+          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2"
+          style={{ minWidth: '90px' }}
           onClick={openModal}
         >
           <div className="vads-u-margin-right--0p5">
