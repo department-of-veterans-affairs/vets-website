@@ -117,6 +117,7 @@ const FacilitySearch = props => {
 
 FacilitySearch.propTypes = {
   value: PropTypes.string,
+  onChange: PropTypes.func.isRequired,
 };
 
 export default FacilitySearch;
