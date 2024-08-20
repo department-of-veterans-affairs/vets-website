@@ -43,24 +43,22 @@ const UpcomingAppointmentsList = props => {
     window.scrollTo(0, 0);
     return (
       <div data-testid="no-upcoming-appointments">
-        <va-card background>
-          <h3 className="vads-u-margin-top--0">
-            {t('we-cant-find-any-upcoming-appointments')}
-          </h3>
-          <p>{t('our-online-check-in-tool-doesnt-include-all')}</p>
-          <p>
-            <va-link
-              href="https://www.va.gov/health-care/schedule-view-va-appointments/"
-              text={t('go-to-all-your-va-appointments')}
-            />
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            <va-link
-              href="https://www.va.gov/find-locations/"
-              text={t('find-your-health-facilities-phone-number')}
-            />
-          </p>
-        </va-card>
+        <h3 className="vads-u-margin-top--0">
+          {t('we-cant-find-any-upcoming-appointments')}
+        </h3>
+        <p>{t('our-online-check-in-tool-doesnt-include-all')}</p>
+        <p>
+          <va-link
+            href="https://www.va.gov/health-care/schedule-view-va-appointments/"
+            text={t('go-to-all-your-va-appointments')}
+          />
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          <va-link
+            href="https://www.va.gov/find-locations/"
+            text={t('find-your-health-facilities-phone-number')}
+          />
+        </p>
       </div>
     );
   }
