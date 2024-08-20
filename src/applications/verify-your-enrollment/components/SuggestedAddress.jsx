@@ -80,17 +80,16 @@ const SuggestedAddress = ({
       }
     } else {
       try {
-        await dispatch(
-          postMailingAddress({
-            veteranName: applicantName,
-            address1: formData.addressLine1,
-            address2: formData.addressLine2,
-            address3: formData.addressLine3,
-            address4: formData.addressLine4,
-            city: formData.city,
-            ...addressState,
-          }),
-        );
+        const enteredAddress = {
+          veteranName: applicantName,
+          address1: formData.addressLine1,
+          address2: formData.addressLine2,
+          address3: formData.addressLine3,
+          address4: formData.addressLine4,
+          city: formData.city,
+          ...addressState,
+        };
+        await dispatch(postMailingAddress(removeCommas(enteredAddress)));
         setAddressToUI({
           street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
           city: formData.city,

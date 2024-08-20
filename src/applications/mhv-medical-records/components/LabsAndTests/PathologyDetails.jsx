@@ -140,7 +140,7 @@ ${record.results} \n`;
         <p data-testid="pathology-lab-comments">{record.labComments}</p>
       </div>
       <div className="test-results-container">
-        <h2>Report</h2>
+        <h2>Results</h2>
         <InfoAlert fullState={fullState} />
         <p data-testid="pathology-report" className="monospace">
           {record.results}
