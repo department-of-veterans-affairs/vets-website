@@ -192,7 +192,7 @@ export const Locators = {
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
-    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
@@ -248,6 +248,11 @@ export const Alerts = {
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
+  EL_SIGN: `Messages to this team require a signature. We added a signature box to this page.`,
+  EL_SIGN_NAME: `Enter your full name`,
+  EL_SIGN_CHECK: `You must certify by checking the box.`,
+  SAVE_SIGN: `We can't save your signature in a draft message`,
+  SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
 };
 
 export const Data = {
@@ -300,6 +305,12 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
+  EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
+  BUTTONS: {
+    EDIT_DRAFT: `Edit draft`,
+    SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
+    SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',

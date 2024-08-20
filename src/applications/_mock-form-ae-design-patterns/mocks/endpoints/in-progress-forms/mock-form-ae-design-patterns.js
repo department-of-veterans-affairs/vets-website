@@ -62,7 +62,40 @@ const createSaveInProgressUpdate = () => {
   };
 };
 
+const createSaveInProgressUpdateTaskPurple = () => {
+  const now = new Date().toISOString();
+
+  return {
+    data: {
+      id: '',
+      type: 'in_progress_forms',
+      attributes: {
+        formId: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+        createdAt: '2024-08-14T22:19:19.035Z',
+        updatedAt: now,
+        metadata: {
+          version: 0,
+          returnUrl: '/task-purple/veteran-information',
+          savedAt: Date.now(),
+          submission: {
+            status: false,
+            errorMessage: false,
+            id: false,
+            timestamp: false,
+            hasAttemptedSubmit: false,
+          },
+          createdAt: Math.floor(Date.now() / 1000),
+          expiresAt: Math.floor(Date.now() / 1000) + 5184000, // Current time + 60 days in seconds
+          lastUpdated: Math.floor(Date.now() / 1000),
+          inProgressFormId: 34920,
+        },
+      },
+    },
+  };
+};
+
 module.exports = {
   prefill,
   createSaveInProgressUpdate,
+  createSaveInProgressUpdateTaskPurple,
 };
