@@ -3,12 +3,11 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import userEvent from '@testing-library/user-event';
-import { mockLightHouseFacilitiesResponseWithTransformedAddresses } from '../../../mocks/responses';
+import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityConfirmation from '../../../../components/FormPages/FacilityConfirmation';
 
 describe('CG <FacilityConfirmation>', () => {
-  const facilities =
-    mockLightHouseFacilitiesResponseWithTransformedAddresses.data;
+  const facilities = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
 
   const goBack = sinon.spy();
@@ -28,8 +27,7 @@ describe('CG <FacilityConfirmation>', () => {
     const { getByText, getByRole } = render(
       <FacilityConfirmation {...props} />,
     );
-    const selectedFacilityAddress =
-      selectedFacility.attributes.address.physical;
+    const selectedFacilityAddress = selectedFacility.address.physical;
 
     const selectors = () => ({
       descriptionText: {
@@ -46,7 +44,7 @@ describe('CG <FacilityConfirmation>', () => {
         ),
       },
       selectedFacility: {
-        name: getByText(new RegExp(selectedFacility.attributes.name)),
+        name: getByText(new RegExp(selectedFacility.name)),
         address1: getByText(new RegExp(selectedFacilityAddress.address1)),
         address2: getByText(new RegExp(selectedFacilityAddress.address2)),
         address3: getByText(new RegExp(selectedFacilityAddress.address3)),
