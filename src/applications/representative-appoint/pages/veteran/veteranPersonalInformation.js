@@ -12,7 +12,7 @@ export default {
   path: 'veteran-personal-information',
   uiSchema: {
     ...titleUI(
-      'Name and date of birth',
+      'Veteran’s name and date of birth',
       'Use your legal name as it appears on your government documentation.',
     ),
     fullName: fullNameUI(),
