@@ -290,7 +290,7 @@ const App = ({ children }) => {
                 )}
                 <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
                   <div className="vads-l-row">
-                    <div className="vads-l-col">{children}</div>
+                    <div className="vads-l-col--8">{children}</div>
                     {!showSideNav && (
                       <div className="medium-screen:vads-l-col--4 no-print" />
                     )}
