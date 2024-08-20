@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
 
 import {
@@ -53,6 +54,9 @@ const formConfig = {
   customText: {
     reviewPageTitle: 'Review and sign',
     submitButtonText: 'Submit',
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   preSubmitInfo: {
     statementOfTruth: {
