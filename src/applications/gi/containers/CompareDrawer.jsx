@@ -247,13 +247,7 @@ export function CompareDrawer({
 
   return (
     <>
-      <div
-        className={compareDrawerClasses}
-        ref={drawer}
-        id="compare-drawer"
-        role="dialog"
-        aria-modal="true"
-      >
+      <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
         <div className={expandCollapse}>
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal
@@ -271,10 +265,9 @@ export function CompareDrawer({
             role="button"
             tabIndex={0}
             onClick={expandOnClick}
-            onKeyDown={expandOnClick}
+            onKeyDown={() => {}}
           >
             <button
-              tabIndex={0}
               aria-expanded={open}
               aria-controls="compare-body"
               className={headerLabelClasses}
