@@ -2,6 +2,7 @@ import {
   VaAlert,
   VaButton,
   VaFileInputMultiple,
+  VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
@@ -151,19 +152,27 @@ const ResponseInboxPage = ({ loggedIn }) => {
               <div key={attachment.id}>{attachmentBox(attachment.name)}</div>
             ))}
         <hr /> */}
-        <div className="vads-l-row vads-u-justify-content--space-between">
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline">
           <h2 className="vads-u-margin-y--2">
             {RESPONSE_PAGE.YOUR_CONVERSATION}
           </h2>
           <button
-            className="va-button-link"
+            className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center va-button-link vads-u-text-decoration--none"
             type="button"
             onClick={() => window.print()}
           >
-            <span className="vads-u-margin-right--0p5">
-              <va-icon icon="print" size="3" aria-hidden="true" />
+            <span className="vads-u-color--primary">
+              <VaIcon
+                size={3}
+                icon="print"
+                className="vads-u-margin-right--1"
+                srtext="icon representing print"
+                aria-hidden="true"
+              />
             </span>
-            Print
+            <span className="vads-u-font-weight--bold vads-u-color--primary vads-u-font-size--h3">
+              PRINT
+            </span>
           </button>
         </div>
 
