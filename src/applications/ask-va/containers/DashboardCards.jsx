@@ -1,6 +1,5 @@
 import {
   VaAlert,
-  VaBreadcrumbs,
   VaCard,
   VaLink,
   VaLoadingIndicator,
@@ -140,7 +139,6 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full">
-      <VaBreadcrumbs />
       <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
         Your questions
       </h2>
