@@ -46,7 +46,7 @@ const arrayBuilderOptions = {
     !item?.phone ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyEmployed) ||
-    !item?.reasonForLeaving,
+    (!item?.currentlyEmployed && !item?.reasonForLeaving),
   text: {
     getItemName: item => item?.name,
     cardDescription: item => getDateRange(item),
@@ -177,7 +177,6 @@ const dateRangePage = {
       },
     ),
     currentlyEmployed: {
-      'ui:required': false,
       'ui:title': 'I still work here.',
       'ui:webComponentField': VaCheckboxField,
     },
@@ -245,43 +244,51 @@ const summaryPage = {
   },
 };
 
-const employersPages = arrayBuilderPages(arrayBuilderOptions, pageBuilder => ({
-  employers: pageBuilder.introPage({
-    title: 'Employment information intro',
-    path: 'employment-information-intro',
-    uiSchema: introPage.uiSchema,
-    schema: introPage.schema,
+const employersPages = arrayBuilderPages(
+  arrayBuilderOptions,
+  (pageBuilder, helpers) => ({
+    employers: pageBuilder.introPage({
+      title: 'Employment information intro',
+      path: 'employment-information-intro',
+      uiSchema: introPage.uiSchema,
+      schema: introPage.schema,
+    }),
+    employersSummary: pageBuilder.summaryPage({
+      title: 'Review your employers',
+      path: 'employers-summary',
+      uiSchema: summaryPage.uiSchema,
+      schema: summaryPage.schema,
+    }),
+    employerInformationPage: pageBuilder.itemPage({
+      title: 'Employer information',
+      path: 'employers/:index/information',
+      uiSchema: informationPage.uiSchema,
+      schema: informationPage.schema,
+    }),
+    employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
+      title: 'Employer address and phone number',
+      path: 'employers/:index/address-phone-number',
+      uiSchema: addressAndPhoneNumberPage.uiSchema,
+      schema: addressAndPhoneNumberPage.schema,
+    }),
+    employerDateRangePage: pageBuilder.itemPage({
+      title: 'Employment dates',
+      path: 'employers/:index/date-range',
+      onNavForward: props => {
+        return !props.formData.currentlyEmployed
+          ? helpers.navForwardKeepUrlParams(props)
+          : helpers.navForwardFinishedItem(props);
+      },
+      uiSchema: dateRangePage.uiSchema,
+      schema: dateRangePage.schema,
+    }),
+    employerReasonForLeavingPage: pageBuilder.itemPage({
+      title: 'Reason for leaving employer',
+      path: 'employers/:index/reason-for-leaving',
+      uiSchema: reasonForLeavingPage.uiSchema,
+      schema: reasonForLeavingPage.schema,
+    }),
   }),
-  employersSummary: pageBuilder.summaryPage({
-    title: 'Review your employers',
-    path: 'employers-summary',
-    uiSchema: summaryPage.uiSchema,
-    schema: summaryPage.schema,
-  }),
-  employerInformationPage: pageBuilder.itemPage({
-    title: 'Employer information',
-    path: 'employers/:index/information',
-    uiSchema: informationPage.uiSchema,
-    schema: informationPage.schema,
-  }),
-  employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
-    title: 'Employer address and phone number',
-    path: 'employers/:index/address-phone-number',
-    uiSchema: addressAndPhoneNumberPage.uiSchema,
-    schema: addressAndPhoneNumberPage.schema,
-  }),
-  employerDateRangePage: pageBuilder.itemPage({
-    title: 'Employment dates',
-    path: 'employers/:index/date-range',
-    uiSchema: dateRangePage.uiSchema,
-    schema: dateRangePage.schema,
-  }),
-  employerReasonForLeavingPage: pageBuilder.itemPage({
-    title: 'Reason for leaving employer',
-    path: 'employers/:index/reason-for-leaving',
-    uiSchema: reasonForLeavingPage.uiSchema,
-    schema: reasonForLeavingPage.schema,
-  }),
-}));
+);
 
 export default employersPages;
