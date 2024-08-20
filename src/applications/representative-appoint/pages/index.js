@@ -6,11 +6,11 @@ import * as authorizeOutsideVA from './authorizations/authorizeOutsideVA';
 import * as authorizeOutsideVANames from './authorizations/authorizeOutsideVANames';
 import * as formToggle from './formToggle';
 import * as claimantType from './claimant/claimantType';
-import * as claimantContactPhoneEmail from './personalInformation/claimantContactPhoneEmail';
-import * as claimantRelationship from './personalInformation/claimantRelationship';
-import * as claimantPersonalInformation from './personalInformation/claimantPersonalInformation';
-import * as confirmClaimantPersonalInformation from './personalInformation/confirmClaimantPersonalInformation';
-import * as claimantContactMailing from './personalInformation/claimantContactMailing';
+import * as claimantContactPhoneEmail from './claimant/claimantContactPhoneEmail';
+import * as claimantRelationship from './claimant/claimantRelationship';
+import * as claimantPersonalInformation from './claimant/claimantPersonalInformation';
+import * as confirmClaimantPersonalInformation from './claimant/confirmClaimantPersonalInformation';
+import * as claimantContactMailing from './claimant/claimantContactMailing';
 
 export {
   authorizeMedical,
