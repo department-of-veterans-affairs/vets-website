@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import get from 'platform/utilities/data/get';
 
@@ -25,6 +26,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-fields';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import ArrayTitle from '../../../components/ArrayTitle';
 import {
   DisabilityDocsAlert,
   SchoolAttendanceAlert,
@@ -42,6 +44,7 @@ const options = {
   arrayPath: 'dependents',
   nounSingular: 'dependent child',
   nounPlural: 'dependent children',
+  customSummaryPageHeader: <ArrayTitle title="Dependent children" />,
   required: false,
   isItemIncomplete: item =>
     !item?.fullName ||
@@ -77,6 +80,7 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingDependents': arrayBuilderYesNoUI(options, {
       title: 'Do you have any dependent children?',
+      labelHeaderLevel: ' ',
       hint: null,
     }),
   },

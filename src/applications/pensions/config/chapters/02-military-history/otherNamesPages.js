@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -7,6 +8,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import ArrayTitle from '../../../components/ArrayTitle';
 import { formatFullName, showMultiplePageResponse } from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -14,6 +16,7 @@ const options = {
   arrayPath: 'previousNames',
   nounSingular: 'previous name',
   nounPlural: 'previous names',
+  customSummaryPageHeader: <ArrayTitle title="Other service names" />,
   required: false,
   isItemIncomplete: item =>
     !item?.previousFullName?.first || !item.previousFullName?.last, // include all required fields here
@@ -33,6 +36,7 @@ const summaryPage = {
       options,
       {
         title: 'Did you serve under another name?',
+        labelHeaderLevel: ' ',
         hint: null,
         labels: {
           Y: 'Yes, I have a previous name to report',
