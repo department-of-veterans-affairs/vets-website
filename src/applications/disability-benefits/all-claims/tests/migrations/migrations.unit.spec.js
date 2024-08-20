@@ -7,6 +7,7 @@ import truncateOtherAtRiskHousing from '../../migrations/05-truncate-otherAtRisk
 import fixTreatedDisabilityNamesKey from '../../migrations/06-fix-treatedDisabilityNames';
 import mapServiceBranches from '../../migrations/07-map-service-branches';
 import reorderHousingIllnessRemoveFdc from '../../migrations/08-paper-sync';
+import addDisabilitiesRedirect from '../../migrations/09-addDisabilities-redirect';
 
 import formConfig from '../../config/form';
 import { MAX_HOUSING_STRING_LENGTH } from '../../constants';
@@ -316,6 +317,30 @@ describe('526 v2 migrations', () => {
 
       expect(migratedData.metadata.returnUrl).to.deep.equal(
         '/review-and-submit',
+      );
+    });
+  });
+
+  describe('09-addDisabilities-redirect', () => {
+    it('should direct users to new-disabilities/add', () => {
+      const savedData = {
+        metadata: {
+          returnUrl: '/new-disabilities-revised/add',
+        },
+      };
+      const migratedData = addDisabilitiesRedirect(savedData);
+      expect(migratedData.metadata.returnUrl).to.equal('/new-disabilities/add');
+    });
+
+    it('should continue if return URL is different page in form', () => {
+      const savedData = {
+        metadata: {
+          returnUrl: '/new-disabilities/follow-up',
+        },
+      };
+      const migratedData = addDisabilitiesRedirect(savedData);
+      expect(migratedData.metadata.returnUrl).to.equal(
+        '/new-disabilities/follow-up',
       );
     });
   });
