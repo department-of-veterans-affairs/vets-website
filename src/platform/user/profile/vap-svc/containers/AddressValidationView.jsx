@@ -145,7 +145,7 @@ class AddressValidationView extends React.Component {
       confirmedSuggestions,
     } = this.props;
 
-    let buttonText = 'Update';
+    let buttonText = 'Use this address';
 
     if (confirmedSuggestions.length === 0 && validationKey) {
       buttonText = 'Use this address';
@@ -173,7 +173,7 @@ class AddressValidationView extends React.Component {
     return (
       <LoadingButton
         isLoading={isLoading}
-        className="usa-button-primary"
+        className="usa-button-secondary"
         data-testid="confirm-address-button"
         aria-label={isLoading ? 'Loading' : buttonText}
       >
@@ -300,15 +300,16 @@ class AddressValidationView extends React.Component {
             </div>
           )}
 
-          {this.renderPrimaryButton()}
-
-          {!isLoading && (
-            <va-button
-              secondary
-              onClick={this.onEditClick}
-              text="Go back to edit"
-            />
-          )}
+          <div className="vads-u-display--flex small-screen:vads-u-display--block vads-u-flex-direction--column">
+            {!isLoading && (
+              <va-button
+                primary
+                onClick={this.onEditClick}
+                text="Go back to edit"
+              />
+            )}
+            {this.renderPrimaryButton()}
+          </div>
         </form>
       </>
     );
