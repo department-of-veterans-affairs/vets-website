@@ -32,10 +32,6 @@ const LabsAndTests = () => {
     state => state.mr.labsAndTests.listCurrentAsOf,
   );
 
-  const mockPhr = useSelector(
-    state => state.featureToggles.mhv_medical_records_mock_phr,
-  );
-
   useListRefresh({
     listState,
     listCurrentAsOf: labsAndTestsCurrentAsOf,
@@ -86,20 +82,18 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!mockPhr && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.CHEM_HEM}
-            newRecordsFound={
-              Array.isArray(labsAndTests) &&
-              Array.isArray(updatedRecordList) &&
-              labsAndTests.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.CHEM_HEM}
+          newRecordsFound={
+            Array.isArray(labsAndTests) &&
+            Array.isArray(updatedRecordList) &&
+            labsAndTests.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>
