@@ -21,6 +21,7 @@ import {
   claimantContactPhoneEmail,
   claimantContactMailing,
   veteranPersonalInformation,
+  veteranContactPhoneEmail,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -166,6 +167,13 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         ...veteranPersonalInformation,
+        veteranContactPhoneEmail: {
+          path: 'veteran-contact-phone-email',
+          title: 'Your phone number and email address',
+          uiSchema: veteranContactPhoneEmail.uiSchema,
+          schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
       },
     },
     authorization: {
