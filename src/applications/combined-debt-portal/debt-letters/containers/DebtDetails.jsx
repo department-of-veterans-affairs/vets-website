@@ -61,18 +61,6 @@ const DebtDetails = () => {
     return mostRecentDate;
   };
 
-  const getFirstPaymentDateFromCurrentDebt = debt => {
-    const firstPaymentDate = last(debt.fiscalTransactionData)?.transactionDate;
-
-    if (firstPaymentDate === '') return 'N/A';
-
-    return firstPaymentDate;
-  };
-
-  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
-    currentDebt,
-  );
-
   useEffect(() => {
     setPageFocus('h1');
   }, []);
