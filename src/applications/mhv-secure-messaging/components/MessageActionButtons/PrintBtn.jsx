@@ -23,8 +23,7 @@ const PrintBtn = props => {
           activeFolder?.folderId !== DefaultFolders.SENT.id
             ? 'vads-u-flex--3'
             : 'vads-l-row--3'
-        } vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2`}
-        style={{ minWidth: '90px' }}
+        } vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button`}
         onClick={() => {
           handleConfirmPrint();
         }}
