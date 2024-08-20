@@ -310,4 +310,197 @@ describe('<SchoolLocations>', () => {
 
     wrapper.unmount();
   });
+
+  it('should render show next and view all buttons', () => {
+    const testState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          facilityMap: {
+            main: {
+              institution: {
+                institution: 'MAIN FACILITY',
+                type: 'FOR PROFIT',
+                facilityCode: '100',
+                physicalCity: 'Test',
+                physicalState: 'TN',
+                physicalCountry: 'USA',
+                physicalZip: '12345',
+                country: 'USA',
+                dodBah: '100',
+              },
+              extensions: [
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY',
+                  physicalCity: 'Test 1',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 2',
+                  physicalCity: 'Test 2',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 3',
+                  physicalCity: 'Test 3',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 4',
+                  physicalCity: 'Test 4',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 5',
+                  physicalCity: 'Test 5',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 6',
+                  physicalCity: 'Test 6',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 7',
+                  physicalCity: 'Test 7',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 8',
+                  physicalCity: 'Test 8',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 9',
+                  physicalCity: 'Test 9',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 10',
+                  physicalCity: 'Test 10',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+              ],
+              branches: [
+                {
+                  institution: {
+                    type: 'FOR PROFIT',
+                    facilityCode: '101',
+                    institution: 'MAIN BRANCH FACILITY',
+                    physicalCity: 'Test 1',
+                    physicalState: 'KY',
+                    physicalCountry: 'USA',
+                    physicalZip: '12345',
+                    country: 'USA',
+                    dodBah: '150',
+                  },
+                  extensions: [
+                    {
+                      type: 'FOR PROFIT',
+                      facilityCode: '102',
+                      institution: 'BRANCH EXTENSION FACILITY',
+                      physicalCity: 'Test 2',
+                      physicalState: 'OH',
+                      physicalCountry: 'USA',
+                      physicalZip: '12345',
+                      country: 'USA',
+                      dodBah: '200',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    };
+
+    const wrapper = shallow(
+      <SchoolLocations
+        institution={testState.profile.attributes}
+        facilityMap={testState.profile.attributes.facilityMap}
+        calculator={testState.calculator}
+        eligibility={testState.eligibility}
+        constants={testState.constants}
+      />,
+    );
+
+    const facilityTable = wrapper.find('va-table');
+    expect(facilityTable).to.have.lengthOf(1);
+
+    const tableRows = wrapper.find('va-table-row');
+    expect(tableRows).to.have.lengthOf(10);
+
+    const buttons = wrapper.find('button');
+    expect(buttons).to.have.lengthOf(2);
+
+    const viewAllButton = buttons.at(2);
+    viewAllButton.simulate('click');
+
+    const newTableRows = wrapper.find('va-table-row');
+    expect(newTableRows).to.have.lengthOf(13);
+
+    wrapper.unmount();
+  });
 });
