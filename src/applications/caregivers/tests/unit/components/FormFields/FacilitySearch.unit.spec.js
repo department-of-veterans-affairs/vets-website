@@ -8,7 +8,12 @@ import { inputVaTextInput } from 'platform/testing/unit/helpers';
 import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
-import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
+import {
+  mockFetchChildFacilityResponse,
+  mockFetchChildFacilityWithCaregiverSupportResponse,
+  mockFetchFacilitiesResponse,
+  mockFetchParentFacilityResponse,
+} from '../../../mocks/responses';
 import content from '../../../../locales/en/content.json';
 
 describe('CG <FacilitySearch>', () => {
@@ -87,7 +92,40 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    it('calls onChange callback with facility object', async () => {
+    it('calls onChange callback with facility object that offers CaregiverSupport', async () => {
+      const { props } = getData({});
+      const { container, selectors } = subject({ props });
+      const facilities = mockFetchChildFacilityWithCaregiverSupportResponse;
+      mapboxStub.resolves(successResponse);
+      facilitiesStub.resolves(facilities);
+
+      await waitFor(() => {
+        inputVaTextInput(container, 'Tampa', selectors().input);
+        userEvent.click(selectors().button);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+      });
+
+      const [selectedFacility] = facilities;
+
+      selectors().radioList.__events.vaValueChange({
+        detail: { value: selectedFacility.id },
+      });
+      await waitFor(() => {
+        expect(
+          onChange.calledWith({
+            veteranSelected: selectedFacility,
+            caregiverSupport: selectedFacility,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('calls onChange callback with facility object whose parent offers CaregiverSupport and is loaded', async () => {
       const { props } = getData({});
       const { container, selectors } = subject({ props });
       const facilities = mockFetchFacilitiesResponse;
@@ -105,13 +143,104 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().loader).to.not.exist;
       });
 
-      const selectedFacility = facilities[0];
+      const [selectedFacility, parentFacility] = facilities;
 
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
       });
-      expect(onChange.calledWith({ veteranSelected: selectedFacility })).to.be
-        .true;
+      await waitFor(() => {
+        expect(
+          onChange.calledWith({
+            veteranSelected: selectedFacility,
+            caregiverSupport: parentFacility,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('calls onChange callback with facility object whose parent offers CaregiverSupport and is not loaded', async () => {
+      const { props } = getData({});
+      const { container, selectors } = subject({ props });
+      const facilities = mockFetchChildFacilityResponse;
+      mapboxStub.resolves(successResponse);
+      facilitiesStub.onFirstCall().resolves(facilities);
+
+      const parentFacility = mockFetchParentFacilityResponse;
+      facilitiesStub.onSecondCall().resolves(parentFacility);
+
+      await waitFor(() => {
+        inputVaTextInput(container, 'Tampa', selectors().input);
+        userEvent.click(selectors().button);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+      });
+
+      const [selectedFacility] = facilities;
+
+      selectors().radioList.__events.vaValueChange({
+        detail: { value: selectedFacility.id },
+      });
+
+      await waitFor(() => {
+        expect(
+          onChange.calledWith({
+            veteranSelected: selectedFacility,
+            caregiverSupport: parentFacility,
+          }),
+        ).to.be.true;
+      });
+    });
+
+    it('fails to retrieve parent facility', async () => {
+      const { props } = getData({});
+      const { container, selectors } = subject({ props });
+      const facilities = mockFetchChildFacilityResponse;
+      mapboxStub.resolves(successResponse);
+      facilitiesStub.onFirstCall().resolves(facilities);
+
+      facilitiesStub.onSecondCall().resolves({
+        type: 'SEARCH_FAILED',
+        errorMessage: 'Some bad error occurred.',
+      });
+
+      await waitFor(() => {
+        inputVaTextInput(container, 'Tampa', selectors().input);
+        userEvent.click(selectors().button);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+      });
+
+      const [selectedFacility] = facilities;
+
+      selectors().radioList.__events.vaValueChange({
+        detail: { value: selectedFacility.id },
+      });
+
+      await waitFor(() => {
+        expect(
+          onChange.calledWith({
+            veteranSelected: selectedFacility,
+            caregiverSupport: null,
+          }),
+        ).to.be.true;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+        expect(selectors().input).to.have.attr(
+          'error',
+          'Some bad error occurred.',
+        );
+      });
     });
 
     it('loads radio value from formData veteranSelected when set', async () => {
