@@ -51,7 +51,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Prefill Task Yellow',
+  title: 'Update your VA health benefits information',
+  subTitle: 'Health Benefits Update Form (VA Form 10-10EZR)',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
