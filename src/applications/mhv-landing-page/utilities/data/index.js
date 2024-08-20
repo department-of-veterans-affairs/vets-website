@@ -3,6 +3,8 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
+const isLinkData = x => x?.href !== undefined && x?.text !== undefined;
+
 const countUnreadMessages = folders => {
   if (Array.isArray(folders?.data)) {
     return folders.data.reduce((accumulator, currentFolder) => {
@@ -88,7 +90,7 @@ const resolveLandingPageLinks = (
     //   href: '#FIXME-need-link',
     //   text: 'Download my IRS 1095-B form',
     // },
-  ];
+  ].filter(isLinkData);
 
   const moreResourcesLinks = [
     featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
@@ -123,7 +125,7 @@ const resolveLandingPageLinks = (
       href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
       text: 'How to use VA Video Connect',
     },
-  ];
+  ].filter(isLinkData);
 
   const spotlightLinks = [
     {
@@ -194,6 +196,7 @@ const resolveLandingPageLinks = (
 
 export {
   countUnreadMessages,
+  isLinkData,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 };

@@ -9,7 +9,7 @@ const defaultUser = {
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        firstName: 'Gina',
+        firstName: 'Pat',
         middleName: '',
         lastName: 'Doe',
         gender: 'F',
@@ -38,6 +38,7 @@ const defaultUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',
@@ -96,6 +97,7 @@ const cernerUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',

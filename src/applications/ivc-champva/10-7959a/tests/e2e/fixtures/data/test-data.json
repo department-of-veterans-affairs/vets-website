@@ -11,6 +11,7 @@
       "first": "Beneficiary",
       "last": "Jones"
     },
+    "applicantPhone": "1231231234",
     "applicantMemberNumber": "222111123",
     "applicantDOB": "2000-10-25",
     "applicantAddress": {

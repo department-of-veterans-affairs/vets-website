@@ -25,7 +25,7 @@ export const conditionsDescription = (
       </p>
       <p className="vads-u-margin-bottom--0">
         <a
-          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
           target="_blank"
           rel="noreferrer"
         >

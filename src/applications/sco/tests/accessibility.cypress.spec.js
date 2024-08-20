@@ -36,10 +36,8 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
-    cy.focused().should(
-      'contain.text',
-      'Sign up for trainings, webinars, and office hour updates',
-    );
+    cy.realPress('Tab');
+    cy.focused().should('contain.text', 'GovDelivery Message Archive');
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'WEAMS Institution Search');
@@ -124,6 +122,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.realPress('Tab');
+    cy.realPress('Tab');
     cy.focused().should('contain.text', '85/15');
     cy.realPress('Tab');
     cy.realPress('Tab');
@@ -136,6 +135,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'About GI Bill Benefits');
+    cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
