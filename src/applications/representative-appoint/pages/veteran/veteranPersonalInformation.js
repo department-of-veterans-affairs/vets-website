@@ -17,14 +17,14 @@ export default {
       `${preparerIsVeteran ? 'Veteran’s' : 'Your'} name and date of birth`,
       'Use your legal name as it appears on your government documentation.',
     ),
-    fullName: fullNameUI(),
-    dateOfBirth: dateOfBirthUI(),
+    veteranFullName: fullNameUI(),
+    veteranDateOfBirth: dateOfBirthUI(),
   },
   schema: {
     type: 'object',
     properties: {
-      fullName: fullNameSchema,
-      dateOfBirth: dateOfBirthSchema,
+      veteranFullName: fullNameSchema,
+      veteranDateOfBirth: dateOfBirthSchema,
     },
     required: ['dateOfBirth'],
   },
