@@ -8,6 +8,7 @@ const initialState = {
   isLoading: true,
   forms: null,
   error: null,
+  errors: null,
 };
 
 const formStatusReducer = (state = initialState, action) => {
@@ -21,7 +22,8 @@ const formStatusReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoading: false,
-        forms: action.forms,
+        forms: action.forms || [],
+        errors: action.errors || [],
       };
     case FETCH_FORM_STATUS_FAILED:
       return {

@@ -6,63 +6,63 @@ export const FETCH_FORM_STATUS_STARTED = 'FETCH_FORM_STATUS_STARTED';
 export const FETCH_FORM_STATUS_SUCCEEDED = 'FETCH_FORM_STATUS_SUCCEEDED';
 export const FETCH_FORM_STATUS_FAILED = 'FETCH_FORM_STATUS_FAILED';
 
-export const fetchFormStatuses = () => async dispatch => {
-  dispatch({ type: FETCH_FORM_STATUS_STARTED });
+const RECORD_PROPS = {
+  event: `api_call`,
+  'api-name': 'GET form submission status',
+};
 
-  const getForms = () => {
-    const options = {
-      method: 'GET',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Key-Inflection': 'camel',
-        'Source-App-Name': window.appName,
-      },
-    };
-
-    return apiRequest(
-      `${environment.API_URL}/v0/my_va/submission_statuses`,
-      options,
-    );
+const getForms = () => {
+  const options = {
+    method: 'GET',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Key-Inflection': 'camel',
+      'Source-App-Name': window.appName,
+    },
   };
 
+  return apiRequest(
+    `${environment.API_URL}/v0/my_va/submission_statuses`,
+    options,
+  );
+};
+
+const actionStart = () => ({ type: FETCH_FORM_STATUS_STARTED });
+
+const actionFail = errors => ({
+  type: FETCH_FORM_STATUS_FAILED,
+  errors,
+});
+
+const actionSuccess = response => ({
+  type: FETCH_FORM_STATUS_SUCCEEDED,
+  forms: response.data,
+  errors: response.errors,
+});
+
+const recordFail = (errorKey = 'server error') =>
+  recordEvent({
+    ...RECORD_PROPS,
+    'error-key': errorKey,
+    'api-status': 'failed',
+  });
+
+const recordSuccess = () =>
+  recordEvent({
+    ...RECORD_PROPS,
+    'api-status': 'successful',
+  });
+
+export const fetchFormStatuses = () => async dispatch => {
+  dispatch(actionStart());
   try {
-    const { errors, data } = await getForms();
-
-    if (errors) {
-      recordEvent({
-        event: `api_call`,
-        'error-key': `server error`,
-        'api-name': 'GET form submission status',
-        'api-status': 'failed',
-      });
-      return dispatch({
-        type: FETCH_FORM_STATUS_FAILED,
-        errors,
-      });
-    }
-
-    recordEvent({
-      event: `api_call`,
-      'api-name': 'GET form submission status',
-      'api-status': 'successful',
-    });
-
-    return dispatch({
-      type: FETCH_FORM_STATUS_SUCCEEDED,
-      forms: data,
-    });
+    const response = await getForms();
+    recordSuccess();
+    return dispatch(actionSuccess(response));
   } catch (error) {
-    recordEvent({
-      event: `api_call`,
-      'error-key': `internal error`,
-      'api-name': 'GET form submission status',
-      'api-status': 'failed',
-    });
-    dispatch({
-      type: FETCH_FORM_STATUS_FAILED,
-      errors: [error],
-    });
+    recordFail('internal error');
+    dispatch(actionFail(error));
     throw new Error(error);
   }
 };

@@ -22,8 +22,8 @@ import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
-import Draft from './Draft';
-import Received from './Received';
+import DraftCard from './DraftCard';
+import StatusCard from './StatusCard';
 
 const ApplicationsInProgress = ({
   formsWithStatus,
@@ -47,30 +47,41 @@ const ApplicationsInProgress = ({
     [savedForms, isUsingNewSipConfig],
   );
 
-  const transformedSavedForms = verifiedSavedForms.map(form => {
-    const { form: formId, lastUpdated, metadata } = form;
-
-    return {
-      ...metadata,
-      form: formId,
-      lastUpdated,
-    };
-  });
+  const transformedSavedForms = useMemo(
+    () =>
+      verifiedSavedForms.map(form => {
+        const { form: formId, lastUpdated, metadata } = form;
+        return {
+          ...metadata,
+          form: formId,
+          lastUpdated,
+        };
+      }),
+    [verifiedSavedForms],
+  );
 
   // Renaming updatedAt to lastUpdated, formType to form, and converting datetime to UNIX time
-  const formsStatusEdited = formsWithStatus?.map(form => {
-    const { formType, updatedAt, ...rest } = form.attributes;
-    return {
-      ...rest,
-      form: formType,
-      lastUpdated: getUnixTime(new Date(updatedAt)),
-    };
-  });
+  const transformedStatusForms = useMemo(
+    () =>
+      formsWithStatus.map(form => {
+        const { formType, updatedAt, status, ...rest } = form.attributes;
+        return {
+          ...rest,
+          status,
+          form: formType,
+          lastUpdated: getUnixTime(new Date(updatedAt)),
+        };
+      }),
+    [formsWithStatus],
+  );
 
-  // gather all forms and sort by lastUpdated
-  const allFormSorted = transformedSavedForms
-    .concat(formsStatusEdited)
-    .sort((a, b) => b.lastUpdated - a.lastUpdated);
+  const allForms = useMemo(
+    () =>
+      transformedSavedForms
+        .concat(transformedStatusForms)
+        .sort((a, b) => b.lastUpdated - a.lastUpdated),
+    [transformedSavedForms, transformedStatusForms],
+  );
 
   // if LOA1 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
   const emptyStateText = isLOA1
@@ -90,11 +101,12 @@ const ApplicationsInProgress = ({
 
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
         <DashboardWidgetWrapper>
-          {allFormSorted.length > 0 ? (
+          {allForms.length > 0 ? (
             <div>
               <Toggler.Enabled>
-                {allFormSorted.map(form => {
+                {allForms.map(form => {
                   const formId = form.form;
+                  const formStatus = form.status;
                   const formTitle = isUsingNewSipConfig
                     ? `application for ${
                         MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
@@ -109,17 +121,17 @@ const ApplicationsInProgress = ({
                     'MMMM d, yyyy',
                   );
 
-                  // if form is draft, then render Draft
                   if (Object.hasOwn(form, 'savedAt')) {
+                    // if form is draft, then render Draft Card
                     const { expiresAt } = form || {};
                     const expirationDate = format(
                       fromUnixTime(expiresAt),
                       'MMMM d, yyyy',
                     );
                     const continueUrl = `${getFormLink(formId)}resume`;
-
+                    // TODO: consider combining all "Application Cards" into single component
                     return (
-                      <Draft
+                      <DraftCard
                         key={formId}
                         continueUrl={continueUrl}
                         expirationDate={expirationDate}
@@ -131,21 +143,22 @@ const ApplicationsInProgress = ({
                     );
                   }
 
-                  // if form is Received, then render Received
-                  if (Object.hasOwn(form, 'status')) {
+                  if (formStatus) {
+                    // if form is not a Draft and has status, render Status Card
                     const { createdAt } = form || {};
                     const submittedDate = format(
                       new Date(createdAt),
                       'MMMM d, yyyy',
                     );
                     return (
-                      <Received
+                      <StatusCard
                         key={formId}
                         formId={formId}
                         formTitle={formTitle}
                         lastSavedDate={lastSavedDate}
                         submittedDate={submittedDate}
                         presentableFormId={presentableFormId}
+                        status={formStatus}
                       />
                     );
                   }

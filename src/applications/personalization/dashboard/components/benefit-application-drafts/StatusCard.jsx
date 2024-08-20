@@ -1,19 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { capitalize } from 'lodash';
 
 import { formatFormTitle } from '../../helpers';
 
-const Received = ({
+// TODO: fialize markup and desigs for other status types
+const StatusCard = ({
   formId,
   formTitle,
   lastSavedDate,
   submittedDate,
   presentableFormId,
+  status,
 }) => {
   const content = (
     <>
       <div className="vads-u-width--full">
-        <span className="usa-label">Received</span>
+        <span className="usa-label">{capitalize(status)}</span>
         <h3
           aria-describedby={formId}
           className="vads-u-font-size--h3 vads-u-margin-top--2"
@@ -45,7 +48,7 @@ const Received = ({
   return (
     <div
       className="vads-u-width--full vads-u-margin-bottom--3"
-      data-testid="benefit-application-received"
+      data-testid="application-with-status"
     >
       <va-card>
         <div className="vads-u-padding--1">{content}</div>
@@ -54,7 +57,7 @@ const Received = ({
   );
 };
 
-Received.propTypes = {
+StatusCard.propTypes = {
   // The Form ID for Google Analytics tracking purposes
   formId: PropTypes.string.isRequired,
   // String to use as the main "headline" of the component
@@ -62,7 +65,8 @@ Received.propTypes = {
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
   presentableFormId: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired,
   submittedDate: PropTypes.string.isRequired,
 };
 
-export default Received;
+export default StatusCard;

@@ -40,7 +40,7 @@ const BenefitApplications = ({
         getFormStatuses();
       }
     },
-    [getFormStatuses],
+    [getFormStatuses, isFormSubmissionStatusWork],
   );
 
   return (
