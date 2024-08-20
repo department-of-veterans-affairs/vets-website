@@ -79,7 +79,6 @@ export const employmentActivitiesOptions = Object.freeze({
 // Chapter 4
 
 export const degreeOptions = Object.freeze([
-  'Did not receive a degree',
   'Associate of Arts',
   'Bachelor of Arts',
   'Bachelor of Science',
