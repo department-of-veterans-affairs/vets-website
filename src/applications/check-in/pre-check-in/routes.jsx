@@ -3,6 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import environment from 'platform/utilities/environment';
 import Validate from './pages/Validate';
 import AppointmentsPage from '../components/pages/Appointments';
+import UpcomingAppointmentsPage from '../components/pages/UpcomingAppointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -42,6 +43,16 @@ const routes = [
       requiresForm: true,
       requireAuthorization: true,
     },
+  },
+  {
+    path: URLS.UPCOMING_APPOINTMENTS,
+    component: UpcomingAppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
@@ -93,6 +104,16 @@ const routes = [
     reloadable: true,
   },
   {
+    path: `${URLS.UPCOMING_APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
+  },
+  {
     path: URLS.RESOURCES,
     component: AppointmentResources,
     permissions: {
@@ -135,7 +156,11 @@ const createRoutesWithStore = () => {
           /* eslint-disable react/jsx-props-no-spreading */
           if (route.reloadable) {
             return (
-              <ReloadWrapper app={APP_NAMES.PRE_CHECK_IN} {...props}>
+              <ReloadWrapper
+                reloadUpcoming={route.reloadUpcoming}
+                app={APP_NAMES.PRE_CHECK_IN}
+                {...props}
+              >
                 <Component {...props} />
               </ReloadWrapper>
             );

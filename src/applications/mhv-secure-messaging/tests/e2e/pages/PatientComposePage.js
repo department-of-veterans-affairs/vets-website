@@ -444,6 +444,37 @@ class PatientComposePage {
   getAlertEditDraftBtn = () => {
     return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
   };
+
+  verifyHeader = text => {
+    cy.get(Locators.HEADER).should(`have.text`, text);
+  };
+
+  verifyRecipientsDropdownStatus = value => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .should(`have.attr`, `aria-expanded`, value);
+  };
+
+  verifyRecipientsDropdownLinks = () => {
+    // verify `find-locations` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="preferences"]`)
+      .should(`be.visible`);
+
+    // verify `preferences` link
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="locations"]`)
+      .should(`be.visible`)
+      .and('not.have.attr', `target`, `_blank`);
+  };
+
+  openRecipientsDropdown = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .shadow()
+      .find(`a`)
+      .click({ force: true });
+  };
 }
 
 export default new PatientComposePage();
