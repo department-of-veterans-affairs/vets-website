@@ -3,7 +3,6 @@
  * This redirects users with a saved form on new-disabilities-revised/add to
  *  new-disabilities/add
  */
-import DISABILITY_SHARED_CONFIG from '../utils';
 
 export default function addDisabilitiesRedirect(savedData) {
   const { returnUrl } = savedData.metadata;
@@ -13,7 +12,7 @@ export default function addDisabilitiesRedirect(savedData) {
       ...savedData,
       metadata: {
         ...savedData.metadata,
-        returnUrl: DISABILITY_SHARED_CONFIG.addDisabilities.path,
+        returnUrl: '/new-disabilities/add',
       },
     };
   }
