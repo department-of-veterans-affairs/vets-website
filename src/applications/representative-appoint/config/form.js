@@ -154,7 +154,7 @@ const formConfig = {
         }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
-          title: 'Veteran’s mailing address',
+          title: 'Your mailing address',
           uiSchema: claimantContactMailing.uiSchema,
           schema: claimantContactMailing.schema,
           editModeOnReviewPage: true,

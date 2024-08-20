@@ -5,7 +5,10 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const uiSchema = {
-  ...titleUI('Veteran’s mailing address'),
+  ...titleUI(
+    'Your mailing address',
+    'We’ll send any important information about your form to this address.',
+  ),
   homeAddress: addressUI(),
 };
 
