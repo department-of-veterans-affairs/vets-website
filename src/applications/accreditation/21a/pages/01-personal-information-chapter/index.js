@@ -1,6 +1,6 @@
 import personalInformationIntro from './personalInformationIntro';
 import role from './role';
-import standingWithBar from './standingWithBar';
+import lawLicense from './lawLicense';
 import notInGoodStanding from './notInGoodStanding';
 import nameDateOfBirth from './nameDateOfBirth';
 import placeOfBirth from './placeOfBirth';
@@ -15,7 +15,7 @@ export default {
   pages: {
     personalInformationIntro,
     role,
-    standingWithBar,
+    lawLicense,
     notInGoodStanding,
     nameDateOfBirth,
     placeOfBirth,

@@ -9,7 +9,7 @@ export default {
   title: 'Home address',
   path: 'home-address',
   uiSchema: {
-    ...titleUI('Home address', 'Enter the address where you currently live.'),
+    ...titleUI('Primary home address'),
     homeAddress: addressUI({
       omit: ['street3'],
     }),

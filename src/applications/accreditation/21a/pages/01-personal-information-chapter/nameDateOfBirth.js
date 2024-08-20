@@ -7,10 +7,10 @@ import {
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const fullNameMiddleNameHintUI = cloneDeep(fullNameUI());
-fullNameMiddleNameHintUI.middle['ui:hint'] =
+const fullNameMiddleRequiredWithHintUI = cloneDeep(fullNameUI());
+fullNameMiddleRequiredWithHintUI.middle['ui:required'] = () => true;
+fullNameMiddleRequiredWithHintUI.middle['ui:options'].hint =
   'If you do not have a middle name, enter “N/A.”';
-fullNameMiddleNameHintUI.middle['ui:required'] = () => true;
 
 /** @type {PageSchema} */
 export default {
@@ -19,9 +19,9 @@ export default {
   uiSchema: {
     ...titleUI(
       'Name and date of birth',
-      'Use your legal name as it appears on your government documentation. If you do not have a middle name, enter “N/A.”',
+      'Use your legal name as it appears on your government documentation.',
     ),
-    fullName: fullNameMiddleNameHintUI,
+    fullName: fullNameMiddleRequiredWithHintUI,
     dateOfBirth: dateOfBirthUI(),
   },
   schema: {
