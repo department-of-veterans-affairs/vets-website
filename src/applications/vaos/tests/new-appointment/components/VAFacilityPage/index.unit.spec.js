@@ -1432,7 +1432,7 @@ describe('VAOS Page: VAFacilityPage', () => {
         vaOnlineSchedulingDirect: true,
         vaOnlineSchedulingUseDsot: true,
         vaOnlineSchedulingFacilitiesServiceV2: true,
-        vaOnlineSchedulingOHDirectSchedule: true,
+        vaOnlineSchedulingOhDirectSchedule: true,
       },
       user: {
         profile: {
