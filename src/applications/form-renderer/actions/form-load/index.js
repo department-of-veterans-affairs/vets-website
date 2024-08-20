@@ -1,8 +1,17 @@
+export const DIGITAL_FORMS_FILENAME = 'digital-forms.json';
 export const FORM_LOADING_INITIATED = 'FORM_RENDERER/FORM_LOADING_INITIATED';
 export const FORM_LOADING_SUCCEEDED = 'FORM_RENDERER/FORM_LOADING_SUCCEEDED';
 export const FORM_LOADING_FAILED = 'FORM_RENDERER/FORM_LOADING_FAILED';
+export const INTEGRATION_DEPLOYMENT =
+  'https://pr18811-ps4nwwul37jtyembecv4bg0gafmyl3oj.ci.cms.va.gov';
 
-import { formConfig1, formConfig2 } from '../../_config/formConfig';
+import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
+import {
+  formConfig1,
+  formConfig2,
+  normalizedForm,
+} from '../../_config/formConfig';
+import { createFormConfig } from '../../utils/formConfig';
 
 export const formLoadingInitiated = formId => {
   return {
@@ -25,35 +34,42 @@ export const formLoadingFailed = error => {
   };
 };
 
+export const fetchDrupalDigitalForms = () =>
+  fetchDrupalStaticDataFile(DIGITAL_FORMS_FILENAME, INTEGRATION_DEPLOYMENT);
+
 /**
- * This is a temporary mock fetch of a formConfig. Once we
- * are ready to fetch for real, we'll update this and write
- * proper tests for this code.
+ * Mocks a fetch of content-build forms data.
+ * Keeping this here so that we can easily test new patterns without dealing
+ * with content-build.
  */
-export const fetchFormConfig = formId => {
-  /* eslint-disable-next-line no-shadow */
-  const mockFetchFormConfigByFormId = async formId => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const formConfig = {
-          '123-abc': formConfig1,
-          '456-xyz': formConfig2,
-        }?.[formId];
+export const mockFetchForms = async () => {
+  const forms = [formConfig1, formConfig2, normalizedForm];
 
-        if (formConfig) {
-          resolve(formConfig);
-        } else {
-          reject(new Error(`Form config not found for form id '${formId}'`));
-        }
-      }, 200);
-    });
-  };
+  return new Promise(r => setTimeout(r, 200, forms));
+};
 
+export const findFormByFormId = (forms, formId) => {
+  const form = forms.find(f => f.formId === formId);
+
+  if (form) {
+    return form;
+  }
+  throw new Error(`Form config not found for form id '${formId}'`);
+};
+
+export const fetchFormConfig = (
+  formId,
+  fetchMethod = fetchDrupalDigitalForms,
+) => {
   return async dispatch => {
     dispatch(formLoadingInitiated(formId));
     try {
-      const formConfig = await mockFetchFormConfigByFormId(formId);
+      const forms = await fetchMethod();
+      const form = findFormByFormId(forms, formId);
+      const formConfig = createFormConfig(form);
+
       dispatch(formLoadingSucceeded(formConfig));
+
       return formConfig;
     } catch (error) {
       dispatch(formLoadingFailed(error));
