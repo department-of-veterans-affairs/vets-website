@@ -22,6 +22,7 @@ const VeteranProfileInformation = ({
   const veteranName = normalizeFullName(userFullName, true);
   const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
+  const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
 
   return (
     <>
@@ -59,14 +60,20 @@ const VeteranProfileInformation = ({
               </div>
               {veteranDOB ? (
                 <div data-testid="ezr-veteran-dob">
-                  <dt className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
-                    Date of Birth:
+                  <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
+                    Date of birth:
                   </dt>
                   <dd
-                    className="vads-u-display--inline-block dd-privacy-mask"
+                    className="dd-privacy-mask medium-screen:vads-u-display--inline-block vads-u-display--none"
                     data-dd-action-name="Date of birth"
                   >
                     {veteranDOB}
+                  </dd>
+                  <dd
+                    className="dd-privacy-mask vads-u-display--inline-block medium-screen:vads-u-display--none"
+                    data-dd-action-name="Date of birth"
+                  >
+                    {veteranDOBMobile}
                   </dd>
                 </div>
               ) : null}
