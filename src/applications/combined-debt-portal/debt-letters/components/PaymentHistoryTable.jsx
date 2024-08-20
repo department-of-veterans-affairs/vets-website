@@ -1,8 +1,17 @@
 import React from 'react';
+import last from 'lodash/last';
 import { deductionCodes } from '../const/deduction-codes';
 import { currency } from '../utils/page';
 
 const PaymentHistoryTable = ({ currentDebt }) => {
+  const getFirstPaymentDateFromCurrentDebt = debt => {
+    const firstPaymentDate = last(debt.fiscalTransactionData)?.transactionDate;
+
+    if (firstPaymentDate === '') return 'N/A';
+
+    return firstPaymentDate;
+  };
+
   const getPaymentHistoryDescription = transactionDescription => {
     if (
       transactionDescription.startsWith('Increase to AR') ||
@@ -38,7 +47,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
   };
 
   const { fiscalTransactionData } = currentDebt;
-  if (fiscalTransactionData.length === 0) {
+  if (fiscalTransactionData?.length === 0) {
     return null;
   }
   return (
@@ -48,7 +57,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         <span>Description</span>
         <span>Amount</span>
       </va-table-row>
-      {fiscalTransactionData.map((payment, index) => (
+      {fiscalTransactionData?.map((payment, index) => (
         <va-table-row key={`${payment.transactionDate}-${index}`}>
           <span className="vads-u-width--fit">{payment.transactionDate}</span>
           <span>
@@ -63,7 +72,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         {/* This is the default row that will always be displayed for initial
           debt creation */}
         <span className="vads-u-width--fit">
-          {currentDebt.firstPaymentDate}
+          {getFirstPaymentDateFromCurrentDebt(currentDebt)}
         </span>
         <span>
           <strong>
