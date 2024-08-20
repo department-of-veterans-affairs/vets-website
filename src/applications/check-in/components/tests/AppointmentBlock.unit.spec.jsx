@@ -59,9 +59,7 @@ describe('AppointmentBlock', () => {
           </CheckInProvider>,
         );
 
-        expect(screen.getAllByTestId('appointment-list-item').length).to.equal(
-          1,
-        );
+        expect(screen.getAllByTestId('appointment-item').length).to.equal(1);
       });
     });
   });
