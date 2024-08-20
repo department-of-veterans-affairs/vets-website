@@ -359,7 +359,7 @@ const ComposeForm = props => {
         signatureValid = false;
       }
       if (
-        (isSignatureRequired === true && !checkboxMarked) ||
+        (isSignatureRequired && !checkboxMarked) ||
         isSignatureRequired === null
       ) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
