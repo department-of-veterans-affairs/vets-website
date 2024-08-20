@@ -490,16 +490,17 @@ describe('<SchoolLocations>', () => {
     expect(facilityTable).to.have.lengthOf(1);
 
     const tableRows = wrapper.find('va-table-row');
-    expect(tableRows).to.have.lengthOf(10);
+    expect(tableRows).to.have.lengthOf(11);
 
     const buttons = wrapper.find('button');
     expect(buttons).to.have.lengthOf(2);
 
-    const viewAllButton = buttons.at(2);
+    const viewAllButton = buttons.at(1);
+    expect(viewAllButton.text()).to.equal('View all');
     viewAllButton.simulate('click');
 
     const newTableRows = wrapper.find('va-table-row');
-    expect(newTableRows).to.have.lengthOf(13);
+    expect(newTableRows).to.have.lengthOf(14);
 
     wrapper.unmount();
   });
