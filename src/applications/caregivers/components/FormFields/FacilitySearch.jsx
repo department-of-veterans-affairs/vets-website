@@ -17,10 +17,41 @@ const FacilitySearch = props => {
 
   const facilityListProps = useMemo(
     () => {
+      const caregiverSupport = async facility => {
+        const offersCaregiverSupport = facility.services?.health?.some(
+          service => service.serviceId === 'caregiverSupport',
+        );
+
+        if (offersCaregiverSupport) {
+          return facility;
+        }
+
+        const loadedParent = facilities.find(
+          entry => entry.id === facility.parentId,
+        );
+        if (loadedParent) {
+          return loadedParent;
+        }
+
+        const parentFacilityResponse = await fetchFacilities({
+          id: facility.parentId,
+        });
+        if (parentFacilityResponse.errorMessage) {
+          setError(parentFacilityResponse.errorMessage);
+          return null;
+        }
+
+        return parentFacilityResponse;
+      };
+
       const { onChange, ...restOfProps } = props;
-      const setSelectedFacilities = facilityId => {
+      const setSelectedFacilities = async facilityId => {
         const facility = facilities.find(f => f.id === facilityId);
-        onChange({ veteranSelected: facility });
+        const caregiverSupportFacility = await caregiverSupport(facility);
+        onChange({
+          veteranSelected: facility,
+          caregiverSupport: caregiverSupportFacility,
+        });
       };
       return {
         ...restOfProps,
@@ -118,7 +149,6 @@ const FacilitySearch = props => {
 FacilitySearch.propTypes = {
   onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
-  onChange: PropTypes.func.isRequired,
 };
 
 export default FacilitySearch;
