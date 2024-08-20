@@ -20,6 +20,7 @@ import {
   confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
+  veteranPersonalInformation,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -159,6 +160,12 @@ const formConfig = {
           schema: claimantContactMailing.schema,
           editModeOnReviewPage: true,
         },
+      },
+    },
+    veteran: {
+      title: 'Veteran Information',
+      pages: {
+        ...veteranPersonalInformation,
       },
     },
     authorization: {
