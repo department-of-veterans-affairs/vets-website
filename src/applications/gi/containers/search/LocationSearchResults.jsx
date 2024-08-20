@@ -57,7 +57,6 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
-  const [pageNumber, setPageNumber] = useState('');
   const MAX_PAGE_LIST_LENGTH = 10;
 
   const [pagination, setPagination] = useState({
@@ -65,12 +64,26 @@ function LocationSearchResults({
     totalPages: 0,
   });
 
+  // set Total Pages and skip map when hit tap
+
   useEffect(
     () => {
       setPagination(prevState => ({
         ...prevState,
         totalPages: Math.ceil(cardResults?.length / MAX_PAGE_LIST_LENGTH),
       }));
+      if (cardResults?.length > 0) {
+        document.querySelector('canvas.mapboxgl-canvas').tabIndex = '-1';
+        document.querySelector('button.mapboxgl-ctrl-zoom-in').tabIndex = '-1';
+        document.querySelector('button.mapboxgl-ctrl-zoom-out').tabIndex = '-1';
+        const mapMarkers = [
+          ...document.getElementsByClassName('mapboxgl-marker'),
+        ];
+        mapMarkers.forEach(marker => {
+          const newMarker = marker;
+          newMarker.tabIndex = '-1';
+        });
+      }
     },
     [cardResults],
   );
@@ -286,9 +299,9 @@ function LocationSearchResults({
     const markerElement = document.createElement('div');
     markerElement.className = 'location-letter-marker';
     markerElement.innerText = index + 1;
+
     const currentPage = Math.ceil((index + 1) / MAX_PAGE_LIST_LENGTH);
     markerElement.addEventListener('click', () => {
-      setPageNumber(index + 1);
       setPagination(prev => {
         return {
           ...prev,
@@ -407,28 +420,6 @@ function LocationSearchResults({
     },
     [results, smallScreen, landscape, mobileTab],
   );
-  // skip map when hit tap
-  useEffect(
-    () => {
-      setPagination(prevState => ({
-        ...prevState,
-        totalPages: Math.ceil(cardResults?.length / MAX_PAGE_LIST_LENGTH),
-      }));
-      if (cardResults?.length > 0) {
-        document.querySelector('canvas.mapboxgl-canvas').tabIndex = '-1';
-        document.querySelector('button.mapboxgl-ctrl-zoom-in').tabIndex = '-1';
-        document.querySelector('button.mapboxgl-ctrl-zoom-out').tabIndex = '-1';
-        const mapMarkers = [
-          ...document.getElementsByClassName('mapboxgl-marker'),
-        ];
-        mapMarkers.forEach(marker => {
-          const newMarker = marker;
-          newMarker.tabIndex = '-1';
-        });
-      }
-    },
-    [cardResults],
-  );
   /**
    * Creates result cards for display
    */
@@ -436,11 +427,13 @@ function LocationSearchResults({
     (institution, index) => {
       const { distance, name } = institution;
       const miles = Number.parseFloat(distance).toFixed(2);
-
+      const { currentPage } = pagination;
+      const itemsPerPage = 10;
+      const originalIndex = (currentPage - 1) * itemsPerPage + index + 1;
       const header = (
         <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
           <span className="location-letter vads-u-font-size--sm">
-            {pageNumber || index + 1}
+            {originalIndex}
           </span>
           {usingUserLocation() && (
             <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
