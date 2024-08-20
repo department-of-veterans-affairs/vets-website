@@ -17,12 +17,13 @@ const Draft = ({
   const content = (
     <>
       <div className="vads-u-width--full">
-        <span className="usa-label">Draft</span>
-        <h3
-          aria-describedby={formId}
-          className="vads-u-font-size--h3 vads-u-margin-top--2"
-        >
-          {formatFormTitle(formTitle)}
+        <h3 aria-describedby="21-0845" className="vads-u-margin-top--0">
+          <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+            Draft
+          </span>
+          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--2">
+            {formatFormTitle(formTitle)}
+          </span>
         </h3>
         <p
           id={formId}
