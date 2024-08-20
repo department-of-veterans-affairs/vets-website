@@ -265,7 +265,8 @@ const ComposeForm = props => {
   useEffect(
     () => {
       if (
-        messageInvalid ||
+        messageInvalid || 
+  (isSignatureRequired && (signatureInvalid || checkboxInvalid))
         (isSignatureRequired && signatureInvalid) ||
         (isSignatureRequired && checkboxInvalid)
       ) {
