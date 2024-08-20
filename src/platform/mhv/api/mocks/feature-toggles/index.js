@@ -17,6 +17,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
+    mhvSecureMessagingEditContactList = true,
   } = toggles;
 
   return {
@@ -96,6 +97,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_to_va_gov_release',
           value: mhvMedicalRecordsToVaGovRelease,
+        },
+        {
+          name: 'mhv_secure_messaging_edit_contact_list',
+          value: mhvSecureMessagingEditContactList,
         },
       ],
     },
