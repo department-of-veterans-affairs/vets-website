@@ -9,20 +9,20 @@ const tabs = [
   },
   {
     name: 'Green',
-    path: '/task-green/introduction',
-    queryString: '?loggedIn=false',
+    path: '/task-green',
+    introPathWithQuery: '/introduction?loggedIn=false',
     baseClass: 'vads-u-background-color--green vads-u-color--white',
   },
   {
     name: 'Yellow',
-    path: '/task-yellow/introduction',
-    queryString: '?loggedIn=true',
+    path: '/task-yellow',
+    introPathWithQuery: '/introduction?loggedIn=true',
     baseClass: 'vads-u-background-color--gold-light vads-u-color--black',
   },
   {
     name: 'Purple',
-    path: '/task-purple/introduction',
-    queryString: '?loggedIn=true',
+    path: '/task-purple',
+    introPathWithQuery: '/introduction?loggedIn=true',
     baseClass: 'vads-u-background-color--hub-records vads-u-color--white',
   },
 ];
@@ -52,7 +52,8 @@ export const TaskTabs = ({ location, formConfig }) => {
             )}`}
           >
             <a
-              href={`${formConfig.rootUrl}${tab.path}${tab.queryString || ''}`}
+              href={`${formConfig.rootUrl}${tab.path}${tab.introPathWithQuery ||
+                ''}`}
               className={`${getClassNames(
                 tab,
               )} vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full`}

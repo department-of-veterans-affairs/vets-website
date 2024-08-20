@@ -1,4 +1,4 @@
-import { TaskComplete } from '../components/TaskComplete';
+import { TaskComplete } from '../containers/TaskComplete';
 
 export const taskCompletePage = {
   title: "You're done!",
