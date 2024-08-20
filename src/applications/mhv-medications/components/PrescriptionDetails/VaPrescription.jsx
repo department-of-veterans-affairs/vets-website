@@ -17,6 +17,7 @@ import ExtraDetails from '../shared/ExtraDetails';
 import { selectRefillContentFlag } from '../../util/selectors';
 import VaPharmacyText from '../shared/VaPharmacyText';
 import { EMPTY_FIELD } from '../../util/constants';
+import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
@@ -40,14 +41,16 @@ const VaPrescription = prescription => {
       const dispStatus = prescription.dispStatus?.toString();
       return (
         <>
-          <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--2 vads-u-margin-bottom--3">
+          <div className="medication-details-div vads-u-border-top--1px vads-u-border-color--gray-lighter vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--3">
             {latestTrackingStatus && (
               <TrackingInfo
                 {...latestTrackingStatus}
                 prescriptionName={prescription.prescriptionName}
               />
             )}
-            <h2 className="vads-u-margin-y--2">About your prescription</h2>
+            <h2 className="vads-u-margin-top--3 medium-screen:vads-u-margin-top--4 vads-u-margin-bottom--2">
+              About your prescription
+            </h2>
             {prescription && <ExtraDetails {...prescription} />}
             {showRefillContent && prescription?.isRefillable ? (
               <Link
@@ -149,7 +152,9 @@ const VaPrescription = prescription => {
                   }`}
                   data-testid="va-prescription-documentation-link"
                   className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
-                  data-dd-action-name="Rx Documentation Link - Details Page"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                  }
                 >
                   Learn more about {prescription.prescriptionName}
                 </Link>

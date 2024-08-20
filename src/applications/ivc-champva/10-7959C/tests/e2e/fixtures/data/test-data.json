@@ -4,9 +4,9 @@
     "applicantSsn": "234234234",
     "applicantName": {
       "first": "Jimmy",
+      "middle": "Quincy",
       "last": "Alvin"
     },
-    "applicantDOB": "1958-01-01",
     "applicantAddress": {
       "country": "USA",
       "street": "456 Street Circle",

@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list',
 };
 
 export const DefaultFolders = {
@@ -219,7 +220,7 @@ export const Prompts = {
   Draft: {
     DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
     DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
     DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
     DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
   },
@@ -359,6 +360,8 @@ export const BreadcrumbViews = {
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  CONVERSATION_TITLE_TAG:
+    'Conversation - MHV Secure Messaging | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
@@ -375,6 +378,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

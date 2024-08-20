@@ -151,8 +151,8 @@ describe('Compose form component', () => {
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const sendButton = await screen.getByTestId('send-button');
+    const saveDraftButton = await screen.getByTestId('save-draft-button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -161,7 +161,7 @@ describe('Compose form component', () => {
   it('displays error states on empty fields when send button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = screen.getByTestId('Send-Button');
+    const sendButton = screen.getByTestId('send-button');
 
     fireEvent.click(sendButton);
 
@@ -234,9 +234,36 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('Send-Button'));
+    fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
       expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+  });
+
+  it('renders sending message spinner without errors', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.exist;
     });
   });
 
@@ -248,7 +275,7 @@ describe('Compose form component', () => {
     });
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
     });
     expect(saveDraftSpy.calledOnce).to.be.true;
   });
@@ -339,7 +366,7 @@ describe('Compose form component', () => {
     let modal = null;
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
       modal = screen.getByTestId('quit-compose-double-dare');
     });
 
@@ -729,7 +756,7 @@ describe('Compose form component', () => {
         );
       }
     });
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
   it('displays BlockedTriageGroupAlert if blocked from one facility', async () => {
@@ -853,7 +880,7 @@ describe('Compose form component', () => {
       'trigger',
       "You can't send messages to your care teams right now",
     );
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
   it('displays an alert and Digital Signature component if signature is required', async () => {

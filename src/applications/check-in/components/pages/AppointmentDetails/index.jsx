@@ -10,6 +10,7 @@ import { createAnalyticsSlug } from '../../../utils/analytics';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import { setForm } from '../../../actions/universal';
 import { makeSelectVeteranData, makeSelectApp } from '../../../selectors';
+import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import {
   appointmentIcon,
@@ -27,8 +28,8 @@ import BackButton from '../../BackButton';
 import ActionLink from '../../ActionLink';
 import AppointmentMessage from '../../AppointmentDisplay/AppointmentMessage';
 import AddressBlock from '../../AddressBlock';
-
 import ExternalLink from '../../ExternalLink';
+import PrepareContent from '../../PrepareContent';
 
 const AppointmentDetails = props => {
   const { router } = props;
@@ -44,6 +45,10 @@ const AppointmentDetails = props => {
   const { appointments, upcomingAppointments } = useSelector(selectVeteranData);
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isMedicationReviewContentEnabled } = useSelector(
+    selectFeatureToggles,
+  );
   const [appointment, setAppointment] = useState({});
   const [isUpcoming, setIsUpcoming] = useState(false);
   const appointmentDay = new Date(appointment?.startTime);
@@ -108,12 +113,19 @@ const AppointmentDetails = props => {
   const clinic = appointment && clinicName(appointment);
 
   let preCheckInSubTitle = (
-    <p
-      data-testid="in-person-appointment-subtitle"
-      className="vads-u-margin--0"
-    >
-      {t('remember-to-bring-your-insurance-cards-with-you')}
-    </p>
+    <>
+      {isMedicationReviewContentEnabled && (
+        <h2 className="vads-u-font-size--sm">{t('how-to-check-in')}</h2>
+      )}
+      <p
+        data-testid="in-person-appointment-subtitle"
+        className="vads-u-margin--0"
+      >
+        {isMedicationReviewContentEnabled
+          ? t('on-day-of-appointment-we-send-text')
+          : t('remember-to-bring-your-insurance-cards-with-you')}
+      </p>
+    </>
   );
   if (isPhoneAppointment) {
     preCheckInSubTitle = (
@@ -165,6 +177,18 @@ const AppointmentDetails = props => {
   let eligibleAppointment = true;
   if (app === APP_NAMES.CHECK_IN) {
     eligibleAppointment = appointment.eligibility === ELIGIBILITY.ELIGIBLE;
+  }
+  let link = '';
+  if (!isUpcoming && eligibleAppointment) {
+    link = (
+      <div className="vads-u-margin-top--2">
+        <ActionLink
+          app={app}
+          action={action}
+          appointmentId={getAppointmentId(appointment)}
+        />
+      </div>
+    );
   }
   return (
     <>
@@ -258,19 +282,34 @@ const AppointmentDetails = props => {
                   </div>
                 </va-alert>
               )}
+              {app === APP_NAMES.PRE_CHECK_IN &&
+                !getPreCheckinComplete(window)?.complete && (
+                  <>
+                    <h2 className="vads-u-font-size--sm">
+                      {t('review-contact-information')}
+                    </h2>
+                    {link}
+                  </>
+                )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
-                <div data-testid="appointment-details--date-value">
+                <p
+                  className="vads-u-margin--0"
+                  data-testid="appointment-details--date-value"
+                >
                   {isValid(appointmentDay) &&
                     t('appointment-day', { date: appointmentDay })}
-                </div>
+                </p>
               </div>
               {appointment.doctorName && (
                 <div data-testid="appointment-details--provider">
                   <h2 className="vads-u-font-size--sm">{t('who')}</h2>
-                  <div data-testid="appointment-details--provider-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--provider-value"
+                  >
                     {appointment.doctorName}
-                  </div>
+                  </p>
                 </div>
               )}
 
@@ -279,7 +318,10 @@ const AppointmentDetails = props => {
                   <h2 className="vads-u-font-size--sm">
                     {t('where-to-attend')}
                   </h2>
-                  <div data-testid="appointment-details--facility-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--facility-value"
+                  >
                     {appointment.facility}
                     {appointment.facilityAddress?.street1 && (
                       <div className="vads-u-margin-bottom--2">
@@ -290,7 +332,7 @@ const AppointmentDetails = props => {
                         />
                       </div>
                     )}
-                  </div>
+                  </p>
                 </div>
               )}
               {(isPhoneAppointment || isVvcAppointment) && (
@@ -307,35 +349,50 @@ const AppointmentDetails = props => {
               {(isPhoneAppointment || isVvcAppointment) && (
                 <div data-testid="appointment-details--facility-info">
                   {appointment.facility && (
-                    <div data-testid="appointment-details--facility-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--facility-value"
+                    >
                       {appointment.facility}
-                    </div>
+                    </p>
                   )}
                   {appointment.facilityAddress?.city &&
                     appointment.facilityAddress?.state && (
-                      <div data-testid="appointment-details--facility-address">
+                      <p
+                        className="vads-u-margin--0"
+                        data-testid="appointment-details--facility-address"
+                      >
                         {`${appointment.facilityAddress.city}, ${
                           appointment.facilityAddress.state
                         }`}
-                      </div>
+                      </p>
                     )}
                 </div>
               )}
               <div className="vads-u-margin-top--2">
                 {clinic && (
-                  <div data-testid="appointment-details--clinic-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--clinic-value"
+                  >
                     {`${t('clinic')}:`} {clinic}
-                  </div>
+                  </p>
                 )}
                 {(isInPersonAppointment || isCvtAppointment) &&
                   appointment.clinicLocation && (
-                    <div data-testid="appointment-details--location-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--location-value"
+                    >
                       {`${t('location')}: ${appointment.clinicLocation}`}
-                    </div>
+                    </p>
                   )}
                 {appointment.clinicPhoneNumber && (
                   <div data-testid="appointment-details--phone">
-                    <div data-testid="appointment-details--phone-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--phone-value"
+                    >
                       {`${t('clinic-phone')}: `}
                       <va-telephone
                         onClick={handlePhoneNumberClick}
@@ -348,20 +405,18 @@ const AppointmentDetails = props => {
                         ariaLabel="7 1 1."
                       />
                       )
-                    </div>
+                    </p>
                   </div>
                 )}
               </div>
-              {!isUpcoming &&
-                eligibleAppointment && (
-                  <div className="vads-u-margin-top--2">
-                    <ActionLink
-                      app={app}
-                      action={action}
-                      appointmentId={getAppointmentId(appointment)}
-                    />
-                  </div>
-                )}
+              {app === APP_NAMES.CHECK_IN && link}
+              {app === APP_NAMES.PRE_CHECK_IN && (
+                <PrepareContent
+                  router={router}
+                  smallHeading
+                  appointmentCount={1}
+                />
+              )}
             </div>
           </Wrapper>
         </>

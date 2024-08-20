@@ -28,6 +28,8 @@ const usePostTravelOnlyClaim = props => {
     APP_NAMES.TRAVEL_CLAIM,
     true,
   );
+  const { setCompleteTimestamp } = useStorage(APP_NAMES.TRAVEL_CLAIM);
+
   const travelPaySent = getTravelPaySent(window);
   const now = new Date().getTime();
   const timeToComplete = Math.round((now - startedTime) / 1000).toString();
@@ -64,6 +66,7 @@ const usePostTravelOnlyClaim = props => {
           markTravelPayClaimSent();
           setIsLoading(false);
           setIsComplete(true);
+          setCompleteTimestamp(window, Date.now());
         });
     },
     [
@@ -77,6 +80,7 @@ const usePostTravelOnlyClaim = props => {
       timeToComplete,
       alreadyPosted,
       appointmentStartTime,
+      setCompleteTimestamp,
     ],
   );
 

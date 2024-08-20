@@ -21,6 +21,9 @@ export default function PensionEntry({ location, children }) {
   const pensionMedicalEvidenceClarification = useToggleValue(
     TOGGLE_NAMES.pensionMedicalEvidenceClarification,
   );
+  const pensionDocumentUploadUpdate = useToggleValue(
+    TOGGLE_NAMES.pensionDocumentUploadUpdate,
+  );
   const pensionModuleEnabled = useToggleValue(
     TOGGLE_NAMES.pensionModuleEnabled,
   );
@@ -52,6 +55,10 @@ export default function PensionEntry({ location, children }) {
           'showPensionEvidenceClarification',
           !!pensionMedicalEvidenceClarification,
         );
+        window.sessionStorage.setItem(
+          'showUploadDocuments',
+          !!pensionDocumentUploadUpdate,
+        );
       }
     },
     [
@@ -59,7 +66,17 @@ export default function PensionEntry({ location, children }) {
       pensionMultiplePageResponse,
       pensionIncomeAndAssetsClarification,
       pensionMedicalEvidenceClarification,
+      pensionDocumentUploadUpdate,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (pensionModuleEnabled) {
+        formConfig.submit = (f, fc) => submit(f, fc, '/pensions/v0/claims');
+      }
+    },
+    [pensionModuleEnabled],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
@@ -68,10 +85,6 @@ export default function PensionEntry({ location, children }) {
 
   if (!pensionFormEnabled) {
     return <NoFormPage />;
-  }
-
-  if (pensionModuleEnabled) {
-    formConfig.submit = (f, fc) => submit(f, fc, 'pensions/v0/pension_claims');
   }
 
   return (

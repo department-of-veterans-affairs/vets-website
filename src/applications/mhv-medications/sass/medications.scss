@@ -29,6 +29,10 @@
   margin-top: 70px;
 }
 
+.print-download-btn-min-height {
+  min-height: 44px;
+}
+
 .renew-pagination-container {
   width: 100%;
   display: flex;
@@ -37,8 +41,8 @@
 .routes-container {
   @media (max-width: $small-screen) {
     // .vads-l-grid-container adds 15px on left and right, this overwrites that
-    padding-left: 8px;
-    padding-right: 8px;
+    padding-left: 12px;
+    padding-right: 12px;
   }
 }
 .main-content {

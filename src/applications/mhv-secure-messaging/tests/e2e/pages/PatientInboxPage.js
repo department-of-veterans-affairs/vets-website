@@ -523,7 +523,7 @@ class PatientInboxPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -592,7 +592,7 @@ class PatientInboxPage {
     option = 'Oldest to newest',
     sortedResponse,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${option}`, { force: true });
@@ -707,7 +707,7 @@ class PatientInboxPage {
     );
   };
 
-  verifyNotForPrintHeaderText = (text = 'Messages in this conversation') => {
+  verifyNotForPrintHeaderText = (text = 'messages in this conversation') => {
     cy.get(Locators.FIELDS.NOT_FOR_PRINT_HEADER)
       .should('be.visible')
       .and('contain.text', text);

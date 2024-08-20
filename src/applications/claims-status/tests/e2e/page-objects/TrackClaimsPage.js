@@ -319,7 +319,7 @@ class TrackClaimsPage {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
   }
@@ -353,7 +353,7 @@ class TrackClaimsPage {
   }
 
   verifyDocRequestfor5103Notice() {
-    cy.get('#automated-5103-notice-page').should('be.visible');
+    cy.get('#default-5103-notice-page').should('be.visible');
     cy.get('a.active-va-link').should('contain', 'Go to claim letters');
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
