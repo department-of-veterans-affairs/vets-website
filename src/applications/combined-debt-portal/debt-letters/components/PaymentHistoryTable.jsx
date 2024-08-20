@@ -38,7 +38,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
   };
 
   const { fiscalTransactionData } = currentDebt;
-  if (fiscalTransactionData.length === 0) {
+  if (fiscalTransactionData?.length === 0) {
     return null;
   }
   return (
@@ -48,7 +48,7 @@ const PaymentHistoryTable = ({ currentDebt }) => {
         <span>Description</span>
         <span>Amount</span>
       </va-table-row>
-      {fiscalTransactionData.map((payment, index) => (
+      {fiscalTransactionData?.map((payment, index) => (
         <va-table-row key={`${payment.transactionDate}-${index}`}>
           <span className="vads-u-width--fit">{payment.transactionDate}</span>
           <span>
