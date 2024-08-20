@@ -32,25 +32,24 @@ const ShareResultsModal = () => {
         modalTitle="Save, bookmark, or share your results"
         initialFocusSelector="#va-modal-title"
         visible={isOpen}
-        uswds
         large
       >
-        <p>Copy link</p>
-        <input
+        <va-text-input
           id="url-input"
+          hint={null}
+          aria-label="Copy link"
+          label="Copy link"
           name="url-input"
-          aria-label="URL"
-          type="text"
-          value={currentUrl}
+          type="url"
           onChange={() => {}}
+          value={currentUrl}
         />
-        <button
+        <va-button
           id="copy-button"
           className="usa-button-primary"
           onClick={handleCopyClick}
-        >
-          Copy
-        </button>
+          text="Copy"
+        />
         <va-alert
           id="copy-alert"
           close-btn-aria-label="Close notification"

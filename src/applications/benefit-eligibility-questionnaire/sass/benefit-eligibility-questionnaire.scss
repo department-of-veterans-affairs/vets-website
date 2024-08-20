@@ -42,7 +42,12 @@
 
 #url-input, #copy-button {
     display: inline-block;
-    margin-right: 20px;
+}
+
+#url-input {
+  margin-right: 10px;
+  margin-bottom: 10px;
+  width: 80%;
 }
 
 #results-section {
