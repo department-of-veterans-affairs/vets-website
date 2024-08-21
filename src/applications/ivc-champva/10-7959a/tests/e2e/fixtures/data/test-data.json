@@ -1,5 +1,6 @@
 {
   "data": {
+    "view:hasPolicies": true,
     "certifierRole": "applicant",
     "sponsorName": {
       "first": "Sponsor",
