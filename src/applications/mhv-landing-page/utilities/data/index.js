@@ -46,20 +46,7 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
+  const medicalRecordsLinks = HEALTH_TOOL_LINKS.MEDICAL_RECORDS;
 
   const myVaHealthBenefitsLinks = [
     {

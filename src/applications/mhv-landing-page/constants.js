@@ -52,12 +52,12 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/medical-records/download-all',
-      text: 'Download medical record (Blue Button®)',
+      href: '/my-health/medical-records/',
+      text: 'Get VA medical records',
     },
     {
-      href: '/my-health/medical-records/labs-and-tests',
-      text: 'Lab and test results',
+      href: '/my-health/labs-and-tests',
+      text: 'Get lab and test results',
     },
   ]),
   PAYMENTS: freeze([
