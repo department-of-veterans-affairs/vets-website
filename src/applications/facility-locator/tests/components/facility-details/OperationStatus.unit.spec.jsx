@@ -64,7 +64,7 @@ describe('facility-locator', () => {
       );
       expect(getByText('Additional info')).to.be.ok;
     });
-    it('should render visitText website if it exists for facility type of VA_CEMETARY', () => {
+    it('should render visitText website if it exists for facility type of VA_CEMETERY', () => {
       const operatingStatus = {
         code: 'NOTICE',
       };
@@ -72,7 +72,7 @@ describe('facility-locator', () => {
         <OperationStatus
           operatingStatus={operatingStatus}
           website="http://www.foo.bar.va.gov"
-          facilityType={FacilityType.VA_CEMETARY}
+          facilityType={FacilityType.VA_CEMETERY}
         />,
       );
       expect(getByTestId('visit-text')).to.contain.text(
@@ -80,7 +80,7 @@ describe('facility-locator', () => {
       );
       expect(
         getByTestId('visit-text')
-          .querySelector('a')
+          .querySelector('va-link')
           .getAttribute('href'),
       ).to.equal('http://www.foo.bar.va.gov');
     });
@@ -99,7 +99,7 @@ describe('facility-locator', () => {
       );
       expect(
         getByTestId('visit-text')
-          .querySelector('a')
+          .querySelector('va-link')
           .getAttribute('href'),
       ).to.equal('http://www.foo.bar.va.gov');
     });
