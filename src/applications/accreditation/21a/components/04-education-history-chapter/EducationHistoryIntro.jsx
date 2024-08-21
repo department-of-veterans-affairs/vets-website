@@ -13,6 +13,7 @@ const EducationHistoryIntro = () => (
       <li>Start and end date (month/year)</li>
       <li>Type of degree (if applicable)</li>
       <li>Major (if applicable)</li>
+      <li>Explanation for not completing degree (if applicable)</li>
     </ul>
   </>
 );

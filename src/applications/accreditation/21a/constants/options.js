@@ -82,11 +82,10 @@ export const employmentActivitiesOptions = Object.freeze({
 // Chapter 4
 
 export const degreeOptions = Object.freeze([
-  'Associate of Arts',
-  'Bachelor of Arts',
-  'Bachelor of Science',
-  'Master of Arts',
-  'Master of Science',
-  'Juris Doctor',
+  'High school diploma or equivalent',
+  'Associate degree',
+  "Bachelor's degree",
+  "Master's degree",
+  'Doctoral degree',
   'Other',
 ]);

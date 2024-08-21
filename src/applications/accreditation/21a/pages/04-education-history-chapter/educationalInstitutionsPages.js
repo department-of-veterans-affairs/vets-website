@@ -93,19 +93,6 @@ const institutionAndDegreePage = {
       'ui:webComponentField': VaCheckboxField,
     },
     degreeReceived: yesNoUI('Degree received?'),
-    degree: selectUI({
-      title: 'Type of degree',
-      expandUnder: 'degreeReceived',
-      required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived, // TODO: Required is not behaving correctly on list loop edit
-    }),
-    reasonForNotCompleting: textareaUI({
-      title: 'Explain why you did not complete this degree.',
-      expandUnder: 'degreeReceived',
-      expandUnderCondition: degreeReceived => degreeReceived === false,
-      required: (formData, index) =>
-        formData?.educationalInstitutions?.[index]?.degreeReceived === false, // TODO: Required is not behaving correctly on list loop edit
-    }),
     major: textUI('Major'),
   },
   schema: {
@@ -121,11 +108,36 @@ const institutionAndDegreePage = {
         type: 'boolean',
       },
       degreeReceived: yesNoSchema,
-      degree: selectSchema(degreeOptions),
-      reasonForNotCompleting: textareaSchema,
       major: textSchema,
     },
     required: ['name', 'dateRange', 'degreeReceived'],
+  },
+};
+
+/** @returns {PageSchema} */
+const degreeInformationPage = {
+  uiSchema: {
+    degree: selectUI({
+      title: 'Type of degree',
+      hideIf: (formData, index) =>
+        !formData?.educationalInstitutions?.[index]?.degreeReceived,
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.degreeReceived,
+    }),
+    reasonForNotCompleting: textareaUI({
+      title: 'Explain why you did not complete this degree.',
+      hideIf: (formData, index) =>
+        !formData?.educationalInstitutions?.[index]?.degreeReceived === false,
+      required: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.degreeReceived === false,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      degree: selectSchema(degreeOptions),
+      reasonForNotCompleting: textareaSchema,
+    },
   },
 };
 
@@ -198,11 +210,17 @@ const educationalInstitutionsPages = arrayBuilderPages(
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    educationalInstitutionAndDegreePage: pageBuilder.itemPage({
-      title: 'Educational institution and degree information',
+    educationalInstitutionInstitutionAndDegreePage: pageBuilder.itemPage({
+      title: 'Educational institution institution and degree information',
       path: 'educational-institutions/:index/institution-degree-information',
       uiSchema: institutionAndDegreePage.uiSchema,
       schema: institutionAndDegreePage.schema,
+    }),
+    educationalInstitutionDegreeInformationPage: pageBuilder.itemPage({
+      title: 'Educational institution degree information',
+      path: 'educational-institutions/:index/degree-information',
+      uiSchema: degreeInformationPage.uiSchema,
+      schema: degreeInformationPage.schema,
     }),
     educationalInstitutionAddressPage: pageBuilder.itemPage({
       title: 'Educational institution address',

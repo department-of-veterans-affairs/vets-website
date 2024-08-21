@@ -18,7 +18,6 @@ import {
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmployersIntro from '../../components/03-employment-information-chapter/EmployersIntro';
 import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
@@ -56,7 +55,9 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...descriptionUI(EmployersIntro),
+    ...descriptionUI(
+      'You will now list your employment information for the past ten years. You may start with your current employer. You will be able to add additional employers on subsequent screens.',
+    ),
   },
   schema: {
     type: 'object',
