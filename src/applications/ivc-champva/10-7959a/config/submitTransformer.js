@@ -61,6 +61,7 @@ export default function transformForSubmit(formConfig, form) {
     copyOfData.medicalUpload,
     copyOfData.primaryEob,
     copyOfData.secondaryEob,
+    copyOfData.pharmacyUpload,
   ]
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
