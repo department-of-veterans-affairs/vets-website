@@ -50,25 +50,9 @@ export const uiSchema = {
               required: 'Select a state',
             },
             'ui:options': {
-              updateSchema: (formData, _schema, _uiSchema, index) => {
-                const updatedSchemaUI = { ..._uiSchema };
-                const updatedSchema = { ..._schema };
-                const location =
-                  formData?.veteranMarriageHistory[`${index}`]?.endLocation
-                    ?.location;
-                const outsideUsa =
-                  formData?.veteranMarriageHistory[`${index}`]?.endLocation
-                    ?.outsideUsa;
-
-                if (outsideUsa) {
-                  updatedSchemaUI['ui:options'].inert = true;
-                  location.state = undefined;
-                  return updatedSchema;
-                }
-
-                updatedSchemaUI['ui:options'].inert = false;
-                return updatedSchema;
-              },
+              hideIf: (formData, index) =>
+                formData?.veteranMarriageHistory[`${index}`]?.endLocation
+                  ?.outsideUsa,
             },
           },
         },

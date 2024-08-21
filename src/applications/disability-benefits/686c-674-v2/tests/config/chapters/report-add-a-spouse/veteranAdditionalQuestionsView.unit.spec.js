@@ -17,7 +17,7 @@ describe('686 current marriage information: Veteran previous marriage additional
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.addSpouse.pages.additionalQuestionsView;
+  } = formConfig.chapters.addSpouse.pages.veteranAdditionalQuestionsView;
 
   it('should render', () => {
     const { queryByText } = render(
@@ -32,9 +32,7 @@ describe('686 current marriage information: Veteran previous marriage additional
     );
 
     expect(
-      queryByText(
-        /Now we’ll ask you about each of your spouse’s former marriages./i,
-      ),
+      queryByText(/Now we’ll ask you about each of your former marriages./i),
     ).to.not.be.null;
   });
 });

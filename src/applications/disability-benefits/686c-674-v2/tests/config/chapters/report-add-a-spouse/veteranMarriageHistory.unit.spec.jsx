@@ -1,97 +1,111 @@
-import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { mount } from 'enzyme';
-import {
-  DefinitionTester,
-  fillData,
-  selectRadio,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-
+import React from 'react';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
 import formConfig from '../../../../config/form';
 
-describe('686 veteran former partner names', () => {
+const defaultStore = createCommonStore();
+
+const formData = {
+  'view:selectable686Options': {
+    addSpouse: true,
+  },
+};
+
+describe('686 current marriage information: Veteran previous marriage question', () => {
   const {
     schema,
     uiSchema,
   } = formConfig.chapters.addSpouse.pages.veteranMarriageHistory;
 
-  const formData = {
-    'view:selectable686Options': {
-      addSpouse: true,
-    },
-  };
+  it('should render marital status question', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
+});
+
+describe('686 current marriage information: Veteran former spouses list', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.addSpouse.pages.veteranMarriageHistoryPartTwo;
 
   it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData}
-        definitions={formConfig.defaultDefinitions}
-      />,
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
     );
-    expect(form.find('input').length).to.equal(2);
-    form.unmount();
+
+    expect($$('va-text-input', container).length).to.equal(3);
   });
 
-  it('should submit when a veteran has not been married before', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    selectRadio(form, 'root_veteranWasMarriedBefore', 'N');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
-  });
+  it('should render', () => {
+    const veteranMarriageHistory = [
+      {
+        fullName: {
+          first: 'My',
+          last: 'Ex',
+        },
+        reasonMarriageEnded: 'Death',
+        startDate: '1991-02-19',
+        endDate: '1992-03-20',
+        startLocation: {},
+        endLocation: {},
+      },
+      {
+        fullName: {
+          first: 'My',
+          middle: 'Other',
+          last: 'Ex',
+        },
+        reasonMarriageEnded: 'Death',
+        startDate: '2000-02-19',
+        endDate: '2000-03-20',
+        startLocation: {},
+        endLocation: {},
+      },
+    ];
 
-  it('should not submit without required fields when a veteran has been married before', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={{
+            ...formData,
+            veteranMarriageHistory,
+          }}
+        />
+      </Provider>,
     );
-    selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(2);
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
 
-  it('should submit with all required fields when a veteran has been married before', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        schema={schema}
-        uiSchema={uiSchema}
-        data={formData}
-        definitions={formConfig.defaultDefinitions}
-        onSubmit={onSubmit}
-      />,
-    );
-    selectRadio(form, 'root_veteranWasMarriedBefore', 'Y');
-    fillData(
-      form,
-      'input#root_veteranMarriageHistory_0_fullName_first',
-      'jane',
-    );
-    fillData(form, 'input#root_veteranMarriageHistory_0_fullName_last', 'doe');
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    expect($$('va-text-input', container).length).to.equal(3);
+    expect(
+      $$('button[aria-label="Edit former spouse"]', container).length,
+    ).to.equal(1);
+    expect(
+      $$('button[aria-label="Remove former spouse"]', container).length,
+    ).to.equal(1);
   });
 });

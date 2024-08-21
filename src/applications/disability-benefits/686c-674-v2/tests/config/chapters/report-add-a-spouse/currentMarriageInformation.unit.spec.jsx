@@ -15,7 +15,7 @@ const formData = {
   },
 };
 
-describe('686 current spouse information: Current marriage information', () => {
+describe('686 current marriage information: Current marriage information', () => {
   const {
     schema,
     uiSchema,
@@ -37,36 +37,9 @@ describe('686 current spouse information: Current marriage information', () => {
     expect($$('va-text-input', container).length).to.equal(1);
     expect($$('va-select', container).length).to.equal(1);
   });
-
-  // it('should disable state field if married outside the U.S.', () => {
-  //   const { container } = render(
-  //     <Provider store={defaultStore}>
-  //       <DefinitionTester
-  //         schema={schema}
-  //         definitions={formConfig.defaultDefinitions}
-  //         uiSchema={uiSchema}
-  //         data={{
-  //           ...formData,
-  //           currentMarriageInformation: {
-  //             outsideUsa: true,
-  //           },
-  //         }}
-  //       />
-  //     </Provider>,
-  //   );
-
-  //   const vaSelectElement = $$('va-select', container)[0]; // Assuming there's only one va-select
-
-  //   screen.debug();
-  //   expect($$('va-checkbox', container).length).to.equal(1);
-  //   expect($$('va-text-input', container).length).to.equal(1);
-  //   expect($$('va-select', container).length).to.equal(1);
-  //   expect(vaSelectElement).to.exist;
-  //   expect(vaSelectElement.hasAttribute('required')).to.be.false;
-  // });
 });
 
-describe('686 current spouse information: How did you get married', () => {
+describe('686 current marriage information: How did you get married', () => {
   const {
     schema,
     uiSchema,
@@ -110,7 +83,7 @@ describe('686 current spouse information: How did you get married', () => {
   });
 });
 
-describe('686 current spouse information: Spouse’s address', () => {
+describe('686 current marriage information: Spouse’s address', () => {
   const {
     schema,
     uiSchema,
@@ -134,7 +107,7 @@ describe('686 current spouse information: Spouse’s address', () => {
   });
 });
 
-describe('686 current spouse information: Reason you live separately from your spouse', () => {
+describe('686 current marriage information: Reason you live separately from your spouse', () => {
   const {
     schema,
     uiSchema,

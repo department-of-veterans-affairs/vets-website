@@ -15,7 +15,7 @@ const formData = {
   },
 };
 
-describe('686 current spouse information: Veteran lives with spouse', () => {
+describe('686 current marriage information: Veteran lives with spouse', () => {
   const {
     schema,
     uiSchema,

@@ -39,7 +39,7 @@ export const uiSchema = {
       reasonMarriageEndedOther: {
         ...textUI('Briefly describe how your marriage ended'),
         'ui:required': (formData, index) =>
-          formData.veteranMarriageHistory[`${index}`].reasonMarriageEnded ===
+          formData?.veteranMarriageHistory[`${index}`]?.reasonMarriageEnded ===
           'Other',
         'ui:options': {
           expandUnder: 'reasonMarriageEnded',

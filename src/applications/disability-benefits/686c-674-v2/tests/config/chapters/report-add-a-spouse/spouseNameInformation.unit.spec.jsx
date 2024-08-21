@@ -15,7 +15,7 @@ const formData = {
   },
 };
 
-describe('686 current spouse information: Spouse legal name', () => {
+describe('686 current marriage information: Spouse legal name', () => {
   const {
     schema,
     uiSchema,
@@ -36,7 +36,7 @@ describe('686 current spouse information: Spouse legal name', () => {
   });
 });
 
-describe('686 current spouse information: Spouse identification information', () => {
+describe('686 current marriage information: Spouse identification information', () => {
   const {
     schema,
     uiSchema,
@@ -61,7 +61,7 @@ describe('686 current spouse information: Spouse identification information', ()
   });
 });
 
-describe('686 current spouse information: Spouse military service information', () => {
+describe('686 current marriage information: Spouse military service information', () => {
   const {
     schema,
     uiSchema,
