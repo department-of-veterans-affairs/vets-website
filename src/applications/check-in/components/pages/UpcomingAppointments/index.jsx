@@ -101,7 +101,14 @@ const UpcomingAppointmentsPage = props => {
           <p>{t('some-appointment-information-not-available')}</p>
           {/* Slotted p tags can't have margin for some reason. */}
           <br />
-          <p>{t('find-all-appointment-information')}</p>
+          <p>
+            {t('find-all-appointment-information', {
+              type:
+                app === APP_NAMES.PRE_CHECK_IN
+                  ? t('reviewing-information-first')
+                  : t('checking-in-first'),
+            })}
+          </p>
         </va-alert-expandable>
         <UpcomingAppointmentsList
           router={router}
