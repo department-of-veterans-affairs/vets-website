@@ -106,11 +106,9 @@ export const focusRadioH3 = () => {
 // `scrollAndFocusTarget: focusH3`
 export const focusToggledHeader = () => {
   scrollTo('topContentElement');
-  if (sessionStorage.getItem('hlrUpdated') === 'false') {
-    const radio = $('va-radio');
-    if (radio) {
-      waitForRenderThenFocus('h3', radio.shadowRoot);
-    }
+  const radio = $('va-radio');
+  if (sessionStorage.getItem('hlrUpdated') === 'false' && radio) {
+    waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
     waitForRenderThenFocus('#main h3');
   }

@@ -5,15 +5,20 @@ import {
 } from 'platform/utilities/ui';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
+let timer;
 export const focusEvidence = (_index, root) => {
-  setTimeout(() => {
+  clearTimeout(timer);
+  timer = setTimeout(() => {
     const error = $('[error]', root);
-    if (error) {
-      scrollToFirstError();
-      focusElement(error);
-    } else {
-      scrollTo('topContentElement');
-      focusElement('#main h3', null, root);
+    timer = null;
+    if (document.activeElement === document.body) {
+      if (error) {
+        scrollToFirstError();
+        focusElement(error);
+      } else {
+        scrollTo('topContentElement');
+        focusElement('#main h3', null, root);
+      }
     }
   });
 };
