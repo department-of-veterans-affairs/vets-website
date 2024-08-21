@@ -4,28 +4,46 @@ import recordEvent from '~/platform/monitoring/record-event';
 import { apiRequest } from '~/platform/utilities/api';
 import { replaceWithStagingDomain } from '~/platform/utilities/environment/stagingDomains';
 
-export const hideLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const hideDesktopHeader = () => {
+  const desktopHeader = document.getElementById('legacy-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (!legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.add('vads-u-display--none');
+  if (!desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.add('vads-u-display--none');
   }
 };
 
-export const showLegacyHeader = () => {
-  const legacyHeader = document.getElementById('legacy-header');
+export const showDesktopHeader = () => {
+  const desktopHeader = document.getElementById('legacy-header');
 
-  if (!legacyHeader) {
+  if (!desktopHeader) {
     return;
   }
 
-  if (legacyHeader.classList.contains('vads-u-display--none')) {
-    legacyHeader.classList.remove('vads-u-display--none');
+  if (desktopHeader.classList.contains('vads-u-display--none')) {
+    desktopHeader.classList.remove('vads-u-display--none');
   }
+};
+
+/**
+ * Shows or hides the minimal header and does
+ * the opposite for the default header simultaneously.
+ *
+ * @param {boolean} show
+ */
+export const toggleMinimalHeader = show => {
+  const minimalHeader = document.getElementById('header-minimal');
+  const defaultHeader = document.getElementById('header-default');
+
+  if (!minimalHeader || !defaultHeader) {
+    return;
+  }
+
+  minimalHeader.classList.toggle('vads-u-display--none', !show);
+  defaultHeader.classList.toggle('vads-u-display--none', show);
 };
 
 export const fetchSearchSuggestions = async searchTerm => {

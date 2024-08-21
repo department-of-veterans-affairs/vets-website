@@ -12,7 +12,6 @@ import {
   getForm4142,
   getPhone,
   getEmail,
-  getTimeZone,
   getClaimantData,
   hasDuplicateFacility,
   hasDuplicateLocation,
@@ -140,18 +139,18 @@ describe('getAddress', () => {
 });
 
 describe('getPhone', () => {
-  const phone1 = {
+  const phone1 = (submit = false) => ({
     countryCode: '1',
     areaCode: '222',
     phoneNumber: '1234567',
-    phoneNumberExt: '0000',
-  };
-  const phone2 = {
+    [submit ? 'phoneNumberExt' : 'extension']: '0000',
+  });
+  const phone2 = (submit = false) => ({
     countryCode: '1',
     areaCode: '333',
     phoneNumber: '3456789',
-    phoneNumberExt: '0001',
-  };
+    [submit ? 'phoneNumberExt' : 'extension']: '0001',
+  });
   it('should return a cleaned up phone object from the default home phone', () => {
     const wrap = obj => ({ veteran: { homePhone: obj } });
     expect(getPhone()).to.deep.equal({});
@@ -163,42 +162,35 @@ describe('getPhone', () => {
     expect(
       getPhone(
         wrap({
-          ...phone1,
+          ...phone1(),
           extra: 'will not be included',
         }),
       ),
-    ).to.deep.equal(phone1);
+    ).to.deep.equal(phone1(true));
   });
   it('should ignore selected primary phone when only home is available', () => {
     const wrap = primary => ({
       [PRIMARY_PHONE]: primary,
-      veteran: { homePhone: phone1, mobilePhone: {} },
+      veteran: { homePhone: phone1(), mobilePhone: {} },
     });
-    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
-    expect(getPhone(wrap('mobile'))).to.deep.equal(phone1);
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1(true));
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone1(true));
   });
   it('should ignore selected primary phone when only mobile is available', () => {
     const wrap = primary => ({
       [PRIMARY_PHONE]: primary,
-      veteran: { homePhone: {}, mobilePhone: phone2 },
+      veteran: { homePhone: {}, mobilePhone: phone2() },
     });
-    expect(getPhone(wrap('home'))).to.deep.equal(phone2);
-    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
+    expect(getPhone(wrap('home'))).to.deep.equal(phone2(true));
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2(true));
   });
   it('should return selected primary phone', () => {
     const wrap = primary => ({
       [PRIMARY_PHONE]: primary,
-      veteran: { homePhone: phone1, mobilePhone: phone2 },
+      veteran: { homePhone: phone1(), mobilePhone: phone2() },
     });
-    expect(getPhone(wrap('home'))).to.deep.equal(phone1);
-    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2);
-  });
-});
-
-describe('getTimeZone', () => {
-  it('should return a string', () => {
-    // result will be a location string, not stubbing for this test
-    expect(getTimeZone().length).to.be.greaterThan(1);
+    expect(getPhone(wrap('home'))).to.deep.equal(phone1(true));
+    expect(getPhone(wrap('mobile'))).to.deep.equal(phone2(true));
   });
 });
 

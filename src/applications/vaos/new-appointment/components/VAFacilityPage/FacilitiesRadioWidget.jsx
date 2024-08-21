@@ -15,9 +15,9 @@ import {
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
+import { useOHDirectScheduling } from '../../hooks/useOHDirectScheduling';
 
 const INITIAL_FACILITY_DISPLAY_COUNT = 5;
-
 /*
  * This is a copy of the form system RadioWidget, but with custom
  * code to disable certain options. This isn't currently supported by the
@@ -36,6 +36,7 @@ export default function FacilitiesRadioWidget({
     sortMethod,
     loadingEligibility,
   } = useSelector(state => selectFacilitiesRadioWidget(state), shallowEqual);
+
   const { hasUserAddress, sortOptions, updateFacilitySortMethod } = formContext;
   const { enumOptions } = options;
   const selectedIndex = enumOptions.findIndex(o => o.value === value);
@@ -69,6 +70,8 @@ export default function FacilitiesRadioWidget({
       </option>
     );
   });
+
+  const useOHDirectSchedule = useOHDirectScheduling();
 
   useEffect(
     () => {
@@ -168,11 +171,12 @@ export default function FacilitiesRadioWidget({
                     {distance} miles
                   </span>
                 )}
-                {isCerner && (
-                  <a href={getCernerURL('/pages/scheduling/upcoming')}>
-                    Schedule online at <strong>My VA Health</strong>
-                  </a>
-                )}
+                {isCerner &&
+                  !useOHDirectSchedule && (
+                    <a href={getCernerURL('/pages/scheduling/upcoming')}>
+                      Schedule online at <strong>My VA Health</strong>
+                    </a>
+                  )}
               </label>
             </div>
           );
@@ -182,14 +186,16 @@ export default function FacilitiesRadioWidget({
         hiddenCount > 0 && (
           <button
             type="button"
-            className="additional-info-button va-button-link vads-u-display--block"
+            className="additional-info-button usa-button-secondary vads-u-display--block"
             onClick={() => {
               setDisplayAll(!displayAll);
             }}
           >
             <span className="sr-only">show</span>
-            <span className="va-button-link">
-              {`+ ${hiddenCount} more location${hiddenCount === 1 ? '' : 's'}`}
+            <span>
+              {`Show ${hiddenCount} more location${
+                hiddenCount === 1 ? '' : 's'
+              }`}
             </span>
           </button>
         )}

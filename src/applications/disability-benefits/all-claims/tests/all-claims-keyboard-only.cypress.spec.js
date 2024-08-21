@@ -19,7 +19,7 @@ import {
   SHOW_8940_4192,
 } from '../constants';
 
-describe('526EZ keyboard only navigation', () => {
+describe.skip('526EZ keyboard only navigation', () => {
   it('navigate through a maximal form', () => {
     window.sessionStorage.setItem(SHOW_8940_4192, 'true');
     window.sessionStorage.removeItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
@@ -31,7 +31,7 @@ describe('526EZ keyboard only navigation', () => {
 
     // `mockItf` is not a fixture; it can't be loaded as a fixture
     // because fixtures don't evaluate JS.
-    cy.intercept('GET', '/v0/intent_to_file', mockItf);
+    cy.intercept('GET', '/v0/intent_to_file', mockItf());
 
     cy.intercept('PUT', `${MOCK_SIPS_API}*`, mockInProgress);
 

@@ -2,12 +2,15 @@ import { customButtonGroupContinue } from '../fixtures/helpers';
 
 const fillChecklist = values => {
   values.forEach(value => {
-    cy.get(`input[type="checkbox"][value='${value.name}']`).check();
+    cy.get(`va-checkbox[name="${value.name}"]`)
+      .shadow()
+      .find('input')
+      .check({ force: true });
   });
 };
 
 const fillInputList = values => {
-  cy.get('va-number-input')
+  cy.get('va-text-input')
     .as('InputList')
     .should('have.length', values.length);
   cy.get('@InputList').each((input, index) => {
@@ -36,10 +39,12 @@ const verifyEditPage = (values, editButtonText) => {
 
   // verify edit page has correct values populated in input fields
   cy.get('va-text-input')
+    .first()
     .shadow()
     .find('input')
     .should('have.value', values[0].name);
-  cy.get('va-number-input')
+  cy.get('va-text-input')
+    .last()
     .shadow()
     .find('input')
     .should('have.value', values[0].amount);

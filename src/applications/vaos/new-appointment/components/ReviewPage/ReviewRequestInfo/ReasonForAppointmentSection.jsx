@@ -6,10 +6,11 @@ import { FLOW_TYPES, PURPOSE_TEXT_V2 } from '../../../../utils/constants';
 import getNewAppointmentFlow from '../../../newAppointmentFlow';
 import { getFlowType } from '../../../redux/selectors';
 
-function handleClick(history, pageFlow) {
-  const { home, reasonForAppointment } = pageFlow;
+function handleClick(history, home, reasonForAppointment) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
       (reasonForAppointment.url.endsWith('/') &&
@@ -23,7 +24,9 @@ function handleClick(history, pageFlow) {
 export default function ReasonForAppointmentSection({ data }) {
   const { reasonForAppointment, reasonAdditionalInfo } = data;
   const history = useHistory();
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, reasonForAppointment: reason } = useSelector(
+    getNewAppointmentFlow,
+  );
   const flowType = useSelector(getFlowType);
 
   return (
@@ -71,10 +74,11 @@ export default function ReasonForAppointmentSection({ data }) {
           </div>
           <div>
             <va-link
+              href={reason.url}
               aria-label="Edit purpose of appointment"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, pageFlow)}
+              onClick={handleClick(history, home, reason)}
             />
           </div>
         </div>

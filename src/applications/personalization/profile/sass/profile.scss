@@ -7,6 +7,8 @@
 @import "./personal-contact-information";
 @import "./notification-radio-buttons";
 @import "./hub-cards";
+@import "../components/direct-deposit/vye/sass/change-of-address-wrapper";
+@import "../components/direct-deposit/vye/sass/change-of-direct-deposit-wrapper";
 
 [tabindex="-1"]:focus {
   outline: 0;
@@ -30,9 +32,9 @@
 .vet360-profile-field-transaction-pending {
   color: var(--vads-color-primary);
   border-left: 4px solid var(--vads-color-primary);
-  padding-left: 1.5rem;
+  padding-left: 0.9375rem;
   position: relative;
-  right: 1.9rem;
+  right: 1.1875rem;
   font-weight: bold;
 }
 
@@ -49,7 +51,7 @@
 // reduced padding for close icon / title spacing
 #copy-address-modal .va-modal-body {
   margin-right: 0px;
-  padding: 1.8rem;
+  padding: 1.125rem;
 }
 
 .no-wrap {
@@ -63,7 +65,7 @@
   padding: 0 5px;
 
   [type="radio"] + label::before {
-    min-width: 1.4rem;
+    min-width: 0.875rem;
   }
 }
 
@@ -100,11 +102,11 @@
     text-align: -webkit-match-parent;
     border-left: units(1) solid var(--vads-color-base-light);
     margin: 0px !important;
-    padding: 0 0 3.2rem 3.2rem;
+    padding: 0 0 2rem 2rem;
 
     &:last-child {
       border-left: none;
-      padding-left: calc(3.1rem + 9px);
+      padding-left: calc(1.9375rem + 9px);
       padding-bottom: 0;
     }
 
@@ -112,26 +114,19 @@
       color: var(--vads-color-white);
       content: counter(listCounter);
       float: left;
-      font-size: 2.08rem;
+      font-size: 1.3rem;
       font-weight: 700;
       text-align: center;
-      width: 4rem;
-      top: -0.4rem;
-      margin-left: -5.6rem;
+      width: 2.5rem;
+      top: -0.25rem;
+      margin-left: -3.5rem;
       display: block;
       border: 4px solid var(--vads-color-white);
       background: var(--vads-color-primary);
-      border-radius: 4rem;
+      border-radius: 2.5rem;
       position: relative;
       box-sizing: border-box !important;
     }
-  }
-
-
-  .item-complete::before {
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    background: var(--vads-color-success-dark);
   }
 
   .item-heading {

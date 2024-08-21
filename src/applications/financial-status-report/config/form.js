@@ -17,11 +17,13 @@ import householdAssetsChapter from './chapters/householdAssetsChapter';
 import householdExpensesChapter from './chapters/householdExpensesChapter';
 import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
 import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
+import reviewErrors from '../constants/reviewErrors';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
+  // NOTE: submitUrl may be altered in submitForm by a feature flag
   submitUrl: `${environment.API_URL}/debts_api/v0/financial_status_reports`,
   submit: submitForm,
   submissionError: SubmissionAlert,
@@ -68,6 +70,8 @@ const formConfig = {
     reviewPageTitle: 'Review your request',
     submitButtonText: 'Submit your request',
   },
+  showReviewErrors: !environment.isProduction(),
+  reviewErrors,
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,

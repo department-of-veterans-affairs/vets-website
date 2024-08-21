@@ -69,17 +69,16 @@ export default function FormNav(props) {
     }
   }
 
-  if (isLoggedIn) {
+  if (isLoggedIn && index === 0) {
     inProgressMessage = (
       <span className="vads-u-display--block vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         We&rsquo;ll save your application on every change.{' '}
         {inProgressFormId &&
-          `Your application ID number is ${inProgressFormId}.`}
+          `Your in-progress ID number is ${inProgressFormId}.`}
       </span>
     );
   }
 
-  const showHeader = Math.abs(current - index) === 1;
   // Some chapters may have progress-bar & step-header hidden via hideFormNavProgress.
   const hideFormNavProgress =
     formConfig?.chapters[page.chapterKey]?.hideFormNavProgress;
@@ -93,10 +92,6 @@ export default function FormNav(props) {
   });
   // Returns NaN if the current chapter isn't found
   const currentChapterDisplay = getCurrentChapterDisplay(formConfig, current);
-  const stepText = Number.isNaN(currentChapterDisplay)
-    ? ''
-    : `Step ${currentChapterDisplay} of ${chaptersLengthDisplay}: ${chapterName ||
-        ''}`;
 
   // The goal with this is to quickly "remove" the header from the DOM, and
   // immediately re-render the component with the header included.
@@ -122,8 +117,14 @@ export default function FormNav(props) {
             window.location.pathname.endsWith('review-and-submit')
           )
         ) {
-          if (formConfig.useCustomScrollAndFocus && page.scrollAndFocusTarget) {
-            customScrollAndFocus(page.scrollAndFocusTarget, index);
+          if (
+            formConfig.useCustomScrollAndFocus &&
+            (page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget)
+          ) {
+            customScrollAndFocus(
+              page.scrollAndFocusTarget || formConfig.scrollAndFocusTarget,
+              index,
+            );
           } else {
             focusByOrder([defaultFocusSelector, 'h2']);
           }
@@ -139,45 +140,36 @@ export default function FormNav(props) {
       index,
       page.chapterKey,
       page.scrollAndFocusTarget,
+      formConfig.scrollAndFocusTarget,
     ],
   );
 
   const v3SegmentedProgressBar = formConfig?.v3SegmentedProgressBar;
+  const stepLabels = formConfig?.stepLabels;
   // show progress-bar and stepText only if hideFormNavProgress is falsy.
   return (
     <div>
       {!hideFormNavProgress && (
-        <va-segmented-progress-bar
-          total={chaptersLengthDisplay}
-          current={currentChapterDisplay}
-          uswds={v3SegmentedProgressBar}
-          heading-text={chapterName ?? ''} // functionality only available for v3
-          name="v3SegmentedProgressBar"
-          {...(v3SegmentedProgressBar ? { 'header-level': '2' } : {})}
-        />
-      )}
-      {!v3SegmentedProgressBar &&
-        !hideFormNavProgress && (
+        <>
+          <va-segmented-progress-bar
+            id="nav-form-header"
+            total={chaptersLengthDisplay}
+            current={currentChapterDisplay}
+            heading-text={chapterName ?? ''} // functionality only available for v3
+            name="v3SegmentedProgressBar"
+            labels={v3SegmentedProgressBar && stepLabels ? stepLabels : ''}
+            header-level="2"
+            {...(v3SegmentedProgressBar?.useDiv ? { 'use-div': 'true' } : {})}
+          />
           <div className="schemaform-chapter-progress">
-            <div className="nav-header nav-header-schemaform">
-              {showHeader ? (
-                <h2
-                  id="nav-form-header"
-                  data-testid="navFormHeader"
-                  className="vads-u-font-size--h4"
-                >
-                  {stepText}
-                  {inProgressMessage}
-                </h2>
-              ) : (
-                <div data-testid="navFormDiv" className="vads-u-font-size--h4">
-                  {stepText}
-                  {inProgressMessage}
-                </div>
-              )}
+            <div className="nav-header">
+              <div data-testid="navFormDiv" className="vads-u-font-size--h4">
+                {inProgressMessage}
+              </div>
             </div>
           </div>
-        )}
+        </>
+      )}
     </div>
   );
 }

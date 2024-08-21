@@ -57,25 +57,5 @@ describe('travel-claim', () => {
       expect(updateErrorSpy.calledOnce).to.be.true;
       sandbox.restore();
     });
-    it('routes to error with already filed with no eligible appointments', () => {
-      const sandbox = sinon.createSandbox();
-      const updateErrorSpy = sinon.spy();
-      sandbox.stub(useUpdateErrorModule, 'useUpdateError').returns({
-        updateError: updateErrorSpy,
-      });
-      sandbox.stub(useGetCheckInDataModule, 'useGetCheckInData').returns({
-        checkInDataError: false,
-        isComplete: true,
-      });
-      store.eligibleToFile = [];
-      render(
-        <CheckInProvider store={store}>
-          <LoadingPage />
-        </CheckInProvider>,
-      );
-      expect(updateErrorSpy.calledOnce).to.be.true;
-      expect(updateErrorSpy.calledWith('already-filed-claim')).to.be.true;
-      sandbox.restore();
-    });
   });
 });

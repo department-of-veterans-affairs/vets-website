@@ -1,3 +1,4 @@
+import React from 'react';
 import countries from './config/countries.json';
 
 export const ADDRESS_TYPES = {
@@ -84,3 +85,30 @@ export const setFocus = (selector, tabIndexInclude = true) => {
     el.focus();
   }
 };
+
+export const successIcon = (
+  <span
+    className="vads-u-color--green vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="check_circle" size={3} aria-hidden="true" />
+  </span>
+);
+
+export const newIcon = (
+  <span
+    className="vads-u-color--primary vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="star" size={3} aria-hidden="true" />
+  </span>
+);
+
+export const inProgressOrReopenedIcon = (
+  <span
+    className="vads-u-color--grey vads-u-margin-left--0p5"
+    aria-hidden="true"
+  >
+    <va-icon icon="schedule" size={3} aria-hidden="true" />
+  </span>
+);

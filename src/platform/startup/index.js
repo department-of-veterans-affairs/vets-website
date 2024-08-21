@@ -6,6 +6,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { Router, useRouterHistory, browserHistory } from 'react-router';
 import { createHistory } from 'history';
+import { updateRoute } from 'platform/site-wide/user-nav/actions';
 import startReactApp from './react';
 import runAxeCheck from './axe-check';
 import setUpCommonFunctionality from './setup';
@@ -53,7 +54,21 @@ export default function startApp({
     history = useRouterHistory(createHistory)({
       basename: url,
     });
+
+    try {
+      store.dispatch(updateRoute(history.getCurrentLocation()));
+
+      history.listen(location => {
+        if (location) {
+          store.dispatch(updateRoute(location));
+        }
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error('Error dispatching route change');
+    }
   }
+
   let content = component;
   if (createRoutesWithStore) {
     content = <Router history={history}>{createRoutesWithStore(store)}</Router>;

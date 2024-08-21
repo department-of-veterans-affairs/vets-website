@@ -1,19 +1,21 @@
 import {
   VaAlert,
   VaButton,
+  VaFileInputMultiple,
+  VaIcon,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import moment from 'moment';
+import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
-import { RESPONSE_PAGE, URL, baseURL } from '../constants';
-import { replyMessage } from './mockInquiryReplyData';
+import { baseURL, envUrl, RESPONSE_PAGE, URL } from '../constants';
+import { mockInquiryData } from '../utils/mockData';
 
 const attachmentBox = fileName => (
   <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
@@ -31,14 +33,24 @@ const emptyMessage = message => (
     {message}
   </p>
 );
-const getReplyHeader = messageType => messageType.split(':')[1].trim();
-const getMessageDate = date => moment(date).format('MMM D, YYYY');
+const getReplySubHeader = messageType => messageType.split(':')[1].trim();
 
 const ResponseInboxPage = ({ loggedIn }) => {
   const [error, hasError] = useState(false);
-  const [inboxMessage, setInboxMessage] = useState({});
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, isLoading] = useState(true);
+  const [inquiryData, setInquiryData] = useState([]);
+
+  const getLastSegment = () => {
+    const pathArray = window.location.pathname.split('/');
+    return pathArray[pathArray.length - 1];
+  };
+  const inquiryId = getLastSegment();
+
+  const formatDate = dateString => {
+    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    return format(parsedDate, 'MMM d, yyyy');
+  };
 
   const options = {
     body: JSON.stringify(sendReply),
@@ -70,58 +82,26 @@ const ResponseInboxPage = ({ loggedIn }) => {
         // Using a temporary test id provided by BE, will be replaced once inquiry endpoint is complete
         const temporaryTestInquiryId = 'A-20230305-306178';
         postApiData(
-          `${
-            environment.API_URL
-          }${baseURL}/inquiries/${temporaryTestInquiryId}${URL.SEND_REPLY}`,
+          `${envUrl}${baseURL}/inquiries/${temporaryTestInquiryId}${
+            URL.SEND_REPLY
+          }`,
         );
       }
     },
   };
-  // params will come from props
-  // const INQUIRY_DATA = `${environment.API_URL}/ask_va_api/v0/inquiries/${
-  //   params.id
-  // }?mock=true`;
 
-  // const getApiData = url => {
-  //   isLoading(true);
-  //   return apiRequest(url)
-  //     .then(res => {
-  //       setApiData(res.data);
-  //       isLoading(false);
-  //     })
-  //     .catch(() => {
-  //       isLoading(false);
-  //       hasError(true);
-  //     });
-  // };
-
-  // useEffect(
-  //   () => {
-  //     getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
-  //   },
-  //   [loggedIn],
-  // );
-
-  const getInquiry = async () => {
+  const getInquiryData = async () => {
     // using Mock data till static data is updated
-    setInboxMessage(replyMessage);
+    const inquiryMock = mockInquiryData.data.find(
+      inquiry => inquiry.id === inquiryId,
+    );
+    setInquiryData(inquiryMock);
     hasError(false);
     isLoading(false);
-    /// ///
-    // await apiRequest(INQUIRY_DATA)
-    // eslint-disable-next-line no-unused-vars
-    // .then(res => {
-    //   setInboxMessage(res.data);
-    //   isLoading(false);
-    // })
-    // .catch(() => {
-    //   hasError(true);
-    //   isLoading(false);
-    // });
   };
 
   useEffect(() => {
-    getInquiry();
+    getInquiryData();
   }, []);
 
   // render loading indicator while we fetch
@@ -130,64 +110,105 @@ const ResponseInboxPage = ({ loggedIn }) => {
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
     );
   }
+
   return !error && loggedIn ? (
     <div className="row">
-      <article>
-        <h1 className="vad-u-margin-top--0">
-          {RESPONSE_PAGE.QUESTION_DETAILS}
-        </h1>
-        <p>
-          <strong>{RESPONSE_PAGE.INQUIRY_NUM}</strong>{' '}
-          {inboxMessage.attributes.inquiryNumber}
-        </p>
-        <p>
-          <strong>{RESPONSE_PAGE.STATUS}</strong>{' '}
-          {inboxMessage.attributes.processingStatus}
-        </p>
-        <h2 className="vad-u-margin-top--0">{RESPONSE_PAGE.YOUR_QUESTION}</h2>
+      <BreadCrumbs currentLocation={location.pathname} />
+      <div className="usa-width-two-thirds medium-8 columns vads-u-padding--0">
+        <h1 className="">{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
 
-        <p className="vads-u-margin-top--2p5 vads-u-margin-bottom--5">
-          {inboxMessage.attributes.question}
-        </p>
+        <div className="vads-u-margin-bottom--3">
+          <div>
+            <span className="usa-label">{inquiryData.attributes.status}</span>
+          </div>
+
+          <div className="vads-u-margin-top--2">
+            <p className="vads-u-margin--0">
+              <span className="vads-u-font-weight--bold">Submitted:</span>{' '}
+              {formatDate(inquiryData.attributes.createdOn)}
+            </p>
+            <p className="vads-u-margin--0">
+              <span className="vads-u-font-weight--bold">Last updated:</span>{' '}
+              {formatDate(inquiryData.attributes.lastUpdate)}
+            </p>
+            <p className="vads-u-margin--0">
+              <span className="vads-u-font-weight--bold">Category:</span>{' '}
+              {inquiryData.attributes.category}
+            </p>
+            <p className="vads-u-margin--0">
+              <span className="vads-u-font-weight--bold">
+                Reference number:
+              </span>{' '}
+              {inquiryData.attributes.inquiryNumber}
+            </p>
+          </div>
+        </div>
+
+        {/* Temporarily hidden for research study
         <h2 className="vad-u-margin-top--0">{RESPONSE_PAGE.ATTACHMENTS}</h2>
         {inboxMessage.attributes.attachments.length === 0
           ? emptyMessage(RESPONSE_PAGE.NO_ATTACHMENTS)
           : inboxMessage.attributes.attachments.map(attachment => (
               <div key={attachment.id}>{attachmentBox(attachment.name)}</div>
             ))}
-        <hr />
-        <h2 className="vads-u-margin-y--1p5">{RESPONSE_PAGE.INBOX}</h2>
-        {inboxMessage.attributes.reply.data.length === 0 ? (
+        <hr /> */}
+        <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline">
+          <h2 className="vads-u-margin-y--2">
+            {RESPONSE_PAGE.YOUR_CONVERSATION}
+          </h2>
+          <button
+            className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--center va-button-link vads-u-text-decoration--none"
+            type="button"
+            onClick={() => window.print()}
+          >
+            <span className="vads-u-color--primary">
+              <VaIcon
+                size={3}
+                icon="print"
+                className="vads-u-margin-right--1"
+                srtext="icon representing print"
+                aria-hidden="true"
+              />
+            </span>
+            <span className="vads-u-font-weight--bold vads-u-color--primary vads-u-font-size--h3">
+              PRINT
+            </span>
+          </button>
+        </div>
+
+        <hr className="vads-u-border-color--gray-lightest" />
+        {inquiryData.attributes.reply.data.length === 0 ? (
           <div className="no-messages">
             {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
           </div>
         ) : (
           <div className="inbox-replies">
             <va-accordion bordered>
-              {inboxMessage.attributes.reply.data.map(message => (
+              {inquiryData.attributes.reply.data.map(message => (
                 <va-accordion-item
                   key={message.id}
-                  header={getReplyHeader(message.message_type)}
-                  subHeader={getMessageDate(message.modifiedon)}
+                  header={message.modifiedOn}
+                  subHeader={getReplySubHeader(message.messageType)}
                 >
-                  <p>{message.attributes.reply}</p>
-                  <p className="vads-u-font-size--h3">
-                    {RESPONSE_PAGE.ATTACHMENTS}
-                  </p>
-                  {message.attributes.attachmentNames.length === 0
-                    ? emptyMessage(RESPONSE_PAGE.NO_ATTACHMENTS)
-                    : message.attributes.attachmentNames.map(attachment => (
-                        <div key={attachment.id}>
-                          {attachmentBox(attachment.name)}
-                        </div>
-                      ))}
+                  <p className="vads-u-margin--0">{message.attributes.reply}</p>
+                  {message.attributes.attachmentNames.length > 0 && (
+                    <p className="vads-u-font-size--h3">
+                      {RESPONSE_PAGE.ATTACHMENTS}
+                    </p>
+                  )}
+                  {message.attributes.attachmentNames.length > 0 &&
+                    message.attributes.attachmentNames.map(attachment => (
+                      <div key={attachment.id}>
+                        {attachmentBox(attachment.name)}
+                      </div>
+                    ))}
                 </va-accordion-item>
               ))}
             </va-accordion>
           </div>
         )}
 
-        <h3 className="vad-u-margin-top--0">{RESPONSE_PAGE.SEND_REPLY}</h3>
+        <h2 className="vads-u-margin-bottom--0">{RESPONSE_PAGE.SEND_REPLY}</h2>
         <form onSubmit={handlers.onSubmit}>
           <fieldset>
             <va-textarea
@@ -196,17 +217,16 @@ const ResponseInboxPage = ({ loggedIn }) => {
               name="reply message"
               onInput={handlers.onInput}
               value={sendReply.reply}
+              required
             />
 
-            <h3>{RESPONSE_PAGE.UPLOAD_YOUR_FILES}</h3>
-            <p>{RESPONSE_PAGE.UPLOAD_INFO.MESSAGE}</p>
-            <p>{RESPONSE_PAGE.UPLOAD_INFO.LIST_HEADING}</p>
-            <ul>
-              <li>{RESPONSE_PAGE.UPLOAD_INFO.LIST_ITEM_1}</li>
-              <li>{RESPONSE_PAGE.UPLOAD_INFO.LIST_ITEM_2}</li>
-            </ul>
-
-            <VaButton
+            <h4 className="vads-u-margin-top--4">
+              {RESPONSE_PAGE.ATTACHMENTS}
+            </h4>
+            <VaFileInputMultiple
+              label="Select files to upload"
+              hint="You can upload a .pdf, .jpeg, or .png file. that is less than 25 MB in size"
+              name="my-file-input"
               onClick={() => {
                 setSendReply({
                   ...sendReply,
@@ -219,17 +239,9 @@ const ResponseInboxPage = ({ loggedIn }) => {
                   ],
                 });
               }}
-              secondary
-              text={RESPONSE_PAGE.UPLOAD_BTN}
+              uswds
             />
-            <h4>{RESPONSE_PAGE.ATTACHMENTS}</h4>
-            {sendReply.attachments.length === 0
-              ? emptyMessage(RESPONSE_PAGE.NO_ATTACHMENTS)
-              : sendReply.attachments.map(attachment => (
-                  <div key={attachment.id}>
-                    {attachmentBox(attachment.name)}
-                  </div>
-                ))}
+
             <VaButton
               onClick={handlers.onSubmit}
               primary
@@ -238,11 +250,8 @@ const ResponseInboxPage = ({ loggedIn }) => {
             />
           </fieldset>
         </form>
-        <Link to="/contact-us/ask-va-too/introduction">
-          Return to dashboard
-        </Link>
         <NeedHelpFooter />
-      </article>
+      </div>
     </div>
   ) : (
     <VaAlert status="info" className="row vads-u-margin-y--4">

@@ -45,8 +45,8 @@ fieldset {
 @media (max-width: 40.063em) {
   .progress-box {
     border: none;
-    padding-left: 2rem - 0.9375rem;
-    padding-right: 2rem - 0.9375rem;
+    padding-left: 1.25rem - 0.5859375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
 }
 
@@ -73,7 +73,7 @@ legend,
 
 .form-error-date .input-date-label {
   font-weight: bold;
-  font-size: 1.7rem;
+  font-size: 1.0625rem;
   font-weight: 700;
 }
 
@@ -83,7 +83,7 @@ dl.review {
     justify-content: space-between;
     flex-direction: column;
     border-top: 1px solid var(--vads-color-base-light);
-    padding: 1.5rem;
+    padding: 0.9375rem;
     padding-left: 0;
     > dd {
       font-weight: bold;
@@ -115,7 +115,7 @@ dl.review-auto-margin {
     justify-content: space-between;
     flex-direction: column;
     border-top: 1px solid var(--vads-color-base-light);
-    padding: 1.5rem;
+    padding: 0.9375rem;
     padding-left: 0;
     > dd {
       font-weight: bold;
@@ -179,15 +179,11 @@ label {
 }
 
 .schemaform-back-buttons {
-  margin-bottom: 7rem !important;
+  margin-bottom: 4.375rem !important;
 }
 
 .schemaform-block {
   margin-top: 2em;
-}
-
-.nav-header-schemaform {
-  margin-top: 1em !important;
 }
 
 .progress-box-schemaform {
@@ -197,12 +193,12 @@ label {
 }
 
 .schemaform-chapter-progress {
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
   margin-bottom: 1.5em;
   @media (max-width: 40.063em) {
-    padding-left: 2rem - 0.9375rem;
-    padding-right: 2rem - 0.9375rem;
+    padding-left: 1.25rem - 0.5859375rem;
+    padding-right: 1.25rem - 0.5859375rem;
   }
   > h4 {
     padding-bottom: 0 !important;
@@ -218,9 +214,9 @@ label {
     padding-right: 10px;
   }
   > .schemaform-subtitle {
-    font-size: 2rem;
+    font-size: 1.25rem;
   }
-  margin-bottom: 3rem;
+  margin-bottom: 1.85rem;
 }
 
 .schemaform-required-span {
@@ -229,8 +225,8 @@ label {
 }
 
 .schemaform-intro {
-  padding-bottom: 1rem;
-  margin-bottom: 7rem;
+  padding-bottom: 0.625rem;
+  margin-bottom: 4.375rem;
 }
 
 // Align the process ol with the title
@@ -266,10 +262,10 @@ label {
 }
 .schemaform-block-title {
   font-family: $font-serif;
-  font-size: 1.8rem;
+  font-size: 1.125rem;
 }
 .schemaform-block-subtitle {
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   font-weight: 700;
 }
 
@@ -285,12 +281,12 @@ legend.schemaform-label {
   font-size: inherit;
   color: inherit;
   line-height: inherit;
-  max-width: 46rem;
+  max-width: 28.75rem;
   padding-bottom: 0;
 }
 
 fieldset.schemaform-field-template {
-  margin-top: 3rem;
+  margin-top: 1.875rem;
   &.schemaform-first-field {
     margin-top: 0;
   }
@@ -434,12 +430,12 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-array-readonly-header {
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.9375rem;
 }
 
 .schemaform-prefill-message {
   margin-top: 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.625rem;
   min-height: auto;
 }
 
@@ -451,13 +447,9 @@ legend.schemaform-label.schemaform-file-label {
   margin-top: 0;
 }
 
-.schemaform-sip-alert-title {
-  padding-bottom: 16px;
-}
-
 .schemaform-label-no-top-margin {
   > .schemaform-label {
-    margin-top: 1rem;
+    margin-top: 0.625rem;
   }
 }
 
@@ -475,9 +467,9 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .form-review-panel-page-header {
-  padding-right: 1rem;
-  padding-top: 1rem;
-  line-height: 2.5rem;
+  padding-right: 0.625rem;
+  padding-top: 0.625rem;
+  line-height: 1.5625rem;
 }
 .form-review-panel-page-header-row {
   align-items: flex-start;
@@ -506,7 +498,7 @@ legend.schemaform-label.schemaform-file-label {
 }
 
 .schemaform-review-page-error {
-  margin-bottom: 5rem;
+  margin-bottom: 3.125rem;
   .form-review-panel-page-header-row {
     padding: 1em 0.5em;
     margin: -1em -1.2em 0 -1.2em;
@@ -520,7 +512,7 @@ legend.schemaform-label.schemaform-file-label {
       height: 1.3em;
       background-size: 2em;
       margin-right: 0.5em;
-      margin-top: 1rem;
+      margin-top: 0.625rem;
     }
   }
   dl.review {
@@ -551,10 +543,10 @@ va-accordion-item[data-unviewed-pages="true"] {
 .usa-alert-mini {
   margin-top: 0;
   margin-bottom: 1em;
-  background-size: 3rem;
-  background-position: 1rem 2.2rem;
+  background-size: 1.875rem;
+  background-position: 0.625rem 1.375rem;
   > .usa-alert-body {
-    padding-left: 3rem;
+    padding-left: 1.875rem;
   }
   &::before {
     display: none;
@@ -609,9 +601,9 @@ va-accordion-item[data-unviewed-pages="true"] {
   box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
     7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
-  margin-top: -0.5rem;
-  max-width: 46rem;
-  max-height: 46rem;
+  margin-top: -0.3125rem;
+  max-width: 28.75rem;
+  max-height: 28.75rem;
   overflow: auto;
   padding: 0;
   position: absolute;
@@ -621,7 +613,7 @@ va-accordion-item[data-unviewed-pages="true"] {
   z-index: 1;
 
   @include media-maxwidth($small-screen) {
-    font-size: 1.3rem;
+    font-size: 0.8125rem;
   }
 }
 
@@ -629,11 +621,11 @@ va-accordion-item[data-unviewed-pages="true"] {
   > .schemaform-widget-wrapper
   > .autosuggest-container
   > .autosuggest-list {
-  width: calc(100% + 1.9rem);
+  width: calc(100% + 1.1875rem);
 }
 
 .autosuggest-item {
-  padding: 0.5rem 1rem;
+  padding: 0.3125rem 0.625rem;
   list-style-type: none;
 
   &-highlighted {
@@ -681,7 +673,7 @@ textarea:focus {
 }
 
 .form-checkbox > input[type="checkbox"] + .schemaform-label {
-  line-height: 2.4rem;
+  line-height: 1.5rem;
 }
 
 .form-checkbox > input[type="checkbox"] + label:before {
@@ -715,29 +707,51 @@ select:disabled {
   background-color: var(--vads-color-base-lighter);
 }
 
-// To be removed after SoT is added to DS
-i.fa-arrow-up-right-from-square {
-  display: inline-block;
-  color: var(--color-link-default);
-  font-size: 1.2rem;
-  margin: 0.5rem;
-}
-
-i.fa-arrow-up-right-from-square::before {
-  content: "\f35d";
-}
-
-// To be removed after button pair is added
-i.fa-angles-left::before {
-  content: "\F100";
-  margin-right: 8px;
-}
-
-i.fa-angles-right::before {
-  content: "\F101";
-  margin-left: 8px;
-}
-
 va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
   max-width: 100%;
 }
+
+.action-bar-arrow {
+  position: relative;
+  max-width: 75%;
+
+  @media (max-width: 767px) {
+    max-width: 90%;
+  }
+}
+
+.action-bar-arrow::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: -24px;
+  width: 0;
+  height: 0;
+  border-top: 24px solid transparent;
+  border-bottom: 24px solid transparent;
+  border-left: 24px solid var(--vads-color-primary);
+}
+
+/* Add space above */
+.rjsf-web-component-field[error]:not([error=""]) {
+  margin-top: 1.5rem;
+}
+
+.usa-hint {
+  color: var(--vads-color-gray-medium);
+}
+
+@mixin header-style($element, $desktop-font-size, $mobile-font-size) {
+  .rjsf-web-component-field.#{$element}::part(header) {
+    font-size: $desktop-font-size;
+
+    @media (max-width: $small-screen) {
+      font-size: $mobile-font-size;
+    }
+  }
+}
+
+@include header-style("rjsf-wc-header--h1", $h1-font-size, $h2-font-size);
+@include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
+@include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
+@include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);

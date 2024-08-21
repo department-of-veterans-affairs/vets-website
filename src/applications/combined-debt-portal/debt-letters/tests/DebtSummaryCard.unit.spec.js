@@ -70,6 +70,7 @@ describe('DebtSummaryCard', () => {
             'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
         },
       ],
+      compositeDebtId: '441300',
     };
     const fakeStore = {
       getState: () => ({
@@ -97,8 +98,6 @@ describe('DebtSummaryCard', () => {
       </Provider>,
     );
 
-    expect(wrapper.find('h3').text()).to.equal(
-      '$10,000.00 Chapter 35 education debt',
-    );
+    expect(wrapper.find('h3').text()).to.equal('Chapter 35 education debt');
   });
 });

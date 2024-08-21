@@ -7,10 +7,9 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import { AppointmentList } from '../../../appointment-list';
 import PastAppointmentsList from '../../../appointment-list/components/PastAppointmentsList';
-import { mockAppointmentInfo } from '../../mocks/helpers';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { createMockAppointmentByVersion } from '../../mocks/data';
-import { getVAOSAppointmentMock, getVAOSRequestMock } from '../../mocks/v2';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
+import { createMockAppointment } from '../../mocks/data';
+import { getVAOSAppointmentMock, getVAOSRequestMock } from '../../mocks/mock';
 import RequestedAppointmentsListGroup from '../../../appointment-list/components/RequestedAppointmentsListGroup';
 
 describe('VAOS Backend Service Alert', () => {
@@ -26,7 +25,6 @@ describe('VAOS Backend Service Alert', () => {
   beforeEach(() => {
     mockFetch();
     MockDate.set(getTestDate());
-    mockAppointmentInfo({});
   });
 
   afterEach(() => {
@@ -65,7 +63,7 @@ describe('VAOS Backend Service Alert', () => {
         text: 'test comment',
       },
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -134,7 +132,7 @@ describe('VAOS Backend Service Alert', () => {
         text: 'test comment',
       },
     };
-    const appointment = createMockAppointmentByVersion({
+    const appointment = createMockAppointment({
       ...data,
     });
 
@@ -361,7 +359,6 @@ describe('VAOS Backend Service Alert', () => {
           ...initialState,
           featureToggles: {
             ...initialState.featureToggles,
-            vaOnlineSchedulingStatusImprovement: true,
             vaOnlineSchedulingVAOSServiceRequests: true,
           },
         },
@@ -454,7 +451,6 @@ describe('VAOS Backend Service Alert', () => {
           ...initialState,
           featureToggles: {
             ...initialState.featureToggles,
-            vaOnlineSchedulingStatusImprovement: true,
             vaOnlineSchedulingVAOSServiceRequests: true,
           },
         },

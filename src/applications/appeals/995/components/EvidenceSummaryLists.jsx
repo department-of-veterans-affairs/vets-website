@@ -89,7 +89,7 @@ export const VaContent = ({
   return list?.length ? (
     <>
       <Header5>{content.vaTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((location, index) => {
           const { locationAndName, issues = [], evidenceDates = {} } =
             location || {};
@@ -110,14 +110,14 @@ export const VaContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
+                    className="dd-privacy-hidden overflow-wrap-word"
                     data-dd-action-name="VA location name"
                   >
                     {locationAndName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
+                  className="dd-privacy-hidden overflow-wrap-word"
                   data-dd-action-name="VA location treated issues"
                 >
                   {errors.issues || readableList(issues)}
@@ -131,7 +131,7 @@ export const VaContent = ({
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       key={`edit-va-${index}`}
                       id={`edit-va-${index}`}
@@ -195,7 +195,7 @@ export const PrivateContent = ({
   return list?.length ? (
     <>
       <Header5>{content.privateTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((facility, index) => {
           const {
             providerFacilityName,
@@ -229,15 +229,15 @@ export const PrivateContent = ({
               <div className={hasErrors ? errorClassNames : ''}>
                 {errors.name || (
                   <Header6
-                    className="dd-privacy-hidden"
-                    data-dd-action-name="Private facility name"
+                    className="dd-privacy-hidden overflow-wrap-word"
+                    data-dd-action-name="Non-VA facility name"
                   >
                     {providerFacilityName}
                   </Header6>
                 )}
                 <div
-                  className="dd-privacy-hidden"
-                  data-dd-action-name="Private facility treated issues"
+                  className="dd-privacy-hidden overflow-wrap-word"
+                  data-dd-action-name="Non-VA facility treated issues"
                 >
                   {errors.issues || readableList(issues)}
                 </div>
@@ -245,13 +245,13 @@ export const PrivateContent = ({
                 {errors.dates || (
                   <div
                     className="dd-privacy-hidden"
-                    data-dd-action-name="Private facility treatment date range"
+                    data-dd-action-name="Non-VA facility treatment date range"
                   >
                     {errors.from || fromDate} – {errors.to || toDate}
                   </div>
                 )}
                 {!reviewMode && (
-                  <div>
+                  <div className="vads-u-margin-top--1p5">
                     <Link
                       id={`edit-private-${index}`}
                       className="edit-item"
@@ -279,9 +279,9 @@ export const PrivateContent = ({
         })}
         <li key={LIMITATION_KEY} className={listClassNames}>
           <Header6>{limitContent.title}</Header6>
-          <p>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</p>
+          <div>{limitContent.review[limitedConsent.length ? 'y' : 'n']}</div>
           {!reviewMode && (
-            <div>
+            <div className="vads-u-margin-top--1p5">
               <Link
                 id="edit-limitation"
                 className="edit-item"
@@ -341,7 +341,7 @@ export const UploadContent = ({
   return list?.length ? (
     <>
       <Header5>{content.otherTitle}</Header5>
-      <ul className="evidence-summary">
+      <ul className="evidence-summary remove-bullets">
         {list.map((upload, index) => {
           const errors = {
             attachmentId: upload.attachmentId
@@ -356,7 +356,7 @@ export const UploadContent = ({
               className={hasErrors ? errorClassNames : listClassNames}
             >
               <Header6
-                className="dd-privacy-hidden"
+                className="dd-privacy-hidden overflow-wrap-word"
                 data-dd-action-name="Uploaded document file name"
               >
                 {upload.name}
@@ -367,7 +367,7 @@ export const UploadContent = ({
                   ''}
               </div>
               {!reviewMode && (
-                <div>
+                <div className="vads-u-margin-top--1p5">
                   <Link
                     id={`edit-upload-${index}`}
                     className="edit-item"
@@ -382,8 +382,8 @@ export const UploadContent = ({
                     data-type="upload"
                     onClick={handlers.showModal}
                     class={removeButtonClass}
-                    label={`${content.remove} ${upload.name}`}
-                    text={content.remove}
+                    label={`${content.delete} ${upload.name}`}
+                    text={content.delete}
                     secondary
                     uswds
                   />

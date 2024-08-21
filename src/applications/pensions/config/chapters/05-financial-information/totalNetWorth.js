@@ -1,17 +1,27 @@
 import {
   titleUI,
-  yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import {
   AssetInformationAlert,
   RequestIncomeAndAssetInformationAlert,
 } from '../../../components/FormAlerts';
+import { showIncomeAndAssetsClarification } from '../../../helpers';
+
+const { totalNetWorth } = fullSchemaPensions.properties;
+
+// TODO: Remove this page when pension_income_and_assets_clarification flipper is removed
+
+const path = !showIncomeAndAssetsClarification()
+  ? 'financial/total-net-worth'
+  : 'temporarily-hidden-total-net-worth';
 
 /** @type {PageSchema} */
 export default {
-  title: 'Total net worth',
+  title: path,
   path: 'financial/total-net-worth',
+  depends: () => !showIncomeAndAssetsClarification(),
   uiSchema: {
     ...titleUI(
       'Income and assets',
@@ -38,7 +48,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      totalNetWorth: yesNoSchema,
+      totalNetWorth,
       'view:warningAlertOnYes': {
         type: 'object',
         properties: {},

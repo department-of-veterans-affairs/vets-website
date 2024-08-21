@@ -4,13 +4,10 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose with No Subject or Body', () => {
-  const landingPage = new PatientInboxPage();
-  // const composePage = new PatientComposePage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4'); // trieageTeams with preferredTeam = true will appear in a recipients dropdown only
     PatientComposePage.selectCategory('COVID');
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
@@ -28,7 +25,7 @@ describe('Secure Messaging Compose with No Subject or Body', () => {
       force: true,
     });
     PatientComposePage.clickOnSendMessageButton();
-    // composePage.verifySubjectErrorMessage();
+    // PatientComposePage.verifySubjectErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

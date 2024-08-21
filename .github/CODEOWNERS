@@ -38,10 +38,15 @@ src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
 src/applications/verify @department-of-veterans-affairs/octo-identity
 src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity
 src/platform/site-wide/user-nav/containers/AutoSSO.jsx @department-of-veterans-affairs/octo-identity
+src/platform/site-wide/user-nav/tests/containers/AutoSSO.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/user/authentication @department-of-veterans-affairs/octo-identity
+src/platform/user/tests/authentication @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/user/authorization/components/IdentityNotVerified.jsx @department-of-veterans-affairs/octo-identity
+src/platform/user/tests/authorization/components/IdentityNotVerified.unit.spec.jsx @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/utilities/oauth @department-of-veterans-affairs/octo-identity
+src/platform/utilities/tests/oauth @department-of-veterans-affairs/octo-identity # unit tests
 src/platform/utilities/sso @department-of-veterans-affairs/octo-identity
+src/platform/utilities/tests/sso @department-of-veterans-affairs/octo-identity # unit tests
 
 # VSP QA Standards
 
@@ -57,8 +62,12 @@ script/github-actions/daily-product-scan/ @department-of-veterans-affairs/va-pla
 src/applications/personalization @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/user/profile/vap-svc @department-of-veterans-affairs/vsa-authd-exp-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
+# Authenticated Experience Design Patterns
+
+src/applications/_mock-form-ae-design-patterns @department-of-veterans-affairs/tmf-auth-exp-design-patterns @department-of-veterans-affairs/va-platform-cop-frontend
+
 # Disability Benefits Experience
-src/applications/disability-benefits @department-of-veterans-affairs/DBEX-TREX @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/disability-benefits @department-of-veterans-affairs/disability-experience @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Management Tools (DSVA Slack: #benefits-management-tools)
 src/applications/claims-status @department-of-veterans-affairs/benefits-management-tools-fe @department-of-veterans-affairs/va-platform-cop-frontend
@@ -76,7 +85,7 @@ src/applications/static-pages/supplemental-claim @department-of-veterans-affairs
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burials @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/burials-ez @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/burial-poc-v6 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
@@ -98,6 +107,9 @@ src/applications/static-pages/manage-va-debt @department-of-veterans-affairs/vsa
 src/applications/static-pages/medical-copays-cta @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/combined-debt-portal @department-of-veterans-affairs/vsa-debt-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/burial-how-do-i-apply-widget @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+
+# Form Engine
+src/applications/form-renderer @department-of-veterans-affairs/form-engine
 
 
 # VFS --
@@ -149,15 +161,15 @@ src/applications/static-pages/ezr-submission-options @department-of-veterans-aff
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
 # IIR
-src/applications/yellow-ribbon @department-of-veterans-affairs/va-iir @department-of-veterans-affairs/va-platform-cop-frontend
-
 
 # /--- VSA
 
 # GOVCIO Team
 
+src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
@@ -216,7 +228,10 @@ src/applications/vaos @department-of-veterans-affairs/vfs-vaos-fe @department-of
 src/applications/static-pages/health-care-manage-benefits/schedule-view-va-appointments-page  @department-of-veterans-affairs/vfs-vaos-fe @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Accredited Representative Facing (ARF)
-src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing
+src/applications/accredited-representative-portal @department-of-veterans-affairs/benefits-accredited-rep-facing-engineers
+
+# Income and Asset Statement
+src/applications/income-and-asset-statement @department-of-veterans-affairs/pensions
 
 # Other
 

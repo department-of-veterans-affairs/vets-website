@@ -1,13 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { getIssueName, getIssueDate } from '../utils/issues';
-import {
-  DISAGREEMENT_TYPES,
-  FORMAT_YMD_DATE_FNS,
-  FORMAT_READABLE_DATE_FNS,
-} from '../constants';
+import { FORMAT_YMD_DATE_FNS, FORMAT_READABLE_DATE_FNS } from '../constants';
 
 import { parseDate } from '../utils/dates';
+import { disagreeWith } from '../utils/areaOfDisagreement';
 
 export const errorMessages = {
   maxOtherEntry: max => `This field should be less than ${max} characters`,
@@ -16,7 +14,7 @@ export const errorMessages = {
 
 export const content = {
   disagreementLegend:
-    'Tell us what you disagree with. You can choose more than one.',
+    'Tell us which part of the decision you disagree with. Select all that you disagree with.',
   disagreementHint: 'I disagree with this:',
   otherEntryHint: 'Explain in a few words',
   edit: 'Edit',
@@ -78,18 +76,43 @@ export const issueTitle = (props = {}) => {
 };
 
 // Only show set values (ignore false & undefined)
-export const AreaOfDisagreementReviewField = ({ children }) => {
-  const { formData, name } = children?.props || {};
-  const hidden = name === 'otherEntry';
-  return formData ? (
-    <div className="review-row">
-      <dt>{DISAGREEMENT_TYPES[name]}</dt>
-      <dd
-        className={hidden ? 'dd-privacy-hidden' : ''}
-        data-dd-action-name={hidden ? 'something else' : ''}
-      >
-        {children}
-      </dd>
-    </div>
-  ) : null;
+export const AreaOfDisagreementReviewField = props => {
+  const { defaultEditButton, formData } = props;
+
+  if (!getIssueName(formData)) {
+    return null;
+  }
+
+  // Not using props.title since it's a React component and can't be used in the
+  // edit button label
+  const plainTitle = getIssueTitle(formData, { plainText: true });
+  const list = disagreeWith(formData, { prefix: '' });
+  return (
+    <>
+      <div className="form-review-panel-page-header-row">
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {plainTitle}
+        </h4>
+        <div className="vads-u-justify-content--flex-end">
+          {defaultEditButton({ label: `Edit ${plainTitle}` })}
+        </div>
+      </div>
+      <dl className="review">
+        <div className="review-row">
+          <dt>What you disagree with</dt>
+          <dd
+            className="dd-privacy-hidden"
+            data-dd-action-name="Areas of disagreement"
+          >
+            {list}
+          </dd>
+        </div>
+      </dl>
+    </>
+  );
+};
+
+AreaOfDisagreementReviewField.propTypes = {
+  defaultEditButton: PropTypes.any,
+  formData: PropTypes.shape({}),
 };

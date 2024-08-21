@@ -210,6 +210,44 @@ export const updateMessageInThread = (thread, response) => {
   });
 };
 
+export const updateDrafts = draft => {
+  if (Array.isArray(draft)) {
+    return draft;
+  }
+  if (typeof draft === 'object') {
+    return [draft[0]];
+  }
+  return [draft[0]];
+};
+
+// navigation helper
+export const setUnsavedNavigationError = (
+  typeOfError,
+  setNavigationError,
+  ErrorMessages,
+) => {
+  switch (typeOfError) {
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+      break;
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+      break;
+    default:
+      setNavigationError(null);
+  }
+};
+
 export const getSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
@@ -272,16 +310,17 @@ export const checkTriageGroupAssociation = tempRecipient => {
 export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
   const formattedRecipient = tempRecipient;
 
-  const isBlocked = recipients.blockedRecipients?.some(
+  // isBlocked means TG exists in the blockedRecipients list (preferred can be either true or false)
+  const isBlocked = recipients?.blockedRecipients?.some(
     checkTriageGroupAssociation(formattedRecipient),
   );
 
-  const isAssociated =
-    isBlocked ||
-    recipients.allowedRecipients.some(
-      checkTriageGroupAssociation(formattedRecipient),
-    );
+  // isAssociated means the TG exists in the allRecipients list (blocked can be true or false; preferred can be true or false)
+  const isAssociated = recipients?.allRecipients?.some(
+    checkTriageGroupAssociation(formattedRecipient),
+  );
 
+  // if TG is not associated or is blocked, formattedRecipient will include status of "not associated" or "blocked"
   if (!isAssociated) {
     formattedRecipient.status = RecipientStatus.NOT_ASSOCIATED;
   } else if (isBlocked) {
@@ -294,11 +333,13 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
 export const formatRecipient = recipient => {
   return {
     id: recipient.attributes.triageTeamId,
+    triageTeamId: recipient.attributes.triageTeamId,
     name: recipient.attributes.name,
     stationNumber: recipient.attributes.stationNumber,
     blockedStatus: recipient.attributes.blockedStatus,
     preferredTeam: recipient.attributes.preferredTeam,
     relationshipType: recipient.attributes.relationshipType,
+    signatureRequired: recipient.attributes.signatureRequired,
     type: Recipients.CARE_TEAM,
     status: recipient.attributes.blockedStatus
       ? RecipientStatus.BLOCKED
@@ -309,13 +350,18 @@ export const formatRecipient = recipient => {
 export const findBlockedFacilities = recipients => {
   const blockedFacilities = new Set();
   const allowedFacilities = new Set();
+  const facilityList = new Set();
   const fullyBlockedFacilities = [];
 
   recipients.forEach(recipient => {
-    if (recipient.attributes.blockedStatus === true) {
-      blockedFacilities.add(recipient.attributes.stationNumber);
+    const { stationNumber, blockedStatus } = recipient.attributes;
+
+    facilityList.add(recipient.attributes.stationNumber);
+
+    if (blockedStatus === true) {
+      blockedFacilities.add(stationNumber);
     } else {
-      allowedFacilities.add(recipient.attributes.stationNumber);
+      allowedFacilities.add(stationNumber);
     }
   });
 
@@ -325,9 +371,15 @@ export const findBlockedFacilities = recipients => {
     }
   });
 
-  return fullyBlockedFacilities;
+  const allFacilities = [...facilityList];
+
+  return { fullyBlockedFacilities, allFacilities };
 };
 
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
+};
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 };

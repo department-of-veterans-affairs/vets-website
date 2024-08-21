@@ -14,11 +14,11 @@ import {
 import {
   renderMHVDowntime,
   useDatadogRum,
+  setDatadogRumUser,
+  MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/actions';
 import AuthorizedRoutes from './AuthorizedRoutes';
-import SmBreadcrumbs from '../components/shared/SmBreadcrumbs';
-import Navigation from '../components/Navigation';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
@@ -29,14 +29,10 @@ const App = ({ isPilot }) => {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        appEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease
-          ],
       };
     },
     state => state.featureToggles,
@@ -44,6 +40,17 @@ const App = ({ isPilot }) => {
   const cernerPilotSmFeatureFlag = useSelector(
     state =>
       state.featureToggles[FEATURE_FLAG_NAMES.mhvSecureMessagingCernerPilot],
+  );
+
+  const mhvMockSessionFlag = useSelector(
+    state => state.featureToggles['mhv-mock-session'],
+  );
+
+  useEffect(
+    () => {
+      if (mhvMockSessionFlag) localStorage.setItem('hasSession', true);
+    },
+    [mhvMockSessionFlag],
   );
 
   const scheduledDowntimes = useSelector(
@@ -65,11 +72,14 @@ const App = ({ isPilot }) => {
 
   useEffect(
     () => {
-      dispatch(getScheduledDowntime());
+      const fetchAllData = async () => {
+        dispatch(getScheduledDowntime());
 
-      if (user.login.currentlyLoggedIn) {
-        dispatch(getAllTriageTeamRecipients());
-      }
+        if (user.login.currentlyLoggedIn) {
+          await dispatch(getAllTriageTeamRecipients());
+        }
+      };
+      fetchAllData();
     },
     [user.login.currentlyLoggedIn, dispatch],
   );
@@ -97,33 +107,28 @@ const App = ({ isPilot }) => {
     trackLongTasks: true,
     defaultPrivacyLevel: 'mask-user-input',
   };
-  const userDetails = useMemo(
+
+  useDatadogRum(datadogRumConfig);
+  useEffect(
     () => {
-      return {
-        loggedIn: user?.login?.currentlyLoggedIn,
-        accountUuid: user?.profile?.accountUUid,
-      };
+      setDatadogRumUser({ id: user?.profile?.accountUuid });
     },
     [user],
   );
-  useDatadogRum(datadogRumConfig, userDetails);
 
   if (featureTogglesLoading) {
     return (
-      <div className="vads-l-grid-container">
-        <va-loading-indicator
-          message="Loading your secure messages..."
-          setFocus
-          data-testid="feature-flag-loading-indicator"
-        />
-      </div>
+      <>
+        <MhvSecondaryNav />
+        <div className="vads-l-grid-container">
+          <va-loading-indicator
+            message="Loading your secure messages..."
+            setFocus
+            data-testid="feature-flag-loading-indicator"
+          />
+        </div>
+      </>
     );
-  }
-
-  /* if the user is not whitelisted or feature flag is disabled, redirect to the SM info page */
-  if (!appEnabled) {
-    window.location.replace('/health-care/secure-messaging');
-    return <></>;
   }
 
   // Feature flag maintains whitelist for cerner integration pilot environment.
@@ -133,6 +138,7 @@ const App = ({ isPilot }) => {
     window.location.replace(manifest.rootUrl);
     return <></>;
   }
+
   return (
     <RequiredLoginView
       user={user}
@@ -142,40 +148,40 @@ const App = ({ isPilot }) => {
       !userServices.includes(backendServices.MESSAGING) ? (
         window.location.replace('/health-care/secure-messaging')
       ) : (
-        <div className="vads-l-grid-container">
-          <SmBreadcrumbs />
-
-          {mhvSMDown === externalServiceStatus.down ? (
-            <>
-              <h1>Messages</h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvPlatform,
-                  externalServices.mhvSm,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <div
-              className="secure-messaging-container
+        <>
+          <MhvSecondaryNav />
+          <div className="vads-l-grid-container">
+            {mhvSMDown === externalServiceStatus.down ? (
+              <>
+                <h1>Messages</h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvPlatform,
+                    externalServices.mhvSm,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <div
+                className="secure-messaging-container
           vads-u-display--flex
           vads-u-flex-direction--column
           medium-screen:vads-u-flex-direction--row"
-            >
-              <Navigation />
-              <ScrollToTop />
-              <Switch>
-                <AuthorizedRoutes />
-              </Switch>
-            </div>
-          )}
+              >
+                <ScrollToTop />
+                <Switch>
+                  <AuthorizedRoutes />
+                </Switch>
+              </div>
+            )}
 
-          <div className="bottom-container">
-            <va-back-to-top />
+            <div className="bottom-container">
+              <va-back-to-top />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </RequiredLoginView>
   );

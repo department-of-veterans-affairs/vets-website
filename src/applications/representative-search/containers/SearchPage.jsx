@@ -13,7 +13,6 @@ import { isEmpty } from 'lodash';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import repStatusLoader from 'applications/static-pages/representative-status';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { recordSearchResultsChange } from '../utils/analytics';
 import SearchControls from '../components/search/SearchControls';
 import SearchResultsHeader from '../components/results/SearchResultsHeader';
@@ -317,9 +316,7 @@ const SearchPage = props => {
   // search from query params on page load
   useEffect(() => {
     handleSearchViaUrl();
-    if (!environment.isProduction()) {
-      repStatusLoader(store, 'representative-status', 3);
-    }
+    repStatusLoader(store, 'representative-status', 3);
   }, []);
 
   const renderBreadcrumbs = () => {
@@ -364,15 +361,6 @@ const SearchPage = props => {
 
         {widgetEnabled && (
           <>
-            <h2>Check if you already have an accredited representative</h2>
-            <p>
-              We don’t automatically assign you an accredited representative,
-              but you may have appointed one in the past.
-            </p>
-            <p>
-              If you appoint a new accredited representative, they will replace
-              your current one.
-            </p>
             <div tabIndex="-1">
               <div data-widget-type="representative-status" />
             </div>

@@ -8,10 +8,8 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import PropTypes from 'prop-types';
 
-import {
-  applicantWording,
-  additionalFilesHint,
-} from '../../../10-10D/helpers/wordingCustomization';
+import { ADDITIONAL_FILES_HINT } from '../../../10-10D/config/constants';
+import { applicantWording } from '../../utilities';
 
 /*
 Overriding these allows us to set custom property titles.
@@ -27,32 +25,18 @@ export function appRelBoilerplate({ data, pagePerItemIndex }) {
   const { keyname = KEYNAME } = data;
   const currentListItem = data?.applicants?.[pagePerItemIndex];
   const personTitle = 'Sponsor';
-  const applicant = applicantWording(currentListItem, undefined, false);
+  const applicant = applicantWording(currentListItem, false);
 
-  // TODO: remove useFirstPerson when we're sure we won't want the functionality
-  // // Determine what tense/person the phrasing should be in
-  // const useFirstPerson =
-  //   data?.certifierRole === 'applicant' && +pagePerItemIndex === 0;
-  const useFirstPerson = false;
-
-  const relative = `${useFirstPerson ? 'I' : applicant}`;
-  const beingVerbPresent = useFirstPerson ? 'am' : 'is';
-
-  const relativePossessive = applicantWording(
-    currentListItem,
-    undefined,
-    true,
-    false,
-  );
+  const relativePossessive = applicantWording(currentListItem, true, false);
 
   return {
     keyname,
     currentListItem,
     personTitle,
     applicant,
-    useFirstPerson,
-    relative,
-    beingVerbPresent,
+    useFirstPerson: false,
+    relative: applicant,
+    beingVerbPresent: 'is',
     relativePossessive,
   };
 }
@@ -271,7 +255,7 @@ export default function ApplicantRelationshipPage({
               useFirstPerson ? `your` : `${applicant}’s`
             } relationship to the ${personTitle}?`
           }
-          hint={customHint || additionalFilesHint}
+          hint={customHint || ADDITIONAL_FILES_HINT}
           required
           error={checkError}
           onVaValueChange={handlers.radioUpdate}
@@ -306,6 +290,7 @@ export default function ApplicantRelationshipPage({
                     customOtherDescription ||
                     `Since ${relativePossessive} relationship with the ${personTitle} was not listed, please describe it here`
                   }
+                  name="other-relationship-description"
                   onInput={handlers.inputUpdate}
                   required={checkValue[primary] === 'other'}
                   error={inputError}

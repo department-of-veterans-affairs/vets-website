@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -7,6 +7,18 @@ import { vitalTypeDisplayNames } from '../../util/constants';
 const VitalListItem = props => {
   const { record } = props;
   const displayName = vitalTypeDisplayNames[record.type];
+
+  const updatedRecordType = useMemo(
+    () => {
+      const typeMap = {
+        PULSE: 'HEART-RATE',
+        RESPIRATION: 'BREATHING-RATE',
+        PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
+      };
+      return typeMap[record.type] || record.type;
+    },
+    [record.type],
+  );
 
   return (
     <va-card
@@ -48,8 +60,9 @@ const VitalListItem = props => {
             <span className="vads-u-font-weight--bold">Date: </span>
             <span>{record.date}</span>
           </div>
+
           <Link
-            to={`/vitals/${_.kebabCase(record.type)}-history`}
+            to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid="vital-li-review-over-time"
           >
@@ -64,10 +77,9 @@ const VitalListItem = props => {
                 : displayName.toLowerCase()}{' '}
               over time
             </strong>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
+            <span aria-hidden="true">
+              <va-icon icon="navigate_next" size={1} />
+            </span>
           </Link>
         </>
       )}

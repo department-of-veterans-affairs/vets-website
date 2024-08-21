@@ -30,16 +30,16 @@ import {
  * Override the default messages for these json schema error types
  */
 const defaultMessages = {
-  required: 'Please provide a response',
-  enum: 'Please select a valid option',
+  required: 'You must provide a response',
+  enum: 'You must select a valid option',
   maxLength: max => `This field should be less than ${max} characters`,
   minLength: min => `This field should be at least ${min} character(s)`,
   format: type => {
     if (type === 'email') {
-      return 'Please enter a valid email address';
+      return 'You must enter a valid email address';
     }
 
-    return 'Please enter a valid value';
+    return 'You must enter a valid value';
   },
 };
 
@@ -437,7 +437,7 @@ export function validateCurrentOrPastMemorableDate(
     new Date().getFullYear(),
   );
   const { day, month, year } = parseISODate(dateString);
-  if (!day || !year || !day || !isValidCurrentOrPastDate(day, month, year)) {
+  if (!day || !month || !year || !isValidCurrentOrPastDate(day, month, year)) {
     errors.addError(futureDate);
   }
 }
@@ -572,6 +572,8 @@ export function validateDateRangeAllowSameMonth(
 export const UPLOADING_FILE = 'Uploading file...';
 export const NOT_UPLOADED = 'We couldn’t upload your file';
 export const MISSING_PASSWORD_ERROR = 'Missing password';
+export const UNSUPPORTED_ENCRYPTED_FILE_ERROR =
+  "We weren't able to upload your file. Make sure the file is not encrypted and an accepted format.";
 export function getFileError(file) {
   if (file.errorMessage) {
     return file.errorMessage;

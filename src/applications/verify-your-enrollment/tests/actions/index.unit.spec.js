@@ -5,9 +5,6 @@ import configureMockStore from 'redux-mock-store';
 import * as apiModule from '@department-of-veterans-affairs/platform-utilities/api';
 import { waitFor } from '@testing-library/react';
 import {
-  getData,
-  GET_DATA,
-  GET_DATA_SUCCESS,
   fetchPersonalInfo,
   FETCH_PERSONAL_INFO,
   FETCH_PERSONAL_INFO_FAILED,
@@ -16,7 +13,6 @@ import {
   UPDATE_BANK_INFO_SUCCESS,
   UPDATE_BANK_INFO_FAILED,
   UPDATE_ADDRESS,
-  // UPDATE_ADDRESS_SUCCESS,
   UPDATE_ADDRESS_FAILURE,
   postMailingAddress,
   VERIFY_ENROLLMENT_SUCCESS,
@@ -46,8 +42,7 @@ const store = mockStore({
   suggestedAddress: { isSuggestedAddressPicked: false },
 });
 
-const mockData = { user: 'user' };
-describe('getData, creator', () => {
+describe('actions creator', () => {
   let dispatch;
   let apiRequestStub;
 
@@ -60,8 +55,6 @@ describe('getData, creator', () => {
   afterEach(() => {
     apiRequestStub.restore();
   });
-  let mockDispatch;
-  let clock;
 
   // ENROLLMENTS
   it('should disptach UPDATE_TOGGLE_ENROLLMENT_SUCCESS action', () => {
@@ -110,22 +103,6 @@ describe('getData, creator', () => {
 
     expect(store.getActions()).to.eql(expectedAction);
   });
-
-  it('should dispatch  GET_DATA, GET_DATA_SUCCESS', async () => {
-    mockDispatch = sinon.spy();
-    clock = sinon.useFakeTimers({
-      toFake: ['setTimeout', 'clearTimeout'],
-    });
-    const firstAction = { type: GET_DATA };
-    const seconfAction = { type: GET_DATA_SUCCESS, response: mockData };
-
-    getData()(mockDispatch);
-    expect(mockDispatch.calledWith(firstAction)).to.be.true;
-    clock.tick(1000);
-    await waitFor(() => {
-      expect(mockDispatch.calledWith(seconfAction)).to.be.false;
-    });
-  });
   it('should FETCH_PERSONAL_INFO and FETCH_PERSONAL_INFO_SUCCESS when api call is successful', async () => {
     const response = { data: 'test data' };
     apiRequestStub.resolves(response);
@@ -156,11 +133,12 @@ describe('getData, creator', () => {
       }),
     ).to.be.true;
   });
-  it('dispatch UPDATE_BANK_INFO_FAILED after a sucessful api request', async () => {
-    const errors = { erros: 'some error' };
+  it('dispatches UPDATE_BANK_INFO_FAILED after an API request failure', async () => {
+    const errors = { error: 'some error' };
+    const bankInfo = { accountNumber: '1234,5678', routingNumber: '987,654' };
     apiRequestStub.rejects(errors);
     try {
-      await updateBankInfo()(dispatch);
+      await updateBankInfo(bankInfo)(dispatch);
     } catch (error) {
       expect(
         dispatch.calledWith({
@@ -171,7 +149,6 @@ describe('getData, creator', () => {
     }
     apiRequestStub.restore();
   });
-
   it('dispatches UPDATE_ADDRESS action immediately', async () => {
     const mailingAddress = {
       street: '123 Main St',
@@ -332,25 +309,6 @@ describe('getData, creator', () => {
     expect(actions[1]).to.deep.equal({
       type: ADDRESS_VALIDATION_START,
     });
-    // expect(actions[3]).to.deep.equal({
-    //   type: ADDRESS_VALIDATION_SUCCESS,
-    //   payload: {
-    //     addresses: [
-    //       {
-    //         address: {
-    //           addressLine1: '123 Main St',
-    //           addressLine2: 'Apt 4B',
-    //           stateCode: 'NY',
-    //           zipCode: '10001',
-    //           countryCodeIso3: 'USA',
-    //         },
-    //         addressMetaData: {
-    //           confidenceScore: 100,
-    //         },
-    //       },
-    //     ],
-    //   },
-    // });
   });
   it('should not call  postMailingAddress action when confidence score is less than 100', async () => {
     const formData = {};

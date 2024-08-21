@@ -355,14 +355,14 @@ const getSponsorInformation = form => {
 export function transformTOEForm(_formConfig, form) {
   const formFieldUserFullName = form?.data['view:userFullName']?.userFullName;
   const viewComponentUserFullName =
-    form?.loadedData?.formData['view:userFullName'].userFullName;
+    form?.loadedData?.formData['view:userFullName']?.userFullName;
   const formFieldDateOfBirth = form?.data?.dateOfBirth;
   const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
 
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =
     formFieldUserFullName !== undefined &&
-    Object.keys(formFieldUserFullName).length > 0
+    Object.keys(formFieldUserFullName)?.length > 0
       ? formFieldUserFullName
       : viewComponentUserFullName;
   const dateOfBirth =
@@ -387,7 +387,7 @@ export function transformTOEForm(_formConfig, form) {
         addressLine2: form?.data['view:mailingAddress']?.address?.street2,
         city: form?.data['view:mailingAddress']?.address?.city,
         zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
-        emailAddress: form?.data?.email?.email,
+        emailAddress: form?.data?.email?.email?.toLowerCase(),
         addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
           ? 'MILITARY_OVERSEAS'
           : 'DOMESTIC',

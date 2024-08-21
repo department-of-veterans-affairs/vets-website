@@ -1,16 +1,11 @@
 import { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { format, formatISO } from 'date-fns';
 import { makeSelectCurrentContext, makeSelectForm } from '../selectors';
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
-import { removeTimezoneOffset } from '../utils/formatters';
 
 const useTravelPayFlags = appointment => {
   const [travelPayClaimSent, setTravelPayClaimSent] = useState();
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const context = useSelector(selectCurrentContext);
-  const { isTravelLogicEnabled } = useSelector(selectFeatureToggles);
   const { token } = context;
 
   const selectForm = useMemo(makeSelectForm, []);
@@ -24,9 +19,7 @@ const useTravelPayFlags = appointment => {
     'travel-review': travelReview,
   } = data;
 
-  const startDate = isTravelLogicEnabled
-    ? removeTimezoneOffset(formatISO(new Date(appointment.startTime)))
-    : format(new Date(appointment.startTime), 'yyyy-LL-dd');
+  const startDate = appointment.startTime;
 
   let travelPayData = {
     uuid: token,

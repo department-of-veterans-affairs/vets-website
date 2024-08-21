@@ -198,7 +198,6 @@ class AddFilesFormOld extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
-            uswds="false"
           />
         </div>
         <dl className="file-requirements" id="file-requirements">
@@ -222,7 +221,13 @@ class AddFilesFormOld extends React.Component {
                 <div className="document-title-row">
                   <div className="document-title-text-container">
                     <div>
-                      <span className="document-title">{file.name}</span>
+                      <span
+                        className="document-title"
+                        data-dd-privacy="mask"
+                        data-dd-action-name="document title"
+                      >
+                        {file.name}
+                      </span>
                     </div>
                     <div>{displayFileSize(file.size)}</div>
                   </div>

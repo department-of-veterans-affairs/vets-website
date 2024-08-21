@@ -20,9 +20,7 @@ import {
 
 import ReviewPage from '../../../../new-appointment/components/ReviewPage';
 
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
-import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
 
 const initialStateVAOSService = {
   featureToggles: {
@@ -125,7 +123,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
 
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -215,7 +213,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
     });
 
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -260,12 +258,6 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
       },
     });
 
-    mockFacilityFetchByVersion({
-      facility: createMockCheyenneFacilityByVersion({
-        version: 0,
-      }),
-      version: 0,
-    });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
       {
@@ -281,7 +273,7 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',

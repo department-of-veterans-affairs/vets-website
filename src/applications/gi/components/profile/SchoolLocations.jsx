@@ -222,6 +222,24 @@ export default function SchoolLocations({
       createBranchesAndExtensionsRows(mainMap, viewableRowCount),
     );
 
+    const renderSchoolName = name => {
+      if (name && name.props?.children?.props) {
+        const { props } = name.props.children;
+        const href = `/education/gi-bill-comparison-tool/institution/${
+          props.to
+        }`;
+        const text = props.children;
+        return (
+          <va-link
+            href={href}
+            text={text}
+            data-testid="comparison-tool-institution"
+          />
+        );
+      }
+      return name;
+    };
+
     return (
       <va-table class="school-locations">
         <va-table-row slot="headers" key="header">
@@ -231,7 +249,7 @@ export default function SchoolLocations({
         </va-table-row>
         {data.map(row => (
           <va-table-row key={row.key} class={row.rowClassName}>
-            <span>{row.schoolName}</span>
+            <span>{renderSchoolName(row.schoolName)}</span>
             <span>{row.location}</span>
             <span>{row.estimatedHousing}</span>
           </va-table-row>
@@ -256,9 +274,10 @@ export default function SchoolLocations({
               onClick={showMoreClicked}
             >
               Show next {showNextCount}
-              <i
-                className="fas fa-chevron-down fa-xs vads-u-padding-left--1"
-                aria-hidden="true"
+              <va-icon
+                icon="expand_more"
+                size={3}
+                className="vads-u-padding-left--1"
               />
             </button>
             <span className="vads-u-padding--2">|</span>
@@ -290,9 +309,9 @@ export default function SchoolLocations({
   const renderViewCount = () => {
     return (
       <div className="vads-u-padding-top--2">
-        <i>
+        <em>
           Showing {viewableRowCount} of {totalRowCount} locations
-        </i>
+        </em>
       </div>
     );
   };

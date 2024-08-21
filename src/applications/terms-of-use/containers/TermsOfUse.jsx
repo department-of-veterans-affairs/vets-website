@@ -7,7 +7,7 @@ import {
   isAuthenticatedWithSSOe,
   AUTHN_SETTINGS,
 } from '@department-of-veterans-affairs/platform-user/exports';
-import IdentityPhone from 'platform/user/authentication/components/IdentityPhone';
+import ContactCenterInformation from 'platform/user/authentication/components/ContactCenterInformation';
 import TermsAcceptance from '../components/TermsAcceptanceAction';
 import {
   parseRedirectUrl,
@@ -21,9 +21,11 @@ import touData from '../touData';
 export default function TermsOfUse() {
   const isAuthenticatedWithSiS = useSelector(isAuthenticatedWithOAuth);
   const isAuthenticatedWithIAM = useSelector(isAuthenticatedWithSSOe);
+  const [isDisabled, setIsDisabled] = useState(false);
   const [isMiddleAuth, setIsMiddleAuth] = useState(true);
   const [showDeclineModal, setShowDeclineModal] = useState(false);
   const [error, setError] = useState({ isError: false, message: '' });
+  const [buttonPushed, setButtonPushed] = useState(0);
   const redirectLocation = new URL(window.location);
   const termsCodeExists =
     redirectLocation.searchParams.get('terms_code')?.length > 1;
@@ -53,12 +55,43 @@ export default function TermsOfUse() {
     [termsCodeExists, redirectUrl],
   );
 
+  useEffect(
+    () => {
+      let timeoutId;
+      const resetButton = () => {
+        setButtonPushed(0);
+        setIsDisabled(false);
+        setError({ isError: false, message: '' });
+      };
+
+      if (error.isError && buttonPushed >= 3) {
+        timeoutId = setTimeout(resetButton, 25000);
+      }
+
+      return () => {
+        clearTimeout(timeoutId);
+      };
+    },
+    [error, buttonPushed],
+  );
+
   const handleTouClick = async type => {
     const termsCode = termsCodeExists
       ? `?terms_code=${redirectLocation.searchParams.get('terms_code')}`
       : '';
 
+    setButtonPushed(buttonPushed + 1);
+
     try {
+      if (buttonPushed >= 3) {
+        setError({
+          isError: true,
+          message: errorMessages.tooManyRequests,
+        });
+        return;
+      }
+
+      setIsDisabled(true);
       const response = await apiRequest(
         `/terms_of_use_agreements/v1/${type}${termsCode}`,
         {
@@ -71,11 +104,13 @@ export default function TermsOfUse() {
       if (Object.keys(response?.termsOfUseAgreement).length) {
         // if the type was accept
         if (type === 'accept') {
+          setIsDisabled(false);
           window.location = parseRedirectUrl(redirectUrl);
         }
 
         if (type === 'decline') {
           setShowDeclineModal(false);
+          setIsDisabled(false);
           declineAndLogout({
             termsCodeExists,
             shouldRedirectToMobile,
@@ -86,6 +121,7 @@ export default function TermsOfUse() {
     } catch (err) {
       if (type === 'decline') setShowDeclineModal(true);
       setError({ isError: true, message: errorMessages.network });
+      setIsDisabled(false);
     }
   };
 
@@ -145,7 +181,8 @@ export default function TermsOfUse() {
             Your decision to decline these terms won’t affect your eligibility
             for VA health care and benefits in any way. You can still get VA
             health care and benefits without using online services. If you need
-            help or have questions, <IdentityPhone /> We’re here 24/7.
+            help or have questions, <ContactCenterInformation /> We’re here
+            24/7.
           </p>
           <va-alert status="warning" visible>
             <h3 slot="headline" id="what-happens-if-you-decline">
@@ -154,14 +191,14 @@ export default function TermsOfUse() {
             <p>
               If you decline these terms, we’ll sign you out. You can still get
               VA health care and benefits by phone, by mail, or in person. But
-              you won't be able to use some VA online services, including these
-              services:
+              you won't be able to use some VA online services until you sign in
+              again and accept the terms. That includes these services:
             </p>
             <ul>
               <li>VA.gov</li>
               <li>My HealtheVet</li>
               <li>My VA Health</li>
-              <li>VA Health and Benefits Mobile App</li>
+              <li>VA: Health and Benefits mobile app</li>
             </ul>
             <p>
               This means you won’t be able to do these types of things using VA
@@ -174,6 +211,17 @@ export default function TermsOfUse() {
               <li>Refill your prescriptions</li>
               <li>Update your personal information</li>
             </ul>
+            <h4>If you have a My HealtheVet user ID and password</h4>
+            <p>
+              If you decline these terms, you’ll no longer be able to use your{' '}
+              <strong>My HealtheVet</strong> user ID and password.
+            </p>
+            <p>
+              To manage your benefits and care online again, you’ll need to sign
+              in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+              account and accept these terms. If you don’t have one of these
+              accounts, you’ll need to create one.
+            </p>
           </va-alert>
           <TermsAcceptance
             error={error}
@@ -182,6 +230,7 @@ export default function TermsOfUse() {
             setShowDeclineModal={setShowDeclineModal}
             isFullyAuthenticated={isFullyAuthenticated}
             isUnauthenticated={isUnauthenticated}
+            isDisabled={isDisabled}
           />
         </article>
         <VaModal
@@ -189,10 +238,6 @@ export default function TermsOfUse() {
           clickToClose
           onCloseEvent={() => setShowDeclineModal(false)}
           modalTitle="Decline the terms of use and sign out?"
-          onPrimaryButtonClick={() => handleTouClick('decline')}
-          onSecondaryButtonClick={() => setShowDeclineModal(false)}
-          primaryButtonText="Decline and sign out"
-          secondaryButtonText="Go back"
           data-testid="modal-show"
         >
           {error.isError && (
@@ -206,6 +251,27 @@ export default function TermsOfUse() {
               {error.message}
             </va-alert>
           )}
+          <p>
+            Remember, if you have a <strong>My HealtheVet</strong> user ID and
+            password, you’ll no longer be able to use it.
+          </p>
+          <p>
+            To manage your benefits and care online again, you’ll need to sign
+            in with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+            account and accept these terms. If you don’t have one of these
+            accounts, you’ll need to create one.
+          </p>
+          <va-button
+            onClick={() => handleTouClick('decline')}
+            disabled={isDisabled}
+            text="Decline and sign out"
+          />
+          <va-button
+            onClick={() => setShowDeclineModal(false)}
+            text="Go back"
+            secondary
+            disabled={isDisabled}
+          />
         </VaModal>
       </section>
     </>

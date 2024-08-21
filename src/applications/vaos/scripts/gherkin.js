@@ -73,14 +73,14 @@ function parseTestFile(features, code) {
         scenario.parts = getComments(path);
 
         if (scenario.parts.length) {
-          gwtTests++;
+          gwtTests += 1;
           scenario.isGWT = true;
           stack.forEach(i => {
             // eslint-disable-next-line no-param-reassign
             i.isGWT = true;
           });
         } else {
-          regularTests++;
+          regularTests += 1;
         }
       }
     },
@@ -103,27 +103,27 @@ function indent() {
 function printTree(node) {
   if (node.type === 'Scenario') {
     console.log(`${indent()}Scenario: ${node.name}`);
-    indents++;
+    indents += 1;
     node.parts.forEach(part => {
       if (part.startsWith('And')) {
-        indents++;
+        indents += 1;
       }
       console.log(`${indent()}${part}`);
       if (part.startsWith('And')) {
-        indents--;
+        indents -= 1;
       }
     });
     console.log();
-    indents--;
+    indents -= 1;
   } else if (!node.root) {
     console.log(`${indent()}${node.type}: ${node.name}`);
     console.log();
   }
 
   if (node.nodes) {
-    indents++;
+    indents += 1;
     node.nodes.filter(n => n.isGWT).forEach(printTree);
-    indents--;
+    indents -= 1;
   }
 }
 

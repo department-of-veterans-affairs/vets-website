@@ -1,6 +1,6 @@
 import { pick } from 'lodash';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import { isProductionOfTestProdEnv } from '../helpers';
+import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 
 /**
  * Returns a Sponsor page based on the options passed.
@@ -46,7 +46,7 @@ export function sponsorInfo(schema) {
   };
   return {
     path: 'sponsor/information',
-    title: 'Sponsor information',
+    title: sponsorInformationTitle(),
     depends: formData => showSponsorInfo(formData),
     uiSchema: {
       sponsorFullName: {

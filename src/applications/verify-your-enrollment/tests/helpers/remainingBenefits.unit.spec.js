@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { remainingBenefits } from '../../helpers';
 
 describe('remainingBenefits', () => {
-  it('should correctly process rremaining Benefits', () => {
+  it('should correctly process remaining benefits', () => {
     const remEnt = '285432';
     const result = remainingBenefits(remEnt);
 

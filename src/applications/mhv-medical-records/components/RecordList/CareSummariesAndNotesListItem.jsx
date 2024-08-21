@@ -11,9 +11,9 @@ const CareSummariesAndNotesListItem = props => {
   const disDate = dischargeSummarySortFields.DISCHARGE_DATE;
   const entDate = dischargeSummarySortFields.DATE_ENTERED;
   const fieldMappings = {
-    [disDate]: { label: 'Discharged', dateProperty: 'dischargeDate' },
-    [entDate]: { label: 'Entered', dateProperty: 'dateEntered' },
-    [admDate]: { label: 'Admitted', dateProperty: 'admissionDate' },
+    [disDate]: { label: 'discharged', dateProperty: 'dischargeDate' },
+    [entDate]: { label: 'entered', dateProperty: 'dateEntered' },
+    [admDate]: { label: 'admitted', dateProperty: 'admissionDate' },
   };
 
   const dsDisplayDate = note => {
@@ -28,7 +28,7 @@ const CareSummariesAndNotesListItem = props => {
 
     return (
       <>
-        <span className="vads-u-display--inline">{dateLabel} on </span>
+        <span className="vads-u-display--inline">Date {dateLabel}: </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {dateValue}
         </span>
@@ -39,7 +39,7 @@ const CareSummariesAndNotesListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-margin-y--2p5"
+      class="record-list-item vads-u-margin-y--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
       {/* web view header */}
@@ -48,8 +48,7 @@ const CareSummariesAndNotesListItem = props => {
           <span>
             {record.name}
             <span className="sr-only" data-testid="sr-note-date">
-              on{' '}
-              {isDischargeSummary ? dsDisplayDate(record) : record.dateSigned}
+              on {isDischargeSummary ? dsDisplayDate(record) : record.date}
             </span>
           </span>
         </Link>
@@ -63,21 +62,22 @@ const CareSummariesAndNotesListItem = props => {
         {record.name}
       </h3>
 
+      {/* fields */}
       <div data-testid="note-item-date">
         {isDischargeSummary && dischargeSummaryDateField(record)}
         {!isDischargeSummary && (
           <span className="vads-u-display--inline" data-dd-privacy="mask">
-            {record.dateSigned}
+            Date entered: {record.date}
           </span>
         )}
       </div>
       <div data-dd-privacy="mask">{record.location}</div>
       <div>
         <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+          {isDischargeSummary ? 'Discharged by ' : 'Written by '}
         </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.dischargedBy : record.signedBy}
+          {isDischargeSummary ? record.dischargedBy : record.writtenBy}
         </span>
       </div>
     </va-card>

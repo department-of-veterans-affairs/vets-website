@@ -11,10 +11,14 @@ import careExpenses from './careExpenses';
 import hasMedicalExpenses from './hasMedicalExpenses';
 import medicalExpenses from './medicalExpenses';
 import homeAcreageValue from './homeAcreageValue';
+import hasOver25kAssets from './hasOver25kAssets';
+import additionalDocuments from './additionalDocuments';
 
 export default {
   title: 'Financial information',
   pages: {
+    hasOver25kAssets,
+    additionalDocuments,
     totalNetWorth,
     netWorthEstimation,
     transferredAssets,

@@ -100,4 +100,16 @@ describe('<DetailsPage>', () => {
 
     expect(document.activeElement).to.equal($('#tabPanelDetails', container));
   });
+
+  it('masks the contention details from datadog (no PII)', () => {
+    const { container } = renderWithRouter(
+      <Provider store={store}>
+        <DetailsPage claim={claim} lastPage="../details" />
+      </Provider>,
+    );
+    const ddPrivacy = $('.claim-detail-list li', container).getAttribute(
+      'data-dd-privacy',
+    );
+    expect(ddPrivacy).to.eq('mask');
+  });
 });

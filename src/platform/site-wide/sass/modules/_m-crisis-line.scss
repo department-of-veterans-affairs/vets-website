@@ -1,16 +1,16 @@
 .va-crisis-line-container {
   position: relative;
   margin: auto;
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
 
   @include media($small-desktop-screen) {
-    max-width: 97.5rem;
+    max-width: 975px;
     background-color: transparent;
   }
 }
 
 button.va-crisis-line {
-  background-color: var(--vads-color-secondary-dark);
+  background-color: var(--vads-color-secondary-darkest);
   display: block;
   border-radius: 0;
   color: var(--vads-color-white);
@@ -54,6 +54,7 @@ button.va-crisis-line {
   display: flex;
   align-items: center;
   justify-content: center;
+  line-height: 16px;
   margin: auto;
 
   @include media($small-desktop-screen) {
@@ -95,6 +96,7 @@ button.va-crisis-line {
 
 .va-crisis-panel {
   color: var(--vads-color-base);
+  font-size: 16px;
 
   li:nth-child(odd) {
     border-bottom: none;
@@ -113,6 +115,16 @@ button.va-crisis-line {
     background-size: 32px auto;
     margin-top: 0;
     width: 90%;
+    font-size: 20px;
+  }
+
+  &-icon {
+    color: var(--vads-color-base) !important;
+    font-size: 26px;
+    width: 46px;
+    padding: 0.4em 0.3em;
+    align-self: center;
+    flex-shrink: 0;
   }
 
   &-list {
@@ -155,17 +167,12 @@ button.va-crisis-line {
     padding: 0.4em 0.3em;
     align-self: center;
     flex-shrink: 0;
-    font-family: "Font Awesome 5 Free";
-
-    &.fa-mobile {
-      font-size: 38px;
-      padding: 0.15em 0.3em;
-    }
-  }
+}
 
   &-close.va-modal-close {
-    padding-top: 0.1rem;
-
+    font-size: 2.5rem;
+    color: var(--vads-color-link);
+    padding-top: 0.0625rem;
     &:hover {
       fill: var(--vads-color-black);
     }
@@ -174,7 +181,7 @@ button.va-crisis-line {
 
 .va-modal-large .va-crisis-panel.va-modal-inner {
   width: 90vw;
-  max-width: 75rem;
+  max-width: 46.875rem;
 }
 
 .va-crisis-panel-close:hover svg path {

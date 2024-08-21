@@ -1,21 +1,51 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import CurrentBenefitsStatus from '../../components/CurrentBenefitsStatus';
 
+const mockStore = configureStore([]);
+const initialState = {
+  personalInfo: {},
+};
+const store = mockStore(initialState);
 describe('when <CurrentBenefitsStatus/> renders', () => {
   it('Should render without crashing', () => {
-    const wrapper = shallow(<CurrentBenefitsStatus />);
+    const wrapper = mount(
+      <Provider store={store}>
+        <CurrentBenefitsStatus />
+      </Provider>,
+    );
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });
-  it('Should render the link', () => {
-    const wrapper = shallow(
-      <CurrentBenefitsStatus
-        link={() => <a href="http://some-link">some Link</a>}
-      />,
+  it('should return null if response error is "Forbidden"', () => {
+    const wrapper = mount(
+      <Provider
+        store={mockStore({
+          personalInfo: {
+            error: {
+              error: 'Forbidden',
+            },
+          },
+        })}
+      >
+        <CurrentBenefitsStatus />
+      </Provider>,
     );
-    const link = wrapper.find('a.vads-c-action-link--blue');
+    expect(wrapper.html()).to.not.be.ok;
+    wrapper.unmount();
+  });
+  it('Should render the link', () => {
+    const wrapper = mount(
+      <Provider store={store}>
+        <CurrentBenefitsStatus
+          link={() => <a href="http://some-link">some Link</a>}
+        />
+      </Provider>,
+    );
+    const link = wrapper.find('a');
     expect(link).to.exist;
     wrapper.unmount();
   });

@@ -22,6 +22,8 @@ export default function MobileClaimPhaseDiagram({ currentPhase }) {
     return <circle cx={x} cy={y} r="16.5" fill="#DFE1E2" stroke="#1B1B1B" />;
   };
 
+  const accessibilityTitle = `Your current step is ${currentPhase} of 8 in the claims process. Steps 3 through 6 can be repeated.`;
+
   return (
     <div className="mobile vads-u-margin-bottom--4">
       <svg
@@ -31,6 +33,7 @@ export default function MobileClaimPhaseDiagram({ currentPhase }) {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
+        <title>{accessibilityTitle}</title>
         <rect
           width="352"
           height="114"

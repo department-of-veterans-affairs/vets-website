@@ -137,7 +137,7 @@ export default function BackToTop({
               }}
             >
               <span>
-                <i aria-hidden="true" className="fas fa-arrow-up" role="img" />
+                <va-icon icon="arrow_upward" aria-hidden="true" role="img" />
               </span>
               <span>Back to top</span>
             </button>

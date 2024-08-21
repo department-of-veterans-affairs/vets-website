@@ -69,6 +69,7 @@ import {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
@@ -130,7 +131,9 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -185,6 +188,7 @@ const formConfig = {
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
+  CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
@@ -751,6 +755,13 @@ const formConfig = {
             !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

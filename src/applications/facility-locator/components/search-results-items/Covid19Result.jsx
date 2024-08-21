@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
@@ -10,11 +10,7 @@ import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
-const Covid19Result = ({
-  location,
-  index,
-  showCovidVaccineWalkInAvailabilityText,
-}) => {
+const Covid19Result = ({ location, index }) => {
   const {
     name,
     website,
@@ -27,6 +23,17 @@ const Covid19Result = ({
     detailedServices?.[0]?.appointmentPhones?.[0] || null;
   const infoURL = detailedServices?.[0]?.path || null;
 
+  const clickHandler = useCallback(
+    event => {
+      // Keyboard events fire their onKeyDown event and the onClick event
+      // This prevents the duplicate event from logging
+      if (event?.key !== 'Enter') {
+        recordResultClickEvents(location, index);
+      }
+    },
+    [index, location],
+  );
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -35,12 +42,8 @@ const Covid19Result = ({
           markerText={location.markerText}
         />
         <span
-          onClick={() => {
-            recordResultClickEvents(location, index);
-          }}
-          onKeyPress={() => {
-            recordResultClickEvents(location, index);
-          }}
+          onClick={clickHandler}
+          onKeyDown={clickHandler}
           role="link"
           tabIndex={0}
         >
@@ -60,17 +63,9 @@ const Covid19Result = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {showCovidVaccineWalkInAvailabilityText && (
-          <strong className="vads-u-margin-bottom--2 vads-u-display--block">
-            Walk-ins accepted
-          </strong>
-        )}
         {appointmentPhone ? (
           <CovidPhoneLink
             phone={appointmentPhone}
-            showCovidVaccineWalkInAvailabilityText={
-              showCovidVaccineWalkInAvailabilityText
-            }
             labelId={`${location.id}-phoneLabel`}
           />
         ) : (
@@ -104,7 +99,6 @@ Covid19Result.propTypes = {
   location: PropTypes.object,
   query: PropTypes.object,
   index: PropTypes.number,
-  showCovidVaccineWalkInAvailabilityText: PropTypes.bool,
 };
 
 export default Covid19Result;

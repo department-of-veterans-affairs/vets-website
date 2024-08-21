@@ -4,6 +4,7 @@ import {
   focusByOrder,
   scrollTo,
   waitForRenderThenFocus,
+  scrollAndFocus,
 } from '~/platform/utilities/ui';
 import { $, $$ } from '~/platform/forms-system/src/js/utilities/ui';
 
@@ -45,12 +46,17 @@ export const focusFileCard = (name, root) => {
   );
   if (target) {
     scrollTo(target.id);
-    const select = $('va-select', target);
-    if (select) {
-      focusElement('select', {}, select.shadowRoot);
-    } else {
-      focusElement(target);
-    }
+    setTimeout(() => {
+      const select = $('va-select', target); // SC only
+      if (select) {
+        // Set focusElement root parameter to a string because internally,
+        // focusElement will wait for shadow DOM to render before attempting to
+        // find the 'select' target
+        focusElement('select', {}, `#${target.id} va-select`);
+      } else {
+        focusElement(target);
+      }
+    });
   }
 };
 
@@ -86,7 +92,7 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio');
+  const radio = $('va-radio, va-checkbox-group');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
@@ -95,9 +101,37 @@ export const focusRadioH3 = () => {
   }
 };
 
+// Temporary focus function for HLR homlessness question (page header is
+// dynamic); once 100% released, change homeless form config to use
+// `scrollAndFocusTarget: focusH3`
+export const focusToggledHeader = () => {
+  scrollTo('topContentElement');
+  if (sessionStorage.getItem('hlrUpdated') === 'false') {
+    const radio = $('va-radio');
+    if (radio) {
+      waitForRenderThenFocus('h3', radio.shadowRoot);
+    }
+  } else {
+    waitForRenderThenFocus('#main h3');
+  }
+};
+
+export const focusH3 = () => {
+  scrollTo('topContentElement');
+  focusByOrder(['#main h3', defaultFocusSelector]);
+};
+
 export const focusAlertH3 = () => {
   scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
   waitForRenderThenFocus('h3');
+};
+
+// Used for onContinue callback on the contestable issues page
+export const focusOnAlert = () => {
+  const alert = $('va-alert[status="error"] h3');
+  if (alert) {
+    scrollAndFocus(alert);
+  }
 };

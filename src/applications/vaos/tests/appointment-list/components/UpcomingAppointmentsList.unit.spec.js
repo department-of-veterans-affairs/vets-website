@@ -6,9 +6,11 @@ import { mockFetch } from '@department-of-veterans-affairs/platform-testing/help
 import reducers from '../../../redux/reducer';
 import { getTestDate, renderWithStoreAndRouter } from '../../mocks/setup';
 import UpcomingAppointmentsList from '../../../appointment-list/components/UpcomingAppointmentsList';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
-import { getVAOSAppointmentMock } from '../../mocks/v2';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
+import {
+  mockVAOSAppointmentsFetch,
+  mockAppointmentsApi,
+} from '../../mocks/helpers';
+import { getVAOSAppointmentMock } from '../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -32,7 +34,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
         ...initialState.featureToggles,
         vaOnlineSchedulingVAOSServiceVAAppointments: true,
         vaOnlineSchedulingVAOSServiceCCAppointments: true,
-        vaOnlineSchedulingStatusImprovement: false,
       },
     };
     const now = moment();
@@ -68,6 +69,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -75,7 +85,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -111,6 +120,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -118,7 +136,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -155,6 +172,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       telehealth: { vvsKind: 'MOBILE_ANY' },
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -162,7 +188,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -197,6 +222,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       end: now.format('YYYY-MM-DDTHH:mm:ss'),
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -204,7 +238,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -242,6 +275,15 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       name: { firstName: 'Jane', lastName: 'Doctor' },
     };
 
+    mockAppointmentsApi({
+      start: moment()
+        .subtract(120, 'days')
+        .format('YYYY-MM-DD'),
+      end: moment().format('YYYY-MM-DD'),
+      statuses: ['proposed', 'cancelled'],
+      response: [],
+    });
+
     mockVAOSAppointmentsFetch({
       start: start.format('YYYY-MM-DD'),
       end: end.format('YYYY-MM-DD'),
@@ -249,7 +291,6 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
     });
 
-    mockFacilitiesFetchByVersion({ version: 0 });
     const screen = renderWithStoreAndRouter(<UpcomingAppointmentsList />, {
       initialState: myInitialState,
       reducers,
@@ -262,33 +303,4 @@ describe('VAOS Component: UpcomingAppointmentsList', () => {
     expect(screen.findAllByLabelText(/canceled Community care/i));
     expect(screen.baseElement).to.contain.text('Community care');
   });
-
-  // TODO: Verify if these v0 test are relevant and implement.
-  it('should show information without facility name', async () => {});
-
-  it('should show information with facility name', async () => {});
-
-  it('should have correct status when previously cancelled', async () => {});
-
-  it('should not display when they have hidden statuses', () => {});
-
-  it('should not display when over 13 months away', () => {});
-
-  it('should show error message when request fails', async () => {});
-
-  it('should show ATLAS video appointment text', async () => {});
-
-  it('should show video appointment on gfe text', async () => {});
-
-  it('should show video appointment at VA location text', async () => {});
-
-  it('should show video appointment at VA location text for store forward appointment', async () => {});
-
-  it('should show community care provider text', async () => {});
-
-  it('should show community care practice name text', async () => {});
-
-  it('should show community care text for VistA cc appointments', async () => {});
-
-  it('should show error message when MAS returns partial results', async () => {});
 });

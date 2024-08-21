@@ -6,20 +6,26 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 import formConfig from './config/form';
 import { NoFormPage } from './components/NoFormPage';
-import {
-  addMultiresponseStyles,
-  removeMultiresponseStyles,
-} from './multiresponseStyles';
-import {
-  removeSessionMultiresponseStyles,
-  setSessionMultiresponseStyles,
-} from './helpers';
+import { useBrowserMonitoring } from './hooks/useBrowserMonitoring';
+import { submit } from './config/submit';
 
 export default function PensionEntry({ location, children }) {
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
   const pensionFormEnabled = useToggleValue(TOGGLE_NAMES.pensionFormEnabled);
-  const pensionMultiresponseStyles = useToggleValue(
-    TOGGLE_NAMES.pensionMultiresponseStyles,
+  const pensionMultiplePageResponse = useToggleValue(
+    TOGGLE_NAMES.pensionMultiplePageResponse,
+  );
+  const pensionIncomeAndAssetsClarification = useToggleValue(
+    TOGGLE_NAMES.pensionIncomeAndAssetsClarification,
+  );
+  const pensionMedicalEvidenceClarification = useToggleValue(
+    TOGGLE_NAMES.pensionMedicalEvidenceClarification,
+  );
+  const pensionDocumentUploadUpdate = useToggleValue(
+    TOGGLE_NAMES.pensionDocumentUploadUpdate,
+  );
+  const pensionModuleEnabled = useToggleValue(
+    TOGGLE_NAMES.pensionModuleEnabled,
   );
   const isLoadingFeatures = useSelector(
     state => state?.featureToggles?.loading,
@@ -31,21 +37,46 @@ export default function PensionEntry({ location, children }) {
     window.location.href = '/pension/survivors-pension/';
   }
 
+  // Add Datadog UX monitoring to the application
+  useBrowserMonitoring();
+
   useEffect(
     () => {
-      if (isLoadingFeatures === false) {
-        if (pensionMultiresponseStyles) {
-          // TODO: Move styles to pensions.scss when we remove the flipper
-          addMultiresponseStyles();
-          // TODO: Remove sessionStorage calls when removing the flipper
-          setSessionMultiresponseStyles();
-        } else {
-          removeMultiresponseStyles();
-          removeSessionMultiresponseStyles();
-        }
+      if (!isLoadingFeatures) {
+        window.sessionStorage.setItem(
+          'showMultiplePageResponse',
+          pensionMultiplePageResponse,
+        );
+        window.sessionStorage.setItem(
+          'showIncomeAndAssetsClarification',
+          pensionIncomeAndAssetsClarification,
+        );
+        window.sessionStorage.setItem(
+          'showPensionEvidenceClarification',
+          !!pensionMedicalEvidenceClarification,
+        );
+        window.sessionStorage.setItem(
+          'showUploadDocuments',
+          !!pensionDocumentUploadUpdate,
+        );
       }
     },
-    [isLoadingFeatures, pensionMultiresponseStyles],
+    [
+      isLoadingFeatures,
+      pensionMultiplePageResponse,
+      pensionIncomeAndAssetsClarification,
+      pensionMedicalEvidenceClarification,
+      pensionDocumentUploadUpdate,
+    ],
+  );
+
+  useEffect(
+    () => {
+      if (pensionModuleEnabled) {
+        formConfig.submit = (f, fc) => submit(f, fc, '/pensions/v0/claims');
+      }
+    },
+    [pensionModuleEnabled],
   );
 
   if (isLoadingFeatures !== false || redirectToHowToPage) {
@@ -55,6 +86,7 @@ export default function PensionEntry({ location, children }) {
   if (!pensionFormEnabled) {
     return <NoFormPage />;
   }
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

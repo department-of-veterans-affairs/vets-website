@@ -75,6 +75,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -128,6 +129,10 @@ const ArrayBuilderCards = ({
       focusRemoveButton: false,
     });
     onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
@@ -241,6 +246,7 @@ ArrayBuilderCards.propTypes = {
     PropTypes.string,
   ]).isRequired,
   editItemPathUrl: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,

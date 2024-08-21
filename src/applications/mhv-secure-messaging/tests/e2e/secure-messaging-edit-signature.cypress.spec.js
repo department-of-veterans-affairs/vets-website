@@ -3,13 +3,11 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('verify deeplinking sending the draft', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
-    landingPage.composeMessage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
+    PatientInboxPage.composeMessage();
   });
 
   it('verify modal appears and has a link', () => {

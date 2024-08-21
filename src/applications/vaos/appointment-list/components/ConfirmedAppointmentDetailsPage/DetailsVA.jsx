@@ -23,14 +23,17 @@ import {
 import { APPOINTMENT_STATUS, FETCH_STATUS } from '../../../utils/constants';
 import { formatHeader } from './DetailsVA.util';
 import { selectFeatureAppointmentDetailsRedesign } from '../../../redux/selectors';
-import { InPersonLayout } from '../../../components/layout/InPersonLayout';
+import InPersonLayout from '../../../components/layout/InPersonLayout';
 import CancelWarningPage from '../cancel/CancelWarningPage';
 import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
+import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
+import PhoneLayout from '../../../components/layout/PhoneLayout';
 
 function Content({ appointment, facilityData }) {
   const locationId = getVAAppointmentLocationId(appointment);
-  const facility = facilityData?.[locationId];
+  const facility =
+    facilityData?.[locationId] || appointment?.vaos?.facilityData;
   const isCovid = appointment?.vaos?.isCOVIDVaccine;
   const canceled = appointment?.status === APPOINTMENT_STATUS.cancelled;
   const header = formatHeader(appointment);
@@ -81,8 +84,11 @@ function Content({ appointment, facilityData }) {
     );
   };
 
-  if (featureAppointmentDetailsRedesign && !isPhoneAppointment)
-    return <InPersonLayout />;
+  if (featureAppointmentDetailsRedesign) {
+    if (isCompAndPenAppointment) return <ClaimExamLayout data={appointment} />;
+    if (isPhoneAppointment) return <PhoneLayout data={appointment} />;
+    return <InPersonLayout data={appointment} />;
+  }
 
   return (
     <>
@@ -100,6 +106,8 @@ function Content({ appointment, facilityData }) {
         facilityId={locationId}
         clinicFriendlyName={appointment.location?.clinicName}
         clinicPhysicalLocation={appointment.location?.clinicPhysicalLocation}
+        clinicPhone={appointment.location?.clinicPhone}
+        clinicPhoneExtension={appointment.location?.clinicPhoneExtension}
         showCovidPhone={isCovid}
         isPhone={isPhoneAppointment}
       />
@@ -163,9 +171,9 @@ export default function DetailsVA({ appointment, facilityData }) {
           <BackLink appointment={appointment} />
           <div className="vads-u-margin-y--2p5">
             <VaAlert status="error" visible>
-              <h2 slot="headline">We couldn’t cancel your request</h2>
+              <h2 slot="headline">We couldn’t cancel your appointment</h2>
               <p>
-                Something went wrong when we tried to cancel this request.
+                Something went wrong when we tried to cancel this appointment.
                 Please contact your medical center to cancel:
                 <br />
                 <br />
@@ -220,7 +228,7 @@ DetailsVA.propTypes = {
       vistaId: PropTypes.string.isRequired,
       clinicId: PropTypes.string.isRequired,
       stationId: PropTypes.string.isRequired,
-      clinicName: PropTypes.string.isRequired,
+      clinicName: PropTypes.string,
       clinicPhysicalLocation: PropTypes.string,
     }),
   }),

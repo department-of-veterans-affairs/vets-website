@@ -12,7 +12,7 @@ import {
   firstLetterLowerCase,
   generateUniqueKey,
 } from '../../utils/helpers';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 import ButtonGroup from '../shared/ButtonGroup';
 
 const keyFieldsSpouseOtherIncome = ['amount', 'name'];
@@ -39,30 +39,11 @@ const SpouseOtherIncomeSummary = ({
     : 'Continue';
 
   // useEffect to set incomeBelowGmt if income records changes
-  useEffect(
-    () => {
-      if (!gmtData?.isEligibleForStreamlined) return;
-
-      const calculatedIncome = calculateTotalAnnualIncome(data);
-      setFormData({
-        ...data,
-        gmtData: {
-          ...gmtData,
-          incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-          incomeBelowOneFiftyGmt:
-            calculatedIncome < gmtData?.incomeUpperThreshold,
-        },
-      });
-    },
-    // avoiding use of data since it changes so often
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      spAddlIncome,
-      gmtData?.isEligibleForStreamlined,
-      gmtData?.gmtThreshold,
-      gmtData?.incomeUpperThreshold,
-    ],
-  );
+  // Calculate income properties as necessary
+  useEffect(() => {
+    if (!gmtData?.isEligibleForStreamlined) return;
+    checkIncomeGmt(data, setFormData);
+  }, []);
 
   const onDelete = deleteIndex => {
     setFormData({
@@ -167,7 +148,7 @@ const SpouseOtherIncomeSummary = ({
               {
                 label: continueButtonText,
                 onClick: onSubmit,
-                isSubmitting: true, // If this button submits a form
+                isSubmitting: 'prevent', // If this button submits a form
               },
             ]}
           />

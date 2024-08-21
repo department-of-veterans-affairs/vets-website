@@ -1,15 +1,15 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
 
 #react-root {
-  margin-top: 4rem;
+  margin-top: 2.5rem;
 }
 
 .form-progress-buttons {
-  margin-top: 4rem !important;
+  margin-top: 2.5rem !important;
 }

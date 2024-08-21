@@ -69,7 +69,13 @@ describe('<SchoolLocations>', () => {
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     wrapper.unmount();
@@ -126,7 +132,13 @@ describe('<SchoolLocations>', () => {
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     wrapper.unmount();
@@ -209,14 +221,26 @@ describe('<SchoolLocations>', () => {
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     dataRow = tableRows.at(2);
     dataLabels = dataRow.find('span');
     ['MAIN BRANCH FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
-        expect(dataLabels.at(index).text()).equal(column);
+        const currentDataLabels = dataLabels.at(index);
+        if (currentDataLabels.text() !== '') {
+          expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
+        }
       },
     );
 
@@ -296,7 +320,13 @@ describe('<SchoolLocations>', () => {
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     dataRow = tableRows.at(2);
@@ -304,7 +334,13 @@ describe('<SchoolLocations>', () => {
 
     ['MAIN EXTENSION FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
-        expect(dataLabels.at(index).text()).equal(column);
+        const currentDataLabels = dataLabels.at(index);
+        if (currentDataLabels.text() !== '') {
+          expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
+        }
       },
     );
 

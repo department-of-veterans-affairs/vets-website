@@ -11,23 +11,18 @@ import {
   setTypeOfCare,
   setTypeOfFacility,
 } from '../../../mocks/setup';
-import {
-  mockCCProviderFetch,
-  mockCommunityCareEligibility,
-  mockGetCurrentPosition,
-} from '../../../mocks/helpers';
-
 import CommunityCareProviderSelectionPage from '../../../../new-appointment/components/CommunityCareProviderSelectionPage';
 import { calculateBoundingBox } from '../../../../utils/address';
 import { CC_PROVIDERS_DATA } from './cc_providers_data';
 import { FACILITY_SORT_METHODS } from '../../../../utils/constants';
-import { createMockFacilityByVersion } from '../../../mocks/data';
+import { createMockFacility } from '../../../mocks/data';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
 import {
-  mockFacilitiesFetchByVersion,
-  mockFacilityFetchByVersion,
-} from '../../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+  mockCCProviderFetch,
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const initialState = {
   featureToggles: {
@@ -53,12 +48,6 @@ const initialState = {
 describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
   beforeEach(() => {
     mockFetch();
-
-    mockCommunityCareEligibility({
-      parentSites: ['983', '983GJ', '983GC'],
-      supportedSites: ['983', '983GJ'],
-      careType: 'PrimaryCare',
-    });
     mockCCProviderFetch(
       initialState.user.profile.vapContactInfo.residentialAddress,
       ['207QA0505X', '363LP2300X', '363LA2200X', '261QP2300X'],
@@ -69,11 +58,11 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       ids: ['983'],
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           address: {
             line: [],
@@ -231,9 +220,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: FACILITY_SORT_METHODS.distanceFromCurrentLocation },
     });
 
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     // Then providers should be displayed in ascending order by distance from current location
     const miles = screen.queryAllByText(/miles$/);
@@ -388,9 +377,9 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       detail: { value: '983' },
     });
 
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
-    userEvent.click(await screen.findByText(/more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 5 more providers$/i));
+    userEvent.click(await screen.findByText(/Show 1 more provider$/i));
 
     const miles = screen.queryAllByText(/miles$/);
     // Then providers should be displayed in ascending order by distance from the chosen facility
@@ -438,17 +427,6 @@ describe('VAOS Page: CommunityCareProviderSelectionPage', () => {
       ),
       CC_PROVIDERS_DATA,
     );
-
-    mockFacilityFetchByVersion({
-      facility: createMockFacilityByVersion({
-        id: '442GJ',
-        name: 'Facility that is enabled',
-        lat: 39.1362562,
-        long: -83.1804804,
-        version: 0,
-      }),
-      version: 0,
-    });
 
     await setTypeOfCare(store, /primary care/i);
     await setTypeOfFacility(store, /Community Care/i);
