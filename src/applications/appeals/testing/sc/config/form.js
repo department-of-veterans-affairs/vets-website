@@ -260,8 +260,8 @@ const formConfig = {
           scrollAndFocusTarget: focusH3,
         },
         optionForMst: {
-          title: 'Option for MST',
-          path: 'view-option',
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
           uiSchema: optionForMst.uiSchema,
           schema: optionForMst.schema,
           scrollAndFocusTarget: focusRadioH3,
