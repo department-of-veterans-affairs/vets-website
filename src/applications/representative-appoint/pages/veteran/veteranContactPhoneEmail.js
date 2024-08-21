@@ -15,9 +15,9 @@ export const uiSchema = {
   ...titleUI(
     `${
       preparerIsVeteran ? 'Your' : 'Veteran’s'
-    }} phone number and email address`,
+    } phone number and email address`,
   ),
-  Primary: phoneUI({
+  'Primary phone': phoneUI({
     required: true,
   }),
   veteranEmail: emailUI(),
