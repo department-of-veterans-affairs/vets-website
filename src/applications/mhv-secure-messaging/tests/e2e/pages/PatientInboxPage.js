@@ -523,7 +523,7 @@ class PatientInboxPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -592,7 +592,7 @@ class PatientInboxPage {
     option = 'Oldest to newest',
     sortedResponse,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${option}`, { force: true });
@@ -682,10 +682,7 @@ class PatientInboxPage {
   };
 
   clickAdditionalFilterButton = () => {
-    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER)
-      .shadow()
-      .find('h3 button')
-      .click();
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).click();
   };
 
   selectDateRange = dropDownValue => {
@@ -701,7 +698,7 @@ class PatientInboxPage {
   };
 
   verifyAddFilterButton = (text = 'Add filters') => {
-    cy.get(Locators.BUTTONS.ADD_FILTER_BUTTON).should(
+    cy.get(Locators.BUTTONS.ADDITIONAL_FILTER).should(
       'contain.text',
       `${text}`,
     );
@@ -711,6 +708,34 @@ class PatientInboxPage {
     cy.get(Locators.FIELDS.NOT_FOR_PRINT_HEADER)
       .should('be.visible')
       .and('contain.text', text);
+  };
+
+  verifyFilterButtons = () => {
+    cy.get(`[data-testid="search-form"]`)
+      .find(`va-button`)
+      .each(el => {
+        cy.wrap(el).should(`be.visible`);
+      });
+  };
+
+  verifyFilterCategoryDropdown = data => {
+    cy.get(Locators.FIELDS.CATEGORY_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
+  };
+
+  verifyFilterdateRangeDropdown = data => {
+    cy.get(Locators.FIELDS.DATE_RANGE_OPTION).each(option => {
+      cy.wrap(option)
+        .invoke('text')
+        .then(el => {
+          expect(el.toUpperCase()).to.be.oneOf(data);
+        });
+    });
   };
 }
 
