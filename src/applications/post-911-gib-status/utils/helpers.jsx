@@ -179,9 +179,9 @@ export const backendErrorMessage = (
       <va-telephone tty contact="711" />
       ).
     </p>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
+    <a className="vads-c-action-link--green" to="/">
       Go back to VA.gov
-    </Link>
+    </a>
   </div>
 );
 
@@ -202,9 +202,9 @@ export const serviceDowntimeErrorMessage = (
       <va-telephone tty contact="711" />
       ).
     </p>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
+    <a className="vads-c-action-link--green" to="/">
       Go back to VA.gov
-    </Link>
+    </a>
   </div>
 );
 
@@ -268,8 +268,9 @@ export const authenticationErrorMessage = (
         ).
       </p>
     </div>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
+
+    <a href="/" className="vads-c-action-link--green">
       Go back to VA.gov
-    </Link>
+    </a>
   </div>
 );
