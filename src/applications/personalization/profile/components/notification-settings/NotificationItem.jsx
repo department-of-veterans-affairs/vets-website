@@ -100,12 +100,12 @@ const NotificationItem = ({ channelIds, itemName, description, itemId }) => {
   );
 
   // need to do this otherwise we will see Appointment Reminder and Shipment item title only without any checkbox
-  const getMobilePhone = useSelector(state => selectVAPMobilePhone(state));
+  const mobilePhone = useSelector(state => selectVAPMobilePhone(state));
   const shouldBlock =
     userHasAtLeastOneChannelContactInfo &&
     ((itemId === 'item3' && !aptReminderToggle) ||
       (itemId === 'item4' && !shipmentToggle)) &&
-    !getMobilePhone;
+    !mobilePhone;
 
   if (shouldBlock) return null;
 

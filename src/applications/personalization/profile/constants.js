@@ -161,6 +161,7 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
  * 9 - Securing messaging alert
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
+ * 12 - QuickSubmit
  *
  * These are all email based notifications
  *

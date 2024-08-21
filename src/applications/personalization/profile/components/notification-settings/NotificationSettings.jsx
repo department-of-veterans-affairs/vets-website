@@ -44,11 +44,7 @@ const NotificationSettings = ({
 }) => {
   const location = useLocation();
 
-  const {
-    toggles: notificationToggles,
-    showEmail,
-    useAvailableGroups,
-  } = useNotificationSettingsUtils();
+  const { showEmail, useAvailableGroups } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
@@ -56,7 +52,7 @@ const NotificationSettings = ({
         ? !!(emailAddress || mobilePhoneNumber)
         : !!mobilePhoneNumber;
     },
-    [emailAddress, mobilePhoneNumber, notificationToggles],
+    [emailAddress, mobilePhoneNumber, showEmail],
   );
 
   const showMissingContactInfoAlert = useMemo(

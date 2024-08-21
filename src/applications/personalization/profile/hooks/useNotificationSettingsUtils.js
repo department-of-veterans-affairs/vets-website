@@ -122,25 +122,26 @@ export const useNotificationSettingsUtils = () => {
     [toggles],
   );
 
-  const channelsWithContactInfo = useSelector(state => {
+  const getEmailAddress = useSelector(selectVAPEmailAddress);
+  const getMobilePhone = useSelector(selectVAPMobilePhone);
+
+  const channelsWithContactInfo = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
+      ...(getEmailAddress
         ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)]
         : []),
-      ...(selectVAPMobilePhone(state)
-        ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)]
-        : []),
+      ...(getMobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
     ];
   });
 
-  const missingChannels = useSelector(state => {
+  const missingChannels = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
+      ...(getEmailAddress
         ? []
         : [
             { name: 'email', id: parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10) },
           ]),
-      ...(selectVAPMobilePhone(state)
+      ...(getMobilePhone
         ? []
         : [{ name: 'text', id: parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10) }]),
     ];
@@ -161,9 +162,6 @@ export const useNotificationSettingsUtils = () => {
       );
     });
   };
-
-  const getEmailAddress = useSelector(selectVAPEmailAddress);
-  const getMobilePhone = useSelector(selectVAPMobilePhone);
 
   // creates a list of unavailable items
   // also filters out any items that are blocked by feature toggles
@@ -244,30 +242,21 @@ export const useNotificationSettingsUtils = () => {
   const useFilteredItemsForMHVNotifications = itemIds =>
     useMemo(
       () => {
-        // Always exclude these items: ticket# 89524
-        const alwaysExcludedItems = ['item7', 'item8', 'item11', 'item12'];
-
         return itemIds.filter(itemId => {
-          // always exclude items in alwaysExcludedItems
-          if (alwaysExcludedItems.includes(itemId)) {
-            return false;
-          }
-          // exclude item9 if profileShowMhvNotificationSettingsNewSecureMessaging is turned off
-          if (
-            itemId === 'item9' &&
-            !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
-          ) {
-            return false;
-          }
-          // exclude item10 if profileShowMhvNotificationSettingsMedicalImages is turned off
-          if (
-            itemId === 'item10' &&
-            !toggles.profileShowMhvNotificationSettingsMedicalImages
-          ) {
-            return false;
-          }
-          // include all other items
-          return true;
+          // Always exclude these items: ticket# 89524
+          return (
+            !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
+            // Exclude item9 if profileShowMhvNotificationSettingsNewSecureMessaging is turned off
+            !(
+              itemId === 'item9' &&
+              !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+            ) &&
+            // Exclude item10 if profileShowMhvNotificationSettingsMedicalImages is turned off
+            !(
+              itemId === 'item10' &&
+              !toggles.profileShowMhvNotificationSettingsMedicalImages
+            )
+          );
         });
       },
       [itemIds],
