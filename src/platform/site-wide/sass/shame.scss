@@ -42,7 +42,7 @@ $medium-phone-screen: 375px;
   #va-header-logo-menu {
     align-items: center;
 
-    @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+    @media (min-width: $xsmall-screen) and (max-width: ($medium-screen - 1)) {
       position: relative;
     }
   }
@@ -195,7 +195,7 @@ $medium-phone-screen: 375px;
   }
 
   // mobile
-  @media (min-width: $xsmall-screen) and (max-width: $medium-screen - 1) {
+  @media (min-width: $xsmall-screen) and (max-width: ($medium-screen - 1)) {
     .flex-col-mobile {
       flex-direction: column;
     }
@@ -470,7 +470,7 @@ $medium-phone-screen: 375px;
     // This is backwards from the mobile first approach we should be taking
     // but the amount of overrides we would need if we did that way would be
     // very tricky to write and maintain
-    @media (max-width: $medium-screen - 1) {
+    @media (max-width: ($medium-screen - 1)) {
       @include button-link;
       font-weight: 600;
       color: var(--vads-color-white) !important;
@@ -594,4 +594,15 @@ div[data-widget-type="events"] {
 
 #content {
   min-height: 150px;
+}
+
+/* Fix to crisis line color issue on mobile / tablet */
+#footer-crisis-line.va-button-link.vads-u-color--white,
+#header-crisis-line.va-button-link.vads-u-color--white {
+  color: var(--vads-color-white) !important;
+}
+
+/* Fix to 'contact us' color issue */
+.profile-nav-container a.vads-u-color--white:visited{
+  color: var(--vads-color-white)
 }
