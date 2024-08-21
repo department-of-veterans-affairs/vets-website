@@ -437,5 +437,8 @@
   "were-having-trouble-getting-your-upcoming-appointments": "We’re having trouble getting your upcoming appointments. Please try again later.",
   "to-file-another-claim-for-different-date": "To file another claim for a different date, you can visit the Beneficiary Travel Self-Service System (BTSSS). You must file within 30 days of the appointment.",
   "find-a-full-list-of-things-to-bring": "Find a full list of things to bring to your appointment",
-  "find-out-how-to-check-in-opens-in-new-tab": "Find out how to check in (opens in new tab)"
+  "find-out-how-to-check-in-opens-in-new-tab": "Find out how to check in (opens in new tab)",
+  "we-cant-show-all-information": "We can’t show all your information right now",
+  "some-appointment-information-not-available": "Some of your appointment information is not available right now.",
+  "find-all-appointment-information": "To find all your appointment information, finish checking in for this appointment first. Then go to appointments on VA.gov."
 }

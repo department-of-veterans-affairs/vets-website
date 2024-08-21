@@ -94,6 +94,15 @@ const UpcomingAppointmentsPage = props => {
   } else {
     body = (
       <>
+        <va-alert-expandable
+          status="warning"
+          trigger={t('we-cant-show-all-information')}
+        >
+          <p>{t('some-appointment-information-not-available')}</p>
+          {/* Slotted p tags can't have margin for some reason. */}
+          <br />
+          <p>{t('find-all-appointment-information')}</p>
+        </va-alert-expandable>
         <UpcomingAppointmentsList
           router={router}
           app={app}
