@@ -55,6 +55,7 @@ export const content = {
     limitation: '',
     upload: 'We’ll remove the uploaded document',
     modalRemove: 'Yes, remove this',
+    modalDelete: 'Yes, delete this file',
     modalNotRemove: 'No, keep this',
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',
