@@ -12,7 +12,10 @@ import GetFormHelp from '../components/GetFormHelp';
 import { customSubmit686 } from '../analytics/helpers';
 
 // Chapter imports
-import { formerSpouseInformation } from './chapters/report-divorce';
+import {
+  formerSpouseInformation,
+  formerSpouseInformationPartTwo,
+} from './chapters/report-divorce';
 import {
   deceasedDependentInformation,
   deceasedDependentAdditionalInformation,
@@ -366,13 +369,21 @@ export const formConfig = {
     reportDivorce: {
       title: 'Information needed to remove a divorced spouse',
       pages: {
-        formerSpouseDetails: {
+        formerSpouseInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
           title: 'Information needed to report a divorce',
-          path: 'report-a-divorce',
+          path: 'report-a-divorce/former-spouse-information',
           uiSchema: formerSpouseInformation.uiSchema,
           schema: formerSpouseInformation.schema,
+        },
+        formerSpouseInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDivorce),
+          title: 'Information needed to report a divorce',
+          path: 'report-a-divorce/divorce-information',
+          uiSchema: formerSpouseInformationPartTwo.uiSchema,
+          schema: formerSpouseInformationPartTwo.schema,
         },
       },
     },
