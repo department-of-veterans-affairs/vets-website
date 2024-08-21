@@ -4,8 +4,8 @@ import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
+  currentOrPastMonthYearDateRangeSchema,
+  currentOrPastMonthYearDateRangeUI,
   descriptionUI,
   selectSchema,
   selectUI,
@@ -71,10 +71,14 @@ const branchAndDateRangePage = {
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     branch: selectUI('Branch of service'),
-    dateRange: currentOrPastDateRangeUI(
-      { title: 'Service start date' },
+    dateRange: currentOrPastMonthYearDateRangeUI(
+      {
+        title: 'Service start date',
+        hint: 'For example: January 2000',
+      },
       {
         title: 'Service end date',
+        hint: 'For example: January 2000',
         hideIf: (formData, index) =>
           formData?.militaryServiceExperiences?.[index]?.currentlyServing,
         required: (formData, index) =>
@@ -97,7 +101,7 @@ const branchAndDateRangePage = {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: currentOrPastDateRangeSchema,
+      dateRange: currentOrPastMonthYearDateRangeSchema,
       'view:dateRangeEndDateLabel': {
         type: 'object',
         properties: {},
@@ -113,28 +117,37 @@ const branchAndDateRangePage = {
 /** @returns {PageSchema} */
 const characterOfDischargePage = {
   uiSchema: {
-    characterOfDischarge: selectUI('Character of discharge'),
+    characterOfDischarge: selectUI({
+      title: 'Character of discharge',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
     },
-    required: ['characterOfDischarge'],
   },
 };
 
 /** @returns {PageSchema} */
 const explanationOfDischargePage = {
   uiSchema: {
-    explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
+    explanationOfDischarge: textareaUI({
+      title: 'Explain the nature of your discharge.',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing &&
+        requireExplanation(
+          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
+        ),
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       explanationOfDischarge: textareaSchema,
     },
-    required: ['explanationOfDischarge'],
   },
 };
 
