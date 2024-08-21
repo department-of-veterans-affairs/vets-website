@@ -17,7 +17,7 @@ export const content = {
   // dateStart: 'First treatment date (you can estimate)',
   treatmentDate: 'When did they treat you?',
   treatmentHint:
-    'If treatment began from 2005 to present, you do not need to provide date. ',
+    'If treatment began from 2005 to present, you do not need to provide date.',
   noDate: 'I don’t have the date',
   // dateEnd: 'Last treatment date (you can estimate)',
   addAnotherLink: 'Add another VA or military treatment location',
