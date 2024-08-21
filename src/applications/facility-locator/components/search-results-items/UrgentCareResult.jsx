@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
@@ -47,10 +46,8 @@ const UrgentCareResult = ({ provider, query }) => {
         >
           <a
             href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
-            target="_/blank"
-            onClick={() => {
-              recordEvent({ event: 'cta-primary-button-click' });
-            }}
+            target="_blank"
+            rel="noreferrer"
           >
             Learn about your in-network urgent care benefits (opens in a new
             tab)
