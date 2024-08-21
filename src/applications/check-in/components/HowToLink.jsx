@@ -14,7 +14,7 @@ const HowToLink = () => {
         eventPrefix="nav"
         target="_blank"
       >
-        {t('find-out-how-to-check-in')}
+        {t('find-out-how-to-check-in-opens-in-new-tab')}
       </ExternalLink>
     </p>
   );
