@@ -1,7 +1,6 @@
 import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
-  concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
   formatDate,
@@ -245,7 +244,6 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
