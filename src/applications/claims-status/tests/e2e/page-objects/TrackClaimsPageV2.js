@@ -363,7 +363,7 @@ class TrackClaimsPageV2 {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message')
+          .find('#file-input-error-alert')
           .should('contain', 'Please select a file first');
         cy.injectAxeThenAxeCheck();
       });
