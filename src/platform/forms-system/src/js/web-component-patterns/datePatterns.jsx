@@ -32,7 +32,7 @@ import {
  * @returns {UISchemaOptions} uiSchema
  */
 const currentOrPastDateUI = options => {
-  const { title, errorMessages, ...uiOptions } =
+  const { title, errorMessages, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
 
   // if monthYearOnly is used, the schema pattern also needs
@@ -49,6 +49,7 @@ const currentOrPastDateUI = options => {
   return {
     'ui:title': uiTitle,
     'ui:webComponentField': monthYearOnly ? VaDateField : VaMemorableDateField,
+    'ui:required': required,
     'ui:validations': monthYearOnly
       ? [validateCurrentOrPastMonthYear]
       : [validateCurrentOrPastMemorableDate],
