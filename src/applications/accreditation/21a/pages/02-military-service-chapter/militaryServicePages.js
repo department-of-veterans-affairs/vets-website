@@ -1,11 +1,8 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
   descriptionUI,
   selectSchema,
   selectUI,
@@ -19,6 +16,10 @@ import {
   characterOfDischargeOptions,
   explanationRequired,
 } from '../../constants/options';
+import {
+  dateRangeWithCurrentCheckboxSchema,
+  dateRangeWithCurrentCheckboxUI,
+} from '../helpers/dateRangeWithCurrentCheckboxPattern';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 const getDateRange = item => {
@@ -71,40 +72,21 @@ const branchAndDateRangePage = {
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     branch: selectUI('Branch of service'),
-    dateRange: currentOrPastDateRangeUI(
-      { title: 'Service start date' },
-      {
-        title: 'Service end date',
-        hideIf: (formData, index) =>
-          formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-        required: (formData, index) =>
-          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-      },
-    ),
-    'view:dateRangeEndDateLabel': {
-      'ui:description': 'Service end date',
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-      },
-    },
-    currentlyServing: {
-      'ui:title': 'I am currently serving in this military service experience.',
-      'ui:webComponentField': VaCheckboxField,
-    },
+    ...dateRangeWithCurrentCheckboxUI({
+      fromLabel: 'Service start date',
+      toLabel: 'Service end date',
+      currentLabel:
+        'I am currently serving in this military service experience.',
+      currentKey: 'currentlyServing',
+      isCurrentChecked: (formData, index) =>
+        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: currentOrPastDateRangeSchema,
-      'view:dateRangeEndDateLabel': {
-        type: 'object',
-        properties: {},
-      },
-      currentlyServing: {
-        type: 'boolean',
-      },
+      ...dateRangeWithCurrentCheckboxSchema('currentlyServing'),
     },
     required: ['branch'],
   },

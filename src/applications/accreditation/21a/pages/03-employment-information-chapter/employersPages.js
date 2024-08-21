@@ -1,5 +1,4 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   addressSchema,
   addressUI,
@@ -9,8 +8,6 @@ import {
   arrayBuilderYesNoUI,
   checkboxGroupSchema,
   checkboxGroupUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
   descriptionUI,
   textareaSchema,
   textareaUI,
@@ -19,6 +16,10 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import { createName } from '../helpers/createName';
+import {
+  dateRangeWithCurrentCheckboxSchema,
+  dateRangeWithCurrentCheckboxUI,
+} from '../helpers/dateRangeWithCurrentCheckboxPattern';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
   internationalPhoneSchema,
@@ -70,8 +71,6 @@ const informationPage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Employer and position information',
-      description:
-        'List your employment information for the past ten years. You may start with your current employer. You will be able to add additional employers on subsequent screens.',
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of employer'),
@@ -169,39 +168,19 @@ const dateRangePage = {
           isPossessive: false,
         })}`,
     ),
-    dateRange: currentOrPastDateRangeUI(
-      { title: 'Employment start date' },
-      {
-        title: 'Employment end date',
-        hideIf: (formData, index) =>
-          formData?.employers?.[index]?.currentlyEmployed,
-        required: (formData, index) =>
-          !formData?.employers?.[index]?.currentlyEmployed,
-      },
-    ),
-    'view:dateRangeEndDateLabel': {
-      'ui:description': 'Employment end date',
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !formData?.employers?.[index]?.currentlyEmployed,
-      },
-    },
-    currentlyEmployed: {
-      'ui:title': 'I still work here.',
-      'ui:webComponentField': VaCheckboxField,
-    },
+    ...dateRangeWithCurrentCheckboxUI({
+      titleStart: 'Employment start date',
+      titleEnd: 'Employment end date',
+      currentLabel: 'I still work here.',
+      currentKey: 'currentlyEmployed',
+      isCurrentChecked: (formData, index) =>
+        formData?.employers?.[index]?.currentlyEmployed,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      dateRange: currentOrPastDateRangeSchema,
-      'view:dateRangeEndDateLabel': {
-        type: 'object',
-        properties: {},
-      },
-      currentlyEmployed: {
-        type: 'boolean',
-      },
+      ...dateRangeWithCurrentCheckboxSchema('currentlyEmployed'),
     },
   },
 };

@@ -1,5 +1,4 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   addressSchema,
   addressUI,
@@ -7,8 +6,6 @@ import {
   arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
   descriptionUI,
   selectSchema,
   selectUI,
@@ -23,6 +20,10 @@ import {
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
 import { degreeOptions } from '../../constants/options';
 import { createName } from '../helpers/createName';
+import {
+  dateRangeWithCurrentCheckboxSchema,
+  dateRangeWithCurrentCheckboxUI,
+} from '../helpers/dateRangeWithCurrentCheckboxPattern';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 const getDateRange = item => {
@@ -71,27 +72,14 @@ const institutionAndDegreePage = {
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     name: textUI('Name of school'),
-    dateRange: currentOrPastDateRangeUI(
-      { title: 'Enrollment start date' },
-      {
-        title: 'Enrollment end date',
-        hideIf: (formData, index) =>
-          formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
-        required: (formData, index) =>
-          !formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
-      },
-    ),
-    'view:dateRangeEndDateLabel': {
-      'ui:description': 'Enrollment end date',
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
-      },
-    },
-    currentlyEnrolled: {
-      'ui:title': 'I still go to school here.',
-      'ui:webComponentField': VaCheckboxField,
-    },
+    ...dateRangeWithCurrentCheckboxUI({
+      fromLabel: 'Enrollment start date',
+      toLabel: 'Enrollment end date',
+      currentLabel: 'I still go to school here.',
+      currentKey: 'currentlyEnrolled',
+      isCurrentChecked: (formData, index) =>
+        formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
+    }),
     degreeReceived: yesNoUI('Degree received?'),
     major: textUI('Major'),
   },
@@ -99,14 +87,7 @@ const institutionAndDegreePage = {
     type: 'object',
     properties: {
       name: textSchema,
-      dateRange: currentOrPastDateRangeSchema,
-      'view:dateRangeEndDateLabel': {
-        type: 'object',
-        properties: {},
-      },
-      currentlyEnrolled: {
-        type: 'boolean',
-      },
+      ...dateRangeWithCurrentCheckboxSchema('currentlyEnrolled'),
       degreeReceived: yesNoSchema,
       major: textSchema,
     },
