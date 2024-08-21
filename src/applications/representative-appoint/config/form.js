@@ -170,7 +170,9 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranPersonalInformation: {
-          title: 'Veteran’s name and date of birth',
+          title: `${
+            preparerIsVeteran ? 'Your' : 'Veteran’s'
+          } name and date of birth`,
           path: 'veteran-personal-information',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
