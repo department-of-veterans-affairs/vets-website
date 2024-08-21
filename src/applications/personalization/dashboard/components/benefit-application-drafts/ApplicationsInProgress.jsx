@@ -207,12 +207,10 @@ const ApplicationsInProgress = ({
               {emptyStateText}
             </p>
           )}
+          <Toggler.Enabled>
+            <MissingApplicationHelp />
+          </Toggler.Enabled>
         </DashboardWidgetWrapper>
-      </Toggler>
-      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
-        <Toggler.Enabled>
-          <MissingApplicationHelp />
-        </Toggler.Enabled>
       </Toggler>
     </div>
   );

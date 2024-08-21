@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MissingApplicationHelp = () => (
-  <va-accordion uswds data-testid="missing-application-help">
+  <va-accordion uswds open-single="true" data-testid="missing-application-help">
     <va-accordion-item
       header="If you can't find your application or form"
       uswds
