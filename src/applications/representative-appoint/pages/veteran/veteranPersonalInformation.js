@@ -25,5 +25,5 @@ export const schema = {
     veteranFullName: fullNameSchema,
     veteranDateOfBirth: dateOfBirthSchema,
   },
-  required: ['dateOfBirth'],
+  required: ['veteranDateOfBirth'],
 };
