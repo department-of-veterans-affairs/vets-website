@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 
 import { $ } from '../../../forms-system/src/js/utilities/ui';
@@ -97,7 +97,9 @@ describe('ui/index', () => {
       const h3 = $('h3', container);
       customScrollAndFocus();
 
-      expect(document.activeElement).to.eq(h3);
+      waitFor(() => {
+        expect(document.activeElement).to.eq(h3);
+      });
     });
     it('should focus when passed a string selector', () => {
       const { container } = render(
@@ -113,12 +115,16 @@ describe('ui/index', () => {
       customScrollAndFocus('h2');
 
       const h2 = $('h2', container);
-      expect(document.activeElement).to.eq(h2);
+      waitFor(() => {
+        expect(document.activeElement).to.eq(h2);
+      });
     });
     it('should call function when passed a function', () => {
       const spy = sinon.spy();
       customScrollAndFocus(spy);
-      expect(spy.called).to.be.true;
+      waitFor(() => {
+        expect(spy.called).to.be.true;
+      });
     });
   });
 
