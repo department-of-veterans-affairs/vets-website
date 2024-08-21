@@ -603,6 +603,14 @@ div[data-widget-type="events"] {
 }
 
 /* Fix to 'contact us' color issue */
-.profile-nav-container a.vads-u-color--white:visited{
-  color: var(--vads-color-white)
+.profile-nav-container a.vads-u-color--white:visited, #header-nav-items a.vads-u-color--white:visited{
+  color: var(--vads-color-white);
+}
+
+/* Fix to mobile menu color issue */
+
+.header-menu-button.vads-u-background-color--gray-lightest{
+  background-color: var(--vads-color-base-lightest);
+  color: var(--vads-color-primary);
+
 }
