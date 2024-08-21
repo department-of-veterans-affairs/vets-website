@@ -26,7 +26,7 @@ import {
  * @returns {UISchemaOptions} uiSchema
  */
 const currentOrPastDateUI = options => {
-  const { title, errorMessages, ...uiOptions } =
+  const { title, errorMessages, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
   const uiTitle = title ?? 'Date';
 
@@ -34,6 +34,7 @@ const currentOrPastDateUI = options => {
     'ui:title': uiTitle,
     'ui:webComponentField': VaMemorableDateField,
     'ui:validations': [validateCurrentOrPastMemorableDate],
+    'ui:required': required,
     'ui:errorMessages': {
       pattern:
         errorMessages?.pattern || 'Please enter a valid current or past date',

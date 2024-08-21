@@ -2,7 +2,6 @@ import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array
 import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   arrayBuilderItemFirstPageTitleUI,
-  arrayBuilderItemSubsequentPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -41,8 +40,9 @@ const arrayBuilderOptions = {
     !item?.branch ||
     !item?.dateRange?.from ||
     (!item?.dateRange?.to && !item?.currentlyServing) ||
-    !item?.characterOfDischarge ||
-    (requireExplanation(item?.characterOfDischarge) &&
+    (!item?.currentlyServing && !item?.characterOfDischarge) ||
+    (!item?.currentlyServing &&
+      requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
@@ -77,10 +77,19 @@ const branchAndDateRangePage = {
         title: 'Service end date',
         hideIf: (formData, index) =>
           formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+        required: (formData, index) =>
+          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
       },
     ),
+    'view:dateRangeEndDateLabel': {
+      'ui:description': 'Service end date',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+      },
+    },
     currentlyServing: {
-      'ui:title': 'I am currently in the military.',
+      'ui:title': 'I am currently serving in this military service experience.',
       'ui:webComponentField': VaCheckboxField,
     },
   },
@@ -88,9 +97,10 @@ const branchAndDateRangePage = {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: {
-        ...currentOrPastDateRangeSchema,
-        required: ['from'],
+      dateRange: currentOrPastDateRangeSchema,
+      'view:dateRangeEndDateLabel': {
+        type: 'object',
+        properties: {},
       },
       currentlyServing: {
         type: 'boolean',
@@ -103,14 +113,6 @@ const branchAndDateRangePage = {
 /** @returns {PageSchema} */
 const characterOfDischargePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch && formData?.dateRange
-          ? `${formData?.branch} (${getDateRange(
-              formData,
-            )}) character of discharge`
-          : 'Military service experience character of discharge',
-    ),
     characterOfDischarge: selectUI('Character of discharge'),
   },
   schema: {
@@ -125,14 +127,6 @@ const characterOfDischargePage = {
 /** @returns {PageSchema} */
 const explanationOfDischargePage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        formData?.branch && formData?.dateRange
-          ? `${formData?.branch} (${getDateRange(
-              formData,
-            )}) explanation of discharge`
-          : 'Military service experience explanation of discharge',
-    ),
     explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
   },
   schema: {
@@ -191,6 +185,11 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
     militaryServiceExperienceBranchDateRangePage: pageBuilder.itemPage({
       title: 'Military service experience branch and date range',
       path: 'military-service-experiences/:index/branch-date-range',
+      onNavForward: props => {
+        return !props.formData.currentlyServing
+          ? helpers.navForwardKeepUrlParams(props)
+          : helpers.navForwardFinishedItem(props);
+      },
       uiSchema: branchAndDateRangePage.uiSchema,
       schema: branchAndDateRangePage.schema,
     }),
