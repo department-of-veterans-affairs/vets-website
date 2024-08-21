@@ -26,8 +26,12 @@ export const uiSchema = {
     items: {
       'ui:title': FormerSpouseHeader,
       startLocation: {
+        'ui:title': 'Where did they get married?',
+        'ui:options': {
+          labelHeaderLevel: '4',
+        },
         outsideUsa: {
-          'ui:title': 'I got married outside the U.S.',
+          'ui:title': 'They got married outside the U.S.',
           'ui:webComponentField': VaCheckboxField,
         },
         location: {

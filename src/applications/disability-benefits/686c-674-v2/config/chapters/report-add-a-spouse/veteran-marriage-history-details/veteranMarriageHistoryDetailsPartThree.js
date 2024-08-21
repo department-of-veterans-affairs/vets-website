@@ -26,7 +26,7 @@ export const uiSchema = {
     items: {
       'ui:title': FormerSpouseHeader,
       endDate: {
-        ...currentOrPastDateUI('When did your marriage end?'),
+        ...currentOrPastDateUI('When did the marriage end?'),
         'ui:required': formData => formData.veteranWasMarriedBefore,
       },
     },

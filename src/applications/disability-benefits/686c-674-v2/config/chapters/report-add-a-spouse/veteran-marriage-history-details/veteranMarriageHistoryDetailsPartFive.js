@@ -1,7 +1,7 @@
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
-import { customLocationSchema } from '../../../helpers';
+import { customLocationSchema, generateHelpText } from '../../../helpers';
 import { FormerSpouseHeader } from '../../../../components/SpouseViewField';
 
 export const schema = {
@@ -26,8 +26,15 @@ export const uiSchema = {
     items: {
       'ui:title': FormerSpouseHeader,
       endLocation: {
+        'ui:title': 'Where did the marriage end?',
+        'ui:description': generateHelpText(
+          'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed',
+        ),
+        'ui:options': {
+          labelHeaderLevel: '4',
+        },
         outsideUsa: {
-          'ui:title': 'I got married outside the U.S.',
+          'ui:title': 'This occurred outside the U.S.',
           'ui:webComponentField': VaCheckboxField,
         },
         location: {

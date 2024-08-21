@@ -31,7 +31,7 @@ export const uiSchema = {
       'ui:title': FormerSpouseHeader,
       reasonMarriageEnded: {
         ...radioUI({
-          title: 'How did your marriage end?',
+          title: 'How did their marriage end?',
           required: () => true,
           labels: spouseFormerMarriageLabels,
         }),
