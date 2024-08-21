@@ -160,13 +160,7 @@ class AddressValidationView extends React.Component {
       (!confirmedSuggestions.length && !validationKey)
     ) {
       return (
-        <button
-          type="button"
-          className="usa-button-primary"
-          onClick={this.onEditClick}
-        >
-          Edit Address
-        </button>
+        <va-button primary onClick={this.onEditClick} text="Edit Address" />
       );
     }
 
@@ -214,6 +208,7 @@ class AddressValidationView extends React.Component {
               checked={selectedAddressId === id}
             />
           )}
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label
           htmlFor={id}
           className="vads-u-margin-top--2 vads-u-display--flex vads-u-align-items--center"
@@ -382,8 +377,12 @@ AddressValidationView.propTypes = {
       addressPou: PropTypes.string.isRequired,
     }),
   ),
+  isLoading: PropTypes.bool,
+  refreshTransaction: PropTypes.func,
   selectedAddress: PropTypes.object,
   selectedAddressId: PropTypes.string,
+  transaction: PropTypes.string,
+  transactionRequest: PropTypes.object,
   userHasBadAddress: PropTypes.bool,
   validationKey: PropTypes.number,
 };
