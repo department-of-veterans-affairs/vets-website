@@ -9,7 +9,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 export default function IntroductionPage(props) {
   const { route } = props;
   const { formConfig, pageList } = route;
-  const { appType } = formConfig?.customText || 'application';
+  const { appType } = formConfig?.customText;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');

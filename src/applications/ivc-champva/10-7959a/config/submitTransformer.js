@@ -49,7 +49,7 @@ export default function transformForSubmit(formConfig, form) {
   if (copyOfData.certifierAddress) {
     // Combine streets for 3rd party certifier
     copyOfData.certifierAddress.streetCombined = concatStreets(
-      copyOfData.certifierAddress.streetCombined,
+      copyOfData.certifierAddress,
     );
   }
 
