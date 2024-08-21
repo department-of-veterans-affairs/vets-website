@@ -326,9 +326,7 @@ export const convertMhvRadiologyRecord = record => {
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
     orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory
-      ? record.clinicalHistory.trim()
-      : EMPTY_FIELD,
+    clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
       ? dateFormatWithoutTimezone(record.eventDate)
