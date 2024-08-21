@@ -119,4 +119,19 @@ describe('go bill CT before search by name', () => {
       cy.visit(href);
     });
   });
+  it('should show "We’ve run into a problem." if something went wrong', () => {
+    cy.injectAxeThenAxeCheck();
+    cy.intercept('GET', 'v1/gi/calculator_constants', {
+      statusCode: 500,
+    });
+    cy.visit('education/gi-bill-comparison-tool/');
+    cy.get('[data-testid="service-error-message"]').should(
+      'contain',
+      'We’ve run into a problem.',
+    );
+    cy.get('[data-testid="service-error-message"] + div').should(
+      'contain',
+      'We’re sorry. Something went wrong on our end. Please refresh this page or check back soon.',
+    );
+  });
 });
