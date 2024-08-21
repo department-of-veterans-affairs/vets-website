@@ -15,6 +15,7 @@ import * as veteranPersonalInformation from './veteran/veteranPersonalInformatio
 import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
 import * as veteranContactMailing from './veteran/veteranContactMailing';
 import * as veteranIdentification from './veteran/veteranIdentification';
+import * as veteranServiceInformation from './veteran/veteranServiceInformation';
 
 export {
   authorizeMedical,
@@ -34,4 +35,5 @@ export {
   veteranContactPhoneEmail,
   veteranContactMailing,
   veteranIdentification,
+  veteranServiceInformation,
 };

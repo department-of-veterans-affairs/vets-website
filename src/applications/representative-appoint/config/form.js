@@ -24,6 +24,7 @@ import {
   veteranContactPhoneEmail,
   veteranContactMailing,
   veteranIdentification,
+  veteranServiceInformation,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -190,6 +191,15 @@ const formConfig = {
           } identification information`,
           uiSchema: veteranIdentification.uiSchema,
           schema: veteranIdentification.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranServiceInformation: {
+          path: 'veteran-service-information',
+          title: `${
+            preparerIsVeteran ? 'Your' : 'Veteran’s'
+          } identification information`,
+          uiSchema: veteranServiceInformation.uiSchema,
+          schema: veteranServiceInformation.schema,
           editModeOnReviewPage: true,
         },
       },
