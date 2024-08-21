@@ -23,6 +23,7 @@ import { getFormLink } from '~/platform/forms/helpers';
 import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
+import MissingApplicationHelp from './MissingApplicationHelp';
 import StatusCard from './StatusCard';
 
 const ApplicationsInProgress = ({
@@ -207,6 +208,11 @@ const ApplicationsInProgress = ({
             </p>
           )}
         </DashboardWidgetWrapper>
+      </Toggler>
+      <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
+        <Toggler.Enabled>
+          <MissingApplicationHelp />
+        </Toggler.Enabled>
       </Toggler>
     </div>
   );
