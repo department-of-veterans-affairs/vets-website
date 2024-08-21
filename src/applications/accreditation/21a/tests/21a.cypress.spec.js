@@ -108,6 +108,10 @@ const testConfig = createTestConfig(
         'address_state',
         data => data.educationalInstitutions[0].address.state,
       ),
+      'educational-institutions/0/degree-information': selectDropdownHook(
+        'degree',
+        data => data.educationalInstitutions[0].degree,
+      ),
       jurisdictions: selectDropdownHook(
         'jurisdiction',
         data => data.jurisdiction,
