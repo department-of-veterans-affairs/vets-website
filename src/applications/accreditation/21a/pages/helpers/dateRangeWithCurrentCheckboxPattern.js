@@ -1,7 +1,7 @@
 import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
+  currentOrPastMonthYearDateRangeSchema,
+  currentOrPastMonthYearDateRangeUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 /**
@@ -22,10 +22,14 @@ export const dateRangeWithCurrentCheckboxUI = ({
   currentKey,
   isCurrentChecked,
 }) => ({
-  dateRange: currentOrPastDateRangeUI(
-    { title: fromLabel },
+  dateRange: currentOrPastMonthYearDateRangeUI(
+    {
+      title: fromLabel,
+      hint: 'For example: January 2000',
+    },
     {
       title: toLabel,
+      hint: 'For example: January 2000',
       hideIf: (formData, index) => isCurrentChecked(formData, index),
       required: (formData, index) => !isCurrentChecked(formData, index),
     },
@@ -49,7 +53,7 @@ export const dateRangeWithCurrentCheckboxUI = ({
  * @returns {Object} schema - The schema for the date range with a current checkbox.
  */
 export const dateRangeWithCurrentCheckboxSchema = currentKey => ({
-  dateRange: currentOrPastDateRangeSchema,
+  dateRange: currentOrPastMonthYearDateRangeSchema,
   'view:currentToLabel': {
     type: 'object',
     properties: {},

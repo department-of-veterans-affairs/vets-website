@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -160,6 +161,9 @@ const formConfig = {
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   saveInProgress: {
     messages: {

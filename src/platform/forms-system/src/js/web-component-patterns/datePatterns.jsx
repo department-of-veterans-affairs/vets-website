@@ -1,8 +1,10 @@
 import React from 'react';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import VaMemorableDateField from '../web-component-fields/VaMemorableDateField';
+import VaDateField from '../web-component-fields/VaDateField';
 import {
   validateCurrentOrPastMemorableDate,
+  validateCurrentOrPastMonthYear,
   validateDateRange,
 } from '../validation';
 
@@ -22,19 +24,35 @@ import {
  * @param {string | UIOptions & {
  *   title?: UISchemaOptions['ui:title'],
  *   hint?: string,
+ *   errorMessages?: {
+ *     pattern?: string,
+ *     required?: string
+ *   },
  * }} [options] accepts a single string for title, or an object of options
  * @returns {UISchemaOptions} uiSchema
  */
 const currentOrPastDateUI = options => {
   const { title, errorMessages, required, ...uiOptions } =
     typeof options === 'object' ? options : { title: options };
+
+  // if monthYearOnly is used, the schema pattern also needs
+  // to be updated, so prefer to use currentOrPastMonthYearDateUI
+  // and currentOrPastMonthYearDateSchema rather than passing
+  // monthYearOnly option to this directly
+  const monthYearOnly = uiOptions?.monthYearOnly;
+
   const uiTitle = title ?? 'Date';
+  const localeDateStringOptions = monthYearOnly
+    ? { year: 'numeric', month: 'long' }
+    : { year: 'numeric', month: 'long', day: 'numeric' };
 
   return {
     'ui:title': uiTitle,
-    'ui:webComponentField': VaMemorableDateField,
-    'ui:validations': [validateCurrentOrPastMemorableDate],
+    'ui:webComponentField': monthYearOnly ? VaDateField : VaMemorableDateField,
     'ui:required': required,
+    'ui:validations': monthYearOnly
+      ? [validateCurrentOrPastMonthYear]
+      : [validateCurrentOrPastMemorableDate],
     'ui:errorMessages': {
       pattern:
         errorMessages?.pattern || 'Please enter a valid current or past date',
@@ -51,17 +69,43 @@ const currentOrPastDateUI = options => {
             <>
               {new Date(
                 `${children.props.formData}T00:00:00`,
-              ).toLocaleDateString('en-us', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-              })}
+              ).toLocaleDateString('en-us', localeDateStringOptions)}
             </>
           )}
         </dd>
       </div>
     ),
   };
+};
+
+/**
+ * Web component v3 uiSchema for current or past month and year only dates
+ *
+ * ```js
+ * exampleDate: currentOrPastDateUI('Date of event')
+ * exampleDate: currentOrPastDateUI({
+ *  title: 'Date of event',
+ *  hint: 'This is a hint'
+ * })
+ * exampleDate: {
+ *  ...currentOrPastDateUI('Date of event')
+ * }
+ * ```
+ * @param {string | UIOptions & {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ *   errorMessages?: {
+ *     pattern?: string,
+ *     required?: string
+ *   },
+ * }} [options] accepts a single string for title, or an object of options
+ * @returns {UISchemaOptions} uiSchema
+ */
+const currentOrPastMonthYearDateUI = options => {
+  return currentOrPastDateUI({
+    ...options,
+    monthYearOnly: true,
+  });
 };
 
 /**
@@ -131,6 +175,53 @@ const currentOrPastDateRangeUI = (fromOptions, toOptions, errorMessage) => {
     to: currentOrPastDateUI({ title: toLabel, ...toCustomOptions }),
     ...(errorMessage && { 'ui:errorMessages': { pattern: errorMessage } }),
   };
+};
+
+/**
+ * Web component v3 uiSchema for month and year only date range
+ *
+ * ```js
+ * // Simple usage:
+ * exampleDateRange: currentOrPastDateRangeUI(
+ *   'Start date of event',
+ *   'End date of event',
+ *   'Custom error message'
+ * )
+ *
+ * // Advanced usage:
+ * exampleDateRange: currentOrPastDateRangeUI(
+ *   { title: 'Start date of event', ... },
+ *   { title: 'End date of event', hint: 'This is a hint' },
+ *   'Custom error message'
+ * })
+ * ```
+ * @param {string | UIOptions & {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for start/from date title, or an object of options
+ * @param {string | UIOptions & {
+ *   title?: UISchemaOptions['ui:title'],
+ *   hint?: string,
+ * }} [options] accepts a single string for to/end date title, or an object of options
+ * @param {string} [errorMessage] - Optional custom error message for the date range validation
+ * @returns {UISchemaOptions} uiSchema
+ */
+const currentOrPastMonthYearDateRangeUI = (
+  fromOptions,
+  toOptions,
+  errorMessage,
+) => {
+  return currentOrPastDateRangeUI(
+    {
+      ...fromOptions,
+      monthYearOnly: true,
+    },
+    {
+      ...toOptions,
+      monthYearOnly: true,
+    },
+    errorMessage,
+  );
 };
 
 /**
@@ -230,6 +321,13 @@ const dateOfDeathUI = options => {
  */
 const currentOrPastDateSchema = commonDefinitions.date;
 
+const monthYearDateSchema = {
+  type: 'string',
+  pattern: '^(\\d{4}|XXXX)-(0[1-9]|1[0-2]|XX)$',
+};
+
+const currentOrPastMonthYearDateSchema = monthYearDateSchema;
+
 /**
  * @returns `commonDefinitions.date`
  */
@@ -264,15 +362,38 @@ const currentOrPastDateRangeSchema = {
   required: ['from', 'to'],
 };
 
+/**
+ * Usage:
+ * ```
+ * dateRange: currentOrPastMonthYearDateRangeSchema
+ * dateRange: {
+ *   ...currentOrPastMonthYearDateRangeSchema
+ *   required: []
+ * }
+ * ```
+ */
+const currentOrPastMonthYearDateRangeSchema = {
+  type: 'object',
+  properties: {
+    from: currentOrPastMonthYearDateSchema,
+    to: currentOrPastMonthYearDateSchema,
+  },
+  required: ['from', 'to'],
+};
+
 export {
   currentOrPastDateUI,
   currentOrPastDateDigitsUI,
+  currentOrPastDateRangeUI,
+  currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeUI,
   dateOfBirthUI,
   dateOfDeathUI,
-  currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
   currentOrPastDateSchema,
   currentOrPastDateDigitsSchema,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateRangeSchema,
   dateOfBirthSchema,
   dateOfDeathSchema,
 };

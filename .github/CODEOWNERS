@@ -85,7 +85,7 @@ src/applications/static-pages/supplemental-claim @department-of-veterans-affairs
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/lgy @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/burials @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/burials-ez @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/burial-poc-v6 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-31 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/vre-chapter-36 @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
@@ -161,13 +161,12 @@ src/applications/static-pages/ezr-submission-options @department-of-veterans-aff
 src/applications/check-in @department-of-veterans-affairs/patient-check-in @department-of-veterans-affairs/va-platform-cop-frontend
 
 # IIR
-src/applications/yellow-ribbon @department-of-veterans-affairs/va-iir @department-of-veterans-affairs/va-platform-cop-frontend
-
 
 # /--- VSA
 
 # GOVCIO Team
 
+src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend

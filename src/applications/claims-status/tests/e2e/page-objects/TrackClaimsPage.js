@@ -304,12 +304,12 @@ class TrackClaimsPage {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message');
+          .find('#file-input-error-alert');
         cy.injectAxeThenAxeCheck();
       });
     cy.get('va-file-input')
       .shadow()
-      .find('#error-message')
+      .find('#file-input-error-alert')
       .should('contain', 'Please select a file first');
     if (is5103Notice) {
       cy.get('.due-date-header').should(

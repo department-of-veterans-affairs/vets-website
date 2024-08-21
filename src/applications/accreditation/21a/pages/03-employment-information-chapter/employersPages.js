@@ -169,8 +169,8 @@ const dateRangePage = {
         })}`,
     ),
     ...dateRangeWithCurrentCheckboxUI({
-      titleStart: 'Employment start date',
-      titleEnd: 'Employment end date',
+      fromLabel: 'Employment start date',
+      toLabel: 'Employment end date',
       currentLabel: 'I still work here.',
       currentKey: 'currentlyEmployed',
       isCurrentChecked: (formData, index) =>
@@ -188,14 +188,17 @@ const dateRangePage = {
 /** @returns {PageSchema} */
 const reasonForLeavingPage = {
   uiSchema: {
-    reasonForLeaving: textareaUI('Explain why you left this employer.'),
+    reasonForLeaving: textareaUI({
+      title: 'Explain why you left this employer.',
+      required: (formData, index) =>
+        !formData?.employers?.[index]?.currentlyEmployed,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       reasonForLeaving: textareaSchema,
     },
-    required: ['reasonForLeaving'],
   },
 };
 

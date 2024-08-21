@@ -95,28 +95,37 @@ const branchAndDateRangePage = {
 /** @returns {PageSchema} */
 const characterOfDischargePage = {
   uiSchema: {
-    characterOfDischarge: selectUI('Character of discharge'),
+    characterOfDischarge: selectUI({
+      title: 'Character of discharge',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
     },
-    required: ['characterOfDischarge'],
   },
 };
 
 /** @returns {PageSchema} */
 const explanationOfDischargePage = {
   uiSchema: {
-    explanationOfDischarge: textareaUI('Explain the nature of your discharge.'),
+    explanationOfDischarge: textareaUI({
+      title: 'Explain the nature of your discharge.',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing &&
+        requireExplanation(
+          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
+        ),
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       explanationOfDischarge: textareaSchema,
     },
-    required: ['explanationOfDischarge'],
   },
 };
 

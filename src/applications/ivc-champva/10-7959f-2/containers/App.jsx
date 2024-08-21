@@ -1,6 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import formConfig from '../config/form';
 
@@ -20,7 +23,12 @@ export default function App({ location, children }) {
     <>
       <va-breadcrumbs breadcrumb-list={bcString} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-        {children}
+        <DowntimeNotification
+          appTitle={`CHAMPVA Form ${formConfig.formId}`}
+          dependencies={[externalServices.pega]}
+        >
+          {children}
+        </DowntimeNotification>
       </RoutedSavableApp>
     </>
   );
