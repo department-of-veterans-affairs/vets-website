@@ -20,16 +20,12 @@ import {
 } from '../util/constants';
 import { updateTriageTeamRecipients } from '../actions/recipients';
 import { addAlert } from '../actions/alerts';
-// import SmRouteLeavingGuard from '../components/shared/SmRouteLeavingGuard';
-import NavigationGuardTest from '../components/shared/NavigationGuardTest';
+import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  // const [navigationError, setNavigationError] = useState(null);
   const [allTriageTeams, setAllTriageTeams] = useState([]);
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const [bypassModal, setBypassModal] = useState(false);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
 
   const [
@@ -76,45 +72,6 @@ const EditContactList = () => {
     [draftMessageId, history],
   );
 
-  // useEffect(
-  //   () => {
-  //     setAllTriageTeams(allRecipients);
-  //   },
-  //   [allRecipients],
-  // );
-
-  // useEffect(
-  //   () => {
-  //     if (blockedTriageGroupList.length > 0) {
-  //       setShowBlockedTriageGroupAlert(true);
-  //     }
-  //   },
-  //   [blockedTriageGroupList],
-  // );
-
-  // useEffect(() => {
-  //   updatePageTitle(
-  //     `${ParentComponent.CONTACT_LIST} ${PageTitles.PAGE_TITLE_TAG}`,
-  //   );
-  //   focusElement(document.querySelector('h1'));
-  // }, []);
-
-  // const isContactListChanged = useMemo(
-  //   () => !_.isEqual(allRecipients, allTriageTeams),
-  //   [allRecipients, allTriageTeams],
-  // );
-
-  // const navigateBack = useCallback(
-  //   () => {
-  //     if (draftMessageId) {
-  //       history.push(`/thread/${draftMessageId}`);
-  //     } else {
-  //       history.push(Paths.INBOX);
-  //     }
-  //   },
-  //   [draftMessageId, history],
-  // );
-
   const updatePreferredTeam = (triageTeamId, selected) => {
     setAllTriageTeams(prevTeams =>
       prevTeams.map(
@@ -129,16 +86,13 @@ const EditContactList = () => {
     );
   };
 
-  // const handleConfirmSaveAndExit = e => {
-  //   e.preventDefault();
-  //   navigateBack();
-  // };
-
   const handleSaveAndExit = async (e, forceSave) => {
     e.preventDefault();
+
     if (forceSave) {
       await setIsNavigationBlocked(false);
     }
+
     if (forceSave || !isNavigationBlocked) {
       dispatch(updateTriageTeamRecipients(allTriageTeams));
       dispatch(
@@ -155,13 +109,7 @@ const EditContactList = () => {
 
   const handleCancel = e => {
     e.preventDefault();
-    // if (isContactListChanged) {
-    //   console.log('handleCancel');
-    //   // setBypassModal(false);
-    //   // setModalVisible(true);
-    // } else {
     navigateBack();
-    // }
   };
 
   useEffect(
@@ -196,19 +144,13 @@ const EditContactList = () => {
 
   return (
     <div>
-      {/* <SmRouteLeavingGuard
-        when={NavigationError?.confirmButtonText}
-        cancelButtonText={navictListChanged}
-        title={navigationError?.title}
-        confirmButtonText={nagationError?.cancelButtonText}
-        modalVisible={modalVisible}
-        setModalVisible={setModalVisible}
-        swapModalButtons
-        onConfirmNavigation={handleModalConfirm}
-        onCancelNavigation={handleModalCancel}
-        bypassModal={bypassModal}
-        // parentComponent={ParentComponent.CONTACT_LIST}
-      /> */}
+      <SmRouteNavigationGuard
+        when={isNavigationBlocked}
+        onConfirmNavigation={handleSaveAndExit}
+        modalTitle={navigationError?.title}
+        confirmButtonText={navigationError?.confirmButtonText}
+        cancelButtonText={navigationError?.cancelButtonText}
+      />
 
       <h1>Contact list</h1>
       <p
@@ -260,14 +202,6 @@ const EditContactList = () => {
           return null;
         })}
 
-        <NavigationGuardTest
-          when={isNavigationBlocked}
-          onConfirmNavigation={handleSaveAndExit}
-          modalTitle={navigationError?.title}
-          confirmButtonText={navigationError?.confirmButtonText}
-          cancelButtonText={navigationError?.cancelButtonText}
-        />
-
         <div
           className="
             vads-u-margin-top--3
@@ -277,32 +211,15 @@ const EditContactList = () => {
             small-screen:vads-u-align-content--flex-start
           "
         >
-          {/* <va-button
+          <va-button
             text="Save and exit"
             class="
               vads-u-margin-bottom--1
               small-screen:vads-u-margin-bottom--0
             "
-            onClick={handleSaveAndExit}
-          />
-          <va-button text="Cancel" secondary onClick={handleCancel} /> */}
-          <button
-            text="Save and exit"
-            className="
-              vads-u-margin-bottom--1
-              small-screen:vads-u-margin-bottom--0
-            "
             onClick={e => handleSaveAndExit(e, true)}
-          >
-            Save and exit
-          </button>
-          <button
-            text="Cancel"
-            className="usa-button usa-button-secondary"
-            onClick={handleCancel}
-          >
-            Cancel
-          </button>
+          />
+          <va-button text="Cancel" secondary onClick={handleCancel} />
         </div>
         <GetFormHelp />
       </form>
