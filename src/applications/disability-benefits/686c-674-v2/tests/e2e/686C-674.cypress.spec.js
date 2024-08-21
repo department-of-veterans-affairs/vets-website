@@ -62,6 +62,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
+
       'veteran-information': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -96,6 +97,23 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
+      'current-marriage-information/spouse-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get(
+            'select#options[name="root_doesLiveWithSpouse_address_state"]',
+            { timeout: 1000 },
+          )
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get(
+            'select#options[name="root_doesLiveWithSpouse_address_state"]',
+          ).select('AL');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'add-child/0': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
@@ -108,12 +126,14 @@ const testConfig = createTestConfig(
           cy.get('.usa-button-primary').click();
         });
       },
+
       'add-child/0/additional-information': ({ afterHook }) => {
         afterHook(() => {
           cy.get('#root_doesChildLiveWithYouYes').click();
           cy.get('.usa-button-primary').click();
         });
       },
+
       '686-report-dependent-death/0/additional-information': ({
         afterHook,
       }) => {
@@ -128,6 +148,7 @@ const testConfig = createTestConfig(
       },
     },
   },
+
   manifest,
   formConfig,
 );

@@ -2,30 +2,12 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import { customLocationSchema } from '../../../helpers';
 
 export const schema = {
   type: 'object',
   properties: {
-    currentMarriageInformation: {
-      type: 'object',
-      properties: {
-        outsideUsa: {
-          type: 'boolean',
-        },
-        location: {
-          type: 'object',
-          properties: {
-            city: {
-              type: 'string',
-            },
-            state: {
-              type: 'object',
-              properties: {},
-            },
-          },
-        },
-      },
-    },
+    currentMarriageInformation: customLocationSchema,
   },
 };
 
