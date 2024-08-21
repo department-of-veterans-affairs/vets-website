@@ -314,13 +314,11 @@ const convertEkgRecord = record => {
 //   };
 // };
 
-export const buildResults = record => {
-  return `Report:${record.reportText
-    .replace(/\r\n|\r/g, '\n')
-    .replace(/^/gm, '   ')}  
-Impression:${record.impressionText
-    .replace(/\r\n|\r/g, '\n')
-    .replace(/^/gm, '   ')}`;
+export const buildRadiologyResults = record => {
+  const reportText = record?.reportText || '\n';
+  const impressionText = record?.impressionText || '\n';
+  return `Report:${reportText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}  
+Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
 };
 
 export const convertMhvRadiologyRecord = record => {
@@ -339,7 +337,7 @@ export const convertMhvRadiologyRecord = record => {
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
-    results: buildResults(record),
+    results: buildRadiologyResults(record),
     images: [],
   };
 };
