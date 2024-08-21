@@ -41,8 +41,8 @@
       {
         "branch": "Army",
         "dateRange": {
-          "from": "2000-01-01",
-          "to": "2004-12-31"
+          "from": "2005-01",
+          "to": "2009-12"
         },
         "characterOfDischarge": "Dishonorable",
         "explanationOfDischarge": "My discharge was dishonorable"
