@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 import { DefaultFolders, Categories, Paths } from '../../util/constants';
 import { dateFormat } from '../../util/helpers';
 
+// TEST
+
 const unreadMessageClassList = 'vads-u-font-weight--bold';
 const readMessageClassList = '';
 const attachmentClasses = 'vads-u-margin-right--1 vads-u-font-size--sm';
