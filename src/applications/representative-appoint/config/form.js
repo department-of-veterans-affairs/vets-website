@@ -178,6 +178,13 @@ const formConfig = {
           schema: veteranPersonalInformation.schema,
           editModeOnReviewPage: true,
         },
+        veteranContactMailing: {
+          path: 'veteran-contact-mailing',
+          title: `${preparerIsVeteran ? 'Your' : 'Veteran’s'}  mailing address`,
+          uiSchema: veteranContactMailing.uiSchema,
+          schema: veteranContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
           title: `${
@@ -185,15 +192,6 @@ const formConfig = {
           } phone number and email address`,
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
-          editModeOnReviewPage: true,
-        },
-        veteranContactMailing: {
-          path: 'veteran-contact-mailing',
-          title: `${
-            preparerIsVeteran ? 'Your' : 'Veteran’s'
-          }  phone number and email address`,
-          uiSchema: veteranContactMailing.uiSchema,
-          schema: veteranContactMailing.schema,
           editModeOnReviewPage: true,
         },
         veteranIdentification: {
