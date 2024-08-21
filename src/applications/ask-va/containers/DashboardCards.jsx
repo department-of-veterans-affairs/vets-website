@@ -1,10 +1,3 @@
-import {
-  VaAlert,
-  VaCard,
-  VaLink,
-  VaLoadingIndicator,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
@@ -95,7 +88,7 @@ const DashboardCards = () => {
       <div className="dashboard-cards-grid">
         {sortedInquiries.map(card => (
           <div className="" key={card.inquiryNumber}>
-            <VaCard className="vacard">
+            <va-card className="vacard">
               <div>
                 <span className="usa-label">{card.status}</span>
               </div>
@@ -111,9 +104,9 @@ const DashboardCards = () => {
                 {card.submitterQuestion}
               </p>
               <Link to={`/user/dashboard/${card.id}`}>
-                <VaLink active text="Check details" />
+                <va-link active text="Check details" />
               </Link>
-            </VaCard>
+            </va-card>
           </div>
         ))}
       </div>
@@ -122,15 +115,15 @@ const DashboardCards = () => {
 
   if (error) {
     return (
-      <VaAlert status="info" className="vads-u-margin-y--4">
+      <va-alert status="info" className="vads-u-margin-y--4">
         <ServerErrorAlert />
-      </VaAlert>
+      </va-alert>
     );
   }
 
   if (loading) {
     return (
-      <VaLoadingIndicator
+      <va-loading-indicator
         data-testid="loading-indicator"
         message="Loading..."
       />
@@ -147,26 +140,24 @@ const DashboardCards = () => {
           {/* Filters and Buttons  */}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
             <div className="vads-u-flex--1">
-              <VaSelect
+              <va-select
                 hint={null}
                 label="Last updated"
                 name="lastUpdated"
                 value={lastUpdatedFilter}
                 onVaSelect={event => setLastUpdatedFilter(event.target.value)}
-                uswds
               >
                 <option value="newestToOldest">Newest to oldest</option>
                 <option value="oldestToNewest">Oldest to newest</option>
-              </VaSelect>
+              </va-select>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <VaSelect
+              <va-select
                 hint={null}
                 label="Filter by category"
                 name="category"
                 value={categoryFilter}
                 onVaSelect={event => setCategoryFilter(event.target.value)}
-                uswds
               >
                 <option value="All">All</option>
                 {categories.map(category => (
@@ -174,23 +165,22 @@ const DashboardCards = () => {
                     {category}
                   </option>
                 ))}
-              </VaSelect>
+              </va-select>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <VaSelect
+              <va-select
                 hint={null}
                 label="Filter by status"
                 name="status"
                 value={statusFilter}
                 onVaSelect={event => setStatusFilter(event.target.value)}
-                uswds
               >
                 <option value="All">All</option>
                 <option value="New">New</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Reopened">Reopened</option>
                 <option value="Resolved">Archived</option>
-              </VaSelect>
+              </va-select>
             </div>
           </div>
           {/* Inquiries Views */}
@@ -216,7 +206,6 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
-            uswds
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.
