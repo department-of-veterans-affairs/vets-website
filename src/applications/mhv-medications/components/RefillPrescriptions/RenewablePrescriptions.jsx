@@ -120,7 +120,7 @@ const RenewablePrescriptions = ({ renewablePrescriptionsList = [] }) => {
           return (
             <div
               key={idx}
-              className={`vads-u-margin-top--${idx !== 0 ? '5' : '2p5'}`}
+              className={`vads-u-margin-top--${idx !== 0 ? '3' : '2p5'}`}
             >
               <Link
                 data-testid={`medication-details-page-link-${idx}`}

@@ -37,7 +37,11 @@ import pointOfContact from '../pages/pointOfContact';
 import contestableIssues from '../pages/contestableIssues';
 import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
+
+import optionForMst from '../pages/optionForMst';
+import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
+import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
 import evidenceVaRecordsRequest from '../pages/evidenceVaRecordsRequest';
 import evidenceVaRecords from '../pages/evidenceVaRecords';
@@ -51,6 +55,7 @@ import {
   hasVAEvidence,
   hasPrivateEvidence,
   hasOtherEvidence,
+  hasMstOption,
 } from '../utils/evidence';
 import { hasHomeAndMobilePhone } from '../utils/contactInfo';
 
@@ -254,6 +259,20 @@ const formConfig = {
           schema: optIn.schema,
           scrollAndFocusTarget: focusH3,
         },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
+        },
       },
     },
 
@@ -268,6 +287,13 @@ const formConfig = {
           uiSchema: notice5103.uiSchema,
           schema: notice5103.schema,
           scrollAndFocusTarget: focusAlertH3,
+        },
+        facilityTypes: {
+          title: 'Facility types',
+          path: 'facility-types',
+          uiSchema: facilityTypes.uiSchema,
+          schema: facilityTypes.schema,
+          scrollAndFocusTarget: focusRadioH3,
         },
         evidenceVaRecordsRequest: {
           title: 'Request VA medical records',

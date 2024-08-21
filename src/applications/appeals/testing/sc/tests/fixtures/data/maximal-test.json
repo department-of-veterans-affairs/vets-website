@@ -53,8 +53,8 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "Tinnitus",
-          "description": "Service connection for Tinnitus is granted with an evaluation of 0 percent effective September 25, 2019.",
+          "ratingIssueSubjectText": "Sleep apnea",
+          "description": "Service connection for sleep apnea is granted with an evaluation of 0 percent effective September 25, 2019.",
           "ratingIssuePercentNumber": "0",
           "approxDecisionDate": "2021-6-1",
           "decisionIssueId": 42,
@@ -62,56 +62,37 @@
           "ratingDecisionReferenceId": "999"
         },
         "view:selected": true
-      },
-      {
-        "type": "contestableIssue",
-        "attributes": {
-          "ratingIssueSubjectText": "Monocular vision",
-          "ratingIssuePercentNumber": "5",
-          "approxDecisionDate": "2021-6-4",
-          "decisionIssueId": 1,
-          "ratingIssueReferenceId": "2",
-          "ratingDecisionReferenceId": ""
-        }
       }
     ],
     "legacyCount": 2,
     "additionalIssues": [
       {
-        "issue": "Test",
+        "issue": "Tinnitus",
         "decisionDate": "2022-1-1",
-        "view:selected": true
-      },
-      {
-        "issue": "Test 2",
-        "decisionDate": "2022-6-28",
         "view:selected": true
       }
     ],
     "socOptIn": true,
+    "mstOption": true,
+    "optionIndicator": "revoke",
     "form5103Acknowledged": true,
     "privacyAgreementAccepted": true,
     "locations": [
       {
         "locationAndName": "VAMC Location 1",
         "issues": [
-          "Test",
-          "Test 2"
+          "Tinnitus"
         ],
-        "evidenceDates": {
-          "from": "2001-1-1",
-          "to": "2011-1-1"
-        }
+        "treatmentDate": "2001-1",
+        "noDate": false
       },
       {
         "locationAndName": "VAMC Location 2",
         "issues": [
-          "Test 2"
+          "Headaches"
         ],
-        "evidenceDates": {
-          "from": "2002-2-2",
-          "to": "2012-2-2"
-        }
+        "treatmentDate": "",
+        "noDate": true
       }
     ],
     "providerFacility": [
@@ -125,8 +106,8 @@
           "postalCode": "90210"
         },
         "issues": [
-          "Test",
-          "Test 2"
+          "Headaches",
+          "Tinnitus"
         ],
         "treatmentDateRange": {
           "from": "2022-1-1",
@@ -143,7 +124,7 @@
           "postalCode": "90211"
         },
         "issues": [
-          "Test 2"
+          "Sleep apnea"
         ],
         "treatmentDateRange": {
           "from": "2022-2-1",
@@ -182,7 +163,7 @@
       },
       {
         "name": "photos.pdf",
-        "confirmationCode": "pppppppp-qqqql-rrrr-ssss-ttttttttttt",
+        "confirmationCode": "pppppppp-qqqq-rrrr-ssss-ttttttttttt",
         "attachmentId": "L070",
         "size": 40000,
         "isEncrypted": false
