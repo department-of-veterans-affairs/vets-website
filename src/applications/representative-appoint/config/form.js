@@ -28,10 +28,7 @@ import {
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
-import {
-  preparerIsVeteranAndHasPrefill,
-  preparerIsVeteran,
-} from '../utilities/helpers';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
@@ -105,7 +102,7 @@ const formConfig = {
         },
       },
     },
-    yourInformation: {
+    claimant: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -117,7 +114,7 @@ const formConfig = {
         },
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          depends: formData => !preparerIsVeteranAndHasPrefill({ formData }),
+          depends: formData => !preparerIsVeteran({ formData }),
           initialData:
             /* istanbul ignore next */
             !!mockData && environment.isLocalhost() && !window.Cypress
@@ -129,7 +126,7 @@ const formConfig = {
         },
         confirmClaimantPersonalInformation: {
           path: 'confirm-claimant-personal-information',
-          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your Personal Information',
           uiSchema: confirmClaimantPersonalInformation.uiSchema,
           schema: confirmClaimantPersonalInformation.schema,
@@ -137,6 +134,7 @@ const formConfig = {
         },
         claimantContactPhoneEmail: {
           path: 'claimant-contact-phone-email',
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your phone number and email address',
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
@@ -154,11 +152,13 @@ const formConfig = {
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
             const { 'view:isLoggedIn': isLoggedIn } = formData;
-            return isLoggedIn;
+            const isNotVeteran = !preparerIsVeteran({ formData });
+            return isLoggedIn && isNotVeteran;
           },
         }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your mailing address',
           uiSchema: claimantContactMailing.uiSchema,
           schema: claimantContactMailing.schema,
