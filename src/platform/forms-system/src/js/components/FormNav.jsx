@@ -2,7 +2,11 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import uniq from 'lodash/uniq';
 
-import { waitForRenderThenFocus, scrollTo } from 'platform/utilities/ui';
+import {
+  waitForRenderThenFocus,
+  focusElement,
+  scrollTo,
+} from 'platform/utilities/ui';
 
 import {
   getChaptersLengthDisplay,
@@ -109,18 +113,21 @@ export default function FormNav(props) {
 
       // Focus on review & submit header
       if (
-        !hideFormNavProgress &&
-        (page.chapterKey === 'review' ||
-          window.location.pathname.endsWith('review-and-submit'))
+        page.chapterKey === 'review' ||
+        window.location.pathname.endsWith('review-and-submit')
       ) {
         scrollTo('topScrollElement');
-        // Focus on review & submit page h2 in stepper
-        focusAfterRender(
-          'va-segmented-progress-bar',
-          document,
-          250,
-          `h${PROGRESS_BAR_HEADER_LEVEL}`,
-        );
+        if (hideFormNavProgress) {
+          focusElement('h1');
+        } else {
+          // Focus on review & submit page h2 in stepper
+          focusAfterRender(
+            'va-segmented-progress-bar',
+            document,
+            250,
+            `h${PROGRESS_BAR_HEADER_LEVEL}`,
+          );
+        }
       }
     },
     [current, hideFormNavProgress, index, page.chapterKey, focusAfterRender],
