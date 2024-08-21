@@ -1,0 +1,31 @@
+{
+  "data": [
+    {
+      "id": "3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80",
+      "type": "submission_status",
+      "attributes": {
+        "id": "3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80",
+        "detail": "",
+        "formType": "21-4142",
+        "message": null,
+        "status": "received",
+        "createdAt": "2023-12-15T20:40:47.583Z",
+        "updatedAt": "2023-12-15T20:40:54.474Z"
+      }
+    },
+    {
+      "id": "c4845944-87bf-444c-8e6e-5bfeed67fb12",
+      "type": "submission_status",
+      "attributes": {
+        "id": "c4845944-87bf-444c-8e6e-5bfeed67fb12",
+        "detail": "",
+        "formType": "21-0845",
+        "message": null,
+        "status": "received",
+        "createdAt": "2023-12-20T18:04:04.925Z",
+        "updatedAt": "2023-12-20T18:04:09.292Z"
+      }
+    }
+  ],
+  "errors": []
+}

@@ -4,23 +4,23 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import {
-  vhaNotificationDescription,
-  vhaNotificationLabel,
-  vhaNotificationHint,
-  vhaNotificationChoices,
-} from '../content/vhaNotifications';
+  optionIndicatorDescription,
+  optionIndicatorLabel,
+  optionIndicatorHint,
+  optionIndicatorChoices,
+} from '../content/optionIndicator';
 
 export default {
   uiSchema: {
     'view:vhaContent': {
-      'ui:description': vhaNotificationDescription,
+      'ui:description': optionIndicatorDescription,
     },
-    vhaNotification: radioUI({
-      title: vhaNotificationLabel,
-      hint: vhaNotificationHint,
+    optionIndicator: radioUI({
+      title: optionIndicatorLabel,
+      hint: optionIndicatorHint,
       enableAnalytics: true,
       labelHeaderLevel: '3',
-      labels: vhaNotificationChoices,
+      labels: optionIndicatorChoices,
       required: false,
     }),
   },
@@ -31,7 +31,7 @@ export default {
         type: 'object',
         properties: {},
       },
-      vhaNotification: radioSchema(Object.keys(vhaNotificationChoices)),
+      optionIndicator: radioSchema(Object.keys(optionIndicatorChoices)),
     },
   },
 };
