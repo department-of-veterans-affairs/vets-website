@@ -100,4 +100,24 @@ describe('<VeteranProgramsAndSupport>', () => {
     expect(showModalMock.calledOnce).to.be.true;
     wrapper.unmount();
   });
+  it('should hide Yellow Ribbon ROW from the table when type is "Flight', () => {
+    const tree = shallow(
+      <VeteranProgramsAndSupport
+        institution={{ type: 'FLIGHT' }}
+        constants={{}}
+      />,
+    );
+    expect(tree.find('va-table-row').at(2)).to.have.lengthOf(0);
+    tree.unmount();
+  });
+  it('should show Yellow Ribbon ROW from the table when type is not "Flight', () => {
+    const tree = shallow(
+      <VeteranProgramsAndSupport
+        institution={{ type: 'PUBLIC' }}
+        constants={{}}
+      />,
+    );
+    expect(tree.find('va-table-row').at(2)).to.have.lengthOf(1);
+    tree.unmount();
+  });
 });

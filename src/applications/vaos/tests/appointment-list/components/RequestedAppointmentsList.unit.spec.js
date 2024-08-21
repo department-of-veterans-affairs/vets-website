@@ -5,8 +5,8 @@ import moment from 'moment';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { within } from '@testing-library/dom';
 import reducers from '../../../redux/reducer';
-import { getVAOSRequestMock } from '../../mocks/v2';
-import { mockVAOSAppointmentsFetch } from '../../mocks/helpers.v2';
+import { getVAOSRequestMock } from '../../mocks/mock';
+import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
 import { renderWithStoreAndRouter, getTestDate } from '../../mocks/setup';
 import RequestedAppointmentsList from '../../../appointment-list/components/RequestedAppointmentsList';
 
@@ -20,7 +20,6 @@ const initialStateVAOSService = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
     vaOnlineSchedulingVAOSServiceRequests: true,
-    vaOnlineSchedulingStatusImprovement: true,
   },
 };
 

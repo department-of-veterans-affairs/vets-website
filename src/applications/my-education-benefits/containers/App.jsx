@@ -22,6 +22,7 @@ import { duplicateArrays } from '../utils/validation';
 export const App = ({
   children,
   claimantInfo,
+  dgiRudisillHideBenefitsSelectionStep,
   eligibility,
   exclusionPeriods,
   featureTogglesLoaded,
@@ -288,6 +289,15 @@ export const App = ({
           mebAutoPopulateRelinquishmentDate,
         });
       }
+      if (
+        dgiRudisillHideBenefitsSelectionStep !==
+        formData.dgiRudisillHideBenefitsSelectionStep
+      ) {
+        setFormData({
+          ...formData,
+          dgiRudisillHideBenefitsSelectionStep,
+        });
+      }
 
       if (showMebEnhancements09 !== formData.showMebEnhancements09) {
         setFormData({
@@ -321,6 +331,7 @@ export const App = ({
       }
     },
     [
+      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
@@ -358,7 +369,12 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+        if (
+          showDgiDirectDeposit1990EZ &&
+          isLoggedIn &&
+          isLOA3 &&
+          !fetchedDirectDeposit
+        ) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
@@ -428,6 +444,7 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),

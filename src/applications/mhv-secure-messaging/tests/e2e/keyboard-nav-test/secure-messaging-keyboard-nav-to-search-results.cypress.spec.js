@@ -3,9 +3,6 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
 
 describe('Secure Messaging Inbox Folder checks', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
-
   const {
     data: [, secondElement, thirdElement],
     ...rest
@@ -14,8 +11,8 @@ describe('Secure Messaging Inbox Folder checks', () => {
   const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
 
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
 
   it('Verify filter works correctly and highlight the filter text', () => {
@@ -27,10 +24,10 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterData('test');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.verifyFilterResults('test', mockFilterResults);
-    landingPage.verifyFilterTextHighLightedInSearch();
+    PatientInboxPage.inputFilterData('test');
+    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientInboxPage.verifyFilterResults('test', mockFilterResults);
+    PatientInboxPage.verifyFilterTextHighLightedInSearch();
   });
 
   it('Verify filter have no result', () => {
@@ -42,8 +39,8 @@ describe('Secure Messaging Inbox Folder checks', () => {
         },
       },
     });
-    landingPage.inputFilterData('Functions');
-    landingPage.clickFilterMessagesButton(mockFilterResults);
-    landingPage.verifyNoMatchFilterFocusAndText();
+    PatientInboxPage.inputFilterData('Functions');
+    PatientInboxPage.clickFilterMessagesButton(mockFilterResults);
+    PatientInboxPage.verifyNoMatchFilterFocusAndText();
   });
 });

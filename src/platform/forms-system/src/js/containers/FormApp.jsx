@@ -1,10 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Scroll from 'react-scroll';
+import PropTypes from 'prop-types';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { isLoggedIn } from 'platform/user/selectors';
 
+import BackLink from '../components/BackLink';
 import FormNav from '../components/FormNav';
 import FormTitle from '../components/FormTitle';
 import { isInProgress, hideFormTitle } from '../helpers';
@@ -42,9 +43,15 @@ class FormApp extends React.Component {
       typeof formConfig.title === 'function'
         ? formConfig.title(this.props)
         : formConfig.title;
+    const subTitle =
+      typeof formConfig.subTitle === 'function'
+        ? formConfig.subTitle(this.props)
+        : formConfig.subTitle;
     const { noTitle, noTopNav, fullWidth } = formConfig?.formOptions || {};
     const notProd = !environment.isProduction();
     const hasHiddenFormTitle = hideFormTitle(formConfig, trimmedPathname);
+    let useTopBackLink = false;
+    const { CustomTopContent } = formConfig;
 
     let formTitle;
     let formNav;
@@ -54,7 +61,11 @@ class FormApp extends React.Component {
     //    specified in the form config
     // 2. there is a title specified in the form config
     if (!isIntroductionPage && !isNonFormPage && !hasHiddenFormTitle && title) {
-      formTitle = <FormTitle title={title} subTitle={formConfig.subTitle} />;
+      formTitle = <FormTitle title={title} subTitle={subTitle} />;
+    }
+
+    if (!isNonFormPage) {
+      useTopBackLink = formConfig.useTopBackLink;
     }
 
     // Show nav only if we're not on the intro, form-saved, error, confirmation
@@ -90,6 +101,10 @@ class FormApp extends React.Component {
         <div className={notProd && fullWidth ? '' : 'row'}>
           <div className={wrapperClass}>
             <Element name="topScrollElement" />
+            {CustomTopContent && (
+              <CustomTopContent currentLocation={currentLocation} />
+            )}
+            {useTopBackLink && <BackLink />}
             {notProd && noTitle ? null : formTitle}
             {notProd && noTopNav ? null : formNav}
             <Element name="topContentElement" />
@@ -106,6 +121,24 @@ class FormApp extends React.Component {
     );
   }
 }
+
+FormApp.propTypes = {
+  children: PropTypes.any,
+  currentLocation: PropTypes.shape({
+    pathname: PropTypes.string,
+  }),
+  formConfig: PropTypes.shape({
+    additionalRoutes: PropTypes.array,
+    footerContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+    formOptions: PropTypes.shape({}),
+    subTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    title: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    CustomTopContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+  }),
+  formData: PropTypes.shape({}),
+  inProgressFormId: PropTypes.number,
+  isLoggedIn: PropTypes.bool,
+};
 
 const mapStateToProps = state => ({
   formData: state.form.data,

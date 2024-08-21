@@ -8,14 +8,14 @@ const ComboAlert = ({ children }) => children;
 ComboAlert.Error = () => {
   return (
     <va-alert
-      class="row vads-u-margin-bottom--5"
+      class="row vads-u-margin-y--4"
       status="error"
       data-testid="balance-card-combo-alert-error"
     >
-      <h2 slot="headline" className="vads-u-font-size--h3">
+      <h2 slot="headline">
         We can’t access your debt and copay records right now
       </h2>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         We’re sorry. Information about debts and copays you might have is
         unavailable because something went wrong on our end. Please check back
         soon.
@@ -25,6 +25,9 @@ ComboAlert.Error = () => {
         If you continue having trouble viewing information about your current
         debts and bills, contact us online through{' '}
         <a href="https://ask.va.gov">Ask VA</a>.
+      </p>
+      <p className="vads-u-margin-bottom--0">
+        <va-link active text="Contact us at Ask VA" url="https://ask.va.gov" />
       </p>
     </va-alert>
   );
@@ -40,7 +43,7 @@ ComboAlert.Zero = () => {
       <h2 slot="headline" className="vads-u-font-size--h3">
         You don’t have any current VA debt or copay bills
       </h2>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         Our records show you don’t have any current VA benefit debt and you
         haven’t received a copay bill in the past 6 months.
       </p>
@@ -61,6 +64,9 @@ ComboAlert.Zero = () => {
           ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </li>
       </ul>
+      <p className="vads-u-margin-bottom--0">
+        <va-link active text="Return to VA.gov" url="https://va.gov" />
+      </p>
     </va-alert>
   );
 };

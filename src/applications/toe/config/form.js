@@ -89,6 +89,8 @@ const formConfig = {
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EMEB,
@@ -783,9 +785,10 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[formFields.email] !== field[formFields.confirmEmail]
+                    field?.email?.toLowerCase() !==
+                    field?.confirmEmail?.toLowerCase()
                   ) {
-                    errors[formFields.confirmEmail].addError(
+                    errors.confirmEmail?.addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -1310,7 +1313,7 @@ const formConfig = {
                 >
                   <img
                     key="check-image-src"
-                    style={{ marginTop: '1rem' }}
+                    style={{ marginTop: '0.625rem' }}
                     src={checkImageSrc}
                     alt="Example of a check showing where the account and routing numbers are"
                   />

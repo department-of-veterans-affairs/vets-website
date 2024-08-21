@@ -28,7 +28,7 @@ const IssueSummary = ({ formData }) => {
           You’ve selected these issues for review
         </h3>
       </legend>
-      <ul className="issues-summary vads-u-margin-bottom--0">
+      <ul className="issues-summary vads-u-margin-bottom--0 remove-bullets">
         {issues.length ? (
           issues.map((issue, index) => (
             <li key={index} className={listClassNames}>

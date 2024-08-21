@@ -23,7 +23,7 @@ const SectionGuideButton = props => {
         type="button"
       >
         <strong>In the Messages section</strong>
-        <i className="fas fa-bars" aria-hidden="true" />
+        <va-icon icon="menu" aria-hidden="true" />
       </button>
     </div>
   );

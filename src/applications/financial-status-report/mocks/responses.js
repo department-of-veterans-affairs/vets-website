@@ -6,7 +6,6 @@ module.exports = {
     data: {
       type: 'feature_toggles',
       features: [
-        { name: 'combined_financial_status_report_enhancements', value: true },
         { name: 'show_financial_status_report', value: true },
         { name: 'show_financial_status_report_wizard', value: true },
       ],

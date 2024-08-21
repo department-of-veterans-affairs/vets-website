@@ -1,9 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { render } from '@testing-library/react';
 
-import userEvent from '@testing-library/user-event';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import TextareaWidget from '../../components/TextareaWidget';
 
@@ -37,13 +35,5 @@ describe('VAOS Component: TextareaWidget', () => {
       'value',
       'Test',
     );
-  });
-
-  it.skip('should call onChange', () => {
-    const onChange = sinon.spy();
-    const screen = render(<TextareaWidget onChange={onChange} schema={{}} />);
-
-    userEvent.type(screen.getByRole('textbox'), 'w');
-    expect(onChange.calledWith('w')).to.be.true;
   });
 });

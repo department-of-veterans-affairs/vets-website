@@ -289,41 +289,92 @@ describe('NearbyVetCenters', () => {
     expect(wrapper.find('h2').exists()).to.be.false;
     wrapper.unmount();
   });
+});
+describe('automated', () => {
+  const automatedState = {
+    facility: { loading: false },
+    featureToggles: {
+      loading: false,
+    },
+  };
 
-  describe('automated', () => {
-    const automatedState = {
-      facility: { loading: false },
-      featureToggles: {
-        loading: false,
-      },
-    };
+  it('should render auto-fetched vet center', done => {
+    const fakeStore = createFakeStore(automatedState);
+    fetchedVetCenters.data[0].attributes.operatingStatus.code = 'NORMAL';
+    fetchedVetCenters.data[0].attributes.operatingStatus.additionalInfo = undefined;
+    mockApiRequest(fetchedVetCenters);
 
-    it('should render auto-fetched vet center', done => {
-      const fakeStore = createFakeStore(automatedState);
-      mockApiRequest(fetchedVetCenters);
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0434V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
 
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <NearbyVetCenters
-            mainVetCenterAddress={mainVetCenterAddress}
-            mainVetCenterId="vc_0434V"
-            mainVetCenterPhone="906-233-0244"
-          />
-        </Provider>,
-      );
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
+      expect(wrapper.find('VetCenterInfoSection')).to.exist;
+      expect(wrapper.find('va-alert-expandable').exists()).to.be.false;
+      wrapper.unmount();
+      done();
+    }, 0);
+  });
+  it('should render auto-fetched vet center with alert', done => {
+    const fakeStore = createFakeStore(automatedState);
+    fetchedVetCenters.data[0].attributes.operatingStatus.code = 'LIMITED';
+    fetchedVetCenters.data[0].attributes.operatingStatus.additionalInfo =
+      'Some information';
+    mockApiRequest(fetchedVetCenters);
 
-      // wait for useEffect
-      setTimeout(() => {
-        wrapper.update();
-        expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
-        expect(wrapper.find('VetCenterInfoSection')).to.exist;
-        expect(wrapper.find('ExpandableOperatingStatus')).to.exist;
-        wrapper.unmount();
-        done();
-      }, 0);
-    });
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0434V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
+
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('h3').text()).to.equal('Automated Vet Center');
+      expect(wrapper.find('VetCenterInfoSection')).to.exist;
+      expect(wrapper.find('va-alert-expandable').exists()).to.be.true;
+      wrapper.unmount();
+      done();
+    }, 0);
+  });
+  it('should render no nearby vet center with alert', done => {
+    const fakeStore = createFakeStore(automatedState);
+    mockApiRequest(fetchedVetCenters);
+
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0441V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
+
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('#other-near-locations-not-found')).to.exist;
+      wrapper.unmount();
+      done();
+    }, 0);
   });
 });
+
 describe('NearbyVALocations', () => {
   it('should render spinner while any subset of multiLoading is loading', () => {
     const state = {
@@ -384,56 +435,56 @@ describe('NearbyVALocations', () => {
     expect(wrapper.find('p').text()).to.equal('No nearby VA locations found.');
     wrapper.unmount();
   });
+});
 
-  describe('automated', () => {
-    const automatedState = {
-      facility: {
-        multiLoading: { Health: false, VetCenter: false, Cemetery: false },
-        multidata: {
-          Health: {
-            data: fetchedVALocationsData.map(d => ({ ...d, source: 'Health' })),
-          },
-          VetCenter: {
-            data: [],
-          },
-          Cemetery: {
-            data: [],
-          },
+describe('automated', () => {
+  const automatedState = {
+    facility: {
+      multiLoading: { Health: false, VetCenter: false, Cemetery: false },
+      multidata: {
+        Health: {
+          data: fetchedVALocationsData.map(d => ({ ...d, source: 'Health' })),
+        },
+        VetCenter: {
+          data: [],
+        },
+        Cemetery: {
+          data: [],
         },
       },
-      featureToggles: {
-        loading: false,
-      },
-    };
+    },
+    featureToggles: {
+      loading: false,
+    },
+  };
 
-    it('should render auto-fetched VA Facility', done => {
-      const fakeStore = createFakeStore(automatedState);
-      mockApiRequest({ data: fetchedVALocationsData });
+  it('should render auto-fetched VA Facility', done => {
+    const fakeStore = createFakeStore(automatedState);
+    mockApiRequest({ data: fetchedVALocationsData });
 
-      const wrapper = mount(
-        <Provider store={fakeStore}>
-          <NearByVALocations
-            mainAddress={mainVALocationAddress}
-            mainFacilityApiId="vba_325"
-            mainPhone="800-827-1000"
-          />
-        </Provider>,
-      );
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearByVALocations
+          mainAddress={mainVALocationAddress}
+          mainFacilityApiId="vba_325"
+          mainPhone="800-827-1000"
+        />
+      </Provider>,
+    );
 
-      // wait for useEffect
-      setTimeout(() => {
-        wrapper.update();
-        const el = wrapper.find('va-link').first();
-        const props = el.props();
-        expect(props).to.deep.equal({
-          href:
-            'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
-          text: 'Cleveland VA Clinic-Euclid',
-        });
-        wrapper.unmount();
-        done();
-      }, 100);
-    });
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      const el = wrapper.find('va-link').first();
+      const props = el.props();
+      expect(props).to.deep.equal({
+        href:
+          'https://www.va.gov/northeast-ohio-health-care/locations/cleveland-va-clinic-euclid/',
+        text: 'Cleveland VA Clinic-Euclid',
+      });
+      wrapper.unmount();
+      done();
+    }, 100);
   });
 });
 describe('VAFacilityInfoSection', () => {
@@ -443,13 +494,15 @@ describe('VAFacilityInfoSection', () => {
     const wrapper = mount(
       <VAFacilityInfoSection mainPhone={mainPhone} vaFacility={vaFacility} />,
     );
+    // not a Vet Center CAP so mainPhone is not used
     expect(wrapper.find('h3').exists()).to.be.true;
     expect(wrapper.find('strong').exists()).to.be.true;
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '2163910264',
+      contact: '216-391-0264',
       extension: '',
+      'message-aria-describedby': 'Main number',
     });
 
     wrapper.unmount();
@@ -458,14 +511,15 @@ describe('VAFacilityInfoSection', () => {
 describe('VAFacilityPhone', () => {
   it('should render VAFacilityPhone with a phone number title', () => {
     const wrapper = mount(
-      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main phone" />,
+      <VAFacilityPhone phoneNumber="301-000-0000" phoneTitle="Main number" />,
     );
     expect(wrapper.find('strong').exists()).to.be.true;
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '3010000000',
+      contact: '301-000-0000',
       extension: '',
+      'message-aria-describedby': 'Main number',
     });
     wrapper.unmount();
   });
@@ -475,7 +529,7 @@ describe('VAFacilityPhone', () => {
     const telephone = wrapper.find('va-telephone');
     const telephoneProps = telephone.props();
     expect(telephoneProps).to.deep.equal({
-      contact: '3010000000',
+      contact: '301-000-0000',
       extension: '',
     });
     wrapper.unmount();
@@ -484,14 +538,12 @@ describe('VAFacilityPhone', () => {
 describe('processPhoneNumber', () => {
   it('should process phone number strings into phone and extension', () => {
     const phoneNumber = '800-827-1000';
-    const phoneNumberNoDashes = '8008271000';
     const extension = '123';
     const phoneConditions = [
       '',
       'x',
       ' ext ',
       ' ext. ',
-      ' extension ',
       ' x. ',
       ', x',
       ', ext',
@@ -504,13 +556,15 @@ describe('processPhoneNumber', () => {
       const processed = processPhoneNumber(phoneConditions[i]);
       if (i === 0) {
         expect(processed).to.deep.equal({
-          phone: phoneNumberNoDashes,
+          phone: phoneNumber,
           ext: '',
+          processed: true,
         });
       } else {
         expect(processed).to.deep.equal({
-          phone: phoneNumberNoDashes,
+          phone: phoneNumber,
           ext: extension,
+          processed: true,
         });
       }
     }

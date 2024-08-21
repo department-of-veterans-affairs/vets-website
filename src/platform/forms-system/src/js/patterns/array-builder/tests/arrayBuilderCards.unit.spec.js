@@ -72,6 +72,7 @@ describe('ArrayBuilderCards', () => {
           getText={getText}
           required={() => false}
           isReview={false}
+          forceRerender={() => null}
         />
       </Provider>,
     );
@@ -101,7 +102,9 @@ describe('ArrayBuilderCards', () => {
       arrayData: [{ name: 'Test' }, { name: 'Test 2' }],
     });
 
-    fireEvent.click(container.querySelector('button[data-action="remove"]'));
+    fireEvent.click(
+      container.querySelector('va-button-icon[data-action="remove"]'),
+    );
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();
@@ -114,7 +117,9 @@ describe('ArrayBuilderCards', () => {
       arrayData: [{ name: 'Test' }],
     });
 
-    fireEvent.click(container.querySelector('button[data-action="remove"]'));
+    fireEvent.click(
+      container.querySelector('va-button-icon[data-action="remove"]'),
+    );
     const $modal = container.querySelector('va-modal');
     expect($modal.getAttribute('visible')).to.eq('true');
     $modal.__events.primaryButtonClick();

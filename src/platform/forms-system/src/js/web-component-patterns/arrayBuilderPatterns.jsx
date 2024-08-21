@@ -1,12 +1,15 @@
 import React from 'react';
 import { titleUI } from './titlePattern';
 import { yesNoSchema, yesNoUI } from './yesNoPattern';
-import { getArrayUrlSearchParams } from '../patterns/array-builder/helpers';
+import {
+  getArrayUrlSearchParams,
+  maxItemsHint,
+} from '../patterns/array-builder/helpers';
 
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
-export function withAlertOrDescription({ nounSingular }) {
+export function withAlertOrDescription({ description, nounSingular }) {
   return () => {
     const search = getArrayUrlSearchParams();
     const isAdd = search.get('add');
@@ -27,7 +30,7 @@ export function withAlertOrDescription({ nounSingular }) {
     }
     return isEdit
       ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
-      : '';
+      : description || '';
   };
 }
 
@@ -50,7 +53,7 @@ export const withEditTitle = title => {
  *
  * - Puts the title in the format "Edit {title}" when editing
  * - Displays a warning alert if all items have been removed and is required
- * - Display is additional message for edit
+ * - Displays an additional description message for edit
  *
  * Usage:
  * ```
@@ -69,10 +72,14 @@ export const withEditTitle = title => {
  * }} options
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemFirstPageTitleUI = ({ title, nounSingular }) => {
+export const arrayBuilderItemFirstPageTitleUI = ({
+  title,
+  description,
+  nounSingular,
+}) => {
   return titleUI(
     withEditTitle(title),
-    withAlertOrDescription({ nounSingular }),
+    withAlertOrDescription({ description, nounSingular }),
   );
 };
 
@@ -161,27 +168,56 @@ export const arrayBuilderYesNoUI = (
   yesNoOptions,
   yesNoOptionsMore,
 ) => {
-  const { arrayPath, nounSingular, maxItems, required } = arrayBuilderOptions;
+  const {
+    arrayPath,
+    nounSingular,
+    nounPlural,
+    maxItems,
+    required,
+  } = arrayBuilderOptions;
   const defaultTitle =
     yesNoOptions?.title || `Do you have a ${nounSingular} to add?`;
 
   const requiredFn = typeof required === 'function' ? required : () => required;
+
+  const getCustomHint = options => {
+    if (options && Object.prototype.hasOwnProperty.call(options, 'hint')) {
+      return typeof options.hint === 'function'
+        ? options.hint
+        : () => options.hint;
+    }
+    return null;
+  };
+
+  const customHint = getCustomHint(yesNoOptionsMore);
+  const customMoreHint = getCustomHint(yesNoOptions);
 
   return {
     ...yesNoUI({
       title: defaultTitle,
       classNames: 'wc-pattern-array-builder-yes-no',
       updateUiSchema: formData => {
-        return formData?.[arrayPath]?.length
+        const arrayData = formData?.[arrayPath];
+        return arrayData?.length
           ? {
               'ui:title':
                 yesNoOptionsMore?.title ||
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint:
-                  yesNoOptionsMore?.hint ||
-                  (maxItems ? `You can add up to ${maxItems}.` : ''),
+                hint: customHint
+                  ? customHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    })
+                  : maxItemsHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    }),
                 labels: {
                   Y: yesNoOptionsMore?.labels?.Y || 'Yes',
                   N: yesNoOptionsMore?.labels?.N || 'No',
@@ -197,9 +233,21 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint:
-                  yesNoOptions?.hint ||
-                  `You’ll need to add at least one ${nounSingular}. You can add up to ${maxItems}`,
+                hint: customMoreHint
+                  ? customMoreHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    })
+                  : `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
+                      {
+                        arrayData,
+                        nounSingular,
+                        nounPlural,
+                        maxItems,
+                      },
+                    )}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',

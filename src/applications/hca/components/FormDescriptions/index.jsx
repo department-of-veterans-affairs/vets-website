@@ -4,9 +4,6 @@ import { APP_URLS, LAST_YEAR } from '../../utils/constants';
 /** CHAPTER 1: Veteran Information */
 export const BirthInfoDescription = (
   <>
-    <p className="vads-u-margin-top--0">
-      Enter your place of birth, including city and state, province or region.
-    </p>
     <va-additional-info
       trigger="Why we ask for this information"
       class="vads-u-margin-bottom--3"
@@ -20,7 +17,7 @@ export const BirthInfoDescription = (
 export const BirthSexDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-y--2"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -70,34 +67,11 @@ export const DemographicInfoDescription = (
   </legend>
 );
 
-export const HomeAddressDescription = (
-  <>
-    Home address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
-export const MailingAddressDescription = (
-  <>
-    Mailing address
-    <span className="sr-only">.</span>
-    <div className="vads-u-color--base vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal vads-u-line-height--6 vads-u-margin-top--2 vads-u-margin-bottom--4">
-      We’ll send any important information about your application to this
-      address. Any updates you make here to your address will apply only to this
-      application.
-    </div>
-  </>
-);
-
 export const SIGIGenderDescription = (
   <>
     <va-additional-info
       trigger="What to know before you decide to share your gender identity"
-      class="vads-u-margin-top--2"
+      class="vads-u-margin-top--2 vads-u-margin-bottom--3"
       uswds
     >
       <div>
@@ -182,7 +156,7 @@ export const PensionInfoDescription = (
 export const PensionTypeDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>
@@ -227,13 +201,6 @@ export const OtherToxicExposureDescription = (
     >
       Learn more about exposures on our Public Health website (opens in new tab)
     </a>
-  </div>
-);
-
-export const OtherToxicExposureHint = (
-  <div className="vads-u-color--gray-medium">
-    If you’re listing multiple toxins or hazards, list them without commas or
-    any other special characters
   </div>
 );
 
@@ -403,7 +370,7 @@ export const IncomeDescription = (
 export const MaritalStatusDescription = (
   <va-additional-info
     trigger="Why we ask for this information"
-    class="vads-u-margin-top--2 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--2 vads-u-margin-bottom--3"
     uswds
   >
     <div>

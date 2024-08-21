@@ -8,6 +8,8 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { treatmentRecordsPages } from '../pages/treatmentRecords';
+import { employersPages } from '../pages/employers';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -79,6 +81,14 @@ const formConfig = {
           schema: phoneAndEmailAddress.schema,
         },
       },
+    },
+    treatmentRecords: {
+      title: 'Treatment records',
+      pages: treatmentRecordsPages,
+    },
+    employers: {
+      title: 'Your employers',
+      pages: employersPages,
     },
   },
 };

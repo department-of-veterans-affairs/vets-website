@@ -90,10 +90,12 @@ export function createFormPageList(formConfig) {
     if (!chapter?.pages) return pageList;
 
     const chapterTitle = chapter?.title ?? formConfig.title;
+    const hideOnReviewPage = chapter?.hideOnReviewPage || false;
     const pages = Object.keys(chapter.pages).map(pageKey => ({
       ...chapter.pages[pageKey],
       chapterTitle,
       chapterKey,
+      hideOnReviewPage,
       pageKey,
     }));
     return pageList.concat(pages);
@@ -152,9 +154,19 @@ export function hideFormTitle(formConfig, pathName) {
   const pageList = createPageList(formConfig, formPages);
   const page = pageList.find(p => p.path === pathName);
 
-  if (!page || !page.chapterKey) return false;
+  if (pathName === '/confirmation') {
+    return formConfig.hideFormTitle ?? false;
+  }
 
-  return formConfig.chapters[page.chapterKey]?.hideFormTitle ?? false;
+  if (!page || !page.chapterKey) {
+    return false;
+  }
+
+  return (
+    formConfig.chapters[page.chapterKey]?.hideFormTitle ??
+    formConfig.hideFormTitle ??
+    false
+  );
 }
 
 function formatDayMonth(val) {
@@ -177,6 +189,14 @@ function formatYear(val) {
   }
 
   return val;
+}
+
+export function formatMonthYearISOPartialDate({ month, year }) {
+  if (month || year) {
+    return `${formatYear(year)}-${formatDayMonth(month)}`;
+  }
+
+  return undefined;
 }
 
 export function formatISOPartialDate({ month, day, year }) {

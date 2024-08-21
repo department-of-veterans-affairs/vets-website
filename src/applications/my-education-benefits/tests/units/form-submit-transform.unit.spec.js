@@ -229,28 +229,39 @@ describe('form submit transform', () => {
       );
       expect(relinquishedBenefit.effRelinquishDate).to.eql('2021-02-02');
     });
-
-    it('should return empty object if no relinquishment AND feature flag is false', () => {
+    it('should return null if no relinquishment AND Rudisill feature flag is true', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
-      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      const objectIsEmpty = Object.keys(relinquishedBenefit).length === 0;
-      expect(objectIsEmpty).to.eql(true);
-    });
-
-    it('should return CannotRelinquish if no relinquishment AND feature flag is true', () => {
-      mockSubmissionForm[
-        'view:benefitSelection'
-      ].benefitRelinquished = undefined;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = true;
       mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.showMebEnhancements09 = true;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql(null);
+    });
+    it('should return CannotRelinquish if no relinquishment AND showMebDgi42Features is true', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
+      mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.showMebEnhancements09 = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       expect(relinquishedBenefit.relinquishedBenefit).to.eql(
         'CannotRelinquish',
       );
     });
+    it('should return NotEligible if no relinquishment AND showMebEnhancements09 AND showMebDgi42Features are true', () => {
+      mockSubmissionForm[
+        'view:benefitSelection'
+      ].benefitRelinquished = undefined;
+      mockSubmissionForm.showMebEnhancements09 = true;
+      mockSubmissionForm.showMebDgi42Features = true;
+      mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
+      const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
+    });
   });
-
   describe('has a createAdditionalConsiderations method', () => {
     it('should return capitalized "YES" and "NO" for present questions', () => {
       const additionalConsiderations = createAdditionalConsiderations(

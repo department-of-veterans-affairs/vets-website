@@ -53,7 +53,11 @@ describe('<SuggestedAddress />', () => {
   it('renders without crashing', async () => {
     const wrapper = mount(
       <Provider store={store}>
-        <SuggestedAddress formData={{}} address={{}} />
+        <SuggestedAddress
+          formData={{}}
+          address={{}}
+          scrollToTopOfForm={() => {}}
+        />
       </Provider>,
     );
     await waitFor(() => {
@@ -77,7 +81,11 @@ describe('<SuggestedAddress />', () => {
 
     const wrapper = mount(
       <Provider store={store}>
-        <SuggestedAddress formData={{}} address={{}} />
+        <SuggestedAddress
+          formData={{}}
+          address={{}}
+          scrollToTopOfForm={() => {}}
+        />
       </Provider>,
     );
     await waitFor(() => {
@@ -93,6 +101,7 @@ describe('<SuggestedAddress />', () => {
           formData={{}}
           address={{}}
           setChooseAddress={setChooseAddress}
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );
@@ -118,6 +127,7 @@ describe('<SuggestedAddress />', () => {
           setSuggestedAddressPicked={setSuggestedAddressPicked}
           setFormData={setFormData}
           suggestedAddressPicked={false}
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );
@@ -141,7 +151,6 @@ describe('<SuggestedAddress />', () => {
     useDispatchMock.returns(dispatch);
 
     const formData = {
-      fullName: 'John Doe',
       addressLine1: '123 Main St',
       addressLine2: 'Apt 4',
       city: 'Anytown',
@@ -158,6 +167,8 @@ describe('<SuggestedAddress />', () => {
           setFormData={setFormData}
           setAddressToUI={setAddressToUI}
           suggestedAddressPicked={false}
+          scrollToTopOfForm={() => {}}
+          applicantName="John Doe"
         />
       </Provider>,
     );
@@ -195,6 +206,7 @@ describe('<SuggestedAddress />', () => {
           address={{}}
           handleAddNewClick={handleAddNewClick}
           setGoBackToEdit={setGoBackToEdit}
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );
@@ -231,6 +243,7 @@ describe('<SuggestedAddress />', () => {
           }}
           setSuggestedAddressPicked={setSuggestedAddressPicked}
           setFormData={setFormData}
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );
@@ -287,6 +300,7 @@ describe('<SuggestedAddress />', () => {
           formData={mockFormData}
           address={mockAddress}
           suggestedAddressPicked
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );
@@ -319,6 +333,7 @@ describe('<SuggestedAddress />', () => {
           formData={mockFormData}
           address={mockAddress}
           suggestedAddressPicked={false}
+          scrollToTopOfForm={() => {}}
         />
       </Provider>,
     );

@@ -24,6 +24,8 @@
  * @property {string} [ariaDescribedBySubmit]
  * @property {Record<string, FormConfigChapter>} [chapters]
  * @property {(props: any) => JSX.Element} [confirmation]
+ * @property {JSX.Element | React.ReactNode} [CustomReviewTopContent]
+ * @property {JSX.Element | React.ReactNode} [CustomTopContent]
  * @property {CustomText} [customText]
  * @property {Record<string, SchemaOptions> | Record<string, any>} [defaultDefinitions]
  * @property {Dev} [dev] - object of dev-only options
@@ -33,6 +35,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
  * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
@@ -45,7 +48,9 @@
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
  * @property {SaveInProgress} [saveInProgress]
+ * @property {string | Function} [scrollAndFocusTarget] Applies when useCustomScrollAndFocus is true. Default scroll and focus for the form. will be overridden by individual page scrollAndFocusTarget
  * @property {boolean} [showReviewErrors]
+ * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
  * @property {(form: any, formConfig: any) => Promise<any>} [submit]
  * @property {(props: any) => JSX.Element} [submitErrorText]
@@ -56,7 +61,8 @@
  * @property {(form: any, formConfig: any) => any} [transformForSubmit]
  * @property {string} [urlPrefix]
  * @property {boolean} [useCustomScrollAndFocus]
- * @property {boolean} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2
+ * @property {boolean} [useTopBackLink] will show a back link at the top of form pages and only a continue button at the bottom
+ * @property {boolean | { useDiv: boolean }} [v3SegmentedProgressBar] - if true, the V3 segmented progress bar web component is used in place of the v2. Also accepts an object with options.
  * @property {boolean} [verifyRequiredPrefill]
  * @property {number} [version]
  * @property {string} [wizardStorageKey]
@@ -160,34 +166,42 @@
  * @property {SchemaOptions} [schema]
  * @property {string | Function} [scrollAndFocusTarget]
  * @property {boolean} [showPagePerItem] if true, will show an additional page for each item in the array at `'name-of-path/:index'`
+ * @property {boolean} [hideSaveLinkAndStatus] will hide the save application later and save in progress message near the back/continue buttons
  * @property {string | (formData) => string} [title] Will show on review page (may require more than one word to show)
  * @property {UISchemaOptions} [uiSchema]
  * @property {(item, index) => void} [updateFormData]
  */
 
 /**
- * @typedef {({
- *   name,
- *   title,
- *   data,
- *   pagePerItemIndex,
- *   onReviewPage,
- *   trackingPrefix,
- *   uploadFile,
- *   schema,
- *   uiSchema,
- *   goBack,
- *   goForward,
- *   goToPath,
- *   onContinue,
- *   onChange,
- *   onSubmit,
- *   setFormData,
- *   contentBeforeButtons,
- *   contentAfterButtons,
- *   appStateData,
- *   formContext,
- * }) => React.ReactNode} CustomPageType
+ * @typedef {Object} CustomPageProps
+ * @property {string} name route.pageConfig.pageKey
+ * @property {string} title route.pageConfig.title
+ * @property {Object} data
+ * @property {number} pagePerItemIndex
+ * @property {boolean} onReviewPage
+ * @property {string} trackingPrefix
+ * @property {Function} uploadFile
+ * @property {Object} schema
+ * @property {Object} uiSchema
+ * @property {() => void} goBack
+ * @property {({ formData }) => void} goForward
+ * @property {(customPath: string, options?: { force: boolean }) => void} goToPath
+ * @property {() => void} onContinue
+ * @property {(formData) => void} onChange
+ * @property {({ formData }) => void} onSubmit
+ * @property {(pageName: string, index?: number) => boolean} recalculateErrors Only available
+ * on review page. Recalculates errors for the page including the red chapter level styling.
+ * Pass the prop.name to the pageName param. If the page is an array, pass the index as the second param.
+ * @property {Function} setFormData
+ * @property {React.ReactNode} contentBeforeButtons
+ * @property {React.ReactNode} contentAfterButtons
+ * @property {Object} appStateData
+ * @property {Object} formContext
+ * @property {Object} NavButtons Standard buttons at the bottom of the form e.g. back/continue
+ */
+
+/**
+ * @typedef {(props: CustomPageProps) => React.ReactNode} CustomPageType
  */
 
 /**
@@ -253,7 +267,7 @@
 /**
  * @typedef {Object} UIOptions
  * @property {string} [ariaDescribedby] The id of the element that describes the field. Use `messageAriaDescribedby` for web components.
- * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without maxlength being set.
+ * @property {boolean} [charcount] Whether a web-component should show a character count message. Has no effect without `maxLength` being set in the schema.
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
@@ -280,13 +294,14 @@
  * @property {string} [hint] The hint text for the field. For web components.
  * @property {boolean} [includeRequiredLabelInTitle]
  * @property {Array<(input) => string>} [inputTransformers]
- * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] HTML input 'type' attribute. May result in different keyboard for mobile users.
+ * @property {'number' | 'text' | 'email' | 'search' | 'tel' | 'url' | OrAnyString} [inputType] Keyboard type for mobile users. Equivalent to HTML input 'type' attribute.
  * @property {(item: any) => string} [itemAriaLabel] for arrays
  * @property {string} [itemName] The name of the item - for arrays. For example a value of 'Child' will result in 'Add another child', 'New child', and if 'using confirmRemove', 'Are you sure you want to remove this child item?', 'Yes, remove this child item'.
  * @property {boolean} [invalid] For web components. Whether or not aria-invalid will be set on the inner input. Useful when composing the component into something larger, like a date component.
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
  * @property {Record<string, string>} [labels] Used to specify radio button or yes/no labels
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] The header level for the label. For web components such as radio buttons or checkboxes.
+ * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {boolean} [monthSelect] For VaMemorableDate web component. If true, will use a select dropdown for the month instead of an input.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.
@@ -374,28 +389,29 @@
 /**
  * @typedef {{
  *   alertItemUpdated?: (props: ArrayBuilderTextProps) => string,
- *   alertItemRemoved?: (props: ArrayBuilderTextProps) => string,
+ *   alertItemDeleted?: (props: ArrayBuilderTextProps) => string,
  *   alertMaxItems?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelAddYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelAddTitle?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditButtonText?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditDescription?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditReviewDescription?: (props: ArrayBuilderTextProps) => string,
+ *   cancelEditYes?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditNo?: (props: ArrayBuilderTextProps) => string,
  *   cancelEditTitle?: (props: ArrayBuilderTextProps) => string,
- *   cancelYes?: (props: ArrayBuilderTextProps) => string,
  *   cardDescription?: (props: ArrayBuilderTextProps) => string,
  *   cardItemMissingInformation?: (itemData: any) => string,
  *   editSaveButtonText?: (props: ArrayBuilderTextProps) => string,
  *   getItemName?: (itemData: any) => string,
- *   removeDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
- *   removeNo?: (props: ArrayBuilderTextProps) => string,
- *   removeTitle?: (props: ArrayBuilderTextProps) => string,
- *   removeYes?: (props: ArrayBuilderTextProps) => string,
+ *   deleteDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNeedAtLeastOneDescription?: (props: ArrayBuilderTextProps) => string,
+ *   deleteNo?: (props: ArrayBuilderTextProps) => string,
+ *   deleteTitle?: (props: ArrayBuilderTextProps) => string,
+ *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,

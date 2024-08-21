@@ -40,11 +40,13 @@ import {
   toggleLoginModal,
   toggleSearchHelpUserMenu,
 } from './user-nav/actions';
+import { UPDATE_HEADER_TYPE, updateLayoutHeaderType } from './layout/actions';
 
 import AutoSSO from './user-nav/containers/AutoSSO';
 import PageNotFound from './user-nav/components/PageNotFound';
 
 import userNavReducer from './user-nav/reducers';
+import layoutReducer from './layout/reducers';
 
 import { restartShouldRedirect } from './wizard';
 
@@ -84,6 +86,8 @@ export {
   UPDATE_SEARCH_HELP_USER_MENU,
   TOGGLE_ACCOUNT_TRANSITION_MODAL,
   TOGGLE_ACCOUNT_TRANSITION_SUCCESS_MODAL,
+  UPDATE_HEADER_TYPE,
+  updateLayoutHeaderType,
   toggleFormSignInModal,
   toggleAccountTransitionModal,
   toggleAccountTransitionSuccessModal,
@@ -92,6 +96,7 @@ export {
   AutoSSO,
   PageNotFound,
   userNavReducer,
+  layoutReducer,
   restartShouldRedirect,
   addFocusBehaviorToCrisisLineModal,
   startSitewideComponents,

@@ -16,8 +16,9 @@ describe('<Edit>', () => {
 
     expect(await view.findByText('Add your mobile phone number')).to.exist;
 
-    expect(await view.findByText('Mobile phone number (U.S. numbers only)')).to
-      .exist;
+    expect(await view.container.innerHTML).to.contain(
+      'Mobile phone number (U.S. numbers only)',
+    );
   });
 
   it('renders fallback when invalid fieldName query present', async () => {

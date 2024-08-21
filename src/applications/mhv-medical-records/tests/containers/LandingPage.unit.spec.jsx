@@ -43,6 +43,31 @@ describe('Landing Page', () => {
     expect(screen).to.exist;
   });
 
+  it('displays a section linking to My HealtheVet classic to download all records', () => {
+    const screen = renderWithStoreAndRouter(<LandingPage />, {});
+    expect(
+      screen.getByText('Download your VA medical records', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('We’re working on a way for you to download', {
+        selector: 'p',
+        exact: false,
+      }),
+    ).to.exist;
+    expect(
+      screen.getAllByText(
+        'Go to medical records on the My HealtheVet website',
+        {
+          selector: 'a',
+          exact: true,
+        },
+      ).length,
+    ).to.eq(2);
+  });
+
   it('displays downtimeNotification when downtimeApproaching is true', () => {
     const customState = {
       featureToggles: {},
@@ -100,6 +125,12 @@ describe('Landing Page', () => {
     });
 
     // feature h2s
+    expect(
+      screen.getByText('Lab and test results', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
     expect(
       screen.getByText('Care summaries and notes', {
         selector: 'h2',

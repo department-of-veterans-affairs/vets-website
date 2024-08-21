@@ -169,7 +169,7 @@ const generateHelpSection = (doc, parent) => {
         .list(
           [
             'If you have questions about this report or you need to add information to your records, send a secure message to your care team.',
-            "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis line at 988. Then select 1.",
+            "If you're ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at 988. Then select 1.",
           ],
           {
             lineGap: 2,

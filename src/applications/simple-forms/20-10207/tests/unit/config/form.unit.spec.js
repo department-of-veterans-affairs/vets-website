@@ -1448,27 +1448,16 @@ describe('formConfig', () => {
       describe('medicalTreatmentPage.depends', () => {
         const {
           depends,
-        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentPage;
-
-        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
-          expect(
-            depends({
-              'view:hasReceivedMedicalTreatment': false,
-              preparerType: PREPARER_TYPES.VETERAN,
-            }),
-          ).to.be.false;
-        });
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentSummary;
 
         it('returns TRUE if preparerType is veteran or non-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.true;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.true;
@@ -1477,13 +1466,11 @@ describe('formConfig', () => {
         it('returns FALSE if preparerType is third-party-veteran or third-party-non-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.false;
@@ -1493,33 +1480,21 @@ describe('formConfig', () => {
       describe('medicalTreatmentThirdPartyVeteranPage.depends', () => {
         const {
           depends,
-        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyVeteranPage;
-
-        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
-          expect(
-            depends({
-              'view:hasReceivedMedicalTreatment': false,
-              preparerType: PREPARER_TYPES.VETERAN,
-            }),
-          ).to.be.false;
-        });
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentSummaryThirdPartyVeteran;
 
         it('returns FALSE if preparerType is veteran, non-veteran, or third-party-non-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.false;
@@ -1528,7 +1503,6 @@ describe('formConfig', () => {
         it('returns TRUE if preparerType is third-party-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.true;
@@ -1538,33 +1512,21 @@ describe('formConfig', () => {
       describe('medicalTreatmentThirdPartyNonVeteranPage.depends', () => {
         const {
           depends,
-        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentThirdPartyNonVeteranPage;
-
-        it('returns FALSE if hasReceivedMedicalTreatment is false', () => {
-          expect(
-            depends({
-              'view:hasReceivedMedicalTreatment': false,
-              preparerType: PREPARER_TYPES.VETERAN,
-            }),
-          ).to.be.false;
-        });
+        } = formConfig.chapters.medicalTreatmentChapter.pages.medicalTreatmentSummaryThirdPartyNonVeteran;
 
         it('returns FALSE if preparerType is veteran, non-veteran, or third-party-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.NON_VETERAN,
             }),
           ).to.be.false;
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_VETERAN,
             }),
           ).to.be.false;
@@ -1573,7 +1535,6 @@ describe('formConfig', () => {
         it('returns TRUE if preparerType is third-party-non-veteran', () => {
           expect(
             depends({
-              'view:hasReceivedMedicalTreatment': true,
               preparerType: PREPARER_TYPES.THIRD_PARTY_NON_VETERAN,
             }),
           ).to.be.true;

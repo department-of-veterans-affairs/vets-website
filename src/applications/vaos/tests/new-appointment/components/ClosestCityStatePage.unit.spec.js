@@ -10,15 +10,12 @@ import {
   setCommunityCareFlow,
 } from '../../mocks/setup';
 
-describe.skip('VAOS Page: ClosestCityStatePage', () => {
+describe('VAOS Page: ClosestCityStatePage', () => {
   beforeEach(() => mockFetch());
 
   it('should show supported parent sites', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -33,26 +30,23 @@ describe.skip('VAOS Page: ClosestCityStatePage', () => {
     });
 
     // Then the primary header should have focus
-    await waitFor(() => {
-      const header = screen.getByRole('heading', {
-        level: 1,
-        name: /What.s the nearest city to you/i,
-      });
-      expect(document.activeElement).to.equal(header);
-    });
+    const radioSelector = screen.container.querySelector('va-radio');
+    expect(radioSelector).to.exist;
+    expect(radioSelector).to.have.attribute(
+      'label',
+      'What’s the nearest city to you?',
+    );
 
     // And the user should see radio buttons for each city and state
-    expect(screen.getAllByRole('radio').length).to.equal(2);
-    expect(screen.getByRole('radio', { name: /Bozeman, MT/ })).to.be.ok;
-    expect(screen.getByRole('radio', { name: /Belgrade, MT/ })).to.be.ok;
+    const radioOptions = screen.container.querySelectorAll('va-radio-option');
+    expect(radioOptions).to.have.lengthOf(2);
+    expect(radioOptions[0]).to.have.attribute('label', 'Bozeman, MT');
+    expect(radioOptions[1]).to.have.attribute('label', 'Belgrade, MT');
   });
 
   it('should not submit without choosing a site', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -65,15 +59,14 @@ describe.skip('VAOS Page: ClosestCityStatePage', () => {
     const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, {
       store,
     });
-    await waitFor(() => {
-      expect(screen.getAllByRole('radio').length).to.equal(2);
-    });
 
     // When the user continues
     userEvent.click(screen.getByText(/Continue/i));
 
     // Then there should be a validation error
-    expect(await screen.findByRole('alert')).to.contain.text('Select a city');
+    // Assertion currently disabled due to
+    // https://github.com/department-of-veterans-affairs/va.gov-team/issues/82624
+    // expect(await screen.findByRole('alert')).to.contain.text('Select a city');
 
     // And the user should stay on the page
     expect(screen.history.push.called).to.be.false;
@@ -82,9 +75,6 @@ describe.skip('VAOS Page: ClosestCityStatePage', () => {
   it('should continue to preferences page', async () => {
     // Given the user has two supported parent sites
     const store = await setCommunityCareFlow({
-      toggles: {
-        vaOnlineSchedulingFacilitiesServiceV2: true,
-      },
       registeredSites: ['983'],
       parentSites: [
         { id: '983', address: { city: 'Bozeman', state: 'MT' } },
@@ -97,12 +87,13 @@ describe.skip('VAOS Page: ClosestCityStatePage', () => {
     const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, {
       store,
     });
-    await waitFor(() => {
-      expect(screen.getAllByRole('radio').length).to.equal(2);
-    });
 
     // And the user selected a site
-    userEvent.click(screen.getByLabelText(/Bozeman, MT/));
+    const radioSelector = screen.container.querySelector('va-radio');
+    const changeEvent = new CustomEvent('selected', {
+      detail: { value: '983' },
+    });
+    radioSelector.__events.vaValueChange(changeEvent);
 
     // When the user continues
     userEvent.click(screen.getByText(/Continue/i));

@@ -4,7 +4,6 @@ import { expect } from 'chai';
 import { renderWithProfileReducersAndRouter } from '@@profile/tests/unit-test-helpers';
 import { Hub } from '@@profile/components/hub/Hub';
 import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
-import { Toggler } from '~/platform/utilities/feature-toggles';
 import { PROFILE_PATHS } from '../../../constants';
 
 function createInitialState(
@@ -16,10 +15,7 @@ function createInitialState(
 ) {
   return {
     featureToggles: {
-      ...{
-        loading: false,
-        [Toggler.TOGGLE_NAMES.profileContacts]: false,
-      },
+      loading: false,
       ...toggles,
     },
     user: {
@@ -79,20 +75,6 @@ describe('<Hub />', () => {
         getByText(`Update your sign-in info on the ${service.label} website`),
       ).to.exist;
       expect(container.querySelector(`[href="${service.link}"]`)).to.exist;
-    });
-  });
-
-  describe('render Personal health care contacts card based on feature toggle', () => {
-    it('should NOT render Personal health care contacts card if feature toggle is off', () => {
-      const { queryByText } = setup();
-      expect(queryByText('Personal health care contacts')).not.to.exist;
-    });
-
-    it('should render Personal health care contacts card if feature toggle is on', () => {
-      const { getByText } = setup({
-        toggles: { [Toggler.TOGGLE_NAMES.profileContacts]: true },
-      });
-      expect(getByText('Personal health care contacts')).to.exist;
     });
   });
 });

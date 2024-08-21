@@ -3,6 +3,7 @@ import appendQuery from 'append-query';
 // eslint-disable-next-line import/no-unresolved
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/exports';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { format, addMonths } from 'date-fns';
 import { makeApiCallWithSentry } from '../utils';
 
 const v2 = {
@@ -236,39 +237,44 @@ const v2 = {
       ...json,
     };
   },
-  postTravelPayClaims: async (claims, uuid, timeToComplete) => {
+  postTravelOnlyClaim: async (startTime, uuid, timeToComplete) => {
     const url = '/check_in/v0/travel_claims/';
     const headers = { 'Content-Type': 'application/json' };
-
-    const posts = claims.map(claim => {
-      const travelClaimData = {
-        travelClaims: {
-          uuid,
-          appointmentDate: claim.startTime,
-          timeToComplete,
-          facilityType: 'oh',
-        },
-      };
-      const body = JSON.stringify(travelClaimData);
-
-      return {
-        headers,
-        body,
-        method: 'POST',
-        mode: 'cors',
-      };
-    });
-    const json = await Promise.all(
-      posts.map(post =>
-        makeApiCallWithSentry(
-          apiRequest(`${environment.API_URL}${url}`, post),
-          'travel-claim-submit-travel-pay-claim',
-          uuid,
-          true,
-        ),
-      ),
+    const travelClaimData = {
+      travelClaims: {
+        uuid,
+        appointmentDate: startTime,
+        timeToComplete,
+        facilityType: 'oh',
+      },
+    };
+    const body = JSON.stringify(travelClaimData);
+    const post = {
+      headers,
+      body,
+      method: 'POST',
+      mode: 'cors',
+    };
+    const json = await makeApiCallWithSentry(
+      apiRequest(`${environment.API_URL}${url}`, post),
+      'travel-claim-submit-travel-pay-claim',
+      uuid,
+      true,
     );
-
+    return {
+      ...json,
+    };
+  },
+  getUpcomingAppointmentsData: async token => {
+    const startDate = format(new Date(), 'yyyy-MM-dd');
+    const endDate = format(addMonths(new Date(), 13), 'yyyy-MM-dd');
+    const url = `/check_in/v2/sessions/${token}/appointments?start=${startDate}&end=${endDate}`;
+    const requestUrl = `${environment.API_URL}${url}`;
+    const json = await makeApiCallWithSentry(
+      apiRequest(requestUrl),
+      'get-upcoming-appointment-data',
+      token,
+    );
     return {
       ...json,
     };

@@ -59,7 +59,7 @@ describe('VAOS Page: PreferredDatePage', () => {
 
     fireEvent.click(await screen.findByText(/Continue/));
     expect(await screen.findByRole('alert')).to.contain.text(
-      'Please provide a response',
+      'You must provide a response',
     );
     expect(screen.history.push.called).to.be.false;
   });

@@ -39,6 +39,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -57,6 +58,8 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -120,7 +123,7 @@ ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Entered on: ${record.date}\n
+Date entered: ${record.date}\n
 ${txtLine}\n
 Provider: ${record.provider}\n
 Location: ${record.facility}\n
@@ -132,6 +135,11 @@ Provider Notes: ${processList(record.comments)}\n`;
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  function containsSctOrIcd(inputString) {
+    const regex = /\b(sct|icd)/i;
+    return regex.test(inputString);
+  }
 
   const content = () => {
     if (accessAlert) {
@@ -151,12 +159,12 @@ Provider Notes: ${processList(record.comments)}\n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {record.name.split(' (')[0]}
+            {`Health conditions: ${record.name}`}
           </h1>
           <DateSubheading
             date={record.date}
             id="condition-date"
-            label="Entered on"
+            label="Date entered"
           />
 
           {downloadStarted && <DownloadSuccessAlert />}
@@ -188,6 +196,24 @@ Provider Notes: ${processList(record.comments)}\n`;
               data-testid="condition-provider-notes"
               list={record.comments}
             />
+            {containsSctOrIcd(record.name) && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  About the code in this condition name
+                </h2>
+                <p
+                  data-dd-privacy="mask"
+                  data-testid="about-the-condition-code"
+                >
+                  Some of your health conditions may have diagnosis codes in the
+                  name that start with SCT or ICD. Providers use these codes to
+                  track your health conditions and to communicate with other
+                  providers about your care. If you have a question about these
+                  codes or a health condition, ask your provider at your next
+                  appointment.
+                </p>
+              </>
+            )}
           </div>
         </>
       );

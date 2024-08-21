@@ -9,7 +9,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { createAnalyticsSlug } from '../../../utils/analytics';
 
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
-import BackToAppointments from '../../../components/BackToAppointments';
+import LinkList from '../../../components/LinkList';
 import TravelPayReimbursementLink from '../../../components/TravelPayReimbursementLink';
 import Wrapper from '../../../components/layout/Wrapper';
 import { useSendTravelPayClaim } from '../../../hooks/useSendTravelPayClaim';
@@ -22,12 +22,17 @@ import { getAppointmentId } from '../../../utils/appointment';
 import { useGetCheckInData } from '../../../hooks/useGetCheckInData';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import { APP_NAMES } from '../../../utils/appConstants';
+import ConfirmationAccordionBlock from '../../../components/ConfirmationAccordionBlock';
+import BackToAppointments from '../../../components/BackToAppointments';
 
 const CheckInConfirmation = props => {
-  const { appointments, selectedAppointment, triggerRefresh, router } = props;
+  const { selectedAppointment, triggerRefresh, router } = props;
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
-  const { isTravelReimbursementEnabled } = featureToggles;
+  const {
+    isTravelReimbursementEnabled,
+    isUpcomingAppointmentsEnabled,
+  } = featureToggles;
   const selectForm = useMemo(makeSelectForm, []);
   const form = useSelector(selectForm);
   const {
@@ -65,17 +70,12 @@ const CheckInConfirmation = props => {
     getShouldSendTravelPayClaim,
   } = useStorage(APP_NAMES.CHECK_IN);
 
-  const { setTravelPaySent, getTravelPaySent } = useStorage(
-    APP_NAMES.CHECK_IN,
-    true,
-  );
+  const { setTravelPaySent } = useStorage(APP_NAMES.CHECK_IN, true);
 
   useEffect(
     () => {
       if (travelPayClaimSent) {
-        const { stationNo } = selectedAppointment;
-        const travelPaySent = getTravelPaySent(window);
-        travelPaySent[stationNo] = new Date();
+        const travelPaySent = new Date();
         setShouldSendTravelPayClaim(window, false);
         setTravelPaySent(window, travelPaySent);
       }
@@ -84,7 +84,6 @@ const CheckInConfirmation = props => {
       travelPayClaimSent,
       setShouldSendTravelPayClaim,
       setTravelPaySent,
-      getTravelPaySent,
       selectedAppointment,
     ],
   );
@@ -146,8 +145,8 @@ const CheckInConfirmation = props => {
             {t('tell-a-staff-member-if-you-wait')}
           </p>
         </div>
-        <h2 className="vads-u-font-family--serif">{t('your-appointment')}</h2>
-        <ul
+        <h2>{t('your-appointments', { count: 1 })}</h2>
+        <div
           className="vads-u-border-top--1px vads-u-margin-bottom--4 check-in--appointment-list"
           data-testid="appointment-list"
         >
@@ -159,8 +158,9 @@ const CheckInConfirmation = props => {
             router={router}
             page="confirmation"
             app={APP_NAMES.CHECK_IN}
+            count={1}
           />
-        </ul>
+        </div>
         {isTravelReimbursementEnabled ? (
           <>
             <h2 data-testid="travel-reimbursement-heading">
@@ -175,7 +175,15 @@ const CheckInConfirmation = props => {
         ) : (
           <TravelPayReimbursementLink />
         )}
-        {appointments.length > 1 && <BackToAppointments />}
+
+        {isUpcomingAppointmentsEnabled ? (
+          <LinkList router={router} />
+        ) : (
+          // @TODO: Remove this component once the feature toggle is removed
+          <BackToAppointments router={router} />
+        )}
+
+        <ConfirmationAccordionBlock appointments={[appointment]} />
       </Wrapper>
     );
   };
@@ -194,7 +202,6 @@ const CheckInConfirmation = props => {
 };
 
 CheckInConfirmation.propTypes = {
-  appointments: PropTypes.array,
   router: PropTypes.object,
   selectedAppointment: PropTypes.object,
   triggerRefresh: PropTypes.func,

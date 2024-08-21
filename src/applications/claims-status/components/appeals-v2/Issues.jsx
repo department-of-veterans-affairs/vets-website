@@ -9,7 +9,14 @@ const Issues = ({ issues, isAppeal }) => {
   const withdrawn = issues.filter(i => i.status === 'withdrawn');
 
   const getListItems = (item, i) => (
-    <li key={`${item.status}-${i}`}>{item.description}</li>
+    <li
+      className="issue-item"
+      key={`${item.status}-${i}`}
+      data-dd-privacy="mask"
+      data-dd-action-name="appeal issues"
+    >
+      {item.description}
+    </li>
   );
 
   const openListItems = open.map(getListItems);

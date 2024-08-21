@@ -41,12 +41,7 @@ export default {
             rel="noopener noreferrer"
           >
             download the PDF version of this form
-            <i
-              className="fas fa-arrow-up-right-from-square"
-              aria-hidden="true"
-              role="img"
-            />
-            <span className="sr-only">[ opens in a new browser-tab ]</span>
+            <va-icon icon="launch" srtext="opens in a new window" />
           </a>
           . Then submit it in person or by mail.
         </p>

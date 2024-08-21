@@ -13,6 +13,9 @@ function errorCheck(errorList) {
   cy.axeCheck();
 }
 
+const { serviceRecords } = testData.data.application.veteran;
+const { currentlyBuriedPersons } = testData.data.application;
+
 describe('Pre-need form VA 40-10007 Required Fields', () => {
   it('triggers validation on all required fields then completes the form with minimal data', () => {
     preneedHelpers.interceptSetup();
@@ -99,30 +102,35 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Military History Page
     preneedHelpers.validateProgressBar('3');
-    errorCheck(requiredHelpers.militaryHistoryErrors);
-    testData.data.application.veteran.serviceRecords.forEach(
-      (branch, index) => {
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).click();
-        cy.fill(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-          branch.serviceBranch,
-        );
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keydown', { keyCode: 40 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keyup', { keyCode: 40 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keydown', { keyCode: 13 });
-        cy.get(
-          `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
-        ).trigger('keyup', { keyCode: 13 });
-      },
-    );
+    serviceRecords.forEach((branch, index) => {
+      errorCheck([`veteran_serviceRecords_${index}_serviceBranch`]);
+
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).click();
+      cy.fill(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+        branch.serviceBranch,
+      );
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keydown', { keyCode: 40 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keyup', { keyCode: 40 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keydown', { keyCode: 13 });
+      cy.get(
+        `input[name="root_application_veteran_serviceRecords_${index}_serviceBranch"]`,
+      ).trigger('keyup', { keyCode: 13 });
+
+      // Keep adding them until we're finished.
+      if (index < serviceRecords.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/sponsor-military-history');
 
@@ -146,7 +154,7 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
 
     // Benefit Selection Page 1
     preneedHelpers.validateProgressBar('4');
-    errorCheck(requiredHelpers.burialBenefitsErrors1);
+    errorCheck(requiredHelpers.burialBenefitsErrors);
     cy.selectRadio(
       'root_application_hasCurrentlyBuried',
       testData.data.application.hasCurrentlyBuried,
@@ -154,21 +162,24 @@ describe('Pre-need form VA 40-10007 Required Fields', () => {
     preneedHelpers.clickContinue();
 
     // Benefit Selection Page 2
-    errorCheck(requiredHelpers.burialBenefitsErrors2);
-    if (testData.data.application.currentlyBuriedPersons.length) {
-      testData.data.application.currentlyBuriedPersons.forEach(
-        (person, index) => {
-          cy.fill(
-            `input[name=root_application_currentlyBuriedPersons_${index}_name_first]`,
-            person.name.first,
-          );
-          cy.fill(
-            `input[name=root_application_currentlyBuriedPersons_${index}_name_last]`,
-            person.name.last,
-          );
-        },
+    currentlyBuriedPersons.forEach((person, index) => {
+      errorCheck([
+        `currentlyBuriedPersons_${index}_name_first`,
+        `currentlyBuriedPersons_${index}_name_last`,
+      ]);
+      cy.fill(
+        `input[name=root_application_currentlyBuriedPersons_${index}_name_first]`,
+        person.name.first,
       );
-    }
+      cy.fill(
+        `input[name=root_application_currentlyBuriedPersons_${index}_name_last]`,
+        person.name.last,
+      );
+      if (index < currentlyBuriedPersons.length - 1) {
+        cy.get('.usa-button-secondary.va-growable-add-btn').click();
+      }
+    });
+
     preneedHelpers.clickContinue();
     cy.url().should('not.contain', '/burial-benefits');
 

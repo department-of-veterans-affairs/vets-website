@@ -11,7 +11,7 @@ const childContent = (
       complete forms, but a visual guide to replicate simple patterns setup and
       page structure
     </p>
-    <h2>Form Pages Links</h2>
+    <h2>Form pages links</h2>
     <ul>
       <li>
         <Link to="/name-and-date-of-birth">Name and Date of Birth</Link>
@@ -28,8 +28,18 @@ const childContent = (
       <li>
         <Link to="/phone-and-email-address">Phone and email address</Link>
       </li>
+      <li>
+        <Link to="/treatment-records">
+          Multiple responses list & loop (required) [Treatment records]
+        </Link>
+      </li>
+      <li>
+        <Link to="/employers">
+          Multiple responses list & loop (optional) [Employment]
+        </Link>
+      </li>
     </ul>
-    <h2>Form Page Figma Templates Links</h2>
+    <h2>Form page Figma templates links</h2>
     <ul>
       <li>
         <a
@@ -76,8 +86,17 @@ const childContent = (
           Phone and email address
         </a>
       </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://www.figma.com/file/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates%2C-Patterns%2C-and-Forms?type=design&node-id=5751%3A10777&mode=design&t=FYk7L3PJ9a16WGP9-1://www.figma.com/file/4A3O3mVx4xDAKfHE7fPF1U/VADS-Templates%2C-Patterns%2C-and-Forms?type=design&node-id=2988-9602&mode=design&t=G7cHyOgjfgKxCDPo-11"
+        >
+          Multiple responses list & loop (TBD)
+        </a>
+      </li>
     </ul>
-    <h2>Form Page Code Examples</h2>
+    <h2>Form page code examples</h2>
     <ul>
       <li>
         <a
@@ -122,6 +141,45 @@ const childContent = (
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/phoneAndEmailAddress.js"
         >
           Phone and email address
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/platform/forms-system/src/js/patterns/array-builder/README.md"
+        >
+          Multiple responses list & loop README.md
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/treatmentRecords.js"
+        >
+          Multiple responses list & loop (required) [Treatment records]
+        </a>
+      </li>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/employers.js"
+        >
+          Multiple responses list & loop (optional) [Employment]
+        </a>
+      </li>
+    </ul>
+    <h2>Other form patterns</h2>
+    <ul>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://staging.va.gov/mock-form-minimal-header"
+        >
+          Mock form minimal header
         </a>
       </li>
     </ul>

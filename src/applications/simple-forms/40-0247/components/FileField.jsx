@@ -260,6 +260,20 @@ const FileField = props => {
             : await readAndCheckFile(currentFile, checks);
       }
 
+      // 20MB in bytes
+      const BYTES_LIMIT = 20 * 1024 * 1024;
+
+      // Check to see if the file size is greater than 20MB
+      if (currentFile.size > BYTES_LIMIT) {
+        allFiles[idx] = {
+          file: currentFile,
+          name: currentFile.name,
+          errorMessage: 'File size must not be greater than 20.0 MB.',
+        };
+        props.onChange(allFiles);
+        return;
+      }
+
       if (!checkResults.checkTypeAndExtensionMatches) {
         allFiles[idx] = {
           file: currentFile,

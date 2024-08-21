@@ -59,6 +59,24 @@ describe('Admission and discharge summary details component', () => {
     expect(formattedDate).to.exist;
   });
 
+  it('should display admitted on field', () => {
+    expect(
+      screen.getByText('Date admitted', {
+        exact: false,
+        selector: 'p',
+      }),
+    ).to.exist;
+  });
+
+  it('should display discharged on field', () => {
+    expect(
+      screen.getByText('Date discharged', {
+        exact: true,
+        selector: 'h3',
+      }),
+    ).to.exist;
+  });
+
   it('should display a download started message when the download pdf button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-1'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
@@ -98,7 +116,7 @@ describe('Admission and discharge summary details component header date', () => 
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('ds-note-date-heading');
-    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain('Date admitted');
     expect(headerDate.innerHTML).to.contain('May 29, 2022');
     expect(screen.queryByTestId('note-admission-date')).to.not.exist;
     expect(screen.queryByTestId('note-discharge-date')).to.exist;
@@ -115,7 +133,7 @@ describe('Admission and discharge summary details component header date', () => 
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('ds-note-date-heading');
-    expect(headerDate.innerHTML).to.contain('Discharged on');
+    expect(headerDate.innerHTML).to.contain('Date discharged');
     expect(headerDate.innerHTML).to.contain('June 11, 2022');
     expect(screen.queryByTestId('note-admission-date')).to.exist;
     expect(screen.queryByTestId('note-discharge-date')).to.not.exist;
@@ -129,7 +147,7 @@ describe('Admission and discharge summary details component header date', () => 
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('ds-note-date-heading');
-    expect(headerDate.innerHTML).to.contain('Entered on');
+    expect(headerDate.innerHTML).to.contain('Date entered');
     expect(headerDate.innerHTML).to.contain('August 8, 2022');
     expect(screen.queryByTestId('note-admission-date')).to.exist;
     expect(screen.queryByTestId('note-discharge-date')).to.exist;
@@ -140,7 +158,7 @@ describe('Admission and discharge summary details component header date', () => 
 
     const screen = renderScreen(jsonRecord);
     const headerDate = screen.queryByTestId('ds-note-date-heading');
-    expect(headerDate.innerHTML).to.contain('Admitted on');
+    expect(headerDate.innerHTML).to.contain('Date admitted');
     expect(headerDate.innerHTML).to.contain(EMPTY_FIELD);
     expect(screen.queryByTestId('note-admission-date')).to.not.exist;
     expect(screen.queryByTestId('note-discharge-date')).to.exist;

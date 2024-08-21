@@ -4,6 +4,7 @@ import {
   isEmptyObject,
   getItemSchema,
   returnPhoneObject,
+  isOutsideForm,
 } from '../../utils/helpers';
 
 describe('isEmptyObject', () => {
@@ -61,5 +62,30 @@ describe('returnPhoneObject', () => {
       phoneNumber: '5551212',
       phoneNumberExt: '',
     });
+  });
+});
+
+describe('isOutsideForm', () => {
+  it('should return true', () => {
+    expect(isOutsideForm('/start')).to.be.true;
+    expect(isOutsideForm('/introduction')).to.be.true;
+    expect(isOutsideForm('/confirmation')).to.be.true;
+    expect(isOutsideForm('/form-saved')).to.be.true;
+    expect(isOutsideForm('/error')).to.be.true;
+    expect(isOutsideForm('/resume')).to.be.true;
+    expect(isOutsideForm('/start/')).to.be.true;
+    expect(isOutsideForm('/introduction/')).to.be.true;
+    expect(isOutsideForm('/confirmation/')).to.be.true;
+    expect(isOutsideForm('/form-saved/')).to.be.true;
+    expect(isOutsideForm('/error/')).to.be.true;
+    expect(isOutsideForm('/resume/')).to.be.true;
+  });
+  it('should return false', () => {
+    expect(isOutsideForm('')).to.be.false;
+    expect(isOutsideForm('/')).to.be.false;
+    expect(isOutsideForm('/middle')).to.be.false;
+    expect(isOutsideForm('/form')).to.be.false;
+    expect(isOutsideForm('/resum')).to.be.false;
+    expect(isOutsideForm('/err')).to.be.false;
   });
 });

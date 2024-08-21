@@ -8,27 +8,30 @@ import { FACILITY_TYPES, FLOW_TYPES } from '../../../../utils/constants';
 import getNewAppointmentFlow from '../../../newAppointmentFlow';
 import { getFlowType } from '../../../redux/selectors';
 
-function handleClick(history, pageFlow, isCommunityCare) {
-  const { home, ccRequestDateTime, requestDateTime } = pageFlow;
-  const url = isCommunityCare ? ccRequestDateTime.url : requestDateTime.url;
+function handleClick(history, home, requestDateTimeUrl) {
+  return e => {
+    // Stop default behavior for anchor tag since we are using React routing.
+    e.preventDefault();
 
-  return () => {
     if (
       history.location.pathname.endsWith('/') ||
-      (url.endsWith('/') && url !== home.url)
+      (requestDateTimeUrl.endsWith('/') && requestDateTimeUrl !== home.url)
     )
-      history.push(`../${url}`);
-    else history.push(url);
+      history.push(`../${requestDateTimeUrl}`);
+    else history.push(requestDateTimeUrl);
   };
 }
 
 export default function PreferredDatesSection(props) {
   const history = useHistory();
-  const pageFlow = useSelector(getNewAppointmentFlow);
+  const { home, ccRequestDateTime, requestDateTime } = useSelector(
+    getNewAppointmentFlow,
+  );
   const flowType = useSelector(getFlowType);
 
   const isCommunityCare =
     props.data.facilityType === FACILITY_TYPES.COMMUNITY_CARE;
+  const url = isCommunityCare ? ccRequestDateTime.url : requestDateTime.url;
 
   return (
     <>
@@ -52,10 +55,11 @@ export default function PreferredDatesSection(props) {
           </div>
           <div>
             <va-link
+              href={`../${url}`}
               aria-label="Edit preferred date"
               text="Edit"
               data-testid="edit-new-appointment"
-              onClick={handleClick(history, pageFlow, isCommunityCare)}
+              onClick={handleClick(history, home, url)}
             />
           </div>
         </div>

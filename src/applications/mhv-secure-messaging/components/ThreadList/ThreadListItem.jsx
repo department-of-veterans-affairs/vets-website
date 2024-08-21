@@ -8,8 +8,7 @@ import { dateFormat } from '../../util/helpers';
 
 const unreadMessageClassList = 'vads-u-font-weight--bold';
 const readMessageClassList = '';
-const attachmentClasses =
-  'vads-u-margin-right--1 vads-u-font-size--sm fas fa-paperclip';
+const attachmentClasses = 'vads-u-margin-right--1 vads-u-font-size--sm';
 
 const ThreadListItem = props => {
   const mhvSecureMessagingToPhase1 = useSelector(
@@ -91,9 +90,10 @@ const ThreadListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
             <span>
-              <i
+              <span
                 aria-hidden="true"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                role="img"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
                 data-testid="thread-list-unread-icon"
               />
             </span>
@@ -135,7 +135,8 @@ const ThreadListItem = props => {
         </div>
         <div data-testid="message-info-row">
           {hasAttachment && (
-            <i
+            <va-icon
+              icon="attach_file"
               role="img"
               aria-labelledby={`message-link-has-attachment-${messageId}`}
               className={attachmentClasses}
@@ -158,7 +159,7 @@ const ThreadListItem = props => {
                 messageCount > 0 && (
                   <span className="vads-u-color--gray-medium">, </span>
                 )}
-              <span className="vads-u-color--secondary-darkest">Draft</span>
+              <span className="vads-u-color--secondary-darkest">[Draft]</span>
             </>
           )}
         </div>
@@ -173,10 +174,10 @@ const ThreadListItem = props => {
         {activeFolder.folderId !== DefaultFolders.DRAFTS.id &&
           (unreadMessages && (
             <span>
-              <i
+              <span
                 role="img"
                 aria-label="Unread message"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker fas fa-solid fa-circle"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
                 data-testid="thread-list-unread-icon"
                 alt="Unread message icon"
               />
@@ -243,7 +244,8 @@ const ThreadListItem = props => {
 
         <p className="received-date vads-u-margin-y--0p5">
           {hasAttachment && (
-            <i
+            <va-icon
+              icon="attach_file"
               role="img"
               aria-labelledby={`message-link-has-attachment-${messageId}`}
               className={attachmentClasses}

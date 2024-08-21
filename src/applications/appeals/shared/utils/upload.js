@@ -79,9 +79,9 @@ export const createContent = (content = {}) => ({
     content.modalTitle || 'Are you sure you want to delete this file?',
   modalContent: fileName =>
     content.modalContent?.(fileName) || (
-      <span>
+      <div className="overflow-wrap-word">
         We’ll delete the uploaded file <strong>{fileName || 'Unknown'}</strong>
-      </span>
+      </div>
     ),
   modalYesButton: content.modalYesButton || 'Yes, delete this file',
   modalNoButton: content.modalNoButton || 'No, keep this',

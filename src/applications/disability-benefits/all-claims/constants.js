@@ -340,6 +340,10 @@ export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
 
+// used to save feature flag in form in util function for 'depends' keyword of form config
+export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
+  'showRevisedNewDisabilitiesPage';
+
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';
 
@@ -364,11 +368,9 @@ export const GULF_WAR_1990_LOCATIONS = Object.freeze({
   waters:
     'The waters of the Arabian Sea, Gulf of Aden, Gulf of Oman, Persian Gulf, and Red Sea',
   airspace: 'The airspace above any of these locations',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
 });
-
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
 
 export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   djibouti: 'Djibouti',
@@ -376,4 +378,32 @@ export const GULF_WAR_2001_LOCATIONS = Object.freeze({
   uzbekistan: 'Uzbekistan',
   yemen: 'Yemen',
   airspace: 'The airspace above any of these locations',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
+});
+
+export const HERBICIDE_LOCATIONS = Object.freeze({
+  cambodia: 'Cambodia at Mimot or Krek, Kampong Cham Province',
+  guam: 'Guam, American Samoa, or their territorial waters',
+  koreandemilitarizedzone: 'In or near the Korean demilitarized zone',
+  johnston: 'Johnston Atoll or on a ship that called at Johnston Atoll',
+  laos: 'Laos',
+  c123:
+    'Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+  thailand: 'A U.S. or Royal Thai military base in Thailand',
+  vietnam: 'Vietnam or the waters in or off of Vietnam',
+  none: 'None of these locations',
+  notsure: 'I’m not sure if I served in these locations',
+});
+
+export const ADDITIONAL_EXPOSURES = Object.freeze({
+  asbestos: 'Asbestos',
+  chemical:
+    'Chemical and biological warfare testing through Project 112 or Project Shipboard Hazard and Defense (SHAD)',
+  water: 'Contaminated water at Camp Lejeune or MCAS New River, North Carolina',
+  mos: 'Military Occupational Specialty (MOS)-related toxin',
+  mustardgas: 'Mustard Gas',
+  radiation: 'Radiation',
+  none: 'None of these',
+  notsure: 'I’m not sure if I have been exposed to these hazards',
 });

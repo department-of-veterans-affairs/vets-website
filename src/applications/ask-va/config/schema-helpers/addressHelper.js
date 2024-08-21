@@ -1,15 +1,15 @@
-import { createSelector } from 'reselect';
 import { states } from '@department-of-veterans-affairs/platform-forms/address';
+import { createSelector } from 'reselect';
 
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import set from '@department-of-veterans-affairs/platform-forms-system/set';
 import unset from '@department-of-veterans-affairs/platform-utilities/unset';
 import {
+  addressFields,
   postOfficeOptions,
   regionOptions,
-  addressFields,
 } from '../../constants';
-import { radioUI, radioSchema } from './radioHelper';
+import { radioSchema, radioUI } from './radioHelper';
 
 import fullSchema from '../0873-schema.json';
 
@@ -63,8 +63,8 @@ export function schema(
       militaryAddress: {
         type: 'object',
         properties: {
-          militaryPostOffice: radioSchema(Object.keys(postOfficeOptions)),
-          militaryState: radioSchema(Object.keys(regionOptions)),
+          militaryPostOffice: radioSchema(Object.values(postOfficeOptions)),
+          militaryState: radioSchema(Object.values(regionOptions)),
         },
       },
       postalCode: {
@@ -85,9 +85,10 @@ export function schema(
  * @param {boolean} ignoreRequired - Ignore the required fields array, to avoid overwriting form specific
  *   customizations
  */
-export function uiSchema(label = 'Address', useStreet3 = false) {
+export function uiSchema(label = 'Address', useStreet3 = true) {
   let fieldOrder = [
     'street',
+    'unitNumber',
     'street2',
     'street3',
     'militaryAddress',
@@ -185,6 +186,10 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
         required: 'Please enter a street address',
       },
     },
+    unitNumber: {
+      'ui:title': 'Apartment or unit number',
+      // 'ui:autocomplete': 'address-line2',
+    },
     street2: {
       'ui:title': 'Street address 2',
       'ui:autocomplete': 'address-line2',
@@ -228,7 +233,7 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
         required: 'Please enter a state/province/region',
         'ui:autocomplete': 'address-level1',
       },
-      'ui:required': form => !form.onBaseOutsideUS,
+      'ui:required': form => !form.onBaseOutsideUS && form.country === 'USA',
       'ui:options': {
         hideIf: form => form.onBaseOutsideUS,
       },
@@ -237,9 +242,6 @@ export function uiSchema(label = 'Address', useStreet3 = false) {
       'ui:title': 'Postal code',
       'ui:autocomplete': 'postal-code',
       'ui:required': () => true,
-      'ui:options': {
-        widgetClassNames: 'usa-input-medium',
-      },
       'ui:errorMessages': {
         required: 'Please enter a postal code',
         pattern:

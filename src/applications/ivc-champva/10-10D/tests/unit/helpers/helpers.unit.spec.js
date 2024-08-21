@@ -1,8 +1,12 @@
 import { expect } from 'chai';
 import React from 'react';
-import { applicantWording, getAgeInYears } from '../../../../shared/utilities';
-import { sponsorWording } from '../../../helpers/wordingCustomization';
-import { isInRange } from '../../../helpers/utilities';
+import {
+  applicantWording,
+  getAgeInYears,
+  makeHumanReadable,
+} from '../../../../shared/utilities';
+import { isInRange, sponsorWording } from '../../../helpers/utilities';
+import { getTopLevelFormData } from '../../../components/Applicant/applicantFileUpload';
 import ApplicantField from '../../../../shared/components/applicantLists/ApplicantField';
 import { testComponentRender } from '../../../../shared/tests/pages/pageTests.spec';
 import mockData from '../../e2e/fixtures/data/test-data.json';
@@ -50,13 +54,40 @@ describe('isInRange helper', () => {
   });
 });
 
-// describe('getParts helper', () => {
-//   it('should clean up presentation of medicare part text', () => {
-//     expect(getParts('partA, partB, partD')).to.equal('Part A, Part B');
-//   });
-// });
+describe('makeHumanReadable helper', () => {
+  it('should convert camelCase into separate, capitalized words', () => {
+    expect(makeHumanReadable('camelCaseTest')).to.equal('Camel Case Test');
+  });
+});
 
 testComponentRender(
   'ApplicantField',
   <ApplicantField formData={mockData.data.applicants[0]} />,
 );
+
+describe('getTopLevelFormData helper', () => {
+  it('should return data if `contentAfterButtons` is present in formContext', () => {
+    expect(
+      getTopLevelFormData({
+        contentAfterButtons: {
+          props: {
+            form: {
+              data: {
+                veteransFullName: { first: 'firstname', last: 'lastname' },
+              },
+            },
+          },
+        },
+      }),
+    ).to.not.be.undefined;
+  });
+  it('should return data if `contentAfterButtons` is not present in formContext', () => {
+    expect(
+      getTopLevelFormData({
+        data: {
+          veteransFullName: { first: 'firstname', last: 'lastname' },
+        },
+      }),
+    ).to.not.be.undefined;
+  });
+});

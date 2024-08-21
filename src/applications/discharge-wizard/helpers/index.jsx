@@ -1,7 +1,16 @@
 import React from 'react';
 import moment from 'moment';
+import { differenceInYears } from 'date-fns';
 import * as options from 'platform/static-data/options-for-select';
-import { questionLabels, prevApplicationYearCutoff } from '../constants';
+import {
+  questionLabels,
+  prevApplicationYearCutoff,
+  BCMR,
+  BCNR,
+  DRB,
+  AFDRB,
+  monthLabelMap,
+} from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
 export const shouldShowQuestion = (currentKey, validQuestions) => {
@@ -59,6 +68,14 @@ export const board = (formValues, noDRB) => {
     if (courtMartial || transgender || intention || oldDischarge) {
       return boardObj;
     }
+
+    if (formValues['1_branchOfService'] === 'airForce') {
+      return {
+        name: 'Air Force Discharge Review Board (AFDRB)',
+        abbr: 'AFDRB',
+      };
+    }
+
     return { name: 'Discharge Review Board (DRB)', abbr: 'DRB' };
   }
 
@@ -69,7 +86,12 @@ export const venueAddress = (formValues, noDRB) => {
   if (!formValues) return null;
 
   const boardData = board(formValues);
-  if (!noDRB && boardData && boardData.abbr === 'DRB') {
+
+  if (
+    !noDRB &&
+    boardData &&
+    (boardData.abbr === 'DRB' || boardData.abbr === 'AFDRB')
+  ) {
     switch (formValues['1_branchOfService']) {
       case 'army':
         return (
@@ -88,6 +110,8 @@ export const venueAddress = (formValues, noDRB) => {
         return (
           <p className="va-address-block">
             Air Force Discharge Review Board
+            <br />
+            SAF/MRBP (AFDRB)
             <br />
             3351 Celmers Lane
             <br />
@@ -182,7 +206,7 @@ export const venueAddress = (formValues, noDRB) => {
 
 export const formData = formValues => {
   const boardData = board(formValues);
-  if (boardData?.abbr === 'DRB') {
+  if (['DRB', 'AFDRB'].includes(boardData?.abbr)) {
     return {
       num: 293,
       link:
@@ -245,25 +269,40 @@ export const deriveIsAirForceAFRBAPortal = formValues =>
   board(formValues).abbr === 'BCMR' &&
   formData(formValues).num === 149;
 
+// v2 Helpers
+
+// Changes Marine Corps discharge board to Navy for naming on results pages
+// since the Marine Corps does not have a discharge board.
+export const determineBranchOfService = key =>
+  key === RESPONSES.MARINE_CORPS ? RESPONSES.NAVY : key;
+
+// Determines if a previous discharge occurred more than 15 years ago.
+export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
+  differenceInYears(new Date(), new Date(dischargeMonth, dischargeYear)) >= 15;
+
+// Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
-  const monthObj = options.months.find(
-    m => String(m.value) === formValues[SHORT_NAME_MAP.DISCHARGE_MONTH],
-  );
 
-  const dischargeMonth = monthObj && monthObj.label;
+  const dischargeMonth =
+    monthLabelMap[formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]] || '';
 
   switch (key) {
     case SHORT_NAME_MAP.SERVICE_BRANCH:
       return `I served in the ${formValues[key]}.`;
     case SHORT_NAME_MAP.DISCHARGE_YEAR:
-      if (answer === '1991' && !formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]) {
+      if (
+        answer === 'Before 1992' &&
+        !formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]
+      ) {
         return 'I was discharged before 1992.';
       }
 
-      return `I was discharged in ${dischargeMonth || ''} ${formValues[key]}.`;
+      return `I was discharged in ${formValues[key]}.`;
+    case SHORT_NAME_MAP.DISCHARGE_MONTH:
+      return dischargeMonth;
     case SHORT_NAME_MAP.PREV_APPLICATION:
-      if (answer === RESPONSES.PREV_APPLICATION_1) {
+      if (answer === RESPONSES.YES) {
         return 'I have previously applied for a discharge upgrade for this period of service.';
       }
 
@@ -271,15 +310,15 @@ export const answerReviewLabel = (key, formValues) => {
     case SHORT_NAME_MAP.PREV_APPLICATION_YEAR:
       // The .toLowerCase() corrects the casing of "After {year}" as it is
       // at the end of the sentence
-      return `I made my previous application ${answer.toLowerCase()}.`;
+      return `I made my previous application ${answer?.toLowerCase()}.`;
     case SHORT_NAME_MAP.COURT_MARTIAL:
-      if (answer === RESPONSES.COURT_MARTIAL_3) {
+      if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure if my discharge was the outcome of a general court-martial.`;
       }
 
       return answer;
     case SHORT_NAME_MAP.PREV_APPLICATION_TYPE:
-      if (answer === RESPONSES.PREV_APPLICATION_TYPE_4) {
+      if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure what kind of discharge upgrade application I previously made.`;
       }
 
@@ -290,3 +329,99 @@ export const answerReviewLabel = (key, formValues) => {
     }
   }
 };
+
+// Determines board specific data based on form responses and returns an obj that is used on results pages.
+export const determineBoardObj = (formResponses, noDRB) => {
+  if (!formResponses) {
+    return null;
+  }
+
+  const prevAppType = [
+    RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
+    RESPONSES.NOT_SURE,
+  ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE]);
+
+  const noPrevApp =
+    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] === RESPONSES.NO;
+
+  const preAppDateBefore = [
+    RESPONSES.PREV_APPLICATION_BEFORE_2014,
+    RESPONSES.PREV_APPLICATION_BEFORE_2011,
+    RESPONSES.PREV_APPLICATION_BEFORE_2017,
+  ].includes(formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR]);
+
+  const courtMartial =
+    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_YES;
+
+  const transgender =
+    formResponses[SHORT_NAME_MAP.REASON] === RESPONSES.REASON_TRANSGENDER;
+  const intention =
+    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES;
+  const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 0;
+
+  const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
+
+  const failureToExhaust = [
+    RESPONSES.FAILURE_TO_EXHAUST_1A,
+    RESPONSES.FAILURE_TO_EXHAUST_1B,
+  ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
+
+  let boardObj = {
+    name: 'Board for Correction of Naval Records (BCNR)',
+    abbr: BCNR,
+  };
+  if (
+    [RESPONSES.ARMY, RESPONSES.AIR_FORCE, RESPONSES.COAST_GUARD].includes(
+      formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+    )
+  ) {
+    boardObj = {
+      name: 'Board for Correction of Military Records (BCMR)',
+      abbr: BCMR,
+    };
+  }
+
+  if (noDRB) {
+    return boardObj;
+  }
+
+  if (noPrevApp || preAppDateBefore || prevAppType || failureToExhaust) {
+    if (courtMartial || transgender || intention || oldDischarge) {
+      return boardObj;
+    }
+
+    if (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE) {
+      return {
+        name: 'Air Force Discharge Review Board (AFDRB)',
+        abbr: AFDRB,
+      };
+    }
+
+    return { name: 'Discharge Review Board (DRB)', abbr: DRB };
+  }
+
+  return boardObj;
+};
+
+// Determines specific form data Veterans will need to fill out based on form responses.
+export const determineFormData = formResponses => {
+  const boardData = determineBoardObj(formResponses);
+  if ([DRB, AFDRB].includes(boardData?.abbr)) {
+    return {
+      num: 293,
+      link:
+        'http://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0293.pdf',
+    };
+  }
+  return {
+    num: 149,
+    link: 'https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf',
+  };
+};
+
+// Determines if we should use AFRBA Portal and Link.
+export const determineAirForceAFRBAPortal = formResponses =>
+  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  determineBoardObj(formResponses).abbr === BCMR &&
+  determineFormData(formResponses).num === 149;

@@ -40,7 +40,7 @@ describe('Veteran address', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(8);
+    expect(form.find('input').length).to.equal(10);
     expect(form.find('select').length).to.equal(2);
     form.unmount();
   });
@@ -121,12 +121,12 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '34035',
     );
     fillData(
       form,
       'input#root_veteranContactInformation_phoneNumber',
-      '8005551212',
+      '800-555-1212',
     );
     form.find('form').simulate('submit');
     expect(form.find('.usa-input-error').length).to.equal(0);
@@ -168,7 +168,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '34012',
+      '34035',
     );
     fillData(
       form,
@@ -304,7 +304,7 @@ describe('Veteran address', () => {
     fillData(
       form,
       'input#root_veteranContactInformation_veteranAddress_zipCode',
-      '20500',
+      '34035',
     );
     fillData(
       form,

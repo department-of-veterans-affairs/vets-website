@@ -1,5 +1,6 @@
 import 'platform/polyfills';
 import './sass/vaos.scss';
+import '~/platform/mhv/secondary-nav/sass/mhv-sec-nav.scss';
 
 import startApp from 'platform/startup/router';
 import createRoutesWithStore from './routes';

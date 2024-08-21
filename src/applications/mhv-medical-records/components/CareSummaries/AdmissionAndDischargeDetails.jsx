@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -28,6 +28,7 @@ import {
   generateDischargeSummaryContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { setIsDetails } from '../../actions/isDetails';
 
 const AdmissionAndDischargeDetails = props => {
   const { record, runningUnitTest } = props;
@@ -39,6 +40,18 @@ const AdmissionAndDischargeDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+
+  useEffect(
+    () => {
+      dispatch(setIsDetails(true));
+      return () => {
+        dispatch(setIsDetails(false));
+      };
+    },
+    [dispatch],
+  );
 
   useEffect(
     () => {
@@ -78,8 +91,8 @@ Review a summary of your stay at a hospital or other health facility (called an 
 ${txtLine}\n\n
 Details\n
 Location: ${record.location}\n
-Admission date: ${record.admissionDate}\n
-Discharge date: ${record.dischargeDate}\n
+Date admitted: ${record.admissionDate}\n
+Date discharged: ${record.dischargeDate}\n
 Discharged by: ${record.dischargedBy}\n
 ${txtLine}\n\n
 Summary\n
@@ -92,13 +105,13 @@ ${record.summary}`;
   };
 
   const displayHeaderDate = note => {
-    let dateLabel = 'Admitted on';
+    let dateLabel = 'Date admitted';
     let displayDate = note.admissionDate;
     if (note.sortByField === dischargeSummarySortFields.DISCHARGE_DATE) {
-      dateLabel = 'Discharged on';
+      dateLabel = 'Date discharged';
       displayDate = note.dischargeDate;
     } else if (note.sortByField === dischargeSummarySortFields.DATE_ENTERED) {
-      dateLabel = 'Entered on';
+      dateLabel = 'Date entered';
       displayDate = note.dateEntered;
     }
     return (
@@ -147,7 +160,7 @@ ${record.summary}`;
           record.sortByField !== null && (
             <>
               <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-                Admitted on
+                Date admitted
               </h3>
               <p data-testid="note-admission-date">{record.admissionDate}</p>
             </>
@@ -155,7 +168,7 @@ ${record.summary}`;
         {record.sortByField !== dischargeSummarySortFields.DISCHARGE_DATE && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Discharged on
+              Date discharged
             </h3>
             <p data-testid="note-discharge-date">{record.dischargeDate}</p>
           </>
@@ -168,7 +181,10 @@ ${record.summary}`;
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p data-testid="note-summary" className="monospace">
+        <p
+          data-testid="note-summary"
+          className="monospace vads-u-line-height--6"
+        >
           {record.summary}
         </p>
       </div>

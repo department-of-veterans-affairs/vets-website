@@ -16,8 +16,18 @@ export function ApplicantAddressCopyPage({
   pagePerItemIndex,
   updatePage,
   onReviewPage,
+  customTitle,
+  customDescription,
+  customSelectText,
+  positivePrefix,
+  negativePrefix,
 }) {
-  const currentApp = data?.applicants?.[pagePerItemIndex];
+  // Get the current applicant from list, OR if we don't have a list of
+  // applicants, just treat the whole form data object as a single applicant
+  const currentApp =
+    pagePerItemIndex && data?.applicants
+      ? data?.applicants?.[pagePerItemIndex]
+      : data;
   const [selectValue, setSelectValue] = useState(currentApp?.sharesAddressWith);
   const [address, setAddress] = useState(currentApp?.applicantAddress);
   // const [radioError, setRadioError] = useState(undefined);
@@ -31,6 +41,24 @@ export function ApplicantAddressCopyPage({
   function fullName(name) {
     return `${name?.first} ${name?.middle || ''} ${name?.last} ${name?.suffix ||
       ''}`;
+  }
+
+  /**
+   * Removes objects from the array if they have an identical [property] as an
+   * earlier object in the array.
+   *
+   * @param {array} array List containing objects
+   * @param {string} property Target property for determining uniqueness
+   * @returns original array minus objects with duplicate [property] values
+   */
+  function eliminateDuplicatesByKey(array, property) {
+    return array.filter(
+      (item, index) =>
+        index ===
+        array.findIndex(
+          t => JSON.stringify(t[property]) === JSON.stringify(item[property]),
+        ),
+    );
   }
 
   function isValidOrigin(person) {
@@ -51,23 +79,28 @@ export function ApplicantAddressCopyPage({
       allAddresses.push({
         originatorName: fullName(data.certifierName),
         originatorAddress: data.certifierAddress,
-        displayText: data.certifierAddress.street,
+        displayText: `${data.certifierAddress.street} ${data.certifierAddress
+          ?.state ?? ''}`,
       });
     if (data.sponsorAddress?.street && data.veteransFullName)
       allAddresses.push({
         originatorName: fullName(data.veteransFullName),
         originatorAddress: data.sponsorAddress,
-        displayText: data.sponsorAddress.street,
+        displayText: `${data.sponsorAddress.street} ${data.sponsorAddress
+          ?.state ?? ''}`,
       });
 
-    data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
-      allAddresses.push({
-        originatorName: fullName(app.applicantName),
-        originatorAddress: app.applicantAddress,
-        displayText: app.applicantAddress?.street,
-      }),
-    );
-    return allAddresses;
+    if (data?.applicants)
+      data.applicants.filter(app => isValidOrigin(app)).forEach(app =>
+        allAddresses.push({
+          originatorName: fullName(app.applicantName),
+          originatorAddress: app.applicantAddress,
+          displayText: `${app.applicantAddress.street} ${app.applicantAddress
+            ?.state ?? ''}`,
+        }),
+      );
+    // Drop any entries with duplicate addresses
+    return eliminateDuplicatesByKey(allAddresses, 'originatorAddress');
   }
 
   const handlers = {
@@ -106,7 +139,11 @@ export function ApplicantAddressCopyPage({
       event.preventDefault();
       if (!handlers.validate()) return;
       const tmpVal = { ...data };
-      const tmpApp = tmpVal.applicants[pagePerItemIndex];
+      // Either use the current list loop applicant, or treat whole form data as an applicant
+      const tmpApp =
+        pagePerItemIndex && data?.applicants
+          ? tmpVal?.applicants[pagePerItemIndex]
+          : tmpVal;
       tmpApp.sharesAddressWith = selectValue;
       if (selectValue !== 'not-shared') {
         tmpApp.applicantAddress = address;
@@ -125,7 +162,7 @@ export function ApplicantAddressCopyPage({
         which prevents long <option> text from overlapping the expansion arrow
         on the right side of the <select>. (Needed for accessibility audit) */
         const sheet = new CSSStyleSheet();
-        sheet.replaceSync('.usa-select {padding-right: 3rem}');
+        sheet.replaceSync('.usa-select {padding-right: 1.875rem}');
         shadowSelect.adoptedStyleSheets.push(sheet);
       }
       if (dirty) handlers.validate();
@@ -136,18 +173,21 @@ export function ApplicantAddressCopyPage({
 
   // We use this a few times, so compute now.
   const curAppFullName = fullName(currentApp.applicantName);
-  const selectWording = `${
-    pagePerItemIndex === 0 && data.certifierRole === 'applicant'
-      ? 'Do you'
-      : `Does ${curAppFullName}`
-  } have the same address as another person listed in this application?`;
+  const selectWording =
+    customSelectText ??
+    `${
+      pagePerItemIndex === 0 && data.certifierRole === 'applicant'
+        ? 'Do you'
+        : `Does ${curAppFullName}`
+    } have the same mailing address as another person listed in this application?`;
 
   return (
     <>
       {
         titleUI(
-          `${applicantWording(currentApp)} mailing address`,
-          'We’ll send any important information about your application to this address.',
+          customTitle ?? `${applicantWording(currentApp)} address selection`,
+          customDescription ??
+            'We’ll send any important information about your application to this address.',
         )['ui:title']
       }
 
@@ -160,10 +200,13 @@ export function ApplicantAddressCopyPage({
           label={selectWording}
           name="shared-address-select"
         >
-          <option value="not-shared">No, use a new address</option>
+          <option value="not-shared">
+            {negativePrefix ?? 'No, use a new address'}
+          </option>
           {getSelectOptions().map(el => (
             <option key={el.originatorName} value={JSON.stringify(el)}>
-              Use {el.displayText}
+              {`${positivePrefix ?? 'Use'} `}
+              {el.displayText}
             </option>
           ))}
         </VaSelect>
@@ -180,12 +223,17 @@ export function ApplicantAddressCopyPage({
 ApplicantAddressCopyPage.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
+  customDescription: PropTypes.string,
+  customSelectText: PropTypes.string,
+  customTitle: PropTypes.string,
   data: PropTypes.object,
   genOp: PropTypes.func,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
   keyname: PropTypes.string,
+  negativePrefix: PropTypes.string,
   pagePerItemIndex: PropTypes.string || PropTypes.number,
+  positivePrefix: PropTypes.string,
   setFormData: PropTypes.func,
   updatePage: PropTypes.func,
   onReviewPage: PropTypes.bool,

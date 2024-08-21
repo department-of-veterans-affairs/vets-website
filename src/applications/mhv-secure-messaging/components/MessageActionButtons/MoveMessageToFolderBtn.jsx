@@ -40,6 +40,15 @@ const MoveMessageToFolderBtn = props => {
     [dispatch],
   );
 
+  useEffect(
+    () => {
+      if (folderInputError) {
+        focusOnErrorField();
+      }
+    },
+    [folderInputError],
+  );
+
   const openModal = () => {
     setIsMoveModalVisible(true);
   };
@@ -63,7 +72,6 @@ const MoveMessageToFolderBtn = props => {
       setFolderInputError(
         Constants.ErrorMessages.MoveConversation.FOLDER_REQUIRED,
       );
-      focusOnErrorField();
     } else {
       if (selectedFolder === 'newFolder') {
         closeModal();
@@ -112,15 +120,12 @@ const MoveMessageToFolderBtn = props => {
         <VaModal
           id="move-to-modal"
           data-testid="move-to-modal"
-          modalTitle="Move to:"
+          modalTitle="Move conversation"
           onCloseEvent={closeModal}
           visible={isMoveModalVisible}
           data-dd-action-name="Move To Modal Closed"
         >
-          <p>
-            This conversation will be moved. Any replies to this message will
-            appear in your inbox.
-          </p>
+          <p>Any replies to this message will appear in your inbox.</p>
           <VaRadio
             className="form-radio-buttons"
             required
@@ -128,6 +133,8 @@ const MoveMessageToFolderBtn = props => {
             error={folderInputError}
             onVaValueChange={handleOnChangeFolder}
             data-dd-action-name="Select Move to Radio Button"
+            label="Select a folder"
+            data-testid="select-folder-radio-group"
           >
             {updatedFoldersList &&
               updatedFoldersList.map((folder, i) => (
@@ -201,15 +208,14 @@ const MoveMessageToFolderBtn = props => {
     isVisible && (
       <>
         <button
+          id="move-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3"
-          style={{ minWidth: '100px' }}
+          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={openModal}
         >
-          <i
-            className="fas fa-folder vads-u-margin-right--0p5"
-            aria-hidden="true"
-          />
+          <div className="vads-u-margin-right--0p5">
+            <va-icon icon="folder" aria-hidden="true" />
+          </div>
           <span
             className="message-action-button-text"
             data-testid="move-button-text"

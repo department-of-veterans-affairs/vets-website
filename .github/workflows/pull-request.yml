@@ -30,7 +30,7 @@ jobs:
           env_variable_name: VA_VSP_BOT_GITHUB_TOKEN
 
       - name: Init Dashboard Data Repo
-        uses: department-of-veterans-affairs/platform-release-tools-actions/init-data-repo@main
+        uses: ./.github/workflows/init-data-repo
 
       - name: Set Up BigQuery Creds
         uses: ./.github/workflows/configure-bigquery
@@ -176,7 +176,7 @@ jobs:
       - name: Run PR check script
         run: yarn pr-check
         env:
-          CODE_PATTERN: (<i )|(<i$)
+          CODE_PATTERN: (<i )|(<i$)|(<va-icon)
           LINE_COMMENT: icon found
           OVERALL_REVIEW_COMMENT: >
             # Icon found
@@ -189,6 +189,10 @@ jobs:
 
             Review the markup and see if the icon provides information that isn't
             represented textually, or wait for a VSP review.
+
+            ## Note:
+
+            Font Awesome is deprecated. Please use va-icon instead. For more information, visit the migration documentation: [Migrate from font awesome to va-icon](https://design.va.gov/about/developers/using-web-components#how-to-migrate-from-font-awesome-to-va-icon)
 
   sentry-check:
     name: Sentry Check
@@ -253,6 +257,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
 
       - name: Get Node version
         id: get-node-version
@@ -273,18 +279,25 @@ jobs:
             .cache/yarn
             node_modules
 
-      - name: Get files changed
+      - name: Get changed files
         id: get-files-changed
-        uses: trilom/file-changes-action@v1.2.4
         continue-on-error: true
+        uses: ./.github/workflows/get-changed-apps
         with:
-          output: 'json'
+          delimiter: ','
+          output-type: 'entry_name, url'
 
       - name: Filter files
         id: get-lint-files
-        run: node ./script/github-actions/filter-files-changed.js ${{ steps.get-files-changed.outputs.files }}
+        run: node ./script/github-actions/filter-files-changed.js
+        env:
+          CHANGED_FILE_PATHS: ${{ steps.get-files-changed.outputs.changed_files }}
 
-      - name: Annotate ESLint results
+      - name: Annotate ESLint results for all files if eslint config has been modified
+        if: contains(steps.get-files-changed.outputs.files, '.eslintrc.js')
+        run: yarn run eslint --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js .
+
+      - name: Annotate ESLint results for modified files
         run: yarn run eslint -c ./.eslintrc.changed.js --ext .js --ext .jsx --no-error-on-unmatched-pattern --format ./script/github-actions/eslint-annotation-format.js ${{ steps.get-lint-files.outputs.JSFILES }}
 
       - name: Run Stylelint

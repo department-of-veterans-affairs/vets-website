@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect, useSelector } from 'react-redux';
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView';
+import { TITLE, SUBTITLE } from '../config/constants';
 
 const content = {
   headlineText: "You've submitted your statement to support your claim",
@@ -9,7 +11,7 @@ const content = {
     <>
       <p>
         We’ll review your statement. If we have any questions or need additional
-        information from you, we’ll contact you.",
+        information from you, we’ll contact you.
       </p>
     </>
   ),
@@ -24,15 +26,18 @@ export const ConfirmationPage = () => {
   const submitterFullName = form.data.fullName;
 
   return (
-    <ConfirmationPageView
-      formType="submission"
-      submitterHeader="Who submitted this form"
-      submitterName={submitterFullName}
-      submitDate={submitDate}
-      confirmationNumber={confirmationNumber}
-      content={content}
-      childContent={childContent}
-    />
+    <>
+      <FormTitle title={TITLE} subTitle={SUBTITLE} />
+      <ConfirmationPageView
+        formType="submission"
+        submitterHeader="Who submitted this form"
+        submitterName={submitterFullName}
+        submitDate={submitDate}
+        confirmationNumber={confirmationNumber}
+        content={content}
+        childContent={childContent}
+      />
+    </>
   );
 };
 

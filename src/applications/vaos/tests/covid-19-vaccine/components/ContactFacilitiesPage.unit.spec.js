@@ -4,10 +4,10 @@ import { expect } from 'chai';
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import ContactFacilitiesPage from '../../../covid-19-vaccine/components/ContactFacilitiesPage';
 import { createTestStore, renderWithStoreAndRouter } from '../../mocks/setup';
-import { createMockFacilityByVersion } from '../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../mocks/v2';
+import { createMockFacility } from '../../mocks/data';
+import { mockFacilitiesFetch } from '../../mocks/fetch';
+import { mockSchedulingConfigurations } from '../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../mocks/mock';
 
 describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   const initialState = {
@@ -44,10 +44,10 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show closest two registered facilities', async () => {
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
@@ -58,7 +58,7 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
           },
           phone: '5555555555x1234',
         }),
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '984',
           name: 'Facility that is furthest away',
           lat: 39.1362562,
@@ -129,14 +129,14 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show five facilities in alpha order when no residential address', async () => {
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           name: 'A facility',
         }),
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '984',
           name: 'B facility',
         }),
@@ -180,10 +180,10 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
   });
 
   it('should show no facilities for online vaccine scheduling view', async () => {
-    mockFacilitiesFetchByVersion({
+    mockFacilitiesFetch({
       children: true,
       facilities: [
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '983',
           name: 'Facility that is enabled',
           lat: 39.1362562,
@@ -194,7 +194,7 @@ describe('VAOS vaccine flow: ContactFacilitiesPage', () => {
           },
           phone: '5555555555x1234',
         }),
-        createMockFacilityByVersion({
+        createMockFacility({
           id: '984',
           name: 'Facility that is furthest away',
           lat: 39.1362562,

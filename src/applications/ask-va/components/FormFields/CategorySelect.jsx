@@ -1,5 +1,4 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
@@ -8,7 +7,12 @@ import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/select
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { setCategoryID } from '../../actions';
 import { ServerErrorAlert } from '../../config/helpers';
-import { URL, requireSignInCategories } from '../../constants';
+import {
+  CHAPTER_1,
+  URL,
+  envUrl,
+  requireSignInCategories,
+} from '../../constants';
 import RequireSignInModal from '../RequireSignInModal';
 
 const CategorySelect = props => {
@@ -18,10 +22,7 @@ const CategorySelect = props => {
   const [apiData, setApiData] = useState([]);
   const [loading, isLoading] = useState(false);
   const [error, hasError] = useState(false);
-  const [dirty, setDirty] = useState(false);
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
-
-  const errorMessages = { required: 'Please provide a response' };
 
   const onModalNo = () => {
     onChange('');
@@ -33,17 +34,8 @@ const CategorySelect = props => {
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
     dispatch(setCategoryID(selected.id));
     onChange(selectedValue);
-    setDirty(true);
     if (requireSignInCategories.includes(selectedValue) && !loggedIn)
       setShowModal({ show: true, selected: `${selectedValue}` });
-  };
-
-  const handleBlur = () => {
-    setDirty(true);
-  };
-
-  const showError = () => {
-    return dirty && !value ? errorMessages.required : false;
   };
 
   const getApiData = url => {
@@ -61,7 +53,7 @@ const CategorySelect = props => {
 
   useEffect(
     () => {
-      getApiData(`${environment.API_URL}${URL.GET_CATEGORIES}`);
+      getApiData(`${envUrl}${URL.GET_CATEGORIES}`);
     },
     [loggedIn],
   );
@@ -77,14 +69,12 @@ const CategorySelect = props => {
     <>
       <VaSelect
         id={id}
-        name={id}
+        name="Select category"
+        messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
         value={value}
-        error={showError() || null}
         onVaSelect={handleChange}
-        onBlur={handleBlur}
         uswds
       >
-        <option value="">&nbsp;</option>
         {apiData.map(category => (
           <option
             key={category.id}

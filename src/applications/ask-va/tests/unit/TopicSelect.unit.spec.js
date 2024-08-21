@@ -4,15 +4,13 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { envUrl } from '../../constants';
 import { userData } from '../fixtures/data/mock-form-data';
 
 import TopicSelect from '../../components/FormFields/TopicSelect';
 
 describe('<TopicSelect /> component', () => {
-  const apiRequestWithUrl = `${
-    environment.API_URL
-  }/ask_va_api/v0/categories/2/topics`;
+  const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/categories/2/topics`;
 
   let server = null;
 

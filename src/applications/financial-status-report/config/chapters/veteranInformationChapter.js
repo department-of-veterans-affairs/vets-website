@@ -18,7 +18,6 @@ import {
 } from '../../components/contactInfo/EditContactInfo';
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
-import DependentAgesReview from '../../components/household/DependentAgesReview';
 import SpouseTransitionExplainer from '../../components/householdIncome/SpouseTransitionExplainer';
 import { getGlobalState } from '../../utils/checkGlobalState';
 
@@ -104,11 +103,11 @@ export default {
         title: 'Spouse name',
         uiSchema: spouseName.uiSchema,
         schema: spouseName.schema,
-        depends: formData => formData.questions.isMarried,
+        depends: formData => formData.questions?.isMarried,
       },
       spouseTransition: {
         path: 'spouse-transition',
-        title: 'Spouse Transition',
+        title: 'You added a spouse',
         uiSchema: {},
         schema: { type: 'object', properties: {} },
         CustomPage: SpouseTransitionExplainer,
@@ -116,15 +115,15 @@ export default {
         depends: formData => {
           const globalState = getGlobalState();
           return (
-            formData.questions.isMarried &&
-            !formData.reviewNavigation &&
+            formData.questions?.isMarried &&
+            !formData?.reviewNavigation &&
             globalState.spouseChanged
           );
         },
       },
       dependentCount: {
         path: 'dependents-count',
-        title: 'Dependents',
+        title: 'Dependents count',
         uiSchema: {},
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
@@ -132,15 +131,15 @@ export default {
       },
       dependentAges: {
         path: 'dependent-ages',
-        title: 'Dependents',
+        title: 'Dependents ages',
         uiSchema: {},
         schema: dependentRecords.schemaEnhanced,
         depends: formData =>
           formData.questions?.hasDependents &&
-          formData.questions.hasDependents !== '0' &&
+          formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
-        CustomPageReview: DependentAgesReview,
+        CustomPageReview: null,
         editModeOnReviewPage: false,
       },
     },

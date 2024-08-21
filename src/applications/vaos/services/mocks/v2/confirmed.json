@@ -1,5 +1,1993 @@
 {
   "data": [
+{
+    "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+    "type": "appointments",
+    "attributes": {
+        "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "4139383435363538"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "984:5658"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceType": "outpatientMentalHealth",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "outpatientMentalHealth"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984GA",
+        "clinic": "4284",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": "0000546167"
+                    }
+                ],
+                "name": {
+                    "family": "ZZZPPP",
+                    "given": [
+                        "LLL"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-08-16T15:30:00Z",
+        "end": "2024-08-16T16:00:00Z",
+        "minutesDuration": 30,
+        "slot": {
+            "id": "3230323430383134313533303A323032343038313431363030",
+            "start": "2024-08-16T15:30:00Z",
+            "end": "2024-08-16T16:00:00Z"
+        },
+        "created": "2023-07-25T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "NO ACTION TAKEN"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {
+                "physicalLocation": "",
+                "phoneNumber": "",
+                "phoneNumberExtension": ""
+            }
+        },
+        "localStartTime": "2024-08-16T14:00:00.000-04:00",
+        "station": "984",
+        "ien": "5658",
+        "avsPath": null,
+        "serviceName": "MID-V10 CRH MH PSY MD PT",
+        "friendlyName": "MID-V10 CRH MH PSY MD PT",
+        "location": {
+            "id": "984GA",
+            "type": "appointments",
+            "attributes": {
+                "id": "984GA",
+                "vistaSite": "984",
+                "vastParent": "984",
+                "type": "va_health_facility",
+                "name": "Middletown VA Clinic",
+                "classification": "Multi-Specialty CBOC",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.50603,
+                "long": -84.316475,
+                "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+                "phone": {
+                    "main": "513-423-8387"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4337 North Union Road"
+                    ],
+                    "city": "Middletown",
+                    "state": "OH",
+                    "postalCode": "45005-5211"
+                },
+                "healthService": [
+                    "Audiology",
+                    "MentalHealthCare",
+                    "Optometry",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare"
+                ]
+            }
+        }
+    }
+},
+{
+    "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2710",
+    "type": "appointments",
+    "attributes": {
+        "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2710",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "413938333133333234"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "983:13324"
+            }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "optometry",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "optometry"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "reasonCode": {
+            "text": "reasonCode:ROUTINEVISIT|comments:test  vaos-7661"
+        },
+        "patientIcn": "1013678363V916823",
+        "locationId": "983",
+        "clinic": "437",
+        "start": "2025-02-25T16:25:00Z",
+        "end": "2025-02-25T16:40:00Z",
+        "minutesDuration": 15,
+        "slot": {
+            "id": "3230323431303235313632353A323032343130323531363430",
+            "start": "2025-02-25T16:25:00Z",
+            "end": "2025-02-25T16:40:00Z"
+        },
+        "created": "2024-11-16T00:00:00Z",
+        "cancellable": true,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "FUTURE"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {}
+        },
+        "localStartTime": "2025-02-25T10:25:00.000-06:00",
+        "serviceName": "VISUAL FIELD",
+        "friendlyName": "VISUAL FIELD",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
+{
+  "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+  "type": "appointments",
+  "attributes": {
+      "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb46",
+      "identifier": [
+          {
+              "system": "Appointment/",
+              "value": "4139383436333437"
+          },
+          {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+              "value": "984:6347"
+          }
+      ],
+      "kind": "phone",
+      "status": "booked",
+      "serviceCategory": [
+          {
+              "coding": [
+                  {
+                      "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                      "code": "REGULAR",
+                      "display": "REGULAR"
+                  }
+              ],
+              "text": "REGULAR"
+          }
+      ],
+      "patientIcn": "1013678363V916823",
+      "locationId": "984",
+      "clinic": "4570",
+      "practitioners": [
+          {
+              "identifier": [
+                  {
+                      "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                      "value": null
+                  }
+              ],
+              "name": {
+                  "family": "ISS",
+                  "given": [
+                      "PROVIDERONE"
+                  ]
+              }
+          }
+      ],
+      "start": "2024-12-05T18:00:00Z",
+      "end": "2024-12-05T18:15:00Z",
+      "minutesDuration": 15,
+      "slot": {
+          "id": "3230323331323035313830303A323032333132303531383135",
+          "start": "2024-12-05T18:00:00Z",
+          "end": "2024-12-05T18:15:00Z"
+      },
+      "created": "2024-11-28T00:00:00Z",
+      "cancellable": true,
+      "extension": {
+          "ccLocation": {
+              "address": {}
+          },
+          "vistaStatus": [
+              "NO ACTION TAKEN"
+          ],
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {
+              "physicalLocation": "DAYTSHR PHONE Provider",
+              "phoneNumber": "555-555-6551",
+              "phoneNumberExtension": "6001"
+          }
+      },
+      "localStartTime": "2024-12-05T13:00:00.000-05:00",
+      "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+      "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+      "physicalLocation": "DAYTSHR PHONE Provider",
+      "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+              "id": "984",
+              "vistaSite": "984",
+              "vastParent": "984",
+              "type": "va_health_facility",
+              "name": "Dayton VA Medical Center",
+              "classification": "VA Medical Center (VAMC)",
+              "timezone": {
+                  "timeZoneId": "America/New_York"
+              },
+              "lat": 39.74935,
+              "long": -84.2532,
+              "website": "https://www.dayton.va.gov/locations/directions.asp",
+              "phone": {
+                  "main": "937-268-6511"
+              },
+              "physicalAddress": {
+                  "type": "physical",
+                  "line": [
+                      "4100 West Third Street"
+                  ],
+                  "city": "Dayton",
+                  "state": "OH",
+                  "postalCode": "45428-9000"
+              },
+              "healthService": [
+                  "Audiology",
+                  "Cardiology",
+                  "DentalServices",
+                  "Dermatology",
+                  "Gastroenterology",
+                  "Gynecology",
+                  "MentalHealthCare",
+                  "Nutrition",
+                  "Ophthalmology",
+                  "Optometry",
+                  "Orthopedics",
+                  "Podiatry",
+                  "PrimaryCare",
+                  "SpecialtyCare",
+                  "Urology",
+                  "WomensHealth"
+              ]
+          }
+      }
+  }
+},
+{
+    "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb47",
+    "type": "appointments",
+    "attributes": {
+        "id": "e01555000d5c7ce9b754ea7ad8fa1d481298fec531ff43919734d31eb34ceb47",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "4139383436333438"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "984:6347"
+            }
+        ],
+        "kind": "phone",
+        "status": "cancelled",
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1013678363V916823",
+        "locationId": "984",
+        "clinic": "4570",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": null
+                    }
+                ],
+                "name": {
+                    "family": "ISS",
+                    "given": [
+                        "PROVIDERONE"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-12-05T19:00:00Z",
+        "end": "2024-12-05T19:15:00Z",
+        "minutesDuration": 15,
+        "slot": {
+            "id": "3230323331323035313830303A323032333132303531383135",
+            "start": "2024-12-05T19:00:00Z",
+            "end": "2024-12-05T19:15:00Z"
+        },
+        "created": "2024-11-28T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "NO ACTION TAKEN"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {
+                "physicalLocation": "DAYTSHR PHONE Provider",
+                "phoneNumber": "555-555-6551",
+                "phoneNumberExtension": "6001"
+            }
+        },
+        "localStartTime": "2024-12-05T14:00:00.000-05:00",
+        "serviceName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+        "friendlyName": "ISS UAT DAYTSHR TELEPHONE MENTAL HEALTH PROVIDER CLINIC",
+        "physicalLocation": "DAYTSHR PHONE Provider",
+        "location": {
+            "id": "984",
+            "type": "appointments",
+            "attributes": {
+                "id": "984",
+                "vistaSite": "984",
+                "vastParent": "984",
+                "type": "va_health_facility",
+                "name": "Dayton VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.74935,
+                "long": -84.2532,
+                "website": "https://www.dayton.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "937-268-6511"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4100 West Third Street"
+                    ],
+                    "city": "Dayton",
+                    "state": "OH",
+                    "postalCode": "45428-9000"
+                },
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "Dermatology",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "Urology",
+                    "WomensHealth"
+                ]
+            }
+        }
+    }
+},
+{
+    "id": "9c6a43ce99d9d8406d3cd3b463f4d383d4f6f08d91b56d7ed8282928f9a58957",
+    "type": "appointments",
+    "attributes": {
+        "id": "9c6a43ce99d9d8406d3cd3b463f4d383d4f6f08d91b56d7ed8282928f9a58957",
+        "identifier": [
+            {
+                "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+                "value": "524670||158||1"
+            },
+            {
+                "system": "http://hl7.org/fhir/sid/us-npi",
+                "value": "1346206547"
+            }
+        ],
+        "kind": "cc",
+        "status": "booked",
+        "serviceTypes": [
+            {
+                "text": "Cardiology Cath - PCI_REV_PRCT SEOC 1.1.14"
+            }
+        ],
+        "description": "Cardiology Cath - PCI_REV_PRCT SEOC 1.1.14",
+        "patientIcn": "1012845331V153043",
+        "locationId": "552",
+        "practitioners": [
+            {
+                "name": {
+                    "family": "HEALTH CARE PROFS",
+                    "given": [
+                        "A & D"
+                    ]
+                }
+            }
+        ],
+        "start": "2025-02-02T13:00:00Z",
+        "created": "2025-02-02T20:29:46Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {
+                    "line": [
+                        "1601 NEEDMORE RD ; STE 1 &amp; 2"
+                    ],
+                    "city": "DAYTON",
+                    "state": "OH",
+                    "postalCode": "45414",
+                    "text": "1601 NEEDMORE RD ; STE 1 &amp; 2\nDAYTON OH 45414"
+                },
+                "telecom": [
+                    {
+                        "system": "phone",
+                        "value": "937-236-6750"
+                    }
+                ]
+            },
+            "hsrmTaskId": "",
+            "hsrmConsultId": "984_646372",
+            "ccTreatingSpecialty": "Home Health"
+        },
+        "localStartTime": "2025-02-02T09:00:00.000-04:00",
+        "avsPath": null,
+        "location": {
+            "id": "552",
+            "type": "appointments",
+            "attributes": {
+                "id": "552",
+                "facilitiesApiId": "vha_552",
+                "vistaSite": "552",
+                "vastParent": "552",
+                "type": "va_health_facility",
+                "name": "Dayton VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.74935,
+                "long": -84.2532,
+                "website": "https://www.va.gov/dayton-health-care/locations/dayton-va-medical-center/",
+                "phone": {
+                    "main": "937-268-6511",
+                    "fax": "937-262-2179",
+                    "pharmacy": "800-368-8262 x1",
+                    "afterHours": "888-838-6446",
+                    "patientAdvocate": "800-368-8262 x2164",
+                    "mentalHealthClinic": "937-262-2186",
+                    "enrollmentCoordinator": "800-368-8262 x5336"
+                },
+                "hoursOfOperation": [
+                    {
+                        "daysOfWeek": "sun",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "mon",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "tue",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "wed",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "thu",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "fri",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    },
+                    {
+                        "daysOfWeek": "sat",
+                        "openingTime": "24/7",
+                        "closingTime": "24/7"
+                    }
+                ],
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4100 West Third Street",
+                        null,
+                        null
+                    ],
+                    "city": "Dayton",
+                    "state": "OH",
+                    "postalCode": "45428-9000"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Addiction",
+                    "Anesthesia",
+                    "Audiology",
+                    "Cardiology",
+                    "CaregiverSupport",
+                    "Chiropractic",
+                    "CriticalCare",
+                    "Dental",
+                    "Dermatology",
+                    "EmergencyCare",
+                    "EmploymentPrograms",
+                    "Endocrinology",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "Hematology",
+                    "Homeless",
+                    "Hospice",
+                    "InfectiousDisease",
+                    "Laboratory",
+                    "Lgbtq",
+                    "MentalHealth",
+                    "MilitarySexualTrauma",
+                    "MinorityCare",
+                    "MyHealtheVetCoordinator",
+                    "Nephrology",
+                    "Neurology",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Otolaryngology",
+                    "PainManagement",
+                    "PatientAdvocates",
+                    "Pharmacy",
+                    "PhysicalMedicine",
+                    "PhysicalTherapy",
+                    "Podiatry",
+                    "Polytrauma",
+                    "PrimaryCare",
+                    "Prosthetics",
+                    "Psychiatry",
+                    "Psychology",
+                    "Ptsd",
+                    "PulmonaryMedicine",
+                    "RadiationOncology",
+                    "Radiology",
+                    "RecreationTherapy",
+                    "RegistryExams",
+                    "Rehabilitation",
+                    "Rheumatology",
+                    "SleepMedicine",
+                    "Smoking",
+                    "SocialWork",
+                    "SpinalInjury",
+                    "SuicidePrevention",
+                    "Surgery",
+                    "Telehealth",
+                    "ThoracicSurgery",
+                    "TransitionCounseling",
+                    "TransplantSurgery",
+                    "TravelReimbursement",
+                    "UrgentCare",
+                    "Urology",
+                    "VascularSurgery",
+                    "Vision",
+                    "WeightManagement",
+                    "WomensHealth",
+                    "Wound"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                },
+                "visn": "10"
+            }
+        }
+    }
+},
+{
+    "id": "aa6bb54b5f8ba22a82720a30abdfa3efe0805cc0dc1b6b248815e942ad61847e",
+    "type": "appointments",
+    "attributes": {
+        "id": "aa6bb54b5f8ba22a82720a30abdfa3efe0805cc0dc1b6b248815e942ad61847e",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "413938333133353533"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "983:13553"
+            }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "covid",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "covid"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012846043V576341",
+        "locationId": "983",
+        "clinic": "1038",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": null
+                    }
+                ],
+                "name": {
+                    "family": "BERNARDO",
+                    "given": [
+                        "KENNETH J"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-12-01T14:00:00Z",
+        "end": "2024-08-01T14:15:00Z",
+        "minutesDuration": 15,
+        "slot": {
+            "id": "3230323430383031313430303A323032343038303131343135",
+            "start": "2024-12-01T14:00:00Z",
+            "end": "2024-12-01T14:15:00Z"
+        },
+        "created": "2024-12-09T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "FUTURE"
+            ],
+            "preCheckinAllowed": true,
+            "eCheckinAllowed": true,
+            "clinic": {
+                "physicalLocation": "MHC"
+            }
+        },
+        "localStartTime": "2024-12-01T08:00:00.000-06:00",
+        "serviceName": "COVID VACCINE CLIN1",
+        "friendlyName": "COVID VACCINE CLIN1",
+        "physicalLocation": "MHC",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
+{
+    "id": "aa6bb54b5f8ba22a82720a30abdfa3efe0805cc0dc1b6b248815e942ad61847f",
+    "type": "appointments",
+    "attributes": {
+        "id": "aa6bb54b5f8ba22a82720a30abdfa3efe0805cc0dc1b6b248815e942ad61847f",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "413938333133353534"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "983:13553"
+            }
+        ],
+        "kind": "clinic",
+        "status": "cancelled",
+        "serviceType": "covid",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "covid"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012846043V576341",
+        "locationId": "983",
+        "clinic": "1038",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": null
+                    }
+                ],
+                "name": {
+                    "family": "BERNARDO",
+                    "given": [
+                        "KENNETH J"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-12-01T15:00:00Z",
+        "end": "2024-08-01T15:15:00Z",
+        "minutesDuration": 15,
+        "slot": {
+            "id": "3230323430383031313430303A323032343038303131343135",
+            "start": "2024-12-01T15:00:00Z",
+            "end": "2024-12-01T15:15:00Z"
+        },
+        "created": "2024-12-09T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "FUTURE"
+            ],
+            "preCheckinAllowed": true,
+            "eCheckinAllowed": true,
+            "clinic": {
+                "physicalLocation": "MHC"
+            }
+        },
+        "localStartTime": "2024-12-01T09:00:00.000-06:00",
+        "serviceName": "COVID VACCINE CLIN1",
+        "friendlyName": "COVID VACCINE CLIN1",
+        "physicalLocation": "MHC",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
+{
+    "id": "38eb82d7451c9036df43fa75318a5453d1a66e3055ce09ebcec16821949e44ce",
+    "type": "appointments",
+    "attributes": {
+        "id": "38eb82d7451c9036df43fa75318a5453d1a66e3055ce09ebcec16821949e44ce",
+        "identifier": [
+            {
+                "system": "urn:va.gov:masv2:cerner:appointment",
+                "value": "Appointment/52499027"
+            }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "https://fhir.cerner.com/d45741b3-8335-463d-ab16-8c5f0bcf78ed/codeSet/14249",
+                        "code": "381456583"
+                    }
+                ]
+            }
+        ],
+        "description": "PC Established Patient",
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "practitioners": [
+            {
+                "name": {
+                    "family": "Everett",
+                    "given": [
+                        "CERNER",
+                        "DO"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-12-23T13:30:00Z",
+        "end": "2024-12-23T14:00:00Z",
+        "minutesDuration": 30,
+        "comment": "\nContact preference: Secure message",
+        "cancellable": false,
+        "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            }
+        },
+        "requestedPeriods": null,
+        "localStartTime": "2024-12-23T09:30:00.000-04:00",
+        "location": {
+            "id": "757",
+            "type": "appointments",
+            "attributes": {
+                "id": "757",
+                "facilitiesApiId": "vha_757",
+                "vistaSite": "757",
+                "vastParent": "757",
+                "type": "va_health_facility",
+                "name": "Chalmers P. Wylie Veterans CERNER Clinic",
+                "classification": "Health Care Center (HCC)",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.98048,
+                "long": -82.9123,
+                "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+                "phone": {
+                    "main": "614-257-5200",
+                    "fax": "614-257-5460",
+                    "pharmacy": "614-257-5230",
+                    "afterHours": "614-257-5512",
+                    "patientAdvocate": "614-257-5290",
+                    "mentalHealthClinic": "614-257-5631",
+                    "enrollmentCoordinator": "614-257-5628"
+                },
+                "hoursOfOperation": [
+                    {
+                        "daysOfWeek": "sun",
+                        "openingTime": "800AM",
+                        "closingTime": "400PM"
+                    },
+                    {
+                        "daysOfWeek": "mon",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "tue",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "wed",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "thu",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "fri",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "sat",
+                        "openingTime": "800AM",
+                        "closingTime": "400PM"
+                    }
+                ],
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "420 North James Road",
+                        null,
+                        null
+                    ],
+                    "city": "Columbus",
+                    "state": "OH",
+                    "postalCode": "43219-1834"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Allergy",
+                    "Audiology",
+                    "Cardiology",
+                    "CaregiverSupport",
+                    "Covid19Vaccine",
+                    "Dental",
+                    "Dermatology",
+                    "Diabetic",
+                    "Endocrinology",
+                    "Gastroenterology",
+                    "Geriatrics",
+                    "Gynecology",
+                    "Hematology",
+                    "Homeless",
+                    "Hospice",
+                    "Laboratory",
+                    "Lgbtq",
+                    "MinorityCare",
+                    "Nephrology",
+                    "Neurology",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Otolaryngology",
+                    "PainManagement",
+                    "PatientAdvocates",
+                    "Pharmacy",
+                    "PhysicalMedicine",
+                    "PlasticSurgery",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "Prosthetics",
+                    "Ptsd",
+                    "PulmonaryMedicine",
+                    "Radiology",
+                    "Rheumatology",
+                    "Smoking",
+                    "SocialWork",
+                    "SpinalInjury",
+                    "SuicidePrevention",
+                    "Surgery",
+                    "TransitionCounseling",
+                    "UrgentCare",
+                    "Urology",
+                    "VascularSurgery",
+                    "Vision",
+                    "WeightManagement",
+                    "WomensHealth",
+                    "Wound"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                },
+                "visn": "10"
+            }
+        }
+    }
+},
+{
+    "id": "38eb82d7451c9036df43fa75318a5453d1a66e3055ce09ebcec16821949e44cf",
+    "type": "appointments",
+    "attributes": {
+        "id": "38eb82d7451c9036df43fa75318a5453d1a66e3055ce09ebcec16821949e44cf",
+        "identifier": [
+            {
+                "system": "urn:va.gov:masv2:cerner:appointment",
+                "value": "Appointment/52499028"
+            }
+        ],
+        "kind": "clinic",
+        "status": "cancelled",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "https://fhir.cerner.com/d45741b3-8335-463d-ab16-8c5f0bcf78ed/codeSet/14249",
+                        "code": "381456583"
+                    }
+                ]
+            }
+        ],
+        "description": "PC Established Patient",
+        "patientIcn": "1012845331V153043",
+        "locationId": "757",
+        "practitioners": [
+            {
+                "name": {
+                    "family": "Everett",
+                    "given": [
+                        "CERNER",
+                        "DO"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-12-23T14:30:00Z",
+        "end": "2024-12-23T15:00:00Z",
+        "minutesDuration": 30,
+        "comment": "\nContact preference: Secure message",
+        "cancellable": false,
+        "patientInstruction": "Preparations:\n- If you have any new non-VA medical records since your last visit, please bring them.\r\nIf you need to cancel or reschedule your appointment, please call our Contact Center at 614-257-5200 or visit the patient portal.",
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            }
+        },
+        "requestedPeriods": null,
+        "localStartTime": "2024-12-23T10:30:00.000-04:00",
+        "location": {
+            "id": "757",
+            "type": "appointments",
+            "attributes": {
+                "id": "757",
+                "facilitiesApiId": "vha_757",
+                "vistaSite": "757",
+                "vastParent": "757",
+                "type": "va_health_facility",
+                "name": "Chalmers P. Wylie Veterans CERNER Clinic",
+                "classification": "Health Care Center (HCC)",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.98048,
+                "long": -82.9123,
+                "website": "https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/",
+                "phone": {
+                    "main": "614-257-5200",
+                    "fax": "614-257-5460",
+                    "pharmacy": "614-257-5230",
+                    "afterHours": "614-257-5512",
+                    "patientAdvocate": "614-257-5290",
+                    "mentalHealthClinic": "614-257-5631",
+                    "enrollmentCoordinator": "614-257-5628"
+                },
+                "hoursOfOperation": [
+                    {
+                        "daysOfWeek": "sun",
+                        "openingTime": "800AM",
+                        "closingTime": "400PM"
+                    },
+                    {
+                        "daysOfWeek": "mon",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "tue",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "wed",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "thu",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "fri",
+                        "openingTime": "730AM",
+                        "closingTime": "600PM"
+                    },
+                    {
+                        "daysOfWeek": "sat",
+                        "openingTime": "800AM",
+                        "closingTime": "400PM"
+                    }
+                ],
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "420 North James Road",
+                        null,
+                        null
+                    ],
+                    "city": "Columbus",
+                    "state": "OH",
+                    "postalCode": "43219-1834"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Allergy",
+                    "Audiology",
+                    "Cardiology",
+                    "CaregiverSupport",
+                    "Covid19Vaccine",
+                    "Dental",
+                    "Dermatology",
+                    "Diabetic",
+                    "Endocrinology",
+                    "Gastroenterology",
+                    "Geriatrics",
+                    "Gynecology",
+                    "Hematology",
+                    "Homeless",
+                    "Hospice",
+                    "Laboratory",
+                    "Lgbtq",
+                    "MinorityCare",
+                    "Nephrology",
+                    "Neurology",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Otolaryngology",
+                    "PainManagement",
+                    "PatientAdvocates",
+                    "Pharmacy",
+                    "PhysicalMedicine",
+                    "PlasticSurgery",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "Prosthetics",
+                    "Ptsd",
+                    "PulmonaryMedicine",
+                    "Radiology",
+                    "Rheumatology",
+                    "Smoking",
+                    "SocialWork",
+                    "SpinalInjury",
+                    "SuicidePrevention",
+                    "Surgery",
+                    "TransitionCounseling",
+                    "UrgentCare",
+                    "Urology",
+                    "VascularSurgery",
+                    "Vision",
+                    "WeightManagement",
+                    "WomensHealth",
+                    "Wound"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                },
+                "visn": "10"
+            }
+        }
+    }
+},
+{
+    "id": "9726bd1ca2a1cf349d6d56071140e02c3883fc275bde03dd3c44e855b19b3a67",
+    "type": "appointments",
+    "attributes": {
+        "id": "9726bd1ca2a1cf349d6d56071140e02c3883fc275bde03dd3c44e855b19b3a67",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "413938333132333035"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "983:12305"
+            }
+        ],
+        "kind": "clinic",
+        "status": "booked",
+        "serviceType": "audiology",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "audiology"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "COMPENSATION & PENSION",
+                        "display": "COMPENSATION & PENSION"
+                    }
+                ],
+                "text": "COMPENSATION & PENSION"
+            }
+        ],
+        "patientIcn": "1013678363V916823",
+        "locationId": "983GC",
+        "clinic": "945",
+        "start": "2024-12-19T15:40:00Z",
+        "end": "2024-12-19T16:40:00Z",
+        "minutesDuration": 60,
+        "slot": {
+            "id": "3230323431323139313534303A323032343132313931363430",
+            "start": "2024-12-19T15:40:00Z",
+            "end": "2024-12-19T16:40:00Z"
+        },
+        "created": "2024-01-08T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "FUTURE"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {
+                "physicalLocation": "FORT COLLINS AUDIO"
+            }
+        },
+        "localStartTime": "2024-12-19T08:40:00.000-07:00",
+        "serviceName": "C&P BEV AUDIO FTC",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "physicalLocation": "FORT COLLINS AUDIO",
+        "location": {
+            "id": "983GC",
+            "type": "appointments",
+            "attributes": {
+                "id": "983GC",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Fort Collins VA Clinic",
+                "classification": "Multi-Specialty CBOC",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 40.553875,
+                "long": -105.08795,
+                "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+                "phone": {
+                    "main": "970-224-1550"
+                },
+                "physicalAddress": {
+                    "line": [
+                        "2509 Research Boulevard"
+                    ],
+                    "city": "Fort Collins",
+                    "state": "CO",
+                    "postalCode": "80526-8108"
+                },
+                "healthService": [
+                    "Audiology",
+                    "EmergencyCare",
+                    "MentalHealthCare",
+                    "PrimaryCare",
+                    "SpecialtyCare"
+                ]
+            }
+        }
+    }
+},
+{
+    "id": "d9faffb0d9cf0c641e53faf221fb0a08b2f6c661cc470a94817556dc0ce3589a",
+    "type": "appointments",
+    "attributes": {
+        "id": "d9faffb0d9cf0c641e53faf221fb0a08b2f6c661cc470a94817556dc0ce3589a",
+        "identifier": [
+            {
+                "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+                "value": "381ba035-c30a-4f21-ad0e-1204a6ef3fc8"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1012846043V576341",
+        "locationId": "983",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "dfn-983",
+                        "value": "520648070"
+                    }
+                ],
+                "name": {
+                    "family": "Chapman",
+                    "given": [
+                        "Jeremy"
+                    ]
+                },
+                "practiceName": "Cheyenne VA Medical Center"
+            }
+        ],
+        "start": "2024-12-12T19:55:00Z",
+        "end": "2024-12-12T20:15:00Z",
+        "minutesDuration": 20,
+        "created": "2024-12-12T19:57:42.025Z",
+        "cancellable": false,
+        "patientInstruction": "",
+        "telehealth": {
+            "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000005810@pexip.mapsandbox.net&pin=356403&aid=381ba035-c30a-4f21-ad0e-1204a6ef3fc8#",
+            "group": false,
+            "vvsKind": "ADHOC"
+        },
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [],
+            "patientHasMobileGfe": true
+        },
+        "localStartTime": "2024-12-12T13:55:00.000-06:00",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
+{
+    "id": "cbc61b77eab168d7bb886649c0d42f6f2951b912e358cab744ca65b2296468a2",
+    "type": "appointments",
+    "attributes": {
+        "id": "cbc61b77eab168d7bb886649c0d42f6f2951b912e358cab744ca65b2296468a2",
+        "identifier": [
+            {
+                "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+                "value": "38fc7910-fa4a-4973-8a50-c9533fb0e3c0"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1013124304V115761",
+        "locationId": "983",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "dfn-983",
+                        "value": "520647363"
+                    }
+                ],
+                "name": {
+                    "family": "NADEAU",
+                    "given": [
+                        "MARCY"
+                    ]
+                },
+                "practiceName": "Cheyenne VA Medical Center"
+            }
+        ],
+        "start": "2025-02-25T19:00:00Z",
+        "end": "2025-02-25T19:20:00Z",
+        "minutesDuration": 20,
+        "created": "2024-02-29T18:22:31.642Z",
+        "cancellable": false,
+        "patientInstruction": "Medication Review\n\nAs part of your video visit, your provider will review all the medications, vitamins, herbs, and supplements you are taking\n(even items you get from a local store, another provider, or another VA clinic). Please have information about everything you\ntake available during the visit. Informing your provider about all these will help you get the best and safest care possible.\nRemember, it is your medications, your life. Play it safe by reviewing all your medications with your health care team.\n",
+        "telehealth": {
+            "url": "https://pexip.mapsandbox.net/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000003848@pexip.mapsandbox.net&pin=111200&aid=38fc7910-fa4a-4973-8a50-c9533fb0e3c0#",
+            "group": false,
+            "vvsKind": "ADHOC"
+        },
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [],
+            "patientHasMobileGfe": false
+        },
+        "localStartTime": "2025-02-25T12:00:00.000-07:00",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
+{
+    "id": "805eb1710aefb85bcc07813ae36a744f1467fd4306c0a950ba16e023fb514ce9",
+    "type": "appointments",
+    "attributes": {
+        "id": "805eb1710aefb85bcc07813ae36a744f1467fd4306c0a950ba16e023fb514ce9",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "4139383436323830"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "984:6280"
+            },
+            {
+                "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+                "value": "6641d9ca-bcf0-4040-947a-ed9ed822e495"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceType": "outpatientMentalHealth",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "outpatientMentalHealth"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984GA",
+        "clinic": "4284",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": "1034242903"
+                    }
+                ],
+                "name": {
+                    "family": "ALSAHHAR",
+                    "given": [
+                        "SAMI"
+                    ]
+                }
+            }
+        ],
+        "start": "2025-01-14T13:00:00Z",
+        "end": "2025-01-14T13:30:00Z",
+        "minutesDuration": 30,
+        "slot": {
+            "id": "3230323331313134313330303A323032333131313431333330",
+            "start": "2025-01-14T13:00:00Z",
+            "end": "2025-01-14T13:30:00Z"
+        },
+        "created": "2025-01-07T00:00:00Z",
+        "cancellable": false,
+        "telehealth": {
+            "url": "https://dev.care.va.gov/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000001440@dev.care.va.gov&pin=590094&aid=6641d9ca-bcf0-4040-947a-ed9ed822e495#",
+            "group": false,
+            "vvsKind": "CLINIC_BASED"
+        },
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "NO ACTION TAKEN"
+            ],
+            "patientHasMobileGfe": true,
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {}
+        },
+        "localStartTime": "2025-01-14T08:00:00.000-05:00",
+        "avsPath": null,
+        "serviceName": "MID-V10 CRH MH PSY MD PT",
+        "friendlyName": "MID-V10 CRH MH PSY MD PT",
+        "location": {
+            "id": "984GA",
+            "type": "appointments",
+            "attributes": {
+                "id": "984GA",
+                "vistaSite": "984",
+                "vastParent": "984",
+                "type": "va_health_facility",
+                "name": "Middletown VA Clinic",
+                "classification": "Multi-Specialty CBOC",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.50603,
+                "long": -84.316475,
+                "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+                "phone": {
+                    "main": "513-423-8387"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4337 North Union Road"
+                    ],
+                    "city": "Middletown",
+                    "state": "OH",
+                    "postalCode": "45005-5211"
+                },
+                "healthService": [
+                    "Audiology",
+                    "MentalHealthCare",
+                    "Optometry",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare"
+                ]
+            }
+        }
+    }
+},
+
+{
+    "id": "0fbc293324755816b690f11eab25c827b5e4fbea375ac06e8e9694205f95590e",
+    "type": "appointments",
+    "attributes": {
+        "id": "0fbc293324755816b690f11eab25c827b5e4fbea375ac06e8e9694205f95590e",
+        "identifier": [
+            {
+                "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+                "value": "5c21ee08-7bc9-4cc3-b557-0fc543c40148"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "patientIcn": "1013124304V115761",
+        "locationId": "983",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "dfn-983",
+                        "value": "520647710"
+                    }
+                ],
+                "name": {
+                    "family": "Poldass",
+                    "given": [
+                        "Aarathi"
+                    ]
+                },
+                "practiceName": "Cheyenne VA Medical Center"
+            }
+        ],
+        "start": "2024-12-01T15:00:00Z",
+        "end": "2024-12-01T15:30:00Z",
+        "minutesDuration": 30,
+        "created": "2024-03-01T18:52:19.23Z",
+        "comment": "Testing ATLAS appt for VAOS team (Marcy)",
+        "cancellable": false,
+        "patientInstruction": "Medication Review\n\nAs part of your video visit, your provider will review all the medications, vitamins, herbs, and supplements you are taking\n(even items you get from a local store, another provider, or another VA clinic). Please have information about everything you\ntake available during the visit. Informing your provider about all these will help you get the best and safest care possible.\nRemember, it is your medications, your life. Play it safe by reviewing all your medications with your health care team.\n",
+        "telehealth": {
+            "url": "https://dev.care2.va.gov/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000003896@dev.care2.va.gov&pin=104039&aid=5c21ee08-7bc9-4cc3-b557-0fc543c40148#",
+            "atlas": {
+                "siteCode": "VFW-DC-20011-02",
+                "confirmationCode": "075041",
+                "address": {
+                    "streetAddress": "5929 Georgia Ave NW",
+                    "city": "Washington",
+                    "state": "DC",
+                    "zipCode": "20011",
+                    "country": "USA",
+                    "latitutde": 38.961979,
+                    "longitude": -77.027908,
+                    "additionalDetails": ""
+                }
+            },
+            "group": false,
+            "vvsKind": "ADHOC"
+        },
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [],
+            "patientHasMobileGfe": false
+        },
+        "localStartTime": "2024-12-01T08:00:00.000-07:00",
+        "location": {
+            "id": "983",
+            "type": "appointments",
+            "attributes": {
+                "id": "983",
+                "vistaSite": "983",
+                "vastParent": "983",
+                "type": "va_facilities",
+                "name": "Cheyenne VA Medical Center",
+                "classification": "VA Medical Center (VAMC)",
+                "timezone": {
+                    "timeZoneId": "America/Denver"
+                },
+                "lat": 39.744507,
+                "long": -104.830956,
+                "website": "https://www.denver.va.gov/locations/directions.asp",
+                "phone": {
+                    "main": "307-778-7550",
+                    "fax": "307-778-7381",
+                    "pharmacy": "866-420-6337",
+                    "afterHours": "307-778-7550",
+                    "patientAdvocate": "307-778-7550 x7517",
+                    "mentalHealthClinic": "307-778-7349",
+                    "enrollmentCoordinator": "307-778-7550 x7579"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "2360 East Pershing Boulevard"
+                    ],
+                    "city": "Cheyenne",
+                    "state": "WY",
+                    "postalCode": "82001-5356"
+                },
+                "mobile": false,
+                "healthService": [
+                    "Audiology",
+                    "Cardiology",
+                    "DentalServices",
+                    "EmergencyCare",
+                    "Gastroenterology",
+                    "Gynecology",
+                    "MentalHealthCare",
+                    "Nutrition",
+                    "Ophthalmology",
+                    "Optometry",
+                    "Orthopedics",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare",
+                    "UrgentCare",
+                    "Urology",
+                    "WomensHealth"
+                ],
+                "operatingStatus": {
+                    "code": "NORMAL"
+                }
+            }
+        }
+    }
+},
     {
       "id": "167419",
       "type": "appointments",
@@ -13,6 +2001,7 @@
         ],
         "kind": "telehealth",
         "status": "booked",
+        "serviceType": "outpatientMentalHealth",
         "patientIcn": "1012845331V153043",
         "locationId": "984",
         "physicalLocation" : "should not display",
@@ -145,11 +2134,11 @@
         },
         "requestedPeriods": null,
         "serviceType": "covid",
-        "start": "2024-10-13T15:00:00Z",
+        "start": "2023-10-13T15:00:00Z",
         "status": "booked",
         "created": "2024-11-01T00:00:00Z",
-        "cancellable": true,
-        "localStartTime": "2024-10-13T09:00:00.000-06:00",
+        "cancellable": false,
+        "localStartTime": "2023-10-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "telehealth": null
       }
@@ -222,11 +2211,11 @@
             }
           }
         ],
-        "start": "2024-08-22T12:00:00Z",
-        "created": "2024-08-22T20:33:54Z",
+        "start": "2024-08-21T12:00:00Z",
+        "created": "2024-08-21T20:33:54Z",
         "localStartTime": "2024-08-21T09:00:00.000-06:00",
         "avsPath": null,
-        "cancellable": true,
+        "cancellable": false,
         "extension": {
           "ccLocation": {
             "address": {
@@ -316,6 +2305,7 @@
         ],
         "kind": "clinic",
         "status": "booked",
+        "serviceType": "outpatientMentalHealth",
         "serviceCategory": [
           {
             "coding": [
@@ -331,15 +2321,15 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "1049",
-        "start": "2023-10-23T15:00:00Z",
-        "end": "2023-10-23T16:00:00Z",
+        "start": "2023-10-13T15:00:00Z",
+        "end": "2023-10-13T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303133313530303A323032333130313331363030",
           "start": "2023-10-13T15:00:00Z",
           "end": "2023-10-13T16:00:00Z"
         },
-        "created": "2023-11-01T00:00:00Z",
+        "created": "2023-10-01T00:00:00Z",
         "cancellable": true,
         "extension": {
           "ccLocation": {
@@ -753,7 +2743,7 @@
           }
         }
       }
-    }, 
+    },
     {
       "id": "193059",
       "type": "appointments",
@@ -797,12 +2787,12 @@
         "patientIcn": "1012845331V153043",
         "locationId": "983",
         "clinic": "455",
-        "start": "2024-10-19T15:00:00Z",
+        "start": "2023-10-19T15:00:00Z",
         "end": "2023-10-19T16:00:00Z",
         "minutesDuration": 60,
         "slot": {
           "id": "3230323331303139313530303A323032333130313931363030",
-          "start": "2024-10-19T15:00:00Z",
+          "start": "2023-10-19T15:00:00Z",
           "end": "2023-10-19T16:00:00Z"
         },
         "created": "2023-11-01T00:00:00Z",
@@ -818,7 +2808,7 @@
           "eCheckinAllowed": false,
           "clinic": {}
         },
-        "localStartTime": "2024-10-19T09:00:00.000-06:00",
+        "localStartTime": "2023-10-19T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988639578151",
         "serviceName": "CHY PC CASSIDY",
         "physicalLocation": "ARROWHEAD WING, 2ND FLOOR",
@@ -883,7 +2873,7 @@
           }
         }
       }
-    },          
+    },
     {
       "id": "115069",
       "type": "appointments",
@@ -991,7 +2981,7 @@
     },
     {
       "id": "180402",
-      "type": "apfrepointments",
+      "type": "appointments",
       "attributes": {
         "id": "180402",
         "identifier": [
@@ -1020,7 +3010,7 @@
             "name": {
               "family": "Everett",
               "given": [
-                "Matthew",
+                "CERNER",
                 "DO"
               ]
             }
@@ -1049,7 +3039,7 @@
             "vistaSite": "757",
             "vastParent": "757",
             "type": "va_health_facility",
-            "name": "Chalmers P. Wylie Veterans Outpatient Clinic",
+            "name": "Chalmers P. Wylie Veterans CERNER Clinic",
             "classification": "Health Care Center (HCC)",
             "timezone": {
               "timeZoneId": "America/New_York"
@@ -1330,9 +3320,9 @@
         "status": "booked",
         "patientIcn": "1013120820V528557",
         "locationId": "984",
-        "start": "2022-11-22T12:00:00Z",
-        "created": "2022-11-22T20:33:54Z",
-        "cancellable": true,
+        "start": "2024-11-22T12:00:00Z",
+        "created": "2024-11-22T20:33:54Z",
+        "localStartTime": "2024-11-22T09:00:00.000-06:00",
         "extension": {
           "ccLocation": {
             "address": {
@@ -1472,141 +3462,6 @@
       }
     },
     {
-      "id": "01aa456cc",
-      "type": "cc_appointments",
-      "attributes": {
-        "cancelationReason": null,
-        "clinic": null,
-        "comment": "test",
-        "contact": {
-          "telecom": [
-            {
-              "type": "email",
-              "value": null
-            },
-            {
-              "system": "phone",
-              "value": "723-234-4566"
-            }
-          ]
-        },
-        "description": "community care appointment",
-        "end": null,
-        "id": "01aa456cc",
-        "kind": "cc",
-        "locationId": null,
-        "minutesDuration": 30,
-        "patientIcn": null,
-        "practitioners": [
-          {
-            "identifier": [
-              {
-                "system": null,
-                "value": "1801312053"
-              }
-            ],
-            "name": {
-              "family": "Hyde",
-              "given": [
-                "DR"
-              ]
-            }
-          }
-        ],
-        "extension": {
-          "ccLocation": {
-            "address": {
-              "line": [
-                "1601 Needmore Rd Ste 1"
-              ],
-              "city": "Dayton",
-              "state": "OH",
-              "postalCode": "45414",
-              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            },
-            "telecom": [
-              {
-                "system": "phone",
-                "value": "723-234-4565"
-              }
-            ]
-          }
-        },
-        "preferredTimesForPhoneCall": [],
-        "priority": 0,
-        "reasonCode": {},
-        "requestedPeriods": null,
-        "serviceType": "audiology",
-        "slot": null,
-        "start": "2022-08-28T18:19:34",
-        "status": "booked",
-        "telehealth": null
-      }
-    },
-    {
-      "id": "22aa789cc",
-      "type": "cc_appointments",
-      "attributes": {
-        "cancelationReason": {
-          "coding": [
-            {
-              "code": "pat"
-            }
-          ]
-        },
-        "clinic": null,
-        "comment": "test",
-        "contact": {
-          "telecom": [
-            {
-              "type": "email",
-              "value": null
-            }
-          ]
-        },
-        "description": "Cancelled community care appointment",
-        "end": null,
-        "id": "22aa789cc",
-        "kind": "cc",
-        "locationId": null,
-        "minutesDuration": 30,
-        "patientIcn": null,
-        "practitioners": [
-          {
-            "identifier": [
-              {
-                "system": null,
-                "value": "1801312053"
-              }
-            ]
-          }
-        ],
-        "extension": {
-          "ccLocation": {
-            "address": {
-              "line": [
-                "1601 Needmore Rd Ste 1"
-              ],
-              "city": "Dayton",
-              "state": "OH",
-              "postalCode": "45414",
-              "text": "1601 Needmore Rd Ste 1\nDayton OH 45414"
-            }
-          },
-          "ccTreatingSpecialty": ""
-        },
-        "preferredTimesForPhoneCall": [],
-        "priority": 0,
-        "reasonCode": {},
-        "requestedPeriods": null,
-        "serviceType": "audiology",
-        "slot": null,
-        "start": "2022-12-20T18:19:34",
-        "status": "cancelled",
-        "telehealth": null
-      }
-    },
-    {
       "id": "02aa456vvs",
       "type": "Appointment",
       "attributes": {
@@ -1674,6 +3529,73 @@
       }
     },
     {
+      "id": "02aa456vvt",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": "New issue: Video Visit Preparation",
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Home telehealth ADHOC appointment with instructions",
+        "end": "2024-09-23T21:00:00Z",
+        "id": "02aa456vvt",
+        "kind": "telehealth",
+        "locationId": "983",
+        "localStartTime": "2024-09-22T10:00:00.000-06:00",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Video Visit Preparation contains extraneous stuff",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Normal",
+              "given": [
+                "Abbey"
+              ]
+            }
+          }
+        ],
+        "physicalLocation" : "should not display",
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {
+          "coding": [
+            {
+              "code": "New Issue"
+            }
+          ]
+        },
+        "requestedPeriods": null,
+        "serviceType": "outpatientMentalHealth",
+        "slot": null,
+        "start": "2024-09-22T13:00:00Z",
+        "created": "2024-09-22T21:33:54Z",
+        "avsPath": null,
+        "status": "cancelled",
+        "extension": {
+          "patientHasMobileGfe": false
+        },
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "ADHOC"
+        }
+      }
+    },
+    {
       "id": "03aa456vvs",
       "type": "Appointment",
       "attributes": {
@@ -1689,7 +3611,7 @@
           ]
         },
         "description": "Upcoming Atlas telehealth appointment",
-        "end": "2023-01-23T20:00:00Z",
+        "end": "2025-01-13T20:00:00Z",
         "id": "03aa456vvs",
         "kind": "telehealth",
         "locationId": "983",
@@ -1718,10 +3640,82 @@
         "requestedPeriods": null,
         "serviceType": "amputation",
         "slot": null,
-        "start": "2023-01-23T20:00:00Z",
-        "localStartTime": "2023-01-13T09:00:00.000-06:00",
+        "start": "2025-01-13T20:00:00Z",
+        "localStartTime": "2025-01-13T09:00:00.000-06:00",
         "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
         "status": "booked",
+        "telehealth": {
+          "url": null,
+          "atlas": {
+            "siteCode": "9931",
+            "confirmationCode": "7VBBCA",
+            "address": {
+              "streetAddress": "114 Dewey Ave",
+              "city": "Eureka",
+              "state": "MT",
+              "zipCode": "59917",
+              "country": "USA",
+              "longitude": -115.1,
+              "latitude": 48.8,
+              "additionalDetails": ""
+            }
+          },
+          "vvsKind": "MOBILE_ANY"
+        },
+        "extension": {
+          "patientHasMobileGfe": true
+        }
+      }
+    },
+    {
+      "id": "03aa456vvt",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming Atlas telehealth appointment",
+        "end": "2025-01-13T21:00:00Z",
+        "id": "03aa456vvt",
+        "kind": "telehealth",
+        "locationId": "983",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "patientInstruction": "Medication Review",
+        "practitioners": [
+          {
+            "identifier": [
+              {
+                "system": null,
+                "value": "1801312053"
+              }
+            ],
+            "name": {
+              "family": "Smith",
+              "given": [
+                "Meg"
+              ]
+            }
+          }
+        ],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "amputation",
+        "slot": null,
+        "start": "2025-01-13T21:00:00Z",
+        "localStartTime": "2025-01-13T10:00:00.000-06:00",
+        "avsPath": "/my-health/medical-records/summaries-and-notes/visit-summary/C46E12AA7582F5714716988663350853",
+        "status": "cancelled",
         "telehealth": {
           "url": null,
           "atlas": {
@@ -1837,11 +3831,11 @@
           ]
         },
         "description": "Upcoming VA location telehealth appointment",
-        "end": "2024-07-22T14:00:00Z",
+        "end": "2024-08-22T14:00:00Z",
         "id": "05aa456vvc",
         "kind": "telehealth",
         "locationId": "983",
-        "localStartTime": "2024-07-22T09:00:00.000-06:00",
+        "localStartTime": "2024-08-22T09:00:00.000-06:00",
         "physicalLocation": "PHYSICAL LOCATION TESTING",
         "minutesDuration": 30,
         "patientIcn": null,
@@ -1852,9 +3846,50 @@
         "requestedPeriods": null,
         "serviceType": "foodAndNutrition",
         "slot": null,
-        "created": "2024-07-22T13:00:00Z",
-        "start": "2024-07-22T13:00:00Z",
+        "created": "2024-08-22T13:00:00Z",
+        "start": "2024-08-22T13:00:00Z",
         "status": "booked",
+        "telehealth": {
+          "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
+          "atlas": null,
+          "vvsKind": "CLINIC_BASED"
+        }
+      }
+    },
+    {
+      "id": "05aa456vvd",
+      "type": "Appointment",
+      "attributes": {
+        "cancelationReason": null,
+        "clinic": "848",
+        "comment": null,
+        "contact": {
+          "telecom": [
+            {
+              "type": "email",
+              "value": null
+            }
+          ]
+        },
+        "description": "Upcoming VA location telehealth appointment",
+        "end": "2024-08-22T15:00:00Z",
+        "id": "05aa456vvd",
+        "kind": "telehealth",
+        "locationId": "983",
+        "localStartTime": "2024-08-22T10:00:00.000-06:00",
+        "physicalLocation": "PHYSICAL LOCATION TESTING",
+        "minutesDuration": 30,
+        "patientIcn": null,
+        "practitioners": [],
+        "preferredTimesForPhoneCall": [],
+        "priority": 0,
+        "reasonCode": {},
+        "requestedPeriods": null,
+        "serviceType": "foodAndNutrition",
+        "slot": null,
+        "created": "2024-08-22T14:00:00Z",
+        "start": "2024-08-22T14:00:00Z",
+        "status": "cancelled",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
           "atlas": null,
@@ -1907,7 +3942,7 @@
         "requestedPeriods": null,
         "serviceType": "primaryCare",
         "slot": null,
-        "start": "2023-11-27T18:19:34",
+        "start": "2023-11-22T18:19:34",
         "status": "booked",
         "telehealth": {
           "url": "https://care2.evn.va.gov/vvc-app/?join=1&media=1&escalate=1&conference=VAC00064b6f@care2.evn.va.gov&pin=4569928835#",
@@ -2211,6 +4246,99 @@
         "clinic": "945",
         "start": "2024-08-29T02:30:00Z",
         "end": "2024-06-22T14:00:00Z",
+        "created": "2024-03-17T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+          "ccLocation": {
+            "address": {}
+          },
+          "vistaStatus": [
+            "NO ACTION TAKEN"
+          ]
+        },
+        "serviceName": "FTC C&P AUDIO BEV",
+        "physicalLocation": "FORT COLLINS AUDIO",
+        "friendlyName": "C&P BEV AUDIO FTC",
+        "location": {
+          "id": "983GC",
+          "type": "appointments",
+          "attributes": {
+            "id": "983GC",
+            "vistaSite": "983",
+            "vastParent": "983",
+            "type": "va_facilities",
+            "name": "Fort Collins VA Clinic",
+            "classification": "Multi-Specialty CBOC",
+            "timezone": {
+              "timeZoneId": "Asia/Manila"
+            },
+            "lat": 40.553875,
+            "long": -105.08795,
+            "website": "https://www.cheyenne.va.gov/locations/Fort_Collins_VA_CBOC.asp",
+            "phone": {
+              "main": "970-224-1550"
+            },
+            "physicalAddress": {
+              "line": [
+                "2509 Research Boulevard"
+              ],
+              "city": "Fort Collins",
+              "state": "CO",
+              "postalCode": "80526-8108"
+            },
+            "healthService": [
+              "Audiology",
+              "EmergencyCare",
+              "MentalHealthCare",
+              "PrimaryCare",
+              "SpecialtyCare"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "167312",
+      "type": "appointments",
+      "attributes": {
+        "id": "167312",
+        "identifier": [
+          {
+            "system": "Appointment/",
+            "value": "4139383339353233"
+          }
+        ],
+        "kind": "clinic",
+        "status": "cancelled",
+        "serviceType": "audiology",
+        "serviceTypes": [
+          {
+            "coding": [
+              {
+                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                "code": "audiology"
+              }
+            ]
+          }
+        ],
+        "serviceCategory": [
+          {
+            "coding": [
+              {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                "code": "COMPENSATION & PENSION",
+                "display": "COMPENSATION & PENSION"
+              }
+            ],
+            "text": "COMPENSATION & PENSION"
+          }
+        ],
+        "patientIcn": "1013120826V646496",
+        "locationId": "983GC",
+        "localStartTime": "2024-08-29T11:30:00.000+08:00",
+        "clinic": "945",
+        "start": "2024-08-29T03:30:00Z",
+        "end": "2024-08-29T04:30:00Z",
         "created": "2024-03-17T00:00:00Z",
         "cancellable": false,
         "extension": {

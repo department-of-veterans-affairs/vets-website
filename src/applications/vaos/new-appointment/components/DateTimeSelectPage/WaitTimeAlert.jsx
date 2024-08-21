@@ -48,25 +48,34 @@ function ActionButtons(props) {
   const { requestDateTime } = useSelector(getNewAppointmentFlow);
 
   return (
-    <div className="vads-u-display--flex vads-u-margin-top--2 vads-u-align-items--center">
+    <div className="vads-u-margin-top--2 vads-u-align-items--center vads-l-row">
       {eligibleForRequests && (
         <>
-          <va-button
-            onClick={handleClick(history, dispatch, requestDateTime)}
-            text="Request an earlier appointment"
-            secondary
-            uswds
-          />
-          <span className="vads-u-display--inline-block vads-u-margin-x--2p5 vads-u-font-weight--bold">
+          <div className="vads-u-text-align--center vads-l-col--12 medium-screen:vads-l-col--5">
+            <va-button
+              onClick={handleClick(history, dispatch, requestDateTime)}
+              text="Request an earlier appointment"
+              secondary
+              uswds
+              data-testid="earlier-request-btn"
+            />
+          </div>
+          <div className="vads-u-padding-y--1 vads-u-font-weight--bold vads-u-text-align--center vads-l-col--12 medium-screen:vads-l-col--2">
             OR
-          </span>
+          </div>
         </>
       )}
-      <NewTabAnchor
-        href={`/find-locations/facility/vha_${getRealFacilityId(facilityId)}`}
-      >
-        Contact your local VA medical center
-      </NewTabAnchor>
+      <>
+        <div className="vads-l-col--12 medium-screen:vads-l-col--5 small-desktop-screen:vads-u-padding-x--1">
+          <NewTabAnchor
+            href={`/find-locations/facility/vha_${getRealFacilityId(
+              facilityId,
+            )}`}
+          >
+            Contact your local VA medical center
+          </NewTabAnchor>
+        </div>
+      </>
     </div>
   );
 }

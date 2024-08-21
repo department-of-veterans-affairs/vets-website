@@ -5,6 +5,7 @@ import {
 import {
   gulfWar1990PageTitle,
   gulfWar1990Question,
+  validateSelections,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 import { GULF_WAR_1990_LOCATIONS } from '../../constants';
@@ -18,6 +19,13 @@ export const uiSchema = {
       required: false,
     }),
   },
+  'ui:validations': [
+    {
+      validator: (errors, formData) => {
+        validateSelections(errors, formData, 'gulfWar1990');
+      },
+    },
+  ],
 };
 
 export const schema = {

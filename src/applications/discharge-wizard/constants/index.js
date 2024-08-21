@@ -125,6 +125,15 @@ export const DUW_UPDATE_PRIOR_SERVICE =
   'discharge-upgrade-wizard/DUW_UPDATE_PREV_PRIOR_SERVICE';
 export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
+export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
+export const DUW_QUESTION_FLOW_CHANGED =
+  'discharge-upgrade-wizard/DUW_QUESTION_FLOW_CHANGED';
+export const DUW_ROUTE_MAP = 'discharge-upgrade-wizard/DUW_ROUTE_MAP';
+
+export const DRB = 'DRB';
+export const BCMR = 'BCMR';
+export const BCNR = 'BCNR';
+export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
   HOME: 'introduction',
@@ -156,6 +165,7 @@ export const questionsToClearMap = Object.freeze({
     SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
     SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
     SHORT_NAME_MAP.PRIOR_SERVICE,
+    SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
   ],
   DISCHARGE_TYPE: [],
   COURT_MARTIAL: [],
@@ -179,6 +189,14 @@ export const questionsToClearMap = Object.freeze({
   FAILURE_TO_EXHAUST: [],
 });
 
+export const forkableQuestions = [
+  SHORT_NAME_MAP.DISCHARGE_YEAR,
+  SHORT_NAME_MAP.REASON,
+  SHORT_NAME_MAP.PREV_APPLICATION,
+  SHORT_NAME_MAP.PREV_APPLICATION_TYPE,
+  SHORT_NAME_MAP.PREV_APPLICATION_YEAR,
+];
+
 export const errorTextMap = Object.freeze({
   SERVICE_BRANCH: 'Select a branch.',
   DISCHARGE_YEAR: 'Select a year.',
@@ -189,4 +207,19 @@ export const errorTextMap = Object.freeze({
 export const labelTextMap = Object.freeze({
   DISCHARGE_YEAR: 'Year',
   DISCHARGE_MONTH: 'Month',
+});
+
+export const monthLabelMap = Object.freeze({
+  1: 'January',
+  2: 'February',
+  3: 'March',
+  4: 'April',
+  5: 'May',
+  6: 'June',
+  7: 'July',
+  8: 'August',
+  9: 'September',
+  10: 'October',
+  11: 'November',
+  12: 'December',
 });

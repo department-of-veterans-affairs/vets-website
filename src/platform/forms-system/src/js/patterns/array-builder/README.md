@@ -1,19 +1,22 @@
-# Array Builder Pattern
+# Array Builder Pattern (Multiple responses list & loop)
 
 Array builder pattern features an intro page (for required flow), a yes/no question if they have items to add, a loop of page(s) to fill out data for an item, and cards displayed for each item to review/edit/remove items. The user can add items until `maxItems` is reached.
 
 ## Table of Contents
-- [Array Builder Pattern](#array-builder-pattern)
+- [Array Builder Pattern (Multiple responses list \& loop)](#array-builder-pattern-multiple-responses-list--loop)
   - [Table of Contents](#table-of-contents)
   - [Flows](#flows)
   - [Terminology](#terminology)
-  - [Example Code Required Flow](#example-code-required-flow)
-  - [Example Code Optional Flow](#example-code-optional-flow)
-  - [Example `config/form.js`](#example-configformjs)
+  - [Example code](#example-code)
+    - [Step 1. `config/form.js`](#step-1-configformjs)
+    - [Step 2. Create either "required" pages flow or "optional" pages flow](#step-2-create-either-required-pages-flow-or-optional-pages-flow)
+    - [Example Pages "Required" Flow](#example-pages-required-flow)
+    - [Example Pages "Optional" Flow](#example-pages-optional-flow)
   - [Web Component Patterns](#web-component-patterns)
     - [Example `arrayBuilderYesNoUI` Text Overrides:](#example-arraybuilderyesnoui-text-overrides)
   - [General Pattern Text Overrides](#general-pattern-text-overrides)
   - [URL Query Params](#url-query-params)
+  - [Advanced routing example with `helpers`](#advanced-routing-example-with-helpers)
   - [Future Enhancement Ideas](#future-enhancement-ideas)
 
 ## Flows
@@ -30,8 +33,28 @@ Array builder pattern features an intro page (for required flow), a yes/no quest
 | `itemPage` | One of the pages (there can be multiple) that has fields and allows the user to fill out information for the current item. |
 | `summaryPage` | The page that shows cards of all the items the user has entered so far + yes/no question if they have more to add. The user is return to this page after every loop, until they select "no" that they don't have any more to add. |
 
-## Example Code Required Flow
-You can copy this to a new file `pages/nounPlural.jsx` as a starting point, and then import to `config/form.js`
+## Example code
+### Step 1. `config/form.js`
+```js
+import { nounPluralReplaceMePages } from '../pages/nounPluralReplaceMe';
+
+const formConfig = {
+  ...
+  chapters: {
+    nounPluralReplaceMeChapter: {
+      title: 'Noun Plural',
+      pages: nounPluralReplaceMePages
+    },
+  }
+}
+```
+
+### Step 2. Create either "required" pages flow or "optional" pages flow
+  - [Example Pages "Required" Flow](#example-pages-required-flow)
+  - [Example Pages "Optional" Flow](#example-pages-optional-flow)
+
+### Example Pages "Required" Flow
+You can copy this to a new file `pages/nounPluralReplaceMe.js` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -40,21 +63,24 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  textUI,
+  textSchema,
+  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'nounPlural',
+  arrayPath: 'nounPluralReplaceMe',
   nounSingular: '[noun singular]',
   nounPlural: '[noun plural]',
   required: true,
-  isItemIncomplete: item => !item?.name,
+  isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => item.name,
-    cardDescription: item => `${item?.date}`,
+    cardDescription: item => `${formatReviewDate(item?.date)}`,
   },
 };
 
@@ -65,7 +91,7 @@ const introPage = {
       `Your ${options.nounPlural}`,
       `In the next few questions, we’ll ask you about your ${
         options.nounPlural
-      }. You must add at least one [noun singular]. You may add up to 5 ${
+      }. You must add at least one ${options.nounSingular}. You may add up to 5 ${
         options.nounPlural
       }.`,
     ),
@@ -76,17 +102,22 @@ const introPage = {
   },
 };
 
-/** @returns {PageSchema} */
+/**
+ * This page is skipped on the first loop for required flow
+ * Cards are populated on this page above the uiSchema if items are present
+ *
+ * @returns {PageSchema}
+ */
 const summaryPage = {
   uiSchema: {
-    'view:hasNounPlural': arrayBuilderYesNoUI(options),
+    'view:hasNounPluralReplaceMe': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasNounPlural': arrayBuilderYesNoSchema,
+      'view:hasNounPluralReplaceMe': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasNounPlural'],
+    required: ['view:hasNounPluralReplaceMe'],
   },
 };
 
@@ -97,17 +128,12 @@ const namePage = {
       title: 'Name',
       nounSingular: options.nounSingular,
     }),
-    name: {
-      'ui:title': 'Name',
-      'ui:webComponentField': VaTextInputField,
-    },
+    name: textUI('Name'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: {
-        type: 'string',
-      },
+      name: textSchema,
     },
     required: ['name'],
   },
@@ -130,30 +156,30 @@ const datePage = {
   },
 };
 
-export const nounSingularArrayPages = arrayBuilderPages(
+export const nounPluralReplaceMePages = arrayBuilderPages(
   options,
   pageBuilder => ({
-    nounPlural: pageBuilder.introPage({
-      title: 'Your [noun plural]',
-      path: 'noun-plural-required',
+    nounPluralReplaceMe: pageBuilder.introPage({
+      title: '[noun plural]',
+      path: 'noun-plural-replace-me',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
-    nounPluralSummary: pageBuilder.summaryPage({
-      title: 'Your [noun plural]',
-      path: 'noun-plural-summary',
+    nounPluralReplaceMeSummary: pageBuilder.summaryPage({
+      title: 'Review your [noun plural]',
+      path: 'noun-plural-replace-me-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    nounSingularNamePage: pageBuilder.itemPage({
+    nounSingularReplaceMeNamePage: pageBuilder.itemPage({
       title: 'Name',
-      path: 'noun-plural/:index/name',
+      path: 'noun-plural-replace-me/:index/name',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
-    nounSingularDatePage: pageBuilder.itemPage({
+    nounSingularReplaceMeDatePage: pageBuilder.itemPage({
       title: 'Date',
-      path: 'noun-plural/:index/date',
+      path: 'noun-plural-replace-me/:index/date',
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
     }),
@@ -161,8 +187,8 @@ export const nounSingularArrayPages = arrayBuilderPages(
 );
 ```
 
-## Example Code Optional Flow
-You can copy this to a new file `pages/nounPlural.jsx` as a starting point, and then import to `config/form.js`
+### Example Pages "Optional" Flow
+You can copy this to a new file `pages/nounPluralReplaceMe.js` as a starting point, and then import to `config/form.js`
 ```js
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -171,35 +197,41 @@ import {
   arrayBuilderYesNoUI,
   currentOrPastDateSchema,
   currentOrPastDateUI,
+  textUI,
+  textSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { VaTextInputField } from '~/platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import { formatReviewDate } from 'platform/forms-system/src/js/helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
-  arrayPath: 'nounPlural',
+  arrayPath: 'nounPluralReplaceMe',
   nounSingular: '[noun singular]',
   nounPlural: '[noun plural]',
   required: false,
-  isItemIncomplete: item => !item?.name,
+  isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
   text: {
     getItemName: item => item.name,
-    cardDescription: item => `${item?.date}`,
+    cardDescription: item => `${formatReviewDate(item?.date)}`,
   },
 };
 
-/** @returns {PageSchema} */
+/**
+ * Cards are populated on this page above the uiSchema if items are present
+ *
+ * @returns {PageSchema}
+ */
 const summaryPage = {
   uiSchema: {
-    'view:hasNounPlural': arrayBuilderYesNoUI(options),
+    'view:hasNounPluralReplaceMe': arrayBuilderYesNoUI(options),
   },
   schema: {
     type: 'object',
     properties: {
-      'view:hasNounPlural': arrayBuilderYesNoSchema,
+      'view:hasNounPluralReplaceMe': arrayBuilderYesNoSchema,
     },
-    required: ['view:hasNounPlural'],
+    required: ['view:hasNounPluralReplaceMe'],
   },
 };
 
@@ -210,17 +242,12 @@ const namePage = {
       title: 'Name',
       nounSingular: options.nounSingular,
     }),
-    name: {
-      'ui:title': 'Name',
-      'ui:webComponentField': VaTextInputField,
-    },
+    name: textUI('Name'),
   },
   schema: {
     type: 'object',
     properties: {
-      name: {
-        type: 'string',
-      },
+      name: textSchema,
     },
     required: ['name'],
   },
@@ -243,43 +270,28 @@ const datePage = {
   },
 };
 
-export const nounSingularArrayPages = arrayBuilderPages( options,
+export const nounPluralReplaceMePages = arrayBuilderPages( options,
   pageBuilder => ({
-    nounPluralSummary: pageBuilder.summaryPage({
-      title: 'Your [noun plural]',
-      path: 'noun-plural',
+    nounPluralReplaceMeSummary: pageBuilder.summaryPage({
+      title: 'Review your [noun plural]',
+      path: 'noun-plural-replace-me-summary',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    nounSingularNamePage: pageBuilder.itemPage({
+    nounSingularReplaceMeNamePage: pageBuilder.itemPage({
       title: 'Name',
-      path: 'noun-plural/:index/name',
+      path: 'noun-plural-replace-me/:index/name',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
     }),
-    nounSingularDatePage: pageBuilder.itemPage({
+    nounSingularReplaceMeDatePage: pageBuilder.itemPage({
       title: 'Date',
-      path: 'noun-plural/:index/date',
+      path: 'noun-plural-replace-me/:index/date',
       uiSchema: datePage.uiSchema,
       schema: datePage.schema,
     }),
   }),
 );
-```
-
-## Example `config/form.js`
-```js
-import { nounSingularArrayPages } from '../pages/nounPlural';
-
-const formConfig = {
-  ...
-  chapters: {
-    nounPluralChapter: {
-      title: 'Noun Plural',
-      pages: nounSingularArrayPages
-    },
-  }
-}
 ```
 
 ## Web Component Patterns
@@ -293,12 +305,12 @@ const formConfig = {
 ### Example `arrayBuilderYesNoUI` Text Overrides:
 ```js
 'view:hasEmployment': arrayBuilderYesNoUI(
-  employersOptions,
+  options,
   {
     title:
       'Do you have any employment, including self-employment for the last 5 years to report?',
-    hint:
-      'Include self-employment and military duty (including inactive duty for training).',
+    hint: (props) =>
+      `Include self-employment and military duty (including inactive duty for training). ${maxItemsHint(props)}`,
     labels: {
       Y: 'Yes, I have employment to report',
       N: 'No, I don’t have employment to report',
@@ -333,23 +345,24 @@ const options = {
 | `cancelAddButtonText` |
 | `cancelAddDescription` |
 | `cancelAddReviewDescription` |
+| `cancelAddYes` |
 | `cancelAddNo` |
 | `cancelAddTitle` |
 | `cancelEditButtonText` |
 | `cancelEditDescription` |
 | `cancelEditReviewDescription` |
+| `cancelEditYes` |
 | `cancelEditNo` |
 | `cancelEditTitle` |
-| `cancelYes` |
 | `cardDescription` |
 | `cardItemMissingInformation` |
 | `editSaveButtonText` |
 | `getItemName` |
-| `removeDescription` |
-| `removeNeedAtLeastOneDescription` |
-| `removeNo` |
-| `removeTitle` |
-| `removeYes` |
+| `deleteDescription` |
+| `deleteNeedAtLeastOneDescription` |
+| `deleteNo` |
+| `deleteTitle` |
+| `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `yesNoBlankReviewQuestion` |
@@ -362,6 +375,32 @@ const options = {
 | `review=true` | Used with `add=true` or `add=edit`. Used if coming from the `review-and-submit` page. Will return back to the `review-and-submit` page after finishing adding, editing, or cancelling this item. |
 | `updated=nounSingular_0` | Used after completing an edit flow. |
 | `removedAllWarn=true` | Used after removing all items. Will show a warning message if the item is required. |
+
+## Advanced routing example with `helpers`
+`arrayBuilderPages` has a second parameter `helpers` to help with things like a custom `onNavForward` and `onNavBack`.
+e.g.
+```js
+...arrayBuilderPages(employersOptions, (pageBuilder, helpers) => ({
+  multiPageBuilderSummary: pageBuilder.summaryPage({
+    title: 'Array with multiple page builder summary',
+    path: 'array-multiple-page-builder-summary',
+    uiSchema: employersSummaryPage.uiSchema,
+    schema: employersSummaryPage.schema,
+  }),
+  multiPageBuilderStepOne: pageBuilder.itemPage({
+    title: 'Employer name and address',
+    path: 'array-multiple-page-builder/:index/name-and-address',
+    uiSchema: employersPageNameAndAddressPage.uiSchema,
+    schema: employersPageNameAndAddressPage.schema,
+    onNavForward: props => {
+      return props.formData.name === 'Veteran'
+        ? helpers.navForwardKeepUrlParams(props) // go to next page
+        : helpers.navForwardFinishedItem(props); // return to summary
+    },
+  }),
+  // an optional itemPage follows
+}));
+```
 
 ## Future Enhancement Ideas
 - Add `minItems`

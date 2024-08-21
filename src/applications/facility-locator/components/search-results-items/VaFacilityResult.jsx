@@ -5,11 +5,10 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
-import { LocationType, OperatingStatus, Covid19Vaccine } from '../../constants';
+import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
 import LocationOperationStatus from './common/LocationOperationStatus';
 import LocationDistance from './common/LocationDistance';
-import Covid19Alert from './common/Covid19Alert';
 
 const VaFacilityResult = ({
   location,
@@ -18,12 +17,14 @@ const VaFacilityResult = ({
   showHealthConnectNumber,
 }) => {
   const { name, website, operatingStatus } = location.attributes;
-  const isCovid19Search =
-    query.facilityType === LocationType.HEALTH &&
-    query.serviceType === Covid19Vaccine;
+
   const clickHandler = useCallback(
-    () => {
-      recordResultClickEvents(location, index);
+    event => {
+      // Keyboard events fire their onKeyDown event and the onClick event
+      // This prevents the duplicate event from logging
+      if (event?.key !== 'Enter') {
+        recordResultClickEvents(location, index);
+      }
     },
     [index, location],
   );
@@ -36,7 +37,7 @@ const VaFacilityResult = ({
           markerText={location.markerText}
         />
         {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions */}
-        <span onClick={clickHandler} onKeyUp={clickHandler}>
+        <span onClick={clickHandler} onKeyDown={clickHandler}>
           {isVADomain(website) ? (
             <h3 className="vads-u-font-size--h5 no-marg-top">
               <a href={website}>{name}</a>
@@ -53,7 +54,6 @@ const VaFacilityResult = ({
           )}
         <LocationAddress location={location} />
         <LocationDirectionsLink location={location} from="SearchResult" />
-        {isCovid19Search && <Covid19Alert />}
         <LocationPhoneLink
           location={location}
           from="SearchResult"

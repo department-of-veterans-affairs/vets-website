@@ -135,7 +135,7 @@ const ArrayBuilderCancelButton = ({
           isEdit ? 'cancelEditTitle' : 'cancelAddTitle',
           currentItem,
         )}
-        primaryButtonText={getText('cancelYes')}
+        primaryButtonText={getText(isEdit ? 'cancelEditYes' : 'cancelAddYes')}
         secondaryButtonText={getText(isEdit ? 'cancelEditNo' : 'cancelAddNo')}
         onCloseEvent={hideCancelConfirmationModal}
         onPrimaryButtonClick={cancelAction}
@@ -162,12 +162,12 @@ ArrayBuilderCancelButton.propTypes = {
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   goToPath: PropTypes.func.isRequired,
-  introRoute: PropTypes.string.isRequired,
   required: PropTypes.func.isRequired,
   reviewRoute: PropTypes.string.isRequired,
   setFormData: PropTypes.func.isRequired,
   summaryRoute: PropTypes.string.isRequired,
   className: PropTypes.string,
+  introRoute: PropTypes.string,
 };
 
 export default connect(

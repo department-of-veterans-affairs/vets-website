@@ -1,0 +1,8 @@
+{
+  "appName": "686C-674-v2",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "686C-674-v2",
+  "rootUrl": "/view-change-dependents/add-remove-form-21-686c-v2",
+  "e2eTestsDisabled": false,
+  "productId": "500cfb4d-0f70-4663-bfe2-28d295d3301a"
+}

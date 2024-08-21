@@ -3,9 +3,9 @@ import { apiRequest } from '~/platform/utilities/api';
 
 const GET_REMAINING_ENTITLEMENT_SUCCESS = 'GET_REMAINING_ENTITLEMENT_SUCCESS';
 
-export function getRemainingEntitlement(apiVersion = { apiVersion: 'v0' }) {
+export function getRemainingEntitlement() {
   return dispatch =>
-    apiRequest('/post911_gi_bill_status', apiVersion)
+    apiRequest('/post911_gi_bill_status', { apiVersion: 'v1' })
       .then(response => {
         return dispatch({
           type: GET_REMAINING_ENTITLEMENT_SUCCESS,

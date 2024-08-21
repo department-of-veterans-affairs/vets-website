@@ -11,7 +11,7 @@ import ListItemView from '../../../components/ListItemView';
 import {
   DependentsMinItem,
   formatFullName,
-  updateMultiresponseUiOptions,
+  showMultiplePageResponse,
 } from '../../../helpers';
 import { doesHaveDependents } from './helpers';
 
@@ -29,7 +29,8 @@ DependentNameView.propTypes = {
 export default {
   title: 'Dependent children',
   path: 'household/dependents/add',
-  depends: doesHaveDependents,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveDependents(formData),
   uiSchema: {
     ...titleUI('Dependent children'),
     dependents: {
@@ -43,7 +44,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
-        updateSchema: updateMultiresponseUiOptions,
+        showSave: true,
+        reviewMode: true,
       },
       'ui:errorMessages': {
         minItems: DependentsMinItem,

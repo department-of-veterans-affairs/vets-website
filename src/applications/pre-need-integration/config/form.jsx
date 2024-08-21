@@ -6,7 +6,7 @@ import environment from 'platform/utilities/environment';
 import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 
-import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
+import { fileUploadUi } from '../utils/upload';
 import * as applicantMilitaryHistorySelf from './pages/applicantMilitaryHistorySelf';
 import * as applicantMilitaryHistoryPreparer from './pages/applicantMilitaryHistoryPreparer';
 import * as applicantMilitaryName from './pages/applicantMilitaryName';
@@ -23,16 +23,20 @@ import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorRace from './pages/sponsorRace';
-import * as sponsorMilitaryDetails from './pages/sponsorMilitaryDetails';
+import * as sponsorMilitaryDetailsSelf from './pages/sponsorMilitaryDetailsSelf';
+import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsPreparer';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
+import * as veteranApplicantDetailsPreparer from './pages/veteranApplicantDetailsPreparer';
 import * as nonVeteranApplicantDetails from './pages/nonVeteranApplicantDetails';
+import * as nonVeteranApplicantDetailsPreparer from './pages/nonVeteranApplicantDetailsPreparer';
 import * as applicantContactInformation from './pages/applicantContactInformation';
 import * as preparer from './pages/preparer';
 import * as preparerDetails from './pages/preparerDetails';
 import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as applicantDemographics2 from './pages/applicantDemographics2';
+import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
 import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
 import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
@@ -76,21 +80,16 @@ import {
   applicantContactInfoPreparerSubheader,
   applicantContactInfoDescription,
   applicantContactInfoPreparerDescription,
-  // partial implementation of story resolving the address change:
-  // applicantDetailsCityTitle,
-  // applicantDetailsStateTitle,
-  // applicantDetailsPreparerCityTitle,
-  // applicantDetailsPreparerStateTitle,
+  applicantDetailsCityTitle,
+  applicantDetailsStateTitle,
+  applicantDetailsPreparerCityTitle,
+  applicantDetailsPreparerStateTitle,
   applicantDemographicsSubHeader,
   applicantDemographicsPreparerSubHeader,
   applicantDemographicsGenderTitle,
   applicantDemographicsMaritalStatusTitle,
   applicantDemographicsPreparerGenderTitle,
   applicantDemographicsPreparerMaritalStatusTitle,
-  applicantDemographicsEthnicityTitle,
-  applicantDemographicsRaceTitle,
-  applicantDemographicsPreparerEthnicityTitle,
-  applicantDemographicsPreparerRaceTitle,
   isSponsorDeceased,
   nonVeteranApplicantDetailsSubHeader,
   nonVeteranApplicantDetailsDescription,
@@ -126,6 +125,7 @@ const {
 const formConfig = {
   dev: {
     showNavLinks: true,
+    collapsibleNavLinks: true,
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -264,14 +264,13 @@ const formConfig = {
           depends: formData =>
             !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: veteranApplicantDetails.uiSchema(
-            // partial implementation of story resolving the address change:
-            // applicantDetailsCityTitle,
-            // applicantDetailsStateTitle,
             veteranApplicantDetailsSubHeader,
             '',
             nonPreparerFullMaidenNameUI,
             ssnDashesUI,
             nonPreparerDateOfBirthUI,
+            applicantDetailsCityTitle,
+            applicantDetailsStateTitle,
           ),
           schema: veteranApplicantDetails.schema,
         },
@@ -280,17 +279,16 @@ const formConfig = {
           path: 'veteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: veteranApplicantDetails.uiSchema(
-            // partial implementation of story resolving the address change:
-            // applicantDetailsPreparerCityTitle,
-            // applicantDetailsPreparerStateTitle,
+          uiSchema: veteranApplicantDetailsPreparer.uiSchema(
             veteranApplicantDetailsPreparerSubHeader,
             veteranApplicantDetailsPreparerDescription,
             preparerFullMaidenNameUI,
             preparerSsnDashesUI,
             preparerDateOfBirthUI,
+            applicantDetailsPreparerCityTitle,
+            applicantDetailsPreparerStateTitle,
           ),
-          schema: veteranApplicantDetails.schema,
+          schema: veteranApplicantDetailsPreparer.schema,
         },
         nonVeteranApplicantDetails: {
           title: 'Your details',
@@ -311,14 +309,14 @@ const formConfig = {
           path: 'nonVeteran-applicant-details-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && !isVeteran(formData),
-          uiSchema: nonVeteranApplicantDetails.uiSchema(
+          uiSchema: nonVeteranApplicantDetailsPreparer.uiSchema(
             veteranApplicantDetailsPreparerSubHeader,
             nonVeteranApplicantDetailsDescriptionPreparer,
             preparerFullMaidenNameUI,
             preparerSsnDashesUI,
             preparerDateOfBirthUI,
           ),
-          schema: nonVeteranApplicantDetails.schema,
+          schema: nonVeteranApplicantDetailsPreparer.schema,
         },
         applicantContactInformation: {
           title: applicantContactInfoAddressTitle,
@@ -345,7 +343,8 @@ const formConfig = {
         applicantDemographics: {
           title: 'Your demographics',
           path: 'applicant-demographics',
-          depends: formData => !isAuthorizedAgent(formData),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
           uiSchema: applicantDemographics.uiSchema(
             applicantDemographicsSubHeader,
             applicantDemographicsGenderTitle,
@@ -367,24 +366,17 @@ const formConfig = {
         },
         applicantDemographics2: {
           path: 'applicant-demographics-2',
-          depends: formData => !isAuthorizedAgent(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsSubHeader,
-            applicantDemographicsEthnicityTitle,
-            applicantDemographicsRaceTitle,
-          ),
+          depends: formData =>
+            !isAuthorizedAgent(formData) && isVeteran(formData),
+          uiSchema: applicantDemographics2.uiSchema,
           schema: applicantDemographics2.schema,
         },
         applicantDemographics2Preparer: {
           path: 'applicant-demographics-2-preparer',
           depends: formData =>
             isAuthorizedAgent(formData) && isVeteran(formData),
-          uiSchema: applicantDemographics2.uiSchema(
-            applicantDemographicsPreparerSubHeader,
-            applicantDemographicsPreparerEthnicityTitle,
-            applicantDemographicsPreparerRaceTitle,
-          ),
-          schema: applicantDemographics2.schema,
+          uiSchema: applicantDemographics2Preparer.uiSchema,
+          schema: applicantDemographics2Preparer.schema,
         },
       },
     },
@@ -393,7 +385,8 @@ const formConfig = {
       pages: {
         isSponsor: {
           path: 'is-sponsor',
-          depends: formData => !isVeteran(formData),
+          depends: formData =>
+            isAuthorizedAgent(formData) && !isVeteran(formData),
           uiSchema: isSponsor.uiSchema,
           schema: isSponsor.schema,
         },
@@ -444,17 +437,13 @@ const formConfig = {
           uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
         },
-        sponsorMilitaryDetails: {
-          title: "Sponsor's military details",
-          path: 'sponsor-military-details',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryDetails.uiSchema,
-          schema: sponsorMilitaryDetails.schema,
-        },
       },
     },
     militaryHistory: {
-      title: 'Applicant military history',
+      title: formData =>
+        isVeteran(formData)
+          ? 'Applicant military history'
+          : 'Sponsor military history',
       pages: {
         militaryDetailsSelf: {
           path: 'military-details-self',
@@ -526,6 +515,22 @@ const formConfig = {
           uiSchema: applicantMilitaryNameInformationPreparer.uiSchema,
           schema: applicantMilitaryNameInformationPreparer.schema,
         },
+        sponsorMilitaryDetailsSelf: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
+          depends: formData =>
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+          schema: sponsorMilitaryDetailsSelf.schema,
+        },
+        sponsorMilitaryDetailsPreparer: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details-preparer',
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+          schema: sponsorMilitaryDetailsPreparer.schema,
+        },
         sponsorMilitaryHistory: {
           path: 'sponsor-military-history',
           title: 'Sponsor’s service period(s)',
@@ -535,8 +540,20 @@ const formConfig = {
         },
         sponsorMilitaryName: {
           path: 'sponsor-military-name',
-          depends: formData => !isVeteran(formData),
-          uiSchema: sponsorMilitaryName.uiSchema,
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryName.uiSchema(
+            'Did the sponsor serve under another name?',
+          ),
+          schema: sponsorMilitaryName.schema,
+        },
+        sponsorMilitaryNameSelf: {
+          path: 'sponsor-military-name-self',
+          depends: formData =>
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryName.uiSchema(
+            'Did your sponsor serve under another name?',
+          ),
           schema: sponsorMilitaryName.schema,
         },
         sponsorMilitaryNameInformation: {
@@ -580,31 +597,7 @@ const formConfig = {
           uiSchema: {
             'ui:description': SupportingFilesDescription,
             application: {
-              preneedAttachments: fileUploadUI('Select files to upload', {
-                buttonText: 'Upload file',
-                addAnotherLabel: 'Upload another file',
-                fileUploadUrl: `${
-                  environment.API_URL
-                }/v0/preneeds/preneed_attachments`,
-                fileTypes: ['pdf'],
-                maxSize: 15728640,
-                hideLabelText: true,
-                createPayload: file => {
-                  const payload = new FormData();
-                  payload.append('preneed_attachment[file_data]', file);
-                  return payload;
-                },
-                parseResponse: (response, file) => ({
-                  name: file.name,
-                  confirmationCode: response.data.attributes.guid,
-                }),
-                attachmentSchema: {
-                  'ui:title': 'What kind of file is this?',
-                },
-                attachmentName: {
-                  'ui:title': 'File name',
-                },
-              }),
+              preneedAttachments: fileUploadUi({}),
             },
           },
           schema: {

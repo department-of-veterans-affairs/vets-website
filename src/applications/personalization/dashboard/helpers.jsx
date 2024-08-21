@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import { isPlainObject } from 'lodash';
+import { capitalize, isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
 import {
   VA_FORM_IDS,
@@ -8,6 +8,7 @@ import {
   FORM_TITLES,
   SIP_ENABLED_FORMS,
   TRACKING_PREFIXES,
+  MY_VA_SIP_FORMS,
 } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 import recordEvent from '~/platform/monitoring/record-event';
@@ -15,9 +16,8 @@ import recordEvent from '~/platform/monitoring/record-event';
 /**
  * ATTENTION!!! Are you looking for the SIP form variables like formBenefits, formLinks, or trackingPrefixes?
  * if so, those variables have been moved to src/platform/forms/constants.js
- * they have also been changed to be CONST_CASE, so they are now FORM_BENEFITS, FORM_LINKS, and TRACKING_PREFIXES
+ * they have also been changed to be consolidated into an array of objects: MY_VA_SIP_FORMS
  */
-
 // A dict of presentable form IDs. Generally this is just the form ID itself
 // prefixed with `FORM` for display purposes (ex: 'FORM 21-526EZ'). The only
 // exception to this rule right now is the FEEDBACK-TOOL.
@@ -27,6 +27,8 @@ export const presentableFormIDs = Object.keys(FORM_BENEFITS).reduce(
       prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
     } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
       prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
+    } else if (formID === VA_FORM_IDS.FORM_21P_530V2) {
+      prefixedIDs[formID] = `FORM 21P-530EZ`; // eslint-disable-line no-param-reassign
     } else {
       prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
     }
@@ -34,6 +36,21 @@ export const presentableFormIDs = Object.keys(FORM_BENEFITS).reduce(
   },
   {},
 );
+
+const idArray = MY_VA_SIP_FORMS.map(item => item.id);
+
+export const presentableFormIDsV2 = idArray.reduce((prefixedIDs, formID) => {
+  if (formID === VA_FORM_IDS.FEEDBACK_TOOL) {
+    prefixedIDs[formID] = 'FEEDBACK TOOL'; // eslint-disable-line no-param-reassign
+  } else if (formID === VA_FORM_IDS.FORM_10_10EZ) {
+    prefixedIDs[formID] = `FORM 10-10EZ`; // eslint-disable-line no-param-reassign
+  } else if (formID === VA_FORM_IDS.FORM_21P_530V2) {
+    prefixedIDs[formID] = `FORM 21P-530EZ`; // eslint-disable-line no-param-reassign
+  } else {
+    prefixedIDs[formID] = `FORM ${formID}`; // eslint-disable-line no-param-reassign
+  }
+  return prefixedIDs;
+}, {});
 
 export function isSIPEnabledForm(savedForm) {
   const formNumber = savedForm.form;
@@ -47,6 +64,24 @@ export function isSIPEnabledForm(savedForm) {
   }
   return true;
 }
+
+export const isSIPEnabledFormV2 = savedForm => {
+  const formNumber = savedForm.form;
+  const foundForm = MY_VA_SIP_FORMS.find(form => form.id === formNumber);
+
+  if (!foundForm?.title || !getFormLink(formNumber)) {
+    Sentry.captureMessage('vets_sip_list_item_missing_info');
+    return false;
+  }
+
+  if (!foundForm) {
+    throw new Error(
+      `Could not find form ${formNumber} in list of sipEnabledForms`,
+    );
+  }
+
+  return true;
+};
 
 // This function is intended to be used as an Array.filter callback
 export function filterOutExpiredForms(savedForm) {
@@ -85,6 +120,9 @@ export function sipFormSorter(formA, formB) {
   [formA, formB].forEach(isValidForm);
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
+
+export const formatFormTitle = (title = '') =>
+  capitalize(title).replace(/\bva\b/, 'VA');
 
 export const recordDashboardClick = (
   product,
