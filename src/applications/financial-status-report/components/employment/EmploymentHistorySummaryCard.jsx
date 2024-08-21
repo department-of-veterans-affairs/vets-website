@@ -132,6 +132,13 @@ const EmploymentHistorySummaryCard = ({
   const emptyPrompt = `Select the ‘add additional job link to add another job. Select the continue button to move on to the next question.`;
   const ariaLabel = `Job ${index + 1} ${employmentCardHeading}`;
 
+  const buttonText = () => {
+    <div>
+      <va-icon icon="delete" size={3} className="vads-u-padding-right--0p5" />
+      <span>DELETE</span>
+    </div>;
+  };
+
   return (
     (!job && <EmptyMiniSummaryCard content={emptyPrompt} />) || (
       <va-card
@@ -170,19 +177,11 @@ const EmploymentHistorySummaryCard = ({
             </span>
           </Link>
 
-          <button
-            type="button"
-            aria-label={`Delete ${ariaLabel}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
+          <va-button
+            text={() => buttonText}
             onClick={() => handleDeleteClick(index)}
-          >
-            <va-icon
-              icon="delete"
-              size={3}
-              className="vads-u-padding-right--0p5"
-            />
-            <span>DELETE</span>
-          </button>
+            aria-label={`Delete ${ariaLabel}`}
+          />
           {isModalOpen ? (
             <DeleteConfirmationModal
               isOpen={isModalOpen}

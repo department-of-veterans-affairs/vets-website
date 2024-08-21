@@ -178,6 +178,9 @@ const ReviewCardField = ({
       // volatileData is for arrays, which displays separate blocks
       newUISchema['ui:options']?.volatileData;
 
+    const saveButtonText = 'Save mailing address';
+    const cancelButtonText = 'Cancel';
+
     return (
       <div className="review-card">
         <div className="review-card--body input-section va-growable-background">
@@ -187,21 +190,17 @@ const ReviewCardField = ({
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-margin-top--2p5">
             {!formContext.reviewMode && (
               <>
-                <button
+                <va-button
                   className={updateButtonClasses}
+                  text={saveButtonText}
                   onClick={update}
-                  type="button"
-                >
-                  Save mailing address
-                </button>
+                />
                 {((volatileData && canCancel) || !volatileData) && (
-                  <button
+                  <va-button
                     className={cancelButtonClasses}
+                    text={cancelButtonText}
                     onClick={cancelUpdate}
-                    type="button"
-                  >
-                    Cancel
-                  </button>
+                  />
                 )}
               </>
             )}
