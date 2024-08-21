@@ -58,7 +58,6 @@ export const Locators = {
   MESSAGE_SUBJECT: '[data-testid="message-subject-field"]',
   MESSAGES_BODY: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
-  DROPDOWN: '#sort-order-dropdown',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
   DELETE_MES_CONFIRM: '[data-testid="delete-message-confirm-note"] p',
@@ -101,7 +100,7 @@ export const Locators = {
     THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
-    ADDITIONAL_FILTER: '#additional-filter-accordion',
+    ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -135,7 +134,6 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
-    ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
   },
   LINKS: {
@@ -193,7 +191,7 @@ export const Locators = {
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
-    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
@@ -204,6 +202,8 @@ export const Locators = {
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     DATE_RANGE_DROPDOWN: '#date-range-dropdown',
+    CATEGORY_OPTION: `[data-testid="category-dropdown"]>option`,
+    DATE_RANGE_OPTION: '[data-testid="date-range-dropdown"]>option',
     SEARCH_MESSAGE_HEADING: '[data-testid="search-messages"] h2',
     SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
@@ -211,7 +211,7 @@ export const Locators = {
   },
   INFO: {
     SUBJECT_LIMIT: '#charcount-message',
-    ATTACH_INFO: '[class="additional-info-title"]',
+    ADDITIONAL_INFO: '[class="additional-info-title"]',
     ATTACH_OPT: '[class="how-to-attach-files"] li',
   },
   BLOCKS: {
@@ -223,6 +223,10 @@ export const Locators = {
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
+  },
+  DROPDOWN: {
+    RECIPIENTS: `va-additional-info[trigger^="If you"]`,
+    SORT: '#sort-order-dropdown',
   },
 };
 
@@ -245,6 +249,11 @@ export const Alerts = {
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
+  EL_SIGN: `Messages to this team require a signature. We added a signature box to this page.`,
+  EL_SIGN_NAME: `Enter your full name`,
+  EL_SIGN_CHECK: `You must certify by checking the box.`,
+  SAVE_SIGN: `We can't save your signature in a draft message`,
+  SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
 };
 
 export const Data = {
@@ -297,6 +306,12 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
+  EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
+  BUTTONS: {
+    EDIT_DRAFT: `Edit draft`,
+    SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
+    SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',
