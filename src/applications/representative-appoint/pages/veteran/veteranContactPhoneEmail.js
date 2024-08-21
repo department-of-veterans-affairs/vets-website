@@ -25,7 +25,7 @@ export const uiSchema = {
 
 export const schema = {
   type: 'object',
-  required: ['veteranPhone'],
+  required: ['Primary phone'],
   properties: {
     titleSchema,
     'Primary phone': phoneSchema,
