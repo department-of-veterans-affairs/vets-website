@@ -3,14 +3,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { endDate } from '../../utils/helpers';
 
 const ContactDMC = () => (
-  <span className="vads-u-margin-x--0p5">
+  <>
     <va-telephone contact={CONTACTS.DMC || '8008270648'} /> (or{' '}
     <va-telephone
       contact={CONTACTS.DMC_OVERSEAS || '6127136415'}
       international
     />{' '}
     from overseas)
-  </span>
+  </>
 );
 
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
@@ -25,16 +25,17 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: false,
         bodyText: (
           <p>
-            Please contact us through IRIS or call us at <ContactDMC /> to
-            verify your military status. We’re here Monday through Friday, 7:30
-            a.m. to 7:00 p.m. ET.
+            Please contact us contact us online through{' '}
+            <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
+            to verify your military status. We’re here Monday through Friday,
+            7:30 a.m. to 7:00 p.m. ET.
           </p>
         ),
       };
     case '109':
       return {
         headerText: `Pay your balance now or request help by ${endDateText} to avoid more interest charges`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -51,7 +52,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '117':
       return {
         headerText: `Pay your ${amountDue} balance in full or request help by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -68,7 +69,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '123':
       return {
         headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -89,16 +90,17 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: false,
         bodyText: (
           <p>
-            Please contact us through IRIS or call us at <ContactDMC /> to
-            update your address. We’re here Monday through Friday, 7:30 a.m. to
-            7:00 p.m. ET.
+            Please contact us online through{' '}
+            <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
+            to update your address. We’re here Monday through Friday, 7:30 a.m.
+            to 7:00 p.m. ET.
           </p>
         ),
       };
     case '815':
       return {
         headerText: `Pay your one time payment as part of your compromise agreement by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -115,7 +117,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '448':
     case '453':
       return {
-        headerText: "We've paused collection on this debt as you requested",
+        headerText: 'We’ve paused collection on this debt as you requested',
         status: 'info',
         showIcon: true,
         showLinks: true,
@@ -148,7 +150,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
       };
     case '816':
       return {
-        headerText: "We're processing your compromise payment",
+        headerText: 'We’re processing your compromise payment',
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -167,7 +169,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '032':
     case '609':
       return {
-        headerText: `We're updating your account`,
+        headerText: `We’re updating your account`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -189,7 +191,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '425':
     case '627':
       return {
-        headerText: `We're updating your account`,
+        headerText: `We’re updating your account`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -210,7 +212,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '855':
       return {
         headerText: `Contact the U.S. Department of the Treasury to pay this ${amountDue} debt`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -234,25 +236,21 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '510':
     case '503':
       return {
-        status:
-          'We’re referring this debt to the U.S. Department of the Treasury today.',
-        nextStep: (
-          <span data-testid="diary-code-500-next-step">
-            <p>
-              <strong>Next step: </strong>
-              Please pay the full amount online or by phone now to prevent
-              referral. If we don’t receive your payment today we’re required by
-              law to refer your debt to the U.S. Department of the Treasury.
-            </p>
-            <p>
-              <a href="https://www.pay.va.gov/">Pay online now</a>
-            </p>
-            <p>
-              Or make a payment over the phone at
-              <ContactDMC className="vads-u-margin-left--0p5" />. We’re here
-              Monday through Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </span>
+        headerText: `We’re referring this debt to the U.S. Department of the Treasury today`,
+        status: `warning`,
+        showIcon: false,
+        showLinks: true,
+        showMakePayment: true,
+        showRequestHelp: true,
+        bodyText: (
+          <p>
+            Please pay the full amount{' '}
+            <a href="https://www.pay.va.gov/">online</a> or by phone at{' '}
+            <ContactDMC /> to prevent referral. We’re here Monday through
+            Friday, 7:30 a.m. to 7:00 p.m. ET. If we don’t receive your payment
+            today, we’re required by law to refer your debt to the U.S.
+            Department of the Treasury.
+          </p>
         ),
       };
     case '100':
@@ -261,7 +259,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '140':
       return {
         headerText: `Pay your ${amountDue} balance now or request help by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -278,7 +276,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '430':
     case '431':
       return {
-        headerText: `We're reducing your education benefits each month until your debt is paid`,
+        headerText: `We’re reducing your education benefits each month until your debt is paid`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -311,7 +309,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '615':
     case '617':
       return {
-        headerText: `We're reducing your benefit payments each month until your debt is paid`,
+        headerText: `We’re reducing your benefit payments each month until your debt is paid`,
         status: 'info',
         showIcon: true,
         showLinks: false,
@@ -336,7 +334,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '449':
       return {
         headerText: `Pay your balance now or request help by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -353,7 +351,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '459':
       return {
         headerText: `Pay your balance now or request help by ${endDateText}`,
-        status: 'info',
+        status: 'warning',
         showIcon: false,
         showLinks: true,
         showMakePayment: true,
@@ -531,7 +529,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
     case '484':
     default:
       return {
-        headerText: `We're reviewing your account`,
+        headerText: `We’re reviewing your account`,
         status: 'info',
         showIcon: true,
         showLinks: false,
