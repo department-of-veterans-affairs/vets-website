@@ -156,6 +156,7 @@ export function KeywordSearch({
           <div>
             <div className="input-container input-container-width">
               <input
+                data-testid="ct-input"
                 aria-controls="ctKeywordSearch"
                 className={classNames('input-box-margin', className)}
                 {...getInputProps({
