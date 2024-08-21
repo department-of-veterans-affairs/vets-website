@@ -213,6 +213,10 @@ class MedicationsDetailsPage {
     );
   };
 
+  verifyActiveNonVAStatusDisplayedOnDetailsPage = status => {
+    cy.get('[data-testid="rx-status"]').should('contain', status);
+  };
+
   verifyActiveStatusDropDownDefinition = () => {
     cy.get(
       '[data-testid="status-dropdown"] > [data-testid="active-status-definition"]',
