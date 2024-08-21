@@ -79,30 +79,15 @@ const testConfig = createTestConfig(
           },
         ],
       ),
-      'military-service-experiences/0/branch-date-range': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            selectDropdownWebComponent(
-              'branch',
-              data.militaryServiceExperiences[0].branch,
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'military-service-experiences/0/discharge': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            selectDropdownWebComponent(
-              'characterOfDischarge',
-              data.militaryServiceExperiences[0].characterOfDischarge,
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      'military-service-experiences/0/branch-date-range': selectDropdownHook(
+        'branch',
+        data => data.militaryServiceExperiences[0].branch,
+      ),
+      'military-service-experiences/0/discharge-character': selectDropdownHook(
+        'characterOfDischarge',
+        data => data.militaryServiceExperiences[0].characterOfDischarge,
+      ),
+      'employment-status': selectCheckboxGroupHook('employmentStatus'),
       'employers/0/address-phone-number': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -118,7 +103,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'employment-status': selectCheckboxGroupHook('employmentStatus'),
       'employment-activities': selectCheckboxGroupHook('employmentActivities'),
       'educational-institutions/0/address': selectDropdownHook(
         'address_state',
