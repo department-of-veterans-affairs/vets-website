@@ -377,7 +377,7 @@ export function createRelinquishedBenefit(submissionForm) {
   }
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
-      formFields?.benefitRelinquished
+      (formFields?.benefitRelinquished)
     ];
   // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
   if (submissionForm?.dgiRudisillHideBenefitsSelectionStep) {
@@ -393,7 +393,7 @@ export function createRelinquishedBenefit(submissionForm) {
   }
   // Default case when no benefit is relinquished
   return {
-    relinquishedBenefit: 'CannotRelinquish',
+    relinquishedBenefit: 'NotEligible',
   };
 }
 

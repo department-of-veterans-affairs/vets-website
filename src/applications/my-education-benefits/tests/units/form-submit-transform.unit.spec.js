@@ -234,16 +234,14 @@ describe('form submit transform', () => {
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
       expect(relinquishedBenefit.relinquishedBenefit).to.eql(null);
     });
-    it('should return CannotRelinquish if no relinquishment AND showMebDgi42Features is true', () => {
+    it('should return NotEligible if rudisill flag and showMebEnhancements09 are false', () => {
       mockSubmissionForm[
         'view:benefitSelection'
       ].benefitRelinquished = undefined;
       mockSubmissionForm.dgiRudisillHideBenefitsSelectionStep = false;
       mockSubmissionForm.showMebEnhancements09 = false;
       const relinquishedBenefit = createRelinquishedBenefit(mockSubmissionForm);
-      expect(relinquishedBenefit.relinquishedBenefit).to.eql(
-        'CannotRelinquish',
-      );
+      expect(relinquishedBenefit.relinquishedBenefit).to.eql('NotEligible');
     });
     it('should return NotEligible if no relinquishment AND showMebEnhancements09 AND showMebDgi42Features are true', () => {
       mockSubmissionForm[
