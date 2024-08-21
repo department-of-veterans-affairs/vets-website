@@ -169,17 +169,27 @@ const formConfig = {
     veteran: {
       title: 'Veteran Information',
       pages: {
-        ...veteranPersonalInformation,
+        veteranPersonalInformation: {
+          title: 'Veteran’s name and date of birth',
+          path: 'veteran-personal-information',
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
-          title: 'Your phone number and email address',
+          title: `${
+            preparerIsVeteran ? 'Your' : 'Veteran’s'
+          } phone number and email address`,
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
           editModeOnReviewPage: true,
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: 'Your phone number and email address',
+          title: `${
+            preparerIsVeteran ? 'Your' : 'Veteran’s'
+          }  phone number and email address`,
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
           editModeOnReviewPage: true,

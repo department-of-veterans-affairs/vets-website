@@ -4,28 +4,26 @@ import {
   fullNameSchema,
   fullNameUI,
   titleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { preparerIsVeteran } from '../../utilities/helpers';
 
-/** @type {PageSchema} */
-export default {
-  title: 'Veteran’s name and date of birth',
-  path: 'veteran-personal-information',
-  uiSchema: {
-    ...titleUI(
-      `${preparerIsVeteran ? 'Your' : 'Veteran’s'} name and date of birth`,
-      'Use your legal name as it appears on your government documentation.',
-    ),
-    veteranFullName: fullNameUI(),
-    veteranDateOfBirth: dateOfBirthUI(),
+export const uiSchema = {
+  ...titleUI(
+    `${preparerIsVeteran ? 'Your' : 'Veteran’s'} name and date of birth`,
+    'Use your legal name as it appears on your government documentation.',
+  ),
+  veteranFullName: fullNameUI(),
+  veteranDateOfBirth: dateOfBirthUI(),
+};
+
+export const schema = {
+  type: 'object',
+  properties: {
+    titleSchema,
+    veteranFullName: fullNameSchema,
+    veteranDateOfBirth: dateOfBirthSchema,
   },
-  schema: {
-    type: 'object',
-    properties: {
-      veteranFullName: fullNameSchema,
-      veteranDateOfBirth: dateOfBirthSchema,
-    },
-    required: ['dateOfBirth'],
-  },
+  required: ['dateOfBirth'],
 };
