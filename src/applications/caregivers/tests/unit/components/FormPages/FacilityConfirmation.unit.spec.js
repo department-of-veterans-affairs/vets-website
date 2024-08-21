@@ -30,18 +30,9 @@ describe('CG <FacilityConfirmation>', () => {
     const selectedFacilityAddress = selectedFacility.address.physical;
 
     const selectors = () => ({
-      descriptionText: {
-        header3: getByRole('heading', {
-          level: 3,
-          name: 'Confirm your health care facilities',
-        }),
-        header4: getByRole('heading', {
-          level: 4,
-          name: 'The Veteran’s Facility you selected',
-        }),
-        paragraph: getByText(
-          'This is the facility where you told us the Veteran receives or plans to receive treatment.',
-        ),
+      pageDescription: {
+        confirmHeader: getByRole('heading', { level: 3 }),
+        veteranSelectedHeader: getByRole('heading', { level: 4 }),
       },
       selectedFacility: {
         name: getByText(new RegExp(selectedFacility.name)),
@@ -54,7 +45,7 @@ describe('CG <FacilityConfirmation>', () => {
         forward: getByText('Continue'),
       },
     });
-    return { selectors };
+    return { selectors, getByRole, getByText };
   };
 
   context('formNavButtons', () => {
@@ -78,10 +69,18 @@ describe('CG <FacilityConfirmation>', () => {
   });
 
   it('renders selected facility description text', () => {
-    const { selectors } = subject();
-    expect(selectors().descriptionText.header3).to.exist;
-    expect(selectors().descriptionText.header4).to.exist;
-    expect(selectors().descriptionText.paragraph).to.exist;
+    const { selectors, getByText } = subject();
+    expect(selectors().pageDescription.confirmHeader).to.have.text(
+      'Confirm your health care facilities',
+    );
+    expect(selectors().pageDescription.veteranSelectedHeader).to.have.text(
+      'The Veteran’s Facility you selected',
+    );
+    expect(
+      getByText(
+        /This is the facility where you told us the Veteran receives or plans to receive treatment/i,
+      ),
+    ).to.be.visible;
   });
 
   it('should render veteran selected facility name', () => {
