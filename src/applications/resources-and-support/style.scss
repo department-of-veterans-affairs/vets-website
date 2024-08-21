@@ -33,7 +33,7 @@
   right: unset;
 }
 
-button.vads-u-background-color--gray-lightest{
+button.vads-u-background-color--gray-lightest, button.vads-u-background-color--gray-lightes:hover{
   background-color: var(--vads-color-base-lightest);
   color: var(--vads-color-primary);
 }
