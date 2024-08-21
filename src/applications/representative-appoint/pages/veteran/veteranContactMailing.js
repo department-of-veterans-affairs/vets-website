@@ -2,6 +2,7 @@ import {
   addressSchema,
   addressUI,
   titleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { preparerIsVeteran } from '../../utilities/helpers';
@@ -20,6 +21,7 @@ export const uiSchema = {
 export const schema = {
   type: 'object',
   properties: {
+    titleSchema,
     veteranHomeAddress: addressSchema({
       omit: ['street3'],
     }),

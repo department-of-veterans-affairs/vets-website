@@ -6,6 +6,7 @@ import {
   serviceNumberUI,
   serviceNumberSchema,
   titleUI,
+  titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { preparerIsVeteran } from '../../utilities/helpers';
@@ -25,6 +26,7 @@ export const schema = {
   type: 'object',
   required: ['veteranSocialSecurityNumber'],
   properties: {
+    titleSchema,
     veteranSocialSecurityNumber: ssnSchema,
     veteranVAFileNumber: vaFileNumberSchema,
     veteranServiceNumber: serviceNumberSchema,
