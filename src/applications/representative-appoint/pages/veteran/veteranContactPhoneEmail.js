@@ -14,7 +14,7 @@ export const blankSchema = { type: 'object', properties: {} };
 export const uiSchema = {
   ...titleUI(
     `${
-      preparerIsVeteran ? 'Veteran’s' : 'Your'
+      preparerIsVeteran ? 'Your' : 'Veteran’s'
     }} phone number and email address`,
   ),
   Primary: phoneUI({

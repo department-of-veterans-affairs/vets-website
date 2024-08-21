@@ -14,7 +14,7 @@ import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(
-    `${preparerIsVeteran ? 'Veteran’s' : 'Your'} identification information`,
+    `${preparerIsVeteran ? 'Your' : 'Veteran’s'} identification information`,
   ),
   veteranSocialSecurityNumber: ssnUI('Social Security number'),
   veteranVAFileNumber: vaFileNumberUI('VA file number'),

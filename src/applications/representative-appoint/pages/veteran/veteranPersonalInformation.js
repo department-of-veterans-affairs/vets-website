@@ -14,7 +14,7 @@ export default {
   path: 'veteran-personal-information',
   uiSchema: {
     ...titleUI(
-      `${preparerIsVeteran ? 'Veteran’s' : 'Your'} name and date of birth`,
+      `${preparerIsVeteran ? 'Your' : 'Veteran’s'} name and date of birth`,
       'Use your legal name as it appears on your government documentation.',
     ),
     veteranFullName: fullNameUI(),
