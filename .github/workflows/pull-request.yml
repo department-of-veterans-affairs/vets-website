@@ -309,6 +309,7 @@ jobs:
         run: node ./script/github-actions/stylelint-annotation-format.js
 
   check-codeowners:
+    name: Check codeowners
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
