@@ -1,5 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -87,6 +88,9 @@ const formConfig = {
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   preSubmitInfo: {
     required: true,

@@ -6,13 +6,17 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import FormFooter from 'platform/forms/components/FormFooter';
 
 // removes local storage for user profile session indicators
+
 import { teardownProfileSession } from 'platform/user/profile/utilities';
 
 import fallbackFormConfig from '../config/fallbackForm';
 import greenFormConfig from '../config/prefill/taskGreen/form';
 import yellowFormConfig from '../config/prefill/taskYellow/form';
+import purpleFormConfig from '../config/prefill/taskPurple/form';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { TaskButtons } from '../components/TaskButtons';
+import { TaskTabs } from '../components/TaskTabs';
+import { Portal } from '../components/Portal';
+import { LOCATIONS_TO_REMOVE_FORM_HEADER } from '../utils/constants';
 
 const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
@@ -23,16 +27,29 @@ const getFormConfig = location => {
     return yellowFormConfig;
   }
 
+  if (location.pathname.includes('task-purple')) {
+    return purpleFormConfig;
+  }
+
   return fallbackFormConfig;
 };
 
-const handleEditPageDisplayTweaks = location => {
+const isPathIncludedInPossibleLocations = (location, possibleLocations) => {
+  return possibleLocations.some(possibleLocation =>
+    location.pathname.includes(possibleLocation),
+  );
+};
+
+export const handleEditPageDisplayTweaks = location => {
   const navHeader = document.querySelector('#nav-form-header');
   const chapterProgress = document.querySelector(
     '.schemaform-chapter-progress',
   );
   const formTitle = document.querySelector('.schemaform-title');
-  if (location.pathname.includes('edit-')) {
+
+  if (
+    isPathIncludedInPossibleLocations(location, LOCATIONS_TO_REMOVE_FORM_HEADER)
+  ) {
     if (navHeader) {
       // hide header on edit pages
       navHeader.style.display = 'none';
@@ -70,6 +87,11 @@ export default function App({ location, children }) {
         teardownProfileSession();
       }
       handleEditPageDisplayTweaks(location);
+
+      // having the pollTimeout allows api calls locally
+      if (!window?.VetsGov?.pollTimeout) {
+        window.VetsGov.pollTimeout = 5000;
+      }
     },
     [location, setHasSession],
   );
@@ -78,16 +100,19 @@ export default function App({ location, children }) {
 
   dispatch({ type: 'SET_NEW_FORM_CONFIG', formConfig });
 
+  // we need to get the header element to append the tabs to it
+  const header = document.getElementById('header-default');
+
   return (
     <div className="vads-u-margin-top--4">
-      <RoutedSavableApp
-        formConfig={getFormConfig(location)}
-        currentLocation={location}
-      >
+      <Portal target={header}>
+        <TaskTabs location={location} formConfig={formConfig} />,
+      </Portal>
+
+      <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
       <FormFooter formConfig={formConfig} />
-      <TaskButtons rootUrl={formConfig.rootUrl} />
     </div>
   );
 }

@@ -9,14 +9,14 @@ import content from '../../../locales/en/content.json';
 
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 
-import { MailingAddressInfoPage } from '../../../containers/MailingAddressInfoPage';
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import { Completion } from '../../../containers/Completion';
 
 import { EditAddress } from '../../../components/EditContactInfo';
-import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { GetFormHelp } from '../../../components/GetFormHelp';
+import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
+import { MailingAddressInfoPageTaskGreen } from '../../../components/FormPages/MailingAddressInfoPageTaskGreen';
+import { taskCompletePage } from '../../taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -87,7 +87,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Prefill Task Green',
+  title: 'Update your VA health benefits information',
+  subTitle: 'Health Benefits Update Form (VA Form 10-10EZR)',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
@@ -106,7 +107,7 @@ const formConfig = {
           path: 'veteran-information/confirm-mailing-address',
           uiSchema: {
             'ui:title': ' ',
-            'ui:description': MailingAddressInfoPage,
+            'ui:description': MailingAddressInfoPageTaskGreen,
             'ui:required': () => false, // don't allow progressing without all contact info// needed to block form progression
             'ui:options': {
               hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
@@ -141,14 +142,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        taskCompleted: {
-          title: "You're done!",
-          path: 'complete',
-          CustomPage: props => Completion({ ...props }),
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        taskCompletePage,
       },
     },
   },
