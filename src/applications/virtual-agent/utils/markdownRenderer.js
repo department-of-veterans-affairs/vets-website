@@ -2,6 +2,7 @@ import MarkdownIt from 'markdown-it';
 import markdownitLinkAttributes from 'markdown-it-link-attributes';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import makePhoneNumberAriaLabel from './makePhoneNumberAriaLabel';
+import { getEventSkillValue } from './sessionStorage';
 
 const markdownRenderer = MarkdownIt({
   html: true,
@@ -15,10 +16,12 @@ const markdownRenderer = MarkdownIt({
 
 function recordChatbotLinkClicks(origin) {
   if (origin.id && origin.id === 'chatbotLink') {
+    const topic = getEventSkillValue();
     recordEvent({
       event: 'chatbot-resource-link-click',
       link: origin.href,
       linkText: origin.text,
+      topic,
       time: new Date(),
     });
   }

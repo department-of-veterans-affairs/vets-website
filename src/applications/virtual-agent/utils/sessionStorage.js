@@ -56,7 +56,7 @@ export function setIsRxSkill(value) {
 }
 
 export function getEventSkillValue() {
-  getStorageItem(SKILL_EVENT_VALUE);
+  return getStorageItem(SKILL_EVENT_VALUE);
 }
 
 export function setEventSkillValue(value) {
