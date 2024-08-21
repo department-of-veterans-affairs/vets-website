@@ -1,40 +1,15 @@
 import { waitForShadowRoot } from 'platform/utilities/ui/webComponents';
 
-// Produce a string that is either an applicant's name or
-// "your" depending on additional context provided.
-export function applicantWording(
-  formData,
-  context,
-  isPosessive = true,
-  _cap = true, // This doesn't matter now that we don't use 'you'/'your'
-  _index, // Will be unused now that we don't use 'you'/'your'
-) {
-  let retVal = '';
-  if (context) {
-    // If we have additional context that means we have to dig for applicant
-    const idx = +context?.formContext?.pagePerItemIndex;
-    // const isApplicant = formData?.certifierRole === 'applicant';
-    const appName = formData?.applicants[idx]?.applicantName;
-    retVal = [appName?.first, appName?.middle, appName?.last, appName?.suffix]
-      .filter(el => el)
-      .join(' ');
-  } else {
-    // No context means we're directly accessing an applicant object
-    retVal = [
-      formData?.applicantName?.first,
-      formData?.applicantName?.middle,
-      formData?.applicantName?.last,
-      formData?.applicantName?.suffix,
-    ]
-      .filter(el => el)
-      .join(' ');
-  }
-
-  return isPosessive ? `${retVal}’s` : retVal;
-}
-
-// Return either 'your' or the applicant's name depending
-// TODO: combine with `applicantWording` fn above
+/**
+ * Returns either a form of 'you', or the applicant's full name based
+ * on the formData's `certifierRole` property. Assumes presences of an
+ * `applicantName` key.
+ * @param {object} formData Obj containing `certifierRole` and `applicantName
+ * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
+ * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
+ * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
+ * @returns String of the applicant's full name OR the appropriate form of 'you'
+ */
 export function nameWording(
   formData,
   isPosessive = true,
@@ -42,8 +17,6 @@ export function nameWording(
   firstNameOnly = false,
 ) {
   let retVal = '';
-  // NOTE: certifierRole isn't used in this form anymore so this will always
-  // skip to else clause
   if (formData?.certifierRole === 'applicant') {
     retVal = isPosessive ? 'your' : 'you';
   } else {
@@ -58,6 +31,23 @@ export function nameWording(
 
   // Optionally capitalize first letter and return
   return cap ? retVal?.charAt(0)?.toUpperCase() + retVal?.slice(1) : retVal;
+}
+
+/**
+ * Wrapper around `nameWording` that drops the `certifierRole` prop to prevent 'you/r' text
+ * @param {object} formData Obj containing `applicantName`, or an array `applicants`
+ * @param {boolean} isPosessive `true` if we want posessive form, `false` otherwise
+ * @param {boolean} cap `true` if we want to capitalize first letter, `false` to leave as-is
+ * @param {boolean} firstNameOnly `true` if we want just applicant's first name, `false` for full name
+ * @returns
+ */
+export function applicantWording(formData, isPosessive, cap, firstNameOnly) {
+  return nameWording(
+    { ...formData, certifierRole: undefined }, // set certifierRole to prevent 'you' language
+    isPosessive,
+    cap,
+    firstNameOnly,
+  );
 }
 
 // Turn camelCase into capitalized words ("camelCase" => "Camel Case")
@@ -131,4 +121,35 @@ export async function addStyleToShadowDomOnPages(
         // Fail silently (styles just won't be applied)
       }
     });
+}
+
+/**
+ * Naively switches a date string from YYYY-MM-DD to MM-DD-YYYY
+ * @param {object} data Object containing some number of top-level properties with "date" or "dob" in the keyname(s)
+ * @returns copy of `data` with all top-level date properties adjusted
+ */
+export function adjustYearString(data) {
+  const copy = JSON.parse(JSON.stringify(data));
+  Object.keys(copy).forEach(key => {
+    if (/date|dob/.test(key.toLowerCase())) {
+      const date = copy[key];
+      copy[key] = `${date.slice(5)}-${date.slice(0, 4)}`;
+    }
+  });
+  return copy;
+}
+
+/**
+ * Combine all street fields from an address into a single string.
+ * @param {Object} addr Standard form address object containing one or more `street` properties (e.g., street, street1, street2)
+ * @returns String of all street fields combined.
+ */
+export function concatStreets(addr) {
+  let res = '';
+  if (addr) {
+    for (const [k, v] of Object.entries(addr)) {
+      res += k.includes('street') ? `${v} ` : '';
+    }
+  }
+  return res;
 }

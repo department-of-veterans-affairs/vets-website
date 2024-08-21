@@ -1,14 +1,11 @@
 import React from 'react';
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { fileUploadBlurbCustom } from 'applications/ivc-champva/shared/components/fileUploads/attachments';
 import { applicantWording } from '../../../shared/utilities';
 import ApplicantField from '../../../shared/components/applicantLists/ApplicantField';
 import { fileUploadUi as fileUploadUI } from '../../../shared/components/fileUploads/upload';
-import { requiredFiles } from '../../config/requiredUploads';
-import {
-  uploadWithInfoComponent,
-  // acceptableFiles,
-  mailOrFaxLaterMsg,
-} from '../Sponsor/sponsorFileUploads';
+import { REQUIRED_FILES } from '../../config/constants';
+import { uploadWithInfoComponent } from '../Sponsor/sponsorFileUploads';
 
 // This file contains the ui/schemas for applicant file upload screens.
 
@@ -22,13 +19,16 @@ import {
  */
 export function isRequiredFile(formContext) {
   return Object.keys(formContext?.schema?.properties || {}).filter(v =>
-    Object.keys(requiredFiles).includes(v),
+    Object.keys(REQUIRED_FILES).includes(v),
   ).length >= 1
     ? '(Required)'
     : '(Optional)';
 }
 
-export const marriageDocumentList = (
+const mailOrFaxLaterMsg =
+  'If you don’t have a copy to upload now, you can send one by mail or fax.';
+
+const marriageDocumentList = (
   <>
     Upload a copy of one of these documents:
     <ul>
@@ -43,10 +43,24 @@ export const marriageDocumentList = (
   </>
 );
 
+const divorceDocumentList = (
+  <>
+    <b>If the remarriage has ended</b>, upload a copy of one of these documents:
+    <ul>
+      <li>
+        Divorce decree, <b>or</b>
+      </li>
+      <li>
+        Annulment decree, <b>or</b>
+      </li>
+      <li>Death certificate</li>
+    </ul>
+  </>
+);
+
 export const applicantBirthCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.birthCert,
   'birth certificates',
-  false,
 );
 
 export const applicantBirthCertUploadUiSchema = {
@@ -56,19 +70,10 @@ export const applicantBirthCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload birth certificate ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => (
+        ({ formData }) => (
           <>
             To help us process this application faster, submit a copy of{' '}
-            <b>
-              {applicantWording(
-                formData,
-                undefined,
-                true,
-                false,
-                formContext.pagePerItemIndex,
-              )}
-            </b>{' '}
-            birth certificate.
+            <b>{applicantWording(formData, true, false)}</b> birth certificate.
             <br />
             Submitting a copy can help us process this application faster.
             <br />
@@ -87,7 +92,6 @@ export const applicantBirthCertUploadUiSchema = {
 export const applicantSchoolCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.schoolCert,
   'school certifications',
-  false,
 );
 
 export const applicantSchoolCertUploadUiSchema = {
@@ -97,21 +101,9 @@ export const applicantSchoolCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of school enrollment ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               You’ll need to submit a copy of a document showing proof of{' '}
@@ -167,7 +159,6 @@ export const applicantSchoolCertUploadUiSchema = {
 export const applicantHelplessChildConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.helplessCert,
   'VBA decision rating',
-  false,
 );
 
 export const applicantHelplessChildUploadUiSchema = {
@@ -177,14 +168,8 @@ export const applicantHelplessChildUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload rating decision letter ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ve selected that <b>{posessive}</b> permanently incapable of
@@ -211,7 +196,6 @@ export const applicantHelplessChildUploadUiSchema = {
 export const applicantAdoptedConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.adoptionCert,
   'adoption papers',
-  false,
 );
 
 export const applicantAdoptedUploadUiSchema = {
@@ -221,18 +205,10 @@ export const applicantAdoptedUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of adoption ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => (
+        ({ formData }) => (
           <>
             You’ll need to submit a document showing proof of{' '}
-            <b>
-              {applicantWording(
-                formData,
-                undefined,
-                true,
-                false,
-                formContext.pagePerItemIndex,
-              )}{' '}
-            </b>
+            <b>{applicantWording(formData, true, false)} </b>
             adoption (like court ordered adoption papers).
             <br />
             {mailOrFaxLaterMsg}
@@ -250,7 +226,6 @@ export const applicantAdoptedUploadUiSchema = {
 export const applicantStepChildConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.stepCert,
   'marriage certificates',
-  false,
 );
 
 export const applicantStepChildUploadUiSchema = {
@@ -262,14 +237,8 @@ export const applicantStepChildUploadUiSchema = {
           `Upload proof of marriage or legal union ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
@@ -294,7 +263,6 @@ export const applicantStepChildUploadUiSchema = {
 export const applicantMedicarePartAPartBCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.medicareABCert,
   'copy of Medicare Parts A or B card',
-  false,
 );
 
 export const applicantMedicarePartAPartBCardsUploadUiSchema = {
@@ -304,14 +272,8 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload Medicare Part A and B card ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
@@ -339,7 +301,6 @@ export const applicantMedicarePartAPartBCardsUploadUiSchema = {
 export const applicantMedicarePartDCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.medicareDCert,
   'copy of Medicare Part D card',
-  false,
 );
 
 export const applicantMedicarePartDCardsUploadUiSchema = {
@@ -349,14 +310,8 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload Medicare Part D card ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const posessive = applicantWording(
-            formData,
-            undefined,
-            true,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const posessive = applicantWording(formData, true, false);
           return (
             <>
               You’ll need to submit a copy of the front and back of{' '}
@@ -384,7 +339,6 @@ export const applicantMedicarePartDCardsUploadUiSchema = {
 export const appMedicareOver65IneligibleConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.ssIneligible,
   'Medicare ineligibility proof',
-  false,
 );
 
 export const appMedicareOver65IneligibleUploadUiSchema = {
@@ -396,14 +350,8 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
           `Upload proof of Medicare ineligibility ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            true,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, true);
           return (
             <>
               <b>{nonPosessive}</b> is 65 years or older and you selected that{' '}
@@ -429,7 +377,6 @@ export const appMedicareOver65IneligibleUploadUiSchema = {
 export const applicantOhiCardsConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.healthInsCert,
   'copy of other health insurance card',
-  false,
 );
 
 export const applicantOhiCardsUploadUiSchema = {
@@ -461,11 +408,9 @@ export const applicantOhiCardsUploadUiSchema = {
   },
 };
 
-// TODO: rename so the makeHumanReadable Func works
 export const applicantOtherInsuranceCertificationConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.va7959cCert,
   'VA Form 10-7959c',
-  false,
 );
 
 export const applicantOtherInsuranceCertificationUploadUiSchema = {
@@ -501,10 +446,9 @@ export const applicantOtherInsuranceCertificationUploadUiSchema = {
   },
 };
 
-export const applicantMarriageCertConfig = uploadWithInfoComponent(
+export const applicantRemarriageCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.spouseCert,
-  'marriage certificates',
-  true,
+  'remarriage certificates',
 );
 
 // When in list loop, formData is just the list element's data, but when editing
@@ -516,44 +460,46 @@ export function getTopLevelFormData(formContext) {
     : formContext.contentAfterButtons.props.form.data;
 }
 
-export const applicantMarriageCertUploadUiSchema = {
+// If the beneficiary remarried, collect proof of that remarriage
+// and any other marital docs they want to include
+export const applicantRemarriageCertUploadUiSchema = {
   applicants: {
     'ui:options': { viewField: ApplicantField },
     items: {
       ...titleUI(
-        ({ _formData, formContext }) =>
-          `Upload proof of marriage or legal union ${isRequiredFile(
+        ({ formData, formContext }) =>
+          `If ${applicantWording(
+            formData,
+            false,
+            false,
+          )} remarried, upload proof of remarriage ${isRequiredFile(
             formContext,
           )}`,
         ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+          const nonPosessive = applicantWording(formData, false, false);
           // Inside list loop this lets us grab form data outside the scope of
           // current list element:
           const vetName = getTopLevelFormData(formContext)?.veteransFullName;
           return (
             <>
-              You’ll need to submit a document showing proof of the marriage or
-              legal union between <b>{nonPosessive}</b> and{' '}
-              <b>
-                {vetName?.first ?? ''} {vetName?.last ?? ''}
-              </b>
-              .<br />
+              If {nonPosessive} remarried after the death of{' '}
+              {vetName?.first ?? ''} {vetName?.last ?? ''}, you can help us
+              process your application by submitting documents showing proof of
+              that remarriage.
+              <br />
               <br />
               {marriageDocumentList}
-              {mailOrFaxLaterMsg}
+              {divorceDocumentList}
             </>
           );
         },
       ),
-      ...applicantMarriageCertConfig.uiSchema,
-      applicantMarriageCert: fileUploadUI({
-        label: 'Upload proof of marriage or legal union',
+      ...fileUploadBlurbCustom(
+        <li>You can upload more than one file here.</li>,
+        'You can also upload all your supporting documents at the end of this form. Or you can send copies by mail or fax.',
+      ),
+      applicantRemarriageCert: fileUploadUI({
+        label: 'Upload proof of remarriage',
       }),
     },
   },
@@ -568,14 +514,8 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           `Upload proof of marriage or legal union ${isRequiredFile(
             formContext,
           )}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               You’ll need to submit a document showing proof of the marriage or
@@ -589,7 +529,7 @@ export const applicantSecondMarriageCertUploadUiSchema = {
           );
         },
       ),
-      ...applicantMarriageCertConfig.uiSchema,
+      ...applicantRemarriageCertConfig.uiSchema,
       applicantSecondMarriageCert: fileUploadUI({
         label: 'Upload proof of marriage or legal union',
       }),
@@ -600,7 +540,6 @@ export const applicantSecondMarriageCertUploadUiSchema = {
 export const applicantSecondMarriageDivorceCertConfig = uploadWithInfoComponent(
   undefined, // acceptableFiles.divorceCert,
   'marriage certificates',
-  true,
 );
 
 export const applicantSecondMarriageDivorceCertUploadUiSchema = {
@@ -610,14 +549,8 @@ export const applicantSecondMarriageDivorceCertUploadUiSchema = {
       ...titleUI(
         ({ _formData, formContext }) =>
           `Upload proof of legal separation ${isRequiredFile(formContext)}`,
-        ({ formData, formContext }) => {
-          const nonPosessive = applicantWording(
-            formData,
-            undefined,
-            false,
-            false,
-            formContext.pagePerItemIndex,
-          );
+        ({ formData }) => {
+          const nonPosessive = applicantWording(formData, false, false);
           return (
             <>
               To help us process this application faster, you can submit a

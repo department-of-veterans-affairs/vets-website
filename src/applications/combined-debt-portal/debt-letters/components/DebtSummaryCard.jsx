@@ -1,16 +1,17 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import head from 'lodash/head';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { deductionCodes } from '../const/deduction-codes';
 import { setActiveDebt } from '../../combined/actions/debts';
 import { currency } from '../utils/page';
 import { debtSummaryText } from '../const/diary-codes/debtSummaryCardContent';
 
 const DebtSummaryCard = ({ debt }) => {
-  // TODO: currently we do not have a debtID so we need to make one by combining fileNumber and diaryCode
+  const dispatch = useDispatch();
   const mostRecentHistory = head(debt?.debtHistory);
-
   const debtCardTotal = currency.format(parseFloat(debt.currentAr));
   const debtCardHeading =
     deductionCodes[debt.deductionCode] || debt.benefitType;
@@ -27,22 +28,25 @@ const DebtSummaryCard = ({ debt }) => {
         class="vads-u-padding--3 vads-u-margin-bottom--3"
         data-testid="debt-summary-item"
       >
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
-          {debtCardTotal}{' '}
-          <span className="vads-u-margin-top--1 vads-u-margin-bottom--1p5 vads-u-display--block vads-u-font-size--h4 vads-u-font-weight--normal">
-            {debtCardHeading}
-          </span>
+        {/* TODO: Once transaction data is live, need to change h3 to h2 */}
+        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
+          {debtCardHeading}
         </h3>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h4 vads-u-font-family--serif">
+          <span className="vads-u-font-weight--normal">Current balance: </span>
+          <strong>{debtCardTotal} </strong>
+        </p>
         {debtCardSubHeading}
-        <va-link
+        <VaLink
           active
           data-testid="debt-details-button"
           onClick={() => {
             recordEvent({ event: 'cta-link-click-debt-summary-card' });
-            setActiveDebt(debt);
+            dispatch(setActiveDebt(debt));
           }}
-          href={`/manage-va-debt/summary/debt-balances/details/${debt.fileNumber +
-            debt.deductionCode}`}
+          href={`/manage-va-debt/summary/debt-balances/details/${
+            debt.compositeDebtId
+          }`}
           text="Check details and resolve this debt"
           aria-label={`Check details and resolve this ${debtCardHeading}`}
         />
@@ -62,7 +66,7 @@ DebtSummaryCard.propTypes = {
     deductionCode: PropTypes.string,
     benefitType: PropTypes.string,
     diaryCode: PropTypes.string,
-    fileNumber: PropTypes.string,
+    compositeDebtId: PropTypes.string,
   }),
 };
 

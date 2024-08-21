@@ -4,10 +4,7 @@ import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import {
-  selectModalityText,
-  selectRequestedAppointmentData,
-} from '../../appointment-list/redux/selectors';
+import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
@@ -33,7 +30,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
-  const modiality = selectModalityText(appointment, true);
+  const preferredModality = appointment?.preferredModality;
   const [reason, otherDetails] = bookingNotes?.split(':') || [];
 
   let heading = 'We have received your request';
@@ -43,7 +40,7 @@ export default function VARequestLayout({ data: appointment }) {
     heading = 'Canceled request for appointment';
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
@@ -56,7 +53,7 @@ export default function VARequestLayout({ data: appointment }) {
           {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="How you prefer to attend">
-          <span>{modiality}</span>
+          <span>{preferredModality}</span>
         </Section>
         <Section heading="Facility">
           {!!facility?.name && (

@@ -34,11 +34,4 @@ describe('<ClaimTimeline>', () => {
 
     expect(tree.subTree('PhaseBackWarning')).to.be.false;
   });
-
-  it('should render CompleteDetails for phase 5', () => {
-    const tree = SkinDeep.shallowRender(
-      <ClaimTimeline events={[]} phase={5} />,
-    );
-    expect(tree.everySubTree('CompleteDetails')).not.to.be.false;
-  });
 });

@@ -69,7 +69,7 @@ export default class MockAppointmentResponse {
       preferredDates: [
         moment()
           .startOf('day')
-          .format('ddd, MMMM DD, YYYY [in the morning]'),
+          .format('ddd, MMMM D, YYYY [in the morning]'),
       ],
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
@@ -207,6 +207,11 @@ export default class MockAppointmentResponse {
       status: APPOINTMENT_STATUS.proposed,
       serviceType,
     });
+  }
+
+  setPatientComments(value) {
+    this.attributes.patientComments = value;
+    return this;
   }
 
   setCancelationReason(value) {
@@ -358,6 +363,11 @@ export default class MockAppointmentResponse {
 
   setStatus(value) {
     this.attributes.status = value;
+    return this;
+  }
+
+  setPreferredModlity(value) {
+    this.attributes.preferredModality = value;
     return this;
   }
 }

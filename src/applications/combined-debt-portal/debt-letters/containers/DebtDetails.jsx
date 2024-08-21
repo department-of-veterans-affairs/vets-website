@@ -4,20 +4,23 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { head } from 'lodash';
 import HowDoIPay from '../components/HowDoIPay';
 import NeedHelp from '../components/NeedHelp';
-import OnThisPageLinks from '../components/OnThisPageLinks';
+import DebtDetailsOnThisPageLinks from '../components/DebtDetailsOnThisPageLinks';
 import HistoryTable from '../components/HistoryTable';
-import { getCurrentDebt } from '../utils/page';
 import {
   setPageFocus,
   debtLettersShowLettersVBMS,
+  showPaymentHistory,
 } from '../../combined/utils/helpers';
+import { getCurrentDebt, currency } from '../utils/page';
 import {
   deductionCodes,
   renderWhyMightIHaveThisDebt,
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
+import PaymentHistoryTable from '../components/PaymentHistoryTable';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -26,12 +29,16 @@ const DebtDetails = () => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
+
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
     ?.filter(history => approvedLetterCodes.includes(history.letterCode))
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
+  const hasPaymentHistory =
+    currentDebt.fiscalTransactionData &&
+    currentDebt.fiscalTransactionData.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -44,9 +51,23 @@ const DebtDetails = () => {
     debtLettersShowLettersVBMS(state),
   );
 
+  const formatCurrency = amount => currency.format(parseFloat(amount));
+
+  const getLatestPaymentDateFromCurrentDebt = debt => {
+    const mostRecentDate = head(debt.fiscalTransactionData)?.transactionDate;
+
+    if (mostRecentDate === '') return 'N/A';
+
+    return mostRecentDate;
+  };
+
   useEffect(() => {
     setPageFocus('h1');
   }, []);
+
+  const shouldShowPaymentHistory = useSelector(state =>
+    showPaymentHistory(state),
+  );
 
   if (Object.keys(currentDebt).length === 0) {
     window.location.replace('/manage-va-debt/summary/debt-balances/');
@@ -75,8 +96,9 @@ const DebtDetails = () => {
             label: 'Current VA debt',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`,
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
             label: 'Debt details',
           },
         ]}
@@ -105,11 +127,44 @@ const DebtDetails = () => {
             {whyContent}
           </va-additional-info>
         )}
-        <OnThisPageLinks
+        <DebtDetailsOnThisPageLinks
           isDetailsPage
           hasHistory={hasFilteredHistory}
+          hasPaymentHistory={hasPaymentHistory}
           showDebtLetterDownload={showDebtLetterDownload}
+          shouldShowPaymentHistory={shouldShowPaymentHistory}
         />
+        {shouldShowPaymentHistory && (
+          <div>
+            <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
+              Debt details
+            </h2>
+            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+              <div>
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Current balance as of{' '}
+                    {getLatestPaymentDateFromCurrentDebt(currentDebt)}
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.currentAr)}
+                  </span>
+                </h3>
+              </div>
+              <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--0">
+                <h3 className="vads-u-margin-y--0">
+                  <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">
+                    Original overpayment amount
+                  </span>
+                  <span className="vads-u-margin-y--0 medium-screen:vads-u-font-size--h2">
+                    {formatCurrency(currentDebt.originalAr)}
+                  </span>
+                </h3>
+              </div>
+            </div>
+            <PaymentHistoryTable currentDebt={currentDebt} />
+          </div>
+        )}
         {hasFilteredHistory && (
           <>
             <h2
@@ -118,21 +173,10 @@ const DebtDetails = () => {
             >
               Debt letter history
             </h2>
-            <p className="vads-u-margin-y--2">
+            <p className="vads-u-margin-bottom--0">
               {`You can check the status ${
                 showDebtLetterDownload ? `or download the letters for` : `of`
               } this debt.`}
-            </p>
-            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              <strong>Note:</strong> The content of the debt letters below may
-              not include recent updates to your debt reflected above. If you
-              have any questions about your debt history, please contact the
-              Debt Management Center at{' '}
-              <va-telephone
-                className="vads-u-margin-left--0p5"
-                contact="8008270648"
-              />
-              .
             </p>
             <HistoryTable history={filteredHistory} />
             {showDebtLetterDownload ? (
@@ -156,21 +200,6 @@ const DebtDetails = () => {
         )}
         <HowDoIPay userData={howToUserData} />
         <NeedHelp />
-        <va-need-help id="needHelp" class="vads-u-margin-top--4">
-          <div slot="content">
-            <p>
-              If you have any questions about your benefit overpayment or if you
-              think your debt was created in an error, you can dispute it.
-              Contact us online through <a href="https://ask.va.gov/">Ask VA</a>{' '}
-              or call the Debt Management Center at{' '}
-              <va-telephone contact="8008270648" /> (
-              <va-telephone contact="711" tty="true" />
-              ). For international callers, use{' '}
-              <va-telephone contact="6127136415" />. We’re here Monday through
-              Friday, 7:30 a.m. to 7:00 p.m. ET.
-            </p>
-          </div>
-        </va-need-help>
       </div>
     </>
   );

@@ -27,12 +27,9 @@
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "spouse"
         },
-        "applicantSponsorMarriageDetails": {
-          "relationshipToVeteran": "marriedTillDeathNoRemarriage"
-        },
         "missingUploads": [
           {
-            "name": "applicantMarriageCert",
+            "name": "applicantRemarriageCert",
             "path": "applicant-marriage-file/:index",
             "required": false,
             "uploaded": false

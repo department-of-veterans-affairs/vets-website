@@ -1,6 +1,7 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import PreferredFacilityApiDescription from '../../../components/FormDescriptions/PreferrerdFacilityApiDescription';
 import FacilitySearch from '../../../components/FormFields/FacilitySearch';
+import { validatePlannedClinic } from '../../../utils/validation';
 import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
 
@@ -15,10 +16,10 @@ const vaMedicalCenterApi = {
     ),
     veteranPlannedClinic: {
       'ui:widget': FacilitySearch,
+      'ui:validations': [validatePlannedClinic],
       'ui:options': {
         hideLabelText: true,
       },
-      'ui:required': () => true,
     },
   },
   schema: {

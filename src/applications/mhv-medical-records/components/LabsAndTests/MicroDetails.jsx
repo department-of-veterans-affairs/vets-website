@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -88,9 +87,8 @@ Details about this test\n
 Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
-Collecting location: ${record.collectingLocation}\n
-Performing lab location: ${record.labLocation}\n
-Date completed: ${record.date}\n
+Location: ${record.collectingLocation}\n
+Date completed: ${record.dateCompleted}\n
 ${txtLine}\n\n
 Results\n
 ${record.results}`;
@@ -141,25 +139,21 @@ ${record.results}`;
         </h3>
         <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
+          Location
         </h3>
         <p data-testid="microbio-collecting-location">
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Performing lab location
-        </h3>
-        <p data-testid="microbio-lab-location">{record.labLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="microbio-date-completed">{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace">
+        <p className="vads-u-font-size--base monospace vads-u-line-height--3">
           {record.results}
         </p>{' '}
       </div>

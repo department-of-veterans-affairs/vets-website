@@ -144,7 +144,7 @@ class PatientMessageCustomFolderPage {
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`);
@@ -178,7 +178,18 @@ class PatientMessageCustomFolderPage {
       });
   };
 
-  VerifyFilterBtnExist = () => {
+  verifyMainButtons = () => {
+    cy.get(Locators.BUTTONS.EDIT_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Edit folder name`);
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Remove folder`);
+    cy.get(Locators.BUTTONS.SORT)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and('contain.text', `Sort`);
     cy.get(Locators.BUTTONS.FILTER).contains('Filter');
   };
 

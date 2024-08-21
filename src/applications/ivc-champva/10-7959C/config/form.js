@@ -1,5 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -8,6 +9,7 @@ import transformForSubmit from './submitTransformer';
 import { nameWording } from '../helpers/utilities';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 import { prefillTransformer } from './prefillTransformer';
+import SubmissionError from '../../shared/components/SubmissionError';
 
 import {
   applicantNameDobSchema,
@@ -28,7 +30,6 @@ import {
   applicantMedicarePartDCarrierSchema,
   applicantMedicareABUploadSchema,
   applicantMedicareDUploadSchema,
-  // applicantMedicareAdditionalCommentsSchema,
 } from '../chapters/medicareInformation';
 import {
   applicantHasInsuranceSchema,
@@ -82,10 +83,14 @@ const formConfig = {
   v3SegmentedProgressBar: true,
   showReviewErrors: !environment.isProduction(),
   footerContent: GetFormHelp,
+  submissionError: SubmissionError,
   formId: '10-7959C',
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   preSubmitInfo: {
     required: true,
@@ -126,7 +131,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name and date of birth',
+          title: 'Beneficiary’s name',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {
@@ -228,12 +233,6 @@ const formConfig = {
           customPageUsesPagePerItemData: true,
           ...applicantMedicareDUploadSchema,
         },
-        // medicareComments: {
-        //   path: 'medicare-comments',
-        //   title: 'Medicare additional comments',
-        //   depends: formData => get('applicantMedicareStatus', formData),
-        //   ...applicantMedicareAdditionalCommentsSchema,
-        // },
       },
     },
     healthcareInformation: {

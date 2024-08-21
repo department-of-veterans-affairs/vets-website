@@ -1,6 +1,7 @@
-import CustomYourQuestionReviewField from '../../../components/CustomYourQuestionReviewField';
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
+import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_2 } from '../../../constants';
 
 const subjectReq = 'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
@@ -33,7 +34,7 @@ export const fileSchema = {
 const yourQuestionPage = {
   uiSchema: {
     'ui:description': FormElementTitle({ title: CHAPTER_2.PAGE_3.TITLE }),
-    'ui:objectViewField': CustomYourQuestionReviewField,
+    'ui:objectViewField': PageFieldSummary,
     subject: {
       'ui:title': 'Subject',
       'ui:required': formData =>
@@ -49,7 +50,15 @@ const yourQuestionPage = {
     },
     question: {
       'ui:title': CHAPTER_2.PAGE_3.QUESTION_1,
-      'ui:widget': 'textarea',
+      'ui:webComponentField': VaTextareaField,
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please let us know what your question is about.',
+      },
+      'ui:options': {
+        required: true,
+        useFormsPattern: 'single',
+      },
     },
     fileUpload: {
       'ui:title': 'Upload your file',
@@ -73,7 +82,7 @@ const yourQuestionPage = {
   },
   schema: {
     type: 'object',
-    required: ['question'],
+    required: [],
     properties: {
       subject: {
         type: 'string',
