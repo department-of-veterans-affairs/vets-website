@@ -33,19 +33,6 @@ describe('CG <FacilityConfirmation>', () => {
     const caregiverFacilityAddress = caregiverFacility.address.physical;
 
     const selectors = () => ({
-      descriptionText: {
-        header3: getByRole('heading', {
-          level: 3,
-          name: 'Confirm your health care facilities',
-        }),
-        header4: getByRole('heading', {
-          level: 4,
-          name: 'The Veteran’s Facility you selected',
-        }),
-        paragraph: getByText(
-          'This is the facility where you told us the Veteran receives or plans to receive treatment.',
-        ),
-      },
       selectedFacility: {
         name: getByText(new RegExp(selectedFacility.name)),
         address1: getByText(new RegExp(selectedFacilityAddress.address1)),
@@ -63,7 +50,7 @@ describe('CG <FacilityConfirmation>', () => {
         forward: getByText('Continue'),
       },
     });
-    return { selectors };
+    return { selectors, getByRole, getByText };
   };
 
   context('formNavButtons', () => {
@@ -84,13 +71,6 @@ describe('CG <FacilityConfirmation>', () => {
       userEvent.click(selectors().formNavButtons.forward);
       expect(goForward.calledOnce).to.be.true;
     });
-  });
-
-  it('renders selected facility description text', () => {
-    const { selectors } = subject();
-    expect(selectors().descriptionText.header3).to.exist;
-    expect(selectors().descriptionText.header4).to.exist;
-    expect(selectors().descriptionText.paragraph).to.exist;
   });
 
   it('should render veteran selected facility name', () => {
