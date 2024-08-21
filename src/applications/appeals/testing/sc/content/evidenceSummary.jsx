@@ -21,6 +21,7 @@ export const content = {
   remove: 'Remove', // for locations
   delete: 'Delete', // for files
   update: 'Update page',
+  noDate: 'I don’t have the date',
 
   summaryTitle: 'Review the evidence you’re submitting',
 

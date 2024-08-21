@@ -3,14 +3,13 @@ import { EVIDENCE_VA } from '../constants';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
+  validateVaDate,
   validateVaUnique,
 } from '../validations/evidence';
 
 const requiredLocations = {
   type: 'object',
-  required: ['locationAndName', 'issues', 'evidenceDates'],
+  required: ['locationAndName', 'issues'],
   properties: {
     locationAndName: {
       type: 'string',
@@ -22,17 +21,11 @@ const requiredLocations = {
         type: 'string',
       },
     },
-    evidenceDates: {
-      type: 'object',
-      required: ['from', 'to'],
-      properties: {
-        from: {
-          type: 'string',
-        },
-        to: {
-          type: 'string',
-        },
-      },
+    treatmentDate: {
+      type: 'string',
+    },
+    noDate: {
+      type: 'boolean',
     },
   },
 };
@@ -50,16 +43,11 @@ const notRequiredLocations = {
         type: 'string',
       },
     },
-    evidenceDates: {
-      type: 'object',
-      properties: {
-        from: {
-          type: 'string',
-        },
-        to: {
-          type: 'string',
-        },
-      },
+    treatmentDate: {
+      type: 'string',
+    },
+    noDate: {
+      type: 'boolean',
     },
   },
 };
@@ -71,8 +59,7 @@ export default {
         'ui:validations': [
           validateVaLocation,
           validateVaIssues,
-          validateVaFromDate,
-          validateVaToDate,
+          validateVaDate,
           validateVaUnique,
         ],
       },
