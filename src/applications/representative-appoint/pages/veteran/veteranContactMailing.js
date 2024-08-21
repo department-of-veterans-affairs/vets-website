@@ -11,7 +11,7 @@ export const uiSchema = {
   veteranHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `${
-        preparerIsVeteran ? 'The Veteran lives' : 'I live'
+        preparerIsVeteran ? 'I live' : 'The Veteran lives'
       } on a United States military base outside of the U.S.`,
     },
   }),
