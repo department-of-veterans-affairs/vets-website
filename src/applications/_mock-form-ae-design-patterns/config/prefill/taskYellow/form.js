@@ -8,8 +8,8 @@ import content from '../../../locales/en/content.json';
 
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import { Completion } from '../../../containers/Completion';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
+import { taskCompletePage } from '../../taskCompletePage';
 
 import VeteranProfileInformationTaskYellow from '../../../components/FormPages/VeteranProfileInformationTaskYellow';
 import { MailingAddressInfoPageTaskYellow } from '../../../components/FormPages/MailingAddressInfoPageTaskYellow';
@@ -51,7 +51,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Prefill Task Yellow',
+  title: 'Update your VA health benefits information',
+  subTitle: 'Health Benefits Update Form (VA Form 10-10EZR)',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
@@ -105,18 +106,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-    completion: {
-      title: 'Task Completed',
-      pages: {
-        taskCompleted: {
-          path: 'complete',
-          CustomPage: props => Completion({ ...props }),
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        taskCompletePage,
       },
     },
   },
