@@ -8,7 +8,12 @@ import {
 import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
-  ...titleUI(`${preparerIsVeteran ? 'Your' : 'Veteran’s'} mailing address`),
+  ...titleUI(
+    ({ formData }) =>
+      `${
+        preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+      }  mailing address`,
+  ),
   veteranHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `${

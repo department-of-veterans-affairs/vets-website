@@ -1,18 +1,28 @@
 import {
-  dateOfBirthSchema,
   dateOfBirthUI,
-  fullNameSchema,
+  dateOfBirthSchema,
   fullNameUI,
+  fullNameSchema,
   titleUI,
   titleSchema,
+  descriptionUI,
+  descriptionSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(
-    `${preparerIsVeteran ? 'Your' : 'Veteran’s'} name and date of birth`,
-    'Use your legal name as it appears on your government documentation.',
+    ({ formData }) =>
+      `${
+        preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+      } name and date of birth`,
+  ),
+  ...descriptionUI(
+    ({ formData }) =>
+      `Use ${
+        preparerIsVeteran({ formData }) ? 'your' : 'the veteran’s'
+      } legal name as it appears on your government documentation.`,
   ),
   veteranFullName: fullNameUI(),
   veteranDateOfBirth: dateOfBirthUI(),
@@ -22,6 +32,7 @@ export const schema = {
   type: 'object',
   properties: {
     titleSchema,
+    descriptionSchema,
     veteranFullName: fullNameSchema,
     veteranDateOfBirth: dateOfBirthSchema,
   },

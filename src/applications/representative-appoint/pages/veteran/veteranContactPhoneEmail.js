@@ -13,9 +13,10 @@ export const blankSchema = { type: 'object', properties: {} };
 
 export const uiSchema = {
   ...titleUI(
-    `${
-      preparerIsVeteran ? 'Your' : 'Veteran’s'
-    } phone number and email address`,
+    ({ formData }) =>
+      `${
+        preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+      } phone number and email address`,
   ),
   'Primary phone': phoneUI({
     required: true,
