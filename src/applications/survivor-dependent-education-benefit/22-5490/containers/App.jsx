@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 // import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
+import { getAppData } from '../selectors';
 
 import formConfig from '../config/form';
 
@@ -105,7 +106,7 @@ function App({
 
 const mapStateToProps = state => {
   return {
-    // ...getAppData(state),
+    ...getAppData(state),
     formData: state.form?.data || {},
     claimant: state.data?.formData?.data?.attributes?.claimant,
     // fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

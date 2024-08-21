@@ -3,13 +3,13 @@ import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import { getIntroState } from 'platform/forms/save-in-progress/selectors';
-// import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
-// import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { getIntroState } from 'platform/forms/save-in-progress/selectors';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
+import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
 import { UNAUTH_SIGN_IN_DEFAULT_MESSAGE } from 'platform/forms-system/src/js/constants';
-// import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
+import featureFlagNames from 'platform/utilities/feature-toggles/featureFlagNames';
 
-// import { getAppData } from '../selectors';
+import { getAppData } from '../selectors';
 import LoadingIndicator from './LoadingIndicator';
 
 function IntroductionLogin({
@@ -17,13 +17,15 @@ function IntroductionLogin({
   isLOA3,
   isPersonalInfoFetchComplete,
   isPersonalInfoFetchFailed,
-  //   route,
+  route,
+  showHideLoginModal,
+  showMeb5490MaintenanceAlert,
   user,
 }) {
   const apiCallsComplete = isLOA3 === false || isPersonalInfoFetchComplete;
 
   const openLoginModal = () => {
-    // showHideLoginModal(true, 'cta-form');
+    showHideLoginModal(true, 'cta-form');
   };
 
   const nextQuery = { next: window.location.pathname };
@@ -32,8 +34,15 @@ function IntroductionLogin({
     'Save time—and save your work in progress—by signing in before starting your application. Make sure to use your sign-in information and not your sponsor’s.';
   const shouldShowLoadingIndicator =
     ((!isLoggedIn && !user?.login?.hasCheckedKeepAlive) || !apiCallsComplete) &&
-    !isPersonalInfoFetchFailed;
-
+    !isPersonalInfoFetchFailed &&
+    !showMeb5490MaintenanceAlert;
+  const shouldShowMaintenanceAlert = showMeb5490MaintenanceAlert;
+  let maintenanceMessage;
+  if (shouldShowMaintenanceAlert) {
+    // General maintenance message
+    maintenanceMessage =
+      'We’re currently making updates to the My Education Benefits platform. We apologize for the inconvenience. Please check back soon.';
+  }
   return (
     <>
       {shouldShowLoadingIndicator && <LoadingIndicator />}
@@ -45,6 +54,19 @@ function IntroductionLogin({
       )}
 
       {shouldShowLoadingIndicator && <LoadingIndicator />}
+
+      {shouldShowMaintenanceAlert && (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          status="error"
+          visible
+        >
+          <h2 slot="headline">System Maintenance</h2>
+          <div>
+            <p className="vads-u-margin-top--0">{maintenanceMessage}</p>
+          </div>
+        </va-alert>
+      )}
 
       {!isLoggedIn &&
         user?.login?.hasCheckedKeepAlive && (
@@ -98,8 +120,9 @@ function IntroductionLogin({
             </p>
           </>
         )}
-      {/* {isLoggedIn &&
+      {isLoggedIn &&
         apiCallsComplete &&
+        !shouldShowMaintenanceAlert &&
         isLOA3 && (
           <SaveInProgressIntro
             headingLevel={2}
@@ -107,10 +130,10 @@ function IntroductionLogin({
             messages={route?.formConfig.savedFormMessages}
             pageList={route.pageList}
             prefillEnabled={route?.formConfig?.prefillEnabled}
-            startText={"Start your benefit application"}
+            startText="Start your benefit application"
             user={user}
           />
-        )} */}
+        )}
 
       {apiCallsComplete &&
         isLoggedIn &&
@@ -158,17 +181,21 @@ IntroductionLogin.propTypes = {
   isLoggedIn: PropTypes.bool,
   isPersonalInfoFetchComplete: PropTypes.bool,
   isPersonalInfoFetchFailed: PropTypes.bool,
+  showHideLoginModal: PropTypes.func,
+  showMeb5490MaintenanceAlert: PropTypes.bool,
   user: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  //   ...getIntroState(state),
-  //   ...getAppData(state),
+  ...getIntroState(state),
+  ...getAppData(state),
   isPersonalInfoFetchFailed: state.data.isPersonalInfoFetchFailed || false,
+  showMeb5490MaintenanceAlert:
+    state.featureToggles[featureFlagNames.showMeb5490MaintenanceAlert],
 });
 
 const mapDispatchToProps = {
-  //   showHideLoginModal: toggleLoginModal,
+  showHideLoginModal: toggleLoginModal,
 };
 
 export default connect(

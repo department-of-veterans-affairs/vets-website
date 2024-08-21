@@ -307,77 +307,73 @@ const getNotificationMethod = notificationMethod => {
   }
 };
 
-const getSponsorInformation = form => {
-  let firstSponsor;
-  if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
-    firstSponsor = form?.data?.selectedSponsors[0];
-  } else {
-    firstSponsor = form?.data?.firstSponsor;
-  }
+// const getSponsorInformation = form => {
+//   let firstSponsor;
+//   if (!form?.data?.firstSponsor && form?.data?.selectedSponsors?.length === 1) {
+//     firstSponsor = form?.data?.selectedSponsors[0];
+//   } else {
+//     firstSponsor = form?.data?.firstSponsor;
+//   }
 
-  if (firstSponsor === 'IM_NOT_SURE') {
-    return {
-      notSureAboutSponsor: true,
-      firstSponsorVaId: null,
-      manualSponsor: null,
-    };
-  }
-  if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
-    return {
-      notSureAboutSponsor: false,
-      firstSponsorVaId: firstSponsor,
-      manualSponsor: null,
-    };
-  }
-  // check if august feature flag is on and if so ensure manual entry is disabled
-  if (form.data.showMebEnhancements08) {
-    return {
-      notSureAboutSponsor: true,
-      firstSponsorVaId: null,
-      manualSponsor: null, // return null for manualSponsor when the feature is disabled
-    };
-  }
+//   if (firstSponsor === 'IM_NOT_SURE') {
+//     return {
+//       notSureAboutSponsor: true,
+//       firstSponsorVaId: null,
+//       manualSponsor: null,
+//     };
+//   }
+//   if (firstSponsor && firstSponsor !== 'SPONSOR_NOT_LISTED') {
+//     return {
+//       notSureAboutSponsor: false,
+//       firstSponsorVaId: firstSponsor,
+//       manualSponsor: null,
+//     };
+//   }
+//   // check if august feature flag is on and if so ensure manual entry is disabled
+//   if (form.data.showMebEnhancements08) {
+//     return {
+//       notSureAboutSponsor: true,
+//       firstSponsorVaId: null,
+//       manualSponsor: null, // return null for manualSponsor when the feature is disabled
+//     };
+//   }
 
-  return {
-    notSureAboutSponsor: false,
-    firstSponsorVaId: null,
-    manualSponsor: {
-      firstName: form?.data?.sponsorFullName?.first,
-      middleName: form?.data?.sponsorFullName?.middle,
-      lastName: form?.data?.sponsorFullName?.last,
-      suffix: form?.data?.sponsorFullName?.suffix,
-      dateOfBirth: form?.data?.sponsorDateOfBirth,
-      relationship: form?.data?.relationshipToServiceMember,
-    },
-  };
-};
+//   return {
+//     notSureAboutSponsor: false,
+//     firstSponsorVaId: null,
+//     manualSponsor: {
+//       firstName: form?.data?.sponsorFullName?.first,
+//       middleName: form?.data?.sponsorFullName?.middle,
+//       lastName: form?.data?.sponsorFullName?.last,
+//       suffix: form?.data?.sponsorFullName?.suffix,
+//       dateOfBirth: form?.data?.sponsorDateOfBirth,
+//       relationship: form?.data?.relationshipToServiceMember,
+//     },
+//   };
+// };
 
 export function transform5490Form(_formConfig, form) {
   const formFieldUserFullName = form?.data?.fullName;
   const viewComponentUserFullName = form?.loadedData?.formData?.fullName;
-  const formFieldDateOfBirth = form?.data?.dateOfBirth;
-  const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
+  // const formFieldDateOfBirth = form?.data?.dateOfBirth;
+  // const viewComponentDateOfBirth = form?.loadedData?.formData.dateOfBirth;
 
   const userFullName =
     formFieldUserFullName !== undefined &&
     Object.keys(formFieldUserFullName).length > 0
       ? formFieldUserFullName
       : viewComponentUserFullName;
-  const dateOfBirth =
-    formFieldDateOfBirth !== undefined
-      ? formFieldDateOfBirth
-      : viewComponentDateOfBirth;
 
   const payload = {
     formId: form?.formId,
-    '@type': '5490Submission',
+    '@type': 'Chapter35Submission',
     chosenBenefit: form?.data?.chosenBenefit,
     claimant: {
       suffix: userFullName?.suffix,
-      dateOfBirth,
-      firstName: userFullName?.first,
-      lastName: userFullName?.last,
-      middleName: userFullName?.middle,
+      // dateOfBirth,
+      // firstName: userFullName?.first,
+      // lastName: userFullName?.last,
+      // middleName: userFullName?.middle,
       notificationMethod: getNotificationMethod(
         form?.data['view:receiveTextMessages']?.receiveTextMessages,
       ),
@@ -400,7 +396,14 @@ export function transform5490Form(_formConfig, form) {
       preferredContact: form?.data?.contactMethod,
     },
     // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
-    sponsorOptions: getSponsorInformation(form),
+    sponsor: {
+      firstName: userFullName?.first,
+      lastName: userFullName?.last,
+      middleName: userFullName?.middle,
+      sponsorRelationship: form?.data?.relationShipToMember,
+      dateOfBirth: form?.data?.relativeDateOfBirth,
+      ssn: form?.data?.relativeSocialSecurityNumber,
+    },
     highSchoolDiplomaInfo: {
       highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
       highSchoolDiplomaOrCertificateDate: form?.data?.graduationDate,
@@ -409,6 +412,13 @@ export function transform5490Form(_formConfig, form) {
       directDepositAccountType: form?.data?.bankAccount?.accountType,
       directDepositAccountNumber: form?.data?.bankAccount?.accountNumber,
       directDepositRoutingNumber: form?.data?.bankAccount?.routingNumber,
+    },
+    additionalConsiderations: {
+      outstandingFelony: form?.data?.felonyOrWarrant,
+      marriageDate: form?.data?.marriageDate,
+      marriageStatus: form?.data?.marriageStatus,
+      remarriageDate: form?.data?.remarriageDate,
+      remarriageStatus: form?.data?.remarriageStatus,
     },
   };
   return JSON.stringify(payload, trimObjectValuesWhiteSpace, 4);

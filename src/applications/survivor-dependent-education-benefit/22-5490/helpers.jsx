@@ -144,19 +144,18 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const address = vapContactInfo.mailingAddress?.addressLine1
     ? vapContactInfo.mailingAddress
     : contactInfo;
-
   const newData = {
     ...formData,
     sponsors,
     formId: state.data?.formData?.data?.id,
     claimantId: claimant.claimantId,
     relationShipToMember: formData?.relationShipToMember,
-    fullName: {
+    claimantFullName: {
       first: firstName,
       middle: middleName,
       last: lastName,
     },
-    ssn: formData?.relativeSocialSecurityNumber || formData?.ssn,
+    relativeSsn: formData?.relativeSocialSecurityNumber || formData?.ssn,
     highSchoolDiploma: formData?.highSchoolDiploma,
     graduationDate: formData?.graduationDate,
     marriageStatus: formData?.marriageStatus,

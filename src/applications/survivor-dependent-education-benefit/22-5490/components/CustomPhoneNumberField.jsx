@@ -4,13 +4,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import PhoneNumberWidget from 'platform/forms-system/src/js/widgets/PhoneNumberWidget';
 
-import { fetchDuplicateContactInfo, updateGlobalPhoneNumber } from '../actions';
+import { fetchDuplicateContactInfo } from '../actions';
 
 function CustomPhoneNumberField(props) {
   function handleChange(event) {
-    // props?.updateGlobalPhoneNumber(event);
     if (event?.length > 9) {
-      props.fetchDuplicateContactInfo(props.duplicateEmail, [
+      props?.fetchDuplicateContactInfo(props?.duplicateEmail, [
         { value: event, dupe: '' },
       ]);
     }
@@ -48,7 +47,6 @@ const mapStateToProps = state => {
     duplicatePhone: state?.data?.duplicatePhone,
     email: state?.form?.data?.email,
     duplicateEmail: state?.data?.duplicateEmail,
-    showMebEnhancements08: state?.featureToggles?.showMebEnhancements08,
     formData: state?.form?.data,
   };
 };
@@ -56,7 +54,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   setFormData: setData,
   fetchDuplicateContactInfo,
-  updateGlobalPhoneNumber,
 };
 
 export default connect(

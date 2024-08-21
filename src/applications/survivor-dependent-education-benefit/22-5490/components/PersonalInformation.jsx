@@ -21,7 +21,9 @@ function PersonalInformation({ claimant }) {
           <h6>{fullName()}</h6>
           <p>
             <strong>Date of birth:</strong>{' '}
-            {formatReadableDate(claimant?.dateOfBirth)}
+            {claimant?.dateOfBirth
+              ? formatReadableDate(claimant?.dateOfBirth)
+              : 'Not available'}
           </p>
         </div>
       </div>

@@ -389,6 +389,41 @@ const formConfig = {
                 </>
               ),
             },
+            // 'view:personalInformation': {
+            //   'ui:description': (formData) => {
+            //     console.log(formData, 'formData in personal information')
+            //     const fullName = () => {
+            //       const firstName = formData?.fullName?.first;
+            //       const middleName = formData?.fullName?.middle;
+            //       const lastName = formData?.fullName?.last;
+            //       console.log(firstName)
+            //       console.log(lastName)
+            //       console.log(formData?.dateOfBirth, "formData?.dateOfBirth")
+            //       if (firstName && lastName) {
+            //         return `${firstName} ${middleName} ${lastName}`;
+            //       } else {
+            //         return "Not available";
+            //       }
+            //     };
+
+            //     return (
+            //       <div>
+            //         <div className="usa-alert background-color-only personal-info-header">
+            //           <h5>Your Personal Information</h5>
+            //         </div>
+            //         <div className="personal-info-border personal-info-text">
+            //           <div>
+            //             <h6>{fullName()}</h6>
+            //             <p>
+            //               <strong>Date of birth:</strong>{' '}
+            //               {formData?.dateOfBirth ? formatReadableDate(formData?.dateOfBirth) : "Not available"}
+            //             </p>
+            //           </div>
+            //         </div>
+            //       </div>
+            //     );
+            //   }
+            // },
             'view:personalInformation': {
               'ui:description': <PersonalInformation />,
             },
@@ -407,12 +442,12 @@ const formConfig = {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency?',
               ),
+              'ui:required': formData => {
+                return formData?.highSchoolDiploma === 'yes';
+              },
               'ui:options': {
                 hideIf: formData => {
                   return formData?.highSchoolDiploma !== 'yes';
-                },
-                'ui:required': formData => {
-                  return formData?.highSchoolDiploma === 'yes';
                 },
               },
             },
