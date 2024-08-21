@@ -89,7 +89,7 @@ const branchAndDateRangePage = {
       },
     },
     currentlyServing: {
-      'ui:title': 'I am currently in the military.',
+      'ui:title': 'I am currently serving in this military service experience.',
       'ui:webComponentField': VaCheckboxField,
     },
   },
