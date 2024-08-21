@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import { isPlainObject } from 'lodash';
+import { capitalize, isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
 import {
   VA_FORM_IDS,
@@ -120,6 +120,9 @@ export function sipFormSorter(formA, formB) {
   [formA, formB].forEach(isValidForm);
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
+
+export const formatFormTitle = (title = '') =>
+  capitalize(title).replace(/\bva\b/, 'VA');
 
 export const recordDashboardClick = (
   product,
