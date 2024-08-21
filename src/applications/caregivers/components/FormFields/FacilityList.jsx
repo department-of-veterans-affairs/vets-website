@@ -95,9 +95,9 @@ const FacilityList = props => {
 FacilityList.propTypes = {
   facilities: PropTypes.array,
   formContext: PropTypes.object,
-  onChange: PropTypes.func,
   query: PropTypes.string,
   value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 export default FacilityList;
