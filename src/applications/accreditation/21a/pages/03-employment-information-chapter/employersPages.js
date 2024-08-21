@@ -18,7 +18,7 @@ import {
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmploymentIntro from '../../components/03-employment-information-chapter/EmploymentIntro';
+import EmployersIntro from '../../components/03-employment-information-chapter/EmployersIntro';
 import { createName } from '../helpers/createName';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
@@ -56,7 +56,7 @@ const arrayBuilderOptions = {
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...descriptionUI(EmploymentIntro),
+    ...descriptionUI(EmployersIntro),
   },
   schema: {
     type: 'object',
@@ -135,7 +135,7 @@ const addressAndPhoneNumberPage = {
       required: false,
       labels: {
         selected:
-          'This is the work address I want kept on file as my primary work address.',
+          'This is the work address I want OGC to keep on file as my primary work address.',
       },
     }),
   },
@@ -162,7 +162,7 @@ const dateRangePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
-        `Date range you were employed at ${createName({
+        `Dates you were employed at ${createName({
           firstName: formData?.name,
           fallback: 'Employer',
           isPossessive: false,
@@ -174,8 +174,17 @@ const dateRangePage = {
         title: 'Employment end date',
         hideIf: (formData, index) =>
           formData?.employers?.[index]?.currentlyEmployed,
+        required: (formData, index) =>
+          !formData?.employers?.[index]?.currentlyEmployed,
       },
     ),
+    'view:dateRangeEndDateLabel': {
+      'ui:description': 'Employment end date',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !formData?.employers?.[index]?.currentlyEmployed,
+      },
+    },
     currentlyEmployed: {
       'ui:title': 'I still work here.',
       'ui:webComponentField': VaCheckboxField,
@@ -184,9 +193,10 @@ const dateRangePage = {
   schema: {
     type: 'object',
     properties: {
-      dateRange: {
-        ...currentOrPastDateRangeSchema,
-        required: ['from'],
+      dateRange: currentOrPastDateRangeSchema,
+      'view:dateRangeEndDateLabel': {
+        type: 'object',
+        properties: {},
       },
       currentlyEmployed: {
         type: 'boolean',
@@ -198,14 +208,6 @@ const dateRangePage = {
 /** @returns {PageSchema} */
 const reasonForLeavingPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI(
-      ({ formData }) =>
-        `Reason for leaving ${createName({
-          firstName: formData?.name,
-          fallback: 'Employer',
-          isPossessive: false,
-        })}`,
-    ),
     reasonForLeaving: textareaUI('Explain why you left this employer.'),
   },
   schema: {
@@ -249,7 +251,7 @@ const employersPages = arrayBuilderPages(
   (pageBuilder, helpers) => ({
     employers: pageBuilder.introPage({
       title: 'Employment information intro',
-      path: 'employment-information-intro',
+      path: 'Employment information intro',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),

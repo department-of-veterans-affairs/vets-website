@@ -76,6 +76,7 @@ export const employmentActivitiesOptions = Object.freeze({
   medical: 'Medical services',
   socialWork: 'Social work',
   vocationalRehabilitation: 'Vocational rehabilitation',
+  none: 'None of these apply',
 });
 
 // Chapter 4

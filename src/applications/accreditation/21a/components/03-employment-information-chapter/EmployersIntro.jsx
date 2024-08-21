@@ -3,8 +3,7 @@ import React from 'react';
 const EmploymentIntro = () => (
   <>
     <p>
-      Over the next few pages, we will ask you questions about your employment
-      information.
+      Over the next few pages, we will ask you questions about your employers.
       <strong>
         {' '}
         List your employment information for the past ten years or since the age
@@ -21,8 +20,7 @@ const EmploymentIntro = () => (
       when this employment took place.
     </p>
     <p>
-      You will need to provide your current employment status. In addition, for
-      each employer, you will need to provide the following information:
+      For each employer, you will need to provide the following information:
     </p>
     <ul>
       <li>Name of employer</li>

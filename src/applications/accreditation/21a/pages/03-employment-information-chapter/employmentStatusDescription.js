@@ -19,7 +19,7 @@ export default {
     );
   },
   uiSchema: {
-    describeEmployment: textareaUI('Describe your employment situation'),
+    describeEmployment: textareaUI('Describe your employment situation.'),
   },
   schema: {
     type: 'object',

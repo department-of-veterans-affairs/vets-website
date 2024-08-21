@@ -15,7 +15,7 @@ export default {
       title:
         'During the past ten years have you been involved in any of the following activities?',
       description: EmploymentActivitiesDescription,
-      required: false,
+      required: true,
       labels: employmentActivitiesOptions,
     }),
   },

@@ -72,13 +72,22 @@ const institutionAndDegreePage = {
     }),
     name: textUI('Name of school'),
     dateRange: currentOrPastDateRangeUI(
-      { title: 'Start date' },
+      { title: 'Enrollment start date' },
       {
-        title: 'End date',
+        title: 'Enrollment end date',
         hideIf: (formData, index) =>
           formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
+        required: (formData, index) =>
+          !formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
       },
     ),
+    'view:dateRangeEndDateLabel': {
+      'ui:description': 'Enrollment end date',
+      'ui:options': {
+        hideIf: (formData, index) =>
+          !formData?.educationalInstitutions?.[index]?.currentlyEnrolled,
+      },
+    },
     currentlyEnrolled: {
       'ui:title': 'I still go to school here.',
       'ui:webComponentField': VaCheckboxField,
@@ -103,9 +112,10 @@ const institutionAndDegreePage = {
     type: 'object',
     properties: {
       name: textSchema,
-      dateRange: {
-        ...currentOrPastDateRangeSchema,
-        required: ['from'],
+      dateRange: currentOrPastDateRangeSchema,
+      'view:dateRangeEndDateLabel': {
+        type: 'object',
+        properties: {},
       },
       currentlyEnrolled: {
         type: 'boolean',
