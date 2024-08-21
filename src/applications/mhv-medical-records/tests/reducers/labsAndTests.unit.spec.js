@@ -163,22 +163,22 @@ describe('buildRadiologyResults', () => {
       impressionText: IMPRESSION,
     };
     const report = buildRadiologyResults(record);
-    expect(buildRadiologyResults(record)).to.include(REPORT);
-    expect(buildRadiologyResults(record)).to.include(IMPRESSION);
+    expect(report).to.include(REPORT);
+    expect(report).to.include(IMPRESSION);
   });
 
   it('builds the result without impression', () => {
     const record = { reportText: REPORT };
     const report = buildRadiologyResults(record);
-    expect(buildRadiologyResults(record)).to.include(REPORT);
-    expect(buildRadiologyResults(record)).to.not.include(IMPRESSION);
+    expect(report).to.include(REPORT);
+    expect(report).to.not.include(IMPRESSION);
   });
 
   it('builds the result without report', () => {
     const record = { impressionText: IMPRESSION };
     const report = buildRadiologyResults(record);
-    expect(buildRadiologyResults(record)).to.not.include(REPORT);
-    expect(buildRadiologyResults(record)).to.include(IMPRESSION);
+    expect(report).to.not.include(REPORT);
+    expect(report).to.include(IMPRESSION);
   });
 });
 
