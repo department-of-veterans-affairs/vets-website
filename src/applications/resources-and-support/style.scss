@@ -32,3 +32,8 @@
 #resources-support-search.usa-input-error {
   right: unset;
 }
+
+button.vads-u-background-color--gray-lightest{
+  background-color: var(--vads-color-base-lightest);
+  color: var(--vads-color-primary);
+}
