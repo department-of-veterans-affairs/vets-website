@@ -314,6 +314,15 @@ const convertEkgRecord = record => {
 //   };
 // };
 
+export const buildResults = record => {
+  return `Report:${record.reportText
+    .replace(/\r\n|\r/g, '\n')
+    .replace(/^/gm, '   ')}  
+Impression:${record.impressionText
+    .replace(/\r\n|\r/g, '\n')
+    .replace(/^/gm, '   ')}`;
+};
+
 export const convertMhvRadiologyRecord = record => {
   return {
     id: `r${record.id}`,
@@ -330,7 +339,7 @@ export const convertMhvRadiologyRecord = record => {
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
-    results: record.impressionText,
+    results: buildResults(record),
     images: [],
   };
 };
