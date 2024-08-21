@@ -29,9 +29,6 @@ const HealthConditions = () => {
   const conditionsCurrentAsOf = useSelector(
     state => state.mr.conditions.listCurrentAsOf,
   );
-  const mockPhr = useSelector(
-    state => state.featureToggles.mhv_medical_records_mock_phr,
-  );
 
   useListRefresh({
     listState,
@@ -81,20 +78,18 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!mockPhr && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(conditions) &&
-              Array.isArray(updatedRecordList) &&
-              conditions.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(conditions) &&
+            Array.isArray(updatedRecordList) &&
+            conditions.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         <va-additional-info
           trigger="About the codes in some condition names"
           class="no-print vads-u-margin-bottom--3"
