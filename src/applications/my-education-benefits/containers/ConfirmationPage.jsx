@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import {
   fetchClaimStatus,
+  sendConfirmation as sendConfirmationAction,
   CLAIM_STATUS_RESPONSE_ELIGIBLE,
   CLAIM_STATUS_RESPONSE_DENIED,
   CLAIM_STATUS_RESPONSE_IN_PROGRESS,
@@ -12,7 +13,6 @@ import {
 
 import ConfirmationApproved from '../components/confirmation/ConfirmationApproved';
 import ConfirmationDenied from '../components/confirmation/ConfirmationDenied';
-// import ConfirmationError from '../components/confirmation/ConfirmationError';
 import LoadingIndicator from '../components/LoadingIndicator';
 import ConfirmationPending from '../components/confirmation/ConfirmationPending';
 
@@ -23,6 +23,11 @@ export const ConfirmationPage = ({
   claimStatus,
   getClaimStatus,
   userFullName,
+  userEmail,
+  userFirstName,
+  sendConfirmation,
+  confirmationLoading,
+  confirmationError,
 }) => {
   useEffect(
     () => {
@@ -43,14 +48,18 @@ export const ConfirmationPage = ({
   const printPage = useCallback(() => {
     window.print();
   }, []);
-
   switch (confirmationResult) {
     case CLAIM_STATUS_RESPONSE_ELIGIBLE: {
       return (
         <ConfirmationApproved
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
@@ -59,7 +68,12 @@ export const ConfirmationPage = ({
         <ConfirmationDenied
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
@@ -69,13 +83,15 @@ export const ConfirmationPage = ({
         <ConfirmationPending
           claimantName={claimantName}
           confirmationDate={confirmationDate}
+          confirmationError={confirmationError}
+          confirmationLoading={confirmationLoading}
           printPage={printPage}
+          sendConfirmation={sendConfirmation}
+          userEmail={userEmail}
+          userFirstName={userFirstName}
         />
       );
     }
-    // case CLAIM_STATUS_RESPONSE_ERROR: {
-    //   return <ConfirmationError />;
-    // }
     default: {
       return (
         <LoadingIndicator
@@ -92,10 +108,17 @@ const mapStateToProps = state => ({
   userFullName:
     state.user?.profile?.userFullName ||
     state.form?.data[formFields.viewUserFullName][formFields.userFullName],
+  userEmail: state.user?.profile?.email,
+  userFirstName:
+    state.user?.profile?.userFullName?.first ||
+    state.form?.data[formFields.viewUserFullName]?.first,
+  confirmationError: state.confirmationError || null,
+  confirmationLoading: state.confirmationLoading || false,
+  confirmationSuccess: state.confirmationSuccess || false,
 });
-
 const mapDispatchToProps = {
   getClaimStatus: fetchClaimStatus,
+  sendConfirmation: sendConfirmationAction,
 };
 
 export default connect(
@@ -105,14 +128,26 @@ export default connect(
 
 ConfirmationPage.propTypes = {
   getClaimStatus: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
   claimStatus: PropTypes.shape({
     claimStatus: PropTypes.string,
     receivedDate: PropTypes.string,
   }),
+  confirmationError: PropTypes.object,
+  confirmationLoading: PropTypes.bool,
+  confirmationSuccess: PropTypes.bool,
+  userEmail: PropTypes.string,
+  userFirstName: PropTypes.string,
   userFullName: PropTypes.shape({
     first: PropTypes.string,
     middle: PropTypes.string,
     last: PropTypes.string,
     suffix: PropTypes.string,
   }),
+};
+
+ConfirmationPage.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+  confirmationSuccess: false,
 };
