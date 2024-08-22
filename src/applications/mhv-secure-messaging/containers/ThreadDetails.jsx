@@ -155,8 +155,6 @@ const ThreadDetails = props => {
             Edit draft
           </h1>
 
-          <AlertBackgroundBox closeable />
-
           <ComposeForm draft={drafts[0]} recipients={recipients} />
         </div>
       );
@@ -193,6 +191,7 @@ const ThreadDetails = props => {
   return (
     <div className="message-detail-container">
       {/* Only display alerts after acknowledging the Interstitial page or if this thread does not contain drafts */}
+      <AlertBackgroundBox closeable />
       {content()}
     </div>
   );

@@ -5,7 +5,7 @@ import {
 
 import {
   requestVaRecordsTitle,
-  requestVaRecordsInfo,
+  requestVaRecordsHint,
 } from '../content/evidenceVaRecordsRequest';
 
 import { EVIDENCE_VA } from '../constants';
@@ -15,6 +15,7 @@ export default {
   uiSchema: {
     [EVIDENCE_VA]: yesNoUI({
       title: requestVaRecordsTitle,
+      hint: requestVaRecordsHint,
       enableAnalytics: true,
       labelHeaderLevel: '3',
       labels: {
@@ -27,20 +28,12 @@ export default {
       },
       hideOnReview: true,
     }),
-
-    'view:vaEvidenceInfo': {
-      'ui:description': requestVaRecordsInfo,
-    },
   },
 
   schema: {
     type: 'object',
     properties: {
       [EVIDENCE_VA]: yesNoSchema,
-      'view:vaEvidenceInfo': {
-        type: 'object',
-        properties: {},
-      },
     },
   },
 };

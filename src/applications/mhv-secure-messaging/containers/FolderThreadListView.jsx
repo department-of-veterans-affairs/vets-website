@@ -309,8 +309,9 @@ const FolderThreadListView = props => {
   return (
     <div className="vads-u-padding--0">
       <div className="main-content vads-u-display--flex vads-u-flex-direction--column">
+        <AlertBackgroundBox closeable />
         {folder === null ? (
-          <AlertBackgroundBox closeable />
+          <></>
         ) : (
           folder?.folderId === undefined && <LoadingIndicator />
         )}

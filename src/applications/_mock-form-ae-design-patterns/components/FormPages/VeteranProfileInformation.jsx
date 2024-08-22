@@ -23,6 +23,7 @@ const VeteranProfileInformation = ({
   const veteranName = normalizeFullName(userFullName, true);
   const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
+  const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
   const veteranGender = gender && genderLabels[gender];
 
   return (
@@ -58,10 +59,16 @@ const VeteranProfileInformation = ({
                   Date of birth:
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-mask"
+                  className="dd-privacy-mask medium-screen:vads-u-display--inline-block vads-u-display--none"
                   data-dd-action-name="Date of birth"
                 >
                   {veteranDOB}
+                </dd>
+                <dd
+                  className="dd-privacy-mask vads-u-display--inline-block medium-screen:vads-u-display--none"
+                  data-dd-action-name="Date of birth"
+                >
+                  {veteranDOBMobile}
                 </dd>
               </div>
             ) : null}
