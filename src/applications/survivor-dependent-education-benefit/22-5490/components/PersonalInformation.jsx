@@ -4,11 +4,14 @@ import { formatReadableDate } from '../helpers';
 
 function PersonalInformation({ claimant }) {
   const fullName = () => {
-    const firstName = claimant?.firstName;
-    const middleName = claimant?.middleName;
-    const lastName = claimant?.lastName;
+    const firstName = claimant?.userFullName?.first;
+    const middleName = claimant?.userFullName?.middle;
+    const lastName = claimant?.userFullName?.last;
 
-    return `${firstName} ${middleName} ${lastName}`;
+    if (firstName && lastName) {
+      return `${firstName} ${middleName} ${lastName}`;
+    }
+    return 'Not available';
   };
 
   return (
@@ -21,8 +24,8 @@ function PersonalInformation({ claimant }) {
           <h6>{fullName()}</h6>
           <p>
             <strong>Date of birth:</strong>{' '}
-            {claimant?.dateOfBirth
-              ? formatReadableDate(claimant?.dateOfBirth)
+            {claimant?.dob
+              ? formatReadableDate(claimant?.dob)
               : 'Not available'}
           </p>
         </div>
@@ -33,7 +36,7 @@ function PersonalInformation({ claimant }) {
 
 const mapStateToProps = state => {
   return {
-    claimant: state?.data?.formData?.data?.attributes?.claimant,
+    claimant: state?.user?.profile,
   };
 };
 
