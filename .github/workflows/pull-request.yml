@@ -328,10 +328,24 @@ jobs:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
 
+      - name: Get paths of changed files
+        id: get-changed-files
+        shell: bash
+        run: |
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+              echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
+          else
+            echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
+          fi
+
       - name: Parse CODEOWNERS and determine owners
         run: |
           # Example: extract codeowners for files changed in the PR
-          CHANGED_FILES=$(git diff --name-only origin/main)
+          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+              CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
+          else
+            CHANGED_FILES=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
+          fi
           OWNER=""
           for FILE in $CHANGED_FILES; do
             FILE_OWNER=$(grep "$FILE" .github/CODEOWNERS | awk '{print $NF}')
