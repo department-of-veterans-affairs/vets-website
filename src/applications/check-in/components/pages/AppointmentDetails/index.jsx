@@ -301,7 +301,7 @@ const AppointmentDetails = props => {
                   </va-alert-expandable>
                 )}
               {app === APP_NAMES.PRE_CHECK_IN &&
-                !getPreCheckinComplete(window)?.complete && (
+                link && (
                   <>
                     <h2 className="vads-u-font-size--sm">
                       {t('review-contact-information')}
