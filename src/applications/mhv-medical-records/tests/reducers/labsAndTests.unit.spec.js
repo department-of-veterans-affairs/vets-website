@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import {
+  buildRadiologyResults,
   extractOrderedBy,
   extractOrderedTest,
   extractOrderedTests,
@@ -149,6 +150,35 @@ describe('extractOrderedBy', () => {
   };
   it('gets the performing lab location', () => {
     expect(extractOrderedBy(record)).to.eq('Practitioner Name');
+  });
+});
+
+describe('buildRadiologyResults', () => {
+  const REPORT = 'The report.';
+  const IMPRESSION = 'The impression.';
+
+  it('builds the full result', () => {
+    const record = {
+      reportText: REPORT,
+      impressionText: IMPRESSION,
+    };
+    const report = buildRadiologyResults(record);
+    expect(report).to.include(REPORT);
+    expect(report).to.include(IMPRESSION);
+  });
+
+  it('builds the result without impression', () => {
+    const record = { reportText: REPORT };
+    const report = buildRadiologyResults(record);
+    expect(report).to.include(REPORT);
+    expect(report).to.not.include(IMPRESSION);
+  });
+
+  it('builds the result without report', () => {
+    const record = { impressionText: IMPRESSION };
+    const report = buildRadiologyResults(record);
+    expect(report).to.not.include(REPORT);
+    expect(report).to.include(IMPRESSION);
   });
 });
 

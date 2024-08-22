@@ -38,9 +38,9 @@ export default function VideoLink({ appointment }) {
               status="error"
               visible
             >
-              <h2 slot="headline">
+              <h3 slot="headline">
                 We're sorry, we couldn't load the link to join your appointment
-              </h2>
+              </h3>
               <p className="vads-u-margin-y--0">
                 Please contact your facility for help joining this appointment.
               </p>

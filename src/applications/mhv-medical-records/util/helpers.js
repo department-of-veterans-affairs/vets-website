@@ -70,23 +70,6 @@ export const isArrayAndHasItems = obj => {
 };
 
 /**
- * Concatenate all the record.category[].text values in a FHIR record.
- *
- * @param {Object} record
- * @returns {String} list of text values, separated by a comma
- */
-export const concatCategoryCodeText = record => {
-  if (isArrayAndHasItems(record.category)) {
-    const textFields = record.category
-      .filter(category => category.text)
-      .map(category => category.text);
-
-    return textFields.join(', ');
-  }
-  return null;
-};
-
-/**
  * For every record.interpretation[].text value in a record, find the right display value
  * then concatenate them all together. If no mapping value is found for the code, the code
  * itself is displayed.

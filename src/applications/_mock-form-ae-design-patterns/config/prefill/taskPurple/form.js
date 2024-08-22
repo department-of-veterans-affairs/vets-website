@@ -6,6 +6,7 @@ import manifest from '../../../manifest.json';
 
 import IntroductionPage from '../../../containers/task-purple/IntroductionPage';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
+import { taskCompletePage } from '../../taskCompletePage';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -64,6 +65,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mailingAddress', 'email', 'mobilePhone'],
         }),
+        taskCompletePage,
       },
     },
   },

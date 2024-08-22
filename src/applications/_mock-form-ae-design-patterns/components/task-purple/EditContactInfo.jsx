@@ -13,14 +13,14 @@ import { useSelector } from 'react-redux';
 // import { FIELD_NAMES } from '@@vap-svc/constants';
 
 import InitializeVAPServiceID from 'platform/user/profile/vap-svc/containers/InitializeVAPServiceID';
-import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
+// import ProfileInformationFieldController from 'platform/user/profile/vap-svc/components/ProfileInformationFieldController';
 import { FIELD_NAMES } from 'platform/user/profile/vap-svc/constants';
 
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { usePrevious } from 'platform/utilities/react-hooks';
 import { setReturnState } from 'platform/forms-system/src/js/utilities/data/profile';
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import ProfileInformationFieldController from './ProfileInformationFieldController';
 
 export const BuildPage = props => {
   const { title, field, id, goToPath, subTitle } = props;
@@ -56,10 +56,8 @@ export const BuildPage = props => {
   );
 
   // const onReviewPage = window.sessionStorage.getItem(REVIEW_CONTACT) === 'true';
-  // const returnPath = onReviewPage
-  //   ? '/review-and-submit'
-  //   : `${contactPath}`;
-  const returnPath = 'task-purple/veteran-information';
+  // const returnPath = onReviewPage ? '/review-and-submit' : `${contactPath}`;
+  const returnPath = '/task-purple/veteran-information';
 
   const handlers = {
     onSubmit: event => {
@@ -79,17 +77,6 @@ export const BuildPage = props => {
 
   return (
     <>
-      <FormTitle
-        title="Request a Board Appeal"
-        subTitle="VA Form 10182 (Notice of Disagreement)"
-      />
-      <div>
-        <va-segmented-progress-bar
-          current={1}
-          heading-text="Veteran information"
-          total={2}
-        />
-      </div>
       <va-card background>
         <h4 ref={headerRef} className="vads-u-margin-top--1">
           {title}
