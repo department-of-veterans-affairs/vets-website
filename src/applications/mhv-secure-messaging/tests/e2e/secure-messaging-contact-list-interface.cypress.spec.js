@@ -12,13 +12,9 @@ describe('Secure Messaging Contact list', () => {
 
   it('verify base web-elements', () => {
     ContactListPage.verifyHeaders();
-
     ContactListPage.verifyAllCheckboxes(true);
-
     ContactListPage.clickSelectAllCheckBox();
-
     ContactListPage.verifyAllCheckboxes(false);
-
     ContactListPage.verifyButtons();
 
     cy.injectAxe();
@@ -38,5 +34,8 @@ describe('Secure Messaging Contact list', () => {
 
     ContactListPage.clickSaveAndExitButton();
     ContactListPage.verifyContactListSavedAlert();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
