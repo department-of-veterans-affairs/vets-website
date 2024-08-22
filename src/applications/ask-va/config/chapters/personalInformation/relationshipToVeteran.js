@@ -46,7 +46,7 @@ const relationshipToVeteranPage = {
   },
   schema: {
     type: 'object',
-    required: [''],
+    required: ['personalRelationship'],
     properties: {
       personalRelationship: radioSchema(
         Object.values(relationshipOptionsSomeoneElse),
