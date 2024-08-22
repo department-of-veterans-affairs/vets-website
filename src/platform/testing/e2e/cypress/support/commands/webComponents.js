@@ -227,10 +227,18 @@ Cypress.Commands.add(
 
         // day and year
         if (isChrome) {
-          cy.realPress('Tab')
-            .realType(day)
-            .realPress('Tab')
-            .realType(year);
+          cy.wrap(el)
+            .find(getSelectors('day'))
+            .shadow()
+            .find('input')
+            .focus();
+          cy.realType(day);
+          cy.wrap(el)
+            .find(getSelectors('year'))
+            .shadow()
+            .find('input')
+            .focus();
+          cy.realType(year);
         } else {
           cy.wrap(el)
             .find(getSelectors('day'))
