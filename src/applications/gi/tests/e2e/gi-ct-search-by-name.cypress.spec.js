@@ -11,9 +11,10 @@ describe('go bill CT before search by name', () => {
   });
   it('show Comparison Tool title', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get(
-      'h1[class="vads-u-text-align--center small-screen:vads-u-text-align--left"',
-    ).should('contain', 'GI Bill® Comparison Tool');
+    cy.get('[data-testid="comparison-tool-title"]').should(
+      'contain',
+      'GI Bill® Comparison Tool',
+    );
   });
   it('should show error if search input is empty and search button is clicked', () => {
     cy.injectAxeThenAxeCheck();
