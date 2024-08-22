@@ -5,6 +5,7 @@ import {
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
+  showFacilityConfirmation,
 } from '../../../../utils/helpers/form-config';
 
 describe('CG `hideCaregiverRequiredAlert` method', () => {
@@ -126,5 +127,61 @@ describe('CG `secondaryTwoHasDifferentMailingAddress` method', () => {
       'view:secondaryTwoHomeSameAsMailingAddress': false,
     };
     expect(secondaryTwoHasDifferentMailingAddress(formData)).to.be.true;
+  });
+});
+
+describe('CG `hasPlannedMedicalCenter` method', () => {
+  it('should return `false` when useFacilitiesAPI is off', () => {
+    const formData = { 'view:useFacilitiesAPI': false };
+    expect(showFacilityConfirmation(formData)).to.be.false;
+  });
+
+  context('useFacilitiesAPI is on', () => {
+    it('should return `false` when veteranSelected and caregiverSupport are the same facility', () => {
+      const formData = {
+        'view:useFacilitiesAPI': true,
+        'view:plannedClinic': {
+          veteranSelected: { id: 'my-id' },
+          caregiverSupport: { id: 'my-id' },
+        },
+      };
+      expect(showFacilityConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when view:plannedClinic is undefined', () => {
+      const formData = {
+        'view:useFacilitiesAPI': true,
+      };
+      expect(showFacilityConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when view:plannedClinic is empty object', () => {
+      const formData = {
+        'view:useFacilitiesAPI': true,
+        'view:plannedClinic': {},
+      };
+      expect(showFacilityConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when veteranSelected is empty object', () => {
+      const formData = {
+        'view:useFacilitiesAPI': true,
+        'view:plannedClinic': {
+          veteranSelected: {},
+        },
+      };
+      expect(showFacilityConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `true` when veteranSelected and caregiverSupport are different facilities', () => {
+      const formData = {
+        'view:useFacilitiesAPI': true,
+        'view:plannedClinic': {
+          veteranSelected: { id: 'my-id' },
+          caregiverSupport: { id: 'not-my-id' },
+        },
+      };
+      expect(showFacilityConfirmation(formData)).to.be.true;
+    });
   });
 });
