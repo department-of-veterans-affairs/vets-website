@@ -1,12 +1,11 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
 
-const IntroductionPage = ({ route }) => {
+const IntroductionPage = ({ route, startLink }) => {
   const { formConfig, pageList } = route;
 
   useEffect(() => {
@@ -135,9 +134,9 @@ const IntroductionPage = ({ route }) => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start your Application"
-        hideUnauthedStartLink={
-          environment.isStaging() || environment.isProduction()
-        }
+        customLink={startLink}
+        hideUnauthedStartLink
+        displayNonVeteranMessaging
       />
       <va-omb-info
         res-burden={45}
@@ -158,6 +157,11 @@ IntroductionPage.propTypes = {
     }),
     pageList: PropTypes.arrayOf(PropTypes.object),
   }),
+  startLink: PropTypes.oneOfType([
+    PropTypes.element,
+    PropTypes.elementType,
+    PropTypes.func,
+  ]),
 };
 
 export default IntroductionPage;
