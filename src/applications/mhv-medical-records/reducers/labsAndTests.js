@@ -219,11 +219,12 @@ export const extractOrderedBy = record => {
 const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+  const title = record?.code?.text;
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
-    name: 'Microbiology',
-    category: '',
+    name: title || 'Microbiology',
+    labType: title ? 'Microbiology' : null,
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)

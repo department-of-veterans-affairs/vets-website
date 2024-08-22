@@ -126,6 +126,14 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
+        {record.labtype && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab type
+            </h3>
+            <p data-testid="microbio-sample-tested">{record.labType}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
