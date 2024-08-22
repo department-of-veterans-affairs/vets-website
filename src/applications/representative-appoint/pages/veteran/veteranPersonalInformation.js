@@ -20,9 +20,11 @@ export const uiSchema = {
   ),
   ...descriptionUI(
     ({ formData }) =>
-      `Use ${
-        preparerIsVeteran({ formData }) ? 'your' : 'the veteran’s'
-      } legal name as it appears on your government documentation.`,
+      `${
+        preparerIsVeteran({ formData })
+          ? 'Use your legal name as it appears on your government documentation.'
+          : 'Use the veteran’s legal name as it appears on their government documentation.'
+      }`,
   ),
   veteranFullName: fullNameUI(),
   veteranDateOfBirth: dateOfBirthUI(),
