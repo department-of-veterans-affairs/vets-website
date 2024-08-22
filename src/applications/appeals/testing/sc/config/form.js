@@ -39,7 +39,7 @@ import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
 
 import optionForMst from '../pages/optionForMst';
-import vhaNotifications from '../pages/vhaNotifications';
+import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
@@ -259,26 +259,26 @@ const formConfig = {
           schema: optIn.schema,
           scrollAndFocusTarget: focusH3,
         },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
+        },
       },
     },
 
     evidence: {
       title: 'New and relevant evidence',
       pages: {
-        optionForMst: {
-          title: 'Option for MST',
-          path: 'view-option',
-          uiSchema: optionForMst.uiSchema,
-          schema: optionForMst.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        vhaNotifications: {
-          title: 'VHA notifications',
-          path: 'vha-notifications',
-          uiSchema: vhaNotifications.uiSchema,
-          schema: vhaNotifications.schema,
-          depends: hasMstOption,
-        },
         notice5103: {
           title: 'Notice of evidence needed',
           path: 'notice-of-evidence-needed',
