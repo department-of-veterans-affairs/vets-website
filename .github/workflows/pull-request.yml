@@ -332,24 +332,11 @@ jobs:
         id: changed-files
         shell: bash
         run: |
-          CHANGED_FILES=""
           if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+              echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
           else
-            git fetch origin main || echo "origin/main not found"
-            if git show-ref --verify --quiet refs/remotes/origin/main; then
-              if git merge-base --is-ancestor origin/main ${{ github.sha }}; then
-                CHANGED_FILES=$(git diff --name-only origin/main...${{ github.sha }})
-              else
-                echo "No merge base found, using HEAD~1"
-                CHANGED_FILES=$(git diff --name-only HEAD~1...${{ github.sha }})
-              fi
-            else
-              echo "origin/main not found, using HEAD~1"
-              CHANGED_FILES=$(git diff --name-only HEAD~1...${{ github.sha }})
-            fi
+            echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
           fi
-          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
   
       - name: Extract codeowners for changed files
         run: |
