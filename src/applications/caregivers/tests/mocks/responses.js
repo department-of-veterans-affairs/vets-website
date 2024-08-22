@@ -511,7 +511,7 @@ const fetchParentFacility = {
   address: {
     physical: {
       address1: '420 North James Road',
-      address2: '',
+      address2: '33',
       address3: 'Columbus, OH, 43219-1834',
     },
   },
