@@ -367,7 +367,7 @@ describe('ApplicationsInProgress component', () => {
       );
     });
 
-    it('renders Received forms', () => {
+    it('renders Submission Status forms', () => {
       const view = render(
         <Provider store={store}>
           <ApplicationsInProgress
