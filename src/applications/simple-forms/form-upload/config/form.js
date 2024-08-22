@@ -4,11 +4,7 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import {
-  uploadPage,
-  UploadReviewPage,
-  uploadReviewPage,
-} from '../pages/upload';
+import { uploadPage, UploadPage } from '../pages/upload';
 import {
   NameAndZipCodePage,
   nameAndZipCodePage,
@@ -89,16 +85,7 @@ const formConfig = (pathname = null) => {
             title: 'Upload Your File',
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
-            pageClass: 'upload',
-            scrollAndFocusTarget,
-          },
-          uploadReviewPage: {
-            depends: formData => formData.uploadedFile?.warnings?.length > 0,
-            path: 'upload-review',
-            title: 'Review Your File Upload',
-            uiSchema: uploadReviewPage.uiSchema,
-            schema: uploadReviewPage.schema,
-            CustomPage: UploadReviewPage,
+            CustomPage: UploadPage,
             scrollAndFocusTarget,
           },
         },

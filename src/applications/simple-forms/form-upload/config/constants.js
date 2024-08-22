@@ -133,3 +133,21 @@ export const FORM_UPLOAD_OCR_ALERT = (
     </React.Fragment>
   </VaAlert>
 );
+
+export const FORM_UPLOAD_INSTRUCTION_ALERT = onCloseEvent => (
+  <VaAlert
+    close-btn-aria-label="Close notification"
+    status="warning"
+    visible
+    closeable
+    onCloseEvent={onCloseEvent}
+  >
+    <h2 slot="headline">Complete and sign your form before you upload</h2>
+    <React.Fragment key=".1">
+      <p>
+        If you upload a form that’s missing a signature or any other required
+        information, we won’t be able to process it.
+      </p>
+    </React.Fragment>
+  </VaAlert>
+);
