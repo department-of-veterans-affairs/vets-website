@@ -3,7 +3,7 @@ import React from 'react';
 const AdditionalSupport = () => {
   return (
     <div className="row vads-u-margin-y--2">
-      <div className="usa-width-two-thirds medium-8 columns">
+      <div className="usa-width-one-whole medium-8 columns">
         <h2 id="additional-support">Additional support</h2>
         <p className="help-talk">
           You can also call MyVA411 for 24/7 assistance at{' '}

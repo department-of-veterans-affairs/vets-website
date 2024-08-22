@@ -34,7 +34,7 @@ const OtherResources = () => {
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
               class="hydrated"
-              href="https://benefits.va.gov/gibill/enrollment-manager/enrollment-manager-frequently-asked-questions.asp"
+              href="https://vbatraining.adobeconnect.com/ptgxzsnw11w7/default/index.html"
             />
           </ul>
           Quick Start Guides
@@ -198,7 +198,7 @@ const OtherResources = () => {
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/gi-bill-comparison-tool/"
           hrefText="GI Bill Comparison Tool"
-          pText="Compare and calculate GI Bill benefits at VA approved schools."
+          pText="Compare and calculate GI Bill benefits at VA-approved schools."
         />
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/benefit-rates/"

@@ -363,7 +363,7 @@ class TrackClaimsPageV2 {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message')
+          .find('#file-input-error-alert')
           .should('contain', 'Please select a file first');
         cy.injectAxeThenAxeCheck();
       });
@@ -509,7 +509,7 @@ class TrackClaimsPageV2 {
       .find('.due-date-header')
       .should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
@@ -572,7 +572,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
     cy.get('va-additional-info').should('be.visible');
@@ -745,7 +745,7 @@ class TrackClaimsPageV2 {
       'contain',
       'Learn about the VA claim process and what happens after you file your claim.',
     );
-    cy.get('.claim-timeline').should('be.visible');
+    cy.get('va-process-list').should('be.visible');
   }
 
   verifyOverviewShowPastUpdates() {

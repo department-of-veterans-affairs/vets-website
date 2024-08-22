@@ -17,6 +17,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
+import { degreeOptions } from '../../constants/options';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
 /** @type {ArrayBuilderOptions} */
@@ -40,17 +41,6 @@ const arrayBuilderOptions = {
       )}`,
   },
 };
-
-const degreeOptions = [
-  'Did not receive a degree',
-  'Associate of Arts',
-  'Bachelor of Arts',
-  'Bachelor of Science',
-  'Master of Science',
-  'Master of Arts',
-  'Juris Doctor',
-  'Other',
-];
 
 /** @returns {PageSchema} */
 const introPage = {

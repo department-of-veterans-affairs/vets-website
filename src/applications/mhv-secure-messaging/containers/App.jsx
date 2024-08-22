@@ -143,10 +143,11 @@ const App = ({ isPilot }) => {
     <RequiredLoginView
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
+      verify
     >
       {user.login.currentlyLoggedIn &&
       !userServices.includes(backendServices.MESSAGING) ? (
-        window.location.replace('/health-care/secure-messaging')
+        window.location.replace('/my-health')
       ) : (
         <>
           <MhvSecondaryNav />

@@ -1,6 +1,136 @@
 {
   "data": [
 {
+    "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+    "type": "appointments",
+    "attributes": {
+        "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "4139383435363538"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "984:5658"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceType": "outpatientMentalHealth",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "outpatientMentalHealth"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984GA",
+        "clinic": "4284",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": "0000546167"
+                    }
+                ],
+                "name": {
+                    "family": "ZZZPPP",
+                    "given": [
+                        "LLL"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-08-16T15:30:00Z",
+        "end": "2024-08-16T16:00:00Z",
+        "minutesDuration": 30,
+        "slot": {
+            "id": "3230323430383134313533303A323032343038313431363030",
+            "start": "2024-08-16T15:30:00Z",
+            "end": "2024-08-16T16:00:00Z"
+        },
+        "created": "2023-07-25T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "NO ACTION TAKEN"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {
+                "physicalLocation": "",
+                "phoneNumber": "",
+                "phoneNumberExtension": ""
+            }
+        },
+        "localStartTime": "2024-08-16T14:00:00.000-04:00",
+        "station": "984",
+        "ien": "5658",
+        "avsPath": null,
+        "serviceName": "MID-V10 CRH MH PSY MD PT",
+        "friendlyName": "MID-V10 CRH MH PSY MD PT",
+        "location": {
+            "id": "984GA",
+            "type": "appointments",
+            "attributes": {
+                "id": "984GA",
+                "vistaSite": "984",
+                "vastParent": "984",
+                "type": "va_health_facility",
+                "name": "Middletown VA Clinic",
+                "classification": "Multi-Specialty CBOC",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.50603,
+                "long": -84.316475,
+                "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+                "phone": {
+                    "main": "513-423-8387"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4337 North Union Road"
+                    ],
+                    "city": "Middletown",
+                    "state": "OH",
+                    "postalCode": "45005-5211"
+                },
+                "healthService": [
+                    "Audiology",
+                    "MentalHealthCare",
+                    "Optometry",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare"
+                ]
+            }
+        }
+    }
+},
+{
     "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2710",
     "type": "appointments",
     "attributes": {
