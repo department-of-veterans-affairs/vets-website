@@ -65,27 +65,17 @@ describe('go bill CT before search by name', () => {
   });
   it('should reset filter back to orginal when Reset search button is clicked', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('va-checkbox[data-testid="school-type-Public"]').click();
-    cy.get('va-checkbox[data-testid="school-type-Public"]').should(
-      'not.have.attr',
-      'checked',
-      'true',
-    );
-    cy.get('va-checkbox[data-testid="exclude-caution-flags"]').click();
-    cy.get('va-checkbox[data-testid="exclude-caution-flags"]').should(
-      'have.attr',
-      'checked',
-    );
+    cy.get('va-checkbox[data-testid="school-type-Public"]')
+      .as('PublicType')
+      .click();
+    cy.get('@PublicType').should('not.have.attr', 'checked', 'true');
+    cy.get('va-checkbox[data-testid="exclude-caution-flags"]')
+      .as('cautionFlagsType')
+      .click();
+    cy.get('@cautionFlagsType').should('have.attr', 'checked');
     cy.get('[data-testid="clear-button"]').click();
-    cy.get('va-checkbox[data-testid="school-type-Public"]').should(
-      'have.attr',
-      'checked',
-    );
-    cy.get('va-checkbox[data-testid="exclude-caution-flags"]').should(
-      'not.have.attr',
-      'checked',
-      'true',
-    );
+    cy.get('@PublicType').should('have.attr', 'checked');
+    cy.get('@cautionFlagsType').should('not.have.attr', 'checked', 'true');
   });
   it('should expand "Learn more about community focus filters" va-accordion when Go to community focus details link is clicked', () => {
     cy.injectAxeThenAxeCheck();
