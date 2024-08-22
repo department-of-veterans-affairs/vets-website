@@ -102,7 +102,7 @@ Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
 Lab location: ${entry.labLocation}
-Interpretation: ${entry.labComments}\n`,
+Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
 

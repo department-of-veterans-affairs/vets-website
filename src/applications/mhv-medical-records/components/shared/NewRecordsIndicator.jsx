@@ -147,7 +147,7 @@ const NewRecordsIndicator = ({
   };
 
   return (
-    <div className="vads-u-margin-y--2" id="new-records-indicator">
+    <div className="vads-u-margin-y--2  no-print" id="new-records-indicator">
       {content()}
     </div>
   );

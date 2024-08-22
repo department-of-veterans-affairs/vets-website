@@ -166,8 +166,6 @@ const ResponseInboxPage = ({ loggedIn }) => {
                 size={3}
                 icon="print"
                 className="vads-u-margin-right--1"
-                srtext="icon representing print"
-                aria-hidden="true"
               />
             </span>
             <span className="vads-u-font-weight--bold vads-u-color--primary vads-u-font-size--h3">
@@ -239,7 +237,6 @@ const ResponseInboxPage = ({ loggedIn }) => {
                   ],
                 });
               }}
-              uswds
             />
 
             <VaButton
