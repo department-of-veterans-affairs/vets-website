@@ -336,7 +336,13 @@ jobs:
           if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
           else
-            CHANGED_FILES=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
+            git fetch origin main || echo "origin/main not found"
+            if git show-ref --verify --quiet refs/remotes/origin/main; then
+              CHANGED_FILES=$(git diff --name-only origin/main...${{ github.sha }}) >> $GITHUB_OUTPUT
+            else
+              echo "origin/main not found, using HEAD~1"
+              CHANGED_FILES=$(git diff --name-only HEAD~1...${{ github.sha }}) >> $GITHUB_OUTPUT
+            fi
           fi
   
       - name: Extract codeowners for changed files
