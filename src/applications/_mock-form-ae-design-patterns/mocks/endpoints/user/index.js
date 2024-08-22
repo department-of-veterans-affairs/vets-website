@@ -262,9 +262,9 @@ const baseUserResponses = {
         },
         profile: {
           email: 'vets.gov.user+75@gmail.com',
-          firstName: 'MITCHELL',
+          firstName: 'Mitchell',
           middleName: 'G',
-          lastName: 'JENKINS',
+          lastName: 'Jenkins',
           birthDate: '1949-03-04',
           gender: 'M',
           zip: '97063',
@@ -373,7 +373,7 @@ const baseUserResponses = {
           },
           mailingAddress: {
             addressLine1: '123 Mailing Address St.',
-            addressLine2: 'Apt 1',
+            addressLine2: null,
             addressLine3: null,
             addressPou: 'CORRESPONDENCE',
             addressType: 'DOMESTIC',
@@ -1479,6 +1479,23 @@ const loa3UserWithoutLighthouseServiceAvailable = set(
   ),
 );
 
+const loa3UserWithUpdatedMailingAddress = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.mailingAddress.addressLine1',
+  '345 Mailing Address St.',
+);
+
+const loa3UserWithUpdatedHomePhone = set(
+  cloneDeep(baseUserResponses.loa3User72),
+  'data.attributes.vet360ContactInformation.homePhone.phoneNumber',
+  '8985555',
+);
+const loa3UserWithUpdatedHomePhoneTimeStamp = set(
+  cloneDeep(loa3UserWithUpdatedHomePhone),
+  'data.attributes.vet360ContactInformation.homePhone.updatedAt',
+  '2023-03-11T16:31:56.000Z',
+);
+
 const responses = {
   ...baseUserResponses,
   ...mockErrorResponses,
@@ -1494,7 +1511,10 @@ const responses = {
       { name: 'ratingInfo', value: false },
     ],
   ),
+  loa3UserWithUpdatedMailingAddress,
   loa3UserWithNoHomeAddress,
+  loa3UserWithUpdatedHomePhone,
+  loa3UserWithUpdatedHomePhoneTimeStamp,
   loa3UserWithNoRatingInfoClaim,
   loa3UserWithNoMilitaryHistoryClaim,
   loa3UserWithoutMailingAddress,

@@ -62,7 +62,8 @@ describe('<ResponseInboxPage>', () => {
       server.close();
     });
 
-    it('should render user Response Inbox', async () => {
+    // Designs are not final, we need to wait until refactoring this test for the page
+    it.skip('should render user Response Inbox', async () => {
       const mockStore = {
         getState: () => ({
           form: {

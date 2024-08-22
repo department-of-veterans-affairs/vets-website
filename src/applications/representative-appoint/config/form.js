@@ -1,13 +1,7 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-import React from 'react';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-import {
-  COUNTRY_VALUES,
-  COUNTRY_NAMES,
-  REJECT_WHITESPACE_ONLY,
-} from 'platform/forms-system/src/js/definitions/profileAddress';
+
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -146,142 +140,16 @@ const formConfig = {
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo',
           contactPath: 'claimant-contact',
-          phoneSchema: {
-            type: 'object',
-            properties: {
-              countryCode: {
-                type: 'string',
-                pattern: '^[0-9]+$',
-                minLength: 1,
-                maxLength: 3,
-              },
-              areaCode: {
-                type: 'string',
-                pattern: '^[0-9]{1,4}$',
-                minLength: 1,
-                maxLength: 4,
-              },
-              phoneNumber: {
-                type: 'string',
-                pattern: '^[0-9]{1,14}$',
-                minLength: 1,
-                maxLength: 14,
-              },
-              phoneNumberExt: {
-                type: 'string',
-                pattern: '^[a-zA-Z0-9]{1,10}$',
-                minLength: 1,
-                maxLength: 10,
-              },
-            },
-            required: ['areaCode', 'phoneNumber'],
-          },
-          emailSchema: {
-            type: 'string',
-            format: 'email',
-            minLength: 6,
-            maxLength: 255,
-          },
-          addressSchema: {
-            type: 'object',
-            required: ['country', 'street', 'city', 'postalCode'],
-            properties: {
-              isMilitary: {
-                type: 'boolean',
-              },
-              country: {
-                type: 'string',
-                enum: COUNTRY_VALUES, // from /definitions/profileAddress
-                enumNames: COUNTRY_NAMES, // from /definitions/profileAddress
-              },
-              street: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              street2: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              street3: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              city: {
-                type: 'string',
-              },
-              state: {
-                type: 'string',
-              },
-              postalCode: {
-                type: 'string',
-              },
-            },
-          },
-
-          // ** Object key wrapping contact info, e.g. **
-          // ** { veteran: { mailingAddress: {}, primaryPhone: {}, ... } }
-          wrapperKey: 'veteran',
-          addressKey: 'mailingAddress',
-          homePhoneKey: 'homePhone',
-          emailKey: 'email',
-          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
-
-          // ** Use the same keys as defined above **
-          included: ['homePhone', 'mailingAddress', 'email'],
-
-          content: {
-            title: 'Contact information',
-            description: (
-              <>
-                <p>
-                  This is the contact information we have on file for you. We’ll
-                  send any updates or information about your application to this
-                  address.
-                </p>
-              </>
-            ),
-
-            // ** Page titles & link aria-labels **
-            editHomePhone: 'Edit home phone number',
-            editEmail: 'Edit email address',
-            editMailingAddress: 'Edit mailing address',
-
-            edit: 'Edit', // link text
-            editLabel: 'Edit contact information', // link aria-label
-            update: 'Update page', // update button on review & submit page
-            updated: 'updated', // alert updated text
-
-            // ** Missing info alert messaging **
-            missingHomePhone: 'home phone',
-            missingAddress: 'mailing address',
-            missingEmail: 'email address',
-            alertContent:
-              'The missing information has been added to your application. You may continue.',
-
-            // ** Review & submit & section titles **
-            mailingAddress: 'Mailing address',
-            homePhone: 'Home number',
-            email: 'Email address',
-            country: 'Country',
-            address1: 'Street address',
-            address2: 'Street address line 2',
-            address3: 'Street address line 3',
-            city: 'City',
-            state: 'State',
-            province: 'Province',
-            postal: 'Postal code',
-
-            // // ** Error on review & submit **
-            // missingEmailError: 'Missing email address',
-
-            // // ** contact info depends callback
-            // depends = null,
+          contactInfoRequiredKeys: [
+            'mailingAddress',
+            'email',
+            'homePhone',
+            'mobilePhone',
+          ],
+          included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
+          depends: formData => {
+            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            return isLoggedIn;
           },
         }),
         claimantContactMailing: {

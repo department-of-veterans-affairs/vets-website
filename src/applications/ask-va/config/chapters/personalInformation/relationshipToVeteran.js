@@ -17,6 +17,9 @@ const relationshipToVeteranPage = {
       labelHeaderLevel: '3',
       labels: relationshipOptionsSomeoneElse,
       required: () => true,
+      errorMessages: {
+        required: 'Please select your relationship to the Veteran.',
+      },
     }),
     'ui:options': {
       updateSchema: (formData, formSchema) => {
@@ -43,7 +46,7 @@ const relationshipToVeteranPage = {
   },
   schema: {
     type: 'object',
-    required: ['personalRelationship'],
+    required: [''],
     properties: {
       personalRelationship: radioSchema(
         Object.values(relationshipOptionsSomeoneElse),

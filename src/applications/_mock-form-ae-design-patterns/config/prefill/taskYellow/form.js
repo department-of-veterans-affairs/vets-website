@@ -1,19 +1,19 @@
-import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-// import emailUI from 'platform/forms-system/src/js/definitions/email';
-// import fullSchema from 'vets-json-schema/dist/FEEDBACK-TOOL-schema.json';
-// import phoneUI from 'platform/forms-system/src/js/definitions/phone';
-// import initialData from '../tests/fixtures/data/test-data.json';
-// import contactInformation1 from '../pages/contactInformation1';
-
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import {
+  yesNoSchema,
+  yesNoUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import manifest from '../../../manifest.json';
+import content from '../../../locales/en/content.json';
 
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import applicantInformation from '../../../pages/applicantInformation';
-import contactInfoSettings from '../../../pages/contactInfoSettings';
-import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
+import { taskCompletePage } from '../../taskCompletePage';
+
+import VeteranProfileInformationTaskYellow from '../../../components/FormPages/VeteranProfileInformationTaskYellow';
+import { MailingAddressInfoPageTaskYellow } from '../../../components/FormPages/MailingAddressInfoPageTaskYellow';
+import { EditMailingAddressTaskYellow } from '../../../components/EditMailingAddress/EditMailingAddressTaskYellow';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -21,7 +21,7 @@ const formConfig = {
   // submitUrl: '/v0/api',
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
-  trackingPrefix: '_mock-form-ae-design-patterns-',
+  trackingPrefix: 'task-yellow',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
@@ -34,8 +34,6 @@ const formConfig = {
   },
   version: 0,
   prefillTransformer(pages, formData, metadata) {
-    // console.log({ formData });
-
     const transformedData = {
       veteranSocialSecurityNumber:
         formData?.data?.attributes?.veteran?.ssn || null,
@@ -53,7 +51,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Prefill Task Yellow',
+  title: 'Update your VA health benefits information',
+  subTitle: 'Health Benefits Update Form (VA Form 10-10EZR)',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
@@ -62,41 +61,52 @@ const formConfig = {
         profileInformation: {
           path: 'veteran-information/personal-information',
           title: 'Veteran\u2019s personal information',
-          CustomPage: VeteranProfileInformation,
+          CustomPage: VeteranProfileInformationTaskYellow,
           CustomPageReview: null,
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
-      },
-    },
-    applicantInformationChapter: {
-      title: 'Chapter Title: Applicant Information',
-      pages: {
-        applicantInformation: {
-          path: 'applicant-information',
-          title: 'Section Title: Applicant Information',
-          uiSchema: applicantInformation.uiSchema,
-          schema: applicantInformation.schema,
-          initialData: {},
+        confirmMailingAddress: {
+          title: 'Contact information',
+          path: 'veteran-information/confirm-mailing-address',
+          uiSchema: {
+            'ui:title': ' ',
+            'ui:description': MailingAddressInfoPageTaskYellow,
+            'ui:required': () => false, // don't allow progressing without all contact info// needed to block form progression
+            'ui:options': {
+              hideOnReview: true, // We're using the `ReveiwDescription`, so don't show this page
+              forceDivWrapper: true, // It's all info and links, so we don't need a fieldset or legend
+            },
+            'view:doesMailingMatchHomeAddress': yesNoUI(
+              content['vet-address-match-title'],
+            ),
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              'view:doesMailingMatchHomeAddress': yesNoSchema,
+            },
+            required: ['view:doesMailingMatchHomeAddress'],
+          },
         },
-      },
-    },
-    contactInfo: {
-      title: 'Contact info',
-      pages: {
-        contactInfoSettings: {
-          title: 'Section Title: Required contact info',
-          path: 'contact-info-required',
-          uiSchema: contactInfoSettings.uiSchema,
-          schema: contactInfoSettings.schema,
+        editMailingAddress: {
+          title: 'Mailing address',
+          path: 'veteran-information/edit-mailing-address',
+          CustomPage: props =>
+            EditMailingAddressTaskYellow({
+              ...props,
+              contactPath:
+                'task-yellow/veteran-information/confirm-mailing-address',
+              saveButtonText: 'Save',
+              subTitle:
+                'We’ll send any important information about your application to this address.',
+            }),
+          CustomPageReview: null,
+          depends: () => false, // accessed from contact info page
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
-        ...profileContactInfo({
-          contactInfoPageKey: 'confirmContactInfo3',
-          contactPath: 'contact-info-with-home-phone',
-          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
-          included: ['homePhone', 'mailingAddress', 'email'],
-          depends: formData => formData.contactInfoSettings === 'home',
-        }),
+        taskCompletePage,
       },
     },
   },

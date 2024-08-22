@@ -363,7 +363,7 @@ class TrackClaimsPageV2 {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message')
+          .find('#file-input-error-alert')
           .should('contain', 'Please select a file first');
         cy.injectAxeThenAxeCheck();
       });
@@ -745,7 +745,7 @@ class TrackClaimsPageV2 {
       'contain',
       'Learn about the VA claim process and what happens after you file your claim.',
     );
-    cy.get('.claim-timeline').should('be.visible');
+    cy.get('va-process-list').should('be.visible');
   }
 
   verifyOverviewShowPastUpdates() {

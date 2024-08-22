@@ -156,6 +156,14 @@ const EvidenceSummary = ({
       removeData.type === LIMITATION_KEY ? 'limitationTitle' : 'title'
     ];
 
+  let modalPrimaryButtonText = content.removeEvidence.modalRemove;
+
+  if (removeData.type === 'limitation') {
+    modalPrimaryButtonText = content.removeEvidence.modalRemoveLimitation;
+  } else if (removeData.type === 'upload') {
+    modalPrimaryButtonText = content.removeEvidence.modalDelete;
+  }
+
   const props = {
     handlers,
     onReviewPage,
@@ -204,13 +212,7 @@ const EvidenceSummary = ({
           onCloseEvent={handlers.closeModal}
           onPrimaryButtonClick={handlers.removeEvidence}
           onSecondaryButtonClick={handlers.closeModal}
-          primaryButtonText={
-            content.removeEvidence[
-              removeData.type === 'limitation'
-                ? 'modalRemoveLimitation'
-                : 'modalRemove'
-            ]
-          }
+          primaryButtonText={modalPrimaryButtonText}
           secondaryButtonText={
             content.removeEvidence[
               removeData.type === 'limitation'

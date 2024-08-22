@@ -6,6 +6,7 @@ const handleUserUpdate = require('./endpoints/user/handleUserUpdate');
 const address = require('./endpoints/address');
 const emailAddress = require('./endpoints/email-addresses');
 const phoneNumber = require('./endpoints/phone-number');
+const telephone = require('./endpoints/telephones');
 
 const { generateFeatureToggles } = require('./endpoints/feature-toggles');
 
@@ -15,6 +16,7 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 const {
   prefill,
+  createSaveInProgressUpdate,
 } = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 // transaction status that is used for address, email, phone number update flows
@@ -43,42 +45,18 @@ const {
 
 const responses = {
   'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
-    return res.json({
-      formData: {
-        data: {
-          attributes: {
-            veteran: {
-              ssn: '123-456-7890',
-              address: {
-                addressLine1: '623 Lesser Dr',
-                city: 'Fort Collins',
-                stateCode: 'CO',
-                zipCode5: '80524',
-                countryName: 'USA',
-              },
-              firstName: 'John',
-              lastName: 'Donut',
-              middleName: 'Jelly',
-              phone: {
-                areaCode: '970',
-                phoneNumber: '5561289',
-              },
-              emailAddressText: 'sample@email.com',
-            },
-          },
-        },
-        nonPrefill: {
-          veteranSsnLastFour: '3607',
-          veteranVaFileNumberLastFour: '3607',
-        },
-      },
-      metadata: {
-        version: 0,
-        prefill: true,
-        returnUrl: '/veteran-details',
-      },
-    });
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(prefill), secondsOfDelay);
   },
+
+  'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.json(createSaveInProgressUpdate()),
+      secondsOfDelay,
+    );
+  },
+
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
     delaySingleResponse(
@@ -135,7 +113,7 @@ const responses = {
     //   ]),
     // );
   },
-  'POST /v0/profile/address_validation': address.addressValidation,
+  'POST /v0/profile/address_validation': address.addressValidationMatch,
   'GET /v0/profile/service_history': (_req, res) => {
     // user doesnt have any service history or is not authorized
     // return res.status(403).json(genericErrors.error403);
@@ -149,10 +127,12 @@ const responses = {
     if (req?.body?.phoneNumber === '1111111') {
       return res.json(phoneNumber.transactions.receivedNoChangesDetected);
     }
-    return res.status(200).json(phoneNumber.transactions.received);
+    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
+    // return res.status(200).json(phoneNumber.transactions.received);
   },
   'POST /v0/profile/telephones': (_req, res) => {
-    return res.status(200).json(phoneNumber.transactions.received);
+    // return res.status(200).json(phoneNumber.transactions.received);
+    return res.json(telephone.homePhoneUpdateReceivedPrefillTaskPurple);
   },
   'POST /v0/profile/email_addresses': (_req, res) => {
     return res.status(200).json(emailAddress.transactions.received);
@@ -195,7 +175,7 @@ const responses = {
     // }
 
     // default response
-    return res.json(address.homeAddressUpdateReceived);
+    return res.json(address.mailingAddressUpdateReceivedPrefillTaskGreen);
   },
   'POST /v0/profile/addresses': (req, res) => {
     return res.json(address.homeAddressUpdateReceived);
@@ -212,11 +192,6 @@ const responses = {
     // this function allows some conditional logic to be added to the status endpoint
     // to simulate different responses based on the transactionId param
     return generateStatusResponse(req, res);
-  },
-
-  'GET /v0/in_progress_forms/mock-form-ae-design-patterns': (_req, res) => {
-    const secondsOfDelay = 1;
-    delaySingleResponse(() => res.json(prefill), secondsOfDelay);
   },
 };
 
