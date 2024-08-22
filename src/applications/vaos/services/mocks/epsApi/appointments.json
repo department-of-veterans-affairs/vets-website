@@ -16,7 +16,7 @@
           "byPatient": true,
           "system": {
             "id": "45604d54-7c49-4d9b-b669-53cbaf2a5189",
-            "name": "The ACME Healthcare WellHive Client",
+            "name": "The ACME Healthcare EPS Client",
             "type": "external"
           },
           "user": {
@@ -41,7 +41,7 @@
         "createdBy": {
           "byPatient": false,
           "system": {
-            "type": "wellhive"
+            "type": "epsApi"
           },
           "user": {
             "id": "a1b6673e-d409-4876-a0ff-a77bb4840aca"
