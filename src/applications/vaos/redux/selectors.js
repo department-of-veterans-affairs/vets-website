@@ -109,7 +109,7 @@ export const selectFeatureMedReviewInstructions = state =>
   toggleValues(state).vaOnlineSchedulingMedReviewInstructions;
 
 export const selectFeatureOHDirectSchedule = state =>
-  toggleValues(state).vaOnlineSchedulingOHDirectSchedule;
+  toggleValues(state).vaOnlineSchedulingOhDirectSchedule;
 
 export const selectFeatureOHRequest = state =>
-  toggleValues(state).vaOnlineSchedulingOHRequest;
+  toggleValues(state).vaOnlineSchedulingOhRequest;

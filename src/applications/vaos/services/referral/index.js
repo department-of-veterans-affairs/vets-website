@@ -8,7 +8,7 @@ export async function getPatientDetails(
 ) {
   try {
     const response = await apiRequestWithUrl(
-      `/vaos/v2/wellhive/referralDetails?facilityId=${facilityId}&clinicId=${clinicId}&start=${startDate}&end=${endDate}`,
+      `/vaos/v2/epsApi/referralDetails?facilityId=${facilityId}&clinicId=${clinicId}&start=${startDate}&end=${endDate}`,
       {
         method: 'GET',
       },
@@ -23,7 +23,7 @@ export async function getPatientDetails(
 export async function getReferralById(referralId) {
   try {
     const response = await apiRequestWithUrl(
-      `/vaos/v2/wellhive/referralDetails/${referralId}`,
+      `/vaos/v2/epsApi/referralDetails/${referralId}`,
       {
         method: 'GET',
       },

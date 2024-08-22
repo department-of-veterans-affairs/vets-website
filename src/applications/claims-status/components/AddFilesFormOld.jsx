@@ -198,7 +198,6 @@ class AddFilesFormOld extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
-            uswds="false"
           />
         </div>
         <dl className="file-requirements" id="file-requirements">

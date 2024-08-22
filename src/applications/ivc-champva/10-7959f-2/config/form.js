@@ -1,4 +1,5 @@
 import { cloneDeep } from 'lodash';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
   ssnOrVaFileNumberSchema,
@@ -54,6 +55,9 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',
     noAuth:

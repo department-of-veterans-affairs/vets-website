@@ -1,7 +1,6 @@
 import { parseISO } from 'date-fns';
 import { Actions } from '../util/actionTypes';
 import {
-  concatCategoryCodeText,
   concatObservationInterpretations,
   dateFormatWithoutTimezone,
   formatDate,
@@ -70,28 +69,37 @@ const distillChemHemNotes = (notes, valueProp) => {
  */
 const convertChemHemObservation = record => {
   const results = record.contained?.filter(
-    recordItem => recordItem.resourceType === 'Observation',
+    recordItem => recordItem.resourceType === fhirResourceTypes.OBSERVATION,
   );
-  return results?.filter(obs => obs.valueQuantity).map(result => {
-    const { observationValue, observationUnit } = getObservationValueWithUnits(
-      result,
-    );
-    const fixedObservationValue =
-      typeof observationValue === 'number'
-        ? observationValue.toFixed(1)
-        : observationValue;
-    let observationValueWithUnits = `${fixedObservationValue} ${observationUnit}`;
-    const interpretation = concatObservationInterpretations(result);
-    if (observationValueWithUnits && interpretation) {
-      observationValueWithUnits += ` (${interpretation})`;
+
+  return results?.map(result => {
+    let finalObservationValue = '';
+    let standardRange = null;
+    if (result.valueQuantity) {
+      const {
+        observationValue,
+        observationUnit,
+      } = getObservationValueWithUnits(result);
+      const fixedObservationValue =
+        typeof observationValue === 'number'
+          ? observationValue.toFixed(1)
+          : observationValue;
+      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
+      standardRange = isArrayAndHasItems(result.referenceRange)
+        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        : null;
     }
-    const standardRange = isArrayAndHasItems(result.referenceRange)
-      ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
-      : null;
+    if (result.valueString) {
+      finalObservationValue = result.valueString;
+    }
+    const interpretation = concatObservationInterpretations(result);
+    if (finalObservationValue && interpretation) {
+      finalObservationValue += ` (${interpretation})`;
+    }
 
     return {
       name: result.code.text,
-      result: observationValueWithUnits || EMPTY_FIELD,
+      result: finalObservationValue || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
@@ -211,11 +219,12 @@ export const extractOrderedBy = record => {
 const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
+  const title = record?.code?.text;
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
-    name: 'Microbiology',
-    category: '',
+    name: title || 'Microbiology',
+    labType: title ? 'Microbiology' : null,
     orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)
@@ -245,7 +254,6 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    category: concatCategoryCodeText(record) || EMPTY_FIELD,
     orderedBy: record.physician || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
@@ -314,6 +322,13 @@ const convertEkgRecord = record => {
 //   };
 // };
 
+export const buildRadiologyResults = record => {
+  const reportText = record?.reportText || '\n';
+  const impressionText = record?.impressionText || '\n';
+  return `Report:${reportText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}  
+Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
+};
+
 export const convertMhvRadiologyRecord = record => {
   return {
     id: `r${record.id}`,
@@ -321,16 +336,14 @@ export const convertMhvRadiologyRecord = record => {
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
     orderedBy: record.requestingProvider || EMPTY_FIELD,
-    clinicalHistory: record.clinicalHistory
-      ? record.clinicalHistory.trim()
-      : EMPTY_FIELD,
+    clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
       ? dateFormatWithoutTimezone(record.eventDate)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
     imagingProvider: record.radiologist || EMPTY_FIELD,
-    results: record.impressionText,
+    results: buildRadiologyResults(record),
     images: [],
   };
 };
