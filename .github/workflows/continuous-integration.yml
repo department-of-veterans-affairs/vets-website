@@ -1935,7 +1935,7 @@ jobs:
     name: CD Production Deploy
     runs-on: ubuntu-latest
     needs: [build, archive]
-    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == true }}
+    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
       - name: Run CD Production Deploy workflow
         run: |
