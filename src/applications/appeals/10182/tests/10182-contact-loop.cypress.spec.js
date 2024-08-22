@@ -169,7 +169,6 @@ describe('NOD contact info loop', () => {
       .first()
       .click({ waitForAnimations: true });
 
-    cy.wait('@telephones');
     cy.location('pathname').should('eq', MAIN_CONTACT_PATH);
 
     // Skipping AXE-check; already done in previous test.
