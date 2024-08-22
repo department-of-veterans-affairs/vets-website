@@ -84,7 +84,9 @@ ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
-Site or sample tested: ${record.sampleTested}\n
+${
+      record.labType ? `Lab type: ${record.labType}\n\n` : ''
+    }Site or sample tested: ${record.sampleTested}\n
 Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
 Location: ${record.collectingLocation}\n
