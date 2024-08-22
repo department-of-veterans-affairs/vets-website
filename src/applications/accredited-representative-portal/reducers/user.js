@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 
 import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
+import { LOG_OUT } from 'platform/user/authentication/actions';
 import {
   FETCH_USER,
   FETCH_USER_FAILURE,
@@ -45,6 +46,7 @@ function profileReducer(state = getNullProfileState(), action) {
         ...transformProfilePayload(action.payload),
         loading: false,
       };
+    case LOG_OUT:
     case FETCH_USER_FAILURE:
       return {
         ...state,
@@ -83,6 +85,7 @@ function loginReducer(state = getNullLoginState(), action) {
         ...state,
         currentlyLoggedIn: true,
       };
+    case LOG_OUT:
     case FETCH_USER_FAILURE:
       return {
         ...state,
