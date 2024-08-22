@@ -328,24 +328,19 @@ jobs:
           ssm_parameter: /devops/VA_VFS_BOT_GITHUB_TOKEN
           env_variable_name: GITHUB_TOKEN
 
-      - name: Get paths of changed files
-        id: get-changed-files
-        shell: bash
+      - name: Get changed files
+        id: changed-files
         run: |
+          git fetch origin main || echo "origin/main not found"
           if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           else
-            echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
+            CHANGED_FILES=$(git diff --name-only origin/main...${{ github.sha }})
           fi
-
-      - name: Parse CODEOWNERS and determine owners
+          echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
+  
+      - name: Extract codeowners for changed files
         run: |
-          # Example: extract codeowners for files changed in the PR
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
-              CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
-          else
-            CHANGED_FILES=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
-          fi
           OWNER=""
           for FILE in $CHANGED_FILES; do
             FILE_OWNER=$(grep "$FILE" .github/CODEOWNERS | awk '{print $NF}')
@@ -354,16 +349,13 @@ jobs:
               break  # Assuming one owner per PR, break after finding the first owner
             fi
           done
-
-      - name: Comment on PR
+          echo "owner=$OWNER" >> $GITHUB_ENV
+  
+      - name: Create a comment on the pull request
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Check if OWNER contains the string 'abc'
-          if [[ "$OWNER" == *"mhv"* ]]; then
-            echo "OWNER contains 'mhv', triggering the curl command."
-            curl -s -X POST \
-              -H "Authorization: token $GITHUB_TOKEN" \
-              -d '{"body": "This PR affects code owned by a team containing abc in the name. Please follow the relevant guidelines."}' \
-              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
-          else
-            echo "OWNER does not contain 'abc', no action taken."
-          fi
+          curl -H "Authorization: token $GITHUB_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d '{"body":"Changed files: $CHANGED_FILES\nOwner: $OWNER"}' \
+                ${{ github.event.pull_request.comments_url }}
