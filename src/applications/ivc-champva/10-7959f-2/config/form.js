@@ -17,8 +17,6 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
-
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -34,10 +32,6 @@ import { UploadDocuments } from '../components/UploadDocuments';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
-
-function FileFieldWrapped(props) {
-  return FileFieldCustom({ ...props, requiredFiles: [] });
-}
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -260,7 +254,6 @@ const formConfig = {
         page7: {
           path: 'upload-supporting-documents',
           title: 'Upload files',
-          CustomPage: FileFieldWrapped,
           uiSchema: {
             ...titleUI({
               title: 'Upload billing statements and supporting documents',
