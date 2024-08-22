@@ -1,3 +1,4 @@
+import { capitalize } from 'lodash';
 import {
   yesNoSchema,
   yesNoUI,
@@ -24,7 +25,9 @@ export const uiSchema = {
         const nameTitleUI = _uiSchema;
 
         if (first && last) {
-          nameTitleUI['ui:title'] = `Has ${first} ${last} been married before?`;
+          nameTitleUI['ui:title'] = `Has ${capitalize(first)} ${capitalize(
+            last,
+          )} been married before?`;
         }
 
         return _schema;

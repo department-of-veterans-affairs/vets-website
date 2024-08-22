@@ -39,24 +39,28 @@ const typeCommonLaw = (
         <strong>and</strong>
       </li>
       <li>
-        2 Statements of Marital Relationship (VA Form 21-4170)—1 that you
+        2 Statements of Marital Relationship (VA Form 21-4170) — 1 that you
         complete and 1 that your spouse completes, <strong>and</strong>
         <br />
-        <va-link
-          href="/find-forms/about-form-21-4170/"
-          text="Get VA Form 21-4170 to
-          download (opens in new tab)"
-        />
+        <a
+          href="/find-forms/about-form-21p-4170/"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get VA Form 21-4170 to download (opens in new tab)
+        </a>
       </li>
       <li>
         2 Supporting Statements Regarding Marriage (VA Form 21P-4171) completed
         by two different people with knowledge about your marriage.
         <br />
-        <va-link
+        <a
           href="/find-forms/about-form-21p-4171/"
-          text="Get VA Form
-          21P-4171 to download (opens in new tab)"
-        />
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          Get VA Form 21P-4171 to download (opens in new tab)
+        </a>
       </li>
     </ul>
   </>

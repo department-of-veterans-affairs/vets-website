@@ -28,7 +28,7 @@ export const uiSchema = {
       endLocation: {
         'ui:title': 'Where did the marriage end?',
         'ui:description': generateHelpText(
-          'If they got a divorce or an annulment, we want to know where they filed the paperwork. If the former spouse died, we want to know where the death certificate was filed',
+          'If you got a divorce or an annulment, we want to know where you filed the paperwork. If the former spouse died, we want to know where the death certificate was filed',
         ),
         'ui:options': {
           labelHeaderLevel: '4',

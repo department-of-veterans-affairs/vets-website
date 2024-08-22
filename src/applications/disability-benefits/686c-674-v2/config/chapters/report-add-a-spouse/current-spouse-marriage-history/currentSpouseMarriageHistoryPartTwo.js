@@ -1,3 +1,4 @@
+import { capitalize } from 'lodash';
 import {
   fullNameNoSuffixSchema,
   fullNameNoSuffixUI,
@@ -30,7 +31,9 @@ export const uiSchema = {
       const nameTitleUI = _uiSchema;
 
       if (first && last) {
-        nameTitleUI['ui:title'] = `${first} ${last}’s former spouses`;
+        nameTitleUI['ui:title'] = `${capitalize(first)} ${capitalize(
+          last,
+        )}’s former spouses`;
       }
 
       return _schema;
