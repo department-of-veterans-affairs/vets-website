@@ -18,7 +18,6 @@ import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
 import InnerNavigation from '../InnerNavigation';
-import AlertBackgroundBox from '../shared/AlertBackgroundBox';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
@@ -91,8 +90,6 @@ const FolderHeader = props => {
       <h1 className="vads-u-margin-bottom--1" data-testid="folder-header">
         {handleHeader(folder.folderId, folder)}
       </h1>
-
-      <AlertBackgroundBox closeable />
 
       {folder.folderId === Folders.INBOX.id && (
         <CernerTransitioningFacilityAlert />
