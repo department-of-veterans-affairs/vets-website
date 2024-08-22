@@ -23,9 +23,10 @@ import {
   REVIEW_CONTACT,
   setReturnState,
 } from 'platform/forms-system/src/js/utilities/data/profile';
-import { createPortal } from 'react-dom';
+
 import { Link } from 'react-router';
 import NameTag from './NameTag';
+import { Portal } from './Portal';
 
 export const BuildPage = ({
   title,
@@ -85,12 +86,17 @@ export const BuildPage = ({
     },
   };
 
+  const header = document.querySelector('header');
+
   return (
     <div
       className="va-profile-wrapper vads-u-margin-top--neg4"
       onSubmit={handlers.onSubmit}
     >
-      {createPortal(<NameTag />, document.querySelector('header'))}
+      <Portal target={header} prepend={false}>
+        <NameTag />
+      </Portal>
+
       <Link to={contactPath}>
         <va-icon
           icon="chevron_left"
