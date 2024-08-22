@@ -126,7 +126,7 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
-        {record.labtype && (
+        {record.labType && (
           <>
             <h3 className="vads-u-font-size--base vads-u-font-family--sans">
               Lab type
