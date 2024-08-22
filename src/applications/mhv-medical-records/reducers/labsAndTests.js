@@ -69,28 +69,37 @@ const distillChemHemNotes = (notes, valueProp) => {
  */
 const convertChemHemObservation = record => {
   const results = record.contained?.filter(
-    recordItem => recordItem.resourceType === 'Observation',
+    recordItem => recordItem.resourceType === fhirResourceTypes.OBSERVATION,
   );
-  return results?.filter(obs => obs.valueQuantity).map(result => {
-    const { observationValue, observationUnit } = getObservationValueWithUnits(
-      result,
-    );
-    const fixedObservationValue =
-      typeof observationValue === 'number'
-        ? observationValue.toFixed(1)
-        : observationValue;
-    let observationValueWithUnits = `${fixedObservationValue} ${observationUnit}`;
-    const interpretation = concatObservationInterpretations(result);
-    if (observationValueWithUnits && interpretation) {
-      observationValueWithUnits += ` (${interpretation})`;
+
+  return results?.map(result => {
+    let finalObservationValue = '';
+    let standardRange = null;
+    if (result.valueQuantity) {
+      const {
+        observationValue,
+        observationUnit,
+      } = getObservationValueWithUnits(result);
+      const fixedObservationValue =
+        typeof observationValue === 'number'
+          ? observationValue.toFixed(1)
+          : observationValue;
+      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
+      standardRange = isArrayAndHasItems(result.referenceRange)
+        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        : null;
     }
-    const standardRange = isArrayAndHasItems(result.referenceRange)
-      ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
-      : null;
+    if (result.valueString) {
+      finalObservationValue = result.valueString;
+    }
+    const interpretation = concatObservationInterpretations(result);
+    if (finalObservationValue && interpretation) {
+      finalObservationValue += ` (${interpretation})`;
+    }
 
     return {
       name: result.code.text,
-      result: observationValueWithUnits || EMPTY_FIELD,
+      result: finalObservationValue || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
       labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
