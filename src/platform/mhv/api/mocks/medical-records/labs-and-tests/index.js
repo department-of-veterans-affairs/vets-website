@@ -2502,7 +2502,7 @@ const all = {
             },
             effectiveDateTime: '1994-01-20T16:38:59-05:00',
             valueQuantity: {
-              value: 12.0,
+              value: 15.0,
               unit: 'g/dL',
             },
             note: [
