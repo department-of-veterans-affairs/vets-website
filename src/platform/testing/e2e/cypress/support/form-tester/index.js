@@ -356,7 +356,10 @@ function enterData(field) {
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
-          if (element.val()) cy.get(element).should('have.value', field.data);
+          // masked SSN appears on blur, so it won't match the field.data
+          if (element.val() && !element[0].classList.contains('masked-ssn')) {
+            cy.get(element).should('have.value', field.data);
+          }
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
         });

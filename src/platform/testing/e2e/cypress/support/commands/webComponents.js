@@ -41,7 +41,12 @@ Cypress.Commands.add('fillVaTextInput', (field, value) => {
       cy.get('@currentElement').type(strValue, FORCE_OPTION);
     }
 
-    cy.get('@currentElement').should('have.value', strValue);
+    cy.get('@currentElement').then($el => {
+      // masked SSN appears on blur, so it won't match the strValue
+      if (!$el.hasClass('masked-ssn')) {
+        cy.wrap($el).should('have.value', strValue);
+      }
+    });
   }
 });
 
