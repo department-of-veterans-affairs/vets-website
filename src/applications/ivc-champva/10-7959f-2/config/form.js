@@ -17,6 +17,8 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import FileFieldCustom from '../../shared/components/fileUploads/FileUpload';
+
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -27,10 +29,15 @@ import {
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
 import PaymentSelectionUI from '../components/PaymentSelection';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
 import { UploadDocuments } from '../components/UploadDocuments';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
+
+function FileFieldWrapped(props) {
+  return FileFieldCustom({ ...props, requiredFiles: [] });
+}
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -253,19 +260,40 @@ const formConfig = {
         page7: {
           path: 'upload-supporting-documents',
           title: 'Upload files',
+          CustomPage: FileFieldWrapped,
           uiSchema: {
-            ...titleUI('Upload billing statements and supporting documents'),
+            ...titleUI({
+              title: 'Upload billing statements and supporting documents',
+              headerLevel: 2,
+            }),
             'view:UploadDocuments': {
               'ui:description': UploadDocuments,
             },
+            uploadSection: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: true,
+            }),
           },
           schema: {
             type: 'object',
+            required: ['uploadSection'],
             properties: {
               titleSchema,
               'view:UploadDocuments': {
                 type: 'object',
                 properties: {},
+              },
+              uploadSection: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
               },
             },
           },

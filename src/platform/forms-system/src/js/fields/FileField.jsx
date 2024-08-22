@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaFileInputMultiple,
+  VaModal,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { toggleValues } from '../../../../site-wide/feature-toggles/selectors';
 import get from '../../../../utilities/data/get';
@@ -407,7 +410,16 @@ const FileField = props => {
 
   const uploadText = content[files.length > 0 ? 'uploadAnother' : 'upload'];
 
-  return (
+  return uiOptions.uswds && !formContext.reviewMode ? (
+    // Use v3 multi-file upload:
+    <VaFileInputMultiple
+      button-text="Upload your document"
+      onVaMultipleChange={e => onAddFile({ target: e.detail })}
+      accept={uiOptions.fileTypes.map(item => `.${item}`).join(',')}
+      errors={[]}
+      name="fileUpload"
+    />
+  ) : (
     <div
       className={
         formContext.reviewMode ? 'schemaform-file-upload-review' : undefined

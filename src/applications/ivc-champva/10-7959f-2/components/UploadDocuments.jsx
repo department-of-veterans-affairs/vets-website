@@ -4,7 +4,6 @@ export const UploadDocuments = () => {
   return (
     <>
       <div>
-        <h2>Upload your billing statement or receipts</h2>
         <h3>
           Upload proof that you paid the provider. This can be a receipt or a
           billing statement that’s marked as "paid." Make sure it includes this
@@ -19,7 +18,7 @@ export const UploadDocuments = () => {
       </div>
       <div>
         <h3>Supporting documents for certain claims</h3>
-        <p>
+        <p className="vad-u-margin-top--0ß">
           You’ll need to upload additional documents for these types of claims:
         </p>
         <ul>
@@ -27,6 +26,18 @@ export const UploadDocuments = () => {
           <li>Medical devices, equipment, and supplies</li>
           <li>Prescription medicines</li>
           <li>COVID-19 vaccines</li>
+        </ul>
+        <a href="https://www.va.gov/resources/how-to-file-a-va-foreign-medical-program-claim/#supporting-documents-to-send-w">
+          Find out which documents you need
+        </a>
+        <h3 className="vad-u-margin-top--0">How to upload files:</h3>
+        <ul>
+          <li>Use a .jpg, .pdf, or .png file</li>
+          <li>Make sure the file size is 10MB or less</li>
+          <li>
+            If you only have a paper copy, scan or take a photo and upload the
+            file
+          </li>
         </ul>
       </div>
     </>
