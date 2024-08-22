@@ -61,7 +61,7 @@ const FacilitySearch = props => {
         query,
       };
     },
-    [facilities, props, query],
+    [facilities, props],
   );
 
   const handleChange = e => {
