@@ -129,7 +129,7 @@ ${record.results} \n`;
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="pathology-lab-comments">{record.date}</p>
+        <p data-testid="date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>
