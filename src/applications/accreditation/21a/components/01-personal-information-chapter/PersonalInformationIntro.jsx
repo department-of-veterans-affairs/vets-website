@@ -3,8 +3,8 @@ import React from 'react';
 const PersonalInformationIntro = () => (
   <>
     <p>
-      Over the next few pages, we will ask you some personal information. You
-      will need to provide the following:
+      Over the next few pages, we will ask you for some personal information.
+      You will need to provide the following:
     </p>
     <ul>
       <li>

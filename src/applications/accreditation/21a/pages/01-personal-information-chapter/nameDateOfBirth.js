@@ -1,4 +1,3 @@
-import { cloneDeep } from 'lodash';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -6,11 +5,6 @@ import {
   fullNameUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-
-const fullNameMiddleRequiredWithHintUI = cloneDeep(fullNameUI());
-fullNameMiddleRequiredWithHintUI.middle['ui:required'] = () => true;
-fullNameMiddleRequiredWithHintUI.middle['ui:options'].hint =
-  'If you do not have a middle name, enter “N/A.”';
 
 /** @type {PageSchema} */
 export default {
@@ -21,7 +15,16 @@ export default {
       'Name and date of birth',
       'Use your legal name as it appears on your government documentation.',
     ),
-    fullName: fullNameMiddleRequiredWithHintUI,
+    fullName: {
+      ...fullNameUI(),
+      middle: {
+        ...fullNameUI().middle,
+        'ui:required': () => true,
+        'ui:options': {
+          hint: 'If you do not have a middle name, enter “N/A.”',
+        },
+      },
+    },
     dateOfBirth: dateOfBirthUI(),
   },
   schema: {
