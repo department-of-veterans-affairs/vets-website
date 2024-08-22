@@ -44,7 +44,10 @@ export const dateFormatWithoutTimezone = datetime => {
 
   const parsedDateTime = parseISO(withoutTimezone);
   if (isValid(parsedDateTime)) {
-    return dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    return formattedDate.replace(/AM|PM/, match =>
+      match.toLowerCase().replace('m', '.m.'),
+    );
   }
 
   return null;
