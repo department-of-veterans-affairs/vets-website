@@ -24,7 +24,9 @@ export default function cypressSetup({ user = mockUser } = {}) {
   cy.intercept('GET', '/v0/profile/status*', mockStatus);
   cy.intercept('GET', '/v0/user?now=*', mockUserUpdate);
   cy.intercept('GET', '/v0/user_transition_availabilities', mockUserAvail);
-  cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone);
+  cy.intercept('PUT', '/v0/profile/telephones', mockProfilePhone).as(
+    'telephones',
+  );
   cy.intercept('PUT', '/v0/profile/email_addresses', mockProfileEmail);
   cy.intercept('PUT', '/v0/profile/addresses', mockProfileAddress);
   cy.intercept(
