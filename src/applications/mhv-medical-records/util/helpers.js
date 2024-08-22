@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format as dateFnsFormat, parseISO } from 'date-fns';
+import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -35,12 +35,20 @@ export const dateFormatWithoutTimezone = datetime => {
       withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
     } else {
       // Handle the case where the datetime is just a date (e.g., "2000-08-09")
-      return moment(datetime).format('MMMM D, YYYY');
+      const parsedDate = parseISO(datetime);
+      if (isValid(parsedDate)) {
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+      }
     }
   }
-  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
-};
 
+  const parsedDateTime = parseISO(withoutTimezone);
+  if (isValid(parsedDateTime)) {
+    return dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+  }
+
+  return null;
+};
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
