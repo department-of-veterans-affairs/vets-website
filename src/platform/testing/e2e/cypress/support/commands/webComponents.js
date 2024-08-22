@@ -1,6 +1,24 @@
 const FORCE_OPTION = { force: true };
 const DELAY_OPTION = { force: true, delay: 100 };
 
+Cypress.Commands.add('selectVaButtonPairPrimary', field => {
+  const selector = `va-button-pair${field ? `[name="${field}"]` : ''}`;
+  cy.get(selector)
+    .shadow()
+    .find('va-button:not([secondary]):not([back])')
+    .first()
+    .click();
+});
+
+Cypress.Commands.add('selectVaButtonPairSecondary', field => {
+  const selector = `va-button-pair${field ? `[name="${field}"]` : ''}`;
+  cy.get(selector)
+    .shadow()
+    .find('va-button[secondary], va-button[back]')
+    .first()
+    .click();
+});
+
 Cypress.Commands.add('fillVaTextInput', (field, value) => {
   if (typeof value !== 'undefined') {
     const strValue = value.toString();
