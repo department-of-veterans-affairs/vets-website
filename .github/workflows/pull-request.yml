@@ -334,10 +334,11 @@ jobs:
         run: |
           CHANGED_FILES=""
           if [[ ${{ github.ref }} != 'refs/heads/main' ]]; then
-            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_ENV
           else
-            CHANGED_FILES=$(git diff --name-only origin/main...)
+            CHANGED_FILES=$(git diff --name-only origin/main...) >> $GITHUB_ENV
           fi
+          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
   
       - name: Extract codeowners for changed files
         run: |
