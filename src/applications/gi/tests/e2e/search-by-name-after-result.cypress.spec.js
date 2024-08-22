@@ -20,11 +20,60 @@ describe('go bill CT Rearch By Name After Result', () => {
       'Showing 183 search results for "Texas"',
     );
   });
-  it('should show Update Tuition accordion not expanded and when user click on it, it should expanded', () => {
-    cy.injectAxeThenAxeCheck();
-    cy.get(
-      'button[id="update-tuition,-housing,-and-monthly-benefit-estimates-accordion-button"]',
-    ).as('updateTuition');
-    cy.get('@updateTuition').should('not.have.attr', 'aria-expanded', 'true');
+  describe('Update tuition', () => {
+    const updateTuition =
+      'button[id="update-tuition,-housing,-and-monthly-benefit-estimates-accordion-button"]';
+    const learMore =
+      '[aria-label="Learn more about VA education and training programs"]';
+    it('should show Update Tuition accordion not expanded and when user click on it, it should expanded', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(updateTuition).should('not.have.attr', 'aria-expanded', 'true');
+      cy.get(updateTuition).click();
+      cy.get(updateTuition).should('have.attr', 'aria-expanded', 'true');
+    });
+    it('should show GI Bill benefit learn more link and a dropdown and also should show military status select dropdown', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(updateTuition).click();
+      cy.get('div > select[id="giBillChapter"]')
+        .as('giBillChapter')
+        .should('exist');
+      cy.get('@giBillChapter').select('33b');
+      cy.get(
+        'select[id="giBillChapter"] > [class="vads-u-font-weight--bold"]',
+      ).should('contain', 'Fry Scholarship (Ch 33)');
+      cy.get('div > select[id="militaryStatus"]')
+        .as('militaryStatus')
+        .should('exist');
+      cy.get('@militaryStatus').select('child');
+      cy.get(
+        'select[id="militaryStatus"] > [class="vads-u-font-weight--bold"]',
+      ).should('contain', 'Child');
+      cy.get(learMore).should('contain', 'Learn more');
+    });
+    //   it('should show popup about  GI Bill benefit when Learn more link is clicked and when x button click it should close modal', () => {
+    //     cy.injectAxeThenAxeCheck();
+    //     const modalAriaLabel =
+    //       '[aria-label="Which GI Bill benefit do you want to use? modal"]';
+    //     cy.get(updateTuition).click();
+    //     cy.get(learMore).click();
+    //     cy.get(`${modalAriaLabel} > div > div > div > h2`).should(
+    //       'contain',
+    //       'Which GI Bill benefit do you want to use?',
+    //     );
+    //     cy.get(`${modalAriaLabel} > div > button`).click();
+    //     cy.get(`${modalAriaLabel} > div > div > div > h2`).should('not.exist');
+    //   });
+    //   it('should cumulative Service select dropdown and learn more link and when link more is click popup should show', () => {
+    //     cy.injectAxeThenAxeCheck();
+    //     const learnMoreButton =
+    //       'button[aria-label="Learn more about Cumulative Post-9/11 service"]';
+    //     cy.get(updateTuition).click();
+    //     cy.get(learnMoreButton).should('exist');
+    //     cy.get('select[id="cumulativeService"]')
+    //       .as('dropdownSelect')
+    //       .should('exist');
+    //     cy.get('@dropdownSelect').select('0.9');
+    //     cy.get('@dropdownSelect').should('contain', '30 months: 90%');
+    //   });
   });
 });
