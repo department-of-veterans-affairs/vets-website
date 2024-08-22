@@ -417,7 +417,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level trace
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
@@ -1931,6 +1931,20 @@ jobs:
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
 
+  cd-prod-deploy:
+    name: CD Production Deploy
+    runs-on: ubuntu-latest
+    needs: [build, archive]
+    if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == true }}
+    steps:
+      - name: Run CD Production Deploy workflow
+        run: |
+          curl -X POST \
+          -H "Accept: application/vnd.github.v3+json" \
+          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          https://api.github.com/repos/${{ github.repository }}/dispatches \
+          -d '{"event_type":"cd-production-deploy", "client_payload": {"github_sha": "'"${{ github.sha }}"'"}}'
+          
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest

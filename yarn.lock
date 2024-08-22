@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^44.0.0":
-  version "44.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-44.0.0.tgz#298610380a275034c8d47eae2c0ef0d2b8525c07"
-  integrity sha512-KHcHgWK8aWIjkMe09eeBwN54R00aZZiqYJ+xR2j9PTGkPkjR5rTqUn3PrnUoI3UdExE5tgMyYZWewJITgHcAQw==
+"@department-of-veterans-affairs/component-library@^45.0.0":
+  version "45.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-45.0.0.tgz#1952e1f302f8acbdf4bad3685d7a7ce9aa4c3869"
+  integrity sha512-P9XBoofRjMDeZu3TVMGAZIcQv9JVKLLlDfGgDTdz7oDy8tsDEr3OIjyHT4B98iyUSNbm0iPxAblAPJGJDNpEkw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "12.0.0"
+    "@department-of-veterans-affairs/web-components" "13.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.9.1":
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.1.tgz#27178dec50f23e77d72781b55714d58e5df9e83d"
-  integrity sha512-r/quv9+ObHcoL5veLyJtcMXqGtdmQOdYYQZaxsHZb0RHX6+gdkYUGnOIKseaoTm9SqvkmcUUlude8eu+wV+arQ==
+"@department-of-veterans-affairs/generator-vets-website@^3.9.2":
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.2.tgz#c6a094a89f3f5c322db8fdc55a49b89ed554c800"
+  integrity sha512-+n1bZuDcTPGlx4ua9NFtpg314uyvLarmbcnFN0Sssij+STTLkyAInFUsO5YKO1vi7onf9ILCl35aEO4aJylnKg==
   dependencies:
-    chalk "^5.1.0"
+    chalk "^4.1.2"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -2960,10 +2960,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-12.0.0.tgz#46595e952fa0a997e835f913c0bceefb02d7d2db"
-  integrity sha512-rbOTVeOuu1jQ0qrpeMfNzKvWERH8oNzK8NSzkGs6hgxuLMjLU89OQhSU/TvRJKq34fnn7xGgkaEMiTn3ekoxDg==
+"@department-of-veterans-affairs/web-components@13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-13.0.0.tgz#e2803de492778a1209b34e5315c3d66caab9d85f"
+  integrity sha512-4L1x6fB27H56wcXVUhQj2mApWOfsZ/JX+8bHX35f2FGpDKFEh1EDEEB4VJ64b5uBedskGuWS2yMq8mv/3YFMcw==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
@@ -6911,11 +6911,6 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
     ansi-styles "^3.2.1"
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
-
-chalk@^5.1.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
-  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
 
 change-emitter@^0.1.2:
   version "0.1.6"

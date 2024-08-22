@@ -46,7 +46,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     selectFeatureMedReviewInstructions,
   );
 
-  let heading = 'Video appointment at VA location';
+  let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
   if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
