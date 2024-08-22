@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const vhaNotificationDescription = (
+export const optionIndicatorDescription = (
   <>
     <h3>
       Option to add indicator of certain upcoming claim and appeal events to
@@ -40,13 +40,13 @@ export const vhaNotificationDescription = (
   </>
 );
 
-export const vhaNotificationLabel =
+export const optionIndicatorLabel =
   'Do you give us permission to add an indicator about claim or appeal events to your VA medical record?';
 
-export const vhaNotificationHint =
+export const optionIndicatorHint =
   'Your answer won’t affect the status or decision for your claim. If you skip this question, we won’t add an indicator to your VA medical record.';
 
-export const vhaNotificationChoices = {
+export const optionIndicatorChoices = {
   yes: 'Yes',
   no: 'No',
   revoke:
