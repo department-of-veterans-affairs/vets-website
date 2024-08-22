@@ -17,7 +17,7 @@ const FileUpload = props => {
     error,
     label = 'Select files to upload',
     header = 'Select files to upload',
-    hint = 'You can upload a .pdf, .jpeg, or .png file.',
+    hint = 'You can upload a .pdf, .jpeg, or .png file that is less than 25 MB in size',
     showDescription = true,
     // success = null,
   } = props;
