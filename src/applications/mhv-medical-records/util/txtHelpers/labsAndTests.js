@@ -20,7 +20,11 @@ ${
           ? `${`
 Details about this test
 
-${'sampleTested' in record ? `Sample tested: ${record.sampleTested}` : ''}
+${
+              'sampleTested' in record
+                ? `Site or sample tested: ${record.sampleTested}`
+                : ''
+            }
 ${'reason' in record ? `Reason for test: ${record.reason}` : ''}
 ${
               'clinicalHistory' in record
@@ -73,7 +77,7 @@ ${
                             result =>
                               `\n\n${'name' in result ? `${result.name}` : ''}
 ${'result' in result ? `Result: ${result.result}` : ''}
-${'standardRange' in result ? `Standard range: ${result.standardRange}` : ''}
+${'standardRange' in result ? `Reference range: ${result.standardRange}` : ''}
 ${'status' in result ? `Staus: ${result.status}` : ''}
 ${'labComments' in result ? `Lab comments: ${result.labComments}` : ''}`,
                           )
@@ -84,7 +88,6 @@ ${'labComments' in result ? `Lab comments: ${result.labComments}` : ''}`,
             }`}\n`
           : `
 ${'date' in record ? `Date: ${record.date}` : ''}
-${'facility' in record ? `Location: ${record.facility}` : ''}
 ${'orderedBy' in record ? `Provider: ${record.orderedBy}` : ''}\n`
       }
 `,
