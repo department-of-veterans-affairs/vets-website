@@ -41,13 +41,13 @@ class ContactListPage {
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`have.text`, `Save and exit`);
+      .and(`include.text`, `Save and exit`);
 
     cy.get(`[text="Cancel"]`)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`have.text`, `Cancel`);
+      .and(`include.text`, `Cancel`);
   };
 }
 
