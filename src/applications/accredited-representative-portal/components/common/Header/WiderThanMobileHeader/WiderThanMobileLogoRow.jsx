@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 import UserNav from '../common/UserNav';
 
@@ -7,14 +6,17 @@ const WiderThanMobileLogoRow = () => {
   return (
     <div className="row va-flex usa-grid usa-grid-full va-header-logo-menu">
       <div className="va-header-logo-wrapper">
-        <Link data-testid="wider-than-mobile-logo-row-logo-link" to="/">
+        <a
+          data-testid="wider-than-mobile-logo-row-logo-link"
+          href="/representative"
+        >
           <img
             data-testid="wider-than-mobile-logo-row-logo"
             className="arp-logo"
             src="/img/arp-header-logo.png"
             alt="VA Accredited Representative Portal Logo, U.S. Department of Veterans Affairs"
           />
-        </Link>
+        </a>
       </div>
       <div className="medium-screen:vads-u-display--none usa-grid usa-grid-full">
         <div className="menu-rule usa-one-whole" />
