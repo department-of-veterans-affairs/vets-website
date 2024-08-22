@@ -9,7 +9,11 @@ export const uiSchema = {
     'Your mailing address',
     'We’ll send any important information about your form to this address.',
   ),
-  homeAddress: addressUI(),
+  homeAddress: addressUI({
+    labels: {
+      militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
+    },
+  }),
 };
 
 export const schema = {
