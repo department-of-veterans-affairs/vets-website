@@ -35,7 +35,9 @@ export const mockFacilitiesResponse = [
       code: 'NORMAL',
     },
     operationalHoursSpecialInstructions: null,
-    parentId: 'vha_757',
+    parent: {
+      id: 'vha_757',
+    },
     phone: {
       fax: '614-388-7565',
       main: '614-388-7650',
@@ -101,7 +103,9 @@ export const mockFacilitiesResponse = [
     operationalHoursSpecialInstructions: [
       'Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m.',
     ],
-    parentId: 'vha_757',
+    parent: {
+      id: 'vha_757',
+    },
     phone: {
       fax: '614-257-5460',
       main: '614-257-5200',
@@ -460,7 +464,9 @@ const fetchChildFacilityWithoutCaregiverSupport = {
     code: 'NORMAL',
   },
   operationalHoursSpecialInstructions: null,
-  parentId: 'vha_757',
+  parent: {
+    id: 'vha_757',
+  },
   phone: {
     fax: '614-388-7565',
     main: '614-388-7650',
@@ -543,7 +549,9 @@ const fetchParentFacility = {
   operationalHoursSpecialInstructions: [
     'Normal business hours are Monday through Friday, 8:00 a.m. to 4:30 p.m.',
   ],
-  parentId: 'vha_757',
+  parent: {
+    id: 'vha_757',
+  },
   phone: {
     fax: '614-257-5460',
     main: '614-257-5200',

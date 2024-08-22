@@ -27,14 +27,14 @@ const FacilitySearch = props => {
         }
 
         const loadedParent = facilities.find(
-          entry => entry.id === facility.parentId,
+          entry => entry.id === facility.parent.id,
         );
         if (loadedParent) {
           return loadedParent;
         }
 
         const parentFacilityResponse = await fetchFacilities({
-          id: facility.parentId,
+          id: facility.parent.id,
         });
         if (parentFacilityResponse.errorMessage) {
           setError(parentFacilityResponse.errorMessage);
