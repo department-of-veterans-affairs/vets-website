@@ -188,7 +188,7 @@ const OtherResources = () => {
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/gi-bill-comparison-tool/"
           hrefText="GI Bill Comparison Tool"
-          pText="Compare and calculate GI Bill benefits at VA approved schools."
+          pText="Compare and calculate GI Bill benefits at VA-approved schools."
         />
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/benefit-rates/"

@@ -63,24 +63,19 @@ export const getInitialFormValues = options => {
       inputPhoneNumber: '',
     };
 
-    initialFormValues = {
-      extension: '',
-      inputPhoneNumber: '',
-    };
+    if (data) {
+      const { extension, areaCode, phoneNumber } = data;
+      const inputPhoneNumber =
+        areaCode && phoneNumber
+          ? `${areaCode}${phoneNumber}`
+          : `${phoneNumber}`;
 
-    // if (data) {
-    //   const { extension, areaCode, phoneNumber } = data;
-    //   const inputPhoneNumber =
-    //     areaCode && phoneNumber
-    //       ? `${areaCode}${phoneNumber}`
-    //       : `${phoneNumber}`;
-
-    //   initialFormValues = {
-    //     ...data,
-    //     extension: extension || '',
-    //     inputPhoneNumber: '',
-    //   };
-    // }
+      initialFormValues = {
+        ...data,
+        extension: extension || '',
+        inputPhoneNumber,
+      };
+    }
 
     return initialFormValues;
   }
