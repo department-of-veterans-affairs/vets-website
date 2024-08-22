@@ -83,7 +83,9 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
  * URL.
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
  * the fetch request. Will be mixed with, and potentially override, the
- * defaultSettings
+ * defaultSettings. Also inappropriately stuffs a includeResponseInFailureRejection
+ * option not meant for fetch options but rather to configure the
+ * response handling behavior of this function.
  * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
  * the initial fetch request.
  * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
@@ -158,7 +160,9 @@ export function apiRequest(resource, optionalSettings, success, error) {
         }
       }
 
-      return data.then(Promise.reject.bind(Promise));
+      return optionalSettings?.includeResponseInFailureRejection
+        ? Promise.reject(response)
+        : data.then(Promise.reject.bind(Promise));
     })
     .then(success)
     .catch(error);
