@@ -335,7 +335,12 @@ jobs:
           if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
             CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           else
-            CHANGED_FILES=$(git diff --name-only origin/main...${{ github.sha }})
+            if git show-ref --verify --quiet refs/remotes/origin/main; then
+              CHANGED_FILES=$(git diff --name-only origin/main...${{ github.sha }})
+            else
+              echo "origin/main not found, using HEAD~1"
+              CHANGED_FILES=$(git diff --name-only HEAD~1...${{ github.sha }})
+            fi
           fi
           echo "changed_files=$CHANGED_FILES" >> $GITHUB_ENV
   
