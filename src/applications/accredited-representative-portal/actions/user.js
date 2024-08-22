@@ -21,25 +21,25 @@ export function fetchUser() {
        * function.
        */
       const serviceName = user?.profile?.signIn?.serviceName;
+      if (!serviceName)
+        throw new Error('Missing user with sign in service name.');
 
-      if (serviceName) {
-        // Needed for access token refreshing to function.
-        sessionStorage.setItem('serviceName', serviceName);
+      // Needed for access token refreshing to function.
+      sessionStorage.setItem('serviceName', serviceName);
 
-        dispatch({
-          type: FETCH_USER_SUCCESS,
-          payload: user,
-        });
-      } else {
-        dispatch({
-          type: FETCH_USER_FAILURE,
-          error: 'User not found',
-        });
-      }
-    } catch (error) {
+      dispatch({
+        type: FETCH_USER_SUCCESS,
+        payload: user,
+      });
+    } catch (e) {
+      const error =
+        e.errors?.[0]?.detail ||
+        e.message ||
+        'Unknown error while fetching user';
+
       dispatch({
         type: FETCH_USER_FAILURE,
-        error: error.errors || 'Unknown error',
+        error,
       });
     }
   };
