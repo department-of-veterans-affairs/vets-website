@@ -12,7 +12,7 @@ describe('Medical Records View Labs And Tests', () => {
     const record = labsAndTests.entry[2].resource;
     LabsAndTestsListPage.clickLabsAndTestsDetailsLink(4, labsAndTests.entry[2]);
     // The application looks at the loinc code and determines the lab title should be microbiology
-    MicrobiologyDetailsPage.verifyLabName('Microbiology');
+    MicrobiologyDetailsPage.verifyLabName('LR MICROBIOLOGY REPORT');
     // MicrobiologyDetailsPage.verifyLabDate('August 1, 1995');
     MicrobiologyDetailsPage.verifyLabDate(
       moment(record.effectiveDateTime).format('MMMM D, YYYY'),
