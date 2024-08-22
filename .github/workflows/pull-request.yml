@@ -338,7 +338,7 @@ jobs:
           else
             CHANGED_FILES=$(git diff --name-only origin/main...) >> $GITHUB_ENV
           fi
-          echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
+          echo "CHANGED_FILES=$CHANGED_FILES"
   
       - name: Extract codeowners for changed files
         run: |
