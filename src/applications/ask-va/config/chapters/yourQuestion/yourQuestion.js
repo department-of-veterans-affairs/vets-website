@@ -1,3 +1,4 @@
+import VaTextareaField from 'platform/forms-system/src/js/web-component-fields/VaTextareaField';
 import FileUpload from '../../../components/FileUpload';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';
@@ -49,7 +50,15 @@ const yourQuestionPage = {
     },
     question: {
       'ui:title': CHAPTER_2.PAGE_3.QUESTION_1,
-      'ui:widget': 'textarea',
+      'ui:webComponentField': VaTextareaField,
+      'ui:required': () => true,
+      'ui:errorMessages': {
+        required: 'Please let us know what your question is about.',
+      },
+      'ui:options': {
+        required: true,
+        useFormsPattern: 'single',
+      },
     },
     fileUpload: {
       'ui:title': 'Upload your file',
@@ -73,7 +82,7 @@ const yourQuestionPage = {
   },
   schema: {
     type: 'object',
-    required: ['question'],
+    required: [],
     properties: {
       subject: {
         type: 'string',

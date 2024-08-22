@@ -51,10 +51,6 @@ const generateFeatureToggles = (toggles = {}) => {
           value: true,
         },
         {
-          name: 'mhv_medical_records_mock_phr',
-          value: true,
-        },
-        {
           name: 'mhv_transitional_medical_records_landing_page',
           value: mhvTransitionalMedicalRecordsLandingPage,
         },

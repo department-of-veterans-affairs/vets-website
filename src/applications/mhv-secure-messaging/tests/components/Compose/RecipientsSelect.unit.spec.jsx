@@ -55,8 +55,12 @@ describe('RecipientsSelect', () => {
 
   it('calls the onValueChange callback when a recipient is selected', async () => {
     const onValueChange = sinon.spy();
+    const setCheckboxMarked = sinon.spy();
+    const setElectronicSignature = sinon.spy();
     const customProps = {
       onValueChange,
+      setCheckboxMarked,
+      setElectronicSignature,
     };
     const screen = setup({ props: customProps });
     const val = recipientsList[0].id;

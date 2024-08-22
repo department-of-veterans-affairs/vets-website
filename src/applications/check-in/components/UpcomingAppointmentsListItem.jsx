@@ -1,5 +1,4 @@
-import React, { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 
@@ -9,7 +8,6 @@ import {
   getAppointmentId,
 } from '../utils/appointment';
 import { APP_NAMES } from '../utils/appConstants';
-import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useFormRouting } from '../hooks/useFormRouting';
 
 import AppointmentMessage from './AppointmentDisplay/AppointmentMessage';
@@ -17,15 +15,12 @@ import UpcomingAppointmentsListItemAction from './UpcomingAppointmentsListItemAc
 
 const UpcomingAppointmentsListItem = props => {
   const { app, appointment, goToDetails, router, border, count } = props;
-  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
-  const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const { t } = useTranslation();
   const { getCurrentPageFromRouter } = useFormRouting(router);
   const page = getCurrentPageFromRouter();
   const appointmentDateTime = new Date(appointment.startTime);
   const clinic = clinicName(appointment);
   const isCancelled = appointment.status?.includes('CANCELLED');
-
   const appointmentInfo = () => {
     if (appointment?.kind === 'vvc') {
       return <div data-testid="appointment-info-vvc">{t('video')}</div>;
@@ -111,7 +106,7 @@ const UpcomingAppointmentsListItem = props => {
           {t('details')}
         </a>
         {app === APP_NAMES.CHECK_IN &&
-          !isUpcomingAppointmentsEnabled && (
+          page === 'appointments' && (
             <div data-testid="appointment-action">
               <AppointmentMessage appointment={appointment} page={page} />
               <UpcomingAppointmentsListItemAction
