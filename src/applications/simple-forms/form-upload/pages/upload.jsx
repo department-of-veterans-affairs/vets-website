@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   fileInputUI,
   fileInputSchema,
@@ -5,63 +6,50 @@ import {
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   UPLOAD_GUIDELINES,
-  ALERT_TOO_MANY_PAGES,
-  ALERT_TOO_FEW_PAGES,
-  ALERT_WRONG_FORM,
+  FORM_UPLOAD_OCR_ALERT,
+  FORM_UPLOAD_INSTRUCTION_ALERT,
 } from '../config/constants';
 import { getFormContent, getPdfDownloadUrl, onCloseAlert } from '../helpers';
+import { CustomAlertPage } from './helpers';
 
 const { formNumber, title } = getFormContent();
+const fileUploadUrl = `${
+  environment.API_URL
+}/simple_forms_api/v1/scanned_form_upload`;
+const warningsPresent = formData => formData.uploadedFile?.warnings?.length > 0;
 
 export const uploadPage = {
   uiSchema: {
     'view:uploadGuidelines': {
       'ui:description': UPLOAD_GUIDELINES,
+      'ui:options': {
+        updateUiSchema: formData => {
+          return {
+            'ui:description': warningsPresent(formData) ? (
+              <h3>Your file</h3>
+            ) : (
+              UPLOAD_GUIDELINES
+            ),
+          };
+        },
+      },
     },
     uploadedFile: {
       ...fileInputUI({
         errorMessages: { required: `Upload a completed VA Form ${formNumber}` },
         name: 'form-upload-file-input',
-        fileUploadUrl: `${
-          environment.API_URL
-        }/simple_forms_api/v1/scanned_form_upload`,
+        fileUploadUrl,
         title,
         formNumber,
         required: () => true,
+        updateUiSchema: formData => {
+          return {
+            'ui:title': warningsPresent(formData)
+              ? title.replace('Upload ', '')
+              : title,
+          };
+        },
       }),
-    },
-    'view:alertTooManyPages': {
-      'ui:description': ALERT_TOO_MANY_PAGES(
-        formNumber,
-        getPdfDownloadUrl(formNumber),
-        onCloseAlert,
-      ),
-      'ui:options': {
-        hideIf: formData =>
-          !formData.uploadedFile?.warnings?.includes('too_many_pages'),
-      },
-    },
-    'view:alertTooFewPages': {
-      'ui:description': ALERT_TOO_FEW_PAGES(
-        formNumber,
-        getPdfDownloadUrl(formNumber),
-        onCloseAlert,
-      ),
-      'ui:options': {
-        hideIf: formData =>
-          !formData.uploadedFile?.warnings?.includes('too_few_pages'),
-      },
-    },
-    'view:alertWrongForm': {
-      'ui:description': ALERT_WRONG_FORM(
-        formNumber,
-        getPdfDownloadUrl(formNumber),
-        onCloseAlert,
-      ),
-      'ui:options': {
-        hideIf: formData =>
-          !formData.uploadedFile?.warnings?.includes('wrong_form'),
-      },
     },
   },
   schema: {
@@ -72,19 +60,21 @@ export const uploadPage = {
         properties: {},
       },
       uploadedFile: fileInputSchema,
-      'view:alertTooManyPages': {
-        type: 'object',
-        properties: {},
-      },
-      'view:alertTooFewPages': {
-        type: 'object',
-        properties: {},
-      },
-      'view:alertWrongForm': {
-        type: 'object',
-        properties: {},
-      },
     },
     required: ['uploadedFile'],
   },
 };
+
+/** @type {CustomPageType} */
+export function UploadPage(props) {
+  const warnings = props.data?.uploadedFile?.warnings;
+  const alert = warnings
+    ? FORM_UPLOAD_OCR_ALERT(
+        formNumber,
+        getPdfDownloadUrl(formNumber),
+        onCloseAlert,
+        warnings,
+      )
+    : FORM_UPLOAD_INSTRUCTION_ALERT(onCloseAlert);
+  return <CustomAlertPage {...props} alert={alert} />;
+}

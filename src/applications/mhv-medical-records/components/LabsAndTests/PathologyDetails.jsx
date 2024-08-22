@@ -119,10 +119,6 @@ ${record.results} \n`;
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Type of test
-        </h3>
-        <p data-testid="pathology-category">{record.category}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Site or sample tested
         </h3>
         <p data-testid="pathology-sample-tested">{record.sampleTested}</p>

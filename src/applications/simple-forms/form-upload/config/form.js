@@ -4,7 +4,7 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { uploadPage } from '../pages/upload';
+import { uploadPage, UploadPage } from '../pages/upload';
 import {
   NameAndZipCodePage,
   nameAndZipCodePage,
@@ -85,7 +85,7 @@ const formConfig = (pathname = null) => {
             title: 'Upload Your File',
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
-            pageClass: 'upload',
+            CustomPage: UploadPage,
             scrollAndFocusTarget,
           },
         },
