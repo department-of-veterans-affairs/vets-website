@@ -94,22 +94,22 @@ const UpcomingAppointmentsPage = props => {
   } else {
     body = (
       <>
-        <va-alert-expandable
-          status="warning"
-          trigger={t('we-cant-show-all-information')}
-        >
-          <p>{t('some-appointment-information-not-available')}</p>
-          {/* Slotted p tags can't have margin for some reason. */}
-          <br />
-          <p>
-            {t('find-all-appointment-information', {
-              type:
-                app === APP_NAMES.PRE_CHECK_IN
-                  ? t('reviewing-information-first')
-                  : t('checking-in-first'),
-            })}
-          </p>
-        </va-alert-expandable>
+        {upcomingAppointments.length && (
+          <va-alert-expandable
+            status="warning"
+            trigger={t('we-cant-show-all-information')}
+            data-testid="info-warning"
+          >
+            <p>{t('some-appointment-information-not-available')}</p>
+            {/* Slotted p tags can't have margin for some reason. */}
+            <br />
+            <p>
+              {APP_NAMES.PRE_CHECK_IN
+                ? t('find-all-appointment-information-check-in')
+                : t('find-all-appointment-information-pre-check-in')}
+            </p>
+          </va-alert-expandable>
+        )}
         <UpcomingAppointmentsList
           router={router}
           app={app}

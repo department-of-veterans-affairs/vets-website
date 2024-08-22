@@ -440,7 +440,6 @@
   "find-out-how-to-check-in-opens-in-new-tab": "Find out how to check in (opens in new tab)",
   "we-cant-show-all-information": "We can’t show all your information right now",
   "some-appointment-information-not-available": "Some of your appointment information is not available right now.",
-  "find-all-appointment-information": "To find all your appointment information, finish {{ type }} first. Then go to appointments on VA.gov.",
-  "checking-in-first": "checking in for this appointment",
-  "reviewing-information-first": "reviewing your contact information"
+  "find-all-appointment-information-check-in": "To find all your appointment information, finish checking in for this appointment first. Then go to appointments on VA.gov.",
+  "find-all-appointment-information-pre-check-in": "To find all your appointment information, finish reviewing your contact information first. Then go to appointments on VA.gov."
 }

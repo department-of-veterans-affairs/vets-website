@@ -178,5 +178,33 @@ describe('unified check-in experience', () => {
       sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
+    it('shows alert message when there are upcoming appointments', () => {
+      const { getByTestId } = render(
+        <CheckInProvider
+          store={{
+            upcomingAppointments: multipleAppointments,
+            features: appointmentsOn,
+          }}
+        >
+          <UpcomingAppointmentsPage />
+        </CheckInProvider>,
+      );
+
+      expect(getByTestId('info-warning')).to.exist;
+    });
+    it('does not show alert message when there are upcoming appointments', () => {
+      const { queryByTestId } = render(
+        <CheckInProvider
+          store={{
+            upcomingAppointments: [],
+            features: appointmentsOn,
+          }}
+        >
+          <UpcomingAppointmentsPage />
+        </CheckInProvider>,
+      );
+
+      expect(queryByTestId('info-warning')).to.not.exist;
+    });
   });
 });

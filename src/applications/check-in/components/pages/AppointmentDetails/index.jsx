@@ -294,11 +294,9 @@ const AppointmentDetails = props => {
                     {/* Slotted p tags can't have margin for some reason. */}
                     <br />
                     <p>
-                      {t('find-all-appointment-information', {
-                        type: APP_NAMES.PRE_CHECK_IN
-                          ? t('reviewing-information-first')
-                          : t('checking-in-first'),
-                      })}
+                      {APP_NAMES.PRE_CHECK_IN
+                        ? t('find-all-appointment-information-check-in')
+                        : t('find-all-appointment-information-pre-check-in')}
                     </p>
                   </va-alert-expandable>
                 )}
