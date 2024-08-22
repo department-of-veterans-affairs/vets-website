@@ -8,14 +8,13 @@ import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
 
 describe('Reply with attachments', () => {
-  const messageDetailsPage = new PatientMessageDetailsPage();
   const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientMessageDetailsPage.loadMessageDetails(testMessage);
+    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
@@ -38,7 +37,9 @@ describe('Reply with attachments', () => {
   it('verify attachments info', () => {
     const optList = Data.ATTACH_INFO;
 
-    cy.get(Locators.INFO.ATTACH_INFO).click({ force: true });
+    cy.get(Locators.INFO.ADDITIONAL_INFO)
+      .contains(`attaching`)
+      .click({ force: true });
     PatientComposePage.verifyAttachmentInfo(optList);
 
     cy.injectAxe();
@@ -50,18 +51,20 @@ describe('Reply with attachments', () => {
     PatientComposePage.removeAttachedFile();
 
     cy.get(Locators.BLOCKS.ATTACHMENTS).should('not.be.visible');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
 
 describe('verify attach file button behaviour', () => {
-  const messageDetailsPage = new PatientMessageDetailsPage();
   const testMessage = PatientInboxPage.getNewMessageDetails();
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
 
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientMessageDetailsPage.loadMessageDetails(testMessage);
+    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });

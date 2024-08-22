@@ -5,9 +5,13 @@ import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
-
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
+
+import {
+  fetchPersonalInformation,
+  fetchDirectDeposit,
+  fetchDuplicateContactInfo,
+} from '../actions';
 import { mapFormSponsors } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
@@ -15,10 +19,14 @@ import { getAppData } from '../selectors';
 function ToeApp({
   children,
   dob,
+  duplicateEmail,
+  duplicatePhone,
   formData,
   getDirectDeposit,
+  getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
+  isLoggedIn,
   location,
   setFormData,
   sponsors,
@@ -29,6 +37,7 @@ function ToeApp({
   showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
+  toeDupContactInfoCall,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
@@ -72,7 +81,7 @@ function ToeApp({
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
@@ -126,15 +135,49 @@ function ToeApp({
           showMebEnhancements08,
         });
       }
-      if (
-        toeLightHouseDgiDirectDeposit !==
-        formData?.toeLightHouseDgiDirectDeposit
-      ) {
-        setLighthouseFlag(true);
 
+      if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
-          toeLightHouseDgiDirectDeposit,
+          toeDupContactInfoCall,
+        });
+      }
+
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
+        formData?.toeDupContactInfoCall
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
+        );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
+        setFormData({
+          ...formData,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
         });
       }
     },
@@ -142,8 +185,27 @@ function ToeApp({
       formData,
       setFormData,
       showMebEnhancements08,
-      toeLightHouseDgiDirectDeposit,
+      toeDupContactInfoCall,
+      duplicateEmail,
+      duplicatePhone,
+      getDuplicateContactInfo,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
+      ) {
+        setLighthouseFlag(true);
+        setFormData({
+          ...formData,
+          toeLightHouseDgiDirectDeposit,
+        });
+      }
+    },
+    [formData, setFormData, toeLightHouseDgiDirectDeposit],
   );
 
   useEffect(
@@ -152,16 +214,19 @@ function ToeApp({
         return;
       }
 
-      if (!fetchedDirectDeposit && lightHouseFlag) {
+      if (!fetchedDirectDeposit && lightHouseFlag && isLoggedIn && isLOA3) {
         setFetchedDirectDeposit(true);
         getDirectDeposit(formData?.toeLightHouseDgiDirectDeposit);
       }
     },
     [
+      isLoggedIn,
+      isLOA3,
       fetchedDirectDeposit,
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
+      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
@@ -226,18 +291,25 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
+  isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
+  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
+  showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
+  toeDupContactInfoCall: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -262,6 +334,7 @@ const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(

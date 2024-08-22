@@ -2,22 +2,51 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
-  isFirstConferenceTimeEmpty,
+  validateConferenceChoice,
   checkConferenceTimes,
   validatePhone,
   contactInfoValidation,
 } from '../../validations';
-import { errorMessages } from '../../constants';
 
-describe('isFirstConferenceTimeEmpty', () => {
-  const setTime = time1 => ({ informalConferenceTimes: { time1 } });
-  it('should return true if empty', () => {
-    expect(isFirstConferenceTimeEmpty({})).to.be.true;
-    expect(isFirstConferenceTimeEmpty(setTime())).to.be.true;
-    expect(isFirstConferenceTimeEmpty(setTime(''))).to.be.true;
+import { errorMessages } from '../../constants';
+import sharedErrorMessages from '../../../shared/content/errorMessages';
+
+describe('validateConferenceChoice', () => {
+  const setVal = ({ conf, choice, toggle = false } = {}) => ({
+    informalConference: conf,
+    informalConferenceChoice: choice,
+    hlrUpdatedContent: toggle,
   });
-  it('should return false if not empty', () => {
-    expect(isFirstConferenceTimeEmpty(setTime('foo'))).to.be.false;
+  it('should not log error if errors function is missing', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(null, '', setVal());
+    expect(errors.addError.notCalled).to.be.true;
+  });
+  it('should not add error if set to "rep"', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(errors, '', setVal({ conf: 'rep' }));
+    expect(errors.addError.notCalled).to.be.true;
+  });
+  it('should add error if value is empty', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(errors, '', setVal());
+    expect(
+      errors.addError.calledWith(errorMessages.informalConferenceContactChoice),
+    ).to.be.true;
+  });
+  it('should add error if set to "yes" (hlr update value)', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(errors, '', setVal({ conf: 'yes' }));
+    expect(
+      errors.addError.calledWith(errorMessages.informalConferenceContactChoice),
+    ).to.be.true;
+  });
+
+  it('should add HLR update error if value is empty', () => {
+    const errors = { addError: sinon.spy() };
+    validateConferenceChoice(errors, '', setVal({ conf: '', toggle: true }));
+    expect(errors.addError.calledWith(sharedErrorMessages.requiredYesNo)).to.be
+      .true;
   });
 });
 

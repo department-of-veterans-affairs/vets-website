@@ -6,6 +6,7 @@ export const DOC_TITLE =
 
 export const TASK_KEYS = {
   addChild: 'addChild',
+  addDisabledChild: 'addDisabledChild',
   addSpouse: 'addSpouse',
   reportDivorce: 'reportDivorce',
   reportDeath: 'reportDeath',
@@ -25,3 +26,7 @@ export const MARRIAGE_TYPES = {
 };
 
 export const NETWORTH_VALUE = '155,356';
+
+export const FORMAT_YMD_DATE_FNS = 'yyyy-MM-dd';
+export const FORMAT_COMPACT_DATE_FNS = 'MMM d, yyyy';
+export const FORMAT_READABLE_DATE_FNS = 'MMMM d, yyyy';

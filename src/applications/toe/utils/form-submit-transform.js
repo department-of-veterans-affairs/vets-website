@@ -395,7 +395,7 @@ export function transformTOEForm(_formConfig, form) {
         addressLine2: form?.data['view:mailingAddress']?.address?.street2,
         city: form?.data['view:mailingAddress']?.address?.city,
         zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
-        emailAddress: form?.data?.email?.email,
+        emailAddress: form?.data?.email?.email?.toLowerCase(),
         addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
           ? 'MILITARY_OVERSEAS'
           : 'DOMESTIC',

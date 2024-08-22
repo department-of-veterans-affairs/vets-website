@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import * as Sentry from '@sentry/browser';
 
 import { apiRequest } from 'platform/utilities/api';
@@ -7,19 +7,21 @@ import { focusElement } from 'platform/utilities/ui';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import { DOWNLOAD_ERRORS_BY_CODE } from '../utils/constants';
-import { submitTransform } from '../utils/helpers';
+import submitTransformer from '../config/submit-transformer';
 import formConfig from '../config/form';
+import content from '../locales/en/content.json';
 
 const apiURL = `${
   environment.API_URL
 }/v0/caregivers_assistance_claims/download_pdf`;
 
-const ApplicationDownloadLink = ({ form }) => {
+const ApplicationDownloadLink = () => {
   const [loading, isLoading] = useState(false);
   const [errors, setErrors] = useState([]);
 
   // define local use variables
-  const formData = submitTransform(formConfig, form);
+  const form = useSelector(state => state.form);
+  const formData = submitTransformer(formConfig, form);
   const { veteranFullName: name } = form.data;
 
   // fetch a custom error message based on status code
@@ -85,8 +87,8 @@ const ApplicationDownloadLink = ({ form }) => {
   if (loading) {
     return (
       <va-loading-indicator
-        label="Loading application"
-        message="Preparing your application for download..."
+        label={content['app-loading-text']}
+        message={content['app-download--loading-text']}
       />
     );
   }
@@ -96,9 +98,7 @@ const ApplicationDownloadLink = ({ form }) => {
     return (
       <div className="caregiver-download-error">
         <va-alert status="error" uswds>
-          <h3 slot="headline" className="vads-u-font-size--h4">
-            Something went wrong
-          </h3>
+          <h4 slot="headline">{content['alert-heading--generic']}</h4>
           {errorMessage()}
         </va-alert>
       </div>
@@ -107,17 +107,13 @@ const ApplicationDownloadLink = ({ form }) => {
 
   return (
     <va-link
-      onClick={e => fetchPdf(e)}
+      text={content['button-download']}
+      onClick={fetchPdf}
+      filetype="PDF"
       href="#"
       download
-      filetype="PDF"
-      text="Download your completed application"
     />
   );
-};
-
-ApplicationDownloadLink.propTypes = {
-  form: PropTypes.object,
 };
 
 export default ApplicationDownloadLink;

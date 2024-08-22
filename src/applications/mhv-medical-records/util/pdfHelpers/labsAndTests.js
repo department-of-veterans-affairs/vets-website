@@ -27,7 +27,7 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Collecting location',
+        title: 'Location',
         value: record.collectingLocation,
         inline: true,
       },
@@ -79,13 +79,22 @@ export const generateMicrobioContent = record => ({
     header: 'Details about this test',
     sectionSeparators: true,
     items: [
+      ...(record.labType
+        ? [
+            {
+              title: 'Lab type',
+              value: record.labType,
+              inline: true,
+            },
+          ]
+        : []),
       {
-        title: 'Sample tested',
+        title: 'Site or sample tested',
         value: record.sampleTested,
         inline: true,
       },
       {
-        title: 'Sample from',
+        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },
@@ -95,23 +104,13 @@ export const generateMicrobioContent = record => ({
         inline: true,
       },
       {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
-        title: 'Collecting location',
+        title: 'Location',
         value: record.collectingLocation,
         inline: true,
       },
       {
-        title: 'Lab location',
-        value: record.labLocation,
-        inline: true,
-      },
-      {
         title: 'Date completed',
-        value: record.date,
+        value: record.dateCompleted,
         inline: true,
       },
     ],

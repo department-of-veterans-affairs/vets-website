@@ -215,23 +215,36 @@ class ReviewCollapsibleChapter extends React.Component {
           {!editing ? (
             <div />
           ) : (
-            <ProgressButton
-              submitButton
-              onButtonClick={() => {
-                // recheck _all_ validations after the user clicks the
-                // update page button - needed to dynamically update
-                // accordion headers
-                // this.checkValidation();
-                focusOnChange(
-                  `${page.pageKey}${
-                    typeof page.index === 'number' ? page.index : ''
-                  }`,
-                );
-              }}
-              buttonText="Update page"
-              buttonClass="usa-button-primary"
-              ariaLabel={ariaLabel}
-            />
+            <div className="vads-u-display--flex vads-u-max-width--100">
+              <ProgressButton
+                submitButton
+                onButtonClick={() => {
+                  // recheck _all_ validations after the user clicks the
+                  // update page button - needed to dynamically update
+                  // accordion headers
+                  // this.checkValidation();
+                  focusOnChange(
+                    `${page.pageKey}${
+                      typeof page.index === 'number' ? page.index : ''
+                    }`,
+                  );
+                }}
+                buttonText="Save"
+                buttonClass="usa-button-primary vads-u-width--auto"
+                ariaLabel={ariaLabel}
+              />
+              <button
+                aria-label="Cancel"
+                type="button"
+                id="cancel"
+                className="usa-button-secondary vads-u-width--auto"
+                onClick={() =>
+                  this.handleEdit(page.pageKey, !editing, page.index)
+                }
+              >
+                Cancel
+              </button>
+            </div>
           )}
         </SchemaForm>
         {arrayFields.map(arrayField => (
@@ -307,7 +320,7 @@ class ReviewCollapsibleChapter extends React.Component {
     return (
       <page.CustomPageReview
         key={`${page.pageKey}Review`}
-        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
+        editPage={() => this.handleEdit(page.pageKey, false, page.index)}
         name={page.pageKey}
         title={page.title}
         data={props.form.data}

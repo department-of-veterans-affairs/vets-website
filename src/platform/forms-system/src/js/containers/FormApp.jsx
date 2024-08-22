@@ -136,7 +136,7 @@ FormApp.propTypes = {
     CustomTopContent: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
   }),
   formData: PropTypes.shape({}),
-  inProgressFormId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  inProgressFormId: PropTypes.number,
   isLoggedIn: PropTypes.bool,
 };
 

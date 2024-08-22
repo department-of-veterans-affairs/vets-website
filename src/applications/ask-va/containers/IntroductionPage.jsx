@@ -23,7 +23,7 @@ import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, toggleLoginModal } = props;
+  const { route, toggleLoginModal, loggedIn } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
@@ -41,7 +41,7 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.va-nav-breadcrumbs-list');
+      focusElement('.schemaform-title > h1');
     },
     [props],
   );
@@ -156,19 +156,15 @@ const IntroductionPage = props => {
         visible
         uswds
       >
-        <h3 slot="headline">Sign in to ask a question</h3>
+        <h4 slot="headline">Sign in to ask a question</h4>
         <div>
           <p className="vads-u-margin-top--0">
             You’ll need to sign in with a verified{' '}
             <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account or a
             Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            or{' '}
-            <span className="vads-u-font-weight--bold">
-              My HealtheVet account.
-            </span>{' '}
-            If you don’t have any of those accounts, you can create a free{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            account. If you don’t have any of those accounts, you can create a
+            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account now.
           </p>
           <VaButton
@@ -218,7 +214,7 @@ const IntroductionPage = props => {
       </ul>
 
       <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Reference number</p>
+      <p className="vads-u-margin--0">Enter your reference number</p>
       <VaSearchInput
         label="Reference number"
         value={searchReferenceNumber}

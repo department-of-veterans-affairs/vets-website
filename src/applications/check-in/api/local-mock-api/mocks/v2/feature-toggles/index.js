@@ -3,11 +3,11 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
-    checkInExperienceTranslationDislaimerTagalogEnabled = true,
+    checkInExperienceTranslationDisclaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
-    checkInExperience45MinuteReminder = true,
     checkInExperienceBrowserMonitoring = false,
-    checkInExperienceUnifiedLandingPage = false,
+    checkInExperienceUpcomingAppointmentsEnabled = false,
+    checkInExperienceMedicationReviewContent = true,
   } = toggles;
 
   return {
@@ -28,23 +28,23 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'check_in_experience_translation_disclaimer_tagalog_enabled',
-          value: checkInExperienceTranslationDislaimerTagalogEnabled,
+          value: checkInExperienceTranslationDisclaimerTagalogEnabled,
         },
         {
           name: 'check_in_experience_travel_reimbursement',
           value: checkInExperienceTravelReimbursement,
         },
         {
-          name: 'check_in_experience_45_minute_reminder',
-          value: checkInExperience45MinuteReminder,
-        },
-        {
           name: 'check_in_experience_browser_monitoring',
           value: checkInExperienceBrowserMonitoring,
         },
         {
-          name: 'check_in_experience_unified_landing_page',
-          value: checkInExperienceUnifiedLandingPage,
+          name: 'check_in_experience_upcoming_appointments_enabled',
+          value: checkInExperienceUpcomingAppointmentsEnabled,
+        },
+        {
+          name: 'check_in_experience_medication_review_content',
+          value: checkInExperienceMedicationReviewContent,
         },
       ],
     },

@@ -1,4 +1,3 @@
-// import fullSchema from 'vets-json-schema/dist/10-10CG-schema.json';
 import {
   titleUI,
   selectUI,
@@ -9,8 +8,9 @@ import {
   MED_CENTERS_BY_STATE,
   STATE_LABELS,
 } from '../../../utils/constants';
+import { setPlannedClinics } from '../../../utils/helpers/schema';
+import { fullSchema } from '../../../utils/imports';
 import content from '../../../locales/en/content.json';
-import fullSchema from '../../10-10CG-schema.json';
 
 const { veteran } = fullSchema.properties;
 const { plannedClinic } = veteran.properties;
@@ -29,12 +29,7 @@ const vaMedicalCenterJson = {
     veteranPlannedClinic: selectUI({
       title: content['vet-info-title--facility'],
       labels: MED_CENTER_LABELS,
-      updateSchema: formData => {
-        const state = formData['view:plannedClinicState'];
-        return state
-          ? { enum: MED_CENTERS_BY_STATE[state] || [] }
-          : { enum: [] };
-      },
+      updateSchema: setPlannedClinics,
     }),
   },
   schema: {

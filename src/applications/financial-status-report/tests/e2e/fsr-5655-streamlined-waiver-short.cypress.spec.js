@@ -22,7 +22,7 @@ const testConfig = createTestConfig(
 
     setupPerTest: () => {
       sessionStorage.setItem(WIZARD_STATUS, WIZARD_STATUS_COMPLETE);
-      cy.intercept('GET', '/v0/feature_toggles*', {
+      cy.intercept('GET', '/v0/feature_toggles**', {
         data: {
           features: [
             { name: 'show_financial_status_report_wizard', value: true },
@@ -31,11 +31,7 @@ const testConfig = createTestConfig(
         },
       });
 
-      cy.intercept(
-        'GET',
-        'income_limits/v1/limitsByZipCode/94608/2023/2',
-        incomeLimit,
-      );
+      cy.intercept('GET', 'income_limits/v1/limitsByZipCode/**', incomeLimit);
 
       cy.intercept('GET', '/v0/maintenance_windows', []);
       cy.intercept('GET', 'v0/user_transition_availabilities', {
@@ -47,6 +43,10 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(testData => {
         cy.intercept('PUT', '/v0/in_progress_forms/5655', testData);
         cy.intercept('GET', '/v0/in_progress_forms/5655', saveInProgress);
+      });
+
+      cy.intercept('POST', '/debts_api/v0/calculate_monthly_income', {
+        totalMonthlyNetIncome: 0.0,
       });
 
       cy.intercept('GET', '/v0/debts', debts);
@@ -83,7 +83,7 @@ const testConfig = createTestConfig(
           cy.get('va-button[data-testid="custom-button-group-button"]')
             .shadow()
             .find('button:contains("Continue")')
-            .click();
+            .click({ force: true });
         });
       },
       'dependent-ages': ({ afterHook }) => {

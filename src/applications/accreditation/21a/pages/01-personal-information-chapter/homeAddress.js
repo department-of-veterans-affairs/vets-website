@@ -10,7 +10,9 @@ export default {
   path: 'home-address',
   uiSchema: {
     ...titleUI('Home address'),
-    homeAddress: addressUI(),
+    homeAddress: addressUI({
+      omit: ['street3'],
+    }),
   },
   schema: {
     type: 'object',

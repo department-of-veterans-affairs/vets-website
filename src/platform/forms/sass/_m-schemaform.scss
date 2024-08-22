@@ -186,10 +186,6 @@ label {
   margin-top: 2em;
 }
 
-.nav-header-schemaform {
-  margin-top: 1em !important;
-}
-
 .progress-box-schemaform {
   margin-top: 0;
   padding-top: 0;
@@ -740,3 +736,22 @@ va-checkbox.statement-of-truth-va-checkbox::part(checkbox) {
 .rjsf-web-component-field[error]:not([error=""]) {
   margin-top: 1.5rem;
 }
+
+.usa-hint {
+  color: var(--vads-color-gray-medium);
+}
+
+@mixin header-style($element, $desktop-font-size, $mobile-font-size) {
+  .rjsf-web-component-field.#{$element}::part(header) {
+    font-size: $desktop-font-size;
+
+    @media (max-width: $small-screen) {
+      font-size: $mobile-font-size;
+    }
+  }
+}
+
+@include header-style("rjsf-wc-header--h1", $h1-font-size, $h2-font-size);
+@include header-style("rjsf-wc-header--h2", $h2-font-size, $h3-font-size);
+@include header-style("rjsf-wc-header--h3", $h3-font-size, $h4-font-size);
+@include header-style("rjsf-wc-header--h4", $h4-font-size, $h5-font-size);

@@ -123,16 +123,20 @@ ${record.results} \n`;
         </h3>
         <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Performing lab location
+          Ordered by
+        </h3>
+        <p data-testid="pathology-ordered-by">{record.orderedBy}</p>
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Location
         </h3>
         <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Date completed
+          Lab comments
         </h3>
-        <p data-testid="pathology-date-completed">{record.date}</p>
+        <p data-testid="pathology-lab-comments">{record.labComments}</p>
       </div>
       <div className="test-results-container">
-        <h2>Report</h2>
+        <h2>Results</h2>
         <InfoAlert fullState={fullState} />
         <p data-testid="pathology-report" className="monospace">
           {record.results}

@@ -78,7 +78,7 @@ const testConfig = createTestConfig(
               'veteransFullName',
               data.veteransFullName,
             );
-            fillDateWebComponentPattern('sponsorDOB', data.sponsorDOB);
+            fillDateWebComponentPattern('sponsorDob', data.sponsorDob);
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
@@ -133,8 +133,8 @@ const testConfig = createTestConfig(
                 data.applicants[i].applicantName,
               );
               fillDateWebComponentPattern(
-                `applicants_${i}_applicantDOB`,
-                data.applicants[i].applicantDOB,
+                `applicants_${i}_applicantDob`,
+                data.applicants[i].applicantDob,
               );
               // Add another if we're not out of applicants:
               if (i < numApps - 1)
@@ -269,22 +269,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-      [ALL_PAGES.page18f1.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.url().then(url => {
-              selectRadioWebComponent(
-                'applicantSponsorMarriageDetails',
-                data.applicants[getIdx(url)].applicantSponsorMarriageDetails
-                  .relationshipToVeteran,
-              );
-            });
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.page18f3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -293,25 +277,6 @@ const testConfig = createTestConfig(
               fillDateWebComponentPattern(
                 'dateOfMarriageToSponsor',
                 data.applicants[getIdx(url)].dateOfMarriageToSponsor,
-              );
-            });
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.page18f6.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.url().then(url => {
-              fillDateWebComponentPattern(
-                'dateOfMarriageToSponsor',
-                data.applicants[getIdx(url)].dateOfMarriageToSponsor,
-              );
-              fillDateWebComponentPattern(
-                'dateOfSeparationFromSponsor',
-                data.applicants[getIdx(url)].dateOfSeparationFromSponsor,
               );
             });
             cy.axeCheck();

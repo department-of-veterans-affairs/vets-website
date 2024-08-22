@@ -1,8 +1,12 @@
-// import fullSchema from 'vets-json-schema/dist/10-7959A-schema.json';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
+import GetFormHelp from '../../shared/components/GetFormHelp';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+import SubmissionError from '../../shared/components/SubmissionError';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import transformForSubmit from './submitTransformer';
 import { nameWording } from '../../shared/utilities';
 import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists/ApplicantAddressPage';
 import {
@@ -33,7 +37,7 @@ import {
 
 import { blankSchema, sponsorNameSchema } from '../chapters/sponsorInformation';
 
-// import mockData from '../tests/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 
 // first name posessive
 function fnp(formData) {
@@ -43,12 +47,15 @@ function fnp(formData) {
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
+  transformForSubmit,
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  footerContent: GetFormHelp,
   trackingPrefix: '10-7959a-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  submissionError: SubmissionError,
   formId: '10-7959A',
   saveInProgress: {
     messages: {
@@ -58,6 +65,14 @@ const formConfig = {
         'Your saved CHAMPVA claim form application (10-7959A) has expired. If you want to apply for CHAMPVA claim form, please start a new application.',
       saved: 'Your CHAMPVA claim form application has been saved.',
     },
+  },
+  customText: {
+    appType: 'form',
+    continueAppButtonText: 'Continue your form',
+    startNewAppButtonText: 'Start a new form',
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   preSubmitInfo: {
     statementOfTruth: {
@@ -213,7 +228,7 @@ const formConfig = {
         page7: {
           path: 'medical-claim-upload',
           title: 'Supporting documents',
-          depends: formData => get('claimIsWorkRelated', formData),
+          depends: formData => get('claimType', formData) === 'medical',
           ...medicalClaimUploadSchema,
         },
         page8: {
@@ -237,7 +252,8 @@ const formConfig = {
           depends: formData =>
             get('hasOhi', formData) &&
             get('claimType', formData) === 'medical' &&
-            get('policies', formData).length > 1,
+            get('policies', formData) &&
+            formData?.policies?.length > 1,
           ...eobUploadSchema(false),
         },
         page10: {

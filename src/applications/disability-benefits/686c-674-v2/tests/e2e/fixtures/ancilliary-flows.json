@@ -46,15 +46,21 @@
       "veteranAddress": {
         "view:livesOnMilitaryBase": false,
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennsylvania Ave",
+        "country": "USA",
+        "street": "1600 Pennslyvania Av",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
-      "phoneNumber": "1231231234"
+      "veteranContactInformation": {
+        "phoneNumber": "1231231234"
+      }
     },
     "view:686Information": {},
+    "view:addOrRemoveDependents": {
+      "add": false,
+      "remove": true
+    },
     "view:selectable686Options": {
       "reportStepchildNotInHousehold": true,
       "reportDeath": true,

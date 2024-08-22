@@ -82,9 +82,8 @@ describe('Chem Hem details component', () => {
     expect(screen.getByText('DOE, JANE A', { exact: false })).to.exist;
   });
 
-  it('displays the collecting location', () => {
-    expect(screen.getByText('Collecting location', { selector: 'h3' })).to
-      .exist;
+  it('displays the location', () => {
+    expect(screen.getByText('Location', { selector: 'h3' })).to.exist;
     expect(screen.getByText('Lab Site 989', { exact: false })).to.exist;
   });
 
@@ -106,7 +105,7 @@ describe('Chem Hem details component', () => {
 
   it('should display the result and interpretation in parentheses', () => {
     expect(screen.getAllByText('Result', { selector: 'h4' }).length).to.eq(2);
-    expect(screen.getByText('138 mEq/L (Low)', { selector: 'p' })).to.exist;
+    expect(screen.getByText('138.0 mEq/L (Low)', { selector: 'p' })).to.exist;
   });
 
   it('should display the reference range with units', () => {
@@ -114,13 +113,6 @@ describe('Chem Hem details component', () => {
       screen.getAllByText('Reference range', { selector: 'h4' }).length,
     ).to.eq(2);
     expect(screen.getByText('3.6-5.1 mEq/L', { selector: 'p' })).to.exist;
-  });
-
-  it('should display the performing lab location', () => {
-    expect(
-      screen.getAllByText('Performing lab location', { selector: 'h4' }).length,
-    ).to.eq(2);
-    expect(screen.getAllByText('DAYTON, OH VAMC').length).to.eq(2);
   });
 
   it('should display lab comments', () => {

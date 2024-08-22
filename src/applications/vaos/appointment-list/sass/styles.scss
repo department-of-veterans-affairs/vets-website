@@ -196,9 +196,6 @@ $gap-values: (
   @include media($medium-screen) {
     align-items: stretch;
   }
-  @include media($small-desktop-screen) {
-    align-items: center;
-  }
 }
 
 div[id^="vaos-appts__detail-"] {
@@ -263,10 +260,6 @@ div[id^="vaos-appts__detail-"] {
   position: absolute;
   top: -20px;
   left: calc(50% - 20px);
-}
-
-.fa-blank {
-  margin-right: 0 !important;
 }
 
 .tertiary-button {
