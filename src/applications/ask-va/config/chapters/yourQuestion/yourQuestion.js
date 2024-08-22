@@ -54,21 +54,21 @@ const yourQuestionPage = {
     fileUpload: {
       'ui:title': 'Select files to upload',
       'ui:webComponentField': FileUpload,
-      // 'ui:options': {
-      //   hideIf: formData => {
-      //     // TODO - update mockData list with appropriate topic titles from design
-      //     const HealthCareCondition =
-      //       formData.selectCategory === 'VA Health Care' &&
-      //       (formData.selectTopic === 'National Recruitment Services (NRS)' ||
-      //         formData.selectTopic ===
-      //           'Medical Care Concerns at a VA Medical Facility');
-      //     const EducationCondition =
-      //       formData.selectCategory ===
-      //         'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-      //       formData.selectTopic !== 'Veteran Readiness and Employment';
-      //     return !HealthCareCondition && !EducationCondition;
-      //   },
-      // },
+      'ui:options': {
+        hideIf: formData => {
+          // TODO - update mockData list with appropriate topic titles from design
+          const HealthCareCondition =
+            formData.selectCategory === 'VA Health Care' &&
+            (formData.selectTopic === 'National Recruitment Services (NRS)' ||
+              formData.selectTopic ===
+                'Medical Care Concerns at a VA Medical Facility');
+          const EducationCondition =
+            formData.selectCategory ===
+              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
+            formData.selectTopic !== 'Veteran Readiness and Employment';
+          return !HealthCareCondition && !EducationCondition;
+        },
+      },
     },
   },
   schema: {
