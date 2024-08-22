@@ -21,6 +21,7 @@ const getPhaseChangeDateText = phaseChangeDate => {
 export default function WhatWeAreDoing({
   claimPhaseType,
   claimTypeCode,
+  currentPhaseBack,
   phaseChangeDate,
   status,
 }) {
@@ -59,6 +60,16 @@ export default function WhatWeAreDoing({
             {getPhaseChangeDateText(phaseChangeDate)}
           </p>
         )}
+        {currentPhaseBack && (
+          <va-alert
+            class="optional-alert vads-u-padding-bottom--1"
+            status="info"
+            slim
+          >
+            We moved your claim back to this step because we needed to find or
+            review more evidence
+          </va-alert>
+        )}
         <Link
           aria-label={linkText}
           className="vads-u-margin-top--1 active-va-link"
@@ -75,6 +86,7 @@ export default function WhatWeAreDoing({
 WhatWeAreDoing.propTypes = {
   claimPhaseType: PropTypes.string,
   claimTypeCode: PropTypes.string,
+  currentPhaseBack: PropTypes.bool,
   phaseChangeDate: PropTypes.string,
   status: PropTypes.string,
 };

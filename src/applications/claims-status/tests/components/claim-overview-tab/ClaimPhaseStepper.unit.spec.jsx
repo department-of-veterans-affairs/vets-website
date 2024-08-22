@@ -178,6 +178,53 @@ describe('<ClaimPhaseStepper>', () => {
     ).to.exist;
   });
 
+  it('should render a va-alert when currentPhaseBack is true for the current phase', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={3}
+        currentPhaseBack
+      />,
+    );
+
+    expect($('.claim-phase-stepper', container)).to.exist;
+
+    const alert = container.querySelector('.optional-alert');
+    expect(alert).to.exist;
+
+    getByText(
+      'We moved your claim back to this step because we needed to find or or or review more evidence',
+    );
+
+    const phaseRepeats = $('#phase3 .repeat-phase', container);
+    expect(phaseRepeats).to.not.exist;
+  });
+
+  it('should render the "Step may repeat" message for other phases when currentPhaseBack is true', () => {
+    const { container, getByText } = renderWithRouter(
+      <ClaimPhaseStepper
+        claimDate={claimDate}
+        currentClaimPhaseDate={currentClaimPhaseDate}
+        currentPhase={4}
+        currentPhaseBack
+      />,
+    );
+
+    expect($('.claim-phase-stepper', container)).to.exist;
+
+    getByText(
+      'We moved your claim back to this step because we needed to find or or or review more evidence',
+    );
+
+    const phase3Repeat = $('#phase3 .repeat-phase', container);
+    expect(phase3Repeat).to.exist;
+    const phase5Repeat = $('#phase5 .repeat-phase', container);
+    expect(phase5Repeat).to.exist;
+    const phase6Repeat = $('#phase6 .repeat-phase', container);
+    expect(phase6Repeat).to.exist;
+  });
+
   it('should render a ClaimPhaseStepper section where step 6 is the current step', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimPhaseStepper

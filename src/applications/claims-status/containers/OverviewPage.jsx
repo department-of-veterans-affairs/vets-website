@@ -187,6 +187,7 @@ class OverviewPage extends React.Component {
 
     const { claimPhaseDates, claimDate, claimTypeCode } = claim.attributes;
     const currentPhase = getPhaseFromStatus(claimPhaseDates.latestPhaseType);
+    const { currentPhaseBack } = claimPhaseDates;
 
     return (
       <div className="overview-container">
@@ -203,6 +204,7 @@ class OverviewPage extends React.Component {
                   claimDate={claimDate}
                   currentClaimPhaseDate={claimPhaseDates.phaseChangeDate}
                   currentPhase={currentPhase}
+                  currentPhaseBack={currentPhaseBack}
                 />
               </>
             ) : (

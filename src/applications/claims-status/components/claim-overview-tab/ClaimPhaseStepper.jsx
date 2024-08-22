@@ -8,6 +8,7 @@ export default function ClaimPhaseStepper({
   claimDate,
   currentClaimPhaseDate,
   currentPhase,
+  currentPhaseBack,
 }) {
   const formattedClaimDate = buildDateFormatter()(claimDate);
   const formattedCurrentClaimPhaseDate = buildDateFormatter()(
@@ -213,12 +214,31 @@ export default function ClaimPhaseStepper({
                 {formattedCurrentClaimPhaseDate}.
               </strong>
             )}
-            {phaseCanRepeat(claimPhase.phase) && (
+            {isCurrentPhase(claimPhase.phase) &&
+              currentPhaseBack &&
+              phaseCanRepeat(claimPhase.phase) && (
+                <va-alert
+                  class="optional-alert vads-u-padding-bottom--1"
+                  status="info"
+                  slim
+                >
+                  We moved your claim back to this step because we needed to
+                  find or or or review more evidence
+                </va-alert>
+              )}
+            {(!isCurrentPhase(claimPhase.phase) || !currentPhaseBack) &&
+              phaseCanRepeat(claimPhase.phase) && (
+                <div className="repeat-phase">
+                  <va-icon icon="autorenew" size={3} />
+                  <span>Step may repeat if we need more information</span>
+                </div>
+              )}
+            {/* {phaseCanRepeat(claimPhase.phase) && (
               <div className="repeat-phase">
                 <va-icon icon="autorenew" size={3} />
                 <span>Step may repeat if we need more information</span>
               </div>
-            )}
+            )} */}
             <span className="vads-u-margin-y--0">{claimPhase.description}</span>
           </va-accordion-item>
         ))}
@@ -231,4 +251,5 @@ ClaimPhaseStepper.propTypes = {
   claimDate: PropTypes.string.isRequired,
   currentClaimPhaseDate: PropTypes.string.isRequired,
   currentPhase: PropTypes.number.isRequired,
+  currentPhaseBack: PropTypes.bool,
 };
