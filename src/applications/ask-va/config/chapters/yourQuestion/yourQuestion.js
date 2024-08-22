@@ -17,14 +17,14 @@ export const fileSchema = {
       fileSize: {
         type: 'integer',
       },
-      confirmationNumber: {
+      fileType: {
         type: 'string',
       },
-      errorMessage: {
+      base64: {
         type: 'string',
       },
-      uploading: {
-        type: 'boolean',
+      fileID: {
+        type: 'string',
       },
     },
   },
@@ -52,7 +52,7 @@ const yourQuestionPage = {
       'ui:widget': 'textarea',
     },
     fileUpload: {
-      'ui:title': 'Upload your file',
+      'ui:title': 'Select files to upload',
       'ui:webComponentField': FileUpload,
       'ui:options': {
         hideIf: formData => {
@@ -81,9 +81,7 @@ const yourQuestionPage = {
       question: {
         type: 'string',
       },
-      fileUpload: {
-        type: 'string',
-      },
+      fileUpload: fileSchema,
     },
   },
 };

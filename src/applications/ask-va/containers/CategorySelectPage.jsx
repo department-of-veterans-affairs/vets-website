@@ -39,6 +39,7 @@ const CategorySelectPage = props => {
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
     dispatch(setCategoryID(selected.id));
     onChange({ ...formData, selectCategory: selectedValue });
+    localStorage.removeItem('askVAFiles');
     if (requireSignInCategories.includes(selectedValue) && !loggedIn)
       setShowModal({ show: true, selected: `${selectedValue}` });
   };
