@@ -11,10 +11,8 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       'have.text',
       Data.GO_YOUR_INBOX,
     );
-    //
-    cy.tabToElement('[data-testid="compose-message-link"]').should(
-      'have.focus',
-    );
+
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE).should('have.focus');
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .find('a')
@@ -25,11 +23,13 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       cy.get(el).should('have.focus');
     });
 
+    cy.realPress('Tab');
+
     cy.get(Locators.ALERTS.BACK_TOP).scrollIntoView();
 
     cy.get(Locators.ALERTS.BACK_TOP)
       .shadow()
-      .find('.docked.reveal', { timeout: 1000 })
+      .find('.reveal docked', { timeout: 1000 })
       .should('be.visible');
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
