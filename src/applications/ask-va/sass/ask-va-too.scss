@@ -8,11 +8,6 @@
 
 $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
-.dashboard-card {
-  background-color: var(--vads-color-base-lightest);
-  border: none;
-}
-
 .card-heading {
   font-weight: 600;
 }
@@ -37,15 +32,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 #root_aboutYourself_socialOrServiceNum_ssn-label,
 #root_aboutYourself_socialOrServiceNum_serviceNumber-label {
   margin-top: 0.625rem;
-}
-
-.inbox-replies,
-.attachment-box {
-  width: 70%;
-
-  @media (max-width: $small-screen) {
-    width: 100%;
-  }
 }
 
 .empty-message {
@@ -88,9 +74,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(
-    1.2em * 2
-  ); /* Renders 3 lines and then ellipsis to keep card height uniform */
+  height: calc(1.2em * 2);
   line-height: 1.2;
   font-size: 16px;
 }
@@ -101,10 +85,19 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: calc(
-    1.2em * 3
-  ); /* Renders 3 lines and then ellipsis to keep card height uniform */
+  height: calc(1.2em * 3);
   line-height: 1.2;
+  font-size: 16px;
+}
+
+.multiline-ellipsis-4 {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 93px;
+  line-height: 1.5;
   font-size: 16px;
 }
 
@@ -204,7 +197,7 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         margin: 0;
 
         label {
-          min-width: 50%;
+          min-width: 62%;
         }
 
         @media (min-width: $small-desktop-screen) {
@@ -212,7 +205,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
 
         @media (max-width: $small-screen) {
-          // flex: none;
           display: block;
         }
       }
@@ -318,4 +310,75 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
 
 .progress-box {
   padding-left: 0;
+}
+.health-facility-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  @include media($medium-screen) {
+    flex-direction: row;
+  }
+}
+
+.tab {
+  text-align: center;
+  background: var(--vads-color-gray-light-alt);
+  border: solid 1px var(--vads-color-base-lighter);
+  border-radius: 0 !important;
+
+  display: inline-block;
+  position: relative;
+  list-style: none;
+  padding: 6px 12px;
+  cursor: pointer;
+
+  &.react-tabs__tab--selected {
+    border-top: solid 3px var(--vads-color-primary);
+    background: var(--vads-color-white);
+    border-bottom: none;
+  }
+}
+
+.react-tabs [role="tab"][aria-selected="true"] {
+  border-left-color: var(--vads-color-base-lighter);
+  border-right-color: var(--vads-color-base-lighter);
+}
+
+ul.react-tabs__tab-list {
+  padding: 0;
+}
+
+.react-tabs__tab + .react-tabs__tab {
+  // border-left: none;
+}
+
+.vacard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 346px;
+  border: solid 1px var(--vads-color-base-light);
+  padding: 24px;
+}
+
+.inquiry-question {
+  height: 93px;
+  overflow: "hidden";
+  display: -webkit-box !important;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: "vertical";
+  text-overflow: "ellipsis";
+  white-space: normal;
+}
+
+.dashboard-card {
+  background-color: var(--vads-color-base-lightest);
+  border: none;
+}
+
+.dashboard-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }

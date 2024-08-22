@@ -282,6 +282,20 @@ const AppointmentDetails = props => {
                   </div>
                 </va-alert>
               )}
+              {isUpcoming &&
+                !isCanceled && (
+                  <va-alert-expandable
+                    status="warning"
+                    trigger={t('we-cant-show-all-information')}
+                    class="vads-u-margin-top--3"
+                    data-testid="info-warning"
+                  >
+                    <p>{t('some-appointment-information-not-available')}</p>
+                    {/* Slotted p tags can't have margin for some reason. */}
+                    <br />
+                    <p>{t('find-all-appointment-information')}</p>
+                  </va-alert-expandable>
+                )}
               {app === APP_NAMES.PRE_CHECK_IN &&
                 !getPreCheckinComplete(window)?.complete && (
                   <>
@@ -293,17 +307,23 @@ const AppointmentDetails = props => {
                 )}
               <div data-testid="appointment-details--when">
                 <h2 className="vads-u-font-size--sm">{t('when')}</h2>
-                <div data-testid="appointment-details--date-value">
+                <p
+                  className="vads-u-margin--0"
+                  data-testid="appointment-details--date-value"
+                >
                   {isValid(appointmentDay) &&
                     t('appointment-day', { date: appointmentDay })}
-                </div>
+                </p>
               </div>
               {appointment.doctorName && (
                 <div data-testid="appointment-details--provider">
                   <h2 className="vads-u-font-size--sm">{t('who')}</h2>
-                  <div data-testid="appointment-details--provider-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--provider-value"
+                  >
                     {appointment.doctorName}
-                  </div>
+                  </p>
                 </div>
               )}
 
@@ -312,7 +332,10 @@ const AppointmentDetails = props => {
                   <h2 className="vads-u-font-size--sm">
                     {t('where-to-attend')}
                   </h2>
-                  <div data-testid="appointment-details--facility-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--facility-value"
+                  >
                     {appointment.facility}
                     {appointment.facilityAddress?.street1 && (
                       <div className="vads-u-margin-bottom--2">
@@ -323,7 +346,7 @@ const AppointmentDetails = props => {
                         />
                       </div>
                     )}
-                  </div>
+                  </p>
                 </div>
               )}
               {(isPhoneAppointment || isVvcAppointment) && (
@@ -340,35 +363,50 @@ const AppointmentDetails = props => {
               {(isPhoneAppointment || isVvcAppointment) && (
                 <div data-testid="appointment-details--facility-info">
                   {appointment.facility && (
-                    <div data-testid="appointment-details--facility-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--facility-value"
+                    >
                       {appointment.facility}
-                    </div>
+                    </p>
                   )}
                   {appointment.facilityAddress?.city &&
                     appointment.facilityAddress?.state && (
-                      <div data-testid="appointment-details--facility-address">
+                      <p
+                        className="vads-u-margin--0"
+                        data-testid="appointment-details--facility-address"
+                      >
                         {`${appointment.facilityAddress.city}, ${
                           appointment.facilityAddress.state
                         }`}
-                      </div>
+                      </p>
                     )}
                 </div>
               )}
               <div className="vads-u-margin-top--2">
                 {clinic && (
-                  <div data-testid="appointment-details--clinic-value">
+                  <p
+                    className="vads-u-margin--0"
+                    data-testid="appointment-details--clinic-value"
+                  >
                     {`${t('clinic')}:`} {clinic}
-                  </div>
+                  </p>
                 )}
                 {(isInPersonAppointment || isCvtAppointment) &&
                   appointment.clinicLocation && (
-                    <div data-testid="appointment-details--location-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--location-value"
+                    >
                       {`${t('location')}: ${appointment.clinicLocation}`}
-                    </div>
+                    </p>
                   )}
                 {appointment.clinicPhoneNumber && (
                   <div data-testid="appointment-details--phone">
-                    <div data-testid="appointment-details--phone-value">
+                    <p
+                      className="vads-u-margin--0"
+                      data-testid="appointment-details--phone-value"
+                    >
                       {`${t('clinic-phone')}: `}
                       <va-telephone
                         onClick={handlePhoneNumberClick}
@@ -381,7 +419,7 @@ const AppointmentDetails = props => {
                         ariaLabel="7 1 1."
                       />
                       )
-                    </div>
+                    </p>
                   </div>
                 )}
               </div>

@@ -122,7 +122,6 @@ DebtDetailsCard.propTypes = {
     originalAr: PropTypes.number,
     benefitType: PropTypes.string,
     diaryCode: PropTypes.string,
-    fileNumber: PropTypes.string,
   }),
 };
 

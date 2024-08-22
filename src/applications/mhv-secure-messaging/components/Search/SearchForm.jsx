@@ -1,17 +1,29 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { clearSearchResults, runAdvancedSearch } from '../../actions/search';
 import FilterBox from './FilterBox';
-import { ErrorMessages, Paths, filterDescription } from '../../util/constants';
+import {
+  DefaultFolders,
+  ErrorMessages,
+  Paths,
+  filterDescription,
+} from '../../util/constants';
 import { DateRangeOptions, DateRangeValues } from '../../util/inputContants';
 import { dateFormat } from '../../util/helpers';
 
 const SearchForm = props => {
   const { folder, keyword, resultsCount, query, threadCount } = props;
+  const mhvSecureMessagingFilterAccordion = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvSecureMessagingFilterAccordion
+      ],
+  );
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchTerm, setSearchTerm] = useState('');
@@ -202,19 +214,23 @@ const SearchForm = props => {
     );
   };
 
-  const handleFolderName = () => {
-    if (folder.name === 'Deleted') {
-      return 'Trash';
-    }
-    return folder.name;
-  };
-  const filterLabelHeading = `Filter messages in ${handleFolderName()} `;
-  let filterLabelBody;
-  if (location.pathname.includes('/drafts')) {
-    filterLabelBody = filterDescription.noMsgId;
-  } else {
-    filterLabelBody = filterDescription.withMsgId;
-  }
+  const filterLabelHeading = useMemo(
+    () => {
+      return `Filter messages in ${
+        folder.name === 'Deleted' ? 'Trash' : folder.name
+      } `;
+    },
+    [folder.name],
+  );
+
+  const filterLabelBody = useMemo(
+    () => {
+      return folder.folderId === DefaultFolders.DRAFTS.id
+        ? filterDescription.noMsgId
+        : filterDescription.withMsgId;
+    },
+    [folder.folderId],
+  );
 
   return (
     <>
@@ -244,10 +260,8 @@ const SearchForm = props => {
                 id="filter-input"
                 label={filterLabelBody}
                 class="filter-input-box"
-                message-aria-describedby="filter text input"
                 value={searchTerm}
                 onInput={e => setSearchTerm(e.target.value)}
-                aria-label={filterLabelHeading + filterLabelBody}
                 data-testid="keyword-search-input"
                 onKeyPress={e => {
                   if (e.key === 'Enter') handleSearch();
@@ -295,13 +309,23 @@ const SearchForm = props => {
               handleSearch();
             }}
           />
-          {resultsCount !== undefined && (
+          {/* using toggle to hide this btn temporarily until filter accordion redesign is completed */}
+          {mhvSecureMessagingFilterAccordion ? (
             <va-button
               text="Clear Filters"
               secondary
               class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
               onClick={handleFilterClear}
             />
+          ) : (
+            resultsCount !== undefined && (
+              <va-button
+                text="Clear Filters"
+                secondary
+                class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+                onClick={handleFilterClear}
+              />
+            )
           )}
           {filtersCleared && (
             <span

@@ -304,12 +304,12 @@ class TrackClaimsPage {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message');
+          .find('#file-input-error-alert');
         cy.injectAxeThenAxeCheck();
       });
     cy.get('va-file-input')
       .shadow()
-      .find('#error-message')
+      .find('#file-input-error-alert')
       .should('contain', 'Please select a file first');
     if (is5103Notice) {
       cy.get('.due-date-header').should(
@@ -319,7 +319,7 @@ class TrackClaimsPage {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
   }

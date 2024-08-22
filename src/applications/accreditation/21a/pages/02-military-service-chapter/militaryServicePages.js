@@ -1,5 +1,6 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
   currentOrPastDateRangeSchema,
@@ -9,36 +10,16 @@ import {
   selectUI,
   textareaSchema,
   textareaUI,
-  titleUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
 import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
 import { formatReviewDate } from '../helpers/formatReviewDate';
 
-const serviceBranchOptions = [
-  'Army',
-  'Navy',
-  'Air Force',
-  'Marine Corps',
-  'Space Force',
-  'Coast Guard',
-];
-
-const characterOfDischargeOptions = [
-  'Honorable',
-  'General',
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
-
-const explanationRequired = [
-  'Other Than Honorable',
-  'Bad Conduct',
-  'Dishonorable',
-  'Other',
-];
+import {
+  branchOptions,
+  characterOfDischargeOptions,
+  explanationRequired,
+} from '../../constants/options';
 
 const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
@@ -50,16 +31,16 @@ const arrayBuilderOptions = {
   nounPlural: 'military service experiences',
   required: false,
   isItemIncomplete: item =>
-    !item?.serviceBranch ||
-    !item?.serviceDateRange ||
+    !item?.branch ||
+    !item?.dateRange ||
     !item?.characterOfDischarge ||
     (requireExplanation(item?.characterOfDischarge) &&
       !item?.explanationOfDischarge),
   text: {
-    getItemName: item => item?.serviceBranch,
+    getItemName: item => item?.branch,
     cardDescription: item =>
-      `${formatReviewDate(item?.serviceDateRange?.from)} - ${formatReviewDate(
-        item?.serviceDateRange?.to,
+      `${formatReviewDate(item?.dateRange?.from)} - ${formatReviewDate(
+        item?.dateRange?.to,
       )}`,
   },
 };
@@ -78,12 +59,14 @@ const introPage = {
 /** @returns {PageSchema} */
 const militaryServiceExperiencePage = {
   uiSchema: {
-    ...titleUI(
-      'Military service experience',
-      'You will have the option of adding additional periods of service on the next page.',
-    ),
-    serviceBranch: selectUI('Branch of service'),
-    serviceDateRange: currentOrPastDateRangeUI(
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Military service experience',
+      description:
+        'You will have the option of adding additional periods of service on the next page.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
+    branch: selectUI('Branch of service'),
+    dateRange: currentOrPastDateRangeUI(
       {
         title: 'Active service start date',
       },
@@ -107,12 +90,12 @@ const militaryServiceExperiencePage = {
   schema: {
     type: 'object',
     properties: {
-      serviceBranch: selectSchema(serviceBranchOptions),
-      serviceDateRange: currentOrPastDateRangeSchema,
+      branch: selectSchema(branchOptions),
+      dateRange: currentOrPastDateRangeSchema,
       characterOfDischarge: selectSchema(characterOfDischargeOptions),
       explanationOfDischarge: textareaSchema,
     },
-    required: ['serviceBranch', 'serviceDateRange', 'characterOfDischarge'],
+    required: ['branch', 'dateRange', 'characterOfDischarge'],
   },
 };
 

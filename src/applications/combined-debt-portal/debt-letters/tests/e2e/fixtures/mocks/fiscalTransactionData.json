@@ -20,6 +20,7 @@
           "description": "First Demand Letter - Inactive Benefits - Due Process"
         }
       ],
+      "compositeDebtId": "71166",
       "fiscalTransactionData": [
         {
           "debtId": 284841,

@@ -1,15 +1,15 @@
 import React from 'react';
-import MainContentSubDiv from '../../HubRail/shared/mainContentSubDiv';
 import MainContentSubSection from '../../HubRail/shared/mainContentSubSection';
 import LiSpanAndVaLinkAndPTag from '../../HubRail/shared/liSpanAndVaLinkAndPTag';
 import LiSpanAndVaLink from '../../HubRail/shared/liSpanAndVaLink';
 
 const OtherResources = () => {
   return (
-    <MainContentSubDiv
-      id="other-resources-for-schools"
-      header="Other resources for schools"
-    >
+    <div>
+      <section>
+        <div className="va-h-ruled--stars" />
+      </section>
+      <h2 id="other-resources-for-schools">Other resources for schools</h2>
       <va-accordion uswds>
         <va-accordion-item
           open
@@ -27,13 +27,13 @@ const OtherResources = () => {
           User guides and essential information
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager User Guide (PPTX, 315 pages)"
-              href="https://benefits.va.gov/gibill/enrollment-manager/enrollment-manager-sco-user-guide.pptx"
+              hrefText="Enrollment Manager User Guide"
+              href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
             />
             <LiSpanAndVaLink
               hrefText="Enrollment Manager FAQs"
               class="hydrated"
-              href="https://benefits.va.gov/gibill/enrollment-manager/enrollment-manager-frequently-asked-questions.asp"
+              href="https://vbatraining.adobeconnect.com/ptgxzsnw11w7/default/index.html"
             />
           </ul>
           Quick Start Guides
@@ -125,6 +125,10 @@ const OtherResources = () => {
               hrefText="How to apply for VR&amp;E"
               href="https://www.va.gov/careers-employment/vocational-rehabilitation/how-to-apply/"
             />
+            <LiSpanAndVaLink
+              hrefText="VetSuccess on Campus (VSOC)"
+              href="https://www.benefits.va.gov/vocrehab/vsoc.asp"
+            />
           </ul>
         </va-accordion-item>
         <va-accordion-item
@@ -196,8 +200,13 @@ const OtherResources = () => {
           hrefText="Other VA education benefits"
           pText="Explore additional GI Bill benefits and alternative programs for Veterans, National Guard, and Reserve members ineligible for the Post-9/11 GI Bill."
         />
+        <LiSpanAndVaLinkAndPTag
+          href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/"
+          hrefText="How to Use GI Bill Benefits"
+          pText="Learn how students may use their GI Bill benefits to advance their education and training."
+        />
       </MainContentSubSection>
-    </MainContentSubDiv>
+    </div>
   );
 };
 

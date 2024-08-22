@@ -10,11 +10,6 @@ import {
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import { advanceToHouseholdSection } from './helpers/household';
 
-const ezrTeraToggleIndex = featureToggles.data.features.findIndex(
-  ft => ft.name === 'ezrTeraEnabled',
-);
-featureToggles.data.features[ezrTeraToggleIndex].value = true;
-
 describe('EZR TERA flow', () => {
   beforeEach(() => {
     cy.login(mockUser);
