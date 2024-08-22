@@ -105,8 +105,8 @@ const UpcomingAppointmentsPage = props => {
             <br />
             <p>
               {APP_NAMES.PRE_CHECK_IN
-                ? t('find-all-appointment-information-check-in')
-                : t('find-all-appointment-information-pre-check-in')}
+                ? t('find-all-appointment-information-pre-check-in')
+                : t('find-all-appointment-information-check-in')}
             </p>
           </va-alert-expandable>
         )}
