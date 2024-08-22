@@ -9,6 +9,7 @@ import FacilityConfirmation from '../../../../components/FormPages/FacilityConfi
 describe('CG <FacilityConfirmation>', () => {
   const facilities = mockFetchFacilitiesResponse;
   const selectedFacility = facilities[0];
+  const caregiverFacility = facilities[1];
 
   const goBack = sinon.spy();
   const goForward = sinon.spy();
@@ -16,7 +17,8 @@ describe('CG <FacilityConfirmation>', () => {
   const defaultProps = {
     data: {
       'view:plannedClinic': {
-        veteranSelected: facilities[0],
+        veteranSelected: selectedFacility,
+        caregiverSupport: caregiverFacility,
       },
     },
     goBack,
@@ -28,6 +30,7 @@ describe('CG <FacilityConfirmation>', () => {
       <FacilityConfirmation {...props} />,
     );
     const selectedFacilityAddress = selectedFacility.address.physical;
+    const caregiverFacilityAddress = caregiverFacility.address.physical;
 
     const selectors = () => ({
       pageDescription: {
@@ -39,6 +42,12 @@ describe('CG <FacilityConfirmation>', () => {
         address1: getByText(new RegExp(selectedFacilityAddress.address1)),
         address2: getByText(new RegExp(selectedFacilityAddress.address2)),
         address3: getByText(new RegExp(selectedFacilityAddress.address3)),
+      },
+      caregiverFacility: {
+        name: getByText(new RegExp(caregiverFacility.name)),
+        address1: getByText(new RegExp(caregiverFacilityAddress.address1)),
+        address2: getByText(new RegExp(caregiverFacilityAddress.address2)),
+        address3: getByText(new RegExp(caregiverFacilityAddress.address3)),
       },
       formNavButtons: {
         back: getByText('Back'),
@@ -94,5 +103,18 @@ describe('CG <FacilityConfirmation>', () => {
     expect(selectors().selectedFacility.address1).to.exist;
     expect(selectors().selectedFacility.address2).to.exist;
     expect(selectors().selectedFacility.address3).to.exist;
+  });
+
+  it('should render caregiver facility name', () => {
+    const { selectors } = subject();
+    expect(selectors().caregiverFacility.name).to.exist;
+  });
+
+  it('should render caregiver facility address', () => {
+    const { selectors } = subject();
+
+    expect(selectors().caregiverFacility.address1).to.exist;
+    expect(selectors().caregiverFacility.address2).to.exist;
+    expect(selectors().caregiverFacility.address3).to.exist;
   });
 });
