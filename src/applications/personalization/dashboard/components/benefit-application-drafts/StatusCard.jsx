@@ -1,8 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { capitalize } from 'lodash';
 
-import { formatFormTitle } from '../../helpers';
+import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
+
+const QuestionsContent = () => (
+  <p>
+    If you have questions, call us at <va-telephone contact="8008271000" /> (
+    <va-telephone contact="711" tty />
+    ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
+  </p>
+);
+
+const ReceivedContent = ({ lastSavedDate }) => (
+  <>
+    <p className="vads-u-margin-y--0">Received on: {lastSavedDate}</p>
+    <p>
+      Next step: We’ll review your form. If we need more information, we’ll
+      contact you.
+    </p>
+    <QuestionsContent />
+  </>
+);
+ReceivedContent.propTypes = {
+  lastSavedDate: PropTypes.string.isRequired,
+};
+
+const InProgressContent = () => (
+  <>
+    <p>
+      Next step: We’ll confirm that we’ve received your form. This can take up
+      to 10 days.
+    </p>
+    <QuestionsContent />
+  </>
+);
+
+const ActionNeededContent = ({ lastSavedDate }) => (
+  <>
+    <p className="vads-u-margin-y--0">Submission failed on: {lastSavedDate}</p>
+    <va-alert
+      slim="true"
+      status="error"
+      disable-analytics="false"
+      visible="true"
+      closeable="false"
+      full-width="false"
+      class="hydrated"
+    >
+      <p className="vads-u-margin-y--0">
+        We’re sorry. There was a problem with our system. We couldn’t process
+        this form. Call us at <va-telephone contact="8008271000" /> (
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
+      </p>
+    </va-alert>
+  </>
+);
+ActionNeededContent.propTypes = {
+  lastSavedDate: PropTypes.string.isRequired,
+};
 
 // TODO: fialize markup and desigs for other status types
 const StatusCard = ({
@@ -18,7 +74,7 @@ const StatusCard = ({
       <div className="vads-u-width--full">
         <h3 aria-describedby="21-0845" className="vads-u-margin-top--0">
           <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
-            {capitalize(status)}
+            {formatSubmissionDisplayStatus(status)}
           </span>
           <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--2">
             {formatFormTitle(formTitle)}
@@ -28,20 +84,17 @@ const StatusCard = ({
           id={formId}
           className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
         >
-          VA {presentableFormId}
+          {/* TODO: rethink our helpers for presentable form ID */}
+          VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
         </p>
         <p className="vads-u-margin-bottom--0">Submitted on: {submittedDate}</p>
-        <p className="vads-u-margin-y--0">Received on: {lastSavedDate}</p>
-        <p>
-          Next step: We’ll review your form. If we need more information, we’ll
-          contact you.
-        </p>
-        <p>
-          If you have questions, call us at{' '}
-          <va-telephone contact="8008271000" /> (
-          <va-telephone contact="711" tty />
-          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
-        </p>
+        {status === 'inProgress' && <InProgressContent />}
+        {status === 'received' && (
+          <ReceivedContent lastSavedDate={lastSavedDate} />
+        )}
+        {status === 'actionNeeded' && (
+          <ActionNeededContent lastSavedDate={lastSavedDate} />
+        )}
       </div>
     </>
   );
@@ -66,7 +119,8 @@ StatusCard.propTypes = {
   // The display-ready date when the application was last updated by the user
   lastSavedDate: PropTypes.string.isRequired,
   presentableFormId: PropTypes.string.isRequired,
-  status: PropTypes.string.isRequired,
+  status: PropTypes.oneOf(['inProgress', 'actionNeeded', 'received'])
+    .isRequired,
   submittedDate: PropTypes.string.isRequired,
 };
 

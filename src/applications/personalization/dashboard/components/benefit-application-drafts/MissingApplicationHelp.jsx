@@ -1,11 +1,8 @@
 import React from 'react';
 
 const MissingApplicationHelp = () => (
-  <va-accordion uswds open-single="true" data-testid="missing-application-help">
-    <va-accordion-item
-      header="If you can't find your application or form"
-      uswds
-    >
+  <va-accordion open-single="true" data-testid="missing-application-help">
+    <va-accordion-item header="If you can't find your application or form">
       <p>
         <span className="vads-u-font-weight--bold">
           If you can’t find a draft application or form
