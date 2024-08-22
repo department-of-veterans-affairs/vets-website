@@ -26,7 +26,7 @@ const NotInGoodStanding = ({ goToPath }) => {
         </p>
       </va-alert>
       <FormNavButtons
-        goBack={() => goToPath('/standing-with-bar')}
+        goBack={() => goToPath('/law-license')}
         goForward={() => goToPath('/name-date-of-birth')}
         submitToContinue={false}
       />
