@@ -12,11 +12,11 @@ const LabsAndTestsListItem = props => {
       class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5">
+      <h5 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-y--1">
         <Link to={`/labs-and-tests/${record.id}`} data-dd-privacy="mask">
           {record.name} <span className="sr-only">on {record.date}</span>
         </Link>
-      </h3>
+      </h5>
       <div>
         {/* date */}
         <div>{record.date}</div>

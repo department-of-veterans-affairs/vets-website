@@ -11,7 +11,7 @@ const ConditionListItem = props => {
       class="record-list-item vads-u-padding--3 vads-u-margin-y--2p5"
       data-testid="record-list-item"
     >
-      <h3 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
+      <h5 className="vads-u-font-size--h4 vads-u-margin--0 vads-u-line-height--4 no-print">
         <Link
           to={`/conditions/${record.id}`}
           className="vads-u-margin--0"
@@ -21,7 +21,7 @@ const ConditionListItem = props => {
             {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
-      </h3>
+      </h5>
       <h3
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"

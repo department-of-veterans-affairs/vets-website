@@ -125,7 +125,7 @@ const VitalDetails = props => {
         setBreadcrumbs([
           {
             url: '/vitals',
-            label: 'Vitals',
+            label: 'vitals',
           },
         ]),
       );
