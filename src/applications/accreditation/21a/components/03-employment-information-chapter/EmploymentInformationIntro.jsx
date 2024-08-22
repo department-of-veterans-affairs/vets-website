@@ -30,6 +30,10 @@ const EmploymentIntro = () => (
       <li>Employer address and phone number</li>
       <li>Employment start and end dates (month/year)</li>
       <li>Reason for leaving (if applicable)</li>
+      <li>
+        Whether you have been involved in specific professional activities
+        related to Veterans
+      </li>
     </ul>
   </>
 );

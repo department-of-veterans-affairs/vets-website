@@ -19,18 +19,12 @@ import {
 
 import EducationHistoryIntro from '../../components/04-education-history-chapter/EducationHistoryIntro';
 import { degreeOptions } from '../../constants/options';
+import { createDateRangeText } from '../helpers/createDateRangeText';
 import { createName } from '../helpers/createName';
 import {
   dateRangeWithCurrentCheckboxSchema,
   dateRangeWithCurrentCheckboxUI,
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
-import { formatReviewDate } from '../helpers/formatReviewDate';
-
-const getDateRange = item => {
-  return `${formatReviewDate(item?.dateRange?.from)} - ${
-    item?.currentlyEnrolled ? 'Present' : formatReviewDate(item?.dateRange?.to)
-  }`;
-};
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -47,7 +41,7 @@ const arrayBuilderOptions = {
     (item?.degreeReceived === false && !item?.reasonForNotCompleting),
   text: {
     getItemName: item => item?.name,
-    cardDescription: item => getDateRange(item),
+    cardDescription: item => createDateRangeText(item, 'currentlyEnrolled'),
   },
 };
 
@@ -73,8 +67,8 @@ const institutionAndDegreePage = {
     }),
     name: textUI('Name of school'),
     ...dateRangeWithCurrentCheckboxUI({
-      fromLabel: 'Enrollment start date',
-      toLabel: 'Enrollment end date',
+      fromLabel: 'Start date',
+      toLabel: 'End date',
       currentLabel: 'I still go to school here.',
       currentKey: 'currentlyEnrolled',
       isCurrentChecked: (formData, index) =>

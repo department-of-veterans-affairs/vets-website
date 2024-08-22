@@ -16,17 +16,11 @@ import {
   characterOfDischargeOptions,
   explanationRequired,
 } from '../../constants/options';
+import { createDateRangeText } from '../helpers/createDateRangeText';
 import {
   dateRangeWithCurrentCheckboxSchema,
   dateRangeWithCurrentCheckboxUI,
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
-import { formatReviewDate } from '../helpers/formatReviewDate';
-
-const getDateRange = item => {
-  return `${formatReviewDate(item?.dateRange?.from)} - ${
-    item?.currentlyServing ? 'Present' : formatReviewDate(item?.dateRange?.to)
-  }`;
-};
 
 const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
@@ -47,7 +41,7 @@ const arrayBuilderOptions = {
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
-    cardDescription: item => getDateRange(item),
+    cardDescription: item => createDateRangeText(item, 'currentlyServing'),
   },
 };
 

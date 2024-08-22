@@ -15,22 +15,16 @@ import {
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
+import { createDateRangeText } from '../helpers/createDateRangeText';
 import { createName } from '../helpers/createName';
 import {
   dateRangeWithCurrentCheckboxSchema,
   dateRangeWithCurrentCheckboxUI,
 } from '../helpers/dateRangeWithCurrentCheckboxPattern';
-import { formatReviewDate } from '../helpers/formatReviewDate';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../helpers/internationalPhonePatterns';
-
-const getDateRange = item => {
-  return `${formatReviewDate(item?.dateRange?.from)} - ${
-    item?.currentlyEmployed ? 'Present' : formatReviewDate(item?.dateRange?.to)
-  }${item?.primaryWorkAddress?.selected ? '; Primary work address' : ''}`;
-};
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -49,7 +43,10 @@ const arrayBuilderOptions = {
     (!item?.currentlyEmployed && !item?.reasonForLeaving),
   text: {
     getItemName: item => item?.name,
-    cardDescription: item => getDateRange(item),
+    cardDescription: item =>
+      `${createDateRangeText(item, 'currentlyEmployed')}${
+        item?.primaryWorkAddress?.selected ? '; Primary work address' : ''
+      }`,
   },
 };
 
