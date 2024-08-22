@@ -170,15 +170,6 @@ $ct-locator-shadow: rgba(0, 0, 0, 0.5);
   }
 }
 
-.use-my-location-button {
-  width: 18px;
-  height: 18px;
-  background-image: url("/img/location-arrow-solid.svg");
-  background-repeat: no-repeat;
-  background-color: transparent;
-  padding: 0 1.5em 0 0;
-}
-
 input.location-search {
   width: 100%;
   max-width: 490px;
@@ -192,15 +183,19 @@ input.location-search {
 }
 
 #distance-dropdown {
-  select {
-    margin-top: 4px;
-  }
+
 
   @media (max-width: var(--medium-screen)) {
     width: 100%;
     select {
       width: 100%;
       padding-right: 0px;
+    }
+  }
+
+  @media (max-width: $small-screen) {
+    select {
+      margin-left: 0;
     }
   }
 }

@@ -1,5 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -88,6 +89,9 @@ const formConfig = {
     showNavLinks: false,
     collapsibleNavLinks: true,
   },
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   preSubmitInfo: {
     required: true,
     CustomComponent: CustomAttestation,
@@ -127,7 +131,7 @@ const formConfig = {
         applicantNameDob: {
           // initialData: mockdata.data,
           path: 'applicant-info',
-          title: 'Beneficiary’s name and date of birth',
+          title: 'Beneficiary’s name',
           ...applicantNameDobSchema,
         },
         applicantIdentity: {

@@ -42,9 +42,20 @@ export default function SchoolLocations({
     () => {
       // Necessary so screen reader users are aware that the school locations table has changed.
       if (focusedElementIndex) {
-        document
-          .getElementsByClassName('school-name-cell')
-          [focusedElementIndex].focus();
+        const newRowElements = [
+          ...document.querySelectorAll(
+            'va-table-row > span > p,div.school-name',
+          ),
+        ]
+          .slice(focusedElementIndex, totalRowCount)
+          .filter(row => row.childElementCount > 0);
+
+        const firstElement = newRowElements[0];
+        const linkElem = firstElement.childNodes[0];
+
+        linkElem.style.scrollBehavior = 'smooth';
+        linkElem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        linkElem.focus();
       }
     },
     [focusedElementIndex],
@@ -185,7 +196,9 @@ export default function SchoolLocations({
         break;
       }
       const nameLabel = (
-        <div className="extension-cell-label">{extension.institution}</div>
+        <div className="extension-cell-label school-name">
+          {extension.institution}
+        </div>
       );
       rows.push(createRow(extension, 'extension', nameLabel));
     }
@@ -222,6 +235,24 @@ export default function SchoolLocations({
       createBranchesAndExtensionsRows(mainMap, viewableRowCount),
     );
 
+    const renderSchoolName = name => {
+      if (name && name.props?.children?.props) {
+        const { props } = name.props.children;
+        const href = `/education/gi-bill-comparison-tool/institution/${
+          props.to
+        }`;
+        const text = props.children;
+        return (
+          <va-link
+            href={href}
+            text={text}
+            data-testid="comparison-tool-institution"
+          />
+        );
+      }
+      return name;
+    };
+
     return (
       <va-table class="school-locations">
         <va-table-row slot="headers" key="header">
@@ -231,9 +262,9 @@ export default function SchoolLocations({
         </va-table-row>
         {data.map(row => (
           <va-table-row key={row.key} class={row.rowClassName}>
-            <span>{row.schoolName}</span>
-            <span>{row.location}</span>
-            <span>{row.estimatedHousing}</span>
+            <span role="cell">{renderSchoolName(row.schoolName)}</span>
+            <span role="cell">{row.location}</span>
+            <span role="cell">{row.estimatedHousing}</span>
           </va-table-row>
         ))}
       </va-table>

@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list',
 };
 
 export const DefaultFolders = {
@@ -51,6 +52,7 @@ export const ErrorMessages = {
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
+    CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
     SIGNATURE_REQUIRED: 'Enter your full name',
@@ -299,6 +301,17 @@ export const Attachments = {
   TOTAL_MAX_FILE_SIZE: 10000000,
 };
 
+export const ElectronicSignatureBox = {
+  TITLE: 'Electronic signature',
+  DESCRIPTION:
+    'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',
+  FULLNAME_LABEL: 'Your full name',
+  CHECKBOX_LABEL:
+    'I certify that the above is correct and true to the best of my knowledge and belief.',
+  NOTE_PARAGRAPH:
+    'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information (Reference: 18 U.S.C. 1001).',
+};
+
 export const threadSortingOptions = {
   SENT_DATE_DESCENDING: {
     sortField: 'SENT_DATE',
@@ -359,6 +372,8 @@ export const BreadcrumbViews = {
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  CONVERSATION_TITLE_TAG:
+    'Conversation - MHV Secure Messaging | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
@@ -375,6 +390,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

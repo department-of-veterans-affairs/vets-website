@@ -1,23 +1,26 @@
 import format from 'date-fns/format';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-
+import { setData } from 'platform/forms-system/src/js/actions';
+import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
+// import prefillTransformer from '../config/prefill-transformer';
 
-const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
-  const mock = {
-    first: 'Mock',
-    last: 'Data',
-    dateOfBirth: '1950-10-04',
-    socialOrServiceNum: {
-      ssn: '1112223333',
-      service: null,
-    },
-  };
+const PersonalAuthenticatedInformation = ({
+  goBack,
+  goForward,
+  // setFormData,
+  formData,
+}) => {
+  // const prefillData = prefillTransformer();
 
-  const { first, last, dateOfBirth, socialOrServiceNum } =
-    formData.aboutYoursel || mock;
+  const {
+    first,
+    last,
+    dateOfBirth,
+    socialOrServiceNum,
+  } = formData.aboutYourself;
 
   const { ssn, serviceNumber } = socialOrServiceNum;
 
@@ -30,11 +33,20 @@ const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
+  useEffect(() => {
+    focusElement('h2');
+    // if (!formData.aboutYourself.first) {
+    //   setFormData({
+    //     ...prefillData.formData,
+    //   });
+    // }
+  }, []);
+
   return (
     <>
       <div>
         <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
-          <h3>Your personal information</h3>
+          <h2 className="vads-u-font-size--h3">Your personal information</h2>
           <p>This is the personal information we have on file for you.</p>
           <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-margin-top--4 vads-u-margin-bottom--4">
             <div className="vads-u-padding-left--1">
@@ -83,4 +95,11 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(PersonalAuthenticatedInformation);
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(PersonalAuthenticatedInformation);

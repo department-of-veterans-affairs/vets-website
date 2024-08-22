@@ -70,23 +70,6 @@ export const isArrayAndHasItems = obj => {
 };
 
 /**
- * Concatenate all the record.category[].text values in a FHIR record.
- *
- * @param {Object} record
- * @returns {String} list of text values, separated by a comma
- */
-export const concatCategoryCodeText = record => {
-  if (isArrayAndHasItems(record.category)) {
-    const textFields = record.category
-      .filter(category => category.text)
-      .map(category => category.text);
-
-    return textFields.join(', ');
-  }
-  return null;
-};
-
-/**
  * For every record.interpretation[].text value in a record, find the right display value
  * then concatenate them all together. If no mapping value is found for the code, the code
  * itself is displayed.
@@ -192,6 +175,34 @@ export const extractContainedResource = (resource, referenceId) => {
       containedItem => containedItem.id === strippedRefId,
     );
     return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained.find(
+          item =>
+            refArray.includes(item.id) && item.resourceType === resourceType,
+        )
+      : null;
+    return returnRecord || null;
   }
   return null;
 };
@@ -379,4 +390,13 @@ export const getStatusExtractPhase = (
     return refreshPhases.FAILED;
   }
   return refreshPhases.CURRENT;
+};
+
+export const decodeBase64Report = data => {
+  if (data && typeof data === 'string') {
+    return Buffer.from(data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };

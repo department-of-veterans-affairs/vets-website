@@ -231,27 +231,6 @@ testNumberOfWebComponentFields(
   { ...mockData.data },
 );
 
-/*
-// marriageData.data.sponsorIsDeceased = true;
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f1.schema,
-  formConfig.chapters.applicantInformation.pages.page18f1.uiSchema,
-  0,
-  'Applicant - marriage details',
-  { ...marriageData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f2.schema,
-  formConfig.chapters.applicantInformation.pages.page18f2.uiSchema,
-  1,
-  'Applicant - remarriage status',
-  { ...mockData.data },
-);
-*/
-
 testNumberOfWebComponentFields(
   formConfig,
   formConfig.chapters.applicantInformation.pages.page18f3.schema,
@@ -260,53 +239,6 @@ testNumberOfWebComponentFields(
   'Applicant - marriage dates (to sponsor)',
   { ...marriageData.data },
 );
-
-/*
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f4.schema,
-  formConfig.chapters.applicantInformation.pages.page18f4.uiSchema,
-  2,
-  'Applicant - marriage dates (remarriage after sponsor death)',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f5.schema,
-  formConfig.chapters.applicantInformation.pages.page18f5.uiSchema,
-  3,
-  'Applicant - marriage dates (remarriage after sponsor death, divorced 2nd)',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f6.schema,
-  formConfig.chapters.applicantInformation.pages.page18f6.uiSchema,
-  2,
-  'Applicant - marriage dates (divorced sponsor)',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f7.schema,
-  formConfig.chapters.applicantInformation.pages.page18f7.uiSchema,
-  0,
-  'Applicant - second marriage documents',
-  { ...mockData.data },
-);
-
-testNumberOfWebComponentFields(
-  formConfig,
-  formConfig.chapters.applicantInformation.pages.page18f8.schema,
-  formConfig.chapters.applicantInformation.pages.page18f8.uiSchema,
-  0,
-  'Applicant - second marriage divorce documents',
-  { ...mockData.data },
-);
-*/
 
 testNumberOfWebComponentFields(
   formConfig,

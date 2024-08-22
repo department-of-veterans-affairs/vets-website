@@ -48,7 +48,7 @@ function Content() {
     provider,
     typeOfCare,
     typeOfCareText,
-    typeOfVisit,
+    preferredModality,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -112,7 +112,7 @@ function Content() {
           <h2 className="vaos-appts__block-label vads-u-margin-bottom--0 vads-u-margin-top--2">
             Preferred type of appointment
           </h2>
-          {typeOfVisit}
+          {preferredModality}
         </>
       )}
 
@@ -220,6 +220,10 @@ export default function RequestedAppointmentDetailsPage() {
         } ${typeOfCareText} appointment`;
 
         if (featureBreadcrumbUrlUpdate) {
+          title = `${isCanceled ? 'Canceled request for' : 'Request for'} 
+            ${typeOfCareText} ${
+            isCC ? 'community care appointment' : 'appointment'
+          }`;
           title = title.concat(` | Veterans Affairs`);
         }
 

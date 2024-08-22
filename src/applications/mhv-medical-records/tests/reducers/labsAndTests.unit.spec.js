@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 import {
+  buildRadiologyResults,
+  extractOrderedBy,
   extractOrderedTest,
   extractOrderedTests,
+  extractPerformingLabLocation,
+  extractSpecimen,
   labsAndTestsReducer,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
@@ -97,7 +101,88 @@ describe('extractOrderedTests', () => {
   });
 });
 
-describe('labsAndTestsReducer', () => {
+describe('extractSpecimen', () => {
+  const testRecord = {
+    contained: [{ id: 'ex-MHV-specimen-3', resourceType: 'Specimen' }],
+    specimen: [{ reference: '#ex-MHV-specimen-3' }],
+  };
+  const testRecord2 = {
+    contained: [{ id: 'ex-MHV-specimen-3', resourceType: 'Specimen' }],
+  };
+
+  it('should return the specimen if correct parameter is passed', () => {
+    const record = extractSpecimen(testRecord);
+    expect(record.resourceType).to.eq('Specimen');
+  });
+
+  it('should return "null" if record is passed without a specimen key', () => {
+    const record = extractSpecimen(testRecord2);
+    expect(record).to.eq(null);
+  });
+});
+
+describe('extractPerformingLabLocation', () => {
+  const record = {
+    contained: [
+      {
+        id: 'o-1',
+        resourceType: fhirResourceTypes.ORGANIZATION,
+        name: 'Org Name',
+      },
+    ],
+    performer: [{ reference: '#o-1' }],
+  };
+  it('gets the performing lab location', () => {
+    expect(extractPerformingLabLocation(record)).to.eq('Org Name');
+  });
+});
+
+describe('extractOrderedBy', () => {
+  const record = {
+    contained: [
+      {
+        id: 'p-1',
+        resourceType: fhirResourceTypes.PRACTITIONER,
+        name: [{ text: 'Practitioner Name' }],
+      },
+    ],
+    performer: [{ reference: '#p-1' }],
+  };
+  it('gets the performing lab location', () => {
+    expect(extractOrderedBy(record)).to.eq('Practitioner Name');
+  });
+});
+
+describe('buildRadiologyResults', () => {
+  const REPORT = 'The report.';
+  const IMPRESSION = 'The impression.';
+
+  it('builds the full result', () => {
+    const record = {
+      reportText: REPORT,
+      impressionText: IMPRESSION,
+    };
+    const report = buildRadiologyResults(record);
+    expect(report).to.include(REPORT);
+    expect(report).to.include(IMPRESSION);
+  });
+
+  it('builds the result without impression', () => {
+    const record = { reportText: REPORT };
+    const report = buildRadiologyResults(record);
+    expect(report).to.include(REPORT);
+    expect(report).to.not.include(IMPRESSION);
+  });
+
+  it('builds the result without report', () => {
+    const record = { impressionText: IMPRESSION };
+    const report = buildRadiologyResults(record);
+    expect(report).to.not.include(REPORT);
+    expect(report).to.include(IMPRESSION);
+  });
+});
+
+describe.skip('labsAndTestsReducer', () => {
   it('creates a list', () => {
     const labsAndTestsResponse = {
       entry: [

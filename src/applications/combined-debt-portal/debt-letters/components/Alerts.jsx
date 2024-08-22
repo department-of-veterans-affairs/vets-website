@@ -60,7 +60,7 @@ export const DowntimeMessage = () => {
 };
 
 export const DebtLetterDownloadDisabled = () => (
-  <va-alert status="warning">
+  <va-alert data-testid="letters-disabled-alert" status="warning">
     <h3 className="vads-u-font-size--h3" slot="headline">
       Your debt letters are currently unavailable for download.
     </h3>

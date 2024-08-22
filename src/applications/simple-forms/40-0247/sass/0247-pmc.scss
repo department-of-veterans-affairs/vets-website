@@ -61,3 +61,8 @@ input[name="root_additionalCopies"] {
 va-text-input[name="root_additionalCopies"]::part(label) {
   margin-top: 0;
 }
+
+va-radio::part(header) {
+  color: var(--vads-color-base-darker);
+  font-size: 1.25rem;
+}

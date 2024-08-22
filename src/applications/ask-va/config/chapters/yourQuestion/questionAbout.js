@@ -21,6 +21,9 @@ const questionAboutPage = {
         labels: questionAboutLabels,
         descriptions: questionAboutDescriptions,
         required: () => true,
+        errorMessages: {
+          required: 'Please select who your question is about',
+        },
       }),
     },
   },

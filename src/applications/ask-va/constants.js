@@ -4,6 +4,7 @@ export const envUrl = environment.API_URL;
 
 // Used to test against dev
 // export const envUrl = 'https://dev-api.va.gov';
+//
 
 export const baseURL = '/ask_va_api/v0';
 
@@ -21,9 +22,9 @@ export const URL = {
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-  'Compensation (Service-Connected Bens)',
-  'Veteran Affairs  - Debt', // *double space after 'Affairs'
-  'Benefits Issues Outside the US',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
 ];
 
 export const requireSignInTopics = [
@@ -34,11 +35,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'VA Caregiver Support Program',
-  'Family member health benefits',
-  'VHA Prosthetics',
-  'Veteran Health ID (VHIC – Facility Access/Check-In)',
-  'Veteran ID (Retailer Discount)',
+  'Caregiver support program',
+  'Family health benefits',
+  'Prosthetics',
+  'Veteran Health Identification Card (VHIC) for health appointments',
+  'Veteran ID Card (VIC) for discounts',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -54,15 +55,16 @@ export const RESPONSE_PAGE = {
   INQUIRY_NUM: 'Inquiry number',
   STATUS: 'Status',
   YOUR_QUESTION: 'Your question',
+  YOUR_CONVERSATION: 'Your conversation',
   ATTACHMENTS: 'Attachments',
   INBOX: 'Inbox',
-  SEND_REPLY: 'Send reply',
+  SEND_REPLY: 'Send a reply',
   UPLOAD_YOUR_FILES: 'Upload your files',
   UPLOAD_BTN: 'Upload file',
   EMPTY_INBOX: 'There are no messages in your inbox',
   NO_ATTACHMENTS: 'There are no attachments',
-  YOUR_MESSAGE: 'Your message: ',
-  SUBMIT_MESSAGE: 'Send VA a message',
+  YOUR_MESSAGE: 'Your message',
+  SUBMIT_MESSAGE: 'Send',
   DELETE_FILE: 'Delete file',
   UPLOAD_INFO: {
     MESSAGE:
@@ -437,6 +439,11 @@ export const CHAPTER_3 = {
     TITLE: `Your personal information`,
     DESCRIPTION: 'This is the personal information we have on file for you.',
   },
+  YOUR_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: 'Your VA health facility',
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
 };
 
 export const noEditBtn = [
@@ -460,20 +467,27 @@ export const askVABreadcrumbs = [
   { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
-export const responsePageBreadcrumbs = [
+export const questionDetailsBreadcrumbs = [
   ...askVABreadcrumbs,
-  { href: '/user/dashboard', label: 'Response Page', key: 'responsePage' },
+  {
+    href: '/user/dashboard',
+    label: 'Question details',
+    key: 'questionDetails',
+  },
 ];
 
-export const newInquiryBreadcrumbs = [
+export const newQuestionBreadcrumbs = [
   ...askVABreadcrumbs,
-  { href: '/newInquiry', label: 'New Inquiry', key: 'newInquiry' },
+  { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
-  '/user/dashboard': responsePageBreadcrumbs,
-  '/newInquiry': newInquiryBreadcrumbs,
+  '/user/dashboard': questionDetailsBreadcrumbs,
+  '/newQuestion': newQuestionBreadcrumbs,
 };
+
+// Health care label is currently different on local/dev and staging (pulling from CRM updated list)
+export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];

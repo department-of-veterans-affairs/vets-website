@@ -129,13 +129,6 @@
     }
   }
 
-
-  .item-complete::before {
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    background: var(--vads-color-success-dark);
-  }
-
   .item-heading {
     clear: inherit;
   }

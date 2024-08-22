@@ -204,9 +204,6 @@ $breakpoints: (
   @include media(var(--medium-screen)) {
     align-items: stretch;
   }
-  @include media(var(--small-desktop-screen)) {
-    align-items: center;
-  }
 }
 
 div[id^="vaos-appts__detail-"] {

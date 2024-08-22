@@ -16,7 +16,10 @@ import {
   defaultSelectedSortOption,
   SESSION_SELECTED_PAGE_NUMBER,
 } from '../util/constants';
-import { selectRefillContentFlag } from '../util/selectors';
+import {
+  selectAllergiesFlag,
+  selectRefillContentFlag,
+} from '../util/selectors';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
@@ -43,6 +46,7 @@ const LandingPage = () => {
     state => state.featureToggles,
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const showAllergiesContent = useSelector(selectAllergiesFlag);
 
   const manageMedicationsHeader = useRef();
   const manageMedicationsAccordionSection = useRef();
@@ -99,14 +103,14 @@ const LandingPage = () => {
     return (
       <>
         <div className="main-content">
-          <section>
+          <section className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4">
             <h1
               data-testid="landing-page-heading"
               className="small-screen:vads-u-margin-bottom--0 vads-u-margin-bottom--1"
             >
               About medications
             </h1>
-            <p className="vads-u-font-family--serif vads-u-margin-top--1">
+            <p className="vads-u-font-family--serif vads-u-margin-top--1 vads-u-font-size--lg">
               Learn how to manage your VA prescriptions and review your
               medications list.
             </p>
@@ -193,12 +197,12 @@ const LandingPage = () => {
               )}
             </>
           )}
-          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--6 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
+          <div className="no-print vads-u-margin-y--3 small-screen:vads-u-margin-y--4 vads-u-border-bottom--2px vads-u-border-color--gray-light" />
           <section>
-            <h2 className="vads-u-margin-top--0">
+            <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--2">
               What to know as you try out this tool
             </h2>
-            <p>
+            <p className="vads-u-margin-top--0">
               We’re giving the trusted My HealtheVet pharmacy tool a new home
               here on VA.gov. In this new tool, you can find all your medication
               records in a single list.
@@ -574,20 +578,30 @@ const LandingPage = () => {
                     If allergies or reactions are missing from your list, tell
                     your care team right away.
                   </p>
-                  <a
-                    href={mhvUrl(
-                      isAuthenticatedWithSSOe(fullState),
-                      'va-allergies-adverse-reactions',
-                    )}
-                    rel="noreferrer"
-                    data-dd-action-name={
-                      dataDogActionNames.landingPage
-                        .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
-                    }
-                  >
-                    Go to your allergy and reaction records on the My HealtheVet
-                    website
-                  </a>
+                  {showAllergiesContent ? (
+                    <a
+                      href="/my-health/medical-records/allergies"
+                      rel="noreferrer"
+                      data-testid="allergies-reactions-link"
+                    >
+                      Go to your allergies and reactions
+                    </a>
+                  ) : (
+                    <a
+                      href={mhvUrl(
+                        isAuthenticatedWithSSOe(fullState),
+                        'va-allergies-adverse-reactions',
+                      )}
+                      rel="noreferrer"
+                      data-dd-action-name={
+                        dataDogActionNames.landingPage
+                          .GO_TO_YOUR_ALLERGY_AND_REACTION_RECORDS_LINK
+                      }
+                    >
+                      Go to your allergy and reaction records on the My
+                      HealtheVet website
+                    </a>
+                  )}
                   <h4 className="vads-u-margin-top--2">
                     If you use Meds by Mail
                   </h4>
@@ -643,7 +657,7 @@ const LandingPage = () => {
       user={user}
       serviceRequired={[backendServices.USER_PROFILE]}
     >
-      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6 vads-l-col--12 medium-screen:vads-l-col--8">
+      <div className="landing-page small-screen:vads-u-margin-top--1 vads-u-margin-bottom--6">
         {content()}
       </div>
     </RequiredLoginView>

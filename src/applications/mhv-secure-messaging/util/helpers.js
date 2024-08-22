@@ -333,6 +333,7 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
 export const formatRecipient = recipient => {
   return {
     id: recipient.attributes.triageTeamId,
+    triageTeamId: recipient.attributes.triageTeamId,
     name: recipient.attributes.name,
     stationNumber: recipient.attributes.stationNumber,
     blockedStatus: recipient.attributes.blockedStatus,
@@ -349,13 +350,18 @@ export const formatRecipient = recipient => {
 export const findBlockedFacilities = recipients => {
   const blockedFacilities = new Set();
   const allowedFacilities = new Set();
+  const facilityList = new Set();
   const fullyBlockedFacilities = [];
 
   recipients.forEach(recipient => {
-    if (recipient.attributes.blockedStatus === true) {
-      blockedFacilities.add(recipient.attributes.stationNumber);
+    const { stationNumber, blockedStatus } = recipient.attributes;
+
+    facilityList.add(recipient.attributes.stationNumber);
+
+    if (blockedStatus === true) {
+      blockedFacilities.add(stationNumber);
     } else {
-      allowedFacilities.add(recipient.attributes.stationNumber);
+      allowedFacilities.add(stationNumber);
     }
   });
 
@@ -365,9 +371,15 @@ export const findBlockedFacilities = recipients => {
     }
   });
 
-  return fullyBlockedFacilities;
+  const allFacilities = [...facilityList];
+
+  return { fullyBlockedFacilities, allFacilities };
 };
 
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
+};
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 };

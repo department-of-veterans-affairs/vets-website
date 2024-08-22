@@ -1,6 +1,7 @@
 import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
+  signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -19,8 +20,12 @@ import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
+  hasMhvAccount,
+  hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -34,5 +39,6 @@ export {
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  signInServiceName,
+  showVerifyAndRegisterAlert,
 };

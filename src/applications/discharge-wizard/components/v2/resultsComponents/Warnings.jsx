@@ -6,7 +6,7 @@ import {
   determineOldDischarge,
   determineBoardObj,
 } from '../../../helpers';
-import { venueWarning, upgradeVenueWarning } from '../../../constants';
+import { venueWarning, upgradeVenueWarning, DRB } from '../../../constants';
 import {
   RESPONSES,
   SHORT_NAME_MAP,
@@ -25,16 +25,16 @@ const Warnings = ({ formResponses }) => {
         <AlertMessage
           content={venueWarning}
           isVisible={
-            prevAppType === RESPONSES.PREV_APPLICATION_TYPE_4 &&
-            reason !== RESPONSES.REASON_8
+            prevAppType === RESPONSES.NOT_SURE &&
+            reason !== RESPONSES.REASON_DD215_UPDATE_TO_DD214
           }
           status="warning"
         />
         <AlertMessage
           content={upgradeVenueWarning}
           isVisible={
-            prevAppType === RESPONSES.PREV_APPLICATION_TYPE_4 &&
-            reason === RESPONSES.REASON_8 &&
+            prevAppType === RESPONSES.NOT_SURE &&
+            reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
             !oldDischarge
           }
           status="warning"
@@ -47,22 +47,17 @@ const Warnings = ({ formResponses }) => {
     const boardToSubmit = determineBoardObj(formResponses);
     const courtMartial = formResponses[SHORT_NAME_MAP.COURT_MARTIAL];
 
-    const alertContent = (
-      <p>
-        Because you answered that you’re not sure if your discharge was the
+    const alertContent = `Because you answered that you’re not sure if your discharge was the
         outcome of a general court-martial, it’s important for you to check your
         military records. The results below are for Veterans who have discharges
         that are administrative or the result of a special or summary
-        court-martial.
-      </p>
-    );
+        court-martial.`;
 
     return (
       <AlertMessage
         content={alertContent}
         isVisible={
-          boardToSubmit.abbr === 'DRB' &&
-          RESPONSES.COURT_MARTIAL_3 === courtMartial
+          boardToSubmit.abbr === DRB && RESPONSES.NOT_SURE === courtMartial
         }
         status="warning"
       />
@@ -73,25 +68,23 @@ const Warnings = ({ formResponses }) => {
     const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
     const reason = formResponses[SHORT_NAME_MAP.REASON];
 
-    const alertContent = (
-      <p>
-        Because you answered that you weren’t sure where you applied for an
+    const alertContent = `Because you answered that you weren’t sure where you applied for an
         upgrade before, it’s important for you to check your records. The
         instructions below are for Veterans who had a successful upgrade
-        application reviewed by the{' '}
-        {determineBranchOfService(formResponses[SHORT_NAME_MAP.SERVICE_BRANCH])}{' '}
-        Discharge Review Board (DRB).
-      </p>
-    );
+        application reviewed by the${' '}
+        ${determineBranchOfService(
+          formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+        )}
+        Discharge Review Board (DRB).`;
 
     return (
       <AlertMessage
         content={alertContent}
         isVisible={
-          reason === RESPONSES.REASON_8 &&
+          reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214 &&
           [
-            RESPONSES.PREV_APPLICATION_TYPE_3A,
-            RESPONSES.PREV_APPLICATION_TYPE_3B,
+            RESPONSES.PREV_APPLICATION_BCMR,
+            RESPONSES.PREV_APPLICATION_BCNR,
           ].includes(prevAppType)
         }
         status="warning"
