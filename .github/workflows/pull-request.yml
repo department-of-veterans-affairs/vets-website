@@ -332,11 +332,10 @@ jobs:
         id: changed-files
         shell: bash
         run: |
-          CHANGED_FILES=""
           if [[ ${{ github.ref }} != 'refs/heads/main' ]]; then
             CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }})
           else
-            CHANGED_FILES=$(git diff --name-only origin/main...) 
+            CHANGED_FILES=$(git diff --name-only origin/main...)
           fi
           echo "CHANGED_FILES=$CHANGED_FILES" >> $GITHUB_ENV
           echo "Changed files: $CHANGED_FILES"
