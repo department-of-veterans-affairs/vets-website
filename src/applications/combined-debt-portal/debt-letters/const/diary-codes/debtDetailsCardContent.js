@@ -12,7 +12,14 @@ const ContactDMC = () => (
     from overseas)
   </>
 );
-
+const createPaymentReminderText = endDateText => (
+  <p>
+    We’ll send you a letter with our decision. Please continue to make payments
+    monthly while we complete our review. <br />
+    <br />
+    <strong>Your next payment is due by {endDateText}.</strong>
+  </p>
+);
 export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
   const endDateText = endDate(dateOfLetter, debt.diaryCode);
 
@@ -25,7 +32,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: false,
         bodyText: (
           <p>
-            Please contact us contact us online through{' '}
+            Please contact us online through{' '}
             <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
             to verify your military status. We’re here Monday through Friday,
             7:30 a.m. to 7:00 p.m. ET.
@@ -139,14 +146,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
-        bodyText: (
-          <p>
-            We’ll send you a letter with our decision. Please continue to make
-            payments monthly while we complete our review. <br />
-            <br />
-            <strong>Your next payment is due by {endDateText}.</strong>
-          </p>
-        ),
+        bodyText: createPaymentReminderText(endDateText),
       };
     case '816':
       return {
@@ -463,14 +463,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
-        bodyText: (
-          <p>
-            We’ll send you a letter with our decision. Please continue to make
-            payments monthly while we complete our review. <br />
-            <br />
-            <strong>Your next payment is due by {endDateText}.</strong>
-          </p>
-        ),
+        bodyText: createPaymentReminderText(endDateText),
       };
     case '822':
       return {
@@ -480,14 +473,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
-        bodyText: (
-          <p>
-            We’ll send you a letter with our decision. Please continue to make
-            payments monthly while we complete our review. <br />
-            <br />
-            <strong>Your next payment is due by {endDateText}.</strong>
-          </p>
-        ),
+        bodyText: createPaymentReminderText(endDateText),
       };
     case '825':
       return {
@@ -497,14 +483,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
-        bodyText: (
-          <p>
-            We’ll send you a letter with our decision. Please continue to make
-            payments monthly while we complete our review. <br />
-            <br />
-            <strong>Your next payment is due by {endDateText}.</strong>
-          </p>
-        ),
+        bodyText: createPaymentReminderText(endDateText),
       };
     case '821':
       return {
@@ -514,14 +493,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         showLinks: true,
         showMakePayment: true,
         showRequestHelp: false,
-        bodyText: (
-          <p>
-            We’ll send you a letter with our decision. Please continue to make
-            payments monthly while we complete our review. <br />
-            <br />
-            <strong>Your next payment is due by {endDateText}.</strong>
-          </p>
-        ),
+        bodyText: createPaymentReminderText(endDateText),
       };
     case '481':
     case '482':
