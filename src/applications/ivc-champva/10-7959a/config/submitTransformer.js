@@ -49,7 +49,7 @@ export default function transformForSubmit(formConfig, form) {
   if (copyOfData.certifierAddress) {
     // Combine streets for 3rd party certifier
     copyOfData.certifierAddress.streetCombined = concatStreets(
-      copyOfData.certifierAddress.streetCombined,
+      copyOfData.certifierAddress,
     );
   }
 
@@ -61,6 +61,7 @@ export default function transformForSubmit(formConfig, form) {
     copyOfData.medicalUpload,
     copyOfData.primaryEob,
     copyOfData.secondaryEob,
+    copyOfData.pharmacyUpload,
   ]
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
