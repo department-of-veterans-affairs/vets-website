@@ -121,14 +121,14 @@ export default function VideoLayout({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards, a list of medications, and other
-                things to share with your provider
+                Bring your insurance cards and a list of your medications and
+                other information to share with your provider.
                 <br />
                 <a
                   target="_self"
                   href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
                 >
-                  Find out what to bring to your appointment
+                  Find a full list of things to bring to your appointment
                 </a>
               </li>
               <li>

@@ -348,7 +348,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -356,7 +356,11 @@ describe('VAOS Component: InPersonLayout', () => {
           'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      expect(
+        screen.getByText(
+          /Find a full list of things to bring to your appointment/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
@@ -450,7 +454,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -458,7 +462,11 @@ describe('VAOS Component: InPersonLayout', () => {
           'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      expect(
+        screen.getByText(
+          /Find a full list of things to bring to your appointment/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
@@ -654,7 +662,7 @@ describe('VAOS Component: InPersonLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -662,7 +670,11 @@ describe('VAOS Component: InPersonLayout', () => {
           'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
         ),
       ).to.be.ok;
-      expect(screen.getByText(/Find out what to bring to your appointment/i));
+      expect(
+        screen.getByText(
+          /Find a full list of things to bring to your appointment/i,
+        ),
+      );
 
       expect(
         screen.getByRole('heading', {
