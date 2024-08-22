@@ -157,10 +157,6 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
-    cy.realPress('Tab');
-    cy.realPress('Tab');
-    cy.realPress('Tab');
-    cy.realPress('Tab');
     // Tab to 'Connect with us' section
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Connect with us');
