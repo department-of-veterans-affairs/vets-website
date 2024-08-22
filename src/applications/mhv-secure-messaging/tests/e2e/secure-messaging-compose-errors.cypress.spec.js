@@ -3,7 +3,6 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
-// focus validation temporary commented due to focus error (will be fixed in MHV-61146)
 describe('Secure Messaging Compose Errors', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
@@ -19,8 +18,8 @@ describe('Secure Messaging Compose Errors', () => {
     });
 
     PatientComposePage.clickSendMessageButton();
-    // PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
-    // PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
+    PatientComposePage.verifyFocusOnErrorMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -34,8 +33,8 @@ describe('Secure Messaging Compose Errors', () => {
     });
 
     PatientComposePage.clickSendMessageButton();
-    // PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
-    // PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
+    PatientComposePage.verifyFocusOnErrorMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -49,8 +48,8 @@ describe('Secure Messaging Compose Errors', () => {
     });
 
     PatientComposePage.clickSendMessageButton();
-    // PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
-    // PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -64,8 +63,8 @@ describe('Secure Messaging Compose Errors', () => {
     });
 
     PatientComposePage.clickSendMessageButton();
-    // PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
-    // PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
