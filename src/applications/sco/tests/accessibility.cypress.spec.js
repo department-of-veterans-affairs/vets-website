@@ -108,8 +108,8 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'Ask questions');
     cy.repeatKey('Tab', 11);
     // Tab to 'Connect with us' section
-    cy.focused().should('contain.text', '1711');
-    cy.repeatKey('Tab', 9);
+    cy.focused().should('contain.text', 'Connect with us');
+    cy.repeatKey('Tab', 5);
     cy.focused().should('contain.text', 'VBA on YouTube');
   });
 });
