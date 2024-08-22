@@ -11,17 +11,11 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import environment from 'platform/utilities/environment';
-
 export default {
   uiSchema: {
     ...titleUI(
       'Where should we send your additional certificates?',
-      environment.isProduction() ? (
-        <span className="custom-label h4">Additional address</span>
-      ) : (
-        <h4 className="custom-label h4">Additional address</h4>
-      ),
+      <h4 className="custom-label h4">Additional address</h4>,
     ),
     additionalAddress: addressNoMilitaryUI({
       labels: {
