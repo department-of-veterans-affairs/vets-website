@@ -391,8 +391,6 @@ const ComposeForm = props => {
       } = checkMessageValidity();
 
       if (type === 'manual') {
-        setLastFocusableElement(e?.target);
-
         // if all checks are valid, then save the draft
         if (
           (messageValid && !isSignatureRequired) ||
@@ -400,10 +398,11 @@ const ComposeForm = props => {
         ) {
           setNavigationError(null);
           setSavedDraft(true);
-        } else
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
+          setLastFocusableElement(e?.target);
+        } else focusOnErrorField();
+        setUnsavedNavigationError(
+          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+        );
 
         let errorType = null;
         if (
@@ -507,6 +506,7 @@ const ComposeForm = props => {
         setLastFocusableElement(e.target);
       } else {
         setSendMessageFlag(false);
+        focusOnErrorField();
       }
     },
     [checkMessageValidity, isSignatureRequired],
