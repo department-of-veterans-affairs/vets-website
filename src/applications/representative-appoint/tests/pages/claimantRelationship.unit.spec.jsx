@@ -11,7 +11,7 @@ describe('Claimant Relationship page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.yourInformation.pages.claimantRelationship;
+  } = formConfig.chapters.claimant.pages.claimantRelationship;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

@@ -11,7 +11,7 @@ describe('Claimant Contact Mailing page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.yourInformation.pages.claimantContactMailing;
+  } = formConfig.chapters.claimant.pages.claimantContactMailing;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {

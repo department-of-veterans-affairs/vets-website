@@ -170,9 +170,10 @@ const formConfig = {
       title: 'Veteran Information',
       pages: {
         veteranPersonalInformation: {
-          title: `${
-            preparerIsVeteran ? 'Your' : 'Veteran’s'
-          } name and date of birth`,
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } name and date of birth`,
           path: 'veteran-personal-information',
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
@@ -180,34 +181,40 @@ const formConfig = {
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: `${preparerIsVeteran ? 'Your' : 'Veteran’s'}  mailing address`,
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            }  mailing address`,
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
           editModeOnReviewPage: true,
         },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
-          title: `${
-            preparerIsVeteran ? 'Your' : 'Veteran’s'
-          } phone number and email address`,
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } phone number and email address`,
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
           editModeOnReviewPage: true,
         },
         veteranIdentification: {
           path: 'veteran-identification',
-          title: `${
-            preparerIsVeteran ? 'Your' : 'Veteran’s'
-          } identification information`,
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } identification information`,
           uiSchema: veteranIdentification.uiSchema,
           schema: veteranIdentification.schema,
           editModeOnReviewPage: true,
         },
         veteranServiceInformation: {
           path: 'veteran-service-information',
-          title: `${
-            preparerIsVeteran ? 'Your' : 'Veteran’s'
-          } identification information`,
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } service information`,
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
           editModeOnReviewPage: true,
