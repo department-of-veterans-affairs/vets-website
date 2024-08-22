@@ -347,7 +347,7 @@ jobs:
           if [[ "$OWNER" == *"mhv"* ]]; then
             echo "OWNER contains 'mhv', triggering the curl command."
             curl -s -X POST \
-              -H "Authorization: token ${{ GITHUB_TOKEN }}" \
+              -H "Authorization: token $GITHUB_TOKEN" \
               -d '{"body": "This PR affects code owned by a team containing abc in the name. Please follow the relevant guidelines."}' \
               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
           else
