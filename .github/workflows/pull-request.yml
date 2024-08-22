@@ -332,7 +332,7 @@ jobs:
         id: changed-files
         shell: bash
         run: |
-          if [[ ${{ github.ref }} == 'refs/heads/main' ]]; then
+          if [[ ${{ github.ref }} != 'refs/heads/main' ]]; then
               echo changed_files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }}) >> $GITHUB_OUTPUT
           else
             echo changed_files=$(git diff --name-only origin/main...) >> $GITHUB_OUTPUT
