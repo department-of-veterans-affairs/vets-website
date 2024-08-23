@@ -30,6 +30,8 @@ import {
   fetchBookedAppointment,
   cancelAppointment,
 } from '../../services/appointment';
+
+import { getClaim } from '../../services/claim';
 import { captureError, has400LevelError } from '../../utils/error';
 import {
   STARTED_NEW_APPOINTMENT_FLOW,
@@ -65,6 +67,10 @@ export const FETCH_CONFIRMED_DETAILS_FAILED =
   'vaos/FETCH_CONFIRMED_DETAILS_FAILED';
 export const FETCH_CONFIRMED_DETAILS_SUCCEEDED =
   'vaos/FETCH_CONFIRMED_DETAILS_SUCCEEDED';
+
+export const FETCH_CLAIM = 'vaos/FETCH_CLAIM';
+export const FETCH_CLAIM_SUCCEEDED = 'vaos/FETCH_CLAIM_STATUS_SUCCEEDED';
+export const FETCH_CLAIM_FAILED = 'vaos/FETCH_CLAIM_STATUS_FAILED';
 
 export const FETCH_PROVIDER_SUCCEEDED = 'vaos/FETCH_PROVIDER_SUCCEEDED';
 
@@ -472,6 +478,37 @@ export function fetchRequestDetails(id) {
       dispatch({
         type: FETCH_REQUEST_DETAILS_FAILED,
       });
+    }
+  };
+}
+
+export function fetchClaim(appointmentId, appointment) {
+  return async dispatch => {
+    try {
+      if (!appointment.claimId) {
+        dispatch({
+          type: FETCH_CLAIM,
+        });
+        const { claimId } = await getClaim(appointment.start);
+        dispatch({
+          type: FETCH_CLAIM_SUCCEEDED,
+          id: appointmentId,
+          claimId,
+        });
+      }
+    } catch (e) {
+      if (e.errors[0]?.status === '404') {
+        dispatch({
+          type: FETCH_CLAIM_SUCCEEDED,
+          id: appointmentId,
+          claimId: 'Not found',
+        });
+      } else {
+        captureError(e);
+        dispatch({
+          type: FETCH_CLAIM_FAILED,
+        });
+      }
     }
   };
 }

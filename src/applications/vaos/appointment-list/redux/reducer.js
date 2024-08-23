@@ -27,6 +27,9 @@ import {
   FETCH_FACILITY_SETTINGS_SUCCEEDED,
   FETCH_FACILITY_SETTINGS,
   FETCH_PROVIDER_SUCCEEDED,
+  FETCH_CLAIM_SUCCEEDED,
+  FETCH_CLAIM_FAILED,
+  FETCH_CLAIM,
 } from './actions';
 
 import {
@@ -49,6 +52,7 @@ const initialState = {
   cancelAppointmentStatus: FETCH_STATUS.notStarted,
   appointmentDetails: {},
   appointmentDetailsStatus: FETCH_STATUS.notStarted,
+  fetchClaimStatus: FETCH_STATUS.notStarted,
   appointmentToCancel: null,
   facilityData: {},
   systemClinicToFacilityMap: {},
@@ -306,6 +310,28 @@ export default function appointmentsReducer(state = initialState, action) {
       return {
         ...state,
         providerData: action.providerData,
+      };
+    case FETCH_CLAIM:
+      return {
+        ...state,
+        fetchClaimStatus: FETCH_STATUS.loading,
+      };
+    case FETCH_CLAIM_SUCCEEDED:
+      return {
+        ...state,
+        fetchClaimStatus: FETCH_STATUS.succeeded,
+        appointmentDetails: {
+          ...state.appointmentDetails,
+          [action.id]: {
+            ...state.appointmentDetails[action.id],
+            claimId: action.claimId,
+          },
+        },
+      };
+    case FETCH_CLAIM_FAILED:
+      return {
+        ...state,
+        fetchClaimStatus: FETCH_STATUS.failed,
       };
     default:
       return state;
