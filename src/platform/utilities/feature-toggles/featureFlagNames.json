@@ -178,6 +178,8 @@
   "profileShowMhvNotificationSettingsEmailRxShipment": "profile_show_mhv_notification_settings_email_rx_shipment",
   "profileShowMhvNotificationSettingsMedicalImages": "profile_show_mhv_notification_settings_medical_images",
   "profileShowPaymentsNotificationSetting": "profile_show_payments_notification_setting",
+  "profileShowNewBenefitOverpaymentDebtNotificationSetting": "profile_show_new_benefit_overpayment_debt_notification_setting",
+  "profileShowNewHealthCareCopayBillNotificationSetting": "profile_show_new_health_care_copay_bill_notification_setting",
   "profileShowPrivacyPolicy": "profile_show_privacy_policy",
   "profileShowPronounsAndSexualOrientation": "profile_show_pronouns_and_sexual_orientation",
   "profileShowQuickSubmitNotificationSetting": "profile_show_quick_submit_notification_setting",

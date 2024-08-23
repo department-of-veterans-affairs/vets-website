@@ -22,7 +22,7 @@ export const communicationPreferences = {
       group4: {
         name: 'Payments',
         description: 'Payments to the Veteran',
-        items: ['item5'],
+        items: ['item13', 'item14', 'item5'],
       },
       group5: {
         name: 'QuickSubmit',
@@ -44,6 +44,8 @@ export const communicationPreferences = {
       'item11',
       'item5',
       'item12',
+      'item13',
+      'item14',
     ],
     entities: {
       item3: {
@@ -86,6 +88,14 @@ export const communicationPreferences = {
         name: 'Disability and pension deposit notifications',
         channels: ['channel5-1'],
       },
+      item13: {
+        name: 'New benefit overpayment debt notification',
+        channels: ['channel13-2'],
+      },
+      item14: {
+        name: 'New health care copay bill',
+        channels: ['channel14-2'],
+      },
       item12: {
         name: 'QuickSubmit Upload Status',
         channels: ['channel12-1'],
@@ -106,6 +116,8 @@ export const communicationPreferences = {
       'channel6-1',
       'channel11-2',
       'channel5-1',
+      'channel13-2',
+      'channel14-2',
       'channel12-1',
     ],
     entities: {
@@ -236,6 +248,26 @@ export const communicationPreferences = {
         isAllowed: null,
         permissionId: null,
         defaultSendIndicator: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
+      'channel13-2': {
+        channelType: 2,
+        parentItem: 'item13',
+        isAllowed: null,
+        permissionId: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
+      'channel14-2': {
+        channelType: 2,
+        parentItem: 'item14',
+        isAllowed: null,
+        permissionId: null,
         ui: {
           updateStatus: 'idle',
           errors: null,

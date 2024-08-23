@@ -10,6 +10,7 @@ import {
   BLOCKED_MHV_NOTIFICATION_IDS,
   NOTIFICATION_CHANNEL_IDS,
   NOTIFICATION_GROUPS,
+  NOTIFICATION_ITEM_IDS,
 } from '../constants';
 
 // helper function to get the communication preferences entities
@@ -79,6 +80,14 @@ export const useNotificationSettingsUtils = () => {
     TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages,
   );
 
+  const profileShowNewBenefitOverpaymentDebtNotificationSetting = useToggleValue(
+    TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting,
+  );
+
+  const profileShowNewHealthCareCopayBillNotificationSetting = useToggleValue(
+    TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting,
+  );
+
   const showPaymentsNotificationSetting = useToggleValue(
     TOGGLE_NAMES.profileShowPaymentsNotificationSetting,
   );
@@ -97,6 +106,8 @@ export const useNotificationSettingsUtils = () => {
         profileShowMhvNotificationSettingsEmailRxShipment,
         profileShowMhvNotificationSettingsNewSecureMessaging,
         profileShowMhvNotificationSettingsMedicalImages,
+        profileShowNewBenefitOverpaymentDebtNotificationSetting,
+        profileShowNewHealthCareCopayBillNotificationSetting,
       };
     },
     [
@@ -107,6 +118,8 @@ export const useNotificationSettingsUtils = () => {
       profileShowMhvNotificationSettingsEmailRxShipment,
       profileShowMhvNotificationSettingsNewSecureMessaging,
       profileShowMhvNotificationSettingsMedicalImages,
+      profileShowNewBenefitOverpaymentDebtNotificationSetting,
+      profileShowNewHealthCareCopayBillNotificationSetting,
     ],
   );
 
@@ -122,26 +135,24 @@ export const useNotificationSettingsUtils = () => {
     [toggles],
   );
 
-  const getEmailAddress = useSelector(selectVAPEmailAddress);
-  const getMobilePhone = useSelector(selectVAPMobilePhone);
+  const emailAddress = useSelector(selectVAPEmailAddress);
+  const mobilePhone = useSelector(selectVAPMobilePhone);
 
   const channelsWithContactInfo = useSelector(() => {
     return [
-      ...(getEmailAddress
-        ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)]
-        : []),
-      ...(getMobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
+      ...(emailAddress ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)] : []),
+      ...(mobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
     ];
   });
 
   const missingChannels = useSelector(() => {
     return [
-      ...(getEmailAddress
+      ...(emailAddress
         ? []
         : [
             { name: 'email', id: parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10) },
           ]),
-      ...(getMobilePhone
+      ...(mobilePhone
         ? []
         : [{ name: 'text', id: parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10) }]),
     ];
@@ -182,10 +193,16 @@ export const useNotificationSettingsUtils = () => {
       ...BLOCKED_MHV_NOTIFICATION_IDS,
       ...(toggles.profileShowMhvNotificationSettingsNewSecureMessaging
         ? []
-        : ['item9']),
+        : [NOTIFICATION_ITEM_IDS.SECURE_MESSAGING]),
       ...(toggles.profileShowMhvNotificationSettingsMedicalImages
         ? []
-        : ['item10']),
+        : [NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES]),
+      ...(toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
+        ? []
+        : [NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT]),
+      ...(toggles.profileShowNewHealthCareCopayBillNotificationSetting
+        ? []
+        : [NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL]),
     ];
 
     const itemIds = Object.keys(items);
@@ -212,22 +229,22 @@ export const useNotificationSettingsUtils = () => {
           acc.push(item);
         }
 
-        const isItem3 = itemId === 'item3';
-        const isItem4 = itemId === 'item4';
+        const isItem3 =
+          itemId === NOTIFICATION_ITEM_IDS.HEALTH_APPOINTMENT_REMINDERS;
+        const isItem4 = itemId === NOTIFICATION_ITEM_IDS.PRESCRIPTION_SHIPMENT;
         if (isItem3) {
           const noEmail =
             profileShowMhvNotificationSettingsEmailAppointmentReminders &&
-            !getEmailAddress;
-          const noPhone = !getMobilePhone;
+            !emailAddress;
+          const noPhone = !mobilePhone;
 
           if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
             acc.push(item);
           }
         } else if (isItem4) {
           const noEmail =
-            profileShowMhvNotificationSettingsEmailRxShipment &&
-            !getEmailAddress;
-          const noPhone = !getMobilePhone;
+            profileShowMhvNotificationSettingsEmailRxShipment && !emailAddress;
+          const noPhone = !mobilePhone;
 
           if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
             acc.push(item);
@@ -243,18 +260,23 @@ export const useNotificationSettingsUtils = () => {
     useMemo(
       () => {
         return itemIds.filter(itemId => {
-          // Always exclude these items: ticket# 89524
           return (
             !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
-            // Exclude item9 if profileShowMhvNotificationSettingsNewSecureMessaging is turned off
             !(
-              itemId === 'item9' &&
+              itemId === NOTIFICATION_ITEM_IDS.SECURE_MESSAGING &&
               !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
             ) &&
-            // Exclude item10 if profileShowMhvNotificationSettingsMedicalImages is turned off
             !(
-              itemId === 'item10' &&
+              itemId === NOTIFICATION_ITEM_IDS.MEDICAL_IMAGES &&
               !toggles.profileShowMhvNotificationSettingsMedicalImages
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.BENEFIT_OVERPAYMENT_DEBT &&
+              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting
+            ) &&
+            !(
+              itemId === NOTIFICATION_ITEM_IDS.HEALTH_CARE_COPAY_BILL &&
+              !toggles.profileShowNewHealthCareCopayBillNotificationSetting
             )
           );
         });

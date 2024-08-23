@@ -27,9 +27,12 @@ const emailNotificationNames = [
   'Prescription shipment and tracking updates',
   'Secure messaging alert',
   'Medical images and reports available',
+  // will never be visible per ticket# 89524
   // 'RX refill shipment notification',
   // 'VA Appointment reminders',
   // 'Biweekly MHV newsletter',
+  'New benefit overpayment debt notification',
+  'New health care copay bill',
 ];
 
 const textNotificationNames = [
@@ -49,6 +52,8 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
+        [TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting]: true,
+        [TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
         [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: true,
@@ -82,7 +87,7 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
 
     expect(includedNames.every(result => result === true)).to.be.true;
 
-    expect(hookResults.length).to.equal(4);
+    expect(hookResults.length).to.equal(6);
   });
 
   it('returns items with text notifications when mobile phone is missing from contact info', () => {
