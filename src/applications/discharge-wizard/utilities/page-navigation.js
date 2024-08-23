@@ -93,7 +93,15 @@ export const navigateForward = (
           !formResponses[nextShortName] &&
           editMode
         ) {
-          updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+          if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
+            updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+          }
+          if (editMode && questionFlowChanged) {
+            const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
+            const newRouteMap = routeMap.slice(0, index + 1);
+            // console.log(newRouteMap, index);
+            updateRouteMap([...newRouteMap]);
+          }
           pushToRoute(nextShortName, router);
           return;
         }

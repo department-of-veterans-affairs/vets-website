@@ -8,7 +8,7 @@ import {
   SHORT_NAME_MAP,
   REVIEW_LABEL_MAP,
 } from '../../constants/question-data-map';
-import { updateEditMode } from '../../actions';
+import { updateEditMode, updateRouteMap } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
 
@@ -19,6 +19,7 @@ const ReviewPage = ({
   questionFlowChanged,
   toggleEditMode,
   routeMap,
+  setRouteMap,
 }) => {
   const H1 = 'Review your answers';
 
@@ -45,6 +46,7 @@ const ReviewPage = ({
 
   const onBackClick = () => {
     const previousRoute = routeMap[routeMap.length - 2];
+    setRouteMap(routeMap.slice(0, -1));
     router.push(previousRoute);
   };
 
@@ -126,6 +128,7 @@ ReviewPage.propTypes = {
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
+  setRouteMap: updateRouteMap,
 };
 
 const mapStateToProps = state => ({

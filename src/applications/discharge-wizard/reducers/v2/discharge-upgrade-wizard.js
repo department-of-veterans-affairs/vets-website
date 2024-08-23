@@ -42,7 +42,7 @@ const initialState = {
   viewedIntroPage: false,
   editMode: false,
   questionFlowChanged: false,
-  routeMap: [ROUTES.HOMEPAGE, ROUTES.SERVICE_BRANCH],
+  routeMap: [ROUTES.HOME, ROUTES.SERVICE_BRANCH],
 };
 
 export default (state = initialState, action) => {

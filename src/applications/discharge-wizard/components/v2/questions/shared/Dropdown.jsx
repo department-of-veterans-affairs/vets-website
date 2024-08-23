@@ -96,7 +96,15 @@ const Dropdown = ({
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
     }
     toggleEditMode(false);
-    navigateBackward(router, setRouteMap, routeMap, editMode);
+    navigateBackward(
+      router,
+      setRouteMap,
+      routeMap,
+      shortName,
+      editMode,
+      isForkableQuestion,
+      valueHasChanged,
+    );
   };
 
   return (
