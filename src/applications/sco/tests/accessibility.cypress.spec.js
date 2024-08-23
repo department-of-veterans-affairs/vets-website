@@ -32,7 +32,7 @@ describe('Accessibility', () => {
     );
     // Tab to 'Trainings and webinars' links
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Training Requirements');
+    cy.focused().should('contain.text', 'Training requirements');
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
@@ -55,7 +55,7 @@ describe('Accessibility', () => {
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Education File Upload Portal');
+    cy.focused().should('contain.text', 'Education File upload portal');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
@@ -84,7 +84,7 @@ describe('Accessibility', () => {
     cy.realPress('Enter');
     cy.focused().should('contain.text', 'Collapse all -');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Enrollment Manager');
+    cy.focused().should('contain.text', 'Enrollment manager');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Launch VA Education Platform Portal');
     cy.realPress('Tab');
@@ -97,7 +97,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.focused().should(
       'contain.text',
-      'VA Paper Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
+      'VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
     );
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Payment and debt');
@@ -134,7 +134,7 @@ describe('Accessibility', () => {
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'About GI Bill Benefits');
+    cy.focused().should('contain.text', 'About GI Bill benefits');
     cy.realPress('Tab');
     cy.realPress('Tab');
     cy.realPress('Tab');

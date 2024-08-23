@@ -13,10 +13,10 @@ const OtherResources = () => {
       <va-accordion uswds>
         <va-accordion-item
           open
-          header="Enrollment Manager"
-          subheader="Access Enrollment Manager  and essential training for VA student enrollment certifications and compliance."
+          header="Enrollment manager"
+          subheader="Access enrollment manager  and essential training for VA student enrollment certifications and compliance."
         >
-          Access Enrollment Manager
+          Access enrollment manager
           <ul>
             <LiSpanAndVaLink
               hrefText="Launch VA Education Platform Portal"
@@ -27,11 +27,11 @@ const OtherResources = () => {
           User guides and essential information
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager User Guide"
+              hrefText="Enrollment manager user guide"
               href="https://vbatraining.adobeconnect.com/pz0f1ckt4nrh/default/index.html"
             />
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager FAQs"
+              hrefText="Enrollment manager FAQs"
               class="hydrated"
               href="https://vbatraining.adobeconnect.com/ptgxzsnw11w7/default/index.html"
             />
@@ -39,30 +39,30 @@ const OtherResources = () => {
           Quick Start Guides
           <ul>
             <LiSpanAndVaLink
-              hrefText="Flight - Enrollment Manager Quick Start Guide (PDF, 4 pages)"
+              hrefText="Flight - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/flight-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Institutions of Higher Learning - Enrollment Manager Quick Start Guide (PDF, 3 pages)"
+              hrefText="Institutions of higher learning - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ihl-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="Non-College Degree Programs - Enrollment Manager Quick Start Guide (PDF, 3 pages)"
+              hrefText="Non-college degree programs - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ncd-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="On-the-Job Training/Apprenticeship - Enrollment Manager Quick Start Guide (PDF, 4 pages)"
+              hrefText="On-the-job training/apprenticeship - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ojtapp-quick-start-guide.pdf"
             />
           </ul>
           Updates
           <ul>
             <LiSpanAndVaLink
-              hrefText="Enrollment Manager System Updates"
+              hrefText="Enrollment manager system updates"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/enrollment-manager-system-updates.asp"
             />
             <LiSpanAndVaLink
-              hrefText="VA Paper Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
+              hrefText="VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/paper-based-enrollment-manager-crosswalk.pptx"
             />
           </ul>
@@ -74,11 +74,11 @@ const OtherResources = () => {
         >
           <ul>
             <LiSpanAndVaLink
-              hrefText="GI Bill Overpayments and Debt"
+              hrefText="GI Bill overpayments and debt"
               href="https://www.benefits.va.gov/gibill/resources/education_resources/debt_info.asp"
             />
             <LiSpanAndVaLink
-              hrefText="VA Debt Management Center"
+              hrefText="VA debt management center"
               href="https://www.va.gov/resources/va-debt-management/"
             />
             <LiSpanAndVaLink
@@ -103,11 +103,11 @@ const OtherResources = () => {
               href="https://authentication.tungsten-network.com/login"
             />
             <LiSpanAndVaLink
-              hrefText="VR&amp;E Tungsten Invoicing (PDF, 14 pages)"
+              hrefText="VR&amp;E Tungsten invoicing (PDF, 14 pages)"
               href="https://www.benefits.va.gov/GIBILL/docs/job_aids/VRE_Tungsten_Invoicing.pdf"
             />
             <LiSpanAndVaLink
-              hrefText="VR&amp;E Tungsten Customer Campaign"
+              hrefText="VR&amp;E Tungsten customer campaign"
               href="https://www.tungsten-network.com/customer-campaigns/vre/"
             />
           </ul>
@@ -138,35 +138,35 @@ const OtherResources = () => {
         >
           <ul>
             <LiSpanAndVaLink
-              hrefText="The 85/15 Rule"
+              hrefText="The 85/15 rule"
               href="https://benefits.va.gov/GIBILL/85_15/85_15_homepage.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Reporting Requirements"
+              hrefText="Reporting requirements"
               href="https://benefits.va.gov/GIBILL/85_15/Reporting_Requirements.asp"
             />
             <LiSpanAndVaLink
-              hrefText="35 Percent Exemption"
+              hrefText="35 percent exemption"
               href="https://benefits.va.gov/GIBILL/85_15/35_percent_exemption.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Department of Defense (DoD) Exemption"
+              hrefText="Department of Defense exemption"
               href="https://benefits.va.gov/GIBILL/85_15/dod_exemption.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Education Service Waiver"
+              hrefText="Education service waiver"
               href="https://benefits.va.gov/GIBILL/85_15/education_service_waiver.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Supported and Non-Supported Students"
+              hrefText="Supported and non-supported students"
               href="https://benefits.va.gov/GIBILL/85_15/supported_non_supported_students.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Restricted Aid"
+              hrefText="Restricted aid"
               href="https://benefits.va.gov/GIBILL/85_15/restricted_aid.asp"
             />
             <LiSpanAndVaLink
-              hrefText="Suspension and Review"
+              hrefText="Suspension and review"
               href="https://benefits.va.gov/GIBILL/85_15/Suspension_and_Review.asp"
             />
             <LiSpanAndVaLink
@@ -182,7 +182,7 @@ const OtherResources = () => {
       >
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/about-gi-bill-benefits/"
-          hrefText="About GI Bill Benefits"
+          hrefText="About GI Bill benefits"
           pText="Learn how the GI Bill works and explore options Veterans have to pay for school or training."
         />
         <LiSpanAndVaLinkAndPTag
@@ -202,7 +202,7 @@ const OtherResources = () => {
         />
         <LiSpanAndVaLinkAndPTag
           href="https://www.va.gov/education/about-gi-bill-benefits/how-to-use-benefits/"
-          hrefText="How to Use GI Bill Benefits"
+          hrefText="How to use GI Bill benefits"
           pText="Learn how students may use their GI Bill benefits to advance their education and training."
         />
       </MainContentSubSection>

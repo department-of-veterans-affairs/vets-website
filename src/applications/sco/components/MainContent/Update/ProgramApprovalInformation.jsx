@@ -15,12 +15,12 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://inquiry.vba.va.gov/weamspub/buildSearchCountryLCCriteria.do"
-        hrefText="Licensing and Certification"
+        hrefText="Licensing and certification"
         pText="Search WEAMS for approved Licensing and Certifications and Test Prep Courses by country and state."
       />
       <LiSpanAndVaLinkAndPTag
         href="https://inquiry.vba.va.gov/weamspub/buildSearchNE.do"
-        hrefText="National Exams"
+        hrefText="National exams"
         pText="Search WEAMS to identify approved National Exams such as ACT, CLEP, MCAT, and more."
       />
       <LiSpanAndVaLinkAndPTag
@@ -30,7 +30,7 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://www.benefits.va.gov/gibill/foreign_program_approval_information_for_schools.asp"
-        hrefText="Foreign Program Approvals"
+        hrefText="Foreign program approvals"
         pText="Identify general approval guidelines for programs of education offered at foreign institutions."
       />
       <LiSpanAndVaLinkAndPTag

@@ -10,7 +10,7 @@ const UploadFileToVa = () => {
       <MainContentSubDiv id="upload-files-to-va" header="Upload files to VA">
         <LiSpanAndVaLinkAndPTag
           href="https://www.my.va.gov/EducationFileUploads/s/"
-          hrefText="Education File Upload Portal"
+          hrefText="Education File upload portal"
           pText="Upload forms and other accepted documents supporting compliance actions, designating or removing certifying officials, and more."
         />
       </MainContentSubDiv>
@@ -19,7 +19,7 @@ const UploadFileToVa = () => {
           open
           uswds
           header="Forms library and other accepted documents"
-          subheader="Check out the forms and documents which you can submit to VA via the Education File Upload Portal."
+          subheader="Check out the forms and documents which you can submit to VA via the Education File upload portal."
         >
           Accepted forms
           <ul>
