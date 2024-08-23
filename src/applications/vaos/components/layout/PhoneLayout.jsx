@@ -118,12 +118,10 @@ export default function PhoneLayout({ data: appointment }) {
               Bring your insurance cards and a list of your medications and
               other information to share with your provider.
             </p>
-            <a
-              target="_self"
+            <va-link
+              text="Find a full list of things to bring to your appointment"
               href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-            >
-              Find a full list of things to bring to your appointment
-            </a>
+            />
           </Prepare>
         )}
     </DetailPageLayout>

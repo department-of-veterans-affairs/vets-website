@@ -420,14 +420,14 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.container.querySelector(
-            'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+            'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
           ),
         ).to.be.ok;
         expect(
-          screen.getByText(
-            /Find a full list of things to bring to your appointment/i,
+          screen.container.querySelector(
+            'va-link[text="Find a full list of things to bring to your appointment"]',
           ),
-        );
+        ).to.be.ok;
       });
     });
 
@@ -563,14 +563,14 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.container.querySelector(
-            'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+            'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
           ),
         ).to.be.ok;
         expect(
-          screen.getByText(
-            /Find a full list of things to bring to your appointment/i,
+          screen.container.querySelector(
+            'va-link[text="Find a full list of things to bring to your appointment"]',
           ),
-        );
+        ).to.be.ok;
       });
     });
   });
@@ -842,14 +842,14 @@ describe('VAOS Component: VideoLayoutVA', () => {
       );
       expect(
         screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
         ),
       ).to.be.ok;
       expect(
-        screen.getByText(
-          /Find a full list of things to bring to your appointment/i,
+        screen.container.querySelector(
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
-      );
+      ).to.be.ok;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
