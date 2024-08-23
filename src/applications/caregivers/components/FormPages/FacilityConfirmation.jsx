@@ -42,7 +42,7 @@ const FacilityConfirmation = props => {
         This is the facility where you told us the Veteran receives or plans to
         receive treatment.
       </p>
-      <p className="va-address-block">{addressText(selectedFacility)}</p>
+      <va-card>{addressText(selectedFacility)}</va-card>
       <h4>Your assigned caregiver support facility</h4>
       <p>
         This is the facility we’ve assigned to support you in the application

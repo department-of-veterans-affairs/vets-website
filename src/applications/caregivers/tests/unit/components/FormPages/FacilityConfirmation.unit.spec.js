@@ -53,6 +53,11 @@ describe('CG <FacilityConfirmation>', () => {
     return { selectors, getByRole, getByText };
   };
 
+  afterEach(() => {
+    goBack.reset();
+    goForward.reset();
+  });
+
   context('formNavButtons', () => {
     it('renders back and forward buttons', () => {
       const { selectors } = subject();
