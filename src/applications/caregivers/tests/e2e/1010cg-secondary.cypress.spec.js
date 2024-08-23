@@ -4,7 +4,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 
-import { setupPerTest, pageHooks } from './cypress.helpers';
+import { setupPerTest, pageHooks } from './utils/helpers';
 
 const testConfig = createTestConfig(
   {

@@ -1,17 +1,18 @@
-import content from '../../locales/en/content.json';
+import content from '../../../locales/en/content.json';
 import {
   goToNextPage,
   selectYesNoWebComponent,
   selectCheckboxWebComponent,
   fillStatementOfTruthPattern,
   fillAddressWebComponentPattern,
-} from './utils';
-import featureToggles from './fixtures/mocks/feature-toggles.json';
-import mockUpload from './fixtures/mocks/mock-upload.json';
-import mockFacilities from './fixtures/mocks/mock-facilities.json';
-import mockSubmission from './fixtures/mocks/mock-submission.json';
+} from '.';
+import featureToggles from '../fixtures/mocks/feature-toggles.json';
+import mockUpload from '../fixtures/mocks/mock-upload.json';
+import mockFacilities from '../fixtures/mocks/mock-facilities.json';
+import mockSubmission from '../fixtures/mocks/mock-submission.json';
 
 export const setupPerTest = () => {
+  Cypress.config({ waitForAnimations: false });
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
   cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
   cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
@@ -19,6 +20,7 @@ export const setupPerTest = () => {
   );
   cy.intercept('POST', '/v0/caregivers_assistance_claims', mockSubmission);
 };
+
 export const pageHooks = {
   introduction: ({ afterHook }) => {
     afterHook(() => {
