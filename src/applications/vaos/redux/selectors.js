@@ -113,3 +113,6 @@ export const selectFeatureOHDirectSchedule = state =>
 
 export const selectFeatureOHRequest = state =>
   toggleValues(state).vaOnlineSchedulingOhRequest;
+
+export const selectFeatureClaimStatus = state =>
+  toggleValues(state).vaOnlineSchedulingClaimStatus;
