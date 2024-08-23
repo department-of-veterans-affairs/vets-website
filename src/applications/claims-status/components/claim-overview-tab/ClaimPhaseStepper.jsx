@@ -215,8 +215,7 @@ export default function ClaimPhaseStepper({
               </strong>
             )}
             {isCurrentPhase(claimPhase.phase) &&
-              currentPhaseBack &&
-              phaseCanRepeat(claimPhase.phase) && (
+              currentPhaseBack && (
                 <va-alert
                   class="optional-alert vads-u-padding-bottom--1"
                   status="info"
