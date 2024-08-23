@@ -105,6 +105,29 @@ describe('cardAction', () => {
           topic: 'prescriptions',
         });
       });
+      it('should call recordEvent with any skill when classList has webchat__suggested-action in card and skill is prescriptions', () => {
+        const card = generateFakeCard(
+          'https://www.va.gov/v0/claim_letters/abc',
+          'notOpenUrl',
+        );
+        card.target = {
+          classList: ['webchat__suggested-action'],
+        };
+
+        sandbox
+          .stub(SessionStorageModule, 'getEventSkillValue')
+          .returns('ratings');
+        const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+        cardActionMiddleware()(sandbox.stub())(card);
+
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(recordEventStub.firstCall.args[0]).to.deep.equal({
+          event: 'chatbot-button-click',
+          clickText: card.cardAction.value,
+          topic: 'ratings',
+        });
+      });
       it('should call recordEvent when classList has webchat__suggested-action in card', () => {
         const card = generateFakeCard(
           'https://www.va.gov/v0/claim_letters/abc',
@@ -137,7 +160,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          topic: undefined,
+          topic: null,
         });
       });
       it('should not call recordEvent when classList is unknown class in card', () => {

@@ -6,6 +6,7 @@ import MarkdownRenderer, {
   getRenderToken,
   getDefaultRenderer,
 } from '../../utils/markdownRenderer';
+import { setEventSkillValue } from '../../utils/sessionStorage';
 
 describe('markdownRenderer', () => {
   let sandbox;
@@ -34,7 +35,7 @@ describe('markdownRenderer', () => {
       element.setAttribute('id', 'chatbotLink');
       element.appendChild(document.createTextNode('Chatbot Link'));
       document.body.appendChild(element);
-
+      setEventSkillValue('prescriptions');
       recordChatbotEvents({ target: element });
 
       expect(recordEventSpy.calledOnce).to.be.true;
@@ -43,6 +44,7 @@ describe('markdownRenderer', () => {
         link: 'http://example.com/',
         linkText: 'Chatbot Link',
         time: now,
+        topic: 'prescriptions',
       });
     });
     it('should call recordEvent when a non-chatbot link is clicked', () => {
