@@ -1,0 +1,7 @@
+{
+  "appName": "Yeoman Test",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "yeoman-test",
+  "rootUrl": "/yeoman-test",
+  "productId": "f57ffca2-9c6a-4db9-8e9b-d86d1f405bbc"
+}
