@@ -77,7 +77,7 @@ export default function transformForSubmit(formConfig, form) {
   */
   copyOfData.claims = [
     {
-      claimIsAutoRelatedd: copyOfData.claimIsAutoRelated,
+      claimIsAutoRelated: copyOfData.claimIsAutoRelated,
       claimIsWorkRelated: copyOfData.claimIsWorkRelated,
       claimType: copyOfData.claimType,
       claimId: 0, // Always zero - we only support one claim currently
