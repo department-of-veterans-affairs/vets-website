@@ -85,6 +85,11 @@ const logRequest = req => {
 };
 
 const responses = {
+  'PUT /v0/in_progress_forms/XX-230': 'OK',
+  'OPTIONS /v0/in_progress_forms/XX-230': 'OK',
+  'POST /v1/profile/tutorial-test/submit': (_req, res) => {
+    return res.status(200).json({});
+  },
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
     delaySingleResponse(
