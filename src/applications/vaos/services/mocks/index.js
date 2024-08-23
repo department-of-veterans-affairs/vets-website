@@ -2,6 +2,7 @@
 /* eslint-disable camelcase */
 const delay = require('mocker-api/lib/delay');
 const moment = require('moment');
+const { format, subDays } = require('date-fns');
 
 // var
 const confirmedVA = require('./var/confirmed_va.json');
@@ -862,6 +863,33 @@ const responses = {
       },
     },
     meta: { errors: null },
+  },
+  'GET /vaos/v2/claims': (req, res) => {
+    const { date } = req.query;
+    const dateObject = new Date(date);
+    // Testing the 404 response with the date of yesterday
+    if (
+      format(dateObject, 'yyyy-MM-dd') ===
+      format(subDays(new Date(), 1), 'yyyy-MM-dd')
+    ) {
+      return res.status(404).json({
+        errors: [
+          {
+            title: 'Not Found',
+            detail: 'Received a not found response from the upstream server',
+            code: 'EVSS404',
+            source: 'EVSS::DisabilityCompensationForm::Service',
+            status: '404',
+            meta: {},
+          },
+        ],
+      });
+    }
+    return res.json({
+      data: {
+        claimId: '123456',
+      },
+    });
   },
 
   'OPTIONS /v0/maintenance_windows': 'OK',
