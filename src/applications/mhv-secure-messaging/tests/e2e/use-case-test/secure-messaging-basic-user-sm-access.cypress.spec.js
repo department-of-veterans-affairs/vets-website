@@ -5,7 +5,7 @@ import mockGeneralFolder from '../fixtures/generalResponses/generalFolder.json';
 import { Paths } from '../utils/constants';
 
 describe('Secure Messaging Basic User', () => {
-  it('verify basic user has not access to secure-messaging', () => {
+  it('verify basic user does not have access to secure-messaging', () => {
     const basicUser = { ...mockUser };
     basicUser.data.attributes.services = basicUser.data.attributes.services.filter(
       service => service !== 'messaging',
@@ -31,6 +31,6 @@ describe('Secure Messaging Basic User', () => {
       },
     });
 
-    cy.location('pathname').should('eq', Paths.HEALTH_CARE_SECURE_MSG);
+    cy.location('pathname').should('contain', Paths.MHV_LANDING_PAGE);
   });
 });

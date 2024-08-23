@@ -41,7 +41,7 @@ const IntroductionPage = ({ route }) => {
             label: 'Board Appeals',
           },
           {
-            href: '/decision-reviews/testing/nod-new',
+            href: '/decision-reviews/test-nod',
             label: 'Request a Board Appeal',
           },
         ]}
@@ -70,7 +70,7 @@ const IntroductionPage = ({ route }) => {
       <p className="vads-u-margin-top--4">
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/testing/nod-new/task-list"
+          href="/decision-reviews/test-nod/task-list"
         >
           Start the Board Appeal request
         </a>
@@ -182,7 +182,7 @@ const IntroductionPage = ({ route }) => {
       <div>
         <a
           className="vads-c-action-link--green"
-          href="/decision-reviews/testing/nod-new/task-list"
+          href="/decision-reviews/test-nod/task-list"
         >
           Start the Board Appeal request
         </a>

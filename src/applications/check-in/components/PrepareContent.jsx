@@ -40,7 +40,7 @@ const PrepareContent = props => {
             onClick={onPrepareClick}
             data-testid="what-to-bring-link"
           >
-            {t('find-out-what-to-bring')}
+            {t('find-a-full-list-of-things-to-bring')}
           </a>
         </p>
         <HowToLink />

@@ -24,11 +24,11 @@ const storeBase = {
   },
 };
 
-const storeBaseInvalid = {
+const storeBaseTruncated = {
   form: {
     ...formConfig,
     data: {
-      fullName: {
+      applicantName: {
         first: 'first',
         middle: 'middle',
         last: 'last',
@@ -61,13 +61,30 @@ describe('Confirmation page', () => {
 
   it('should render fullName if present', () => {
     const { container } = render(
-      <Provider store={mockStore(storeBaseInvalid)}>
+      <Provider store={mockStore(storeBaseTruncated)}>
         <ConfirmationPage />
       </Provider>,
     );
 
     expect(container.querySelector('.inset')).to.include.text(
-      'first middle last, jr',
+      'first middle last jr',
+    );
+  });
+
+  it('should render name without suffix if none present', () => {
+    const tmpStore = storeBaseTruncated;
+    delete tmpStore.form.data.fullName.suffix;
+    const { container } = render(
+      <Provider store={mockStore(tmpStore)}>
+        <ConfirmationPage />
+      </Provider>,
+    );
+
+    expect(container.querySelector('.inset')).to.not.include.text(
+      'first middle lastnull',
+    );
+    expect(container.querySelector('.inset')).to.include.text(
+      'first middle last',
     );
   });
 });

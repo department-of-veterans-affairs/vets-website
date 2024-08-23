@@ -70,6 +70,7 @@ describe('DebtSummaryCard', () => {
             'Account returned from Treasury Cross Servicing. Account is at TOP.  TOP offsets will be applied to account as Federal funds become available.',
         },
       ],
+      compositeDebtId: '441300',
     };
     const fakeStore = {
       getState: () => ({

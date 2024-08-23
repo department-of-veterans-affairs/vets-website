@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
+import { URLS } from '../utils/navigation';
 
 import {
   getAppointmentId,
@@ -16,8 +17,9 @@ import UpcomingAppointmentsListItem from './UpcomingAppointmentsListItem';
 
 const UpcomingAppointmentsList = props => {
   const { router, app, upcomingAppointments } = props;
-  const { jumpToPage } = useFormRouting(router);
+  const { jumpToPage, getCurrentPageFromRouter } = useFormRouting(router);
   const { t } = useTranslation();
+  const page = getCurrentPageFromRouter();
 
   const groupedAppointments = organizeAppointmentsByYearMonthDay(
     upcomingAppointments,
@@ -28,36 +30,43 @@ const UpcomingAppointmentsList = props => {
     recordEvent({
       event: createAnalyticsSlug('details-link-clicked', 'nav', app),
     });
-    jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    if (page === URLS.UPCOMING_APPOINTMENTS) {
+      jumpToPage(
+        `upcoming-appointment-details/${getAppointmentId(appointment)}`,
+      );
+    } else {
+      jumpToPage(`appointment-details/${getAppointmentId(appointment)}`);
+    }
   };
 
   if (groupedAppointments.length < 1) {
     window.scrollTo(0, 0);
     return (
       <div data-testid="no-upcoming-appointments">
-        <va-card background>
-          <h3 className="vads-u-margin-top--0">
-            {t('we-cant-find-any-upcoming-appointments')}
-          </h3>
-          <p>{t('our-online-check-in-tool-doesnt-include-all')}</p>
-          <p>
-            <va-link
-              href="https://www.va.gov/health-care/schedule-view-va-appointments/"
-              text={t('go-to-all-your-va-appointments')}
-            />
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            <va-link
-              href="https://www.va.gov/find-locations/"
-              text={t('find-your-health-facilities-phone-number')}
-            />
-          </p>
-        </va-card>
+        <h3 className="vads-u-margin-top--0">
+          {t('we-cant-find-any-upcoming-appointments')}
+        </h3>
+        <p>{t('our-online-check-in-tool-doesnt-include-all')}</p>
+        <p>
+          <va-link
+            href="https://www.va.gov/health-care/schedule-view-va-appointments/"
+            text={t('go-to-all-your-va-appointments')}
+          />
+        </p>
+        <p className="vads-u-margin-bottom--0">
+          <va-link
+            href="https://www.va.gov/find-locations/"
+            text={t('find-your-health-facilities-phone-number')}
+          />
+        </p>
       </div>
     );
   }
   return (
-    <div className="vads-u-border-bottom--1px vads-u-border-color--gray-light">
+    <div
+      data-testid="upcoming-appointments-list"
+      className="vads-u-border-bottom--1px vads-u-border-color--gray-light"
+    >
       {groupedAppointments.map(month => {
         const { firstAppointmentStartTime, days } = month;
         const monthDate = new Date(firstAppointmentStartTime);
