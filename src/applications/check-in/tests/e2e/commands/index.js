@@ -1,4 +1,6 @@
 /* eslint-disable cypress/no-unnecessary-waiting */
+/* eslint-disable  cypress/no-assigning-return-values */
+
 import sharedData from '../../../api/local-mock-api/mocks/v2/shared';
 
 const { defaultUUID } = sharedData.get;
@@ -67,23 +69,20 @@ Cypress.Commands.add('createScreenshots', filename => {
       cy.wait(1000);
     };
     // Expand additional info if it exists and make more screenshots
-    // eslint-disable-next-line cypress/no-assigning-return-values
-    const additionalInfo = cy.$$('va-additional-info');
-    // eslint-disable-next-line cypress/no-assigning-return-values
-    const accordion = cy.$$('va-accordion-item');
-    // eslint-disable-next-line cypress/no-assigning-return-values
     const alert = cy.$$('va-alert-expandable');
+    const additionalInfo = cy.$$('va-additional-info');
+    const accordion = cy.$$('va-accordion-item');
     let hiddenItems = false;
+    if (alert.length) {
+      expandHiddenItem(alert);
+      hiddenItems = true;
+    }
     if (additionalInfo.length) {
       expandHiddenItem(additionalInfo);
       hiddenItems = true;
     }
     if (accordion.length) {
       expandHiddenItem(accordion);
-      hiddenItems = true;
-    }
-    if (alert.length) {
-      expandHiddenItem(alert);
       hiddenItems = true;
     }
     if (hiddenItems) {
