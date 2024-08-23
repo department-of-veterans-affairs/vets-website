@@ -67,6 +67,7 @@ export const mockFacilitiesResponse = [
         city: 'Columbus',
         state: 'OH',
         address1: '420 North James Road',
+        address3: '33',
       },
     },
     classification: 'Health Care Center (HCC)',
