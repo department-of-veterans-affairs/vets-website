@@ -28,7 +28,7 @@ const storeBaseTruncated = {
   form: {
     ...formConfig,
     data: {
-      fullName: {
+      applicantName: {
         first: 'first',
         middle: 'middle',
         last: 'last',
@@ -67,7 +67,7 @@ describe('Confirmation page', () => {
     );
 
     expect(container.querySelector('.inset')).to.include.text(
-      'first middle last, jr',
+      'first middle last jr',
     );
   });
 

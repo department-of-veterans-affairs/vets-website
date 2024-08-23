@@ -295,13 +295,13 @@ const AppointmentDetails = props => {
                     <br />
                     <p>
                       {APP_NAMES.PRE_CHECK_IN
-                        ? t('find-all-appointment-information-check-in')
-                        : t('find-all-appointment-information-pre-check-in')}
+                        ? t('find-all-appointment-information-pre-check-in')
+                        : t('find-all-appointment-information-check-in')}
                     </p>
                   </va-alert-expandable>
                 )}
               {app === APP_NAMES.PRE_CHECK_IN &&
-                !getPreCheckinComplete(window)?.complete && (
+                link && (
                   <>
                     <h2 className="vads-u-font-size--sm">
                       {t('review-contact-information')}
