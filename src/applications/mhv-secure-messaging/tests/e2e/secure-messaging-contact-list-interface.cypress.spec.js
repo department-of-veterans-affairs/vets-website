@@ -2,7 +2,6 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import ContactListPage from './pages/ContactListPage';
 import { AXE_CONTEXT } from './utils/constants';
-import mockRecipients from '../fixtures/recipients.json';
 
 describe('Secure Messaging Contact list', () => {
   beforeEach(() => {
@@ -33,12 +32,6 @@ describe('Secure Messaging Contact list', () => {
     ContactListPage.verifySaveAlertHeader();
     ContactListPage.verifyButtons();
 
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/preferences/recipients',
-      mockRecipients,
-    ).as('savedList');
-
     ContactListPage.clickSaveAndExitButton();
     ContactListPage.verifyContactListSavedAlert();
 
@@ -46,11 +39,12 @@ describe('Secure Messaging Contact list', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
+  // mock response will be amended in further updates
   it('verify contact saving request', () => {
     cy.intercept(
       'POST',
       '/my_health/v1/messaging/preferences/recipients',
-      mockRecipients,
+      '200',
     ).as('savedList');
 
     ContactListPage.clickSaveAndExitButton();

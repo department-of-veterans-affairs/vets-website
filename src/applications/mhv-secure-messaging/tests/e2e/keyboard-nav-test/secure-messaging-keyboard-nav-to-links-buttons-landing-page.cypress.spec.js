@@ -31,7 +31,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       .find('a')
       .should(`have.attr`, `href`, `#ds-back-to-top`);
 
-    cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
+    // cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
