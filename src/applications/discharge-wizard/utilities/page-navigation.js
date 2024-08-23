@@ -57,12 +57,11 @@ export const navigateForward = (
   formResponses,
   router,
   editMode,
-  updateRouteMap,
+  setRouteMap,
   routeMap,
   questionFlowChanged,
 ) => {
   const roadmap = makeRoadmap();
-
   if (roadmap?.length) {
     const CURRENT_INDEX = roadmap?.indexOf(SHORT_NAME);
     const END_INDEX = roadmap?.length - 1;
@@ -94,14 +93,16 @@ export const navigateForward = (
           editMode
         ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
-            updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            if (questionFlowChanged) {
+              const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
+              const newRouteMap = routeMap.slice(0, index + 1);
+              // console.log(newRouteMap, index);
+              setRouteMap([...newRouteMap]);
+            } else {
+              setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            }
           }
-          if (editMode && questionFlowChanged) {
-            const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
-            const newRouteMap = routeMap.slice(0, index + 1);
-            // console.log(newRouteMap, index);
-            updateRouteMap([...newRouteMap]);
-          }
+
           pushToRoute(nextShortName, router);
           return;
         }
@@ -118,7 +119,7 @@ export const navigateForward = (
           !editMode
         ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
-            updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
           }
 
           pushToRoute(nextShortName, router);

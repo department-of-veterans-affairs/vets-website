@@ -45,6 +45,7 @@ const RadioGroup = ({
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
   const isForkableQuestion = forkableQuestions.includes(shortName);
+  // console.log(routeMap)
 
   const onContinueClick = () => {
     if (!formValue) {

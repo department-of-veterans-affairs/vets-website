@@ -22,6 +22,7 @@ const ReviewPage = ({
   setRouteMap,
 }) => {
   const H1 = 'Review your answers';
+  // console.log(routeMap)
 
   useEffect(
     () => {
