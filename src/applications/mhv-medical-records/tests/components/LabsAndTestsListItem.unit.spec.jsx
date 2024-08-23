@@ -144,7 +144,7 @@ describe('LabsAndTestsListItem component with microbiology record', () => {
   });
 
   it('should display the name of the record as a link to view record details', () => {
-    const recordName = screen.getAllByText('Microbiology', {
+    const recordName = screen.getAllByText('LR MICROBIOLOGY REPORT', {
       selector: 'a',
       exact: true,
     })[0];

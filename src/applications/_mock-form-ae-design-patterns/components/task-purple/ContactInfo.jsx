@@ -9,14 +9,11 @@ import {
   scrollTo,
   scrollAndFocus,
 } from '@department-of-veterans-affairs/platform-utilities/ui';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import {
   selectProfile,
   isLoggedIn,
 } from '@department-of-veterans-affairs/platform-user/selectors';
-
-import { generateMockUser } from 'platform/site-wide/user-nav/tests/mocks/user';
 
 // import { AddressView } from '@department-of-veterans-affairs/platform-user/exports';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
@@ -25,6 +22,7 @@ import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
 import {
   setReturnState,
   getReturnState,
@@ -34,8 +32,7 @@ import {
   REVIEW_CONTACT,
   convertNullishObjectValuesToEmptyString,
   contactInfoPropTypes,
-} from 'platform/forms-system/src/js/utilities/data/profile';
-import { getValidationErrors } from 'platform/forms-system/src/js/utilities/validations';
+} from '../../utils/data/task-purple/profile';
 
 /**
  * Render contact info page
@@ -63,7 +60,6 @@ const ContactInfo = ({
   contentAfterButtons,
   setFormData,
   content,
-  contactPath,
   keys,
   requiredKeys,
   uiSchema,
@@ -80,12 +76,7 @@ const ContactInfo = ({
   // vapContactInfo is an empty object locally, so mock it
   const profile = useSelector(selectProfile) || {};
   const loggedIn = useSelector(isLoggedIn) || false;
-  const contactInfo =
-    loggedIn && environment.isLocalhost()
-      ? generateMockUser({ authBroker: 'iam' }).data.attributes
-          .vet360ContactInformation
-      : profile.vapContactInfo || {};
-
+  const contactInfo = profile.vapContactInfo || {};
   const dataWrap = data[keys.wrapper] || {};
   const email = dataWrap[keys.email] || '';
   const homePhone = dataWrap[keys.homePhone] || {};
@@ -191,7 +182,7 @@ const ContactInfo = ({
         });
       }
     },
-    [editState, onReviewPage],
+    [contactInfoPageKey, editState, onReviewPage],
   );
 
   useEffect(
@@ -213,9 +204,7 @@ const ContactInfo = ({
     ' ',
   );
 
-  // keep alerts in DOM, so we don't have to delay focus; but keep the 100ms
-  // delay to move focus away from the h3
-  const showSuccessAlert = (id, text) => (
+  const showSuccessAlert = id => (
     <va-alert
       id={`updated-${id}`}
       visible={editState === `${id},updated`}
@@ -224,7 +213,10 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      {`${text} ${content.updated}`}
+      <h2 slot="headline">Your home phone number has been updated</h2>
+      <p className="vads-u-margin-y--0">
+        These changes will only be reflected in this form.
+      </p>
     </va-alert>
   );
 
@@ -238,7 +230,7 @@ const ContactInfo = ({
         <Headers className={`${headerClassNames} vads-u-margin-top--0p5`}>
           {content.homePhone}
         </Headers>
-        {showSuccessAlert('home-phone', content.homePhone)}
+        {/* {showSuccessAlert('home-phone', content.homePhone)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="home phone">
           {renderTelephone(dataWrap[keys.homePhone])}
         </span>
@@ -264,7 +256,7 @@ const ContactInfo = ({
     keys.mobilePhone ? (
       <React.Fragment key="mobile">
         <Headers className={headerClassNames}>{content.mobilePhone}</Headers>
-        {showSuccessAlert('mobile-phone', content.mobilePhone)}
+        {/* {showSuccessAlert('mobile-phone', content.mobilePhone)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="mobile phone">
           {renderTelephone(dataWrap[keys.mobilePhone])}
         </span>
@@ -272,7 +264,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-mobile-phone"
-              to={`/${contactPath}/edit-mobile-phone`}
+              to="task-purple/veteran-information/edit-mobile-phone"
               aria-label={content.editMobilePhone}
             >
               {editText}
@@ -290,7 +282,7 @@ const ContactInfo = ({
     keys.email ? (
       <React.Fragment key="email">
         <Headers className={headerClassNames}>{content.email}</Headers>
-        {showSuccessAlert('email', content.email)}
+        {/* {showSuccessAlert('email', content.email)} */}
         <span className="dd-privacy-hidden" data-dd-action-name="email">
           {dataWrap[keys.email] || ''}
         </span>
@@ -298,7 +290,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-email"
-              to={`/${contactPath}/edit-email-address`}
+              to="task-purple/veteran-information/edit-email-address"
               aria-label={content.editEmail}
             >
               {editText}
@@ -316,13 +308,13 @@ const ContactInfo = ({
     keys.address ? (
       <React.Fragment key="mailing">
         <Headers className={headerClassNames}>{content.mailingAddress}</Headers>
-        {showSuccessAlert('address', content.mailingAddress)}
+        {/* {showSuccessAlert('address', content.mailingAddress)} */}
         <AddressView data={dataWrap[keys.address]} />
         {loggedIn && (
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-address"
-              to={`/${contactPath}/edit-mailing-address`}
+              to="task-purple/veteran-information/edit-mailing-address"
               aria-label={content.editMailingAddress}
             >
               {editText}
@@ -361,6 +353,7 @@ const ContactInfo = ({
         >
           {content.title}
         </MainHeader>
+        {showSuccessAlert('home-phone')}
         {content.description}
         {!loggedIn && (
           <strong className="usa-input-error-message">

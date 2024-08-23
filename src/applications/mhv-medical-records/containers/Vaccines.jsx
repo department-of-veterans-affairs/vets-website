@@ -62,9 +62,6 @@ const Vaccines = props => {
   );
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
-  const mockPhr = useSelector(
-    state => state.featureToggles.mhv_medical_records_mock_phr,
-  );
 
   useListRefresh({
     listState,
@@ -164,20 +161,18 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {!mockPhr && (
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vaccines) &&
-              Array.isArray(updatedRecordList) &&
-              vaccines.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
-        )}
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vaccines) &&
+            Array.isArray(updatedRecordList) &&
+            vaccines.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

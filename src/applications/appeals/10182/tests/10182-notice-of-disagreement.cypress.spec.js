@@ -66,10 +66,7 @@ const testConfig = createTestConfig(
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${NOD_BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#issue-name')
-                  .shadow()
-                  .find('input')
-                  .type(additionalIssue.issue);
+                cy.fillVaTextInput('issue-name', additionalIssue.issue);
                 cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
               }

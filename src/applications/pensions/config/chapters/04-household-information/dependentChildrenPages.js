@@ -65,6 +65,7 @@ const options = {
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
   text: {
     getItemName: item => formatFullName(item.fullName),
+    summaryTitleWithoutItems: 'Dependent children',
   },
 };
 
@@ -77,6 +78,7 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingDependents': arrayBuilderYesNoUI(options, {
       title: 'Do you have any dependent children?',
+      labelHeaderLevel: ' ',
       hint: null,
     }),
   },
