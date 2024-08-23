@@ -28,6 +28,7 @@ const App = props => {
   const {
     isLoadingFeatureFlags,
     isFacilitiesApiEnabled,
+    isRegOnlyEnabled,
     isSigiEnabled,
   } = useSelector(selectFeatureToggles);
   const { dob: veteranDob } = useSelector(selectProfile);
@@ -66,6 +67,7 @@ const App = props => {
       const defaultViewFields = {
         'view:isLoggedIn': isLoggedIn,
         'view:isSigiEnabled': isSigiEnabled,
+        'view:isRegOnlyEnabled': isRegOnlyEnabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
@@ -90,6 +92,7 @@ const App = props => {
       veteranDob,
       veteranFullName,
       isSigiEnabled,
+      isRegOnlyEnabled,
       isFacilitiesApiEnabled,
       totalRating,
     ],

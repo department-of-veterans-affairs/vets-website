@@ -52,7 +52,7 @@ export class FacilityAppointmentWaitTimesWidget extends React.Component {
     if (serviceExists && (serviceExists.new || serviceExists.established)) {
       return (
         <div>
-          <h3>Average number of days to get an appointment</h3>
+          <h4>Average number of days to get an appointment</h4>
           <p>
             We’ll work with you to schedule an appointment with the shortest
             wait time. In some cases, we may schedule your appointment at

@@ -4,7 +4,7 @@
     "type": "async_transaction_va_profile_telephone_transactions",
     "attributes": {
       "transactionId": "c049d895-ecdf-40a4-ac0f-7947a06ea0c2",
-      "transactionStatus": "COMPLETED_SUCCESS",
+      "transactionStatus": "COMPLETED_NO_CHANGES_DETECTED",
       "type": "AsyncTransaction::VAProfile::TelephoneTransaction",
       "metadata": []
     }

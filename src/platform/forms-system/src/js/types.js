@@ -414,6 +414,8 @@
  *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */

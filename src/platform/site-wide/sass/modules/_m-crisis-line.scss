@@ -187,3 +187,7 @@ button.va-crisis-line {
 .va-crisis-panel-close:hover svg path {
   fill: var(--vads-color-black);
 }
+
+.va-overlay-close#close-button-icon {
+  pointer-events: none;
+}

@@ -1,9 +1,10 @@
-// import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
-// export const envUrl = environment.API_URL;
+export const envUrl = environment.API_URL;
 
 // Used to test against dev
-export const envUrl = 'https://dev-api.va.gov';
+// export const envUrl = 'https://dev-api.va.gov';
+//
 
 export const baseURL = '/ask_va_api/v0';
 
@@ -34,11 +35,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'VA Caregiver Support Program',
-  'Family member health benefits',
-  'VHA Prosthetics',
-  'Veteran Health ID (VHIC – Facility Access/Check-In)',
-  'Veteran ID (Retailer Discount)',
+  'Caregiver support program',
+  'Family health benefits',
+  'Prosthetics',
+  'Veteran Health Identification Card (VHIC) for health appointments',
+  'Veteran ID Card (VIC) for discounts',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -54,15 +55,16 @@ export const RESPONSE_PAGE = {
   INQUIRY_NUM: 'Inquiry number',
   STATUS: 'Status',
   YOUR_QUESTION: 'Your question',
+  YOUR_CONVERSATION: 'Your conversation',
   ATTACHMENTS: 'Attachments',
   INBOX: 'Inbox',
-  SEND_REPLY: 'Send reply',
+  SEND_REPLY: 'Send a reply',
   UPLOAD_YOUR_FILES: 'Upload your files',
   UPLOAD_BTN: 'Upload file',
   EMPTY_INBOX: 'There are no messages in your inbox',
   NO_ATTACHMENTS: 'There are no attachments',
-  YOUR_MESSAGE: 'Your message: ',
-  SUBMIT_MESSAGE: 'Send VA a message',
+  YOUR_MESSAGE: 'Your message',
+  SUBMIT_MESSAGE: 'Send',
   DELETE_FILE: 'Delete file',
   UPLOAD_INFO: {
     MESSAGE:
@@ -465,9 +467,13 @@ export const askVABreadcrumbs = [
   { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
-export const responsePageBreadcrumbs = [
+export const questionDetailsBreadcrumbs = [
   ...askVABreadcrumbs,
-  { href: '/user/dashboard', label: 'Response Page', key: 'responsePage' },
+  {
+    href: '/user/dashboard',
+    label: 'Question details',
+    key: 'questionDetails',
+  },
 ];
 
 export const newQuestionBreadcrumbs = [
@@ -479,7 +485,7 @@ export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
-  '/user/dashboard': responsePageBreadcrumbs,
+  '/user/dashboard': questionDetailsBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
 };
 

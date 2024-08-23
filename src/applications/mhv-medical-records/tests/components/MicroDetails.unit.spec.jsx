@@ -47,8 +47,8 @@ describe('Microbiology details component', () => {
     expect(header).to.exist;
   });
 
-  it('should display the formatted date', () => {
-    const formattedDate = screen.getAllByText('August 1, 1995, 12:00 a.m.', {
+  it('should display the formatted date of completion', () => {
+    const formattedDate = screen.getAllByText('August 1, 1995', {
       exact: true,
     });
     expect(formattedDate).to.exist;

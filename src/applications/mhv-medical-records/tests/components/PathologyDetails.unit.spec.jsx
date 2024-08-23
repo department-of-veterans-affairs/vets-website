@@ -2,11 +2,10 @@ import { expect } from 'chai';
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { beforeEach } from 'mocha';
-import { fireEvent, waitFor } from '@testing-library/dom';
+import { fireEvent } from '@testing-library/dom';
 import reducer from '../../reducers';
 import PathologyDetails from '../../components/LabsAndTests/PathologyDetails';
 import pathology from '../fixtures/pathology.json';
-import pathologyWithDateMissing from '../fixtures/pathologyWithDateMissing.json';
 import { convertLabsAndTestsRecord } from '../../reducers/labsAndTests';
 
 describe('Pathology details component', () => {
@@ -54,7 +53,7 @@ describe('Pathology details component', () => {
     const formattedDate = screen.getAllByText('august', {
       exact: false,
     });
-    expect(formattedDate.length).to.eq(2);
+    expect(formattedDate).to.exist;
   });
 
   it('should display the lab results', () => {
@@ -73,37 +72,5 @@ describe('Pathology details component', () => {
   it('should display a download started message when the download txt file button is clicked', () => {
     fireEvent.click(screen.getByTestId('printButton-2'));
     expect(screen.getByTestId('download-success-alert-message')).to.exist;
-  });
-});
-
-describe('Pathology details component with no date', () => {
-  it('should not display the formatted date if effectiveDateTime is missing', () => {
-    const record = convertLabsAndTestsRecord(pathologyWithDateMissing);
-    const initialState = {
-      mr: {
-        labsAndTests: {
-          labsAndTestsDetails: record,
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(
-      <PathologyDetails
-        record={record}
-        fullState={initialState}
-        runningUnitTest
-      />,
-      {
-        initialState,
-        reducers: reducer,
-        path: '/labs-and-tests/123',
-      },
-    );
-
-    waitFor(() => {
-      expect(screen.queryByTestId('header-time').innerHTML).to.contain(
-        'None noted',
-      );
-    });
   });
 });

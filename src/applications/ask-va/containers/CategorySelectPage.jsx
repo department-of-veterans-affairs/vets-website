@@ -12,7 +12,7 @@ import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
 import RequireSignInModal from '../components/RequireSignInModal';
 
 const CategorySelectPage = props => {
-  const { id, onChange, value, loggedIn, goBack, goToPath, formData } = props;
+  const { onChange, loggedIn, goBack, goToPath, formData } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -22,7 +22,7 @@ const CategorySelectPage = props => {
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const onModalNo = () => {
-    onChange('');
+    onChange({ ...formData, selectCategory: null });
     setShowModal({ show: false, selected: '' });
   };
 
@@ -39,6 +39,7 @@ const CategorySelectPage = props => {
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
     dispatch(setCategoryID(selected.id));
     onChange({ ...formData, selectCategory: selectedValue });
+    localStorage.removeItem('askVAFiles');
     if (requireSignInCategories.includes(selectedValue) && !loggedIn)
       setShowModal({ show: true, selected: `${selectedValue}` });
   };
@@ -82,11 +83,11 @@ const CategorySelectPage = props => {
       <h3>Category</h3>
       <form className="rjsf">
         <VaSelect
-          id={id}
+          id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
           messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
-          value={value}
+          value={formData.selectCategory}
           onVaSelect={handleChange}
           required
           error={validationError}

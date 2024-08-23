@@ -101,7 +101,7 @@ const ReviewPage = props => {
         uswds
       />
       <p className="vads-u-margin-top--4">
-        <Link to="/decision-reviews/testing/nod-new">
+        <Link to="/decision-reviews/test-nod">
           Finish this application later
         </Link>
       </p>

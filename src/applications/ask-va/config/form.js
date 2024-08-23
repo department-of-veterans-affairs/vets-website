@@ -44,12 +44,16 @@ import ReviewPage from '../containers/ReviewPage';
 import SubTopicSelectPage from '../containers/SubTopicSelectPage';
 import TopicSelectPage from '../containers/TopicSelectPage';
 
+import CustomCategoryReviewField from '../components/CustomCategoryReviewField';
+import CustomSubtopicReviewField from '../components/CustomSubtopicReviewField';
+import CustomTopicReviewField from '../components/CustomTopicReviewField';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
+  // TODO: Clear local storage after submit - localStorage.removeItem('askVAFiles')
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'ask-the-va-',
@@ -93,30 +97,33 @@ const formConfig = {
           },
         },
         selectCategory: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
           CustomPage: CategorySelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomCategoryReviewField,
           uiSchema: {
             selectCategory: { 'ui:title': CHAPTER_1.PAGE_1.QUESTION_1 },
           },
           schema: selectCategoryPage.schema,
         },
         selectTopic: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
           CustomPage: TopicSelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomTopicReviewField,
           uiSchema: {
             selectTopic: { 'ui:title': CHAPTER_1.PAGE_2.QUESTION_1 },
           },
           schema: selectTopicPage.schema,
         },
         selectSubtopic: {
+          editModeOnReviewPage: false,
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
           CustomPage: SubTopicSelectPage,
-          CustomPageReview: null,
+          CustomPageReview: CustomSubtopicReviewField,
           uiSchema: {
             selectTopic: { 'ui:title': CHAPTER_1.PAGE_3.QUESTION_1 },
           },
@@ -141,8 +148,7 @@ const formConfig = {
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.selectCategory !==
-                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-              formData.questionAbout !== "It's a general question"
+              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
             ) {
               goPath(CHAPTER_3.RELATIONSHIP_TO_VET.PATH);
             } else goPath(`/${flowPaths.general}-1`);

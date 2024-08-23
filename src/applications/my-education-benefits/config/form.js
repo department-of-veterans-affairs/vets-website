@@ -451,6 +451,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
   transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EZ,
@@ -779,8 +781,11 @@ const formConfig = {
               },
               'ui:validations': [
                 (errors, field) => {
-                  if (field.email !== field.confirmEmail) {
-                    errors.confirmEmail.addError(
+                  if (
+                    field?.email?.toLowerCase() !==
+                    field?.confirmEmail?.toLowerCase()
+                  ) {
+                    errors.confirmEmail?.addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -1284,15 +1289,15 @@ const formConfig = {
                   ]?.receiveTextMessages
                     ?.slice(0, 4)
                     ?.includes('Yes');
-                  const noDuplicates = formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                  const duplicatesDetected = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === true,
                   );
                   const mobilePhone =
                     formData[(formFields?.viewPhoneNumbers)]?.[
                       formFields?.mobilePhoneNumber
                     ]?.phone;
-                  // Return true if isYes is false, noDuplicates is not false, or mobilePhone is undefined
-                  return !isYes || !noDuplicates || !mobilePhone;
+
+                  return !isYes || !duplicatesDetected || !mobilePhone;
                 },
               },
             },
@@ -1766,7 +1771,7 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Direct Deposit',
+      title: 'Direct deposit',
       pages: {
         standardDirectDeposit: {
           path: 'direct-deposit',
@@ -1776,7 +1781,7 @@ const formConfig = {
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
               accountNumber: {
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
@@ -1816,7 +1821,7 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: ['accountType', 'accountNumber', 'routingNumber'],
+                required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {
                   accountType: {
                     type: 'string',
