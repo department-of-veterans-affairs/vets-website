@@ -118,7 +118,7 @@ const FacilitySearch = props => {
 
   return (
     <>
-      <va-card role="search">
+      <va-card role="search" background>
         <label
           htmlFor="facility-search"
           id="facility-search-label"
