@@ -136,12 +136,12 @@ export const generatePathologyContent = record => ({
     header: 'Details about this test',
     items: [
       {
-        title: 'Sample tested',
+        title: 'Site or sample tested',
         value: record.sampleTested,
         inline: true,
       },
       {
-        title: 'Lab location',
+        title: 'Location',
         value: record.labLocation,
         inline: true,
       },
