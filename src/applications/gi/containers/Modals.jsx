@@ -889,7 +889,7 @@ export function Modals({ hideModal, modals, profile }) {
         modalTitle="Cumulative Post-9/11 service"
         large
       >
-        <div>
+        <div data-testid="Post-9/11-service">
           <p>
             The Post-9/11 GI Bill provides financial support for education and a
             housing allowance. To qualify for this program, you must have served

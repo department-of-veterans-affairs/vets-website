@@ -50,30 +50,59 @@ describe('go bill CT Rearch By Name After Result', () => {
       ).should('contain', 'Child');
       cy.get(learMore).should('contain', 'Learn more');
     });
-    //   it('should show popup about  GI Bill benefit when Learn more link is clicked and when x button click it should close modal', () => {
-    //     cy.injectAxeThenAxeCheck();
-    //     const modalAriaLabel =
-    //       '[aria-label="Which GI Bill benefit do you want to use? modal"]';
-    //     cy.get(updateTuition).click();
-    //     cy.get(learMore).click();
-    //     cy.get(`${modalAriaLabel} > div > div > div > h2`).should(
-    //       'contain',
-    //       'Which GI Bill benefit do you want to use?',
-    //     );
-    //     cy.get(`${modalAriaLabel} > div > button`).click();
-    //     cy.get(`${modalAriaLabel} > div > div > div > h2`).should('not.exist');
-    //   });
-    //   it('should cumulative Service select dropdown and learn more link and when link more is click popup should show', () => {
-    //     cy.injectAxeThenAxeCheck();
-    //     const learnMoreButton =
-    //       'button[aria-label="Learn more about Cumulative Post-9/11 service"]';
-    //     cy.get(updateTuition).click();
-    //     cy.get(learnMoreButton).should('exist');
-    //     cy.get('select[id="cumulativeService"]')
-    //       .as('dropdownSelect')
-    //       .should('exist');
-    //     cy.get('@dropdownSelect').select('0.9');
-    //     cy.get('@dropdownSelect').should('contain', '30 months: 90%');
-    //   });
+    it('should show popup about  GI Bill benefit when Learn more link is clicked and when x button click it should close modal', () => {
+      cy.injectAxeThenAxeCheck();
+      const modalAriaLabel =
+        '[aria-label="Which GI Bill benefit do you want to use? modal"]';
+      cy.get(updateTuition).click();
+      cy.get(learMore).click();
+      cy.get(`${modalAriaLabel} > div > div > div > h2`).should(
+        'contain',
+        'Which GI Bill benefit do you want to use?',
+      );
+      cy.get(`${modalAriaLabel} > div > button`).click();
+      cy.get(`${modalAriaLabel} > div > div > div > h2`).should('not.exist');
+    });
+    it('should Cumulative Post-9/11 service select dropdown and learn more link and when link more is click popup should show', () => {
+      cy.injectAxeThenAxeCheck();
+      const learnMoreButton =
+        'button[aria-label="Learn more about Cumulative Post-9/11 service"]';
+      cy.get(updateTuition).click();
+      cy.get(learnMoreButton).should('exist');
+      cy.get('select[id="cumulativeService"]')
+        .as('dropdownSelect')
+        .should('exist');
+      cy.get('@dropdownSelect').select('0.9');
+      cy.get('@dropdownSelect').should('contain', '30 months: 90%');
+      cy.get(learnMoreButton).click();
+      cy.get(
+        '[aria-label="Close Cumulative Post-9/11 service modal"] + div > div > h2',
+      )
+        .as('CloseModal')
+        .should('contain', 'Cumulative Post-9/11 service');
+      cy.get('[aria-label="Close Cumulative Post-9/11 service modal"]').click();
+      cy.get('@CloseModal').should('not.exist');
+    });
+    it('should show classes in person question with learn more link and when links clicked popup should show', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(updateTuition).click();
+      cy.get('[data-testid="in-person-classes-?"]').should(
+        'contain',
+        'Will you be taking any classes in person?',
+      );
+      cy.get('[data-testid="in-person-classes-?"] > span > button').click();
+      cy.get(
+        '[aria-label="Close Your housing allowance is determined by where you take classes modal"] + div > div > h2',
+      )
+        .as('housingAllowance')
+        .should(
+          'contain',
+          'Your housing allowance is determined by where you take classes',
+        );
+      cy.get(
+        '[aria-label="Close Your housing allowance is determined by where you take classes modal"]',
+      ).click();
+      cy.get('@housingAllowance').should('not.exist');
+    });
   });
 });

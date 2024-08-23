@@ -97,6 +97,7 @@ export function TuitionAndHousingEstimates({
       />
       <LearnMoreLabel
         text="Will you be taking any classes in person?"
+        dataTestId="in-person-classes-?"
         onClick={() => {
           dispatchShowModal('onlineOnlyDistanceLearning');
         }}
