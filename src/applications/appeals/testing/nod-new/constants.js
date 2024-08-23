@@ -6,7 +6,7 @@ import {
 } from '../../shared/constants';
 import { parseDate, parseDateToDateObj } from '../../shared/utils/dates';
 
-export const BASE_URL = '/decision-reviews/testing/nod-new';
+export const BASE_URL = '/decision-reviews/test-nod';
 
 export const DISAGREEMENT_DEFAULTS = {
   disagreementOptions: {

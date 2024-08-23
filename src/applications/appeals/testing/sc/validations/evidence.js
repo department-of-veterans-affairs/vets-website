@@ -1,7 +1,7 @@
 import { isValidUSZipCode } from 'platform/forms/address';
 
 import { errorMessages, REGEX_EMPTY_DATE } from '../constants';
-import { validateDate } from './date';
+import { validateDate, validateYMDate } from './date';
 
 import { MAX_LENGTH } from '../../../shared/constants';
 import { fixDateFormat } from '../../../shared/utils/replace';
@@ -56,6 +56,9 @@ export const validateVaFromDate = (errors, data) =>
 export const validateVaToDate = (errors, data) => {
   validateToDate(errors, data, 'evidenceDates');
 };
+
+export const validateVaDate = (errors, data) =>
+  validateYMDate(errors, data.treatmentDate);
 
 export const buildVaLocationString = (
   data,

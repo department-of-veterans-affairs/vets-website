@@ -48,18 +48,18 @@ const requestsV2 = require('./v2/requests.json');
 // const meta = require('./v2/meta_failures.json');
 
 // CC Direct Scheduling mocks
-const wellHiveAppointments = require('./wellHive/appointments.json');
-const basicReferralDetails = require('./wellHive/basicReferralDetails.json');
-const WHCancelReasons = require('./wellHive/cancelReasons.json');
-const driveTimes = require('./wellHive/driveTime.json');
-const patients = require('./wellHive/patients.json');
-const WHNetworks = require('./wellHive/networks.json');
-const specialties = require('./wellHive/specialties.json');
-const specialtyGroups = require('./wellHive/specialtyGroups.json');
-const providerOrgs = require('./wellHive/providerOrganizations.json');
-const providerServices = require('./wellHive/providerServices.json');
-const providerSlots = require('./wellHive/providerServicesSlots.json');
-const referrals = require('./wellHive/referrals.json');
+const epsAppointments = require('./epsApi/appointments.json');
+const basicReferralDetails = require('./epsApi/basicReferralDetails.json');
+const epsCancelReasons = require('./epsApi/cancelReasons.json');
+const driveTimes = require('./epsApi/driveTime.json');
+const patients = require('./epsApi/patients.json');
+const epsNetworks = require('./epsApi/networks.json');
+const specialties = require('./epsApi/specialties.json');
+const specialtyGroups = require('./epsApi/specialtyGroups.json');
+const providerOrgs = require('./epsApi/providerOrganizations.json');
+const providerServices = require('./epsApi/providerServices.json');
+const providerSlots = require('./epsApi/providerServicesSlots.json');
+const referrals = require('./epsApi/referrals.json');
 
 // Returns the meta object without any backend service errors
 const meta = require('./v2/meta.json');
@@ -70,8 +70,8 @@ const features = require('../../utils/featureFlags');
 varSlots.data[0].attributes.appointmentTimeSlot = generateMockSlots();
 const mockAppts = [];
 let currentMockId = 1;
-const mockWellHiveAppts = [];
-let currentMockId_wellhive = 1;
+const mockEpsAppts = [];
+let currentMockId_eps = 1;
 
 // key: NPI, value: Provider Name
 const providerMock = {
@@ -481,58 +481,56 @@ const responses = {
     });
   },
 
-  // WellHive api
-  'GET /vaos/v2/wellhive/referralDetails': (req, res) => {
+  // EPS api
+  'GET /vaos/v2/epsApi/referralDetails': (req, res) => {
     return res.json({
       data: basicReferralDetails.data,
     });
   },
-  'GET /vaos/v2/wellhive/referralDetails/:referralId': (req, res) => {
+  'GET /vaos/v2/epsApi/referralDetails/:referralId': (req, res) => {
     return res.json({
       data: basicReferralDetails.data.referrals.find(
         referral => referral?.id === req.params.referralId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/appointments': (req, res) => {
+  'GET /vaos/v2/epsApi/appointments': (req, res) => {
     return res.json({
-      data: wellHiveAppointments.appointments.concat(mockWellHiveAppts),
+      data: epsAppointments.appointments.concat(mockEpsAppts),
     });
   },
-  'POST /vaos/v2/wellhive/appointments': (req, res) => {
+  'POST /vaos/v2/epsApi/appointments': (req, res) => {
     const { patientId, referral } = req.body;
     const createdAppt = {
       createdBy: {
         byPatient: true,
       },
-      id: `mock${currentMockId_wellhive}`,
+      id: `mock${currentMockId_eps}`,
       patientId,
       referral: { id: referral.id },
       state: 'draft',
     };
-    currentMockId_wellhive += 1;
-    mockWellHiveAppts.push(createdAppt);
+    currentMockId_eps += 1;
+    mockEpsAppts.push(createdAppt);
     return res.json({ data: createdAppt });
   },
-  'GET /vaos/v2/wellhive/appointments/:appointmentId': (req, res) => {
-    const wellHiveAppts = wellHiveAppointments.appointments.concat(
-      mockWellHiveAppts.data,
-    );
+  'GET /vaos/v2/epsApi/appointments/:appointmentId': (req, res) => {
+    const epsAppts = epsAppointments.appointments.concat(mockEpsAppts.data);
     return res.json({
-      data: wellHiveAppts.find(
+      data: epsAppts.find(
         appointment => appointment?.id === req.params.appointmentId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/appointments/:appointmentId/cancel-reasons': (
+  'GET /vaos/v2/epsApi/appointments/:appointmentId/cancel-reasons': (
     req,
     res,
   ) => {
-    return res.json(WHCancelReasons);
+    return res.json(epsCancelReasons);
   },
-  'POST /vaos/v2/wellhive/appointments/:appointmentId/cancel': (req, res) => {
+  'POST /vaos/v2/epsApi/appointments/:appointmentId/cancel': (req, res) => {
     const { cancelReasonId } = req.body;
-    const findApptToCancel = wellHiveAppointments.appointments.find(
+    const findApptToCancel = epsAppointments.appointments.find(
       appointment => appointment?.id === req.params.appointmentId,
     );
     const confirmCanceledAppts = {
@@ -548,10 +546,8 @@ const responses = {
       data: confirmCanceledAppts,
     });
   },
-  'POST /vaos/v2/wellhive/appointments/:appointmentId/submit': (req, res) => {
-    const appointments = wellHiveAppointments.appointments.concat(
-      mockWellHiveAppts.data,
-    );
+  'POST /vaos/v2/epsApi/appointments/:appointmentId/submit': (req, res) => {
+    const appointments = epsAppointments.appointments.concat(mockEpsAppts.data);
 
     const { additionalPatientAttributes } = req.body;
     const appt = appointments.find(
@@ -564,75 +560,72 @@ const responses = {
       },
       state: 'submitted',
     };
-    currentMockId_wellhive += 1;
-    mockWellHiveAppts.push(submittedAppt);
+    currentMockId_eps += 1;
+    mockEpsAppts.push(submittedAppt);
     return res.json({ data: submittedAppt });
   },
-  'POST /vaos/v2/wellhive/drive-times': (req, res) => {
+  'POST /vaos/v2/epsApi/drive-times': (req, res) => {
     return res.json({ driveTimes });
   },
-  'GET /vaos/v2/wellhive/patients/:patientId': (req, res) => {
-    const WHPatients = [patients];
+  'GET /vaos/v2/epsApi/patients/:patientId': (req, res) => {
+    const epsPatients = [patients];
     return res.json({
-      data: WHPatients.find(patient => patient?.id === req.params.patientId),
+      data: epsPatients.find(patient => patient?.id === req.params.patientId),
     });
   },
-  'GET /vaos/v2/wellhive/patients/:patientId/identifier/:system': (
-    req,
-    res,
-  ) => {
-    const WHPatients = [patients];
-    const patientSystem = WHPatients.find(
-      patient => patient?.id === req.params.patientId,
-    ).identifier.find(identifier => identifier.system === req.params.system);
+  'GET /vaos/v2/epsApi/patients/:patientId/identifier/:system': (req, res) => {
+    const epsPatients = [patients];
+    const patientSystem = epsPatients
+      .find(patient => patient?.id === req.params.patientId)
+      .identifier.find(identifier => identifier.system === req.params.system);
     return res.json({
       data: patientSystem,
     });
   },
-  'GET /vaos/v2/wellhive/networks': (req, res) => {
-    return res.json({ data: WHNetworks });
+  'GET /vaos/v2/epsApi/networks': (req, res) => {
+    return res.json({ data: epsNetworks });
   },
-  'GET /vaos/v2/wellhive/networks/:networkId': (req, res) => {
+  'GET /vaos/v2/epsApi/networks/:networkId': (req, res) => {
     return res.json({
-      data: WHNetworks.networks.find(
+      data: epsNetworks.networks.find(
         network => network?.id === req.params.networkId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/specialties': (req, res) => {
+  'GET /vaos/v2/epsApi/specialties': (req, res) => {
     return res.json({ data: specialties });
   },
-  'GET /vaos/v2/wellhive/specialties/:specialtyId': (req, res) => {
+  'GET /vaos/v2/epsApi/specialties/:specialtyId': (req, res) => {
     return res.json({
       data: specialties.specialties.find(
         specialty => specialty?.id === req.params.specialtyId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/specialty-groups': (req, res) => {
+  'GET /vaos/v2/epsApi/specialty-groups': (req, res) => {
     return res.json({ data: specialtyGroups });
   },
-  'GET /vaos/v2/wellhive/specialty-groups/:specialtyGroupId': (req, res) => {
+  'GET /vaos/v2/epsApi/specialty-groups/:specialtyGroupId': (req, res) => {
     return res.json({
       data: specialtyGroups.specialtyGroups.find(
         specialtyGroup => specialtyGroup?.id === req.params.specialtyGroupId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/provider-organization': (req, res) => {
+  'GET /vaos/v2/epsApi/provider-organization': (req, res) => {
     return res.json({ data: providerOrgs });
   },
-  'GET /vaos/v2/wellhive/provider-services': (req, res) => {
+  'GET /vaos/v2/epsApi/provider-services': (req, res) => {
     return res.json({ data: providerServices });
   },
-  'GET /vaos/v2/wellhive/provider-services/:providerServiceId': (req, res) => {
+  'GET /vaos/v2/epsApi/provider-services/:providerServiceId': (req, res) => {
     return res.json({
       data: providerServices.providerServices.find(
         providerService => providerService?.id === req.params.providerServiceId,
       ),
     });
   },
-  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots': (
+  'GET /vaos/v2/epsApi/provider-services/:providerServiceId/slots': (
     req,
     res,
   ) => {
@@ -642,7 +635,7 @@ const responses = {
       ),
     });
   },
-  'GET /vaos/v2/wellhive/provider-services/:providerServiceId/slots/:slotId': (
+  'GET /vaos/v2/epsApi/provider-services/:providerServiceId/slots/:slotId': (
     req,
     res,
   ) => {
@@ -655,10 +648,10 @@ const responses = {
       data: getSlot.find(slot => slot?.id === req.params.slotId),
     });
   },
-  'GET /vaos/v2/wellhive/referrals': (req, res) => {
+  'GET /vaos/v2/epsApi/referrals': (req, res) => {
     return res.json({ data: referrals });
   },
-  'GET /vaos/v2/wellhive/referrals/:referralId': (req, res) => {
+  'GET /vaos/v2/epsApi/referrals/:referralId': (req, res) => {
     return res.json({
       data: referrals.referrals.find(
         referral => referral?.id === req.params.referralId,

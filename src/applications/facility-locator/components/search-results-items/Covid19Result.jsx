@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
@@ -23,6 +23,17 @@ const Covid19Result = ({ location, index }) => {
     detailedServices?.[0]?.appointmentPhones?.[0] || null;
   const infoURL = detailedServices?.[0]?.path || null;
 
+  const clickHandler = useCallback(
+    event => {
+      // Keyboard events fire their onKeyDown event and the onClick event
+      // This prevents the duplicate event from logging
+      if (event?.key !== 'Enter') {
+        recordResultClickEvents(location, index);
+      }
+    },
+    [index, location],
+  );
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
@@ -31,21 +42,17 @@ const Covid19Result = ({ location, index }) => {
           markerText={location.markerText}
         />
         <span
-          onClick={() => {
-            recordResultClickEvents(location, index);
-          }}
-          onKeyPress={() => {
-            recordResultClickEvents(location, index);
-          }}
+          onClick={clickHandler}
+          onKeyDown={clickHandler}
           role="link"
           tabIndex={0}
         >
           {isVADomain(website) ? (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
-              <a href={website}>{name}</a>
+            <h3 className="vads-u-margin-top--0">
+              <va-link href={website} text={name} />
             </h3>
           ) : (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-margin-top--0">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}
