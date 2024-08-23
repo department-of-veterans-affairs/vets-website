@@ -101,7 +101,7 @@ ${txtLineDotted}
 Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
-Interpretation: ${entry.labComments}\n`,
+Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
 
