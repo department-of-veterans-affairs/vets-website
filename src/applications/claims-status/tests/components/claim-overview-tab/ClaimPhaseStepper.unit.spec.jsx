@@ -194,7 +194,7 @@ describe('<ClaimPhaseStepper>', () => {
     expect(alert).to.exist;
 
     getByText(
-      'We moved your claim back to this step because we needed to find or or or review more evidence',
+      'We moved your claim back to this step because we needed to find or review more evidence',
     );
 
     const phaseRepeats = $('#phase3 .repeat-phase', container);
@@ -214,7 +214,7 @@ describe('<ClaimPhaseStepper>', () => {
     expect($('.claim-phase-stepper', container)).to.exist;
 
     getByText(
-      'We moved your claim back to this step because we needed to find or or or review more evidence',
+      'We moved your claim back to this step because we needed to find or review more evidence',
     );
 
     const phase3Repeat = $('#phase3 .repeat-phase', container);

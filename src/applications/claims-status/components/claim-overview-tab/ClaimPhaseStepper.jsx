@@ -222,7 +222,7 @@ export default function ClaimPhaseStepper({
                   slim
                 >
                   We moved your claim back to this step because we needed to
-                  find or or or review more evidence
+                  find or review more evidence
                 </va-alert>
               )}
             {(!isCurrentPhase(claimPhase.phase) || !currentPhaseBack) &&
