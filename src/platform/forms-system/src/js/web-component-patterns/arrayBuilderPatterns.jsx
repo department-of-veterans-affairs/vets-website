@@ -192,8 +192,8 @@ export const arrayBuilderYesNoUI = (
     return null;
   };
 
-  const customHint = getCustomHint(yesNoOptionsMore);
-  const customMoreHint = getCustomHint(yesNoOptions);
+  const customHint = getCustomHint(yesNoOptions);
+  const customMoreHint = getCustomHint(yesNoOptionsMore);
 
   return {
     ...yesNoUI({
