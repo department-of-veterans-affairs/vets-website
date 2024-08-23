@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Link } from 'react-router-dom';
 import recordEvent from 'platform/monitoring/record-event';
+import { waitForRenderThenFocus } from 'platform/utilities/ui';
 import { getCalculatedBenefits } from '../../selectors/calculator';
 import { locationInfo } from '../../utils/helpers';
 
@@ -44,18 +45,17 @@ export default function SchoolLocations({
       if (focusedElementIndex) {
         const newRowElements = [
           ...document.querySelectorAll(
-            'va-table-row > span > p,div.school-name',
+            'va-table.school-locations > va-table-row > span:first-child',
           ),
         ]
-          .slice(focusedElementIndex, totalRowCount)
-          .filter(row => row.childElementCount > 0);
+          .slice(focusedElementIndex + 1, totalRowCount + 1)
+          .filter(span => span.firstChild.nodeName === 'VA-LINK');
 
-        const firstElement = newRowElements[0];
-        const linkElem = firstElement.childNodes[0];
-
-        linkElem.style.scrollBehavior = 'smooth';
-        linkElem.scrollIntoView({ block: 'center', behavior: 'smooth' });
-        linkElem.focus();
+        if (newRowElements.length > 0) {
+          const firstElement = newRowElements[0];
+          const firstLink = firstElement.firstChild;
+          waitForRenderThenFocus('a', firstLink.shadowRoot);
+        }
       }
     },
     [focusedElementIndex],
