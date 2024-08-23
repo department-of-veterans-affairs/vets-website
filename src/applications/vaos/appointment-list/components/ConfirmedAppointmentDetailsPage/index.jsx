@@ -6,7 +6,10 @@ import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureClaimStatus,
+} from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
@@ -17,6 +20,7 @@ import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import {
   closeCancelAppointment,
   fetchConfirmedAppointmentDetails,
+  fetchClaim,
 } from '../../redux/actions';
 import {
   getConfirmedAppointmentDetailsInfo,
@@ -34,6 +38,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
+    fetchClaimStatus,
     facilityData,
     useV2,
   } = useSelector(
@@ -43,6 +48,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+  const featureFetchClaimStatus = useSelector(selectFeatureClaimStatus);
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -63,6 +69,28 @@ export default function ConfirmedAppointmentDetailsPage() {
       };
     },
     [id, dispatch, appointmentTypePrefix],
+  );
+
+  useEffect(
+    () => {
+      if (
+        featureFetchClaimStatus &&
+        appointmentDetailsStatus === FETCH_STATUS.succeeded &&
+        fetchClaimStatus !== FETCH_STATUS.loading
+      ) {
+        dispatch(fetchClaim(id, appointment));
+        scrollAndFocus();
+      }
+    },
+    [
+      id,
+      appointmentDate,
+      dispatch,
+      appointmentDetailsStatus,
+      fetchClaimStatus,
+      featureFetchClaimStatus,
+      appointment,
+    ],
   );
 
   useEffect(
@@ -151,8 +179,12 @@ export default function ConfirmedAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    !appointment ||
+    appointmentDetailsStatus === FETCH_STATUS.loading ||
+    !appointment?.claimId ||
+    fetchClaimStatus === FETCH_STATUS.loading
+  ) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />
