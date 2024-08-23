@@ -9,10 +9,12 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
+import { makeSelectApp } from '../selectors';
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import { useFormRouting } from '../hooks/useFormRouting';
 
+import { APP_NAMES } from '../utils/appConstants';
 import { URLS } from '../utils/navigation';
 import ExternalLink from './ExternalLink';
 
@@ -25,6 +27,9 @@ const LinkList = ({ router }) => {
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const featureToggles = useSelector(selectFeatureToggles);
   const { isUpcomingAppointmentsEnabled } = featureToggles;
+
+  const selectApp = useMemo(makeSelectApp, []);
+  const { app } = useSelector(selectApp);
 
   const handleClick = (e, location) => {
     e.preventDefault();
@@ -42,13 +47,20 @@ const LinkList = ({ router }) => {
     : 'https://va.gov/health-care/schedule-view-va-appointments/appointments/';
 
   const AppointmentsLink = () => {
+    let linkText = t('review-todays-appointments');
+    let testId = 'go-to-appointments-link';
+
+    if (app === APP_NAMES.PRE_CHECK_IN) {
+      linkText = t('review-your-appointments');
+      testId = 'go-to-appointments-link-pre-check-in';
+    }
     return (
       <Link
         onClick={e => handleClick(e, URLS.APPOINTMENTS)}
         to={URLS.APPOINTMENTS}
-        data-testid="go-to-appointments-link"
+        data-testid={testId}
       >
-        {t('review-todays-appointments')}
+        {linkText}
       </Link>
     );
   };
@@ -84,9 +96,11 @@ const LinkList = ({ router }) => {
       <>
         {isUpcomingAppointmentsEnabled && (
           <>
-            <p className="vads-u-margin-bottom--2">
-              <UpcomingAppointmentsLink />
-            </p>
+            {app === APP_NAMES.CHECK_IN && (
+              <p className="vads-u-margin-bottom--2">
+                <UpcomingAppointmentsLink />
+              </p>
+            )}
             <p className="vads-u-margin-bottom--2">
               <AppointmentsLink />
             </p>
