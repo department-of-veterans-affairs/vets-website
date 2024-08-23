@@ -163,6 +163,14 @@ export default function InstitutionProfile({
             />
           </ProfileSection>
         )}
+
+      {
+        // if YR school
+        <ProfileSection
+          label="Yellow ribbon program information"
+          id="yellow-ribbon-program-information"
+        />
+      }
       {type === 'FOREIGN' && (
         <p>
           Limited programs are approved at foreign schools, please contact
