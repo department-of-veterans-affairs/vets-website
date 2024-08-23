@@ -12,7 +12,6 @@ describe('CDP - VBA Debt Alerts', () => {
     cy.intercept('GET', '/v0/feature_toggles*', {
       data: {
         features: [
-          { name: 'debt_letters_show_letters', value: true },
           { name: 'combined_debt_portal_access', value: true },
           { name: 'debt_letters_show_letters_vbms', value: true },
         ],
