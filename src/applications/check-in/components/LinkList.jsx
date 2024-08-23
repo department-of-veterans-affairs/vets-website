@@ -79,14 +79,14 @@ const LinkList = ({ router }) => {
   let body = null;
   if (page === URLS.APPOINTMENTS) {
     body = (
-      <p className="vads-u-margin-bottom--4">
+      <p data-testid="link-wrapper" className="vads-u-margin-bottom--4">
         <UpcomingAppointmentsLink />
       </p>
     );
   }
   if (page === URLS.UPCOMING_APPOINTMENTS) {
     body = (
-      <p className="vads-u-margin-bottom--4">
+      <p data-testid="link-wrapper" className="vads-u-margin-bottom--4">
         <AppointmentsLink />
       </p>
     );
@@ -97,16 +97,16 @@ const LinkList = ({ router }) => {
         {isUpcomingAppointmentsEnabled && (
           <>
             {app === APP_NAMES.CHECK_IN && (
-              <p className="vads-u-margin-bottom--2">
+              <p data-testid="link-wrapper" className="vads-u-margin-bottom--2">
                 <UpcomingAppointmentsLink />
               </p>
             )}
-            <p className="vads-u-margin-bottom--2">
+            <p data-testid="link-wrapper" className="vads-u-margin-bottom--2">
               <AppointmentsLink />
             </p>
           </>
         )}
-        <p className="vads-u-margin-bottom--4">
+        <p data-testid="link-wrapper" className="vads-u-margin-bottom--4">
           <ExternalLink href={apptLink} hrefLang="en">
             {t('sign-in-to-vagov-and-schedule')}
           </ExternalLink>

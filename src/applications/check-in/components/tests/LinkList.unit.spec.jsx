@@ -32,6 +32,7 @@ describe('LinkList', () => {
     );
     expect(screen.getByTestId('go-to-appointments-link-pre-check-in')).to.exist;
     expect(screen.getByTestId('external-link')).to.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(2);
   });
   it('renders correct for Pre-check-in upcoming appointments page', () => {
     const screen = render(
@@ -47,6 +48,7 @@ describe('LinkList', () => {
     );
     expect(screen.getByTestId('go-to-appointments-link-pre-check-in')).to.exist;
     expect(screen.queryByTestId('external-link')).to.not.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(1);
   });
   it('renders correct for Day-of confirmation', () => {
     const screen = render(
@@ -63,6 +65,7 @@ describe('LinkList', () => {
     expect(screen.getByTestId('go-to-upcoming-appointments-link')).to.exist;
     expect(screen.getByTestId('go-to-appointments-link')).to.exist;
     expect(screen.getByTestId('external-link')).to.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(3);
   });
   it('renders correct for Day-of upcoming appointments page', () => {
     const screen = render(
@@ -78,6 +81,7 @@ describe('LinkList', () => {
     );
     expect(screen.getByTestId('go-to-appointments-link')).to.exist;
     expect(screen.queryByTestId('external-link')).to.not.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(1);
   });
   it('renders correct for pre-check-in appointments page', () => {
     const screen = render(
@@ -92,6 +96,7 @@ describe('LinkList', () => {
       </CheckInProvider>,
     );
     expect(screen.getByTestId('go-to-upcoming-appointments-link')).to.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(1);
   });
   it('renders correct for day-of appointments page', () => {
     const screen = render(
@@ -106,5 +111,6 @@ describe('LinkList', () => {
       </CheckInProvider>,
     );
     expect(screen.getByTestId('go-to-upcoming-appointments-link')).to.exist;
+    expect(screen.queryAllByTestId('link-wrapper')).to.have.length(1);
   });
 });
