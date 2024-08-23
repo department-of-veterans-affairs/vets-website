@@ -33,10 +33,6 @@ describe('CG <FacilityConfirmation>', () => {
     const caregiverFacilityAddress = caregiverFacility.address.physical;
 
     const selectors = () => ({
-      pageDescription: {
-        confirmHeader: getByRole('heading', { level: 3 }),
-        veteranSelectedHeader: getByRole('heading', { level: 4 }),
-      },
       selectedFacility: {
         name: getByText(new RegExp(selectedFacility.name)),
         address1: getByText(new RegExp(selectedFacilityAddress.address1)),
@@ -78,13 +74,19 @@ describe('CG <FacilityConfirmation>', () => {
   });
 
   it('renders selected facility description text', () => {
-    const { selectors, getByText } = subject();
-    expect(selectors().pageDescription.confirmHeader).to.have.text(
-      'Confirm your health care facilities',
-    );
-    expect(selectors().pageDescription.veteranSelectedHeader).to.have.text(
-      'The Veteran’s Facility you selected',
-    );
+    const { getByRole, getByText } = subject();
+    expect(
+      getByRole('heading', {
+        level: 3,
+        name: /Confirm your health care facilities/i,
+      }),
+    ).to.be.visible;
+    expect(
+      getByRole('heading', {
+        level: 4,
+        name: /The Veteran’s Facility you selected/i,
+      }),
+    ).to.be.visible;
     expect(
       getByText(
         /This is the facility where you told us the Veteran receives or plans to receive treatment/i,
@@ -103,6 +105,21 @@ describe('CG <FacilityConfirmation>', () => {
     expect(selectors().selectedFacility.address1).to.exist;
     expect(selectors().selectedFacility.address2).to.exist;
     expect(selectors().selectedFacility.address3).to.exist;
+  });
+
+  it('renders caregive facility description text', () => {
+    const { getByRole, getByText } = subject();
+    expect(
+      getByRole('heading', {
+        level: 4,
+        name: /Your assigned caregiver support facility/i,
+      }),
+    ).to.be.visible;
+    expect(
+      getByText(
+        /This is the facility we’ve assigned to support you in the application process and has a caregiver support coordinator on staff. The coordinator at this facility will support you through the application process./i,
+      ),
+    ).to.be.visible;
   });
 
   it('should render caregiver facility name', () => {
