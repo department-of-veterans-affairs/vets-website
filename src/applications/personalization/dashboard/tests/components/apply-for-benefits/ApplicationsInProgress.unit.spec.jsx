@@ -262,6 +262,22 @@ describe('ApplicationsInProgress component', () => {
         }),
       ).to.exist;
     });
+
+    it('does not render accordion help message', () => {
+      const initialState = {
+        ...state,
+        user: {
+          profile: {
+            savedForms: [],
+          },
+        },
+      };
+      const view = renderInReduxProvider(<ApplicationsInProgress hideH3 />, {
+        initialState,
+        reducers,
+      });
+      expect(view.queryByTestId('missing-application-help')).to.not.exist;
+    });
   });
 
   context('when myVaFormSubmissionStatuses feature flag is turned on', () => {
@@ -372,6 +388,15 @@ describe('ApplicationsInProgress component', () => {
       expect(receivedApplications[0]).to.contain.text(
         format(new Date(STATUS_UPDATED_AT), 'MMMM d, yyyy'),
       );
+    });
+
+    it('renders accordion help message', () => {
+      const view = render(
+        <Provider store={store}>
+          <ApplicationsInProgress hideH3 savedForms />
+        </Provider>,
+      );
+      expect(view.getByTestId('missing-application-help')).to.exist;
     });
   });
 });

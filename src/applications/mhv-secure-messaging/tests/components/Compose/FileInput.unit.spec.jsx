@@ -128,6 +128,28 @@ describe('File input component', () => {
     expect(error.textContent).to.equal('You have already attached this file.');
   });
 
+  it('should display an error message when a file with the same name but different size is a duplicate', async () => {
+    const oneAttachment = [{ name: 'test.png', size: 100, type: 'image/png' }];
+    const file = new File(['(⌐□_□)'], 'test.png', {
+      type: 'image/png',
+      size: 200,
+    });
+    const screen = render(<FileInput attachments={oneAttachment} />);
+
+    const uploader = screen.getByTestId('attach-file-input');
+
+    await waitFor(() =>
+      fireEvent.change(uploader, {
+        target: { files: [file] },
+      }),
+    );
+
+    expect(uploader.files[0].name).to.equal('test.png');
+    expect(uploader.files.length).to.equal(1);
+    const error = screen.getByTestId('file-input-error-message');
+    expect(error.textContent).to.equal('You have already attached this file.');
+  });
+
   it('should display an error message when a file is over 6MB', async () => {
     const largeFileSizeInBytes = 7 * 1024 * 1024; // 7MB
 
