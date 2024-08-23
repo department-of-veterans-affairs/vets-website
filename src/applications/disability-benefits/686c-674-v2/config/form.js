@@ -88,6 +88,7 @@ export const formConfig = {
     },
   },
   version: migrations.length,
+  v3SegmentedProgressBar: true,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
@@ -433,7 +434,7 @@ export const formConfig = {
       },
     },
     reportChildMarriage: {
-      title: 'Information to remove a child under 18 who has married',
+      title: 'Remove one or more children who got married',
       pages: {
         childInformation: {
           depends: formData =>
@@ -451,7 +452,7 @@ export const formConfig = {
     },
     reportChildStoppedAttendingSchool: {
       title:
-        'Information to remove a child 18 to 23 years old who has stopped attending school',
+        'Remove one or more children between ages 18 and 23 who left school',
       pages: {
         childNoLongerInSchool: {
           depends: formData =>

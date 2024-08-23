@@ -1,11 +1,11 @@
 import React from 'react';
 import { capitalize } from 'lodash';
 
-export default function SpouseViewField({ formData }) {
+export default function ChildViewField({ formData }) {
   const { first, middle, last, suffix } = formData.fullName;
 
   return (
-    <div className="vads-u-padding--2">
+    <div className="vads-u-display--flex">
       <h4>
         {capitalize(first)} {capitalize(middle && `${middle} `)}
         {capitalize(last)}
@@ -15,3 +15,5 @@ export default function SpouseViewField({ formData }) {
     </div>
   );
 }
+
+// TODO: Consolidate to single viewField component later on

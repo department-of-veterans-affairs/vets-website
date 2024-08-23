@@ -107,8 +107,8 @@
     "doesLiveWithSpouse": {},
     "view:additionalEvidenceDescription": {},
     "reportDivorce": { "fullName": {}, "location": { "isOutsideUs": false } },
-    "childMarriage": { "fullName": {} },
-    "childStoppedAttendingSchool": { "fullName": {} },
+    "childMarriage": [{ "fullName": {} }],
+    "childStoppedAttendingSchool": [{ "fullName": {} }],
     "veteranInformation": {
       "fullName": { "first": "Greg", "middle": "A", "last": "Anderson" },
       "ssn": "796121200",

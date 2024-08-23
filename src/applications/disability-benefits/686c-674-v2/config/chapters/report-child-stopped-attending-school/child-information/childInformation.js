@@ -1,102 +1,60 @@
-import merge from 'lodash/merge';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-import environment from 'platform/utilities/environment';
-import { TASK_KEYS } from '../../../constants';
 import {
-  isChapterFieldRequired,
-  PensionIncomeRemovalQuestionTitle,
-} from '../../../helpers';
-import {
-  validateName,
-  reportChildStoppedAttendingSchool,
-} from '../../../utilities';
+  titleUI,
+  fullNameNoSuffixUI,
+  fullNameNoSuffixSchema,
+  ssnUI,
+  ssnSchema,
+  dateOfBirthUI,
+  dateOfBirthSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import ChildViewField from '../../../../components/ChildViewField';
 
 export const schema = {
   type: 'object',
   properties: {
-    childStoppedAttendingSchool: reportChildStoppedAttendingSchool,
+    childStoppedAttendingSchool: {
+      type: 'array',
+      minItems: 1,
+      maxItems: 100,
+      items: {
+        type: 'object',
+        properties: {
+          fullName: fullNameNoSuffixSchema,
+          ssn: ssnSchema,
+          birthDate: dateOfBirthSchema,
+          dateChildLeftSchool: currentOrPastDateSchema,
+        },
+      },
+    },
   },
 };
 
 export const uiSchema = {
   childStoppedAttendingSchool: {
-    fullName: {
-      'ui:validations': [validateName],
-      first: {
-        'ui:required': formData =>
-          isChapterFieldRequired(
-            formData,
-            TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-          ),
-        'ui:title': 'First name',
-        'ui:errorMessages': {
-          required: 'Enter a first name',
-          pattern: 'This field accepts alphabetic characters only',
-        },
-      },
-      middle: {
-        'ui:title': 'Middle name',
-        'ui:options': {
-          hideEmptyValueInReview: true,
-        },
-        'ui:errorMessages': {
-          pattern: 'This field accepts alphabetic characters only',
-        },
-      },
-      last: {
-        'ui:required': formData =>
-          isChapterFieldRequired(
-            formData,
-            TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-          ),
-        'ui:title': 'Last name',
-        'ui:errorMessages': {
-          required: 'Enter a last name',
-          pattern: 'This field accepts alphabetic characters only',
-        },
-      },
-      suffix: {
-        'ui:title': 'Suffix',
-        'ui:options': {
-          widgetClassNames: 'form-select-medium',
-          hideEmptyValueInReview: true,
-        },
-      },
+    'ui:options': {
+      itemName: 'Child who left school',
+      viewField: ChildViewField,
+      keepInPageOnReview: true,
+      customTitle: ' ',
+      useDlWrap: true,
     },
-    ssn: {
-      ...ssnUI,
-      'ui:title': 'Child’s Social Security number',
-      'ui:required': formData =>
-        isChapterFieldRequired(
-          formData,
-          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-        ),
-    },
-    birthDate: merge(currentOrPastDateUI('Child’s date of birth'), {
-      'ui:required': formData =>
-        isChapterFieldRequired(
-          formData,
-          TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-        ),
-    }),
-    dateChildLeftSchool: {
-      ...currentOrPastDateUI('When did child stop attending school?'),
-      ...{
-        'ui:required': formData =>
-          isChapterFieldRequired(
-            formData,
-            TASK_KEYS.reportChild18OrOlderIsNotAttendingSchool,
-          ),
+    ...titleUI('Children between ages 18 and 23 who left school'),
+    items: {
+      fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
+      ssn: {
+        ...ssnUI('Child’s Social Security number'),
+        'ui:required': () => true,
       },
-    },
-    dependentIncome: {
-      'ui:options': {
-        hideIf: () => environment.isProduction(),
-        hideEmptyValueInReview: true,
+      birthDate: {
+        ...dateOfBirthUI('Child’s date of birth'),
+        'ui:required': () => true,
       },
-      'ui:title': PensionIncomeRemovalQuestionTitle,
-      'ui:widget': 'yesNo',
+      dateChildLeftSchool: {
+        ...currentOrPastDateUI('Date of marriage?'),
+        'ui:required': () => true,
+      },
     },
   },
 };
