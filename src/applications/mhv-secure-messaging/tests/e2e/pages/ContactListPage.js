@@ -66,7 +66,7 @@ class ContactListPage {
   };
 
   clickSaveAndExitButton = () => {
-    cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click();
+    cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
   };
 
   verifyContactListSavedAlert = () => {

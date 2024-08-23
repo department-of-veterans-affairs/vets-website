@@ -2,6 +2,7 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import ContactListPage from './pages/ContactListPage';
 import { AXE_CONTEXT } from './utils/constants';
+import mockRecipients from '../fixtures/recipients.json';
 
 describe('Secure Messaging Contact list', () => {
   beforeEach(() => {
@@ -32,8 +33,36 @@ describe('Secure Messaging Contact list', () => {
     ContactListPage.verifySaveAlertHeader();
     ContactListPage.verifyButtons();
 
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/preferences/recipients',
+      mockRecipients,
+    ).as('savedList');
+
     ContactListPage.clickSaveAndExitButton();
     ContactListPage.verifyContactListSavedAlert();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify contact saving request', () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/preferences/recipients',
+      mockRecipients,
+    ).as('savedList');
+
+    ContactListPage.clickSaveAndExitButton();
+    ContactListPage.verifyContactListSavedAlert();
+
+    cy.wait('@savedList')
+      .its('request.body')
+      .then(req => {
+        cy.wrap(req.updatedTriageTeams).each(el => {
+          expect(el.preferredTeam).to.eq(true);
+        });
+      });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
