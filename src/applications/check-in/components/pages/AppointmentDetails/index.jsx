@@ -294,7 +294,7 @@ const AppointmentDetails = props => {
                     {/* Slotted p tags can't have margin for some reason. */}
                     <br />
                     <p>
-                      {APP_NAMES.PRE_CHECK_IN
+                      {app === APP_NAMES.PRE_CHECK_IN
                         ? t('find-all-appointment-information-pre-check-in')
                         : t('find-all-appointment-information-check-in')}
                     </p>
