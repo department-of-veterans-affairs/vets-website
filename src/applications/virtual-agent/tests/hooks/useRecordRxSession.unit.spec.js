@@ -23,10 +23,11 @@ describe('useRecordRxSession', () => {
 
       const recordEventData = {
         event: 'api_call',
-        'api-name': 'Enter Chatbot Rx Skill',
+        'api-name': 'Skill Entry',
         'api-status': 'successful',
+        topic: 'prescriptions',
       };
-      renderHook(() => useRecordRxSession('true'));
+      renderHook(() => useRecordRxSession('prescriptions'));
 
       expect(recordEventStub.calledOnce).to.be.true;
       expect(recordEventStub.firstCall.args[0]).to.eql(recordEventData);

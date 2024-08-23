@@ -30,6 +30,7 @@ import selectUserCurrentlyLoggedIn from '../selectors/selectUserCurrentlyLoggedI
 import MarkdownRenderer from '../utils/markdownRenderer';
 import handleTelemetry from '../utils/telemetry';
 import validateParameters from '../utils/validateParameters';
+import { getEventSkillValue } from '../utils/sessionStorage';
 
 const styleOptions = {
   hideUploadButton: true,
@@ -75,6 +76,7 @@ const WebChat = ({
 
   const [speechPonyfill, setBotPonyfill] = useState();
   const [isRXSkill, setIsRXSkill] = useState();
+  const eventSkillValue = getEventSkillValue();
 
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
 
@@ -113,7 +115,7 @@ const WebChat = ({
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);
   useSetSendBoxMessage(isRXSkill);
-  useRecordRxSession(isRXSkill);
+  useRecordRxSession(eventSkillValue);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 
