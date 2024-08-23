@@ -344,3 +344,8 @@ va-loading-indicator {
     font-size: 20px;
   }
 }
+
+/* resolves css-library removal of !important issue*/
+#edit-preferences-button.vads-u-background-color--transparent {
+  background-color: transparent;
+}

@@ -33,6 +33,7 @@
   right: unset;
 }
 
+/* resolves css-library removal of !important issue*/
 button.vads-u-background-color--gray-lightest,
 .va-hide-on-print-view button.vads-u-background-color--gray-lightest:hover{
   background-color: var(--vads-color-base-lightest);
