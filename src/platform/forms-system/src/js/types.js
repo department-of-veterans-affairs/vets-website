@@ -218,7 +218,7 @@
 
 /**
  * Icon - any value from https://design.va.gov/storybook/?path=/docs/uswds-va-icon--docs
- * @typedef {'credit_card' | 'comment'| 'attach_money' | OrAnyString} Icon
+ * @typedef {'credit_card' | 'comment' | 'attach_money' | OrAnyString} Icon
  */
 
 /**
