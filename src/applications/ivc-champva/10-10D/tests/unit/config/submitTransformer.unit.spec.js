@@ -171,4 +171,27 @@ describe('transform for submit', () => {
       appCert.data.applicants[1].applicantEmailAddress,
     );
   });
+  it('should set `hasApplicantOver65` to false if all applicants are under 65', () => {
+    const tmpData = JSON.parse(JSON.stringify(mockData));
+    tmpData.data.applicants.forEach(app => {
+      // eslint-disable-next-line no-param-reassign
+      app.applicantDob = '2003-01-01'; // None over 65
+    });
+
+    const transformed = JSON.parse(transformForSubmit(formConfig, tmpData));
+    expect(transformed.hasApplicantOver65).to.be.false;
+  });
+  it('should set `hasApplicantOver65` to true if any applicant is 65 or over', () => {
+    const tmpData = JSON.parse(JSON.stringify(mockData));
+    tmpData.data.applicants.forEach(app => {
+      // eslint-disable-next-line no-param-reassign
+      app.applicantDob = '2003-01-01'; // None over 65
+    });
+
+    // One is over 65
+    tmpData.data.applicants[0].applicantDob = '1947-01-01';
+
+    const transformed = JSON.parse(transformForSubmit(formConfig, tmpData));
+    expect(transformed.hasApplicantOver65).to.be.true;
+  });
 });

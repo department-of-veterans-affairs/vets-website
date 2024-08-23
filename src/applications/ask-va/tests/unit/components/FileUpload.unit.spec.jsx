@@ -10,7 +10,7 @@ describe('<FileUpload />', () => {
 
     expect(screen.getByTestId('file-upload-header')).to.exist;
     expect(screen.getByTestId('file-upload-header')).to.contain.text(
-      'Upload your files',
+      'Select files to upload',
     );
   });
 
@@ -40,7 +40,7 @@ describe('<FileUpload />', () => {
     const screen = render(<FileUpload />);
 
     const file = new File(['hello'], 'hello.png', { type: 'image/png' });
-    const input = screen.getByTestId('ask-va-file-upload-button');
+    const input = screen.getByTestId('askVA_upload_first');
 
     await waitFor(() => fireEvent.change(input, { target: { files: [file] } }));
     expect(input.files[0].name).to.equal('hello.png');

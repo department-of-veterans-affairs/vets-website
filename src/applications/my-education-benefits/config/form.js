@@ -1781,7 +1781,7 @@ const formConfig = {
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
               accountNumber: {
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
@@ -1821,7 +1821,7 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: ['accountType', 'accountNumber', 'routingNumber'],
+                required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {
                   accountType: {
                     type: 'string',

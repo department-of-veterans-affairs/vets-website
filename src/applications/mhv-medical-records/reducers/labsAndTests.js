@@ -258,6 +258,9 @@ const convertPathologyRecord = record => {
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
+    dateCollected: specimen?.collection?.collectedDateTime
+      ? dateFormatWithoutTimezone(specimen.collection.collectedDateTime)
+      : EMPTY_FIELD,
     sampleTested: specimen?.type?.text || EMPTY_FIELD,
     labLocation,
     collectingLocation: labLocation,
