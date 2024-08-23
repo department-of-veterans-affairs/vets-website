@@ -208,8 +208,8 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint: customHint
-                  ? customHint({
+                hint: customMoreHint
+                  ? customMoreHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
@@ -238,11 +238,12 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint: customMoreHint
-                  ? customMoreHint({
+                hint: customHint
+                  ? customHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
+                      minItems,
                       maxItems,
                     })
                   : `If you select yes, ${minMaxItemsHint({
