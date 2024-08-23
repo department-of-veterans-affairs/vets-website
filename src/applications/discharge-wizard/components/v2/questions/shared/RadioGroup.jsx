@@ -72,6 +72,7 @@ const RadioGroup = ({
         setRouteMap,
         routeMap,
         questionFlowChanged,
+        valueHasChanged,
       );
     }
   };

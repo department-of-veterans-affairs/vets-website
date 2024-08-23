@@ -60,6 +60,7 @@ export const navigateForward = (
   setRouteMap,
   routeMap,
   questionFlowChanged,
+  valueHasChanged,
 ) => {
   const roadmap = makeRoadmap();
   if (roadmap?.length) {
@@ -93,10 +94,9 @@ export const navigateForward = (
           editMode
         ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
-            if (questionFlowChanged) {
+            if (valueHasChanged) {
               const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
               const newRouteMap = routeMap.slice(0, index + 1);
-              // console.log(newRouteMap, index);
               setRouteMap([...newRouteMap]);
             } else {
               setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
