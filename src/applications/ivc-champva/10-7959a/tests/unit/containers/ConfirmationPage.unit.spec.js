@@ -73,7 +73,7 @@ describe('Confirmation page', () => {
 
   it('should render name without suffix if none present', () => {
     const tmpStore = storeBaseTruncated;
-    delete tmpStore.form.data.fullName.suffix;
+    delete tmpStore.form.data.applicantName.suffix;
     const { container } = render(
       <Provider store={mockStore(tmpStore)}>
         <ConfirmationPage />
