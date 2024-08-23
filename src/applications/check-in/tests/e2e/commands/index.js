@@ -57,38 +57,50 @@ Cypress.Commands.add('createScreenshots', filename => {
     cy.wait(1000);
     // Back to english
     cy.get('[data-testid="translate-button-en"]').click();
-    const screenshotHiddenItem = (item, type) => {
+    const expandHiddenItem = item => {
       item.each((i, v) => {
         cy.get(v)
           .shadow()
           .find('[aria-expanded="false"]')
           .click();
       });
-      cy.screenshot(`english/${filename}-${type}-expanded`);
       cy.wait(1000);
-      // Capture Spanish
-      cy.get('[data-testid="translate-button-es"]').click();
-      cy.wait(1000);
-      cy.screenshot(`spanish/${filename}-${type}-expanded-spanish`);
-      cy.wait(1000);
-      // Capture Tagalog
-      cy.get('[data-testid="translate-button-tl"]').click();
-      cy.wait(1000);
-      cy.screenshot(`tagalog/${filename}-${type}-expanded-tagalog`);
-      cy.wait(1000);
-      // Back to english
-      cy.get('[data-testid="translate-button-en"]').click();
     };
     // Expand additional info if it exists and make more screenshots
     // eslint-disable-next-line cypress/no-assigning-return-values
     const additionalInfo = cy.$$('va-additional-info');
     // eslint-disable-next-line cypress/no-assigning-return-values
     const accordion = cy.$$('va-accordion-item');
+    // eslint-disable-next-line cypress/no-assigning-return-values
+    const alert = cy.$$('va-alert-expandable');
+    let hiddenItems = false;
     if (additionalInfo.length) {
-      screenshotHiddenItem(additionalInfo, 'info');
+      expandHiddenItem(additionalInfo);
+      hiddenItems = true;
     }
     if (accordion.length) {
-      screenshotHiddenItem(accordion, 'accordion');
+      expandHiddenItem(accordion);
+      hiddenItems = true;
+    }
+    if (alert.length) {
+      expandHiddenItem(alert);
+      hiddenItems = true;
+    }
+    if (hiddenItems) {
+      cy.screenshot(`english/${filename}-items-expanded`);
+      cy.wait(1000);
+      // Capture Spanish
+      cy.get('[data-testid="translate-button-es"]').click();
+      cy.wait(1000);
+      cy.screenshot(`spanish/${filename}-items-expanded-spanish`);
+      cy.wait(1000);
+      // Capture Tagalog
+      cy.get('[data-testid="translate-button-tl"]').click();
+      cy.wait(1000);
+      cy.screenshot(`tagalog/${filename}-items-expanded-tagalog`);
+      cy.wait(1000);
+      // Back to english
+      cy.get('[data-testid="translate-button-en"]').click();
     }
   }
 });
