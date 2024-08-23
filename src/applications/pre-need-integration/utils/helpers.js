@@ -19,7 +19,6 @@ import {
   filterViewFields,
 } from 'platform/forms-system/src/js/helpers';
 
-import environment from 'platform/utilities/environment';
 import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
@@ -1278,13 +1277,15 @@ export function DesiredCemeteryNoteDescription() {
 }
 
 export function getCemeteries() {
-  return fetch(`${environment.API_URL}/v0/preneeds/cemeteries`, {
-    credentials: 'include',
-    headers: {
-      'X-Key-Inflection': 'camel',
-      'Source-App-Name': window.appName,
+  return fetch(
+    `https://sandbox-api.va.gov/services/va_facilities/v1/facilities?type=cemetery`,
+    {
+      headers: {
+        apikey: 'jyWCYkoohpBvZ0C6weiyfxTsgC8uQMS7',
+        accept: 'application/json',
+      },
     },
-  })
+  )
     .then(res => {
       if (!res.ok) {
         return Promise.reject(res);
@@ -1292,20 +1293,18 @@ export function getCemeteries() {
 
       return res.json();
     })
-    .then(res =>
-      res.data.map(item => ({
+    .then(res => {
+      return res.data.map(item => ({
         label: item.attributes.name,
         id: item.id,
-      })),
-    )
+      }));
+    })
     .catch(res => {
       if (res instanceof Error) {
         Sentry.captureException(res);
         Sentry.captureMessage('vets_preneed_cemeteries_error');
       }
 
-      // May change this to a reject later, depending on how we want
-      // to surface errors in autosuggest field
       return Promise.resolve([]);
     });
 }
