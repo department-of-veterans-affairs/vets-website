@@ -602,20 +602,36 @@ div[data-widget-type="events"] {
   color: var(--vads-color-white) !important;
 }
 
-/* Fix to 'contact us' color issue */
-.profile-nav-container a.vads-u-color--white:visited, #header-nav-items a.vads-u-color--white:visited{
-  color: var(--vads-color-white);
+.header-menu > ul, ul#header-nav-items{
+  .header-menu-item-button{
+    &.vads-u-background-color--gray-lightest{
+      background-color: var(--vads-color-base-lightest);
+      color: var(--vads-color-primary);
+    }
+    &.vads-u-background-color--primary-dark{
+      background-color: var(--vads-color-primary-dark);
+      color: var(--vads-color-white);
+    }
+  }
+  a{
+    &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+      color: var(--vads-color-white);
+    }
+    &.vads-u-color--link-default, &.vads-u-color--link-default:hover, &.vads-u-color--link-default:visited{
+      color: var(--vads-color-link);
+    }
+   }
 }
 
 /* Fix to mobile menu color issue */
-.header-menu-button.vads-u-background-color--gray-lightest,
-#header-back-to-menu.vads-u-background-color--gray-lightest,
-#header-nav-items > li > ul button.vads-u-background-color--gray-lightest{
+.header-menu-button.vads-u-background-color--gray-lightest{
   background-color: var(--vads-color-base-lightest);
   color: var(--vads-color-primary);
 }
 
-/* Fix to mobile menu color issue, lv1 */
-#header-nav-items > li > button.header-menu-item-button.vads-u-background-color--primary-dark{
-  background-color: var(--vads-color-primary-dark);
+/* Fix to 'contact us' color issue */
+.hidden-header a{
+  &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+    color: var(--vads-color-white);
+  }
 }
