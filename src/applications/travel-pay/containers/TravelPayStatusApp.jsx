@@ -89,6 +89,9 @@ export default function App({ children }) {
 
   // TODO: Move this logic to the API-side
   const compareClaimsDate = (a, b) => {
+    // Date.parse(null) evaluates to NaN, which is falsy. By including
+    // the OR condition, any comparison with a null appointmentDateTime
+    // will fallback to comparing the createOn value instead.
     return (
       Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
       Date.parse(b.createdOn) - Date.parse(a.createdOn)
