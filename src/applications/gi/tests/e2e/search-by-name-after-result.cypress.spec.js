@@ -25,6 +25,9 @@ describe('go bill CT Rearch By Name After Result', () => {
       'button[id="update-tuition,-housing,-and-monthly-benefit-estimates-accordion-button"]';
     const learMore =
       '[aria-label="Learn more about VA education and training programs"]';
+    const giBillChapter = 'select[id="giBillChapter"]';
+    const militaryStatus = 'select[id="militaryStatus"]';
+
     it('should show Update Tuition accordion not expanded and when user click on it, it should expanded', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(updateTuition).should('not.have.attr', 'aria-expanded', 'true');
@@ -34,20 +37,18 @@ describe('go bill CT Rearch By Name After Result', () => {
     it('should show GI Bill benefit learn more link and a dropdown and also should show military status select dropdown', () => {
       cy.injectAxeThenAxeCheck();
       cy.get(updateTuition).click();
-      cy.get('div > select[id="giBillChapter"]')
-        .as('giBillChapter')
-        .should('exist');
-      cy.get('@giBillChapter').select('33b');
-      cy.get(
-        'select[id="giBillChapter"] > [class="vads-u-font-weight--bold"]',
-      ).should('contain', 'Fry Scholarship (Ch 33)');
-      cy.get('div > select[id="militaryStatus"]')
-        .as('militaryStatus')
-        .should('exist');
-      cy.get('@militaryStatus').select('child');
-      cy.get(
-        'select[id="militaryStatus"] > [class="vads-u-font-weight--bold"]',
-      ).should('contain', 'Child');
+      cy.get(giBillChapter).should('exist');
+      cy.get(giBillChapter).select('33b');
+      cy.get(`${giBillChapter} > [class="vads-u-font-weight--bold"]`).should(
+        'contain',
+        'Fry Scholarship (Ch 33)',
+      );
+      cy.get(militaryStatus).should('exist');
+      cy.get(militaryStatus).select('child');
+      cy.get(`${militaryStatus} > [class="vads-u-font-weight--bold"]`).should(
+        'contain',
+        'Child',
+      );
       cy.get(learMore).should('contain', 'Learn more');
     });
     it('should show popup about  GI Bill benefit when Learn more link is clicked and when x button click it should close modal', () => {
@@ -103,6 +104,74 @@ describe('go bill CT Rearch By Name After Result', () => {
         '[aria-label="Close Your housing allowance is determined by where you take classes modal"]',
       ).click();
       cy.get('@housingAllowance').should('not.exist');
+    });
+    it('should different  military status options based on the GI Bill benefit ', () => {
+      cy.injectAxeThenAxeCheck();
+      const CompletedAnEnlistment =
+        '[aria-label="Completed an enlistment of (MGIB): modal"]';
+      cy.get(updateTuition).click();
+      cy.get(giBillChapter).select('33a');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 3);
+      cy.get('[id="spouseActiveDuty"]').should('not.exist');
+      cy.get('[id="cumulativeService"]')
+        .as('cumulativeService')
+        .find('option')
+        .should('have.length', 8);
+      cy.get(giBillChapter).select('33b');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 2);
+      cy.get('[id="spouseActiveDuty"]').should('exist');
+      cy.get('@cumulativeService').should('not.exist');
+      cy.get(CompletedAnEnlistment).should('not.exist');
+      cy.get('[id="enlistmentService"]').should('not.exist');
+      cy.get(giBillChapter).select('30');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 2);
+      cy.get('[id="enlistmentService"]').should('exist');
+      cy.get('[id="enlistmentService-dropdown"] button').click();
+      cy.get(`${CompletedAnEnlistment}  h2`)
+        .as('CompletedAnEnlistment')
+        .should('contain', 'Completed an enlistment of (MGIB):');
+      cy.get(`${CompletedAnEnlistment} button`).click();
+      cy.get(CompletedAnEnlistment).should('not.exist');
+      cy.get(giBillChapter).select('1606');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 1);
+      cy.get(CompletedAnEnlistment).should('not.exist');
+      cy.get('[id="enlistmentService"]').should('not.exist');
+      cy.get('[data-testid="to-apply-for-VR&E"]').should('not.exist');
+      cy.get(giBillChapter).select('31');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 1);
+      cy.get('[data-testid="to-apply-for-VR&E"]').should(
+        'contain',
+        'To apply for VR&E benefits, please',
+      );
+      cy.get('[id="eligForPostGiBill"]').should('exist');
+      cy.get('[id="numberOfDependents"]').should('exist');
+      cy.get('select[id="eligForPostGiBill"]').select('yes');
+      cy.get('[id="numberOfDependents"]').should('not.exist');
+      cy.get(giBillChapter).select('35');
+      cy.get(militaryStatus)
+        .find('option')
+        .should('have.length', 2);
+      cy.get('[data-testid="to-apply-for-VR&E"]').should('not.exist');
+      cy.get('[id="eligForPostGiBill"]').should('not.exist');
+    });
+    it('should not display Is your spouse currently on active duty? when military status is child', () => {
+      cy.injectAxeThenAxeCheck();
+      cy.get(updateTuition).click();
+      cy.get(giBillChapter).select('35');
+      cy.get(militaryStatus).select('spouse');
+      cy.get('[id="spouseActiveDuty"]').should('exist');
+      cy.get(militaryStatus).select('child');
+      cy.get('[id="spouseActiveDuty"]').should('not.exist');
     });
   });
 });
