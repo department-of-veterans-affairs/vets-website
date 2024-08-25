@@ -367,7 +367,6 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::before {
       content: "";
-      margin-right: 8px;
       -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
       mask-image: url("/img/navigate_far_before.svg#icon")t;
     }
@@ -379,7 +378,6 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::after {
       content: "";
-      margin-left: 8px;
       -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
       mask-image: url("/img/navigate_far_next.svg#icon")t;
     }
