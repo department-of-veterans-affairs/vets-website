@@ -1,0 +1,95 @@
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+
+@mixin fill-white {
+  fill: var(--vads-color-white);
+}
+
+@mixin stroke-white {
+  stroke: var(--vads-color-white);
+}
+
+@mixin fill-gray-cool-40 {
+  fill: var(--uswds-system-color-gray-cool-40);
+}
+
+@mixin text-gray-cool-40 {
+  color: var(--uswds-system-color-gray-cool-40);
+}
+
+@mixin fill-green-cool-vivid-50 {
+  fill: var(--uswds-system-color-green-cool-vivid-50);
+}
+
+@mixin fill-red-cool-vivid-50 {
+  fill: var(--uswds-system-color-red-cool-vivid-60);
+}
+
+.hover\:cursor-pointer:hover {
+  cursor: pointer;
+}
+
+.hover\:phone-button-active-bg:hover {
+  @include fill-gray-cool-40;
+}
+
+.phone-button-pressed-bg {
+  @include fill-gray-cool-40;
+}
+
+.hover\:text-gray-cool-40:hover {
+  @include text-gray-cool-40;
+}
+
+.fill-white {
+  @include fill-white;
+}
+
+.stroke-white {
+  @include stroke-white;
+}
+
+.group:hover {
+  .group-hover\:phone-button-active-bg {
+    @include fill-gray-cool-40;
+  }
+
+  .group-hover\:call-button-active-bg {
+    @include fill-green-cool-vivid-50;
+  }
+
+  .group-hover\:hang-up-button-active-bg {
+    @include fill-red-cool-vivid-50;
+  }
+
+  .group-hover\:text-white {
+    @include fill-white;
+  }
+
+  .group-hover\:stroke-white {
+    @include stroke-white;
+  }
+}
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.gap--1 {
+  gap: 8px;
+}
+
+.gap--3 {
+  gap: 24px;
+}
+
+.col-start-2 {
+  grid-column-start: 2;
+}
+
+.items-center {
+  align-items: center;
+}

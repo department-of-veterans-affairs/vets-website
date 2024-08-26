@@ -8,6 +8,7 @@ import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import persistState from 'redux-localstorage';
 // Relative imports.
+import call from 'applications/seamless-call/reducers';
 import i18Reducer from 'applications/static-pages/i18Select/reducers';
 import announcements from '../site-wide/announcements/reducers';
 import createAnalyticsMiddleware from './analytics-middleware';
@@ -43,6 +44,7 @@ export const commonReducer = {
   user: combineReducers({ login, profile }),
   layout,
   ...brandConsolidatedReducers,
+  call,
 };
 
 /**

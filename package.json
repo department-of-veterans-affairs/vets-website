@@ -395,7 +395,8 @@
       "src/platform/monitoring",
       "src/platform/mhv",
       "src/applications/check-in",
-      "src/applications/vaos"
+      "src/applications/vaos",
+      "src/applications/seamless-call"
     ],
     "nohoist": [
       "**/applications-check-in/i18next-resources-to-backend",

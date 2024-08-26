@@ -141,5 +141,10 @@
     "appName": "Verify Your Enrollment Widget",
     "rootUrl": "/education/verify-school-enrollment",
     "widgetType": "vye-enrollment-login-widget"
+  },
+  {
+    "appName": "Seamless Call",
+    "entryName": "seamless-call",
+    "rootUrl": "/call-veterans-crisis-line"
   }
 ]
