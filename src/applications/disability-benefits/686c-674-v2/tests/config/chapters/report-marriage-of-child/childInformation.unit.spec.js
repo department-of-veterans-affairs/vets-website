@@ -71,16 +71,13 @@ describe('686 report marriage of child: Child information', () => {
       </Provider>,
     );
 
-    // screen.debug();
-
     expect($$('va-text-input', container).length).to.equal(4);
     expect($$('va-memorable-date', container).length).to.equal(2);
-    // expect(
-    //   $$('button[aria-label="Edit child child who got married"]', container)
-    //     .length,
-    // ).to.equal(1);
-    // expect(
-    //   $$('h3[aria-label="Remove child who got married"]', container).length,
-    // ).to.equal(1);
+    expect(
+      $$('button[aria-label="Edit child who got married"]', container).length,
+    ).to.equal(1);
+    expect(
+      $$('button[aria-label="Remove child who got married"]', container).length,
+    ).to.equal(1);
   });
 });
