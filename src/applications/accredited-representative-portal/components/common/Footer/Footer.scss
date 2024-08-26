@@ -1,6 +1,9 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .arp-footer {
+  flex-grow: 1;
+  background-color: var(--vads-color-primary-darker);
+
   .mobile {
     @media (min-width: $medium-screen) {
       display: none !important;
