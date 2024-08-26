@@ -29,7 +29,7 @@ const options = {
  */
 const summaryPage = {
   uiSchema: {
-    'view:isAddingOtherFederalMedicalCenters': arrayBuilderYesNoUI(options, {
+    'view:isAddingFederalMedicalCenters': arrayBuilderYesNoUI(options, {
       title:
         'Have you received treatment from any non-VA federal medical facilities within the past year?',
       labelHeaderLevel: ' ',
@@ -40,9 +40,9 @@ const summaryPage = {
   schema: {
     type: 'object',
     properties: {
-      'view:isAddingOtherFederalMedicalCenters': arrayBuilderYesNoSchema,
+      'view:isAddingFederalMedicalCenters': arrayBuilderYesNoSchema,
     },
-    required: ['view:isAddingOtherFederalMedicalCenters'],
+    required: ['view:isAddingFederalMedicalCenters'],
   },
 };
 
