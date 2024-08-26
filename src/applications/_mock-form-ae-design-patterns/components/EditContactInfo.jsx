@@ -27,6 +27,7 @@ import {
 import { Link } from 'react-router';
 import NameTag from './NameTag';
 import { Portal } from './Portal';
+import CopyResidentialAddress from './CopyResidentialAddress';
 
 export const BuildPage = ({
   title,
@@ -113,6 +114,9 @@ export const BuildPage = ({
           {title}
         </h1>
         {subTitle && <p className="vads-u-color--gray-medium">{subTitle}</p>}
+
+        {field === 'MAILING_ADDRESS' && <CopyResidentialAddress />}
+
         <ProfileInformationFieldController
           forceEditView
           fieldName={FIELD_NAMES[field]}

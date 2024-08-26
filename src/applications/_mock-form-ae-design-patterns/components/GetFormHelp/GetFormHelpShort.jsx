@@ -1,7 +1,7 @@
 import { CONTACTS } from '@department-of-veterans-affairs/component-library';
 import React from 'react';
 
-export const GetFormHelp = () => {
+export const GetFormHelpShort = () => {
   return (
     <>
       <p>

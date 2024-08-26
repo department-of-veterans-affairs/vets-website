@@ -66,22 +66,33 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
         data-testid="ezr-login-alert"
         uswds
       >
-        <h3 slot="headline">{content['sip-alert-title']}</h3>
-        <div>
-          <ul>
-            <li>
-              We can fill in some of your information for you to save you time.
-            </li>
-            <li>
-              You can save your work in progress. You’ll have 60 days from when
-              you start or make updates to your form to come back and finish it.
-            </li>
-          </ul>
-          <VaButton
-            onClick={onSignInButtonClick}
-            text="Sign in to start your form"
-          />
-        </div>
+        <h3 slot="headline">
+          Sign in with a verified account to update your information online
+        </h3>
+
+        <p>
+          You’ll need to sign in with an identity-verified account through one
+          of our account providers. Identity verification helps us protect all
+          Veterans’ information and prevent scammers from stealing your
+          benefits.
+        </p>
+
+        <p>
+          <strong>Don’t yet have a verified account?</strong> Create a{' '}
+          <strong>Login.gov</strong> or <strong>ID.me</strong> account now. Then
+          come back here and sign in. We’ll help you verify your identity for
+          your account.
+        </p>
+
+        <p>
+          <strong>Not sure if your account is verified?</strong> Sign in here.
+          We’ll tell you if you need to verify.
+        </p>
+
+        <VaButton
+          onClick={onSignInButtonClick}
+          text="Sign in to start your form"
+        />
       </va-alert>
     </>
   ) : (
