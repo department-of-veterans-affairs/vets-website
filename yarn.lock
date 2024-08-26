@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^45.0.0":
-  version "45.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-45.0.0.tgz#1952e1f302f8acbdf4bad3685d7a7ce9aa4c3869"
-  integrity sha512-P9XBoofRjMDeZu3TVMGAZIcQv9JVKLLlDfGgDTdz7oDy8tsDEr3OIjyHT4B98iyUSNbm0iPxAblAPJGJDNpEkw==
+"@department-of-veterans-affairs/component-library@^46.0.0":
+  version "46.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-46.0.0.tgz#a3d8fb2bc1e4e4b0e5ab5b0804d03c57692793c5"
+  integrity sha512-sb3tbzENuK8LIlcyhnMacegnRIPg0LosjuR0CCdQaxHFmY1KoPL5k0Ww7ztw2BLjvOjAmYSBYrwuunucOzc5Xw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "13.0.0"
+    "@department-of-veterans-affairs/web-components" "14.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2884,13 +2884,13 @@
     "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
-  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
+"@department-of-veterans-affairs/css-library@^0.8.8":
+  version "0.8.8"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.8.tgz#f86fa4f126148c5d187831618446c520a639fdd6"
+  integrity sha512-9XjIppvFrmACoD/m1BssWkA/eXTRhszSxWnPFNSb38cYaVs35HcTEAF2vbPdeipkT5KKUC4Ns6MDxMZMqLv2hg==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
-    "@uswds/uswds" "^3.7.1"
+    "@uswds/uswds" "^3.8.1"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.2":
@@ -2960,13 +2960,13 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@13.0.0":
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-13.0.0.tgz#e2803de492778a1209b34e5315c3d66caab9d85f"
-  integrity sha512-4L1x6fB27H56wcXVUhQj2mApWOfsZ/JX+8bHX35f2FGpDKFEh1EDEEB4VJ64b5uBedskGuWS2yMq8mv/3YFMcw==
+"@department-of-veterans-affairs/web-components@14.0.0":
+  version "14.0.0"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-14.0.0.tgz#54938f9b89aa1f10ce15253ae5557620d0fbc813"
+  integrity sha512-h4fgnzSa34YPENnXgSFpF84dI2aSGOo/WdZjPdVmHKnVy52LebC7Lr/Sla7bzWctpy23ST+bIrZdevBIQLrh6g==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
-    "@stencil/core" "^2.19.2"
+    "@stencil/core" "^3.2.1"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
     chromatic "^11.0.4"
@@ -4220,10 +4220,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@stencil/core@^2.19.2":
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.19.2.tgz#87fb22cad487e667e533dc61d542f75af9932265"
-  integrity sha512-TK3sHqyQAACwcac4fWntypFtN9c/y+y9ioZojeCnNDY3dxF33Ax70lL9ZLDyQnWWR+aTh1WFoqB5sYOnZIUKMA==
+"@stencil/core@^3.2.1":
+  version "3.4.2"
+  resolved "https://registry.npmjs.org/@stencil/core/-/core-3.4.2.tgz#57ce7f71fe18c2ec0967821bec667fc453cca962"
+  integrity sha512-FAUhUVaakCy29nU2GwO/HQBRV1ihPRvncz3PUc8oR+UJLAxGabTmP8PLY7wvHfbw+Cvi4VXfJFTBvdfDu6iKPQ==
 
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.2"
@@ -4861,6 +4861,15 @@
   integrity sha512-bKG/B9mJF1v0yoqth48wQDzST5Xyu3OxxpePIPDyhKWS84oDrCehnu3Z88JhSjdIAJMl8dtjtH8YvdO9kZUpAg==
   dependencies:
     classlist-polyfill "1.2.0"
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
+
+"@uswds/uswds@^3.8.1":
+  version "3.8.2"
+  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.8.2.tgz#230668293c33f6866995ba9d03d6f42aba251336"
+  integrity sha512-8sTx/GqlbTwSIK+0AFOGrYdaW1rKVB7Bp0+v9AMVt3I5vPK7CL0+I6vlclSf3U7ysJZeTTdkNS8q89sIAeL+AA==
+  dependencies:
     object-assign "4.1.1"
     receptor "1.0.0"
     resolve-id-refs "0.1.0"
