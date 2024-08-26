@@ -18,9 +18,7 @@ import { isSameOrAfter } from '../../../helpers';
 const { vaClaimsHistory } = fullSchemaPensions.properties;
 
 export function isOver65(formData, currentDate) {
-  const today = currentDate
-    ? parse(currentDate, 'yyyy-MM-dd', new Date())
-    : new Date();
+  const today = currentDate || new Date();
   const veteranDateOfBirth = parse(
     formData.veteranDateOfBirth,
     'yyyy-MM-dd',
@@ -37,9 +35,7 @@ export function isOver65(formData, currentDate) {
 
 export function setDefaultIsOver65(oldData, newData, currentDate) {
   if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
-    const today = currentDate
-      ? parse(currentDate, 'yyyy-MM-dd', new Date())
-      : new Date();
+    const today = currentDate || new Date();
     return {
       ...newData,
       isOver65: isOver65(newData, today),

@@ -30,7 +30,7 @@ export function isInNursingHome(formData) {
 }
 
 export function isUnder65(formData, currentDate) {
-  const today = currentDate ? parseISO(currentDate) : new Date();
+  const today = currentDate || new Date();
   const dateToCompare = startOfDay(subYears(today, 65));
 
   return (
