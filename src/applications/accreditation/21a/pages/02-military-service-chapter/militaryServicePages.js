@@ -101,7 +101,10 @@ const branchAndDateRangePage = {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: currentOrPastMonthYearDateRangeSchema,
+      dateRange: {
+        ...currentOrPastMonthYearDateRangeSchema,
+        required: ['from'],
+      },
       'view:dateRangeEndDateLabel': {
         type: 'object',
         properties: {},

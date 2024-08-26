@@ -71,6 +71,7 @@
         "reasonForLeaving": "Found a better opportunity"
       }
     ],
+    "employmentStatus": "employed",
     "employmentActivities": ["financial", "home"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
