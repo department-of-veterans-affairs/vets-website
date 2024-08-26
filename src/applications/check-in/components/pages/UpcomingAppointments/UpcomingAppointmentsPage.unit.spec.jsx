@@ -10,6 +10,7 @@ import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
 import * as useGetUpcomingAppointmentsDataModule from '../../../hooks/useGetUpcomingAppointmentsData';
 import { multipleAppointments } from '../../../tests/unit/mocks/mock-appointments';
 import { api } from '../../../api';
+import { APP_NAMES } from '../../../utils/appConstants';
 
 describe('unified check-in experience', () => {
   beforeEach(() => {
@@ -178,12 +179,13 @@ describe('unified check-in experience', () => {
       sandbox.assert.calledOnce(v2.getUpcomingAppointmentsData);
       sandbox.restore();
     });
-    it('shows alert message when there are upcoming appointments', () => {
+    it('shows pre-check-in alert message when there are upcoming appointments', () => {
       const { getByTestId } = render(
         <CheckInProvider
           store={{
             upcomingAppointments: multipleAppointments,
             features: appointmentsOn,
+            app: APP_NAMES.PRE_CHECK_IN,
           }}
         >
           <UpcomingAppointmentsPage />
@@ -191,6 +193,23 @@ describe('unified check-in experience', () => {
       );
 
       expect(getByTestId('info-warning')).to.exist;
+      expect(getByTestId('pre-check-in-info')).to.exist;
+    });
+    it('shows check-in alert message when there are upcoming appointments', () => {
+      const { getByTestId } = render(
+        <CheckInProvider
+          store={{
+            upcomingAppointments: multipleAppointments,
+            features: appointmentsOn,
+            app: APP_NAMES.CHECK_IN,
+          }}
+        >
+          <UpcomingAppointmentsPage />
+        </CheckInProvider>,
+      );
+
+      expect(getByTestId('info-warning')).to.exist;
+      expect(getByTestId('check-in-info')).to.exist;
     });
     it('does not show alert message when there are upcoming appointments', () => {
       const { queryByTestId } = render(

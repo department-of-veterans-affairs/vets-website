@@ -39,11 +39,11 @@ const VaFacilityResult = ({
         {/* eslint-disable-next-line jsx-a11y/interactive-supports-focus, jsx-a11y/no-static-element-interactions */}
         <span onClick={clickHandler} onKeyDown={clickHandler}>
           {isVADomain(website) ? (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
-              <a href={website}>{name}</a>
+            <h3 className="vads-u-margin-top--0">
+              <va-link href={website} text={name} />
             </h3>
           ) : (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-margin-top--0">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}
