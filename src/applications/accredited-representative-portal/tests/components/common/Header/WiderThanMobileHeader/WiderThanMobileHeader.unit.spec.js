@@ -1,45 +1,37 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import createReduxStore from '../../../../../store';
 
 import WiderThanMobileLogoRow from '../../../../../components/common/Header/WiderThanMobileHeader/WiderThanMobileLogoRow';
+import { TestAppContainer } from '../../../../helpers';
 
-const mockStore = configureStore([]);
-const initialState = {
-  user: {
-    isLoading: false,
-    profile: null, // You can adjust this based on the expected state in your component
-  },
-};
+function renderTestApp({ initAction } = {}) {
+  const store = createReduxStore();
+  if (initAction) store.dispatch(initAction);
+
+  return render(
+    <TestAppContainer store={store}>
+      <WiderThanMobileLogoRow />
+    </TestAppContainer>,
+  );
+}
+
 describe('WiderThanMobileLogoRow', () => {
-  const getWiderThanMobileLogoRow = () => {
-    const store = mockStore(initialState);
-    return render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <WiderThanMobileLogoRow />
-        </MemoryRouter>
-      </Provider>,
-    );
-  };
-
   it('renders logo', () => {
-    const { getByTestId } = getWiderThanMobileLogoRow();
+    const { getByTestId } = renderTestApp();
     expect(getByTestId('wider-than-mobile-logo-row-logo')).to.exist;
   });
 
   it('renders contact us link', () => {
-    const { getByTestId } = getWiderThanMobileLogoRow();
+    const { getByTestId } = renderTestApp();
     expect(
       getByTestId('wider-than-mobile-logo-row-contact-us-link').textContent,
     ).to.eq('Contact us');
   });
 
   it('renders sign in link', () => {
-    const { getByTestId } = getWiderThanMobileLogoRow();
+    const { getByTestId } = renderTestApp();
     expect(
       getByTestId('user-nav-wider-than-mobile-sign-in-link').textContent,
     ).to.eq('Sign in');
