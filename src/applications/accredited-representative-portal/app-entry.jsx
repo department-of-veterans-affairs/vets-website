@@ -8,7 +8,7 @@ import { createHistory } from 'history';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
-import routes from './routes';
+import routes from './accreditation/21a/routes';
 import manifest from './manifest.json';
 import createReduxStore from './store';
 

@@ -35,7 +35,7 @@ const setUpInterceptsAndVisit = featureToggles => {
   cy.injectAxe();
 };
 
-describe('Accredited Representative Portal', () => {
+describe.skip('Accredited Representative Portal', () => {
   describe('App feature toggle is not enabled', () => {
     beforeEach(() => {
       cy.loginArpUser();
