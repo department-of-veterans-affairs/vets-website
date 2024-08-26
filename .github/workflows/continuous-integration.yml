@@ -1843,21 +1843,10 @@ jobs:
         \\\"asset_bucket\\\": \\\"staging-va-gov-assets\\\",
         \\\"iam_role\\\": \\\"AWS_FRONTEND_NONPROD_ROLE\\\"
         }"
-      PROD: "{
-        \\\"environment\\\": \\\"vagovprod\\\",
-        \\\"bucket\\\": \\\"www.va.gov\\\",
-        \\\"asset_bucket\\\": \\\"prod-va-gov-assets\\\",
-        \\\"iam_role\\\": \\\"AWS_FRONTEND_PROD_ROLE\\\"
-        }"
     steps:
       - name: Set environments for deploy matrix
         id: set-environments
-        run: |
-          if [[ ${{ env.DEPLOY_TO_PRODUCTION }} == true && ${{ needs.build.outputs.continuous_deployment }} == true ]]; then
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}},${{env.PROD}}]} >> $GITHUB_OUTPUT
-          else
-            echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
-          fi
+        run: echo environments={\"include\":[${{env.DEV}},${{env.STAGING}}]} >> $GITHUB_OUTPUT
 
   deploy:
     name: Deploy
@@ -1934,7 +1923,7 @@ jobs:
   cd-prod-deploy:
     name: CD Production Deploy
     runs-on: ubuntu-latest
-    needs: [build, archive]
+    needs: [build, set-deploy-environments]
     if: ${{ needs.build.outputs.entry_names != '' && needs.build.outputs.continuous_deployment == 'true' }}
     steps:
       - name: Run CD Production Deploy workflow
