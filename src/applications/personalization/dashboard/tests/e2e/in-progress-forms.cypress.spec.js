@@ -178,7 +178,7 @@ describe('The My VA Dashboard', () => {
       });
     });
 
-    describe('there are status forms', () => {
+    describe('there are submitted forms', () => {
       beforeEach(() => {
         cy.intercept('/v0/my_va/submission_statuses', formStatuses);
         mockUser.data.attributes.inProgressForms = [];
@@ -190,8 +190,21 @@ describe('The My VA Dashboard', () => {
         cy.findByRole('heading', {
           name: /benefit applications and forms/i,
         }).should('exist');
-        cy.findAllByTestId('submitted-application').should('have.length', 2);
-        // TODO: flesh out tests in follow up tickets for UI variants for StatusCards
+        cy.findAllByTestId('submitted-application').should('have.length', 3);
+        // make the a11y check
+        cy.injectAxe();
+        cy.axeCheck();
+      });
+
+      it('should show expected form status cards', () => {
+        cy.findByRole('heading', {
+          name: /benefit applications and forms/i,
+        }).should('exist');
+        cy.get('.usa-label').contains('Received', { matchCase: false });
+        cy.get('.usa-label').contains('Submission in Progress', {
+          matchCase: false,
+        });
+        cy.get('.usa-label').contains('Action Needed', { matchCase: false });
         // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
