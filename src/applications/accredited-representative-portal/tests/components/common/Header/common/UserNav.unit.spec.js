@@ -1,33 +1,46 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import createReduxStore from '../../../../../store';
+
 import UserNav from '../../../../../components/common/Header/common/UserNav';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../../constants';
+import { TestAppContainer } from '../../../../helpers';
+import {
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE,
+  FETCH_USER,
+} from '../../../../../actions/user';
 
-const mockStore = configureStore([]);
-
-const getUserNav = (isMobile, isLoading, profile) => {
-  const store = mockStore({
-    user: { isLoading, profile },
-  });
+function renderTestApp({ isMobile, initAction } = {}) {
+  const store = createReduxStore();
+  if (initAction) store.dispatch(initAction);
 
   return render(
-    <Provider store={store}>
+    <TestAppContainer store={store}>
       <UserNav isMobile={isMobile} />
-    </Provider>,
+    </TestAppContainer>,
   );
-};
+}
 
 describe('UserNav mobile', () => {
+  const isMobile = true;
+
   it('renders as Loading', () => {
-    const { getByTestId } = getUserNav(true, true, null);
+    const initAction = {
+      type: FETCH_USER,
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
     expect(getByTestId('user-nav-loading-icon')).to.exist;
   });
 
   it('renders as Sign in link when no profile exists', () => {
-    const { getByTestId } = getUserNav(true, false, null);
+    const initAction = {
+      type: FETCH_USER_FAILURE,
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
     const signInLink = getByTestId('user-nav-mobile-sign-in-link');
 
     expect(signInLink.textContent).to.eq('Sign in');
@@ -35,8 +48,20 @@ describe('UserNav mobile', () => {
   });
 
   it('renders with first name when has profile', () => {
-    const profile = { firstName: 'First', lastName: 'Last' };
-    const { getByTestId } = getUserNav(true, false, profile);
+    const profile = {
+      firstName: 'First',
+      lastName: 'Last',
+    };
+
+    const initAction = {
+      type: FETCH_USER_SUCCESS,
+      payload: {
+        account: {},
+        profile,
+      },
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
 
     expect(getByTestId('user-nav-user-name').textContent).to.eq(
       profile.firstName,
@@ -49,13 +74,23 @@ describe('UserNav mobile', () => {
 });
 
 describe('UserNav wider than mobile', () => {
+  const isMobile = false;
+
   it('renders as Loading', () => {
-    const { getByTestId } = getUserNav(false, true, null);
+    const initAction = {
+      type: FETCH_USER,
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
     expect(getByTestId('user-nav-loading-icon')).to.exist;
   });
 
   it('renders as Sign in link when no profile exists', () => {
-    const { getByTestId } = getUserNav(false, false, null);
+    const initAction = {
+      type: FETCH_USER_FAILURE,
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
     const signInLink = getByTestId('user-nav-wider-than-mobile-sign-in-link');
 
     expect(signInLink.textContent).to.eq('Sign in');
@@ -63,8 +98,20 @@ describe('UserNav wider than mobile', () => {
   });
 
   it('renders with first and last name when has profile', () => {
-    const profile = { firstName: 'First', lastName: 'Last' };
-    const { getByTestId } = getUserNav(false, false, profile);
+    const profile = {
+      firstName: 'First',
+      lastName: 'Last',
+    };
+
+    const initAction = {
+      type: FETCH_USER_SUCCESS,
+      payload: {
+        account: {},
+        profile,
+      },
+    };
+
+    const { getByTestId } = renderTestApp({ isMobile, initAction });
 
     expect(getByTestId('user-nav-user-name').textContent).to.eq(
       `${profile.firstName} ${profile.lastName}`,
