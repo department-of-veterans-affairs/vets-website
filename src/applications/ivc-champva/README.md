@@ -29,6 +29,7 @@ on running the applications locally, testing methods, and other useful info.
   - Standing up the API locally
   - Mocking API Locally
   - Test Save In Progress Locally
+- [Scheduling Maintenance Windows for External Backend Service (PEGA)](#scheduling-maintenance-windows-for-external-backend-service-pega)
 
 ## Purpose of IVC Forms Apps
 
@@ -247,3 +248,42 @@ To Save In Progress locally you must mock vets-api locally to intercept the fron
    ```
 
 For an example of a functional API mock for SIP, see this [ivc-champva/10-7959C](https://github.com/department-of-veterans-affairs/vets-website/pull/29340) pull request.
+
+## Scheduling Maintenance Windows for External Backend Service (PEGA)
+
+IVC CHAMPVA forms rely on the Pega backend service for handling form submissions. Periodically, it may be necessary to schedule some downtime while if Pega will be taken down for maintenance or some other reason.
+
+To handle this, each IVC CHAMPVA form app is wrapped in a `DowntimeNotification` 
+component. These read the state of the [Pega service in Pager Duty](https://dsva.pagerduty.com/service-directory/P3ZJCBK).
+
+### Create a maintenance window
+
+When a maintenance window is known, it can be scheduled in advance and then
+automatically applied to the IVC CHAMPVA forms. To create a maintenance window,
+navigate to the [Pega service in Pager Duty](https://dsva.pagerduty.com/service-directory/P3ZJCBK):
+
+![Image of Pega service in Pager Duty (staging)](images/pager_duty/pager_duty0.png 'Pega service in Pager Duty (staging)')
+
+Once on the service screen, scroll to the bottom where you will see the 
+maintenance window section.
+
+![Image of maintenance window section](images/pager_duty/pager_duty1.png 'Maintenance window section')
+
+Click `Add a Maintenance Window`.
+
+![Image of new maintenance window modal](images/pager_duty/create_window.png 'Add a maintenance window modal')
+
+Enter the details for the maintenance window and save. Once the maintenance 
+window is active, you will see a message indicating the active maintenance.
+
+|Scheduled|Active|
+|------|-----|
+|![Image of scheduled window](images/pager_duty/window.png 'Scheduled maintenance window')| ![Image of active window](images/pager_duty/active_window.png 'Active maintenance window')|
+
+When a maintenance window is active, IVC CHAMPVA forms display this message:
+
+![Image of active maintenance window on IVC CHAMPVA form](images/pager_duty/maintenance.png 'Active maintenance message')
+
+Maintenance windows may either be manually dismissed in Pager Duty, or will naturally expire.
+Nothing needs to be done for the messages to show up on Va.gov, as the external service downtime
+is automatically pulled in by each form via the `DowntimeNotification` component.

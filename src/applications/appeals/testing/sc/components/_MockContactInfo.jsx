@@ -81,7 +81,8 @@ const MockContactInfo = ({
           className="dd-privacy-hidden"
           data-dd-action-name="city, state and zip code"
         >
-          {address.city || ''}, {address.state || ''} {address.zipCode || ''}
+          {address.city || ''}, {address.stateCode || ''}{' '}
+          {address.zipCode || ''}
         </div>
         <div>
           <a href="#main" aria-label="edit mailing address">

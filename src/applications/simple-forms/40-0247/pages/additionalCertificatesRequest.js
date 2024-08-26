@@ -15,7 +15,7 @@ export default {
   uiSchema: {
     ...titleUI(
       'Where should we send your additional certificates?',
-      <span className="custom-label h4">Additional address</span>,
+      <h4 className="custom-label h4">Additional address</h4>,
     ),
     additionalAddress: addressNoMilitaryUI({
       labels: {
