@@ -108,6 +108,7 @@ const formConfig = {
     uuid,
     signature,
   },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: content['vet-info-title--chapter'],

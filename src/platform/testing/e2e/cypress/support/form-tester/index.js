@@ -211,13 +211,7 @@ const defaultPostHook = pathname => {
       cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('[name^="privacyAgreement"]');
         if (privacyAgreement.length) {
-          cy.wrap(privacyAgreement)
-            .shadow()
-            .find('va-checkbox')
-            .shadow()
-            .find('[type="checkbox"]')
-            .check(FORCE_OPTION)
-            .should('be.checked');
+          cy.wrap(privacyAgreement).then($el => cy.selectVaCheckbox($el, true));
         }
       });
 
