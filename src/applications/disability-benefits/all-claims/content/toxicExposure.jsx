@@ -21,7 +21,7 @@ export const conditionsDescription = (
   >
     <div>
       <p className="vads-u-margin-top--0">
-        Toxic exposures include exposures to substances like Agent Orange, burn
+        Toxic exposure includes exposure to substances like Agent Orange, burn
         pits, radiation, asbestos, or contaminated water.
       </p>
       <p className="vads-u-margin-bottom--0">
