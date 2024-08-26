@@ -46,7 +46,6 @@
   "cstClaimPhases": "cst_claim_phases",
   "cstIncludeDdl5103Letters": "cst_include_ddl_5103_letters",
   "cstIncludeDdlBoaLetters": "cst_include_ddl_boa_letters",
-  "cstUseClaimDetailsV2": "cst_use_claim_details_v2",
   "cstUseDataDogRUM": "cst_use_dd_rum",
   "cstUseLighthouse#5103": "cst_use_lighthouse_5103",
   "cstUseLighthouse#index": "cst_use_lighthouse_index",
