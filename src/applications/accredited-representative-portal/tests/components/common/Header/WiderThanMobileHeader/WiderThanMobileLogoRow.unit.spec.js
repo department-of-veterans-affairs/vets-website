@@ -1,34 +1,25 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import createReduxStore from '../../../../../store';
 
 import WiderThanMobileLogoRow from '../../../../../components/common/Header/WiderThanMobileHeader/WiderThanMobileLogoRow';
+import { TestAppContainer } from '../../../../helpers';
 
-const mockStore = configureStore([]);
-
-const renderWiderThanMobileLogoRow = (isLoading, profile) => {
-  const store = mockStore({
-    user: {
-      isLoading,
-      profile,
-    },
-  });
+function renderTestApp({ initAction } = {}) {
+  const store = createReduxStore();
+  if (initAction) store.dispatch(initAction);
 
   return render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <WiderThanMobileLogoRow />
-      </MemoryRouter>
-    </Provider>,
+    <TestAppContainer store={store}>
+      <WiderThanMobileLogoRow />
+    </TestAppContainer>,
   );
-};
+}
 
 describe('WiderThanMobileLogoRow', () => {
   it('renders the logo with correct attributes', () => {
-    const { getByTestId } = renderWiderThanMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
 
     const logoImg = getByTestId('wider-than-mobile-logo-row-logo');
     expect(logoImg.src).to.include('/img/arp-header-logo.png');
@@ -38,7 +29,7 @@ describe('WiderThanMobileLogoRow', () => {
   });
 
   it('renders the contact us link with correct href', () => {
-    const { getByTestId } = renderWiderThanMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
 
     const contactLink = getByTestId(
       'wider-than-mobile-logo-row-contact-us-link',
@@ -48,7 +39,7 @@ describe('WiderThanMobileLogoRow', () => {
   });
 
   it('renders UserNav and displays sign-in link when no profile exists', () => {
-    const { getByTestId } = renderWiderThanMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
 
     const signInLink = getByTestId('user-nav-wider-than-mobile-sign-in-link');
     expect(signInLink.textContent).to.eq('Sign in');
