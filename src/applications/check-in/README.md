@@ -52,6 +52,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - missingUUID: `a5895713-ca42-4244-9f38-f8b5db020d04`
   - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
   - demographicsConfirmedUUID: `3f93c0e0-319a-4642-91b3-750e0aec0388`
+  - noUpcomingAppointments: `34de41ed-014c-4734-a4a4-3a4738f5e0d8`
 
 ### Pre-check-in
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
@@ -67,6 +68,7 @@ There are several different mock UUIDs that can be used as a value for the `id` 
   - noFacilityAddressUUID: `5d5a26cd-fb0b-4c5b-931e-2957bfc4b9d3`
   - allDemographicsCurrentUUID: `e544c217-6fe8-44c5-915f-6c3d9908a678`
   - onlyDemographicsCurrentUUID: `7397abc0-fb4d-4238-a3e2-32b0e47a1527` (NoK and Emergency Contact not current)
+  - noUpcomingAppointments: `34de41ed-014c-4734-a4a4-3a4738f5e0d8`
 
 ### Travel-claim
   - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
