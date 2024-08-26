@@ -1,11 +1,13 @@
 import React from 'react';
 import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
 import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
-import { herbicidePageTitle } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
+import {
+  herbicidePageTitle,
+  titleWithSubtitle,
+} from '../../content/toxicExposure';
 
 export const uiSchema = {
-  'ui:title': formTitle(herbicidePageTitle),
+  'ui:title': titleWithSubtitle(herbicidePageTitle, 'Summary'),
   'ui:description': ({ formData }) => (
     <ToxicExposureSummary
       formData={formData}
