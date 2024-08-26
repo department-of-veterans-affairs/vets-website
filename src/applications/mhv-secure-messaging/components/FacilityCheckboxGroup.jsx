@@ -48,11 +48,13 @@ const FacilityCheckboxGroup = props => {
           {triageTeams.map(team => {
             return (
               <VaCheckbox
-                data-testid="contact-list-select-team"
+                data-testid={`contact-list-select-team-${team.triageTeamId}`}
                 key={team.triageTeamId}
                 label={team.name}
                 checked={team.preferredTeam}
-                onVaChange={() => updatePreferredTeam(team.triageTeamId, null)}
+                onVaChange={() => {
+                  updatePreferredTeam(team.triageTeamId, null);
+                }}
               />
             );
           })}

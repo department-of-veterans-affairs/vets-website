@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
-import { cleanup, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
@@ -9,6 +9,7 @@ import drupalStaticData from '../fixtures/json-triage-mocks/drupal-data-mock.jso
 import reducer from '../../reducers';
 import EditContactList from '../../containers/EditContactList';
 import { Paths } from '../../util/constants';
+import { checkVaCheckbox } from '../../util/testUtils';
 
 describe('Edit Contact List container', () => {
   const initialState = {
@@ -68,7 +69,7 @@ describe('Edit Contact List container', () => {
         'Select all 2 Test Facility 1 teams',
       );
 
-      const allTriageTeams = screen.getAllByTestId('contact-list-select-team');
+      const allTriageTeams = screen.getAllByTestId(/contact-list-select-team-/);
       expect(allTriageTeams.length).to.equal(
         noBlockedRecipients.associatedTriageGroupsQty,
       );
@@ -103,16 +104,10 @@ describe('Edit Contact List container', () => {
     await waitFor(() => {
       expect(screen.getByTestId('blocked-triage-group-alert')).to.exist;
 
-      const allTriageTeams = screen.getAllByTestId('contact-list-select-team');
-      expect(allTriageTeams.length).to.equal(
-        oneBlockedRecipient.associatedTriageGroupsQty - 1,
+      const blockedTeam = screen.queryByTestId(
+        'contact-list-select-team-2710520',
       );
-      allTriageTeams.forEach(team =>
-        expect(team).to.not.have.attribute(
-          'label',
-          'SM_TO_VA_GOV_TRIAGE_GROUP_TEST',
-        ),
-      );
+      expect(blockedTeam).to.be.null;
     });
   });
 
@@ -149,5 +144,39 @@ describe('Edit Contact List container', () => {
         expect(facility).to.not.have.attribute('label', 'Test Facility 3'),
       );
     });
+  });
+
+  it('prevents navigating away if unsaved changes', async () => {
+    const screen = setup();
+
+    const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
+    expect(guardModal).to.have.attribute('visible', 'false');
+
+    const triageTeamCheckbox = `va-checkbox[label='${
+      noBlockedRecipients.mockAllRecipients[0].name
+    }']`;
+    const checkbox = await waitFor(() =>
+      screen.container.querySelector(triageTeamCheckbox),
+    );
+
+    await waitFor(() => {
+      checkVaCheckbox(checkbox, false);
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('contact-list-select-team-1013155'),
+      ).to.have.attribute('checked', 'false');
+    });
+
+    const cancelButton = screen.getByTestId('contact-list-cancel');
+    fireEvent.click(cancelButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByTestId('sm-route-navigation-guard-modal'),
+      ).to.have.attribute('visible', 'true');
+    });
+    // expect(screen.history.location.pathname).to.equal(Paths.INBOX);
   });
 });

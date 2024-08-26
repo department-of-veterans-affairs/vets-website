@@ -60,21 +60,24 @@ const SmRouteNavigationGuard = ({
         onCloseEvent={closeModal}
         status="warning"
         visible={modalVisible}
-        data-dd-action-name="Navigation Warning Close Modal Button"
+        data-dd-action-name="SM Route Navigation Guard Close Modal Button"
+        data-testid="sm-route-navigation-guard-modal"
       >
         <p>{modalText}</p>
         <va-button
           class="vads-u-margin-top--1"
           text={confirmButtonText}
           onClick={handleConfirm}
-          data-dd-action-name="Confirm Navigation Save and Exit Button"
+          data-dd-action-name="SM Route Navigation Guard Confirm Button"
+          data-testid="sm-route-navigation-guard-confirm-button"
         />
         <va-button
           class="vads-u-margin-top--1"
           secondary
           text={cancelButtonText}
           onClick={handleCancel}
-          data-dd-action-name="Cancel Navigation Continue Editing Button"
+          data-dd-action-name="SM Route Navigation Guard Cancel Button"
+          data-testid="sm-route-navigation-guard-cancel-button"
         />
       </VaModal>
     </>

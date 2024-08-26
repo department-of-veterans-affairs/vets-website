@@ -218,8 +218,14 @@ const EditContactList = () => {
               small-screen:vads-u-margin-bottom--0
             "
             onClick={e => handleSaveAndExit(e, true)}
+            data-testid="contact-list-save-and-exit"
           />
-          <va-button text="Cancel" secondary onClick={handleCancel} />
+          <va-button
+            text="Cancel"
+            secondary
+            onClick={handleCancel}
+            data-testid="contact-list-cancel"
+          />
         </div>
         <GetFormHelp />
       </form>
