@@ -40,38 +40,32 @@
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "Headaches",
-          "description": "Acute chronic head pain",
-          "ratingIssuePercentNumber": "20",
-          "approxDecisionDate": "2021-6-10",
-          "decisionIssueId": 44,
-          "ratingIssueReferenceId": "66",
-          "ratingDecisionReferenceId": null
+          "ratingIssueSubjectText": "Tinnitus",
+          "description": "Service connection for tinnitus is granted with an evaluation of 10% effective January 15, 2020.",
+          "ratingIssuePercentNumber": "0",
+          "approxDecisionDate": "2022-2-2",
+          "decisionIssueId": 42,
+          "ratingIssueReferenceId": "52",
+          "ratingDecisionReferenceId": "999"
         },
         "view:selected": true
       },
       {
         "type": "contestableIssue",
         "attributes": {
-          "ratingIssueSubjectText": "Sleep apnea",
-          "description": "Service connection for sleep apnea is granted with an evaluation of 0 percent effective September 25, 2019.",
-          "ratingIssuePercentNumber": "0",
-          "approxDecisionDate": "2021-6-1",
-          "decisionIssueId": 42,
-          "ratingIssueReferenceId": "52",
-          "ratingDecisionReferenceId": "999"
+          "ratingIssueSubjectText": "Headaches",
+          "description": "Service connection for headaches is granted with an evaluation of 10% effective January 15, 2020.",
+          "ratingIssuePercentNumber": "10",
+          "approxDecisionDate": "2020-1-15",
+          "decisionIssueId": 44,
+          "ratingIssueReferenceId": "66",
+          "ratingDecisionReferenceId": null
         },
         "view:selected": true
       }
     ],
     "legacyCount": 2,
-    "additionalIssues": [
-      {
-        "issue": "Tinnitus",
-        "decisionDate": "2022-1-1",
-        "view:selected": true
-      }
-    ],
+    "additionalIssues": [],
     "socOptIn": true,
     "mstOption": true,
     "optionIndicator": "revoke",
@@ -124,7 +118,7 @@
           "postalCode": "90211"
         },
         "issues": [
-          "Sleep apnea"
+          "Tinnitus"
         ],
         "treatmentDateRange": {
           "from": "2022-2-1",
