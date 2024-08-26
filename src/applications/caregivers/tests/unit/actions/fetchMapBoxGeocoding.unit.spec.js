@@ -1,16 +1,14 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { fetchMapBoxBBoxCoordinates } from '../../../actions/fetchMapBoxBBoxCoordinates';
+import { fetchMapBoxGeocoding } from '../../../actions/fetchMapBoxGeocoding';
 import { mockMapBoxClient } from '../../mocks/mapBoxClient';
 import { replaceStrValues } from '../../../utils/helpers';
 import content from '../../../locales/en/content.json';
 
-describe('CG fetchMapBoxBBoxCoordinates action', () => {
-  const coordinates = [-82.452606, 27.964157, -80.452606, 29.964157];
+describe('CG fetchMapBoxGeocoding action', () => {
+  const features = [{ fakeResponse: 'yep' }];
   const successResponse = {
-    send: sinon
-      .stub()
-      .resolves({ body: { features: [{ bbox: coordinates }] } }),
+    send: sinon.stub().resolves({ body: { features } }),
   };
   const mockClient = mockMapBoxClient();
   let clientStub;
@@ -27,7 +25,7 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
 
   context('when the query is omitted', () => {
     it('should return an error object', async () => {
-      const response = await fetchMapBoxBBoxCoordinates('');
+      const response = await fetchMapBoxGeocoding('');
       expect(response).to.be.a('object');
       expect(response.errorMessage).to.eq(
         content['error--facility-search-cancelled'],
@@ -37,16 +35,16 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
 
   context('when the response succeeds', () => {
     it('should return an array of boundary coordinates when client is passed', async () => {
-      const response = await fetchMapBoxBBoxCoordinates('Tampa', mockClient);
-      expect(response).to.deep.eq(coordinates);
+      const response = await fetchMapBoxGeocoding('Tampa', mockClient);
+      expect(response).to.deep.eq(features[0]);
     });
 
     it('should return a `not found` response when coordinates do not match any location', async () => {
       clientStub.returns({
-        send: sinon.stub().resolves({ body: { features: [{}] } }),
+        send: sinon.stub().resolves({ body: { features: [] } }),
       });
 
-      const response = await fetchMapBoxBBoxCoordinates('Dave', mockClient);
+      const response = await fetchMapBoxGeocoding('Dave', mockClient);
       expect(response).to.be.a('object');
       expect(response.errorMessage).to.eq(content['error--no-results-found']);
     });
@@ -59,7 +57,7 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
         send: sinon.stub().rejects(error),
       });
 
-      const response = await fetchMapBoxBBoxCoordinates('33618', mockClient);
+      const response = await fetchMapBoxGeocoding('33618', mockClient);
       const errorMessage = replaceStrValues(
         content['error--facility-search-failed'],
         error,
@@ -77,7 +75,7 @@ describe('CG fetchMapBoxBBoxCoordinates action', () => {
         }),
       });
 
-      const response = await fetchMapBoxBBoxCoordinates('33618', mockClient);
+      const response = await fetchMapBoxGeocoding('33618', mockClient);
       const errorMessage = replaceStrValues(
         content['error--facility-search-failed'],
         error,

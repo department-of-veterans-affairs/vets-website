@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const LiSpanAndVaLink = ({ href, hrefText }) => (
+const LiSpanAndVaLink = ({ href, hrefText, download }) => (
   <li>
-    <va-link href={href} text={hrefText} uswds />
+    <va-link href={href} text={hrefText} uswds download={download} />
   </li>
 );
 

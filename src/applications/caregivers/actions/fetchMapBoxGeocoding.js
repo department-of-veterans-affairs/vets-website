@@ -4,7 +4,7 @@ import mapboxClient from '../utils/mapbox/mapboxClient';
 import { replaceStrValues } from '../utils/helpers';
 import content from '../locales/en/content.json';
 
-export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
+export const fetchMapBoxGeocoding = async (query, client = null) => {
   if (!query) {
     return {
       type: 'SEARCH_FAILED',
@@ -25,13 +25,13 @@ export const fetchMapBoxBBoxCoordinates = async (query, client = null) => {
     })
     .send()
     .then(({ body: response }) => {
-      if (!response.features[0].bbox) {
+      if (!response.features.length) {
         return {
           type: 'NO_SEARCH_RESULTS',
           errorMessage: content['error--no-results-found'],
         };
       }
-      return response.features[0].bbox;
+      return response.features[0];
     })
     .catch(error => {
       const errMessage =
