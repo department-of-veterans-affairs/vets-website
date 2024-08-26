@@ -66,6 +66,24 @@ export default function transformForSubmit(formConfig, form) {
     .flat(Infinity) // Flatten nested lists of files
     .filter(el => el); // drop any nulls
 
+  /*
+  In order to enable multi-claim backend (see https://github.com/department-of-veterans-affairs/vets-api/pull/18173)
+  create a `claims` array with one entry. When we move to the list-loop
+  claims collection, this will be produced by the "claims" array builder.
+  For now, this is here so that the backend changes may be merged in without 
+  breaking the existing single-claim flow.
+
+  TODO: Remove this claims array when we switch to list loop for claims on frontend
+  */
+  copyOfData.claims = [
+    {
+      claimIsAutoRelated: copyOfData.claimIsAutoRelated,
+      claimIsWorkRelated: copyOfData.claimIsWorkRelated,
+      claimType: copyOfData.claimType,
+      claimId: 0, // Always zero - we only support one claim currently
+    },
+  ];
+
   copyOfData.fileNumber = copyOfData.applicantMemberNumber;
 
   copyOfData = adjustYearString(copyOfData);
