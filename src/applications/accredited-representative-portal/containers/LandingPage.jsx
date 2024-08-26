@@ -14,7 +14,10 @@ const LandingPage = () => {
   if (isLoading) {
     return (
       <div className="vads-u-margin-y--5">
-        <VaLoadingIndicator message="Loading the Accredited Representative Portal..." />
+        <VaLoadingIndicator
+          message="Loading the Accredited Representative Portal..."
+          data-testid="landing-page-loading-indicator"
+        />
       </div>
     );
   }

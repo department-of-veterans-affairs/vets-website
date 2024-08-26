@@ -3,20 +3,19 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { MemoryRouter } from 'react-router-dom-v5-compat';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import LandingPage from '../../containers/LandingPage';
+import createReduxStore from '../../store';
+import {
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE,
+  FETCH_USER,
+} from '../../actions/user';
 
-const mockStore = configureStore([]);
+const createLandingPageRenderFn = action => {
+  const store = createReduxStore();
+  if (action) store.dispatch(action);
 
-describe('LandingPage', () => {
-  const getLandingPage = (isLoading = false, profile = null) => {
-    const store = mockStore({
-      user: {
-        isLoading,
-        profile,
-      },
-    });
-
+  return () => {
     return render(
       <Provider store={store}>
         <MemoryRouter>
@@ -25,43 +24,67 @@ describe('LandingPage', () => {
       </Provider>,
     );
   };
+};
 
-  it('renders main heading', () => {
-    const { getByTestId } = getLandingPage();
-    expect(getByTestId('landing-page-heading').textContent).to.eq(
-      'Welcome to the Accredited Representative Portal',
-    );
+describe('LandingPage', () => {
+  describe('when component renders', () => {
+    const renderLandingPage = createLandingPageRenderFn();
+
+    it('renders main heading', () => {
+      const { getByTestId } = renderLandingPage();
+      expect(getByTestId('landing-page-heading').textContent).to.eq(
+        'Welcome to the Accredited Representative Portal',
+      );
+    });
   });
 
-  describe('when user is not signed in', () => {
+  describe('when user is being fetched', () => {
+    const renderLandingPage = createLandingPageRenderFn({
+      type: FETCH_USER,
+    });
+
+    it('renders a loading spinner', () => {
+      const { getByTestId } = renderLandingPage();
+      expect(getByTestId('landing-page-loading-indicator')).to.exist;
+    });
+  });
+
+  describe('when user fetch fails', () => {
+    const renderLandingPage = createLandingPageRenderFn({
+      type: FETCH_USER_FAILURE,
+    });
+
     it('renders the sign in or create account section', () => {
-      const { getByTestId } = getLandingPage();
+      const { getByTestId } = renderLandingPage();
       expect(getByTestId('landing-page-create-account-text').textContent).to.eq(
         'Create an account to start managing power of attorney.',
       );
     });
 
     it('renders the link to sign in', () => {
-      const { getByTestId } = getLandingPage();
+      const { getByTestId } = renderLandingPage();
       expect(getByTestId('landing-page-sign-in-link').textContent).to.eq(
         'Sign in or create account',
       );
     });
   });
 
-  describe('when user is signed in', () => {
-    const mockProfile = {
-      name: 'Test User',
-      email: 'test@example.com',
-    };
+  describe('when user fetch succeeds', () => {
+    const renderLandingPage = createLandingPageRenderFn({
+      type: FETCH_USER_SUCCESS,
+      payload: {
+        account: {},
+        profile: {},
+      },
+    });
 
     it('does not render the sign in or create account section', () => {
-      const { queryByTestId } = getLandingPage(false, mockProfile);
+      const { queryByTestId } = renderLandingPage();
       expect(queryByTestId('landing-page-create-account-text')).to.not.exist;
     });
 
     it('does not render the link to sign in', () => {
-      const { queryByTestId } = getLandingPage(false, mockProfile);
+      const { queryByTestId } = renderLandingPage();
       expect(queryByTestId('landing-page-sign-in-link')).to.not.exist;
     });
   });
