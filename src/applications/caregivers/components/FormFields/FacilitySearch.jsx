@@ -11,6 +11,7 @@ import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
   const [query, setQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
@@ -58,10 +59,10 @@ const FacilitySearch = props => {
         value: restOfProps?.formData?.veteranSelected?.id,
         onChange: setSelectedFacilities,
         facilities,
-        query,
+        query: submittedQuery,
       };
     },
-    [facilities, props],
+    [facilities, submittedQuery, props],
   );
 
   const handleChange = e => {
@@ -97,6 +98,7 @@ const FacilitySearch = props => {
     }
 
     setFacilities(facilitiesResponse);
+    setSubmittedQuery(query);
     setLoading(false);
   };
 
