@@ -700,6 +700,7 @@ function LocationSearchResults({
           id="location-search-results-container"
           className={containerClassNames}
         >
+          <h2 className="sr-only">Search results</h2>
           {resultCards}
           <div>
             <VaPagination

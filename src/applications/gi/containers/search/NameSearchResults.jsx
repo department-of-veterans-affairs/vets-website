@@ -156,6 +156,7 @@ export function NameSearchResults({
                 </div>
               )} */}
             <div className="column small-12 medium-8 name-search-cards-padding">
+              <h2 className="sr-only">Search results</h2>
               {inProgress && (
                 <VaLoadingIndicator
                   data-testid="loading-indicator"
