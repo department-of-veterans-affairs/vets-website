@@ -1,15 +1,209 @@
 import { expect } from 'chai';
 import {
   buildRadiologyResults,
+  convertChemHemObservation,
+  distillChemHemNotes,
+  extractLabLocation,
   extractOrderedBy,
   extractOrderedTest,
   extractOrderedTests,
   extractPerformingLabLocation,
+  extractPractitioner,
   extractSpecimen,
   labsAndTestsReducer,
 } from '../../reducers/labsAndTests';
 import { Actions } from '../../util/actionTypes';
-import { fhirResourceTypes, loincCodes } from '../../util/constants';
+import {
+  EMPTY_FIELD,
+  fhirResourceTypes,
+  loincCodes,
+  labTypes,
+} from '../../util/constants';
+
+describe('extractLabLocation', () => {
+  const LAB_ID = 'Org-1';
+  const LAB_NAME = 'Lab Name';
+
+  it('should return the author', () => {
+    const record = {
+      contained: [{ id: LAB_ID, name: LAB_NAME }],
+      performer: [{ reference: `#${LAB_ID}` }],
+    };
+    expect(extractLabLocation(record.performer, record)).to.equal(LAB_NAME);
+  });
+
+  it('should return null if there is no performer', () => {
+    const record = {
+      contained: [{ id: LAB_ID, name: LAB_NAME }],
+      performer: [],
+    };
+    expect(extractLabLocation(record.performer, record)).to.be.null;
+  });
+
+  it('should return null if the IDs do not match', () => {
+    const record = {
+      contained: [{ id: 'wrongId', name: LAB_NAME }],
+      performer: [{ reference: `#${LAB_ID}` }],
+    };
+    expect(extractLabLocation(record.performer, record)).to.be.null;
+  });
+
+  it('should return null if the Organization has no "name" field', () => {
+    const record = {
+      contained: [{ id: LAB_ID }],
+      performer: [{ reference: `#${LAB_ID}` }],
+    };
+    expect(extractLabLocation(record.performer, record)).to.be.null;
+  });
+});
+
+describe('distillChemHemNotes', () => {
+  const NOTES1 = 'These are the notes.';
+  const NOTES2 = 'These are more notes.';
+
+  it('should return one note', () => {
+    const record = { note: [{ text: NOTES1 }] };
+    expect(distillChemHemNotes(record.note, 'text')).to.deep.equal([NOTES1]);
+  });
+
+  it('should return multiple notes', () => {
+    const record = { note: [{ text: NOTES1 }, { text: NOTES2 }] };
+    expect(distillChemHemNotes(record.note, 'text')).to.deep.equal([
+      NOTES1,
+      NOTES2,
+    ]);
+  });
+
+  it('should return null if the field name does not match', () => {
+    const record = { note: [{ text: NOTES1 }] };
+    expect(distillChemHemNotes(record.note, 'wrongField')).to.be.null;
+  });
+
+  it('should return null if there is no "note" field', () => {
+    const record = { wrongField: [{ text: NOTES1 }] };
+    expect(distillChemHemNotes(record.note, 'text')).to.be.null;
+  });
+});
+
+describe('convertChemHemObservation', () => {
+  it('should return an empty chem/hem observation if nothing is filled', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          // valueString: 'POSITIVE',
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+        name: EMPTY_FIELD,
+        result: EMPTY_FIELD,
+        standardRange: EMPTY_FIELD,
+        status: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should return a chem/hem observation for a valueString', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueString: 'POSITIVE',
+          status: 'final',
+          note: [{ text: 'Note' }],
+          performer: [{ reference: `#Org-1` }],
+        },
+        { id: 'Org-1', name: 'Lab Name' },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: 'POSITIVE',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: ['Note'],
+        labLocation: 'Lab Name',
+      },
+    ]);
+  });
+
+  it('should return a chem/hem observation for a valueQuantity', () => {
+    const record = {
+      contained: [
+        {
+          resourceType: 'Observation',
+          id: 'test-1',
+          code: { text: 'Name' },
+          valueQuantity: {
+            value: 138,
+            unit: 'mEq/L',
+            system: 'http://unitsofmeasure.org',
+          },
+          interpretation: [{ text: 'L' }],
+          status: 'final',
+          note: [],
+        },
+      ],
+      result: [{ reference: '#test-1' }],
+    };
+    expect(convertChemHemObservation(record)).to.deep.equal([
+      {
+        name: 'Name',
+        result: '138.0 mEq/L (Low)',
+        standardRange: EMPTY_FIELD,
+        status: 'final',
+        labComments: EMPTY_FIELD,
+        labLocation: EMPTY_FIELD,
+      },
+    ]);
+  });
+
+  it('should return an empty array if there are no observations', () => {
+    const record = {
+      contained: [],
+      result: [],
+    };
+    expect(convertChemHemObservation(record)).to.deep.equal([]);
+  });
+});
+
+describe('extractPractitioner', () => {
+  it('should return the practitioner', () => {
+    const svcReq = { requester: { reference: '#Prac-1' } };
+    const record = {
+      contained: [
+        {
+          resourceType: 'Practitioner',
+          id: 'Prac-1',
+          name: [{ family: 'DOE', given: ['JANE', 'A'] }],
+        },
+      ],
+    };
+    expect(extractPractitioner(record, svcReq)).to.equal('DOE, JANE A');
+  });
+
+  it('should return null if the practitioner is not found', () => {
+    const svcReq = { requester: { reference: '#Prac-1' } };
+    const record = { contained: [{ id: 'Prac-2' }] };
+    expect(extractPractitioner(record, svcReq)).to.be.null;
+  });
+
+  it('should return null if there is no reference', () => {
+    const record = { contained: [{ id: 'Prac-2' }] };
+    expect(extractPractitioner(record, null)).to.be.null;
+  });
+});
 
 describe('extractOrderedTest', () => {
   const TEST_ID = 'ServiceRequest-1';
@@ -129,8 +323,13 @@ describe('extractPerformingLabLocation', () => {
         resourceType: fhirResourceTypes.ORGANIZATION,
         name: 'Org Name',
       },
+      {
+        id: 'p-1',
+        resourceType: fhirResourceTypes.PRACTITIONER,
+        name: [{ text: 'Practitioner Name' }],
+      },
     ],
-    performer: [{ reference: '#o-1' }],
+    performer: [{ reference: '#p-1' }, { reference: '#o-1' }],
   };
   it('gets the performing lab location', () => {
     expect(extractPerformingLabLocation(record)).to.eq('Org Name');
@@ -141,12 +340,17 @@ describe('extractOrderedBy', () => {
   const record = {
     contained: [
       {
+        id: 'o-1',
+        resourceType: fhirResourceTypes.ORGANIZATION,
+        name: 'Org Name',
+      },
+      {
         id: 'p-1',
         resourceType: fhirResourceTypes.PRACTITIONER,
         name: [{ text: 'Practitioner Name' }],
       },
     ],
-    performer: [{ reference: '#p-1' }],
+    performer: [{ reference: '#o-1' }, { reference: '#p-1' }],
   };
   it('gets the performing lab location', () => {
     expect(extractOrderedBy(record)).to.eq('Practitioner Name');
@@ -320,6 +524,75 @@ describe.skip('labsAndTestsReducer', () => {
       { type: Actions.LabsAndTests.COPY_UPDATED_LIST },
     );
     expect(newState.labsAndTestsList.length).to.equal(1);
+    expect(newState.updatedList).to.equal(undefined);
+  });
+});
+
+describe('labsAndTestsReducer', () => {
+  it('creates a list', () => {
+    const labsResponse = {
+      entry: [
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            id: 'chemhem',
+            code: { text: 'CH' },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            id: 'microbio',
+            code: { coding: [{ code: loincCodes.MICROBIOLOGY }] },
+          },
+        },
+        {
+          resource: {
+            resourceType: fhirResourceTypes.DIAGNOSTIC_REPORT,
+            id: 'pathology',
+            code: { coding: [{ code: loincCodes.PATHOLOGY }] },
+          },
+        },
+      ],
+      resourceType: 'Bundle',
+    };
+    const radResponse = [
+      {
+        id: 'radiology',
+        radiologist: 'John',
+      },
+    ];
+    const newState = labsAndTestsReducer(
+      {},
+      {
+        type: Actions.LabsAndTests.GET_LIST,
+        labsAndTestsResponse: labsResponse,
+        radiologyResponse: radResponse,
+      },
+    );
+    expect(newState.labsAndTestsList.length).to.equal(4);
+
+    expect(
+      newState.labsAndTestsList.find(record => {
+        record.id === 'chemhem';
+      })?.type === labTypes.CHEM_HEM,
+    );
+    expect(
+      newState.labsAndTestsList.find(record => {
+        record.id === 'microbio';
+      })?.type === labTypes.MICROBIOLOGY,
+    );
+    expect(
+      newState.labsAndTestsList.find(record => {
+        record.id === 'pathology';
+      })?.type === labTypes.PATHOLOGY,
+    );
+    expect(
+      newState.labsAndTestsList.find(record => {
+        record.id === 'rradiology';
+      })?.type === labTypes.RADIOLOGY,
+    );
+
     expect(newState.updatedList).to.equal(undefined);
   });
 });

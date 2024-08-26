@@ -45,16 +45,14 @@ const initialState = {
   labsAndTestsDetails: undefined,
 };
 
-const getLabLocation = (performer, record) => {
-  if (isArrayAndHasItems(performer)) {
-    const locationRef = performer[0]?.reference;
-    const labLocation = extractContainedResource(record, locationRef);
-    return labLocation?.name;
-  }
-  return null;
+export const extractLabLocation = (performer, record) => {
+  if (!isArrayAndHasItems(performer)) return null;
+  const locationRef = performer.find(item => item.reference);
+  const labLocation = extractContainedResource(record, locationRef?.reference);
+  return labLocation?.name || null;
 };
 
-const distillChemHemNotes = (notes, valueProp) => {
+export const distillChemHemNotes = (notes, valueProp) => {
   let noteString;
   if (isArrayAndHasItems(notes)) {
     noteString = notes.map(note => note[valueProp]);
@@ -67,7 +65,7 @@ const distillChemHemNotes = (notes, valueProp) => {
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-const convertChemHemObservation = record => {
+export const convertChemHemObservation = record => {
   const results = record.contained?.filter(
     recordItem => recordItem.resourceType === fhirResourceTypes.OBSERVATION,
   );
@@ -98,17 +96,17 @@ const convertChemHemObservation = record => {
     }
 
     return {
-      name: result.code.text,
+      name: result?.code?.text || EMPTY_FIELD,
       result: finalObservationValue || EMPTY_FIELD,
       standardRange: standardRange || EMPTY_FIELD,
       status: result.status || EMPTY_FIELD,
-      labLocation: getLabLocation(result.performer, record) || EMPTY_FIELD,
+      labLocation: extractLabLocation(result.performer, record) || EMPTY_FIELD,
       labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
     };
   });
 };
 
-const getPractitioner = (record, serviceRequest) => {
+export const extractPractitioner = (record, serviceRequest) => {
   const practitionerRef = serviceRequest?.requester?.reference;
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
@@ -117,18 +115,6 @@ const getPractitioner = (record, serviceRequest) => {
     const familyName = practitionerName?.family;
     const givenNames = practitionerName?.given?.join(' ');
     return name || `${familyName ? `${familyName}, ` : ''}${givenNames}`;
-  }
-  return null;
-};
-
-const getSpecimen = record => {
-  const specimenRef = isArrayAndHasItems(record.specimen);
-  if (specimenRef) {
-    const specimen = extractContainedResource(
-      record,
-      record.specimen[0]?.reference,
-    );
-    return specimen?.type?.text;
   }
   return null;
 };
@@ -173,20 +159,22 @@ const convertChemHemRecord = record => {
   const basedOnRef =
     isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
   const serviceRequest = extractContainedResource(record, basedOnRef);
+  const specimen = extractSpecimen(record);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
     name: extractOrderedTests(record) || 'Chemistry/Hematology',
     category: 'Chemistry and hematology',
-    orderedBy: getPractitioner(record, serviceRequest) || EMPTY_FIELD,
+    orderedBy: extractPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
-    collectingLocation: getLabLocation(record.performer, record) || EMPTY_FIELD,
+    collectingLocation:
+      extractLabLocation(record.performer, record) || EMPTY_FIELD,
     comments: distillChemHemNotes(record.extension, 'valueString'),
     results: convertChemHemObservation(record),
-    sampleTested: getSpecimen(record) || EMPTY_FIELD,
+    sampleTested: specimen?.type?.text || EMPTY_FIELD,
     sortDate: record.effectiveDateTime,
   };
 };
