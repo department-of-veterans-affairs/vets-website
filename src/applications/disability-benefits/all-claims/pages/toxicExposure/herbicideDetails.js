@@ -2,10 +2,9 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { formTitle } from '../../utils';
 import {
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
@@ -24,12 +23,14 @@ import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
  */
 function makeUiSchema(locationId) {
   return {
-    'ui:title': formTitle(herbicidePageTitle),
-    'ui:description': ({ formData }) =>
-      dateRangePageDescription(
-        getKeyIndex(locationId, 'herbicide', formData),
-        getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
-        HERBICIDE_LOCATIONS[locationId],
+    'ui:title': ({ formData }) =>
+      detailsPageBegin(
+        herbicidePageTitle,
+        teSubtitle(
+          getKeyIndex(locationId, 'herbicide', formData),
+          getSelectedCount('herbicide', formData, 'otherHerbicideLocations'),
+          HERBICIDE_LOCATIONS[locationId],
+        ),
       ),
     toxicExposure: {
       herbicideDetails: {

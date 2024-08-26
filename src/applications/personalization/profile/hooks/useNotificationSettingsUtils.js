@@ -63,12 +63,20 @@ export const useNotificationSettingsUtils = () => {
 
   const loading = useToggleLoadingValue();
 
-  const showEmailNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowEmailNotificationSettings,
+  const profileShowMhvNotificationSettingsEmailAppointmentReminders = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders,
   );
 
-  const showMhvNotificationSettings = useToggleValue(
-    TOGGLE_NAMES.profileShowMhvNotificationSettings,
+  const profileShowMhvNotificationSettingsNewSecureMessaging = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging,
+  );
+
+  const profileShowMhvNotificationSettingsEmailRxShipment = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment,
+  );
+
+  const profileShowMhvNotificationSettingsMedicalImages = useToggleValue(
+    TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages,
   );
 
   const showPaymentsNotificationSetting = useToggleValue(
@@ -83,40 +91,57 @@ export const useNotificationSettingsUtils = () => {
     () => {
       return {
         loading,
-        showEmailNotificationSettings,
-        showMhvNotificationSettings,
         showPaymentsNotificationSetting,
         showQuickSubmitNotificationSetting,
+        profileShowMhvNotificationSettingsEmailAppointmentReminders,
+        profileShowMhvNotificationSettingsEmailRxShipment,
+        profileShowMhvNotificationSettingsNewSecureMessaging,
+        profileShowMhvNotificationSettingsMedicalImages,
       };
     },
     [
       loading,
-      showEmailNotificationSettings,
-      showMhvNotificationSettings,
       showPaymentsNotificationSetting,
       showQuickSubmitNotificationSetting,
+      profileShowMhvNotificationSettingsEmailAppointmentReminders,
+      profileShowMhvNotificationSettingsEmailRxShipment,
+      profileShowMhvNotificationSettingsNewSecureMessaging,
+      profileShowMhvNotificationSettingsMedicalImages,
     ],
   );
 
-  const channelsWithContactInfo = useSelector(state => {
+  const showEmail = useMemo(
+    () => {
+      return (
+        toggles.profileShowMhvNotificationSettingsEmailAppointmentReminders ||
+        toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
+        toggles.profileShowMhvNotificationSettingsMedicalImages ||
+        toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+      );
+    },
+    [toggles],
+  );
+
+  const getEmailAddress = useSelector(selectVAPEmailAddress);
+  const getMobilePhone = useSelector(selectVAPMobilePhone);
+
+  const channelsWithContactInfo = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
+      ...(getEmailAddress
         ? [parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10)]
         : []),
-      ...(selectVAPMobilePhone(state)
-        ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)]
-        : []),
+      ...(getMobilePhone ? [parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10)] : []),
     ];
   });
 
-  const missingChannels = useSelector(state => {
+  const missingChannels = useSelector(() => {
     return [
-      ...(selectVAPEmailAddress(state)
+      ...(getEmailAddress
         ? []
         : [
             { name: 'email', id: parseInt(NOTIFICATION_CHANNEL_IDS.EMAIL, 10) },
           ]),
-      ...(selectVAPMobilePhone(state)
+      ...(getMobilePhone
         ? []
         : [{ name: 'text', id: parseInt(NOTIFICATION_CHANNEL_IDS.TEXT, 10) }]),
     ];
@@ -128,13 +153,12 @@ export const useNotificationSettingsUtils = () => {
       channelsWithContactInfo,
     ).filter(({ id }) => {
       // these will be removed once the feature toggles are removed
+      // will always hide general and quick submit
       return (
-        (toggles.showQuickSubmitNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.QUICK_SUBMIT) &&
+        id !== NOTIFICATION_GROUPS.QUICK_SUBMIT &&
+        id !== NOTIFICATION_GROUPS.GENERAL &&
         (toggles.showPaymentsNotificationSetting ||
-          id !== NOTIFICATION_GROUPS.PAYMENTS) &&
-        (toggles.showMhvNotificationSettings ||
-          id !== NOTIFICATION_GROUPS.GENERAL)
+          id !== NOTIFICATION_GROUPS.PAYMENTS)
       );
     });
   };
@@ -146,18 +170,22 @@ export const useNotificationSettingsUtils = () => {
     const { groups, items, channels } = getEntities(communicationPreferences);
 
     const excludedGroupIds = [
-      ...(toggles.showQuickSubmitNotificationSetting
-        ? []
-        : [NOTIFICATION_GROUPS.QUICK_SUBMIT]),
+      // Always exclude QUICK_SUBMIT and GENERAL
+      NOTIFICATION_GROUPS.QUICK_SUBMIT,
+      NOTIFICATION_GROUPS.GENERAL,
       ...(toggles.showPaymentsNotificationSetting
         ? []
         : [NOTIFICATION_GROUPS.PAYMENTS]),
     ];
 
     const excludedItemIds = [
-      ...(toggles.showMhvNotificationSettings
+      ...BLOCKED_MHV_NOTIFICATION_IDS,
+      ...(toggles.profileShowMhvNotificationSettingsNewSecureMessaging
         ? []
-        : BLOCKED_MHV_NOTIFICATION_IDS),
+        : ['item9']),
+      ...(toggles.profileShowMhvNotificationSettingsMedicalImages
+        ? []
+        : ['item10']),
     ];
 
     const itemIds = Object.keys(items);
@@ -183,6 +211,28 @@ export const useNotificationSettingsUtils = () => {
         ) {
           acc.push(item);
         }
+
+        const isItem3 = itemId === 'item3';
+        const isItem4 = itemId === 'item4';
+        if (isItem3) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailAppointmentReminders &&
+            !getEmailAddress;
+          const noPhone = !getMobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
+        } else if (isItem4) {
+          const noEmail =
+            profileShowMhvNotificationSettingsEmailRxShipment &&
+            !getEmailAddress;
+          const noPhone = !getMobilePhone;
+
+          if ((noEmail || noPhone) && !acc.some(i => i.name === item.name)) {
+            acc.push(item);
+          }
+        }
       }
 
       return acc;
@@ -192,17 +242,29 @@ export const useNotificationSettingsUtils = () => {
   const useFilteredItemsForMHVNotifications = itemIds =>
     useMemo(
       () => {
-        return toggles.showMhvNotificationSettings
-          ? itemIds
-          : itemIds.filter(itemId => {
-              return !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId);
-            });
+        return itemIds.filter(itemId => {
+          // Always exclude these items: ticket# 89524
+          return (
+            !BLOCKED_MHV_NOTIFICATION_IDS.includes(itemId) &&
+            // Exclude item9 if profileShowMhvNotificationSettingsNewSecureMessaging is turned off
+            !(
+              itemId === 'item9' &&
+              !toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+            ) &&
+            // Exclude item10 if profileShowMhvNotificationSettingsMedicalImages is turned off
+            !(
+              itemId === 'item10' &&
+              !toggles.profileShowMhvNotificationSettingsMedicalImages
+            )
+          );
+        });
       },
       [itemIds],
     );
 
   return {
     toggles,
+    showEmail,
     communicationPreferences,
     channelsWithContactInfo,
     missingChannels,

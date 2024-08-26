@@ -11,7 +11,7 @@ const initialState = {
   errors: null,
 };
 
-const formStatusReducer = (state = initialState, action) => {
+const submittedFormsReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_FORM_STATUS_STARTED:
       return {
@@ -36,4 +36,4 @@ const formStatusReducer = (state = initialState, action) => {
   }
 };
 
-export default formStatusReducer;
+export default submittedFormsReducer;

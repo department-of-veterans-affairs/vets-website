@@ -13,9 +13,9 @@ export const MailingAddressSaveSuccessAlert = () => {
       status="success"
       visible
     >
-      <h2 slot="headline">Your mailing address has been updated</h2>
+      <h2 slot="headline">We’ve updated your mailing address</h2>
       <p className="vads-u-margin-y--0">
-        These changes have been saved to your profile.
+        We’ve also made these changes in your VA.gov profile.
       </p>
     </va-alert>
   );
