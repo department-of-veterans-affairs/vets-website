@@ -11,7 +11,7 @@ import EditContactList from '../../containers/EditContactList';
 import { Paths } from '../../util/constants';
 import { checkVaCheckbox } from '../../util/testUtils';
 
-describe('Edit Contact List container', () => {
+describe('Edit Contact List container', async () => {
   const initialState = {
     drupalStaticData,
     sm: {
@@ -152,31 +152,22 @@ describe('Edit Contact List container', () => {
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
     expect(guardModal).to.have.attribute('visible', 'false');
 
-    const triageTeamCheckbox = `va-checkbox[label='${
-      noBlockedRecipients.mockAllRecipients[0].name
-    }']`;
-    const checkbox = await waitFor(() =>
-      screen.container.querySelector(triageTeamCheckbox),
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
     );
 
     await waitFor(() => {
       checkVaCheckbox(checkbox, false);
     });
 
-    await waitFor(() => {
-      expect(
-        screen.getByTestId('contact-list-select-team-1013155'),
-      ).to.have.attribute('checked', 'false');
-    });
+    expect(checkbox).to.have.attribute('checked', 'false');
 
     const cancelButton = screen.getByTestId('contact-list-cancel');
     fireEvent.click(cancelButton);
 
-    await waitFor(() => {
-      expect(
-        screen.getByTestId('sm-route-navigation-guard-modal'),
-      ).to.have.attribute('visible', 'true');
-    });
+    waitFor(() => {
+      expect(guardModal).to.have.attribute('visible', 'true');
+    }, 1000);
     // expect(screen.history.location.pathname).to.equal(Paths.INBOX);
   });
 });

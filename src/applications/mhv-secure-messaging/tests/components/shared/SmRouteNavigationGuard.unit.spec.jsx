@@ -45,6 +45,7 @@ describe('SmRouteNavigationGuard component', () => {
   it('renders without errors', () => {
     const screen = setup(undefined, Paths.CONTACT_LIST);
     expect(screen);
+    screen.unmount();
   });
 
   it('proceeds with navigating away if Confirm button is clicked', async () => {
@@ -60,6 +61,7 @@ describe('SmRouteNavigationGuard component', () => {
       screen.getByTestId('sm-route-navigation-guard-confirm-button'),
     );
     expect(confirmNavigationSpy.calledOnce).to.be.true;
+    screen.unmount();
   });
 
   it('does not navigate away if Cancel button is clicked', async () => {
@@ -75,5 +77,6 @@ describe('SmRouteNavigationGuard component', () => {
       screen.getByTestId('sm-route-navigation-guard-cancel-button'),
     );
     expect(confirmNavigationSpy.calledOnce).to.be.false;
+    screen.unmount();
   });
 });
