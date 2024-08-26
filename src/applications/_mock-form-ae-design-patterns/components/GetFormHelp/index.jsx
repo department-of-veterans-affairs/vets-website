@@ -34,5 +34,3 @@ export const GetFormHelp = () => (
     </p>
   </>
 );
-
-export default GetFormHelp;
