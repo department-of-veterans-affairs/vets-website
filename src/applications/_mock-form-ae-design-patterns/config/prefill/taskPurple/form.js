@@ -1,6 +1,7 @@
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import profileContactInfo from '../../../components/task-purple/profileContactInfo';
 import { customText } from '../../../content/task-purple/saveInProgress';
+import { GetFormHelp } from '../../../components/task-purple/GetFormHelp';
 
 import manifest from '../../../manifest.json';
 
@@ -18,6 +19,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
+  getHelp: GetFormHelp,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
