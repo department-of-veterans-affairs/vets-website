@@ -1,6 +1,6 @@
-import moment from 'moment';
+import { addDays } from 'date-fns';
 
-const VA_FORM_IDS = require('platform/forms/constants').VA_FORM_IDS;
+const { VA_FORM_IDS } = require('platform/forms/constants');
 
 /* eslint-disable camelcase */
 const mockUser = {
@@ -40,9 +40,7 @@ const mockUser = {
           form: VA_FORM_IDS.FORM_21P_527EZ,
           metadata: {
             last_updated: 1506792, // unix time
-            expires_at: moment() // unix time
-              .add(1, 'day')
-              .unix(),
+            expires_at: Math.floor(addDays(new Date(), 1).getTime() / 1000), // unix time
             saved_at: 1506792808, // JS time (ms)
           },
         },

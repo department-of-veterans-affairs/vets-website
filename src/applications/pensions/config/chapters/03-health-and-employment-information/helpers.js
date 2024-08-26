@@ -1,4 +1,3 @@
-import moment from 'moment/moment';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
@@ -9,6 +8,7 @@ import {
   numberSchema,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import { parseISO, startOfDay, subYears, isBefore } from 'date-fns';
 import ListItemView from '../../../components/ListItemView';
 import { getJobTitleOrType } from '../../../helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
@@ -30,12 +30,12 @@ export function isInNursingHome(formData) {
 }
 
 export function isUnder65(formData, currentDate) {
-  const today = currentDate || moment();
+  const today = currentDate ? parseISO(currentDate) : new Date();
+  const dateToCompare = startOfDay(subYears(today, 65));
+
   return (
-    today
-      .startOf('day')
-      .subtract(65, 'years')
-      .isBefore(formData.veteranDateOfBirth) || !formData.isOver65
+    isBefore(dateToCompare, parseISO(formData.veteranDateOfBirth)) ||
+    !formData.isOver65
   );
 }
 

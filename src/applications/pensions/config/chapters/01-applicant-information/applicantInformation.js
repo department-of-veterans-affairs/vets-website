@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   dateOfBirthUI,
   dateOfBirthSchema,
@@ -12,29 +11,35 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import applicantDescription from 'platform/forms/components/ApplicantDescription';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
+import { parse, isValid, startOfDay, subYears } from 'date-fns';
 import UnauthenticatedWarningAlert from '../../../containers/UnauthenticatedWarningAlert';
+import { isSameOrAfter } from '../../../helpers';
 
 const { vaClaimsHistory } = fullSchemaPensions.properties;
 
 export function isOver65(formData, currentDate) {
-  const today = currentDate || moment();
-  const veteranDateOfBirth = moment(
+  const today = currentDate
+    ? parse(currentDate, 'yyyy-MM-dd', new Date())
+    : new Date();
+  const veteranDateOfBirth = parse(
     formData.veteranDateOfBirth,
-    'YYYY-MM-DD',
-    true,
+    'yyyy-MM-dd',
+    new Date(),
   );
 
-  if (!veteranDateOfBirth.isValid()) return undefined;
+  if (!isValid(veteranDateOfBirth)) return undefined;
 
-  return today
-    .startOf('day')
-    .subtract(65, 'years')
-    .isSameOrAfter(veteranDateOfBirth);
+  return isSameOrAfter(
+    startOfDay(subYears(today, 65)),
+    startOfDay(veteranDateOfBirth),
+  );
 }
 
 export function setDefaultIsOver65(oldData, newData, currentDate) {
   if (oldData.veteranDateOfBirth !== newData.veteranDateOfBirth) {
-    const today = currentDate || moment();
+    const today = currentDate
+      ? parse(currentDate, 'yyyy-MM-dd', new Date())
+      : new Date();
     return {
       ...newData,
       isOver65: isOver65(newData, today),
