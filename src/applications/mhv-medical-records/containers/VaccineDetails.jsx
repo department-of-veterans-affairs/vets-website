@@ -71,7 +71,7 @@ const VaccineDetails = props => {
         setBreadcrumbs([
           {
             url: '/vaccines',
-            label: 'Vaccines',
+            label: 'vaccines',
           },
         ]),
       );

@@ -1,6 +1,6 @@
 export const generateLabsIntro = record => {
   return {
-    title: `Lab and test results: ${record.name} on ${record.date}`,
+    title: `Lab and test results: ${record.name}`,
     subject: 'VA Medical Record',
     preface:
       'If you have questions about these results, send a secure message to your care team.',
@@ -11,6 +11,11 @@ export const generateChemHemContent = record => ({
   details: {
     header: 'Details about this test',
     items: [
+      {
+        title: 'Date and time performed',
+        value: record.date,
+        inline: true,
+      },
       {
         title: 'Type of test',
         value: record.type,
@@ -196,6 +201,11 @@ export const generateRadiologyContent = record => ({
     header: 'Details about this test',
     items: [
       {
+        title: 'Date and time performed',
+        value: record.date,
+        inline: true,
+      },
+      {
         title: 'Reason for test',
         value: record.reason,
         inline: true,
@@ -218,6 +228,11 @@ export const generateRadiologyContent = record => ({
       {
         title: 'Imaging provider',
         value: record.imagingProvider,
+        inline: true,
+      },
+      {
+        title: 'Images',
+        value: `Images are not yet available in this new medical records tool. To get images, you'll need to request them in the previous version of medical records on the My HealtheVet website.`,
         inline: true,
       },
     ],

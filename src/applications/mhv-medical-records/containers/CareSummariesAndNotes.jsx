@@ -64,7 +64,7 @@ const CareSummariesAndNotes = () => {
         setBreadcrumbs([
           {
             url: '/',
-            label: 'Medical records',
+            label: 'medical records',
           },
         ]),
       );
