@@ -119,11 +119,9 @@ class PatientComposePage {
     cy.get('.usa-error-message').should('contain.text', text);
   };
 
-  verifyFocusOnErrorMessage = () => {
-    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
-    return cy.focused().then(el => {
-      const tagName = el.prop('tagName');
-      expect(tagName).to.be.oneOf(allowedTags);
+  verifyFocusOnErrorMessage = element => {
+    cy.focused().then(el => {
+      expect(el.prop('tagName')).to.eq(element);
     });
   };
 

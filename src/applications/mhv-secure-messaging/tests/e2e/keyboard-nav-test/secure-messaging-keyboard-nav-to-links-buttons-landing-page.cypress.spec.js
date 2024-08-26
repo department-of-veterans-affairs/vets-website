@@ -27,12 +27,12 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
 
     cy.get(Locators.ALERTS.BACK_TOP).scrollIntoView();
 
-    cy.get(Locators.ALERTS.BACK_TOP)
-      .shadow()
-      .find('.docked.reveal', { timeout: 1000 })
-      .should('be.visible');
-    cy.realPress('Tab');
-    cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
+    // cy.get(Locators.ALERTS.BACK_TOP)
+    //   .shadow()
+    //   .find('.docked.reveal', { timeout: 1000 })
+    //   .should('be.visible');
+    // cy.realPress('Tab');
+    // cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

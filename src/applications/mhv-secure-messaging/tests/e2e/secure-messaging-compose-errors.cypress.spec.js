@@ -19,7 +19,7 @@ describe('Secure Messaging Compose Errors', () => {
 
     PatientComposePage.clickSendMessageButton();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('SELECT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -34,7 +34,7 @@ describe('Secure Messaging Compose Errors', () => {
 
     PatientComposePage.clickSendMessageButton();
     PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('INPUT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -49,7 +49,7 @@ describe('Secure Messaging Compose Errors', () => {
 
     PatientComposePage.clickSendMessageButton();
     PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('INPUT');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -64,7 +64,7 @@ describe('Secure Messaging Compose Errors', () => {
 
     PatientComposePage.clickSendMessageButton();
     PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
-    PatientComposePage.verifyFocusOnErrorMessage();
+    PatientComposePage.verifyFocusOnErrorMessage('TEXTAREA');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
