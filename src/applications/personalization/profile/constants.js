@@ -161,6 +161,7 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
  * 9 - Securing messaging alert
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
+ * 12 - QuickSubmit
  *
  * These are all email based notifications
  *
@@ -168,9 +169,8 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
 export const BLOCKED_MHV_NOTIFICATION_IDS = [
   'item7',
   'item8',
-  'item9',
-  'item10',
   'item11',
+  'item12',
 ];
 
 // used for api status GA events

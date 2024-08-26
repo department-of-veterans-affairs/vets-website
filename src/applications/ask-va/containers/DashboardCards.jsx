@@ -1,10 +1,4 @@
-import {
-  VaAlert,
-  VaCard,
-  VaLink,
-  VaLoadingIndicator,
-  VaSelect,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
@@ -95,15 +89,15 @@ const DashboardCards = () => {
       <div className="dashboard-cards-grid">
         {sortedInquiries.map(card => (
           <div className="" key={card.inquiryNumber}>
-            <VaCard className="vacard">
+            <va-card className="vacard">
               <div>
                 <span className="usa-label">{card.status}</span>
               </div>
               <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                Submitted on {formatDate(card.createdOn)}
+                {`Submitted on ${formatDate(card.createdOn)}`}
               </h3>
               <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                Last Updated: {formatDate(card.lastUpdate)}
+                {`Last Updated: ${formatDate(card.lastUpdate)}`}
               </p>
               <p className="vads-u-margin--0">Category: {card.category}</p>
               <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
@@ -111,9 +105,9 @@ const DashboardCards = () => {
                 {card.submitterQuestion}
               </p>
               <Link to={`/user/dashboard/${card.id}`}>
-                <VaLink active text="Check details" />
+                <va-link active text="Check details" />
               </Link>
-            </VaCard>
+            </va-card>
           </div>
         ))}
       </div>
@@ -122,15 +116,15 @@ const DashboardCards = () => {
 
   if (error) {
     return (
-      <VaAlert status="info" className="vads-u-margin-y--4">
+      <va-alert status="info" className="vads-u-margin-y--4">
         <ServerErrorAlert />
-      </VaAlert>
+      </va-alert>
     );
   }
 
   if (loading) {
     return (
-      <VaLoadingIndicator
+      <va-loading-indicator
         data-testid="loading-indicator"
         message="Loading..."
       />
@@ -153,7 +147,6 @@ const DashboardCards = () => {
                 name="lastUpdated"
                 value={lastUpdatedFilter}
                 onVaSelect={event => setLastUpdatedFilter(event.target.value)}
-                uswds
               >
                 <option value="newestToOldest">Newest to oldest</option>
                 <option value="oldestToNewest">Oldest to newest</option>
@@ -166,7 +159,6 @@ const DashboardCards = () => {
                 name="category"
                 value={categoryFilter}
                 onVaSelect={event => setCategoryFilter(event.target.value)}
-                uswds
               >
                 <option value="All">All</option>
                 {categories.map(category => (
@@ -183,7 +175,6 @@ const DashboardCards = () => {
                 name="status"
                 value={statusFilter}
                 onVaSelect={event => setStatusFilter(event.target.value)}
-                uswds
               >
                 <option value="All">All</option>
                 <option value="New">New</option>
@@ -216,7 +207,6 @@ const DashboardCards = () => {
             full-width="false"
             status="info"
             visible="true"
-            uswds
           >
             <p className="vads-u-margin-y--0">
               You haven’t submitted a question yet.

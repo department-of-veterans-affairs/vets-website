@@ -81,7 +81,7 @@ const resolveLandingPageLinks = (
 
   const moreResourcesLinks = [
     featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
-      href: 'https://veteran.apps.va.gov/users/v2/login?redirect_uri=/cirrusmd',
+      href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
       text: 'Chat live with a health professional on VA Health Chat',
     },
     {

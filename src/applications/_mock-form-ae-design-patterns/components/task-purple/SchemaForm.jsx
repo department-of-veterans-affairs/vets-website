@@ -4,7 +4,7 @@ import { merge, once } from 'lodash';
 import Form from '@department-of-veterans-affairs/react-jsonschema-form';
 import { deepEquals } from '@department-of-veterans-affairs/react-jsonschema-form/lib/utils';
 import set from 'platform/utilities/data/set';
-
+import { connect } from 'react-redux';
 import {
   uiSchemaValidate,
   transformErrors,
@@ -197,9 +197,22 @@ class SchemaForm extends React.Component {
       safeRenderCompletion,
       name,
       addNameAttribute,
+      profile,
     } = this.props;
 
     const useReviewMode = reviewMode && !editModeOnReviewPage;
+
+    const profileData = profile || {};
+    const contactInfo = profileData.vapContactInfo || {};
+
+    const inputPhoneNumber = document.querySelector(
+      'va-text-input[name="root_inputPhoneNumber"]',
+    );
+    const initialValue = contactInfo.homePhone.phoneNumber;
+
+    if (inputPhoneNumber?.value.includes(initialValue)) {
+      inputPhoneNumber.value = '';
+    }
 
     return (
       <Form
@@ -228,6 +241,9 @@ class SchemaForm extends React.Component {
     );
   }
 }
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+});
 
 SchemaForm.propTypes = {
   name: PropTypes.string.isRequired,
@@ -239,6 +255,7 @@ SchemaForm.propTypes = {
   data: PropTypes.any,
   editModeOnReviewPage: PropTypes.bool,
   hideTitle: PropTypes.bool,
+  profile: PropTypes.object,
   reviewMode: PropTypes.bool,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -256,4 +273,4 @@ SchemaForm.defaultProps = {
   addNameAttribute: false,
 };
 
-export default SchemaForm;
+export default connect(mapStateToProps)(SchemaForm);
