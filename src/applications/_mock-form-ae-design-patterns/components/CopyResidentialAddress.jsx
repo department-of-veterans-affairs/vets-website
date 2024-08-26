@@ -18,6 +18,7 @@ import {
   selectEditedFormField,
 } from '@@vap-svc/selectors';
 import mapValues from 'lodash/mapValues';
+import pickBy from 'lodash/pickBy';
 
 class CopyResidentialAddress extends React.Component {
   areHomeMailingAddressesEqual = () => {
@@ -52,7 +53,18 @@ class CopyResidentialAddress extends React.Component {
     }
 
     // Otherwise, make the home address the same as the mailing address
-    const copiedResidentialAddress = pick(residentialAddress, ADDRESS_PROPS);
+    // pickBy removes any null or undefined values from the object
+    // pick removes any properties that are not in ADDRESS_PROPS
+    const copiedResidentialAddress = pick(
+      pickBy(residentialAddress),
+      ADDRESS_PROPS,
+    );
+
+    // We need the id to remain the same to prevent POST calls when a record exists
+    if (mailingAddress?.id) {
+      copiedResidentialAddress.id = mailingAddress.id;
+    }
+
     copyResidentialAddress(
       copiedResidentialAddress,
       mailingAddressFormSchema,
