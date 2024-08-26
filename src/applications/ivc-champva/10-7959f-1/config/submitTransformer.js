@@ -10,13 +10,15 @@ export default function transformForSubmit(formConfig, form) {
     veteran: {
       date_of_birth: transformedData.veteranDateOfBirth,
       full_name: transformedData?.veteranFullName,
-      physical_address: transformedData.physicalAddress || {
-        country: 'NA',
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
-      },
+      physical_address: transformedData.sameMailingAddress
+        ? transformedData.veteranAddress
+        : transformedData.physicalAddress || {
+            country: 'NA',
+            street: 'NA',
+            city: 'NA',
+            state: 'NA',
+            postalCode: 'NA',
+          },
       mailing_address: transformedData.veteranAddress || {
         country: 'NA',
         street: 'NA',
