@@ -88,7 +88,7 @@ const testConfig = createTestConfig(
         data => data.militaryServiceExperiences[0].characterOfDischarge,
       ),
       'employment-status': selectCheckboxGroupHook('employmentStatus'),
-      'employers/0/address-phone-number': ({ afterHook }) => {
+      'employers/0/address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillPage();

@@ -98,14 +98,14 @@ const hasPreviouslySelectedPrimary = (formData, currentItemIndex) => {
 };
 
 /** @returns {PageSchema} */
-const addressAndPhoneNumberPage = {
+const addressPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(
       ({ formData }) =>
         `${createName({
           firstName: formData?.name,
           fallback: 'Employer',
-        })} address and phone number`,
+        })} address`,
     ),
     address: addressUI({
       labels: {
@@ -113,16 +113,6 @@ const addressAndPhoneNumberPage = {
           'I work on a United States military base outside of the U.S.',
       },
       omit: ['street3'],
-    }),
-    phone: internationalPhoneUI({
-      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
-    }),
-    extension: textUI({
-      title: 'Extension',
-      width: 'sm',
-      errorMessages: {
-        pattern: 'Enter an extension with only numbers and letters',
-      },
     }),
     primaryWorkAddress: checkboxGroupUI({
       title: 'Primary work address',
@@ -142,13 +132,41 @@ const addressAndPhoneNumberPage = {
       address: addressSchema({
         omit: ['street3'],
       }),
+      primaryWorkAddress: checkboxGroupSchema(['selected']),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const phoneNumberPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(
+      ({ formData }) =>
+        `${createName({
+          firstName: formData?.name,
+          fallback: 'Employer',
+        })} phone number`,
+    ),
+    phone: internationalPhoneUI({
+      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
+    }),
+    extension: textUI({
+      title: 'Extension',
+      width: 'sm',
+      errorMessages: {
+        pattern: 'Enter an extension with only numbers and letters',
+      },
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
       phone: internationalPhoneSchema,
       extension: {
         type: 'string',
         pattern: '^[a-zA-Z0-9]{1,10}$',
         maxLength: 10,
       },
-      primaryWorkAddress: checkboxGroupSchema(['selected']),
     },
     required: ['phone'],
   },
@@ -247,11 +265,17 @@ const employersPages = arrayBuilderPages(
       uiSchema: informationPage.uiSchema,
       schema: informationPage.schema,
     }),
-    employerAddressAndPhoneNumberPage: pageBuilder.itemPage({
-      title: 'Employer address and phone number',
-      path: 'employers/:index/address-phone-number',
-      uiSchema: addressAndPhoneNumberPage.uiSchema,
-      schema: addressAndPhoneNumberPage.schema,
+    employerAddressPage: pageBuilder.itemPage({
+      title: 'Employer address',
+      path: 'employers/:index/address',
+      uiSchema: addressPage.uiSchema,
+      schema: addressPage.schema,
+    }),
+    employerPhoneNumberPage: pageBuilder.itemPage({
+      title: 'Employer phone number',
+      path: 'employers/:index/phone-number',
+      uiSchema: phoneNumberPage.uiSchema,
+      schema: phoneNumberPage.schema,
     }),
     employerDateRangePage: pageBuilder.itemPage({
       title: 'Employment dates',
