@@ -104,23 +104,30 @@ const formConfig = {
     chapter2: {
       title: 'Service',
       pages: {
-        militaryService: {
-          path: 'military-service',
-          title: 'Military Service',
-          uiSchema: militaryService.uiSchema,
-          schema: militaryService.schema,
-        },
         militaryServiceTimeServed: {
           path: 'military-service/time-served',
           title: 'Military Service Time Served',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
+        militaryService: {
+          path: 'military-service',
+          title: 'Military Service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
+        },
         militaryServiceCompleted: {
           path: 'military-service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          depends: formData =>
+            formData.militaryServiceCurrentlyServing === 'Yes',
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === 'Yes') {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },
