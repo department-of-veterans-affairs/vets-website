@@ -1,33 +1,25 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
-import MobileHeader from '../../../../../components/common/Header/MobileHeader/MobileHeader';
+import createReduxStore from '../../../../../store';
 
-const mockStore = configureStore([]);
-const initialState = {
-  user: {
-    isLoading: false,
-    profile: null,
-  },
-};
+import MobileHeader from '../../../../../components/common/Header/MobileHeader/MobileHeader';
+import { TestAppContainer } from '../../../../helpers';
+
+function renderTestApp({ initAction } = {}) {
+  const store = createReduxStore();
+  if (initAction) store.dispatch(initAction);
+
+  return render(
+    <TestAppContainer store={store}>
+      <MobileHeader />
+    </TestAppContainer>,
+  );
+}
 
 describe('MobileHeader', () => {
-  const getMobileHeader = () => {
-    const store = mockStore(initialState);
-    return render(
-      <Provider store={store}>
-        <MemoryRouter>
-          <MobileHeader />
-        </MemoryRouter>
-      </Provider>,
-    );
-  };
-
   it('renders header on mobile', () => {
-    const { getByTestId } = getMobileHeader();
+    const { getByTestId } = renderTestApp();
     expect(getByTestId('mobile-header')).to.exist;
   });
 });
