@@ -25,7 +25,7 @@ import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
-import StatusCard from './StatusCard';
+import SubmissionCard from './SubmissionCard';
 
 const ApplicationsInProgress = ({
   submittedForms,
@@ -160,7 +160,7 @@ const ApplicationsInProgress = ({
                       'MMMM d, yyyy',
                     );
                     return (
-                      <StatusCard
+                      <SubmissionCard
                         key={formId}
                         formId={formId}
                         formTitle={formTitle}

@@ -191,7 +191,6 @@ describe('The My VA Dashboard', () => {
           name: /benefit applications and forms/i,
         }).should('exist');
         cy.findAllByTestId('submitted-application').should('have.length', 3);
-        // TODO: flesh out tests in follow up tickets for UI variants for StatusCards
         // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
@@ -206,7 +205,6 @@ describe('The My VA Dashboard', () => {
           matchCase: false,
         });
         cy.get('.usa-label').contains('Action Needed', { matchCase: false });
-        // TODO: flesh out tests in follow up tickets for UI variants for StatusCards
         // make the a11y check
         cy.injectAxe();
         cy.axeCheck();

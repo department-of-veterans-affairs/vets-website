@@ -60,8 +60,7 @@ ActionNeededContent.propTypes = {
   lastSavedDate: PropTypes.string.isRequired,
 };
 
-// TODO: fialize markup and desigs for other status types
-const StatusCard = ({
+const SubmissionCard = ({
   formId,
   formTitle,
   lastSavedDate,
@@ -111,7 +110,7 @@ const StatusCard = ({
   );
 };
 
-StatusCard.propTypes = {
+SubmissionCard.propTypes = {
   // The Form ID for Google Analytics tracking purposes
   formId: PropTypes.string.isRequired,
   // String to use as the main "headline" of the component
@@ -124,4 +123,4 @@ StatusCard.propTypes = {
   submittedDate: PropTypes.string.isRequired,
 };
 
-export default StatusCard;
+export default SubmissionCard;
