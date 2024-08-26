@@ -4,7 +4,7 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import SignedInLayout from './SignedInLayout';
 
-const SignedInLayoutWrapper = () => {
+const SignedInLayoutWrapper = ({ children }) => {
   const {
     useToggleValue,
     useToggleLoadingValue,
@@ -27,7 +27,9 @@ const SignedInLayoutWrapper = () => {
       isInPilot={isInPilot}
       isProduction={isProduction}
       hasPOAPermissions={hasPOAPermissions}
-    />
+    >
+      {children}
+    </SignedInLayout>
   );
 };
 

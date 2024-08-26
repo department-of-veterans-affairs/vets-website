@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -8,6 +7,7 @@ import NoPOAPermissionsAlert from '../components/NoPOAPermissionsAlert/NoPOAPerm
 import NotInPilotAlert from '../components/NotInPilotAlert/NotInPilotAlert';
 
 const SignedInLayout = ({
+  children,
   isPilotToggleLoading,
   isInPilot,
   isProduction,
@@ -35,7 +35,7 @@ const SignedInLayout = ({
   return (
     <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
       <div data-testid="signed-in-layout-content" className="vads-l-row">
-        <Outlet />
+        {children}
       </div>
     </div>
   );
