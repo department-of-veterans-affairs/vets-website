@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { Link } from 'react-router';
-import { formSubtitle } from '../utils';
 import {
   datesDescription,
   getOtherFieldDescription,
@@ -30,8 +29,7 @@ export function ToxicExposureSummary({
 
   return (
     <>
-      {formSubtitle('Summary')}
-      <ul>
+      <ul className="vads-u-margin-top--0">
         {Object.keys(checkboxes)
           .filter(item => item !== 'none' && item !== 'notsure')
           .map(item => {

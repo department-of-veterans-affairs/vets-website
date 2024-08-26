@@ -1,7 +1,7 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 
-const GetFormHelp = () => (
+export const GetFormHelp = () => (
   <>
     <p className="help-talk">
       <strong> If you have trouble using this online application,</strong> call
@@ -13,7 +13,7 @@ const GetFormHelp = () => (
     <p className="help-talk">
       <strong>
         If you need help to gather your information or fill out your
-        application/form,{' '}
+        application,{' '}
       </strong>
       <va-link
         href="/vso/"

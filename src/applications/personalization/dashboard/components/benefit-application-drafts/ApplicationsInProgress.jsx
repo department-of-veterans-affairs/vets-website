@@ -15,6 +15,7 @@ import {
   presentableFormIDs,
   presentableFormIDsV2,
   sipFormSorter,
+  normalizeSubmissionStatus,
 } from '~/applications/personalization/dashboard/helpers';
 
 import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
@@ -24,10 +25,10 @@ import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
-import StatusCard from './StatusCard';
+import SubmissionCard from './SubmissionCard';
 
 const ApplicationsInProgress = ({
-  formsWithStatus,
+  submittedForms,
   savedForms,
   hideH3,
   isLOA1,
@@ -64,16 +65,23 @@ const ApplicationsInProgress = ({
   // Renaming updatedAt to lastUpdated, formType to form, and converting datetime to UNIX time
   const transformedStatusForms = useMemo(
     () =>
-      formsWithStatus.map(form => {
-        const { formType, updatedAt, status, ...rest } = form.attributes;
+      submittedForms.map(form => {
+        const {
+          formType,
+          createdAt,
+          updatedAt,
+          status,
+          ...rest
+        } = form.attributes;
         return {
           ...rest,
           status,
           form: formType,
+          createdAt: getUnixTime(new Date(createdAt)),
           lastUpdated: getUnixTime(new Date(updatedAt)),
         };
       }),
-    [formsWithStatus],
+    [submittedForms],
   );
 
   const allForms = useMemo(
@@ -148,18 +156,18 @@ const ApplicationsInProgress = ({
                     // if form is not a Draft and has status, render Status Card
                     const { createdAt } = form || {};
                     const submittedDate = format(
-                      new Date(createdAt),
+                      fromUnixTime(createdAt),
                       'MMMM d, yyyy',
                     );
                     return (
-                      <StatusCard
+                      <SubmissionCard
                         key={formId}
                         formId={formId}
                         formTitle={formTitle}
                         lastSavedDate={lastSavedDate}
                         submittedDate={submittedDate}
                         presentableFormId={presentableFormId}
-                        status={formStatus}
+                        status={normalizeSubmissionStatus(formStatus)}
                       />
                     );
                   }
@@ -217,16 +225,16 @@ const ApplicationsInProgress = ({
 };
 
 ApplicationsInProgress.propTypes = {
-  formsWithStatus: PropTypes.array,
   hideH3: PropTypes.bool,
   isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
+  submittedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {
   return {
     savedForms: selectProfile(state).savedForms || [],
-    formsWithStatus: state.allFormsWithStatuses.forms || [],
+    submittedForms: state.submittedForms.forms || [],
   };
 };
 
