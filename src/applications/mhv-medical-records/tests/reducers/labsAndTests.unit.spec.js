@@ -573,25 +573,18 @@ describe('labsAndTestsReducer', () => {
     expect(newState.labsAndTestsList.length).to.equal(4);
 
     expect(
-      newState.labsAndTestsList.find(record => {
-        record.id === 'chemhem';
-      })?.type === labTypes.CHEM_HEM,
-    );
+      newState.labsAndTestsList.find(record => record.id === 'chemhem')?.type,
+    ).to.equal(labTypes.CHEM_HEM);
     expect(
-      newState.labsAndTestsList.find(record => {
-        record.id === 'microbio';
-      })?.type === labTypes.MICROBIOLOGY,
-    );
+      newState.labsAndTestsList.find(record => record.id === 'microbio')?.type,
+    ).to.equal(labTypes.MICROBIOLOGY);
     expect(
-      newState.labsAndTestsList.find(record => {
-        record.id === 'pathology';
-      })?.type === labTypes.PATHOLOGY,
-    );
+      newState.labsAndTestsList.find(record => record.id === 'pathology')?.type,
+    ).to.equal(labTypes.PATHOLOGY);
     expect(
-      newState.labsAndTestsList.find(record => {
-        record.id === 'rradiology';
-      })?.type === labTypes.RADIOLOGY,
-    );
+      newState.labsAndTestsList.find(record => record.id === 'rradiology')
+        ?.type,
+    ).to.equal(labTypes.RADIOLOGY);
 
     expect(newState.updatedList).to.equal(undefined);
   });
