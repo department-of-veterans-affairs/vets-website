@@ -104,6 +104,7 @@ const responses = {
             profileShowDirectDepositSingleFormAlert: true,
             profileShowDirectDepositSingleFormEduDowntime: true,
             profileShowPrivacyPolicy: true,
+            veteranOnboardingContactInfoFlow: true,
           }),
         ),
       secondsOfDelay,
