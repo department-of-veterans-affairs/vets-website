@@ -74,12 +74,8 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_SUPPLIES: freeze([
     {
-      href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      text: 'Order hearing aid batteries and accessories',
-    },
-    {
-      href: '/health-care/order-cpap-supplies/',
-      text: 'Order CPAP supplies',
+      href: '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',
+      text: 'Order hearing aid and CPAP supplies',
     },
     {
       href: '/health-care/order-medical-supplies/',
