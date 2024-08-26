@@ -30,17 +30,6 @@ export const MobileLogoRow = () => {
               </div>
             </div>
           </div>
-          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-          <button
-            data-testid="mobile-logo-row-menu-button"
-            aria-controls="header-nav-items"
-            aria-expanded="false"
-            className="header-menu-button usa-button vads-u-background-color--gray-lightest vads-u-color--link-default vads-u-padding-y--1 vads-u-padding-x--1p5 vads-u-margin--0 vads-u-margin-left--2 vads-u-position--relative"
-            type="button"
-          >
-            Menu
-            <va-icon icon="menu" size={3} className="vads-u-margin-left--1" />
-          </button>
         </div>
       </div>
     </nav>

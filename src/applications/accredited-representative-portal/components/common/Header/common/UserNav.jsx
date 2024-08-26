@@ -52,7 +52,6 @@ const UserNav = ({ isMobile }) => {
         <va-loading-indicator
           data-testid="user-nav-loading-icon"
           label="Loading"
-          message="Loading"
         />
       </div>
     );
