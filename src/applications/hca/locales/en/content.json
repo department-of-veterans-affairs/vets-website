@@ -26,6 +26,8 @@
   "insurance-info--facility-title": "VA facility",
   "load-app": "Loading application...",
   "load-enrollment-status": "Verifying your enrollment status...",
+  "page-title--before-you-begin" : "Before you start your application",
+  "page-title--check-your-information" : "Check your personal information",
   "sip-start-form-text": "Start the health care application",
   "vet-info--birthplace-title" :"Your place of birth",
   "vet-info--birthplace-description" :"Enter your place of birth, including city and state, province or region.",

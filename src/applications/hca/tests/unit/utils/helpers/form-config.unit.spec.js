@@ -7,7 +7,9 @@ import {
   hasLowCompensation,
   hasNoCompensation,
   notShortFormEligible,
+  includeRegOnlyAuthQuestions,
   includeRegOnlyGuestQuestions,
+  showRegOnlyAuthConfirmation,
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   isMissingVeteranDob,
@@ -200,6 +202,38 @@ describe('hca form config helpers', () => {
     });
   });
 
+  context('when `includeRegOnlyAuthQuestions` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      'view:totalDisabilityRating': totalRating,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature toggle is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when user has no disability rating', () => {
+      const formData = getData({ totalRating: 0 });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+  });
+
   context('when `includeRegOnlyGuestQuestions` executes', () => {
     const getData = ({
       enabled = true,
@@ -229,6 +263,33 @@ describe('hca form config helpers', () => {
     it('should return `false` when user does not have a `lowDisability` rating', () => {
       const formData = getData({ compensationType: 'none' });
       expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+  });
+
+  context('when `showRegOnlyAuthConfirmation` executes', () => {
+    const getData = ({ loggedIn = true, selectedPackage = 'regOnly' }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:vaBenefitsPackage': selectedPackage,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when user skips the question', () => {
+      const formData = getData({ selectedPackage: '' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when selects a non-`regOnly` value', () => {
+      const formData = getData({ selectedPackage: 'fullPackage' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
     });
   });
 
