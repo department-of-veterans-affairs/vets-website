@@ -1,9 +1,9 @@
 import format from 'date-fns/format';
+import { setData } from 'platform/forms-system/src/js/actions';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 // import prefillTransformer from '../config/prefill-transformer';
 
@@ -12,8 +12,12 @@ const PersonalAuthenticatedInformation = ({
   goForward,
   // setFormData,
   formData,
+  isLoggedIn,
 }) => {
   // const prefillData = prefillTransformer();
+  if (!isLoggedIn) {
+    goForward(formData);
+  }
 
   const {
     first,
