@@ -4,7 +4,7 @@ import {
 } from 'platform/forms/save-in-progress/reducers';
 import { createInitialState } from 'platform/forms-system/src/js/state/helpers';
 import vapService from '@@vap-svc/reducers';
-import formConfig from '../config/fallbackForm';
+import formConfig from '../shared/config/fallbackForm';
 import { SET_NEW_FORM_CONFIG } from '../actions/actions';
 
 const reducer = (state = {}, action) => {
