@@ -1,6 +1,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
 .arp-header {
+  min-height: 98px;
+
   .va-header-logo-wrapper {
     display: flex;
     align-items: center;
