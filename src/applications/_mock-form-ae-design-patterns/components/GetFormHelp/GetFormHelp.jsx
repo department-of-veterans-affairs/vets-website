@@ -13,7 +13,7 @@ export const GetFormHelp = () => (
     <p className="help-talk">
       <strong>
         If you need help to gather your information or fill out your
-        application/form,{' '}
+        application,{' '}
       </strong>
       <va-link
         href="/vso/"

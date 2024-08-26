@@ -13,7 +13,7 @@ import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 import { EditAddress } from '../../../components/EditContactInfo';
-import { GetFormHelp } from '../../../components/GetFormHelp/GetFormHelp';
+import { GetFormHelp } from '../../../components/GetFormHelp';
 import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { MailingAddressInfoPageTaskGreen } from '../../../components/FormPages/MailingAddressInfoPageTaskGreen';
 import { taskCompletePage } from '../../taskCompletePage';

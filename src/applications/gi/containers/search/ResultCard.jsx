@@ -37,6 +37,7 @@ export function ResultCard({
   header = null,
   active = false,
   version,
+  paginationRef,
 }) {
   const {
     name,
@@ -155,6 +156,7 @@ export function ResultCard({
       <div>
         <h3 className={nameClasses} id={`label-${institution.facilityCode}`}>
           <Link
+            ref={paginationRef}
             to={profileLink}
             onClick={() =>
               recordEvent({
