@@ -58,6 +58,7 @@ function LocationSearchResults({
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
   const MAX_PAGE_LIST_LENGTH = 10;
+  const paginationRef = useRef(null);
 
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -351,7 +352,18 @@ function LocationSearchResults({
     ]);
     markers.push(currentMarkerElement);
   };
-
+  // This useEffect to scroll to the top and focus the first card of each page
+  useEffect(
+    () => {
+      if (paginationRef.current?.[pagination.currentPage]) {
+        paginationRef.current?.[pagination.currentPage].scrollIntoView({
+          behavior: 'smooth',
+        });
+        paginationRef.current[pagination.currentPage].focus();
+      }
+    },
+    [pagination.currentPage],
+  );
   /**
    * Takes results and puts them on the map
    * Excludes results that are not visible on the map when using "Search this area of the map"
@@ -431,7 +443,10 @@ function LocationSearchResults({
 
       const cardNumber = (currentPage - 1) * MAX_PAGE_LIST_LENGTH + index + 1;
       const header = (
-        <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
+        <div
+          className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2"
+          id="cards-container"
+        >
           <span className="location-letter vads-u-font-size--sm">
             {cardNumber}
           </span>
@@ -451,6 +466,14 @@ function LocationSearchResults({
           active={activeMarker === name}
           version={preview.version}
           key={institution.facilityCode}
+          paginationRef={el => {
+            if (index === 0) {
+              if (!paginationRef.current) {
+                paginationRef.current = [];
+              }
+              paginationRef.current[pagination.currentPage] = el;
+            }
+          }}
         />
       );
     },
