@@ -33,8 +33,17 @@
   }
 
   .mobile {
-    .usa-banner-header {
-      display: flex;
+    .header-us-flag {
+      height: 20px;
+    }
+
+    .expand-official-govt-explanation {
+      font-size: 12px;
+    }
+
+    .govt-expanded-arrow {
+      transform: rotate(180deg);
+      transform-origin: 50% 50%;
     }
 
     .va-crisis-line-container {
@@ -83,47 +92,7 @@
       }
 
       .va-header-logo-menu {
-        padding: 10px 0px 0px 10px;
-      }
-    }
-
-    .vetnav-menu {
-      height: auto;
-      list-style: none;
-      margin: 0;
-      padding-left: 0;
-
-      @include media($medium-screen) {
-        display: flex;
-        height: auto;
-        margin-bottom: 0;
-        overflow-y: visible;
-        position: relative;
-      }
-
-      > li {
-        margin-bottom: 6px;
-
-        @include media($medium-screen) {
-          margin-bottom: 0;
-        }
-
-        &:first-of-type {
-          @include media($medium-screen) {
-            display: none;
-          }
-        }
-      }
-
-      &::before {
-        display: block;
-        content: " ";
-      }
-
-      ul {
-        list-style: none;
-        padding-left: 0;
-        margin-bottom: 0;
+        padding-left: 10px;
       }
     }
   }

@@ -1,5 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .homepage-hero {
   &__look-and-feel {
     background: linear-gradient(
