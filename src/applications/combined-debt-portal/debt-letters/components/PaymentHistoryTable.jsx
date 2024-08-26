@@ -65,7 +65,9 @@ const PaymentHistoryTable = ({ currentDebt }) => {
               {renderPaymentHistoryDescription(payment.transactionDescription)}
             </div>
           </span>
-          <span>{payment.transactionTotalAmount}</span>
+          <span>
+            {currency.format(parseFloat(payment.transactionTotalAmount))}
+          </span>
         </va-table-row>
       ))}
       <va-table-row>
