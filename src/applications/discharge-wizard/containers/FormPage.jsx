@@ -10,7 +10,7 @@ import FormQuestions from '../components/FormQuestions';
 export const FormPage = ({ formValues, updateFormField }) => {
   return (
     <div>
-      <h1>How to Apply for a Discharge Upgrade</h1>
+      <h1>How to apply for a discharge upgrade</h1>
       <div className="medium-8">
         <FormQuestions
           formValues={formValues}

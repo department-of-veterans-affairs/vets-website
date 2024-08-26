@@ -15,21 +15,20 @@ function LocationDirectionsLink({ location, from }) {
 
   return (
     <div className="vads-u-margin-bottom--1p5">
-      <a
+      {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
+      <va-link
         href={`https://maps.google.com?saddr=${
           location.searchString
         }&daddr=${address}`}
-        rel="noopener noreferrer"
-      >
-        {from === 'FacilityDetail' && <va-icon icon="directions" size="3" />}
-        Get directions on Google Maps{' '}
-        <span className="sr-only">{`to ${location.attributes.name}`}</span>
-      </a>
+        text="Get directions on Google Maps"
+        label={`Get directions on Google Maps to ${location.attributes.name}`}
+      />
     </div>
   );
 }
 
 LocationDirectionsLink.propTypes = {
+  from: PropTypes.string,
   location: PropTypes.object,
 };
 
