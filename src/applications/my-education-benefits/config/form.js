@@ -3,56 +3,42 @@ import { createSelector } from 'reselect';
 
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import * as address from 'platform/forms-system/src/js/definitions/address';
 import bankAccountUI from 'platform/forms/definitions/bankAccount';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import dateUI from 'platform/forms-system/src/js/definitions/date';
-import emailUI from 'platform/forms-system/src/js/definitions/email';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import get from 'platform/utilities/data/get';
-import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import ReviewCardField from 'platform/forms-system/src/js/components/ReviewCardField';
 
-import constants from 'vets-json-schema/dist/constants.json';
 import * as ENVIRONMENTS from 'site/constants/environments';
 import * as BUCKETS from 'site/constants/buckets';
-
-import fullSchema from '../22-1990-schema.json';
 
 import manifest from '../manifest.json';
 import toursOfDutyUI from '../definitions/toursOfDuty';
 
+import applicantInformation33 from './chapters/33/applicantInfo';
+import contactInfo33 from './chapters/33/contactInfo';
+import mailingAddress33 from './chapters/33/mailingAddress';
 import AccordionField from '../components/AccordionField';
-import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import BenefitRelinquishmentDate from '../components/BenefitRelinquishmentDate';
 import BenefitRelinquishedLabel from '../components/BenefitRelinquishedLabel';
 import BenefitRelinquishWidget from '../components/BenefitRelinquishWidget';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import ContactInformationReviewPanel from '../components/ContactInformationReviewPanel';
-import CustomReviewDOBField from '../components/CustomReviewDOBField';
-import CustomEmailField from '../components/CustomEmailField';
-import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
+import YesNoReviewField from '../components/YesNoReviewField';
+
 import DateReviewField from '../components/DateReviewField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailViewField from '../components/EmailViewField';
 import ExclusionPeriodsWidget from '../components/ExclusionPeriodsWidget';
 
 import GetFormHelp from '../components/GetFormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
-import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
-import MailingAddressViewField from '../components/MailingAddressViewField';
 import ObfuscateReviewField from '../components/ObfuscateReviewField';
-import PhoneReviewField from '../components/PhoneReviewField';
-import PhoneViewField from '../components/PhoneViewField';
+
 import CustomPreSubmitInfo from '../components/PreSubmitInfo';
 import ServicePeriodAccordionView from '../components/ServicePeriodAccordionView';
 import TextNotificationsDisclaimer from '../components/TextNotificationsDisclaimer';
-import YesNoReviewField from '../components/YesNoReviewField';
-import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import { ELIGIBILITY } from '../actions';
 import { formFields } from '../constants';
@@ -67,24 +53,13 @@ import {
 import {
   isValidPhone,
   validateBankAccountNumber,
-  validateEmail,
   validateEffectiveDate,
-  validateMobilePhone,
-  validateHomePhone,
   validateRoutingNumber,
 } from '../utils/validation';
 
 import { createSubmissionForm } from '../utils/form-submit-transform';
 
-const {
-  fullName,
-  // ssn,
-  date,
-  dateRange,
-  usaPhone,
-  email,
-  toursOfDuty,
-} = commonDefinitions;
+const { fullName, date, dateRange, usaPhone, toursOfDuty } = commonDefinitions;
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 const formPages = {
@@ -158,18 +133,6 @@ const benefits = [
   'NotEligible',
 ];
 
-function isOnlyWhitespace(str) {
-  return str && !str.trim().length;
-}
-
-function isValidName(str) {
-  return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
-}
-
-function isValidLastName(str) {
-  return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
-}
-
 const isValidAccountNumber = accountNumber => {
   if (/^[0-9]*$/.test(accountNumber)) {
     return accountNumber;
@@ -201,70 +164,6 @@ const shouldStartInEditMode = formData => {
   // Return false to not start in edit mode if any data is present
   return !hasData;
 };
-
-function titleCase(str) {
-  return str[0].toUpperCase() + str.slice(1).toLowerCase();
-}
-
-function phoneUISchema(category) {
-  const schema = {
-    'ui:options': {
-      hideLabelText: true,
-      showFieldLabel: false,
-      viewComponent: PhoneViewField,
-    },
-    'ui:objectViewField': PhoneReviewField,
-    phone: {
-      ...phoneUI(`${titleCase(category)} phone number`),
-      'ui:validations': [
-        category === 'mobile' ? validateMobilePhone : validateHomePhone,
-      ],
-    },
-    isInternational: {
-      'ui:title': `This ${category} phone number is international`,
-      'ui:reviewField': YesNoReviewField,
-      'ui:options': {
-        hideIf: formData => {
-          if (category === 'mobile') {
-            if (
-              !formData[(formFields?.viewPhoneNumbers)]?.mobilePhoneNumber
-                ?.phone
-            ) {
-              return true;
-            }
-          } else if (
-            !formData[(formFields?.viewPhoneNumbers)]?.phoneNumber?.phone
-          ) {
-            return true;
-          }
-          return false;
-        },
-      },
-    },
-  };
-
-  // use custom component if mobile phone
-  if (category === 'mobile') {
-    schema.phone['ui:widget'] = CustomPhoneNumberField;
-  }
-
-  return schema;
-}
-
-function phoneSchema() {
-  return {
-    type: 'object',
-    properties: {
-      phone: {
-        ...usaPhone,
-        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
-      },
-      isInternational: {
-        type: 'boolean',
-      },
-    },
-  };
-}
 
 function additionalConsiderationsQuestionTitleText(
   benefitSelection,
@@ -499,210 +398,8 @@ const formConfig = {
           CustomPageReview: ApplicantInformationReviewPage,
           instructions:
             'This is the personal information we have on file for you.',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your personal information</h3>
-                  <p>
-                    This is the personal information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
-                  </p>
-                </>
-              ),
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
-            },
-            [formFields.formId]: {
-              'ui:title': 'Form ID',
-              'ui:disabled': true,
-              'ui:options': {
-                hideOnReview: true,
-              },
-            },
-            [formFields.claimantId]: {
-              'ui:title': 'Claimant ID',
-              'ui:disabled': true,
-              'ui:options': {
-                hideOnReview: true,
-              },
-            },
-            'view:applicantInformation': {
-              'ui:options': {
-                hideIf: formData => !formData.showMebEnhancements06,
-              },
-              'ui:description': (
-                <>
-                  <ApplicantIdentityView />
-                </>
-              ),
-            },
-            [formFields.viewUserFullName]: {
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
-              'ui:description': (
-                <>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your personal information, please
-                    edit the form fields below.
-                  </p>
-                </>
-              ),
-              [formFields.userFullName]: {
-                'ui:options': {
-                  hideIf: formData => formData.showMebEnhancements06,
-                },
-                'ui:required': formData => !formData?.showMebEnhancements06,
-                ...fullNameUI,
-                first: {
-                  ...fullNameUI.first,
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:title': 'Your first name',
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your first name');
-                        } else if (field[0] === ' ' || field[0] === "'") {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-                last: {
-                  ...fullNameUI.last,
-                  'ui:title': 'Your last name',
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidLastName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your last name');
-                        } else if (
-                          field[0] === ' ' ||
-                          field[0] === "'" ||
-                          field[0] === '-'
-                        ) {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces, dashes and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-                middle: {
-                  ...fullNameUI.middle,
-                  'ui:title': 'Your middle name',
-                  'ui:options': {
-                    hideIf: formData => formData.showMebEnhancements06,
-                  },
-                  'ui:required': formData => !formData?.showMebEnhancements06,
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (!isValidName(field)) {
-                        if (field.length === 0) {
-                          errors.addError('Please enter your middle name');
-                        } else if (field[0] === ' ' || field[0] === "'") {
-                          errors.addError(
-                            'First character must be a letter with no leading space.',
-                          );
-                        } else {
-                          errors.addError(
-                            'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
-                          );
-                        }
-                      }
-                    },
-                  ],
-                },
-              },
-            },
-            [formFields.dateOfBirth]: {
-              'ui:options': {
-                hideIf: formData => formData.showMebEnhancements06,
-              },
-              'ui:required': formData => !formData?.showMebEnhancements06,
-              ...currentOrPastDateUI('Your date of birth'),
-              'ui:reviewField': CustomReviewDOBField,
-            },
-          },
-          schema: {
-            type: 'object',
-            required: [formFields.dateOfBirth],
-            properties: {
-              [formFields.formId]: {
-                type: 'string',
-              },
-              [formFields.claimantId]: {
-                type: 'integer',
-              },
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewUserFullName]: {
-                // required: [formFields.userFullName],
-                type: 'object',
-                properties: {
-                  [formFields.userFullName]: {
-                    ...fullName,
-                    properties: {
-                      ...fullName.properties,
-                      first: {
-                        ...fullName.properties.first,
-                        maxLength: 20,
-                      },
-                      middle: {
-                        ...fullName.properties.middle,
-                        maxLength: 20,
-                      },
-                      last: {
-                        ...fullName.properties.last,
-                        maxLength: 26,
-                      },
-                    },
-                  },
-                },
-              },
-              [formFields.dateOfBirth]: date,
-              'view:applicantInformation': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: applicantInformation33.uiSchema,
+          schema: applicantInformation33.schema,
         },
       },
     },
@@ -713,333 +410,14 @@ const formConfig = {
           title: 'Phone numbers and email address',
           path: 'contact-information/email-phone',
           CustomPageReview: ContactInformationReviewPanel,
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your phone numbers and email address</h3>
-                  <div className="meb-list-label">
-                    <strong>We’ll use this information to:</strong>
-                  </div>
-                  <ul>
-                    <li>
-                      Contact you if we have questions about your application
-                    </li>
-                    <li>Tell you important information about your benefits</li>
-                  </ul>
-                  <p>
-                    This is the contact information we have on file for you. If
-                    you notice any errors, please correct them now. Any updates
-                    you make will change the information for your education
-                    benefits only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your contact
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
-                  </p>
-                </>
-              ),
-            },
-            [formFields.viewPhoneNumbers]: {
-              'ui:description': (
-                <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Phone numbers and email addresses
-                  </h4>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your phone numbers and email
-                    address, please edit the form fields below.
-                  </p>
-                </>
-              ),
-              [formFields?.mobilePhoneNumber]: phoneUISchema('mobile'),
-              [formFields?.phoneNumber]: phoneUISchema('home'),
-            },
-            [formFields.email]: {
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: EmailViewField,
-              },
-              email: {
-                ...emailUI('Email address'),
-                'ui:validations': [validateEmail],
-                'ui:widget': CustomEmailField,
-              },
-              confirmEmail: {
-                ...emailUI('Confirm email address'),
-                'ui:options': {
-                  ...emailUI()['ui:options'],
-                  hideOnReview: true,
-                },
-              },
-              'ui:validations': [
-                (errors, field) => {
-                  if (
-                    field?.email?.toLowerCase() !==
-                    field?.confirmEmail?.toLowerCase()
-                  ) {
-                    errors.confirmEmail?.addError(
-                      'Sorry, your emails must match',
-                    );
-                  }
-                },
-              ],
-            },
-            'view:confirmDuplicateData': {
-              'ui:description': DuplicateContactInfoModal,
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewPhoneNumbers]: {
-                type: 'object',
-                properties: {
-                  [formFields?.mobilePhoneNumber]: phoneSchema(),
-                  [formFields?.phoneNumber]: phoneSchema(),
-                },
-              },
-              [formFields.email]: {
-                type: 'object',
-                required: [formFields.email, 'confirmEmail'],
-                properties: {
-                  email,
-                  confirmEmail: email,
-                },
-              },
-              'view:confirmDuplicateData': {
-                type: 'object',
-                properties: {},
-              },
-            },
-          },
+          uiSchema: contactInfo33.uiSchema,
+          schema: contactInfo33.schema,
         },
         [formPages.contactInformation.mailingAddress]: {
           title: 'Mailing address',
           path: 'contact-information/mailing-address',
-          uiSchema: {
-            'view:subHeadings': {
-              'ui:description': (
-                <>
-                  <h3>Review your mailing address</h3>
-                  <p>
-                    We’ll send any important information about your application
-                    to this address.
-                  </p>
-                  <p>
-                    This is the mailing address we have on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
-                  </p>
-                  <p>
-                    <strong>Note:</strong> If you want to update your personal
-                    information for other VA benefits, you can do that from your
-                    profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
-                    </a>
-                  </p>
-                </>
-              ),
-            },
-            [formFields.viewMailingAddress]: {
-              'ui:description': (
-                <>
-                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
-                    Mailing address
-                  </h4>
-                  <p className="meb-review-page-only">
-                    If you’d like to update your mailing address, please edit
-                    the form fields below.
-                  </p>
-                </>
-              ),
-              [formFields.livesOnMilitaryBase]: {
-                'ui:title': (
-                  <span id="LiveOnMilitaryBaseTooltip">
-                    I live on a United States military base outside of the
-                    country
-                  </span>
-                ),
-                'ui:reviewField': YesNoReviewField,
-              },
-              livesOnMilitaryBaseInfo: {
-                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
-              },
-              [formFields.address]: {
-                ...address.uiSchema('', false, null, true),
-                country: {
-                  'ui:title': 'Country',
-                  'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      !formData['view:mailingAddress'].livesOnMilitaryBase),
-                  'ui:disabled': formData =>
-                    formData.showMebDgi40Features &&
-                    formData['view:mailingAddress'].livesOnMilitaryBase,
-                  'ui:options': {
-                    updateSchema: (formData, schema, uiSchema) => {
-                      const countryUI = uiSchema;
-                      const addressFormData = get(
-                        ['view:mailingAddress', 'address'],
-                        formData,
-                      );
-                      const livesOnMilitaryBase = get(
-                        ['view:mailingAddress', 'livesOnMilitaryBase'],
-                        formData,
-                      );
-                      if (
-                        formData.showMebDgi40Features &&
-                        livesOnMilitaryBase
-                      ) {
-                        countryUI['ui:disabled'] = true;
-                        const USA = {
-                          value: 'USA',
-                          label: 'United States',
-                        };
-                        addressFormData.country = USA.value;
-                        return {
-                          enum: [USA.value],
-                          enumNames: [USA.label],
-                          default: USA.value,
-                        };
-                      }
-
-                      countryUI['ui:disabled'] = false;
-
-                      return {
-                        type: 'string',
-                        enum: constants.countries.map(country => country.value),
-                        enumNames: constants.countries.map(
-                          country => country.label,
-                        ),
-                      };
-                    },
-                  },
-                },
-                street: {
-                  'ui:title': 'Street address',
-                  'ui:errorMessages': {
-                    required: 'Please enter your full street address',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError(
-                          'Please enter your full street address',
-                        );
-                      }
-                    },
-                  ],
-                },
-                city: {
-                  'ui:errorMessages': {
-                    required: 'Please enter a valid city',
-                  },
-                  'ui:validations': [
-                    (errors, field) => {
-                      if (isOnlyWhitespace(field)) {
-                        errors.addError('Please enter a valid city');
-                      }
-                    },
-                  ],
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData.showMebDgi40Features &&
-                        formData['view:mailingAddress']?.livesOnMilitaryBase
-                      ) {
-                        return {
-                          type: 'string',
-                          title: 'APO/FPO',
-                          enum: ['APO', 'FPO'],
-                        };
-                      }
-
-                      return {
-                        type: 'string',
-                        title: 'City',
-                      };
-                    },
-                  },
-                },
-                state: {
-                  'ui:required': formData =>
-                    !formData.showMebDgi40Features ||
-                    (formData.showMebDgi40Features &&
-                      (formData['view:mailingAddress']?.livesOnMilitaryBase ||
-                        formData['view:mailingAddress']?.address?.country ===
-                          'USA')),
-                },
-                postalCode: {
-                  'ui:errorMessages': {
-                    required: 'Zip code must be 5 digits',
-                  },
-                  'ui:options': {
-                    replaceSchema: formData => {
-                      if (
-                        formData['view:mailingAddress']?.address?.country !==
-                        'USA'
-                      ) {
-                        return {
-                          title: 'Postal Code',
-                          type: 'string',
-                        };
-                      }
-
-                      return {
-                        title: 'Zip code',
-                        type: 'string',
-                      };
-                    },
-                  },
-                },
-              },
-              'ui:options': {
-                hideLabelText: true,
-                showFieldLabel: false,
-                viewComponent: MailingAddressViewField,
-              },
-            },
-          },
-          schema: {
-            type: 'object',
-            properties: {
-              'view:subHeadings': {
-                type: 'object',
-                properties: {},
-              },
-              [formFields.viewMailingAddress]: {
-                type: 'object',
-                properties: {
-                  [formFields.livesOnMilitaryBase]: {
-                    type: 'boolean',
-                  },
-                  livesOnMilitaryBaseInfo: {
-                    type: 'object',
-                    properties: {},
-                  },
-                  [formFields.address]: {
-                    ...address.schema(fullSchema, true),
-                  },
-                },
-              },
-            },
-          },
+          uiSchema: mailingAddress33.uiSchema,
+          schema: mailingAddress33.schema,
         },
         [formPages.contactInformation.preferredContactMethod]: {
           title: 'Contact preferences',
