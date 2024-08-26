@@ -384,7 +384,6 @@
   "we-need-your-last-name-and-birth": "First, we need your last name and date of birth to make sure it’s you.",
   "upcoming-appointments": "Upcoming appointments",
   "what-to-do-next": "What to do next",
-  "appointments": "appointments",
   "review-your-information-now": "Review your information now",
   "your-information-is-up-to-date": "Your information is up to date",
   "day-of-week-month-day-time": "{{ date, day }}, {{ date, monthDay }}, {{ date, time }}",
