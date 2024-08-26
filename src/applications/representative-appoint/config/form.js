@@ -25,6 +25,7 @@ import {
   veteranContactMailing,
   veteranIdentification,
   veteranServiceInformation,
+  selectAccreditedRepresentative,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -99,6 +100,17 @@ const formConfig = {
           title: ' ',
           uiSchema: formToggle.uiSchema,
           schema: formToggle.schema,
+        },
+      },
+    },
+    accreditedRepresentative: {
+      title: 'Accredited Representative',
+      pages: {
+        selectAccreditedRepresentative: {
+          title: 'Representative Select',
+          path: 'representative-select',
+          uiSchema: selectAccreditedRepresentative.uiSchema,
+          schema: selectAccreditedRepresentative.schema,
         },
       },
     },
