@@ -187,8 +187,8 @@ export default function ConfirmedAppointmentDetailsPage() {
   if (
     !appointment ||
     appointmentDetailsStatus === FETCH_STATUS.loading ||
-    !appointment?.claimId ||
-    fetchClaimStatus === FETCH_STATUS.loading
+    (featureFetchClaimStatus &&
+      (!appointment?.claimId || fetchClaimStatus === FETCH_STATUS.loading))
   ) {
     return (
       <FullWidthLayout>
