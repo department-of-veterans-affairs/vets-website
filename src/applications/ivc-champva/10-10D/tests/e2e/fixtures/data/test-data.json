@@ -12,9 +12,7 @@
           "state": "AS",
           "postalCode": "56790"
         },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
+        "applicantSSN": "345345345",
         "applicantPhone": "555-555-1234",
         "applicantGender": { "gender": "male" },
         "applicantRelationshipToSponsor": {
@@ -22,7 +20,7 @@
         },
         "applicantDependentStatus": { "status": "enrolled" },
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
+        "applicantDob": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
           "middle": "T",
@@ -36,14 +34,12 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
-    "ssn": {
-      "ssn": "123123123"
-    },
+    "ssn": "123123123",
     "veteransFullName": {
       "first": "Joe",
       "last": "Johnson"
     },
-    "sponsorDOB": "1958-01-01",
+    "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

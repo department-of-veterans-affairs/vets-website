@@ -15,7 +15,7 @@ import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran.pages.dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran;
 
 describe('deathDatePage', () => {
   it('should render', () => {

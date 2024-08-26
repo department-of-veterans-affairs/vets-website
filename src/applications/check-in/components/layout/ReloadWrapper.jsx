@@ -8,10 +8,15 @@ import { setForm } from '../../actions/universal';
 import { createSetSession } from '../../actions/authentication';
 import { useStorage } from '../../hooks/useStorage';
 import { useGetCheckInData } from '../../hooks/useGetCheckInData';
+import { useGetUpcomingAppointmentsData } from '../../hooks/useGetUpcomingAppointmentsData';
 import { useUpdateError } from '../../hooks/useUpdateError';
+import {
+  CONFIG_STALE_DURATION,
+  CONFIG_STALE_REDIRECT_LOCATION,
+} from '../../utils/appConstants';
 
 const ReloadWrapper = props => {
-  const { children, router, app } = props;
+  const { children, router, app, reloadUpcoming = false } = props;
   const location = window.location.pathname;
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -20,6 +25,7 @@ const ReloadWrapper = props => {
     setProgressState,
     getCurrentToken,
     getPermissions,
+    getCompleteTimestamp,
   } = useStorage(app);
   const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
   const selectForm = useMemo(makeSelectForm, []);
@@ -35,18 +41,39 @@ const ReloadWrapper = props => {
       app,
     },
   );
+  const {
+    upcomingAppointmentsDataError,
+    refreshUpcomingData,
+    isLoading: isUpcomingLoading,
+  } = useGetUpcomingAppointmentsData({
+    refreshNeeded: false,
+  });
   const [refreshData, setRefreshData] = useState(true);
 
   const sessionToken = getCurrentToken(window);
   const { token: reduxToken } = useSelector(selectCurrentContext);
 
+  const completeTimeStamp = getCompleteTimestamp(window);
+
   useEffect(
     () => {
-      if (checkInDataError) {
+      if (completeTimeStamp) {
+        const timeSinceComplete = Date.now() - completeTimeStamp;
+        if (timeSinceComplete > CONFIG_STALE_DURATION[app]) {
+          window.location = CONFIG_STALE_REDIRECT_LOCATION[app];
+        }
+      }
+    },
+    [completeTimeStamp, app],
+  );
+
+  useEffect(
+    () => {
+      if (checkInDataError || upcomingAppointmentsDataError) {
         updateError('reload-data-error');
       }
     },
-    [checkInDataError, updateError],
+    [checkInDataError, upcomingAppointmentsDataError, updateError],
   );
 
   useEffect(
@@ -63,6 +90,9 @@ const ReloadWrapper = props => {
             }),
           );
           refreshCheckInData();
+          if (reloadUpcoming) {
+            refreshUpcomingData();
+          }
         } else {
           setRefreshData(false);
         }
@@ -75,9 +105,11 @@ const ReloadWrapper = props => {
       sessionToken,
       location,
       refreshCheckInData,
+      refreshUpcomingData,
       dispatch,
       getPermissions,
       progressState,
+      reloadUpcoming,
     ],
   );
 
@@ -88,7 +120,7 @@ const ReloadWrapper = props => {
     [currentForm, setProgressState],
   );
 
-  if (refreshData || isLoading) {
+  if (refreshData || isLoading || isUpcomingLoading) {
     window.scrollTo(0, 0);
     return (
       <div>
@@ -102,6 +134,7 @@ const ReloadWrapper = props => {
 ReloadWrapper.propTypes = {
   app: PropTypes.string.isRequired,
   children: PropTypes.node,
+  reloadUpcoming: PropTypes.bool,
   router: PropTypes.object,
 };
 

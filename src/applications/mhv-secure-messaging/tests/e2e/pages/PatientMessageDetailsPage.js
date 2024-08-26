@@ -261,7 +261,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyMessageDetails = (messageDetails = mockMessage) => {
-    cy.get(Locators.MESS_ID).should(
+    cy.get(Locators.MSG_ID).should(
       'contain',
       messageDetails.data.attributes.messageId,
     );
@@ -309,9 +309,7 @@ class PatientMessageDetailsPage {
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click();
     cy.get(Locators.ALERTS.MOVE_MODAL, { timeout: 8000 })
       .find('p')
-      .contains(
-        'This conversation will be moved. Any replies to this message will appear in your inbox',
-      )
+      .contains('Any replies to this message will appear in your inbox')
       .should('be.visible');
     cy.get(Locators.BUTTONS.DELETE_RADIOBTN).should('be.visible');
     cy.get(Locators.BUTTONS.TEST2).should('be.visible');
@@ -409,7 +407,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageTo = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="to"]')
+    cy.get(Locators.TO)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -418,7 +416,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageId = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-id"]')
+    cy.get(Locators.MSG_ID)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -427,7 +425,7 @@ class PatientMessageDetailsPage {
   };
 
   verifyExpandedMessageDate = (messageDetails, messageIndex = 0) => {
-    cy.get('[data-testid="message-date"]')
+    cy.get(Locators.MSG_DATE)
       .eq(messageIndex)
       .should(
         'have.text',
@@ -458,7 +456,7 @@ class PatientMessageDetailsPage {
       .eq(messageIndex)
       .should(
         'have.text',
-        `(Draft) To: ${messageDetails.data.attributes.senderName}\n(Team: ${
+        `Draft To: ${messageDetails.data.attributes.senderName}\n(Team: ${
           messageDetails.data.attributes.triageGroupName
         })`,
       );
@@ -502,38 +500,31 @@ class PatientMessageDetailsPage {
     );
   };
 
-  realPressForExpandAllButton = () => {
-    cy.get(Locators.BUTTONS.SECURE_MESSAGING)
+  verifyButtonsKeyboardNavigation = () => {
+    cy.get('.message-detail-block')
       .find('button')
-      .each(button => {
-        cy.realPress('Tab');
-        cy.wrap(button).focus();
-        if (button.attr('aria-label') === 'Expand all accordions') {
-          return false;
-        }
-        return 0;
+      .each(btn => {
+        cy.tabToElement(btn).should(`be.focused`);
       });
   };
 
-  verifyClickAndExpandAllMessagesHasFocus = () => {
+  verifyMessageExpandAndFocusByKeyboard = () => {
     cy.tabToElement(Locators.BUTTONS.THREAD_EXPAND_MESSAGES);
     cy.realPress('Enter');
+
     cy.get(Locators.BUTTONS.THREAD_EXPAND_MESSAGES).each(el => {
-      cy.realPress('Enter');
+      cy.tabToElement(el);
       cy.wrap(el)
         .should('be.visible')
         .and('have.focus');
+      cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('be.visible');
-      cy.realPress('Enter');
-      cy.wrap(el)
-        .should('be.visible')
-        .and('have.focus');
+      cy.realPress(`Enter`);
       cy.wrap(el)
         .find(Locators.MESSAGE_THREAD_META)
         .should('not.be.visible');
-      cy.realPress('Tab');
     });
   };
 
@@ -542,10 +533,6 @@ class PatientMessageDetailsPage {
       'contain',
       testMessage.data.attributes.body,
     );
-  };
-
-  verifyDeleteMessageConfirmationMessageHasFocus = () => {
-    cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
   clickReplyButton = singleThreadData => {
@@ -560,4 +547,4 @@ class PatientMessageDetailsPage {
   };
 }
 
-export default PatientMessageDetailsPage;
+export default new PatientMessageDetailsPage();

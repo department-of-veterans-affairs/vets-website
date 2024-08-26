@@ -2734,7 +2734,7 @@
     js-yaml "4.1.0"
     nyc "15.1.0"
 
-"@cypress/request@^3.0.0":
+"@cypress/request@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-3.0.1.tgz#72d7d5425236a2413bd3d8bb66d02d9dc3168960"
   integrity sha512-TWivJlJi8ZDx2wGOw1dbLuHJKUYX7bWySw377nlnGOW3hP9/MUKIsEdXT/YngWxVdgNCHRBmFlBipE+5/2ZZlQ==
@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^43.0.0":
-  version "43.0.0"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-43.0.0.tgz#1eff1c9723addacc2b98e5afb7a1aa8bf498935f"
-  integrity sha512-Rpqg30q5nJysbJYth5aWOI0atvmU4qL7PvEOY9p3xQuKnxGdewA/tHJqcachg6l89iNHP3MZdGVnl1JUQSAk8w==
+"@department-of-veterans-affairs/component-library@^45.0.0":
+  version "45.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-45.0.0.tgz#1952e1f302f8acbdf4bad3685d7a7ce9aa4c3869"
+  integrity sha512-P9XBoofRjMDeZu3TVMGAZIcQv9JVKLLlDfGgDTdz7oDy8tsDEr3OIjyHT4B98iyUSNbm0iPxAblAPJGJDNpEkw==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "11.2.4"
+    "@department-of-veterans-affairs/web-components" "13.0.0"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.8.0":
-  version "3.8.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.8.0.tgz#078f11543acb0fa315115ed95d195b4cb2dd801d"
-  integrity sha512-w3g6qF8TiGDeepxHCY+jwq+qeEqJKdb3Rpw0e93hcekNliQliMcf1jVDpmkNysQUIrl163U+corwb1nMcpFaOA==
+"@department-of-veterans-affairs/generator-vets-website@^3.9.2":
+  version "3.9.2"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.2.tgz#c6a094a89f3f5c322db8fdc55a49b89ed554c800"
+  integrity sha512-+n1bZuDcTPGlx4ua9NFtpg314uyvLarmbcnFN0Sssij+STTLkyAInFUsO5YKO1vi7onf9ILCl35aEO4aJylnKg==
   dependencies:
-    chalk "^4.1.0"
+    chalk "^4.1.2"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -2960,10 +2960,10 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@11.2.4":
-  version "11.2.4"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-11.2.4.tgz#158fa086f5b1e1434074da24272857ccdafa11df"
-  integrity sha512-+4kb8NUO1lMjoue/7n0Xj1p5BqTxglUQcW4OlEE1I3D/TC9dziQaLqQlt037b6y4AUg6D6JBVvttWVudQ2jEMg==
+"@department-of-veterans-affairs/web-components@13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-13.0.0.tgz#e2803de492778a1209b34e5315c3d66caab9d85f"
+  integrity sha512-4L1x6fB27H56wcXVUhQj2mApWOfsZ/JX+8bHX35f2FGpDKFEh1EDEEB4VJ64b5uBedskGuWS2yMq8mv/3YFMcw==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
     "@stencil/core" "^2.19.2"
@@ -8075,12 +8075,12 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^13.11.0:
-  version "13.11.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.11.0.tgz#17097366390424cba5db6bf0ee5e97503f036e07"
-  integrity sha512-NXXogbAxVlVje4XHX+Cx5eMFZv4Dho/2rIcdBHg9CNPFUGZdM4cRdgIgM7USmNYsC12XY0bZENEQ+KBk72fl+A==
+cypress@^13.13.2:
+  version "13.13.3"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.13.3.tgz#21ee054bb4e00b3858f2e33b4f8f4e69128470a9"
+  integrity sha512-hUxPrdbJXhUOTzuML+y9Av7CKoYznbD83pt8g3klgpioEha0emfx4WNIuVRx0C76r0xV2MIwAW9WYiXfVJYFQw==
   dependencies:
-    "@cypress/request" "^3.0.0"
+    "@cypress/request" "^3.0.1"
     "@cypress/xvfb" "^1.2.4"
     "@types/sinonjs__fake-timers" "8.1.1"
     "@types/sizzle" "^2.3.2"
@@ -8119,7 +8119,7 @@ cypress@^13.11.0:
     request-progress "^3.0.0"
     semver "^7.5.3"
     supports-color "^8.1.1"
-    tmp "~0.2.1"
+    tmp "~0.2.3"
     untildify "^4.0.0"
     yauzl "^2.10.0"
 
@@ -8191,6 +8191,11 @@ date-fns-tz@^1.1.1:
   version "1.1.1"
   resolved "https://registry.npmjs.org/date-fns-tz/-/date-fns-tz-1.1.1.tgz"
   integrity sha512-5PR604TlyvpiNXtvn+PZCcCazsI8fI1am3/aimNFN8CMqHQ0KRl+6hB46y4mDbB7bk3+caEx3qHhS7Ewac/FIg==
+
+date-fns-tz@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/date-fns-tz/-/date-fns-tz-2.0.1.tgz#0a9b2099031c0d74120b45de9fd23192e48ea495"
+  integrity sha512-fJCG3Pwx8HUoLhkepdsP7Z5RsucUi+ZBOxyM5d0ZZ6c4SdYustq0VMmOu6Wf7bli+yS/Jwp91TOCqn9jMcVrUA==
 
 date-fns@^2.24.0:
   version "2.24.0"
@@ -20359,12 +20364,10 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmp@~0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"
-  integrity sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==
-  dependencies:
-    rimraf "^3.0.0"
+tmp@~0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.3.tgz#eb783cc22bc1e8bebd0671476d46ea4eb32a79ae"
+  integrity sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"
@@ -21258,9 +21261,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e":
-  version "23.0.0"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#5237024f7f17ae023bd9f147339e07f8f4eb603e"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#7bbee674bfeef84f4ebd9d9e75490c09ee18f438":
+  version "24.2.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#7bbee674bfeef84f4ebd9d9e75490c09ee18f438"
   dependencies:
     minimist "^1.2.3"
 

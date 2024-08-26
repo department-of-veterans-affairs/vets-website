@@ -14,10 +14,12 @@ export class ConfirmationPage extends React.Component {
 
   render() {
     const { form } = this.props;
-    const { submission, formId, data } = form;
+    const { submission, data } = form;
     const submitDate = new Date(submission?.timestamp);
 
-    const { fullName } = data;
+    const fullName = Object.values(data?.applicantName || {})
+      .filter(el => el)
+      .join(' ');
 
     return (
       <div>
@@ -27,41 +29,104 @@ export class ConfirmationPage extends React.Component {
             alt="VA logo"
             width="300"
           />
-          <h2>Application for Mock Form</h2>
+          <h2>Application for CHAMPVA benefits</h2>
         </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            10-7959a CHAMPVA Claim Form Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
 
-          {isValid(submitDate) ? (
-            <p>
+        <va-alert status="success">
+          <h2 slot="headline">You’ve submitted your CHAMPVA claim form</h2>
+        </va-alert>
+
+        <div className="inset">
+          <h3 className="vads-u-margin-top--0">Your submission information</h3>
+          {fullName && (
+            <span className="veterans-full-name">
+              <strong>CHAMPVA claim (Form 10-7959a)</strong>
+              <br />
+              For {fullName}
+              <br />
+            </span>
+          )}
+          {isValid(submitDate) && (
+            <p className="date-submitted">
               <strong>Date submitted</strong>
               <br />
               <span>{format(submitDate, 'MMMM d, yyyy')}</span>
             </p>
-          ) : null}
-          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
-          <button
-            type="button"
+          )}
+          <span>
+            You can print this confirmation for page for your records.
+          </span>
+          <br />
+          <br />
+          <va-button
+            uswds
             className="usa-button screen-only"
             onClick={window.print}
-          >
-            Print this for your records
-          </button>
+            text="Print this page"
+          />
         </div>
+
+        <h2>What to expect next</h2>
+        <p>
+          It will take approximately 90 days to process your claim once received
+          by CHAMPVA.
+          <br />
+          <br />
+          We’ll review your documents. If we need more information, we’ll
+          contact you.
+        </p>
+        <h3>If we decide we can cover this claim under CHAMPVA</h3>
+        <p>
+          We’ll send you an explanation of benefits. This document explains the
+          amount we’ll cover and the amount you’ll need to pay.
+        </p>
+        <h3>If we decide we can’t cover this claim under CHAMPVA</h3>
+        <p>
+          If you disagree with our decision, you can ask us to reconsider our
+          decision. We call this an appeal.
+          <br />
+          <br />
+          Mail a letter requesting an appeal to this address:
+        </p>
+        <p className="va-address-block">
+          VHA Office of Integrated Veteran Care
+          <br />
+          ATTN: APPEALS
+          <br />
+          PO Box 460948
+          <br />
+          Denver, CO 80246-0948
+          <br />
+        </p>
+        <h2>How to contact us about CHAMPVA claims</h2>
+        <p>
+          If you have any questions about your form you can call us at at{' '}
+          <va-telephone contact="8007338387" /> (TTY: 711). We’re here Monday
+          through Friday, 8:05 a.m. to 7:30 p.m. ET.
+          <br />
+          <br />
+          Or you can send us a letter with questions about your claim to this
+          address:
+          <br />
+          <p className="va-address-block">
+            VHA Office of Integrated Veteran Care
+            <br />
+            ATTN: CHAMPVA Claims
+            <br />
+            PO Box 460948
+            <br />
+            Denver, CO 80246-0948
+            <br />
+          </p>
+          <p>You can also contact us online through Ask VA.</p>
+          <va-link
+            href="https://ask.va.gov/"
+            text="Contact us online through Ask VA"
+          />
+        </p>
+        <br />
+        <br />
+        <va-link-action href="/" text="Go back to VA.gov" />
       </div>
     );
   }
@@ -70,14 +135,13 @@ export class ConfirmationPage extends React.Component {
 ConfirmationPage.propTypes = {
   form: PropTypes.shape({
     data: PropTypes.shape({
-      fullName: {
+      applicantName: {
         first: PropTypes.string,
         middle: PropTypes.string,
         last: PropTypes.string,
         suffix: PropTypes.string,
       },
     }),
-    formId: PropTypes.string,
     submission: PropTypes.shape({
       timestamp: PropTypes.string,
     }),

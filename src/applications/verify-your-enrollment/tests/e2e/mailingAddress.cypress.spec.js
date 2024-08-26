@@ -4,14 +4,18 @@ describe('Contact information', () => {
   beforeEach(() => {
     cy.login(mockUserWithOutIDME);
     cy.intercept('GET', '/vye/v1', { statusCode: 200 });
-    cy.intercept('GET', '/v0/feature_toggles?*', { statusCode: 200 });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('/education/verify-school-enrollment/mgib-enrollments/', {
-      onBeforeLoad: win => {
-        /* eslint no-param-reassign: "error" */
-        win.isProduction = true;
+    cy.intercept('GET', '/v0/feature_toggles?*', {
+      data: {
+        type: 'feature_toggles',
+        features: [
+          { name: 'toggle_vye_application', value: true },
+          { name: 'toggle_vye_address_direct_deposit_forms', value: true },
+          { name: 'mgib_verifications_maintenance', value: false },
+        ],
       },
     });
+    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('/education/verify-school-enrollment/mgib-enrollments/');
   });
   const fillForm = () => {
     cy.get(
@@ -118,7 +122,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .last()
       .click({ force: true });
     cy.get('[class="usa-checkbox__label"]').should(
@@ -136,7 +140,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click();
     cy.get(

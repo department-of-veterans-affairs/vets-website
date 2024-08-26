@@ -1,7 +1,8 @@
 import { cloneDeep } from 'lodash';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
-  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
@@ -17,6 +18,7 @@ import {
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -25,6 +27,9 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
+import PaymentSelectionUI from '../components/PaymentSelection';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { UploadDocuments } from '../components/UploadDocuments';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -41,16 +46,22 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your health care benefits application (10-7959F-2) is in progress.',
-    //   expired: 'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
-    //   saved: 'Your health care benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-7959F-2) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',
     noAuth:
@@ -102,7 +113,7 @@ const formConfig = {
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
         },
@@ -215,6 +226,72 @@ const formConfig = {
               titleSchema,
               veteranPhoneNumber: internationalPhoneSchema,
               veteranEmailAddress: emailSchema,
+            },
+          },
+        },
+      },
+    },
+    paymentSelection: {
+      title: 'Payment Selection',
+      pages: {
+        page6: {
+          path: 'payment-selection',
+          title: 'Payment Selection',
+          uiSchema: {
+            ...titleUI('Where to send the payment'),
+            sendPayment: PaymentSelectionUI(),
+          },
+          schema: {
+            type: 'object',
+            required: ['sendPayment'],
+            properties: {
+              titleSchema,
+              sendPayment: yesNoSchema,
+            },
+          },
+        },
+      },
+    },
+    fileUpload: {
+      title: 'Upload files',
+      pages: {
+        page7: {
+          path: 'upload-supporting-documents',
+          title: 'Upload files',
+          uiSchema: {
+            ...titleUI({
+              title: 'Upload billing statements and supporting documents',
+              headerLevel: 2,
+            }),
+            'view:UploadDocuments': {
+              'ui:description': UploadDocuments,
+            },
+            uploadSection: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: true,
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['uploadSection'],
+            properties: {
+              titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
+              uploadSection: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
             },
           },
         },

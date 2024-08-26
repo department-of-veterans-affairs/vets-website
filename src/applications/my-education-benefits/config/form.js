@@ -266,18 +266,45 @@ function phoneSchema() {
   };
 }
 
-function additionalConsiderationsQuestionTitleText(benefitSelection, order) {
+function additionalConsiderationsQuestionTitleText(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const isUnsure = !benefitSelection || benefitSelection === 'NotEligible';
-  const pageNumber = isUnsure ? order - 1 : order;
-  const totalPages = isUnsure ? 3 : 4;
+  let pageNumber;
+  let totalPages;
+
+  if (rudisillFlag) {
+    const pageOrder = {
+      'active-duty-kicker': 1,
+      'reserve-kicker': 2,
+      'academy-commission': 3,
+      'rotc-commission': 4,
+      'loan-payment': 5,
+    };
+    pageNumber = pageOrder[pageName] || order;
+    totalPages = 5;
+  } else {
+    pageNumber = isUnsure ? order - 1 : order;
+    totalPages = isUnsure ? 3 : 4;
+  }
 
   return `Question ${pageNumber} of ${totalPages}`;
 }
 
-function additionalConsiderationsQuestionTitle(benefitSelection, order) {
+function additionalConsiderationsQuestionTitle(
+  benefitSelection,
+  order,
+  rudisillFlag,
+  pageName,
+) {
   const titleText = additionalConsiderationsQuestionTitleText(
     benefitSelection,
     order,
+    rudisillFlag,
+    pageName,
   );
 
   return (
@@ -290,7 +317,7 @@ function additionalConsiderationsQuestionTitle(benefitSelection, order) {
       </h4>
       <p className="meb-review-page-only">
         If you’d like to update your answer to {titleText}, edit your answer to
-        to the question below.
+        the question below.
       </p>
     </>
   );
@@ -304,7 +331,6 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     [formFields.seniorRotcCommission]: 'ROTC',
     [formFields.loanPayment]: 'LRP',
   };
-  // Use the mapping to determine the display type
   const displayType = displayTypeMapping[formField] || '';
   let additionalInfoView;
 
@@ -330,9 +356,11 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
       },
     };
   }
+
   return {
     path: page.name,
     title: data => {
+      const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
       return additionalConsiderationsQuestionTitleText(
         (data[(formFields?.viewBenefitSelection)] &&
           data[(formFields?.viewBenefitSelection)][
@@ -340,15 +368,21 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
           ]) ||
           'NotEligible',
         page.order,
+        rudisillFlag,
+        page.name,
       );
     },
     uiSchema: {
       'ui:description': data => {
+        const rudisillFlag =
+          data.formData?.dgiRudisillHideBenefitsSelectionStep;
         return additionalConsiderationsQuestionTitle(
           data.formData[formFields.viewBenefitSelection][
             formFields.benefitRelinquished
           ],
           page.order,
+          rudisillFlag,
+          page.name,
         );
       },
       [formFields[formField]]: {
@@ -417,6 +451,8 @@ const formConfig = {
   submitUrl: `${environment.API_URL}/meb_api/v0/submit_claim`,
   transformForSubmit: transform,
   trackingPrefix: 'my-education-benefits-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EZ,
@@ -745,8 +781,11 @@ const formConfig = {
               },
               'ui:validations': [
                 (errors, field) => {
-                  if (field.email !== field.confirmEmail) {
-                    errors.confirmEmail.addError(
+                  if (
+                    field?.email?.toLowerCase() !==
+                    field?.confirmEmail?.toLowerCase()
+                  ) {
+                    errors.confirmEmail?.addError(
                       'Sorry, your emails must match',
                     );
                   }
@@ -1250,15 +1289,15 @@ const formConfig = {
                   ]?.receiveTextMessages
                     ?.slice(0, 4)
                     ?.includes('Yes');
-                  const noDuplicates = formData?.duplicatePhone?.some(
-                    entry => entry?.dupe === false,
+                  const duplicatesDetected = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === true,
                   );
                   const mobilePhone =
                     formData[(formFields?.viewPhoneNumbers)]?.[
                       formFields?.mobilePhoneNumber
                     ]?.phone;
-                  // Return true if isYes is false, noDuplicates is not false, or mobilePhone is undefined
-                  return !isYes || !noDuplicates || !mobilePhone;
+
+                  return !isYes || !duplicatesDetected || !mobilePhone;
                 },
               },
             },
@@ -1608,6 +1647,7 @@ const formConfig = {
               'ui:description': (
                 <div>
                   <br />
+                  <br />
                   <ul>
                     <li>
                       You can select a date up to one year in the past. We may
@@ -1691,6 +1731,7 @@ const formConfig = {
             formFields.activeDutyKicker,
           ),
           depends: formData =>
+            formData.dgiRudisillHideBenefitsSelectionStep ||
             formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter30',
@@ -1701,6 +1742,7 @@ const formConfig = {
             formFields.selectedReserveKicker,
           ),
           depends: formData =>
+            formData.dgiRudisillHideBenefitsSelectionStep ||
             formData?.[formFields.viewBenefitSelection]?.[
               formFields.benefitRelinquished
             ] === 'Chapter1606',
@@ -1712,7 +1754,6 @@ const formConfig = {
             { includeExclusionWidget: true },
           ),
         },
-
         [formPages.additionalConsiderations.seniorRotc.name]: {
           ...AdditionalConsiderationTemplate(
             formPages.additionalConsiderations.seniorRotc,
@@ -1730,7 +1771,7 @@ const formConfig = {
       },
     },
     bankAccountInfoChapter: {
-      title: 'Direct Deposit',
+      title: 'Direct deposit',
       pages: {
         standardDirectDeposit: {
           path: 'direct-deposit',
@@ -1740,7 +1781,7 @@ const formConfig = {
             'ui:description': customDirectDepositDescription,
             bankAccount: {
               ...bankAccountUI,
-              'ui:order': ['accountType', 'accountNumber', 'routingNumber'],
+              'ui:order': ['accountType', 'routingNumber', 'accountNumber'],
               accountNumber: {
                 'ui:title': 'Bank account number',
                 'ui:validations': [validateAccountNumber],
@@ -1780,7 +1821,7 @@ const formConfig = {
             properties: {
               bankAccount: {
                 type: 'object',
-                required: ['accountType', 'accountNumber', 'routingNumber'],
+                required: ['accountType', 'routingNumber', 'accountNumber'],
                 properties: {
                   accountType: {
                     type: 'string',

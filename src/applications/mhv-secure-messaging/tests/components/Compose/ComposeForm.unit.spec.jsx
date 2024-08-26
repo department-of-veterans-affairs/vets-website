@@ -18,7 +18,12 @@ import allBlockedAssociations from '../../fixtures/json-triage-mocks/triage-team
 import reducer from '../../../reducers';
 import signatureReducers from '../../fixtures/signature-reducers.json';
 import ComposeForm from '../../../components/ComposeForm/ComposeForm';
-import { Paths, Prompts } from '../../../util/constants';
+import {
+  Paths,
+  Prompts,
+  ElectronicSignatureBox,
+  ErrorMessages,
+} from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
 import * as draftActions from '../../../actions/draftDetails';
@@ -151,8 +156,8 @@ describe('Compose form component', () => {
   it('displays compose action buttons if path is /new-message', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = await screen.getByTestId('Send-Button');
-    const saveDraftButton = await screen.getByTestId('Save-Draft-Button');
+    const sendButton = await screen.getByTestId('send-button');
+    const saveDraftButton = await screen.getByTestId('save-draft-button');
 
     expect(sendButton).to.exist;
     expect(saveDraftButton).to.exist;
@@ -161,7 +166,7 @@ describe('Compose form component', () => {
   it('displays error states on empty fields when send button is clicked', async () => {
     const screen = setup(initialState, Paths.COMPOSE);
 
-    const sendButton = screen.getByTestId('Send-Button');
+    const sendButton = screen.getByTestId('send-button');
 
     fireEvent.click(sendButton);
 
@@ -234,9 +239,36 @@ describe('Compose form component', () => {
       recipients: customState.sm.recipients,
     });
 
-    fireEvent.click(screen.getByTestId('Send-Button'));
     await waitFor(() => {
+      fireEvent.click(screen.getByTestId('send-button'));
       expect(sendMessageSpy.calledOnce).to.be.true;
+    });
+  });
+
+  it('renders sending message spinner without errors', async () => {
+    const customDraftMessage = {
+      ...draftMessage,
+      recipientId: 1013155,
+      recipientName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+      triageGroupName: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+    };
+
+    const customState = {
+      ...draftState,
+      sm: {
+        ...draftState.sm,
+        draftDetails: { customDraftMessage },
+      },
+    };
+
+    const screen = setup(customState, `/thread/${customDraftMessage.id}`, {
+      draft: customDraftMessage,
+      recipients: customState.sm.recipients,
+    });
+    expect(screen.queryByTestId('sending-indicator')).to.equal(null);
+    fireEvent.click(screen.getByTestId('send-button'));
+    await waitFor(() => {
+      expect(screen.getByTestId('sending-indicator')).to.exist;
     });
   });
 
@@ -245,12 +277,14 @@ describe('Compose form component', () => {
     const screen = setup(draftState, `/thread/${draftMessage.id}`, {
       draft: draftMessage,
       recipients: draftState.sm.recipients,
+      isSignatureRequired: false,
+      messageValid: true,
     });
 
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
+      fireEvent.click(screen.getByTestId('save-draft-button'));
+      expect(saveDraftSpy.calledOnce).to.be.true;
     });
-    expect(saveDraftSpy.calledOnce).to.be.true;
   });
 
   it('displays user signature on /new-message when signature is enabled', async () => {
@@ -326,7 +360,10 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE);
+    const screen = setup(initialState, Paths.COMPOSE, {
+      isSignatureRequired: false,
+      messageValid: false,
+    });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -338,20 +375,18 @@ describe('Compose form component', () => {
     expect(uploader.files[0].name).to.equal('test.png');
     let modal = null;
 
+    fireEvent.click(screen.getByTestId('save-draft-button'));
     await waitFor(() => {
-      fireEvent.click(screen.getByTestId('Save-Draft-Button'));
-      modal = screen.getByTestId('quit-compose-double-dare');
+      modal = screen.queryByTestId('quit-compose-double-dare');
+      expect(modal).to.exist;
     });
 
-    expect(modal).to.exist;
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
     );
 
-    fireEvent.click(
-      document.querySelector('va-button[text="Continue editing"]'),
-    );
+    fireEvent.click(document.querySelector('va-button[text="Keep editing"]'));
   });
 
   it('renders without errors to category selection', async () => {
@@ -729,7 +764,7 @@ describe('Compose form component', () => {
         );
       }
     });
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
   it('displays BlockedTriageGroupAlert if blocked from one facility', async () => {
@@ -853,10 +888,10 @@ describe('Compose form component', () => {
       'trigger',
       "You can't send messages to your care teams right now",
     );
-    expect(screen.queryByTestId('Send-Button')).to.not.exist;
+    expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays an alert and Digital Signature component if signature is required', async () => {
+  it('displays alerts in Electronic Signature component if signature and checkbox is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm recipients={initialState.sm.recipients} />,
       {
@@ -869,10 +904,13 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, val);
 
-    const digitalSignature = await screen.findByText('Digital signature', {
-      selector: 'h2',
-    });
-    expect(digitalSignature).to.exist;
+    const electronicSignature = await screen.findByText(
+      ElectronicSignatureBox.TITLE,
+      {
+        selector: 'h2',
+      },
+    );
+    expect(electronicSignature).to.exist;
     const alert = screen.getByTestId('signature-alert');
     expect(alert).to.have.attribute('visible', 'true');
     expect(alert.textContent).to.contain(Prompts.Compose.SIGNATURE_REQUIRED);
@@ -891,5 +929,17 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+
+    const checkboxSelector = `va-checkbox[label='${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }']`;
+    const checkbox = screen.container.querySelector(checkboxSelector);
+    const sendButton = screen.getByTestId('save-draft-button');
+
+    fireEvent.click(sendButton);
+    expect(checkbox).to.have.attribute(
+      'error',
+      `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+    );
   });
 });

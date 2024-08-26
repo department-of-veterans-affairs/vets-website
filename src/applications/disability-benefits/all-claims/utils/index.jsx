@@ -754,7 +754,9 @@ export const formTitle = title => (
  * @returns {string} markup with h4 tag and consistent styling
  */
 export const formSubtitle = subtitle => (
-  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2 vads-u-color--gray-dark">
+    {subtitle}
+  </h4>
 );
 
 /**

@@ -119,5 +119,15 @@ export const isProductionEnv = () => {
   );
 };
 
-export const showDependentsMultiplePage = () =>
-  window.sessionStorage.getItem('showDependentsMultiplePage') === 'true';
+export const showMultiplePageResponse = () =>
+  window.sessionStorage.getItem('showMultiplePageResponse') === 'true';
+
+export const showIncomeAndAssetsClarification = () =>
+  window.sessionStorage.getItem('showIncomeAndAssetsClarification') === 'true';
+
+// TODO: Remove when pensions_medical_evidence_clarification flipper is removed
+export const showMedicalEvidenceClarification = () =>
+  window.sessionStorage.getItem('showPensionEvidenceClarification') === 'true';
+
+export const showUploadDocuments = () =>
+  window.sessionStorage.getItem('showUploadDocuments') === 'true';

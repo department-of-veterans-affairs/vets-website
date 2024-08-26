@@ -35,6 +35,7 @@
  * @property {string} [formId]
  * @property {(props: any) => JSX.Element} [formSavedPage]
  * @property {() => JSX.Element} [getHelp]
+ * @property {boolean} [hideFormTitle] Hide form titles on all pages. Pairs well with minimal header. Use hideFormTitle on individual pages to override setting on certain pages.
  * @property {boolean} [hideNavButtons]
  * @property {boolean} [hideUnauthedStartLink]
  * @property {React.ReactNode | (props: any) => any} [introduction]
@@ -47,6 +48,7 @@
  * @property {string} [rootUrl]
  * @property {SavedFormMessages} [savedFormMessages]
  * @property {SaveInProgress} [saveInProgress]
+ * @property {string | Function} [scrollAndFocusTarget] Applies when useCustomScrollAndFocus is true. Default scroll and focus for the form. will be overridden by individual page scrollAndFocusTarget
  * @property {boolean} [showReviewErrors]
  * @property {boolean} [showSaveLinkAfterButtons] by default, when logged in, a save link is present before the back/continue buttons, but setting this to true will make it show up below it.
  * @property {(props: any) => JSX.Element} [submissionError]
@@ -171,28 +173,35 @@
  */
 
 /**
- * @typedef {({
- *   name,
- *   title,
- *   data,
- *   pagePerItemIndex,
- *   onReviewPage,
- *   trackingPrefix,
- *   uploadFile,
- *   schema,
- *   uiSchema,
- *   goBack,
- *   goForward,
- *   goToPath,
- *   onContinue,
- *   onChange,
- *   onSubmit,
- *   setFormData,
- *   contentBeforeButtons,
- *   contentAfterButtons,
- *   appStateData,
- *   formContext,
- * }) => React.ReactNode} CustomPageType
+ * @typedef {Object} CustomPageProps
+ * @property {string} name route.pageConfig.pageKey
+ * @property {string} title route.pageConfig.title
+ * @property {Object} data
+ * @property {number} pagePerItemIndex
+ * @property {boolean} onReviewPage
+ * @property {string} trackingPrefix
+ * @property {Function} uploadFile
+ * @property {Object} schema
+ * @property {Object} uiSchema
+ * @property {() => void} goBack
+ * @property {({ formData }) => void} goForward
+ * @property {(customPath: string, options?: { force: boolean }) => void} goToPath
+ * @property {() => void} onContinue
+ * @property {(formData) => void} onChange
+ * @property {({ formData }) => void} onSubmit
+ * @property {(pageName: string, index?: number) => boolean} recalculateErrors Only available
+ * on review page. Recalculates errors for the page including the red chapter level styling.
+ * Pass the prop.name to the pageName param. If the page is an array, pass the index as the second param.
+ * @property {Function} setFormData
+ * @property {React.ReactNode} contentBeforeButtons
+ * @property {React.ReactNode} contentAfterButtons
+ * @property {Object} appStateData
+ * @property {Object} formContext
+ * @property {Object} NavButtons Standard buttons at the bottom of the form e.g. back/continue
+ */
+
+/**
+ * @typedef {(props: CustomPageProps) => React.ReactNode} CustomPageType
  */
 
 /**
@@ -205,6 +214,11 @@
 /**
  * Autocomplete values
  * @typedef {'on' | 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name' | 'honorific-suffix' | 'nickname' | 'email' | 'username' | 'current-password' | 'organization-title' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3' | 'address-level4' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name' | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp' | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language' | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'tel' | 'tel-country-code' | 'tel-national' | 'tel-area-code' | 'tel-local' | 'tel-extension' | 'impp' | 'url' | 'photo' | OrAnyString} AutocompleteValue
+ */
+
+/**
+ * Icon - any value from https://design.va.gov/storybook/?path=/docs/uswds-va-icon--docs
+ * @typedef {'credit_card' | 'comment' | 'attach_money' | OrAnyString} Icon
  */
 
 /**
@@ -262,6 +276,7 @@
  * @property {string} [classNames] additional CSS classes to add to the field
  * @property {boolean} [confirmRemove] For arrays. If true, will show a confirmation modal when removing an item.
  * @property {string} [confirmRemoveDescription] For arrays. Description for the confirmation modal when removing an item.
+ * @property {boolean} [currency] For textUI / vaTextInputField. If true, will show a currency symbol in the input field.
  * @property {string} [customTitle] For the review page, for arrays and some widgets. This doesn't appear to change any text, but is just used for a hack to prevent an outer DL wrapper. Often set to `' '`, and used with `useDlWrap: true` to get a11y issues to pass. Will format field title and body vertically instead of horizontally. `useDlWrap` will format text horizontally.
  * @property {number} [debounceRate] Used for AutoSuggest widget
  * @property {boolean} [displayEmptyObjectOnReview] For objects with empty properties object. This will display ui:title and ui:description on the review page.
@@ -292,8 +307,13 @@
  * @property {boolean} [keepInPageOnReview] Used to keep a field on the review page. Often used with arrays or expandUnder fields. When used with arrays, removes the default editor box on the review page and shows view-only data with an edit button instead.
  * @property {Record<string, string>} [labels] Used to specify radio button or yes/no labels
  * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevel] The header level for the label. For web components such as radio buttons or checkboxes.
+ * @property {'' | '1' | '2' | '3' | '4' | '5'} [labelHeaderLevelStyle] The header style level for the label. For web components such as radio buttons or checkboxes.
  * @property {string} [messageAriaDescribedby] For web components. An optional message that will be read by screen readers when the input is focused.
  * @property {boolean} [monthSelect] For VaMemorableDate web component. If true, will use a select dropdown for the month instead of an input.
+ * @property {string} [inputPrefix] For textUI / VaTextInputField. Displays a fixed prefix string at the start of the input field.
+ * @property {Icon} [inputIconPrefix] For textUI / VaTextInputField. This property displays a prefix that accepts a string which represents icon name.
+ * @property {string} [inputSuffix] For textUI / VaTextInputField. Displays a fixed suffix string at the start of the input field.
+ * @property {Icon} [inputIconSuffix] For textUI / VaTextInputField. This property displays a suffix that accepts a string which represents icon name.
  * @property {(formData: any, schema: SchemaOptions, uiSchema: UISchemaOptions, index, path: string[]) => SchemaOptions} [replaceSchema] Replace the entire `schema` based on `formData`. Must provide the entire `schema` in the return. Recalculates on every form data change.
  *
  * Also accepts `title` one-off property to update `'ui:title'` as long as `'ui:title'` it is not defined. (can be useful if you are working inside of an array where `updateUiSchema` is not supported).
@@ -404,6 +424,8 @@
  *   deleteYes?: (props: ArrayBuilderTextProps) => string,
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
+ *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText
  */

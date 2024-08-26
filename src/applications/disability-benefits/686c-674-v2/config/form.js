@@ -35,10 +35,15 @@ import {
   childAdditionalInformation,
   childAdditionalEvidence,
 } from './chapters/add-a-child';
-import { wizard } from './chapters/taskWizard';
+import {
+  addDependentOptions,
+  removeDependentOptions,
+  addOrRemoveDependents,
+} from './chapters/taskWizard';
 import {
   veteranInformation,
   veteranAddress,
+  veteranContactInformation,
 } from './chapters/veteran-information';
 import {
   stepchildren,
@@ -56,11 +61,12 @@ import {
 import { householdIncome } from './chapters/household-income';
 
 import manifest from '../manifest.json';
+import prefillTransformer from './prefill-transformer';
 
 const emptyMigration = savedData => savedData;
 const migrations = [emptyMigration];
 
-const formConfig = {
+export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // NOTE: e2e tests will fail until the dependents_applications endpoint gets merged in to vets-api.
@@ -81,12 +87,15 @@ const formConfig = {
       saved: 'Your dependent status application has been saved.',
     },
   },
-  version: 1,
+  version: migrations.length,
   migrations,
   prefillEnabled: true,
+  prefillTransformer,
+  verifyRequiredPrefill: true,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   downtime: {
+    requiredForPrefill: true,
     dependencies: [
       externalServices.bgs,
       externalServices.global,
@@ -96,23 +105,40 @@ const formConfig = {
     ],
   },
   savedFormMessages: {
-    notFound: 'Start over to apply for declare or remove a dependent.',
+    notFound:
+      'Start your application to add or remove a dependent on your VA benefits.',
     noAuth:
-      'Sign in again to continue your application for declare or remove a dependent.',
+      'Sign in again to continue your application to add or remove a dependent on your VA benefits.',
   },
-  title: 'Add or remove a dependent on your VA disability benefits',
-  subTitle: 'VA Form 21-686c (with 21P-527EZ and 21-674)',
+  title: 'Add or remove a dependent on VA benefits',
+  subTitle: 'VA Forms 21-686c and 21-674',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     optionSelection: {
-      title: 'What do you want to do',
+      title: 'What would you like to do?',
       pages: {
-        wizard: {
+        addOrRemoveDependents: {
           hideHeaderRow: true,
-          title: 'What do you want to do?',
-          path: '686-options-selection',
-          uiSchema: wizard.uiSchema,
-          schema: wizard.schema,
+          title: 'What do you like to do?',
+          path: 'options-selection',
+          uiSchema: addOrRemoveDependents.uiSchema,
+          schema: addOrRemoveDependents.schema,
+        },
+        addDependentOptions: {
+          hideHeaderRow: true,
+          title: 'What do you like to do?',
+          path: 'options-selection/add-dependents',
+          uiSchema: addDependentOptions.uiSchema,
+          schema: addDependentOptions.schema,
+          depends: form => form?.['view:addOrRemoveDependents']?.add,
+        },
+        removeDependentOptions: {
+          hideHeaderRow: true,
+          title: 'What do you like to do?',
+          path: 'options-selection/remove-dependents',
+          uiSchema: removeDependentOptions.uiSchema,
+          schema: removeDependentOptions.schema,
+          depends: form => form?.['view:addOrRemoveDependents']?.remove,
         },
       },
     },
@@ -122,16 +148,22 @@ const formConfig = {
       pages: {
         veteranInformation: {
           path: 'veteran-information',
-          title: 'Veteran Information',
+          title: 'Veteran information',
           uiSchema: veteranInformation.uiSchema,
           schema: veteranInformation.schema,
         },
         veteranAddress: {
           path: 'veteran-address',
-          title: 'Veteran Address',
+          title: 'Veteran address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-          updateFormData: veteranAddress.updateFormData,
+          // updateFormData: veteranAddress.updateFormData,
+        },
+        veteranContactInformation: {
+          path: 'veteran-contact-information',
+          title: 'Veteran contact information',
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },

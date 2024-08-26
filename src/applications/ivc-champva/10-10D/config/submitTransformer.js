@@ -1,4 +1,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
+import {
+  adjustYearString,
+  concatStreets,
+  getAgeInYears,
+} from '../../shared/utilities';
 
 // Rearranges date string from YYYY-MM-DD to MM-DD-YYYY
 function fmtDate(date) {
@@ -29,57 +35,37 @@ function transformRelationship(obj) {
   return rel;
 }
 
+// For each applicant, adjust organization of the object, add supporting documents array
 function transformApplicants(applicants) {
   const applicantsPostTransform = [];
-
   applicants.forEach(app => {
-    const transformedApp = {
-      fullName: app.applicantName ?? '',
+    let transformedApp = {
+      ...app,
       ssnOrTin: app.applicantSSN ?? '',
-      dateOfBirth: fmtDate(app.applicantDOB) ?? '',
-      phoneNumber: app.applicantPhone ?? '',
-      email: app.applicantEmailAddress ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
-      sponsorMarriageDetails:
-        app?.applicantSponsorMarriageDetails?.relationshipToVeteran || 'NA',
-      isEnrolledInMedicare:
-        app?.applicantMedicareStatus?.eligibility === 'enrolled',
-      hasOtherHealthInsurance: app?.applicantHasOhi?.hasOhi === 'yes',
-      applicantSupportingDocuments: [
-        app?.applicantMedicareCardFront,
-        app?.applicantMedicareCardBack,
-        app?.applicantOHICardFront,
-        app?.applicantOHICardBack,
-        app?.applicantBirthCertOrSocialSecCard,
-        app?.applicantSchoolCert,
-        app?.applicantAdoptionPapers,
-        app?.applicantStepMarriageCert,
-        app?.applicantMarriageCert,
-        app?.applicantSecondMarriageCert,
-        app?.applicantSecondMarriageDivorceCert,
-        app?.applicantMedicarePartAPartBCard,
-        app?.applicantMedicarePartDCard,
-        app?.applicantMedicareIneligibleProof,
-        app?.applicantOhiCard,
-        app?.applicantOtherInsuranceCertification,
-        app?.applicantHelplessCert,
-      ],
-      address: app.applicantAddress ?? {},
-      gender: app.applicantGender?.gender ?? '',
+      // Grab any file upload properties from this applicant and combine into a
+      // supporting documents array:
+      applicantSupportingDocuments: Object.keys({
+        ...REQUIRED_FILES,
+        ...OPTIONAL_FILES,
+      })
+        .filter(k => k.includes('applicant')) // Ignore sponsor files
+        .map(f => app?.[f]) // Grab the upload obj from top-level in applicant
+        .filter(el => el), // Drop any undefineds/nulls
     };
-
-    // eslint-disable-next-line dot-notation
-    transformedApp.address['postal_code'] = transformedApp.address.postalCode;
-    delete transformedApp.address.postalCode;
-
+    transformedApp = adjustYearString(transformedApp);
+    transformedApp.applicantAddress.streetCombined = concatStreets(
+      transformedApp.applicantAddress,
+    );
     applicantsPostTransform.push(transformedApp);
   });
-
   return applicantsPostTransform;
 }
 
+// Since the certifier data may be the sponsor's or a third party, this maps
+// the sponsor's info into the certifier property names for simplicity on BE
 function parseCertifier(transformedData) {
   return {
     date: new Date().toJSON().slice(0, 10),
@@ -87,42 +73,45 @@ function parseCertifier(transformedData) {
     lastName: transformedData.veteransFullName.last || '',
     middleInitial: transformedData?.veteransFullName?.middle || '',
     phoneNumber: transformedData?.sponsorPhone || '',
-    relationship: '',
-    streetAddress: transformedData?.sponsorAddress?.street || '',
+    relationship: 'sponsor',
+    streetAddress: transformedData?.sponsorAddress?.streetCombined || '',
     city: transformedData?.sponsorAddress?.city || '',
     state: transformedData?.sponsorAddress?.state || '',
     postalCode: transformedData?.sponsorAddress?.postalCode || '',
   };
 }
 
+// Set up the `primaryContactInfo` for the backend notification API service.
 function getPrimaryContact(data) {
-  // If a certification name is present, we know the form was filled by
-  // a third party or the sponsor, and that they should be primary contact.
+  // If a certification name is present, third party signer is the certifier
   const useCert =
     data?.certification?.firstName && data?.certification?.firstName !== '';
 
-  // Depending on the result of useCert, grab the first and last name, phone,
-  // and email from either the `certification` object or the first applicant,
-  // then return so we can set up the `primaryContactInfo` for the backend
-  // notification API service.
+  // Either the first applicant with an email address, or the first applicant
+  const primaryApp =
+    data?.applicants?.filter(
+      app => app.applicantEmailAddress && app.applicantEmailAddress.length > 0,
+    )[0] ?? data?.applicants?.[0];
+
   return {
     name: {
       first:
         (useCert
           ? data?.certification?.firstName
-          : data?.applicants?.[0]?.fullName?.first) ?? false,
+          : primaryApp?.applicantName?.first) ?? false,
       last:
         (useCert
           ? data?.certification?.lastName
-          : data?.applicants?.[0]?.fullName?.last) ?? false,
+          : primaryApp?.applicantName?.last) ?? false,
     },
     email:
-      (useCert ? data?.certification?.email : data?.applicants?.[0]?.email) ??
-      false,
+      (useCert
+        ? data?.certification?.email
+        : primaryApp?.applicantEmailAddress) ?? false,
     phone:
       (useCert
         ? data?.certification?.phoneNumber
-        : data?.applicants?.[0]?.phoneNumber) ?? false,
+        : primaryApp?.applicantPhone) ?? false,
   };
 }
 
@@ -131,23 +120,26 @@ export default function transformForSubmit(formConfig, form) {
     formsSystemTransformForSubmit(formConfig, form),
   );
 
+  if (transformedData.sponsorAddress)
+    transformedData.sponsorAddress.streetCombined = concatStreets(
+      transformedData.sponsorAddress,
+    );
+
+  if (transformedData.certifierAddress)
+    transformedData.certifierAddress.streetCombined = concatStreets(
+      transformedData.certifierAddress,
+    );
+
   const dataPostTransform = {
     veteran: {
       fullName: transformedData?.veteransFullName || {},
       ssnOrTin: transformedData?.ssn || '',
       dateOfBirth: fmtDate(transformedData?.sponsorDOB) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
-      address: transformedData?.sponsorAddress || {
-        street: 'NA',
-        city: 'NA',
-        state: 'NA',
-        postalCode: 'NA',
-        country: 'NA',
-      },
+      address: transformedData?.sponsorAddress || {},
       sponsorIsDeceased: transformedData?.sponsorIsDeceased,
       dateOfDeath: fmtDate(transformedData?.sponsorDOD) || '',
       // Find the first applicant with a date of marriage to sponsor
-      // (there should only be one) and return that date
       dateOfMarriage:
         fmtDate(
           transformedData?.applicants?.find(
@@ -168,7 +160,7 @@ export default function transformForSubmit(formConfig, form) {
       relationship: transformRelationship(
         transformedData?.certifierRelationship,
       ),
-      streetAddress: transformedData?.certifierAddress?.street || '',
+      streetAddress: transformedData?.certifierAddress?.streetCombined || '',
       city: transformedData?.certifierAddress?.city || '',
       state: transformedData?.certifierAddress?.state || '',
       postalCode: transformedData?.certifierAddress?.postalCode || '',
@@ -189,38 +181,30 @@ export default function transformForSubmit(formConfig, form) {
       app.applicantSupportingDocuments.forEach(doc => {
         if (doc !== undefined && doc !== null) {
           // doc is an array of files for a given input (e.g., insurance cards).
-
           // For clarity's sake, add applicant's name onto each file object:
           const files = doc.map(file => ({
             ...file,
-            applicantName: app.fullName,
+            applicantName: app.applicantName,
           }));
-
           supDocs.push(...files);
         }
       });
     }
   });
 
+  // Set a top-level boolean indicating if any applicants are over 65
+  dataPostTransform.hasApplicantOver65 = dataPostTransform.applicants.some(
+    app => getAgeInYears(app.applicantDob) >= 65,
+  );
+
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
-    .concat(supDocs)
-    .filter(el => el); // remove undefineds
-
-  // eslint-disable-next-line dot-notation
-  dataPostTransform.veteran.address['postal_code'] =
-    dataPostTransform.veteran.address.postalCode || '';
-  delete dataPostTransform.veteran.address.postalCode;
-
+    .concat(supDocs);
   dataPostTransform.certifierRole = transformedData.certifierRole;
   dataPostTransform.statementOfTruthSignature =
     transformedData.statementOfTruthSignature;
-
-  // For our backend callback API, we need to designate which contact info
-  // should be used if there is a notification event pertaining to this specific
-  // form submission. We do this by adding the `primaryContactInfo` key:
+  // `primaryContactInfo` is who BE callback API emails if there's a notification event
   dataPostTransform.primaryContactInfo = getPrimaryContact(dataPostTransform);
-
   return JSON.stringify({
     ...dataPostTransform,
     formNumber: formConfig.formId,

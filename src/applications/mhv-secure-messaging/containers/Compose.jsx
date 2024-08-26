@@ -13,10 +13,10 @@ import { getPatientSignature } from '../actions/preferences';
 
 const Compose = () => {
   const dispatch = useDispatch();
-  const { recipients } = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
   const { drafts, saveError } = useSelector(state => state.sm.threadDetails);
   const signature = useSelector(state => state.sm.preferences.signature);
-  const draftMessage = drafts?.length && drafts[0];
+  const draftMessage = drafts?.[0] ?? null;
   const { draftId } = useParams();
 
   const [acknowledged, setAcknowledged] = useState(false);
@@ -86,10 +86,9 @@ const Compose = () => {
     if (!isDraftPage && recipients) {
       return (
         <>
-          <h1 className="page-title vads-u-margin-top--0" ref={header}>
-            {pageTitle}
-          </h1>
           <ComposeForm
+            pageTitle={pageTitle}
+            headerRef={header}
             draft={draftMessage}
             recipients={!recipients.error && recipients}
             signature={signature}

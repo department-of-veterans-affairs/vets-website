@@ -1,12 +1,14 @@
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAccordion,
+  VaAccordionItem,
+  VaAlert,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getViewedPages } from '@department-of-veterans-affairs/platform-forms-system/selectors';
 import React, { useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
 import Scroll from 'react-scroll';
 
 import {
-  createPageListByChapter,
-  getActiveChapters,
   getActiveExpandedPages,
   getPageKeys,
 } from '@department-of-veterans-affairs/platform-forms-system/helpers';
@@ -24,7 +26,11 @@ import {
 } from '../actions';
 import ReviewCollapsibleChapter from '../components/ReviewCollapsibleChapter';
 import formConfig from '../config/form';
-import { getPageKeysForReview } from '../utils/reviewPageHelper';
+import {
+  createPageListByChapterAskVa,
+  getChapterFormConfigAskVa,
+  getPageKeysForReview,
+} from '../utils/reviewPageHelper';
 
 const { scroller } = Scroll;
 
@@ -68,6 +74,11 @@ const ReviewPage = props => {
       props.onSetData();
     }
   };
+
+  const handleSubmit = () => {
+    props.goForward('/confirmation');
+  };
+
   return (
     <article>
       <div name="topScrollElement" />
@@ -82,9 +93,9 @@ const ReviewPage = props => {
             uswds
             visible
           >
-            <h2 id="track-your-status-on-mobile" slot="headline">
+            <h3 id="track-your-status-on-mobile" slot="headline">
               Editing answers
-            </h2>
+            </h3>
             <div>
               <p className="vads-u-margin-y--0">
                 You are only able to edit some answers on this page. You may
@@ -95,51 +106,177 @@ const ReviewPage = props => {
           </VaAlert>
         ) : null}
       </div>
+      <VaAccordion uswds>
+        {props.chapters
+          .filter(chapter => chapter.name === 'yourQuestion')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Your question"
+                level={4}
+                id={chapter.name}
+                open
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              </VaAccordionItem>
+            );
+          })}
 
-      <va-accordion
-        bordered
-        disable-analytics={{
-          value: 'false',
-        }}
-        section-heading={{
-          value: 'null',
-        }}
-        uswds={{
-          value: 'true',
-        }}
-        className="vads-u-width--viewport"
-      >
-        {props.chapters.map(chapter => {
-          return (
-            <va-accordion-item
-              key={chapter.name}
-              header={chapter.formConfig.title}
-              id={chapter.name}
-              open
-            >
-              <ReviewCollapsibleChapter
-                expandedPages={chapter.expandedPages}
-                chapterFormConfig={chapter.formConfig}
-                chapterKey={chapter.name}
-                form={props.form}
-                formContext={props.formContext}
-                onEdit={handleEdit}
-                open={chapter.open}
-                pageKeys={chapter.pageKeys}
-                pageList={getPageKeysForReview(formConfig)}
-                setData={(...args) => handleSetData(...args)}
-                setValid={props.setValid}
-                toggleButtonClicked={() => handleToggleChapter(chapter)}
-                uploadFile={props.uploadFile}
-                viewedPages={new Set(getPageKeysForReview(formConfig))}
-                hasUnviewedPages={chapter.hasUnviewedPages}
-              />
-            </va-accordion-item>
-          );
-        })}
-      </va-accordion>
-      <va-button back onClick={() => props.goBack()} />
-      <va-button text="Submit question" />
+        {props.chapters
+          .filter(chapter => chapter.name === 'relationshipToTheVeteran')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Relationship to the Veteran"
+                level={4}
+                id={chapter.name}
+                open
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              </VaAccordionItem>
+            );
+          })}
+
+        {props.chapters
+          .filter(chapter => chapter.name === 'veteransInformation')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Veteran's information"
+                level={4}
+                id={chapter.name}
+                open
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              </VaAccordionItem>
+            );
+          })}
+
+        {props.chapters
+          .filter(chapter => chapter.name === 'familyMembersInformation')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Family member's information"
+                level={4}
+                id={chapter.name}
+                open
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              </VaAccordionItem>
+            );
+          })}
+
+        {props.chapters
+          .filter(chapter => chapter.name === 'yourInformation')
+          .map(chapter => {
+            return (
+              <VaAccordionItem
+                bordered
+                key={chapter.name}
+                header="Your information"
+                level={4}
+                id={chapter.name}
+                open
+              >
+                <ReviewCollapsibleChapter
+                  expandedPages={chapter.expandedPages}
+                  chapterFormConfig={chapter.formConfig}
+                  chapterKey={chapter.name}
+                  form={props.form}
+                  formContext={props.formContext}
+                  onEdit={handleEdit}
+                  open={chapter.open}
+                  pageKeys={chapter.pageKeys}
+                  pageList={getPageKeysForReview(formConfig)}
+                  setData={(...args) => handleSetData(...args)}
+                  setValid={props.setValid}
+                  toggleButtonClicked={() => handleToggleChapter(chapter)}
+                  uploadFile={props.uploadFile}
+                  viewedPages={new Set(getPageKeysForReview(formConfig))}
+                  hasUnviewedPages={chapter.hasUnviewedPages}
+                />
+              </VaAccordionItem>
+            );
+          })}
+      </VaAccordion>
+
+      <div className="vads-u-margin-top--4 vads-u-display--flex">
+        <va-button back onClick={() => props.goBack()} />
+        <va-button text="Submit question" onClick={handleSubmit} />
+      </div>
     </article>
   );
 };
@@ -154,40 +291,134 @@ function mapStateToProps(state, ownProps) {
   const { openChapters } = state.askVA.reviewPageView;
   const viewedPages = getViewedPages(state);
 
-  const chapterNames = getActiveChapters(formConfig, formData);
-  const pagesByChapter = createPageListByChapter(formConfig);
-  const chapters = chapterNames.map(chapterName => {
-    const pages = pagesByChapter[chapterName];
+  const pagesToMoveConfig = {
+    yourQuestion: [
+      'selectCategory',
+      'selectTopic',
+      'selectSubtopic',
+      'whoIsYourQuestionAbout',
+      'question',
+    ],
+    relationshipToTheVeteran: [
+      'relationshipToVeteran',
+      'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
+      'aboutYourself_aboutmyselfrelationshipveteran',
+      'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
+      'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
+      'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'yourRole_aboutsomeoneelserelationshipconnectedthroughwork',
+      'yourRole_aboutsomeoneelserelationshipconnectedthroughworkeducation',
+    ],
+    veteransInformation: [
+      'aboutTheVeteran_aboutmyselfrelationshipfamilymember',
+      'dateOfDeath_aboutmyselfrelationshipfamilymember',
+      'aboutTheVeteran_aboutsomeoneelserelationshipconnectedthroughwork',
+      'dateOfDeath_aboutsomeoneelserelationshipconnectedthroughwork',
+      'veteransLocationOfResidence_aboutsomeoneelserelationshipconnectedthroughwork',
+      'veteransPostalCode_aboutsomeoneelserelationshipconnectedthroughwork',
+      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymember',
+      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'aboutTheVeteran_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'veteransLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'veteransPostalCode_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
+    ],
+    familyMembersInformation: [
+      'aboutYourselfRelationshipFamilyMember_aboutmyselfrelationshipfamilymember',
+      'aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'familyMembersLocationOfResidence_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'familyMembersPostalCode_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'aboutYourFamilyMember_aboutsomeoneelserelationshipveteran',
+      'familyMembersLocationOfResidence_aboutsomeoneelserelationshipveteran',
+      'familyMembersPostalCode_aboutsomeoneelserelationshipveteran',
+    ],
+    yourInformation: [
+      'aboutYourself_aboutmyselfrelationshipveteran',
+      'searchVAMedicalCenter_aboutmyselfrelationshipfamilymember',
+      'yourContactInformation_aboutmyselfrelationshipfamilymember',
+      'yourLocationOfResidence_aboutmyselfrelationshipfamilymember',
+      'yourMailingAddress_aboutmyselfrelationshipfamilymember',
+      'yourPostalCode_aboutmyselfrelationshipfamilymember',
+      'yourContactInformation_aboutmyselfrelationshipveteran',
+      'yourLocationOfResidence_aboutmyselfrelationshipveteran',
+      'yourMailingAddress_aboutmyselfrelationshipveteran',
+      'yourPostalCode_aboutmyselfrelationshipveteran',
+      'yourVAHealthFacility_aboutmyselfrelationshipveteran',
+      'aboutYourself_aboutsomeoneelserelationshipconnectedthroughwork',
+      'searchVAMedicalCenter_aboutsomeoneelserelationshipconnectedthroughwork',
+      'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughwork',
+      'yourMailingAddress_aboutsomeoneelserelationshipconnectedthroughwork',
+      'aboutYourself_aboutsomeoneelserelationshipconnectedthroughworkeducation',
+      'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
+      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'aboutYourselfRelationshipFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'aboutYourself_aboutsomeoneelserelationshipveteran',
+      'searchVAMedicalCenter_aboutsomeoneelserelationshipveteran',
+      'yourContactInformation_aboutsomeoneelserelationshipveteran',
+      'yourMailingAddress_aboutsomeoneelserelationshipveteran',
+      'aboutYourself_aboutsomeoneelserelationshipveteranorfamilymembereducation',
+      'schoolStOrResidency_aboutsomeoneelserelationshipveteranorfamilymembereducation',
+      'yourContactInformation_aboutsomeoneelserelationshipveteranorfamilymembereducation',
+    ],
+  };
 
-    const expandedPages = getActiveExpandedPages(pages, formData);
-    const chapterFormConfig = formConfig.chapters[chapterName];
-    const open = openChapters.includes(chapterName);
-    const pageKeys = getPageKeys(pages, formData);
+  const { pagesByChapter, modifiedFormConfig } = createPageListByChapterAskVa(
+    formConfig,
+    pagesToMoveConfig,
+  );
 
-    const hasErrors = state.form.formErrors?.errors?.some(err =>
-      pageKeys.includes(err.pageKey),
-    );
+  const chapterNames = [
+    'yourQuestion',
+    'relationshipToTheVeteran',
+    'yourInformation',
+    'veteransInformation',
+    'familyMembersInformation',
+  ];
 
-    const hasUnviewedPages =
-      hasErrors || pageKeys.some(key => !viewedPages.has(key));
+  const chapters = chapterNames
+    .map(chapterName => {
+      const pages = pagesByChapter[chapterName];
+      const expandedPages = getActiveExpandedPages(pages, formData);
+      const chapterFormConfig = getChapterFormConfigAskVa(
+        modifiedFormConfig,
+        chapterName,
+      );
+      const open = openChapters.includes(chapterName);
+      const pageKeys = getPageKeys(pages, formData);
 
-    return {
-      expandedPages: expandedPages.map(
-        page =>
-          page.appStateSelector
-            ? { ...page, appStateData: page.appStateSelector(state) }
-            : page,
-      ),
-      formConfig: chapterFormConfig,
-      name: chapterName,
-      open,
-      pageKeys,
-      hasUnviewedPages,
-    };
-  });
+      const hasErrors = state.form.formErrors?.errors?.some(err =>
+        pageKeys.includes(err.pageKey),
+      );
+
+      const hasUnviewedPages =
+        hasErrors || pageKeys.some(key => !viewedPages.has(key));
+
+      return {
+        expandedPages: expandedPages.map(
+          page =>
+            page.appStateSelector
+              ? { ...page, appStateData: page.appStateSelector(state) }
+              : page,
+        ),
+        formConfig: chapterFormConfig,
+        name: chapterName,
+        open,
+        pageKeys,
+        hasUnviewedPages,
+      };
+    })
+    .filter(chapter => chapter.expandedPages.length > 0);
   return {
     chapters,
     form,
+    formData,
     formContext,
     viewedPages,
     openChapterList: state.askVA.reviewPageView.openChapters,

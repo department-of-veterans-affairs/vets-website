@@ -3,15 +3,16 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 export const envUrl = environment.API_URL;
 
 // Used to test against dev
-// export const envUrl = 'https:///dev-api.va.gov';
+// export const envUrl = 'https://dev-api.va.gov';
+//
 
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
-  GET_TOPICS: `/topics?user_mock_data=true`,
-  GET_SUBTOPICS: `${baseURL}/topics?user_mock_data=true`,
+  GET_TOPICS: `topics?user_mock_data=true`,
+  GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
@@ -21,9 +22,9 @@ export const URL = {
 
 export const requireSignInCategories = [
   'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-  'Compensation (Service-Connected Bens)',
-  'Veteran Affairs  - Debt', // *double space after 'Affairs'
-  'Benefits Issues Outside the US',
+  'Disability compensation',
+  'Debt for benefit overpayments and health care copay bills',
+  'Benefits issues outside the U.S.',
 ];
 
 export const requireSignInTopics = [
@@ -34,9 +35,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'Caregiver support',
-  'Family member health benefits',
+  'Caregiver support program',
+  'Family health benefits',
   'Prosthetics',
+  'Veteran Health Identification Card (VHIC) for health appointments',
+  'Veteran ID Card (VIC) for discounts',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
@@ -52,15 +55,16 @@ export const RESPONSE_PAGE = {
   INQUIRY_NUM: 'Inquiry number',
   STATUS: 'Status',
   YOUR_QUESTION: 'Your question',
+  YOUR_CONVERSATION: 'Your conversation',
   ATTACHMENTS: 'Attachments',
   INBOX: 'Inbox',
-  SEND_REPLY: 'Send reply',
+  SEND_REPLY: 'Send a reply',
   UPLOAD_YOUR_FILES: 'Upload your files',
   UPLOAD_BTN: 'Upload file',
   EMPTY_INBOX: 'There are no messages in your inbox',
   NO_ATTACHMENTS: 'There are no attachments',
-  YOUR_MESSAGE: 'Your message: ',
-  SUBMIT_MESSAGE: 'Send VA a message',
+  YOUR_MESSAGE: 'Your message',
+  SUBMIT_MESSAGE: 'Send',
   DELETE_FILE: 'Delete file',
   UPLOAD_INFO: {
     MESSAGE:
@@ -223,7 +227,7 @@ export const yourRoleOptionsEducation = {
 
 // Chapter 1 labels: titles, questions, descriptions
 export const CHAPTER_1 = {
-  CHAPTER_TITLE: 'Category and Topic',
+  CHAPTER_TITLE: 'Category and topic',
   PAGE_1: {
     PATH: 'category-topic-1',
     TITLE: 'Category',
@@ -232,13 +236,13 @@ export const CHAPTER_1 = {
   },
   PAGE_2: {
     PATH: 'category-topic-2',
-    TITLE: 'Topic selected',
+    TITLE: 'Topic',
     PAGE_DESCRIPTION: 'Topic',
     QUESTION_1: 'Select the topic that best describes your question:',
   },
   PAGE_3: {
     PATH: 'category-topic-3',
-    TITLE: 'Subtopic selected',
+    TITLE: 'Subtopic',
     PAGE_DESCRIPTION: 'Subtopic',
     QUESTION_1: 'Select the subtopic that best describes your question:',
   },
@@ -246,7 +250,7 @@ export const CHAPTER_1 = {
 
 // Chapter 2 labels: titles, questions, descriptions
 export const CHAPTER_2 = {
-  CHAPTER_TITLE: 'Your Question',
+  CHAPTER_TITLE: 'Your question',
   PAGE_1: {
     PATH: 'who-is-your-question-about',
     TITLE: 'Who is your question about?',
@@ -263,13 +267,13 @@ export const CHAPTER_2 = {
     PATH: 'your-question',
     TITLE: 'Your question',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'What is your question?',
+    QUESTION_1: "What's your question?",
   },
 };
 
 // Chapter 3 labels: titles, questions, descriptions
 export const CHAPTER_3 = {
-  CHAPTER_TITLE: 'Personal Information',
+  CHAPTER_TITLE: 'Your Information',
   RELATIONSHIP_TO_VET: {
     PATH: 'relationship-to-veteran',
     TITLE: 'What is your relationship to the Veteran?',
@@ -435,12 +439,19 @@ export const CHAPTER_3 = {
     TITLE: `Your personal information`,
     DESCRIPTION: 'This is the personal information we have on file for you.',
   },
+  YOUR_VA_HEALTH_FACILITY: {
+    PATH: 'your-va-health-facility',
+    TITLE: 'Your VA health facility',
+    DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
 };
 
 export const noEditBtn = [
   CHAPTER_1.PAGE_1.TITLE,
   CHAPTER_1.PAGE_2.TITLE,
   CHAPTER_1.PAGE_3.TITLE,
+  CHAPTER_2.PAGE_1.TITLE,
+  CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
   CHAPTER_3.MORE_ABOUT_YOUR_RELATIONSHIP_TO_VETERAN.TITLE,
 ];
 
@@ -456,20 +467,27 @@ export const askVABreadcrumbs = [
   { href: '/contact-us/ask-va-too', label: 'Ask VA', key: 'askVA' },
 ];
 
-export const responsePageBreadcrumbs = [
+export const questionDetailsBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'Response Page', key: 'responsePage' },
+  {
+    href: '/user/dashboard',
+    label: 'Question details',
+    key: 'questionDetails',
+  },
 ];
 
-export const newInquiryBreadcrumbs = [
+export const newQuestionBreadcrumbs = [
   ...askVABreadcrumbs,
-  { label: 'New Inquiry', key: 'newInquiry' },
+  { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
-  '/user/dashboard': responsePageBreadcrumbs,
-  '/newInquiry': newInquiryBreadcrumbs,
+  '/user/dashboard': questionDetailsBreadcrumbs,
+  '/newQuestion': newQuestionBreadcrumbs,
 };
+
+// Health care label is currently different on local/dev and staging (pulling from CRM updated list)
+export const healthcareCategoryLabels = ['Health care', 'VA Health Care'];

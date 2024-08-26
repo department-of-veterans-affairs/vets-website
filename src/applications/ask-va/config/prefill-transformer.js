@@ -1,9 +1,48 @@
 import _ from 'platform/utilities/data';
 
+// Adding mock prefill data for research-testing
+// const mockPrefillData = {
+//   personalInformation: {
+//     first: 'Jason',
+//     last: 'Todd',
+//     suffix: 'Jr.',
+//     preferredName: 'Robin',
+//     socialSecurityNumber: '123456987',
+//     serviceNumber: '11111111',
+//     dateOfBirth: '1999-08-16',
+//   },
+//   contactInformation: {
+//     email: 'j.todd@redhood.com',
+//     phone: '4445551212',
+//     address: {
+//       street: '49119 Wayne Manor',
+//       city: 'Gotham',
+//       state: 'IL',
+//       country: 'USA',
+//       postalCode: '86360',
+//     },
+//   },
+//   avaProfile: {
+//     schoolInfo: { schoolFacilityCode: '12345678', schoolName: 'Fake School' },
+//     businessPhone: '1234567890',
+//     businessEmail: 'fake@company.com',
+//   },
+//   veteranServiceInformation: {
+//     branchOfService: 'Army',
+//     serviceDateRange: {
+//       from: '2012-03-02',
+//       to: '2018-10-31',
+//     },
+//   },
+// };
+
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
-    const newData = _.omit(['personalInformation'], data);
-    const { personalInformation } = data;
+    const newData = _.omit(
+      ['personalInformation', 'veteranServiceInformation'],
+      data,
+    );
+    const { personalInformation, veteranServiceInformation } = data;
 
     if (personalInformation) {
       const {
@@ -11,27 +50,30 @@ export default function prefillTransformer(pages, formData, metadata) {
         middle,
         last,
         suffix,
-        socialOrServiceNum,
+        preferredName,
+        socialSecurityNumber,
+        serviceNumber,
         dateOfBirth,
-        brandOfService,
       } = personalInformation;
+
+      const { branchOfService } = veteranServiceInformation;
+
       newData.aboutYourself = {};
 
       if (first) newData.aboutYourself.first = first;
       if (middle) newData.aboutYourself.middle = middle;
       if (last) newData.aboutYourself.last = last;
       if (suffix) newData.aboutYourself.suffix = suffix;
+      if (preferredName) newData.preferredName = preferredName;
       if (dateOfBirth) newData.aboutYourself.dateOfBirth = dateOfBirth;
-      if (brandOfService) newData.aboutYourself.brandOfService = brandOfService;
-
-      if (socialOrServiceNum) {
-        const { ssn, serviceNumber } = socialOrServiceNum;
-        newData.aboutYourself.socialOrServiceNum = {};
-
-        if (ssn) newData.aboutYourself.socialOrServiceNum.ssn = ssn;
-        if (serviceNumber)
-          newData.aboutYourself.socialOrServiceNum.serviceNumber = serviceNumber;
-      }
+      if (branchOfService)
+        newData.aboutYourself.branchOfService = branchOfService;
+      if (serviceNumber)
+        newData.aboutYourself.socialOrServiceNum = { serviceNumber };
+      if (socialSecurityNumber)
+        newData.aboutYourself.socialOrServiceNum = {
+          ssn: socialSecurityNumber,
+        };
     }
 
     return newData;
@@ -43,20 +85,19 @@ export default function prefillTransformer(pages, formData, metadata) {
 
     if (contactInformation) {
       const {
-        preferredName,
         onBaseOutsideUS,
         country,
         address,
-        phoneNumber,
-        emailAddress,
+        phone,
+        email,
       } = contactInformation;
+
       const { schoolInfo, businessEmail, businessPhone } = avaProfile;
 
-      if (preferredName) newData.contactPreferredName = preferredName;
       if (onBaseOutsideUS) newData.onBaseOutsideUS = onBaseOutsideUS;
       if (country) newData.country = country;
-      if (emailAddress) newData.emailAddress = emailAddress;
-      if (phoneNumber) newData.phoneNumber = phoneNumber;
+      if (email) newData.emailAddress = email;
+      if (phone) newData.phoneNumber = phone;
       if (schoolInfo) newData.school = schoolInfo;
       if (businessEmail) newData.businessEmail = businessEmail;
       if (businessPhone) newData.businessPhone = businessPhone;

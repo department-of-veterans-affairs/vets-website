@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format as dateFnsFormat, parseISO } from 'date-fns';
+import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -24,14 +24,34 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
-  const withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
-  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
-};
+  let withoutTimezone = datetime;
+  if (typeof datetime === 'string' && datetime.includes('-')) {
+    // Check if datetime has a timezone and strip it off if present
+    if (datetime.includes('T')) {
+      withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+    } else {
+      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
+      const parsedDate = parseISO(datetime);
+      if (isValid(parsedDate)) {
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+      }
+    }
+  }
 
+  const parsedDateTime = parseISO(withoutTimezone);
+  if (isValid(parsedDateTime)) {
+    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    return formattedDate.replace(/AM|PM/, match =>
+      match.toLowerCase().replace('m', '.m.'),
+    );
+  }
+
+  return null;
+};
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp
@@ -64,23 +84,6 @@ export const getReactions = record => {
  */
 export const isArrayAndHasItems = obj => {
   return Array.isArray(obj) && obj.length;
-};
-
-/**
- * Concatenate all the record.category[].text values in a FHIR record.
- *
- * @param {Object} record
- * @returns {String} list of text values, separated by a comma
- */
-export const concatCategoryCodeText = record => {
-  if (isArrayAndHasItems(record.category)) {
-    const textFields = record.category
-      .filter(category => category.text)
-      .map(category => category.text);
-
-    return textFields.join(', ');
-  }
-  return null;
 };
 
 /**
@@ -189,6 +192,34 @@ export const extractContainedResource = (resource, referenceId) => {
       containedItem => containedItem.id === strippedRefId,
     );
     return containedResource || null;
+  }
+  return null;
+};
+
+/**
+ * Extract a specimen resource from a FHIR resource's "contained" array.
+ * @param {Object} record a FHIR resource (e.g. AllergyIntolerance)
+ * @param {String} resourceType takes a resourceType to return a record from "contained"
+ * @param {Array} referenceArray takes an array to use as a reference
+ * @returns the specified contained FHIR resource, or null if not found
+ */
+export const extractContainedByRecourceType = (
+  record,
+  resourceType,
+  referenceArray,
+) => {
+  if (record && resourceType && isArrayAndHasItems(referenceArray)) {
+    const refArray = [];
+    referenceArray.map(entry =>
+      refArray.push(entry.reference.replace('#', '')),
+    );
+    const returnRecord = isArrayAndHasItems(record.contained)
+      ? record.contained.find(
+          item =>
+            refArray.includes(item.id) && item.resourceType === resourceType,
+        )
+      : null;
+    return returnRecord || null;
   }
   return null;
 };
@@ -376,4 +407,13 @@ export const getStatusExtractPhase = (
     return refreshPhases.FAILED;
   }
   return refreshPhases.CURRENT;
+};
+
+export const decodeBase64Report = data => {
+  if (data && typeof data === 'string') {
+    return Buffer.from(data, 'base64')
+      .toString('utf-8')
+      .replace(/\r\n|\r/g, '\n'); // Standardize line endings
+  }
+  return null;
 };

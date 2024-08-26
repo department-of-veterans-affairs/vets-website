@@ -215,11 +215,31 @@ class PatientMessageDraftsPage {
   };
 
   clickDeleteButton = () => {
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).should('be.visible');
-    cy.get(Locators.BUTTONS.DELETE_DRAFT).click({
+    cy.get(`#delete-draft-button`).should('be.visible');
+    cy.get(`#delete-draft-button`).click({
       force: true,
       waitForAnimations: true,
     });
+  };
+
+  clickMultipleDeleteButton = number => {
+    cy.get(`[data-testid="reply-form"]`)
+      .find('va-accordion-item')
+      .then(el => {
+        if (el.length > 1) {
+          cy.get(`#delete-draft-button-${number}`).should('be.visible');
+          cy.get(`#delete-draft-button-${number}`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        } else {
+          cy.get(`#delete-draft-button`).should('be.visible');
+          cy.get(`#delete-draft-button`).click({
+            force: true,
+            waitForAnimations: true,
+          });
+        }
+      });
   };
 
   sendDraftMessage = draftMessage => {
@@ -238,7 +258,7 @@ class PatientMessageDraftsPage {
     cy.wait('@sentDraftResponse');
   };
 
-  saveMultiDraftMessage = (mockResponse, messageId) => {
+  saveMultiDraftMessage = (mockResponse, messageId, btnNum) => {
     const firstNonDraftMessageId = mockMultiDraftsResponse.data.filter(
       el => el.attributes.draftDate === null,
     )[0].attributes.messageId;
@@ -247,9 +267,9 @@ class PatientMessageDraftsPage {
       `${
         Paths.SM_API_BASE
       }/message_drafts/${firstNonDraftMessageId}/replydraft/${messageId}`,
-      { data: mockResponse },
+      { ok: true },
     ).as('saveDraft');
-    cy.get(Locators.BUTTONS.SAVE_DRAFT).click();
+    cy.get(`#save-draft-button-${btnNum}`).click();
     cy.wait('@saveDraft');
   };
 
@@ -295,8 +315,8 @@ class PatientMessageDraftsPage {
     cy.get('[data-testid="alert-text"]').should('contain.text', message);
   };
 
-  verifyDeleteConfirmationHasFocus = () => {
-    cy.get(Locators.ALERTS.NOTIFICATION).should('have.focus');
+  verifyDeleteConfirmationButton = () => {
+    cy.get(Locators.ALERTS.NOTIFICATION).should('be.visible');
   };
 
   confirmDeleteDraftWithEnterKey = draftMessage => {
@@ -483,7 +503,7 @@ class PatientMessageDraftsPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -541,7 +561,7 @@ class PatientMessageDraftsPage {
     text,
     sortedResponse = mockSortedMessages,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -585,8 +605,8 @@ class PatientMessageDraftsPage {
     cy.focused().should('contain.text', 'Draft was successfully deleted.');
   };
 
-  verifyMessagesBodyText = MessageBody => {
-    cy.get(Locators.MESSAGES_BODY)
+  verifyMessagesBodyText = (index, MessageBody) => {
+    cy.get(`[subheader="draft #${index}..."]`)
       .should('have.attr', 'value')
       .and('eq', MessageBody);
   };
@@ -604,6 +624,85 @@ class PatientMessageDraftsPage {
       MESSAGE_WAS_SAVED,
     );
   };
+
+  expandAllDrafts = () => {
+    cy.get(Locators.BUTTONS.EDIT_DRAFTS).click({
+      force: true,
+      waitForAnimations: true,
+    });
+  };
+
+  verifyExpandedDraftBody = (response, number, index) => {
+    cy.get('[open="true"]')
+      .find('.thread-list-draft')
+      .should('contain.text', `Draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`[data-testid="draft-reply-to"]`)
+      .should('contain.text', response.data[index].attributes.recipientName);
+  };
+
+  expandSingleDraft = number => {
+    cy.get(`[subheader="draft #${number}..."]`)
+      .shadow()
+      .find('button')
+      .click({ force: true, waitForAnimations: true });
+  };
+
+  verifyExpandedDraftButtons = number => {
+    cy.get(`[open="true"]`)
+      .find(`#attach-file-button-${number}`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, `Attach file to draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#send-button-${number}`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, `Send draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#save-draft-button-${number}`)
+      .should('be.visible')
+      .and(`have.text`, `Save draft ${number}`);
+
+    cy.get(`[open="true"]`)
+      .find(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and(`have.text`, `Delete draft ${number}`);
+  };
+
+  verifyExpandedOldDraftButtons = number => {
+    cy.get(`#delete-draft-button-${number}`)
+      .should('be.visible')
+      .and('have.text', `Delete draft ${number}`);
+
+    cy.get('[class^="attachments-section]').should('not.exist');
+    cy.get(`#send-button-${number}`).should('not.exist');
+    cy.get(`#save-draft-button-${number}`).should('not.exist');
+  };
+
+  verifySaveWithAttachmentAlert = () => {
+    cy.get('[data-testid="quit-compose-double-dare"]')
+      .shadow()
+      .find('h2')
+      .should('contain', `can't save attachment`);
+  };
+
+  verifySaveModalButtons = () => {
+    cy.get(`[data-testid="quit-compose-double-dare"]>va-button`).each(el => {
+      cy.wrap(el).should('be.visible');
+    });
+  };
+
+  closeModal = () => {
+    cy.get('va-modal[visible]')
+      .find('.va-modal-close')
+      .click();
+  };
 }
 
-export default PatientMessageDraftsPage;
+export default new PatientMessageDraftsPage();

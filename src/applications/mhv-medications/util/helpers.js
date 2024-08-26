@@ -1,4 +1,5 @@
 import moment from 'moment-timezone';
+import cheerio from 'cheerio';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import * as Sentry from '@sentry/browser';
 import {
@@ -312,6 +313,7 @@ export const sanitizeKramesHtmlStr = htmlString => {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlString;
 
+  // This section is to address removing <body> and <page> tags
   if (tempDiv.querySelector('body')) {
     tempDiv.innerHTML = tempDiv.querySelector('body').innerHTML;
   }
@@ -319,12 +321,14 @@ export const sanitizeKramesHtmlStr = htmlString => {
     tempDiv.innerHTML = tempDiv.querySelector('page').innerHTML;
   }
 
+  // This section is to address removing <h1> tags
   tempDiv.querySelectorAll('h1').forEach(h1 => {
     const h2 = document.createElement('h2');
     h2.innerHTML = h1.innerHTML;
     h1.replaceWith(h2);
   });
 
+  // This section is to address <h3> tags coming before <h2> tags
   tempDiv.querySelectorAll('h3').forEach(h3 => {
     let sibling = h3.nextElementSibling;
     while (sibling) {
@@ -338,17 +342,81 @@ export const sanitizeKramesHtmlStr = htmlString => {
     }
   });
 
-  tempDiv.querySelectorAll('ul').forEach(ul => {
+  const processUl = ul => {
     const nestedUls = ul.querySelectorAll('ul');
 
+    // This section is to address nested <ul> tags
     nestedUls.forEach(nestedUl => {
       while (nestedUl.firstChild) {
         ul.appendChild(nestedUl.firstChild);
       }
       nestedUl.remove();
     });
-  });
 
+    // This section is to address <p> tags inside of <ul> tags
+    const pTags = ul.querySelectorAll('p');
+    pTags.forEach(pTag => {
+      const fragmentBefore = document.createDocumentFragment(); // Fragment to hold nodes before <p> tag
+      const fragmentAfter = document.createDocumentFragment(); // Fragment to hold nodes after <p> tag
+      let isBefore = true;
+
+      Array.from(ul.childNodes).forEach(child => {
+        if (child === pTag) {
+          isBefore = false;
+          return;
+        }
+
+        if (isBefore) {
+          // Add non-empty nodes before <p> tag to fragmentBefore
+          if (
+            child.nodeType !== Node.TEXT_NODE ||
+            child.textContent.trim().length > 0
+          ) {
+            fragmentBefore.appendChild(child.cloneNode(true));
+          }
+        } else if (
+          // Add non-empty nodes after <p> tag to fragmentAfter
+          child.nodeType !== Node.TEXT_NODE ||
+          child.textContent.trim().length > 0
+        ) {
+          fragmentAfter.appendChild(child.cloneNode(true));
+        }
+      });
+
+      // If there are nodes before <p> tag, create new <ul> and insert it
+      if (fragmentBefore.childNodes.length > 0) {
+        const newUlBefore = document.createElement('ul');
+        while (fragmentBefore.firstChild) {
+          newUlBefore.appendChild(fragmentBefore.firstChild);
+        }
+        if (ul.parentNode) {
+          ul.parentNode.insertBefore(newUlBefore, ul);
+        }
+      }
+
+      // Insert <p> tag before the original <ul>
+      if (ul.parentNode) {
+        ul.parentNode.insertBefore(pTag, ul);
+      }
+
+      // If there are nodes after <p> tag, create new <ul> and insert it
+      if (fragmentAfter.childNodes.length > 0) {
+        const newUlAfter = document.createElement('ul');
+        while (fragmentAfter.firstChild) {
+          newUlAfter.appendChild(fragmentAfter.firstChild);
+        }
+        if (ul.parentNode) {
+          ul.parentNode.insertBefore(newUlAfter, ul);
+        }
+      }
+
+      ul.remove();
+    });
+  };
+
+  tempDiv.querySelectorAll('ul').forEach(processUl);
+
+  // This section is to address all caps text inside of <h2> tags
   tempDiv.querySelectorAll('h2').forEach(heading => {
     const h2 = document.createElement('h2');
     let words = heading.textContent.toLowerCase().split(' ');
@@ -362,6 +430,7 @@ export const sanitizeKramesHtmlStr = htmlString => {
     heading.replaceWith(h2);
   });
 
+  // This section is to address text with no tags
   Array.from(tempDiv.childNodes).forEach(node => {
     if (
       node.nodeType === Node.TEXT_NODE &&
@@ -374,4 +443,68 @@ export const sanitizeKramesHtmlStr = htmlString => {
   });
 
   return tempDiv.innerHTML;
+};
+
+/**
+ * Return medication information page HTML as text
+ */
+export const convertHtmlForDownload = (html, option) => {
+  const $ = cheerio.load(html);
+  const contentElements = [
+    'address',
+    'blockquote',
+    'canvas',
+    'dd',
+    'div',
+    'dt',
+    'fieldset',
+    'figcaption',
+    'h1',
+    'h2',
+    'h3',
+    'h4',
+    'h5',
+    'h6',
+    'li',
+    'p',
+    'pre',
+  ];
+  const elements = $(contentElements.join(', '));
+  if (option === DOWNLOAD_FORMAT.PDF) {
+    const textBlocks = [];
+    elements.each((_, el) => {
+      textBlocks.push({
+        text: $(el)
+          .text()
+          .trim(),
+        type: el.tagName,
+      });
+    });
+    return textBlocks;
+  }
+  elements.each((_, el) => {
+    if (
+      $(el)
+        .text()
+        .includes('\n')
+    ) {
+      return;
+    }
+    if (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'].includes(el.tagName)) {
+      $(el).prepend('\n');
+      $(el).after('\n\n\n');
+      return;
+    }
+    if (el.tagName === 'li') {
+      $(el).prepend('\t- ');
+      if (!el.next || el.next.name !== 'li') {
+        $(el).after('\n\n');
+      } else {
+        $(el).after('\n');
+      }
+      return;
+    }
+    $(el).after('\n\n');
+  });
+  return $.text().trim();
 };

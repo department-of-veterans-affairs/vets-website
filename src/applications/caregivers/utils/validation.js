@@ -2,7 +2,7 @@ import {
   isSsnUnique,
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
-} from './helpers';
+} from './helpers/form-config';
 import { REQUIRED_ADDRESS_FIELDS } from './constants';
 import content from '../locales/en/content.json';
 
@@ -23,6 +23,16 @@ export const validateCaregivers = (errors, _, formData) => {
 
   // add a blank error to disable the ability to continue the form while not displaying the error itself
   if (!hasCaregiver) {
+    errors.addError(' ');
+  }
+};
+
+export const validatePlannedClinic = (errors, _, formData) => {
+  /* adding blank error(s) to disable the ability to continue the form when there are validation issues
+   * in the the facility search field. The field component handles all validation messaging, we
+   * just need to block navigation.
+   */
+  if (Object.keys(formData['view:plannedClinic'] ?? {}).length === 0) {
     errors.addError(' ');
   }
 };
