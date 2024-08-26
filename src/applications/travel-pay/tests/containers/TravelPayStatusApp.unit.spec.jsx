@@ -74,6 +74,17 @@ describe('App', () => {
           modifiedOn: '2024-02-23T16:44:34.465Z',
         },
         {
+          id: 'abcd1234-65af-4495-b18e-7fd28cab546a',
+          claimNumber: 'TC0928098231234',
+          claimName: 'string',
+          claimStatus: 'Saved',
+          appointmentDateTime: null,
+          appointmentName: 'Medical imaging',
+          appointmentLocation: 'Tomah VA Medical Center',
+          createdOn: '2024-01-22T17:11:43.034Z',
+          modifiedOn: '2024-01-22T17:11:43.034Z',
+        },
+        {
           id: '6cecf332-65af-4495-b18e-7fd28ccb546a',
           claimNumber: '39b7b38f-b7cf-4d19-91cf-fb5360c0b8b8',
           claimName: '3583ec0e-34e0-4cf5-99d6-78930c2be969',
@@ -226,10 +237,13 @@ describe('App', () => {
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
 
-      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(4);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[1].textContent,
+      ).to.eq('Appointment information not available');
     });
 
     await waitFor(() => {
@@ -244,10 +258,13 @@ describe('App', () => {
         .true;
       fireEvent.click(document.querySelector('va-button[text="Sort"]'));
 
-      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
+      expect(screen.getAllByTestId('travel-claim-details').length).to.eq(4);
       expect(
         screen.getAllByTestId('travel-claim-details')[0].textContent,
       ).to.eq(`${date} at ${time} appointment`);
+      expect(
+        screen.getAllByTestId('travel-claim-details')[2].textContent,
+      ).to.eq('Appointment information not available');
     });
   });
 
@@ -463,7 +480,7 @@ describe('App', () => {
     });
 
     fireEvent.click(document.querySelector('va-button[text="Reset search"]'));
-    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(4);
   });
 
   it('filters by status and date together', async () => {
@@ -522,7 +539,7 @@ describe('App', () => {
     });
 
     fireEvent.click(document.querySelector('va-button[text="Reset search"]'));
-    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(3);
+    expect(screen.getAllByTestId('travel-claim-details').length).to.eq(4);
   });
 
   it('renders pagination correctly', async () => {

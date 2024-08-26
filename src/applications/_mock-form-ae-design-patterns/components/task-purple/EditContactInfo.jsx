@@ -77,12 +77,18 @@ export const BuildPage = props => {
 
   return (
     <>
+      <h2
+        ref={headerRef}
+        className="vads-u-margin-top--1 vads-u-margin-bottom--3"
+      >
+        {title}
+      </h2>
       <va-card background>
-        <h4 ref={headerRef} className="vads-u-margin-top--1">
-          {title}
-        </h4>
+        <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-weight--bold">
+          Current home phone number
+        </p>
         <p className="vads-u-margin-bottom--0">
-          <b>Current:</b> {props.data.veteran.homePhone.areaCode}-
+          {props.data.veteran.homePhone.areaCode}-
           {props.data.veteran.homePhone.phoneNumber.slice(0, 3)}-
           {props.data.veteran.homePhone.phoneNumber.slice(3, 7)}
         </p>

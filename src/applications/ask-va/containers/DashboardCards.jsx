@@ -1,3 +1,4 @@
+import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
@@ -93,10 +94,10 @@ const DashboardCards = () => {
                 <span className="usa-label">{card.status}</span>
               </div>
               <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                Submitted on {formatDate(card.createdOn)}
+                {`Submitted on ${formatDate(card.createdOn)}`}
               </h3>
               <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                Last Updated: {formatDate(card.lastUpdate)}
+                {`Last Updated: ${formatDate(card.lastUpdate)}`}
               </p>
               <p className="vads-u-margin--0">Category: {card.category}</p>
               <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
@@ -140,7 +141,7 @@ const DashboardCards = () => {
           {/* Filters and Buttons  */}
           <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
             <div className="vads-u-flex--1">
-              <va-select
+              <VaSelect
                 hint={null}
                 label="Last updated"
                 name="lastUpdated"
@@ -149,10 +150,10 @@ const DashboardCards = () => {
               >
                 <option value="newestToOldest">Newest to oldest</option>
                 <option value="oldestToNewest">Oldest to newest</option>
-              </va-select>
+              </VaSelect>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <va-select
+              <VaSelect
                 hint={null}
                 label="Filter by category"
                 name="category"
@@ -165,10 +166,10 @@ const DashboardCards = () => {
                     {category}
                   </option>
                 ))}
-              </va-select>
+              </VaSelect>
             </div>
             <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <va-select
+              <VaSelect
                 hint={null}
                 label="Filter by status"
                 name="status"
@@ -180,7 +181,7 @@ const DashboardCards = () => {
                 <option value="In Progress">In Progress</option>
                 <option value="Reopened">Reopened</option>
                 <option value="Resolved">Archived</option>
-              </va-select>
+              </VaSelect>
             </div>
           </div>
           {/* Inquiries Views */}

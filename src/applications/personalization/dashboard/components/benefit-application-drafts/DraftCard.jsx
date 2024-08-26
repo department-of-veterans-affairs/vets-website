@@ -29,7 +29,8 @@ const Draft = ({
           id={formId}
           className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
         >
-          VA {presentableFormId}
+          {/* TODO: rethink our helpers for presentable form ID */}
+          VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
         </p>
         <div className="vads-u-display--flex">
           <span className="vads-u-margin-right--1 vads-u-margin-top--0p5">

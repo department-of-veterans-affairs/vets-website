@@ -2,14 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
-
 import { clearNotification } from '../actions';
-import ClaimComplete from '../components/ClaimComplete';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import ClaimsDecision from '../components/ClaimsDecision';
-import ClaimTimeline from '../components/ClaimTimeline';
-import NeedFilesFromYou from '../components/NeedFilesFromYou';
 import WhatYouNeedToDo from '../components/claim-status-tab/WhatYouNeedToDo';
 import ClaimStatusHeader from '../components/ClaimStatusHeader';
 import WhatWeAreDoing from '../components/claim-status-tab/WhatWeAreDoing';
@@ -21,19 +15,11 @@ import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
 import { showClaimLettersFeature } from '../selectors';
 import {
   claimAvailable,
-  getStatusMap,
   isClaimOpen,
-  itemsNeedingAttentionFromVet,
   setPageFocus,
   setTabDocumentTitle,
 } from '../utils/helpers';
 import { setUpPage, isTab } from '../utils/page';
-
-// HELPERS
-const STATUSES = getStatusMap();
-
-const getPhaseFromStatus = latestStatus =>
-  [...STATUSES.keys()].indexOf(latestStatus) + 1;
 
 class ClaimStatusPage extends React.Component {
   componentDidMount() {
@@ -62,7 +48,7 @@ class ClaimStatusPage extends React.Component {
   }
 
   getPageContent() {
-    const { claim, showClaimLettersLink } = this.props;
+    const { claim } = this.props;
 
     // Return null if the claim/ claim.attributes dont exist
     if (!claimAvailable(claim)) {
@@ -74,64 +60,35 @@ class ClaimStatusPage extends React.Component {
       claimTypeCode,
       closeDate,
       decisionLetterSent,
-      documentsNeeded,
       status,
-      trackedItems,
     } = claim.attributes;
     const claimPhaseType = claimPhaseDates.latestPhaseType;
     const isOpen = isClaimOpen(status, closeDate);
-    const filesNeeded = itemsNeedingAttentionFromVet(trackedItems);
-    const showDocsNeeded =
-      !decisionLetterSent && isOpen && documentsNeeded && filesNeeded > 0;
 
     return (
       <div className="claim-status">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
-          <Toggler.Enabled>
-            <ClaimStatusHeader claim={claim} />
-            {isOpen ? (
-              <>
-                <WhatYouNeedToDo claim={claim} useLighthouse />
-                <WhatWeAreDoing
-                  claimPhaseType={claimPhaseType}
-                  claimTypeCode={claimTypeCode}
-                  phaseChangeDate={claimPhaseDates.phaseChangeDate}
-                  status={status}
-                />
-              </>
-            ) : (
-              <>
-                <ClosedClaimAlert
-                  closeDate={closeDate}
-                  decisionLetterSent={decisionLetterSent}
-                />
-                <Payments />
-                <NextSteps />
-              </>
-            )}
-            <RecentActivity claim={claim} />
-          </Toggler.Enabled>
-          <Toggler.Disabled>
-            {showDocsNeeded && <NeedFilesFromYou files={filesNeeded} />}
-            {status &&
-              isOpen && (
-                <ClaimTimeline
-                  id={claim.id}
-                  phase={getPhaseFromStatus(claimPhaseType)}
-                  currentPhaseBack={claimPhaseDates.currentPhaseBack}
-                />
-              )}
-            {decisionLetterSent && !isOpen ? (
-              <ClaimsDecision
-                completedDate={closeDate}
-                showClaimLettersLink={showClaimLettersLink}
-              />
-            ) : null}
-            {!decisionLetterSent && !isOpen ? (
-              <ClaimComplete completedDate={closeDate} />
-            ) : null}
-          </Toggler.Disabled>
-        </Toggler>
+        <ClaimStatusHeader claim={claim} />
+        {isOpen ? (
+          <>
+            <WhatYouNeedToDo claim={claim} useLighthouse />
+            <WhatWeAreDoing
+              claimPhaseType={claimPhaseType}
+              claimTypeCode={claimTypeCode}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              status={status}
+            />
+          </>
+        ) : (
+          <>
+            <ClosedClaimAlert
+              closeDate={closeDate}
+              decisionLetterSent={decisionLetterSent}
+            />
+            <Payments />
+            <NextSteps />
+          </>
+        )}
+        <RecentActivity claim={claim} />
       </div>
     );
   }

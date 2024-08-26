@@ -30,9 +30,9 @@ const getForms = () => {
 
 const actionStart = () => ({ type: FETCH_FORM_STATUS_STARTED });
 
-const actionFail = errors => ({
+const actionFail = error => ({
   type: FETCH_FORM_STATUS_FAILED,
-  errors,
+  error,
 });
 
 const actionSuccess = response => ({
