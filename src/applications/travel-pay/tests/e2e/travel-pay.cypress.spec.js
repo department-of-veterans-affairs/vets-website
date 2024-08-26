@@ -1,5 +1,4 @@
 /* eslint-disable @department-of-veterans-affairs/axe-check-required */
-import MockDate from 'mockdate';
 import { appName, rootUrl } from '../../manifest.json';
 import user from '../fixtures/user.json';
 import ApiInitializer from './utilities/ApiInitializer';
@@ -31,14 +30,6 @@ describe(`${appName} -- Status Page`, () => {
     cy.login(user);
     cy.visit(rootUrl);
     cy.injectAxeThenAxeCheck();
-  });
-
-  before(() => {
-    MockDate.set('2024-06-25');
-  });
-
-  after(() => {
-    MockDate.reset();
   });
 
   it('defaults to "most recent" sort order', () => {
@@ -105,6 +96,10 @@ describe(`${appName} -- Status Page`, () => {
   });
 
   it('filters the claims by a date range preset', () => {
+    // the month argument is 0-indexed in the date constructor,
+    // so this is setting the date to June 25, 2024, i.e., 6/25/24
+    cy.clock(new Date(2024, 5, 25), ['Date']);
+
     cy.openFilters();
 
     cy.get('select[name="claimsDates"]').should('have.value', 'all');
