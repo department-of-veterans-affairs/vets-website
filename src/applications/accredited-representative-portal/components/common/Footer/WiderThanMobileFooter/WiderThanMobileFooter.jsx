@@ -6,6 +6,13 @@ const WiderThanMobileFooter = () => {
     <div data-testid="wider-than-mobile-footer" className="wider-than-mobile">
       <div className="footer-inner">
         <div className="usa-grid usa-grid-full footer-banner vads-u-padding-top--2">
+          <h3>Accredited Representative Portal</h3>
+          <p>
+            An official website of the{' '}
+            <a className="vads-u-color--white" href="https://va.gov">
+              U.S. Department of Veterans Affairs
+            </a>
+          </p>
           <a href="/" title="Go to VA.gov">
             <img
               src={replaceWithStagingDomain(
@@ -37,13 +44,7 @@ const WiderThanMobileFooter = () => {
               </a>
             </li>
             <li>
-              <a href="https://va.gov/report-harassment/">Harassment</a>
-            </li>
-            <li>
               <a href="https://va.gov/oig/">Office of Inspector General</a>
-            </li>
-            <li>
-              <a href="https://va.gov/opa/Plain_Language.asp">Plain language</a>
             </li>
             <li>
               <a href="https://va.gov/privacy-policy/">
@@ -59,16 +60,8 @@ const WiderThanMobileFooter = () => {
               </a>
             </li>
             <li>
-              <a href="https://www.usa.gov/">USA.gov</a>
-            </li>
-            <li>
               <a href="https://va.gov/performance-dashboard/">
                 VA performance dashboard
-              </a>
-            </li>
-            <li>
-              <a href="https://va.gov/veterans-portrait-project/">
-                Veterans Portrait Project
               </a>
             </li>
           </ul>
