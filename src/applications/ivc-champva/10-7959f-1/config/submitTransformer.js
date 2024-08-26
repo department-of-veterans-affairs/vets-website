@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
+import { concatStreets } from '../../shared/utilities';
 
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
@@ -10,14 +11,14 @@ export default function transformForSubmit(formConfig, form) {
     veteran: {
       date_of_birth: transformedData.veteranDateOfBirth,
       full_name: transformedData?.veteranFullName,
-      physical_address: transformedData.physicalAddress || {
+      physical_address: concatStreets(transformedData.physicalAddress) || {
         country: 'NA',
         street: 'NA',
         city: 'NA',
         state: 'NA',
         postalCode: 'NA',
       },
-      mailing_address: transformedData.veteranAddress || {
+      mailing_address: concatStreets(transformedData.veteranAddress) || {
         country: 'NA',
         street: 'NA',
         city: 'NA',

@@ -72,7 +72,7 @@ describe('concatStreets function', () => {
       street3: 'Apt A',
       state: 'MD',
     };
-    expect(concatStreets(addr).trim()).to.equal(
+    expect(concatStreets(addr).streetCombined.trim()).to.equal(
       `${addr.street} ${addr.street2} ${addr.street3}`,
     );
   });
@@ -81,6 +81,8 @@ describe('concatStreets function', () => {
       street: '123 St',
       state: 'MD',
     };
-    expect(concatStreets(addr).trim()).to.equal(`${addr.street}`);
+    expect(concatStreets(addr).streetCombined.trim()).to.equal(
+      `${addr.street}`,
+    );
   });
 });

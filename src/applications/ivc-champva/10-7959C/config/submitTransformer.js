@@ -33,9 +33,7 @@ export default function transformForSubmit(formConfig, form) {
 
   // Combine all street strings for main address into one
   if (copyOfData.applicantAddress)
-    copyOfData.applicantAddress.streetCombined = concatStreets(
-      copyOfData.applicantAddress,
-    );
+    copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
 
   // Get today's date as YYYY-MM-DD
   copyOfData.certificationDate = new Date().toISOString().replace(/T.*/, '');
