@@ -16,7 +16,7 @@ function getNullProfileState() {
     verified: false,
     prefillsAvailable: [],
     savedForms: [],
-    loading: true,
+    loading: false,
   };
 }
 
