@@ -1,11 +1,13 @@
 import React from 'react';
 import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-import { gulfWar2001PageTitle } from '../../content/toxicExposure';
+import {
+  gulfWar2001PageTitle,
+  titleWithSubtitle,
+} from '../../content/toxicExposure';
 import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
-import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(gulfWar2001PageTitle),
+  'ui:title': titleWithSubtitle(gulfWar2001PageTitle, 'Summary'),
   'ui:description': ({ formData }) => (
     <ToxicExposureSummary
       formData={formData}
