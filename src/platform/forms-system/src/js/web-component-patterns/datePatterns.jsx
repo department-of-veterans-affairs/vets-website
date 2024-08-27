@@ -49,7 +49,7 @@ const currentOrPastDateUI = options => {
   return {
     'ui:title': uiTitle,
     'ui:webComponentField': monthYearOnly ? VaDateField : VaMemorableDateField,
-    'ui:required': typeof required === 'function' ? required : () => required,
+    'ui:required': required,
     'ui:validations': monthYearOnly
       ? [validateCurrentOrPastMonthYear]
       : [validateCurrentOrPastMemorableDate],
