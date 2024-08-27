@@ -18,9 +18,6 @@ export async function getClaim(startDateTime) {
     );
     return response.data;
   } catch (e) {
-    if (e.errors[0]?.status === '404') {
-      throw e;
-    }
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);
     }
