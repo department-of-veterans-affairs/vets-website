@@ -1,4 +1,7 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -76,20 +79,23 @@ const DashboardCardsMock = () => {
     return (
       <div className="dashboard-cards-grid">
         {sortedInquiries.map(card => (
-          <div className="" key={card.inquiryNumber}>
-            <va-card className="vacard">
-              <div>
-                <span className="usa-label">{card.status}</span>
-              </div>
-              <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                {`Submitted on ${formatDate(card.createdOn)}`}
+          <div key={card.inquiryNumber}>
+            <va-card class="vacard">
+              <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+                <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                  {card.status}
+                </span>
+                <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                  {`Submitted on ${formatDate(card.createdOn)}`}
+                </span>
               </h3>
               <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
                 {`Last Updated: ${formatDate(card.lastUpdate)}`}
               </p>
-              <p className="vads-u-margin--0">Category: {card.category}</p>
-              <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
-              <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
+              <p className="vacardCategory multiline-ellipsis-1">
+                Category: {card.category}
+              </p>
+              <p className="vacardSubmitterQuestion">
                 {card.submitterQuestion}
               </p>
               <Link to={`/user/dashboard-mock/${card.id}`}>
@@ -121,14 +127,14 @@ const DashboardCardsMock = () => {
 
   return (
     <div className="vads-u-width--full">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
+      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
-        <div className="vads-u-margin-bottom--2">
+        <>
           {/* Filters and Buttons  */}
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
-            <div className="vads-u-flex--1">
+          <div className="vacardSelectFilters">
+            <div className="vads-u-flex--1 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Last updated"
@@ -140,7 +146,7 @@ const DashboardCardsMock = () => {
                 <option value="oldestToNewest">Oldest to newest</option>
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by category"
@@ -156,7 +162,7 @@ const DashboardCardsMock = () => {
                 ))}
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by status"
@@ -165,10 +171,9 @@ const DashboardCardsMock = () => {
                 onVaSelect={event => setStatusFilter(event.target.value)}
               >
                 <option value="All">All</option>
-                <option value="New">New</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Replied">Replied</option>
                 <option value="Reopened">Reopened</option>
-                <option value="Resolved">Archived</option>
               </VaSelect>
             </div>
           </div>
@@ -187,7 +192,7 @@ const DashboardCardsMock = () => {
           ) : (
             inquiriesGridView('Personal')
           )}
-        </div>
+        </>
       ) : (
         <div className="vads-u-margin-bottom--5">
           <va-alert
@@ -202,6 +207,13 @@ const DashboardCardsMock = () => {
           </va-alert>
         </div>
       )}
+      <VaPagination
+        page={1}
+        pages={3}
+        maxPageListLength={5}
+        showLastPage
+        className="vads-u-border-top--0 vads-u-padding-y--5"
+      />
     </div>
   );
 };
