@@ -50,11 +50,16 @@ import {
   stepchildInformation,
 } from './chapters/stepchild-no-longer-part-of-household';
 import {
-  studentNameAndSsn,
-  studentAddressMarriageTuition,
-  studentSchoolAddress,
-  studentTermDates,
-  studentLastTerm,
+  studentInformation,
+  studentAdditionalInformationView,
+  studentAdditionalInformation,
+  studentAdditionalInformationPartTwo,
+  studentAdditionalInformationPartThree,
+  studentAdditionalInformationPartFour,
+  // studentAddressMarriageTuition,
+  // studentSchoolAddress,
+  // studentTermDates,
+  // studentLastTerm,
   studentIncomeInformation,
   studentNetworthInformation,
 } from './chapters/674';
@@ -88,6 +93,7 @@ export const formConfig = {
     },
   },
   version: migrations.length,
+  v3SegmentedProgressBar: true,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
@@ -296,54 +302,101 @@ export const formConfig = {
       },
     },
     report674: {
-      title: 'Information needed to add a student 18 to 23 years old',
+      title: 'Add one or more students between ages 18 and 23',
       pages: {
-        studentNameAndSsn: {
+        studentInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Basic information',
-          path: 'report-674',
-          uiSchema: studentNameAndSsn.uiSchema,
-          schema: studentNameAndSsn.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/add-students',
+          uiSchema: studentInformation.uiSchema,
+          schema: studentInformation.schema,
         },
-        studentAddressMarriageTuition: {
+        studentAdditionalInformationView: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Additional information',
-          path: 'report-674-student-address',
-          uiSchema: studentAddressMarriageTuition.uiSchema,
-          schema: studentAddressMarriageTuition.schema,
-          updateFormData: studentAddressMarriageTuition.updateFormData,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/additional-student-information',
+          uiSchema: studentAdditionalInformationView.uiSchema,
+          schema: studentAdditionalInformationView.schema,
         },
-        studentSchoolAddress: {
+        studentAdditionalInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: School addresses',
-          path: 'report-674-student-school-address',
-          uiSchema: studentSchoolAddress.uiSchema,
-          schema: studentSchoolAddress.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-identification',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformation.uiSchema,
+          schema: studentAdditionalInformation.schema,
         },
-        studentTermDates: {
+        studentAdditionalInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Student term dates',
-          path: 'report-674-student-school-term-dates',
-          uiSchema: studentTermDates.uiSchema,
-          schema: studentTermDates.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-address',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTwo.uiSchema,
+          schema: studentAdditionalInformationPartTwo.schema,
         },
-        studentLastTerm: {
+        studentAdditionalInformationPartThree: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.report674),
-          title:
-            'Information needed to add a student 18 to 23 years old: Last term date',
-          path: 'report-674-student-last-term-information',
-          uiSchema: studentLastTerm.uiSchema,
-          schema: studentLastTerm.schema,
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-marriage',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartThree.uiSchema,
+          schema: studentAdditionalInformationPartThree.schema,
         },
+        studentAdditionalInformationPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-education-benefits',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartFour.uiSchema,
+          schema: studentAdditionalInformationPartFour.schema,
+        },
+        // studentAddressMarriageTuition: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title:
+        //     'Information needed to add a student 18 to 23 years old: Additional information',
+        //   path: 'report-674-student-address',
+        //   uiSchema: studentAddressMarriageTuition.uiSchema,
+        //   schema: studentAddressMarriageTuition.schema,
+        //   updateFormData: studentAddressMarriageTuition.updateFormData,
+        // },
+        // studentSchoolAddress: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title:
+        //     'Information needed to add a student 18 to 23 years old: School addresses',
+        //   path: 'report-674-student-school-address',
+        //   uiSchema: studentSchoolAddress.uiSchema,
+        //   schema: studentSchoolAddress.schema,
+        // },
+        // studentTermDates: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title:
+        //     'Information needed to add a student 18 to 23 years old: Student term dates',
+        //   path: 'report-674-student-school-term-dates',
+        //   uiSchema: studentTermDates.uiSchema,
+        //   schema: studentTermDates.schema,
+        // },
+        // studentLastTerm: {
+        //   depends: formData =>
+        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
+        //   title:
+        //     'Information needed to add a student 18 to 23 years old: Last term date',
+        //   path: 'report-674-student-last-term-information',
+        //   uiSchema: studentLastTerm.uiSchema,
+        //   schema: studentLastTerm.schema,
+        // },
         // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
         studentIncomeInformation: {
           depends: () => false,
