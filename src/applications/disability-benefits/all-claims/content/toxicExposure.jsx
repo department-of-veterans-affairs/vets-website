@@ -3,6 +3,7 @@ import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-
 import {
   capitalizeEachWord,
   formSubtitle,
+  formTitle,
   formatMonthYearDate,
   isClaimingNew,
   sippableId,
@@ -107,7 +108,7 @@ export const notSureHazardDetails = (
  * @param {number} totalItems - total number of selected items
  * @param {string} itemName - Display name of the location or hazard
  * @param {string} itemType - Name of the item. Defaults to 'Location'
- * @returns
+ * @returns {string} subtitle
  */
 export function teSubtitle(
   currentItem,
@@ -120,36 +121,6 @@ export function teSubtitle(
       totalItems > 0 &&
       `${itemType} ${currentItem} of ${totalItems}: ${itemName}`) ||
     itemName
-  );
-}
-
-/**
- * Create the markup for page description including the subtitle and date range description text
- *
- * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this group
- * @param {string} itemName - Display name of the location or hazard
- * @param {string} itemName - Name of the item to display
- * @returns h4 subtitle and p description
- */
-export function dateRangePageDescription(
-  currentItem,
-  totalItems,
-  itemName,
-  itemType = 'Location',
-) {
-  const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, itemName, itemType),
-  );
-  return (
-    <>
-      {subtitle}
-      <p>
-        {itemType === 'Location'
-          ? dateRangeDescriptionWithLocation
-          : dateRangeDescriptionWithHazard}
-      </p>
-    </>
   );
 }
 
@@ -481,4 +452,44 @@ export function datesDescription(dates) {
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
   return `${startDate} - ${endDate}`;
+}
+
+/**
+ * Create a title and subtitle for a page which will be passed into ui:title so that
+ * they are grouped in the same legend
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - the subtitle for the page, which displays below the title
+ * @returns {JSX.Element} markup with title and subtitle. example below.
+ *
+ * <h3 class="...">Service after August 2, 1990</h3>
+ * <h4 class="...">Location 2 of 2: Iraq</h4>
+ */
+export function titleWithSubtitle(title, subTitle) {
+  return (
+    <>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+    </>
+  );
+}
+
+/**
+ * Group together the title, subtitle and description for the details page
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - markup for the page that displays in between the title and rest of the page
+ * @param {string} type - the type of page to generate for, locations or hazards
+ * @returns {JSX.Element} legend for the fieldset
+ */
+export function detailsPageBegin(title, subTitle, type = 'locations') {
+  return (
+    <legend>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+      <p className="vads-u-color--base vads-u-font-weight--normal vads-u-margin-bottom--0">
+        {type === 'locations'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
+    </legend>
+  );
 }
