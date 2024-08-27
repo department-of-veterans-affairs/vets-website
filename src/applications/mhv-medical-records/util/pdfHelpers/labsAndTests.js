@@ -212,7 +212,7 @@ export const generateRadiologyContent = record => ({
       },
       {
         title: 'Clinical history',
-        value: String(record.clinicalHistory),
+        value: record.clinicalHistory,
         inline: true,
       },
       {
