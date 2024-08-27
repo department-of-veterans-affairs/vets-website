@@ -281,21 +281,8 @@ const App = ({ children }) => {
           ) : (
             <>
               <MrBreadcrumbs />
-              <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-                {showSideNav && (
-                  <>
-                    <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4 no-print" />
-                  </>
-                )}
-                <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
-                  <div className="vads-l-row">
-                    <div className="vads-l-col">{children}</div>
-                    {!showSideNav && (
-                      <div className="medium-screen:vads-l-col--4 no-print" />
-                    )}
-                  </div>
-                </div>
+              <div className="vads-l-row">
+                <div className="medium-screen:vads-l-col--8">{children}</div>
               </div>
             </>
           )}
