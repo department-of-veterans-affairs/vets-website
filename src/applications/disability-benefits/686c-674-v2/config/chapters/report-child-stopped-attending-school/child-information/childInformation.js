@@ -40,7 +40,10 @@ export const uiSchema = {
       customTitle: ' ',
       useDlWrap: true,
     },
-    ...titleUI('Children between ages 18 and 23 who left school'),
+    ...titleUI({
+      title: 'Children between ages 18 and 23 who left school',
+      classNames: 'vads-u-color--black',
+    }),
     items: {
       fullName: fullNameNoSuffixUI(title => `Child’s ${title}`),
       ssn: {
