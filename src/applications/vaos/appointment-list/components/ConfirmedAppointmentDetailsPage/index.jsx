@@ -173,7 +173,8 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment) ||
+    fetchClaimStatus === FETCH_STATUS.failed
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
