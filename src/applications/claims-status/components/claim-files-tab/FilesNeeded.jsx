@@ -52,7 +52,7 @@ function FilesNeeded({
       {!isAutomated5103Notice(item.displayName) && (
         <DueDate date={item.suspenseDate} />
       )}
-      <p className="alert-description">{getItemDescription()}</p>
+      <span className="alert-description">{getItemDescription()}</span>
       <div className="link-action-container">
         <Link
           aria-label={`Details for ${item.displayName}`}
