@@ -151,8 +151,8 @@ const formConfig = {
           uiSchema: vetMedicalCenterApiPage.uiSchema,
           schema: vetMedicalCenterApiPage.schema,
         },
-        vetFacilityConfirmation: {
-          path: 'veteran-information/va-medical-center/confirmation',
+        vetMedicalCenterConfirmation: {
+          path: 'veteran-information/va-medical-center/confirm',
           title: content['vet-info-title--facility'],
           depends: showFacilityConfirmation,
           CustomPage: FacilityConfirmation,
