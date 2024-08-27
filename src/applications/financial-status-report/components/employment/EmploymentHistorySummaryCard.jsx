@@ -172,6 +172,7 @@ const EmploymentHistorySummaryCard = ({
 
           <va-button-icon
             button-type="delete"
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
             onClick={() => handleDeleteClick(index)}
           />
 

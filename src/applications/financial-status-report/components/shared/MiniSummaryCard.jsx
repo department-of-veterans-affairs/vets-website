@@ -53,7 +53,11 @@ export const MiniSummaryCard = ({
           </span>
         </Link>
         {showDelete && (
-          <va-button-icon button-type="delete" onClick={onDelete} />
+          <va-button-icon
+            button-type="delete"
+            onClick={onDelete}
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
+          />
         )}
       </div>
     </va-card>
