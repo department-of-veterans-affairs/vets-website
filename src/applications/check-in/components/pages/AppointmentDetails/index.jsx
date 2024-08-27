@@ -163,7 +163,7 @@ const AppointmentDetails = props => {
         });
         break;
       case 'vvc':
-        title = t('video-appointment--title');
+        title = t('#-util-capitalize', { value: t('video-appointment') });
         break;
       default:
         title = t('in-person-appointment');
