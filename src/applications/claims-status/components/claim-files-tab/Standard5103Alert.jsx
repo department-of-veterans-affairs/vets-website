@@ -14,7 +14,7 @@ function Standard5103Alert({ previousPage = null }) {
       <h4 slot="headline" className="alert-title">
         {standard5103Item.displayName}
       </h4>
-      <span className="alert-description">{standard5103Item.description}</span>
+      <p className="alert-description">{standard5103Item.description}</p>
       <div className="link-action-container">
         <Link
           aria-label={`Details for ${standard5103Item.displayName}`}

@@ -6,6 +6,7 @@ import {
   truncateDescription,
   isAutomated5103Notice,
 } from '../../utils/helpers';
+import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
 
 function FilesNeeded({
@@ -18,18 +19,7 @@ function FilesNeeded({
   const itemsWithNewDescriptions = [
     {
       type: 'Automated 5103 Notice Response',
-      description: (
-        <>
-          <p>
-            We sent you a "5103 notice" letter that lists the types of evidence
-            we may need to decide your claim.
-          </p>
-          <p>
-            Upload the waiver attached to the letter if you’re finished adding
-            evidence.
-          </p>
-        </>
-      ),
+      description: standard5103Item.description,
     },
   ];
 
@@ -55,12 +45,14 @@ function FilesNeeded({
       status="warning"
     >
       <h4 slot="headline" className="alert-title">
-        {item.displayName}
+        {isAutomated5103Notice(item.displayName)
+          ? standard5103Item.displayName
+          : item.displayName}
       </h4>
       {!isAutomated5103Notice(item.displayName) && (
         <DueDate date={item.suspenseDate} />
       )}
-      <span className="alert-description">{getItemDescription()}</span>
+      <p className="alert-description">{getItemDescription()}</p>
       <div className="link-action-container">
         <Link
           aria-label={`Details for ${item.displayName}`}

@@ -30,7 +30,7 @@ describe('<FilesNeeded>', () => {
     context('when item type is Automated 5103 Notice Response', () => {
       const item5103 = {
         displayName: 'Automated 5103 Notice Response',
-        description: 'This is a alert',
+        description: 'Test description',
         suspenseDate: '2024-12-01',
       };
       context('when evidenceWaiverSubmitted5103 is false', () => {
@@ -40,14 +40,12 @@ describe('<FilesNeeded>', () => {
           );
 
           expect(queryByText('December 1, 2024')).to.not.exist;
-          expect(queryByText(item5103.description)).to.not.exist;
-          getByText(item5103.displayName);
-          getByText(
-            `We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.`,
-          );
-          getByText(
-            `Upload the waiver attached to the letter if you’re finished adding evidence.`,
-          );
+          expect(
+            queryByText(
+              'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+            ),
+          ).to.exist;
+          expect(queryByText('Review evidence list')).to.exist;
           getByText('Details');
         });
       });

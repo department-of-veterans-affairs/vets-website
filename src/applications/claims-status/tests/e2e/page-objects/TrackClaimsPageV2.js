@@ -545,7 +545,7 @@ class TrackClaimsPageV2 {
       .find('a')
       .should('contain', 'Details');
     cy.get(testId)
-      .find('.alert-description > p')
+      .find('.alert-description')
       .first()
       .should(
         'contain',
