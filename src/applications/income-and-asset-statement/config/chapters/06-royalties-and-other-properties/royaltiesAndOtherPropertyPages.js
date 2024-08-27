@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -15,13 +16,14 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 import {
+  formatCurrency,
   otherRecipientRelationshipExplanationRequired,
   otherGeneratedIncomeTypeExplanationRequired,
   recipientNameRequired,
   showRecipientName,
 } from '../../../helpers';
+import { relationshipLabels, generatedIncomeTypeLabels } from '../../../labels';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -37,7 +39,30 @@ const options = {
     !item.incomeGenerationMethod, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => generatedIncomeTypeLabels[item.incomeGenerationMethod],
+    getItemName: item => relationshipLabels[item.recipientRelationship],
+    cardDescription: item =>
+      item && (
+        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+          <li>
+            Income Generation Method:{' '}
+            <span className="vads-u-font-weight--bold">
+              {generatedIncomeTypeLabels[item.incomeGenerationMethod]}
+            </span>
+          </li>
+          <li>
+            Gross monthly income:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.grossMonthlyIncome)}
+            </span>
+          </li>
+          <li>
+            Fair market value:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.fairMarketValue)}
+            </span>
+          </li>
+        </ul>
+      ),
     reviewAddButtonText: 'Add another royalty and other property',
     alertMaxItems:
       'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',
