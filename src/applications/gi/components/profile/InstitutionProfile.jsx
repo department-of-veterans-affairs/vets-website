@@ -23,7 +23,6 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
-import YellowRibbonSection from './YellowRibbonSection';
 
 export default function InstitutionProfile({
   institution,
@@ -170,9 +169,7 @@ export default function InstitutionProfile({
         <ProfileSection
           label="Yellow ribbon program information"
           id="yellow-ribbon-program-information"
-        >
-          <YellowRibbonSection />
-        </ProfileSection>
+        />
       }
       {type === 'FOREIGN' && (
         <p>
