@@ -1,14 +1,41 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from '../LoadingIndicator';
 import FormFooter from '../FormFooter';
 
-export default function ConfirmationPending({
+const ConfirmationPending = ({
   claimantName,
   confirmationDate,
+  confirmationError,
+  confirmationLoading,
   printPage,
-}) {
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'IN_PROGRESS',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
+
   return (
-    <div className="meb-confirmation-page meb-confirmation-page_denied">
+    <div className="meb-confirmation-page meb-confirmation-page_pending">
       <va-alert status="success">
         <h3 slot="headline">We’ve received your application</h3>
         <p>
@@ -24,13 +51,12 @@ export default function ConfirmationPending({
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
-        <button
+        <va-button
+          uswds
           className="usa-button meb-print"
+          text="Print this page"
           onClick={printPage}
-          type="button"
-        >
-          Print this page
-        </button>
+        />
       </div>
 
       <h2>When will I hear back about my application?</h2>
@@ -40,9 +66,8 @@ export default function ConfirmationPending({
         <p>
           If more than a month has passed since you gave us your application and
           you haven’t heard back, please don’t apply again. Call our toll-free
-          Education Call Center at{' '}
-          <a href="tel:1-888-442-4551">1-888-442-4551</a> or{' '}
-          <a href="tel:001-918-781-5678">001-918-781-5678</a> if you are outside
+          Education Call Center at <va-telephone contact="8884424551" /> or{' '}
+          <va-telephone contact="9187815678" international /> if you are outside
           the U.S.
         </p>
       </div>
@@ -69,7 +94,7 @@ export default function ConfirmationPending({
         </li>
         <li>
           Use our{' '}
-          <a href="/education/gi-bill-comparison-tool/ ">
+          <a href="/education/gi-bill-comparison-tool/">
             GI Bill Comparison Tool
           </a>{' '}
           to help you decide which education program and school is best for you.
@@ -98,10 +123,22 @@ export default function ConfirmationPending({
       <FormFooter />
     </div>
   );
-}
+};
 
 ConfirmationPending.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
   printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool,
+  confirmationLoading: PropTypes.bool,
 };
+
+ConfirmationPending.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+};
+
+export default ConfirmationPending;

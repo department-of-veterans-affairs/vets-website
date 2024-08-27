@@ -5,15 +5,15 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-import prefillTransformer from '../config/prefill-transformer';
+// import prefillTransformer from '../config/prefill-transformer';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  setFormData,
+  // setFormData,
   formData,
 }) => {
-  const prefillData = prefillTransformer();
+  // const prefillData = prefillTransformer();
 
   const {
     first,
@@ -35,11 +35,11 @@ const PersonalAuthenticatedInformation = ({
 
   useEffect(() => {
     focusElement('h2');
-    if (!formData.aboutYourself.first) {
-      setFormData({
-        ...prefillData.formData,
-      });
-    }
+    // if (!formData.aboutYourself.first) {
+    //   setFormData({
+    //     ...prefillData.formData,
+    //   });
+    // }
   }, []);
 
   return (

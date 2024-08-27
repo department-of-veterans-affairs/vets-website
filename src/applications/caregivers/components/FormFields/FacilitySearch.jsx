@@ -4,7 +4,7 @@ import {
   VaButton,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fetchMapBoxBBoxCoordinates } from '../../actions/fetchMapBoxBBoxCoordinates';
+import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
@@ -15,11 +15,23 @@ const FacilitySearch = props => {
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
-  const listProps = useMemo(() => ({ ...props, facilities, query }), [
-    facilities,
-    props,
-    query,
-  ]);
+  const facilityListProps = useMemo(
+    () => {
+      const { onChange, ...restOfProps } = props;
+      const setSelectedFacilities = facilityId => {
+        const facility = facilities.find(f => f.id === facilityId);
+        onChange({ veteranSelected: facility });
+      };
+      return {
+        ...restOfProps,
+        value: restOfProps?.formData?.veteranSelected?.id,
+        onChange: setSelectedFacilities,
+        facilities,
+        query,
+      };
+    },
+    [facilities, props, query],
+  );
 
   const handleChange = e => {
     setQuery(e.target.value);
@@ -33,17 +45,28 @@ const FacilitySearch = props => {
 
     setLoading(true);
     setError(null);
-    setFacilities(null);
+    setFacilities([]);
 
-    try {
-      const coordinates = await fetchMapBoxBBoxCoordinates(query);
-      const facilityList = await fetchFacilities(coordinates);
-      setFacilities(facilityList);
-    } catch (err) {
-      setError(err.errorMessage);
-    } finally {
+    const mapboxResponse = await fetchMapBoxGeocoding(query);
+    if (mapboxResponse.errorMessage) {
+      setError(mapboxResponse.errorMessage);
       setLoading(false);
+      return;
     }
+
+    const [longitude, latitude] = mapboxResponse.center;
+    const facilitiesResponse = await fetchFacilities({
+      long: longitude,
+      lat: latitude,
+    });
+    if (facilitiesResponse.errorMessage) {
+      setError(facilitiesResponse.errorMessage);
+      setLoading(false);
+      return;
+    }
+
+    setFacilities(facilitiesResponse);
+    setLoading(false);
   };
 
   const searchResults = () => {
@@ -57,7 +80,7 @@ const FacilitySearch = props => {
       );
     }
     if (facilities?.length) {
-      return <FacilityList {...listProps} />;
+      return <FacilityList {...facilityListProps} />;
     }
     return null;
   };
@@ -93,6 +116,7 @@ const FacilitySearch = props => {
 };
 
 FacilitySearch.propTypes = {
+  onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
 };
 

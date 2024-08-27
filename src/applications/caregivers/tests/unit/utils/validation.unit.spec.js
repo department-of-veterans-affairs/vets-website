@@ -101,10 +101,19 @@ describe('CG `validatePlannedClinic` form validation', () => {
     expect(errors.addError.called).to.be.true;
   });
 
+  it('should set an error if planned clinic is an empty object', () => {
+    const { errors, formData } = getData({
+      spy: addErrorSpy,
+      formData: { 'view:plannedClinic': {} },
+    });
+    validatePlannedClinic(errors, {}, formData);
+    expect(errors.addError.called).to.be.true;
+  });
+
   it('should not set an error if planned clinic has been declared', () => {
     const { errors, formData } = getData({
       spy: addErrorSpy,
-      formData: { veteranPlannedClinic: '675' },
+      formData: { 'view:plannedClinic': { id: 'my-id' } },
     });
     validatePlannedClinic(errors, {}, formData);
     expect(errors.addError.called).to.be.false;

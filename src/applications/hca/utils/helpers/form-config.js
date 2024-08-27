@@ -31,6 +31,16 @@ export function hasHighCompensation(formData) {
 }
 
 /**
+ * Helper that determines if the Veteran has low-disability compensation from VA
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if `vaCompensationType` is set to 'lowDisability'
+ */
+export function hasLowCompensation(formData) {
+  const { vaCompensationType } = formData;
+  return vaCompensationType === 'lowDisability';
+}
+
+/**
  * Helper that determines if the Veteran has no compensation from VA
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if `vaCompensationType` is set to 'none'
@@ -74,9 +84,18 @@ export function isMissingVeteranDob(formData) {
 }
 
 /**
- * Helper that determines if the form data is missing the Veteran's birth sex
+ * Helper that determines if the feature flag status for the registration-only question
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the viewfield is empty
+ * @returns {Boolean} - true if the form data is `true`
+ */
+export function isRegOnlyEnabled(formData) {
+  return formData['view:isRegOnlyEnabled'];
+}
+
+/**
+ * Helper that determines if the feature flag status for the gender identity question
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the form data is `true`
  */
 export function isSigiEnabled(formData) {
   return formData['view:isSigiEnabled'];
@@ -89,6 +108,32 @@ export function isSigiEnabled(formData) {
  */
 export function hasDifferentHomeAddress(formData) {
   return !formData['view:doesMailingMatchHomeAddress'];
+}
+
+/**
+ * Helper that determines if the registration-only questions should be show to guest users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged out, feature flag is active & VA
+ * compensation is set to `lowDisability`
+ */
+export function includeRegOnlyGuestQuestions(formData) {
+  return (
+    isLoggedOut(formData) &&
+    isRegOnlyEnabled(formData) &&
+    hasLowCompensation(formData)
+  );
+}
+
+/**
+ * Helper that determines if the registration-only alert should be shown to
+ * guest users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged out and users selected the
+ * `regOnly` package
+ */
+export function showRegOnlyGuestConfirmation(formData) {
+  const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
+  return isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
 }
 
 /**

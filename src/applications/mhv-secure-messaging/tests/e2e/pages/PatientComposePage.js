@@ -2,7 +2,7 @@ import mockDraftMessage from '../fixtures/message-draft-response.json';
 import mockMessageResponse from '../fixtures/message-response.json';
 import mockThreadResponse from '../fixtures/thread-response.json';
 import mockSignature from '../fixtures/signature-response.json';
-import { Locators, Paths, Data } from '../utils/constants';
+import { Locators, Paths, Data, Alerts } from '../utils/constants';
 import mockDraftResponse from '../fixtures/message-compose-draft-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import newDraft from '../fixtures/draftsResponse/drafts-single-message-response.json';
@@ -21,7 +21,7 @@ class PatientComposePage {
       .its('request.body')
       .then(request => {
         if (mockRequest) {
-          expect(request.body).to.eq(
+          expect(request.body).to.contain(
             `\n\n\nName\nTitleTest${mockRequest.body} `,
           );
           expect(request.category).to.eq(mockRequest.category);
@@ -63,12 +63,12 @@ class PatientComposePage {
     cy.focused().should('contain.text', Data.SECURE_MSG_SENT_SUCCESSFULLY);
   };
 
-  selectRecipient = (recipient = 1) => {
+  selectRecipient = (index = 1) => {
     cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
-      .select(recipient, { force: true });
+      .select(index, { force: true });
   };
 
   selectCategory = (category = 'OTHER') => {
@@ -91,7 +91,7 @@ class PatientComposePage {
       .find('[name="compose-message-body"]');
   };
 
-  getDigitalSignatureField = () => {
+  getElectronicSignatureField = () => {
     return cy.get('va-card').find('#inputField');
   };
 
@@ -244,12 +244,19 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  closeAttachmentErrorPopup = () => {
+  closeAttachmentErrorModal = () => {
     cy.get(Locators.ALERTS.ERROR_MODAL)
       .shadow()
       .find('[type="button"]')
       .first()
       .click();
+  };
+
+  closeESAlertModal = () => {
+    cy.get(Locators.ALERTS.ES_ALERT)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
   };
 
   attachMessageFromFile = filename => {
@@ -427,13 +434,20 @@ class PatientComposePage {
     });
   };
 
-  verifyDigitalSignature = () => {
-    cy.get('va-card')
-      .find('h2')
-      .should('have.text', 'Digital signature');
+  verifyElectronicSignatureAlert = () => {
+    cy.get(`[data-testid="signature-alert"]`).should(
+      `have.text`,
+      Alerts.EL_SIGN,
+    );
   };
 
-  verifyDigitalSignatureRequired = () => {
+  verifyElectronicSignature = () => {
+    cy.get('va-card')
+      .find('h2')
+      .should('have.text', 'Electronic signature');
+  };
+
+  verifyElectronicSignatureRequired = () => {
     cy.get('va-card')
       .find('va-text-input')
       .shadow()
@@ -441,8 +455,20 @@ class PatientComposePage {
       .should('contain.text', 'Required');
   };
 
+  verifyESCheckBoxRequired = () => {
+    cy.get(`#option-label`).should(`contain.text`, Data.EL_SIGN_CHECK);
+    cy.get(`#option-label>span`).should(`have.text`, `(*Required)`);
+  };
+
+  clickElectronicSignatureCheckbox = () => {
+    cy.get(`va-checkbox`)
+      .shadow()
+      .find(`#checkbox-element`)
+      .click({ force: true });
+  };
+
   getAlertEditDraftBtn = () => {
-    return cy.get(Locators.ALERTS.DS_ALERT).find('va-button');
+    return cy.get(Locators.ALERTS.ES_ALERT).find('va-button');
   };
 
   verifyHeader = text => {

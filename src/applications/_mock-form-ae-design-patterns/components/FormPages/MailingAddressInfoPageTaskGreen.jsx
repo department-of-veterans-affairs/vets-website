@@ -1,27 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import AddressView from '@@vap-svc/components/AddressField/AddressView';
 import { Link } from 'react-router';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import { BorderedInfoSection } from '../BorderedInfoSection';
-
-const SuccessAlert = () => {
-  useEffect(() => {
-    window.sessionStorage.removeItem('onReviewPageContactInfoEdit');
-  }, []);
-  return (
-    <va-alert
-      close-btn-aria-label="Close notification"
-      status="success"
-      visible
-    >
-      <h2 slot="headline">Your mailing address has been updated</h2>
-      <p className="vads-u-margin-y--0">
-        These changes have been saved to your profile.
-      </p>
-    </va-alert>
-  );
-};
+import { MailingAddressSaveSuccessAlert } from '../FormAlerts/MailingAddressSaveSuccessAlert';
 
 export const MailingAddressInfoPageTaskGreen = () => {
   const mailingAddress = useSelector(selectVAPMailingAddress);
@@ -40,7 +23,9 @@ export const MailingAddressInfoPageTaskGreen = () => {
       </p>
 
       {showSuccessAlert &&
-        showSuccessAlert === 'address,updated' && <SuccessAlert />}
+        showSuccessAlert === 'address,updated' && (
+          <MailingAddressSaveSuccessAlert />
+        )}
 
       <BorderedInfoSection>
         <span className="vads-u-font-weight--bold">Mailing Address</span>

@@ -11,12 +11,12 @@ import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import { Completion } from '../../../containers/Completion';
 
 import { EditAddress } from '../../../components/EditContactInfo';
 import { GetFormHelp } from '../../../components/GetFormHelp';
 import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { MailingAddressInfoPageTaskGreen } from '../../../components/FormPages/MailingAddressInfoPageTaskGreen';
+import { taskCompletePage } from '../../taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -135,21 +135,14 @@ const formConfig = {
                 'task-green/veteran-information/confirm-mailing-address',
               saveButtonText: 'Save to profile',
               subTitle:
-                'We’ll send any important information about your application to this address.',
+                'We send your VA letters, bills, and prescriptions to this address.',
             }),
           CustomPageReview: null,
           depends: () => false, // accessed from contact info page
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        taskCompleted: {
-          title: "You're done!",
-          path: 'complete',
-          CustomPage: props => Completion({ ...props }),
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        taskCompletePage,
       },
     },
   },

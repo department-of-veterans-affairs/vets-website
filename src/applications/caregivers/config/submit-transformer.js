@@ -11,6 +11,12 @@ const submitTransformer = (formConfig, form) => {
     ? 'secondaryTwo'
     : null;
 
+  if (formData['view:useFacilitiesAPI']) {
+    const plannedClinicId = formData['view:plannedClinic'].id.split('_').pop();
+
+    formData.veteranPlannedClinic = plannedClinicId;
+  }
+
   // creates chapter objects by matching chapter prefixes
   const buildChapterSortedObject = dataPrefix => {
     // check to make sure there is a keyName

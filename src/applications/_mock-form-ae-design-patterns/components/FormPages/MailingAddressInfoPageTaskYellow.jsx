@@ -4,13 +4,22 @@ import { Link } from 'react-router';
 import { selectVAPMailingAddress } from 'platform/user/selectors';
 import { useSelector } from 'react-redux';
 import { PrefillAlert } from '../PrefillAlert';
+import { MailingAddressSaveSuccessAlert } from '../FormAlerts/MailingAddressSaveSuccessAlert';
 
 export const MailingAddressInfoPageTaskYellow = () => {
   const mailingAddress = useSelector(selectVAPMailingAddress);
 
+  const showSuccessAlert = window.sessionStorage.getItem(
+    'onReviewPageContactInfoEdit',
+  );
+
   return (
     <div className="vads-u-margin-top--2">
-      <PrefillAlert />
+      {showSuccessAlert && showSuccessAlert === 'address,updated' ? (
+        <MailingAddressSaveSuccessAlert />
+      ) : (
+        <PrefillAlert />
+      )}
 
       <h3>Mailing address</h3>
 

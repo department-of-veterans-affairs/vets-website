@@ -21,6 +21,7 @@ export const content = {
   remove: 'Remove', // for locations
   delete: 'Delete', // for files
   update: 'Update page',
+  noDate: 'I don’t have the date',
 
   summaryTitle: 'Review the evidence you’re submitting',
 
@@ -54,6 +55,7 @@ export const content = {
     limitation: '',
     upload: 'We’ll remove the uploaded document',
     modalRemove: 'Yes, remove this',
+    modalDelete: 'Yes, delete this file',
     modalNotRemove: 'No, keep this',
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',

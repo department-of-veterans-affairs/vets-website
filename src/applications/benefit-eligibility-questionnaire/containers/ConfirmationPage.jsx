@@ -7,7 +7,8 @@ import PropTypes from 'prop-types';
 import { setSubmission } from 'platform/forms-system/src/js/actions';
 import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
-import GetFormHelp from '../../simple-forms/shared/components/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
+import ShareResultsModal from '../components/ShareResultsModal';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -33,19 +34,14 @@ export class ConfirmationPage extends React.Component {
           before you apply.
         </p>
 
-        <va-button
-          id="shareYourResults"
-          message-aria-describedby="Share your results"
-          text="Share your results"
-          onClick={() => {}}
-        />
+        <ShareResultsModal />
 
-        <div id="resultsContainer">
-          <div id="filtersSectionDesktop">
+        <div id="results-container">
+          <div id="filters-section-desktop">
             <b>Filters</b>
           </div>
 
-          <div id="filtersSectionMobile">
+          <div id="filters-section-mobile">
             <va-link-action
               href="#"
               message-aria-describedby="Filter and sort"
@@ -54,7 +50,7 @@ export class ConfirmationPage extends React.Component {
             />
           </div>
 
-          <div id="resultsSection">
+          <div id="results-section">
             <b>
               Showing 1 result, filtered to show all results, sorted by
               relevance

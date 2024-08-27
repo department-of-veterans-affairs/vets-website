@@ -49,6 +49,7 @@ import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInform
 import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
 import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
+import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
@@ -148,6 +149,15 @@ const formConfig = {
           depends: formData => formData['view:useFacilitiesAPI'],
           uiSchema: vetMedicalCenterApiPage.uiSchema,
           schema: vetMedicalCenterApiPage.schema,
+        },
+        vetFacilityConfirmation: {
+          path: 'veteran-information/va-medical-center/confirmation',
+          title: content['vet-info-title--facility'],
+          depends: formData => formData['view:useFacilitiesAPI'],
+          CustomPage: FacilityConfirmation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },

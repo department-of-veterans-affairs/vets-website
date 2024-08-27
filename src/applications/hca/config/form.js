@@ -17,6 +17,8 @@ import {
   hasNoCompensation,
   hasHighCompensation,
   notShortFormEligible,
+  includeRegOnlyGuestQuestions,
+  showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   includeTeraInformation,
   includeGulfWarServiceDates,
@@ -58,7 +60,9 @@ import contactInformation from './chapters/veteranInformation/contactInformation
 // chapter 2 VA Benefits
 import basicInformation from './chapters/vaBenefits/basicInformation';
 import pensionInformation from './chapters/vaBenefits/pensionInformation';
+import benefitsPackage from './chapters/vaBenefits/benefitsPackage';
 import DisabilityConfirmationPage from '../components/FormPages/DisabilityConfirmation';
+import RegistrationOnlyGuestPage from '../components/FormPages/RegistrationOnlyGuest';
 import CompensationTypeReviewPage from '../components/FormReview/CompensationTypeReviewPage';
 
 // chapter 3 Military Service
@@ -255,6 +259,23 @@ const formConfig = {
           CustomPageReview: CompensationTypeReviewPage,
           uiSchema: basicInformation.uiSchema,
           schema: basicInformation.schema,
+        },
+        vaBenefitsPackage: {
+          path: 'va-benefits/select-benefits-package',
+          title: 'VA benefits package',
+          depends: includeRegOnlyGuestQuestions,
+          uiSchema: benefitsPackage.uiSchema,
+          schema: benefitsPackage.schema,
+        },
+        vaRegOnlyConfirmation: {
+          path: 'va-benefits/care-for-service-connected-conditions',
+          title: 'Care for service-connected conditions',
+          initialData: {},
+          depends: showRegOnlyGuestConfirmation,
+          CustomPage: RegistrationOnlyGuestPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         vaPayConfirmation: {
           path: 'va-benefits/confirm-service-pay',

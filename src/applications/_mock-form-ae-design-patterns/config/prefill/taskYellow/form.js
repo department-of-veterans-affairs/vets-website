@@ -8,8 +8,9 @@ import content from '../../../locales/en/content.json';
 
 import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
-import { Completion } from '../../../containers/Completion';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
+import { taskCompletePage } from '../../taskCompletePage';
+import { GetFormHelp } from '../../../components/GetFormHelp/index';
 
 import VeteranProfileInformationTaskYellow from '../../../components/FormPages/VeteranProfileInformationTaskYellow';
 import { MailingAddressInfoPageTaskYellow } from '../../../components/FormPages/MailingAddressInfoPageTaskYellow';
@@ -25,6 +26,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
+  getHelp: GetFormHelp,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',
@@ -51,7 +53,8 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for mock form ae design patterns benefits.',
   },
-  title: 'Prefill Task Yellow',
+  title: 'Update your VA health benefits information',
+  subTitle: 'Health Benefits Update Form (VA Form 10-10EZR)',
   defaultDefinitions: {},
   chapters: {
     veteranInformation: {
@@ -105,18 +108,7 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-      },
-    },
-    completion: {
-      title: 'Task Completed',
-      pages: {
-        taskCompleted: {
-          path: 'complete',
-          CustomPage: props => Completion({ ...props }),
-          CustomPageReview: null,
-          uiSchema: {},
-          schema: { type: 'object', properties: {} },
-        },
+        taskCompletePage,
       },
     },
   },
