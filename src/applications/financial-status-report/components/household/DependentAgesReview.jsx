@@ -36,7 +36,7 @@ const DependentAgesReview = () => {
     showDependents && (
       <div>
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-          Dependents Ages
+          Dependents ages
         </h4>
         <dl className="review vads-u-border-bottom--1">{dependentAgeItems}</dl>
       </div>
