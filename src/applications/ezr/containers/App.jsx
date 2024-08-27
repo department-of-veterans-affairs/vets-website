@@ -12,6 +12,7 @@ import { useBrowserMonitoring } from '../hooks/useBrowserMonitoring';
 import { parseVeteranDob, parseVeteranGender } from '../utils/helpers/general';
 import content from '../locales/en/content.json';
 import formConfig from '../config/form';
+import formConfigWithTeraBranching from '../config/form-with-tera-branching';
 
 const App = props => {
   const {
@@ -24,7 +25,12 @@ const App = props => {
     user,
   } = props;
   const { veteranFullName } = formData;
-  const { loading: isLoadingFeatures, isProdEnabled, isSigiEnabled } = features;
+  const {
+    loading: isLoadingFeatures,
+    isProdEnabled,
+    isSigiEnabled,
+    isTeraBranchingEnabled,
+  } = features;
   const {
     dob: veteranDateOfBirth,
     gender: veteranGender,
@@ -33,6 +39,9 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
+  const activeFormConfig = isTeraBranchingEnabled
+    ? formConfigWithTeraBranching
+    : formConfig;
 
   useEffect(
     () => {
@@ -62,6 +71,7 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
+          'view:isTeraBranchingEnabled': isTeraBranchingEnabled,
         };
 
         setFormData({
@@ -84,7 +94,7 @@ const App = props => {
       set-focus
     />
   ) : (
-    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+    <RoutedSavableApp formConfig={activeFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
   );
@@ -108,6 +118,7 @@ const mapStateToProps = state => ({
     loading: state.featureToggles.loading,
     isProdEnabled: state.featureToggles.ezrProdEnabled,
     isSigiEnabled: state.featureToggles.hcaSigiEnabled,
+    isTeraBranchingEnabled: state.featureToggles.ezrTeraBranchingEnabled,
   },
   formData: state.form.data,
   user: state.user.profile,
