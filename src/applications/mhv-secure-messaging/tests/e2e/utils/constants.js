@@ -221,7 +221,7 @@ export const Locators = {
     ATTACHMENTS: '.attachments-list',
   },
   CHECKBOX: {
-    CL_ALL: '[data-testid="contact-list-select-all-teams"]',
+    CL_ALL: '[data-testid*="select-all"]',
     CL_SINGLE: '[data-testid*="contact-list-select-team"]',
   },
   HEADERS: {
