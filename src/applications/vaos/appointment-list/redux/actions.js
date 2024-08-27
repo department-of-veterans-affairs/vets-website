@@ -497,7 +497,8 @@ export function fetchClaim(appointmentId, appointment) {
         });
       }
     } catch (e) {
-      if (e.errors[0]?.status === '404') {
+      if (e.issue.code === '404') {
+        captureError(e);
         dispatch({
           type: FETCH_CLAIM_SUCCEEDED,
           id: appointmentId,
