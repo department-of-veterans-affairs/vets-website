@@ -35,5 +35,6 @@ export const getAppData = state => ({
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
   toeLightHouseDgiDirectDeposit:
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,
+  toeHighSchoolInfoChange: state?.featureToggles?.toeHighSchoolInfoChange,
   user: state.user || {},
 });

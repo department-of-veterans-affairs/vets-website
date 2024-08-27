@@ -18,6 +18,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   duplicateEmail,
   duplicatePhone,
   formData,
@@ -37,6 +38,7 @@ function ToeApp({
   showMebEnhancements06,
   showMebEnhancements08,
   toeDupContactInfoCall,
+  toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -228,6 +230,29 @@ function ToeApp({
     ],
   );
 
+  useEffect(
+    () => {
+      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+        setFormData({
+          ...formData,
+          toeHighSchoolInfoChange,
+        });
+      }
+    },
+    [toeHighSchoolInfoChange],
+  );
+
+  useEffect(
+    () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob],
+  );
   return (
     <>
       <div className="row">
@@ -292,6 +317,9 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   return {
     ...getAppData(state),
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: state.form?.data || {},
     claimant: state.data?.formData?.data?.attributes?.claimant,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

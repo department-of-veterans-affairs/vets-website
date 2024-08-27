@@ -643,7 +643,7 @@ describe('check-in experience', () => {
           expect(queryByTestId('appointment-action-message')).to.not.exist;
           expect(queryByTestId('check-in-button')).to.not.exist;
         });
-        it('should display the incomplete info warning', () => {
+        it('should display the check-in incomplete info warning', () => {
           const { getByTestId } = render(
             <CheckInProvider
               store={dayOfCheckInStore}
@@ -653,6 +653,19 @@ describe('check-in experience', () => {
             </CheckInProvider>,
           );
           expect(getByTestId('info-warning')).to.exist;
+          expect(getByTestId('check-in-info')).to.exist;
+        });
+        it('should display the pre-check-in incomplete info warning', () => {
+          const { getByTestId } = render(
+            <CheckInProvider
+              store={preCheckInStore}
+              router={upcomingAppointmentTwoRoute}
+            >
+              <AppointmentDetails />
+            </CheckInProvider>,
+          );
+          expect(getByTestId('info-warning')).to.exist;
+          expect(getByTestId('pre-check-in-info')).to.exist;
         });
         describe('Canceled appointments', () => {
           it('Renders the canceled alert', () => {

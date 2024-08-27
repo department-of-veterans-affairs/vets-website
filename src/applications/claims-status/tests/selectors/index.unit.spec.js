@@ -387,28 +387,6 @@ describe('selectors', () => {
     });
   });
 
-  describe('cstUseClaimDetailsV2', () => {
-    const state = {
-      featureToggles: {
-        cstUseClaimDetailsV2: true,
-        // eslint-disable-next-line camelcase
-        cst_use_claim_details_v2: true,
-      },
-    };
-
-    it('should return true', () => {
-      expect(selectors.cstUseClaimDetailsV2(state)).to.be.true;
-    });
-
-    it('should return false', () => {
-      state.featureToggles.cstUseClaimDetailsV2 = false;
-      // eslint-disable-next-line camelcase
-      state.featureToggles.cst_use_claim_details_v2 = false;
-
-      expect(selectors.cstUseClaimDetailsV2(state)).to.be.false;
-    });
-  });
-
   describe('getBackendServices', () => {
     const state = {
       user: {
