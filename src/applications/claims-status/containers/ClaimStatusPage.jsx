@@ -63,6 +63,7 @@ class ClaimStatusPage extends React.Component {
       status,
     } = claim.attributes;
     const claimPhaseType = claimPhaseDates.latestPhaseType;
+    const { currentPhaseBack } = claimPhaseDates;
     const isOpen = isClaimOpen(status, closeDate);
 
     return (
@@ -74,6 +75,7 @@ class ClaimStatusPage extends React.Component {
             <WhatWeAreDoing
               claimPhaseType={claimPhaseType}
               claimTypeCode={claimTypeCode}
+              currentPhaseBack={currentPhaseBack}
               phaseChangeDate={claimPhaseDates.phaseChangeDate}
               status={status}
             />
