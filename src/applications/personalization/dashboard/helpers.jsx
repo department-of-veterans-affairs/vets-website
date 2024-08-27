@@ -187,3 +187,27 @@ export const getLatestCopay = statements => {
     return acc;
   }, null);
 };
+
+export const normalizeSubmissionStatus = apiStatusValue => {
+  const value = apiStatusValue.toLowerCase();
+  switch (value) {
+    case 'pending':
+    case 'uploaded':
+      return 'inProgress';
+    case 'error':
+    case 'expired':
+      return 'actionNeeded';
+    default:
+      return 'received';
+  }
+};
+
+const SUBMISSION_STATUS_MAP = {
+  inProgress: 'Submission in Progress',
+  actionNeeded: 'Action Needed',
+  received: 'Received',
+};
+
+export const formatSubmissionDisplayStatus = status => {
+  return SUBMISSION_STATUS_MAP[status];
+};

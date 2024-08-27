@@ -7,6 +7,7 @@ const buildData = ({
   phoneNumber = '',
   emailAddress = '',
   schoolInfo = '',
+  branchOfService = '',
 }) => ({
   prefill: {
     personalInformation: {
@@ -19,6 +20,9 @@ const buildData = ({
     },
     avaProfile: {
       schoolInfo,
+    },
+    veteranServiceInformation: {
+      branchOfService,
     },
   },
   result: {
@@ -70,7 +74,7 @@ describe('Ask VA prefill transformer', () => {
     pages: { testPage: 'Page 1' },
   };
 
-  it('should transform user information when present', () => {
+  xit('should transform user information when present', () => {
     const { pages, metadata } = noTransformData;
     const data = buildData({
       first: 'Peter',

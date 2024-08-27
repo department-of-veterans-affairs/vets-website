@@ -3,7 +3,7 @@ import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
-import { format as dateFnsFormat, parseISO } from 'date-fns';
+import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -24,17 +24,34 @@ export const dateFormat = (timestamp, format = null) => {
 };
 
 /**
- * @param {*} datetime (2017-08-02T09:50:57-04:00)
+ * @param {*} datetime (2017-08-02T09:50:57-04:00 or 2000-08-09)
  * @returns {String} formatted datetime (August 2, 2017, 9:50 a.m.)
  */
 export const dateFormatWithoutTimezone = datetime => {
   let withoutTimezone = datetime;
   if (typeof datetime === 'string' && datetime.includes('-')) {
-    withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+    // Check if datetime has a timezone and strip it off if present
+    if (datetime.includes('T')) {
+      withoutTimezone = datetime.substring(0, datetime.lastIndexOf('-'));
+    } else {
+      // Handle the case where the datetime is just a date (e.g., "2000-08-09")
+      const parsedDate = parseISO(datetime);
+      if (isValid(parsedDate)) {
+        return dateFnsFormat(parsedDate, 'MMMM d, yyyy');
+      }
+    }
   }
-  return moment(withoutTimezone).format('MMMM D, YYYY, h:mm a');
-};
 
+  const parsedDateTime = parseISO(withoutTimezone);
+  if (isValid(parsedDateTime)) {
+    const formattedDate = dateFnsFormat(parsedDateTime, 'MMMM d, yyyy, h:mm a');
+    return formattedDate.replace(/AM|PM/, match =>
+      match.toLowerCase().replace('m', '.m.'),
+    );
+  }
+
+  return null;
+};
 /**
  * @param {Object} nameObject {first, middle, last, suffix}
  * @returns {String} formatted timestamp

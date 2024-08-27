@@ -1,5 +1,7 @@
 {
+  "description": "Applicant is certifier, two policies, medical claim, has EOB",
   "data": {
+    "view:hasPolicies": true,
     "certifierRole": "applicant",
     "sponsorName": {
       "first": "Sponsor",
