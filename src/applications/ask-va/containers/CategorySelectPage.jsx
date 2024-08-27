@@ -37,11 +37,13 @@ const CategorySelectPage = props => {
   const handleChange = event => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
-    dispatch(setCategoryID(selected.id));
-    onChange({ ...formData, selectCategory: selectedValue });
     localStorage.removeItem('askVAFiles');
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn)
+    if (requireSignInCategories.includes(selectedValue) && !loggedIn) {
       setShowModal({ show: true, selected: `${selectedValue}` });
+    } else {
+      dispatch(setCategoryID(selected.id));
+      onChange({ ...formData, selectCategory: selectedValue });
+    }
   };
 
   const getApiData = url => {

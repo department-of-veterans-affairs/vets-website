@@ -1943,8 +1943,8 @@ jobs:
           -H "Accept: application/vnd.github.v3+json" \
           -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
           https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d '{"event_type":"cd-production-deploy", "client_payload": {"github_sha": "'"${{ github.sha }}"'"}}'
-          
+          -d '{"event_type":"cd-production-deploy", "client_payload": {"github_sha": "'"${{ github.sha }}"'","github_ref": "'"${{ github.ref }}"'"}}'
+                    
   notify-failure:
     name: Notify Failure
     runs-on: ubuntu-latest

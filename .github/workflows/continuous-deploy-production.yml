@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Deploy
-    # if: always() && github.event.client_payload.github_ref == 'refs/heads/main' && needs.set-deploy-environments.result == 'success'
+    if: ${{ github.event.client_payload.github_ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
 
     steps:

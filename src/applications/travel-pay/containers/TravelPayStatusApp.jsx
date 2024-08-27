@@ -88,18 +88,22 @@ export default function App({ children }) {
   }
 
   // TODO: Move this logic to the API-side
+  const compareClaimsDate = (a, b) => {
+    // Date.parse(null) evaluates to NaN, which is falsy. By including
+    // the OR condition, any comparison with a null appointmentDateTime
+    // will fallback to comparing the createOn value instead.
+    return (
+      Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime) ||
+      Date.parse(b.createdOn) - Date.parse(a.createdOn)
+    );
+  };
+
   switch (orderClaimsBy) {
     case 'mostRecent':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(b.appointmentDateTime) - Date.parse(a.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(a, b));
       break;
     case 'oldest':
-      travelClaims.sort(
-        (a, b) =>
-          Date.parse(a.appointmentDateTime) - Date.parse(b.appointmentDateTime),
-      );
+      travelClaims.sort((a, b) => compareClaimsDate(b, a));
       break;
     default:
       break;
