@@ -222,7 +222,7 @@ export const Locators = {
   },
   CHECKBOX: {
     CL_ALL: '[data-testid="contact-list-select-all-teams"]',
-    CL_SINGLE: '[data-testid="contact-list-select-team"]',
+    CL_SINGLE: '[data-testid*="contact-list-select-team"]',
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
