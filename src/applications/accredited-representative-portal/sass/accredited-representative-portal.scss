@@ -54,3 +54,18 @@
     font-weight: 700;
   }
 }
+
+.arp-footer {
+  background-color: var(--vads-color-primary-darker);
+  min-width: 100%;
+
+  a:hover {
+    color: var(--vads-color-warning) !important;
+  }
+}
+
+// There is a div in content-build accredited-representative-portal.html that would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+    display: none;
+}
+
