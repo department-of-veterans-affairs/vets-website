@@ -131,7 +131,9 @@ const AppointmentsPage = props => {
 
   return (
     <Wrapper
-      pageTitle={t('#-util-capitalize', { value: t('appointments') })}
+      pageTitle={t('#-util-capitalize', {
+        value: t('appointments_other'),
+      })}
       withBackButton
     >
       <ActionItemDisplay router={router} />
