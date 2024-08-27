@@ -17,13 +17,13 @@ const FacilityConfirmation = props => {
         {facility?.address?.physical?.address1 && (
           <>
             {facility.address.physical.address1}
-            <br />
+            <br role="presentation" />
           </>
         )}
         {facility?.address?.physical?.address2 && (
           <>
             {facility.address.physical.address2}
-            <br />
+            <br role="presentation" />
           </>
         )}
         {facility?.address?.physical?.address3 && (
