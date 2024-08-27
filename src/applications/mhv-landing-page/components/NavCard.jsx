@@ -22,7 +22,7 @@ const NavCard = ({
   links,
   tag,
 }) => {
-  const listItems = links.map(({ ariaLabel, href, text, isExternal }) => (
+  const listItems = links?.map(({ ariaLabel, href, text, isExternal }) => (
     <li className="mhv-c-navlistitem" key={href}>
       <a
         className={isExternal ? 'mhv-c-navlink-external' : 'mhv-c-navlink'}
