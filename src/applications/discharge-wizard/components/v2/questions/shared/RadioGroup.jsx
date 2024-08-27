@@ -45,7 +45,6 @@ const RadioGroup = ({
   const [valueHasChanged, setValueHasChanged] = useState(false);
 
   const isForkableQuestion = forkableQuestions.includes(shortName);
-  // console.log(routeMap)
 
   const onContinueClick = () => {
     if (!formValue) {
@@ -139,18 +138,16 @@ const RadioGroup = ({
           </div>
         )}
       </VaRadio>
-      {editMode &&
-        forkableQuestions.includes(shortName) && (
-          <va-alert-expandable
-            class="vads-u-margin-top--4"
-            status="info"
-            trigger="Changing your answer may lead to a new set of questions."
-          >
-            If you change your answer to this question, you may be asked for
-            more information to ensure that we provide you with the best
-            results.
-          </va-alert-expandable>
-        )}
+      {editMode && (
+        <va-alert-expandable
+          class="vads-u-margin-top--4"
+          status="info"
+          trigger="Changing your answer may lead to a new set of questions."
+        >
+          If you change your answer to this question, you may be asked for more
+          information to ensure that we provide you with the best results.
+        </va-alert-expandable>
+      )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"

@@ -67,6 +67,7 @@ export const navigateForward = (
     const CURRENT_INDEX = roadmap?.indexOf(SHORT_NAME);
     const END_INDEX = roadmap?.length - 1;
     let nextIndex = CURRENT_INDEX + 1;
+    const localRoadMap = [...routeMap];
 
     if (CURRENT_INDEX === END_INDEX) {
       // Results logic
@@ -97,7 +98,7 @@ export const navigateForward = (
             if (valueHasChanged) {
               const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
               const newRouteMap = routeMap.slice(0, index + 1);
-              setRouteMap([...newRouteMap]);
+              setRouteMap([...newRouteMap, ROUTES?.[nextShortName]]);
             } else {
               setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
             }
@@ -113,13 +114,16 @@ export const navigateForward = (
           formResponses[nextShortName] &&
           questionFlowChanged
         ) {
+          if (formResponses[nextShortName]) {
+            localRoadMap.push(ROUTES?.[nextShortName]);
+          }
           nextIndex += 1;
         } else if (
           displayConditionsMet(nextShortName, formResponses) &&
           !editMode
         ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
-            setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            setRouteMap([...localRoadMap, ROUTES?.[nextShortName]]);
           }
 
           pushToRoute(nextShortName, router);
