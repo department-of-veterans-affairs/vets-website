@@ -49,7 +49,7 @@ const SmBreadcrumbs = () => {
           setBreadcrumbs([
             {
               ...Constants.Breadcrumbs.MESSAGE_THREAD,
-              href: `/thread/${draftMessageId}`,
+              href: `${Constants.Paths.MESSAGE_THREAD}${draftMessageId}`,
             },
           ]),
         );
@@ -90,7 +90,7 @@ const SmBreadcrumbs = () => {
         dispatch(
           setBreadcrumbs([
             {
-              href: `/folders/`,
+              href: Constants.Paths.FOLDERS,
               label: Constants.Breadcrumbs.FOLDERS.label,
               isRouterLink: true,
             },
@@ -137,17 +137,17 @@ const SmBreadcrumbs = () => {
 
   return (
     <div>
-      {locationBasePath === 'thread' ||
-      locationBasePath === 'reply' ||
-      locationBasePath === 'new-message' ||
-      locationBasePath === 'contact-list' ? (
+      {`/${locationBasePath}/` === Constants.Paths.MESSAGE_THREAD ||
+      `/${locationBasePath}/` === Constants.Paths.REPLY ||
+      `/${locationBasePath}/` === Constants.Paths.COMPOSE ||
+      `/${locationBasePath}/` === Constants.Paths.CONTACT_LIST ? (
         <nav
           aria-label="Breadcrumb"
           smCrumbLabel={crumb.label}
           className="breadcrumbs vads-u-padding-y--4"
         >
           <span className="sm-breadcrumb-list-item">
-            {locationBasePath === 'new-message' ? (
+            {`/${locationBasePath}/` === Constants.Paths.COMPOSE ? (
               // eslint-disable-next-line jsx-a11y/anchor-is-valid
               <Link
                 to="#"

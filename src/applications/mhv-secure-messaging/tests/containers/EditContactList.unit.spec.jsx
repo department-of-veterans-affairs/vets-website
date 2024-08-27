@@ -16,17 +16,17 @@ describe('Edit Contact List container', async () => {
     drupalStaticData,
     sm: {
       recipients: {
-        allowedRecipients: noBlockedRecipients.mockAllowedRecipients,
-        blockedRecipients: noBlockedRecipients.mockBlockedRecipients,
+        allowedRecipients: [...noBlockedRecipients.mockAllowedRecipients],
+        blockedRecipients: [...noBlockedRecipients.mockBlockedRecipients],
         associatedTriageGroupsQty:
           noBlockedRecipients.associatedTriageGroupsQty,
         associatedBlockedTriageGroupsQty:
           noBlockedRecipients.associatedBlockedTriageGroupsQty,
         noAssociations: noBlockedRecipients.noAssociations,
         allTriageGroupsBlocked: noBlockedRecipients.allTriageGroupsBlocked,
-        allFacilities: noBlockedRecipients.mockAllFacilities,
-        blockedFacilities: noBlockedRecipients.mockBlockedFacilities,
-        allRecipients: noBlockedRecipients.mockAllRecipients,
+        allFacilities: [...noBlockedRecipients.mockAllFacilities],
+        blockedFacilities: [...noBlockedRecipients.mockBlockedFacilities],
+        allRecipients: [...noBlockedRecipients.mockAllRecipients],
       },
     },
   };
@@ -46,20 +46,19 @@ describe('Edit Contact List container', async () => {
   it('renders without errors', () => {
     const screen = setup();
     expect(screen);
+    screen.unmount();
   });
 
   it('renders multiple groups if multiple facilities are connected', async () => {
     const screen = setup();
 
-    const facilityGroups = screen.getAllByTestId('contact-list-facility-group');
+    const facilityGroups = await screen.findAllByTestId(/-facility-group$/);
     expect(facilityGroups.length).to.equal(2);
     expect(facilityGroups[0]).to.have.attribute('label', 'Test Facility 2');
     expect(facilityGroups[1]).to.have.attribute('label', 'Test Facility 1');
 
     await waitFor(() => {
-      const selectAllTeams = screen.getAllByTestId(
-        'contact-list-select-all-teams',
-      );
+      const selectAllTeams = screen.getAllByTestId(/select-all-/);
       expect(selectAllTeams[0]).to.have.attribute(
         'label',
         'Select all 4 Test Facility 2 teams',
@@ -77,6 +76,7 @@ describe('Edit Contact List container', async () => {
         expect(team).to.have.attribute('checked', 'true'),
       );
     });
+    screen.unmount();
   });
 
   it('blocked team does not appear in list of teams', async () => {
@@ -85,17 +85,17 @@ describe('Edit Contact List container', async () => {
       sm: {
         ...initialState.sm,
         recipients: {
-          allowedRecipients: oneBlockedRecipient.mockAllowedRecipients,
-          blockedRecipients: oneBlockedRecipient.mockBlockedRecipients,
+          allowedRecipients: [...oneBlockedRecipient.mockAllowedRecipients],
+          blockedRecipients: [...oneBlockedRecipient.mockBlockedRecipients],
           associatedTriageGroupsQty:
             oneBlockedRecipient.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
             oneBlockedRecipient.associatedBlockedTriageGroupsQty,
           noAssociations: oneBlockedRecipient.noAssociations,
           allTriageGroupsBlocked: oneBlockedRecipient.allTriageGroupsBlocked,
-          allFacilities: oneBlockedRecipient.mockAllFacilities,
-          blockedFacilities: oneBlockedRecipient.mockBlockedFacilities,
-          allRecipients: oneBlockedRecipient.mockAllRecipients,
+          allFacilities: [...oneBlockedRecipient.mockAllFacilities],
+          blockedFacilities: [...oneBlockedRecipient.mockBlockedFacilities],
+          allRecipients: [...oneBlockedRecipient.mockAllRecipients],
         },
       },
     };
@@ -109,6 +109,7 @@ describe('Edit Contact List container', async () => {
       );
       expect(blockedTeam).to.be.null;
     });
+    screen.unmount();
   });
 
   it('blocked facility does not appear in list of contacts', async () => {
@@ -117,17 +118,17 @@ describe('Edit Contact List container', async () => {
       sm: {
         ...initialState.sm,
         recipients: {
-          allowedRecipients: oneBlockedFacility.mockAllowedRecipients,
-          blockedRecipients: oneBlockedFacility.mockBlockedRecipients,
+          allowedRecipients: [...oneBlockedFacility.mockAllowedRecipients],
+          blockedRecipients: [...oneBlockedFacility.mockBlockedRecipients],
           associatedTriageGroupsQty:
             oneBlockedFacility.associatedTriageGroupsQty,
           associatedBlockedTriageGroupsQty:
             oneBlockedFacility.associatedBlockedTriageGroupsQty,
           noAssociations: oneBlockedFacility.noAssociations,
           allTriageGroupsBlocked: oneBlockedFacility.allTriageGroupsBlocked,
-          allFacilities: oneBlockedFacility.mockAllFacilities,
-          blockedFacilities: oneBlockedFacility.mockBlockedFacilities,
-          allRecipients: oneBlockedFacility.mockAllRecipients,
+          allFacilities: [...oneBlockedFacility.mockAllFacilities],
+          blockedFacilities: [...oneBlockedFacility.mockBlockedFacilities],
+          allRecipients: [...oneBlockedFacility.mockAllRecipients],
         },
       },
     };
@@ -136,7 +137,7 @@ describe('Edit Contact List container', async () => {
     await waitFor(() => {
       expect(screen.getByTestId('blocked-triage-group-alert')).to.exist;
 
-      const facilities = screen.getAllByTestId('contact-list-facility-group');
+      const facilities = screen.getAllByTestId(/-facility-group$/);
       expect(facilities.length).to.equal(
         oneBlockedFacility.mockAllFacilities.length - 1,
       );
@@ -144,6 +145,47 @@ describe('Edit Contact List container', async () => {
         expect(facility).to.not.have.attribute('label', 'Test Facility 3'),
       );
     });
+    screen.unmount();
+  });
+
+  it('modifies all teams in one facility when "select all" is checked', async () => {
+    const screen = setup();
+
+    const testFacility2TeamsTrue = await screen.findByTestId(
+      'Test-Facility-2-teams',
+    );
+    const checkboxesTrue = testFacility2TeamsTrue.querySelectorAll(
+      'va-checkbox',
+    );
+
+    checkboxesTrue.forEach(team =>
+      expect(team).to.have.attribute('checked', 'true'),
+    );
+
+    const selectAll = await screen.findByTestId(
+      'select-all-Test-Facility-2-teams',
+    );
+    expect(selectAll).to.have.attribute('checked', 'true');
+
+    await checkVaCheckbox(selectAll, false);
+
+    expect(selectAll).to.have.attribute('checked', 'false');
+
+    const testFacility2TeamsFalse = await screen.findByTestId(
+      'Test-Facility-2-teams',
+    );
+
+    await waitFor(async () => {
+      const checkboxesFalse = testFacility2TeamsFalse.querySelectorAll(
+        'va-checkbox',
+      );
+
+      checkboxesFalse.forEach(team =>
+        expect(team).to.have.attribute('checked', 'false'),
+      );
+    });
+
+    screen.unmount();
   });
 
   it('prevents navigating away if unsaved changes', async () => {
@@ -156,9 +198,7 @@ describe('Edit Contact List container', async () => {
       'contact-list-select-team-1013155',
     );
 
-    await waitFor(() => {
-      checkVaCheckbox(checkbox, false);
-    });
+    checkVaCheckbox(checkbox, false);
 
     expect(checkbox).to.have.attribute('checked', 'false');
 
@@ -168,6 +208,29 @@ describe('Edit Contact List container', async () => {
     waitFor(() => {
       expect(guardModal).to.have.attribute('visible', 'true');
     }, 1000);
-    // expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    screen.unmount();
+  });
+
+  it('allows navigating away if unsaved changes on "save and exit" click', async () => {
+    const screen = setup();
+
+    const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
+    expect(guardModal).to.have.attribute('visible', 'false');
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    expect(checkbox).to.have.attribute('checked', 'false');
+
+    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    fireEvent.click(saveButton);
+
+    waitFor(() => {
+      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
+    }, 1000);
+    screen.unmount();
   });
 });

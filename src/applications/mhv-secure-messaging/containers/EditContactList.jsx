@@ -39,20 +39,13 @@ const EditContactList = () => {
 
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
 
+  const recipients = useSelector(state => state.sm.recipients);
   const {
     allFacilities,
     blockedFacilities,
-    blockedTriageGroupList,
+    blockedRecipients,
     allRecipients,
-  } = useSelector(state => {
-    const { recipients } = state.sm;
-    return {
-      allFacilities: recipients.allFacilities,
-      blockedFacilities: recipients.blockedFacilities,
-      blockedTriageGroupList: recipients.blockedRecipients,
-      allRecipients: recipients.allRecipients,
-    };
-  });
+  } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
 
@@ -121,11 +114,11 @@ const EditContactList = () => {
 
   useEffect(
     () => {
-      if (blockedTriageGroupList?.length > 0) {
+      if (blockedRecipients?.length > 0) {
         setShowBlockedTriageGroupAlert(true);
       }
     },
-    [blockedTriageGroupList],
+    [blockedRecipients],
   );
 
   useEffect(() => {
@@ -169,66 +162,68 @@ const EditContactList = () => {
             'vads-u-margin-bottom--4'}`}
         >
           <BlockedTriageGroupAlert
-            blockedTriageGroupList={blockedTriageGroupList}
+            blockedTriageGroupList={blockedRecipients}
             alertStyle={BlockedTriageAlertStyles.ALERT}
             parentComponent={ParentComponent.CONTACT_LIST}
           />
         </div>
       )}
-      <form className="contactListForm">
-        {allFacilities.map(stationNumber => {
-          if (!blockedFacilities.includes(stationNumber)) {
-            const facilityName = getVamcSystemNameFromVhaId(
-              ehrDataByVhaId,
-              stationNumber,
-            );
+      {allTriageTeams.length > 0 && (
+        <form className="contactListForm">
+          {allFacilities.map(stationNumber => {
+            if (!blockedFacilities.includes(stationNumber)) {
+              const facilityName = getVamcSystemNameFromVhaId(
+                ehrDataByVhaId,
+                stationNumber,
+              );
 
-            return (
-              <FacilityCheckboxGroup
-                key={stationNumber}
-                facilityName={facilityName}
-                multipleFacilities={allFacilities?.length > 1}
-                updatePreferredTeam={updatePreferredTeam}
-                triageTeams={allTriageTeams
-                  .filter(
-                    team =>
-                      team.stationNumber === stationNumber &&
-                      team.blockedStatus === false,
-                  )
-                  .sort((a, b) => a.name.localeCompare(b.name))}
-              />
-            );
-          }
-          return null;
-        })}
+              return (
+                <FacilityCheckboxGroup
+                  key={stationNumber}
+                  facilityName={facilityName}
+                  multipleFacilities={allFacilities?.length > 1}
+                  updatePreferredTeam={updatePreferredTeam}
+                  triageTeams={allTriageTeams
+                    .filter(
+                      team =>
+                        team.stationNumber === stationNumber &&
+                        team.blockedStatus === false,
+                    )
+                    .sort((a, b) => a.name.localeCompare(b.name))}
+                />
+              );
+            }
+            return null;
+          })}
 
-        <div
-          className="
+          <div
+            className="
             vads-u-margin-top--3
             vads-u-display--flex
             vads-u-flex-direction--column
             small-screen:vads-u-flex-direction--row
             small-screen:vads-u-align-content--flex-start
           "
-        >
-          <va-button
-            text="Save and exit"
-            class="
+          >
+            <va-button
+              text="Save and exit"
+              class="
               vads-u-margin-bottom--1
               small-screen:vads-u-margin-bottom--0
             "
-            onClick={e => handleSaveAndExit(e, true)}
-            data-testid="contact-list-save-and-exit"
-          />
-          <va-button
-            text="Cancel"
-            secondary
-            onClick={handleCancel}
-            data-testid="contact-list-cancel"
-          />
-        </div>
-        <GetFormHelp />
-      </form>
+              onClick={e => handleSaveAndExit(e, true)}
+              data-testid="contact-list-save-and-exit"
+            />
+            <va-button
+              text="Cancel"
+              secondary
+              onClick={handleCancel}
+              data-testid="contact-list-cancel"
+            />
+          </div>
+          <GetFormHelp />
+        </form>
+      )}
     </div>
   );
 };
