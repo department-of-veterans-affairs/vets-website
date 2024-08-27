@@ -18,7 +18,6 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
-import Navigation from '../components/Navigation';
 
 import {
   flagsLoadedAndMhvEnabled,
