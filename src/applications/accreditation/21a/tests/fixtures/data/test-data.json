@@ -1,7 +1,7 @@
 {
   "data": {
     "role": "attorney",
-    "standingWithBar": true,
+    "lawLicense": true,
     "fullName": {
       "first": "First",
       "middle": "Middle",
@@ -27,18 +27,6 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "employmentStatus": "other",
-    "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
-    "workName": "My Company",
-    "workAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "1234 Main St",
-      "street2": "Apt 1",
-      "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "primaryMailingAddress": "other",
     "otherAddress": {
       "view:militaryBaseDescription": {},
@@ -53,8 +41,8 @@
       {
         "branch": "Army",
         "dateRange": {
-          "from": "2000-01-01",
-          "to": "2004-12-31"
+          "from": "2005-01",
+          "to": "2009-12"
         },
         "characterOfDischarge": "Dishonorable",
         "explanationOfDischarge": "My discharge was dishonorable"
@@ -83,6 +71,7 @@
         "reasonForLeaving": "Found a better opportunity"
       }
     ],
+    "employmentStatus": "employed",
     "employmentActivities": ["financial", "home"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
