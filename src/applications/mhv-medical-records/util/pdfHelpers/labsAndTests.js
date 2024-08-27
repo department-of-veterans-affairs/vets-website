@@ -12,7 +12,7 @@ export const generateChemHemContent = record => ({
     header: 'Details about this test',
     items: [
       {
-        title: 'Date and time performed',
+        title: 'Date and time collected',
         value: record.date,
         inline: true,
       },
@@ -212,7 +212,7 @@ export const generateRadiologyContent = record => ({
       },
       {
         title: 'Clinical history',
-        value: record.clinicalHistory,
+        value: String(record.clinicalHistory),
         inline: true,
       },
       {

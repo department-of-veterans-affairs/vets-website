@@ -43,7 +43,7 @@ const CareSummariesAndNotesListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <h5 className="vads-u-line-height--4 vads-u-margin-y--1 no-print">
+      <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
         <Link to={`/summaries-and-notes/${record.id}`} data-dd-privacy="mask">
           <span>
             {record.name}
@@ -52,7 +52,7 @@ const CareSummariesAndNotesListItem = props => {
             </span>
           </span>
         </Link>
-      </h5>
+      </span>
 
       {/* print view header */}
       <h3

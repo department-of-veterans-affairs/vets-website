@@ -13,13 +13,13 @@ const AllergyListItem = props => {
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <h5 className="vads-u-font-size--h5 vads-u-margin-y--1 vads-u-line-height--4 no-print">
+      <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
         <Link to={`/allergies/${record.id}`} data-dd-privacy="mask">
           <span>
             {record.name} <span className="sr-only">on {record.date}</span>
           </span>
         </Link>
-      </h5>
+      </span>
 
       {/* print view header */}
       <h3

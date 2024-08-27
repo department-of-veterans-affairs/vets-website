@@ -246,7 +246,7 @@ const LandingPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            text="Go back to the previous version of My HealtheVet to download your records."
+            text="Go back to the previous version of My HealtheVet to download your records"
           />
         </p>
       </section>
