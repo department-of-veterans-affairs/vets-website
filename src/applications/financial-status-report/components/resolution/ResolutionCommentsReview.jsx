@@ -13,7 +13,7 @@ const ResolutionCommentsReview = ({ data }) => {
       </div>
       <dl className="review">
         <div className="review-row" key="resolution-comments">
-          <dt className="vads-u-display--none" />
+          <dt className="sr-only">Additional comments</dt>
           <dd className="vads-u-width--full vads-u-padding-left--0 vads-u-text-align--left vads-u-font-weight--normal">
             {additionalData?.additionalComments}
           </dd>
