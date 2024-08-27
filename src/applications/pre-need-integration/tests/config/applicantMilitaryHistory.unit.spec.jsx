@@ -1,12 +1,8 @@
 import React from 'react';
 import { expect } from 'chai';
-import ReactTestUtils from 'react-dom/test-utils';
+import { mount } from 'enzyme';
 import { Provider } from 'react-redux';
-import {
-  getFormDOM,
-  DefinitionTester,
-} from 'platform/testing/unit/schemaform-utils.jsx';
-import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import configureMockStore from 'redux-mock-store';
 import formConfig from '../../config/form';
 
@@ -38,21 +34,19 @@ describe('Pre-need applicant military history', () => {
   } = formConfig.chapters.militaryHistory.pages.applicantMilitaryHistorySelf;
 
   it('should render HighestRankAutoSuggest without crashing', () => {
-    const form = ReactTestUtils.renderIntoDocument(
-      <div>
-        <Provider store={store}>
-          <DefinitionTester
-            schema={schema}
-            data={{}}
-            definitions={formConfig.defaultDefinitions}
-            uiSchema={uiSchema}
-          />
-        </Provider>
-      </div>,
+    const form = mount(
+      <Provider store={store}>
+        <DefinitionTester
+          schema={schema}
+          data={{}}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </Provider>,
     );
 
-    const formDOM = getFormDOM(form);
-    expect($$('input', formDOM).length).to.equal(4);
-    expect($$('select', formDOM).length).to.equal(5);
+    expect(form.find('input').length).to.equal(2);
+    expect(form.find('va-memorable-date').length).to.equal(2);
+    form.unmount();
   });
 });

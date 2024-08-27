@@ -5,14 +5,12 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
-import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import TextWidget from 'platform/forms-system/src/js/widgets/TextWidget';
 import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 
 import {
   stringifyFormReplacer,
@@ -24,6 +22,8 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import dateRangeUI from '../definitions/dateRange';
+import MemorableDateField from '../components/MemorableDateField';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
@@ -737,13 +737,24 @@ export const preparerFullMaidenNameUI = merge({}, fullMaidenNameUI, {
   suffix: { 'ui:title': 'Applicant’s suffix' },
 });
 
-export const nonPreparerDateOfBirthUI = currentOrPastDateUI(
-  'Your date of birth',
-);
+export function memorableDateUI(title) {
+  return {
+    'ui:title': title,
+    'ui:webComponentField': MemorableDateField,
+    'ui:options': {
+      monthSelect: false,
+    },
+    // 'ui:validations': [validateMemorableDate],
+  };
+}
 
-export const preparerDateOfBirthUI = currentOrPastDateUI(
+export const nonPreparerDateOfBirthUI = memorableDateUI('Your date of birth');
+
+export const preparerDateOfBirthUI = memorableDateUI(
   'Applicant’s date of birth',
 );
+
+export const sponsorDateOfBirthUI = memorableDateUI('Sponsor’s date of birth');
 
 class SSNWidget extends React.Component {
   constructor(props) {
