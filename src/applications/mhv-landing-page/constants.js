@@ -55,10 +55,6 @@ const HEALTH_TOOL_LINKS = freeze({
       href: '/my-health/medical-records/',
       text: 'Get VA medical records',
     },
-    {
-      href: '/my-health/labs-and-tests',
-      text: 'Get lab and test results',
-    },
   ]),
   PAYMENTS: freeze([
     {

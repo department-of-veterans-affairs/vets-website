@@ -148,7 +148,10 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
+      introduction:
+        'Our new tool makes it easier to find, print, and download your medical records.',
       links: medicalRecordsLinks,
+      tag: 'NEW',
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
