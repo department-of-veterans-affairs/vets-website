@@ -135,24 +135,10 @@
     "view:hasOtherEvidence": true,
     "additionalDocuments": [
       {
-        "name": "private-medical-records.pdf",
-        "confirmationCode": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-        "attachmentId": "L049",
-        "size": 20000,
-        "isEncrypted": false
-      },
-      {
         "name": "x-rays.pdf",
         "confirmationCode": "ffffffff-gggg-hhhh-iiii-jjjjjjjjjjjj",
         "attachmentId": "L023",
         "size": 30000,
-        "isEncrypted": false
-      },
-      {
-        "name": "buddy-statement.pdf",
-        "confirmationCode": "kkkkkkkk-llll-mmmm-nnnn-oooooooooooo",
-        "attachmentId": "L015",
-        "size": 40000,
         "isEncrypted": false
       },
       {
