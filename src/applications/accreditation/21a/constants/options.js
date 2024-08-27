@@ -2,7 +2,7 @@
 
 export const roleOptions = Object.freeze({
   attorney: 'Attorney',
-  claimsAgent: 'Claims agent',
+  claimsAgent: 'Claims agent (non-attorney representative)',
 });
 
 export const typeOfPhoneOptions = Object.freeze({
@@ -45,7 +45,9 @@ export const branchOptions = Object.freeze([
   'Coast Guard',
   'Marine Corps',
   'Navy',
+  'NOAAA',
   'Space Force',
+  'USPHS',
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
