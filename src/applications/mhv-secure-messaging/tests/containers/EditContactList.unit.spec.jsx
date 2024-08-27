@@ -175,7 +175,7 @@ describe('Edit Contact List container', async () => {
       'Test-Facility-2-teams',
     );
 
-    await waitFor(async () => {
+    await waitFor(() => {
       const checkboxesFalse = testFacility2TeamsFalse.querySelectorAll(
         'va-checkbox',
       );
