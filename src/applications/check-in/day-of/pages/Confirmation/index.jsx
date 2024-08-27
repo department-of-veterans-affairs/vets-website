@@ -57,6 +57,7 @@ const Confirmation = props => {
     setCheckinComplete,
     getCheckinComplete,
     setCompleteTimestamp,
+    getCompleteTimestamp,
   } = useStorage(APP_NAMES.CHECK_IN);
 
   useEffect(
@@ -90,9 +91,12 @@ const Confirmation = props => {
           });
           const { status } = json;
           if (status === 200) {
+            const completeTime = getCompleteTimestamp(window);
             setCheckinComplete(window, true);
-            setCompleteTimestamp(window, Date.now());
             setIsCheckInLoading(false);
+            if (!completeTime) {
+              setCompleteTimestamp(window, Date.now());
+            }
           } else {
             updateError('check-in-post-error');
           }
@@ -123,6 +127,7 @@ const Confirmation = props => {
       getCheckinComplete,
       setCheckinComplete,
       setCompleteTimestamp,
+      getCompleteTimestamp,
       setECheckinStartedCalled,
       isTravelReimbursementEnabled,
       travelPayEligible,
