@@ -238,13 +238,16 @@ const App = ({ children }) => {
 
   if (featureTogglesLoading || user.profile.loading) {
     return (
-      <div className="vads-l-grid-container">
-        <va-loading-indicator
-          message="Loading your medical records..."
-          setFocus
-          data-testid="mr-feature-flag-loading-indicator"
-        />
-      </div>
+      <>
+        <MhvSecondaryNav />
+        <div className="vads-l-grid-container">
+          <va-loading-indicator
+            message="Loading your medical records..."
+            setFocus
+            data-testid="mr-feature-flag-loading-indicator"
+          />
+        </div>
+      </>
     );
   }
 
