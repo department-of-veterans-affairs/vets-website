@@ -132,7 +132,7 @@ const AppointmentsPage = props => {
   return (
     <Wrapper
       pageTitle={t('#-util-capitalize', {
-        value: t('appointments', { count: 2 }),
+        value: t('appointments_other'),
       })}
       withBackButton
     >
