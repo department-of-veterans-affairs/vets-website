@@ -80,6 +80,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     () => {
       if (
         featureFetchClaimStatus &&
+        isPast &&
         appointmentDetailsStatus === FETCH_STATUS.succeeded &&
         fetchClaimStatus !== FETCH_STATUS.loading
       ) {
@@ -95,6 +96,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       fetchClaimStatus,
       featureFetchClaimStatus,
       appointment,
+      isPast,
     ],
   );
 
@@ -103,7 +105,7 @@ export default function ConfirmedAppointmentDetailsPage() {
       let pageTitle = 'VA appointment on';
       let prefix = null;
 
-      if (selectIsPast(appointment)) prefix = 'Past';
+      if (isPast) prefix = 'Past';
       else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
@@ -188,6 +190,7 @@ export default function ConfirmedAppointmentDetailsPage() {
     !appointment ||
     appointmentDetailsStatus === FETCH_STATUS.loading ||
     (featureFetchClaimStatus &&
+      isPast &&
       (!appointment?.claimId || fetchClaimStatus === FETCH_STATUS.loading))
   ) {
     return (
