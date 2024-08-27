@@ -63,7 +63,7 @@ const CustomResolutionOptionReview = props => {
   };
 
   return (
-    <div>
+    <>
       <div className="form-review-panel-page-header-row">
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {getDebtTitle(currentDebt)}
@@ -83,9 +83,7 @@ const CustomResolutionOptionReview = props => {
           </dd>
         </div>
       </dl>
-
-      <br />
-    </div>
+    </>
   );
 };
 
