@@ -6,13 +6,15 @@ import mockPrefill from './fixtures/mocks/mockPrefill.json';
 import minTestData from './fixtures/data/minimal-test.json';
 import { goToNextPage } from './utils';
 
+const { data: testData } = minTestData;
+const APIs = {
+  features: '/v0/feature_toggles*',
+  prefill: '/v0/in_progress_forms/1010ez',
+  enrollment: '/v0/health_care_applications/enrollment_status*',
+  disability: '/v0/health_care_applications/rating_info',
+};
+
 describe('HCA-Registration-Only-Authenticated-User', () => {
-  const APIs = {
-    features: '/v0/feature_toggles*',
-    prefill: '/v0/in_progress_forms/1010ez',
-    enrollment: '/v0/health_care_applications/enrollment_status*',
-    disability: '/v0/health_care_applications/rating_info',
-  };
   const setupAuthUser = ({ userPercentOfDisability = 0 }) => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
     cy.intercept('GET', APIs.enrollment, {
@@ -111,11 +113,6 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
 });
 
 describe('HCA-Registration-Only-Guest-User', () => {
-  const { data: testData } = minTestData;
-  const APIs = {
-    features: '/v0/feature_toggles*',
-    enrollment: '/v0/health_care_applications/enrollment_status*',
-  };
   const setupGuestUser = () => {
     cy.intercept('GET', APIs.features, featureToggles).as('mockFeatures');
     cy.intercept('GET', APIs.enrollment, {
