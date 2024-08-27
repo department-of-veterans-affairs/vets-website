@@ -6,10 +6,7 @@ import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import {
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureVaosV2Next,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
@@ -25,8 +22,8 @@ import {
   selectIsPast,
 } from '../../redux/selectors';
 import PageLayout from '../PageLayout';
-import DetailsCC from './DetailsCC';
 import DetailsVA from './DetailsVA';
+import CCLayout from '../../../components/layout/CCLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -42,9 +39,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
   );
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
@@ -169,13 +163,7 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && (
-        <DetailsCC
-          appointment={appointment}
-          useV2={useV2}
-          featureVaosV2Next={featureVaosV2Next}
-        />
-      )}
+      {isCommunityCare && <CCLayout data={appointment} />}
       {isVideo && <VideoLayout data={appointment} />}
     </PageLayout>
   );
