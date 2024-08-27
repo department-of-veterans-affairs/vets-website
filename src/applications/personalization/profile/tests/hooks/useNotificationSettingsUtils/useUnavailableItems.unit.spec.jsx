@@ -23,18 +23,23 @@ const TestingComponent = () => {
 };
 
 const emailNotificationNames = [
-  'RX refill shipment notification',
-  'VA Appointment reminders',
+  'Appointment reminders',
+  'Prescription shipment and tracking updates',
   'Secure messaging alert',
   'Medical images and reports available',
-  'Biweekly MHV newsletter',
+  // 'RX refill shipment notification',
+  // 'VA Appointment reminders',
+  // 'Biweekly MHV newsletter',
 ];
 
 const textNotificationNames = [
+  'Appointment reminders',
+  'Prescription shipment and tracking updates',
   "Board of Veterans' Appeals hearing reminder",
   'Appeal status updates',
   'Disability and pension deposit notifications',
-  'QuickSubmit Upload Status',
+  // QuickSubmit will never be visible per ticket# 89524
+  // 'QuickSubmit Upload Status',
 ];
 
 describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
@@ -44,7 +49,10 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -74,13 +82,7 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
 
     expect(includedNames.every(result => result === true)).to.be.true;
 
-    const excludedNames = hookResults.map(({ name }) =>
-      textNotificationNames.includes(name),
-    );
-
-    expect(excludedNames.every(result => result === false)).to.be.true;
-
-    expect(hookResults.length).to.equal(5);
+    expect(hookResults.length).to.equal(4);
   });
 
   it('returns items with text notifications when mobile phone is missing from contact info', () => {
@@ -89,7 +91,7 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
       featureToggles: {
         loading: false,
         [TOGGLE_NAMES.profileShowPaymentsNotificationSetting]: true,
-        [TOGGLE_NAMES.profileShowMhvNotificationSettings]: true,
+        [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailAppointmentReminders]: true,
         [TOGGLE_NAMES.profileShowQuickSubmitNotificationSetting]: true,
       },
       user: {
@@ -113,15 +115,8 @@ describe('useNotificationSettingsUtils hook -> useUnavailableItems', () => {
     const includedNames = hookResults.map(({ name }) =>
       textNotificationNames.includes(name),
     );
-
     expect(includedNames.every(result => result === true)).to.be.true;
 
-    const excludedNames = hookResults.map(({ name }) =>
-      emailNotificationNames.includes(name),
-    );
-
-    expect(excludedNames.every(result => result === false)).to.be.true;
-
-    expect(hookResults.length).to.equal(4);
+    expect(hookResults.length).to.equal(5);
   });
 });

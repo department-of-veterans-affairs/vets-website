@@ -1,18 +1,15 @@
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
-import { envUrl } from '../constants';
 import { mockInquiryData } from '../utils/mockData';
 
-const DashboardCards = () => {
+const DashboardCardsMock = () => {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const [, setOriginalInquries] = useState([]);
   const [lastUpdatedFilter, setLastUpdatedFilter] = useState('newestToOldest');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -24,23 +21,14 @@ const DashboardCards = () => {
     return format(parsedDate, 'MMM d, yyyy');
   };
 
-  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');
 
   const getData = async () => {
-    const response = await apiRequest(DASHBOARD_DATA)
-      .then(res => {
-        // Using mock data until BE is ready with new fields and pagination
-        setOriginalInquries(res);
-        setLoading(false);
-        return mockInquiryData;
-      })
-      .catch(() => {
-        hasError(true);
-      });
-
+    setLoading(false);
+    const response = mockInquiryData;
+    hasError(false);
     const data = [];
     if (response) {
       for (const inquiry of response.data) {
@@ -104,7 +92,7 @@ const DashboardCards = () => {
               <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
                 {card.submitterQuestion}
               </p>
-              <Link to={`/user/dashboard/${card.id}`}>
+              <Link to={`/user/dashboard-mock/${card.id}`}>
                 <va-link active text="Check details" />
               </Link>
             </va-card>
@@ -218,4 +206,4 @@ const DashboardCards = () => {
   );
 };
 
-export default DashboardCards;
+export default DashboardCardsMock;
