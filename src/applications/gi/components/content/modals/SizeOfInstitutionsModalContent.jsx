@@ -9,7 +9,7 @@ export default function SizeOfInstitutionsModalContent() {
         Two-year colleges are classified using a different scale than four-year
         and higher institutions.
       </p>
-      <p>
+      <div>
         Two-year college sizes
         <ul>
           <li>Very small -- fewer than 500 FTEs attend this institution</li>
@@ -18,8 +18,8 @@ export default function SizeOfInstitutionsModalContent() {
           <li>Large -- at least 5,000 but fewer than 10,000 FTEs attend</li>
           <li>Very large -- 10,000 or more FTEs attend</li>
         </ul>
-      </p>
-      <p>
+      </div>
+      <div>
         Four-year college sizes
         <ul>
           <li>
@@ -30,7 +30,7 @@ export default function SizeOfInstitutionsModalContent() {
           <li>Medium -- at least 3,000 but fewer than 10,000 FTEs attend</li>
           <li>Large -- more than 10,000 FTEs attend</li>
         </ul>
-      </p>
+      </div>
     </>
   );
 }

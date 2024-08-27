@@ -252,7 +252,7 @@ export function Modals({ hideModal, modals, profile }) {
         large
       >
         <div>
-          <p>
+          <div>
             <p>
               Under the GI Bill you’re eligible to receive a monthly housing
               allowance. We calculate this monthly housing allowance based on
@@ -272,7 +272,7 @@ export function Modals({ hideModal, modals, profile }) {
             <a href="https://www.benefits.va.gov/gibill/resources/benefits_resources/rate_tables.asp?_ga=2.144591223.39405460.1542131207-1582256389.1508352376">
               View the current housing allowance payment rates
             </a>
-          </p>
+          </div>
         </div>
       </VaModal>
       <VaModal
@@ -634,19 +634,10 @@ export function Modals({ hideModal, modals, profile }) {
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('calcInStateTuition')}
-          Your
-          housing
-          allowance
-          is
-          determined
-          by
-          where
-          you
-          take
-          classes
           modalTitle="In-state tuition and fees per year"
           large
         >
+          <p> Your housingallowance is determined by where you take classes</p>
           <p>
             Enter the amount of tuition/fees your school charges in-state
             students.
