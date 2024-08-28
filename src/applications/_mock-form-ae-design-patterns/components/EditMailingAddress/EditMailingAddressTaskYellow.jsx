@@ -89,7 +89,10 @@ export const BuildPage = ({
       onSubmit={handlers.onSubmit}
     >
       <InitializeVAPServiceID>
-        <PrefillAlert />
+        <PrefillAlert>
+          We’ve prefilled some of your information from your account. If you
+          need to correct anything, you can edit the form fields below.
+        </PrefillAlert>
         <h1
           className="vads-u-font-size--h2 vads-u-margin-top--3"
           ref={headerRef}
