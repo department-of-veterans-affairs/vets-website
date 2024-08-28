@@ -76,6 +76,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
   FORM_MOCK_AE_DESIGN_PATTERNS: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+  FORM_77_7777: '77-7777',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -135,6 +136,7 @@ export const FORM_BENEFITS = {
   [VA_FORM_IDS.FORM_5655]: 'financial status report',
   [VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW]: 'form upload flow',
   [VA_FORM_IDS.FORM_VA_2346A]: 'hearing aid batteries and accessories',
+  [VA_FORM_IDS.FORM_77_7777]: 'free turtle',
 };
 
 export const FORM_TITLES = Object.keys(FORM_BENEFITS).reduce((titles, key) => {
@@ -240,6 +242,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
     [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
+    [VA_FORM_IDS.FORM_77_7777]: `${tryGetAppUrl('77-7777')}/`,
   };
 };
 
@@ -298,6 +301,7 @@ export const TRACKING_PREFIXES = {
   [VA_FORM_IDS.FORM_40_10007]: 'preneed-',
   [VA_FORM_IDS.FORM_5655]: 'fsr-5655-',
   [VA_FORM_IDS.FORM_VA_2346A]: 'bam-2346a-',
+  [VA_FORM_IDS.FORM_77_7777]: 'adopt-a-turtle-',
 };
 
 export const SIP_ENABLED_FORMS = new Set([
@@ -343,6 +347,7 @@ export const SIP_ENABLED_FORMS = new Set([
   VA_FORM_IDS.FORM_5655,
   VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
   VA_FORM_IDS.FORM_VA_2346A,
+  VA_FORM_IDS.FORM_77_7777,
 ]);
 
 /**
@@ -615,5 +620,12 @@ export const MY_VA_SIP_FORMS = [
     title: `Appointment of Individual as Claimant's Representative (21-22a)`,
     description: 'Individual representative appointment application',
     trackingPrefix: 'appoint-a-rep-21-22',
+  },
+  {
+    id: VA_FORM_IDS.FORM_77_7777,
+    benefit: 'free turtle',
+    title: 'Adopt a Turtle',
+    description: 'free turtle',
+    trackingPrefix: 'adopt-a-turtle-',
   },
 ];

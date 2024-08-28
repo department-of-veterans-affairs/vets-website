@@ -1,0 +1,7 @@
+{
+  "appName": "Adopt a Turtle",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "adopt-a-turtle",
+  "rootUrl": "/adopt-a-turtle",
+  "productId": "28c01cd5-214a-475b-b986-116fba482301"
+}
