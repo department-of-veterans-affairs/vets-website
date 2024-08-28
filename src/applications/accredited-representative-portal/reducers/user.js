@@ -1,38 +1,106 @@
+import { combineReducers } from 'redux';
+
+import { REMOVING_SAVED_FORM_SUCCESS } from 'platform/user/profile/actions';
 import {
   FETCH_USER,
-  FETCH_USER_SUCCESS,
   FETCH_USER_FAILURE,
+  FETCH_USER_SUCCESS,
 } from '../actions/user';
 
-const initialState = {
-  isLoading: true,
-  profile: null,
-  error: null,
-};
+function getNullProfileState() {
+  return {
+    accountUuid: null,
+    firstName: null,
+    lastName: null,
+    verified: false,
+    prefillsAvailable: [],
+    savedForms: [],
+    loading: true,
+  };
+}
 
-const arpUserReducer = (state = initialState, action) => {
+function transformProfilePayload(payload) {
+  const { account, profile } = payload;
+
+  return {
+    accountUuid: account.accountUuid,
+    firstName: profile.firstName,
+    lastName: profile.lastName,
+    verified: profile.verified,
+    prefillsAvailable: payload.prefillsAvailable,
+    savedForms: payload.inProgressForms,
+  };
+}
+
+function profileReducer(state = getNullProfileState(), action) {
   switch (action.type) {
     case FETCH_USER:
       return {
         ...state,
-        isLoading: true,
+        loading: true,
       };
     case FETCH_USER_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        profile: action.payload,
+        ...transformProfilePayload(action.payload),
+        loading: false,
       };
     case FETCH_USER_FAILURE:
       return {
         ...state,
-        isLoading: false,
-        profile: null,
-        error: action.error || 'Unknown error',
+        /**
+         * For now, conservatively consider not just `401` but indeed any
+         * momentary inability to retrieve an authenticated user as undeserving
+         * of access to the portions of the app that require authentication.
+         */
+        ...getNullProfileState(),
+        loading: false,
+      };
+    case REMOVING_SAVED_FORM_SUCCESS: {
+      const savedForms = state.savedForms.filter(el => {
+        return el.form !== action.formId;
+      });
+      return {
+        ...state,
+        savedForms,
+      };
+    }
+    default:
+      return state;
+  }
+}
+
+function getNullLoginState() {
+  return {
+    currentlyLoggedIn: false,
+  };
+}
+
+function loginReducer(state = getNullLoginState(), action) {
+  switch (action.type) {
+    case FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        currentlyLoggedIn: true,
+      };
+    case FETCH_USER_FAILURE:
+      return {
+        ...state,
+        /**
+         * For now, conservatively consider not just `401` but indeed any
+         * momentary inability to retrieve an authenticated user as undeserving
+         * of access to the portions of the app that require authentication.
+         */
+        ...getNullLoginState(),
       };
     default:
       return state;
   }
-};
+}
 
-export default arpUserReducer;
+const userReducer = combineReducers({
+  profile: profileReducer,
+  login: loginReducer,
+});
+
+export default userReducer;

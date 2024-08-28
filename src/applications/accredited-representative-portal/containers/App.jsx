@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -9,8 +10,9 @@ import { fetchUser } from '../actions/user';
 import { selectUserIsLoading } from '../selectors/user';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
+import Form21a from '../accreditation/21a/containers/Form';
 
-const App = () => {
+const App = ({ location, children }) => {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectUserIsLoading);
 
@@ -56,11 +58,16 @@ const App = () => {
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
       ) : (
-        <h1>Form21a</h1>
+        <Form21a location={location}>{children}</Form21a>
       )}
       <Footer />
     </>
   );
+};
+
+App.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
 };
 
 export default App;
