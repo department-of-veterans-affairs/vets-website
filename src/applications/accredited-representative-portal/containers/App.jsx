@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom-v5-compat';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -57,7 +56,7 @@ const App = () => {
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
       ) : (
-        <Outlet />
+        <h1>Form21a</h1>
       )}
       <Footer />
     </>
