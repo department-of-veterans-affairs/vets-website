@@ -88,7 +88,7 @@ export const prescriptionsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Prescriptions.FILL_NOTIFICATION: {
-      const { failedIds, successfulIds } = action.payload;
+      const { failedIds, successfulIds } = action.response;
       return {
         ...state,
         refillNotification: {

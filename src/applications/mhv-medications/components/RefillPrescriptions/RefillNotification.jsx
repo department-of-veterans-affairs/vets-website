@@ -11,25 +11,27 @@ const RefillNotification = ({ refillStatus }) => {
     state => state.rx.prescriptions?.refillableList,
   );
   const successfulIds = useSelector(
-    state => state.rx.prescriptions?.successfulIds,
+    state => state.rx.prescriptions?.refillNotification?.successfulIds,
   );
-  const failedIds = useSelector(state => state.rx.prescriptions?.failedIds);
+  const failedIds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.failedIds,
+  );
 
   // Variables
-  const successfulMeds = fullRefillList.filter(item =>
-    successfulIds.includes(String(item.prescriptionId)),
+  const successfulMeds = fullRefillList?.filter(item =>
+    successfulIds?.includes(String(item.prescriptionId)),
   );
-  const failedMeds = fullRefillList.filter(item =>
-    failedIds.includes(String(item.prescriptionId)),
+  const failedMeds = fullRefillList?.filter(item =>
+    failedIds?.includes(String(item.prescriptionId)),
   );
 
   useEffect(
     () => {
       if (refillStatus === 'finished') {
         let elemId = '';
-        if (successfulMeds.length === 0) {
+        if (successfulMeds?.length === 0) {
           elemId = 'failed-refill';
-        } else if (failedMeds.length > 0) {
+        } else if (failedMeds?.length > 0) {
           elemId = 'partial-refill';
         } else {
           elemId = 'success-refill';
@@ -44,10 +46,10 @@ const RefillNotification = ({ refillStatus }) => {
   );
   const isNotSubmitted =
     refillStatus === 'finished' &&
-    successfulMeds.length === 0 &&
-    failedMeds.length === 0;
-  const isPartiallySubmitted = failedMeds.length > 0;
-  const isSuccess = successfulMeds.length > 0;
+    successfulMeds?.length === 0 &&
+    failedMeds?.length === 0;
+  const isPartiallySubmitted = failedMeds?.length > 0;
+  const isSuccess = successfulMeds?.length > 0;
   return (
     <>
       <va-alert
@@ -89,7 +91,7 @@ const RefillNotification = ({ refillStatus }) => {
           these refill requests:
         </p>
         <ul className="va-list--disc">
-          {failedMeds.map((item, idx) => (
+          {failedMeds?.map((item, idx) => (
             <li
               className="vads-u-padding-y--0 vads-u-font-weight--bold"
               key={idx}
@@ -121,7 +123,7 @@ const RefillNotification = ({ refillStatus }) => {
           Refills requested
         </h2>
         <ul className="va-list--disc">
-          {successfulMeds.map((id, idx) => (
+          {successfulMeds?.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"
               data-testid="medication-requested"
