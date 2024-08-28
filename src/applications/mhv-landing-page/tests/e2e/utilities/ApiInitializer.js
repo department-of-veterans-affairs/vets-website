@@ -28,13 +28,6 @@ class ApiInitializer {
         featureToggles.generateFeatureToggles({ enableAll: true }),
       ).as('featureToggles');
     },
-    withFeatures: toggles => {
-      cy.intercept(
-        'GET',
-        '/v0/feature_toggles*',
-        featureToggles.generateFeatureToggles(toggles),
-      ).as('featureToggles');
-    },
   };
 
   initializeMessageData = {

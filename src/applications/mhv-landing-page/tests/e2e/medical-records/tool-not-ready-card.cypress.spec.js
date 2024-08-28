@@ -7,9 +7,7 @@ const heading = HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS;
 
 describe(`${appName} -- transitional Medical records card`, () => {
   it('renders with only the MR phase 1 feature toggle off', () => {
-    ApiInitializer.initializeFeatureToggle.withFeatures({
-      mhvIntegrationMedicalRecordsToPhase1: false,
-    });
+    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
     cy.login(user);
     cy.visit('/my-health');
     cy.findByTestId('mhv-mr-coming-soon-card').within(() => {
@@ -20,26 +18,14 @@ describe(`${appName} -- transitional Medical records card`, () => {
     cy.injectAxeThenAxeCheck();
   });
 
-  describe(`does not render`, () => {
-    const testForMRCard = () => {
-      cy.login(user);
-      cy.visit('/my-health');
-      cy.findByRole('heading', { level: 2, name: heading });
-      cy.findByRole('link', {
-        name: HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0].text,
-      });
-    };
-
-    it('with MR phase 1 feature toggle on', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeatures();
-      testForMRCard();
-      cy.injectAxeThenAxeCheck();
-    });
-
-    it('with all feature toggles off', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
-      testForMRCard();
-      cy.injectAxeThenAxeCheck();
+  it('does not render with MR phase 1 feature toggle on', () => {
+    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    cy.login(user);
+    cy.visit('/my-health');
+    cy.injectAxeThenAxeCheck();
+    cy.findByRole('heading', { level: 2, name: heading });
+    cy.findByRole('link', {
+      name: HEALTH_TOOL_LINKS.MEDICAL_RECORDS[0].text,
     });
   });
 });
