@@ -11,9 +11,14 @@ import manifest from '../manifest.json';
 import {
   verifyAllDataWasSubmitted,
   reviewAndSubmitPageFlow,
+  fillAddressWebComponentPattern,
+  selectRadioWebComponent,
+  getAllPages,
 } from '../../shared/tests/helpers';
 
 import mockFeatureToggles from './e2e/fixtures/mocks/featureToggles.json';
+
+const ALL_PAGES = getAllPages(formConfig);
 
 // For intercepting file uploads:
 const UPLOAD_URL = `${
@@ -26,7 +31,12 @@ const testConfig = createTestConfig(
     dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
 
     // Rename and modify the test data as needed.
-    dataSets: ['test-data.json'],
+    dataSets: [
+      'test-data.json',
+      'military-address-no-ohi-pharmacy-work.json',
+      'third-party-foreign-address-ohi-medical-claim-work-auto.json',
+      'two-ohi-other-type.json',
+    ],
 
     pageHooks: {
       introduction: ({ afterHook }) => {
@@ -48,6 +58,88 @@ const testConfig = createTestConfig(
               `Submit ${formConfig.customText.appType}`,
             );
           });
+        });
+      },
+      [ALL_PAGES.page1b.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'certifierAddress',
+              data.certifierAddress,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [ALL_PAGES.page2d.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            fillAddressWebComponentPattern(
+              'applicantAddress',
+              data.applicantAddress,
+            );
+            selectRadioWebComponent(
+              'applicantNewAddress',
+              data.applicantNewAddress,
+            );
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [ALL_PAGES.page2c.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('@testData').then(() => {
+            cy.get('select').select(1);
+            cy.axeCheck();
+            cy.findByText(/continue/i, { selector: 'button' }).click();
+          });
+        });
+      },
+      [ALL_PAGES.page7.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('input[type="file"]')
+            .upload(
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
+              'testing',
+            )
+            .get('.schemaform-file-uploading')
+            .should('not.exist');
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      [ALL_PAGES.page8.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('input[type="file"]')
+            .upload(
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
+              'testing',
+            )
+            .get('.schemaform-file-uploading')
+            .should('not.exist');
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
+        });
+      },
+      [ALL_PAGES.page9.path]: ({ afterHook }) => {
+        cy.injectAxeThenAxeCheck();
+        afterHook(() => {
+          cy.get('input[type="file"]')
+            .upload(
+              path.join(__dirname, 'e2e/fixtures/data/example_upload.png'),
+              'testing',
+            )
+            .get('.schemaform-file-uploading')
+            .should('not.exist');
+          cy.axeCheck();
+          cy.findByText(/continue/i, { selector: 'button' }).click();
         });
       },
     },
