@@ -27,6 +27,10 @@ export function getEventSkillValue() {
   return getStorageItem(SKILL_EVENT_VALUE);
 }
 
+export function setEventSkillValue(value) {
+  setStorageItem(SKILL_EVENT_VALUE, value);
+}
+
 export function getLoggedInFlow() {
   return getStorageItem(LOGGED_IN_FLOW);
 }
