@@ -80,8 +80,8 @@ ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
-Sample tested: ${record.sampleTested} \n
-Lab location: ${record.labLocation} \n
+Site or sample tested: ${record.sampleTested} \n
+Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
 ${record.results} \n`;
@@ -102,7 +102,7 @@ ${record.results} \n`;
         {record.name}
       </h1>
       <DateSubheading
-        date={record.date}
+        date={record.dateCollected}
         id="pathology-date"
         label="Date and time collected"
         labelClass="vads-font-weight-regular"
@@ -123,17 +123,13 @@ ${record.results} \n`;
         </h3>
         <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordered by
-        </h3>
-        <p data-testid="pathology-ordered-by">{record.orderedBy}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Location
         </h3>
         <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Lab comments
+          Date completed
         </h3>
-        <p data-testid="pathology-lab-comments">{record.labComments}</p>
+        <p data-testid="date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>

@@ -85,7 +85,7 @@ const DebtLettersDownload = () => {
             For medical copay debt, please go to
             <a
               className="vads-u-margin-x--0p5"
-              href="/health-care/pay-copay-bill/"
+              href="/manage-va-debt/summary/copay-balances"
             >
               pay your VA copay bill
             </a>

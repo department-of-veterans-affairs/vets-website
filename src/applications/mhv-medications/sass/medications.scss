@@ -159,6 +159,9 @@
 }
 
 @media print {
+  .main-content {
+    width: 100%;
+  }
   .landing-page {
     margin-top: 10px;
   }
