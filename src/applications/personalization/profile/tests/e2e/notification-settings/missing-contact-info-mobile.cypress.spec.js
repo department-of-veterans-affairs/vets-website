@@ -70,13 +70,13 @@ describe('Notification Settings For Mobile Phone', () => {
   });
 
   context(
-    'when user is missing mobile phone, email and the profileShowEmailNotificationSettings toggle is true',
+    'when user is missing mobile phone, email and the profileShowMhvNotificationSettingsEmailAppointmentReminders toggle is true',
     () => {
       it('should show the correct mobile phone and email link in alert', () => {
         cy.intercept(
           'v0/feature_toggles*',
           generateFeatureToggles({
-            profileShowEmailNotificationSettings: true,
+            profileShowMhvNotificationSettingsEmailAppointmentReminders: true,
           }),
         );
         const user = makeMockUser();
