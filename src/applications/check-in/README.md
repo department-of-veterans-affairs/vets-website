@@ -146,7 +146,7 @@ Day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-i
 
 Pre-check-in: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-pre-check-in.cypress.spec.js`
 
-Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-pay.day-of.cypress.spec.js`
+Travel Pay day-of: `yarn cy:run --env with_screenshots=true --spec src/applications/check-in/tests/e2e/screenshots/screenshots-travel-claim.cypress.spec.js`
 
 
 ### Adding additional screenshots
