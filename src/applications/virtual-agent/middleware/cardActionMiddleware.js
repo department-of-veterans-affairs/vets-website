@@ -1,5 +1,5 @@
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { getIsRxSkill } from '../utils/sessionStorage';
+import { getIsRxSkill, getEventSkillValue } from '../utils/sessionStorage';
 
 const suggestedActionClasses = [
   'webchat__suggested-action',
@@ -10,6 +10,7 @@ function recordSuggestedAction(
   cardTargetClassList,
   cardActionValue,
   isRxSkill,
+  eventSkillValue,
 ) {
   if (!cardTargetClassList) {
     return;
@@ -20,7 +21,7 @@ function recordSuggestedAction(
   );
 
   if (isSuggestedAction) {
-    const topic = isRxSkill === 'true' ? 'prescriptions' : undefined;
+    const topic = isRxSkill === 'true' ? 'prescriptions' : eventSkillValue;
     recordEvent({
       event: 'chatbot-button-click',
       clickText: cardActionValue,
@@ -53,8 +54,14 @@ export const cardActionMiddleware = () => next => card => {
   const cardActionValue = cardAction.value;
   const cardTargetClassList = card?.target?.classList;
   const isRxSkill = getIsRxSkill();
+  const eventSkillValue = getEventSkillValue();
 
-  recordSuggestedAction(cardTargetClassList, cardActionValue, isRxSkill);
+  recordSuggestedAction(
+    cardTargetClassList,
+    cardActionValue,
+    isRxSkill,
+    eventSkillValue,
+  );
   recordDecisionLetterDownload(cardAction);
 
   return next(card);

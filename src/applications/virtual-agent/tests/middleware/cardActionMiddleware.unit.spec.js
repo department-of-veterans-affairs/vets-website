@@ -137,7 +137,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          topic: undefined,
+          topic: null,
         });
       });
       it('should not call recordEvent when classList is unknown class in card', () => {
@@ -154,6 +154,27 @@ describe('cardAction', () => {
         cardActionMiddleware()(sandbox.stub())(card);
 
         expect(recordEventStub.notCalled).to.be.true;
+      });
+      it('should call recordEvent with disability ratings when classList has webchat__suggested-action in card and skill is disability ratings', () => {
+        const card = generateFakeCard(
+          'https://www.va.gov/v0/claim_letters/abc',
+          'notOpenUrl',
+        );
+        card.target = { classList: ['webchat__suggested-action'] };
+
+        sandbox
+          .stub(SessionStorageModule, 'getEventSkillValue')
+          .returns('ratings');
+        const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+        cardActionMiddleware()(sandbox.stub())(card);
+
+        expect(recordEventStub.calledOnce).to.be.true;
+        expect(recordEventStub.firstCall.args[0]).to.deep.equal({
+          event: 'chatbot-button-click',
+          clickText: card.cardAction.value,
+          topic: 'ratings',
+        });
       });
       describe('When there are unexpected values', () => {
         it('should not throw an error when cardAction.value is not a string', () => {
