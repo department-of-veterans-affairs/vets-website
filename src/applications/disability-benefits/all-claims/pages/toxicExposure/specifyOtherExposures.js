@@ -5,30 +5,34 @@ import {
 import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   exposureEndDateApproximate,
   exposureStartDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
   notSureDatesDetails,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(additionalExposuresPageTitle),
-  'ui:description': ({ formData }) => {
+  'ui:title': ({ formData }) => {
     const indexAndSelectedCount = getSelectedCount(
       'otherExposures',
       formData,
       'specifyOtherExposures',
     );
-    return dateRangePageDescription(
-      indexAndSelectedCount,
-      indexAndSelectedCount,
-      getOtherFieldDescription(formData, 'specifyOtherExposures'),
-      'Hazard',
+    return detailsPageBegin(
+      additionalExposuresPageTitle,
+      teSubtitle(
+        indexAndSelectedCount,
+        indexAndSelectedCount,
+        getOtherFieldDescription(formData, 'specifyOtherExposures'),
+        'Hazard',
+      ),
+      'hazards',
     );
   },
+
   toxicExposure: {
     specifyOtherExposures: {
       startDate: currentOrPastDateUI({

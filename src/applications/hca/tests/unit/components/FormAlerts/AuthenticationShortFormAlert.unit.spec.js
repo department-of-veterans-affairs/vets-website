@@ -21,9 +21,9 @@ describe('hca <AuthenticatedShortFormAlert>', () => {
         <AuthenticatedShortFormAlert />
       </Provider>,
     );
-    const selectors = {
+    const selectors = () => ({
       alert: container.querySelector('va-alert-expandable'),
-    };
+    });
     return { selectors };
   };
   let mockStore;
@@ -34,8 +34,9 @@ describe('hca <AuthenticatedShortFormAlert>', () => {
 
   it('should render `va-alert-expandable` with status of `success`', () => {
     const { selectors } = subject({ mockStore });
-    expect(selectors.alert).to.exist;
-    expect(selectors.alert).to.have.attr('status', 'success');
+    const { alert } = selectors();
+    expect(alert).to.exist;
+    expect(alert).to.have.attr('status', 'success');
   });
 
   it('should fire the `recordEvent` method to log the interaction to analytics', async () => {

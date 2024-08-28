@@ -61,18 +61,6 @@ const DebtDetails = () => {
     return mostRecentDate;
   };
 
-  const getFirstPaymentDateFromCurrentDebt = debt => {
-    const firstPaymentDate = last(debt.fiscalTransactionData)?.transactionDate;
-
-    if (firstPaymentDate === '') return 'N/A';
-
-    return firstPaymentDate;
-  };
-
-  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
-    currentDebt,
-  );
-
   useEffect(() => {
     setPageFocus('h1');
   }, []);
@@ -108,8 +96,9 @@ const DebtDetails = () => {
             label: 'Current VA debt',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`,
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
             label: 'Debt details',
           },
         ]}

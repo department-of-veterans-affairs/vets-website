@@ -58,16 +58,12 @@ const testConfig = createTestConfig(
         });
       },
       'place-of-birth': selectDropdownHook(
-        'placeOfBirthAddress_state',
-        data => data.placeOfBirthAddress.state,
+        'placeOfBirth_state',
+        data => data.placeOfBirth.state,
       ),
       'home-address': selectDropdownHook(
         'homeAddress_state',
         data => data.homeAddress.state,
-      ),
-      'work-address': selectDropdownHook(
-        'workAddress_state',
-        data => data.workAddress.state,
       ),
       'other-address': selectDropdownHook(
         'otherAddress_state',
@@ -83,22 +79,14 @@ const testConfig = createTestConfig(
           },
         ],
       ),
-      'military-service-experiences/0/experience': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            cy.fillPage();
-            selectDropdownWebComponent(
-              'serviceBranch',
-              data.militaryServiceExperiences[0].serviceBranch,
-            );
-            selectDropdownWebComponent(
-              'characterOfDischarge',
-              data.militaryServiceExperiences[0].characterOfDischarge,
-            );
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
+      'military-service-experiences/0/branch-date-range': selectDropdownHook(
+        'branch',
+        data => data.militaryServiceExperiences[0].branch,
+      ),
+      'military-service-experiences/0/discharge-character': selectDropdownHook(
+        'characterOfDischarge',
+        data => data.militaryServiceExperiences[0].characterOfDischarge,
+      ),
       'employers/0/address-phone-number': selectDropdownHook(
         'address_state',
         data => data.employers[0].address.state,

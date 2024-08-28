@@ -8,11 +8,11 @@ import {
 export default {
   title: 'Other address',
   path: 'other-address',
-  depends: formData => formData.primaryMailingAddress === 'OTHER',
+  depends: formData => formData.primaryMailingAddress === 'other',
   uiSchema: {
     ...titleUI(
       'Other address',
-      'We will send any important information about your form to this address.',
+      'We will send information about your form to this address.',
     ),
     otherAddress: addressUI({
       labels: {

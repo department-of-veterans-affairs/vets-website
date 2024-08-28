@@ -1,6 +1,9 @@
 import { expect } from 'chai';
 
-import { getValidationErrors } from '../../../src/js/utilities/validations';
+import {
+  getValidationErrors,
+  isValidCurrentOrPastMonthYear,
+} from '../../../src/js/utilities/validations';
 
 describe('getValidationErrors', () => {
   // simple validation functions
@@ -29,5 +32,19 @@ describe('getValidationErrors', () => {
     expect(
       getValidationErrors([check1, check2], { foo: '123', bar: '456' }),
     ).to.deep.equal([]);
+  });
+});
+
+describe('validations', () => {
+  it('isValidCurrentOrPastMonthYear', () => {
+    expect(isValidCurrentOrPastMonthYear('10', '2000')).to.be.true;
+    expect(isValidCurrentOrPastMonthYear('10', '3000')).to.be.false;
+    expect(isValidCurrentOrPastMonthYear('0', '3000')).to.be.false;
+    const today = new Date();
+    const todaysMonth = today.getMonth() + 1; // 0 based index
+    const todaysYear = today.getFullYear();
+    expect(isValidCurrentOrPastMonthYear(todaysMonth, todaysYear)).to.be.true;
+    expect(isValidCurrentOrPastMonthYear(todaysMonth + 1, todaysYear)).to.be
+      .false;
   });
 });

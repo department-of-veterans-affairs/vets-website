@@ -17,7 +17,7 @@ const all = {
             name: 'Washington DC VAMC',
           },
         ],
-        category: ['food'],
+        category: ['medication'],
         code: {
           text: 'Bee Pollen',
         },
@@ -92,7 +92,7 @@ const all = {
         note: [
           {
             text:
-              'Patient reported severe reaction to tree nuts. Carries an epi-pen',
+              'Patient reported severe reaction to tree nuts. Carries an epi-pen.',
           },
         ],
         reaction: [

@@ -146,7 +146,6 @@ export default function AppointmentColumnLayout({
               className={classNames(
                 'vaos-appts__column-gap--3',
                 'small-screen:vads-u-flex-direction--column',
-                'small-desktop-screen:vads-u-flex-direction--row',
               )}
             >
               <AppointmentColumn

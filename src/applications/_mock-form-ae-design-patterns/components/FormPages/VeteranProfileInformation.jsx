@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import { format, parseISO } from 'date-fns';
 
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
@@ -22,7 +22,8 @@ const VeteranProfileInformation = ({
 
   const veteranName = normalizeFullName(userFullName, true);
   const veteranSSN = maskSSN(veteranSocialSecurityNumber);
-  const veteranDOB = dob && moment(dob).format('MM/DD/YYYY');
+  const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
+  const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
   const veteranGender = gender && genderLabels[gender];
 
   return (
@@ -58,10 +59,16 @@ const VeteranProfileInformation = ({
                   Date of birth:
                 </dt>
                 <dd
-                  className="vads-u-display--inline-block dd-privacy-mask"
+                  className="dd-privacy-mask medium-screen:vads-u-display--inline-block vads-u-display--none"
                   data-dd-action-name="Date of birth"
                 >
                   {veteranDOB}
+                </dd>
+                <dd
+                  className="dd-privacy-mask vads-u-display--inline-block medium-screen:vads-u-display--none"
+                  data-dd-action-name="Date of birth"
+                >
+                  {veteranDOBMobile}
                 </dd>
               </div>
             ) : null}

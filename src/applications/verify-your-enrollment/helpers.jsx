@@ -676,6 +676,8 @@ export const addressLabel = address => {
   const {
     addressLine1,
     addressLine2,
+    addressLine3,
+    addressLine4,
     city,
     province,
     stateCode,
@@ -685,6 +687,8 @@ export const addressLabel = address => {
 
   const line1 = addressLine1 || '';
   const line2 = addressLine2 || '';
+  const line3 = addressLine3 || '';
+  const line4 = addressLine4 || '';
 
   const cityState = city && (province || stateCode) ? `${city}, ` : city;
 
@@ -696,6 +700,9 @@ export const addressLabel = address => {
     <span>
       {line1 && <>{line1} </>}
       {line2 && <>{` ${line2}`}</>}
+      {line3 && <br />}
+      {line3 && <>{line3} </>}
+      {line4 && <>{` ${line4}`}</>}
       {cityState && (
         <>
           <br /> {cityState}

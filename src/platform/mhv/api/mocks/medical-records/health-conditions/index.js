@@ -253,7 +253,7 @@ const all = {
         code: {
           text: 'Inflammation',
         },
-        recordedDate: '2019-06-05',
+        recordedDate: '2018-06-05',
         recorder: {
           extension: [
             {

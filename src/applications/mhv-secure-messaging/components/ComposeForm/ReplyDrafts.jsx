@@ -17,6 +17,7 @@ const ReplyDrafts = props => {
     isEditing,
     setIsEditing,
     setHideDraft,
+    setIsSending,
   } = props;
   const dispatch = useDispatch();
 
@@ -51,6 +52,7 @@ const ReplyDrafts = props => {
                   signature={signature}
                   showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
                   setHideDraft={setHideDraft}
+                  setIsSending={setIsSending}
                 />
               </va-accordion-item>
             );
@@ -71,6 +73,7 @@ const ReplyDrafts = props => {
                 dispatch({ type: Actions.Thread.RESET_LAST_SAVE_TIME });
               }}
               showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+              setIsSending={setIsSending}
             />
           </va-accordion-item>
         )}
@@ -92,6 +95,7 @@ ReplyDrafts.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyDrafts;

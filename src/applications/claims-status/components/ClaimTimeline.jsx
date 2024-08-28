@@ -7,22 +7,24 @@ import { getUserPhase } from '../utils/helpers';
 
 const LAST_EVIDENCE_GATHERING_PHASE = 6;
 
-export default function ClaimTimeline({ currentPhaseBack, events, phase }) {
+export default function ClaimTimeline({ currentPhaseBack, phase }) {
   const userPhase = getUserPhase(phase);
-  const activityByPhase = events;
 
   return (
     <>
       <h3 className="vads-u-visibility--screen-reader">Claim status</h3>
-      <ol className="process form-process claim-timeline">
-        <ClaimPhase phase={1} current={userPhase} activity={activityByPhase} />
-        <ClaimPhase phase={2} current={userPhase} activity={activityByPhase}>
-          <p>
-            We assigned your claim to a reviewer. The reviewer will determine if
-            we need any more information from you.
-          </p>
+      <va-process-list>
+        <ClaimPhase phase={1} current={userPhase}>
+          <p>We received your claim in our system.</p>
         </ClaimPhase>
-        <ClaimPhase phase={3} current={userPhase} activity={activityByPhase}>
+        <ClaimPhase phase={2} current={userPhase}>
+          <p>
+            We’ll check your claim for basic information we need, like your name
+            and Social Security number.
+          </p>
+          <p>If information is missing, we’ll contact you.</p>
+        </ClaimPhase>
+        <ClaimPhase phase={3} current={userPhase}>
           <p>
             If we need more information, we’ll request it from you, health care
             providers, governmental agencies, or others. Once we have all the
@@ -34,11 +36,16 @@ export default function ClaimTimeline({ currentPhaseBack, events, phase }) {
           {currentPhaseBack &&
             phase === LAST_EVIDENCE_GATHERING_PHASE && <PhaseBackWarning />}
         </ClaimPhase>
-        <ClaimPhase phase={4} current={userPhase} activity={activityByPhase}>
+        <ClaimPhase phase={4} current={userPhase}>
           <p>We are preparing your claim decision packet to be mailed.</p>
         </ClaimPhase>
-        <ClaimPhase phase={5} current={userPhase} activity={activityByPhase} />
-      </ol>
+        <ClaimPhase phase={5} current={userPhase}>
+          <p>
+            Your claim has been completed and you will receive a letter
+            detailing the outcome of your claim.
+          </p>
+        </ClaimPhase>
+      </va-process-list>
     </>
   );
 }
@@ -46,6 +53,4 @@ export default function ClaimTimeline({ currentPhaseBack, events, phase }) {
 ClaimTimeline.propTypes = {
   phase: PropTypes.number.isRequired,
   currentPhaseBack: PropTypes.bool,
-  events: PropTypes.object,
-  everPhaseBack: PropTypes.bool,
 };

@@ -1,5 +1,6 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import React from 'react';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import {
   checkboxGroupSchema,
   checkboxGroupUI,
@@ -65,11 +66,10 @@ import {
   appMedicareOver65IneligibleConfig,
   applicantOhiCardsConfig,
   applicantOtherInsuranceCertificationConfig,
-  applicantMarriageCertConfig,
   applicantBirthCertUploadUiSchema,
   applicantAdoptedUploadUiSchema,
   applicantStepChildUploadUiSchema,
-  applicantMarriageCertUploadUiSchema,
+  applicantRemarriageCertUploadUiSchema,
   applicantMedicarePartAPartBCardsUploadUiSchema,
   applicantMedicarePartDCardsUploadUiSchema,
   appMedicareOver65IneligibleUploadUiSchema,
@@ -161,6 +161,9 @@ const formConfig = {
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   saveInProgress: {
     messages: {
@@ -986,17 +989,17 @@ const formConfig = {
               get(
                 'applicantRelationshipToSponsor.relationshipToVeteran',
                 formData?.applicants?.[index],
-              ) === 'spouse'
+              ) === 'spouse' && get('sponsorIsDeceased', formData)
             );
           },
           CustomPage: FileFieldWrapped,
           CustomPageReview: null,
           customPageUsesPagePerItemData: true,
-          uiSchema: applicantMarriageCertUploadUiSchema,
+          uiSchema: applicantRemarriageCertUploadUiSchema,
           schema: applicantListSchema([], {
             titleSchema,
-            ...applicantMarriageCertConfig.schema,
-            applicantMarriageCert: fileWithMetadataSchema(
+            'view:fileUploadBlurb': blankSchema,
+            applicantRemarriageCert: fileWithMetadataSchema(
               acceptableFiles.spouseCert,
             ),
           }),

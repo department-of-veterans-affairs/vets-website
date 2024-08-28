@@ -14,6 +14,7 @@ import educationHistoryChapter from '../pages/04-education-history-chapter';
 import professionalAffiliationsChapter from '../pages/05-professional-affiliations-chapter';
 import backgroundInformationChapter from '../pages/06-background-information-chapter';
 import characterReferencesChapter from '../pages/07-character-references-chapter';
+import supplementaryStatementsChapter from '../pages/08-supplementary-statements-chapter';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -73,6 +74,7 @@ const formConfig = {
     professionalAffiliationsChapter,
     backgroundInformationChapter,
     characterReferencesChapter,
+    supplementaryStatementsChapter,
   },
 };
 
