@@ -15,7 +15,16 @@ export default {
       'Name and date of birth',
       'Use your legal name as it appears on your government documentation.',
     ),
-    fullName: fullNameUI(),
+    fullName: {
+      ...fullNameUI(),
+      middle: {
+        ...fullNameUI().middle,
+        'ui:required': () => true,
+        'ui:options': {
+          hint: 'If you do not have a middle name, enter “N/A.”',
+        },
+      },
+    },
     dateOfBirth: dateOfBirthUI(),
   },
   schema: {

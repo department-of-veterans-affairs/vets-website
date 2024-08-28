@@ -18,7 +18,7 @@ import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
 import { LOCATIONS_TO_REMOVE_FORM_HEADER } from '../utils/constants';
 
-const getFormConfig = location => {
+export const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
     return greenFormConfig;
   }

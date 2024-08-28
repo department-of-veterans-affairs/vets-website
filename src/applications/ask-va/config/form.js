@@ -53,6 +53,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
+  // TODO: Clear local storage after submit - localStorage.removeItem('askVAFiles')
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'ask-the-va-',
@@ -147,8 +148,7 @@ const formConfig = {
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.selectCategory !==
-                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-              formData.questionAbout !== "It's a general question"
+              'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
             ) {
               goPath(CHAPTER_3.RELATIONSHIP_TO_VET.PATH);
             } else goPath(`/${flowPaths.general}-1`);

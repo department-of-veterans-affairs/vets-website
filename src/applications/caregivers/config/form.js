@@ -9,6 +9,7 @@ import {
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
+  showFacilityConfirmation,
 } from '../utils/helpers/form-config';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -150,10 +151,10 @@ const formConfig = {
           uiSchema: vetMedicalCenterApiPage.uiSchema,
           schema: vetMedicalCenterApiPage.schema,
         },
-        vetFacilityConfirmation: {
-          path: 'veteran-information/va-medical-center/confirmation',
+        vetMedicalCenterConfirmation: {
+          path: 'veteran-information/va-medical-center/confirm',
           title: content['vet-info-title--facility'],
-          depends: formData => formData['view:useFacilitiesAPI'],
+          depends: showFacilityConfirmation,
           CustomPage: FacilityConfirmation,
           CustomPageReview: null,
           uiSchema: {},

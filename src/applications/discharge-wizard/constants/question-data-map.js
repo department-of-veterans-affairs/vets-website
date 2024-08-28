@@ -1,5 +1,5 @@
 export const QUESTION_MAP = Object.freeze({
-  HOME: 'How to Apply for a Discharge Upgrade',
+  HOME: 'How to apply for a discharge upgrade',
   SERVICE_BRANCH: 'What was your branch of service?',
   DISCHARGE_YEAR: 'What year were you discharged from the military?',
   DISCHARGE_MONTH: 'What month were you discharged?',
