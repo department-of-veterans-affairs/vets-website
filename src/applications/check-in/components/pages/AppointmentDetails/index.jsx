@@ -345,16 +345,16 @@ const AppointmentDetails = props => {
                     data-testid="appointment-details--facility-value"
                   >
                     {appointment.facility}
-                    {appointment.facilityAddress?.street1 && (
-                      <div className="vads-u-margin-bottom--2">
-                        <AddressBlock
-                          address={appointment.facilityAddress}
-                          placeName={appointment.facility}
-                          showDirections
-                        />
-                      </div>
-                    )}
                   </p>
+                  {appointment.facilityAddress?.street1 && (
+                    <div className="vads-u-margin-bottom--2">
+                      <AddressBlock
+                        address={appointment.facilityAddress}
+                        placeName={appointment.facility}
+                        showDirections
+                      />
+                    </div>
+                  )}
                 </div>
               )}
               {(isPhoneAppointment || isVvcAppointment) && (

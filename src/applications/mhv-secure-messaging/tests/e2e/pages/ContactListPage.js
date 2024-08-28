@@ -1,4 +1,4 @@
-import { Locators, Paths } from '../utils/constants';
+import { Locators, Paths, Alerts } from '../utils/constants';
 
 class ContactListPage {
   loadContactList = () => {
@@ -41,13 +41,43 @@ class ContactListPage {
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`have.text`, `Save and exit`);
+      .and(`include.text`, `Save and exit`);
 
     cy.get(`[text="Cancel"]`)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`have.text`, `Cancel`);
+      .and(`include.text`, `Cancel`);
+  };
+
+  clickSaveModalCancelButton = () => {
+    cy.get(Locators.ALERTS.CANCEL).click({ force: true });
+  };
+
+  verifySaveAlertHeader = () => {
+    cy.get(Locators.ALERTS.HEADER).should(
+      `include.text`,
+      Alerts.CONTACT_LIST.SAVE,
+    );
+  };
+
+  closeSaveModal = () => {
+    cy.get(`.first-focusable-child`).click();
+  };
+
+  clickSaveAndExitButton = () => {
+    cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
+  };
+
+  verifyContactListSavedAlert = () => {
+    cy.get(Locators.ALERTS.CONFIRM).should(
+      `include.text`,
+      Alerts.CONTACT_LIST.SAVED,
+    );
+  };
+
+  clickBackToInbox = () => {
+    cy.get(Locators.BACK_TO).click();
   };
 }
 
