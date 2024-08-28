@@ -3,6 +3,8 @@ import {
   yesNoSchema,
   checkboxGroupUI,
   checkboxGroupSchema,
+  currentOrPastDateUI,
+  currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   StudentEducationH3,
@@ -22,12 +24,13 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
           tuitionIsPaidByGovAgency: yesNoSchema,
           'view:programExamples': {
             type: 'object',
             properties: {},
           },
+          typeOfProgramOrBenefit: checkboxGroupSchema(benefitSchemaLabels),
+          benefitPaymentDate: currentOrPastDateSchema,
         },
       },
     },
@@ -55,6 +58,26 @@ export const uiSchema = {
       },
       'view:programExamples': {
         'ui:description': ProgramExamples,
+        'ui:options': {
+          hideOnReview: true,
+        },
+      },
+      benefitPaymentDate: {
+        ...currentOrPastDateUI(
+          'When did the student start receiving education benefit payments?',
+        ),
+        'ui:required': (formData, index) => {
+          const benefits =
+            formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
+          return benefits?.CH35 || benefits?.FECA || benefits?.FRY;
+        },
+        'ui:options': {
+          hideIf: (formData, index) => {
+            const benefits =
+              formData?.studentInformation?.[index]?.typeOfProgramOrBenefit;
+            return !(benefits?.CH35 || benefits?.FECA || benefits?.FRY);
+          },
+        },
       },
     },
   },

@@ -14,7 +14,7 @@ export const schema = {
       items: {
         type: 'object',
         properties: {
-          studentAddress: addressSchema(),
+          address: addressSchema(),
         },
       },
     },
@@ -25,7 +25,7 @@ export const uiSchema = {
   studentInformation: {
     items: {
       'ui:title': StudentAddressH3,
-      studentAddress: addressUI({
+      address: addressUI({
         labels: {
           militaryCheckbox:
             'They receive mail outside of the United States on a U.S. military base.',

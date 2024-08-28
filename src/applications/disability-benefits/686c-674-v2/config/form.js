@@ -56,6 +56,10 @@ import {
   studentAdditionalInformationPartTwo,
   studentAdditionalInformationPartThree,
   studentAdditionalInformationPartFour,
+  studentAdditionalInformationPartFive,
+  studentAdditionalInformationPartSix,
+  studentAdditionalInformationPartSeven,
+  studentAdditionalInformationPartEight,
   // studentAddressMarriageTuition,
   // studentSchoolAddress,
   // studentTermDates,
@@ -359,6 +363,46 @@ export const formConfig = {
           showPagePerItem: true,
           uiSchema: studentAdditionalInformationPartFour.uiSchema,
           schema: studentAdditionalInformationPartFour.schema,
+        },
+        studentAdditionalInformationPartFive: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-name',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartFive.uiSchema,
+          schema: studentAdditionalInformationPartFive.schema,
+        },
+        studentAdditionalInformationPartSix: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-attendance',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartSix.uiSchema,
+          schema: studentAdditionalInformationPartSix.schema,
+        },
+        studentAdditionalInformationPartSeven: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-accreditation',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartSeven.uiSchema,
+          schema: studentAdditionalInformationPartSeven.schema,
+        },
+        studentAdditionalInformationPartEight: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/school-term-dates',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartEight.uiSchema,
+          schema: studentAdditionalInformationPartEight.schema,
         },
         // studentAddressMarriageTuition: {
         //   depends: formData =>

@@ -27,17 +27,47 @@ export const benefitUiLabels = {
 };
 
 export const ProgramExamples = (
-  <>
-    <p>Examples of federally funded programs or schools</p>
+  <va-additional-info trigger="Examples of federally funded programs or schools">
     <ul>
       <li>U.S Department of Labor’s Job Corps program</li>
       <li>Military academies</li>
       <li>Federally funded Native American schools</li>
     </ul>
-  </>
+  </va-additional-info>
 );
 
-// TODO: Find a better way.
+export const AccreditedSchool = (
+  <va-additional-info trigger="How to tell if a school is accredited">
+    <p>
+      You can go to the U.S. Department of Education’s website to check if a
+      school is accredited.
+    </p>
+    <a
+      href="https://ope.ed.gov/dapip/#/home"
+      rel="noopener noreferrer"
+      aria-label="Go to the U.S. Department of Education’s website (opens in new tab)"
+      target="_blank"
+    >
+      Go to the U.S. Department of Education’s website (opens in new tab)
+    </a>
+  </va-additional-info>
+);
+
+export const TermDateHint = (
+  <span className="vads-u-color--gray">
+    <p>
+      For example, if the student’s school uses semesters, tell us when the
+      student’s current semester started. Or if the student’s school uses
+      quarters, tell us when the student’s current quarter started.
+    </p>
+    <p>
+      If the student is currently on academic break between semesters, tell us
+      when the student’s previous term started
+    </p>
+  </span>
+);
+
+// TODO: Find a better way to do this. Repeats multiple times - still working on a solution from within arrays
 
 export const StudentHeader = ({ formData, text = null }) => {
   const { first, last } = formData.fullName;
