@@ -213,9 +213,9 @@ const ContactInfo = ({
       background-only
       role="alert"
     >
-      <h2 slot="headline">Your home phone number has been updated</h2>
+      <h2 slot="headline">We’ve updated your home phone number</h2>
       <p className="vads-u-margin-y--0">
-        These changes will only be reflected in this form.
+        We’ve only made these changes to this form.
       </p>
     </va-alert>
   );

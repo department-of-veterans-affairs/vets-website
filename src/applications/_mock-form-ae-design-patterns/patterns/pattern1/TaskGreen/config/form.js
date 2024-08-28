@@ -133,7 +133,7 @@ const formConfig = {
                 '1/task-green/veteran-information/confirm-mailing-address',
               saveButtonText: 'Save to profile',
               subTitle:
-                'We’ll send any important information about your application to this address.',
+                'We send your VA letters, bills, and prescriptions to this address.',
             }),
           CustomPageReview: null,
           depends: () => false, // accessed from contact info page

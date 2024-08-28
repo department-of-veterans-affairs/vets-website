@@ -57,8 +57,6 @@ const IntroductionPage = props => {
 
       <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
 
-      {/* <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} /> */}
-
       <h2 className="vads-u-margin-top--2">
         Follow these steps to request a Board Appeal
       </h2>

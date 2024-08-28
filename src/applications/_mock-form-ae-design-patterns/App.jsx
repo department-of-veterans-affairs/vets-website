@@ -18,7 +18,7 @@ import { Portal } from './shared/components/Portal';
 import { LOCATIONS_TO_REMOVE_FORM_HEADER } from './utils/constants';
 import fallbackForm from './shared/config/fallbackForm';
 
-const getFormConfig = location => {
+export const getFormConfig = location => {
   if (location.pathname.includes('task-green')) {
     return greenFormConfig;
   }
