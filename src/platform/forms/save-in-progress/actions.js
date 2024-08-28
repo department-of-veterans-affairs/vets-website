@@ -324,7 +324,10 @@ export function fetchInProgressForm(
     dispatch(setFetchFormPending(prefill));
 
     // Query the api and return a promise (for navigation / error handling afterward)
-    return apiRequest(apiUrl, { method: 'GET' })
+    return apiRequest(apiUrl, {
+      method: 'GET',
+      includeResponseInFailureRejection: true,
+    })
       .then(resBody => {
         // Return not-found if empty object
         if (

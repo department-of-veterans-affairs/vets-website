@@ -10,6 +10,7 @@ export function removeFormApi(formId) {
     headers: {
       'Content-Type': 'application/json',
     },
+    includeResponseInFailureRejection: true,
   }).catch(error => {
     if (error instanceof Error) {
       Sentry.captureException(error);
@@ -51,6 +52,7 @@ export function saveFormApi(
   return apiRequest(apiUrl, {
     method: 'PUT',
     headers: saveFormApiHeaders,
+    includeResponseInFailureRejection: true,
     body,
   });
 }
