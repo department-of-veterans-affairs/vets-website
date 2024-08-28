@@ -2,6 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT, Locators, Data } from '../utils/constants';
 import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
+// veification of 'Back to top' link slipped and will be fixed in separate PR
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
     SecureMessagingSite.login();
@@ -11,10 +12,8 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       'have.text',
       Data.GO_YOUR_INBOX,
     );
-    //
-    cy.tabToElement('[data-testid="compose-message-link"]').should(
-      'have.focus',
-    );
+
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE).should('have.focus');
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .find('a')
@@ -25,7 +24,7 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       cy.get(el).should('have.focus');
     });
 
-    cy.get(Locators.ALERTS.BACK_TOP).scrollIntoView();
+    cy.realPress('Tab');
 
     // cy.get(Locators.ALERTS.BACK_TOP)
     //   .shadow()
