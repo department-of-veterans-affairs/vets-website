@@ -18,7 +18,7 @@ describe('Medical Records validate secondary nav', () => {
       allergyDetail.id,
       allergyDetail,
     );
-    AllergiesListPage.verifySecondaryNav();
+    AllergyDetailsPage.verifySecondaryNav();
     cy.injectAxe();
     cy.axeCheck('main', {
       rules: {
