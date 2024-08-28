@@ -48,5 +48,14 @@ class AllergiesListPage extends BaseListPage {
       matchCase: false,
     });
   };
+
+  verifySecondaryNav = () => {
+    cy.get('[data-testid="mhv-sec-nav-item"]')
+      .eq(4)
+      .find('a')
+      .find('span')
+      .contains('Records')
+      .should('be.visible');
+  };
 }
 export default new AllergiesListPage();
