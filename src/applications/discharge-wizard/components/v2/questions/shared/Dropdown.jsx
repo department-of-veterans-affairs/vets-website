@@ -131,8 +131,11 @@ const Dropdown = ({
           status="info"
           trigger="Changing your answer may lead to a new set of questions."
         >
-          If you change your answer to this question, you may be asked for more
-          information to ensure that we provide you with the best results.
+          <p>
+            If you change your answer to this question, you may be asked for
+            more information to ensure that we provide you with the best
+            results.
+          </p>
         </va-alert-expandable>
       )}
       <VaButtonPair
