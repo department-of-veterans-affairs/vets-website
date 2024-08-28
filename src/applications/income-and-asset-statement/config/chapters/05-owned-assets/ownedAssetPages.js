@@ -1,3 +1,4 @@
+import React from 'react';
 import merge from 'lodash/merge';
 import {
   arrayBuilderItemFirstPageTitleUI,
@@ -11,16 +12,17 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
+import {
+  formatCurrency,
+  otherRecipientRelationshipExplanationRequired,
+  recipientNameRequired,
+  showRecipientName,
+} from '../../../helpers';
 import { relationshipLabels, ownedAssetTypeLabels } from '../../../labels';
 import {
   RequestPropertyOrBusinessIncomeFormAlert,
   RequestFarmIncomeFormAlert,
 } from '../../../components/FormAlerts';
-import {
-  otherRecipientRelationshipExplanationRequired,
-  recipientNameRequired,
-  showRecipientName,
-} from '../../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -35,7 +37,30 @@ const options = {
     !item.assetType, // include all required fields here
   maxItems: 5,
   text: {
-    getItemName: item => ownedAssetTypeLabels[item.assetType],
+    getItemName: item => relationshipLabels[item.recipientRelationship],
+    cardDescription: item =>
+      item && (
+        <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
+          <li>
+            Asset type:{' '}
+            <span className="vads-u-font-weight--bold">
+              {ownedAssetTypeLabels[item.assetType]}
+            </span>
+          </li>
+          <li>
+            Gross monthly income:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.grossMonthlyIncome)}
+            </span>
+          </li>
+          <li>
+            Owned portion value:{' '}
+            <span className="vads-u-font-weight--bold">
+              {formatCurrency(item.ownedPortionValue)}
+            </span>
+          </li>
+        </ul>
+      ),
     reviewAddButtonText: 'Add another owned asset',
     alertMaxItems:
       'You have added the maximum number of allowed incomes for this application. You may edit or delete an income or choose to continue the application.',

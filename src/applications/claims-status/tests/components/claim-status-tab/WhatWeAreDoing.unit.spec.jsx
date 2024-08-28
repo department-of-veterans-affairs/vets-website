@@ -60,7 +60,7 @@ const dependencyClaimPhase3 = {
   attributes: {
     claimDate: '2023-01-01',
     claimPhaseDates: {
-      currentPhaseBack: false,
+      currentPhaseBack: true,
       phaseChangeDate: '2023-02-08',
       latestPhaseType: 'GATHERING_OF_EVIDENCE',
       previousPhases: {
@@ -1033,6 +1033,30 @@ describe('<WhatWeAreDoing>', () => {
         expect(queryByText('Moved to this step on February 8, 2023')).to.not
           .exist;
         expect(getByRole('link')).to.have.text('Overview of the process');
+      });
+      it('should render a WhatWereDoing section when current phase back is set to true', () => {
+        const {
+          status,
+          claimPhaseDates,
+          claimTypeCode,
+        } = dependencyClaimPhase3.attributes;
+        const claimPhaseType = claimPhaseDates.latestPhaseType;
+        const { currentPhaseBack } = claimPhaseDates;
+        const { getByText } = renderWithRouter(
+          <Provider store={getStore(false)}>
+            <WhatWeAreDoing
+              status={status}
+              claimPhaseType={claimPhaseType}
+              currentPhaseBack={currentPhaseBack}
+              phaseChangeDate={claimPhaseDates.phaseChangeDate}
+              claimTypeCode={claimTypeCode}
+            />
+          </Provider>,
+        );
+
+        getByText(
+          'We moved your claim back to this step because we needed to find or review more evidence',
+        );
       });
     });
   });

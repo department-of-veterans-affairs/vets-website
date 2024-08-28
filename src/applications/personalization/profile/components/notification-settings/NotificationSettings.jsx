@@ -44,7 +44,11 @@ const NotificationSettings = ({
 }) => {
   const location = useLocation();
 
-  const { showEmail, useAvailableGroups } = useNotificationSettingsUtils();
+  const {
+    showEmail,
+    useAvailableGroups,
+    toggles,
+  } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
@@ -152,7 +156,15 @@ const NotificationSettings = ({
                 </NotificationGroup>
               );
             }
-
+            // this will hide the Payments header when there are no items to display
+            if (
+              id === NOTIFICATION_GROUPS.PAYMENTS &&
+              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
+              !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
+              !mobilePhoneNumber
+            ) {
+              return null;
+            }
             return <NotificationGroup groupId={id} key={id} />;
           })}
           <p className="vads-u-margin-bottom--0">

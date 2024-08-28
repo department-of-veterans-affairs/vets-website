@@ -3,7 +3,7 @@ import {
   checkboxGroupUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import EmploymentActivitiesDescription from '../../components/03-employment-history-chapter/EmploymentActivitiesDescription';
+import EmploymentActivitiesDescription from '../../components/03-employment-information-chapter/EmploymentActivitiesDescription';
 import { employmentActivitiesOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
