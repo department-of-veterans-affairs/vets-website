@@ -7,7 +7,7 @@ import manifest from '../../../../manifest.json';
 import IntroductionPage from '../IntroductionPage';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
-import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
+import { GetFormHelp } from '../GetFormHelp';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
