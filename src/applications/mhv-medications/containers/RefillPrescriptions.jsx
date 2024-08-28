@@ -5,7 +5,6 @@ import {
   VaButton,
   VaCheckbox,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import PropTypes from 'prop-types';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
 import {
   updatePageTitle,
@@ -15,9 +14,9 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import {
   getRefillablePrescriptionsList,
   getAllergiesList,
+  fillPrescriptions,
 } from '../actions/prescriptions';
 import { dateFormat } from '../util/helpers';
-import { fillRxs } from '../api/rxApi';
 import { selectRefillContentFlag } from '../util/selectors';
 import RenewablePrescriptions from '../components/RefillPrescriptions/RenewablePrescriptions';
 import { SESSION_SELECTED_PAGE_NUMBER } from '../util/constants';
@@ -28,31 +27,28 @@ import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
 
-const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
+const RefillPrescriptions = () => {
   // Hooks
   const location = useLocation();
   const dispatch = useDispatch();
 
   // State
-  const [isLoading, updateLoadingStatus] = useState(isLoadingList);
+  const [isLoading, updateLoadingStatus] = useState(true);
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
   );
   const [selectedRefillList, setSelectedRefillList] = useState([]);
-  const [fullRefillList, setFullRefillList] = useState(refillList);
-  const [fullRenewList, setFullRenewList] = useState(refillList);
-  const [refillResult, setRefillResult] = useState({
-    status: 'notStarted',
-    failedMeds: [],
-    successfulMeds: [],
-  });
+  const [refillStatus, setRefillStatus] = useState('notStarted');
 
   // Selectors
   const selectedSortOption = useSelector(
     state => state.rx.prescriptions?.selectedSortOption,
   );
-  const refillablePrescriptionsList = useSelector(
-    state => state.rx.prescriptions?.refillablePrescriptionsList,
+  const fullRefillList = useSelector(
+    state => state.rx.prescriptions?.refillableList,
+  );
+  const fullRenewList = useSelector(
+    state => state.rx.prescriptions?.renewableList,
   );
   const prescriptionsApiError = useSelector(
     state => state.rx.prescriptions?.apiError,
@@ -71,23 +67,12 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
   // Functions
   const onRequestRefills = async () => {
     if (selectedRefillListLength > 0) {
-      setRefillResult({ ...refillResult, status: 'inProgress' });
+      setRefillStatus('inProgress');
       updateLoadingStatus(true);
       window.scrollTo(0, 0);
-      const response = await fillRxs(selectedRefillList);
-      const failedIds = response?.failedIds || [];
-      const successfulIds = response?.successfulIds || [];
-      const failedMeds = fullRefillList.filter(item =>
-        failedIds.includes(String(item.prescriptionId)),
+      dispatch(fillPrescriptions(selectedRefillList)).then(() =>
+        setRefillStatus('finished'),
       );
-      const successfulMeds = fullRefillList.filter(item =>
-        successfulIds.includes(String(item.prescriptionId)),
-      );
-      setRefillResult({
-        status: 'finished',
-        failedMeds,
-        successfulMeds,
-      });
       if (hasNoOptionSelectedError) setHasNoOptionSelectedError(false);
     } else {
       setHasNoOptionSelectedError(true);
@@ -121,13 +106,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     }
   };
 
-  const categorizePrescriptions = ([refillable, renewable], rx) => {
-    if (rx.isRefillable) {
-      return [[...refillable, rx], renewable];
-    }
-    return [refillable, [...renewable, rx]];
-  };
-
   useEffect(() => {
     sessionStorage.removeItem(SESSION_SELECTED_PAGE_NUMBER);
   }, []);
@@ -137,7 +115,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       if (fullRefillList === undefined || fullRefillList.length === 0) {
         updateLoadingStatus(true);
       }
-      if (refillResult.status !== 'inProgress') {
+      if (refillStatus !== 'inProgress') {
         dispatch(getRefillablePrescriptionsList()).then(() =>
           updateLoadingStatus(false),
         );
@@ -147,7 +125,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
     },
     // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [dispatch, location.pathname, selectedSortOption, refillResult, allergies],
+    [dispatch, location.pathname, selectedSortOption, refillStatus, allergies],
   );
 
   useEffect(
@@ -157,25 +135,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       }
     },
     [isLoading],
-  );
-
-  useEffect(
-    () => {
-      if (refillablePrescriptionsList) {
-        const fullList = refillablePrescriptionsList.sort((a, b) =>
-          a.prescriptionName.localeCompare(b.prescriptionName),
-        );
-        const [refillableList, renewableList] = fullList.reduce(
-          categorizePrescriptions,
-          [[], []],
-        );
-        setFullRefillList(refillableList);
-        setFullRenewList(renewableList);
-      }
-      // disabled warning: fullRefillList must be left of out dependency array to avoid infinite loop
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    },
-    [refillablePrescriptionsList],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
@@ -207,7 +166,7 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
           </>
         ) : (
           <>
-            <RefillNotification refillResult={refillResult} />
+            <RefillNotification refillStatus={refillStatus} />
             {fullRefillList?.length > 0 ? (
               <div>
                 <CernerFacilityAlert />
@@ -353,13 +312,6 @@ const RefillPrescriptions = ({ refillList = [], isLoadingList = true }) => {
       </div>
     </>
   );
-};
-
-// These have been added for testing purposes only
-// While the list and loading status is being determined locally
-RefillPrescriptions.propTypes = {
-  isLoadingList: PropTypes.bool,
-  refillList: PropTypes.array,
 };
 
 export default RefillPrescriptions;

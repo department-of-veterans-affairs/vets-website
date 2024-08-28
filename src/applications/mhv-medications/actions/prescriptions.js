@@ -4,6 +4,7 @@ import {
   getPaginatedSortedList,
   getRefillablePrescriptionList,
   fillRx,
+  fillRxs,
   getAllergies,
 } from '../api/rxApi';
 
@@ -89,6 +90,19 @@ export const fillPrescription = prescriptionId => async dispatch => {
     dispatch({
       type: Actions.Prescriptions.FILL_ERROR,
       err,
+    });
+    return error;
+  }
+};
+
+export const fillPrescriptions = prescriptionIds => async dispatch => {
+  try {
+    const response = await fillRxs(prescriptionIds);
+    dispatch({ type: Actions.Prescriptions.FILL_NOTIFICATION, response });
+    return null;
+  } catch (error) {
+    dispatch({
+      type: Actions.Prescriptions.GET_API_ERROR,
     });
     return error;
   }

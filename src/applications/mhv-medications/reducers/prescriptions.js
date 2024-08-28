@@ -1,5 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { defaultSelectedSortOption } from '../util/constants';
+import { categorizePrescriptions } from '../util/helpers';
 
 export const initialState = {
   /**
@@ -28,7 +29,16 @@ export const initialState = {
    * The list of refillable prescriptions returned from the api
    * @type {array}
    */
-  refillablePrescriptionsList: undefined,
+  refillableList: undefined,
+  /**
+   * The list of renewable prescriptions returned from the api
+   * @type {array}
+   */
+  renewableList: undefined,
+  /**
+   * Refill Page successful/failed notification
+   */
+  refillNotification: undefined,
 };
 
 export const prescriptionsReducer = (state = initialState, action) => {
@@ -59,11 +69,32 @@ export const prescriptionsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Prescriptions.GET_REFILLABLE_LIST: {
+      const refillablePrescriptionsList = action.response.data
+        .map(rx => {
+          return { ...rx.attributes };
+        })
+        .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
+
+      const [
+        refillableList,
+        renewableList,
+      ] = refillablePrescriptionsList.reduce(categorizePrescriptions, [[], []]);
+
       return {
         ...state,
-        refillablePrescriptionsList: action.response.data.map(rx => {
-          return { ...rx.attributes };
-        }),
+        refillableList,
+        renewableList,
+        apiError: false,
+      };
+    }
+    case Actions.Prescriptions.FILL_NOTIFICATION: {
+      const { failedIds, successfulIds } = action.payload;
+      return {
+        ...state,
+        refillNotification: {
+          failedIds,
+          successfulIds,
+        },
         apiError: false,
       };
     }
