@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
@@ -71,6 +71,25 @@ describe('CG <FacilitySearch>', () => {
     afterEach(() => {
       mapboxStub.restore();
       facilitiesStub.restore();
+    });
+
+    it('pressing enter triggers search request', async () => {
+      const { props } = getData({});
+      const { container, selectors } = subject({ props });
+      mapboxStub.resolves(successResponse);
+      facilitiesStub.resolves(mockFetchFacilitiesResponse);
+
+      await waitFor(() => {
+        inputVaTextInput(container, 'Tampa', selectors().input);
+        fireEvent.keyDown(selectors().input, { key: 'Enter', code: 'Enter' });
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+        expect(selectors().input).to.not.have.attr('error');
+      });
     });
 
     it('should fetch list of facilities to select on success', async () => {

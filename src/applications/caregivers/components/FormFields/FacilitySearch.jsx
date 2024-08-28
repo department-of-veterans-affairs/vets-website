@@ -69,7 +69,7 @@ const FacilitySearch = props => {
     setQuery(e.target.value);
   };
 
-  const handleClick = async () => {
+  const handleSearch = async () => {
     if (!query.trim()) {
       setError(content['validation-facilities--search-required']);
       return;
@@ -100,6 +100,13 @@ const FacilitySearch = props => {
     setFacilities(facilitiesResponse);
     setSubmittedQuery(query);
     setLoading(false);
+  };
+
+  const handleKeyDown = event => {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      handleSearch();
+    }
   };
 
   const searchResults = () => {
@@ -133,12 +140,13 @@ const FacilitySearch = props => {
             hint={content['form-facilities-search-hint']}
             error={error}
             onInput={handleChange}
+            onKeyDown={handleKeyDown}
             required
           />
           <VaButton
             data-testid="caregivers-search-btn"
             text={content['button-search']}
-            onClick={handleClick}
+            onClick={handleSearch}
           />
         </label>
       </va-card>
