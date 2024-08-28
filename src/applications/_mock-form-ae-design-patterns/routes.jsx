@@ -1,9 +1,11 @@
+import React from 'react';
 import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
 
 import greenFormConfig from './config/prefill/taskGreen/form';
 import yellowFormConfig from './config/prefill/taskYellow/form';
+import purpleFormConfig from './config/prefill/taskPurple/form';
 import App from './containers/App';
-import { NotFoundPage } from './containers/NotFoundPage';
+import { LandingPage } from './containers/LandingPage';
 
 const routes = [
   {
@@ -23,8 +25,24 @@ const routes = [
     childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
   },
   {
+    path: '/task-purple',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/task-purple/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+  },
+  {
     path: '*',
-    component: NotFoundPage,
+    component: props => (
+      <div className="vads-l-grid-container">
+        <div className="vads-l-row">
+          <div className="usa-width-two-thirds medium-8 columns">
+            <LandingPage {...props} />
+          </div>
+        </div>
+      </div>
+    ),
   },
 ];
 

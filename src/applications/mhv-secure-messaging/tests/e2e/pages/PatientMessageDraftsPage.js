@@ -503,7 +503,7 @@ class PatientMessageDraftsPage {
   };
 
   sortMessagesByKeyboard = (text, data, folderId) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });
@@ -561,7 +561,7 @@ class PatientMessageDraftsPage {
     text,
     sortedResponse = mockSortedMessages,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`, { force: true });

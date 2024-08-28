@@ -43,7 +43,7 @@ export default function EnrollmentVerificationBreadcrumbs() {
   const bcString = JSON.stringify(breadcrumbs);
   return (
     <div className="bread-crumbs-container">
-      <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" wrapping />;
+      <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" wrapping />
     </div>
   );
 }

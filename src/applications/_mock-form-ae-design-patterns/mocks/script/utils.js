@@ -68,7 +68,7 @@ const logRequest = req => {
   historyEntry.method = method;
   historyEntry.url = url;
 
-  debug(JSON.stringify(historyEntry, null, 2));
+  debug(JSON.stringify(requestHistory, null, 2));
 
   requestHistory.push({ ...historyEntry, url, method });
 };

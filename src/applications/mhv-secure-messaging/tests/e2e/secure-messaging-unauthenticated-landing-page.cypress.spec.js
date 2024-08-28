@@ -8,7 +8,7 @@ describe('Secure Messaging Compose', () => {
     SecureMessagingSite.login(mockEhrData, false);
     SecureMessagingSite.loadPageUnauthenticated();
 
-    cy.url().should('contain', Paths.HEALTH_CARE_SECURE_MSG);
+    cy.url().should('contain', Paths.MHV_LANDING_PAGE);
 
     // lines below are only for axeCheck (as test couldn't be committed without axeCheck verification)
     SecureMessagingSite.login();

@@ -1,4 +1,6 @@
 import React from 'react';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+
 import LiVaLinkAndVaTelephone from '../shared/liVaLinkAndVaTelephone';
 
 const CallUs = () => {
@@ -7,24 +9,23 @@ const CallUs = () => {
       <h4>Call us</h4>
       <ul className="va-nav-linkslist-list social">
         <LiVaLinkAndVaTelephone
-          phoneNumber="888-442-4551"
+          phoneNumber={CONTACTS.GI_BILL}
           text="VA Education Call Center:"
         />
         <LiVaLinkAndVaTelephone
-          phoneNumber="918-781-5678"
+          phoneNumber="9187815678"
           text="Outside the U.S.:"
           isInternational
         />
         <LiVaLinkAndVaTelephone
-          phoneNumber="800-698-2411"
+          phoneNumber={CONTACTS.VA_411}
           text="MyVA411 for main information line:"
         />
-        <li className="vads-u-margin-bottom--2 vads-u-margin-top--0">
-          <va-link href="tel:711" text="Telecommunications Relay Services" />
-
-          <br />
-          <va-telephone contact="+1TTY: 711"> TTY: 711 </va-telephone>
-        </li>
+        <LiVaLinkAndVaTelephone
+          phoneNumber={CONTACTS['711']}
+          text="Telecommunications Relay Services"
+          isTty
+        />
       </ul>
     </section>
   );

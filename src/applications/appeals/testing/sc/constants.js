@@ -43,9 +43,12 @@ export const SUBMIT_URL = '/v1/supplemental_claims';
 export const PRIMARY_PHONE = 'view:primaryPhone';
 export const PRIMARY_PHONE_TYPES = ['home', 'mobile'];
 
+export const OTHER_HOUSING_RISK_MAX = 100;
+
 export const EVIDENCE_VA = 'view:hasVaEvidence';
 export const EVIDENCE_PRIVATE = 'view:hasPrivateEvidence';
 export const EVIDENCE_OTHER = 'view:hasOtherEvidence';
+export const MST_OPTION = 'mstOption';
 
 // Including a default until we determine how to get around the user restarting
 // the application after using the "Finish this application later" link

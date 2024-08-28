@@ -1,7 +1,9 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
+import { selectProfile } from '~/platform/user/selectors';
+import { normalizeFullName } from '../utils/helpers/general';
 
 const placeholderBranchImg = '/img/vic-army-symbol.png';
 
@@ -83,8 +85,9 @@ DisabilityRating.propTypes = {
   showFallbackLink: PropTypes.bool,
 };
 
-const NameTag = ({ showBadgeImage, totalDisabilityRatingServerError }) => {
-  const fullName = 'John Doe';
+const NameTag = ({ totalDisabilityRatingServerError }) => {
+  const fullName = useSelector(selectProfile)?.userFullName;
+  const formattedFullName = normalizeFullName(fullName, true);
 
   const updatedWrapperClasses = prefixUtilityClasses([
     'background-color--primary',
@@ -181,19 +184,17 @@ const NameTag = ({ showBadgeImage, totalDisabilityRatingServerError }) => {
     >
       <div className={classes.innerWrapper}>
         <div className={classes.serviceBadge}>
-          {showBadgeImage && (
-            <img
-              src={placeholderBranchImg}
-              alt="Army seal"
-              className="vads-u-padding-right--3"
-              style={{ maxHeight: '75px' }}
-            />
-          )}
+          <img
+            src={placeholderBranchImg}
+            alt="Army seal"
+            className="vads-u-padding-right--3"
+            style={{ maxHeight: '75px' }}
+          />
         </div>
         <div>
           <dl className="vads-u-margin-y--0">
             <dt className="sr-only">Name: </dt>
-            <dd className={classes.fullName}>{fullName}</dd>
+            <dd className={classes.fullName}>{formattedFullName}</dd>
             <dt className="sr-only">Branch of service: </dt>
             <dd className={classes.latestBranch}>United States Army</dd>
 
@@ -208,23 +209,9 @@ const NameTag = ({ showBadgeImage, totalDisabilityRatingServerError }) => {
   );
 };
 
-const mapStateToProps = state => {
-  return {
-    userFullName: state.vaProfile?.hero?.userFullName,
-    showBadgeImage: true,
-  };
-};
-
 NameTag.propTypes = {
-  showBadgeImage: PropTypes.bool,
   totalDisabilityRating: PropTypes.number,
   totalDisabilityRatingServerError: PropTypes.bool,
-  userFullName: PropTypes.shape({
-    first: PropTypes.string,
-    middle: PropTypes.string,
-    last: PropTypes.string,
-    suffix: PropTypes.string,
-  }),
 };
 
-export default connect(mapStateToProps)(NameTag);
+export default NameTag;

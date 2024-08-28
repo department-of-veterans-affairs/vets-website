@@ -82,7 +82,11 @@ export const reviewField = ({ children }) => (
   <div className="review-row">
     <dt>{content.label}</dt>
     <dd>
-      {children?.props?.formData ? 'Yes, I certify' : 'No, I didn’t certify'}
+      {children?.props?.formData ? (
+        'Yes, I certify'
+      ) : (
+        <span className="usa-input-error-message">No, I didn’t certify</span>
+      )}
     </dd>
   </div>
 );

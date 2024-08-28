@@ -92,7 +92,7 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio');
+  const radio = $('va-radio, va-checkbox-group');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);

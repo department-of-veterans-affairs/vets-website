@@ -7,12 +7,18 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { forkableQuestions } from '../../../../constants';
 import {
   navigateBackward,
   navigateForward,
 } from '../../../../utilities/page-navigation';
 import { cleanUpAnswers } from '../../../../utilities/answer-cleanup';
-import { updateFormStore } from '../../../../actions';
+import {
+  updateEditMode,
+  updateFormStore,
+  updateQuestionFlowChanged,
+  updateRouteMap,
+} from '../../../../actions';
 import {
   determineErrorMessage,
   determineLabel,
@@ -31,8 +37,15 @@ const Dropdown = ({
   setFormError,
   testId,
   updateCleanedFormStore,
+  editMode,
+  toggleEditMode,
+  toggleQuestionsFlowChanged,
+  setRouteMap,
+  routeMap,
+  questionFlowChanged,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
+  const isForkableQuestion = forkableQuestions.includes(shortName);
 
   useEffect(() => {
     waitForRenderThenFocus('h1');
@@ -58,15 +71,32 @@ const Dropdown = ({
       if (valueHasChanged) {
         // Remove answers from the Redux store if the display path ahead will change.
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+        if (forkableQuestions.includes(shortName) && editMode) {
+          toggleQuestionsFlowChanged(true);
+        }
       }
 
+      toggleEditMode(false);
       setFormError(false);
-      navigateForward(shortName, formResponses, router);
+      navigateForward(
+        shortName,
+        formResponses,
+        router,
+        editMode,
+        setRouteMap,
+        routeMap,
+        questionFlowChanged,
+      );
     }
   };
 
   const onBackClick = () => {
-    navigateBackward(router);
+    if (valueHasChanged && editMode && isForkableQuestion) {
+      cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+    }
+    toggleEditMode(false);
+    navigateBackward(router, setRouteMap, routeMap, editMode);
   };
 
   return (
@@ -81,11 +111,23 @@ const Dropdown = ({
         label={determineLabel(shortName)}
         error={formError ? determineErrorMessage(shortName) : null}
         name={`${shortName}_dropdown`}
-        value={formValue}
+        value={formValue || ''}
         onVaSelect={e => onValueChange(e.detail.value)}
       >
         {options}
       </VaSelect>
+      {editMode &&
+        forkableQuestions.includes(shortName) && (
+          <va-alert-expandable
+            class="vads-u-margin-top--4"
+            status="info"
+            trigger="Changing your answer may lead to a new set of questions."
+          >
+            If you change your answer to this question, you may be asked for
+            more information to ensure that we provide you with the best
+            results.
+          </va-alert-expandable>
+        )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
@@ -108,14 +150,30 @@ Dropdown.propTypes = {
   testId: PropTypes.string.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
+  editMode: PropTypes.bool.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  routeMap: PropTypes.array.isRequired,
+  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   formValue: PropTypes.string,
 };
 
 const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
+  toggleEditMode: updateEditMode,
+  toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  setRouteMap: updateRouteMap,
 };
 
+const mapStateToProps = state => ({
+  editMode: state?.dischargeUpgradeWizard?.duwForm?.editMode,
+  routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
+  questionFlowChanged:
+    state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(Dropdown);

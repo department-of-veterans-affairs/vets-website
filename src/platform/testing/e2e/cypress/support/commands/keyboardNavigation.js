@@ -17,7 +17,8 @@ const removeLeadingHash = name => name.replace(leadingHashRegex, '');
 // Use chooseSelectOptionUsingValue or chooseSelectOptionByTyping instead.
 Cypress.Commands.add('findOption', value => {
   cy.get(':focus').then($el => {
-    if ($el.val() !== value) {
+    // Check that an input is focused
+    if ($el[0].tagName === 'INPUT' && $el.val() !== value) {
       cy.realPress('ArrowDown', { pressDelay: timeoutDuration });
       cy.findOption(value);
     }

@@ -29,8 +29,6 @@ describe('toxicExposureSummary', () => {
       <ToxicExposureSummary formData={formData} {...props} />,
     );
 
-    tree.getByText('Summary');
-
     tree.getByText(GULF_WAR_1990_LOCATIONS.afghanistan);
     tree.getByText(noDatesEntered);
 
@@ -59,7 +57,6 @@ describe('toxicExposureSummary', () => {
       <ToxicExposureSummary formData={formData} {...props} />,
     );
 
-    tree.getByText('Summary');
     tree.getByText(GULF_WAR_1990_LOCATIONS.waters);
     tree.getByText('January 2000 - January 2004');
   });
@@ -93,7 +90,6 @@ describe('toxicExposureSummary', () => {
       <ToxicExposureSummary formData={formData} {...props} />,
     );
 
-    tree.getByText('Summary');
     tree.getByText(GULF_WAR_1990_LOCATIONS.afghanistan);
     tree.getByText(noDatesEntered);
 

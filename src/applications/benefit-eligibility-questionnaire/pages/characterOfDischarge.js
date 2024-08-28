@@ -1,18 +1,17 @@
 import React from 'react';
 
-const CHARACTER_OF_DISCHARGE = [
-  'Honorable',
-  'Under Honorable Conditions (General)',
-  'Under Honorable Conditions',
-  'Dishonorable',
-  'Uncharacterized',
-  'Bad Conduct',
-  "I'm not sure",
-];
+const CHARACTER_OF_DISCHARGE = {
+  honorable: 'Honorable',
+  underHonorableConditionsGeneral: 'Under Honorable Conditions (General)',
+  underHonorableConditions: 'Under Honorable Conditions',
+  dishonorable: 'Dishonorable',
+  uncharacterized: 'Uncharacterized',
+  badConduct: 'Bad Conduct',
+  notSure: "I'm not sure",
+};
 
 export default {
   uiSchema: {
-    // 'view:characterOfDischarge': {
     characterOfDischarge: {
       'ui:title': (
         <>
@@ -34,31 +33,15 @@ export default {
           </p>
         </>
       ),
-      // 'ui:webComponentField': VaSelectField,
       'ui:widget': 'select',
       'ui:options': {
         placeholder: 'Select',
-
-        widgetProps: {
-          honorable: { characterOfDischarge: 'Honorable' },
-          underHonorableConditionsGeneral: {
-            characterOfDischarge: 'Under Honorable Conditions (General)',
-          },
-          underHonorableConditions: {
-            characterOfDischarge: 'Under Honorable Conditions',
-          },
-          dishonorable: { characterOfDischarge: 'Dishonorable' },
-          uncharacterized: { characterOfDischarge: 'Uncharacterized' },
-          badConduct: { characterOfDischarge: 'Bad Conduct' },
-          notSure: { characterOfDischarge: "I'm not sure" },
-        },
       },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Character of discharge is required',
       },
     },
-    // },
     characterOfDischargeTWO: {
       'ui:title': '',
       'ui:description': (
@@ -84,7 +67,8 @@ export default {
     properties: {
       characterOfDischarge: {
         type: 'string',
-        enum: CHARACTER_OF_DISCHARGE,
+        enum: Object.keys(CHARACTER_OF_DISCHARGE),
+        enumNames: Object.values(CHARACTER_OF_DISCHARGE),
       },
       characterOfDischargeTWO: { type: 'object', properties: {} },
     },

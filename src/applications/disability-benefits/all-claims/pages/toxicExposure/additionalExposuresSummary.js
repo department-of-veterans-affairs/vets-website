@@ -1,11 +1,13 @@
 import React from 'react';
 import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
 import { ToxicExposureSummary } from '../../components/ToxicExposureSummary';
-import { additionalExposuresPageTitle } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
+import {
+  additionalExposuresPageTitle,
+  titleWithSubtitle,
+} from '../../content/toxicExposure';
 
 export const uiSchema = {
-  'ui:title': formTitle(additionalExposuresPageTitle),
+  'ui:title': titleWithSubtitle(additionalExposuresPageTitle, 'Summary'),
   'ui:description': ({ formData }) => (
     <ToxicExposureSummary
       formData={formData}

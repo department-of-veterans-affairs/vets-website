@@ -6,8 +6,10 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 
+import { mockFetch } from 'platform/testing/unit/helpers';
 import App from '../../../containers/App';
 import formLoadReducer from '../../../reducers/form-load';
+import { formConfig1, normalizedForm } from '../../../_config/formConfig';
 
 const renderApp = store => {
   return render(
@@ -52,6 +54,12 @@ describe('<App /> integration', () => {
     formLoad: formLoadReducer.formLoad,
   });
 
+  beforeEach(() => {
+    // Mocking fetch to get us past fetchMethod in fetchFormConfig
+    const response = { json: () => [formConfig1, normalizedForm] };
+    mockFetch(response);
+  });
+
   it('renders error message if no form id in url', async () => {
     const store = createStore(rootReducer, applyMiddleware(thunk));
     window.history.pushState({}, '', `/digital-form`);
@@ -70,9 +78,9 @@ describe('<App /> integration', () => {
     });
   });
 
-  /* This will eventually require mocking the call to fetch the CMS form config */
   it('renders not-found error message if form id in url does not map to real form', async () => {
     const store = createStore(rootReducer, applyMiddleware(thunk));
+
     window.history.pushState({}, '', `/digital-form/bad-form-id`);
     const { getByText } = renderApp(store);
     await waitFor(() => {

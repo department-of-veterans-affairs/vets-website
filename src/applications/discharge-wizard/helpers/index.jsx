@@ -9,6 +9,7 @@ import {
   BCNR,
   DRB,
   AFDRB,
+  monthLabelMap,
 } from '../constants';
 import { SHORT_NAME_MAP, RESPONSES } from '../constants/question-data-map';
 
@@ -282,11 +283,9 @@ export const determineOldDischarge = (dischargeYear, dischargeMonth) =>
 // Determines the label used on the review page to provide a full readable answer based on answers in the form.
 export const answerReviewLabel = (key, formValues) => {
   const answer = formValues[key];
-  const monthObj = options.months.find(
-    m => String(m.value) === formValues[SHORT_NAME_MAP.DISCHARGE_MONTH],
-  );
 
-  const dischargeMonth = (monthObj && monthObj.label) || '';
+  const dischargeMonth =
+    monthLabelMap[formValues[SHORT_NAME_MAP.DISCHARGE_MONTH]] || '';
 
   switch (key) {
     case SHORT_NAME_MAP.SERVICE_BRANCH:
@@ -299,7 +298,9 @@ export const answerReviewLabel = (key, formValues) => {
         return 'I was discharged before 1992.';
       }
 
-      return `I was discharged in ${dischargeMonth} ${formValues[key]}.`;
+      return `I was discharged in ${formValues[key]}.`;
+    case SHORT_NAME_MAP.DISCHARGE_MONTH:
+      return dischargeMonth;
     case SHORT_NAME_MAP.PREV_APPLICATION:
       if (answer === RESPONSES.YES) {
         return 'I have previously applied for a discharge upgrade for this period of service.';
@@ -309,7 +310,7 @@ export const answerReviewLabel = (key, formValues) => {
     case SHORT_NAME_MAP.PREV_APPLICATION_YEAR:
       // The .toLowerCase() corrects the casing of "After {year}" as it is
       // at the end of the sentence
-      return `I made my previous application ${answer.toLowerCase()}.`;
+      return `I made my previous application ${answer?.toLowerCase()}.`;
     case SHORT_NAME_MAP.COURT_MARTIAL:
       if (answer === RESPONSES.NOT_SURE) {
         return `I'm not sure if my discharge was the outcome of a general court-martial.`;

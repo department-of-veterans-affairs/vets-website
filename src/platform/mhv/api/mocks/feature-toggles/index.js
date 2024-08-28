@@ -46,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
 
         // medical records
         {
+          name: 'mhv_medical_records_kill_external_links',
+          value: true,
+        },
+        {
           name: 'mhv_transitional_medical_records_landing_page',
           value: mhvTransitionalMedicalRecordsLandingPage,
         },

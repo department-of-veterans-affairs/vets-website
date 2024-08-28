@@ -36,6 +36,7 @@ const ReplyForm = props => {
     threadId,
     isEditing,
     setIsEditing,
+    setIsSending,
   } = props;
   const dispatch = useDispatch();
   const header = useRef();
@@ -85,11 +86,7 @@ const ReplyForm = props => {
     () => {
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
-      updatePageTitle(
-        `${replyMessage.category}: ${replyMessage.subject} ${
-          PageTitles.PAGE_TITLE_TAG
-        }`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [replyMessage],
   );
@@ -201,6 +198,7 @@ const ReplyForm = props => {
                   isEditing={isEditing}
                   setIsEditing={setIsEditing}
                   setHideDraft={setHideDraft}
+                  setIsSending={setIsSending}
                 />
               </>
             )}
@@ -223,6 +221,7 @@ ReplyForm.propTypes = {
   setIsCreateNewModalVisible: PropTypes.func,
   setIsEditing: PropTypes.func,
   threadId: PropTypes.number,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyForm;
