@@ -6,9 +6,8 @@ import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../../constants';
 const heading = HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS;
 
 describe(`${appName} -- transitional Medical records card`, () => {
-  it('renders with only the transitional MR page feature toggle on', () => {
+  it('renders with only the MR phase 1 feature toggle off', () => {
     ApiInitializer.initializeFeatureToggle.withFeatures({
-      mhvTransitionalMedicalRecordsLandingPage: true,
       mhvIntegrationMedicalRecordsToPhase1: false,
     });
     cy.login(user);
