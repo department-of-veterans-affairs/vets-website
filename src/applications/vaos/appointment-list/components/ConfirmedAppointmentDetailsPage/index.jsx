@@ -72,6 +72,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   useEffect(
     () => {
       dispatch(fetchConfirmedAppointmentDetails(id, appointmentTypePrefix));
+      scrollAndFocus();
     },
     [id, dispatch, appointmentTypePrefix],
   );
