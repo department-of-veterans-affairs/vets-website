@@ -29,7 +29,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };

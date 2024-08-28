@@ -10,7 +10,6 @@ import CCLayout from '../layout/CCLayout';
 describe('VAOS Component: CCLayout', () => {
   const initialState = {
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
