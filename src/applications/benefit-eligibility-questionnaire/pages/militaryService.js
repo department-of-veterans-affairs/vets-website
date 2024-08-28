@@ -24,7 +24,7 @@ export default {
       'ui:title': (
         <>
           <p>
-            <b>When do you expect to seperate or retire from the service?</b>
+            <b>When do you expect to separate or retire from the service?</b>
           </p>
         </>
       ),
@@ -46,7 +46,7 @@ export default {
         enum: [
           'Within the next 3 months',
           'More than 3 months but less than 6 months',
-          'Within more than 6 months but less than 1 year',
+          'More than 6 months but less than 1 year',
           'More than 1 year from now',
           'More than 3 years ago',
         ],
