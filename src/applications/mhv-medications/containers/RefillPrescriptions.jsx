@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -27,13 +28,13 @@ import PrintOnlyPage from './PrintOnlyPage';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { dataDogActionNames } from '../util/dataDogConstants';
 
-const RefillPrescriptions = () => {
+const RefillPrescriptions = ({ isLoadingList = true }) => {
   // Hooks
   const location = useLocation();
   const dispatch = useDispatch();
 
   // State
-  const [isLoading, updateLoadingStatus] = useState(true);
+  const [isLoading, updateLoadingStatus] = useState(isLoadingList);
   const [hasNoOptionSelectedError, setHasNoOptionSelectedError] = useState(
     false,
   );
@@ -112,7 +113,7 @@ const RefillPrescriptions = () => {
 
   useEffect(
     () => {
-      if (fullRefillList === undefined || fullRefillList.length === 0) {
+      if (fullRefillList === undefined) {
         updateLoadingStatus(true);
       }
       if (refillStatus !== 'inProgress') {
@@ -146,7 +147,10 @@ const RefillPrescriptions = () => {
     }
     if (isLoading) {
       return (
-        <div className="refill-loading-indicator">
+        <div
+          className="refill-loading-indicator"
+          data-testid="loading-indicator"
+        >
           <va-loading-indicator message="Loading medications..." setFocus />
         </div>
       );
@@ -312,6 +316,12 @@ const RefillPrescriptions = () => {
       </div>
     </>
   );
+};
+
+// This have been added for testing purposes only
+// While the loading status is being determined locally
+RefillPrescriptions.propTypes = {
+  isLoadingList: PropTypes.bool,
 };
 
 export default RefillPrescriptions;
