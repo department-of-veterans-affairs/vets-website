@@ -82,7 +82,7 @@ ConfirmationPage.propTypes = {
     }),
     formId: PropTypes.string,
     submission: PropTypes.shape({
-      timestamp: PropTypes.string,
+      timestamp: PropTypes.instanceOf(Date),
     }),
   }),
 };
