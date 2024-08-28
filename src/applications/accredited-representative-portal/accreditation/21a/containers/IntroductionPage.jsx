@@ -1,11 +1,33 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import { focusElement } from 'platform/utilities/ui';
+import { selectUserIsLoggedIn } from '../../../selectors/user';
+import { SIGN_IN_URL } from '../../../constants';
 
-const IntroductionPage = ({ route, startLink }) => {
+const SIGN_IN_LINK_PROPS = {
+  onClick: undefined,
+  href: SIGN_IN_URL,
+};
+
+function StartLink({ children, ...props }) {
+  const isLoggedIn = useSelector(selectUserIsLoggedIn);
+
+  return (
+    <a
+      className="usa-button usa-button-primary"
+      {...props}
+      {...isLoggedIn || SIGN_IN_LINK_PROPS}
+    >
+      {children}
+    </a>
+  );
+}
+
+const IntroductionPage = ({ route }) => {
   const { formConfig, pageList } = route;
 
   useEffect(() => {
@@ -125,7 +147,7 @@ const IntroductionPage = ({ route, startLink }) => {
         messages={formConfig.savedFormMessages}
         pageList={pageList}
         startText="Start your Application"
-        customLink={startLink}
+        customLink={StartLink}
         hideUnauthedStartLink
         displayNonVeteranMessaging
       />
@@ -153,6 +175,10 @@ IntroductionPage.propTypes = {
     PropTypes.elementType,
     PropTypes.func,
   ]),
+};
+
+StartLink.propTypes = {
+  children: PropTypes.node,
 };
 
 export default IntroductionPage;
