@@ -90,6 +90,9 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  customText: {
+    appType: 'form',
+  },
   chapters: {
     formToggle: {
       title: ' ',
