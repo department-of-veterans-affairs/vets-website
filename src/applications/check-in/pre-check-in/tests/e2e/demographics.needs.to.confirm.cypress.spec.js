@@ -408,6 +408,9 @@ describe('Check In Experience | Pre-Check-In |', () => {
         NextOfKin.validatePageLoaded();
         NextOfKin.attemptToGoToNextPage();
         Confirmation.validatePageLoaded();
+        Confirmation.clickDetails();
+        AppointmentDetails.validatePageLoadedInPerson();
+        cy.createScreenshots('Pre-check-in--Pages--details--after-complete');
       });
       it('should view the upcoming appointments page with no upcoming appointments then go back and complete', () => {
         initializeUpcomingAppointmentsDataGet.withSuccess({
