@@ -64,7 +64,6 @@ class PatientComposePage {
   };
 
   selectRecipient = (index = 1) => {
-    cy.get(Locators.ALERTS.REPT_SELECT).click();
     cy.get(Locators.ALERTS.REPT_SELECT)
       .shadow()
       .find('select')
