@@ -94,6 +94,7 @@ const RefillNotification = ({ refillStatus }) => {
           {failedMeds?.map((item, idx) => (
             <li
               className="vads-u-padding-y--0 vads-u-font-weight--bold"
+              data-testid="medication-requested-failed"
               key={idx}
             >
               {item?.prescriptionName}
@@ -126,7 +127,7 @@ const RefillNotification = ({ refillStatus }) => {
           {successfulMeds?.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"
-              data-testid="medication-requested"
+              data-testid="medication-requested-successful"
               key={idx}
             >
               {id?.prescriptionName}
