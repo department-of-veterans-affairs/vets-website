@@ -128,7 +128,7 @@ describe('<WhatYouNeedToDo>', () => {
           expect($('va-alert', container)).to.exist;
           expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
             .exist;
-          getByText('Review evidence list');
+          getByText('Automated 5103 Notice Response');
           expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
           expect(queryByText('5103 Evidence Notice')).to.be.null;
         });
