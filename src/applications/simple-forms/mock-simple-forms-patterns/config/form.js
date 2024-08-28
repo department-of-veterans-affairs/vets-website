@@ -357,6 +357,7 @@ const formConfig = {
     },
     arrayMultiPageVariations: {
       title: 'Array Multi-Page Variations',
+      depends: includeChapter('arrayMultiPageVariations'),
       pages: {
         ...employersMinMaxItemsSamePages,
         ...employersMinMaxItemsPages,

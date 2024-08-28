@@ -252,7 +252,7 @@ export const arrayBuilderYesNoUI = (
                       nounPlural,
                       minItems: minItems || 1,
                       maxItems,
-                    }).replace(/^You/, 'you will')}`,
+                    }).replace(/^You/, "you'll")}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',
@@ -270,20 +270,22 @@ export const arrayBuilderYesNoUI = (
       (errors, yesNoBoolean, formData) => {
         const arrayData = formData?.[arrayPath];
 
-        const currItems = arrayData?.length;
-        const remainingTilMin = minItems - currItems;
+        const len = arrayData?.length;
+        const remaining = minItems - len;
 
-        if (currItems && currItems < minItems && !yesNoBoolean) {
+        if (minItems && len && len < minItems && !yesNoBoolean) {
           errors.addError(
-            `You need at least ${remainingTilMin} more ${
-              remainingTilMin === 1 ? nounSingular : nounPlural
+            `You need ${
+              minItems === maxItems ? '' : 'at least'
+            } ${remaining} more ${
+              remaining === 1 ? nounSingular : nounPlural
             }.`,
           );
         }
 
         // This validation may not be visible,
         // but helps the review page error work correctly
-        if (!currItems && !yesNoBoolean && requiredFn(formData)) {
+        if (!len && !yesNoBoolean && requiredFn(formData)) {
           errors.addError(
             `You need at least one ${nounSingular} for us to process this form.`,
           );
