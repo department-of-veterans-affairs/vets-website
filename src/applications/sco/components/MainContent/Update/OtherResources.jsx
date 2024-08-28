@@ -41,22 +41,22 @@ const OtherResources = () => {
           <ul>
             <LiSpanAndVaLink
               download
-              hrefText="Flight - enrollment manager Quick Start Guide (PDF, 4 pages)"
+              hrefText="Download Flight - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/flight-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
               download
-              hrefText="Institutions of higher learning - enrollment manager Quick Start Guide (PDF, 3 pages)"
+              hrefText="Download institutions of higher learning - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ihl-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
               download
-              hrefText="Non-college degree programs - enrollment manager Quick Start Guide (PDF, 3 pages)"
+              hrefText="Download non-college degree programs - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ncd-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
               download
-              hrefText="On-the-job training/apprenticeship - enrollment manager Quick Start Guide (PDF, 4 pages)"
+              hrefText="Download on-the-job training/apprenticeship - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ojtapp-quick-start-guide.pdf"
             />
           </ul>
@@ -68,7 +68,7 @@ const OtherResources = () => {
             />
             <LiSpanAndVaLink
               download
-              hrefText="VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
+              hrefText="Download VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/paper-based-enrollment-manager-crosswalk.pptx"
             />
           </ul>
@@ -112,7 +112,7 @@ const OtherResources = () => {
             />
             <LiSpanAndVaLink
               download
-              hrefText="VR&amp;E Tungsten invoicing (PDF, 14 pages)"
+              hrefText="Download VR&amp;E Tungsten invoicing (PDF, 14 pages)"
               href="https://www.benefits.va.gov/GIBILL/docs/job_aids/VRE_Tungsten_Invoicing.pdf"
             />
             <LiSpanAndVaLink
