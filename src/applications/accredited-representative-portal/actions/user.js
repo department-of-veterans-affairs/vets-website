@@ -5,33 +5,42 @@ export const FETCH_USER = 'FETCH_USER';
 export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS';
 export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE';
 
-const fetchUserStart = () => ({ type: FETCH_USER });
-const fetchUserSuccess = profile => ({
-  type: FETCH_USER_SUCCESS,
-  payload: profile,
-});
-const fetchUserFailure = error => ({ type: FETCH_USER_FAILURE, error });
+export function fetchUser() {
+  return async dispatch => {
+    dispatch({
+      type: FETCH_USER,
+    });
 
-const requestUserProfile = () => {
-  return apiRequest(
-    `${environment.API_URL}/accredited_representative_portal/v0/user`,
-  );
-};
+    try {
+      const path = '/accredited_representative_portal/v0/user';
+      const user = await apiRequest(`${environment.API_URL}${path}`);
 
-export const fetchUser = () => async dispatch => {
-  dispatch(fetchUserStart());
+      /**
+       * This is an even stricter success condition than having a user. We
+       * additionally require what is needed for access token refreshing to
+       * function.
+       */
+      const serviceName = user?.profile?.signIn?.serviceName;
 
-  try {
-    // NOTE: accredited_representative_portal/v0/user returns a flat profile object.
-    // see: https://github.com/department-of-veterans-affairs/vets-api/blob/master/modules/accredited_representative_portal/app/controllers/accredited_representative_portal/v0/representative_users_controller.rb
-    // TODO: consider nesting the ARP user profile data in a profile object to match: https://github.com/department-of-veterans-affairs/vets-api/blob/master/app/controllers/v0/users_controller.rb
-    const profile = await requestUserProfile();
-    if (profile) {
-      dispatch(fetchUserSuccess(profile));
-    } else {
-      dispatch(fetchUserFailure('Profile not found'));
+      if (serviceName) {
+        // Needed for access token refreshing to function.
+        sessionStorage.setItem('serviceName', serviceName);
+
+        dispatch({
+          type: FETCH_USER_SUCCESS,
+          payload: user,
+        });
+      } else {
+        dispatch({
+          type: FETCH_USER_FAILURE,
+          error: 'User not found',
+        });
+      }
+    } catch (error) {
+      dispatch({
+        type: FETCH_USER_FAILURE,
+        error: error.errors || 'Unknown error',
+      });
     }
-  } catch (error) {
-    dispatch(fetchUserFailure(error.message || 'Unknown error'));
-  }
-};
+  };
+}
