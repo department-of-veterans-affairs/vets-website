@@ -38,7 +38,7 @@ import { getIssueTitle } from '../../../shared/content/areaOfDisagreement';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import { appStateSelector } from '../../../shared/utils/issues';
 import reviewErrors from '../../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3 } from '../../../shared/utils/focus';
+import { focusRadioH3, focusH3, focusIssue } from '../../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -145,6 +145,7 @@ const formConfig = {
           path: CONTESTABLE_ISSUES_PATH,
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
+          scrollAndFocusTarget: focusIssue,
           appStateSelector,
         },
         // v2 - add issue. Accessed from contestableIssues page only

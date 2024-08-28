@@ -58,6 +58,7 @@ import {
   focusH3,
   focusToggledHeader,
   focusOnAlert,
+  focusIssue,
 } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
@@ -167,6 +168,7 @@ const formConfig = {
           uiSchema: contestableIssuesPage.uiSchema,
           schema: contestableIssuesPage.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         // v2 - add issue. Accessed from contestableIssues page only
