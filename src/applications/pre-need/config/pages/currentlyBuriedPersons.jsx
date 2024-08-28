@@ -49,6 +49,8 @@ export const uiSchema = {
         viewField: EligibleBuriedView,
         keepInPageOnReview: true,
         itemName: 'Name of deceased',
+        useCardStyling: true,
+        useCardStylingJustOnReviewPage: true,
       },
       items: {
         name: merge({}, fullNameUI),

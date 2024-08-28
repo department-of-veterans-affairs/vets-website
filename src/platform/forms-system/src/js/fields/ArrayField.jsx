@@ -403,7 +403,13 @@ export default class ArrayField extends React.Component {
               uiItemName;
             const multipleRows = items.length > 1;
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
-            const useCardStyling = notLastOrMultipleRows;
+            const shouldUseCardStyling =
+              uiOptions.useCardStyling || notLastOrMultipleRows;
+
+            const useCardStyling = uiOptions.useCardStylingJustOnReviewPage
+              ? this.props.formContext.onReviewPage && shouldUseCardStyling
+              : shouldUseCardStyling;
+
             const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
