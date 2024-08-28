@@ -46,8 +46,6 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const medicalRecordsLinks = HEALTH_TOOL_LINKS.MEDICAL_RECORDS;
-
   const myVaHealthBenefitsLinks = [
     {
       href: '/health-care/copay-rates/',
@@ -150,7 +148,7 @@ const resolveLandingPageLinks = (
       icon: 'note_add',
       introduction:
         'Our new tool makes it easier to find, print, and download your medical records.',
-      links: medicalRecordsLinks,
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
       tag: 'NEW',
     },
     {

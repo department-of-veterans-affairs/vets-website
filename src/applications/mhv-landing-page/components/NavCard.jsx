@@ -70,11 +70,12 @@ const NavCard = ({
             <va-icon icon={icon} size={4} />
           </div>
         )}
-        <div>
-          <h2 className="vads-u-margin--0 vads-u-margin-right--2" id={slug}>
-            {title}
-          </h2>
-        </div>
+        <h2
+          className="vads-u-margin--0 small-desktop-screen:vads-u-margin-right--2"
+          id={slug}
+        >
+          {title}
+        </h2>
         {tag && (
           <div className="vads-u-flex--auto">
             <span
