@@ -13,6 +13,7 @@ const OtherResources = () => {
       <va-accordion uswds>
         <va-accordion-item
           open
+          level="3"
           header="Enrollment manager"
           subheader="Access enrollment manager  and essential training for VA student enrollment certifications and compliance."
         >
@@ -39,18 +40,22 @@ const OtherResources = () => {
           Quick Start Guides
           <ul>
             <LiSpanAndVaLink
+              download
               hrefText="Flight - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/flight-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
+              download
               hrefText="Institutions of higher learning - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ihl-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
+              download
               hrefText="Non-college degree programs - enrollment manager Quick Start Guide (PDF, 3 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ncd-quick-start-guide.pdf"
             />
             <LiSpanAndVaLink
+              download
               hrefText="On-the-job training/apprenticeship - enrollment manager Quick Start Guide (PDF, 4 pages)"
               href="https://benefits.va.gov/gibill/docs/guides/ojtapp-quick-start-guide.pdf"
             />
@@ -62,6 +67,7 @@ const OtherResources = () => {
               href="https://benefits.va.gov/GIBILL/enrollment-manager/enrollment-manager-system-updates.asp"
             />
             <LiSpanAndVaLink
+              download
               hrefText="VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)"
               href="https://benefits.va.gov/GIBILL/enrollment-manager/paper-based-enrollment-manager-crosswalk.pptx"
             />
@@ -69,6 +75,7 @@ const OtherResources = () => {
         </va-accordion-item>
         <va-accordion-item
           open
+          level="3"
           header="Payment and debt"
           subheader="Find information about managing debt related to VA education benefits."
         >
@@ -89,6 +96,7 @@ const OtherResources = () => {
         </va-accordion-item>
         <va-accordion-item
           open
+          level="3"
           header="Veteran Readiness and Employment (VR&E) Chapter 31"
           subheader="The Veteran Readiness and Employment program assists Veterans with service-connected disabilities to explore employment options and address education and/or training needs."
         >
@@ -103,6 +111,7 @@ const OtherResources = () => {
               href="https://authentication.tungsten-network.com/login"
             />
             <LiSpanAndVaLink
+              download
               hrefText="VR&amp;E Tungsten invoicing (PDF, 14 pages)"
               href="https://www.benefits.va.gov/GIBILL/docs/job_aids/VRE_Tungsten_Invoicing.pdf"
             />
@@ -133,6 +142,7 @@ const OtherResources = () => {
         </va-accordion-item>
         <va-accordion-item
           open
+          level="3"
           header="85/15"
           subheader="Information on the 85 percent rule, or 85/15 rule, which requires that at least 15 percent of students enrolled in an approved program are self-supported."
         >
