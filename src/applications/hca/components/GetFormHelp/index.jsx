@@ -15,12 +15,11 @@ const GetFormHelp = () => (
         If you need help gathering your information or filling out your
         application/form,
       </strong>{' '}
-      you can appoint a VA accredited representative.
+      you can appoint a VA accredited representative.{' '}
       <va-link
         href="/get-help-from-accredited-representative/"
         text="Get help filling out a form"
       />
-      .
     </p>
     <p className="help-talk">
       <strong>If you have questions about VA health care,</strong> call our
