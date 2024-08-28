@@ -87,6 +87,7 @@ const Dropdown = ({
         setRouteMap,
         routeMap,
         questionFlowChanged,
+        valueHasChanged,
       );
     }
   };

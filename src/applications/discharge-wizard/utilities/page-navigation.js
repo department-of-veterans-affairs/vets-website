@@ -107,7 +107,6 @@ export const navigateForward = (
           pushToRoute(nextShortName, router);
           return;
         }
-
         if (
           displayConditionsMet(nextShortName, formResponses) &&
           !editMode &&
@@ -128,9 +127,9 @@ export const navigateForward = (
 
           pushToRoute(nextShortName, router);
           return;
+        } else {
+          nextIndex += 1;
         }
-
-        nextIndex += 1;
       } else {
         // No entry in DISPLAY_CONDITIONS for next question
         printErrorMessage('Unable to determine next question to display');
