@@ -45,17 +45,18 @@ const NotificationSettings = ({
   const location = useLocation();
 
   const {
-    toggles: notificationToggles,
+    showEmail,
     useAvailableGroups,
+    toggles,
   } = useNotificationSettingsUtils();
 
   const requiredContactInfoOnFile = useMemo(
     () => {
-      return notificationToggles?.showEmailNotificationSettings
+      return showEmail
         ? !!(emailAddress || mobilePhoneNumber)
         : !!mobilePhoneNumber;
     },
-    [emailAddress, mobilePhoneNumber, notificationToggles],
+    [emailAddress, mobilePhoneNumber, showEmail],
   );
 
   const showMissingContactInfoAlert = useMemo(
@@ -131,9 +132,7 @@ const NotificationSettings = ({
         <MissingContactInfoAlert
           missingMobilePhone={!mobilePhoneNumber}
           missingEmailAddress={!emailAddress}
-          showEmailNotificationSettings={
-            notificationToggles.showEmailNotificationSettings
-          }
+          showEmailNotificationSettings={showEmail}
         />
       )}
       {shouldShowNotificationGroups && (
@@ -142,14 +141,10 @@ const NotificationSettings = ({
           <ContactInfoOnFile
             emailAddress={emailAddress}
             mobilePhoneNumber={mobilePhoneNumber}
-            showEmailNotificationSettings={
-              notificationToggles.showEmailNotificationSettings
-            }
+            showEmailNotificationSettings={showEmail}
           />
           <MissingContactInfoExpandable
-            showEmailNotificationSettings={
-              notificationToggles.showEmailNotificationSettings
-            }
+            showEmailNotificationSettings={showEmail}
           />
           <hr aria-hidden="true" />
           {availableGroups.map(({ id }) => {
@@ -161,7 +156,15 @@ const NotificationSettings = ({
                 </NotificationGroup>
               );
             }
-
+            // this will hide the Payments header when there are no items to display
+            if (
+              id === NOTIFICATION_GROUPS.PAYMENTS &&
+              !toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting &&
+              !toggles.profileShowNewHealthCareCopayBillNotificationSetting &&
+              !mobilePhoneNumber
+            ) {
+              return null;
+            }
             return <NotificationGroup groupId={id} key={id} />;
           })}
           <p className="vads-u-margin-bottom--0">

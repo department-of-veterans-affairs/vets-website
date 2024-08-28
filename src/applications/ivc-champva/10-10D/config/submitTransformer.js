@@ -1,6 +1,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
-import { adjustYearString, concatStreets } from '../../shared/utilities';
+import {
+  adjustYearString,
+  concatStreets,
+  getAgeInYears,
+} from '../../shared/utilities';
 
 // Rearranges date string from YYYY-MM-DD to MM-DD-YYYY
 function fmtDate(date) {
@@ -188,6 +192,11 @@ export default function transformForSubmit(formConfig, form) {
       });
     }
   });
+
+  // Set a top-level boolean indicating if any applicants are over 65
+  dataPostTransform.hasApplicantOver65 = dataPostTransform.applicants.some(
+    app => getAgeInYears(app.applicantDob) >= 65,
+  );
 
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()
