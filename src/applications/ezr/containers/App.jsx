@@ -39,9 +39,7 @@ const App = props => {
   const isAppLoading = isLoadingFeatures || isLoadingProfile;
   const { isUserLOA3 } = useSelector(selectAuthStatus);
   const { canSubmitFinancialInfo } = useSelector(selectEnrollmentStatus);
-  const activeFormConfig = isTeraBranchingEnabled
-    ? formConfigWithTeraBranching
-    : formConfig;
+  let routeSavableApp;
 
   useEffect(
     () => {
@@ -71,7 +69,6 @@ const App = props => {
           'view:userDob': parseVeteranDob(veteranDateOfBirth),
           'view:isSigiEnabled': isSigiEnabled,
           'view:householdEnabled': !!canSubmitFinancialInfo,
-          'view:isTeraBranchingEnabled': isTeraBranchingEnabled,
         };
 
         setFormData({
@@ -84,6 +81,28 @@ const App = props => {
     [isAppLoading, canSubmitFinancialInfo, veteranFullName],
   );
 
+  useEffect(
+    () => {
+      if (isTeraBranchingEnabled) {
+        routeSavableApp = (
+          <RoutedSavableApp
+            formConfig={formConfigWithTeraBranching}
+            currentLocation={location}
+          >
+            {children}
+          </RoutedSavableApp>
+        );
+      } else {
+        routeSavableApp = (
+          <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+            {children}
+          </RoutedSavableApp>
+        );
+      }
+    },
+    [isTeraBranchingEnabled],
+  );
+
   // Add Datadog UX monitoring to the application
   useBrowserMonitoring();
 
@@ -94,9 +113,7 @@ const App = props => {
       set-focus
     />
   ) : (
-    <RoutedSavableApp formConfig={activeFormConfig} currentLocation={location}>
-      {children}
-    </RoutedSavableApp>
+    { routeSavableApp }
   );
 };
 

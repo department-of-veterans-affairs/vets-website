@@ -11,6 +11,7 @@ import mockPrefillRadiationCleanupDob from './fixtures/mocks/tera/mock-prefill-r
 import mockPrefillGulfWarDob from './fixtures/mocks/tera/mock-prefill-gulf-war-dob.json';
 import mockPrefillCombatOperationsDob from './fixtures/mocks/tera/mock-prefill-combat-operations-dob.json';
 import mockPrefillOtherExposureDob from './fixtures/mocks/tera/mock-prefill-other-exposure-dob.json';
+import featureToggles from './fixtures/mocks/mock-features.json';
 import {
   goToNextPage,
   goToPreviousPage,
@@ -23,29 +24,9 @@ import { advanceToHouseholdSection } from './helpers/household';
 
 function setUserData(user, prefillData) {
   cy.login(user);
-  cy.intercept('GET', '/v0/feature_toggles*', {
-    /*
-    Remove this data object and replace it with 'mockfeatures' after removing the
-    'ezr_tera_branching_enabled' feature toggle
-    */
-    data: {
-      type: 'feature_toggles',
-      features: [
-        {
-          name: 'ezrProdEnabled',
-          value: true,
-        },
-        {
-          name: 'hcaSigiEnabled',
-          value: false,
-        },
-        {
-          name: 'ezrTeraBranchingEnabled',
-          value: true,
-        },
-      ],
-    },
-  });
+  cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
+    'mockFeatures',
+  );
   cy.intercept('GET', '/v0/health_care_applications/enrollment_status*', {
     statusCode: 200,
     body: MOCK_ENROLLMENT_RESPONSE,
@@ -56,22 +37,9 @@ function setUserData(user, prefillData) {
   }).as('mockSip');
 }
 
-function goToToxicExposurePageAndCheckYes() {
-  cy.visit(manifest.rootUrl);
-  // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
-  cy.wait(['@mockUser', '@mockEnrollmentStatus']);
-
-  advanceToHouseholdSection();
-
-  goToNextPage('/military-service/toxic-exposure');
-  cy.get('[name="root_hasTeraResponse"]').check('Y');
-  cy.injectAxeThenAxeCheck();
-}
-
 describe('EZR TERA flow', () => {
   beforeEach(() => {
     setUserData(mockUser, mockPrefill);
-    goToToxicExposurePageAndCheckYes();
   });
 
   it('should not show tera information questions when the user does not have any tera information to report', () => {
@@ -79,6 +47,16 @@ describe('EZR TERA flow', () => {
     Go through the tera flow until the 'Operation Support' page is reached.
     After that, go back to first tera page and select 'No' instead of 'Yes'.
     */
+    cy.visit(manifest.rootUrl);
+    // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+    cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+    advanceToHouseholdSection();
+
+    goToNextPage('/military-service/toxic-exposure');
+    cy.get('[name="root_hasTeraResponse"]').check('Y');
+    cy.injectAxeThenAxeCheck();
+
     goToNextPage('/military-service/radiation-cleanup-efforts');
     cy.get('[name="root_radiationCleanupEfforts"]').check('Y');
     cy.injectAxeThenAxeCheck();
@@ -103,10 +81,19 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1947 and 1950', () => {
     beforeEach(() => {
       setUserData(mockUserAgentOrangeDob, mockPrefillAgentOrangeDob);
-      goToToxicExposurePageAndCheckYes();
     });
 
     it('only displays the agent orange and other toxic exposure pages', () => {
+      cy.visit(manifest.rootUrl);
+      // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+      advanceToHouseholdSection();
+
+      goToNextPage('/military-service/toxic-exposure');
+      cy.get('[name="root_hasTeraResponse"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/agent-orange-exposure');
       cy.get('[name="root_exposedToAgentOrange"]').check('Y');
 
@@ -123,10 +110,19 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1951 and 1965', () => {
     beforeEach(() => {
       setUserData(mockUserRadiationCleanupDob, mockPrefillRadiationCleanupDob);
-      goToToxicExposurePageAndCheckYes();
     });
 
     it('displays the radiation cleanup, agent orange pages, and other toxic exposure pages', () => {
+      cy.visit(manifest.rootUrl);
+      // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+      advanceToHouseholdSection();
+
+      goToNextPage('/military-service/toxic-exposure');
+      cy.get('[name="root_hasTeraResponse"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/radiation-cleanup-efforts');
       cy.get('[name="root_radiationCleanupEfforts"]').check('Y');
       cy.injectAxeThenAxeCheck();
@@ -147,10 +143,19 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1966 and 1974', () => {
     beforeEach(() => {
       setUserData(mockUserOtherExposureDob, mockPrefillOtherExposureDob);
-      goToToxicExposurePageAndCheckYes();
     });
 
     it('only displays the other toxic exposure pages', () => {
+      cy.visit(manifest.rootUrl);
+      // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+      advanceToHouseholdSection();
+
+      goToNextPage('/military-service/toxic-exposure');
+      cy.get('[name="root_hasTeraResponse"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/other-toxic-exposure');
       cy.get('[name="root_view:otherToxicExposures_exposureToOther"]')
         .scrollIntoView()
@@ -168,10 +173,19 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1975 and 1985', () => {
     beforeEach(() => {
       setUserData(mockUserGulfWarDob, mockPrefillGulfWarDob);
-      goToToxicExposurePageAndCheckYes();
     });
 
     it('displays the Gulf War and other toxic exposure pages', () => {
+      cy.visit(manifest.rootUrl);
+      // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+      advanceToHouseholdSection();
+
+      goToNextPage('/military-service/toxic-exposure');
+      cy.get('[name="root_hasTeraResponse"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/gulf-war-service');
       cy.get('[name="root_gulfWarService"]').check('Y');
       cy.injectAxeThenAxeCheck();
@@ -189,10 +203,19 @@ describe("EZR branching logic based on the user's DOB", () => {
   describe('when the user has a DOB between 1986 and the present year', () => {
     beforeEach(() => {
       setUserData(mockUserCombatOperationsDob, mockPrefillCombatOperationsDob);
-      goToToxicExposurePageAndCheckYes();
     });
 
     it('displays the Gulf War, combat operations pages, and other toxic exposure pages', () => {
+      cy.visit(manifest.rootUrl);
+      // Add '@mockfeatures' back to this list after removing the 'ezr_tera_branching_enabled' feature toggle
+      cy.wait(['@mockUser', '@mockFeatures', '@mockEnrollmentStatus']);
+
+      advanceToHouseholdSection();
+
+      goToNextPage('/military-service/toxic-exposure');
+      cy.get('[name="root_hasTeraResponse"]').check('Y');
+      cy.injectAxeThenAxeCheck();
+
       goToNextPage('/military-service/gulf-war-service');
       cy.get('[name="root_gulfWarService"]').check('Y');
       cy.injectAxeThenAxeCheck();
