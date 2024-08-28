@@ -9,13 +9,12 @@ import { createHistory } from 'history';
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import routes from './accreditation/21a/routes';
-import reducer from './reducers';
 import manifest from './manifest.json';
 import createReduxStore from './store';
 
 import './sass/accredited-representative-portal.scss';
 
-const store = createReduxStore(reducer);
+const store = createReduxStore();
 
 connectFeatureToggle(store.dispatch);
 

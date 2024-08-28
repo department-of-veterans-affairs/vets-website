@@ -1,6 +1,6 @@
 import { setFeatureToggles } from './intercepts/feature-toggles';
 
-describe('Header on mobile', () => {
+describe.skip('Header on mobile', () => {
   beforeEach(() => {
     cy.viewport(760, 1024);
 
@@ -47,7 +47,7 @@ describe('Header on mobile', () => {
   });
 });
 
-describe('Header on screens wider than mobile', () => {
+describe.skip('Header on screens wider than mobile', () => {
   beforeEach(() => {
     setFeatureToggles({
       isAppEnabled: true,

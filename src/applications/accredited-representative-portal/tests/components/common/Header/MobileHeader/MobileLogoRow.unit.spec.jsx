@@ -1,34 +1,25 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
-import { MemoryRouter } from 'react-router-dom-v5-compat';
+import createReduxStore from '../../../../../store';
 
 import MobileLogoRow from '../../../../../components/common/Header/MobileHeader/MobileLogoRow';
+import { TestAppContainer } from '../../../../helpers';
 
-const mockStore = configureStore([]);
-
-const renderMobileLogoRow = (isLoading, profile) => {
-  const store = mockStore({
-    user: {
-      isLoading,
-      profile,
-    },
-  });
+function renderTestApp({ initAction } = {}) {
+  const store = createReduxStore();
+  if (initAction) store.dispatch(initAction);
 
   return render(
-    <Provider store={store}>
-      <MemoryRouter>
-        <MobileLogoRow />
-      </MemoryRouter>
-    </Provider>,
+    <TestAppContainer store={store}>
+      <MobileLogoRow />
+    </TestAppContainer>,
   );
-};
+}
 
 describe('MobileLogoRow', () => {
   it('should render the logo with correct alt text and source', () => {
-    const { getByTestId } = renderMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
     const logo = getByTestId('mobile-logo-row-logo');
     expect(logo).to.exist;
     expect(logo.alt).to.eq(
@@ -38,19 +29,19 @@ describe('MobileLogoRow', () => {
   });
 
   it('should have a link that navigates to the home page', () => {
-    const { getByTestId } = renderMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
     const link = getByTestId('mobile-logo-row-logo-link');
-    expect(link.href).to.eq('http://localhost/');
+    expect(link.href).to.eq('http://localhost/representative');
   });
 
   it('should render a menu button', () => {
-    const { getByTestId } = renderMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
     const button = getByTestId('mobile-logo-row-menu-button');
     expect(button.textContent).to.eq('Menu');
   });
 
   it('should include an icon inside the menu button', () => {
-    const { getByTestId } = renderMobileLogoRow(false, null);
+    const { getByTestId } = renderTestApp();
     const button = getByTestId('mobile-logo-row-menu-button');
     const icon = button.querySelector('va-icon');
     expect(icon).to.exist;
