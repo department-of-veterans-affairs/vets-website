@@ -16,13 +16,12 @@ const ReviewPage = ({
   formResponses,
   router,
   viewedIntroPage,
-  questionFlowChanged,
   toggleEditMode,
   routeMap,
   setRouteMap,
+  answerChanged,
 }) => {
   const H1 = 'Review your answers';
-  // console.log(routeMap)
 
   useEffect(
     () => {
@@ -92,14 +91,16 @@ const ReviewPage = ({
   return (
     <>
       <h1>{H1}</h1>
-      {questionFlowChanged && (
+      {answerChanged && (
         <va-alert-expandable
           class="vads-u-margin-top--4"
           status="info"
           trigger="Your information was updated."
         >
-          Changing the answers to one or more questions caused the review screen
-          to update with new information.
+          <p>
+            Changing the answers to one or more questions caused the review
+            screen to update with new information.
+          </p>
         </va-alert-expandable>
       )}
       <ul className="answers vads-u-margin-bottom--2 vads-u-padding--0">
@@ -117,14 +118,16 @@ const ReviewPage = ({
 };
 
 ReviewPage.propTypes = {
+  answerChanged: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
+  routeMap: PropTypes.array.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
-  questionFlowChanged: PropTypes.bool.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
-  routeMap: PropTypes.array.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 const mapDispatchToProps = {
@@ -135,9 +138,8 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
   viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
-  questionFlowChanged:
-    state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
+  answerChanged: state?.dischargeUpgradeWizard?.duwForm?.answerChanged,
 });
 
 export default connect(

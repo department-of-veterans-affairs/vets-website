@@ -18,6 +18,7 @@ import {
   updateFormStore,
   updateQuestionFlowChanged,
   updateRouteMap,
+  updateAnswerChanged,
 } from '../../../../actions';
 import {
   determineErrorMessage,
@@ -40,6 +41,7 @@ const Dropdown = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  toggleAnswerChanged,
   setRouteMap,
   routeMap,
   questionFlowChanged,
@@ -74,6 +76,9 @@ const Dropdown = ({
 
         if (forkableQuestions.includes(shortName) && editMode) {
           toggleQuestionsFlowChanged(true);
+          toggleAnswerChanged(true);
+        } else if (editMode) {
+          toggleAnswerChanged(true);
         }
       }
 
@@ -150,22 +155,23 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
   H1: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
+  routeMap: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  toggleAnswerChanged: PropTypes.func.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
-  editMode: PropTypes.bool.isRequired,
-  questionFlowChanged: PropTypes.bool.isRequired,
-  toggleEditMode: PropTypes.func.isRequired,
-  routeMap: PropTypes.array.isRequired,
-  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
-  setRouteMap: PropTypes.func.isRequired,
   formValue: PropTypes.string,
 };
 
@@ -173,6 +179,7 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  toggleAnswerChanged: updateAnswerChanged,
   setRouteMap: updateRouteMap,
 };
 

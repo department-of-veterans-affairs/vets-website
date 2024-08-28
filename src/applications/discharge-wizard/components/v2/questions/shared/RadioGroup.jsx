@@ -18,6 +18,7 @@ import {
   updateFormStore,
   updateQuestionFlowChanged,
   updateRouteMap,
+  updateAnswerChanged,
 } from '../../../../actions';
 import { determineErrorMessage } from '../../../../utilities/shared';
 
@@ -37,6 +38,7 @@ const RadioGroup = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  toggleAnswerChanged,
   routeMap,
   setRouteMap,
   questionFlowChanged,
@@ -58,6 +60,9 @@ const RadioGroup = ({
         // Set the question flow changed flag to true for review page alert for forkable questions.
         if (isForkableQuestion && editMode) {
           toggleQuestionsFlowChanged(true);
+          toggleAnswerChanged(true);
+        } else if (editMode) {
+          toggleAnswerChanged(true);
         }
       }
 
@@ -175,6 +180,7 @@ RadioGroup.propTypes = {
   setRouteMap: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  toggleAnswerChanged: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   toggleQuestionsFlowChanged: PropTypes.func.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
@@ -187,6 +193,7 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  toggleAnswerChanged: updateAnswerChanged,
   setRouteMap: updateRouteMap,
 };
 
