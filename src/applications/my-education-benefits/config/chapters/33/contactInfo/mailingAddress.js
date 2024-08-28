@@ -3,11 +3,11 @@ import * as address from 'platform/forms-system/src/js/definitions/address';
 import get from 'platform/utilities/data/get';
 import constants from 'vets-json-schema/dist/constants.json';
 
-import fullSchema from '../../../22-1990-schema.json';
+import fullSchema from '../../../../22-1990-schema.json';
 
-import LearnMoreAboutMilitaryBaseTooltip from '../../../components/LearnMoreAboutMilitaryBaseTooltip';
-import MailingAddressViewField from '../../../components/MailingAddressViewField';
-import YesNoReviewField from '../../../components/YesNoReviewField';
+import LearnMoreAboutMilitaryBaseTooltip from '../../../../components/LearnMoreAboutMilitaryBaseTooltip';
+import MailingAddressViewField from '../../../../components/MailingAddressViewField';
+import YesNoReviewField from '../../../../components/YesNoReviewField';
 
 // import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 // const {
@@ -15,7 +15,7 @@ import YesNoReviewField from '../../../components/YesNoReviewField';
 //   email,
 // } = commonDefinitions;
 
-import { formFields } from '../../../constants';
+import { formFields } from '../../../../constants';
 
 function isOnlyWhitespace(str) {
   return str && !str.trim().length;

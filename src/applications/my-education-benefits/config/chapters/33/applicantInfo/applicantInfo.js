@@ -3,10 +3,10 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/currentOrPastDate';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import CustomReviewDOBField from '../../../components/CustomReviewDOBField';
+import CustomReviewDOBField from '../../../../components/CustomReviewDOBField';
 
-import ApplicantIdentityView from '../../../components/ApplicantIdentityView';
-import { formFields } from '../../../constants';
+import ApplicantIdentityView from '../../../../components/ApplicantIdentityView';
+import { formFields } from '../../../../constants';
 
 const { fullName, date } = commonDefinitions;
 

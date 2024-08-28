@@ -3,21 +3,21 @@ import emailUI from 'platform/forms-system/src/js/definitions/email';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 
-import { formFields } from '../../../constants';
+import { formFields } from '../../../../constants';
 
-import CustomEmailField from '../../../components/CustomEmailField';
-import CustomPhoneNumberField from '../../../components/CustomPhoneNumberField';
-import EmailViewField from '../../../components/EmailViewField';
-import PhoneReviewField from '../../../components/PhoneReviewField';
-import PhoneViewField from '../../../components/PhoneViewField';
-import DuplicateContactInfoModal from '../../../components/DuplicateContactInfoModal';
-import YesNoReviewField from '../../../components/YesNoReviewField';
+import CustomEmailField from '../../../../components/CustomEmailField';
+import CustomPhoneNumberField from '../../../../components/CustomPhoneNumberField';
+import EmailViewField from '../../../../components/EmailViewField';
+import PhoneReviewField from '../../../../components/PhoneReviewField';
+import PhoneViewField from '../../../../components/PhoneViewField';
+import DuplicateContactInfoModal from '../../../../components/DuplicateContactInfoModal';
+import YesNoReviewField from '../../../../components/YesNoReviewField';
 
 import {
   validateEmail,
   validateMobilePhone,
   validateHomePhone,
-} from '../../../utils/validation';
+} from '../../../../utils/validation';
 
 const { usaPhone, email } = commonDefinitions;
 
