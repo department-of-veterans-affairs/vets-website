@@ -70,7 +70,7 @@ const renderMedicalRecordInfo = formResponses => {
   return null;
 };
 
-const StepOne = ({ formResponses }) => {
+const StepTwo = ({ formResponses }) => {
   if (
     formResponses[SHORT_NAME_MAP.REASON] ===
     RESPONSES.REASON_DD215_UPDATE_TO_DD214
@@ -196,8 +196,8 @@ const StepOne = ({ formResponses }) => {
   );
 };
 
-StepOne.propTypes = {
+StepTwo.propTypes = {
   formResponses: PropTypes.object.isRequired,
 };
 
-export default StepOne;
+export default StepTwo;
