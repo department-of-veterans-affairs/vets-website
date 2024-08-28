@@ -498,7 +498,7 @@ const ComposeForm = props => {
       await setSendMessageFlag(false);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
       const validSignatureRequired =
-        isSignatureRequired && signatureValid && checkboxValid;
+        isSignatureRequired && signatureValid && checkboxValid && messageValid;
 
       if (validSignatureNotRequired || validSignatureRequired) {
         setSendMessageFlag(true);
