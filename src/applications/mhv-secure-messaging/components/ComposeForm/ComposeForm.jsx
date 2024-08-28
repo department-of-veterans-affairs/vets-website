@@ -54,21 +54,21 @@ const ComposeForm = props => {
   const history = useHistory();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
-  const [selectedRecipient, setSelectedRecipient] = useState(null);
+  const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
 
   useEffect(
     () => {
-      if (selectedRecipient) {
+      if (selectedRecipientId) {
         setIsSignatureRequired(
           allowedRecipients.some(
-            r => +r.id === +selectedRecipient && r.signatureRequired,
+            r => +r.id === +selectedRecipientId && r.signatureRequired,
           ) || false,
         );
       }
     },
-    [selectedRecipient, allowedRecipients],
+    [selectedRecipientId, allowedRecipients],
   );
   const [category, setCategory] = useState(null);
   const [categoryError, setCategoryError] = useState('');
@@ -108,7 +108,7 @@ const ComposeForm = props => {
   const debouncedMessageBody = useDebounce(messageBody, draftAutoSaveTimeout);
   const debouncedCategory = useDebounce(category, draftAutoSaveTimeout);
   const debouncedRecipient = useDebounce(
-    selectedRecipient,
+    selectedRecipientId,
     draftAutoSaveTimeout,
   );
 
@@ -236,7 +236,7 @@ const ComposeForm = props => {
           subject,
         };
         messageData[`${'draft_id'}`] = draft?.messageId;
-        messageData[`${'recipient_id'}`] = selectedRecipient;
+        messageData[`${'recipient_id'}`] = selectedRecipientId;
 
         let sendData;
         if (attachments.length > 0) {
@@ -293,7 +293,7 @@ const ComposeForm = props => {
   //  Populates form fields with recipients and categories
   const populateForm = () => {
     if (recipientExists(draft.recipientId)) {
-      setSelectedRecipient(draft.recipientId);
+      setSelectedRecipientId(draft.recipientId);
     } else {
       const newRecipient = {
         id: draft?.recipientId,
@@ -303,7 +303,7 @@ const ComposeForm = props => {
         ...prevRecipientsList,
         newRecipient,
       ]);
-      setSelectedRecipient(newRecipient.id);
+      setSelectedRecipientId(newRecipient.id);
     }
     setCategory(draft.category);
     setSubject(draft.subject);
@@ -331,9 +331,9 @@ const ComposeForm = props => {
       let checkboxValid = true;
 
       if (
-        selectedRecipient === '0' ||
-        selectedRecipient === '' ||
-        !selectedRecipient
+        selectedRecipientId === '0' ||
+        selectedRecipientId === '' ||
+        !selectedRecipientId
       ) {
         setRecipientError(ErrorMessages.ComposeForm.RECIPIENT_REQUIRED);
         messageValid = false;
@@ -371,7 +371,7 @@ const ComposeForm = props => {
       return { messageValid, signatureValid, checkboxValid };
     },
     [
-      selectedRecipient,
+      selectedRecipientId,
       subject,
       messageBody,
       category,
@@ -438,7 +438,7 @@ const ComposeForm = props => {
 
       const draftId = draft && draft.messageId;
       const newFieldsString = JSON.stringify({
-        rec: parseInt(debouncedRecipient || selectedRecipient, 10),
+        rec: parseInt(debouncedRecipient || selectedRecipientId, 10),
         cat: debouncedCategory || category,
         sub: debouncedSubject || subject,
         bod: debouncedMessageBody || messageBody,
@@ -450,7 +450,7 @@ const ComposeForm = props => {
       setFieldsString(newFieldsString);
 
       const formData = {
-        recipientId: selectedRecipient,
+        recipientId: selectedRecipientId,
         category,
         subject,
         body: messageBody,
@@ -467,7 +467,7 @@ const ComposeForm = props => {
       checkMessageValidity,
       draft,
       debouncedRecipient,
-      selectedRecipient,
+      selectedRecipientId,
       debouncedCategory,
       category,
       debouncedSubject,
@@ -517,19 +517,19 @@ const ComposeForm = props => {
       const isBlankForm = () =>
         messageBody === '' &&
         subject === '' &&
-        (selectedRecipient === 0 || selectedRecipient === '0') &&
+        (selectedRecipientId === 0 || selectedRecipientId === '0') &&
         category === null &&
         attachments.length === 0;
 
       const isSavedEdits = () =>
         messageBody === draft?.body &&
-        Number(selectedRecipient) === draft?.recipientId &&
+        Number(selectedRecipientId) === draft?.recipientId &&
         category === draft?.category &&
         subject === draft?.subject;
 
       const isEditPopulatedForm = () =>
         (messageBody !== draft?.body ||
-          selectedRecipient !== draft?.recipientId ||
+          selectedRecipientId !== draft?.recipientId ||
           category !== draft?.category ||
           subject !== draft?.subject) &&
         !isBlankForm() &&
@@ -567,7 +567,7 @@ const ComposeForm = props => {
       draft?.subject,
       formPopulated,
       messageBody,
-      selectedRecipient,
+      selectedRecipientId,
       subject,
       savedDraft,
       setUnsavedNavigationError,
@@ -600,19 +600,14 @@ const ComposeForm = props => {
 
   const recipientHandler = useCallback(
     recipient => {
-      setSelectedRecipient(recipient.id.toString());
+      setSelectedRecipientId(recipient?.id ? recipient.id.toString() : '0');
 
       if (recipient.id !== '0') {
         if (recipient.id) setRecipientError('');
         setUnsavedNavigationError();
       }
     },
-    [
-      setRecipientError,
-      setUnsavedNavigationError,
-      setCheckboxMarked,
-      setElectronicSignature,
-    ],
+    [setRecipientError, setUnsavedNavigationError],
   );
 
   const subjectHandler = e => {
@@ -650,7 +645,7 @@ const ComposeForm = props => {
   const beforeUnloadHandler = useCallback(
     e => {
       if (
-        selectedRecipient.toString() !==
+        selectedRecipientId.toString() !==
           (draft ? draft?.recipientId.toString() : '0') ||
         category !== (draft ? draft?.category : null) ||
         subject !== (draft ? draft?.subject : '') ||
@@ -669,7 +664,7 @@ const ComposeForm = props => {
     },
     [
       draft,
-      selectedRecipient,
+      selectedRecipientId,
       category,
       subject,
       messageBody,
@@ -793,7 +788,7 @@ const ComposeForm = props => {
                 recipientsList={recipientsList}
                 onValueChange={recipientHandler}
                 error={recipientError}
-                defaultValue={+selectedRecipient}
+                defaultValue={+selectedRecipientId}
                 isSignatureRequired={isSignatureRequired}
                 setCheckboxMarked={setCheckboxMarked}
                 setElectronicSignature={setElectronicSignature}

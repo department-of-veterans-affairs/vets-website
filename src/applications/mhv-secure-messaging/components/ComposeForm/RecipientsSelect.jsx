@@ -78,13 +78,21 @@ const RecipientsSelect = ({
 
   const handleRecipientSelect = useCallback(
     e => {
-      const recipient = recipientsList.find(r => +r.id === +e.detail.value);
-      setSelectedRecipient(recipient);
-      if (recipient.signatureRequired || isSignatureRequired) {
+      const recipient = recipientsList?.find(r => +r.id === +e.detail.value);
+
+      if (e.detail.value === '') {
+        setSelectedRecipient({});
+      }
+
+      if (e.detail.value !== '') {
+        setSelectedRecipient(recipient);
+      }
+
+      if (recipient?.signatureRequired || isSignatureRequired) {
         setAlertDisplayed(true);
       }
     },
-    [recipientsList, isSignatureRequired],
+    [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
 
   return (
@@ -94,7 +102,7 @@ const RecipientsSelect = ({
         id="recipient-dropdown"
         label="To"
         name="to"
-        value={defaultValue !== undefined ? defaultValue : ''}
+        value={defaultValue}
         onVaSelect={handleRecipientSelect}
         class="composeSelect"
         data-testid="compose-recipient-select"
@@ -141,6 +149,8 @@ RecipientsSelect.propTypes = {
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
+  setCheckboxMarked: PropTypes.func,
+  setElectronicSignature: PropTypes.func,
 };
 
 export default RecipientsSelect;
