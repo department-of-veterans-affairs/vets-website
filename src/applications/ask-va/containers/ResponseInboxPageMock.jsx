@@ -193,7 +193,10 @@ const ResponseInboxPage = () => {
           </button>
         </div>
 
-        <hr className="vads-u-border-color--gray-lightest" />
+        <hr
+          role="presentation"
+          className="vads-u-border-color--gray-lightest"
+        />
         {inquiryData.attributes.reply.data.length === 0 ? (
           <div className="no-messages">
             {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
