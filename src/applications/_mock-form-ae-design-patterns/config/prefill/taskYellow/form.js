@@ -10,6 +10,7 @@ import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 import { VIEW_FIELD_SCHEMA } from '../../../utils/constants';
 import { taskCompletePage } from '../../taskCompletePage';
+import { GetFormHelp } from '../../../components/GetFormHelp/index';
 
 import VeteranProfileInformationTaskYellow from '../../../components/FormPages/VeteranProfileInformationTaskYellow';
 import { MailingAddressInfoPageTaskYellow } from '../../../components/FormPages/MailingAddressInfoPageTaskYellow';
@@ -25,6 +26,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
+  getHelp: GetFormHelp,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your mock form ae design patterns benefits application (00-1234) is in progress.',

@@ -262,6 +262,22 @@ describe('ApplicationsInProgress component', () => {
         }),
       ).to.exist;
     });
+
+    it('does not render accordion help message', () => {
+      const initialState = {
+        ...state,
+        user: {
+          profile: {
+            savedForms: [],
+          },
+        },
+      };
+      const view = renderInReduxProvider(<ApplicationsInProgress hideH3 />, {
+        initialState,
+        reducers,
+      });
+      expect(view.queryByTestId('missing-application-help')).to.not.exist;
+    });
   });
 
   context('when myVaFormSubmissionStatuses feature flag is turned on', () => {
@@ -279,7 +295,7 @@ describe('ApplicationsInProgress component', () => {
             },
           },
         },
-        allFormsWithStatuses: {
+        submittedForms: {
           forms: formsWithStatus,
         },
       }),
@@ -312,7 +328,7 @@ describe('ApplicationsInProgress component', () => {
       expect(applicationsInProgress.length).to.equal(3);
 
       expect(applicationsInProgress[0]).to.contain.text('Draft');
-      expect(applicationsInProgress[0]).to.contain.text('VA FORM 21-526EZ');
+      expect(applicationsInProgress[0]).to.contain.text('VA Form 21-526EZ');
       expect(applicationsInProgress[0]).to.contain.text(
         'Application expires on: ',
       );
@@ -325,7 +341,7 @@ describe('ApplicationsInProgress component', () => {
       );
 
       expect(applicationsInProgress[1]).to.contain.text('Draft');
-      expect(applicationsInProgress[1]).to.contain.text('VA FORM 686C-674');
+      expect(applicationsInProgress[1]).to.contain.text('VA Form 686C-674');
       expect(applicationsInProgress[1]).to.contain.text(
         'Application expires on: ',
       );
@@ -338,7 +354,7 @@ describe('ApplicationsInProgress component', () => {
       );
 
       expect(applicationsInProgress[2]).to.contain.text('Draft');
-      expect(applicationsInProgress[2]).to.contain.text('VA FORM 10-10EZ');
+      expect(applicationsInProgress[2]).to.contain.text('VA Form 10-10EZ');
       expect(applicationsInProgress[2]).to.contain.text(
         'Application expires on: ',
       );
@@ -351,12 +367,12 @@ describe('ApplicationsInProgress component', () => {
       );
     });
 
-    it('renders Received forms', () => {
+    it('renders Submission Status forms', () => {
       const view = render(
         <Provider store={store}>
           <ApplicationsInProgress
             hideH3
-            formsWithStatus={formsWithStatus}
+            submittedForms={formsWithStatus}
             savedForms
           />
         </Provider>,
@@ -365,13 +381,22 @@ describe('ApplicationsInProgress component', () => {
       const receivedApplications = view.getAllByTestId('submitted-application');
       expect(receivedApplications.length).to.equal(1);
       expect(receivedApplications[0]).to.contain.text('Received');
-      expect(receivedApplications[0]).to.contain.text('VA FORM 21-0845');
+      expect(receivedApplications[0]).to.contain.text('VA Form 21-0845');
       expect(receivedApplications[0]).to.contain.text('Submitted on: ');
       expect(receivedApplications[0]).to.contain.text('December 15, 2023');
       expect(receivedApplications[0]).to.contain.text('Received on: ');
       expect(receivedApplications[0]).to.contain.text(
         format(new Date(STATUS_UPDATED_AT), 'MMMM d, yyyy'),
       );
+    });
+
+    it('renders accordion help message', () => {
+      const view = render(
+        <Provider store={store}>
+          <ApplicationsInProgress hideH3 savedForms />
+        </Provider>,
+      );
+      expect(view.getByTestId('missing-application-help')).to.exist;
     });
   });
 });

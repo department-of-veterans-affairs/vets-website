@@ -17,7 +17,7 @@ export const generateChemHemContent = record => ({
         inline: true,
       },
       {
-        title: 'Sample tested',
+        title: 'Site or sample tested',
         value: record.sampleTested,
         inline: true,
       },
@@ -50,18 +50,13 @@ export const generateChemHemContent = record => ({
           inline: true,
         },
         {
-          title: 'Standard range',
+          title: 'Reference range',
           value: item.standardRange,
           inline: true,
         },
         {
           title: 'Status',
           value: item.status,
-          inline: true,
-        },
-        {
-          title: 'Lab location',
-          value: item.labLocation,
           inline: true,
         },
         {
@@ -79,13 +74,22 @@ export const generateMicrobioContent = record => ({
     header: 'Details about this test',
     sectionSeparators: true,
     items: [
+      ...(record.labType
+        ? [
+            {
+              title: 'Lab type',
+              value: record.labType,
+              inline: true,
+            },
+          ]
+        : []),
       {
-        title: 'Sample tested',
+        title: 'Site or sample tested',
         value: record.sampleTested,
         inline: true,
       },
       {
-        title: 'Sample from',
+        title: 'Collection sample',
         value: record.sampleFrom,
         inline: true,
       },
@@ -95,18 +99,8 @@ export const generateMicrobioContent = record => ({
         inline: true,
       },
       {
-        title: 'Ordering location',
-        value: record.orderingLocation,
-        inline: true,
-      },
-      {
         title: 'Location',
         value: record.collectingLocation,
-        inline: true,
-      },
-      {
-        title: 'Lab location',
-        value: record.labLocation,
         inline: true,
       },
       {
@@ -137,12 +131,12 @@ export const generatePathologyContent = record => ({
     header: 'Details about this test',
     items: [
       {
-        title: 'Sample tested',
+        title: 'Site or sample tested',
         value: record.sampleTested,
         inline: true,
       },
       {
-        title: 'Lab location',
+        title: 'Location',
         value: record.labLocation,
         inline: true,
       },

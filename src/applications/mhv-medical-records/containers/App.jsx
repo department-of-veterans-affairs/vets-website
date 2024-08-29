@@ -18,18 +18,8 @@ import { getScheduledDowntime } from 'platform/monitoring/DowntimeNotification/a
 import MrBreadcrumbs from '../components/MrBreadcrumbs';
 import ScrollToTop from '../components/shared/ScrollToTop';
 import PhrRefresh from '../components/shared/PhrRefresh';
-import Navigation from '../components/Navigation';
 
-import {
-  flagsLoadedAndMhvEnabled,
-  selectConditionsFlag,
-  selectLabsAndTestsFlag,
-  selectNotesFlag,
-  selectSidenavFlag,
-  selectVaccinesFlag,
-  selectVitalsFlag,
-  selectSettingsPageFlag,
-} from '../util/selectors';
+import { flagsLoadedAndMhvEnabled } from '../util/selectors';
 import { downtimeNotificationParams } from '../util/constants';
 
 const App = ({ children }) => {
@@ -44,18 +34,8 @@ const App = ({ children }) => {
 
   const dispatch = useDispatch();
 
-  // Individual feature flags
-  const showSideNav = useSelector(selectSidenavFlag);
-  const showConditions = useSelector(selectConditionsFlag);
-  const showLabsAndTests = useSelector(selectLabsAndTestsFlag);
-  const showNotes = useSelector(selectNotesFlag);
-  const showVaccines = useSelector(selectVaccinesFlag);
-  const showVitals = useSelector(selectVitalsFlag);
-  const showSettingsPage = useSelector(selectSettingsPageFlag);
-
   const [isHidden, setIsHidden] = useState(true);
   const [height, setHeight] = useState(0);
-  const [paths, setPaths] = useState([]);
   const location = useLocation();
   const measuredRef = useRef();
   const atLandingPage = location.pathname === '/';
@@ -114,71 +94,6 @@ const App = ({ children }) => {
     defaultPrivacyLevel: 'mask',
   };
   useDatadogRum(datadogRumConfig);
-
-  const addSideNavItem = (navPaths, isDisplayed, path, label) => {
-    if (isDisplayed)
-      navPaths[0].subpaths.push({
-        path,
-        label,
-        datatestid: `${path.replace(/\//, '')}-sidebar`,
-      });
-  };
-
-  useEffect(
-    () => {
-      const navPaths = [
-        {
-          path: '/',
-          label: 'Medical records',
-          datatestid: 'about-va-medical-records-sidebar',
-          subpaths: [
-            // {
-            //   path: '/download-all',
-            //   label: 'Download all medical records',
-            //   datatestid: 'download-your-medical-records-sidebar',
-            // }
-          ],
-        },
-      ];
-      addSideNavItem(
-        navPaths,
-        showLabsAndTests,
-        '/labs-and-tests',
-        'Lab and test results',
-      );
-      addSideNavItem(
-        navPaths,
-        showNotes,
-        '/summaries-and-notes',
-        'Care summaries and notes',
-      );
-      addSideNavItem(navPaths, showVaccines, '/vaccines', 'Vaccines');
-      addSideNavItem(navPaths, true, '/allergies', 'Allergies and reactions');
-      addSideNavItem(
-        navPaths,
-        showConditions,
-        '/conditions',
-        'Health conditions',
-      );
-      addSideNavItem(navPaths, showVitals, '/vitals', 'Vitals');
-      addSideNavItem(
-        navPaths,
-        showSettingsPage,
-        '/settings',
-        'Medical records settings',
-      );
-
-      setPaths(navPaths);
-    },
-    [
-      showConditions,
-      showLabsAndTests,
-      showNotes,
-      showVaccines,
-      showVitals,
-      showSettingsPage,
-    ],
-  );
 
   useEffect(
     () => {
@@ -281,21 +196,8 @@ const App = ({ children }) => {
           ) : (
             <>
               <MrBreadcrumbs />
-              <div className="vads-u-display--flex vads-u-flex-direction--column medium-screen:vads-u-flex-direction--row">
-                {showSideNav && (
-                  <>
-                    <Navigation paths={paths} data-testid="mhv-mr-navigation" />
-                    <div className="vads-u-margin-right--4 no-print" />
-                  </>
-                )}
-                <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-x--0 vads-u-flex--fill">
-                  <div className="vads-l-row">
-                    <div className="vads-l-col">{children}</div>
-                    {!showSideNav && (
-                      <div className="medium-screen:vads-l-col--4 no-print" />
-                    )}
-                  </div>
-                </div>
+              <div className="vads-l-row">
+                <div className="medium-screen:vads-l-col--8">{children}</div>
               </div>
             </>
           )}

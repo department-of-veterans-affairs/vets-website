@@ -20,13 +20,15 @@ import {
   confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
+  veteranPersonalInformation,
+  veteranContactPhoneEmail,
+  veteranContactMailing,
+  veteranIdentification,
+  veteranServiceInformation,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
-import {
-  preparerIsVeteranAndHasPrefill,
-  preparerIsVeteran,
-} from '../utilities/helpers';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
@@ -100,7 +102,7 @@ const formConfig = {
         },
       },
     },
-    yourInformation: {
+    claimant: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -112,7 +114,7 @@ const formConfig = {
         },
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          depends: formData => !preparerIsVeteranAndHasPrefill({ formData }),
+          depends: formData => !preparerIsVeteran({ formData }),
           initialData:
             /* istanbul ignore next */
             !!mockData && environment.isLocalhost() && !window.Cypress
@@ -124,7 +126,7 @@ const formConfig = {
         },
         confirmClaimantPersonalInformation: {
           path: 'confirm-claimant-personal-information',
-          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your Personal Information',
           uiSchema: confirmClaimantPersonalInformation.uiSchema,
           schema: confirmClaimantPersonalInformation.schema,
@@ -132,6 +134,7 @@ const formConfig = {
         },
         claimantContactPhoneEmail: {
           path: 'claimant-contact-phone-email',
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your phone number and email address',
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
@@ -149,14 +152,71 @@ const formConfig = {
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
             const { 'view:isLoggedIn': isLoggedIn } = formData;
-            return isLoggedIn;
+            const isNotVeteran = !preparerIsVeteran({ formData });
+            return isLoggedIn && isNotVeteran;
           },
         }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
-          title: 'Veteran’s mailing address',
+          depends: formData => !preparerIsVeteran({ formData }),
+          title: 'Your mailing address',
           uiSchema: claimantContactMailing.uiSchema,
           schema: claimantContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+      },
+    },
+    veteran: {
+      title: 'Veteran Information',
+      pages: {
+        veteranPersonalInformation: {
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } name and date of birth`,
+          path: 'veteran-personal-information',
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactMailing: {
+          path: 'veteran-contact-mailing',
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            }  mailing address`,
+          uiSchema: veteranContactMailing.uiSchema,
+          schema: veteranContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactPhoneEmail: {
+          path: 'veteran-contact-phone-email',
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } phone number and email address`,
+          uiSchema: veteranContactPhoneEmail.uiSchema,
+          schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } identification information`,
+          uiSchema: veteranIdentification.uiSchema,
+          schema: veteranIdentification.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranServiceInformation: {
+          path: 'veteran-service-information',
+          title: formData =>
+            `${
+              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
+            } service information`,
+          uiSchema: veteranServiceInformation.uiSchema,
+          schema: veteranServiceInformation.schema,
           editModeOnReviewPage: true,
         },
       },

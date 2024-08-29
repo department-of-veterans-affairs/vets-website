@@ -2,7 +2,7 @@
 
 export const roleOptions = Object.freeze({
   attorney: 'Attorney',
-  claimsAgent: 'Claims agent',
+  claimsAgent: 'Claims agent (non-attorney representative)',
 });
 
 export const typeOfPhoneOptions = Object.freeze({
@@ -45,7 +45,9 @@ export const branchOptions = Object.freeze([
   'Coast Guard',
   'Marine Corps',
   'Navy',
+  'NOAAA',
   'Space Force',
+  'USPHS',
 ]);
 
 export const characterOfDischargeOptions = Object.freeze([
@@ -70,21 +72,20 @@ export const employmentActivitiesOptions = Object.freeze({
   business: 'Business or service that advertises predominately to Veterans',
   consulting: 'Consulting or referral services for Veterans',
   financial: 'Financial planning',
-  funeral: 'Funeral industry',
-  home: 'Home care',
+  homeOrNursing: 'Home care or nursing care',
   medical: 'Medical services',
-  nursing: 'Nursing care',
+  socialWork: 'Social work',
+  vocationalRehabilitation: 'Vocational rehabilitation',
+  none: 'None of these apply',
 });
 
 // Chapter 4
 
 export const degreeOptions = Object.freeze([
-  'Did not receive a degree',
-  'Associate of Arts',
-  'Bachelor of Arts',
-  'Bachelor of Science',
-  'Master of Arts',
-  'Master of Science',
-  'Juris Doctor',
+  'High school diploma or equivalent',
+  'Associate degree',
+  "Bachelor's degree",
+  "Master's degree",
+  'Doctoral degree',
   'Other',
 ]);

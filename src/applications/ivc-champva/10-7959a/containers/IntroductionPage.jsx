@@ -9,7 +9,7 @@ import { VaLink } from '@department-of-veterans-affairs/component-library/dist/r
 export default function IntroductionPage(props) {
   const { route } = props;
   const { formConfig, pageList } = route;
-  const { appType } = formConfig?.customText || 'application';
+  const { appType } = formConfig?.customText;
 
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
@@ -63,7 +63,7 @@ export default function IntroductionPage(props) {
         pageList={pageList}
         startText="Start the form"
         unauthStartText="Sign in to start your form"
-        formConfig
+        formConfig={formConfig}
       >
         Please complete the 10-7959A form to apply for CHAMPVA claim form.
       </SaveInProgressIntro>

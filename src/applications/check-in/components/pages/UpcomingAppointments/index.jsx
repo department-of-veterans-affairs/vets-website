@@ -94,6 +94,26 @@ const UpcomingAppointmentsPage = props => {
   } else {
     body = (
       <>
+        {upcomingAppointments.length > 0 && (
+          <va-alert-expandable
+            status="warning"
+            trigger={t('we-cant-show-all-information')}
+            data-testid="info-warning"
+          >
+            <p>{t('some-appointment-information-not-available')}</p>
+            {/* Slotted p tags can't have margin for some reason. */}
+            <br />
+            {app === APP_NAMES.PRE_CHECK_IN ? (
+              <p data-testid="pre-check-in-info">
+                {t('find-all-appointment-information-pre-check-in')}
+              </p>
+            ) : (
+              <p data-testid="check-in-info">
+                {t('find-all-appointment-information-check-in')}
+              </p>
+            )}
+          </va-alert-expandable>
+        )}
         <UpcomingAppointmentsList
           router={router}
           app={app}
