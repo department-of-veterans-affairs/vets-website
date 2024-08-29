@@ -3,8 +3,8 @@ import { render, waitFor, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
-import { inputVaTextInput } from 'platform/testing/unit/helpers';
+import { Provider } from 'react-redux';
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
@@ -14,47 +14,82 @@ import {
   mockFetchFacilitiesResponse,
   mockFetchParentFacilityResponse,
 } from '../../../mocks/responses';
-import content from '../../../../locales/en/content.json';
 
 describe('CG <FacilitySearch>', () => {
+  const inputVaSearchInput = (
+    container,
+    value,
+    selector = 'va-search-input',
+  ) => {
+    const vaTextInput = $(selector, container);
+    vaTextInput.value = value;
+
+    const event = new CustomEvent('input', {
+      bubbles: true,
+      detail: { value },
+    });
+    vaTextInput.dispatchEvent(event);
+
+    const submitEvent = new CustomEvent('submit', { bubbles: true });
+    fireEvent(vaTextInput, submitEvent);
+  };
+
   const onChange = sinon.spy();
-  const getData = ({
-    reviewMode = false,
-    submitted = false,
-    formData = {},
-  }) => ({
+  const goBack = sinon.spy();
+  const goForward = sinon.spy();
+  const dispatch = sinon.spy();
+
+  const getData = ({ reviewMode = false, submitted = false, data = {} }) => ({
     props: {
       formContext: { reviewMode, submitted },
       onChange,
-      formData,
+      data,
+      goBack,
+      goForward,
+    },
+    mockStore: {
+      getState: () => ({
+        form: { data: {} },
+        user: {
+          login: { currentlyLoggedIn: true },
+          profile: { loading: false },
+        },
+      }),
+      subscribe: () => {},
+      dispatch,
     },
   });
-  const subject = ({ props }) => {
-    const { container, getByText } = render(<FacilitySearch {...props} />);
+
+  const subject = ({ props, mockStore }) => {
+    const { container, getByText, queryByRole } = render(
+      <Provider store={mockStore}>
+        <FacilitySearch {...props} />
+      </Provider>,
+    );
     const selectors = () => ({
-      button: container.querySelector('va-button'),
-      input: container.querySelector('va-text-input'),
+      input: container.querySelector('va-search-input'),
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
+      error: queryByRole('alert'),
+      formNavButtons: {
+        back: getByText('Back'),
+        forward: getByText('Continue'),
+      },
     });
     return { container, selectors, getByText };
   };
 
-  context('when the component renders on the form page', () => {
-    it('should render `va-text-input`', () => {
-      const { selectors } = subject({ props: {} });
-      expect(selectors().input).to.exist;
-    });
+  afterEach(() => {
+    goBack.reset();
+    goForward.reset();
+    dispatch.reset();
   });
 
-  context('when search is attempted with no data', () => {
-    it('should render error message ', async () => {
-      const { selectors } = subject({ props: {} });
-      await waitFor(() => {
-        const message = content['validation-facilities--default-required'];
-        userEvent.click(selectors().button);
-        expect(selectors().input).to.have.attr('error', message);
-      });
+  context('when the component renders on the form page', () => {
+    it('should render `va-search-input`', () => {
+      const { props, mockStore } = getData({});
+      const { selectors } = subject({ props, mockStore });
+      expect(selectors().input).to.exist;
     });
   });
 
@@ -73,34 +108,14 @@ describe('CG <FacilitySearch>', () => {
       facilitiesStub.restore();
     });
 
-    it('pressing enter triggers search request', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
-      mapboxStub.resolves(successResponse);
-      facilitiesStub.resolves(mockFetchFacilitiesResponse);
-
-      await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        fireEvent.keyDown(selectors().input, { key: 'Enter', code: 'Enter' });
-        expect(selectors().loader).to.exist;
-      });
-
-      await waitFor(() => {
-        expect(selectors().radioList).to.exist;
-        expect(selectors().loader).to.not.exist;
-        expect(selectors().input).to.not.have.attr('error');
-      });
-    });
-
     it('should fetch list of facilities to select on success', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
+      const { props, mockStore } = getData({});
+      const { selectors, container } = subject({ props, mockStore });
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -112,19 +127,18 @@ describe('CG <FacilitySearch>', () => {
     });
 
     it('only renders query value that was searched for', async () => {
-      const { props } = getData({});
-      const { container, getByText, selectors } = subject({ props });
+      const { props, mockStore } = getData({});
+      const { container, getByText, selectors } = subject({ props, mockStore });
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Denver', selectors().input);
+        inputVaSearchInput(container, 'Denver', selectors().input);
       });
 
       await waitFor(() => {
@@ -132,16 +146,15 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    it('calls onChange callback with facility object that offers CaregiverSupport', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
+    it('calls dispatch callback with facility object that offers CaregiverSupport', async () => {
+      const { props, mockStore } = getData({});
+      const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityWithCaregiverSupportResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -156,25 +169,25 @@ describe('CG <FacilitySearch>', () => {
         detail: { value: selectedFacility.id },
       });
       await waitFor(() => {
-        expect(
-          onChange.calledWith({
+        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+        expect(dispatch.firstCall.args[0].data).to.deep.include({
+          'view:plannedClinic': {
             veteranSelected: selectedFacility,
             caregiverSupport: selectedFacility,
-          }),
-        ).to.be.true;
+          },
+        });
       });
     });
 
-    it('calls onChange callback with facility object whose parent offers CaregiverSupport and is loaded', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
+    it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is loaded', async () => {
+      const { props, mockStore } = getData({});
+      const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchFacilitiesResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -188,19 +201,21 @@ describe('CG <FacilitySearch>', () => {
       selectors().radioList.__events.vaValueChange({
         detail: { value: selectedFacility.id },
       });
+
       await waitFor(() => {
-        expect(
-          onChange.calledWith({
+        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+        expect(dispatch.firstCall.args[0].data).to.deep.include({
+          'view:plannedClinic': {
             veteranSelected: selectedFacility,
             caregiverSupport: parentFacility,
-          }),
-        ).to.be.true;
+          },
+        });
       });
     });
 
-    it('calls onChange callback with facility object whose parent offers CaregiverSupport and is not loaded', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
+    it('calls dispatch callback with facility object whose parent offers CaregiverSupport and is not loaded', async () => {
+      const { props, mockStore } = getData({});
+      const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.onFirstCall().resolves(facilities);
@@ -209,8 +224,7 @@ describe('CG <FacilitySearch>', () => {
       facilitiesStub.onSecondCall().resolves(parentFacility);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -226,18 +240,19 @@ describe('CG <FacilitySearch>', () => {
       });
 
       await waitFor(() => {
-        expect(
-          onChange.calledWith({
+        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+        expect(dispatch.firstCall.args[0].data).to.deep.include({
+          'view:plannedClinic': {
             veteranSelected: selectedFacility,
             caregiverSupport: parentFacility,
-          }),
-        ).to.be.true;
+          },
+        });
       });
     });
 
     it('fails to retrieve parent facility', async () => {
-      const { props } = getData({});
-      const { container, selectors } = subject({ props });
+      const { props, mockStore } = getData({});
+      const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.onFirstCall().resolves(facilities);
@@ -248,8 +263,7 @@ describe('CG <FacilitySearch>', () => {
       });
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -265,37 +279,38 @@ describe('CG <FacilitySearch>', () => {
       });
 
       await waitFor(() => {
-        expect(
-          onChange.calledWith({
+        expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
+        expect(dispatch.firstCall.args[0].data).to.deep.include({
+          'view:plannedClinic': {
             veteranSelected: selectedFacility,
             caregiverSupport: null,
-          }),
-        ).to.be.true;
+          },
+        });
       });
 
       await waitFor(() => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
-        expect(selectors().input).to.have.attr(
-          'error',
-          'Some bad error occurred.',
+        expect(selectors().error.textContent).to.eq(
+          'ErrorSome bad error occurred.',
         );
       });
     });
 
     it('loads radio value from formData veteranSelected when set', async () => {
       const facilityId = 'my_facility_id';
-      const { props } = getData({
-        formData: { veteranSelected: { id: facilityId } },
+      const { props, mockStore } = getData({
+        data: {
+          'view:plannedClinic': { veteranSelected: { id: facilityId } },
+        },
       });
-      const { container, selectors } = subject({ props });
+      const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchFacilitiesResponse;
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
-        inputVaTextInput(container, 'Tampa', selectors().input);
-        userEvent.click(selectors().button);
+        inputVaSearchInput(container, 'Tampa', selectors().input);
         expect(selectors().loader).to.exist;
       });
 
@@ -313,22 +328,20 @@ describe('CG <FacilitySearch>', () => {
             errorMessage: 'Some bad error occurred.',
             type: 'SEARCH_FAILED',
           };
-          const { props } = getData({});
-          const { container, selectors } = subject({ props });
+          const { props, mockStore } = getData({});
+          const { container, selectors } = subject({ props, mockStore });
           mapboxStub.resolves(mapboxErrorResponse);
 
           await waitFor(() => {
-            inputVaTextInput(container, 'Tampa', selectors().input);
-            userEvent.click(selectors().button);
+            inputVaSearchInput(container, 'Tampa', selectors().input);
             expect(selectors().loader).to.exist;
           });
 
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().input).to.have.attr(
-              'error',
-              mapboxErrorResponse.errorMessage,
+            expect(selectors().error.textContent).to.eq(
+              'ErrorSome bad error occurred.',
             );
           });
         });
@@ -338,22 +351,20 @@ describe('CG <FacilitySearch>', () => {
             errorMessage: 'No search results found.',
             type: 'NO_SEARCH_RESULTS',
           };
-          const { props } = getData({});
-          const { container, selectors } = subject({ props });
+          const { props, mockStore } = getData({});
+          const { container, selectors } = subject({ props, mockStore });
           mapboxStub.resolves(mapboxErrorResponse);
 
           await waitFor(() => {
-            inputVaTextInput(container, 'Tampa', selectors().input);
-            userEvent.click(selectors().button);
+            inputVaSearchInput(container, 'Tampa', selectors().input);
             expect(selectors().loader).to.exist;
           });
 
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().input).to.have.attr(
-              'error',
-              mapboxErrorResponse.errorMessage,
+            expect(selectors().error.textContent).to.eq(
+              'ErrorNo search results found.',
             );
           });
         });
@@ -361,8 +372,8 @@ describe('CG <FacilitySearch>', () => {
 
       context('facilities errors', () => {
         it('should render appropriate error message when facilities fetch fails', async () => {
-          const { props } = getData({});
-          const { container, selectors } = subject({ props });
+          const { props, mockStore } = getData({});
+          const { container, selectors } = subject({ props, mockStore });
           mapboxStub.resolves(successResponse);
           facilitiesStub.resolves({
             type: 'SEARCH_FAILED',
@@ -370,21 +381,52 @@ describe('CG <FacilitySearch>', () => {
           });
 
           await waitFor(() => {
-            inputVaTextInput(container, 'Tampa', selectors().input);
-            userEvent.click(selectors().button);
+            inputVaSearchInput(container, 'Tampa', selectors().input);
             expect(selectors().loader).to.exist;
           });
 
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().input).to.have.attr(
-              'error',
-              'Some bad error occurred.',
+            expect(selectors().error.textContent).to.eq(
+              'ErrorSome bad error occurred.',
             );
           });
         });
       });
+    });
+  });
+
+  context('formNavButtons', () => {
+    it('renders back and forward buttons', () => {
+      const { props, mockStore } = getData({});
+      const { selectors } = subject({ props, mockStore });
+      expect(selectors().formNavButtons.back).to.exist;
+      expect(selectors().formNavButtons.forward).to.exist;
+    });
+
+    it('calls goBack callback on click', () => {
+      const { props, mockStore } = getData({});
+      const { selectors } = subject({ props, mockStore });
+      userEvent.click(selectors().formNavButtons.back);
+      expect(goBack.calledOnce).to.be.true;
+    });
+
+    it('calls forForward callback when facility is set', () => {
+      const { props, mockStore } = getData({});
+      const { selectors } = subject({ props, mockStore });
+      userEvent.click(selectors().formNavButtons.back);
+      expect(goBack.calledOnce).to.be.true;
+    });
+
+    it('sets error when trying to click goForward with no facility set', () => {
+      const { props, mockStore } = getData({});
+      const { selectors } = subject({ props, mockStore });
+      userEvent.click(selectors().formNavButtons.forward);
+      expect(goForward.calledOnce).to.be.false;
+      expect(selectors().error.textContent).to.eq(
+        'ErrorSelect a medical center or clinic',
+      );
     });
   });
 });

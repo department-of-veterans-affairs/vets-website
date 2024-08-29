@@ -8,8 +8,9 @@ import { focusElement } from 'platform/utilities/ui';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
-  const { facilities, formContext, onChange, query, value } = props;
-  const { reviewMode, submitted } = formContext;
+  const { facilities, onChange, query, value } = props;
+  const reviewMode = props?.formContext?.reviewMode || false;
+  const submitted = props?.formContext?.submitted || false;
 
   const [dirty, setDirty] = useState(false);
 
@@ -70,10 +71,13 @@ const FacilityList = props => {
   return (
     <div
       role="radiogroup"
-      className="vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+      className="vads-u-margin-top--2"
       aria-labelledby="facility-list-heading"
     >
-      <div className="vads-u-margin-top--1" id="caregiver_facility_results">
+      <div
+        className="vads-u-margin-top--1 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+        id="caregiver_facility_results"
+      >
         Showing 1-
         {facilities.length} of {facilities.length} facilities for{' '}
         <strong>“{query}”</strong>

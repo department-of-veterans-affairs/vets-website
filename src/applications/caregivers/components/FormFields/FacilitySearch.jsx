@@ -1,20 +1,32 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  VaButton,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { useDispatch } from 'react-redux';
+import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { setData } from 'platform/forms-system/src/js/actions';
+import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
+  const { data: formData, goBack, goForward } = props;
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
+  const dispatch = useDispatch();
+
+  const onGoForward = () => {
+    const caregiverSupportFacilityId =
+      formData?.['view:plannedClinic']?.caregiverSupport?.id;
+    if (!caregiverSupportFacilityId) {
+      setError('Select a medical center or clinic');
+    } else {
+      goForward(formData);
+    }
+  };
 
   const facilityListProps = useMemo(
     () => {
@@ -45,24 +57,29 @@ const FacilitySearch = props => {
         return parentFacilityResponse;
       };
 
-      const { onChange, ...restOfProps } = props;
       const setSelectedFacilities = async facilityId => {
         const facility = facilities.find(f => f.id === facilityId);
         const caregiverSupportFacility = await caregiverSupport(facility);
-        onChange({
-          veteranSelected: facility,
-          caregiverSupport: caregiverSupportFacility,
-        });
+        dispatch(
+          setData({
+            ...formData,
+            'view:plannedClinic': {
+              veteranSelected: facility,
+              caregiverSupport: caregiverSupportFacility,
+            },
+          }),
+        );
       };
+
       return {
-        ...restOfProps,
-        value: restOfProps?.formData?.veteranSelected?.id,
+        ...props,
+        value: formData?.['view:plannedClinic']?.veteranSelected?.id,
         onChange: setSelectedFacilities,
         facilities,
         query: submittedQuery,
       };
     },
-    [facilities, submittedQuery, props],
+    [facilities, submittedQuery, props, dispatch, formData],
   );
 
   const handleChange = e => {
@@ -102,13 +119,6 @@ const FacilitySearch = props => {
     setLoading(false);
   };
 
-  const handleKeyDown = event => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleSearch();
-    }
-  };
-
   const searchResults = () => {
     if (loading) {
       return (
@@ -125,40 +135,66 @@ const FacilitySearch = props => {
     return null;
   };
 
-  return (
-    <>
-      <va-card role="search" background>
-        <label
-          htmlFor="facility-search"
-          id="facility-search-label"
-          className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
-        >
-          {content['form-facilities-search-label']}
-          <VaTextInput
-            id="root_caregivers_facility_search"
-            name="root_caregivers_facility_search"
-            hint={content['form-facilities-search-hint']}
-            error={error}
-            onInput={handleChange}
-            onKeyDown={handleKeyDown}
-            required
-          />
-          <VaButton
-            data-testid="caregivers-search-btn"
-            text={content['button-search']}
-            onClick={handleSearch}
-          />
-        </label>
-      </va-card>
+  const searchError = () => {
+    return (
+      <span
+        className="usa-input-error-message vads-u-margin-bottom--0p5"
+        role="alert"
+      >
+        <span className="sr-only">Error</span>
+        {error}
+      </span>
+    );
+  };
 
-      {searchResults()}
-    </>
+  return (
+    <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
+      <div className="vads-u-margin-y--2 form-panel">
+        <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
+          What VA Medical center or clinic does the Veteran get or plan to get
+          their health care?
+          <span className="vads-u-color--secondary-darkest">(*Required)</span>
+        </h3>
+        <p className="vads-u-color--gray-light">
+          Where the VA medical center is located may be different from the
+          Veteran’s home address.
+        </p>
+        <va-card role="search" background>
+          <label
+            htmlFor="facility-search"
+            id="facility-search-label"
+            className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+          >
+            {content['form-facilities-search-label']}
+          </label>
+          {error && searchError()}
+          <VaSearchInput
+            label={content['form-facilities-search-label']}
+            value={query}
+            onInput={handleChange}
+            onSubmit={handleSearch}
+            uswds
+          />
+        </va-card>
+
+        {searchResults()}
+        <p>
+          <strong>Note:</strong> We use the location of the Veteran’s health
+          care facility to find the nearest facility that processes
+          applications. Only some facilities process caregiver program
+          applications.
+        </p>
+        <FormNavButtons goBack={goBack} goForward={onGoForward} />
+      </div>
+    </div>
   );
 };
 
 FacilitySearch.propTypes = {
-  onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
+  data: PropTypes.object,
+  goBack: PropTypes.func,
+  goForward: PropTypes.func,
 };
 
 export default FacilitySearch;
