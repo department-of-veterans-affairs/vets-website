@@ -5,7 +5,6 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
-import { getRepresentatives as getRepresentativesAction } from '../actions';
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
@@ -66,7 +65,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setFormData: setData,
-  getRepresentatives: getRepresentativesAction,
 };
 
 App.propTypes = {
@@ -75,7 +73,6 @@ App.propTypes = {
   children: PropTypes.node,
   formData: PropTypes.object,
   setFormData: PropTypes.func,
-  getRepresentatives: PropTypes.func,
 };
 
 export default connect(
