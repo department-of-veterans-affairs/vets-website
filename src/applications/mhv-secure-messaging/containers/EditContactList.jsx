@@ -21,12 +21,14 @@ import {
 import { updateTriageTeamRecipients } from '../actions/recipients';
 import { addAlert } from '../actions/alerts';
 import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
+import { focusOnErrorField } from '../util/formHelpers';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [allTriageTeams, setAllTriageTeams] = useState([]);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
+  const [minimumSelectError, setMinimumSelectError] = useState('');
 
   const [
     showBlockedTriageGroupAlert,
@@ -52,6 +54,11 @@ const EditContactList = () => {
   const isContactListChanged = useMemo(
     () => !_.isEqual(allRecipients, allTriageTeams),
     [allRecipients, allTriageTeams],
+  );
+
+  const isMinimumSelected = useMemo(
+    () => _.some(allTriageTeams, { preferredTeam: true }),
+    [allTriageTeams],
   );
 
   const navigateBack = useCallback(
@@ -81,23 +88,26 @@ const EditContactList = () => {
 
   const handleSaveAndExit = async (e, forceSave) => {
     e.preventDefault();
+    if (!isMinimumSelected) {
+      setMinimumSelectError(ErrorMessages.ContactList.MINIMUM_SELECTION);
+      focusOnErrorField();
+    } else {
+      if (forceSave) {
+        await setIsNavigationBlocked(false);
+      }
 
-    if (forceSave) {
-      await setIsNavigationBlocked(false);
+      if (forceSave || !isNavigationBlocked) {
+        dispatch(updateTriageTeamRecipients(allTriageTeams));
+        dispatch(
+          addAlert(
+            ALERT_TYPE_SUCCESS,
+            null,
+            Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+          ),
+        );
+      }
+      navigateBack();
     }
-
-    if (forceSave || !isNavigationBlocked) {
-      dispatch(updateTriageTeamRecipients(allTriageTeams));
-      dispatch(
-        addAlert(
-          ALERT_TYPE_SUCCESS,
-          null,
-          Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
-        ),
-      );
-    }
-
-    navigateBack();
   };
 
   const handleCancel = e => {
@@ -133,6 +143,24 @@ const EditContactList = () => {
       setIsNavigationBlocked(isContactListChanged);
     },
     [isContactListChanged],
+  );
+
+  useEffect(
+    () => {
+      if (isMinimumSelected) {
+        setMinimumSelectError('');
+      }
+    },
+    [isMinimumSelected],
+  );
+
+  useEffect(
+    () => {
+      if (minimumSelectError) {
+        focusOnErrorField();
+      }
+    },
+    [minimumSelectError],
   );
 
   return (
@@ -180,6 +208,7 @@ const EditContactList = () => {
               return (
                 <FacilityCheckboxGroup
                   key={stationNumber}
+                  errorMessage={minimumSelectError}
                   facilityName={facilityName}
                   multipleFacilities={allFacilities?.length > 1}
                   updatePreferredTeam={updatePreferredTeam}
