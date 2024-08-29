@@ -175,8 +175,8 @@
     "programInformation": {},
     "reportDivorce": {
       "fullName": {},
-      "location": {
-        "isOutsideUs": false
+      "divorceLocation": {
+        "outsideUsa": false
       }
     },
     "childMarriage": {
