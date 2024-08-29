@@ -31,7 +31,6 @@ export default function StatusAlert({ appointment, facility }) {
   const showConfirmMsg = queryParams.get('confirmMsg');
 
   const canceled = appointment.status === APPOINTMENT_STATUS.cancelled;
-  const { isPastAppointment } = appointment.vaos;
 
   const canceler = new Map([
     [CANCELLATION_REASONS.patient, 'You'],
@@ -92,13 +91,6 @@ export default function StatusAlert({ appointment, facility }) {
           />
         </InfoAlert>
       </>
-    );
-  }
-  if (isPastAppointment) {
-    return (
-      <InfoAlert status="warning" backgroundOnly>
-        This appointment occurred in the past.
-      </InfoAlert>
     );
   }
   if (showConfirmMsg) {
