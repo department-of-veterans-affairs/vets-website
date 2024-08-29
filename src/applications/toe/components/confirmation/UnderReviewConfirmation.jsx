@@ -1,7 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import LoadingIndicator from '../LoadingIndicator';
 
-export default function UnderReviewConfirmation({ user, dateReceived }) {
+const UnderReviewConfirmation = ({
+  user,
+  dateReceived,
+  confirmationError,
+  confirmationLoading,
+  printPage,
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'IN_PROGRESS',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
+
   return (
     <>
       <div className="vads-u-margin-bottom--6">
@@ -36,13 +67,12 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
               <strong>Date received</strong>
               {dateReceived}
             </div>
-            <button
-              type="button"
-              onClick={() => window.print()}
-              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-            >
-              Print this page
-            </button>
+            <va-button
+              uswds
+              className="usa-button meb-print"
+              text="Print this page"
+              onClick={printPage}
+            />
           </div>
         </va-alert>
       </div>
@@ -137,12 +167,22 @@ export default function UnderReviewConfirmation({ user, dateReceived }) {
       </div>
     </>
   );
-}
+};
 
 UnderReviewConfirmation.propTypes = {
+  printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.object,
+  confirmationLoading: PropTypes.bool,
   dateReceived: PropTypes.string,
-  user: PropTypes.shape({
-    fullName: PropTypes.string,
-    confirmationNumber: PropTypes.string,
-  }),
+  user: PropTypes.string,
 };
+
+UnderReviewConfirmation.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+};
+
+export default UnderReviewConfirmation;

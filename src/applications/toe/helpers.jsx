@@ -506,6 +506,16 @@ export const applicantIsChildOfSponsor = formData => {
   return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
 };
 
+// utils/caseConverter.js
+export const toSnakeCase = obj => {
+  const result = {};
+  Object.keys(obj).forEach(key => {
+    const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+    result[snakeKey] = obj[key];
+  });
+  return result;
+};
+
 export const applicantIsaMinor = formData => {
   if (!formData || !formData?.dob) {
     return true;
