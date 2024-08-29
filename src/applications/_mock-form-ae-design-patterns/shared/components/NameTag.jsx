@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import prefixUtilityClasses from '~/platform/utilities/prefix-utility-classes';
@@ -86,6 +86,13 @@ DisabilityRating.propTypes = {
 };
 
 const NameTag = ({ totalDisabilityRatingServerError }) => {
+  // workaround to get the page to be scrolled to top when nametag renders
+  useEffect(() => {
+    setTimeout(() => {
+      window?.scroll?.({ top: 0, behavior: 'smooth' });
+    }, 10);
+  }, []);
+
   const fullName = useSelector(selectProfile)?.userFullName;
   const formattedFullName = normalizeFullName(fullName, true);
 

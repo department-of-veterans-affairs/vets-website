@@ -41,17 +41,15 @@ const ReviewControl = ({
             </h4>
           )}
           {!readOnly && (
-            <button
-              type={position === 'footer' ? 'submit' : 'button'}
+            <va-button
               className={`edit-btn ${
                 position === 'header' ? 'primary-outline' : ''
               }`}
+              text={buttonText}
               onClick={position === 'header' ? onEditClick : onUpdateClick}
               aria-label={ariaLabel}
               readOnly={readOnly}
-            >
-              {buttonText}
-            </button>
+            />
           )}
         </div>
       )}

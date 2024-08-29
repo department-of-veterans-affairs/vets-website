@@ -30,13 +30,13 @@ const FacilityCheckboxGroup = props => {
   return (
     <div>
       <va-checkbox-group
-        data-testid="contact-list-facility-group"
+        data-testid={`${facilityName?.replace(/ /g, '-')}-facility-group`}
         label={multipleFacilities ? facilityName : null}
         label-header-level={multipleFacilities ? '2' : null}
         class="contactListFacility vads-u-margin-bottom--4 vads-u-margin-top--0"
       >
         <VaCheckbox
-          data-testid="contact-list-select-all-teams"
+          data-testid={`select-all-${facilityName?.replace(/ /g, '-')}-teams`}
           label={`Select all ${triageTeams.length} ${
             multipleFacilities ? facilityName : 'care'
           } teams`}
@@ -44,15 +44,20 @@ const FacilityCheckboxGroup = props => {
           onVaChange={handleSelectAllChange}
           class="vads-u-margin-bottom--2"
         />
-        <div className="vads-u-margin-left--2 small-screen:vads-u-margin-left--3">
+        <div
+          className="vads-u-margin-left--2 small-screen:vads-u-margin-left--3"
+          data-testid={`${facilityName?.replace(/ /g, '-')}-teams`}
+        >
           {triageTeams.map(team => {
             return (
               <VaCheckbox
-                data-testid="contact-list-select-team"
+                data-testid={`contact-list-select-team-${team.triageTeamId}`}
                 key={team.triageTeamId}
                 label={team.name}
                 checked={team.preferredTeam}
-                onVaChange={() => updatePreferredTeam(team.triageTeamId, null)}
+                onVaChange={() => {
+                  updatePreferredTeam(team.triageTeamId, null);
+                }}
               />
             );
           })}
