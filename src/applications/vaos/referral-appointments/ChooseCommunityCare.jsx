@@ -4,7 +4,7 @@ import { hi } from 'date-fns/locale';
 import { useHistory } from 'react-router-dom';
 import FormLayout from '../new-appointment/components/FormLayout';
 import ProviderAlert from './components/ProviderAlert';
-// import mockData from '../services/mocks/wellHive/providerServices.json';
+// import mockData from '../services/mocks/epsApi/providerServices.json';
 
 export default function ChooseCommunityCare() {
   const history = useHistory();

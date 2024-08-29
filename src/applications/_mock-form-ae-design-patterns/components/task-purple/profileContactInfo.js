@@ -7,7 +7,7 @@ import {
   profileAddressSchema,
   blankSchema,
   clearReturnState,
-} from 'platform/forms-system/src/js/utilities/data/profile';
+} from '../../utils/data/task-purple/profile';
 import {
   EditAddress,
   EditEmail,

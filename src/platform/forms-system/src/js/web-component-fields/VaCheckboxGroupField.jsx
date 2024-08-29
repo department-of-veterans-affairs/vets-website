@@ -51,11 +51,14 @@ export default function VaCheckboxGroupField(props) {
 
   const onGroupChange = event => {
     const checkboxKey = event.target.dataset.key;
-    const isChecked = event.detail.checked;
+    const value =
+      event.target.tagName === 'VA-TEXT-INPUT'
+        ? event.target.value
+        : event.detail.checked;
 
     const newVal = {
       ...props.childrenProps.formData,
-      [checkboxKey]: isChecked,
+      [checkboxKey]: value,
     };
 
     props.childrenProps.onChange(newVal);
@@ -94,13 +97,24 @@ export default function VaCheckboxGroupField(props) {
         {checkboxes?.length > 0 &&
           // eslint-disable-next-line no-unused-vars
           checkboxes.map(({ key, uiSchema, schema, formData }) => {
-            return (
+            const elmProps = {
+              key,
+              'data-key': key,
+              name: `${props.childrenProps.idSchema.$id}_${key}`,
+              uswds: props.uiOptions?.uswds ?? true,
+              label: uiSchema?.['ui:title'] || schema.title,
+            };
+
+            return schema.type === 'string' ? (
+              <va-text-input
+                {...elmProps}
+                value={formData}
+                onInput={onGroupChange}
+                {...uiSchema['ui:options']}
+              />
+            ) : (
               <va-checkbox
-                data-key={key}
-                name={`${props.childrenProps.idSchema.$id}_${key}`}
-                key={key}
-                uswds={props.uiOptions?.uswds ?? true}
-                label={uiSchema?.['ui:title'] || schema.title}
+                {...elmProps}
                 checked={formData === 'undefined' ? false : formData}
                 tile={props.uiOptions?.tile}
                 checkbox-description={

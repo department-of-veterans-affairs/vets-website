@@ -144,7 +144,7 @@ class PatientMessageCustomFolderPage {
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`);

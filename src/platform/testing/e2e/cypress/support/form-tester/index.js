@@ -9,7 +9,7 @@ const ARRAY_ITEM_SELECTOR =
   'div[name^="topOfTable_"] ~ div.va-growable-background';
 const FIELD_SELECTOR = 'input, select, textarea';
 const WEB_COMPONENT_SELECTORS =
-  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio-option, va-checkbox, va-date, va-memorable-date';
 
 const LOADING_SELECTOR = 'va-loading-indicator';
 
@@ -211,13 +211,7 @@ const defaultPostHook = pathname => {
       cy.get(APP_SELECTOR, NO_LOG_OPTION).then($form => {
         const privacyAgreement = $form.find('[name^="privacyAgreement"]');
         if (privacyAgreement.length) {
-          cy.wrap(privacyAgreement)
-            .shadow()
-            .find('va-checkbox')
-            .shadow()
-            .find('[type="checkbox"]')
-            .check(FORCE_OPTION)
-            .should('be.checked');
+          cy.wrap(privacyAgreement).then($el => cy.selectVaCheckbox($el, true));
         }
       });
 
@@ -356,7 +350,10 @@ function enterData(field) {
         .clear({ ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .type(field.data, { ...FORCE_OPTION, ...NO_DELAY_OPTION })
         .then(element => {
-          if (element.val()) cy.get(element).should('have.value', field.data);
+          // masked SSN appears on blur, so it won't match the field.data
+          if (element.val() && !element[0].classList.contains('masked-ssn')) {
+            cy.get(element).should('have.value', field.data);
+          }
           // Get the autocomplete menu out of the way.
           if (element.attr('role') === 'combobox') element.blur();
         });

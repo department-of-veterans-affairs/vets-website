@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { format, parseISO } from 'date-fns';
 
-import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { genderLabels } from 'platform/static-data/labels';
 import { maskSSN, normalizeFullName } from '../../utils/helpers/general';
 import { APP_URLS } from '../../utils/constants';
 
@@ -16,12 +16,14 @@ const VeteranProfileInformation = ({
   contentBeforeButtons,
   contentAfterButtons,
 }) => {
-  const { userFullName, dob } = profile;
+  const { userFullName, dob, gender } = profile;
   const { veteranSocialSecurityNumber } = veteran;
 
   const veteranName = normalizeFullName(userFullName, true);
   const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = dob && format(parseISO(dob), 'MMMM dd, yyyy');
+  const veteranDOBMobile = dob && format(parseISO(dob), 'MMM dd, yyyy');
+  const veteranGender = gender && genderLabels[gender];
 
   return (
     <>
@@ -59,14 +61,33 @@ const VeteranProfileInformation = ({
               </div>
               {veteranDOB ? (
                 <div data-testid="ezr-veteran-dob">
-                  <dt className="vads-u-display--inline-block vads-u-font-weight--bold vads-u-margin-right--0p5">
-                    Date of Birth:
+                  <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold">
+                    Date of birth:
                   </dt>
                   <dd
-                    className="vads-u-display--inline-block dd-privacy-mask"
+                    className="dd-privacy-mask medium-screen:vads-u-display--inline-block vads-u-display--none"
                     data-dd-action-name="Date of birth"
                   >
                     {veteranDOB}
+                  </dd>
+                  <dd
+                    className="dd-privacy-mask vads-u-display--inline-block medium-screen:vads-u-display--none"
+                    data-dd-action-name="Date of birth"
+                  >
+                    {veteranDOBMobile}
+                  </dd>
+                </div>
+              ) : null}
+              {veteranGender ? (
+                <div data-testid="ezr-veteran-gender">
+                  <dt className="vads-u-display--inline-block vads-u-margin-right--0p5 vads-u-font-weight--bold vads-u-margin-top--2">
+                    Gender:
+                  </dt>
+                  <dd
+                    className="vads-u-display--inline-block dd-privacy-mask"
+                    data-dd-action-name="Gender"
+                  >
+                    {veteranGender}
                   </dd>
                 </div>
               ) : null}
@@ -75,24 +96,13 @@ const VeteranProfileInformation = ({
         </va-card>
 
         <p>
-          Note: To protect your data privacy, we limit editing on some types of
-          personal information. If you need to update your personal information,
-          call our VA benefits hotline at{' '}
-          <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
-          <va-telephone contact={CONTACTS[711]} tty />. We’re here Monday
-          through Friday, 8:00 a.m. to 9:00 p.m.{' '}
-          <dfn>
-            <abbr title="Eastern Time">ET</abbr>
-          </dfn>
-          .
-        </p>
-
-        <p>
-          You can also call your VA health facility to get help changing your
-          name on file with VA. Ask for the eligibility department.{' '}
+          Note: To protect your personal information, we don’t allow online
+          changes to your name, date of birth, or Social Security number. If you
+          need to change this information for your health benefits, call your VA
+          health facility.{' '}
           <va-link
             href={APP_URLS.facilities}
-            text="Find your nearest VA health facility"
+            text="Find your VA health facility"
           />
         </p>
       </div>

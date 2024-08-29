@@ -2,6 +2,7 @@ import { createSaveInProgressFormReducer } from 'platform/forms/save-in-progress
 import formConfig from './config/form';
 
 import {
+  ACKNOWLEDGE_DUPLICATE,
   UPDATE_SPONSORS,
   FETCH_PERSONAL_INFORMATION,
   FETCH_PERSONAL_INFORMATION_SUCCESS,
@@ -12,6 +13,14 @@ import {
   FETCH_CLAIM_STATUS,
   FETCH_CLAIM_STATUS_SUCCESS,
   FETCH_CLAIM_STATUS_FAILURE,
+  FETCH_DUPLICATE_CONTACT_INFO_SUCCESS,
+  FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+  UPDATE_GLOBAL_EMAIL,
+  UPDATE_GLOBAL_PHONE_NUMBER,
+  SEND_CONFIRMATION,
+  SEND_CONFIRMATION_SUCCESS,
+  SEND_CONFIRMATION_FAILURE,
+  TOGGLE_MODAL,
 } from './actions';
 import { formFields } from './constants';
 
@@ -25,6 +34,10 @@ const initialState = {
   form: {
     data: {},
   },
+  confirmationLoading: false,
+  confirmationSuccess: false,
+  confirmationError: null,
+  openModal: false,
 };
 
 const handleDirectDepositApi = action => {
@@ -140,6 +153,55 @@ export default {
           ...state,
           fetchDirectDepositInProgress: false,
           bankInformation: handleDirectDepositApi(action),
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_SUCCESS:
+        return {
+          ...state,
+          duplicateEmail: action?.response?.data?.attributes?.email,
+          duplicatePhone: action?.response?.data?.attributes?.phone,
+        };
+      case FETCH_DUPLICATE_CONTACT_INFO_FAILURE:
+      case UPDATE_GLOBAL_EMAIL:
+        return {
+          ...state,
+          email: action?.email,
+        };
+      case UPDATE_GLOBAL_PHONE_NUMBER:
+        return {
+          ...state,
+          mobilePhone: action?.mobilePhone,
+        };
+      case ACKNOWLEDGE_DUPLICATE:
+        return {
+          ...state,
+          duplicateEmail: action?.contactInfo?.email,
+          duplicatePhone: action?.contactInfo?.phone,
+        };
+      case TOGGLE_MODAL:
+        return {
+          ...state,
+          openModal: action.toggle,
+        };
+      case SEND_CONFIRMATION:
+        return {
+          ...state,
+          confirmationLoading: true,
+          confirmationSuccess: false,
+          confirmationError: null,
+        };
+      case SEND_CONFIRMATION_SUCCESS:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationSuccess: true,
+          confirmationError: null,
+        };
+      case SEND_CONFIRMATION_FAILURE:
+        return {
+          ...state,
+          confirmationLoading: false,
+          confirmationSuccess: false,
+          confirmationError: action.errors,
         };
       default:
         return state;

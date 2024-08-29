@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { usePostTravelOnlyClaim } from '../../../hooks/usePostTravelOnlyClaim';
 import { useUpdateError } from '../../../hooks/useUpdateError';
 import Wrapper from '../../../components/layout/Wrapper';
@@ -38,15 +38,7 @@ const Complete = props => {
       >
         <TravelClaimSuccessAlert />
         <div data-testid="travel-complete-content">
-          <p>
-            <Trans
-              i18nKey="to-file-another-claim-for-today"
-              components={[
-                <span key="bold" className="vads-u-font-weight--bold" />,
-              ]}
-            />
-          </p>
-          <p>{t('or-you-can-still-file-your-claim')}</p>
+          <p>{t('to-file-another-claim-for-different-date')}</p>
         </div>
         <ExternalLink
           key="link"

@@ -1,5 +1,6 @@
 import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import get from 'platform/utilities/data/get';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -33,7 +34,7 @@ import {
 import {
   applicantHasInsuranceSchema,
   applicantProviderSchema,
-  applicantInsuranceEOBSchema,
+  applicantInsuranceEobSchema,
   applicantInsuranceSOBSchema,
   applicantInsuranceThroughEmployerSchema,
   applicantInsurancePrescriptionSchema,
@@ -87,6 +88,9 @@ const formConfig = {
   dev: {
     showNavLinks: false,
     collapsibleNavLinks: true,
+  },
+  downtime: {
+    dependencies: [externalServices.pega],
   },
   preSubmitInfo: {
     required: true,
@@ -283,7 +287,7 @@ const formConfig = {
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(true),
         },
-        primaryEOB: {
+        primaryEob: {
           path: 'insurance-eob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
@@ -292,14 +296,14 @@ const formConfig = {
             `${fnp(formData)} ${
               formData.applicantPrimaryProvider
             } explanation of benefits`,
-          ...applicantInsuranceEOBSchema(true),
+          ...applicantInsuranceEobSchema(true),
         },
         primaryScheduleOfBenefits: {
           path: 'insurance-sob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
             get('applicantPrimaryHasPrescription', formData) &&
-            !get('applicantPrimaryEOB', formData),
+            !get('applicantPrimaryEob', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantPrimaryProvider
@@ -384,7 +388,7 @@ const formConfig = {
             } prescription coverage`,
           ...applicantInsurancePrescriptionSchema(false),
         },
-        secondaryEOB: {
+        secondaryEob: {
           path: 'secondary-insurance-eob',
           depends: formData =>
             get('applicantHasPrimary', formData) &&
@@ -394,7 +398,7 @@ const formConfig = {
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider
             } explanation of benefits`,
-          ...applicantInsuranceEOBSchema(false),
+          ...applicantInsuranceEobSchema(false),
         },
         secondaryScheduleOfBenefits: {
           path: 'secondary-insurance-sob',
@@ -402,7 +406,7 @@ const formConfig = {
             get('applicantHasPrimary', formData) &&
             get('applicantHasSecondary', formData) &&
             get('applicantSecondaryHasPrescription', formData) &&
-            !get('applicantSecondaryEOB', formData),
+            !get('applicantSecondaryEob', formData),
           title: formData =>
             `${fnp(formData)} ${
               formData.applicantSecondaryProvider

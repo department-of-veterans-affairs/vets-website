@@ -4,22 +4,66 @@ import {
   VaButton,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { fetchMapBoxBBoxCoordinates } from '../../actions/fetchMapBoxBBoxCoordinates';
+import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
   const [query, setQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
-  const listProps = useMemo(() => ({ ...props, facilities, query }), [
-    facilities,
-    props,
-    query,
-  ]);
+  const facilityListProps = useMemo(
+    () => {
+      const caregiverSupport = async facility => {
+        const offersCaregiverSupport = facility.services?.health?.some(
+          service => service.serviceId === 'caregiverSupport',
+        );
+
+        if (offersCaregiverSupport) {
+          return facility;
+        }
+
+        const loadedParent = facilities.find(
+          entry => entry.id === facility.parent.id,
+        );
+        if (loadedParent) {
+          return loadedParent;
+        }
+
+        const parentFacilityResponse = await fetchFacilities({
+          id: facility.parent.id,
+        });
+        if (parentFacilityResponse.errorMessage) {
+          setError(parentFacilityResponse.errorMessage);
+          return null;
+        }
+
+        return parentFacilityResponse;
+      };
+
+      const { onChange, ...restOfProps } = props;
+      const setSelectedFacilities = async facilityId => {
+        const facility = facilities.find(f => f.id === facilityId);
+        const caregiverSupportFacility = await caregiverSupport(facility);
+        onChange({
+          veteranSelected: facility,
+          caregiverSupport: caregiverSupportFacility,
+        });
+      };
+      return {
+        ...restOfProps,
+        value: restOfProps?.formData?.veteranSelected?.id,
+        onChange: setSelectedFacilities,
+        facilities,
+        query: submittedQuery,
+      };
+    },
+    [facilities, submittedQuery, props],
+  );
 
   const handleChange = e => {
     setQuery(e.target.value);
@@ -33,17 +77,29 @@ const FacilitySearch = props => {
 
     setLoading(true);
     setError(null);
-    setFacilities(null);
+    setFacilities([]);
 
-    try {
-      const coordinates = await fetchMapBoxBBoxCoordinates(query);
-      const facilityList = await fetchFacilities(coordinates);
-      setFacilities(facilityList);
-    } catch (err) {
-      setError(err.errorMessage);
-    } finally {
+    const mapboxResponse = await fetchMapBoxGeocoding(query);
+    if (mapboxResponse.errorMessage) {
+      setError(mapboxResponse.errorMessage);
       setLoading(false);
+      return;
     }
+
+    const [longitude, latitude] = mapboxResponse.center;
+    const facilitiesResponse = await fetchFacilities({
+      long: longitude,
+      lat: latitude,
+    });
+    if (facilitiesResponse.errorMessage) {
+      setError(facilitiesResponse.errorMessage);
+      setLoading(false);
+      return;
+    }
+
+    setFacilities(facilitiesResponse);
+    setSubmittedQuery(query);
+    setLoading(false);
   };
 
   const searchResults = () => {
@@ -57,14 +113,14 @@ const FacilitySearch = props => {
       );
     }
     if (facilities?.length) {
-      return <FacilityList {...listProps} />;
+      return <FacilityList {...facilityListProps} />;
     }
     return null;
   };
 
   return (
     <>
-      <va-card role="search">
+      <va-card role="search" background>
         <label
           htmlFor="facility-search"
           id="facility-search-label"
@@ -93,6 +149,7 @@ const FacilitySearch = props => {
 };
 
 FacilitySearch.propTypes = {
+  onChange: PropTypes.func.isRequired,
   value: PropTypes.string,
 };
 

@@ -41,13 +41,14 @@ const AddressBlock = ({ address, showDirections = false, placeName }) => {
 
   return (
     <div data-testid="address-block">
-      <span data-testid="address-line-street1">{address.street1}</span>
+      <p className="vads-u-margin--0" data-testid="address-line-street1">
+        {address.street1}
+      </p>
       {lineTwo}
       {lineThree}
-      <br aria-hidden="true" />
-      <span data-testid="address-city-state-and-zip">
+      <p className="vads-u-margin--0" data-testid="address-city-state-and-zip">
         {`${address.city}, ${address.state} ${address.zip.substring(0, 5)}`}
-      </span>
+      </p>
       {showDirections &&
         placeName && (
           <div

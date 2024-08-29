@@ -2,13 +2,30 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientComposePage from './pages/PatientComposePage';
 import requestBody from './fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT, Locators } from './utils/constants';
+import { AXE_CONTEXT, Locators, Data } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
+  });
+
+  it('verify interface', () => {
+    PatientComposePage.verifyHeader(Data.START_NEW_MSG);
+
+    PatientComposePage.verifyRecipientsDropdownStatus(`false`);
+
+    PatientComposePage.openRecipientsDropdown();
+
+    PatientComposePage.verifyRecipientsDropdownStatus(`true`);
+
+    cy.get(Locators.DROPDOWN.RECIPIENTS).should(`be.visible`);
+
+    PatientComposePage.verifyRecipientsDropdownLinks();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify user can send a message', () => {

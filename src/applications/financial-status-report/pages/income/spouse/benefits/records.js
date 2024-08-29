@@ -21,7 +21,7 @@ export const uiSchema = {
           'How much does your spouse get each month for disability compensation and pension benefits?',
         'ui:webComponentField': VaTextInputField,
         'ui:options': {
-          classNames: 'schemaform-currency-input',
+          currency: true,
           width: 'md',
         },
         'ui:errorMessages': {
@@ -38,7 +38,7 @@ export const uiSchema = {
           'How much does your spouse get each month for education benefits?',
         'ui:webComponentField': VaTextInputField,
         'ui:options': {
-          classNames: 'schemaform-currency-input',
+          currency: true,
           width: 'md',
         },
         'ui:errorMessages': {

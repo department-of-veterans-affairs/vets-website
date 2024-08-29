@@ -148,7 +148,7 @@ describe('Direct deposit information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click({ force: true });
     cy.get('h2[class="usa-modal__heading va-modal-alert-title"]').should(
@@ -163,7 +163,7 @@ describe('Direct deposit information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click();
   });
