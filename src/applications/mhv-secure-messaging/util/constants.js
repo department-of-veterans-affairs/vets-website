@@ -15,7 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
-  CONTACT_LIST: '/contact-list',
+  CONTACT_LIST: '/contact-list/',
 };
 
 export const DefaultFolders = {
@@ -121,6 +121,13 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
       'unable to save draft with attachment and signature',
   },
+  ContactList: {
+    SAVE_AND_EXIT: {
+      title: 'Save changes to your contact list?',
+      confirmButtonText: 'Save and exit',
+      cancelButtonText: 'Continue editing',
+    },
+  },
 };
 
 export const Alerts = {
@@ -152,6 +159,7 @@ export const Alerts = {
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
+    SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
   },
 
   Folder: {
@@ -241,6 +249,11 @@ export const Breadcrumbs = {
   FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
   TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
+  MESSAGE_THREAD: {
+    href: Paths.MESSAGE_THREAD,
+    label: 'Edit draft',
+    isRouterLink: true,
+  },
 };
 
 export const InnerNavigationPaths = [

@@ -1,42 +1,50 @@
 {
   "data": {
-    "veteranWasMarriedBefore": false,
+    "veteranWasMarriedBefore": true,
     "veteranMarriageHistory": [
       {
-        "startDate": "2006-09-03",
+        "startDate": "2005-08-09",
+        "endDate": "2007-09-08",
+        "reasonMarriageEnded": "Other",
+        "reasonMarriageEndedOther": "Other reason",
         "startLocation": {
-          "isOutsideUs": false,
-          "state": "FL",
-          "city": "ft lauderdale"
+          "outsideUsa": true,
+          "location": {
+            "city": "Foreign city"
+          }
         },
-        "reasonMarriageEnded": "Divorce",
-        "endDate": "2009-08-09",
         "endLocation": {
-          "isOutsideUs": false,
-          "state": "AL",
-          "city": "birmingham"
+          "outsideUsa": false,
+          "location": {
+            "state": "NV",
+            "city": "Las Vegas"
+          }
         },
         "fullName": {
-          "first": "jasmine",
+          "first": "jake",
           "last": "doe"
         }
       }
     ],
-    "spouseWasMarriedBefore": false,
+    "spouseWasMarriedBefore": true,
     "spouseMarriageHistory": [
       {
         "startDate": "2005-08-09",
-        "startLocation": {
-          "isOutsideUs": false,
-          "state": "DC",
-          "city": "dc"
-        },
-        "reasonMarriageEnded": "Divorce",
         "endDate": "2007-09-08",
+        "reasonMarriageEnded": "Other",
+        "reasonMarriageEndedOther": "Other reason",
+        "startLocation": {
+          "outsideUsa": true,
+          "location": {
+            "city": "Foreign city"
+          }
+        },
         "endLocation": {
-          "isOutsideUs": false,
-          "state": "HI",
-          "city": "hawaii city"
+          "outsideUsa": false,
+          "location": {
+            "state": "NV",
+            "city": "Las Vegas"
+          }
         },
         "fullName": {
           "first": "jake",
@@ -46,36 +54,37 @@
     ],
     "doesLiveWithSpouse": {
       "spouseDoesLiveWithVeteran": false,
-      "currentSpouseReasonForSeparation": "Divorce",
+      "currentSpouseReasonForSeparation": "OTHER",
       "address": {
         "view:livesOnMilitaryBaseInfo": {},
-        "countryName": "USA",
-        "addressLine1": "1600 Pennslyvania Av",
+        "country": "USA",
+        "street": "1600 Pennsylvania Ave",
         "city": "Washington",
-        "stateCode": "DC",
-        "zipCode": "20500"
+        "state": "DC",
+        "postalCode": "20500"
       },
-      "spouseIncome": true
+      "other": "Other reason"
     },
     "currentMarriageInformation": {
-      "date": "2009-04-01",
+      "outsideUsa": true,
       "location": {
-        "isOutsideUs": true,
-        "country": "ARG",
-        "city": "argentina city"
+        "city": "Fakesville",
+        "state": "CA"
       },
-      "type": "CEREMONIAL",
+      "date": "2009-04-01",
+      "type": "CIVIL",
       "view:marriageTypeInformation": {}
     },
     "spouseInformation": {
-      "fullName": {
+      "spouseLegalName": {
         "first": "jane",
         "last": "doe"
       },
       "ssn": "123211234",
       "birthDate": "1991-02-03",
       "isVeteran": false,
-      "vaFileNumber": "12321345"
+      "vaFileNumber": "12321345",
+      "serviceNumber": "12321345"
     },
     "veteranContactInformation": {
       "veteranAddress": {

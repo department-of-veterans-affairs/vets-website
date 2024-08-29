@@ -17,7 +17,7 @@ export default {
   notifications,
   allPayments: payments,
   allDebts: debts,
-  allFormsWithStatuses: forms,
+  submittedForms: forms,
   health: combineReducers({
     appointments,
     rx: combineReducers({

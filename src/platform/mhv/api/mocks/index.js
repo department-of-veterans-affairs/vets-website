@@ -87,6 +87,7 @@ const responses = {
   'POST /my_health/v1/messaging/messages': messages.single,
   'POST /my_health/v1/messaging/message_drafts': messages.saveNewDraft,
   'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
+  'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
 
   // medical records
   'GET /my_health/v1/medical_records/session/status':
