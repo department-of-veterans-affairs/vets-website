@@ -1,6 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 
 import environment from 'platform/utilities/environment';
 import FormNav from '../../../src/js/components/FormNav';
@@ -35,6 +36,7 @@ describe('Schemaform FormNav', () => {
     },
   });
   const getReviewData = () => ({
+    urlPrefix: '/',
     chapters: {
       chapter1: {
         title: 'Testing',
@@ -48,6 +50,13 @@ describe('Schemaform FormNav', () => {
         pages: {
           page2: {
             path: 'testing2',
+          },
+        },
+      },
+      review: {
+        pages: {
+          'review-and-submit': {
+            path: 'review-and-submit',
           },
         },
       },
@@ -167,7 +176,7 @@ describe('Schemaform FormNav', () => {
 
   it('should display a custom review page title', () => {
     const formConfigReviewData = getReviewData();
-    const currentPath = 'review-and-submit';
+    const currentPath = '/review-and-submit';
 
     const { container } = render(
       <FormNav formConfig={formConfigReviewData} currentPath={currentPath} />,
@@ -218,29 +227,28 @@ describe('Schemaform FormNav', () => {
     expect(tree.queryByTestId('navFormDiv').textContent).to.eq('');
   });
 
-  // Can't get this test to work... useEffect callback is calling the focus
-  // function; but the page includes an empty div when focusElement is called
-  it.skip('should focus on navigation H3', async () => {
-    const currentPath = 'testing1';
-    const formConfigDefaultData = {
-      ...getDefaultData(),
-      useCustomScrollAndFocus: false,
-    };
+  it('should focus on va-segmented-progress-bar', () => {
+    const focusSpy = sinon.spy();
+    const currentPath = '/review-and-submit';
+    const formConfigDefaultData = getReviewData();
     const App = () => (
       <>
-        <FormNav formConfig={formConfigDefaultData} currentPath={currentPath} />
+        <div name="topScrollElement" />
+        <FormNav
+          formConfig={formConfigDefaultData}
+          currentPath={currentPath}
+          testFocus={focusSpy}
+        />
         <div id="main">
-          <h3>H3</h3>
+          <h2>H2</h2>
         </div>
       </>
     );
 
-    const { unmount, rerender } = render(<App />);
-    unmount();
-    rerender(<App />);
+    render(<App />);
 
-    await waitFor(() => {
-      expect(document.activeElement.tagName).to.eq('H3');
+    waitFor(() => {
+      expect(focusSpy.calledWith('va-segmented-progress-bar')).to.be.true;
     });
   });
 
