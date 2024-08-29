@@ -82,7 +82,6 @@ const EducationSearchItem = ({
             value="My facility is not listed"
             name="primary"
             checked={selected === 'My facility is not listed'}
-            uswds
           />
         </VaRadio>
         {facilityData?.meta.count > 10 && (
@@ -92,7 +91,6 @@ const EducationSearchItem = ({
             pages={numberOfPages > 5 ? 5 : Math.round(numberOfPages)}
             maxPageListLength={5}
             showLastPage
-            uswds
           />
         )}
       </>
