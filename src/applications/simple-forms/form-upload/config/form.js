@@ -18,6 +18,7 @@ import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { CustomTopContent } from '../pages/helpers';
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
@@ -32,6 +33,7 @@ const formConfig = (pathname = null) => {
     },
     trackingPrefix: 'form-upload-flow-',
     confirmation: ConfirmationPage,
+    CustomTopContent,
     CustomReviewTopContent,
     customText: {
       appType: 'form',
