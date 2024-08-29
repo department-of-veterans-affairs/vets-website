@@ -5,16 +5,8 @@ import { connect } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-// import prefillTransformer from '../config/prefill-transformer';
 
-const PersonalAuthenticatedInformation = ({
-  goBack,
-  goForward,
-  // setFormData,
-  formData,
-}) => {
-  // const prefillData = prefillTransformer();
-
+const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
   const {
     first,
     last,
@@ -33,14 +25,12 @@ const PersonalAuthenticatedInformation = ({
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
-  useEffect(() => {
-    focusElement('h2');
-    // if (!formData.aboutYourself.first) {
-    //   setFormData({
-    //     ...prefillData.formData,
-    //   });
-    // }
-  }, []);
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [formData.aboutYourself],
+  );
 
   return (
     <>
