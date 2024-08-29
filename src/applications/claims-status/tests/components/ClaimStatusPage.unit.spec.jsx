@@ -34,7 +34,7 @@ describe('<ClaimStatusPage>', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimStatusPage {...props} params={params} />,
     );
-    expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
+    expect(document.title).to.equal('Status of Your Claim | Veterans Affairs');
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
   });
@@ -43,7 +43,7 @@ describe('<ClaimStatusPage>', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimStatusPage {...props} claim={null} params={params} />,
     );
-    expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
+    expect(document.title).to.equal('Status of Your Claim | Veterans Affairs');
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
   });
@@ -103,7 +103,7 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
             expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
@@ -159,7 +159,7 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
             expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
