@@ -25,7 +25,7 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/School_Program_Approval.asp"
-        hrefText="Program Approvals"
+        hrefText="Program approvals"
         pText="Identify general approval guidelines for programs of education broken down by various types of training programs."
       />
       <LiSpanAndVaLinkAndPTag
@@ -35,7 +35,7 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://benefits.va.gov/gibill/federalemployerOJTandApprenticeshipProgramApprovalInformation.asp"
-        hrefText="Federal On The Job Training/ Apprenticeship Approval"
+        hrefText="Federal on-the-job training/apprenticeship approval"
         pText="Discover the process and criteria for VA approval of on-the-job training and apprenticeship programs."
       />
       <LiSpanAndVaLinkAndPTag
@@ -50,7 +50,7 @@ const ProgramApprovalInformation = () => {
       />
       <LiSpanAndVaLinkAndPTag
         href="https://nasaa-vetseducation.com/nasaa-contacts/"
-        hrefText="State Approving Agency Contact Information"
+        hrefText="State Approving Agency contact information"
         pText="Find out how you can contact your State Approving Agency."
       />
     </MainContentSubDiv>

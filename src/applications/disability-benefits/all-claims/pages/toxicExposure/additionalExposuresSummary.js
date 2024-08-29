@@ -14,7 +14,6 @@ export const uiSchema = {
       checkboxObjectName="otherExposures"
       checkboxDefinitions={ADDITIONAL_EXPOSURES}
       datesObjectName="otherExposuresDetails"
-      goBackDescription="go back and edit hazards and dates for Other toxic exposures"
       goBackUrlPath={`${TE_URL_PREFIX}/additional-exposures`}
       otherObjectName="specifyOtherExposures"
     />
