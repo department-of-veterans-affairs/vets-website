@@ -53,10 +53,7 @@ export const dateRangeWithCurrentCheckboxUI = ({
  * @returns {Object} schema - The schema for the date range with a current checkbox.
  */
 export const dateRangeWithCurrentCheckboxSchema = currentKey => ({
-  dateRange: {
-    ...currentOrPastMonthYearDateRangeSchema,
-    required: ['from'],
-  },
+  dateRange: currentOrPastMonthYearDateRangeSchema,
   'view:currentToLabel': {
     type: 'object',
     properties: {},
