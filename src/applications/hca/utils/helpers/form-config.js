@@ -1,3 +1,4 @@
+import { inRange } from 'lodash';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
 
 /**
@@ -111,6 +112,21 @@ export function hasDifferentHomeAddress(formData) {
 }
 
 /**
+ * Helper that determines if the registration-only questions should be show to authenticated users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged in, feature flag is active & total disability
+ * rating is 10-40%
+ */
+export function includeRegOnlyAuthQuestions(formData) {
+  const { 'view:totalDisabilityRating': totalRating } = formData;
+  return (
+    !isLoggedOut(formData) &&
+    isRegOnlyEnabled(formData) &&
+    inRange(totalRating, 10, 40)
+  );
+}
+
+/**
  * Helper that determines if the registration-only questions should be show to guest users
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if the user is logged out, feature flag is active & VA
@@ -122,6 +138,18 @@ export function includeRegOnlyGuestQuestions(formData) {
     isRegOnlyEnabled(formData) &&
     hasLowCompensation(formData)
   );
+}
+
+/**
+ * Helper that determines if the registration-only alert should be shown to
+ * authenticated users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged in and users selected the
+ * `regOnly` package
+ */
+export function showRegOnlyAuthConfirmation(formData) {
+  const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
+  return !isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
 }
 
 /**

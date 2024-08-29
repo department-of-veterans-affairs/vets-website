@@ -9,8 +9,7 @@ import { getIndex, hasErrors } from '../utils/evidence';
 import {
   validateVaLocation,
   validateVaIssues,
-  validateVaFromDate,
-  validateVaToDate,
+  // validateVaDate,
   validateVaUnique,
   isEmptyVaEntry,
 } from '../validations/evidence';
@@ -30,7 +29,8 @@ const VA_PATH = `/${EVIDENCE_VA_PATH}`;
 const defaultData = {
   locationAndName: '',
   issues: [],
-  evidenceDates: { from: '', to: '' },
+  // evidenceDates: { from: '', to: '' },
+  treatmentDate: '',
 };
 const defaultState = {
   dirty: {
@@ -89,8 +89,7 @@ const EvidenceVaRecords = ({
       data,
       currentIndex,
     )[0],
-    from: checkValidations([validateVaFromDate], currentData),
-    to: checkValidations([validateVaToDate], currentData),
+    // treatmentDate: checkValidations([validateVaDate], currentData),
   };
 
   useEffect(
@@ -111,17 +110,15 @@ const EvidenceVaRecords = ({
   const updateCurrentLocation = ({
     name = currentData.locationAndName,
     issues = currentData.issues,
-    from = currentData.evidenceDates?.from,
-    to = currentData.evidenceDates?.to,
+    txdate = currentData.treatmentDate,
+    nodate = currentData.noDate,
     remove = false,
   } = {}) => {
     const newData = {
       locationAndName: name,
       issues,
-      evidenceDates: {
-        from,
-        to,
-      },
+      treatmentDate: txdate,
+      noDate: nodate,
     };
 
     const newLocations = [...locations];
@@ -172,8 +169,9 @@ const EvidenceVaRecords = ({
     onChange: event => {
       const { target = {} } = event;
       const fieldName = target.name;
-      // target.value from va-text-input & va-memorable-date
-      const value = target.value || '';
+      // target.value from va-text-input & va-date
+      const value =
+        fieldName === 'nodate' ? target.checked : target.value || '';
       updateCurrentLocation({ [fieldName]: value });
     },
 
@@ -309,6 +307,7 @@ const EvidenceVaRecords = ({
           name="name"
           type="text"
           label={content.locationAndName}
+          hint={content.locationAndNameHint}
           required
           value={currentData.locationAndName}
           onInput={handlers.onChange}
@@ -326,7 +325,7 @@ const EvidenceVaRecords = ({
           handlers={handlers}
           showError={showError}
           isInvalid={isInvalid}
-          dateRangeKey="evidenceDates"
+          dateRangeKey="treatmentDate"
         />
 
         <PageNavigation

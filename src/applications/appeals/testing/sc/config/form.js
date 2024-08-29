@@ -39,7 +39,7 @@ import issueSummary from '../pages/issueSummary';
 import optIn from '../pages/optIn';
 
 import optionForMst from '../pages/optionForMst';
-import vhaNotifications from '../pages/vhaNotifications';
+import optionIndicator from '../pages/optionIndicator';
 import notice5103 from '../pages/notice5103';
 import facilityTypes from '../pages/facilityTypes';
 import evidencePrivateRecordsAuthorization from '../pages/evidencePrivateRecordsAuthorization';
@@ -138,6 +138,8 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3,
+
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -160,7 +162,6 @@ const formConfig = {
           path: 'veteran-information',
           uiSchema: veteranInfo.uiSchema,
           schema: veteranInfo.schema,
-          scrollAndFocusTarget: focusH3,
           initialData: maximalData.data, // FOR NON-AUTH TESTING ONLY
         },
 
@@ -230,7 +231,6 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
-          scrollAndFocusTarget: focusH3,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -242,14 +242,12 @@ const formConfig = {
           uiSchema: {},
           schema: blankSchema,
           returnUrl: `/${CONTESTABLE_ISSUES_PATH}`,
-          scrollAndFocusTarget: focusH3,
         },
         issueSummary: {
           title: 'Issue summary',
           path: 'issue-summary',
           uiSchema: issueSummary.uiSchema,
           schema: issueSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
         optIn: {
           title: 'Opt in',
@@ -257,7 +255,20 @@ const formConfig = {
           depends: mayHaveLegacyAppeals,
           uiSchema: optIn.uiSchema,
           schema: optIn.schema,
-          scrollAndFocusTarget: focusH3,
+        },
+        optionForMst: {
+          title: 'Option for claims related to MST',
+          path: 'option-claims',
+          uiSchema: optionForMst.uiSchema,
+          schema: optionForMst.schema,
+          scrollAndFocusTarget: focusRadioH3,
+        },
+        optionIndicator: {
+          title: 'Option to add an indicator',
+          path: 'option-indicator',
+          uiSchema: optionIndicator.uiSchema,
+          schema: optionIndicator.schema,
+          depends: hasMstOption,
         },
       },
     },
@@ -265,20 +276,6 @@ const formConfig = {
     evidence: {
       title: 'New and relevant evidence',
       pages: {
-        optionForMst: {
-          title: 'Option for MST',
-          path: 'view-option',
-          uiSchema: optionForMst.uiSchema,
-          schema: optionForMst.schema,
-          scrollAndFocusTarget: focusRadioH3,
-        },
-        vhaNotifications: {
-          title: 'VHA notifications',
-          path: 'vha-notifications',
-          uiSchema: vhaNotifications.uiSchema,
-          schema: vhaNotifications.schema,
-          depends: hasMstOption,
-        },
         notice5103: {
           title: 'Notice of evidence needed',
           path: 'notice-of-evidence-needed',
@@ -330,7 +327,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: evidencePrivateRecordsAuthorization.uiSchema,
           schema: evidencePrivateRecordsAuthorization.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidencePrivateRecords: {
           title: 'Non-VA medical records',
@@ -350,7 +346,6 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: blankUiSchema,
           schema: blankSchema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceWillUpload: {
           title: 'Upload new and relevant evidence',
@@ -365,7 +360,6 @@ const formConfig = {
           depends: hasOtherEvidence,
           uiSchema: evidenceUpload.uiSchema,
           schema: evidenceUpload.schema,
-          scrollAndFocusTarget: focusH3,
         },
         evidenceSummary: {
           title: 'Summary of evidence',
@@ -374,7 +368,6 @@ const formConfig = {
           CustomPageReview: EvidenceSummaryReview,
           uiSchema: evidenceSummary.uiSchema,
           schema: evidenceSummary.schema,
-          scrollAndFocusTarget: focusH3,
         },
       },
     },

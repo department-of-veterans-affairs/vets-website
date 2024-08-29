@@ -9,6 +9,7 @@ import {
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
+  showFacilityConfirmation,
 } from '../utils/helpers/form-config';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -49,6 +50,7 @@ import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInform
 import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
 import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
+import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
@@ -107,6 +109,7 @@ const formConfig = {
     uuid,
     signature,
   },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: content['vet-info-title--chapter'],
@@ -148,6 +151,15 @@ const formConfig = {
           depends: formData => formData['view:useFacilitiesAPI'],
           uiSchema: vetMedicalCenterApiPage.uiSchema,
           schema: vetMedicalCenterApiPage.schema,
+        },
+        vetMedicalCenterConfirmation: {
+          path: 'veteran-information/va-medical-center/confirm',
+          title: content['vet-info-title--facility'],
+          depends: showFacilityConfirmation,
+          CustomPage: FacilityConfirmation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },

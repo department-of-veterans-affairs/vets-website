@@ -109,7 +109,7 @@ class TrackClaimsPage {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'We decided your claim on');
+        cy.wrap(alertElem).should('contain', 'We closed your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');
@@ -183,17 +183,6 @@ class TrackClaimsPage {
       'contain',
       `${count} ${count > 1 ? 'items' : 'item'} need your attention`,
     );
-  }
-
-  verifyNumberOfTrackedItems(number) {
-    cy.get('.tabs li:nth-child(2) > a')
-      .click()
-      .then(() => {
-        cy.get('.file-request-list-item').should('be.visible');
-        cy.injectAxeThenAxeCheck();
-      });
-    cy.get('a.tab.tab--current').should('contain', 'Files');
-    cy.get('.file-request-list-item').should('have.length', number);
   }
 
   verifyNumberOfFiles(number) {
@@ -304,12 +293,12 @@ class TrackClaimsPage {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message');
+          .find('#file-input-error-alert');
         cy.injectAxeThenAxeCheck();
       });
     cy.get('va-file-input')
       .shadow()
-      .find('#error-message')
+      .find('#file-input-error-alert')
       .should('contain', 'Please select a file first');
     if (is5103Notice) {
       cy.get('.due-date-header').should(
