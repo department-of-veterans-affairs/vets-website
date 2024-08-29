@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatDateAndTime, getStatusExtractPhase } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
-import FeedbackEmail from './FeedbackEmail';
 
 const NewRecordsIndicator = ({
   refreshState,
@@ -70,7 +70,10 @@ const NewRecordsIndicator = ({
         <h2>We couldn’t update your records</h2>
         <p>Check back later for updates.</p>
         <p>
-          If it still doesn’t work, email us at <FeedbackEmail />.
+          If it still doesn’t work, call us at call us at{' '}
+          <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+          <va-telephone tty contact={CONTACTS['711']} />
+          ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         {lastSuccessfulUpdate && (
           <p>

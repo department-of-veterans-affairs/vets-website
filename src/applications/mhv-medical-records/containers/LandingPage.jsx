@@ -13,8 +13,8 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
@@ -77,6 +77,7 @@ const LandingPage = () => {
           Review, print, and download your VA medical records.
         </p>
       </section>
+
       {displayLabsAndTest && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -95,6 +96,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       {displayNotes && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -114,6 +116,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       {displayVaccines && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -132,6 +135,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           Allergies and reactions
@@ -149,6 +153,7 @@ const LandingPage = () => {
           Go to your allergies and reactions
         </Link>
       </section>
+
       {displayConditions && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -167,6 +172,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       {displayVitals && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -191,6 +197,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       {(!displayLabsAndTest ||
         !displayNotes ||
         !displayVaccines ||
@@ -227,15 +234,35 @@ const LandingPage = () => {
           </p>
         </section>
       )}
+
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Download your VA medical records
+          Manage your medical records settings
         </h2>
         <p className="vads-u-margin-bottom--2">
-          We’re working on a way for you to download your VA medical records
-          here on VA.gov. For now, you can continue to download your VA Blue
-          Button® report or your VA Health Summary on the previous version of My
-          HealtheVet.
+          Review and update your medical records sharing and notification
+          settings.
+        </p>
+        <Link
+          to="/settings"
+          className="vads-c-action-link--blue"
+          data-testid="settings-landing-page-link"
+        >
+          Go to your medical records settings
+        </Link>
+      </section>
+
+      <section>
+        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+          Download your Blue Button report or health summary
+        </h2>
+        <p className="vads-u-margin-bottom--2">
+          We’re working on a way to download all your medical records here as a
+          single file or a summary.
+        </p>
+        <p className="vads-u-margin-bottom--2">
+          For now, you can continue to download your VA Blue Button® report or
+          your VA Health Summary on the previous version of My HealtheVet.
         </p>
         <p
           data-testid="go-to-mhv-download-records"
@@ -246,10 +273,11 @@ const LandingPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            text="Go back to the previous version of My HealtheVet to download your records."
+            text="Go back to the previous version of My HealtheVet to download your records"
           />
         </p>
       </section>
+
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
           What to know as you try out this tool
@@ -259,11 +287,10 @@ const LandingPage = () => {
           here on VA.gov. And we need your feedback to help us keep making this
           tool better for you and all Veterans.
         </p>
-        {!killExternalLinks && (
-          <p className="vads-u-margin-bottom--2">
-            Email your feedback and questions to us at <FeedbackEmail />.
-          </p>
-        )}
+        <p className="vads-u-margin-bottom--2">
+          Send us your feedback and questions using the feedback button on this
+          page.
+        </p>
         <p className="vads-u-margin-bottom--2">
           <span className="vads-u-font-weight--bold">Note:</span> You still have
           access to your medical records on the My HealtheVet website. You can
@@ -273,59 +300,37 @@ const LandingPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            text="Go back to medical records on the My HealtheVet website"
+            text="Go to your medical records on the My HealtheVet website"
           />
         </p>
       </section>
+
       <section className="vads-u-margin-bottom--4">
         <h2>Questions about this medical records tool</h2>
         <va-accordion bordered>
-          <va-accordion-item>
+          <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">
-              What if I can’t find all my medical records?
+              Where can I find health information I entered myself?
             </h3>
-            {!displayLabsAndTest ||
-            !displayNotes ||
-            !displayVaccines ||
-            !displayConditions ||
-            !displayVitals ? (
-              <>
-                <p className="vads-u-margin-bottom--2">
-                  Right now, only some types of medical records are available
-                  here on VA.gov. And your records on VA.gov only include health
-                  information your VA providers have entered.
-                </p>
-                <p className="vads-u-margin-bottom--2">
-                  To find other types of medical records
-                  <code>&#8212;</code>
-                  including health information you entered yourself
-                  <code>&#8212;</code>
-                  go to your medical records on the My HealtheVet website.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="vads-u-margin-bottom--2">
-                  Your medical records on VA.gov only include health information
-                  your VA providers have entered.
-                </p>
-                <p className="vads-u-margin-bottom--2">
-                  To find health information you entered yourself, go to your
-                  medical records on the My HealtheVet website.
-                </p>
-              </>
-            )}
+            <p className="vads-u-margin-bottom--2">
+              Right now, your records on VA.gov only include health information
+              your VA providers have entered.
+            </p>
+            <p className="vads-u-margin-bottom--2">
+              To find health information you entered yourself, go to your
+              medical records on the My HealtheVet website.
+            </p>
             <p className="vads-u-margin-bottom--2">
               <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'download-my-data',
                 )}
-                text="Go to medical records on the My HealtheVet website"
+                text="Go to your medical records on the My HealtheVet website"
               />
             </p>
           </va-accordion-item>
-          <va-accordion-item>
+          <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">
               How can I tell my care team that my health information has
               changed?
@@ -345,11 +350,11 @@ const LandingPage = () => {
                   isAuthenticatedWithSSOe(fullState),
                   'compose-message',
                 )}
-                text="Compose a message on the My HealtheVet website"
+                text="Start a new message"
               />
             </p>
           </va-accordion-item>
-          <va-accordion-item>
+          <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">
               Will VA protect my personal health information?
             </h3>
@@ -365,25 +370,24 @@ const LandingPage = () => {
               copy of your records to the computer you’re using.
             </p>
           </va-accordion-item>
-          <va-accordion-item>
+          <va-accordion-item bordered="true">
             <h3 className="vads-u-font-size--h6" slot="headline">
               What if I have more questions?
             </h3>
             <p className="vads-u-margin-bottom--2">
               <span className="vads-u-font-weight--bold">
-                For questions about health information in your records
+                For questions about health information in your records,{' '}
               </span>
+              send a secure message to your care team.
             </p>
-            <p className="vads-u-margin-bottom--2">
-              Send a secure message to your care team.
-            </p>
+
             <p className="vads-u-margin-bottom--2">
               <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
                   'compose-message',
                 )}
-                text="Compose a message on the My HealtheVet website"
+                text="Start a new message"
               />
             </p>
             <p className="vads-u-margin-bottom--2">
@@ -422,11 +426,12 @@ const LandingPage = () => {
               <>
                 <p className="vads-u-margin-bottom--2">
                   <span className="vads-u-font-weight--bold">
-                    For questions about how to use this tool
+                    For questions about how to use this tool,{' '}
                   </span>
-                </p>
-                <p className="vads-u-margin-bottom--2">
-                  Email us at <FeedbackEmail />.
+                  call us at <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+                  <va-telephone tty contact={CONTACTS['711']} />
+                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
+                  ET.
                 </p>
               </>
             )}

@@ -33,7 +33,7 @@ const InfoAlert = ({ highLowResults, fullState }) => (
       >
         <ExternalLink
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
-          text="Compose a message on the My HealtheVet website"
+          text="Start a new message"
         />
       </p>
       <p data-testid="result-Alert-note">
