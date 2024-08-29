@@ -25,7 +25,7 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                   data-testid="official-govt-website-toggle-mobile"
                   className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
                   aria-expanded={isExpanded}
-                  aria-controls="gov-banner"
+                  aria-controls="gov-banner gov-banner-mobile"
                   onClick={toggleExpansion}
                 >
                   An official website of the United States government
@@ -44,7 +44,7 @@ const OfficialGovtWebsite = ({ isMobile }) => {
                   data-testid="official-govt-website-toggle-wider-than-mobile"
                   className="usa-accordion-button usa-banner-button"
                   aria-expanded={isExpanded}
-                  aria-controls="gov-banner"
+                  aria-controls="gov-banner gov-banner-mobile"
                   onClick={toggleExpansion}
                 >
                   <span
@@ -59,6 +59,7 @@ const OfficialGovtWebsite = ({ isMobile }) => {
           </div>
         </div>
         <div
+          id={isMobile ? 'gov-banner-mobile' : 'gov-banner'}
           data-testid="official-govt-website-content"
           className="usa-banner-content usa-grid usa-accordion-content"
           aria-hidden={!isExpanded}
