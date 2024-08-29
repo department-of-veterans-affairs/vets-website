@@ -233,8 +233,7 @@ export function sessionTypeUrl({
       : {};
 
   if (useOAuth && (isLogin || isSignup)) {
-    const validScope = scope ? scope : undefined;
-
+    const validScope = scope || undefined;
     return createOAuthRequest({
       acr,
       application,
@@ -245,7 +244,7 @@ export function sessionTypeUrl({
         codeChallenge,
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
-        ...(scope && { scope }),
+        ...(validScope && { scope: validScope }),
       },
       passedOptions: {
         isSignup,

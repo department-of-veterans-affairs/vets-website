@@ -144,9 +144,10 @@ export async function createOAuthRequest({
       type.includes('idme') && {
         [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
       }),
-    ...(isMobileOAuth && {
-      [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
-    }),
+    ...(isMobileOAuth &&
+      passedQueryParams.scope && {
+        [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
+      }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
