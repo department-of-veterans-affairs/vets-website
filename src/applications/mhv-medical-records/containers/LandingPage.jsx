@@ -23,6 +23,7 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
   selectLabsAndTestsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 
@@ -34,6 +35,7 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
+  const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
@@ -197,7 +199,27 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
-
+      {displayMedicalRecordsSettings && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Manage your medical records settings
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Review and update your medical records sharing and notification
+            settings.
+          </p>
+          <Link
+            to={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'electronic-record-sharing-options',
+            )}
+            className="vads-c-action-link--blue"
+            data-testid="settings-link"
+          >
+            Go to your medical records settings
+          </Link>
+        </section>
+      )}
       {(!displayLabsAndTest ||
         !displayNotes ||
         !displayVaccines ||
