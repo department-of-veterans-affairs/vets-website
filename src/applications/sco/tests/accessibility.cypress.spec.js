@@ -42,7 +42,7 @@ describe('Accessibility', () => {
     cy.repeatKey('Tab', 8);
     cy.focused().should(
       'contain.text',
-      'State Approving Agency Contact Information',
+      'State Approving Agency contact information',
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');
