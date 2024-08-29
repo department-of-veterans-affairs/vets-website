@@ -151,9 +151,11 @@ const FacilitySearch = props => {
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          What VA Medical center or clinic does the Veteran get or plan to get
+          What VA medical center or clinic does the Veteran get or plan to get
           their health care?
-          <span className="vads-u-color--secondary-darkest">(*Required)</span>
+          <span className="vads-u-color--secondary-dark vads-u-font-weight--normal vads-u-font-size--h4">
+            (*Required)
+          </span>
         </h3>
         <p className="vads-u-color--gray-light">
           Where the VA medical center is located may be different from the
