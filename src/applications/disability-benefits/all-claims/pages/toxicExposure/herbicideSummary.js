@@ -14,7 +14,6 @@ export const uiSchema = {
       checkboxObjectName="herbicide"
       checkboxDefinitions={HERBICIDE_LOCATIONS}
       datesObjectName="herbicideDetails"
-      goBackDescription="go back and edit locations and dates for Agent Orange locations"
       goBackUrlPath={`${TE_URL_PREFIX}/herbicide`}
       otherObjectName="otherHerbicideLocations"
     />
