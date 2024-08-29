@@ -23,7 +23,7 @@ class ErrorBoundary extends React.Component {
     const { children } = this.props;
     const { hasError } = this.state;
     const ErrorMessage = () => (
-      <div className="vads-l-grid-container main-content vads-u-padding-y--1p5">
+      <div data-dd-privacy="allow" className="vads-l-grid-container main-content vads-u-padding-y--1p5">
         <va-alert status="error" uswds>
           <h1>We can’t access your after-visit summary right now</h1>
           <p>

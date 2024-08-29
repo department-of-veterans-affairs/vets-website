@@ -23,7 +23,7 @@ const ItemsBlock = props => {
 
   return (
     <div data-testid={itemType}>
-      <h3>{heading}</h3>
+      <h3 data-dd-privacy="allow">{heading}</h3>
       {intro && <div>{intro}</div>}
       <div>{listItems}</div>
     </div>
