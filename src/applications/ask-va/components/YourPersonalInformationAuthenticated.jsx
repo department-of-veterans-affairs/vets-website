@@ -1,12 +1,20 @@
 import format from 'date-fns/format';
+import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { setData } from 'platform/forms-system/src/js/actions';
-import { focusElement } from 'platform/utilities/ui';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 
-const PersonalAuthenticatedInformation = ({ goBack, goForward, formData }) => {
+const PersonalAuthenticatedInformation = ({
+  goBack,
+  goForward,
+  formData,
+  isLoggedIn,
+}) => {
+  if (!isLoggedIn) {
+    goForward(formData);
+  }
+
   const {
     first,
     last,
@@ -85,11 +93,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(PersonalAuthenticatedInformation);

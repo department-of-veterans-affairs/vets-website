@@ -13,7 +13,7 @@ import IntroductionPage from '../../../containers/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../containers/ConfirmationPage';
 
 import { EditAddress } from '../../../components/EditContactInfo';
-import { GetFormHelp } from '../../../components/GetFormHelp/index';
+import { GetFormHelp } from '../../../components/GetFormHelp';
 import VeteranProfileInformation from '../../../components/FormPages/VeteranProfileInformation';
 import { MailingAddressInfoPageTaskGreen } from '../../../components/FormPages/MailingAddressInfoPageTaskGreen';
 import { taskCompletePage } from '../../taskCompletePage';
@@ -135,7 +135,7 @@ const formConfig = {
                 'task-green/veteran-information/confirm-mailing-address',
               saveButtonText: 'Save to profile',
               subTitle:
-                'We’ll send any important information about your application to this address.',
+                'We send your VA letters, bills, and prescriptions to this address.',
             }),
           CustomPageReview: null,
           depends: () => false, // accessed from contact info page
