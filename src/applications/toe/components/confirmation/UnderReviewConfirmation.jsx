@@ -177,7 +177,10 @@ UnderReviewConfirmation.propTypes = {
   confirmationError: PropTypes.object,
   confirmationLoading: PropTypes.bool,
   dateReceived: PropTypes.string,
-  user: PropTypes.string,
+  user: PropTypes.shape({
+    fullName: PropTypes.string,
+    confirmationNumber: PropTypes.string,
+  }),
 };
 
 UnderReviewConfirmation.defaultProps = {
