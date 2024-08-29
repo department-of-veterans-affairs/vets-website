@@ -40,7 +40,7 @@ const formConfig = (pathname = null) => {
     },
     hideReviewChapters: true,
     introduction: IntroductionPage,
-    formId: 'FORM-UPLOAD-FLOW',
+    formId: `FORM-UPLOAD-${formNumber}`,
     saveInProgress: SAVE_IN_PROGRESS_CONFIG,
     version: 0,
     prefillEnabled: true,
