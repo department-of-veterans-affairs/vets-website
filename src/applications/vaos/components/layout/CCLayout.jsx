@@ -111,10 +111,12 @@ export default function CCLayout({ data: appointment }) {
                 Bring your insurance cards and a list of your medications and
                 other information to share with your provider.
               </p>
-              <va-link
-                text="Find a full list of things to bring to your appointment"
-                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-              />
+              <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <va-link
+                  text="Find a full list of things to bring to your appointment"
+                  href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+                />
+              </p>
             </Prepare>
           )}
         {APPOINTMENT_STATUS.booked === status &&
