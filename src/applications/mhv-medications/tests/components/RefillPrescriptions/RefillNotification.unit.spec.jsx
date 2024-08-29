@@ -11,16 +11,12 @@ describe('Refill Notification Component', () => {
       prescriptions: {
         refillableList,
         refillNotification: {
-          successfulIds: [
-            refillableList[0].prescriptionId.toString(),
-            refillableList[1].prescriptionId.toString(),
-            refillableList[2].prescriptionId.toString(),
+          successfulMeds: [
+            refillableList[0],
+            refillableList[1],
+            refillableList[2],
           ],
-          failedIds: [
-            refillableList[3].prescriptionId.toString(),
-            refillableList[4].prescriptionId.toString(),
-            refillableList[5].prescriptionId.toString(),
-          ],
+          failedMeds: [refillableList[3], refillableList[4], refillableList[5]],
         },
       },
     },
@@ -49,11 +45,11 @@ describe('Refill Notification Component', () => {
         prescriptions: {
           refillableList,
           refillNotification: {
-            successfulIds: [],
-            failedIds: [
-              refillableList[3].prescriptionId.toString(),
-              refillableList[4].prescriptionId.toString(),
-              refillableList[5].prescriptionId.toString(),
+            successfulMeds: [],
+            failedMeds: [
+              refillableList[3],
+              refillableList[4],
+              refillableList[5],
             ],
           },
         },
@@ -86,12 +82,12 @@ describe('Refill Notification Component', () => {
         prescriptions: {
           refillableList,
           refillNotification: {
-            successfulIds: [
-              refillableList[0].prescriptionId.toString(),
-              refillableList[1].prescriptionId.toString(),
-              refillableList[2].prescriptionId.toString(),
+            successfulMeds: [
+              refillableList[0],
+              refillableList[1],
+              refillableList[2],
             ],
-            failedIds: [],
+            failedMeds: [],
           },
         },
       },
