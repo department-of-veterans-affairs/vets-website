@@ -1096,6 +1096,7 @@ export const preparerVeteranUI = {
 export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
   for (let index = 0; index < serviceRecords.length; index++) {
     const serviceRecord = serviceRecords[index];
+
     if (
       serviceRecord.serviceBranch === undefined &&
       serviceRecord.highestRank !== undefined

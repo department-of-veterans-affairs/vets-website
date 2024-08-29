@@ -52,9 +52,10 @@ function MilitaryAutoSuggest({
         <div className="relative">
           <input
             {...getInputProps({
-              value: inputValue,
+              value,
               onChange: e => {
                 setInputValue(e.target.value);
+                onSelectionChange(e.target.value);
               },
             })}
           />
