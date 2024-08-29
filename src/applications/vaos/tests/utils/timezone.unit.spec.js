@@ -17,6 +17,7 @@ describe('VAOS Utils: timezone', () => {
       expect(getTimezoneAbbrByFacilityId('459GE')).to.equal('ChT'); // Pacific/Guam
       expect(getTimezoneAbbrByFacilityId('459GF')).to.equal('ST'); // Pacific/Pago_Pago
       expect(getTimezoneAbbrByFacilityId(672)).to.equal('AT'); // America/Puerto_Rico
+      expect(getTimezoneAbbrByFacilityId('672GA')).to.equal('AT'); // America/St_Thomas
     });
 
     it('should not strip middle char if not an american zone', () => {
