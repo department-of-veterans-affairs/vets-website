@@ -8,7 +8,6 @@ import minTestData from './fixtures/data/minimal-test.json';
 import {
   acceptPrivacyAgreement,
   goToNextPage,
-  shortFormAdditionalHelpAssertion,
   shortFormSelfDisclosureToSubmit,
 } from './utils';
 
@@ -76,34 +75,16 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
       .first()
       .click();
 
-    cy.findAllByText(/you can fill out a shorter application/i, {
-      selector: 'h3',
-    })
-      .first()
-      .should('exist');
-
-    cy.get('va-alert')
-      .contains(disabilityRating)
-      .should('exist');
-
     cy.injectAxe();
     cy.axeCheck();
 
     goToNextPage('/veteran-information/maiden-name-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/birth-sex');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/demographic-information');
-    shortFormAdditionalHelpAssertion();
-
     goToNextPage('/veteran-information/veteran-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]').check('N');
 
     goToNextPage('/veteran-information/veteran-home-address');
-    shortFormAdditionalHelpAssertion();
     cy.get('#root_veteranHomeAddress_street').type(
       testData.veteranAddress.street,
     );
@@ -116,8 +97,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
     );
 
     goToNextPage('/veteran-information/contact-information');
-    shortFormAdditionalHelpAssertion();
-
     cy.wait('@mockSip');
 
     // TERA response
@@ -126,7 +105,6 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     // medicaid
     goToNextPage('/insurance-information/medicaid');
-    shortFormAdditionalHelpAssertion();
     cy.get('[type=radio]#root_isMedicaidEligibleNo')
       .first()
       .scrollIntoView()
@@ -134,15 +112,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     // general insurance
     goToNextPage('/insurance-information/general');
-    shortFormAdditionalHelpAssertion();
-
     cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
       .first()
       .scrollIntoView()
       .check('N');
 
     goToNextPage('/insurance-information/va-facility');
-    shortFormAdditionalHelpAssertion();
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
       testData['view:preferredFacility']['view:facilityState'],
     );

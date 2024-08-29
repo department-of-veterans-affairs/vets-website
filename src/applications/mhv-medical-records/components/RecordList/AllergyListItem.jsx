@@ -9,7 +9,7 @@ const AllergyListItem = props => {
   return (
     <va-card
       background
-      class="record-list-item vads-u-margin-y--2p5"
+      class="record-list-item vads-u-margin-y--2p5 vad-u-padding-y--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
       {/* web view header */}

@@ -122,3 +122,34 @@ export async function addStyleToShadowDomOnPages(
       }
     });
 }
+
+/**
+ * Naively switches a date string from YYYY-MM-DD to MM-DD-YYYY
+ * @param {object} data Object containing some number of top-level properties with "date" or "dob" in the keyname(s)
+ * @returns copy of `data` with all top-level date properties adjusted
+ */
+export function adjustYearString(data) {
+  const copy = JSON.parse(JSON.stringify(data));
+  Object.keys(copy).forEach(key => {
+    if (/date|dob/.test(key.toLowerCase())) {
+      const date = copy[key];
+      copy[key] = `${date.slice(5)}-${date.slice(0, 4)}`;
+    }
+  });
+  return copy;
+}
+
+/**
+ * Combine all street fields from an address into a single string.
+ * @param {Object} addr Standard form address object containing one or more `street` properties (e.g., street, street1, street2)
+ * @returns String of all street fields combined.
+ */
+export function concatStreets(addr) {
+  let res = '';
+  if (addr) {
+    for (const [k, v] of Object.entries(addr)) {
+      res += k.includes('street') ? `${v} ` : '';
+    }
+  }
+  return res;
+}

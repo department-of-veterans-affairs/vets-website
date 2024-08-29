@@ -22,41 +22,6 @@ import {
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
 
-const dummyHistory = [
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'January 3, 2022',
-    transactionDescription: 'Partial payment of $100.00',
-    transactionOffsetAmount: '-$100.00',
-    transactionTotalAmount: '$100.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'March 15, 2022',
-    transactionDescription: 'Partial payment of $150.00',
-    transactionOffsetAmount: '-$150.00',
-    transactionTotalAmount: '$150.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '04Q',
-    transactionDate: 'June 1, 2022',
-    transactionDescription: 'Partial payment of $50.00',
-    transactionOffsetAmount: '-$50.00',
-    transactionTotalAmount: '$50.00',
-    transactionInterestAmount: '$0.00',
-  },
-  {
-    transactionFiscalCode: '08Q',
-    transactionDate: 'June 1, 2023',
-    transactionDescription: 'Partial payment of -$50.00',
-    transactionOffsetAmount: '$50.00',
-    transactionTotalAmount: '-$50.00',
-    transactionInterestAmount: '$0.00',
-  },
-];
-
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
     ({ combinedPortal }) => combinedPortal.debtLetters,
@@ -64,9 +29,7 @@ const DebtDetails = () => {
   const approvedLetterCodes = ['100', '101', '102', '109', '117', '123', '130'];
   const location = useLocation();
   const currentDebt = getCurrentDebt(selectedDebt, debts, location);
-  currentDebt.paymentHistory = dummyHistory.sort((a, b) => {
-    return new Date(b.transactionDate) - new Date(a.transactionDate);
-  });
+
   const whyContent = renderWhyMightIHaveThisDebt(currentDebt.deductionCode);
   const dateUpdated = last(currentDebt.debtHistory)?.date;
   const filteredHistory = currentDebt.debtHistory
@@ -74,7 +37,8 @@ const DebtDetails = () => {
     .reverse();
   const hasFilteredHistory = filteredHistory && filteredHistory.length > 0;
   const hasPaymentHistory =
-    currentDebt.paymentHistory && currentDebt.paymentHistory.length > 0;
+    currentDebt.fiscalTransactionData &&
+    currentDebt.fiscalTransactionData.length > 0;
 
   const howToUserData = {
     fileNumber: currentDebt.fileNumber,
@@ -90,24 +54,12 @@ const DebtDetails = () => {
   const formatCurrency = amount => currency.format(parseFloat(amount));
 
   const getLatestPaymentDateFromCurrentDebt = debt => {
-    const mostRecentDate = head(debt.paymentHistory)?.transactionDate;
+    const mostRecentDate = head(debt.fiscalTransactionData)?.transactionDate;
 
     if (mostRecentDate === '') return 'N/A';
 
     return mostRecentDate;
   };
-
-  const getFirstPaymentDateFromCurrentDebt = debt => {
-    const firstPaymentDate = last(debt.paymentHistory)?.transactionDate;
-
-    if (firstPaymentDate === '') return 'N/A';
-
-    return firstPaymentDate;
-  };
-
-  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
-    currentDebt,
-  );
 
   useEffect(() => {
     setPageFocus('h1');
@@ -144,8 +96,9 @@ const DebtDetails = () => {
             label: 'Current VA debt',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`,
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
             label: 'Debt details',
           },
         ]}

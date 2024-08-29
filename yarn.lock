@@ -2734,7 +2734,7 @@
     js-yaml "4.1.0"
     nyc "15.1.0"
 
-"@cypress/request@^3.0.0":
+"@cypress/request@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@cypress/request/-/request-3.0.1.tgz#72d7d5425236a2413bd3d8bb66d02d9dc3168960"
   integrity sha512-TWivJlJi8ZDx2wGOw1dbLuHJKUYX7bWySw377nlnGOW3hP9/MUKIsEdXT/YngWxVdgNCHRBmFlBipE+5/2ZZlQ==
@@ -2863,13 +2863,13 @@
   resolved "https://registry.yarnpkg.com/@datadog/sketches-js/-/sketches-js-2.1.0.tgz#8c7e8028a5fc22ad102fa542b0a446c956830455"
   integrity sha512-smLocSfrt3s53H/XSVP3/1kP42oqvrkjUPtyaFd1F79ux24oE31BKt+q0c6lsa6hOYrFzsIwyc5GXAI5JmfOew==
 
-"@department-of-veterans-affairs/component-library@^44.0.0":
-  version "44.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/component-library/-/component-library-44.0.0.tgz#298610380a275034c8d47eae2c0ef0d2b8525c07"
-  integrity sha512-KHcHgWK8aWIjkMe09eeBwN54R00aZZiqYJ+xR2j9PTGkPkjR5rTqUn3PrnUoI3UdExE5tgMyYZWewJITgHcAQw==
+"@department-of-veterans-affairs/component-library@^46.0.2":
+  version "46.0.2"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/component-library/-/component-library-46.0.2.tgz#652b095f16104aa49e4debef331405923d6c041a"
+  integrity sha512-SF9/lcHVSTsA+IRcDGFK6uMc/WJA2/lFjWAJsSeckeGXTfbEiCp54JM3VwLZ3JZM/HJbkoIp+lP+1pRGxOi/cQ==
   dependencies:
     "@department-of-veterans-affairs/react-components" "28.1.0"
-    "@department-of-veterans-affairs/web-components" "12.0.0"
+    "@department-of-veterans-affairs/web-components" "14.0.1"
     i18next "^21.6.14"
     i18next-browser-languagedetector "^6.1.4"
     react-focus-on "^3.5.1"
@@ -2884,13 +2884,13 @@
     "@uswds/uswds" "^3.7.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.8.5":
-  version "0.8.5"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.5.tgz#610f1f4304e0636a190ad9fd79e8ba3fff80207c"
-  integrity sha512-kld40XYUlEPk2qcwiBFSSmBLdfdG1vKOs4rPpq9EgF8iDLlkXN2iSp8cgsmryc7hgKCZe800jRGqEnXOcFno4A==
+"@department-of-veterans-affairs/css-library@^0.8.8":
+  version "0.8.8"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.8.8.tgz#f86fa4f126148c5d187831618446c520a639fdd6"
+  integrity sha512-9XjIppvFrmACoD/m1BssWkA/eXTRhszSxWnPFNSb38cYaVs35HcTEAF2vbPdeipkT5KKUC4Ns6MDxMZMqLv2hg==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
-    "@uswds/uswds" "^3.7.1"
+    "@uswds/uswds" "^3.8.1"
     rimraf "^5.0.5"
 
 "@department-of-veterans-affairs/eslint-plugin@^1.18.2":
@@ -2910,12 +2910,12 @@
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.9.1":
-  version "3.9.1"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.9.1.tgz#27178dec50f23e77d72781b55714d58e5df9e83d"
-  integrity sha512-r/quv9+ObHcoL5veLyJtcMXqGtdmQOdYYQZaxsHZb0RHX6+gdkYUGnOIKseaoTm9SqvkmcUUlude8eu+wV+arQ==
+"@department-of-veterans-affairs/generator-vets-website@^3.10.0":
+  version "3.10.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.10.0.tgz#1a720e22b9250a7691c42d4f2fddebdd48452577"
+  integrity sha512-6+uOjLzCDfgMpEccwbeQ4E9vf8tJ7KebDGHvQ65jV3I9Or+Mor2EJUpDNz85szQfGqvlD+x8xeTRdF0oU1xMow==
   dependencies:
-    chalk "^5.1.0"
+    chalk "^4.1.2"
     yeoman-generator "^5.6.1"
     yosay "^2.0.2"
 
@@ -2960,13 +2960,13 @@
   dependencies:
     minimist "^1.2.6"
 
-"@department-of-veterans-affairs/web-components@12.0.0":
-  version "12.0.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/web-components/-/web-components-12.0.0.tgz#46595e952fa0a997e835f913c0bceefb02d7d2db"
-  integrity sha512-rbOTVeOuu1jQ0qrpeMfNzKvWERH8oNzK8NSzkGs6hgxuLMjLU89OQhSU/TvRJKq34fnn7xGgkaEMiTn3ekoxDg==
+"@department-of-veterans-affairs/web-components@14.0.1":
+  version "14.0.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/web-components/-/web-components-14.0.1.tgz#5f44c9f2ebf972588c340a41ec5d32cb20ea8dde"
+  integrity sha512-tNMjI9e36dfEt6PwDXss5NbIG2jhdFq4TqnMDUFC3eM9P53TKzAXPqftYV6R4S4YMebDWBqNgM5Y5f1AsmIFaw==
   dependencies:
     "@department-of-veterans-affairs/css-library" "^0.8.1"
-    "@stencil/core" "^2.19.2"
+    "@stencil/core" "^3.2.1"
     aria-hidden "^1.1.3"
     body-scroll-lock "^4.0.0-beta.0"
     chromatic "^11.0.4"
@@ -4220,10 +4220,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
   integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
 
-"@stencil/core@^2.19.2":
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.19.2.tgz#87fb22cad487e667e533dc61d542f75af9932265"
-  integrity sha512-TK3sHqyQAACwcac4fWntypFtN9c/y+y9ioZojeCnNDY3dxF33Ax70lL9ZLDyQnWWR+aTh1WFoqB5sYOnZIUKMA==
+"@stencil/core@^3.2.1":
+  version "3.4.2"
+  resolved "https://registry.npmjs.org/@stencil/core/-/core-3.4.2.tgz#57ce7f71fe18c2ec0967821bec667fc453cca962"
+  integrity sha512-FAUhUVaakCy29nU2GwO/HQBRV1ihPRvncz3PUc8oR+UJLAxGabTmP8PLY7wvHfbw+Cvi4VXfJFTBvdfDu6iKPQ==
 
 "@stylelint/postcss-css-in-js@^0.37.2":
   version "0.37.2"
@@ -4861,6 +4861,15 @@
   integrity sha512-bKG/B9mJF1v0yoqth48wQDzST5Xyu3OxxpePIPDyhKWS84oDrCehnu3Z88JhSjdIAJMl8dtjtH8YvdO9kZUpAg==
   dependencies:
     classlist-polyfill "1.2.0"
+    object-assign "4.1.1"
+    receptor "1.0.0"
+    resolve-id-refs "0.1.0"
+
+"@uswds/uswds@^3.8.1":
+  version "3.8.2"
+  resolved "https://registry.npmjs.org/@uswds/uswds/-/uswds-3.8.2.tgz#230668293c33f6866995ba9d03d6f42aba251336"
+  integrity sha512-8sTx/GqlbTwSIK+0AFOGrYdaW1rKVB7Bp0+v9AMVt3I5vPK7CL0+I6vlclSf3U7ysJZeTTdkNS8q89sIAeL+AA==
+  dependencies:
     object-assign "4.1.1"
     receptor "1.0.0"
     resolve-id-refs "0.1.0"
@@ -6912,11 +6921,6 @@ chalk@^2.0.0, chalk@^2.0.1, chalk@^2.3.0, chalk@^2.4.2:
     escape-string-regexp "^1.0.5"
     supports-color "^5.3.0"
 
-chalk@^5.1.0:
-  version "5.3.0"
-  resolved "https://registry.yarnpkg.com/chalk/-/chalk-5.3.0.tgz#67c20a7ebef70e7f3970a01f90fa210cb6860385"
-  integrity sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==
-
 change-emitter@^0.1.2:
   version "0.1.6"
   resolved "https://registry.npmjs.org/change-emitter/-/change-emitter-0.1.6.tgz"
@@ -8080,12 +8084,12 @@ cypress-wait-until@^1.7.2:
   resolved "https://registry.yarnpkg.com/cypress-wait-until/-/cypress-wait-until-1.7.2.tgz#7f534dd5a11c89b65359e7a0210f20d3dfc22107"
   integrity sha512-uZ+M8/MqRcpf+FII/UZrU7g1qYZ4aVlHcgyVopnladyoBrpoaMJ4PKZDrdOJ05H5RHbr7s9Tid635X3E+ZLU/Q==
 
-cypress@^13.11.0:
-  version "13.11.0"
-  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.11.0.tgz#17097366390424cba5db6bf0ee5e97503f036e07"
-  integrity sha512-NXXogbAxVlVje4XHX+Cx5eMFZv4Dho/2rIcdBHg9CNPFUGZdM4cRdgIgM7USmNYsC12XY0bZENEQ+KBk72fl+A==
+cypress@^13.13.2:
+  version "13.13.3"
+  resolved "https://registry.yarnpkg.com/cypress/-/cypress-13.13.3.tgz#21ee054bb4e00b3858f2e33b4f8f4e69128470a9"
+  integrity sha512-hUxPrdbJXhUOTzuML+y9Av7CKoYznbD83pt8g3klgpioEha0emfx4WNIuVRx0C76r0xV2MIwAW9WYiXfVJYFQw==
   dependencies:
-    "@cypress/request" "^3.0.0"
+    "@cypress/request" "^3.0.1"
     "@cypress/xvfb" "^1.2.4"
     "@types/sinonjs__fake-timers" "8.1.1"
     "@types/sizzle" "^2.3.2"
@@ -8124,7 +8128,7 @@ cypress@^13.11.0:
     request-progress "^3.0.0"
     semver "^7.5.3"
     supports-color "^8.1.1"
-    tmp "~0.2.1"
+    tmp "~0.2.3"
     untildify "^4.0.0"
     yauzl "^2.10.0"
 
@@ -20369,12 +20373,10 @@ tmp@^0.0.33:
   dependencies:
     os-tmpdir "~1.0.2"
 
-tmp@~0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.1.tgz#8457fc3037dcf4719c251367a1af6500ee1ccf14"
-  integrity sha512-76SUhtfqR2Ijn+xllcI5P1oyannHNHByD80W1q447gU3mp9G9PSpGdWmjUOHRDPiHYacIk66W7ubDTuPF3BEtQ==
-  dependencies:
-    rimraf "^3.0.0"
+tmp@~0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/tmp/-/tmp-0.2.3.tgz#eb783cc22bc1e8bebd0671476d46ea4eb32a79ae"
+  integrity sha512-nZD7m9iCPC5g0pYmcaxogYKggSfLsdxl8of3Q/oIbqCqLLIO9IAF0GWjX1z9NZRHPiXv8Wex4yDCaZsgEw0Y8w==
 
 to-arraybuffer@^1.0.0:
   version "1.0.1"

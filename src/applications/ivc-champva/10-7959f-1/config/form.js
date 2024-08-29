@@ -1,4 +1,5 @@
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 import { cloneDeep } from 'lodash';
 
 import {
@@ -54,6 +55,9 @@ const formConfig = {
     reviewPageTitle: 'Review and sign',
     submitButtonText: 'Submit',
   },
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   preSubmitInfo: {
     statementOfTruth: {
       body:
@@ -92,12 +96,7 @@ const formConfig = {
           path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
-            ...titleUI(
-              'Name and date of birth',
-              'We use this information to verify other details.',
-            ),
-            messageAriaDescribedby:
-              'We use this information to verify other details.',
+            ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
             veteranDateOfBirth: dateOfBirthUI({ required: true }),
           },
@@ -200,12 +199,7 @@ const formConfig = {
           title: 'Home address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
-            ...titleUI(
-              `Home address`,
-              `This is your current location, outside the United States.`,
-            ),
-            messageAriaDescribedby:
-              'This is your current location, outside the United States.',
+            ...titleUI(`Home address`),
             physicalAddress: {
               ...addressUI({
                 required: {

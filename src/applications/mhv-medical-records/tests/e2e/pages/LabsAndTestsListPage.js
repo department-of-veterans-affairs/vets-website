@@ -29,8 +29,8 @@ class LabsAndTestsListPage extends BaseListPage {
   clickLabsAndTestsDetailsLink = (_LabsAndTestsItemIndex = 0, entry) => {
     cy.intercept(
       'GET',
-      `/my_health/v1/medical_records/labs_and_tests/${entry.id}`,
-      entry,
+      `/my_health/v1/medical_records/labs_and_tests/${entry.resource.id}`,
+      entry.resource,
     );
     cy.get('[data-testid="record-list-item"]')
       .find('a')

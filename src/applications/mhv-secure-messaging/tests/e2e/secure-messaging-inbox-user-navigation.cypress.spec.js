@@ -13,8 +13,7 @@ describe('Secure Messaging Compose', () => {
       'signature',
     );
     PatientInboxPage.navigateToComposePage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+
     PatientComposePage.selectRecipient(
       'CAMRY_PCMM RELATIONSHIP_05092022_SLC4',
       {
@@ -35,6 +34,9 @@ describe('Secure Messaging Compose', () => {
     });
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifySendMessageConfirmationMessageText();
-    // PatientInboxPage.verifyInboxHeader('Inbox');
+    PatientComposePage.verifyHeader('Inbox');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

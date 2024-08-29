@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 import { useFormRouting } from '../hooks/useFormRouting';
+import HowToLink from './HowToLink';
 
 const PrepareContent = props => {
   const { smallHeading, router, appointmentCount } = props;
@@ -37,10 +38,12 @@ const PrepareContent = props => {
             href={`${router.location.basename}/what-to-bring/`}
             hrefLang="en"
             onClick={onPrepareClick}
+            data-testid="what-to-bring-link"
           >
-            {t('find-out-what-to-bring')}
+            {t('find-a-full-list-of-things-to-bring')}
           </a>
         </p>
+        <HowToLink />
       </div>
     );
   }

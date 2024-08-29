@@ -60,22 +60,3 @@ export const renderLetterHistory = diaryCode => {
       return null;
   }
 };
-
-export const renderPaymentHistoryDescription = transactionFiscalCode => {
-  switch (transactionFiscalCode) {
-    case '04Q':
-      return (
-        <>
-          <strong>Balance increase</strong>
-        </>
-      );
-    case '08Q':
-      return (
-        <>
-          <strong>Balance decrease</strong>
-        </>
-      );
-    default:
-      return null;
-  }
-};

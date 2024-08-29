@@ -71,9 +71,7 @@ class Confirmation {
   };
 
   clickToResourcePage = () => {
-    cy.get('[data-testid=prepare-content]')
-      .find('a')
-      .click();
+    cy.get('[data-testid=what-to-bring-link]').click();
   };
 }
 

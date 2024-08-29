@@ -352,11 +352,11 @@ export function selectIsCanceled(appointment) {
 }
 
 export function selectIsCommunityCare(appointment) {
-  return appointment?.vaos.isCommunityCare;
+  return appointment?.vaos?.isCommunityCare;
 }
 
 export function selectIsVideo(appointment) {
-  return appointment.vaos.isVideo;
+  return appointment?.vaos?.isVideo;
 }
 
 export function selectIsInPerson(appointment) {
@@ -414,7 +414,7 @@ export function selectIsPending(appointment) {
 }
 
 export function selectIsPast(appointment) {
-  if (appointment) {
+  if (appointment && appointment.vaos) {
     const { isPastAppointment } = appointment.vaos;
     return isPastAppointment;
   }
@@ -765,7 +765,6 @@ export function selectRequestedAppointmentData(state, appointment) {
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
-  const typeOfVisit = appointment?.requestVisitType;
   const isPendingAppointment = selectIsPendingAppointment(appointment);
 
   return {
@@ -793,7 +792,6 @@ export function selectRequestedAppointmentData(state, appointment) {
     typeOfCare,
     typeOfCareName,
     typeOfCareText,
-    typeOfVisit,
   };
 }
 export function selectRequestedAppointmentDetails(state, id) {
@@ -834,7 +832,7 @@ export function selectRequestedAppointmentDetails(state, id) {
   const typeOfCare = getTypeOfCareById(appointment?.vaos.apiData.serviceType);
   const typeOfCareName = typeOfCare?.name;
   const typeOfCareText = lowerCase(appointment?.type?.coding?.[0]?.display);
-  const typeOfVisit = appointment?.requestVisitType;
+  const preferredModality = appointment?.preferredModality;
 
   return {
     appointment,
@@ -861,6 +859,6 @@ export function selectRequestedAppointmentDetails(state, id) {
     typeOfCare,
     typeOfCareName,
     typeOfCareText,
-    typeOfVisit,
+    preferredModality,
   };
 }

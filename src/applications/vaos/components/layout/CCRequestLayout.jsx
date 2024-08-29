@@ -46,7 +46,7 @@ export default function CCRequestLayout({ data: appointment }) {
     heading = 'Canceled request for community care appointment';
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">

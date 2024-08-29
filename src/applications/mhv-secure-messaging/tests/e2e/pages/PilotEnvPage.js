@@ -13,13 +13,6 @@ class PilotEnvPage {
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE +
-        Paths.FOLDERS}/0/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC&requires_oh_messages=1`,
-      messages,
-    ).as('inboxPilotMessages');
-
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE +
         Paths.FOLDERS}?page=1&per_page=999&useCache=false&requires_oh_messages=1`,
       folders,
     ).as('inboxPilotFolderMetaData');
@@ -28,13 +21,13 @@ class PilotEnvPage {
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
       mockFolders,
-    ).as('folders');
+    ).as('pilotFolders');
 
     cy.intercept(
       'GET',
       `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
       messages,
-    ).as('inboxMessages');
+    ).as('inboxPilotMessages');
 
     cy.visit(url + Paths.INBOX, {
       onBeforeLoad: win => {
@@ -118,6 +111,74 @@ class PilotEnvPage {
     cy.get('[data-testid="thread-list-item"]').then(el => {
       expect(el.length).to.eq(thread.data.length);
     });
+  };
+
+  inputFilterData = text => {
+    cy.get(Locators.FILTER_INPUT)
+      .shadow()
+      .find('#inputField')
+      .type(text, { force: true });
+  };
+
+  clickFilterButton = mockFilterResponse => {
+    cy.intercept(
+      'POST',
+      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/search*`,
+      mockFilterResponse,
+    ).as('filterResult');
+    cy.get(Locators.BUTTONS.FILTER).click({ force: true });
+    cy.wait('@filterResult');
+  };
+
+  verifyFilterResults = (filterValue, responseData) => {
+    cy.get('[data-testid="message-list-item"]').then(el => {
+      expect(el.length).to.eq(responseData.data.length);
+    });
+    cy.get(Locators.ALERTS.HIGHLIGHTED).each(element => {
+      cy.wrap(element)
+        .invoke('text')
+        .then(text => {
+          expect(text).to.contain(filterValue);
+        });
+    });
+  };
+
+  clickSortMessagesByDateButton = (
+    option = 'Oldest to newest',
+    sortedResponse,
+  ) => {
+    cy.get(Locators.DROPDOWN.SORT)
+      .shadow()
+      .find('select')
+      .select(`${option}`, { force: true });
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/0/threads**`,
+      sortedResponse,
+    );
+    cy.get(Locators.BUTTONS.SORT).click({ force: true });
+  };
+
+  verifySorting = (option, data) => {
+    let listBefore;
+    let listAfter;
+    cy.get(Locators.THREAD_LIST)
+      .find(Locators.DATE_RECEIVED)
+      .then(list => {
+        listBefore = Cypress._.map(list, el => el.innerText);
+        cy.log(`List before sorting${JSON.stringify(listBefore)}`);
+      })
+      .then(() => {
+        this.clickSortMessagesByDateButton(option, data);
+        cy.get(Locators.THREAD_LIST)
+          .find(Locators.DATE_RECEIVED)
+          .then(list2 => {
+            listAfter = Cypress._.map(list2, el => el.innerText);
+            cy.log(`List after sorting${JSON.stringify(listAfter)}`);
+            expect(listBefore[0]).to.eq(listAfter[listAfter.length - 1]);
+            expect(listBefore[listBefore.length - 1]).to.eq(listAfter[0]);
+          });
+      });
   };
 }
 

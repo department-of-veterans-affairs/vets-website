@@ -119,6 +119,148 @@
             }
         },
         {
+            "id": "69c206a24da23781aab79f05336fad5c38cd4f489106947d932b1a6cd2b0a54d",
+            "type": "appointments",
+            "attributes": {
+                "id": "69c206a24da23781aab79f05336fad5c38cd4f489106947d932b1a6cd2b0a54d",
+                "identifier": [
+                    {
+                        "system": "http://vista-scheduling-provider-v1.sqa:8080/vistasp/v1/Appointment/",
+                        "value": "523938333136373231"
+                    },
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_85",
+                        "value": "983:16721"
+                    }
+                ],
+                "kind": "clinic",
+                "status": "proposed",
+                "serviceType": "primaryCare",
+                "serviceTypes": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                                "code": "primaryCare"
+                            }
+                        ]
+                    }
+                ],
+                "serviceCategory": [
+                    {
+                        "coding": [
+                            {
+                                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                                "code": "REGULAR",
+                                "display": "REGULAR"
+                            }
+                        ],
+                        "text": "REGULAR"
+                    }
+                ],
+                "reasonCode": {
+                    "text": "station id: 983|preferred modality: FACE TO FACE|phone number: 4173004779|email: TESTING@ABC.COM|preferred dates:07/08/2024 AM|reason code:QUESTIONMEDS|comments:DO NOT CANCEL OR PROCESS THIS REQUEST.  \n\nTHIS REQUEST IS USED TO TEST REQUEST LIMITS IN THE AUTOMATION TESTING TOOL. "
+                },
+                "patientIcn": "1013012762V562525",
+                "locationId": "983",
+                "start": "2024-07-08T00:00:00Z",
+                "minutesDuration": 0,
+                "created": "2024-07-03T19:16:22Z",
+                "requestedPeriods": [
+                    {
+                        "start": "2024-07-08T00:00:00Z",
+                        "end": "2024-07-08T00:00:00Z"
+                    }
+                ],
+                "cancellable": true,
+                "extension": {
+                    "ccLocation": {
+                        "address": {}
+                    }
+                },
+                "localStartTime": "2024-07-07T18:00:00.000-06:00",
+                "station": "983",
+                "ien": "16721",
+                "contact": {
+                    "telecom": [
+                        {
+                            "type": "phone",
+                            "value": "4173004779"
+                        },
+                        {
+                            "type": "email",
+                            "value": "TESTING@ABC.COM"
+                        }
+                    ]
+                },
+                "patientComments": "DO NOT CANCEL OR PROCESS THIS REQUEST.  \n\nTHIS REQUEST IS USED TO TEST REQUEST LIMITS IN THE AUTOMATION TESTING TOOL.",
+                "reasonForAppointment": "Medication concern",
+                "preferredDates": [
+                    "Mon, July 8, 2024 in the morning"
+                ],
+                "preferredModality": "In person",
+                "location": {
+                    "id": "983",
+                    "type": "appointments",
+                    "attributes": {
+                        "id": "983",
+                        "vistaSite": "983",
+                        "vastParent": "983",
+                        "type": "va_facilities",
+                        "name": "Cheyenne VA Medical Center",
+                        "classification": "VA Medical Center (VAMC)",
+                        "timezone": {
+                            "timeZoneId": "America/Denver"
+                        },
+                        "lat": 39.744507,
+                        "long": -104.830956,
+                        "website": "https://www.denver.va.gov/locations/directions.asp",
+                        "phone": {
+                            "main": "307-778-7550",
+                            "fax": "307-778-7381",
+                            "pharmacy": "866-420-6337",
+                            "afterHours": "307-778-7550",
+                            "patientAdvocate": "307-778-7550 x7517",
+                            "mentalHealthClinic": "307-778-7349",
+                            "enrollmentCoordinator": "307-778-7550 x7579"
+                        },
+                        "physicalAddress": {
+                            "type": "physical",
+                            "line": [
+                                "2360 East Pershing Boulevard"
+                            ],
+                            "city": "Cheyenne",
+                            "state": "WY",
+                            "postalCode": "82001-5356"
+                        },
+                        "mobile": false,
+                        "healthService": [
+                            "Audiology",
+                            "Cardiology",
+                            "DentalServices",
+                            "EmergencyCare",
+                            "Gastroenterology",
+                            "Gynecology",
+                            "MentalHealthCare",
+                            "Nutrition",
+                            "Ophthalmology",
+                            "Optometry",
+                            "Orthopedics",
+                            "Podiatry",
+                            "PrimaryCare",
+                            "SpecialtyCare",
+                            "UrgentCare",
+                            "Urology",
+                            "WomensHealth"
+                        ],
+                        "operatingStatus": {
+                            "code": "NORMAL"
+                        }
+                    }
+                }
+            }
+        },
+        {
             "id": "904340b27ff33b4a9b8076b7fa060c82ea3bf9c4c6abd8d48ea74b0a161f47b6",
             "type": "appointments",
             "attributes": {

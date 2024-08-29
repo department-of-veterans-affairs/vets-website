@@ -99,7 +99,9 @@ export function createRoutes(formConfig) {
     },
     {
       path: 'confirmation',
+      formConfig,
       component: formConfig.confirmation,
+      pageList,
     },
     {
       path: '*',

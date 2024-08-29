@@ -151,6 +151,9 @@
       "last": "Doe",
       "suffix": "Jr."
     },
+    "hasTeraResponse": true,
+    "radiationCleanupEfforts": true,
+    "gulfWarService": true,
     "view:gulfWarServiceDates": {
       "gulfWarStartDate": "1990-09-XX",
       "gulfWarEndDate": "1991-01-XX"

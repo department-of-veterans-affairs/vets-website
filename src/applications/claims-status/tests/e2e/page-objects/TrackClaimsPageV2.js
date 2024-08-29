@@ -134,7 +134,7 @@ class TrackClaimsPageV2 {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'We decided your claim on');
+        cy.wrap(alertElem).should('contain', 'We closed your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');
@@ -208,17 +208,6 @@ class TrackClaimsPageV2 {
       'contain',
       `${count} ${count > 1 ? 'items' : 'item'} need your attention`,
     );
-  }
-
-  verifyNumberOfTrackedItems(number) {
-    cy.get('.tabs li:nth-child(2) > a')
-      .click()
-      .then(() => {
-        cy.get('.additional-evidence-container').should('be.visible');
-        cy.injectAxeThenAxeCheck();
-      });
-    cy.get('a.tab.tab--current').should('contain', 'Files');
-    cy.get('.file-request-list-item').should('have.length', number);
   }
 
   verifyNumberOfFiles(number) {
@@ -363,7 +352,7 @@ class TrackClaimsPageV2 {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message')
+          .find('#file-input-error-alert')
           .should('contain', 'Please select a file first');
         cy.injectAxeThenAxeCheck();
       });
@@ -509,7 +498,7 @@ class TrackClaimsPageV2 {
       .find('.due-date-header')
       .should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
@@ -572,7 +561,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
     cy.get('va-additional-info').should('be.visible');
@@ -745,7 +734,7 @@ class TrackClaimsPageV2 {
       'contain',
       'Learn about the VA claim process and what happens after you file your claim.',
     );
-    cy.get('.claim-timeline').should('be.visible');
+    cy.get('va-process-list').should('be.visible');
   }
 
   verifyOverviewShowPastUpdates() {

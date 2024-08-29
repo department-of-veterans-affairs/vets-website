@@ -1,5 +1,4 @@
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { focusElement } from 'platform/utilities/ui';
 import React, { useState } from 'react';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import SearchControls from '../components/search/SearchControls';
@@ -12,22 +11,10 @@ const facilities = { data: [] };
 // Mock facilities api call locally
 // const facilities = healthFacilityMockData;
 
-const YourVAHealthFacilityPage = ({
-  onChange,
-  goBack,
-  goForward,
-  formData,
-}) => {
+const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);
   const [pageURL, setPageURL] = useState('');
-
-  const showError = data => {
-    if (data.selectCategory) {
-      goForward();
-    }
-    focusElement('va-select');
-  };
 
   const options = {
     method: 'POST',
@@ -93,7 +80,7 @@ const YourVAHealthFacilityPage = ({
           )}
         </div>
 
-        <FormNavButtons goBack={goBack} goForward={() => showError(formData)} />
+        <FormNavButtons goBack={goBack} goForward={goForward} />
       </form>
     </>
   );

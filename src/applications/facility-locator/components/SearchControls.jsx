@@ -157,7 +157,7 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City, state or postal code{' '}
+            <span id="city-state-zip-text">City, state or postal code</span>{' '}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
@@ -170,6 +170,7 @@ const SearchControls = props => {
               onClick={handleGeolocationButtonClick}
               type="button"
               className="use-my-location-link"
+              aria-describedby="city-state-zip-text"
             >
               <va-icon icon="near_me" size={3} />
               Use my location
@@ -335,26 +336,28 @@ const SearchControls = props => {
   // Track geocode errors
   useEffect(
     () => {
-      switch (currentQuery.geocodeError) {
-        case 0:
-          break;
-        case 1:
-          recordEvent({
-            event: 'fl-get-geolocation-permission-error',
-            'error-key': '1_PERMISSION_DENIED',
-          });
-          break;
-        case 2:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '2_POSITION_UNAVAILABLE',
-          });
-          break;
-        default:
-          recordEvent({
-            event: 'fl-get-geolocation-other-error',
-            'error-key': '3_TIMEOUT',
-          });
+      if (currentQuery?.geocodeError) {
+        switch (currentQuery.geocodeError) {
+          case 0:
+            break;
+          case 1:
+            recordEvent({
+              event: 'fl-get-geolocation-permission-error',
+              'error-key': '1_PERMISSION_DENIED',
+            });
+            break;
+          case 2:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '2_POSITION_UNAVAILABLE',
+            });
+            break;
+          default:
+            recordEvent({
+              event: 'fl-get-geolocation-other-error',
+              'error-key': '3_TIMEOUT',
+            });
+        }
       }
     },
     [currentQuery.geocodeError],

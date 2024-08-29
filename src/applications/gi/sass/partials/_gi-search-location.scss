@@ -183,15 +183,17 @@ input.location-search {
 }
 
 #distance-dropdown {
-  select {
-    margin-top: 4px;
-  }
-
   @media (max-width: $medium-screen) {
     width: 100%;
     select {
       width: 100%;
       padding-right: 0px;
+    }
+  }
+
+  @media (max-width: $small-screen) {
+    select {
+      margin-left: 0;
     }
   }
 }

@@ -138,14 +138,10 @@ ${record.note}`;
           Written by
         </h3>
         <p data-testid="note-record-written-by">{record.writtenBy}</p>
-        {record.signedBy !== EMPTY_FIELD && (
-          <>
-            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-              Signed by
-            </h3>
-            <p data-testid="note-record-signed-by">{record.signedBy}</p>
-          </>
-        )}
+        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+          Signed by
+        </h3>
+        <p data-testid="note-record-signed-by">{record.signedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date signed
         </h3>
@@ -154,7 +150,10 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record" className="monospace">
+        <p
+          data-testid="note-record"
+          className="monospace vads-u-line-height--6"
+        >
           {record.note}
         </p>
       </div>

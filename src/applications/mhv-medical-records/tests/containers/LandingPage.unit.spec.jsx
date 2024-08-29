@@ -126,6 +126,12 @@ describe('Landing Page', () => {
 
     // feature h2s
     expect(
+      screen.getByText('Lab and test results', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
+    expect(
       screen.getByText('Care summaries and notes', {
         selector: 'h2',
         exact: true,

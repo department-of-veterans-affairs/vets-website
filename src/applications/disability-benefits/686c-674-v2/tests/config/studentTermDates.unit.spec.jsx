@@ -46,7 +46,7 @@ describe('Report 674 term information', () => {
         data={formData}
       />,
     );
-    expect(form.find('input').length).to.equal(5);
+    expect(form.find('input')).to.have.lengthOf.within(5, 6);
     expect(form.find('select').length).to.equal(6);
     form.unmount();
   });

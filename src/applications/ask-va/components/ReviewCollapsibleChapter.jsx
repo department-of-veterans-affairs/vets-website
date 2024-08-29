@@ -215,7 +215,7 @@ class ReviewCollapsibleChapter extends React.Component {
           {!editing ? (
             <div />
           ) : (
-            <div>
+            <div className="vads-u-display--flex vads-u-max-width--100">
               <ProgressButton
                 submitButton
                 onButtonClick={() => {
@@ -230,14 +230,17 @@ class ReviewCollapsibleChapter extends React.Component {
                   );
                 }}
                 buttonText="Save"
-                buttonClass="usa-button-primary"
+                buttonClass="usa-button-primary vads-u-width--auto"
                 ariaLabel={ariaLabel}
               />
               <button
                 aria-label="Cancel"
                 type="button"
                 id="cancel"
-                className=""
+                className="usa-button-secondary vads-u-width--auto"
+                onClick={() =>
+                  this.handleEdit(page.pageKey, !editing, page.index)
+                }
               >
                 Cancel
               </button>
@@ -317,7 +320,7 @@ class ReviewCollapsibleChapter extends React.Component {
     return (
       <page.CustomPageReview
         key={`${page.pageKey}Review`}
-        editPage={() => this.handleEdit(page.pageKey, !editing, page.index)}
+        editPage={() => this.handleEdit(page.pageKey, false, page.index)}
         name={page.pageKey}
         title={page.title}
         data={props.form.data}

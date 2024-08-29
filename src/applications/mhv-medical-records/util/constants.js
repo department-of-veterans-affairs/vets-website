@@ -54,6 +54,7 @@ export const fhirResourceTypes = {
   BUNDLE: 'Bundle',
   DIAGNOSTIC_REPORT: 'DiagnosticReport',
   DOCUMENT_REFERENCE: 'DocumentReference',
+  OBSERVATION: 'Observation',
   ORGANIZATION: 'Organization',
   PRACTITIONER: 'Practitioner',
 };

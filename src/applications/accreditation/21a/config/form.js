@@ -9,11 +9,12 @@ import IntroductionPage from '../containers/IntroductionPage';
 import GetFormHelp from '../components/common/GetFormHelp';
 import personalInformationChapter from '../pages/01-personal-information-chapter';
 import militaryServiceChapter from '../pages/02-military-service-chapter';
-import employmentHistoryChapter from '../pages/03-employment-history-chapter';
+import employmentInformationChapter from '../pages/03-employment-information-chapter';
 import educationHistoryChapter from '../pages/04-education-history-chapter';
-import lawPracticeInformationChapter from '../pages/05-law-practice-information-chapter';
+import professionalAffiliationsChapter from '../pages/05-professional-affiliations-chapter';
 import backgroundInformationChapter from '../pages/06-background-information-chapter';
 import characterReferencesChapter from '../pages/07-character-references-chapter';
+import supplementaryStatementsChapter from '../pages/08-supplementary-statements-chapter';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -67,12 +68,13 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     personalInformationChapter,
-    // militaryServiceChapter,
-    // employmentHistoryChapter,
-    // educationHistoryChapter,
-    // lawPracticeInformationChapter,
-    // backgroundInformationChapter,
-    // characterReferencesChapter,
+    militaryServiceChapter,
+    employmentInformationChapter,
+    educationHistoryChapter,
+    professionalAffiliationsChapter,
+    backgroundInformationChapter,
+    characterReferencesChapter,
+    supplementaryStatementsChapter,
   },
 };
 

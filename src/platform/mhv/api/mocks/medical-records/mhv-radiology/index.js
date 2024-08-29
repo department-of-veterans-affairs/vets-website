@@ -493,6 +493,9 @@ const all = [
   },
 ];
 
+const empty = [];
+
 module.exports = {
   all,
+  empty,
 };

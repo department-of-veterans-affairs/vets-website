@@ -281,19 +281,22 @@ export function MedicalConditionDescription() {
         trigger="How we define a medical condition that prevents you from working"
         uswds
       >
-        <p>
-          If your medical condition prevents you from working, both of these
-          must be true:
-        </p>
-        <ul>
-          <li>
-            Your medical condition is reasonably certain to continue throughout
-            your lifetime, <strong>and</strong>
-          </li>
-          <li>
-            Your medical condition makes it impossible to be gainfully employed
-          </li>
-        </ul>
+        <div>
+          <p>
+            If your medical condition prevents you from working, both of these
+            must be true:
+          </p>
+          <ul>
+            <li>
+              Your medical condition is reasonably certain to continue
+              throughout your lifetime, <strong>and</strong>
+            </li>
+            <li>
+              Your medical condition makes it impossible to be gainfully
+              employed
+            </li>
+          </ul>
+        </div>
       </va-additional-info>
     </div>
   );

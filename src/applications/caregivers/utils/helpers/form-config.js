@@ -87,3 +87,23 @@ export const secondaryTwoHasDifferentMailingAddress = formData => {
     formData['view:secondaryTwoHomeSameAsMailingAddress'] === false;
   return hasCaregiver && hasDifferentMailingAddress;
 };
+
+export const showFacilityConfirmation = formData => {
+  if (!formData['view:useFacilitiesAPI']) {
+    return false;
+  }
+
+  const plannedClinic = formData['view:plannedClinic'];
+  const hasPlannedClinic =
+    plannedClinic &&
+    typeof plannedClinic === 'object' &&
+    Object.keys(plannedClinic).length > 0;
+
+  if (!hasPlannedClinic) {
+    return false;
+  }
+
+  return (
+    plannedClinic?.veteranSelected?.id !== plannedClinic?.caregiverSupport?.id
+  );
+};
