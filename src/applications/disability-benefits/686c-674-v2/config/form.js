@@ -21,13 +21,30 @@ import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
   currentMarriageInformation,
+  currentMarriageInformationPartTwo,
+  currentMarriageInformationPartThree,
+  currentMarriageInformationPartFour,
   doesLiveWithSpouse,
   marriageAdditionalEvidence,
   spouseInformation,
+  spouseInformationPartTwo,
+  spouseInformationPartThree,
   spouseMarriageHistory,
+  spouseMarriageHistoryPartTwo,
+  additionalQuestionsView,
   spouseMarriageHistoryDetails,
+  spouseMarriageHistoryDetailsPartTwo,
+  spouseMarriageHistoryDetailsPartThree,
+  spouseMarriageHistoryDetailsPartFour,
+  spouseMarriageHistoryDetailsPartFive,
   veteranMarriageHistory,
+  veteranMarriageHistoryPartTwo,
+  veteranAdditionalQuestionsView,
   veteranMarriageHistoryDetails,
+  veteranMarriageHistoryDetailsPartTwo,
+  veteranMarriageHistoryDetailsPartThree,
+  veteranMarriageHistoryDetailsPartFour,
+  veteranMarriageHistoryDetailsPartFive,
 } from './chapters/report-add-a-spouse';
 import {
   children,
@@ -88,6 +105,7 @@ export const formConfig = {
     },
   },
   version: migrations.length,
+  v3SegmentedProgressBar: true,
   migrations,
   prefillEnabled: true,
   prefillTransformer,
@@ -157,7 +175,6 @@ export const formConfig = {
           title: 'Veteran address',
           uiSchema: veteranAddress.uiSchema,
           schema: veteranAddress.schema,
-          // updateFormData: veteranAddress.updateFormData,
         },
         veteranContactInformation: {
           path: 'veteran-contact-information',
@@ -167,33 +184,76 @@ export const formConfig = {
         },
       },
     },
+
     addSpouse: {
-      title: 'Information needed to add your spouse',
+      title: 'Add your spouse',
       pages: {
         spouseNameInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Spouse information',
-          path: 'add-spouse',
+          path: 'add-spouse/current-legal-name',
           uiSchema: spouseInformation.uiSchema,
           schema: spouseInformation.schema,
         },
-        currentMarriageInformation: {
+        spouseNameInformationPartTwo: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
-          title: 'Information needed to add your spouse: Marriage information',
-          path: 'current-marriage-information',
-          uiSchema: currentMarriageInformation.uiSchema,
-          schema: currentMarriageInformation.schema,
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/identification-information',
+          uiSchema: spouseInformationPartTwo.uiSchema,
+          schema: spouseInformationPartTwo.schema,
+        },
+        spouseNameInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseInformation?.isVeteran,
+          title: 'Information needed to add your spouse: Spouse information',
+          path: 'add-spouse/military-service-information',
+          uiSchema: spouseInformationPartThree.uiSchema,
+          schema: spouseInformationPartThree.schema,
         },
         doesLiveWithSpouse: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title: 'Information needed to add your spouse: Address information',
-          path: 'current-marriage-address',
+          path: 'current-marriage-information/living-together',
           uiSchema: doesLiveWithSpouse.uiSchema,
           schema: doesLiveWithSpouse.schema,
-          updateFormData: doesLiveWithSpouse.updateFormData,
+        },
+        currentMarriageInformation: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/location-of-marriage',
+          uiSchema: currentMarriageInformation.uiSchema,
+          schema: currentMarriageInformation.schema,
+        },
+        currentMarriageInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/type-of-marriage',
+          uiSchema: currentMarriageInformationPartTwo.uiSchema,
+          schema: currentMarriageInformationPartTwo.schema,
+        },
+        currentMarriageInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/spouse-address',
+          uiSchema: currentMarriageInformationPartThree.uiSchema,
+          schema: currentMarriageInformationPartThree.schema,
+        },
+        currentMarriageInformationPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            !formData?.doesLiveWithSpouse?.spouseDoesLiveWithVeteran,
+          title: 'Information needed to add your spouse: Marriage information',
+          path: 'current-marriage-information/reason-for-living-separately',
+          uiSchema: currentMarriageInformationPartFour.uiSchema,
+          schema: currentMarriageInformationPartFour.schema,
         },
         spouseMarriageHistory: {
           depends: formData =>
@@ -204,36 +264,181 @@ export const formConfig = {
           uiSchema: spouseMarriageHistory.uiSchema,
           schema: spouseMarriageHistory.schema,
         },
-        spouseMarriageHistoryDetails: {
+        spouseMarriageHistoryPartTwo: {
           depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history',
+          path: 'current-spouse-marriage-history/previous-marriage',
+          uiSchema: spouseMarriageHistoryPartTwo.uiSchema,
+          schema: spouseMarriageHistoryPartTwo.schema,
+        },
+        additionalQuestionsView: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
           title:
             'Information about your spouse’s former marriage(s): Marriage history details',
-          path: 'current-spouse-marriage-history/:index',
+          path:
+            'current-spouse-marriage-history/previous-marriage/additional-information',
+          uiSchema: additionalQuestionsView.uiSchema,
+          schema: additionalQuestionsView.schema,
+        },
+        spouseMarriageHistoryDetails: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history details',
+          path:
+            'current-spouse-marriage-history/previous-marriage/:index/how-marriage-ended',
           showPagePerItem: true,
           arrayPath: 'spouseMarriageHistory',
           uiSchema: spouseMarriageHistoryDetails.uiSchema,
           schema: spouseMarriageHistoryDetails.schema,
+        },
+        spouseMarriageHistoryDetailsPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history details',
+          path:
+            'current-spouse-marriage-history/previous-marriage/:index/date-marriage-started',
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriageHistory',
+          uiSchema: spouseMarriageHistoryDetailsPartTwo.uiSchema,
+          schema: spouseMarriageHistoryDetailsPartTwo.schema,
+        },
+        spouseMarriageHistoryDetailsPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history details',
+          path:
+            'current-spouse-marriage-history/previous-marriage/:index/date-marriage-ended',
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriageHistory',
+          uiSchema: spouseMarriageHistoryDetailsPartThree.uiSchema,
+          schema: spouseMarriageHistoryDetailsPartThree.schema,
+        },
+        spouseMarriageHistoryDetailsPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history details',
+          path:
+            'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-started',
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriageHistory',
+          uiSchema: spouseMarriageHistoryDetailsPartFour.uiSchema,
+          schema: spouseMarriageHistoryDetailsPartFour.schema,
+        },
+        spouseMarriageHistoryDetailsPartFive: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.spouseWasMarriedBefore,
+          title:
+            'Information about your spouse’s former marriage(s): Marriage history details',
+          path:
+            'current-spouse-marriage-history/previous-marriage/:index/location-where-marriage-ended',
+          showPagePerItem: true,
+          arrayPath: 'spouseMarriageHistory',
+          uiSchema: spouseMarriageHistoryDetailsPartFive.uiSchema,
+          schema: spouseMarriageHistoryDetailsPartFive.schema,
         },
         veteranMarriageHistory: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
           title:
             'Information about your former marriage(s): Veteran marriage history',
-          path: 'veteran-marriage-history',
+          path: 'veteran-marriage-history/marital-status',
           uiSchema: veteranMarriageHistory.uiSchema,
           schema: veteranMarriageHistory.schema,
         },
+        veteranMarriageHistoryPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Veteran marriage history',
+          path: 'veteran-marriage-history',
+          uiSchema: veteranMarriageHistoryPartTwo.uiSchema,
+          schema: veteranMarriageHistoryPartTwo.schema,
+        },
+        veteranAdditionalQuestionsView: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Marriage history details',
+          path: 'veteran-marriage-history/additional-information',
+          uiSchema: veteranAdditionalQuestionsView.uiSchema,
+          schema: veteranAdditionalQuestionsView.schema,
+        },
         veteranMarriageHistoryDetails: {
           depends: formData =>
-            isChapterFieldRequired(formData, TASK_KEYS.addSpouse),
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
           title:
             'Information about your former marriage(s): Veteran marriage history details',
-          path: 'veteran-marriage-history/:index',
+          path: 'veteran-marriage-history/:index/how-marriage-ended',
           showPagePerItem: true,
           arrayPath: 'veteranMarriageHistory',
           uiSchema: veteranMarriageHistoryDetails.uiSchema,
           schema: veteranMarriageHistoryDetails.schema,
+        },
+        veteranMarriageHistoryDetailsPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Veteran marriage history details',
+          path: 'veteran-marriage-history/:index/date-marriage-started',
+          showPagePerItem: true,
+          arrayPath: 'veteranMarriageHistory',
+          uiSchema: veteranMarriageHistoryDetailsPartTwo.uiSchema,
+          schema: veteranMarriageHistoryDetailsPartTwo.schema,
+        },
+        veteranMarriageHistoryDetailsPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Veteran marriage history details',
+          path: 'veteran-marriage-history/:index/date-marriage-ended',
+          showPagePerItem: true,
+          arrayPath: 'veteranMarriageHistory',
+          uiSchema: veteranMarriageHistoryDetailsPartThree.uiSchema,
+          schema: veteranMarriageHistoryDetailsPartThree.schema,
+        },
+        veteranMarriageHistoryDetailsPartFour: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Veteran marriage history details',
+          path:
+            'veteran-marriage-history/:index/location-where-marriage-started',
+          showPagePerItem: true,
+          arrayPath: 'veteranMarriageHistory',
+          uiSchema: veteranMarriageHistoryDetailsPartFour.uiSchema,
+          schema: veteranMarriageHistoryDetailsPartFour.schema,
+        },
+        veteranMarriageHistoryDetailsPartFive: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.addSpouse) &&
+            formData?.veteranWasMarriedBefore,
+          title:
+            'Information about your former marriage(s): Veteran marriage history details',
+          path: 'veteran-marriage-history/:index/location-where-marriage-ended',
+          showPagePerItem: true,
+          arrayPath: 'veteranMarriageHistory',
+          uiSchema: veteranMarriageHistoryDetailsPartFive.uiSchema,
+          schema: veteranMarriageHistoryDetailsPartFive.schema,
         },
         marriageAdditionalEvidence: {
           depends: formData =>
@@ -248,6 +453,7 @@ export const formConfig = {
         },
       },
     },
+
     addChild: {
       title: 'Information needed to add children',
       pages: {
