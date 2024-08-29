@@ -183,6 +183,10 @@ const OtherResources = () => {
               hrefText="85/15 FAQs"
               href="https://benefits.va.gov/gibill/85_15_faqs.asp"
             />
+            <LiSpanAndVaLink
+              hrefText="85/15 and Approved Rule 56"
+              href="https://benefits.va.gov/GIBILL/85_15/85-15-ar-56.asp"
+            />
           </ul>
         </va-accordion-item>
       </va-accordion>
