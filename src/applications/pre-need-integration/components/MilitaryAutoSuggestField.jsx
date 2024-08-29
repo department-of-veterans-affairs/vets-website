@@ -19,7 +19,7 @@ function MilitaryAutoSuggest({
     [value],
   );
 
-  const itemToString = item => (item ? item.value || item.key : '');
+  const itemToString = item => (item ? item.value || item.key : inputValue);
 
   const getMatchScore = (input, labelValue) => {
     if (!input || !labelValue) return 0;
