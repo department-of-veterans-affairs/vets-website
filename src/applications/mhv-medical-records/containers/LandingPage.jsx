@@ -199,6 +199,7 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+
       {displayMedicalRecordsSettings && (
         <section>
           <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
@@ -214,65 +215,12 @@ const LandingPage = () => {
               'electronic-record-sharing-options',
             )}
             className="vads-c-action-link--blue"
-            data-testid="settings-link"
+            data-testid="settings-landing-page-link"
           >
             Go to your medical records settings
           </Link>
         </section>
       )}
-      {(!displayLabsAndTest ||
-        !displayNotes ||
-        !displayVaccines ||
-        !displayConditions ||
-        !displayVitals) && (
-        <section>
-          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-            How to find your other medical records
-          </h2>
-          <p className="vads-u-margin-bottom--2">
-            Right now, only some of your medical records are available here on
-            VA.gov. Soon, you’ll be able to find these types of medical records
-            on this page:
-          </p>
-          <ul>
-            {!displayLabsAndTest && <li>Lab and test results</li>}
-            {!displayNotes && <li>Care summaries and notes</li>}
-            {!displayVaccines && <li>Vaccines</li>}
-            {!displayConditions && <li>Health conditions</li>}
-            {!displayVitals && <li>Vitals</li>}
-          </ul>
-          <p className="vads-u-margin-bottom--2">
-            To find your other medical records now, you’ll need to go back to
-            the My HealtheVet website.
-          </p>
-          <p className="vads-u-margin-bottom--2">
-            <ExternalLink
-              href={mhvUrl(
-                isAuthenticatedWithSSOe(fullState),
-                'download-my-data',
-              )}
-              text="Go to medical records on the My HealtheVet website"
-            />
-          </p>
-        </section>
-      )}
-
-      <section>
-        <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Manage your medical records settings
-        </h2>
-        <p className="vads-u-margin-bottom--2">
-          Review and update your medical records sharing and notification
-          settings.
-        </p>
-        <Link
-          to="/settings"
-          className="vads-c-action-link--blue"
-          data-testid="settings-landing-page-link"
-        >
-          Go to your medical records settings
-        </Link>
-      </section>
 
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
