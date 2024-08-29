@@ -1,9 +1,9 @@
-const FORM_TYPE_ID = { 
+export const FORM_TYPE_ID = { 
   "Form": 1,
   "Forma": 2
 };
 
-const ACCREDITATION_TYPE_ID = {
+export const ACCREDITATION_TYPE_ID = {
   "Agent": 1,
   "Attorney": 2,
   "VSO Representative": 3,
@@ -11,7 +11,7 @@ const ACCREDITATION_TYPE_ID = {
   "VSO": 5
 };
 
-const APPLICATION_STATUS_ID = {
+export const APPLICATION_STATUS_ID = {
   "Pending": 1,
   "Request/Return for information": 2,
   "VA Reference Check": 3,
@@ -28,13 +28,13 @@ const APPLICATION_STATUS_ID = {
   "Exam Failed": 14
 };
 
-const GENDER_ID = {
+export const GENDER_ID = {
   "unknown": 1,
   "male": 2,
   "female": 3
 };
 
-const ADDRESS_TYPE_ID = {
+export const ADDRESS_TYPE_ID = {
   "home": 1,
   "business": 2,
   "employment": 3,
@@ -42,14 +42,14 @@ const ADDRESS_TYPE_ID = {
   "characterReference": 5
 };
 
-const EMPLOYMENT_STATUS_ID = {
+export const EMPLOYMENT_STATUS_ID = {
   "Employed": 1,
   "Unemployed": 2,
   "Self-employed": 3,
   "Student": 4
 };
 
-const SERVICE_BRANCH_ID = {
+export const SERVICE_BRANCH_ID = {
   "Air Force": 1,
   "Army": 2,
   "Coast Guard": 3,
@@ -62,7 +62,7 @@ const SERVICE_BRANCH_ID = {
   "Other": 10
 };
 
-const DISCHARGE_TYPE_ID = {
+export const DISCHARGE_TYPE_ID = {
   "Bad Conduct": 1,
   "Dishonorable": 2,
   "Convenience of Govt": 3,
@@ -73,7 +73,7 @@ const DISCHARGE_TYPE_ID = {
   "Other Than Honorable": 8
 };
 
-const PHONE_TYPE_ID = {
+export const PHONE_TYPE_ID = {
   "Fax": 1,
   "Home": 2,
   "Mobile": 3,
@@ -83,14 +83,14 @@ const PHONE_TYPE_ID = {
   "Work": 7
 };
 
-const INSTITUTION_TYPE_ID = {
+export const INSTITUTION_TYPE_ID = {
   "High School": 1,
   "Community College": 2,
   "Under Graduate": 3,
   "Graduate": 4
 };
 
-const DEGREE_TYPE_ID = {
+export const DEGREE_TYPE_ID = {
   "GED": 1,
   "HS Diploma": 2,
   "Associates": 3,
@@ -99,12 +99,12 @@ const DEGREE_TYPE_ID = {
   "Doctorate": 6
 };
 
-const ADMITTANCE_TYPE_ID = {
+export const ADMITTANCE_TYPE_ID = {
   "Jurisdiction": 1,
   "Agency": 2
 };
 
-const DOCUMENT_TYPE_ID = {
+export const DOCUMENT_TYPE_ID = {
   "Jurisdiction": 1,
   "Agency": 2,
   "Imprisoned": 3,
@@ -123,7 +123,7 @@ const DOCUMENT_TYPE_ID = {
   "PhysicalLimitations": 16
 }
 
-const RELATION_TO_APPLICANT_ID = {
+export const RELATION_TO_APPLICANT_ID = {
   "Classmate": 1,
   "Colleague": 2,
   "Customer/Client": 3,
