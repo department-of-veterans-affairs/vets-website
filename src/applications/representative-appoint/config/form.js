@@ -46,8 +46,8 @@ const formConfigFromService = configService.getFormConfig();
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
   submit: (_form, _formConfig) => {}, // This function is no-op because the form is being submitted on the 'Confirmation' page (which we're using as the 'Download' page)
+  submitButtonText: 'Continue',
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
