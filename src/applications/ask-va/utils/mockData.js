@@ -1761,4 +1761,22 @@ export const mockInquiryData = {
       },
     },
   ],
+  meta: {
+    meta: {
+      pagination: {
+        currentPage: 1,
+        prevPage: null,
+        nextPage: null,
+        totalPages: 1,
+        totalEntries: 4,
+      },
+    },
+    links: {
+      self: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
+      first: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
+      prev: null,
+      next: null,
+      last: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
+    },
+  },
 };

@@ -76,7 +76,7 @@ describe('CDP - Debt Balances Page Diary Codes', () => {
     cy.get('@alert-content')
       .find('h2')
       .contains(
-        `We're reducing your benefit payments each month until your debt is paid`,
+        `We’re reducing your benefit payments each month until your debt is paid`,
       );
     cy.get('@alert-content')
       .find('[data-testid="link-make-payment"]')

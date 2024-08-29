@@ -35,11 +35,11 @@ export const requireSignInTopics = [
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
   'GI Bill',
-  'VA Caregiver Support Program',
-  'Family member health benefits',
-  'VHA Prosthetics',
-  'Veteran Health ID (VHIC – Facility Access/Check-In)',
-  'Veteran ID (Retailer Discount)',
+  'Caregiver support program',
+  'Family health benefits',
+  'Prosthetics',
+  'Veteran Health Identification Card (VHIC) for health appointments',
+  'Veteran ID Card (VIC) for discounts',
 ];
 
 // Check to show Your Personal Information page and NOT About Yourself page
