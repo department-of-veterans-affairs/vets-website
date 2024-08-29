@@ -92,7 +92,7 @@ const DeniedConfirmation = ({
             </div>
             <va-button
               uswds
-              className="usa-button meb-print"
+              className="usa-button vads-u-margin-top--3 vads-u-width--auto"
               text="Print this page"
               onClick={printPage}
             />
