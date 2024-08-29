@@ -118,7 +118,7 @@ const testConfig = createTestConfig(
     setupPerTest: () => {
       cypressSetup();
 
-      cy.intercept('POST', 'v0/decision_review_evidence', mockUpload);
+      cy.intercept('POST', 'v1/decision_review_evidence', mockUpload);
       cy.intercept('POST', `v0/${formConfig.submitUrl}`, mockSubmit);
       cy.intercept('POST', `v1/${formConfig.submitUrl}`, mockSubmit);
 
