@@ -13,16 +13,13 @@ function App({ location, children, isLoading, featureToggles, savedForms }) {
     return <va-loading-indicator message="Loading your information..." />;
   }
 
-  const flipperV2 = featureToggles.vaDependentsV2;
-  const hasV1Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686C,
-  );
-  const hasV2Form = savedForms.some(
-    form => form.form === VA_FORM_IDS.FORM_21_686CV2,
+  const isFlipperV2Enabled = featureToggles.vaDependentsV2;
+
+  const hasV1InProgress = savedForms?.some(
+    ({ form }) => form === VA_FORM_IDS.FORM_21_686C,
   );
 
-  const shouldUseV2 = hasV2Form || (flipperV2 && !hasV1Form);
-  if (!shouldUseV2) {
+  if (!isFlipperV2Enabled || hasV1InProgress) {
     window.location.href = '/view-change-dependents/add-remove-form-21-686c/';
     return null;
   }
