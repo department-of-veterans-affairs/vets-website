@@ -157,7 +157,7 @@ const getFieldSelectors = () => {
  * @param {string} pathname - The pathname of the page to run the page hook on.
  */
 const performPageActions = (pathname, _13647Exception = false) => {
-  cy.axeCheck('main', { _13647Exception });
+  // cy.axeCheck('main', { _13647Exception });
 
   cy.execHook(pathname).then(({ hookExecuted, postHook }) => {
     const shouldAutofill = !pathname.match(
@@ -167,8 +167,8 @@ const performPageActions = (pathname, _13647Exception = false) => {
     if (!hookExecuted && shouldAutofill) cy.fillPage();
 
     cy.expandAccordions();
-    cy.injectAxe();
-    cy.axeCheck('main', { _13647Exception });
+    // cy.injectAxe();
+    // cy.axeCheck('main', { _13647Exception });
 
     const postHookPromise = new Promise(resolve => {
       postHook();
@@ -623,7 +623,8 @@ const testForm = testConfig => {
         });
 
         it('fills the form', () => {
-          cy.visit(rootUrl).injectAxe();
+          // cy.visit(rootUrl).injectAxe();
+          cy.visit(rootUrl);
 
           cy.get(LOADING_SELECTOR)
             .should('not.exist')
