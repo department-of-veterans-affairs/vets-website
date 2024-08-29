@@ -27,7 +27,7 @@ const ConfirmationPage = ({ form }) => {
       </div>
       <va-alert status="success" visible>
         <h2 slot="headline">
-          Thank you for completing your application to become a VA accredited
+          Thank you for completing your application to become a VA-accredited
           attorney or claims agent (Form {formId})
         </h2>
         <p className="vads-u-margin-y--0">

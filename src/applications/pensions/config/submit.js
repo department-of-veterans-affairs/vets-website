@@ -36,11 +36,11 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig) {
+export function submit(form, formConfig, apiPath = '/v0/pension_claims') {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
-  return apiRequest(`${environment.API_URL}/v0/pension_claims`, {
+  return apiRequest(`${environment.API_URL}${apiPath}`, {
     body,
     headers,
     method: 'POST',

@@ -18,18 +18,21 @@ const CurrentBenefitsStatus = ({
         <h2 className="vads-u-font-size--lg vads-u-font-family--serif vads-u-margin-top--2">
           Current benefits status
         </h2>
-        <div>
-          <Paragraph title=" Remaining benefits" date={remainingBenefits} />
-          <Paragraph
-            title=" Expiration date"
-            date={expirationDate}
-            className="vads-u-margin-top--neg2"
-          />
-        </div>
-        <p className="vads-u-font-weight--normal vads-u-font-family--sans text-color">
-          Benefits end 10 years from the date of your last discharge or release
-          from active duty.
-        </p>
+        <Paragraph title=" Remaining benefits" date={remainingBenefits} />
+        {expirationDate && (
+          <>
+            <Paragraph
+              title="Delimiting date"
+              date={expirationDate}
+              className="vads-u-margin-top--neg2"
+            />
+
+            <p className="vads-u-font-weight--normal vads-u-font-family--sans text-color">
+              Benefits end 10 years from the date of your last discharge or
+              release from active duty.
+            </p>
+          </>
+        )}
         {link && <>{link()}</>}
       </va-card>
     </div>
@@ -38,6 +41,7 @@ const CurrentBenefitsStatus = ({
 
 CurrentBenefitsStatus.propTypes = {
   expirationDate: PropTypes.string,
+  indicator: PropTypes.string,
   link: PropTypes.func,
   remainingBenefits: PropTypes.string,
   updated: PropTypes.string,

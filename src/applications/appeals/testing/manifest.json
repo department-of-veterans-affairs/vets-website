@@ -1,8 +1,0 @@
-{
-  "appName": "Request a Board Appeal",
-  "entryFile": "./app-entry.jsx",
-  "entryName": "appeals-testing",
-  "rootUrl": "/decision-reviews/appeals-testing",
-  "production": false,
-  "productId": "5dd32517-00fd-4e97-afed-e6db1f1f54f9"
-}

@@ -5,8 +5,7 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Message Details AXE Check', () => {
   it('Axe Check Message Details Page', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const date = new Date();
     date.setDate(date.getDate() - 2);
     PatientInboxPage.loadInboxMessages(inboxMessages);

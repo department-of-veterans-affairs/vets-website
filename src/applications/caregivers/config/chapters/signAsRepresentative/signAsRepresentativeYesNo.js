@@ -1,25 +1,33 @@
-import { representativeFields } from '../../../definitions/constants';
-import { RepresentativeDescription } from '../../../components/FormDescriptions';
+import { merge } from 'lodash';
+import {
+  radioUI,
+  titleUI,
+  descriptionUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+import RepresentativeDescription from '../../../components/FormDescriptions/ApplicationSignatureDescription';
+import RepresentativeReviewField from '../../../components/FormReview/RepresentativeReviewField';
+import content from '../../../locales/en/content.json';
 
-const representativePage = {
+const signAsRepresentative = {
   uiSchema: {
-    'ui:description': RepresentativeDescription,
-    [representativeFields.signAsRepresentativeYesNo]: {
-      'ui:title': 'Select who will sign for the Veteran today:',
-      'ui:widget': 'radio',
-      'ui:options': {
+    ...titleUI(content['sign-as-rep-title--review']),
+    ...descriptionUI(RepresentativeDescription),
+    signAsRepresentativeYesNo: merge(
+      {},
+      radioUI({
+        title: content['sign-as-rep-input-label'],
         labels: {
-          no: 'The Veteran',
-          yes:
-            'A representative with legal authority to make decisions for the Veteran',
+          no: content['sign-as-rep-no-text'],
+          yes: content['sign-as-rep-yes-text'],
         },
-      },
-    },
+      }),
+      { 'ui:reviewField': RepresentativeReviewField },
+    ),
   },
   schema: {
     type: 'object',
     properties: {
-      [representativeFields.signAsRepresentativeYesNo]: {
+      signAsRepresentativeYesNo: {
         type: 'string',
         enum: ['no', 'yes'],
       },
@@ -27,4 +35,4 @@ const representativePage = {
   },
 };
 
-export default representativePage;
+export default signAsRepresentative;

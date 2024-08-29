@@ -1,4 +1,5 @@
 import React from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -43,7 +44,15 @@ const NavCard = ({
   ));
   const slug = `mhv-c-card-${title.replaceAll(/\W+/g, '-').toLowerCase()}`;
   return (
-    <div className="vads-u-height--full vads-u-padding-x--5 vads-u-padding-top--4 vads-u-padding-bottom--2 vads-u-background-color--gray-lightest">
+    <div
+      className={classnames(
+        'vads-u-height--full',
+        'vads-u-padding-x--4',
+        'vads-u-padding-top--3',
+        'vads-u-padding-bottom--2',
+        'vads-u-background-color--gray-lightest',
+      )}
+    >
       <div className="vads-u-display--flex vads-u-align-items--center">
         {icon && (
           <div className={`vads-u-flex--auto ${iconClasses}`}>

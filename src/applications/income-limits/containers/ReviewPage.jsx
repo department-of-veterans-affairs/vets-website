@@ -126,14 +126,13 @@ const ReviewPage = ({
             </span>
             <span className="income-limits-edit">
               {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-              <a
-                aria-label="Edit year"
+              <va-link
+                label="Edit year"
                 href="#"
                 onClick={() => handleEditClick(ROUTES.YEAR)}
                 name="year"
-              >
-                Edit
-              </a>
+                text="Edit"
+              />
             </span>
           </li>
         )}
@@ -144,14 +143,13 @@ const ReviewPage = ({
           </span>
           <span className="income-limits-edit">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              aria-label="Edit zip code"
+            <va-link
+              label="Edit zip code"
               href="#"
               onClick={() => handleEditClick(ROUTES.ZIPCODE)}
               name="zipCode"
-            >
-              Edit
-            </a>
+              text="Edit"
+            />
           </span>
         </li>
         <li>
@@ -161,14 +159,13 @@ const ReviewPage = ({
           </span>
           <span className="income-limits-edit">
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a
-              aria-label="Edit number of dependents"
+            <va-link
+              label="Edit number of dependents"
               href="#"
               onClick={() => handleEditClick(ROUTES.DEPENDENTS)}
               name="dependents"
-            >
-              Edit
-            </a>
+              text="Edit"
+            />
           </span>
         </li>
       </ul>

@@ -24,7 +24,7 @@ import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const EnrollmentVerificationPageWrapper = ({ children }) => {
   useScrollToTop();
-  const { expirationDate, updated, month, day, loading } = useData();
+  const { expirationDate, updated, month, day, loading, indicator } = useData();
   const response = useSelector(state => state.personalInfo);
   const personalInfo = response?.personalInfo?.['vye::UserInfo'];
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
@@ -159,6 +159,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                   updated={updated}
                   remainingBenefits={`${month} Months, ${day} Days`}
                   expirationDate={expirationDate}
+                  indicator={indicator}
                   link={() => (
                     <PageLink
                       linkText="Manage your Montgomery GI Bill benefits information"

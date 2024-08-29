@@ -4,9 +4,8 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Compose a new message with attachments', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });
@@ -29,10 +28,10 @@ describe('Compose a new message with attachments', () => {
   });
 
   it('verify attachments info', () => {
-    const optList = Data.ATTACH_INFO;
-
-    cy.get(Locators.INFO.ATTACH_INFO).click({ force: true });
-    PatientComposePage.verifyAttachmentInfo(optList);
+    cy.get(Locators.INFO.ADDITIONAL_INFO)
+      .contains(`attaching`)
+      .click({ force: true });
+    PatientComposePage.verifyAttachmentInfo(Data.ATTACH_INFO);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -43,13 +42,15 @@ describe('Compose a new message with attachments', () => {
     PatientComposePage.removeAttachedFile();
 
     cy.get(Locators.BLOCKS.ATTACHMENTS).should('not.be.visible');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
 
 describe('verify attach file button behaviour', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
   });

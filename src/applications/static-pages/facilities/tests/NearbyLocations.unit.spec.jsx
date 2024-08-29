@@ -351,6 +351,28 @@ describe('automated', () => {
       done();
     }, 0);
   });
+  it('should render no nearby vet center with alert', done => {
+    const fakeStore = createFakeStore(automatedState);
+    mockApiRequest(fetchedVetCenters);
+
+    const wrapper = mount(
+      <Provider store={fakeStore}>
+        <NearbyVetCenters
+          mainVetCenterAddress={mainVetCenterAddress}
+          mainVetCenterId="vc_0441V"
+          mainVetCenterPhone="906-233-0244"
+        />
+      </Provider>,
+    );
+
+    // wait for useEffect
+    setTimeout(() => {
+      wrapper.update();
+      expect(wrapper.find('#other-near-locations-not-found')).to.exist;
+      wrapper.unmount();
+      done();
+    }, 0);
+  });
 });
 
 describe('NearbyVALocations', () => {

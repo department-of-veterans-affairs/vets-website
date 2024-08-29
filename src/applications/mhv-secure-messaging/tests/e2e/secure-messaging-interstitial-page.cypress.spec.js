@@ -4,8 +4,7 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('can send message', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToInterstitialPage();
 

@@ -7,7 +7,7 @@ const DateSubheading = ({ date, label, id, testId, labelClass }) => {
       className="time-header vads-u-margin-top--1 vads-u-margin-bottom--4"
       data-testid={testId}
     >
-      <p className={labelClass || 'vads-u-font-weight--bold'} id={id}>
+      <p className={labelClass ?? ''} id={id}>
         {label || 'Date'}:{' '}
         <span
           className="vads-u-font-weight--normal"

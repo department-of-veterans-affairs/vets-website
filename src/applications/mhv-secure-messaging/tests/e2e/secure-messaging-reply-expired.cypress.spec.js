@@ -5,16 +5,14 @@ import mockMessages from './fixtures/messages-response.json';
 import defaultMockThread from './fixtures/thread-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Reply to Expired Mesage', () => {
+describe('Secure Messaging Reply to Expired Message', () => {
   it('reply expired messages', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(
       mockMessages,
       PatientInboxPage.getExpired46DayOldMessageDetails(),
     );
-    messageDetailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       PatientInboxPage.getExpired46DayOldMessageDetails(),
       defaultMockThread,
       0,

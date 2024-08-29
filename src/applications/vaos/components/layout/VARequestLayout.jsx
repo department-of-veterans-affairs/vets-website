@@ -3,18 +3,13 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { VaTelephone } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import { useLocation } from 'react-router-dom';
-import {
-  selectModalityText,
-  selectRequestedAppointmentData,
-} from '../../appointment-list/redux/selectors';
+import { selectRequestedAppointmentData } from '../../appointment-list/redux/selectors';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
 import DetailPageLayout, { Section } from './DetailPageLayout';
 import PageLayout from '../../appointment-list/components/PageLayout';
 import Address from '../Address';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { TIME_TEXT } from '../../utils/appointment';
 import FacilityPhone from '../FacilityPhone';
 
 export default function VARequestLayout({ data: appointment }) {
@@ -35,7 +30,7 @@ export default function VARequestLayout({ data: appointment }) {
   );
   const queryParams = new URLSearchParams(search);
   const showConfirmMsg = queryParams.get('confirmMsg');
-  const modiality = selectModalityText(appointment, true);
+  const preferredModality = appointment?.preferredModality;
   const [reason, otherDetails] = bookingNotes?.split(':') || [];
 
   let heading = 'We have received your request';
@@ -45,15 +40,12 @@ export default function VARequestLayout({ data: appointment }) {
     heading = 'Canceled request for appointment';
 
   return (
-    <PageLayout showNeedHelp>
+    <PageLayout isDetailPage showNeedHelp>
       <DetailPageLayout heading={heading} data={appointment}>
         <Section heading="Preferred date and time">
           <ul className="usa-unstyled-list">
-            {preferredDates.map((option, optionIndex) => (
-              <li key={`${appointment.id}-option-${optionIndex}`}>
-                {moment(option.start).format('ddd, MMMM D, YYYY')}{' '}
-                {moment(option.start).hour() < 12 ? TIME_TEXT.AM : TIME_TEXT.PM}
-              </li>
+            {preferredDates.map((date, index) => (
+              <li key={`${appointment.id}-option-${index}`}>{date}</li>
             ))}
           </ul>
         </Section>
@@ -61,7 +53,7 @@ export default function VARequestLayout({ data: appointment }) {
           {typeOfCareName || 'Type of care not noted'}
         </Section>
         <Section heading="How you prefer to attend">
-          <span>{modiality}</span>
+          <span>{preferredModality}</span>
         </Section>
         <Section heading="Facility">
           {!!facility?.name && (
@@ -86,10 +78,11 @@ export default function VARequestLayout({ data: appointment }) {
         </Section>
         <Section heading="Details you’d like to share with your provider">
           <span>
-            Reason: {`${reason && reason !== 'none' ? reason : 'Not noted'}`}
+            Reason:{' '}
+            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not noted'}`}</span>
+          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
         </Section>
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>

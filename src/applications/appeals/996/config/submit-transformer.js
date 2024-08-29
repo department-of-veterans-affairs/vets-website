@@ -14,10 +14,14 @@ import {
   getTimeZone,
 } from '../../shared/utils/submit';
 
+import { showNewHlrContent } from '../utils/helpers';
+
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const informalConference = formData.informalConference !== 'no';
+    const informalConference = showNewHlrContent(formData)
+      ? formData.informalConferenceChoice === 'yes'
+      : ['me', 'rep'].includes(formData.informalConference);
     const attributes = {
       // This value may empty if the user restarts the form; see
       // va.gov-team/issues/13814
@@ -32,7 +36,9 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      socOptIn: formData.socOptIn,
+      // Newer HLR gives no choice; defaulting to true until new Lighthouse API
+      // is ready
+      socOptIn: showNewHlrContent(formData) || formData.socOptIn,
     };
 
     const included = addAreaOfDisagreement(

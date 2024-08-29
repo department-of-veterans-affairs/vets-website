@@ -180,14 +180,17 @@ export const arrayBuilderYesNoUI = (
 
   const requiredFn = typeof required === 'function' ? required : () => required;
 
-  const customHint =
-    typeof yesNoOptionsMore?.hint === 'function'
-      ? yesNoOptionsMore?.hint
-      : () => yesNoOptionsMore?.hint;
-  const customMoreHint =
-    typeof yesNoOptions?.hint === 'function'
-      ? yesNoOptions?.hint
-      : () => yesNoOptions?.hint;
+  const getCustomHint = options => {
+    if (options && Object.prototype.hasOwnProperty.call(options, 'hint')) {
+      return typeof options.hint === 'function'
+        ? options.hint
+        : () => options.hint;
+    }
+    return null;
+  };
+
+  const customHint = getCustomHint(yesNoOptionsMore);
+  const customMoreHint = getCustomHint(yesNoOptions);
 
   return {
     ...yesNoUI({
@@ -202,19 +205,19 @@ export const arrayBuilderYesNoUI = (
                 `Do you have another ${nounSingular} to add?`,
               'ui:options': {
                 labelHeaderLevel: yesNoOptionsMore?.labelHeaderLevel || '4',
-                hint:
-                  customHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }) ||
-                  maxItemsHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }),
+                hint: customHint
+                  ? customHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    })
+                  : maxItemsHint({
+                      arrayData,
+                      nounSingular,
+                      nounPlural,
+                      maxItems,
+                    }),
                 labels: {
                   Y: yesNoOptionsMore?.labels?.Y || 'Yes',
                   N: yesNoOptionsMore?.labels?.N || 'No',
@@ -230,21 +233,21 @@ export const arrayBuilderYesNoUI = (
               'ui:title': defaultTitle,
               'ui:options': {
                 labelHeaderLevel: yesNoOptions?.labelHeaderLevel || '3',
-                hint:
-                  customMoreHint({
-                    arrayData,
-                    nounSingular,
-                    nounPlural,
-                    maxItems,
-                  }) ||
-                  `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
-                    {
+                hint: customMoreHint
+                  ? customMoreHint({
                       arrayData,
                       nounSingular,
                       nounPlural,
                       maxItems,
-                    },
-                  )}`,
+                    })
+                  : `You’ll need to add at least one ${nounSingular}. ${maxItemsHint(
+                      {
+                        arrayData,
+                        nounSingular,
+                        nounPlural,
+                        maxItems,
+                      },
+                    )}`,
                 labels: {
                   Y: yesNoOptions?.labels?.Y || 'Yes',
                   N: yesNoOptions?.labels?.N || 'No',

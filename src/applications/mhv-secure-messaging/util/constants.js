@@ -15,6 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
+  CONTACT_LIST: '/contact-list/',
 };
 
 export const DefaultFolders = {
@@ -51,8 +52,11 @@ export const ErrorMessages = {
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
+    CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
+    SIGNATURE_REQUIRED: 'Enter your full name',
+    VALID_SIGNATURE_REQUIRED: 'This field accepts alphabetic characters only',
     UNABLE_TO_SAVE: {
       title: "We can't save this message yet",
       p1: 'We need more information from you before we can save this draft.',
@@ -65,6 +69,16 @@ export const ErrorMessages = {
         "If you save this message as a draft, you'll need to attach your files again when you're ready to send the message.",
       saveDraft: 'Save draft without attachments',
       editDraft: 'Keep editing',
+    },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS: {
+      title: "We can't save your signature or attachments in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature or attachments',
+    },
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE: {
+      title: "We can't save your signature in a draft message",
+      editDraft: 'Edit draft',
+      saveDraft: 'Save draft without signature',
     },
     UNABLE_TO_SAVE_OTHER: 'Something went wrong... Failed to save message.',
     ATTACHMENTS: {
@@ -103,6 +117,16 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       'unable to save draft with attachment error',
     UNABLE_TO_SAVE_ERROR: 'no attachments and navigating away',
+    UNABLE_TO_SAVE_DRAFT_SIGNATURE_ERROR: 'unable to save draft with signature',
+    UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
+      'unable to save draft with attachment and signature',
+  },
+  ContactList: {
+    SAVE_AND_EXIT: {
+      title: 'Save changes to your contact list?',
+      confirmButtonText: 'Save and exit',
+      cancelButtonText: 'Continue editing',
+    },
   },
 };
 
@@ -135,6 +159,7 @@ export const Alerts = {
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
+    SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
   },
 
   Folder: {
@@ -178,16 +203,6 @@ export const Errors = {
   },
 };
 
-export const Links = {
-  Link: {
-    CANNOT_REPLY: {
-      CLASSNAME: 'fas fa-edit vads-u-margin-right--1 vads-u-margin-top--1',
-      TITLE: 'Start a new message',
-      TO: Paths.COMPOSE,
-    },
-  },
-};
-
 export const Prompts = {
   Attachment: {
     REMOVE_ATTACHMENT_TITLE: 'Are you sure you want to remove this attachment?',
@@ -200,6 +215,10 @@ export const Prompts = {
       'You can edit your contact list or signature settings on the My HealtheVet website. Then refresh this page to review your updated list.',
     EDIT_PREFERENCES_LINK: `Edit your message preferences on the My HealtheVet website 
     (opens in a new tab)`,
+    SIGNATURE_REQUIRED:
+      'Messages to this team require a signature. We added a signature box to this page.',
+    SIGNATURE_NOT_REQUIRED:
+      "Messages to this team don't require a signature. We removed the signature box from this page.",
   },
   Message: {
     DELETE_MESSAGE_CONFIRM:
@@ -210,7 +229,7 @@ export const Prompts = {
   Draft: {
     DELETE_DRAFT_CONFIRM: 'Are you sure you want to delete this draft?',
     DELETE_DRAFT_CONFIRM_NOTE:
-      "Drafts are permanently deleted and this action can't be undone. \n\n Deleting a draft won't affect other messages in this conversation.",
+      "Drafts are permanently deleted and this action can't be undone. Deleting a draft won't affect other messages in this conversation.",
     DELETE_NEW_DRAFT_TITLE: 'Delete this draft?',
     DELETE_NEW_DRAFT_CONTENT: `If you delete a draft, you can't get it back.`,
   },
@@ -227,10 +246,33 @@ export const Breadcrumbs = {
   INBOX: { href: Paths.INBOX, label: 'Inbox', isRouterLink: true },
   DRAFTS: { href: Paths.DRAFTS, label: 'Drafts', isRouterLink: true },
   DRAFT: { href: Paths.DRAFT, label: 'Drafts', isRouterLink: true },
-  FOLDERS: { href: Paths.FOLDERS, label: 'Folders', isRouterLink: true },
+  FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
   TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
+  MESSAGE_THREAD: {
+    href: Paths.MESSAGE_THREAD,
+    label: 'Edit draft',
+    isRouterLink: true,
+  },
 };
+
+export const InnerNavigationPaths = [
+  {
+    path: Paths.INBOX,
+    label: Breadcrumbs.INBOX.label,
+    datatestid: 'inbox-inner-nav',
+  },
+  {
+    path: Paths.SENT,
+    label: Breadcrumbs.SENT.label,
+    datatestid: 'sent-inner-nav',
+  },
+  {
+    path: Paths.FOLDERS,
+    label: Breadcrumbs.FOLDERS.label,
+    datatestid: 'folders-inner-nav',
+  },
+];
 
 export const ALERT_TYPE_ERROR = 'error';
 export const ALERT_TYPE_SUCCESS = 'success';
@@ -270,6 +312,17 @@ export const Attachments = {
   MAX_FILE_COUNT: 4,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+};
+
+export const ElectronicSignatureBox = {
+  TITLE: 'Electronic signature',
+  DESCRIPTION:
+    'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',
+  FULLNAME_LABEL: 'Your full name',
+  CHECKBOX_LABEL:
+    'I certify that the above is correct and true to the best of my knowledge and belief.',
+  NOTE_PARAGRAPH:
+    'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information (Reference: 18 U.S.C. 1001).',
 };
 
 export const threadSortingOptions = {
@@ -332,10 +385,12 @@ export const BreadcrumbViews = {
 export const PageTitles = {
   DEFAULT_PAGE_TITLE_TAG: 'Messages - MHV Secure Messaging | Veterans Affairs',
   PAGE_TITLE_TAG: '- MHV Secure Messaging | Veterans Affairs',
+  CONVERSATION_TITLE_TAG:
+    'Conversation - MHV Secure Messaging | Veterans Affairs',
   EDIT_DRAFT_PAGE_TITLE_TAG:
     'Edit draft - MHV Secure Messaging | Veterans Affairs',
   MY_FOLDERS_PAGE_TITLE_TAG:
-    'Folders - MHV Secure Messaging | Veterans Affairs',
+    'More folders - MHV Secure Messaging | Veterans Affairs',
 };
 
 export const Recipients = {
@@ -348,6 +403,7 @@ export const ParentComponent = {
   FOLDER_HEADER: 'Folder Header',
   MESSAGE_THREAD: 'Message Thread',
   REPLY_FORM: 'Reply Form',
+  CONTACT_LIST: 'Contact list',
 };
 
 export const RecipientStatus = {

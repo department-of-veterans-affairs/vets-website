@@ -63,7 +63,7 @@ export function schema(currentSchema, userOptions) {
 export const uiSchema = {
   'ui:title': 'Service periods',
   'ui:options': {
-    itemName: 'service period',
+    itemName: 'Service period',
     viewField: ServicePeriodView,
     hideTitle: true,
   },

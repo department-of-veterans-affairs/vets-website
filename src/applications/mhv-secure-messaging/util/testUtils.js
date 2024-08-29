@@ -51,3 +51,12 @@ export const selectVaRadio = (container, value, selector = 'va-radio') => {
   });
   $(selector, container).__events.vaValueChange(changeEvent);
 };
+
+export const checkVaCheckbox = (checkboxGroup, bool) => {
+  checkboxGroup.__events.vaChange({
+    target: {
+      checked: bool,
+    },
+    detail: { checked: bool },
+  });
+};

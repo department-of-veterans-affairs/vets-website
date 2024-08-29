@@ -5,9 +5,7 @@ import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('Start a new message With Attacments and Errors', () => {
   it('start a new message with attachment', () => {
-    // const composePage = new PatientComposePage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();
@@ -43,7 +41,7 @@ describe('Start a new message With Attacments and Errors', () => {
     // logic has changed here. After attaching 4th file, Attach File button becomes hidden
     cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
 
-    // composePage.verifyAttachmentErrorMessage(
+    // PatientComposePage.verifyAttachmentErrorMessage(
     //   'You may only attach up to 4 files',
     // );
 

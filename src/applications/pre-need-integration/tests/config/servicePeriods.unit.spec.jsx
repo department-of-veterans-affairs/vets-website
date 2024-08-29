@@ -15,10 +15,17 @@ const mockStore = configureMockStore();
 
 const payload = {
   application: {
+    claimant: {
+      dateOfBirth: '2000-1-1', // This DOB should be before the service dates being tested
+    },
     veteran: {
       serviceRecords: [
         {
           serviceBranch: 'AL',
+          dateRange: {
+            from: '2002-1-1',
+            to: '2003-1-1',
+          },
         },
       ],
     },
@@ -57,6 +64,7 @@ describe('Pre-need service periods', () => {
             schema={schema}
             definitions={formConfig.defaultDefinitions}
             onSubmit={onSubmit}
+            data={payload}
             uiSchema={uiSchema}
           />
         </Provider>,
@@ -64,7 +72,7 @@ describe('Pre-need service periods', () => {
 
       form.find('form').simulate('submit');
 
-      expect(form.find('.usa-input-error').length).to.equal(1);
+      expect(form.find('.usa-input-error').length).to.equal(2);
       expect(onSubmit.called).to.be.false;
       form.unmount();
     });

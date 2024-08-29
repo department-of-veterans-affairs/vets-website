@@ -29,8 +29,10 @@ const CTALink = ({
     >
       {text}
       {showArrow && (
-        <i
-          className="fa fa-chevron-right vads-u-margin-left--1"
+        <va-icon
+          icon="chevron_right"
+          size={3}
+          className="vads-u-margin-left--1"
           aria-hidden="true"
         />
       )}

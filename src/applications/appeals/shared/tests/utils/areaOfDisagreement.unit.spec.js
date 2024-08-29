@@ -118,9 +118,9 @@ describe('disagreeWith', () => {
     otherEntry,
   });
   it('should return an empty list', () => {
-    expect(disagreeWith()).to.eq('Disagree with ');
-    expect(disagreeWith({})).to.eq('Disagree with ');
-    expect(disagreeWith(getData())).to.eq('Disagree with ');
+    expect(disagreeWith()).to.eq('Disagree with');
+    expect(disagreeWith({})).to.eq('Disagree with');
+    expect(disagreeWith(getData())).to.eq('Disagree with');
   });
   it('should return a list of selected disagreements', () => {
     expect(disagreeWith(getData(true))).to.eq(
@@ -164,5 +164,15 @@ describe('disagreeWith', () => {
     expect(disagreeWith(getData(true, true, true, 'test 6'))).to.eq(
       'Disagree with the service connection, the effective date of award, your evaluation of my condition, and test 6',
     );
+  });
+  it('should return a list with custom prefix & trimmed string', () => {
+    expect(disagreeWith('', { prefix: 'prefix test' })).to.eq('prefix test');
+    expect(disagreeWith({}, { prefix: 'lorem ipsum   ' })).to.eq('lorem ipsum');
+    expect(
+      disagreeWith(getData(false, false, true), { prefix: 'Prefix: ' }),
+    ).to.eq('Prefix:  your evaluation of my condition');
+    expect(
+      disagreeWith(getData(false, false, false, 'other'), { prefix: '' }),
+    ).to.eq('other');
   });
 });

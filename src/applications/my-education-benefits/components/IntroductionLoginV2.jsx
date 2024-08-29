@@ -44,7 +44,7 @@ function IntroductionLoginV2({
   if (showMeb1990EZR6MaintenanceMessage) {
     // Message for the R6 maintenance period
     maintenanceMessage =
-      'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+      'We are currently performing system updates. Please come back on July 8 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
   } else if (shouldShowMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
@@ -191,6 +191,7 @@ IntroductionLoginV2.propTypes = {
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,

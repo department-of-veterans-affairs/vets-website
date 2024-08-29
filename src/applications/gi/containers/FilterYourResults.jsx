@@ -108,8 +108,9 @@ export function FilterYourResults({
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
-  const [nameValue, setNameValue] = useState(search.query.name);
-  // const { isCleared, setIsCleared, loading } = useFilterBtn(true);
+  const [nameValue, setNameValue] = useState(
+    search.query.name || search.query.location,
+  );
   const recordCheckboxEvent = e => {
     recordEvent({
       event: 'gibct-form-change',

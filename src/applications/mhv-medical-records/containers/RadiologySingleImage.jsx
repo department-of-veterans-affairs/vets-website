@@ -15,7 +15,7 @@ const RadiologySingleImage = () => {
     return {
       name: 'ANKLE LEFT 3 VIEWS',
       category: 'Radiology',
-      orderedBy: 'Beth M. Smith',
+      orderedBy: 'DOE, JANE A',
       reason: 'Injury',
       clinicalHistory: 'Information',
       imagingProvider: 'John J. Lydon',

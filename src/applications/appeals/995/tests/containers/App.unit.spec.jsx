@@ -9,11 +9,16 @@ import * as Sentry from '@sentry/browser';
 
 import { setStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { SET_DATA } from 'platform/forms-system/src/js/actions';
 
 import App from '../../containers/App';
 
 import { EVIDENCE_VA } from '../../constants';
 import { SELECTED } from '../../../shared/constants';
+import {
+  FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+  FETCH_CONTESTABLE_ISSUES_FAILED,
+} from '../../../shared/actions';
 
 const hasComp = { benefitType: 'compensation' };
 
@@ -171,19 +176,37 @@ describe('App', () => {
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal(hasComp);
     });
   });
 
-  it('should update contestable issues', async () => {
+  it('should update contested issues', async () => {
     const { props, data } = getData({
       loggedIn: true,
-      data: { ...hasComp, internalTesting: true },
+      data: {
+        ...hasComp,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
     });
     const contestableIssues = {
-      status: 'done',
-      issues: [],
+      status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
+      issues: [
+        {
+          attributes: {
+            ratingIssueSubjectText: 'test',
+            approxDecisionDate: '2000-01-02',
+          },
+        },
+      ],
       legacyCount: 0,
     };
     const store = mockStore({ ...data, contestableIssues });
@@ -197,13 +220,57 @@ describe('App', () => {
     // testing issuesNeedUpdating branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal({
         ...hasComp,
-        contestedIssues: [],
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-02',
+              description: '',
+            },
+          },
+        ],
         legacyCount: 0,
         internalTesting: true,
       });
+    });
+  });
+
+  it('should not update contestable issues when the API fails', async () => {
+    const { props, data } = getData({
+      loggedIn: true,
+      data: {
+        ...hasComp,
+        internalTesting: true,
+        contestedIssues: [
+          {
+            attributes: {
+              ratingIssueSubjectText: 'test',
+              approxDecisionDate: '2000-01-01',
+            },
+          },
+        ],
+      },
+    });
+    const contestableIssues = {
+      status: FETCH_CONTESTABLE_ISSUES_FAILED,
+      issues: [],
+      legacyCount: undefined,
+    };
+    const store = mockStore({ ...data, contestableIssues });
+
+    render(
+      <Provider store={store}>
+        <App {...props} />
+      </Provider>,
+    );
+
+    // testing issuesNeedUpdating branch for code coverage
+    await waitFor(() => {
+      const actions = store.getActions();
+      expect(actions.length).to.eq(0);
     });
   });
 
@@ -236,7 +303,7 @@ describe('App', () => {
     // testing update evidence (evidenceNeedsUpdating) branch for code coverage
     await waitFor(() => {
       const [action] = store.getActions();
-      expect(action.type).to.eq('SET_DATA');
+      expect(action.type).to.eq(SET_DATA);
       expect(action.data).to.deep.equal({
         ...data.form.data,
         providerFacility: [],

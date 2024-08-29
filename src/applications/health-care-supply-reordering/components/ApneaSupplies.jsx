@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import moment from 'moment';
 
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+
 import { setData } from '@department-of-veterans-affairs/platform-forms-system/actions';
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 // FIXME: figure out why cypress doesn't like this import.
@@ -131,41 +133,25 @@ class ApneaSupplies extends Component {
                 <div>
                   {currentDate.diff(apneaSupply.nextAvailabilityDate, 'days') <
                     0 && apneaSupply.availableForReorder ? (
-                    <div className="usa-alert usa-alert-warning vads-u-background-color--white vads-u-padding-x--2p5 vads-u-padding-y--2 vads-u-width--full">
-                      <div className="usa-alert-body">
-                        <h3 className="usa-alert-heading vads-u-font-family--sans">
-                          You can't order this CPAP supply online until{' '}
-                          {moment(apneaSupply.nextAvailabilityDate).format(
-                            'MMMM D, YYYY',
-                          )}
-                        </h3>
-                      </div>
-                    </div>
+                    <va-alert status="warning">
+                      <h3 className="usa-alert-heading vads-u-font-family--sans">
+                        You can't order this CPAP supply online until{' '}
+                        {moment(apneaSupply.nextAvailabilityDate).format(
+                          'MMMM D, YYYY',
+                        )}
+                      </h3>
+                    </va-alert>
                   ) : (
                     <div>
-                      <input
+                      <VaCheckbox
                         id={apneaSupply.productId}
                         className="vads-u-margin-left--0"
-                        type="checkbox"
-                        onChange={e =>
+                        onVaChange={e =>
                           this.handleChecked(e.target.checked, apneaSupply)
                         }
                         checked={isApneaSupplySelected(apneaSupply.productId)}
+                        label="Order this CPAP supply"
                       />
-                      <label
-                        htmlFor={apneaSupply.productId}
-                        className={classnames({
-                          'usa-button vads-u-font-weight--bold vads-u-border--2px vads-u-border-color--primary vads-u-text-align--left vads-u-padding-x--2': true,
-                          'vads-u-color--white': isApneaSupplySelected(
-                            apneaSupply.productId,
-                          ),
-                          'vads-u-background-color--white vads-u-color--primary': !isApneaSupplySelected(
-                            apneaSupply.productId,
-                          ),
-                        })}
-                      >
-                        Order this CPAP supply
-                      </label>
                     </div>
                   )}
                 </div>

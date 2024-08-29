@@ -15,7 +15,7 @@ import getData from '../../fixtures/mocks/mockStore';
 const expectedFieldTypes = 'input, select, textarea';
 
 const expectedFieldTypesWebComponents =
-  'va-text-input, va-select, va-textarea, va-number-input, va-radio, va-checkbox, va-memorable-date';
+  'va-text-input, va-select, va-textarea, va-radio, va-checkbox, va-memorable-date';
 
 const wrapperWebComponents = 'va-checkbox-group, va-memorable-date';
 
@@ -158,14 +158,20 @@ export const testNumberOfFieldsByType = (
       expect(container.querySelectorAll('va-textarea')).to.have.lengthOf(
         expectedFields['va-textarea'] || 0,
       );
-      expect(container.querySelectorAll('va-number-input')).to.have.lengthOf(
-        expectedFields['va-number-input'] || 0,
-      );
       expect(container.querySelectorAll('input')).to.have.lengthOf(
         expectedFields.input || 0,
       );
     });
   });
+};
+
+export const getWebComponentErrors = container => {
+  const nodes = Array.from(
+    container.querySelectorAll(
+      `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
+    ),
+  );
+  return nodes.filter(node => node.error);
 };
 
 export const testNumberOfErrorsOnSubmitForWebComponents = (
@@ -191,24 +197,11 @@ export const testNumberOfErrorsOnSubmitForWebComponents = (
       );
 
       getByRole('button', { name: /submit/i }).click();
-      const nodes = Array.from(
-        container.querySelectorAll(
-          `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-        ),
-      );
-      const errors = nodes.filter(node => node.error);
+
+      const errors = getWebComponentErrors(container);
       expect(errors).to.have.lengthOf(expectedNumberOfErrors);
     });
   });
-};
-
-export const getWebComponentErrors = container => {
-  const nodes = Array.from(
-    container.querySelectorAll(
-      `${expectedFieldTypesWebComponents}, ${wrapperWebComponents}`,
-    ),
-  );
-  return nodes.filter(node => node.error);
 };
 
 export const testSubmitsWithoutErrors = (

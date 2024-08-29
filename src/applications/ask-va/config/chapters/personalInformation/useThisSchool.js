@@ -1,9 +1,9 @@
 import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
+import YourSchool from '../../../components/FormFields/YourSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, useThisSchoolOptions } from '../../../constants';
 import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
-import YourSchool from '../../../components/FormFields/YourSchool';
 
 const useThisSchoolPage = {
   uiSchema: {
@@ -19,7 +19,7 @@ const useThisSchoolPage = {
     type: 'object',
     required: ['useSchool'],
     properties: {
-      useSchool: radioSchema(Object.keys(useThisSchoolOptions)),
+      useSchool: radioSchema(Object.values(useThisSchoolOptions)),
     },
   },
 };

@@ -3,18 +3,17 @@ import {
   radioUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-const roleOptions = {
-  ATTORNEY: 'Attorney',
-  CLAIMS_AGENT: 'Claims agent',
-};
+import RoleDescription from '../../components/01-personal-information-chapter/RoleDescription';
+import { roleOptions } from '../../constants/options';
 
 /** @type {PageSchema} */
 export default {
-  title: 'role',
+  title: 'Role',
   path: 'role',
   uiSchema: {
     role: radioUI({
-      title: 'What type of role are you applying for?',
+      title: 'Which role are you applying for?',
+      description: RoleDescription,
       labels: roleOptions,
     }),
   },

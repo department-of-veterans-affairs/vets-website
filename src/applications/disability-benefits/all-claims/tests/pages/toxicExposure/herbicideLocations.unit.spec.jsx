@@ -17,6 +17,7 @@ import {
   herbicidePageTitle,
   herbicideQuestion,
   noneAndLocationError,
+  otherInvalidCharError,
 } from '../../../content/toxicExposure';
 import { HERBICIDE_LOCATIONS } from '../../../constants';
 
@@ -132,8 +133,14 @@ describe('Herbicide Location', () => {
 
   it('should display error when other location does not match pattern', () => {
     const formData = {};
+    const onSubmit = sinon.spy();
     const { container, getByText } = render(
-      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
     );
 
     inputVaTextInput(
@@ -143,7 +150,8 @@ describe('Herbicide Location', () => {
     );
 
     userEvent.click(getByText('Submit'));
-    expect($('va-textarea').error.startsWith('does not match pattern'));
+    expect($('va-textarea').error).to.equal(otherInvalidCharError);
+    expect(onSubmit.called).to.be.false;
   });
 
   it('should submit with "notsure" and other locations selected', async () => {

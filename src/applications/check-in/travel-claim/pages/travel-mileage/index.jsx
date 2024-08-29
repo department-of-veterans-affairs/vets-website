@@ -15,6 +15,7 @@ import Wrapper from '../../../components/layout/Wrapper';
 import BackButton from '../../../components/BackButton';
 import SingleAppointmentBody from './SingleAppointmentBody';
 import MultipleAppointmentBody from './MultiAppointmentBody';
+import ExternalLink from '../../../components/ExternalLink';
 
 const TravelMileage = props => {
   const { router } = props;
@@ -87,10 +88,22 @@ const TravelMileage = props => {
         <div data-testid={JSON.stringify(selectedAppointment)}>
           <va-alert-expandable
             status="info"
-            trigger={t('mileage-reimbursement-rates')}
+            trigger={t('how-we-calculate-mileage')}
             class="vads-u-margin-y--4"
           >
-            <p>{t('the-payment-amount-depends-on-type')}</p>
+            <ul>
+              <li>{t('we-pay-round-trip-mileage-for-scheduled')}</li>
+              <li>{t('we-may--only-pay-return-for-unscheduled')}</li>
+            </ul>
+            <ExternalLink
+              href="https://www.va.gov/resources/reimbursed-va-travel-expenses-and-mileage-rate/#mileage-reimbursement-rate"
+              hrefLang="en"
+              target="_blank"
+              rel="noreferrer"
+              className="vads-u-padding-top--3 vads-u-display--block"
+            >
+              {t('check-current-mileage-rates')}
+            </ExternalLink>
           </va-alert-expandable>
           {multipleAppointments ? (
             <>

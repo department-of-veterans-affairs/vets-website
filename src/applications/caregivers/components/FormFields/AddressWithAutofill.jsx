@@ -1,19 +1,17 @@
 import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-
-import constants from 'vets-json-schema/dist/constants.json';
+import { useSelector } from 'react-redux';
+import { states } from 'platform/forms/address';
 import {
   VaCheckbox,
   VaSelect,
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import {
-  primaryInputLabel,
-  secondaryOneInputLabel,
-  secondaryTwoInputLabel,
-} from '../../definitions/UIDefinitions/caregiverUI';
 import { AddressWithAutofillReviewField } from '../FormReview/AddressWithAutofillReviewField';
+import { CaregiverCountyDescription } from '../FormDescriptions/AddressCountyDescriptions';
+import { REQUIRED_ADDRESS_FIELDS } from '../../utils/constants';
+import { replaceStrValues } from '../../utils/helpers';
+import content from '../../locales/en/content.json';
 
 const PrimaryAddressWithAutofill = props => {
   const {
@@ -23,29 +21,29 @@ const PrimaryAddressWithAutofill = props => {
     idSchema,
     onChange,
     schema,
-    veteranAddress,
   } = props;
   const { reviewMode, submitted } = formContext;
-  const { properties: schemaProps, required: reqFields } = schema;
+  const { properties: schemaProps } = schema;
+  const { veteranAddress } = useSelector(state => state.form.data);
   const [dirtyFields, setDirtyFields] = useState([]);
 
   // define our custom error messages
   const errorMessages = {
-    street: { required: 'Please enter a home address' },
-    city: { required: 'Please enter a city' },
-    state: { required: 'Please enter a state' },
+    street: { required: content['validation-address--street-required'] },
+    city: { required: content['validation-address--city-required'] },
+    state: { required: content['validation-address--state-required'] },
     postalCode: {
-      required: 'Please enter a postal code',
-      pattern:
-        'Please enter a valid 5- or 9-digit postal code (dashes allowed)',
+      required: content['validation-address--postalCode-required'],
+      pattern: content['validation-address--postalCode-pattern'],
     },
+    county: { required: content['validation-address--county-required'] },
   };
 
   // define our custom input labels
   const inputLabelMap = {
-    primaryAddress: primaryInputLabel,
-    secondaryOneAddress: secondaryOneInputLabel,
-    secondaryTwoAddress: secondaryTwoInputLabel,
+    primaryAddress: content['primary-input-label'],
+    secondaryOneAddress: content['secondary-one-input-label'],
+    secondaryTwoAddress: content['secondary-two-input-label'],
   };
 
   // populate our dirty fields array on user interaction
@@ -102,7 +100,7 @@ const PrimaryAddressWithAutofill = props => {
     // validate only if field is dirty or form has been submitted
     if ((submitted || fieldIsDirty) && errorList.length) {
       // validate required fields
-      if (reqFields.includes(field) && !formData[field]) {
+      if (REQUIRED_ADDRESS_FIELDS.includes(field) && !formData[field]) {
         return errorMessages[field].required;
       }
       // validate fields with required pattern matches
@@ -113,7 +111,7 @@ const PrimaryAddressWithAutofill = props => {
         }
       }
     }
-    return false;
+    return null;
   };
 
   return reviewMode ? (
@@ -123,70 +121,74 @@ const PrimaryAddressWithAutofill = props => {
     />
   ) : (
     <fieldset className="cg-address-with-autofill vads-u-margin-y--2">
-      <legend className="vads-u-visibility--screen-reader">
-        {inputLabelMap[props.name]} current address
+      <legend className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
+        <p>{content['caregiver-address-description--vet-home']}</p>
+        <p className="va-address-block vads-u-margin-left--0">
+          {veteranAddress.street} {veteranAddress.street2}
+          <br />
+          {veteranAddress.city}, {veteranAddress.state}{' '}
+          {veteranAddress.postalCode}
+        </p>
       </legend>
 
       <VaCheckbox
-        id="root_primaryAddress_autofill"
-        name="root_primaryAddress_autofill"
+        id="root_caregiverAddress_autofill"
+        name="root_caregiverAddress_autofill"
         checked={formData['view:autofill']}
-        label="Use the same address as the Veteran"
+        label={content['caregiver-address-same-as-vet-label']}
         onVaChange={handleCheck}
-        uswds
       />
 
       <VaTextInput
         id={idSchema.street.$id}
         name={idSchema.street.$id}
         value={formData.street}
-        label={`${inputLabelMap[props.name]} current home address`}
-        hint="This is the address where the Caregiver lives"
+        label={replaceStrValues(
+          content['form-address-street-label'],
+          inputLabelMap[props.name],
+        )}
+        hint={content['caregiver-address-street-hint']}
         className="cg-address-input"
-        error={showError('street') || null}
+        error={showError('street')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       />
 
       <VaTextInput
         id={idSchema.street2.$id}
         name={idSchema.street2.$id}
         value={formData.street2}
-        label="Home address line 2"
+        label={content['form-address-street2-label']}
         className="cg-address-input"
         onInput={handleChange}
         onBlur={handleBlur}
-        uswds
       />
 
       <VaTextInput
         id={idSchema.city.$id}
         name={idSchema.city.$id}
         value={formData.city}
-        label="City"
+        label={content['form-address-city-label']}
         className="cg-address-input"
-        error={showError('city') || null}
+        error={showError('city')}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       />
 
       <VaSelect
         id={idSchema.state.$id}
         name={idSchema.state.$id}
         value={formData.state}
-        label="State"
+        label={content['form-address-state-label']}
         className="cg-address-select"
-        error={showError('state') || null}
+        error={showError('state')}
         onVaSelect={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       >
-        {constants.states.USA.map(state => (
+        {states.USA.map(state => (
           <option key={state.value} value={state.value}>
             {state.label}
           </option>
@@ -197,15 +199,28 @@ const PrimaryAddressWithAutofill = props => {
         id={idSchema.postalCode.$id}
         name={idSchema.postalCode.$id}
         value={formData.postalCode}
-        label="Postal code"
-        className="cg-address-input cg-input-size-medium"
-        error={showError('postalCode') || null}
+        label={content['form-address-postalCode-label']}
+        className="cg-address-input"
+        error={showError('postalCode')}
         pattern={schemaProps.postalCode.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
         required
-        uswds
       />
+
+      <VaTextInput
+        id={idSchema.county.$id}
+        name={idSchema.county.$id}
+        value={formData.county}
+        label={content['form-address-county-label']}
+        className="cg-address-input"
+        error={showError('county')}
+        onInput={handleChange}
+        onBlur={handleBlur}
+        required
+      >
+        <CaregiverCountyDescription />
+      </VaTextInput>
     </fieldset>
   );
 };
@@ -217,12 +232,7 @@ PrimaryAddressWithAutofill.propTypes = {
   idSchema: PropTypes.object,
   name: PropTypes.string,
   schema: PropTypes.object,
-  veteranAddress: PropTypes.object,
   onChange: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-  veteranAddress: state.form.data.veteranAddress,
-});
-
-export default connect(mapStateToProps)(PrimaryAddressWithAutofill);
+export default PrimaryAddressWithAutofill;

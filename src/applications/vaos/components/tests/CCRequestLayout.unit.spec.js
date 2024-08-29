@@ -42,11 +42,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              system: 'email',
+              type: 'email',
               value: 'user@va.gov',
             },
             {
-              system: 'phone',
+              type: 'phone',
               value: '1234567890',
             },
           ],
@@ -56,6 +56,7 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        preferredDates: [],
         videoData: {},
         vaos: {
           isCommunityCare: true,
@@ -177,11 +178,11 @@ describe('VAOS Component: VARequestLayout', () => {
         contact: {
           telecom: [
             {
-              system: 'email',
+              type: 'email',
               value: 'user@va.gov',
             },
             {
-              system: 'phone',
+              type: 'phone',
               value: '1234567890',
             },
           ],
@@ -191,6 +192,7 @@ describe('VAOS Component: VARequestLayout', () => {
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
         },
+        preferredDates: [],
         videoData: {},
         vaos: {
           isCommunityCare: true,

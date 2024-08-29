@@ -1,16 +1,29 @@
-import { formatReviewDate } from '~/platform/forms-system/src/js/helpers';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 import {
+  arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastDateRangeSchema,
-  currentOrPastDateRangeUI,
+  descriptionUI,
   selectSchema,
   selectUI,
-  titleUI,
+  textareaSchema,
+  textareaUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 
-import MilitaryServiceExperienceNote from '../../components/MilitaryServiceExperienceNote';
+import MilitaryServiceIntro from '../../components/02-military-service-chapter/MilitaryServiceIntro';
+import {
+  branchOptions,
+  characterOfDischargeOptions,
+  explanationRequired,
+} from '../../constants/options';
+import { createDateRangeText } from '../helpers/createDateRangeText';
+import {
+  dateRangeWithCurrentCheckboxSchema,
+  dateRangeWithCurrentCheckboxUI,
+} from '../helpers/dateRangeWithCurrentCheckboxPattern';
+
+const requireExplanation = characterOfDischarge =>
+  explanationRequired.includes(characterOfDischarge);
 
 /** @type {ArrayBuilderOptions} */
 const arrayBuilderOptions = {
@@ -19,25 +32,23 @@ const arrayBuilderOptions = {
   nounPlural: 'military service experiences',
   required: false,
   isItemIncomplete: item =>
-    !item?.serviceBranch ||
-    !item?.serviceDateRange ||
-    !item?.characterOfDischarge,
+    !item?.branch ||
+    !item?.dateRange?.from ||
+    (!item?.dateRange?.to && !item?.currentlyServing) ||
+    (!item?.currentlyServing && !item?.characterOfDischarge) ||
+    (!item?.currentlyServing &&
+      requireExplanation(item?.characterOfDischarge) &&
+      !item?.explanationOfDischarge),
   text: {
-    getItemName: item => item.serviceBranch,
-    cardDescription: item =>
-      `${formatReviewDate(item?.serviceDateRange?.from)} - ${formatReviewDate(
-        item?.serviceDateRange?.to,
-      )}`,
+    getItemName: item => item?.branch,
+    cardDescription: item => createDateRangeText(item, 'currentlyServing'),
   },
 };
 
 /** @returns {PageSchema} */
 const introPage = {
   uiSchema: {
-    ...titleUI(
-      'Your service history',
-      'If you have served in the military, we will ask you about your service history over the next couple of pages.',
-    ),
+    ...descriptionUI(MilitaryServiceIntro),
   },
   schema: {
     type: 'object',
@@ -45,46 +56,70 @@ const introPage = {
   },
 };
 
-const serviceBranchOptions = [
-  'Army',
-  'Navy',
-  'Air Force',
-  'Marine Corps',
-  'Space Force',
-  'Coast Guard',
-];
-
-const characterOfDischargeOptions = ['Honorable', 'Other'];
-
 /** @returns {PageSchema} */
-const militaryServiceExperiencePage = {
+const branchAndDateRangePage = {
   uiSchema: {
-    ...titleUI(
-      'Military service experience',
-      'Please add your military service history details below.',
-    ),
-    serviceBranch: selectUI('Branch of service'),
-    serviceDateRange: currentOrPastDateRangeUI(
-      'Active service start date',
-      'Active service end date',
-    ),
-    characterOfDischarge: selectUI('Character of discharge'),
-    'view:serviceNote': {
-      'ui:description': MilitaryServiceExperienceNote,
-    },
+    ...arrayBuilderItemFirstPageTitleUI({
+      title: 'Military service experience',
+      description:
+        'List all periods of military service experience. You will be able to add additional periods of service on subsequent screens.',
+      nounSingular: arrayBuilderOptions.nounSingular,
+    }),
+    branch: selectUI('Branch of service'),
+    ...dateRangeWithCurrentCheckboxUI({
+      fromLabel: 'Service start date',
+      toLabel: 'Service end date',
+      currentLabel:
+        'I am currently serving in this military service experience.',
+      currentKey: 'currentlyServing',
+      isCurrentChecked: (formData, index) =>
+        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
-      serviceBranch: selectSchema(serviceBranchOptions),
-      serviceDateRange: currentOrPastDateRangeSchema,
-      characterOfDischarge: selectSchema(characterOfDischargeOptions),
-      'view:serviceNote': {
-        type: 'object',
-        properties: {},
-      },
+      branch: selectSchema(branchOptions),
+      ...dateRangeWithCurrentCheckboxSchema('currentlyServing'),
     },
-    required: ['serviceBranch', 'serviceDateRange', 'characterOfDischarge'],
+    required: ['branch'],
+  },
+};
+
+/** @returns {PageSchema} */
+const characterOfDischargePage = {
+  uiSchema: {
+    characterOfDischarge: selectUI({
+      title: 'Character of discharge',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      characterOfDischarge: selectSchema(characterOfDischargeOptions),
+    },
+  },
+};
+
+/** @returns {PageSchema} */
+const explanationOfDischargePage = {
+  uiSchema: {
+    explanationOfDischarge: textareaUI({
+      title: 'Explain the nature of your discharge.',
+      required: (formData, index) =>
+        !formData?.militaryServiceExperiences?.[index]?.currentlyServing &&
+        requireExplanation(
+          formData?.militaryServiceExperiences?.[index]?.characterOfDischarge,
+        ),
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      explanationOfDischarge: textareaSchema,
+    },
   },
 };
 
@@ -100,10 +135,11 @@ const summaryPage = {
       {
         title: 'Have you ever served in the military?',
         labelHeaderLevel: 'p',
+        hint: ' ',
       },
       {
-        title: 'Do you have another military service experience?',
         labelHeaderLevel: 'p',
+        hint: 'Include all periods of military service.',
       },
     ),
   },
@@ -118,10 +154,10 @@ const summaryPage = {
 
 const militaryServiceExperiencesPages = arrayBuilderPages(
   arrayBuilderOptions,
-  pageBuilder => ({
+  (pageBuilder, helpers) => ({
     militaryServicesExperiences: pageBuilder.introPage({
-      title: 'Military service experiences',
-      path: 'military-service-experiences',
+      title: 'Military service history intro',
+      path: 'military-service-history-intro',
       uiSchema: introPage.uiSchema,
       schema: introPage.schema,
     }),
@@ -131,11 +167,33 @@ const militaryServiceExperiencesPages = arrayBuilderPages(
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
     }),
-    militaryServiceExperiencePage: pageBuilder.itemPage({
-      title: 'Military service experience',
-      path: 'military-service-experiences/:index/experience',
-      uiSchema: militaryServiceExperiencePage.uiSchema,
-      schema: militaryServiceExperiencePage.schema,
+    militaryServiceExperienceBranchDateRangePage: pageBuilder.itemPage({
+      title: 'Military service experience branch and date range',
+      path: 'military-service-experiences/:index/branch-date-range',
+      onNavForward: props => {
+        return !props.formData.currentlyServing
+          ? helpers.navForwardKeepUrlParams(props)
+          : helpers.navForwardFinishedItem(props);
+      },
+      uiSchema: branchAndDateRangePage.uiSchema,
+      schema: branchAndDateRangePage.schema,
+    }),
+    militaryServiceExperienceCharacterOfDischargePage: pageBuilder.itemPage({
+      title: 'Military service experience character of discharge',
+      path: 'military-service-experiences/:index/discharge-character',
+      onNavForward: props => {
+        return requireExplanation(props.formData.characterOfDischarge)
+          ? helpers.navForwardKeepUrlParams(props)
+          : helpers.navForwardFinishedItem(props);
+      },
+      uiSchema: characterOfDischargePage.uiSchema,
+      schema: characterOfDischargePage.schema,
+    }),
+    militaryServiceExperienceExplanationOfDischargePage: pageBuilder.itemPage({
+      title: 'Military service experience explanation of discharge',
+      path: 'military-service-experiences/:index/discharge-explanation',
+      uiSchema: explanationOfDischargePage.uiSchema,
+      schema: explanationOfDischargePage.schema,
     }),
   }),
 );

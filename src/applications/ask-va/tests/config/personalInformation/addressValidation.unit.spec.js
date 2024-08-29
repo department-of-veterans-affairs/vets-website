@@ -13,7 +13,7 @@ import formConfig from '../../../config/form';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.addressValidation_generalquestion;
+} = formConfig.chapters.generalQuestion.pages.addressValidation_generalquestion;
 
 describe('addressValidationPage', () => {
   it('should render', () => {

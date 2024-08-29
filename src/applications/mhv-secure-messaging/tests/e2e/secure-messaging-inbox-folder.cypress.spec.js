@@ -6,8 +6,7 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('Secure Messaging Inbox Message Sort', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 

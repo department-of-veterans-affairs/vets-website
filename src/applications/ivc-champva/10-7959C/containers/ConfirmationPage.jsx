@@ -4,7 +4,12 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaLinkAction,
+  VaLink,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   requiredFiles,
   office,
@@ -25,10 +30,15 @@ const heading = (
 
 const requiredWarningHeading = (
   <>
-    {heading}
+    <VaAlert uswds status="warning">
+      <h2>
+        You submitted your CHAMPVA Other Health Insurance Certification form
+        without required documents
+      </h2>
+    </VaAlert>
     <p>
       You’ll still need to send us these required documents in order for us to
-      process this application:
+      process this form:
     </p>
   </>
 );
@@ -37,6 +47,13 @@ const optionalWarningHeading = (
   <>
     {heading}
     <p>You can still send us these optional documents for faster processing:</p>
+  </>
+);
+
+const mailPreamble = (
+  <>
+    <p>Write the Beneficiary’s name on each page of the document.</p>
+    <p>Mail copies of the documents here: </p>
   </>
 );
 
@@ -54,9 +71,12 @@ export function ConfirmationPage(props) {
     showMail: true,
     allPages: form.pages,
     fileNameMap: prefixFileNames(data, requiredFiles),
+    optionalDescription: '',
+    requiredDescription: '',
     requiredFiles,
     nonListNameKey: 'applicantName',
     mailingAddress: officeAddress,
+    mailPreamble,
     officeName: office,
     faxNum: officeFaxNum,
     showNameHeader: false,
@@ -81,24 +101,15 @@ export function ConfirmationPage(props) {
 
       {OverviewComp}
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
-      <p>
-        We'll contact you by mail or phone if we have questions or need more
-        information.
-        <br />
-        <br />
-        And we'll send you a letter in the mail with our decision.
-      </p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
         </h3>
-        {data.statementOfTruthSignature && (
+        {(data.statementOfTruthSignature || data.signature) && (
           <span className="veterans-full-name">
             <strong>Who submitted this form</strong>
             <br />
-            {data.statementOfTruthSignature}
-            <br />
+            {data.statementOfTruthSignature || data.signature}
           </span>
         )}
         <br />
@@ -129,9 +140,29 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      <a className="vads-c-action-link--green" href="https://www.va.gov/">
-        Go back to VA.gov
-      </a>
+      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <p>
+        It will take approximately 60 days to process your form once received by
+        CHAMPVA.
+      </p>
+      <p>
+        If we have any questions, need additional information, or encounter any
+        issues, we will contact you.
+      </p>
+
+      <h2 className="vads-u-font-size--h3">
+        How to contact us about your form
+      </h2>
+      <p>
+        If you have any questions about your application you can call the
+        CHAMPVA call center at <VaTelephone contact="800-733-8387" />. We’re
+        here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
+      </p>
+      <p>You can also contact us online through our Ask VA tool.</p>
+      <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      <br />
+      <br />
+      <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );
 }

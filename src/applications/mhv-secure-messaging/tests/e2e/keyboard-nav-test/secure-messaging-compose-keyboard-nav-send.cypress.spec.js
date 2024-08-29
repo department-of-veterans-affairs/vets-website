@@ -5,18 +5,10 @@ import { AXE_CONTEXT, Data } from '../utils/constants';
 
 describe('Secure Messaging Compose', () => {
   it('verify user can send message with keyboard', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+
     PatientComposePage.selectRecipient('CAMRY_PCMM RELATIONSHIP_05092022_SLC4');
     PatientComposePage.selectCategory();
     PatientComposePage.attachMessageFromFile(Data.TEST_IMAGE);
@@ -30,5 +22,9 @@ describe('Secure Messaging Compose', () => {
     PatientComposePage.pushSendMessageWithKeyboardPress();
     PatientComposePage.verifySendMessageConfirmationMessageText();
     PatientComposePage.verifySendMessageConfirmationMessageHasFocus();
+    PatientComposePage.verifyHeader('Inbox');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

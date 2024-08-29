@@ -35,11 +35,14 @@ export default {
           You can authorize the release of only your own information with this
           online form. If you’re a court-ordered or VA-appointed fiduciary
           representing a beneficiary, you’ll need to{' '}
-          <va-link
-            download
+          <a
             href="http://www.vba.va.gov/pubs/forms/VBA-21-0845-ARE.pdf"
-            text="download the PDF version of this form"
-          />
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            download the PDF version of this form
+            <va-icon icon="launch" srtext="opens in a new window" />
+          </a>
           . Then submit it in person or by mail.
         </p>
       ),

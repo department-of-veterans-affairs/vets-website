@@ -6,12 +6,12 @@ import mockSearchCustomMessages from '../fixtures/search-advanced-custom-folder-
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import PatientMessageCustomFolderPage from '../pages/PatientMessageCustomFolderPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
+import PatentMessageSentPage from '../pages/PatientMessageSentPage';
 
 describe(manifest.appName, () => {
   describe('Advanced search in Inbox', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       cy.intercept(
         'POST',
@@ -42,8 +42,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Drafts', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       FolderLoadPage.loadDraftMessages();
@@ -76,11 +75,10 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Sent', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
-      FolderLoadPage.loadSentMessages();
+      PatentMessageSentPage.loadMessages();
 
       cy.intercept(
         'POST',
@@ -111,8 +109,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Trash', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       FolderLoadPage.loadDeletedMessages();
@@ -146,8 +143,7 @@ describe(manifest.appName, () => {
 
   describe('Advanced search in Custom folder', () => {
     beforeEach(() => {
-      const site = new SecureMessagingSite();
-      site.login();
+      SecureMessagingSite.login();
       PatientInboxPage.loadInboxMessages();
       FolderLoadPage.loadFolders();
       PatientMessageCustomFolderPage.loadMessages();

@@ -1,16 +1,15 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
 import { expect } from 'chai';
-import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
-import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
-
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+
 import environment from '~/platform/utilities/environment';
+import { renderInReduxProvider } from 'platform/testing/unit/react-testing-library-helpers';
+import DowntimeBanners from 'platform/user/authentication/components/DowntimeBanner';
+import { DOWNTIME_BANNER_CONFIG } from 'platform/user/authentication/downtime';
 import { statuses } from './fixtures/mock-downtime';
 
-const server = setupServer();
 const STATUSES_URL = `${environment.API_URL}/v0/backend_statuses`;
 
 const baseResponse = {
@@ -25,14 +24,12 @@ const baseResponse = {
 const generateMultipleStatuses = () => {
   const result = { ...baseResponse };
 
-  const downStatuses = statuses.reduce((acc, cv) => {
+  result.data.attributes.statuses = statuses.reduce((acc, cv) => {
     if (cv.serviceId === 'mvi' || cv.serviceId === 'idme') {
       acc.push({ ...cv, status: 'nope' });
     }
     return acc;
   }, []);
-
-  result.data.attributes.statuses = downStatuses;
 
   return result;
 };
@@ -40,12 +37,10 @@ const generateMultipleStatuses = () => {
 const generateSingleStatus = (serviceDown = false, serviceId = 'mvi') => {
   const result = { ...baseResponse };
 
-  result.data.attributes.statuses = statuses.map(el => {
-    return {
-      ...el,
-      status: serviceDown && el.serviceId === serviceId ? 'nope' : 'active',
-    };
-  });
+  result.data.attributes.statuses = statuses.map(el => ({
+    ...el,
+    status: serviceDown && el.serviceId === serviceId ? 'nope' : 'active',
+  }));
 
   return result;
 };
@@ -54,19 +49,26 @@ const generateMockResponse = (
   serviceDown = false,
   serviceId = 'mvi',
   isMultipleServices = false,
-) => {
-  return isMultipleServices
+) =>
+  isMultipleServices
     ? generateMultipleStatuses()
     : generateSingleStatus(serviceDown, serviceId);
-};
-
-beforeEach(() => server.listen());
-afterEach(() => {
-  server.resetHandlers();
-  server.close();
-});
 
 describe('DowntimeBanner', () => {
+  const server = setupServer();
+
+  before(() => {
+    server.listen();
+  });
+
+  afterEach(() => {
+    server.resetHandlers();
+  });
+
+  after(() => {
+    server.close();
+  });
+
   const downtimeBannersWithoutMultipleOrMaint = Object.keys(
     DOWNTIME_BANNER_CONFIG,
   ).filter(dt => !['multipleServices', 'maintenance'].includes(dt));

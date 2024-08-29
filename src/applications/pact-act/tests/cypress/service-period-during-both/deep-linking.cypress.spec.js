@@ -47,6 +47,16 @@ describe('PACT Act', () => {
       cy.injectAxeThenAxeCheck();
     });
 
+    it('redirects to home when the burn pit 2-1-3 page is loaded without the right criteria', () => {
+      cy.visit(`${h.ROOT}/${ROUTES.BURN_PIT_2_1_3}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
     it('redirects to home when the agent orange 2-2-A page is loaded without the right criteria', () => {
       cy.visit(`${h.ROOT}/${ROUTES.ORANGE_2_2_A}`);
 
@@ -129,6 +139,16 @@ describe('PACT Act', () => {
 
     it('redirects to home when the lejeune 2-4 page is loaded without the right criteria', () => {
       cy.visit(`${h.ROOT}/${ROUTES.LEJEUNE_2_4}`);
+
+      h.verifyUrl(ROUTES.HOME);
+
+      // Home
+      h.verifyElement(h.START_LINK);
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('redirects to home when the main flow 2-5 page is loaded without the right criteria', () => {
+      cy.visit(`${h.ROOT}/${ROUTES.MAIN_FLOW_2_5}`);
 
       h.verifyUrl(ROUTES.HOME);
 

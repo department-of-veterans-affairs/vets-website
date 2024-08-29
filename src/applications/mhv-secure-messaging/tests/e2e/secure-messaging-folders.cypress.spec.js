@@ -3,11 +3,11 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 import PatientInboxPage from './pages/PatientInboxPage';
+import PatentMessageSentPage from './pages/PatientMessageSentPage';
 
 describe(manifest.appName, () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 
@@ -27,7 +27,7 @@ describe(manifest.appName, () => {
   });
 
   it('Check the Sent folder', () => {
-    FolderLoadPage.loadSentMessages();
+    PatentMessageSentPage.loadMessages();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
     FolderLoadPage.verifyFolderHeaderText('Sent');
@@ -42,7 +42,7 @@ describe(manifest.appName, () => {
     FolderLoadPage.verifyBreadCrumbsLength(4);
   });
 
-  afterEach(() => {
-    FolderLoadPage.backToFolder('Messages');
-  });
+  // afterEach(() => {
+  //   FolderLoadPage.backToFolder('Messages');
+  // });
 });

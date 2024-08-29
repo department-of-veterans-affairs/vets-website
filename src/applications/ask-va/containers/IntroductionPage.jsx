@@ -10,21 +10,26 @@ import {
   isLoggedIn,
   selectProfile,
 } from '@department-of-veterans-affairs/platform-user/selectors';
+import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
+import { envUrl } from '../constants';
 import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
 import DashboardCards from './DashboardCards';
+import DashboardCardsMock from './DashboardCardsMock';
 
 const IntroductionPage = props => {
-  const { route, loggedIn, toggleLoginModal } = props;
+  const { route, toggleLoginModal, loggedIn } = props;
   const { formConfig, pageList, pathname, formData } = route;
   const [inquiryData, setInquiryData] = useState(false);
   const [searchReferenceNumber, setSearchReferenceNumber] = useState('');
   const [hasError, setHasError] = useState(false);
+  const [showMockDashboard, setShowMockDashboard] = useState(false);
 
   const getStartPage = () => {
     const data = formData || {};
@@ -38,34 +43,22 @@ const IntroductionPage = props => {
 
   useEffect(
     () => {
-      focusElement('.va-nav-breadcrumbs-list');
+      focusElement('.schemaform-title > h1');
     },
     [props],
   );
 
-  // const getApiData = url => {
-  //   return apiRequest(url)
-  //     .then(() => {
-  //       setInquiryData(res);
-  //     })
-  //     .catch(() => setHasError(true));
-  // };
+  const getApiData = url => {
+    return apiRequest(url)
+      .then(res => {
+        setInquiryData(res.data);
+      })
+      .catch(() => setHasError(true));
+  };
 
-  const handleSearchByReferenceNumber = () => {
-    // const url = `${
-    //   envUrl
-    // }/inquiries/${searchReferenceNumber}/status`;
-    // getApiData(url);
-    const mockResponse = {
-      id: 12345,
-      type: 'inquiryStatus',
-      attributes: {
-        status: 'New',
-        levelOfAuthentication: '12389467687',
-      },
-    };
-    setHasError(false);
-    setInquiryData(mockResponse);
+  const handleSearchByReferenceNumber = async () => {
+    const url = `${envUrl}/ask_va_api/v0/inquiries/${searchReferenceNumber}/status`;
+    await getApiData(url);
   };
 
   const handleSearchInputChange = async e => {
@@ -92,8 +85,8 @@ const IntroductionPage = props => {
       );
     }
 
-    if (inquiryData.id && searchReferenceNumber) {
-      const { status, levelOfAuthentication } = inquiryData.attributes;
+    if (inquiryData?.attributes?.status) {
+      const { status } = inquiryData.attributes;
       return (
         <>
           <h3 className="vads-u-font-weight--normal vads-u-font-size--base vads-u-font-family--sans vads-u-border-bottom--2px vads-u-border-color--gray-light vads-u-padding-bottom--2">
@@ -134,18 +127,6 @@ const IntroductionPage = props => {
               </p>
             )}
           </div>
-          {levelOfAuthentication !== 'Unauthenticated' && (
-            // eslint-disable-next-line jsx-a11y/anchor-is-valid
-            <a
-              role="button"
-              className="vads-c-action-link--green vads-u-margin-top--2"
-              // eslint-disable-next-line no-script-url
-              href="javascript:void(0)"
-              onClick={showSignInModal}
-            >
-              Sign in to check your application status{' '}
-            </a>
-          )}
         </>
       );
     }
@@ -159,10 +140,6 @@ const IntroductionPage = props => {
       <p className="">
         You can use Ask VA to ask a question online. You can ask about
         education, disability compensation, health care and many other topics.
-      </p>
-      <p>
-        We will review your information and reply back in up to{' '}
-        <span className="vads-u-font-weight--bold">7 business days.</span>
       </p>
 
       <h3 className="vads-u-margin-top--1">
@@ -181,24 +158,45 @@ const IntroductionPage = props => {
         visible
         uswds
       >
-        <h3 slot="headline">Sign in to ask a question</h3>
+        <h4 slot="headline">Sign in to ask a question</h4>
         <div>
           <p className="vads-u-margin-top--0">
             You’ll need to sign in with a verified{' '}
             <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account or a
             Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
-            or{' '}
-            <span className="vads-u-font-weight--bold">
-              My HealtheVet account.
-            </span>{' '}
-            If you don’t have any of those accounts, you can create a free{' '}
-            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            account. If you don’t have any of those accounts, you can create a
+            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
             <span className="vads-u-font-weight--bold">ID.me</span> account now.
           </p>
           <VaButton
             text="Sign in or create an account"
             onClick={showSignInModal}
+          />
+        </div>
+      </VaAlert>
+
+      <VaAlert
+        close-btn-aria-label="Close notification"
+        status="info"
+        visible
+        uswds
+        className="vads-u-margin-top--3"
+      >
+        <h4 slot="headline">Research Study - Sign in to ask a question</h4>
+        <div>
+          <p className="vads-u-margin-top--0">
+            You’ll need to sign in with a verified{' '}
+            <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account or a
+            Premium <span className="vads-u-font-weight--bold">DS Logon</span>{' '}
+            account. If you don’t have any of those accounts, you can create a
+            free <span className="vads-u-font-weight--bold">Login.gov</span> or{' '}
+            <span className="vads-u-font-weight--bold">ID.me</span> account now.
+          </p>
+          <VaButton
+            text="Sign in or create an account"
+            onClick={() => setShowMockDashboard(true)}
           />
         </div>
       </VaAlert>
@@ -243,7 +241,7 @@ const IntroductionPage = props => {
       </ul>
 
       <h2>Check the status of your question</h2>
-      <p className="vads-u-margin--0">Reference number</p>
+      <p className="vads-u-margin--0">Enter your reference number</p>
       <VaSearchInput
         label="Reference number"
         value={searchReferenceNumber}
@@ -257,9 +255,11 @@ const IntroductionPage = props => {
 
   const authenticatedUI = (
     <>
-      <Link className="vads-c-action-link--green" to={getStartPage}>
-        Ask a new question
-      </Link>
+      <SaveInProgressIntro
+        prefillEnabled={formConfig.prefillEnabled}
+        pageList={pageList}
+        startText="Ask a new question"
+      />
       <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
         <va-accordion
           disable-analytics={{
@@ -273,13 +273,11 @@ const IntroductionPage = props => {
             value: 'true',
           }}
         >
-          <va-accordion-item
-            header="Only use Ask VA for non-urgent questions"
-            id="first"
-          >
+          <va-accordion-item header="When to use Ask VA" id="first">
             <p>
-              It can take up to
-              <strong>7 business days</strong> to get a response.
+              You can use Ask VA to ask a question online. You can ask about
+              education, disability compensation, health care and many other
+              topics.
             </p>
             <p>
               If you need help now, use one of these urgent communication
@@ -314,11 +312,75 @@ const IntroductionPage = props => {
     </>
   );
 
+  const mockDashboard = (
+    <>
+      <va-link-action
+        href="/"
+        message-aria-describedby="Ask a new question"
+        text="Ask a new question"
+      />
+      <div className="vads-u-margin-top--5 vads-u-margin-bottom--5">
+        <va-accordion
+          disable-analytics={{
+            value: 'false',
+          }}
+          open-single
+          section-heading={{
+            value: 'null',
+          }}
+          uswds={{
+            value: 'true',
+          }}
+        >
+          <va-accordion-item header="When to use Ask VA" id="first">
+            <p>
+              You can use Ask VA to ask a question online. You can ask about
+              education, disability compensation, health care and many other
+              topics.
+            </p>
+            <p>
+              If you need help now, use one of these urgent communication
+              options:
+            </p>
+            <ul>
+              <li>
+                <strong>
+                  If you’re in crisis or having thoughts of suicide,
+                </strong>{' '}
+                connect with our Veterans Crisis Line. We offer confidential
+                support anytime, day or night.{' '}
+                <a href="https://www.veteranscrisisline.net">
+                  Connect with Veterans Crisis Line
+                </a>
+              </li>
+              <li>
+                <strong>If you think your life or health is in danger,</strong>{' '}
+                call{' '}
+                <va-telephone
+                  contact="911"
+                  message-aria-describedby="Emergency care contact number"
+                />
+                , or go to the nearest emergency room.
+              </li>
+            </ul>
+          </va-accordion-item>
+        </va-accordion>
+      </div>
+
+      <DashboardCardsMock />
+    </>
+  );
+
+  const subTitle =
+    'Get answers to your questions about VA benefits and service. You should receive a reply within 7 business days.';
+
   return (
     <div className="schemaform-intro">
-      <FormTitle title={formConfig.title} subTitle={formConfig.subTitle} />
-
-      {loggedIn ? authenticatedUI : unAuthenticatedUI}
+      <FormTitle title={formConfig.title} subTitle={subTitle} />
+      {loggedIn && authenticatedUI}
+      {/* Temporary mock dashboard experience for research study */}
+      {!loggedIn && showMockDashboard && mockDashboard}
+      {!loggedIn && !showMockDashboard && unAuthenticatedUI}
     </div>
   );
 };

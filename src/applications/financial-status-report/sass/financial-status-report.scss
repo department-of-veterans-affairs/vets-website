@@ -1,8 +1,8 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "../../../platform/forms/sass/m-schemaform";
 
@@ -10,28 +10,15 @@
 #root__title {
   min-height: 40px;
 }
-
+.form-review-panel-page {
+  margin-bottom: 0;
+}
 .form-review-panel-page tr td:last-child {
   font-weight: inherit;
 }
 
 .schemaform-review-page-error {
   margin: 0;
-}
-
-.debt-card {
-  padding: 24px;
-  label {
-    display: inline-block !important;
-    user-select: none;
-  }
-  [type="checkbox"]:checked + label::before {
-    background-color: var(--vads-color-white);
-    color: var(--vads-color-primary);
-    content: "\f00c";
-    font-family: "Font Awesome 5 Free";
-    padding-right: 2px;
-  }
 }
 
 .selected-debt {
@@ -284,15 +271,10 @@
   position: relative;
 }
 
-.summary-card-delete-button {
-  color: var(--vads-color-secondary-dark);
-  background-color: transparent;
-  width: auto !important;
-  font-weight: bold;
-  &:hover,
-  &:active {
-    color: var(--vads-color-secondary-darkest);
-    background-color: var(--vads-color-secondary-lightest);
+va-button-icon.summary-card-delete-button {
+  &::part(button) {
+    padding: 0.5rem 0.625rem;
+    column-gap: 0.25rem;
   }
 }
 

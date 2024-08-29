@@ -37,6 +37,7 @@ export function ResultCard({
   header = null,
   active = false,
   version,
+  paginationRef,
 }) {
   const {
     name,
@@ -49,6 +50,7 @@ export function ResultCard({
     vetTecProvider,
     schoolProvider,
     employerProvider,
+    tuitionOutOfState,
     preferredProvider,
     programCount,
     programLengthInHours,
@@ -154,6 +156,7 @@ export function ResultCard({
       <div>
         <h3 className={nameClasses} id={`label-${institution.facilityCode}`}>
           <Link
+            ref={paginationRef}
             to={profileLink}
             onClick={() =>
               recordEvent({
@@ -221,7 +224,10 @@ export function ResultCard({
     if (qualifier === null) {
       return value;
     }
-    return <span>{formatCurrency(value)}</span>;
+    const lesserVal = tuitionOutOfState
+      ? Math.min(value, tuitionOutOfState)
+      : value;
+    return <span>{formatCurrency(lesserVal)}</span>;
   };
 
   const tuition = estimate(estimated.tuition);
@@ -341,19 +347,20 @@ export function ResultCard({
             </div>
           )}
           <>
-            {showSchoolContentBasedOnType(type) && (
-              <div
-                className={classNames(
-                  'vads-u-padding-x--2 vads-u-margin-bottom--4',
-                  {
-                    'vads-u-border-top--3px': cautionFlags.length === 0,
-                    'vads-u-border-color--white': cautionFlags.length === 0,
-                  },
-                )}
-              >
-                {tuitionAndEligibility}
-              </div>
-            )}
+            {showSchoolContentBasedOnType(type) &&
+              type !== 'FOREIGN' && (
+                <div
+                  className={classNames(
+                    'vads-u-padding-x--2 vads-u-margin-bottom--4',
+                    {
+                      'vads-u-border-top--3px': cautionFlags.length === 0,
+                      'vads-u-border-color--white': cautionFlags.length === 0,
+                    },
+                  )}
+                >
+                  {tuitionAndEligibility}
+                </div>
+              )}
             <div className="vads-u-border-top--3px vads-u-border-color--white vads-u-padding-x--2">
               <div className="vads-u-display--flex vads-u-margin-top--1 ">
                 {!vetTecProvider

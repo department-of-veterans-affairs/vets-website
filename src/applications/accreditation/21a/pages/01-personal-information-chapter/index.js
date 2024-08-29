@@ -1,27 +1,27 @@
+import personalInformationIntro from './personalInformationIntro';
 import role from './role';
-import barStanding from './barStanding';
-import personalInformation from './personalInformation';
+import lawLicense from './lawLicense';
+import notInGoodStanding from './notInGoodStanding';
+import nameDateOfBirth from './nameDateOfBirth';
 import placeOfBirth from './placeOfBirth';
 import contactInformation from './contactInformation';
 import homeAddress from './homeAddress';
-import employmentStatus from './employmentStatus';
-import workAddress from './workAddress';
-import communicationAddress from './communicationAddress';
+import primaryMailingAddress from './primaryMailingAddress';
 import otherAddress from './otherAddress';
 
 /** @type {PageSchema} */
 export default {
   title: 'Personal information',
   pages: {
+    personalInformationIntro,
     role,
-    barStanding,
-    personalInformation,
+    lawLicense,
+    notInGoodStanding,
+    nameDateOfBirth,
     placeOfBirth,
     contactInformation,
     homeAddress,
-    employmentStatus,
-    workAddress,
-    communicationAddress,
+    primaryMailingAddress,
     otherAddress,
   },
 };

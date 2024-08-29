@@ -8,6 +8,7 @@ import { getFolders, newFolder } from '../actions/folders';
 import { closeAlert } from '../actions/alerts';
 import {
   BlockedTriageAlertStyles,
+  Breadcrumbs,
   PageTitles,
   ParentComponent,
 } from '../util/constants';
@@ -98,7 +99,7 @@ const Folders = () => {
     return (
       <>
         <h1 className="vads-u-margin-bottom--2" data-testid="my-folder-header">
-          Folders
+          {Breadcrumbs.FOLDERS.label}
         </h1>
         {(noAssociations || allTriageGroupsBlocked) && (
           <BlockedTriageGroupAlert
@@ -118,7 +119,11 @@ const Folders = () => {
 
         {folderCount > 0 && (
           <>
-            <FoldersList folders={folders.filter(folder => folder.id !== 0)} />
+            <FoldersList
+              folders={folders.filter(
+                folder => folder.id !== -1 && folder.id !== 0,
+              )}
+            />
           </>
         )}
         <va-button

@@ -1,5 +1,5 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-pagination";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-pagination";
 
 .search-app {
   margin-bottom: 3em;
@@ -75,32 +75,6 @@
       }
     }
   }
-
-
-  .right-nav-link {
-    color: var(--vads-color-link);
-
-
-    &:visited {
-      color: var(--vads-color-link-visited);
-    }
-
-
-    &:hover {
-      color: var(--vads-color-base-darker);
-      background: rgba(0, 0, 0, 0.05);
-    }
-
-
-    &:focus,
-    &:active {
-      color: var(--vads-color-base-darker);
-      background: rgba(0, 0, 0, 0.05);
-      outline: 2px solid var(--vads-color-action-focus-on-light);
-      outline-offset: 2px;
-    }
-  }
-
 
   .usa-alert {
     margin-bottom: 1.25rem;

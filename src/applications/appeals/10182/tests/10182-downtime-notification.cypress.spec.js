@@ -1,4 +1,4 @@
-import { CONTESTABLE_ISSUES_API, SHOW_PART3_REDIRECT } from '../constants';
+import { CONTESTABLE_ISSUES_API } from '../constants';
 
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockData from './fixtures/data/minimal-test.json';
@@ -11,6 +11,6 @@ downtimeTesting({
   contestableApi: `/v0${CONTESTABLE_ISSUES_API}`,
   formId: '10182',
   inProgressVersion: 2,
-  data: { ...mockData.data, [SHOW_PART3_REDIRECT]: 'done' },
+  data: mockData.data,
   mockInProgress,
 });

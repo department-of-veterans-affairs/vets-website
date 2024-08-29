@@ -23,6 +23,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   transformForSubmit: transform,
+  // NOTE: submitUrl may be altered in submitForm by a feature flag
   submitUrl: `${environment.API_URL}/debts_api/v0/financial_status_reports`,
   submit: submitForm,
   submissionError: SubmissionAlert,

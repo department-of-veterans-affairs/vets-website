@@ -10,13 +10,11 @@ import PatientComposePage from './pages/PatientComposePage';
 
 describe('Secure Messaging Reply', () => {
   it('Navigate Away From `Reply to message` To Inbox', () => {
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
-    messageDetailsPage.loadMessageDetails(testMessage);
-    messageDetailsPage.loadReplyPageDetails(testMessage);
+    PatientMessageDetailsPage.loadMessageDetails(testMessage);
+    PatientMessageDetailsPage.loadReplyPageDetails(testMessage);
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });

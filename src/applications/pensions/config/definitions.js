@@ -26,7 +26,7 @@ export const {
 } = fullSchemaPensions.definitions;
 
 export const defaultDefinitions = {
-  address: address.schema(fullSchemaPensions),
+  address: address.schema(fullSchemaPensions, false, 'profileAddress'),
   date,
   dateRange,
   usaPhone,

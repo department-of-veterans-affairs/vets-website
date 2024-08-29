@@ -1,7 +1,9 @@
 import React from 'react';
 import { expect } from 'chai';
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import moment from 'moment-timezone';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import { renderWithRouter } from '../../utils';
 import { buildDateFormatter, scrubDescription } from '../../../utils/helpers';
 
@@ -43,6 +45,7 @@ describe('<DefaultPage>', () => {
       <DefaultPage {...defaultProps} item={item} />,
     );
     expect($('#default-page', container)).to.exist;
+    expect($('.add-files-form', container)).to.exist;
     expect($('.due-date-header', container)).to.exist;
     const formattedClaimDate = formatDate(item.suspenseDate);
     getByText(
@@ -51,7 +54,7 @@ describe('<DefaultPage>', () => {
       ).fromNow()}`,
     );
     expect($('.optional-upload', container)).to.not.exist;
-
+    getByText('Request for Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input', container)).to.exist;
@@ -76,11 +79,13 @@ describe('<DefaultPage>', () => {
       <DefaultPage {...defaultProps} item={item} />,
     );
     expect($('#default-page', container)).to.exist;
+    expect($('.add-files-form', container)).to.exist;
     expect($('.due-date-header', container)).to.not.exist;
     expect($('.optional-upload', container)).to.exist;
     getByText(
       '- We’ve asked others to send this to us, but you may upload it if you have it.',
     );
+    getByText('Request for Submit buddy statement(s)');
     getByText(scrubDescription(item.description));
     expect($('va-additional-info', container)).to.exist;
     expect($('va-file-input', container)).to.exist;

@@ -9,8 +9,6 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
-import { onFormLoaded } from '../utils/redirect';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -19,7 +17,6 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
-  showPart3,
   showExtensionReason,
 } from '../utils/helpers';
 
@@ -53,7 +50,7 @@ import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3, focusH3 } from '../../shared/utils/focus';
+import { focusRadioH3, focusH3, focusOnAlert } from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -89,7 +86,6 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
-  onFormLoaded,
   // SaveInProgress messages
   customText,
   savedFormMessages,
@@ -141,10 +137,8 @@ const formConfig = {
         extensionRequest: {
           title: 'Request an extension',
           path: 'extension-request',
-          depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
-          onContinue: extensionRequest.onContinue,
           scrollAndFocusTarget: focusH3,
         },
         extensionReason: {
@@ -158,7 +152,6 @@ const formConfig = {
         appealingVhaDenial: {
           title: 'Appealing denial of VA health care benefits',
           path: 'appealing-denial',
-          depends: showPart3,
           uiSchema: appealingVhaDenial.uiSchema,
           schema: appealingVhaDenial.schema,
           scrollAndFocusTarget: focusH3,
@@ -170,6 +163,7 @@ const formConfig = {
           schema: contestableIssues.schema,
           appStateSelector,
           scrollAndFocusTarget: focusH3,
+          onContinue: focusOnAlert,
         },
         addIssue: {
           title: 'Add issues for review',

@@ -35,6 +35,7 @@ const Landing = props => {
     setShouldSendTravelPayClaim,
     setCurrentToken,
     setCheckinComplete,
+    setCompleteTimestamp,
   } = useStorage(APP_NAMES.CHECK_IN);
   const dispatch = useDispatch();
 
@@ -57,6 +58,7 @@ const Landing = props => {
       const token = getTokenFromLocation(location);
 
       setCheckinComplete(window, false);
+      setCompleteTimestamp(window, null);
 
       if (!token) {
         updateError('no-token');
@@ -85,7 +87,7 @@ const Landing = props => {
               initForm(pages, firstPage);
               setSession(token, session.permissions);
               if (session.permissions === SCOPES.READ_FULL) {
-                jumpToPage(URLS.LOADING);
+                jumpToPage(URLS.APPOINTMENTS);
               } else {
                 jumpToPage(URLS.VALIDATION_NEEDED);
               }
@@ -113,6 +115,7 @@ const Landing = props => {
       setShouldSendDemographicsFlags,
       setShouldSendTravelPayClaim,
       setCheckinComplete,
+      setCompleteTimestamp,
     ],
   );
   return (

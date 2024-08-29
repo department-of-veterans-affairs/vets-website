@@ -72,7 +72,7 @@ class ProviderDetail extends Component {
             <va-icon icon="mail" size="3" />
             <strong>Email address:</strong>
             <br />
-            <a href={`mailto:${email}`}>{email}</a>
+            <va-link href={`mailto:${email}`} text={email} />
           </div>
         )}
         {website && (
@@ -81,7 +81,7 @@ class ProviderDetail extends Component {
             <strong>Website:</strong>
             <br />
             <a href={website} rel="noopener noreferrer" target="_blank">
-              {website}
+              {website} (opens in a new tab)
             </a>
           </div>
         )}
@@ -135,7 +135,7 @@ class ProviderDetail extends Component {
                   target="_blank"
                   className="about-cc-link"
                 >
-                  What's Community Care and am I eligible?
+                  What's Community Care and am I eligible? (opens in a new tab)
                 </a>
               </div>
             </div>
@@ -147,10 +147,10 @@ class ProviderDetail extends Component {
 }
 
 ProviderDetail.propTypes = {
-  location: object, // technically req, but comes in off a REST call in didMount
   currentQuery: object.isRequired,
   fetchProviderDetail: func.isRequired,
   params: object.isRequired,
+  location: object, // technically req, but comes in off a REST call in didMount
 };
 
 const mapStateToProps = state => ({

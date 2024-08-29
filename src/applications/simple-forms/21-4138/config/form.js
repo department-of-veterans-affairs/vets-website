@@ -52,8 +52,42 @@ export function isLocalhost() {
 
 // mock-data import for local development
 import testData from '../tests/e2e/fixtures/data/user.json';
+import { CustomTopContent } from '../components/breadcrumbs';
+import {
+  focusByOrder,
+  scrollTo,
+  waitForRenderThenFocus,
+} from 'platform/utilities/ui';
 
 const mockData = testData.data;
+
+/** @type {FormConfig} */
+const minimalFlowProps = {
+  CustomTopContent,
+  hideFormTitle: true,
+  showSaveLinkAfterButtons: true,
+  useCustomScrollAndFocus: true,
+  useTopBackLink: true,
+  v3SegmentedProgressBar: {
+    useDiv: true,
+  },
+  scrollAndFocusTarget: () => {
+    setTimeout(() => {
+      scrollTo('header-minimal');
+      const radio = document.querySelector('va-radio[label-header-level]');
+      const checkboxGroup = document.querySelector(
+        'va-checkbox-group[label-header-level]',
+      );
+      if (radio) {
+        waitForRenderThenFocus('h1', radio.shadowRoot);
+      } else if (checkboxGroup) {
+        waitForRenderThenFocus('h1', checkboxGroup.shadowRoot);
+      } else {
+        focusByOrder(['h1', 'va-segmented-progress-bar']);
+      }
+    }, 200);
+  },
+};
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -80,7 +114,8 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
-  hideUnauthedStartLink: true,
+  // TODO: Change hideUnauthedStartLink to true. This form is meant to be for authenticated users only.
+  hideUnauthedStartLink: false,
   savedFormMessages: {
     notFound: 'Please start over to apply for statement in support of a claim.',
     noAuth:
@@ -89,12 +124,11 @@ const formConfig = {
   title: TITLE,
   subTitle: SUBTITLE,
   defaultDefinitions: {},
-  useTopBackLink: true,
+  ...minimalFlowProps,
   chapters: {
     statementTypeChapter: {
       title: 'What kind of statement do you want to submit?',
       hideFormNavProgress: true,
-      hideFormTitle: true,
       hideOnReviewPage: true,
       pages: {
         statementTypePage: {
@@ -105,6 +139,7 @@ const formConfig = {
           pageClass: 'statement-type',
           // we want required fields prefilled for LOCAL testing/previewing one single initialData prop here will suffice for entire form
           initialData: getMockData(mockData, isLocalhost),
+          hideSaveLinkAndStatus: true,
         },
         layWitnessStatementPage: {
           depends: formData =>
@@ -124,6 +159,7 @@ const formConfig = {
           uiSchema: decisionReviewPage.uiSchema,
           schema: decisionReviewPage.schema,
           pageClass: 'decision-review',
+          hideSaveLinkAndStatus: true,
         },
         newSupplementalClaimPage: {
           depends: formData =>
@@ -145,6 +181,7 @@ const formConfig = {
           uiSchema: selectDecisionReviewPage.uiSchema,
           schema: selectDecisionReviewPage.schema,
           pageClass: 'select-decision-review',
+          hideSaveLinkAndStatus: true,
         },
         supplementalClaimPage: {
           depends: formData =>
@@ -157,6 +194,7 @@ const formConfig = {
           schema: supplementalClaimPage.schema,
           pageClass: 'supplemental-claim',
           hideNavButtons: true,
+          hideSaveLinkAndStatus: true,
         },
         higherLevelReviewPage: {
           depends: formData =>
@@ -190,6 +228,7 @@ const formConfig = {
           uiSchema: aboutPriorityProcessingPage.uiSchema,
           schema: aboutPriorityProcessingPage.schema,
           pageClass: 'about-priority-processing',
+          hideSaveLinkAndStatus: true,
         },
         housingRisksPage: {
           depends: formData =>
@@ -200,6 +239,7 @@ const formConfig = {
           uiSchema: housingRisksPage.uiSchema,
           schema: housingRisksPage.schema,
           pageClass: 'housing-risks',
+          hideSaveLinkAndStatus: true,
         },
         otherHousingRisksPage: {
           depends: formData =>
@@ -210,6 +250,7 @@ const formConfig = {
           uiSchema: otherHousingRisksPage.uiSchema,
           schema: otherHousingRisksPage.schema,
           pageClass: 'other-housing-risk',
+          hideSaveLinkAndStatus: true,
         },
         hardshipsPage: {
           depends: formData =>
@@ -219,6 +260,7 @@ const formConfig = {
           uiSchema: hardshipsPage.uiSchema,
           schema: hardshipsPage.schema,
           pageClass: 'hardships',
+          hideSaveLinkAndStatus: true,
         },
         priorityProcessingNotQualifiedPage: {
           depends: formData => isIneligibleForPriorityProcessing(formData),
@@ -227,6 +269,7 @@ const formConfig = {
           uiSchema: priorityProcessingNotQualifiedPage.uiSchema,
           schema: priorityProcessingNotQualifiedPage.schema,
           pageClass: 'priority-processing-not-qualified',
+          hideSaveLinkAndStatus: true,
         },
         priorityProcessingRequestPage: {
           depends: formData =>
@@ -264,7 +307,6 @@ const formConfig = {
     },
     personalInformationChapter: {
       title: 'Your personal information',
-      hideFormTitle: true,
       pages: {
         personalInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -278,7 +320,6 @@ const formConfig = {
     },
     identificationChapter: {
       title: 'Your identification information',
-      hideFormTitle: true,
       pages: {
         identificationInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -292,7 +333,6 @@ const formConfig = {
     },
     mailingAddressChapter: {
       title: 'Your mailing address',
-      hideFormTitle: true,
       pages: {
         mailingAddressPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -306,7 +346,6 @@ const formConfig = {
     },
     contactInformationChapter: {
       title: 'Your contact information',
-      hideFormTitle: true,
       pages: {
         contactInformationPage: {
           depends: formData => isEligibleToSubmitStatement(formData),
@@ -320,7 +359,6 @@ const formConfig = {
     },
     statementChapter: {
       title: 'Your statement',
-      hideFormTitle: true,
       pages: {
         statementPage: {
           depends: formData => isEligibleToSubmitStatement(formData),

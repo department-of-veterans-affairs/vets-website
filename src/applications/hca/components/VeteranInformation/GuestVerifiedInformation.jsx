@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { formatDate } from '../../utils/helpers/general';
+import { formatDate, maskSSN } from '../../utils/helpers/general';
 import { normalizeFullName } from '../../utils/helpers';
 
 const GuestVerifiedInformation = ({ user }) => {
@@ -9,51 +9,43 @@ const GuestVerifiedInformation = ({ user }) => {
     veteranDateOfBirth,
     veteranSocialSecurityNumber,
   } = user;
-  const veteranSSN = `xxx-xx-${veteranSocialSecurityNumber.substring(
-    veteranSocialSecurityNumber.length - 4,
-  )}`;
+  const veteranSSN = maskSSN(veteranSocialSecurityNumber);
   const veteranDOB = formatDate(veteranDateOfBirth, 'MMMM dd, yyyy');
   const veteranName = normalizeFullName(veteranFullName, true);
   return (
     <div className="vads-u-margin-top--2p5 vads-u-margin-bottom--2">
-      <p data-testid="hca-guest-confirm-intro">
-        Confirm your information before you continue.
-      </p>
-      <div className="va-address-block vads-u-margin-y--3">
-        <dl>
-          <div data-testid="hca-veteran-fullname">
-            <dt className="vads-u-visibility--screen-reader">Full name:</dt>
-            <dd
-              className="vads-u-font-weight--bold dd-privacy-mask"
+      <p>Confirm your information before you continue.</p>
+      <va-card data-testid="hca-guest-card" background>
+        <ul className="hca-list-style-none">
+          <li>
+            <span className="vads-u-visibility--screen-reader">Full name:</span>{' '}
+            <span
+              className="vads-u-font-weight--bold vads-u-margin-bottom--1 dd-privacy-mask"
               data-dd-action-name="Veteran name"
             >
               {veteranName}
-            </dd>
-          </div>
-          <div data-testid="hca-veteran-ssn">
-            <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
-              Social Security number:
-            </dt>
-            <dd
-              className="vads-u-display--inline-block dd-privacy-mask"
-              data-dd-action-name="Veteran Social Security number"
-            >
-              {veteranSSN}
-            </dd>
-          </div>
-          <div data-testid="hca-veteran-dob">
-            <dt className="vads-u-display--inline-block vads-u-margin-right--0p5">
-              Date of birth:
-            </dt>
-            <dd
-              className="vads-u-display--inline-block dd-privacy-mask"
-              data-dd-action-name="Veteran date of birth"
+            </span>
+          </li>
+          <li className="vads-u-margin--0">
+            <span>Date of birth:</span>{' '}
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Date of birth"
             >
               {veteranDOB}
-            </dd>
-          </div>
-        </dl>
-      </div>
+            </span>
+          </li>
+          <li>
+            <span>Social Security number:</span>{' '}
+            <span
+              className="dd-privacy-mask"
+              data-dd-action-name="Social Security number"
+            >
+              {veteranSSN}
+            </span>
+          </li>
+        </ul>
+      </va-card>
     </div>
   );
 };

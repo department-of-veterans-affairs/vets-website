@@ -4,7 +4,7 @@ import NeedHelpFooter from './NeedHelpFooter';
 
 const Footer = () => {
   return (
-    <div className="row ">
+    <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
         <NeedHelpFooter />
         <VaBackToTop />

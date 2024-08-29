@@ -2,7 +2,6 @@ import React from 'react';
 import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { renderDOB } from '@@vap-svc/util/personal-information/personalInformationUtils';
 import { generatePdf } from '~/platform/pdf';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatFullName } from '../../../common/helpers';
@@ -10,7 +9,6 @@ import { getServiceBranchDisplayName } from '../../helpers';
 import { DISCHARGE_CODE_MAP } from './constants';
 
 const ProofOfVeteranStatus = ({
-  dob,
   serviceHistory = [],
   totalDisabilityRating,
   userFullName = {
@@ -19,6 +17,7 @@ const ProofOfVeteranStatus = ({
     last: '',
     suffix: '',
   },
+  edipi,
   mockUserAgent,
 }) => {
   const { first, middle, last, suffix } = userFullName;
@@ -45,7 +44,12 @@ const ProofOfVeteranStatus = ({
       suffix,
     })}`,
     details: {
-      fullName: formatFullName({ first, middle, last, suffix }),
+      fullName: formatFullName({
+        first,
+        middle,
+        last,
+        suffix,
+      }),
       serviceHistory: serviceHistory.map(item => {
         return {
           ...item,
@@ -53,7 +57,7 @@ const ProofOfVeteranStatus = ({
         };
       }),
       totalDisabilityRating,
-      dob: renderDOB(dob),
+      edipi,
       image: {
         title: 'V-A logo',
         url: '/img/design/logo/logo-black-and-white.png',
@@ -174,7 +178,8 @@ const ProofOfVeteranStatus = ({
 };
 
 ProofOfVeteranStatus.propTypes = {
-  dob: PropTypes.string,
+  edipi: PropTypes.number,
+  mockUserAgent: PropTypes.string,
   serviceHistory: PropTypes.arrayOf(
     PropTypes.shape({
       branchOfService: PropTypes.string,
@@ -182,17 +187,16 @@ ProofOfVeteranStatus.propTypes = {
       endDate: PropTypes.string,
     }).isRequired,
   ),
-  mockUserAgent: PropTypes.string,
   totalDisabilityRating: PropTypes.number,
   userFullName: PropTypes.object,
 };
 
 const mapStateToProps = state => ({
-  dob: state.vaProfile?.personalInformation?.birthDate,
   serviceHistory:
     state.vaProfile?.militaryInformation.serviceHistory.serviceHistory,
   totalDisabilityRating: state.totalRating?.totalDisabilityRating,
   userFullName: state.vaProfile?.hero?.userFullName,
+  edipi: state.user?.profile?.edipi,
 });
 
 export default connect(mapStateToProps)(ProofOfVeteranStatus);

@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { render, fireEvent } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 
 import {
@@ -131,19 +131,5 @@ describe('IntroductionPage', () => {
     );
 
     expect($('va-alert[status="continue"]', container)).to.exist;
-  });
-
-  it('should record analytics for form restart', () => {
-    global.window.dataLayer = [];
-    const { props, mockStore } = getData();
-    const { container } = render(
-      <Provider store={mockStore}>
-        <IntroductionPage {...props} />
-      </Provider>,
-    );
-
-    fireEvent.click($('a[href$="/start"]', container));
-    const event = global.window.dataLayer.slice(-1)[0];
-    expect(event).to.deep.equal({ event: 'howToWizard-start-over' });
   });
 });

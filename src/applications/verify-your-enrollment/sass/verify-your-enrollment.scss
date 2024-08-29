@@ -90,6 +90,22 @@
 .icon-color svg use {
     width: 20px !important;
 }
-.verify-information-path va-radio::part(legend){
-    font-weight: bold;
+.not-found{
+    .row{
+        display: flex;
+        @media (max-width: $small-screen){
+        flex-direction: column;
+        }
+        form{
+            margin: 0;
+    }
+}
+}
+.bread-crumbs-container{
+    va-breadcrumbs{
+        margin-left: 20px;
+        @media (max-width: $small-screen){
+            margin-left: 0;
+        }
+    }
 }

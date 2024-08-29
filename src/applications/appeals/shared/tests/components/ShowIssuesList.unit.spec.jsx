@@ -51,4 +51,11 @@ describe('ShowIssuesList', () => {
     ).to.eq(4);
     wrapper.unmount();
   });
+
+  it('should not throw an error', () => {
+    const wrapper = shallow(<ShowIssuesList issues={[{}]} />);
+    const list = wrapper.find('ul');
+    expect(list.length).to.eq(1);
+    wrapper.unmount();
+  });
 });

@@ -6,8 +6,7 @@ import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('secure Messaging Draft Folder checks', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     FolderLoadPage.loadDraftMessages();

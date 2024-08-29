@@ -33,10 +33,6 @@ $medium-phone-screen: 375px;
 
   #modal-crisisline {
     display: block;
-
-    p {
-      font-size: 100%;
-    }
   }
 
   #dashboard-title {
@@ -122,13 +118,6 @@ $medium-phone-screen: 375px;
     }
 
     padding-bottom: 3em;
-  }
-
-  h3,
-  h4 {
-    .fa {
-      padding-right: 0.35em;
-    }
   }
 
   .merger-majorlinks {
@@ -429,12 +418,6 @@ $medium-phone-screen: 375px;
     }
   }
 
-  .va-modal-close {
-    .fa {
-      color: inherit;
-    }
-  }
-
   .hub-links-container {
     flex: 1;
   }
@@ -468,6 +451,7 @@ $medium-phone-screen: 375px;
 
   .sign-in-link {
     margin: 0;
+    line-height: 16px;
 
     @include media($medium-screen) {
 

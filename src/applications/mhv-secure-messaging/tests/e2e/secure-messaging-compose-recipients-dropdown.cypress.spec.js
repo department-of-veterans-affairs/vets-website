@@ -9,8 +9,7 @@ import mockBlockedRecipientsResponse from './fixtures/recipientsResponse/blocked
 
 describe('recipients dropdown box', () => {
   it('preferredTriageTeam select dropdown default ', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
 
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click();
@@ -29,8 +28,7 @@ describe('recipients dropdown box', () => {
   });
 
   it('preferredTriageTeam select dropdown false', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSpecialCharsMessage,

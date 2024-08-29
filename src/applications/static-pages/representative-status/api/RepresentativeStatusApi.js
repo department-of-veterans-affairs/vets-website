@@ -20,7 +20,7 @@ class RepresentativeStatusApi {
     return new Promise((resolve, reject) => {
       fetch(requestUrl, apiSettings)
         .then(response => {
-          if (!response.ok) {
+          if (!response.ok && response.status !== 422) {
             throw Error(response.statusText);
           }
 

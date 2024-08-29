@@ -18,7 +18,8 @@
           "postalCode": "13617"
       },
       "veteranSocialSecurityNumber": {
-          "ssn": "589631236"
+          "ssn": "589631236",
+          "vaFileNumber": "96312589"
       },
       "veteranFullName": {
           "first": "Jane",

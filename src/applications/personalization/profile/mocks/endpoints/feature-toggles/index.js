@@ -4,11 +4,11 @@ const { snakeCase } = require('lodash');
 // instead use generateFeatureToggles in server.js to set the toggle values
 const profileToggles = {
   authExpVbaDowntimeMessage: false,
-  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
-  profileShowMhvNotificationSettings: false,
+  profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+  profileShowNewHealthCareCopayBillNotificationSetting: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,
@@ -16,8 +16,11 @@ const profileToggles = {
   profileShowDirectDepositSingleFormUAT: false,
   profileShowDirectDepositSingleFormAlert: false,
   profileShowDirectDepositSingleFormEduDowntime: false,
-  profileShowEmailNotificationSettings: false,
   profileShowPrivacyPolicy: false,
+  profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
+  profileShowMhvNotificationSettingsNewSecureMessaging: false,
+  profileShowMhvNotificationSettingsEmailRxShipment: false,
+  profileShowMhvNotificationSettingsMedicalImages: false,
 };
 
 const makeAllTogglesTrue = toggles => {

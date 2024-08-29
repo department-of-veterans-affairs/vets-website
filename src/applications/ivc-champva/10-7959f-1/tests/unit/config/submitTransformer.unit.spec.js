@@ -7,7 +7,7 @@ describe('submit transformer', () => {
   it('should return expected data', () => {
     const formData = {
       data: {
-        veteranDOB: '2004-02-19',
+        veteranDateOfBirth: '2004-02-19',
         fullName: 'John Smith',
         physical_address: {
           street: '1 Main st',

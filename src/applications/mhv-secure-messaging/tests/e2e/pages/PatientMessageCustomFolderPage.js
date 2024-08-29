@@ -144,7 +144,7 @@ class PatientMessageCustomFolderPage {
     sortedResponse = mockSortedMessages,
     folderId = this.folderId,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${text}`);
@@ -178,7 +178,18 @@ class PatientMessageCustomFolderPage {
       });
   };
 
-  VerifyFilterBtnExist = () => {
+  verifyMainButtons = () => {
+    cy.get(Locators.BUTTONS.EDIT_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Edit folder name`);
+    cy.get(Locators.BUTTONS.REMOVE_FOLDER)
+      .should('be.visible')
+      .and('have.text', `Remove folder`);
+    cy.get(Locators.BUTTONS.SORT)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and('contain.text', `Sort`);
     cy.get(Locators.BUTTONS.FILTER).contains('Filter');
   };
 
@@ -288,8 +299,7 @@ class PatientMessageCustomFolderPage {
       .click();
   };
 
-  verifyRemoveFolder = () => {
-    cy.scrollTo('top');
+  verifyRemoveFolderButton = () => {
     cy.get(Locators.BUTTONS.REMOVE_FOLDER)
       .should('be.visible')
       .and('have.text', Data.REMOVE_FOLDER);
@@ -304,20 +314,13 @@ class PatientMessageCustomFolderPage {
     cy.realPress('Enter');
   };
 
-  verifyEmptyFolderText = () => {
-    cy.get(Locators.FOLDERS.FOLDER_NOT_EMPTY)
-      .shadow()
-      .find(Locators.ALERTS.MODEL_TITLE_ALERT)
-      .should('have.text', Assertions.EMPTY_THIS_FOLDER);
+  verifyEmptyFolderAlert = () => {
+    cy.get(Locators.ALERTS.HEADER).should(
+      'have.text',
+      Assertions.EMPTY_THIS_FOLDER,
+    );
     cy.contains(Data.CANNOT_REMOVE_FOLDER).should('be.visible');
     cy.contains('button', 'Ok');
-  };
-
-  verifyFocusToCloseIcon = () => {
-    cy.focused()
-      .shadow()
-      .find('button')
-      .should('contain.class', 'va-modal-close');
   };
 
   clickOnCloseIcon = () => {

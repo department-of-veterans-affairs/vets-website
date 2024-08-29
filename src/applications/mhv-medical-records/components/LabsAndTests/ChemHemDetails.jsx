@@ -88,7 +88,7 @@ ${txtLine}\n\n
 Type of test: ${record.type} \n
 Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
-Collecting location: ${record.collectingLocation} \n
+Location: ${record.collectingLocation} \n
 Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
@@ -101,7 +101,6 @@ ${txtLineDotted}
 Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
-Lab location: ${entry.labLocation}
 Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
@@ -153,7 +152,7 @@ Lab comments: ${entry.labComments}\n`,
         </h3>
         <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
+          Location
         </h3>
         <p data-testid="chem-hem-collecting-location">
           {record.collectingLocation}

@@ -3,7 +3,9 @@ import React from 'react';
 const BenefitsProfileStatement = () => {
   return (
     <div id="benefits-gi-bill-profile-statement">
-      <h1>Your Montgomery GI Bill benefits information</h1>
+      <h1 id="benefits-gi-bill-profile-statement-title">
+        Your Montgomery GI Bill benefits information
+      </h1>
 
       <p className="va-introtext">
         Update your address and direct deposit information for your Montgomery

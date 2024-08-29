@@ -2,16 +2,14 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientErrorPage from './pages/PatientErrorPage';
 
 describe('Thread list load error', () => {
-  const site = new SecureMessagingSite();
-
   it('verify error on particular folder', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientErrorPage.loadParticularFolderError();
     PatientErrorPage.verifyAlertMessageText();
   });
 
   it('verify error in My folders', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientErrorPage.loadMyFoldersError();
     PatientErrorPage.verifyAlertMessageText();
   });

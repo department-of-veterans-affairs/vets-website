@@ -23,6 +23,8 @@ const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
+  const showInnerNav =
+    folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
@@ -113,12 +115,12 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
-        {folder.folderId === Folders.INBOX.id &&
+        {showInnerNav &&
           (!noAssociations && !allTriageGroupsBlocked) && (
             <ComposeMessageButton />
           )}
 
-        {folder.folderId === Folders.INBOX.id && <InnerNavigation />}
+        {showInnerNav && <InnerNavigation />}
 
         <ManageFolderButtons folder={folder} />
         {threadCount > 0 && (

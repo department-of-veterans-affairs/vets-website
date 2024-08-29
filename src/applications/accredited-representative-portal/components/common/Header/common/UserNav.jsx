@@ -49,11 +49,10 @@ const UserNav = ({ isMobile }) => {
   if (isLoading) {
     content = (
       <div className="loading-icon-container">
-        <i
+        <va-loading-indicator
           data-testid="user-nav-loading-icon"
-          className="fa fa-spinner fa-spin fa-lg"
-          aria-hidden="true"
-          role="presentation"
+          label="Loading"
+          message="Loading"
         />
       </div>
     );

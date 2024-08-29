@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
 // import manifest from '../manifest.json';
-// import formConfig from '../config/form';
+import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 
 function App({
@@ -17,7 +17,6 @@ function App({
 }) {
   // Must match the H1
   document.title = DOC_TITLE;
-  const formConfig = {};
   // Handle loading
   if (isLoading || !featureToggles || featureToggles.loading) {
     return <va-loading-indicator message="Loading your information..." />;
@@ -37,7 +36,7 @@ function App({
     return <></>;
   }
 
-  const content = (
+  return (
     <article id="form-686c" data-location={`${location?.pathname?.slice(1)}`}>
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
@@ -45,15 +44,15 @@ function App({
     </article>
   );
   // If on intro page, just return
-  if (location.pathname === '/introduction') {
-    return content;
-  }
+  // if (location.pathname === '/introduction') {
+  //   return content;
+  // }
 
-  // TODO: Re-enable once Introduction page has been built and in place
+  // // TODO: Re-enable once Introduction page has been built and in place
 
-  // If a user is not logged in OR
-  // a user is logged in, but hasn't gone through va file number validation
-  // redirect them to the introduction page.
+  // // If a user is not logged in OR
+  // // a user is logged in, but hasn't gone through va file number validation
+  // // redirect them to the introduction page.
   // if (
   //   !isLoggedIn ||
   //   (isLoggedIn && !vaFileNumber?.hasVaFileNumber?.VALIDVAFILENUMBER)
@@ -64,7 +63,7 @@ function App({
   //   );
   // }
 
-  return content;
+  // return content;
 }
 
 const mapStateToProps = state => {

@@ -7,6 +7,7 @@ const VerifiedSuccessStatement = () => {
         close-btn-aria-label="Close notification"
         status="success"
         visible
+        id="success-alert"
       >
         <div
           slot="headline"

@@ -43,11 +43,24 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
     return false;
   }
   return (
-    environment.isProduction() || // Comment out to send to production
+    environment.isProduction() ||
     environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() ||
     environment.isLocalhost()
+  );
+};
+
+export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (environment.isDev() || isTest || automatedTest) {
+    return false;
+  }
+  return (
+    environment.isLocalhost() ||
+    environment.isStaging() ||
+    isReviewInstance() ||
+    environment.isProduction()
   );
 };
 
@@ -470,3 +483,9 @@ export function showSchoolContentBasedOnType(type) {
   };
   return !(type in validateTypes);
 }
+
+export const getGIBillHeaderText = (automatedTest = false) => {
+  return isShowVetTec(automatedTest)
+    ? 'Learn about and compare your GI Bill benefits at approved schools, employers, and VET TEC providers.'
+    : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
+};

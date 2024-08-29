@@ -31,13 +31,12 @@ export default function vaRadioFieldMapping(props) {
     children: (
       <>
         {formDescriptionSlot}
-        <div slot="description">
-          {textDescription && <p>{textDescription}</p>}
-          {DescriptionField && (
-            <DescriptionField options={uiOptions} index={index} />
-          )}
-          {!textDescription && !DescriptionField && description}
-        </div>
+        {/* known a11y issue: this will not be read out */}
+        {textDescription && <p>{textDescription}</p>}
+        {DescriptionField && (
+          <DescriptionField options={uiOptions} index={index} />
+        )}
+        {!textDescription && !DescriptionField && description}
       </>
     ),
   };

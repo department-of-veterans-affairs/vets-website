@@ -12,12 +12,28 @@ import {
 import ArrayBuilderSummaryPage from '../ArrayBuilderSummaryPage';
 import * as helpers from '../helpers';
 
+const MOCK_REVIEW_ERRORS_EMPTY = {};
+const MOCK_REVIEW_ERRORS_AT_LEAST_ONE = {
+  errors: [
+    {
+      name: 'view:hasOption',
+      index: null,
+      message:
+        'You must add at least one employer for us to process this form.',
+      chapterKey: 'arrayMultiPageBuilder',
+      pageKey: 'multiPageBuilderSummary',
+    },
+  ],
+  rawErrors: [],
+};
+
 const mockRedux = ({
   review = false,
   submitted = false,
   formData = {},
   onChange = () => {},
   setFormData = () => {},
+  formErrors,
 } = {}) => {
   return {
     props: {
@@ -32,7 +48,10 @@ const mockRedux = ({
     },
     mockStore: {
       getState: () => ({
-        form: { data: formData },
+        form: {
+          data: formData,
+          formErrors,
+        },
         formContext: {
           onReviewPage: false,
           reviewMode: false,
@@ -85,6 +104,8 @@ describe('ArrayBuilderSummaryPage', () => {
     required = () => false,
     maxItems = 5,
     isReviewPage = false,
+    reviewErrors,
+    text,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -92,6 +113,7 @@ describe('ArrayBuilderSummaryPage', () => {
       getItemName: item => item?.name,
       nounPlural: 'employers',
       nounSingular: 'employer',
+      textOverrides: text,
     });
     getText = sinon.spy(getText);
     stubUrlParams(urlParams);
@@ -101,9 +123,10 @@ describe('ArrayBuilderSummaryPage', () => {
     const { mockStore } = mockRedux({
       formData: data,
       setFormData,
+      formErrors: reviewErrors,
     });
 
-    const itemPage = {
+    const summaryPage = {
       uiSchema: {
         'view:hasOption': arrayBuilderYesNoUI({
           arrayPath: 'employers',
@@ -140,8 +163,8 @@ describe('ArrayBuilderSummaryPage', () => {
     const { container, getByText } = render(
       <Provider store={mockStore}>
         <CustomPage
-          schema={itemPage.schema}
-          uiSchema={itemPage.uiSchema}
+          schema={summaryPage.schema}
+          uiSchema={summaryPage.uiSchema}
           data={data}
           onChange={() => {}}
           onSubmit={() => {}}
@@ -260,5 +283,82 @@ describe('ArrayBuilderSummaryPage', () => {
 
     const $addButton = container.querySelector('va-button[data-action="add"]');
     expect($addButton).to.not.exist;
+  });
+
+  it('should show an error alert on the review page if reviewErrors are present', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [],
+      urlParams: '',
+      isReviewPage: true,
+      maxItems: 5,
+      reviewErrors: MOCK_REVIEW_ERRORS_AT_LEAST_ONE,
+    });
+
+    const $errorAlert = container.querySelector(
+      'va-alert[name="employersReviewError"]',
+    );
+    expect($errorAlert).to.include.text('at least one employer');
+  });
+
+  it('should not show an error alert on the review page if reviewErrors are not present', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [],
+      urlParams: '',
+      isReviewPage: true,
+      maxItems: 5,
+      reviewErrors: MOCK_REVIEW_ERRORS_EMPTY,
+    });
+
+    const $errorAlert = container.querySelector(
+      'va-alert[name="employersReviewError"]',
+    );
+    expect($errorAlert).to.not.exist;
+  });
+
+  it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryTitleWithoutItems: 'Custom summary title',
+        summaryDescriptionWithoutItems: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary title');
+    const description = $fieldset.querySelector('p');
+    expect(description).to.exist;
+    expect(description).to.include.text('Custom summary description');
+  });
+
+  it('should display summaryTitle text override when array has data', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryTitleWithoutItems: 'Custom summary title',
+        summaryDescriptionWithoutItems: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary review title');
+    const description = $fieldset.querySelector('p');
+    expect(description).to.not.exist;
   });
 });

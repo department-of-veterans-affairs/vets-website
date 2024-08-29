@@ -7,13 +7,12 @@ import { AXE_CONTEXT, Locators } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
 describe('remove folder error modal', () => {
-  const site = new SecureMessagingSite();
   const folderName =
     mockFolders.data[mockFolders.data.length - 1].attributes.name;
   const { folderId } = mockFolders.data[mockFolders.data.length - 1].attributes;
 
   before(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
   });

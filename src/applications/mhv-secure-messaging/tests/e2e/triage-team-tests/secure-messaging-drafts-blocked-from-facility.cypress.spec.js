@@ -8,11 +8,10 @@ import mockFacilityBlockedRecipients from '../fixtures/recipientsResponse/facili
 import mockThread from '../fixtures/thread-response.json';
 
 describe('verify drafts - blocked from facility', () => {
-  const site = new SecureMessagingSite();
   const newDate = new Date().toISOString();
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
 
     PatientInboxPage.loadInboxMessages(
       mockMessages,

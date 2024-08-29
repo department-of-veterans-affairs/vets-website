@@ -144,7 +144,11 @@ export const DirectDeposit = () => {
       {...directDepositHookResult}
     />
   ) : (
-    <AccountInfoView {...directDepositHookResult} isSaving={ui.isSaving} />
+    <AccountInfoView
+      ref={directDepositHookResult.editButtonRef}
+      isSaving={ui.isSaving}
+      {...directDepositHookResult}
+    />
   );
 
   return (

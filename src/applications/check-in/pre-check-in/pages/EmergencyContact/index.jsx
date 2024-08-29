@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 import { recordAnswer } from '../../../actions/universal';
 
@@ -12,6 +13,7 @@ import { makeSelectVeteranData } from '../../../selectors';
 
 const EmergencyContact = props => {
   const { router } = props;
+  const { t } = useTranslation();
 
   const selectVeteranData = useMemo(makeSelectVeteranData, []);
   const { demographics } = useSelector(selectVeteranData);
@@ -55,6 +57,7 @@ const EmergencyContact = props => {
         prevUrl={getPreviousPageFromRouter()}
       />
       <EmergencyContactDisplay
+        eyebrow={t('review-your-information')}
         emergencyContact={emergencyContact}
         yesAction={yesClick}
         noAction={noClick}

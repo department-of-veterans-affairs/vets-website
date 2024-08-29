@@ -46,9 +46,15 @@ describe('Landing Page', () => {
   it('displays a section linking to My HealtheVet classic to download all records', () => {
     const screen = renderWithStoreAndRouter(<LandingPage />, {});
     expect(
-      screen.getByText('Download your VA medical records', {
+      screen.getByText('Download your Blue Button report or health summary', {
         selector: 'h2',
         exact: true,
+      }),
+    ).to.exist;
+    expect(
+      screen.getByText('We’re working on a way to download', {
+        selector: 'p',
+        exact: false,
       }),
     ).to.exist;
     expect(
@@ -119,6 +125,12 @@ describe('Landing Page', () => {
     });
 
     // feature h2s
+    expect(
+      screen.getByText('Lab and test results', {
+        selector: 'h2',
+        exact: true,
+      }),
+    ).to.exist;
     expect(
       screen.getByText('Care summaries and notes', {
         selector: 'h2',

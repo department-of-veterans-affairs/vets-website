@@ -5,13 +5,10 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Basic Search Tests', () => {
-  const patientMessageDraftsPage = new PatientMessageDraftsPage();
   // const searchText = 'special %$#';  Known-Issue... special chars don't highlight
   const searchText = 'special';
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 
@@ -25,7 +22,7 @@ describe('Secure Messaging Basic Search Tests', () => {
   });
 
   it('Basic Search Highlight Drafts Check', () => {
-    patientMessageDraftsPage.loadDraftMessages();
+    PatientMessageDraftsPage.loadDraftMessages();
     PatientBasicSearchPage.typeSearchInputFieldText(searchText);
     PatientBasicSearchPage.clickDraftSearchButton();
     PatientBasicSearchPage.verifyHighlightedText(searchText);

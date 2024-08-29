@@ -6,65 +6,61 @@ import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 
 describe('handle multiple drafts in one thread', () => {
-  const site = new SecureMessagingSite();
-  const draftPage = new PatientMessageDraftsPage();
-
   const updatedMultiDraftResponse = GeneralFunctionsPage.updatedThreadDates(
     mockMultiDraftsResponse,
   );
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
-    draftPage.loadMultiDraftThread(updatedMultiDraftResponse);
+    PatientMessageDraftsPage.loadMultiDraftThread(updatedMultiDraftResponse);
   });
 
   it('verify headers', () => {
-    const draftsCount = updatedMultiDraftResponse.data.filter(
-      el => el.attributes.draftDate !== null,
-    ).length;
+    cy.get(Locators.ALERTS.PAGE_TITLE).should(
+      'contain.text',
+      `${updatedMultiDraftResponse.data[0].attributes.subject}`,
+    );
+    cy.get(Locators.HEADERS.DRAFTS_HEADER).should('have.text', 'Drafts');
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-
-    cy.get(Locators.REPLY_FORM)
-      .find('h2')
+    cy.get(Locators.BUTTONS.EDIT_DRAFTS)
       .should('be.visible')
-      .and('contain.text', `${draftsCount} drafts`);
+      .and('have.text', 'Edit draft replies');
+
+    PatientMessageDraftsPage.expandAllDrafts();
 
     cy.get(Locators.REPLY_FORM)
       .find('h3')
       .each(el => {
-        cy.wrap(el).should('include.text', 'Draft');
+        cy.wrap(el).should('include.text', 'Draft ');
       });
 
-    cy.get(Locators.ALERTS.LAST_EDIT_DATE).each(el => {
-      cy.wrap(el).should('include.text', 'edited');
-    });
-  });
-
-  it('verify drafts detailed view', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
+  });
 
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
-    );
+  it('verify all drafts expanded', () => {
+    PatientMessageDraftsPage.expandSingleDraft(2);
 
-    cy.get(Locators.ALERTS.EDIT_DRAFT).click();
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[1].attributes.body,
-    );
-    draftPage.verifyDraftMessageBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
+    PatientMessageDraftsPage.verifyExpandedDraftBody(
+      updatedMultiDraftResponse,
+      2,
+      0,
     );
 
-    cy.get('[text="Edit draft 2"]').click();
-    draftPage.verifyMessagesBodyText(
-      updatedMultiDraftResponse.data[0].attributes.body,
+    PatientMessageDraftsPage.verifyExpandedDraftButtons(2);
+
+    PatientMessageDraftsPage.expandSingleDraft(1);
+
+    PatientMessageDraftsPage.verifyExpandedDraftBody(
+      updatedMultiDraftResponse,
+      1,
+      1,
     );
-    draftPage.verifyDraftMessageBodyText(
-      updatedMultiDraftResponse.data[1].attributes.body,
-    );
+
+    PatientMessageDraftsPage.verifyExpandedDraftButtons(1);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

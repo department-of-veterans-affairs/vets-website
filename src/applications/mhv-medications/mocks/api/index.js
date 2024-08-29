@@ -21,6 +21,7 @@ const responses = {
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({
     mhvMedicationsToVaGovRelease: true,
     mhvMedicationsDisplayRefillContent: true,
+    mhvMedicationsDisplayDocumentationContent: true,
   }),
   // VAMC facility data that apps query for on startup
   'GET /data/cms/vamc-ehr.json': vamcEhr,
@@ -51,6 +52,13 @@ const responses = {
         updatedAt: 'Wed, 28 Feb 2024 09:58:42 EST',
         failedStationList: 'string',
       },
+    };
+    return res.json(data);
+  },
+  'GET /my_health/v1/prescriptions/:id/documentation': (req, res) => {
+    // use `req.query.ndc` to get the NDC number
+    const data = {
+      data: prescriptions.mockPrescriptionDocumentation(),
     };
     return res.json(data);
   },

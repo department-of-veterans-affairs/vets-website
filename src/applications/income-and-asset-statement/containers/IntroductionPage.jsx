@@ -25,6 +25,7 @@ class IntroductionPage extends React.Component {
           messages={formConfig.savedFormMessages}
           pageList={pageList}
           startText="Start the Application"
+          devOnly={{ forceShowFormControls: true }}
         >
           Please complete the 21P-0969 form to apply for benefits.
         </SaveInProgressIntro>

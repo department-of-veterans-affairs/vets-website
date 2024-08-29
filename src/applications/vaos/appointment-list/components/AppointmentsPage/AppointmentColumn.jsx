@@ -38,7 +38,7 @@ export default function AppointmentColumn({
   first,
   last,
   padding,
-  size,
+  size = 1,
   style,
   ...props
 }) {

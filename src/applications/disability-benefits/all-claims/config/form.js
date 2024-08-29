@@ -131,6 +131,7 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
 /** @type {FormConfig} */
 const formConfig = {
@@ -187,6 +188,7 @@ const formConfig = {
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
+  CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>

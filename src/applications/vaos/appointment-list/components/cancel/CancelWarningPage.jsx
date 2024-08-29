@@ -55,18 +55,13 @@ export default function CancelWarningPage({ appointment, cancelInfo }) {
       <AppointmentCard appointment={appointment}>
         <CancelPageContent type={type} />
         <div className="vads-u-display--flex vads-u-align-items--center vads-u-margin-top--3 vaos-hide-for-print">
-          <button
-            type="button"
-            aria-label="Cancel appointment"
-            onClick={handleConfirm(dispatch)}
-          >
+          <button type="button" onClick={handleConfirm(dispatch)}>
             {buttonText}
           </button>
         </div>
         <div className="vads-u-display--flex vads-u-align-items--center vaos-hide-for-print">
           <button
             type="button"
-            aria-label="Cancel appointment"
             className="usa-button-secondary"
             onClick={handleClose(dispatch)}
           >

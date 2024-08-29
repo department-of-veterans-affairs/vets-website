@@ -23,10 +23,6 @@
       "applyPeriodToSelected": true
     }
   ],
-  "view:benefitsRelinquishedContainer": {
-    "benefitsRelinquished": "unknown",
-    "benefitsRelinquishedDate": "2020-09-01"
-  },
   "view:questionText": {},
   "view:selectedBenefits": {
     "chapter33": true,

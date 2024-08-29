@@ -9,13 +9,15 @@ import AppointmentColumn from './AppointmentColumn';
 import {
   selectAppointmentLocality,
   selectIsCanceled,
-  selectModalityText,
   selectModalityIcon,
   selectTypeOfCareName,
   selectApptDetailAriaText,
   selectIsCommunityCare,
 } from '../../redux/selectors';
-import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
+import {
+  selectFeatureBreadcrumbUrlUpdate,
+  selectFeatureCCDirectScheduling,
+} from '../../../redux/selectors';
 
 export default function RequestAppointmentLayout({ appointment }) {
   const appointmentLocality = useSelector(() =>
@@ -26,7 +28,9 @@ export default function RequestAppointmentLayout({ appointment }) {
   const idClickable = `id-${appointment.id.replace('.', '\\.')}`;
   const isCanceled = useSelector(() => selectIsCanceled(appointment));
   const isCommunityCare = useSelector(() => selectIsCommunityCare(appointment));
-  const modality = useSelector(() => selectModalityText(appointment, true));
+  const modality = isCommunityCare
+    ? 'Community care'
+    : appointment?.preferredModality;
   const modalityIcon = useSelector(() => selectModalityIcon(appointment));
   const typeOfCareName = useSelector(() => selectTypeOfCareName(appointment));
 
@@ -36,6 +40,12 @@ export default function RequestAppointmentLayout({ appointment }) {
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
   );
+
+  const featureCCDirectScheduling = useSelector(state =>
+    selectFeatureCCDirectScheduling(state),
+  );
+
+  const displayNewTypeOfCareHeading = `${typeOfCareName} request`;
   const link = `${featureBreadcrumbUrlUpdate ? 'pending' : 'requests'}/${
     appointment.id
   }`;
@@ -63,7 +73,10 @@ export default function RequestAppointmentLayout({ appointment }) {
                     canceled={isCanceled}
                     className="vads-u-font-weight--bold vaos-appts__display--table"
                   >
-                    {typeOfCareName}
+                    {' '}
+                    {featureCCDirectScheduling
+                      ? displayNewTypeOfCareHeading
+                      : typeOfCareName}
                   </AppointmentColumn>
                   <AppointmentColumn
                     padding="0"

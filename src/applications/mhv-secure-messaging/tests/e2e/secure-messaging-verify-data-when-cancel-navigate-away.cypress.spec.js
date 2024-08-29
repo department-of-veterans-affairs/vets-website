@@ -5,11 +5,10 @@ import FolderLoadPage from './pages/FolderLoadPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
-  const site = new SecureMessagingSite();
   // const composePage = new PatientComposePage();
 
   it('Verify Data When Cancel Navigate Away', () => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     cy.injectAxe();

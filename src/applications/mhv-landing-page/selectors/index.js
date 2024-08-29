@@ -1,6 +1,7 @@
 import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
+  signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -13,34 +14,31 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import {
-  isLandingPageEnabled,
-  personalizationEnabled,
-  helpdeskInfoEnabled,
-} from './featureToggles';
-import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { selectHasMHVAccountState } from './hasMHVAccountState';
+import { personalizationEnabled } from './featureToggles';
+import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
+  hasMhvAccount,
+  hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isInMPI,
-  isLandingPageEnabled,
-  isLandingPageEnabledForUser,
   isLOA1,
   isLOA3,
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
   personalizationEnabled,
-  helpdeskInfoEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  signInServiceName,
+  showVerifyAndRegisterAlert,
 };

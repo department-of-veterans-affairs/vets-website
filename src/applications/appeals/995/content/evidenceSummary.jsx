@@ -26,8 +26,7 @@ export const content = {
 
   vaTitle: 'We’re requesting records from these VA locations:',
 
-  privateTitle:
-    'We’re requesting records from these private medical providers:',
+  privateTitle: 'We’re requesting records from these non-VA medical providers:',
 
   otherTitle: 'You uploaded these documents:',
 
@@ -51,10 +50,11 @@ export const content = {
     title: 'Are you sure you want to remove this evidence?',
     limitationTitle: 'Are you sure you want to remove the request limitation?',
     va: 'We’ll remove the VA medical record request for',
-    private: 'We’ll remove the private medical record request for',
+    private: 'We’ll remove the non-VA medical record request for',
     limitation: '',
     upload: 'We’ll remove the uploaded document',
     modalRemove: 'Yes, remove this',
+    modalDelete: 'Yes, delete this file',
     modalNotRemove: 'No, keep this',
     modalRemoveLimitation: 'Yes, remove limitation',
     modalNotRemoveLimitation: 'No, keep limitation',

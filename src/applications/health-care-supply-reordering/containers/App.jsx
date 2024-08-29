@@ -60,17 +60,23 @@ class App extends Component {
       saved: `Your ${supplyDescription} order has been saved.`,
     };
 
+    const breadcrumbs = [
+      { href: '/', label: 'Home' },
+      { href: '/health-care', label: 'VA health care' },
+      {
+        href: '/health-care/order-hearing-aid-or-cpap-supplies-form',
+        label: `Order ${supplyDescription}`,
+      },
+    ];
+    const bcString = JSON.stringify(breadcrumbs);
+
     return (
       <>
         {!featureToggles.loading && (
-          <va-breadcrumbs uswds="false" class="va-nav-breadcrumbs">
-            <a href="/">Home</a>
-            {/* this will get updated when this route is added */}
-            <a href="/health-care">Health care</a>
-            <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-              Order {supplyDescription}
-            </a>
-          </va-breadcrumbs>
+          <va-breadcrumbs
+            breadcrumb-list={bcString}
+            class="va-nav-breadcrumbs"
+          />
         )}
         {pending && (
           <va-loading-indicator>

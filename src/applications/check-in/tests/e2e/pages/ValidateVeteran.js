@@ -3,12 +3,12 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 const messages = {
   title: {
     dayOf: {
-      en: 'Check in at VA',
-      es: 'Regístrese en VA',
-      tl: 'Mag-check in sa VA',
+      en: 'Start checking in for your appointment',
+      es: 'Start checking in for your appointment',
+      tl: 'Start checking in for your appointment',
     },
     preCheckIn: {
-      en: 'Start pre-check-in',
+      en: 'Check if your information is up to date',
     },
   },
 };
@@ -164,7 +164,9 @@ class ValidateVeteran {
   }
 
   attemptToGoToNextPage = () => {
-    cy.get('[data-testid=check-in-button]').click({ waitForAnimations: true });
+    cy.get('[data-testid=check-in-button]').click({
+      waitForAnimations: true,
+    });
   };
 
   attemptToGoToNextPageWithEnterKey = () => {

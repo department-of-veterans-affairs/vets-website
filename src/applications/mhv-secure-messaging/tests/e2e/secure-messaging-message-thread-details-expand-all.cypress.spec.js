@@ -8,19 +8,16 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Message Details', () => {
-  const detailsPage = new PatientMessageDetailsPage();
-  const site = new SecureMessagingSite();
-
   const messageDetails = mockMessageDetails;
   const date = new Date();
 
   before('Axe Check Message Details Page', () => {
-    site.login();
+    SecureMessagingSite.login();
     date.setDate(date.getDate() - 2);
     messageDetails.data.attributes.sentDate = date.toISOString();
     cy.log(`New Message Details ==== ${JSON.stringify(messageDetails)}`);
     PatientInboxPage.loadInboxMessages(inboxMessages, messageDetails);
-    detailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       messageDetails,
       defaultMockThread,
       1,
@@ -30,12 +27,18 @@ describe('Secure Messaging Message Details', () => {
 
   it('Expanded All Messages Contain all details without additional calls', () => {
     // const updatedMockThread = detailsPage.getCurrentThread();
-    detailsPage.verifyExpandedMessageTo(mockParentMessageDetails, 0);
+    PatientMessageDetailsPage.verifyExpandedMessageTo(
+      mockParentMessageDetails,
+      0,
+    );
 
-    detailsPage.expandAllThreadMessages();
+    PatientMessageDetailsPage.expandAllThreadMessages();
 
-    detailsPage.verifyExpandedThreadBody(defaultMockThread, 2);
-    detailsPage.verifyExpandedThreadAttachment(defaultMockThread, 2);
+    PatientMessageDetailsPage.verifyExpandedThreadBody(defaultMockThread, 2);
+    PatientMessageDetailsPage.verifyExpandedThreadAttachment(
+      defaultMockThread,
+      2,
+    );
     cy.get('@allMessageDetails.all').should('have.length', 0);
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

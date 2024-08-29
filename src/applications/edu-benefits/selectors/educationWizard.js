@@ -25,3 +25,6 @@ export const showEduBenefits5495Wizard = state =>
 
 export const showMebDgi40Feature = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.showMebDgi40Features];
+
+export const merge1995And5490Feature = state =>
+  toggleValues(state)[FEATURE_FLAG_NAMES.merge1995And5490];

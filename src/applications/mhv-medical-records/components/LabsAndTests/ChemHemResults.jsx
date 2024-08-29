@@ -9,28 +9,34 @@ const ChemHemResults = props => {
       {results.map((result, idx) => {
         return (
           <li key={idx}>
-            <h3>{result.name}</h3>
-            <div>
-              <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+            <h3 className="vads-u-margin--0 vads-u-padding--2">
+              {result.name}
+            </h3>
+            <div className="vads-u-padding-x--3 vads-u-padding-top--2">
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                 Result
               </h4>
-              <p className="data">{result.result}</p>
-              <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+              <p className="vads-u-margin--0 vads-u-padding-bottom--2">
+                {result.result}
+              </p>
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                 Reference range
               </h4>
-              <p className="range">{result.standardRange}</p>
-              <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+              <p className="vads-u-margin--0 vads-u-padding-bottom--2">
+                {result.standardRange}
+              </p>
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                 Status
               </h4>
-              <p className="data">{result.status}</p>
-              <h4 className="vads-u-font-size--base vads-u-font-family--sans">
-                Performing lab location
-              </h4>
-              <p className="data">{result.labLocation}</p>
-              <h4 className="vads-u-font-size--base vads-u-font-family--sans">
+              <p className="vads-u-margin--0 vads-u-padding-bottom--2">
+                {result.status}
+              </p>
+              <h4 className="vads-u-font-size--base vads-u-font-family--sans vads-u-margin--0">
                 Lab comments
               </h4>
-              <p className="data">{result.labComments}</p>
+              <p className="vads-u-margin--0 vads-u-padding-bottom--2">
+                {result.labComments}
+              </p>
             </div>
           </li>
         );

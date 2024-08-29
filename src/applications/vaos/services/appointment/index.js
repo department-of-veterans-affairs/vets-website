@@ -282,11 +282,11 @@ export function getVAAppointmentLocationId(appointment) {
  *
  * @export
  * @param {Appointment} appointment A FHIR appointment resource
- * @param {string} system A FHIR telecom system id
+ * @param {string} type A FHIR telecom type id
  * @returns {string} The patient telecom value
  */
-export function getPatientTelecom(appointment, system) {
-  return appointment?.contact?.telecom.find(t => t.system === system)?.value;
+export function getPatientTelecom(appointment, type) {
+  return appointment?.contact?.telecom.find(t => t.type === type)?.value;
 }
 
 /**

@@ -30,18 +30,174 @@ describe('VAOS Component: ClaimExamLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAppointmentDetailsRedesign: true,
+      vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
 
-  describe('When viewing upcoming appointment details', () => {
-    it('should display claim exam layout', async () => {
+  describe('When appointment information is missing', () => {
+    it('should display view facility info when only facility id is returned but no facility data', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {
+          vistaId: '983',
+          clinicId: '848',
+          stationId: '983',
+          clinicName: 'CHY PC VAR2',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /View facility information Link opens in a new tab./i,
+        }),
+      );
+    });
+
+    it('should display find facility info link when no facility data and no facility id are available', async () => {
+      // Arrange
+      const state = {
+        ...initialState,
+        appointments: {
+          facilityData: {},
+        },
+      };
+      const store = createTestStore(state);
+
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(
+        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
+      );
+      expect(screen.getByText(/Facility details not available/i));
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
+        .to.exist;
+      expect(
+        screen.getByRole('link', {
+          name: /Find facility information Link opens in a new tab/i,
+        }),
+      );
+    });
+
+    it('should not display heading and text for empty data', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
         location: {
           stationId: '983',
-          clinicName: 'Clinic 1',
-          clinicPhysicalLocation: 'CHEYENNE',
+        },
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {},
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(screen.queryByRole('heading', { level: 2, name: /What/i })).not.to
+        .exist;
+      expect(screen.queryByRole('heading', { level: 2, name: /Who/i })).not.to
+        .exist;
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Location: Not available'
+          );
+        }),
+      );
+      expect(
+        screen.getByText((content, element) => {
+          return (
+            element.tagName.toLowerCase() === 'span' &&
+            content === 'Clinic: Not available'
+          );
+        }),
+      );
+    });
+    it('should display facility phone when clinic phone is missing', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
         },
         videoData: {},
         vaos: {
@@ -64,66 +220,11 @@ describe('VAOS Component: ClaimExamLayout', () => {
       );
       // Assert
       expect(
-        screen.getByRole('heading', {
-          level: 1,
-          name: /claim exam/i,
-        }),
-      );
-      expect(
-        screen.getByRole('heading', { level: 2, name: /How to prepare/i }),
-      );
-      expect(screen.getByRole('heading', { level: 2, name: /When/i }));
-      expect(
-        screen.container.querySelector('va-button[text="Add to calendar"]'),
-      ).to.be.ok;
-
-      expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Claim exam/i));
-
-      expect(
-        screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
-      );
-      expect(screen.getByText(/Cheyenne VA Medical Center/i));
-      expect(screen.getByText(/2360 East Pershing Boulevard/i));
-
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
-        .ok;
-
-      expect(screen.getByText(/Location:/i));
-      expect(screen.getByText(/CHEYENNE/));
-
-      expect(screen.getByText(/Clinic:/i));
-      expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
-      expect(
         screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
       ).to.be.ok;
-
-      expect(
-        screen.getByRole('heading', {
-          level: 2,
-          name: /Need to make changes/i,
-        }),
-      ).to.be.ok;
-      expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
-      ).to.be.ok;
-
-      expect(
-        screen.queryByRole('heading', {
-          level: 2,
-          name: /Scheduling facility/i,
-        }),
-      ).not.to.exist;
-
-      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
-        .ok;
-      expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
-      ).to.not.exist;
     });
 
-    it('should display default text for empty data', async () => {
+    it('should display VA main phone when facility id is missing', async () => {
       // Arrange
       const store = createTestStore(initialState);
       const appointment = {
@@ -148,37 +249,136 @@ describe('VAOS Component: ClaimExamLayout', () => {
         },
       );
       // Assert
+      expect(
+        screen.container.querySelector('va-telephone[contact="800-698-2411"]'),
+      ).to.be.ok;
+    });
+  });
+
+  describe('When viewing upcoming appointment details', () => {
+    it('should display claim exam layout', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {
+          stationId: '983',
+          clinicName: 'Clinic 1',
+          clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
+        },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const screen = renderWithStoreAndRouter(
+        <ClaimExamLayout data={appointment} />,
+        {
+          store,
+        },
+      );
+      // Assert
+      expect(
+        screen.getByRole('heading', {
+          level: 1,
+          name: /claim exam/i,
+        }),
+      );
+      expect(screen.getByRole('heading', { level: 2, name: /When/i }));
+      expect(
+        screen.container.querySelector('va-button[text="Add to calendar"]'),
+      ).to.be.ok;
+
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
-      expect(screen.getByText(/Type of care information not available/i));
+      expect(screen.queryByText('Claim exam'), { exact: true });
+
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
 
       expect(
         screen.getByRole('heading', { level: 2, name: /Where to attend/i }),
       );
-      expect(screen.getByText(/Facility details not available/i));
-      expect(screen.container.querySelector('va-icon[icon="directions"]')).not
-        .to.exist;
+      expect(screen.getByText(/Cheyenne VA Medical Center/i));
+      expect(screen.getByText(/2360 East Pershing Boulevard/i));
+
+      expect(screen.container.querySelector('va-icon[icon="directions"]')).to.be
+        .ok;
+
+      expect(screen.getByText(/Location:/i));
+      expect(screen.getByText(/CHEYENNE/));
+
+      expect(screen.getByText(/Clinic:/i));
+      expect(screen.getByText(/Clinic 1/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
-        screen.getByRole('link', {
-          name: /Find facility information Link opens in a new tab/i,
-        }),
-      );
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
+      ).to.be.ok;
+      expect(screen.container.querySelector('va-telephone[extension="1234"]'))
+        .to.be.ok;
 
       expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Location: Not available'
-          );
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
         }),
       );
       expect(
-        screen.getByText((content, element) => {
-          return (
-            element.tagName.toLowerCase() === 'span' &&
-            content === 'Clinic: Not available'
-          );
-        }),
+        screen.getByText(/You don't need to bring anything to your exam./i),
       );
+      expect(
+        screen.getByText(
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Learn more about claim exam appointments/i));
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Need to make changes/i,
+        }),
+      ).to.be.ok;
+
+      expect(
+        screen.queryByRole('heading', {
+          level: 2,
+          name: /Scheduling facility/i,
+        }),
+      ).not.to.exist;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+      ).to.not.exist;
     });
   });
 
@@ -192,6 +392,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
         },
         videoData: {},
         vaos: {
@@ -247,9 +449,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
 
       expect(
@@ -259,16 +461,23 @@ describe('VAOS Component: ClaimExamLayout', () => {
         }),
       );
 
-      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
-        .ok;
       expect(
-        screen.container.querySelector('va-button[text="Cancel appointment"]'),
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
       ).not.to.exist;
+
       expect(
         screen.queryByRole('heading', {
           level: 2,
           name: /Need to make changes/i,
         }),
+      ).not.to.exist;
+
+      expect(screen.container.querySelector('va-button[text="Print"]')).to.be
+        .ok;
+      expect(
+        screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
     });
   });
@@ -283,6 +492,8 @@ describe('VAOS Component: ClaimExamLayout', () => {
           stationId: '983',
           clinicName: 'Clinic 1',
           clinicPhysicalLocation: 'CHEYENNE',
+          clinicPhone: '500-500-5000',
+          clinicPhoneExtension: '1234',
         },
         videoData: {},
         vaos: {
@@ -344,9 +555,9 @@ describe('VAOS Component: ClaimExamLayout', () => {
 
       expect(screen.getByText(/Clinic:/i));
       expect(screen.getByText(/Clinic 1/i));
-      expect(screen.getByText(/Clinic phone:/i));
+      expect(screen.getByText(/Phone:/i));
       expect(
-        screen.container.querySelector('va-telephone[contact="307-778-7550"]'),
+        screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
       ).to.be.ok;
 
       expect(
@@ -355,6 +566,28 @@ describe('VAOS Component: ClaimExamLayout', () => {
           name: /Scheduling facility/i,
         }),
       );
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(/You don't need to bring anything to your exam./i),
+      );
+      expect(
+        screen.getByText(
+          /If you have any new non-VA medical records \(like records from a recent surgery or illness\), be sure to submit them before your appointment./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'a[href="https://www.va.gov/disability/va-claim-exam/"]',
+        ),
+      ).to.be.ok;
+      expect(screen.getByText(/Learn more about claim exam appointments/i));
+
       expect(
         screen.queryByRole('heading', {
           level: 2,

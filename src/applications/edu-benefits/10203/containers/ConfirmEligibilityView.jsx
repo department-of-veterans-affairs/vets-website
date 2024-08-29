@@ -5,30 +5,30 @@ import { isChapter33 } from '../helpers';
 import captureEvents from '../analytics-functions';
 import { ExitApplicationButton } from '../components/ExitApplicationButton';
 
+export const CEVIcon = ({ indication }) => {
+  const icon = indication ? 'check' : 'close';
+  const classes = classNames('icon-li', {
+    'vads-u-color--green': indication,
+    'vads-u-color--gray-medium': !indication,
+  });
+  return (
+    <span className={classes}>
+      <va-icon icon={icon} size={3} />
+    </span>
+  );
+};
+
 export class ConfirmEligibilityView extends React.Component {
   onChange = property => {
-    this.props.onChange({
-      ...this.props.formData,
-      ...property,
-    });
+    this.props.onChange({ ...this.props.formData, ...property });
   };
-
-  iconClass = indication =>
-    classNames('fa', {
-      'fa-check': indication,
-      'fa-times': !indication,
-      'vads-u-color--green': indication,
-      'vads-u-color--gray-medium': !indication,
-    });
 
   iconText = indication =>
     indication ? `You answered yes to` : `You answered no to`;
 
-  renderCheck = (classes, iconTitle, title, text) => (
-    <li className="vads-u-margin-bottom--0">
-      <span className="fa-li">
-        <i className={classes} aria-hidden="true" title={iconTitle} />
-      </span>
+  renderCheck = (indication, title, text) => (
+    <li className="vads-u-position--relative">
+      <CEVIcon indication={indication} />
       <span className="vads-u-visibility--screen-reader">{title}</span>
       {text}
     </li>
@@ -39,9 +39,8 @@ export class ConfirmEligibilityView extends React.Component {
     const text =
       'Are using or recently used Post-9/11 GI Bill or Fry Scholarship benefits';
     const title = this.iconText(check);
-    const iconTitle = `${title} ${text}`;
 
-    return this.renderCheck(this.iconClass(check), iconTitle, title, text);
+    return this.renderCheck(check, title, text);
   };
 
   renderBenefitLeftCheck = () => {
@@ -50,9 +49,8 @@ export class ConfirmEligibilityView extends React.Component {
     const text =
       'Have used all of your education benefits or are within 6 months of using all your benefits when you submit your application';
     const title = this.iconText(check);
-    const iconTitle = `${title} ${text}`;
 
-    return this.renderCheck(this.iconClass(check), iconTitle, title, text);
+    return this.renderCheck(check, title, text);
   };
 
   renderEnrolledCheck = () => {
@@ -63,16 +61,10 @@ export class ConfirmEligibilityView extends React.Component {
     } = this.props;
     const check =
       isEnrolledStem || isPursuingTeachingCert || isPursuingClinicalTraining;
-    const text = (
-      <div>
-        Are enrolled in a bachelor’s degree program for science, technology,
-        engineering, or math (STEM), <b>or</b> have already earned a STEM
-        bachelor’s degree and are pursuing a teaching certification
-      </div>
-    );
     const textElement = (
       <div>
-        <p className="vads-u-margin-bottom--neg1px">Are:</p>
+        <span className="vads-u-margin-bottom--neg1px">Are:</span>
+        <br />
         <ul className="circle vads-u-margin-y--0">
           <li className="vads-u-margin-y--0">
             Enrolled in a bachelor’s degree program for science, technology,
@@ -83,7 +75,7 @@ export class ConfirmEligibilityView extends React.Component {
             a teaching certification, <b>or</b>
           </li>
           <li className="vads-u-margin-y--0">
-            Have already earned a STEM bachelor's or graduate degree and are
+            Have already earned a STEM bachelor’s or graduate degree and are
             pursuing a covered clinical training program for health care
             professionals
           </li>
@@ -91,25 +83,20 @@ export class ConfirmEligibilityView extends React.Component {
       </div>
     );
     const title = this.iconText(check);
-    const iconTitle = `${title} ${text}`;
-    return this.renderCheck(
-      this.iconClass(check),
-      iconTitle,
-      title,
-      textElement,
-    );
+
+    return this.renderCheck(check, title, textElement);
   };
 
   renderChecks = () => (
     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-    <div tabIndex="0">
+    <div tabIndex={0}>
       <div className="vads-u-margin-top--neg2p5">
         <h4>Based on your responses, you may not be eligible</h4>
       </div>
       <div className="vads-u-margin-right--neg7 vads-u-padding-top--1p5">
         <b>Your responses:</b>
       </div>
-      <ul className="fa-ul vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
+      <ul className="vads-u-padding-left--0 vads-u-margin-left--3 vads-u-margin-top--0p5 stem-eligibility-ul">
         {this.renderBenefitCheck()}
         {this.renderEnrolledCheck()}
         {this.renderBenefitLeftCheck()}
@@ -179,7 +166,7 @@ export class ConfirmEligibilityView extends React.Component {
           {this.renderConfirmEligibility()}
         </div>
         {/*  eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex */}
-        <div className="vads-u-padding-y--4" tabIndex="0">
+        <div className="vads-u-padding-y--4" tabIndex={0}>
           <b>
             You must meet the above requirements to qualify for the scholarship.
           </b>{' '}

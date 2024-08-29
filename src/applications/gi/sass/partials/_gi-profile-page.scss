@@ -246,16 +246,6 @@
     }
   }
 
-  .programs.row {
-    .fa-check {
-      color: var(--vads-color-success-dark);
-    }
-
-    .fa-remove {
-      color: var(--vads-color-gray-medium);
-    }
-  }
-
   .your-estimated-benefits {
     background: var(--vads-color-base-lightest);
     padding: 0.9375rem 0.9375rem 0 0.9375rem;
@@ -746,3 +736,9 @@
   margin-right: 15px;
 }
 
+.v3-checkbox-vads-l-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 100%;
+}

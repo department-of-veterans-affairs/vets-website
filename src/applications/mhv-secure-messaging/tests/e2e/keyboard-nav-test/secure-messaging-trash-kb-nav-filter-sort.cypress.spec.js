@@ -6,8 +6,7 @@ import { AXE_CONTEXT } from '../utils/constants';
 import mockTrashMessages from '../fixtures/trashResponse/trash-messages-response.json';
 import FolderLoadPage from '../pages/FolderLoadPage';
 
-describe('Keyboard Navigation for Filter & Sort functionalities', () => {
-  const site = new SecureMessagingSite();
+describe('Trash page keyboard navigation for filter & sort features', () => {
   const filteredData = {
     data: inboxFilterResponse.data.filter(item =>
       item.attributes.subject.toLowerCase().includes('test'),
@@ -15,7 +14,7 @@ describe('Keyboard Navigation for Filter & Sort functionalities', () => {
   };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages(mockTrashMessages);
     FolderLoadPage.loadDeletedMessages(mockTrashMessages);
   });

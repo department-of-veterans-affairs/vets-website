@@ -4,36 +4,33 @@ import PatientMessageCustomFolderPage from './pages/PatientMessageCustomFolderPa
 import { AXE_CONTEXT } from './utils/constants';
 import FolderLoadPage from './pages/FolderLoadPage';
 
-describe.skip('Secure Messaging Custom Folder AXE Check', () => {
+describe('Secure Messaging Custom Folder AXE Check', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     FolderLoadPage.loadFolders();
     PatientMessageCustomFolderPage.loadMessages();
   });
 
-  it('Verify folder header', () => {
+  it('verify folder header', () => {
     PatientMessageCustomFolderPage.verifyFolderHeaderText();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
     PatientMessageCustomFolderPage.verifyResponseBodyLength();
   });
 
-  it('Verify Filter btn exists', () => {
-    PatientMessageCustomFolderPage.VerifyFilterBtnExist();
+  it('verify main buttons', () => {
+    PatientMessageCustomFolderPage.verifyMainButtons();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('Verify Remove folder btn exists and click on x button on pop-up', () => {
-    PatientMessageCustomFolderPage.verifyRemoveFolder();
+  it('verify remove non-empty folder', () => {
     PatientMessageCustomFolderPage.tabAndPressToRemoveFolderButton();
-    PatientMessageCustomFolderPage.verifyEmptyFolderText();
-    PatientMessageCustomFolderPage.verifyFocusToCloseIcon();
+    PatientMessageCustomFolderPage.verifyEmptyFolderAlert();
     PatientMessageCustomFolderPage.clickOnCloseIcon();
     PatientMessageCustomFolderPage.verifyFocusOnRemoveFolderButton();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

@@ -10,6 +10,7 @@ import { EVIDENCE_VA_PATH, EVIDENCE_VA, EVIDENCE_PRIVATE } from '../constants';
 import {
   privateRecordsRequestTitle,
   privateRecordsRequestInfo,
+  privateRecordsRadioDescription,
 } from '../content/evidencePrivateRecordsRequest';
 
 import { customPageProps995 } from '../../shared/props';
@@ -73,24 +74,23 @@ const EvidencePrivateRequest = ({
         onVaValueChange={handlers.onSelected}
         required
         error={error}
-        uswds
+        hint={privateRecordsRequestInfo}
       >
         <va-radio-option
           label="Yes"
           name="private"
           value="y"
           checked={data[EVIDENCE_PRIVATE]}
-          uswds
+          description={privateRecordsRadioDescription.yes}
         />
         <va-radio-option
           label="No"
           name="private"
           value="n"
           checked={data[EVIDENCE_PRIVATE] === false}
-          uswds
+          description={privateRecordsRadioDescription.no}
         />
       </VaRadio>
-      {privateRecordsRequestInfo}
       <div className="vads-u-margin-top--4">
         {contentBeforeButtons}
         <FormNavButtons

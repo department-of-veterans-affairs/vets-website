@@ -19,7 +19,7 @@
           "first": "Applicant",
           "last": "Jones"
         },
-        "applicantDOB": "2000-02-02",
+        "applicantDob": "2000-02-02",
         "applicantGender": {
           "gender": "male"
         },
@@ -83,7 +83,7 @@
       "last": "Jones",
       "suffix": "Sr."
     },
-    "sponsorDOB": "1999-01-01",
+    "sponsorDob": "1999-01-01",
     "certifierRole": "applicant",
     "consentToMailMissingRequiredFiles": true,
     "statementOfTruthSignature": "applicant jones",

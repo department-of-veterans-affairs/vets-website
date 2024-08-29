@@ -14,7 +14,7 @@ export default {
   uiSchema: {
     veteranFullName: fullNameNoSuffixUI(title => `Veteran’s ${title}`),
     veteranSocialSecurityNumber: ssnUI('Veteran’s Social Security number'),
-    veteranFileNumber: vaFileNumberUI('Veteran’s file number'),
+    vaFileNumber: vaFileNumberUI('Veteran’s file number'),
   },
   schema: {
     type: 'object',
@@ -22,7 +22,7 @@ export default {
     properties: {
       veteranFullName: fullNameNoSuffixSchema,
       veteranSocialSecurityNumber: ssnSchema,
-      veteranFileNumber: vaFileNumberSchema,
+      vaFileNumber: vaFileNumberSchema,
     },
   },
 };

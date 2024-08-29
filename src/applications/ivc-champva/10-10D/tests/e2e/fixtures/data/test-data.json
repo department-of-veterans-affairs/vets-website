@@ -22,141 +22,9 @@
         },
         "applicantDependentStatus": { "status": "enrolled" },
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
+        "applicantDob": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
-          "middle": "T",
-          "last": "Alvin",
-          "suffix": "Jr."
-        },
-        "applicantMedicareStatus": {
-          "eligibility": "enrolled"
-        },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
-      },
-      {
-        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
-        "applicantEmailAddress": "timmy@alvin.gov",
-        "applicantAddress": {
-          "country": "USA",
-          "street": "456 Circle Street",
-          "city": "Clinton",
-          "state": "AS",
-          "postalCode": "56790"
-        },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
-        "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
-        "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "child"
-        },
-        "applicantDependentStatus": { "status": "enrolled" },
-        "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
-        "applicantName": {
-          "first": "Timmy",
-          "middle": "T",
-          "last": "Alvin",
-          "suffix": "Jr."
-        },
-        "applicantMedicareStatus": {
-          "eligibility": "enrolled"
-        },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
-      },
-      {
-        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
-        "applicantEmailAddress": "billy@alvin.gov",
-        "applicantAddress": {
-          "country": "USA",
-          "street": "456 Circle Street",
-          "city": "Clinton",
-          "state": "AS",
-          "postalCode": "56790"
-        },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
-        "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
-        "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "child"
-        },
-        "applicantDependentStatus": { "status": "enrolled" },
-        "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
-        "applicantName": {
-          "first": "Billy",
-          "middle": "T",
-          "last": "Alvin",
-          "suffix": "Jr."
-        },
-        "applicantMedicareStatus": {
-          "eligibility": "enrolled"
-        },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
-      },
-      {
-        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
-        "applicantEmailAddress": "jerry@alvin.gov",
-        "applicantAddress": {
-          "country": "USA",
-          "street": "456 Circle Street",
-          "city": "Clinton",
-          "state": "AS",
-          "postalCode": "56790"
-        },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
-        "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
-        "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "child"
-        },
-        "applicantDependentStatus": { "status": "enrolled" },
-        "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
-        "applicantName": {
-          "first": "Jerry",
-          "middle": "T",
-          "last": "Alvin",
-          "suffix": "Jr."
-        },
-        "applicantMedicareStatus": {
-          "eligibility": "enrolled"
-        },
-        "applicantMedicarePartD": { "enrollment": "enrolled" },
-        "applicantHasOhi": { "hasOhi": "yes" }
-      },
-      {
-        "applicantRelationshipOrigin": { "relationshipToVeteran": "blood" },
-        "applicantEmailAddress": "eddy@alvin.gov",
-        "applicantAddress": {
-          "country": "USA",
-          "street": "456 Circle Street",
-          "city": "Clinton",
-          "state": "AS",
-          "postalCode": "56790"
-        },
-        "applicantSSN": {
-          "ssn": "345345345"
-        },
-        "applicantPhone": "555-555-1234",
-        "applicantGender": { "gender": "male" },
-        "applicantRelationshipToSponsor": {
-          "relationshipToVeteran": "child"
-        },
-        "applicantDependentStatus": { "status": "enrolled" },
-        "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
-        "applicantName": {
-          "first": "Eddy",
           "middle": "T",
           "last": "Alvin",
           "suffix": "Jr."
@@ -175,7 +43,7 @@
       "first": "Joe",
       "last": "Johnson"
     },
-    "sponsorDOB": "1958-01-01",
+    "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

@@ -45,8 +45,6 @@ const WhereContent = ({
           ))}
           <a
             href={`https://maps.google.com?saddr=Current+Location&daddr=${locationAddress}`}
-            rel="noopener noreferrer"
-            target="_blank"
           >
             Get directions on Google Maps{' '}
             <span

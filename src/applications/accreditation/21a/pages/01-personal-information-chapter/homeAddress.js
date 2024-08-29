@@ -9,11 +9,8 @@ export default {
   title: 'Home address',
   path: 'home-address',
   uiSchema: {
-    ...titleUI('Home address'),
+    ...titleUI('Primary home address'),
     homeAddress: addressUI({
-      labels: {
-        state: 'State/Province/Region',
-      },
       omit: ['street3'],
     }),
   },

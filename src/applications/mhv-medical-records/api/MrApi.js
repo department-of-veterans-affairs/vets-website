@@ -38,6 +38,12 @@ export const getLabOrTest = id => {
   });
 };
 
+export const getMhvRadiologyTests = () => {
+  return apiRequest(`${apiBasePath}/medical_records/radiology`, {
+    headers,
+  });
+};
+
 export const getNotes = () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,

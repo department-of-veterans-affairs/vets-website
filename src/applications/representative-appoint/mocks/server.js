@@ -75,7 +75,6 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileContacts: true,
             profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowEmailNotificationSettings: true,

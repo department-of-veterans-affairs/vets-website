@@ -179,14 +179,6 @@ export const fillSpousalBasicInformation = () => {
   cy.get('#root_dateOfMarriageYear').type(maritalYear);
 };
 
-export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-alert-expandable')
-    .shadow()
-    .findByText(/you’re filling out a shortened application!/i)
-    .first()
-    .should('exist');
-};
-
 export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('highDisability');
@@ -208,22 +200,17 @@ export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/insurance-information/medicaid');
 
   // medicaid page with short form message
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 
   // general insurance
   goToNextPage('/insurance-information/general');
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
   // va facility
   goToNextPage('/insurance-information/va-facility');
-  shortFormAdditionalHelpAssertion();
-
   cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
     testData['view:preferredFacility']['view:facilityState'],
   );
-
   cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
     testData['view:preferredFacility'].vaMedicalFacility,
   );

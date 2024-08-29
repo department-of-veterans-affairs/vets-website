@@ -7,9 +7,9 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
 
   for (let i = 0; i < divisions; i++) {
     circles.push(
-      <i
+      <div
         key={i}
-        className={classNames(`fa fa-circle`, {
+        className={classNames('gi-compare-circle', {
           'scroll-active': currentPosition === i,
         })}
       />,
@@ -38,7 +38,7 @@ export default function({ currentScroll, divisions, divisionWidth, onClick }) {
             onClick={() => arrowClick(-1)}
           />
         </div>
-        <div className="vads-u-text-align--center circles">{circles}</div>
+        <div className="vads-u-display--flex circles">{circles}</div>
         <div className="right-arrow scroll-arrrow vads-u-text-align--right">
           <va-icon
             icon="navigate_next"

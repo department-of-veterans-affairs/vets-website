@@ -63,7 +63,7 @@ const Wrapper = props => {
         data-testid={testID}
       >
         <MixedLanguageDisclaimer />
-        <LanguagePicker withTopMargin={!withBackButton} />
+        <LanguagePicker />
         {pageTitle && (
           <h1 tabIndex="-1" data-testid="header">
             {eyebrow && (

@@ -95,14 +95,51 @@ const testConfig = createTestConfig(
           if (testKey === 'noBatteries') {
             // #1 is "Order batteries for this device"
             // #3 & #5 are "order this accessory" for the available accessories
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#3')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#5')
+              .shadow()
+              .find('input')
+              .click({ force: true });
           } else if (testKey === 'noAccessories') {
-            cy.get('#1').click({ force: true });
+            cy.get('#1')
+              .shadow()
+              .find('input')
+              .click({ force: true });
           } else {
-            cy.get('#1').click({ force: true });
-            cy.get('#3').click({ force: true });
-            cy.get('#5').click({ force: true });
+            cy.get('#1')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#3')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+            cy.get('#5')
+              .shadow()
+              .find('input')
+              .click({ force: true });
+          }
+        });
+      },
+      'review-and-submit': () => {
+        // Confirm that the correct supplies are listed.
+        cy.expandAccordions();
+        cy.get('@testKey').then(testKey => {
+          if (testKey === 'noBatteries') {
+            cy.findByText(/DOME/i).should('exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('exist');
+            cy.findByText(/OMEGAX d3241/i).should('not.exist');
+          } else if (testKey === 'noAccessories') {
+            cy.findByText(/OMEGAX d3241/i).should('exist');
+            cy.findByText(/DOME/i).should('not.exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('not.exist');
+          } else {
+            cy.findByText(/DOME/i).should('exist');
+            cy.findByText(/WaxBuster Single Unit/i).should('exist');
+            cy.findByText(/OMEGAX d3241/i).should('exist');
           }
         });
       },

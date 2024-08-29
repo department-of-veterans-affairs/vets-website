@@ -29,6 +29,7 @@ export const medicationsUrls = {
     ABOUT: '/about',
     REFILL: '/refill',
     DETAILS: '/prescription',
+    DOCUMENTATION: '/documentation',
   },
 };
 
@@ -166,6 +167,7 @@ export const dispStatusObj = {
 };
 
 export const SESSION_SELECTED_SORT_OPTION = 'SESSION_SELECTED_SORT_OPTION';
+export const SESSION_SELECTED_PAGE_NUMBER = 'SESSION_SELECTED_PAGE_NUMBER';
 
 export const INCLUDE_IMAGE_ENDPOINT = '&include_image=true';
 
@@ -197,10 +199,3 @@ export const allergyTypes = {
 };
 
 export const EMPTY_FIELD = 'None noted';
-
-export const DD_ACTIONS_PAGE_TYPE = {
-  LIST: 'List Page',
-  DETAILS: 'Details Page',
-  REFILL: 'Refill Page',
-  ABOUT: 'About Page',
-};

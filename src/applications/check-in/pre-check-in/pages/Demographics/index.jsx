@@ -58,6 +58,7 @@ const Demographics = props => {
       <DemographicsDisplay
         yesAction={yesClick}
         noAction={noClick}
+        eyebrow={t('review-your-information')}
         subtitle={subtitle}
         demographics={demographics}
         router={router}

@@ -15,7 +15,7 @@ import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.aboutYourFamilyMember_familysomeonesbenefits;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember.pages.aboutYourFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutfamilymember;
 
 describe('aboutTheFamilyMemberPage', () => {
   it('should render', () => {
@@ -54,8 +54,6 @@ describe('aboutTheFamilyMemberPage', () => {
     expect($('h3', container).textContent).to.eq(
       'Tell us about your family member',
     );
-
-    expect($('h4', container).textContent).to.eq('Pronouns');
 
     labels.forEach(
       label =>

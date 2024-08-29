@@ -5,11 +5,10 @@ import { AXE_CONTEXT } from './utils/constants';
 import categories from './fixtures/categories-response.json';
 
 describe('Secure Messaging Compose Categories', () => {
-  const site = new SecureMessagingSite();
   const listOfCategories = categories.data.attributes.messageCategoryType;
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
   });
 
   it('can send message for categories', () => {

@@ -30,10 +30,7 @@ const NoSuggestedAddress = ({
               <span className="vads-u-font-weight--bold">
                 Entered Addresses:
               </span>
-              <label
-                className="usa-radio__label vads-u-margin-top--1"
-                htmlFor="entered-address"
-              >
+              <label className="vads-u-margin-top--1" id="entered-address">
                 {addressLabel(formData)}
               </label>
             </div>

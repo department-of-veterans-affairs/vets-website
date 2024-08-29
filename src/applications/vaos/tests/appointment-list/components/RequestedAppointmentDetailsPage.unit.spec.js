@@ -26,7 +26,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   const initialState = {
     featureToggles: {
       vaOnlineSchedulingBreadcrumbUrlUpdate: true,
-      vaOnlineSchedulingStatusImprovement: true,
       vaOnlineSchedulingVAOSServiceCCAppointments: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingBookingExclusion: false,
@@ -54,7 +53,9 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         code: 'New medical issue',
         text: 'A message from the patient',
       })
+      .setPatientComments('A message from the patient')
       .setContact({ phone: '2125551212', email: 'veteranemailtest@va.gov' })
+      .setPreferredModlity('In person')
       .setPreferredTimesForPhoneCall({ morning: true });
 
     mockAppointmentApi({ response });
@@ -98,7 +99,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     expect(screen.baseElement).to.contain.text('Main phone:');
     expect(screen.getByTestId('facility-telephone')).to.exist;
     expect(screen.baseElement).to.contain.text('Preferred type of appointment');
-    expect(screen.baseElement).to.contain.text('Office visit');
+    expect(screen.baseElement).to.contain.text('In person');
     expect(screen.baseElement).to.contain.text('Preferred date and time');
 
     const start = moment(
@@ -388,12 +389,11 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         name: 'Preferred date and time',
       }),
     ).to.be.ok;
-
     expect(
       screen.getByText(
-        `${moment(
-          response.attributes.requestedPeriods[0].start.replace('Z', ''),
-        ).format('ddd, MMMM D, YYYY')} in the morning`,
+        moment()
+          .startOf('day')
+          .format('ddd, MMMM D, YYYY [in the morning]'),
       ),
     ).to.be.ok;
   });
@@ -471,7 +471,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Pending VA primary care appointment | Veterans Affairs',
+        'Request for primary care appointment | Veterans Affairs',
       );
     });
   });
@@ -495,7 +495,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        `Pending Community care hearing aid support appointment | Veterans Affairs`,
+        `Request for hearing aid support community care appointment | Veterans Affairs`,
       );
     });
   });
@@ -518,7 +518,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     // Assert
     await waitFor(() => {
       expect(global.document.title).to.equal(
-        'Canceled VA primary care appointment | Veterans Affairs',
+        'Canceled request for primary care appointment | Veterans Affairs',
       );
     });
   });

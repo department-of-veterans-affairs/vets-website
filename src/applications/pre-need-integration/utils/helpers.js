@@ -5,6 +5,9 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -199,6 +202,38 @@ export function militaryDetailsSubHeader(formData) {
       )}
     </div>
   );
+}
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
 }
 
 export const contactInfoDescription = (
@@ -1084,6 +1119,36 @@ export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
         );
       }
     }
+
+    let dob;
+    let errorMessage;
+
+    if (isVeteran(formData)) {
+      if (!isAuthorizedAgent(formData)) {
+        // Self
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage = 'Provide a valid date that is after your date of birth';
+      } else {
+        // Applicant
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage =
+          "Provide a valid date that is after the applicant's date of birth";
+      }
+    } else {
+      // Sponsor
+      dob = formData.application.veteran.dateOfBirth;
+      errorMessage =
+        "Provide a valid date that is after the sponsor's date of birth";
+    }
+
+    // Date of birth validation against service start date and service end date
+    if (serviceRecord.dateRange.from <= dob) {
+      errors[index].dateRange.from.addError(errorMessage);
+    }
+
+    if (serviceRecord.dateRange.to <= dob) {
+      errors[index].dateRange.to.addError(errorMessage);
+    }
   }
 };
 
@@ -1099,8 +1164,8 @@ export const selfServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1113,8 +1178,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1135,6 +1200,10 @@ export const selfServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1160,8 +1229,8 @@ export const preparerServiceRecordsUI = {
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1174,8 +1243,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1196,6 +1265,10 @@ export const preparerServiceRecordsUI = {
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
       'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

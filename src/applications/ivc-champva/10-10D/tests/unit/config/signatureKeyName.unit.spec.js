@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import getNameKeyForSignature from '../../../helpers/signatureKeyName';
+import { getNameKeyForSignature } from '../../../helpers/utilities';
 
 describe('Signature key name', () => {
   it('should be "veteransFullName" when certifierRole is "sponsor"', () => {

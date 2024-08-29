@@ -369,17 +369,17 @@ describe('526v2 prefill transformer', () => {
     });
   });
 
-  describe('prefillIncludeToxicExposure', () => {
+  describe('prefillStartedFormVersion', () => {
     it('should transform toxic exposure indicator when present', () => {
       const { pages, metadata } = noTransformData;
       const formData = {
-        includeToxicExposure: true,
+        startedFormVersion: '2022',
       };
 
       const transformedData = prefillTransformer(pages, formData, metadata)
         .formData;
-      expect(transformedData.includeToxicExposure).to.equal(
-        formData.includeToxicExposure,
+      expect(transformedData.startedFormVersion).to.equal(
+        formData.startedFormVersion,
       );
     });
   });

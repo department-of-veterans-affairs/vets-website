@@ -1,24 +1,60 @@
 import React from 'react';
 
+import { Toggler } from 'platform/utilities/feature-toggles';
+
+export const informalConferenceTitle = 'Request an informal conference';
+
+export const newInformalConferenceTitle =
+  'Option to request an informal conference';
+
+export const informalConferenceLabel =
+  'Do you want to request an informal conference?';
+
 export const InformalConferenceDescription = (
-  <>
-    <h3>Do you want to request an informal conference?</h3>
-    <p>
-      An informal conference is a phone call between you or your accredited
-      representative (claims agent, attorney, or Veterans Service Organization)
-      and the reviewer to discuss why you think the decision should be changed
-      and identify factual errors.
-    </p>
-    <p id="choose-conference-notice" className="vads-u-margin-bottom--3">
-      If you request an informal conference, the reviewer will call you or your
-      representative. You can request only one informal conference for each
-      Higher-Level Review request.
-    </p>
-  </>
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <h3>{newInformalConferenceTitle}</h3>
+      <p>
+        You or your accredited representative have the option to request an
+        informal conference. If you request an informal conference, we’ll
+        conduct only one informal conference for this Higher-Level Review.
+      </p>
+      <va-additional-info trigger="What happens during an informal conference">
+        <div>
+          <p className="vads-u-margin-top--0">
+            An informal conference is a call with the higher-level reviewer for
+            your case. If you choose to have an informal conference, the
+            reviewer will contact <strong>you</strong> or{' '}
+            <strong>your accredited representative, if you have one</strong>, to
+            schedule a time to discuss your case with you.
+          </p>
+          <p className="vads-u-margin-bottom--0">
+            During the call, you or your accredited representative can identify
+            errors and discuss why you think the decision should change. You
+            can’t submit new evidence.
+          </p>
+        </div>
+      </va-additional-info>
+    </Toggler.Enabled>
+    <Toggler.Disabled>
+      <h3>{informalConferenceTitle}</h3>
+      <p>
+        An informal conference is a phone call between you or your accredited
+        representative (claims agent, attorney, or Veterans Service
+        Organization) and the reviewer to discuss why you think the decision
+        should be changed and identify factual errors.
+      </p>
+      <p id="choose-conference-notice" className="vads-u-margin-bottom--3">
+        If you request an informal conference, the reviewer will call you or
+        your representative. You can request only one informal conference for
+        each Higher-Level Review request.
+      </p>
+    </Toggler.Disabled>
+  </Toggler>
 );
 
-export const InformalConferenceTitle =
-  'Do you want to request an informal conference?';
+export const informalConferenceHint =
+  'I understand that if I request an informal conference, I can’t discuss or introduce new evidence that wasn’t part of my file at the time of the decision at issue.';
 
 export const informalConferenceLabels = {
   no: 'No, I do not want an informal conference',
@@ -26,72 +62,30 @@ export const informalConferenceLabels = {
   rep: 'Yes, call my representative',
 };
 
-export const ContactRepresentativeTitle = (
-  <h3 className="vads-u-margin-top--0">
-    Your representative’s contact information
-  </h3>
-);
+export const newInformalConferenceLabels = {
+  yes: 'Yes',
+  no: 'No',
+};
 
-export const RepresentativeNameTitle = 'Representative’s name';
-export const RepresentativeFirstNameTitle = 'Representative’s first name';
-export const RepresentativeLastNameTitle = 'Representative’s last name';
+export const newInformalConferenceReviewLabels = {
+  yes: 'Yes',
+  no: 'No',
+  rep: 'Yes, call my accredited representative',
+};
 
-export const RepresentativePhoneTitle = 'Representative’s phone number';
-export const RepresentativePhoneExtensionTitle =
-  'Representative’s phone extension';
+export const informalConferenceDescriptions = {
+  yes:
+    'I understand that if I request an informal conference, I can’t discuss or introduce new evidence that wasn’t part of my file at the time of the decision at issue.',
+  no:
+    'I understand that if I don’t request an informal conference, VA will proceed to make a decision on my Higher-Level Review.',
+  me:
+    'VA may contact me by mail, telephone, email, or by other means to schedule my conference.',
+  rep:
+    'VA may contact my accredited representative by mail, telephone, email, or by other means to schedule my conference. You must have an accredited representative who you appointed to speak to us on your behalf. If you haven’t already appointed an accredited representative, you’ll need to follow our instructions to find, contact, and appoint an accredited representative.',
+};
 
-export const RepresentativeEmailTitle = 'Representative’s email address';
+export const editButtonText = 'Edit';
+export const updateButtonText = 'Update page';
 
-export const InformalConferenceTimesTitle = (
-  <h3 className="vads-u-margin-top--0">
-    What’s the best time for us to call you?
-  </h3>
-);
-export const InformalConferenceTimesTitleRep = (
-  <h3 className="vads-u-margin-top--0">
-    What’s the best time for us to call your representative?
-  </h3>
-);
-
-export const InformalConferenceTimesDescription = (
-  <>
-    <p className="vads-u-margin-top--0">
-      First we’ll call you to schedule the informal conference. Please indicate
-      your availability by providing a preferred time for a call.
-    </p>
-    <p>
-      <strong>We’ll make two attempts to call you.</strong> If no one answers,
-      we’ll leave a voice mail and a number for you to return the call. If we
-      aren’t able to get in touch with you after 2 attempts, we’ll proceed with
-      the Higher-Level Review.
-    </p>
-  </>
-);
-
-export const InformalConferenceTimesDescriptionRep = (
-  <>
-    <p className="vads-u-margin-top--0">
-      First we’ll call your representative to schedule the informal conference.
-      Please indicate their availability by providing a preferred time for a
-      call.
-    </p>
-    <p>
-      <strong>We’ll make two attempts to call your representative.</strong> If
-      no one answers, we’ll leave a voice mail and a number for your
-      representative to return the call. If we aren’t able to get in touch with
-      your representative after 2 attempts, we’ll proceed with the Higher-Level
-      Review.
-    </p>
-  </>
-);
-
-export const informalConferenceTimeSelectTitle =
-  'Choose the best time for us to call you';
-export const informalConferenceTimeSelectTitleRep =
-  'Choose the best time for us to call your representative';
-
-export const RepresentativeReviewWidget = ({ name, value }) => (
-  <span className="dd-privacy-hidden" data-dd-action-name={name || ''}>
-    {value || null}
-  </span>
-);
+export const editButtonLabel = `Edit ${informalConferenceTitle}`;
+export const newEditButtonLabel = `Edit ${newInformalConferenceTitle}`;

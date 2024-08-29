@@ -23,12 +23,9 @@ export default {
       descriptions: {
         Myself: 'We’ll only share your name with the school.',
         'Someone else':
-          'Your name is shared with the school, not the name of the person' +
-          'person you’re submitting feedback for.',
+          'Your name is shared with the school, not the name of the person you’re submitting feedback for.',
         Anonymous:
-          'Anonymous feedback is shared with the school. Your personal' +
-          'personal information, however, isn’t shared with anyone outside' +
-          'outside of VA.',
+          'Anonymous feedback is shared with the school. Your personal information, however, isn’t shared with anyone outside of VA.',
       },
     }),
     anonymousEmail: merge({}, emailUI('Email'), {

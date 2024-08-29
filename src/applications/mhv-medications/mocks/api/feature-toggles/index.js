@@ -1,19 +1,15 @@
 const generateFeatureToggles = (toggles = {}) => {
   const {
-    mhvLandingPageEnabled = true,
     mhvLandingPagePersonalization = true,
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
+    mhvMedicationsDisplayDocumentationContent = true,
   } = toggles;
 
   return {
     data: {
       type: 'feature_toggles',
       features: [
-        {
-          name: 'mhv_landing_page_enabled',
-          value: mhvLandingPageEnabled,
-        },
         {
           name: 'mhv_landing_page_personalization',
           value: mhvLandingPagePersonalization,
@@ -25,6 +21,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medications_display_refill_content',
           value: mhvMedicationsDisplayRefillContent,
+        },
+        {
+          name: 'mhv_medications_display_documentation_content',
+          value: mhvMedicationsDisplayDocumentationContent,
         },
       ],
     },

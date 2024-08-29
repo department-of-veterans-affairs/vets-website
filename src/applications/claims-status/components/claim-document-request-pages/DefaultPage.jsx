@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { scrubDescription } from '../../utils/helpers';
 
+import AddFilesForm from '../claim-files-tab/AddFilesForm';
 import DueDate from '../DueDate';
-import AddFilesFormOld from '../AddFilesFormOld';
 
 export default function DefaultPage({
   field,
@@ -20,8 +20,8 @@ export default function DefaultPage({
   uploading,
 }) {
   return (
-    <div id="default-page">
-      <h1 className="claims-header">{item.displayName}</h1>
+    <div id="default-page" className="vads-u-margin-bottom--3">
+      <h1 className="claims-header">Request for {item.displayName}</h1>
       {item.status === 'NEEDED_FROM_YOU' ? (
         <DueDate date={item.suspenseDate} />
       ) : null}
@@ -34,7 +34,7 @@ export default function DefaultPage({
         </div>
       ) : null}
       <p>{scrubDescription(item.description)}</p>
-      <AddFilesFormOld
+      <AddFilesForm
         field={field}
         progress={progress}
         uploading={uploading}

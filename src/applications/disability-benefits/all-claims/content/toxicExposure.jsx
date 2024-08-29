@@ -3,6 +3,7 @@ import { checkboxGroupSchema } from 'platform/forms-system/src/js/web-component-
 import {
   capitalizeEachWord,
   formSubtitle,
+  formTitle,
   formatMonthYearDate,
   isClaimingNew,
   sippableId,
@@ -10,7 +11,7 @@ import {
 import { NULL_CONDITION_STRING } from '../constants';
 
 /* ---------- content ----------*/
-export const conditionsPageTitle = 'Toxic Exposure';
+export const conditionsPageTitle = 'Toxic exposure';
 export const conditionsQuestion =
   'Are any of your new conditions related to toxic exposure during your military service? Check any that are related.';
 export const conditionsDescription = (
@@ -20,12 +21,12 @@ export const conditionsDescription = (
   >
     <div>
       <p className="vads-u-margin-top--0">
-        Toxic exposures include exposures to substances like Agent Orange, burn
+        Toxic exposure includes exposure to substances like Agent Orange, burn
         pits, radiation, asbestos, or contaminated water.
       </p>
       <p className="vads-u-margin-bottom--0">
         <a
-          href="https://www.va.gov/resources/the-pact-act-and-your-va-benefits/"
+          href="https://www.va.gov/disability/eligibility/hazardous-materials-exposure/"
           target="_blank"
           rel="noreferrer"
         >
@@ -62,6 +63,9 @@ export const noneAndLocationError =
   'You selected a location, and you also selected “None of these locations.” You’ll need to uncheck one of these options to continue.';
 export const noneAndHazardError =
   'You selected a hazard, and you also selected “None of these.” You’ll need to uncheck one of these options to continue.';
+
+export const otherInvalidCharError =
+  'You entered an invalid character in the text field. This field only allows letters, numbers, hyphens, apostrophes, periods, commas, ampersands (& symbol), number signs (# symbol), and spaces.';
 
 export const dateRangeAdditionalInfo = (
   <va-additional-info trigger="What if I have more than one date range?">
@@ -104,7 +108,7 @@ export const notSureHazardDetails = (
  * @param {number} totalItems - total number of selected items
  * @param {string} itemName - Display name of the location or hazard
  * @param {string} itemType - Name of the item. Defaults to 'Location'
- * @returns
+ * @returns {string} subtitle
  */
 export function teSubtitle(
   currentItem,
@@ -120,40 +124,10 @@ export function teSubtitle(
   );
 }
 
-/**
- * Create the markup for page description including the subtitle and date range description text
- *
- * @param {number} currentItem - Current item being viewed
- * @param {number} totalItems - Total items for this group
- * @param {string} itemName - Display name of the location or hazard
- * @param {string} itemName - Name of the item to display
- * @returns h4 subtitle and p description
- */
-export function dateRangePageDescription(
-  currentItem,
-  totalItems,
-  itemName,
-  itemType = 'Location',
-) {
-  const subtitle = formSubtitle(
-    teSubtitle(currentItem, totalItems, itemName, itemType),
-  );
-  return (
-    <>
-      {subtitle}
-      <p>
-        {itemType === 'Location'
-          ? dateRangeDescriptionWithLocation
-          : dateRangeDescriptionWithHazard}
-      </p>
-    </>
-  );
-}
-
 /* ---------- utils ---------- */
 /**
  * Checks if the toxic exposure pages should be displayed using the following criteria
- *  1. prefilled indicator is true
+ *  1. 'startedFormVersion' has 2019 or 2022
  *  2. the claim has a claim type of new
  *  3. claiming at least one new disability
  *
@@ -161,7 +135,8 @@ export function dateRangePageDescription(
  */
 export function showToxicExposurePages(formData) {
   return (
-    formData?.includeToxicExposure === true &&
+    (formData?.startedFormVersion === '2019' ||
+      formData?.startedFormVersion === '2022') &&
     isClaimingNew(formData) &&
     formData?.newDisabilities?.length > 0
   );
@@ -477,4 +452,44 @@ export function datesDescription(dates) {
     formatMonthYearDate(dates?.startDate) || 'No start date entered';
   const endDate = formatMonthYearDate(dates?.endDate) || 'No end date entered';
   return `${startDate} - ${endDate}`;
+}
+
+/**
+ * Create a title and subtitle for a page which will be passed into ui:title so that
+ * they are grouped in the same legend
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - the subtitle for the page, which displays below the title
+ * @returns {JSX.Element} markup with title and subtitle. example below.
+ *
+ * <h3 class="...">Service after August 2, 1990</h3>
+ * <h4 class="...">Location 2 of 2: Iraq</h4>
+ */
+export function titleWithSubtitle(title, subTitle) {
+  return (
+    <>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+    </>
+  );
+}
+
+/**
+ * Group together the title, subtitle and description for the details page
+ * @param {string} title - the title for the page, which displays below the stepper
+ * @param {string} subTitle - markup for the page that displays in between the title and rest of the page
+ * @param {string} type - the type of page to generate for, locations or hazards
+ * @returns {JSX.Element} legend for the fieldset
+ */
+export function detailsPageBegin(title, subTitle, type = 'locations') {
+  return (
+    <legend>
+      {formTitle(title)}
+      {formSubtitle(subTitle)}
+      <p className="vads-u-color--base vads-u-font-weight--normal vads-u-margin-bottom--0">
+        {type === 'locations'
+          ? dateRangeDescriptionWithLocation
+          : dateRangeDescriptionWithHazard}
+      </p>
+    </legend>
+  );
 }

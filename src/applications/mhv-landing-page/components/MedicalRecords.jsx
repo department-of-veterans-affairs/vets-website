@@ -1,6 +1,7 @@
 import React from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -51,7 +52,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
           'medium-screen:vads-u-margin--2',
         )}
       >
-        <span className="usa-label vads-u-background-color--hub-burials">
+        <span className="usa-label vads-u-background-color--primary">
           Coming soon
         </span>
       </div>
@@ -66,7 +67,7 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
         'medium-screen:vads-u-display--none',
       )}
     >
-      <span className="usa-label vads-u-background-color--hub-burials">
+      <span className="usa-label vads-u-background-color--primary">
         Coming soon
       </span>
     </div>
@@ -101,7 +102,15 @@ const MedicalRecords = ({ blueButtonUrl, pageHeading }) => (
         VA health records (Blue Button®).
       </p>
       <p>
-        <a className="vads-c-action-link--green" href={blueButtonUrl}>
+        <a
+          className="vads-c-action-link--green"
+          onClick={() =>
+            datadogRum.addAction(
+              'Click on Medical Records: Coming Soon - Go back to the previous version of My HealtheVet',
+            )
+          }
+          href={blueButtonUrl}
+        >
           Go back to the previous version of My HealtheVet
         </a>
       </p>

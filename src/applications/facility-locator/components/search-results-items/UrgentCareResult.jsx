@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import recordEvent from 'platform/monitoring/record-event';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationPhoneLink from './common/LocationPhoneLink';
 
 import LocationDistance from './common/LocationDistance';
+import ProviderTraining from './common/ProviderTraining';
 
 const UrgentCareResult = ({ provider, query }) => {
   const { name } = provider.attributes;
@@ -19,11 +19,12 @@ const UrgentCareResult = ({ provider, query }) => {
           markerText={provider.markerText}
         />
         <span>
-          <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
+          <h3 className="vads-u-margin-top--0">{name}</h3>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}
         </span>
+        <ProviderTraining provider={provider} />
         <LocationAddress location={provider} />
         <LocationDirectionsLink
           location={provider}
@@ -45,10 +46,8 @@ const UrgentCareResult = ({ provider, query }) => {
         >
           <a
             href="https://www.va.gov/COMMUNITYCARE/programs/veterans/Urgent-Care.asp"
-            target="_/blank"
-            onClick={() => {
-              recordEvent({ event: 'cta-primary-button-click' });
-            }}
+            target="_blank"
+            rel="noreferrer"
           >
             Learn about your in-network urgent care benefits (opens in a new
             tab)

@@ -3,8 +3,6 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import mockMessages from '../fixtures/messages-response.json';
 
 describe('Secure Messaging Inbox Folder checks', () => {
-  const site = new SecureMessagingSite();
-
   const {
     data: [, secondElement, thirdElement],
     ...rest
@@ -13,7 +11,7 @@ describe('Secure Messaging Inbox Folder checks', () => {
   const mockFilterResults = { data: [secondElement, thirdElement], ...rest };
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
 

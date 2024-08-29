@@ -5,7 +5,7 @@ const allRecipients = {
       type: 'triage_teams',
       attributes: {
         triageTeamId: 1013155,
-        name: '***MEDICATION_AWARENESS_100% @ MOH_DAYT29',
+        name: 'Triage Team 1',
         stationNumber: '989',
         blockedStatus: false,
         preferredTeam: true,
@@ -17,8 +17,32 @@ const allRecipients = {
       type: 'triage_teams_test',
       attributes: {
         triageTeamId: 2710520,
-        name: 'SM_TO_VA_GOV_TRIAGE_GROUP_TEST _ OLD',
-        stationNumber: '110',
+        name: 'Triage Team 2',
+        stationNumber: '989',
+        blockedStatus: false,
+        preferredTeam: true,
+        relationshipType: 'PATIENT',
+      },
+    },
+    {
+      id: '2710521',
+      type: 'triage_teams_test',
+      attributes: {
+        triageTeamId: 2710521,
+        name: 'DC - Privacy Issues Admin',
+        stationNumber: '989',
+        blockedStatus: false,
+        preferredTeam: true,
+        relationshipType: 'PATIENT',
+      },
+    },
+    {
+      id: '2710522',
+      type: 'triage_teams_test',
+      attributes: {
+        triageTeamId: 2710522,
+        name: 'VA - Record Amendment Admin',
+        stationNumber: '989',
         blockedStatus: false,
         preferredTeam: true,
         relationshipType: 'PATIENT',

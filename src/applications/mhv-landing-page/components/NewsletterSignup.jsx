@@ -11,7 +11,7 @@ const NewsletterSignup = () => {
           Subscribe to the My HealtheVet newsletter
         </h2>
         <div className="vads-l-row">
-          <p>
+          <p className="vads-u-font-size--md">
             To stay up to date on My HealtheVet tools and features,{' '}
             <a
               href={mhvNewsletterURL}

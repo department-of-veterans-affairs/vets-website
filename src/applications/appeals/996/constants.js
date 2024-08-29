@@ -23,6 +23,11 @@ export const COVID_FAQ_URL =
 export const FACILITY_LOCATOR_URL = '/find-locations';
 export const GET_HELP_REVIEW_REQUEST_URL =
   '/decision-reviews/get-help-with-review-request';
+export const GET_HELP_REP_OR_VSO_URL =
+  '/get-help-from-accredited-representative';
+export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
+export const MST_COORD_URL =
+  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
 export const PROFILE_URL = '/profile';
 
 // Header of the "Submit your request by mail for any type of benefit claim"
@@ -75,13 +80,18 @@ export const SUPPORTED_BENEFIT_TYPES = constants.benefitTypes.map(type => ({
   isSupported: SUPPORTED_BENEFIT_TYPES_LIST.includes(type.value),
 }));
 
-export const CONFERENCE_TIMES_V2 = {
+// Update submit values once Lighthouse's v3 endpoint is ready & we've switched
+export const CONFERENCE_TIMES_V3 = {
   time0800to1200: {
     label: '8:00 a.m. to noon ET',
+    labelMe: 'Morning hours in my time zone',
+    labelRep: 'Morning hours in your accredited representative’s time zone',
     submit: '800-1200 ET',
   },
   time1200to1630: {
     label: 'Noon to 4:30 p.m. ET',
+    labelMe: 'Afternoon hours in my time zone',
+    labelRep: 'Afternoon hours in your accredited representative’s time zone',
     submit: '1200-1630 ET',
   },
 };

@@ -8,10 +8,10 @@ export const addDisabilitiesInstructions = (
       Enter the name of your condition. Then, select your condition from the
       list of possible matches.
     </p>
-    <h4>What if my condition isn’t listed?</h4>
+    <h4>If your conditions aren’t listed</h4>
     <p>
       You can claim a condition that isn’t listed. Enter your condition,
-      diagnosis, or short description of you symptoms.
+      diagnosis, or short description of your symptoms.
     </p>
     <h4>Examples of conditions</h4>
     <ul>

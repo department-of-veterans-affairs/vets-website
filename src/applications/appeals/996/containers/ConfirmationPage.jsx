@@ -28,8 +28,7 @@ export const ConfirmationPage = () => {
       <h2 className="vads-u-font-size--h3">What should I do while I wait?</h2>
       <p>
         You don’t need to do anything unless VA sends you a letter asking for
-        more information. If VA schedules any exams for you, be sure not to miss
-        them.
+        more information.
       </p>
       <p>
         If you requested a decision review and haven’t heard back from VA yet,

@@ -121,12 +121,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     );
 
     const applyUrl = (
-      <a
-        href={APPLY_URL}
-        className="vads-u-display--block vads-u-margin-top--3 vads-u-margin-bottom--1 vads-c-action-link--green"
-      >
-        Apply for VA health care
-      </a>
+      <va-link-action href={APPLY_URL} text="Apply for VA health care" />
     );
 
     return (

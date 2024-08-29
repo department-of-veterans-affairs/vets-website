@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectProfileContactsToggle } from '@@profile/selectors';
-
 import { hasBadAddress as hasBadAddressSelector } from '@@vap-svc/selectors';
 
 import { PROFILE_PATHS, PROFILE_PATH_NAMES } from '@@profile/constants';
@@ -13,11 +11,11 @@ import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
 import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
+import { ContactInfoNeeded } from '../alerts/ContactInfoNeeded';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
   const hasBadAddress = useSelector(hasBadAddressSelector);
-  const profileContactsEnabled = useSelector(selectProfileContactsToggle);
 
   useEffect(() => {
     document.title = `Profile | Veterans Affairs`;
@@ -33,6 +31,8 @@ export const Hub = () => {
       </div>
 
       <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
+
+      <ContactInfoNeeded className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
 
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />
@@ -60,18 +60,16 @@ export const Hub = () => {
           />
         </HubCard>
 
-        {profileContactsEnabled && (
-          <HubCard
-            heading={PROFILE_PATH_NAMES.CONTACTS}
-            content="Medical emergency contact and next of kin contact information"
-          >
-            <ProfileLink
-              className="small-screen--line-break-at-32-characters"
-              text="Review your personal health care contacts"
-              href={PROFILE_PATHS.CONTACTS}
-            />
-          </HubCard>
-        )}
+        <HubCard
+          heading={PROFILE_PATH_NAMES.CONTACTS}
+          content="Medical emergency contact and next of kin contact information"
+        >
+          <ProfileLink
+            className="small-screen--line-break-at-32-characters"
+            text="Review your personal health care contacts"
+            href={PROFILE_PATHS.CONTACTS}
+          />
+        </HubCard>
 
         <HubCard
           heading={PROFILE_PATH_NAMES.MILITARY_INFORMATION}

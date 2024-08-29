@@ -3,9 +3,8 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import { AXE_CONTEXT, Data, Locators } from './utils/constants';
 
 describe('verify deeplinking sending the draft', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientInboxPage.navigateToComposePage();
     PatientInboxPage.composeMessage();

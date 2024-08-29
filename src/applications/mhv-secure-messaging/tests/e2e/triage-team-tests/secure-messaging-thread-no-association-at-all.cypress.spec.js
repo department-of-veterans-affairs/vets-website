@@ -8,9 +8,8 @@ import mockNoRecipients from '../fixtures/recipientsResponse/no-recipients-respo
 import secureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Verify thread - No association at all', () => {
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
   });
 
   it('landing page view', () => {

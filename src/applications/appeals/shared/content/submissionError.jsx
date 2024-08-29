@@ -57,7 +57,7 @@ const SubmissionError = ({ form }) => {
 
 SubmissionError.propTypes = {
   form: PropTypes.shape({
-    inProgressFormId: PropTypes.string,
+    inProgressFormId: PropTypes.number,
   }),
 };
 

@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
-import { setPageFocus } from '../../combined/utils/helpers';
+import {
+  setPageFocus,
+  debtLettersShowLettersVBMS,
+} from '../../combined/utils/helpers';
 import DebtLettersTable from '../components/DebtLettersTable';
 
 const DebtLettersDownload = () => {
@@ -10,6 +13,9 @@ const DebtLettersDownload = () => {
   );
 
   const showError = isError || isVBMSError;
+  const showDebtLetterDownload = useSelector(state =>
+    debtLettersShowLettersVBMS(state),
+  );
 
   useEffect(() => {
     setPageFocus('h1');
@@ -56,6 +62,7 @@ const DebtLettersDownload = () => {
           debtLinks={debtLinks}
           hasDependentDebts={hasDependentDebts}
           isError={showError}
+          showDebtLetterDownload={showDebtLetterDownload}
         />
         <div className="vads-u-margin-bottom--6 vads-u-margin-top--5">
           <h2 className="vads-u-margin-y--0">
@@ -78,7 +85,7 @@ const DebtLettersDownload = () => {
             For medical copay debt, please go to
             <a
               className="vads-u-margin-x--0p5"
-              href="/health-care/pay-copay-bill/"
+              href="/manage-va-debt/summary/copay-balances"
             >
               pay your VA copay bill
             </a>

@@ -8,6 +8,7 @@ import {
   additionalExposuresPageTitle,
   specifyOtherExposuresLabel,
   validateSelections,
+  otherInvalidCharError,
 } from '../../content/toxicExposure';
 import { formTitle } from '../../utils';
 import { ADDITIONAL_EXPOSURES } from '../../constants';
@@ -24,6 +25,9 @@ export const uiSchema = {
     specifyOtherExposures: {
       description: textareaUI({
         title: specifyOtherExposuresLabel,
+        errorMessages: {
+          pattern: otherInvalidCharError,
+        },
       }),
     },
   },
@@ -54,7 +58,7 @@ export const schema = {
           properties: {
             description: {
               type: 'string',
-              pattern: "^([-a-zA-Z0-9'.,&#]([-a-zA-Z0-9'.,&# ])?)+$",
+              pattern: "^([-a-zA-Z0-9'.,&# ])+$",
               maxLength: 250,
             },
           },

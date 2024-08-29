@@ -127,12 +127,7 @@ export const getPastItf = cy => {
     .should('be.visible')
     .then(() => {
       // Click past the ITF message
-      cy.get('va-button-pair')
-        .shadow()
-        .find('va-button[continue]')
-        .shadow()
-        .find('button')
-        .click();
+      cy.selectVaButtonPairPrimary();
     });
 };
 
@@ -204,19 +199,9 @@ export const pageHooks = {
 
             cy.url().should('include', '/add-issue');
             cy.axeCheck();
-            if (navigator.userAgent.includes('Chrome')) {
-              cy.get('#issue-name')
-                .shadow()
-                .find('input')
-                .focus()
-                .realType(additionalIssue.issue);
-            } else {
-              cy.get('#issue-name')
-                .shadow()
-                .find('input')
-                .type(additionalIssue.issue);
-            }
-            cy.fillDate('decision-date', getRandomDate());
+
+            cy.fillVaTextInput('issue-name', additionalIssue.issue);
+            cy.fillVaMemorableDate('decision-date', getRandomDate(), false);
             cy.get('#submit').click();
           }
         });
@@ -232,20 +217,17 @@ export const pageHooks = {
       });
     });
   },
+
   'notice-of-evidence-needed': ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
       cy.get('@testData').then(({ form5103Acknowledged }) => {
-        if (form5103Acknowledged) {
-          cy.get('va-checkbox')
-            .shadow()
-            .find('input')
-            .click({ force: true });
-        }
+        cy.selectVaCheckbox('5103', form5103Acknowledged);
         cy.findByText('Continue', { selector: 'button' }).click();
       });
     });
   },
+
   [EVIDENCE_VA_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
@@ -255,28 +237,15 @@ export const pageHooks = {
             if (index > 0) {
               cy.url().should('include', `index=${index}`);
             }
-            if (navigator.userAgent.includes('Chrome')) {
-              // using realType to hopefully fix the input fields appear to
-              // be disabled in CI causing the stress test to fail
-              cy.get('#add-location-name')
-                .shadow()
-                .find('input')
-                .focus()
-                .realType(location.locationAndName);
-            } else {
-              cy.get('#add-location-name')
-                .shadow()
-                .find('input')
-                .type(location.locationAndName);
-            }
+            cy.fillVaTextInput('name', location.locationAndName);
             location?.issues.forEach(issue => {
               cy.get(`va-checkbox[value="${issue}"]`)
                 .shadow()
                 .find('input')
                 .check({ force: true });
             });
-            cy.fillDate('from', location.evidenceDates?.from);
-            cy.fillDate('to', location.evidenceDates?.to);
+            cy.fillVaMemorableDate('from', location.evidenceDates?.from, false);
+            cy.fillVaMemorableDate('to', location.evidenceDates?.to, false);
             cy.axeCheck();
 
             // Add another
@@ -289,6 +258,7 @@ export const pageHooks = {
       });
     });
   },
+
   [EVIDENCE_PRIVATE_REQUEST]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
@@ -299,6 +269,7 @@ export const pageHooks = {
       });
     });
   },
+
   'supporting-evidence/private-medical-records-authorization': ({
     afterHook,
   }) => {
@@ -315,6 +286,7 @@ export const pageHooks = {
       });
     });
   },
+
   [EVIDENCE_PRIVATE_PATH]: ({ afterHook }) => {
     cy.injectAxeThenAxeCheck();
     afterHook(() => {
@@ -324,49 +296,37 @@ export const pageHooks = {
             if (index > 0) {
               cy.url().should('include', `index=${index}`);
             }
-            cy.get('#add-facility-name')
-              .shadow()
-              .find('input')
-              .focus(); // Try focusing first
+            cy.fillVaTextInput('name', facility.providerFacilityName);
 
-            cy.get('#add-facility-name')
-              .shadow()
-              .find('input')
-              .type(facility.providerFacilityName);
+            cy.selectVaSelect(
+              'country',
+              facility.providerFacilityAddress.country,
+            );
+            cy.fillVaTextInput(
+              'street',
+              facility.providerFacilityAddress.street,
+            );
+            cy.fillVaTextInput(
+              'street2',
+              facility.providerFacilityAddress.street2,
+            );
+            cy.fillVaTextInput('city', facility.providerFacilityAddress.city);
 
-            cy.get('#country')
-              .shadow()
-              .find('select')
-              .select(facility.providerFacilityAddress.country);
-            cy.get('#street')
-              .shadow()
-              .find('input')
-              .type(facility.providerFacilityAddress.street);
-            if (facility.street2) {
-              cy.get('#street2')
-                .shadow()
-                .find('input')
-                .type(facility.providerFacilityAddress.street2);
-            }
-            cy.get('#city')
-              .shadow()
-              .find('input')
-              .type(facility.providerFacilityAddress.city);
             if (facility.providerFacilityAddress.country === 'USA') {
-              cy.get('#state')
-                .shadow()
-                .find('select')
-                .select(facility.providerFacilityAddress.state);
+              cy.selectVaSelect(
+                'state',
+                facility.providerFacilityAddress.state,
+              );
             } else {
-              cy.get('#state')
-                .shadow()
-                .find('input')
-                .type(facility.providerFacilityAddress.state);
+              cy.fillVaTextInput(
+                'state',
+                facility.providerFacilityAddress.state,
+              );
             }
-            cy.get('#postal')
-              .shadow()
-              .find('input')
-              .type(facility.providerFacilityAddress.postalCode);
+            cy.fillVaTextInput(
+              'postal',
+              facility.providerFacilityAddress.postalCode,
+            );
 
             facility?.issues.forEach(issue => {
               cy.get(`va-checkbox[value="${issue}"]`)
@@ -374,8 +334,17 @@ export const pageHooks = {
                 .find('input')
                 .check({ force: true });
             });
-            cy.fillDate('from', facility.treatmentDateRange?.from);
-            cy.fillDate('to', facility.treatmentDateRange?.to);
+
+            cy.fillVaMemorableDate(
+              'from',
+              facility.treatmentDateRange?.from,
+              false,
+            );
+            cy.fillVaMemorableDate(
+              'to',
+              facility.treatmentDateRange?.to,
+              false,
+            );
             cy.axeCheck();
 
             // Add another
@@ -388,20 +357,19 @@ export const pageHooks = {
       });
     });
   },
+
   [EVIDENCE_LIMITATION_PATH]: ({ afterHook }) => {
     afterHook(() => {
       cy.get('@testData').then(data => {
         cy.injectAxeThenAxeCheck();
         if (data.limitedConsent) {
-          cy.get('va-textarea')
-            .shadow()
-            .find('textarea')
-            .type(data.limitedConsent);
+          cy.fillVaTextarea('limitation', data.limitedConsent);
         }
         cy.findByText('Continue', { selector: 'button' }).click();
       });
     });
   },
+
   [EVIDENCE_UPLOAD_PATH]: () => {
     cy.get('input[type="file"]').upload(
       path.join(__dirname, 'fixtures/data/example-upload.pdf'),

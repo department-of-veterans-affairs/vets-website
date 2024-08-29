@@ -34,7 +34,8 @@ export const wrapWithBreadcrumb = (id, component) => (
   <>
     <div className="row">
       <VaBreadcrumbs
-        uswds
+        class="va-nav-breadcrumbs"
+        wrapping
         label="Breadcrumb"
         breadcrumbList={[
           { href: '/', label: 'Home' },
