@@ -7,6 +7,8 @@ const profileToggles = {
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
+  profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+  profileShowNewHealthCareCopayBillNotificationSetting: false,
   profileUseExperimental: false,
   profileShowQuickSubmitNotificationSetting: false,
   profileShowCredentialRetirementMessaging: false,

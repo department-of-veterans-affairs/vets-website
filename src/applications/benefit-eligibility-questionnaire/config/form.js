@@ -41,7 +41,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -105,19 +105,19 @@ const formConfig = {
       title: 'Service',
       pages: {
         militaryServiceTimeServed: {
-          path: 'military-service/time-served',
+          path: 'service/time-served',
           title: 'Military Service Time Served',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
         militaryService: {
-          path: 'military-service',
+          path: 'service/current',
           title: 'Military Service',
           uiSchema: militaryService.uiSchema,
           schema: militaryService.schema,
         },
         militaryServiceCompleted: {
-          path: 'military-service/completed',
+          path: 'service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
@@ -146,7 +146,7 @@ const formConfig = {
       title: 'Character of Discharge',
       pages: {
         characterOfDischarge: {
-          path: 'character-of-discharge',
+          path: 'discharge',
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
@@ -157,7 +157,7 @@ const formConfig = {
       title: 'Disability',
       pages: {
         disabilityRating: {
-          path: 'disability-rating',
+          path: 'disability',
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
@@ -168,7 +168,7 @@ const formConfig = {
       title: 'GI Bill Status',
       pages: {
         giBillStatus: {
-          path: 'gi-bill-status',
+          path: 'gi-bill',
           title: 'GI Bill Status',
           uiSchema: giBillStatus.uiSchema,
           schema: giBillStatus.schema,

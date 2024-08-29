@@ -5,6 +5,33 @@ import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButto
 const FacilityConfirmation = props => {
   const { data, goBack, goForward } = props;
   const selectedFacility = data['view:plannedClinic'].veteranSelected;
+  const selectedCaregiverSupportFacility =
+    data['view:plannedClinic'].caregiverSupport;
+
+  const addressText = facility => {
+    return (
+      <>
+        <h5 className="vads-u-font-size--h4 vads-u-margin-top--0">
+          {facility.name}
+        </h5>
+        {facility?.address?.physical?.address1 && (
+          <>
+            {facility.address.physical.address1}
+            <br role="presentation" />
+          </>
+        )}
+        {facility?.address?.physical?.address2 && (
+          <>
+            {facility.address.physical.address2}
+            <br role="presentation" />
+          </>
+        )}
+        {facility?.address?.physical?.address3 && (
+          <>{facility.address.physical.address3}</>
+        )}
+      </>
+    );
+  };
 
   return (
     <div>
@@ -14,26 +41,16 @@ const FacilityConfirmation = props => {
         This is the facility where you told us the Veteran receives or plans to
         receive treatment.
       </p>
+      <va-card>{addressText(selectedFacility)}</va-card>
+      <h4>Your assigned caregiver support facility</h4>
+      <p>
+        This is the facility we’ve assigned to support you in the application
+        process and has a caregiver support coordinator on staff. The
+        coordinator at this facility will support you through the application
+        process.
+      </p>
       <p className="va-address-block">
-        {selectedFacility.name}
-        {selectedFacility?.address?.physical?.address1 && (
-          <>
-            <br />
-            {selectedFacility.address.physical.address1}
-          </>
-        )}
-        {selectedFacility?.address?.physical?.address2 && (
-          <>
-            <br />
-            {selectedFacility.address.physical.address2}
-          </>
-        )}
-        {selectedFacility?.address?.physical?.address3 && (
-          <>
-            <br />
-            {selectedFacility.address.physical.address3}
-          </>
-        )}
+        {addressText(selectedCaregiverSupportFacility)}
       </p>
       <FormNavButtons goBack={goBack} goForward={goForward} />
     </div>
