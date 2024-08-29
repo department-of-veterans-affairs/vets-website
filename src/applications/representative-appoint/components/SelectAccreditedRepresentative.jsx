@@ -1,56 +1,89 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { getRepresentatives as getRepresentativesAction } from '../actions';
+import {
+  VaButton,
+  VaTextInput,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { fetchRepresentatives } from '../api/fetchRepresentatives';
+// import RepresentativeList from './RepresentativeList';
 
-const SelectAccreditedRepresentative = ({ getRepresentatives }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [searchInput, setSearchInput] = useState('');
+const SelectAccreditedRepresentative = () => {
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [representatives, setRepresentatives] = useState([]);
 
-  const handleInputChange = e => {
-    setSearchInput(e.target.value);
+  // const listProps = useMemo(() => ({ ...props, representatives, query }), [
+  //   representatives,
+  //   props,
+  //   query,
+  // ]);
+
+  const handleChange = e => {
+    setQuery(e.target.value);
   };
 
-  const handleSubmit = e => {
-    e.preventDefault();
-    setIsLoading(true);
-    getRepresentatives(searchInput);
+  const handleClick = async () => {
+    if (!query.trim()) {
+      setError('Search for a representative');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setRepresentatives(null);
+
+    try {
+      const representativeResults = await fetchRepresentatives({ query });
+      setRepresentatives(representativeResults);
+    } catch (err) {
+      setError(err.errorMessage);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  if (isLoading) {
-    return (
-      <va-loading-indicator
-        message="Loading your secure messages..."
-        setFocus
-        data-testid="loading-indicator"
-      />
-    );
-  }
+  const searchResults = () => {
+    if (loading) {
+      return <va-loading-indicator message="Loading..." set-focus />;
+    }
+    if (representatives?.length) {
+      // result cards will go here
+      return <>{JSON.stringify(representatives)}</>;
+    }
+    return null;
+  };
 
   return (
     <>
-      <h3>Select the accredited representative or VSO you’d like to appoint</h3>{' '}
-      <VaSearchInput
-        buttonText="Search"
-        label="Enter a keyword, phrase, or question"
-        onInput={handleInputChange}
-        onSubmit={handleSubmit}
-        value={searchInput}
-      />
+      <va-card role="search">
+        <label
+          htmlFor="representative-search"
+          id="representative-search-label"
+          className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        >
+          <VaTextInput
+            id="representative_search"
+            name="representative_search"
+            error={error}
+            onInput={handleChange}
+            required
+          />
+          <VaButton
+            data-testid="representative-search-btn"
+            text="Search"
+            onClick={handleClick}
+          />
+        </label>
+      </va-card>
+
+      {searchResults()}
     </>
   );
 };
 
-const mapDispatchToProps = {
-  getRepresentatives: getRepresentativesAction,
-};
-
 SelectAccreditedRepresentative.propTypes = {
-  getRepresentatives: PropTypes.func.isRequired,
+  fetchRepresentatives: PropTypes.func,
 };
 
-export default connect(
-  null,
-  mapDispatchToProps,
-)(SelectAccreditedRepresentative);
+export default SelectAccreditedRepresentative;
