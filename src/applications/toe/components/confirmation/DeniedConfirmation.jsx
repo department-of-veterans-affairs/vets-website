@@ -90,6 +90,7 @@ const DeniedConfirmation = ({
               <strong>Date received</strong>
               {dateReceived}
             </div>
+            <br />
             <va-button
               uswds
               className="usa-button vads-u-margin-top--3 vads-u-width--auto"
