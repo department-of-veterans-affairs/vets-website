@@ -29,7 +29,6 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       vaOnlineSchedulingRequests: true,
       vaOnlineSchedulingVAOSServiceRequests: true,
       vaOnlineSchedulingVAOSServiceVAAppointments: true,
-      vaOnlineSchedulingAppointmentDetailsRedesign: false,
     },
   };
 

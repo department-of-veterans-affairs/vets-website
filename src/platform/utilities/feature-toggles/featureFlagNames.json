@@ -245,7 +245,6 @@
   "vaDependentsV2": "va_dependents_v2",
   "vaOnlineScheduling": "va_online_scheduling",
   "vaOnlineSchedulingAfterVisitSummary": "va_online_scheduling_after_visit_summary",
-  "vaOnlineSchedulingAppointmentDetailsRedesign": "va_online_scheduling_appointment_details_redesign",
   "vaOnlineSchedulingBookingExclusion": "va_online_scheduling_booking_exclusion\t",
   "vaOnlineSchedulingBreadcrumbUrlUpdate": "va_online_scheduling_breadcrumb_url_update",
   "vaOnlineSchedulingCancel": "va_online_scheduling_cancel",
