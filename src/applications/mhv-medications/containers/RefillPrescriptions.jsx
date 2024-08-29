@@ -88,11 +88,19 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
     setSelectedRefillList([]);
   };
 
-  const onSelectPrescription = id => {
-    if (!selectedRefillList.includes(id)) {
-      setSelectedRefillList([...selectedRefillList, id]);
+  const onSelectPrescription = rx => {
+    if (
+      !selectedRefillList.find(
+        item => item.prescriptionId === rx.prescriptionId,
+      )
+    ) {
+      setSelectedRefillList([...selectedRefillList, rx]);
     } else {
-      setSelectedRefillList(selectedRefillList.filter(item => item !== id));
+      setSelectedRefillList(
+        selectedRefillList.filter(
+          item => item.prescriptionId !== rx.prescriptionId,
+        ),
+      );
     }
   };
 
@@ -101,7 +109,7 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
       event.detail.checked &&
       selectedRefillListLength !== fullRefillList.length
     ) {
-      setSelectedRefillList(fullRefillList.map(p => p.prescriptionId));
+      setSelectedRefillList(fullRefillList);
     } else if (!event.detail.checked) {
       setSelectedRefillList([]);
     }
@@ -235,13 +243,12 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
                           .SELECT_SINGLE_MEDICATION_CHECKBOX
                       }
                       checked={
-                        selectedRefillList.includes(
-                          prescription.prescriptionId,
+                        selectedRefillList.find(
+                          item =>
+                            item.prescriptionId === prescription.prescriptionId,
                         ) || false
                       }
-                      onVaChange={() =>
-                        onSelectPrescription(prescription.prescriptionId)
-                      }
+                      onVaChange={() => onSelectPrescription(prescription)}
                       uswds
                       checkbox-description={`Prescription number: ${
                         prescription.prescriptionNumber

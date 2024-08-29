@@ -95,9 +95,10 @@ export const fillPrescription = prescriptionId => async dispatch => {
   }
 };
 
-export const fillPrescriptions = prescriptionIds => async dispatch => {
+export const fillPrescriptions = prescriptions => async dispatch => {
   try {
-    const response = await fillRxs(prescriptionIds);
+    const response = await fillRxs(prescriptions.map(p => p.prescriptionId));
+    response.prescriptions = prescriptions;
     dispatch({ type: Actions.Prescriptions.FILL_NOTIFICATION, response });
     return null;
   } catch (error) {

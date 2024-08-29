@@ -88,12 +88,20 @@ export const prescriptionsReducer = (state = initialState, action) => {
       };
     }
     case Actions.Prescriptions.FILL_NOTIFICATION: {
-      const { failedIds, successfulIds } = action.response;
+      const { failedIds, successfulIds, prescriptions } = action.response;
+
+      const successfulMeds = prescriptions?.filter(item =>
+        successfulIds?.includes(String(item.prescriptionId)),
+      );
+      const failedMeds = prescriptions?.filter(item =>
+        failedIds?.includes(String(item.prescriptionId)),
+      );
+
       return {
         ...state,
         refillNotification: {
-          failedIds,
-          successfulIds,
+          successfulMeds,
+          failedMeds,
         },
         apiError: false,
       };

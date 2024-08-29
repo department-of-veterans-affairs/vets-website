@@ -7,22 +7,11 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const RefillNotification = ({ refillStatus }) => {
   // Selectors
-  const fullRefillList = useSelector(
-    state => state.rx.prescriptions?.refillableList,
+  const successfulMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.successfulMeds,
   );
-  const successfulIds = useSelector(
-    state => state.rx.prescriptions?.refillNotification?.successfulIds,
-  );
-  const failedIds = useSelector(
-    state => state.rx.prescriptions?.refillNotification?.failedIds,
-  );
-
-  // Variables
-  const successfulMeds = fullRefillList?.filter(item =>
-    successfulIds?.includes(String(item.prescriptionId)),
-  );
-  const failedMeds = fullRefillList?.filter(item =>
-    failedIds?.includes(String(item.prescriptionId)),
+  const failedMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.failedMeds,
   );
 
   useEffect(
