@@ -61,7 +61,7 @@ describe('CG <FacilitySearch>', () => {
   });
 
   const subject = ({ props, mockStore }) => {
-    const { container, getByText, queryByRole } = render(
+    const { container, getByText, queryByText, queryByRole } = render(
       <Provider store={mockStore}>
         <FacilitySearch {...props} />
       </Provider>,
@@ -71,6 +71,7 @@ describe('CG <FacilitySearch>', () => {
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
       error: queryByRole('alert'),
+      moreFacilities: queryByText('more facilities'),
       formNavButtons: {
         back: getByText('Back'),
         forward: getByText('Continue'),
@@ -90,6 +91,8 @@ describe('CG <FacilitySearch>', () => {
       const { props, mockStore } = getData({});
       const { selectors } = subject({ props, mockStore });
       expect(selectors().input).to.exist;
+      expect(selectors().radioList).not.to.exist;
+      expect(selectors().moreFacilities).not.to.exist;
     });
   });
 
@@ -318,6 +321,43 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
         expect(selectors().radioList.value).to.equal(facilityId);
+      });
+    });
+
+    it('clicking more facilities', async () => {
+      const { props, mockStore } = getData({});
+      const { selectors, container } = subject({ props, mockStore });
+
+      mapboxStub.resolves(successResponse);
+      facilitiesStub.resolves(mockFetchFacilitiesResponse);
+
+      await waitFor(() => {
+        inputVaSearchInput(container, 'Tampa', selectors().input);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+        expect(selectors().input).to.not.have.attr('error');
+      });
+
+      await waitFor(() => {
+        userEvent.click(selectors().moreFacilities);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+        expect(selectors().input).to.not.have.attr('error');
+      });
+
+      await waitFor(() => {
+        expect(mapboxStub.callCount).to.equal(1);
+        // This is 3 because there is an existing bug that using submit with the va-search-input component triggers two requests
+        // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3117
+        expect(facilitiesStub.callCount).to.equal(3);
       });
     });
 

@@ -17,6 +17,7 @@ const FacilitySearch = props => {
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
   const dispatch = useDispatch();
+  const [coordinates, setCoordinates] = useState({ lat: '', long: '' });
 
   const onGoForward = () => {
     const caregiverSupportFacilityId =
@@ -49,6 +50,7 @@ const FacilitySearch = props => {
         const parentFacilityResponse = await fetchFacilities({
           id: facility.parent.id,
         });
+
         if (parentFacilityResponse.errorMessage) {
           setError(parentFacilityResponse.errorMessage);
           return null;
@@ -104,10 +106,32 @@ const FacilitySearch = props => {
     }
 
     const [longitude, latitude] = mapboxResponse.center;
+    setCoordinates({ long: longitude, lat: latitude });
+
     const facilitiesResponse = await fetchFacilities({
       long: longitude,
       lat: latitude,
     });
+
+    if (facilitiesResponse.errorMessage) {
+      setError(facilitiesResponse.errorMessage);
+      setLoading(false);
+      return;
+    }
+
+    setFacilities(facilitiesResponse);
+    setSubmittedQuery(query);
+    setLoading(false);
+  };
+
+  const showMoreFacilities = async () => {
+    setLoading(true);
+    const facilitiesResponse = await fetchFacilities({
+      ...coordinates,
+      page: 1,
+      perPage: facilities.length + 5,
+    });
+
     if (facilitiesResponse.errorMessage) {
       setError(facilitiesResponse.errorMessage);
       setLoading(false);
@@ -130,8 +154,14 @@ const FacilitySearch = props => {
       );
     }
     if (facilities?.length) {
-      return <FacilityList {...facilityListProps} />;
+      return (
+        <>
+          <FacilityList {...facilityListProps} />
+          <button onClick={showMoreFacilities}>more facilities</button>
+        </>
+      );
     }
+
     return null;
   };
 
@@ -165,7 +195,7 @@ const FacilitySearch = props => {
           <label
             htmlFor="facility-search"
             id="facility-search-label"
-            className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+            className="vads-u-margin-top--0 vads-u-margin-bottom--1"
           >
             {content['form-facilities-search-label']}
           </label>

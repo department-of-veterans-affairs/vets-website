@@ -133,7 +133,7 @@
   "validation-address--postalCode-pattern": "Enter a valid 5- or 9-digit postal code (dashes allowed)",
   "validation-address--county-required": "Enter a county",
   "validation-default-required": "Please provide a response",
-  "validation-facilities--search-required": "Please provide a city, state or postal code",
+  "validation-facilities--search-required": "Enter a city, state or postal code",
   "validation-facialities--default-required": "Select a medical center or clinic",
   "validation-signature-required": "Must certify by checking box",
   "validation-sign-as-rep": "You must sign as representative.",
