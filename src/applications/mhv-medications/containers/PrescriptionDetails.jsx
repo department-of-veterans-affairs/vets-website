@@ -61,11 +61,7 @@ const PrescriptionDetails = () => {
   });
   const dispatch = useDispatch();
 
-  const prescriptionHeader =
-    prescription?.prescriptionName ||
-    (prescription?.dispStatus === 'Active: Non-VA'
-      ? prescription?.orderableItem
-      : '');
+  const prescriptionHeader = 'Medications details';
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
