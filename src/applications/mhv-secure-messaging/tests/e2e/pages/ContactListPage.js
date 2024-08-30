@@ -88,6 +88,7 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
+    cy.get('.va-alert').should(`be.focused`);
   };
 
   clickBackToInbox = () => {
@@ -98,6 +99,8 @@ class ContactListPage {
     cy.get(`#checkbox-error-message`)
       .should(`be.visible`)
       .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
+
+    cy.get(Locators.CHECKBOX.CL_ALL).should('have.focus');
   };
 }
 
