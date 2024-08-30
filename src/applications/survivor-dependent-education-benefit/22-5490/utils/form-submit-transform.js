@@ -396,7 +396,7 @@ export function transform5490Form(_formConfig, form) {
       preferredContact: form?.data?.contactMethod,
     },
     // parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
-    sponsor: {
+    serviceMember: {
       firstName: userFullName?.first,
       lastName: userFullName?.last,
       middleName: userFullName?.middle,
