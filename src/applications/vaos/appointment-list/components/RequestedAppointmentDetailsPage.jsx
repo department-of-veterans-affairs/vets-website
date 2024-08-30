@@ -73,6 +73,7 @@ export default function RequestedAppointmentDetailsPage() {
       isCanceled,
       isCC,
       appointment,
+      cancelInfo,
     ],
   );
 
