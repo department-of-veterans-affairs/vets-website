@@ -61,7 +61,12 @@ const PrescriptionDetails = () => {
   });
   const dispatch = useDispatch();
 
-  const prescriptionHeader = 'Medications details';
+  const prescriptionHeader =
+    prescription?.prescriptionName ||
+    (prescription?.dispStatus === 'Active: Non-VA'
+      ? prescription?.orderableItem
+      : '');
+
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   refillHistory.push({
     prescriptionName: prescription?.prescriptionName,
@@ -74,12 +79,12 @@ const PrescriptionDetails = () => {
     () => {
       if (prescription) {
         focusElement(document.querySelector('h1'));
-        updatePageTitle(`${prescriptionHeader} | Veterans Affairs`);
+        updatePageTitle('Medications details | Veterans Affairs');
       } else {
         window.scrollTo(0, 0);
       }
     },
-    [prescription, prescriptionHeader],
+    [prescription],
   );
 
   const baseTitle = 'Medications | Veterans Affairs';
