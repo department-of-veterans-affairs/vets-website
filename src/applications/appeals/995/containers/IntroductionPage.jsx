@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
@@ -11,7 +11,7 @@ import OmbInfo from '../content/OmbInfo';
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollTo('topContentElement');
   }, []);
 
   const { route, location } = props;
