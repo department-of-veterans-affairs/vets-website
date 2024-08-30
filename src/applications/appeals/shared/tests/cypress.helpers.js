@@ -3,8 +3,8 @@ import { SELECTED } from '../constants';
 
 export const getRandomDate = (offset = Math.random() * 6) =>
   parseDateWithOffset({
-    months: -(3 + offset),
-    days: -offset,
+    months: -Math.floor(3 + offset),
+    days: -Math.floor(offset),
   });
 
 export const fixDecisionDates = (data = [], { unselected } = {}) => {
