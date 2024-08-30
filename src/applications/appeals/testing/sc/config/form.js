@@ -93,6 +93,7 @@ import {
   focusRadioH3,
   focusH3,
   focusOnAlert,
+  focusIssue,
 } from '../../../shared/utils/focus';
 import {
   mayHaveLegacyAppeals,
@@ -231,6 +232,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
