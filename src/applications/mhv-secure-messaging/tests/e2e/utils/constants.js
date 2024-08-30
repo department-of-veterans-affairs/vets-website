@@ -251,6 +251,7 @@ export const Alerts = {
   CONTACT_LIST: {
     SAVE: 'Save changes to your contact list?',
     SAVED: 'Contact list changes saved',
+    EMPTY: `Select at least one team`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
@@ -319,6 +320,7 @@ export const Data = {
     EDIT_DRAFT: `Edit draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
+    SAVE_AND_EXIT: `Save and exit`,
   },
 };
 export const Assertions = {

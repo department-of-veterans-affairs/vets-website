@@ -1,4 +1,4 @@
-import { Locators, Paths, Alerts } from '../utils/constants';
+import { Locators, Paths, Alerts, Data } from '../utils/constants';
 
 class ContactListPage {
   loadContactList = () => {
@@ -27,7 +27,7 @@ class ContactListPage {
     });
   };
 
-  clickSelectAllCheckBox = () => {
+  selectAllCheckBox = () => {
     cy.get(Locators.CHECKBOX.CL_ALL)
       .find(`#checkbox-element`)
       .click({
@@ -36,12 +36,19 @@ class ContactListPage {
       });
   };
 
+  selectCheckBox = name => {
+    cy.get(`[label*=${name}]`)
+      .shadow()
+      .find(`input`)
+      .click({ force: true });
+  };
+
   verifyButtons = () => {
     cy.get(`[text="Save and exit"]`)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`include.text`, `Save and exit`);
+      .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
     cy.get(`[text="Cancel"]`)
       .shadow()
@@ -50,7 +57,7 @@ class ContactListPage {
       .and(`include.text`, `Cancel`);
   };
 
-  clickSaveModalCancelButton = () => {
+  clickCancelButton = () => {
     cy.get(Locators.ALERTS.CANCEL).click({ force: true });
   };
 
@@ -65,7 +72,14 @@ class ContactListPage {
     cy.get(`.first-focusable-child`).click();
   };
 
+  // mock response will be amended in further updates
   clickSaveAndExitButton = () => {
+    cy.intercept(
+      'POST',
+      '/my_health/v1/messaging/preferences/recipients',
+      '200',
+    ).as('savedList');
+
     cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
   };
 
@@ -78,6 +92,12 @@ class ContactListPage {
 
   clickBackToInbox = () => {
     cy.get(Locators.BACK_TO).click();
+  };
+
+  verifyEmptyContactListAlert = () => {
+    cy.get(`#checkbox-error-message`)
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
   };
 }
 

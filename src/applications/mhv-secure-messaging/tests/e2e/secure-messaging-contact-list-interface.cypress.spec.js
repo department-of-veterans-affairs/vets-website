@@ -13,7 +13,7 @@ describe('Secure Messaging Contact list', () => {
   it('verify base web-elements', () => {
     ContactListPage.verifyHeaders();
     ContactListPage.verifyAllCheckboxes(true);
-    ContactListPage.clickSelectAllCheckBox();
+    ContactListPage.selectAllCheckBox();
     ContactListPage.verifyAllCheckboxes(false);
     ContactListPage.verifyButtons();
 
@@ -21,9 +21,9 @@ describe('Secure Messaging Contact list', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify saving changes alert', () => {
-    ContactListPage.clickSelectAllCheckBox();
-    ContactListPage.clickSaveModalCancelButton();
+  it('verify saving changes alerts', () => {
+    ContactListPage.selectAllCheckBox();
+    ContactListPage.clickCancelButton();
     ContactListPage.verifySaveAlertHeader();
     ContactListPage.verifyButtons();
     ContactListPage.closeSaveModal();
@@ -31,22 +31,28 @@ describe('Secure Messaging Contact list', () => {
     ContactListPage.clickBackToInbox();
     ContactListPage.verifySaveAlertHeader();
     ContactListPage.verifyButtons();
+    ContactListPage.closeSaveModal();
+
+    ContactListPage.clickSaveAndExitButton();
+    ContactListPage.verifyEmptyContactListAlert();
+
+    ContactListPage.selectCheckBox(`100`);
 
     ContactListPage.clickSaveAndExitButton();
     ContactListPage.verifyContactListSavedAlert();
+
+    cy.wait('@savedList')
+      .its('request.body')
+      .then(req => {
+        const obj = req.updatedTriageTeams.find(el => el.name.includes(`100`));
+        expect(obj.preferredTeam).to.eq(true);
+      });
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  // mock response will be amended in further updates
   it('verify contact saving request', () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/preferences/recipients',
-      '200',
-    ).as('savedList');
-
     ContactListPage.clickSaveAndExitButton();
     ContactListPage.verifyContactListSavedAlert();
 
