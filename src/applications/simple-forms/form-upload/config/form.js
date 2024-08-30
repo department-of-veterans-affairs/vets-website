@@ -12,7 +12,7 @@ import {
 import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
 import prefillTransformer from './prefill-transformer';
 import submitTransformer from './submit-transformer';
-import CustomReviewTopContent from '../containers/CustomReviewTopContent';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 import { scrollAndFocusTarget, getFormContent } from '../helpers';
 import {
   VeteranIdentificationInformationPage,
