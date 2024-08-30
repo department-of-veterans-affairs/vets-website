@@ -204,8 +204,8 @@ const filteredStates = constants.states.USA.filter(
   state => !MILITARY_STATE_VALUES.includes(state.value),
 );
 
-export const STATE_VALUES = filteredStates.map(state => state.value);
-export const STATE_NAMES = filteredStates.map(state => state.label);
+const STATE_VALUES = filteredStates.map(state => state.value);
+const STATE_NAMES = filteredStates.map(state => state.label);
 
 export const customLocationSchema = {
   type: 'object',
