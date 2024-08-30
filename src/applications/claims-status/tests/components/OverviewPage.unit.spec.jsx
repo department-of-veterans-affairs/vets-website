@@ -148,7 +148,7 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
+      'Overview of Your Claim | Veterans Affairs',
     );
     getByText('Claim status is unavailable');
   });
@@ -161,7 +161,7 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
+      'Overview of Your Claim | Veterans Affairs',
     );
     getByText('Claim status is unavailable');
   });

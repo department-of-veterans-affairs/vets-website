@@ -28,7 +28,7 @@ const mockCommunicationPreferencesState = {
       group4: {
         name: 'Payments',
         description: 'Payments to the Veteran',
-        items: ['item5'],
+        items: ['item13', 'item14', 'item5'],
       },
       group2: {
         name: 'General VA Updates and Information',
@@ -54,6 +54,8 @@ const mockCommunicationPreferencesState = {
       'item6',
       'item5',
       'item11',
+      'item13',
+      'item14',
       'item1234',
       'item12345',
     ],
@@ -94,6 +96,14 @@ const mockCommunicationPreferencesState = {
         name: 'Disability and pension deposit notifications',
         channels: ['channel5-1'],
       },
+      item13: {
+        name: 'New benefit overpayment debt notification',
+        channels: ['channel13-2'],
+      },
+      item14: {
+        name: 'New health care copay bill',
+        channels: ['channel14-2'],
+      },
       item11: {
         name: 'Biweekly MHV newsletter',
         channels: ['channel11-2'],
@@ -119,6 +129,8 @@ const mockCommunicationPreferencesState = {
       'channel1-1',
       'channel6-1',
       'channel5-1',
+      'channel13-2',
+      'channel14-2',
       'channel11-2',
       'channel1234-1',
       'channel12345-1',
@@ -214,6 +226,26 @@ const mockCommunicationPreferencesState = {
           errors: null,
         },
       },
+      'channel13-2': {
+        channelType: 2,
+        parentItem: 'item13',
+        isAllowed: null,
+        permissionId: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
+      'channel14-2': {
+        channelType: 2,
+        parentItem: 'item14',
+        isAllowed: null,
+        permissionId: null,
+        ui: {
+          updateStatus: 'idle',
+          errors: null,
+        },
+      },
       'channel11-2': {
         channelType: 2,
         parentItem: 'item11',
@@ -256,6 +288,8 @@ const baseState = {
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsNewSecureMessaging]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsEmailRxShipment]: false,
     [TOGGLE_NAMES.profileShowMhvNotificationSettingsMedicalImages]: false,
+    [TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting]: false,
+    [TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting]: false,
   },
   communicationPreferences: mockCommunicationPreferencesState,
 };
@@ -451,5 +485,63 @@ describe('NotificationGroup component', () => {
     expect(view.queryByText('Rx refill shipment')).to.not.exist;
 
     expect(view.queryByText('Biweekly MHV newsletter')).to.not.exist;
+  });
+
+  it('should display New benefit overpayment debt notification when profileShowNewBenefitOverpaymentDebtNotificationSetting is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
+      true,
+    );
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowNewBenefitOverpaymentDebtNotificationSetting
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group4" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('New benefit overpayment debt notification')).to
+      .exist;
+    expect(view.queryByText('Disability and pension deposit notifications')).to
+      .exist;
+    expect(view.queryByText('New health care copay bill')).to.not.exist;
+  });
+
+  it('should display New benefit overpayment debt notification when profileShowNewHealthCareCopayBillNotificationSetting is true', () => {
+    const initialState = cloneDeep(baseState);
+    set(
+      initialState,
+      `featureToggles[${TOGGLE_NAMES.profileShowPaymentsNotificationSetting}]`,
+      true,
+    );
+    set(
+      initialState,
+      `featureToggles[${
+        TOGGLE_NAMES.profileShowNewHealthCareCopayBillNotificationSetting
+      }]`,
+      true,
+    );
+
+    const view = renderWithProfileReducersAndRouter(
+      <NotificationGroup groupId="group4" />,
+      {
+        initialState,
+      },
+    );
+
+    expect(view.queryByText('New health care copay bill')).to.exist;
+    expect(view.queryByText('Disability and pension deposit notifications')).to
+      .exist;
+    expect(view.queryByText('New benefit overpayment debt notification')).to.not
+      .exist;
   });
 });
