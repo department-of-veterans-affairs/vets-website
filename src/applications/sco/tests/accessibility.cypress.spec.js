@@ -39,7 +39,7 @@ describe('Accessibility', () => {
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 8);
+    cy.repeatKey('Tab', 9);
     cy.focused().should(
       'contain.text',
       'State Approving Agency contact information',
