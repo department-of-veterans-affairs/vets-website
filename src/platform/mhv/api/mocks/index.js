@@ -17,9 +17,8 @@ const folders = require('./secure-messaging/folders');
 const threads = require('./secure-messaging/threads');
 const recipients = require('./secure-messaging/recipients');
 const categories = require('./secure-messaging/categories');
-const messages = require('./secure-messaging/messages');
 const maintenanceWindows = require('./secure-messaging/endpoints/maintenance-windows');
-const allRecipients = require('./secure-messaging/allrecipients');
+const drafts = require('./secure-messaging/drafts');
 
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
@@ -72,21 +71,27 @@ const responses = {
   // 'GET /my_health/v1/prescriptions/list_refillable_prescriptions': refillablePrescriptionsFixture,
   'GET /my_health/v1/prescriptions/list_refillable_prescriptions': prescriptions.generateMockPrescriptions(),
 
-  'GET /my_health/v1/messaging/folders': folders.allFolders,
-  'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
-  'GET /my_health/v1/messaging/folders/:index/messages': folders.messages,
+  // Secure Messaging
 
-  'GET /my_health/v1/messaging/folders/0/threads': threads.thread,
-  // 'GET /my_health/v1/messaging/folders/0/threads': folders.allThreads,
   'GET /my_health/v1/messaging/messages/categories':
     categories.defaultCategories,
-  'GET /my_health/v1/messaging/messages/:id': messages.single,
-  'GET /my_health/v1/messaging/messages/:id/thread': messages.thread,
-  'GET /my_health/v1/messaging/recipients': recipients.defaultRecipients,
-  'GET /my_health/v1/messaging/allrecipients': allRecipients.allRecipients,
-  'POST /my_health/v1/messaging/messages': messages.single,
-  'POST /my_health/v1/messaging/message_drafts': messages.saveNewDraft,
-  'PUT /my_health/v1/messaging/message_drafts/:id': messages.updateDraft,
+  'POST /my_health/v1/messaging/messages': drafts.sendDraft,
+  'POST /my_health/v1/messaging/message_drafts': drafts.newDraft,
+  'PUT /my_health/v1/messaging/message_drafts/:id': drafts.updateDraft,
+  'GET /my_health/v1/messaging/folders': folders.allFolders,
+  'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
+  'POST /my_health/v1/messaging/folders': folders.newFolder,
+  'PUT /my_health/v1/messaging/folders/:index': folders.renameFolder,
+  'DELETE /my_health/v1/messaging/folders/:index': folders.deleteFolder,
+  'GET /my_health/v1/messaging/allrecipients': recipients.recipients,
+  'GET /my_health/v1/messaging/folders/:index/messages':
+    threads.paginatedThreads,
+  'GET /my_health/v1/messaging/folders/:index/threads':
+    threads.paginatedThreads,
+  'GET /my_health/v1/messaging/messages/:id': threads.singleMessage,
+  'GET /my_health/v1/messaging/messages/:id/thread': threads.thread,
+  'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
+  'POST /my_health/v1/messaging/folders/:index/search': threads.searchThreads,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
 
   // medical records
