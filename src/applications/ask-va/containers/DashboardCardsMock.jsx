@@ -2,6 +2,7 @@ import {
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
@@ -49,6 +50,7 @@ const DashboardCardsMock = () => {
   };
 
   useEffect(() => {
+    focusElement('.schemaform-title > h1');
     getData();
   }, []);
 
@@ -81,7 +83,7 @@ const DashboardCardsMock = () => {
         {sortedInquiries.map(card => (
           <div key={card.inquiryNumber}>
             <va-card class="vacard">
-              <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5">
+              <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
                 <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
                   {card.status}
                 </span>
@@ -207,12 +209,19 @@ const DashboardCardsMock = () => {
           </va-alert>
         </div>
       )}
+      {/* Used for research study mock, this design will copy over to live one
+      once approved, leaving pagination here as placeholder */}
       <VaPagination
-        page={1}
-        pages={3}
+        page={mockInquiryData.meta.meta.pagination.currentPage}
+        pages={mockInquiryData.meta.meta.pagination.totalPages}
         maxPageListLength={5}
         showLastPage
-        className="vads-u-border-top--0 vads-u-padding-y--5"
+        className={
+          inquiries.length > 0 &&
+          mockInquiryData.meta.meta.pagination.totalPages > 1
+            ? 'vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5'
+            : 'vads-u-border-top--0 vads-u-padding--0'
+        }
       />
     </div>
   );

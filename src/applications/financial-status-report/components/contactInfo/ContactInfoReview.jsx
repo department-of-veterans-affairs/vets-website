@@ -76,16 +76,13 @@ const ContactInfoReview = ({ data, editPage }) => {
         <h4 className="form-review-panel-page-header vads-u-font-size--h5">
           {content.title}
         </h4>
-        <button
-          type="button"
+        <va-button
           ref={editRef}
           id="confirmContactInformationEdit"
-          className="edit-page usa-button-secondary"
-          onClick={handlers.onEditPage}
           aria-label={content.editLabel}
-        >
-          {content.edit}
-        </button>
+          text={content.edit}
+          onClick={handlers.onEditPage}
+        />
       </div>
       {list.length ? <dl className="review">{list}</dl> : null}
     </div>
