@@ -24,10 +24,19 @@ export const getRep = formData => {
 
   // Empty string/null are not permitted values
   return removeEmptyEntries({
-    firstName: formData?.informalConferenceRep?.firstName,
-    lastName: formData?.informalConferenceRep?.lastName,
+    firstName: formData?.informalConferenceRep?.firstName.substring(
+      0,
+      MAX_LENGTH.HLR_REP_FIRST_NAME,
+    ),
+    lastName: formData?.informalConferenceRep?.lastName.substring(
+      0,
+      MAX_LENGTH.HLR_REP_LAST_NAME,
+    ),
     phone: removeEmptyEntries(phone),
-    email: formData.informalConferenceRep.email || '',
+    email: (formData.informalConferenceRep.email || '').substring(
+      0,
+      MAX_LENGTH.EMAIL,
+    ),
   });
 };
 
