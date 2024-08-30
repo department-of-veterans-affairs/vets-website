@@ -28,7 +28,7 @@ const EditContactList = () => {
   const history = useHistory();
   const [allTriageTeams, setAllTriageTeams] = useState([]);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
-  const [minimumSelectError, setMinimumSelectError] = useState('');
+  const [checkboxError, setCheckboxError] = useState('');
 
   const [
     showBlockedTriageGroupAlert,
@@ -89,7 +89,7 @@ const EditContactList = () => {
   const handleSaveAndExit = async (e, forceSave) => {
     e.preventDefault();
     if (!isMinimumSelected) {
-      setMinimumSelectError(ErrorMessages.ContactList.MINIMUM_SELECTION);
+      await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
     } else {
       if (forceSave) {
@@ -148,19 +148,10 @@ const EditContactList = () => {
   useEffect(
     () => {
       if (isMinimumSelected) {
-        setMinimumSelectError('');
+        setCheckboxError('');
       }
     },
     [isMinimumSelected],
-  );
-
-  useEffect(
-    () => {
-      if (minimumSelectError) {
-        focusOnErrorField();
-      }
-    },
-    [minimumSelectError],
   );
 
   return (
@@ -208,7 +199,7 @@ const EditContactList = () => {
               return (
                 <FacilityCheckboxGroup
                   key={stationNumber}
-                  errorMessage={minimumSelectError}
+                  errorMessage={checkboxError}
                   facilityName={facilityName}
                   multipleFacilities={allFacilities?.length > 1}
                   updatePreferredTeam={updatePreferredTeam}
