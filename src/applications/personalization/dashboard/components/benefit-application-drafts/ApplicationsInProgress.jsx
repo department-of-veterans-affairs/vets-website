@@ -3,22 +3,17 @@ import { connect } from 'react-redux';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
-  isSIPEnabledForm,
   isSIPEnabledFormV2,
-  presentableFormIDs,
   presentableFormIDsV2,
   sipFormSorter,
   normalizeSubmissionStatus,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
+import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
@@ -33,20 +28,14 @@ const ApplicationsInProgress = ({
   hideH3,
   isLOA1,
 }) => {
-  // the following will be removed in issue #82798
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isUsingNewSipConfig = useToggleValue(
-    TOGGLE_NAMES.myVaEnableNewSipConfig,
-  );
-
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
       savedForms
-        .filter(isUsingNewSipConfig ? isSIPEnabledFormV2 : isSIPEnabledForm)
+        .filter(isSIPEnabledFormV2)
         .filter(filterOutExpiredForms)
         .sort(sipFormSorter),
-    [savedForms, isUsingNewSipConfig],
+    [savedForms],
   );
 
   const transformedSavedForms = useMemo(
@@ -116,14 +105,10 @@ const ApplicationsInProgress = ({
                 {allForms.map(form => {
                   const formId = form.form;
                   const formStatus = form.status;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDsV2[formId];
                   const { lastUpdated } = form || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -178,14 +163,10 @@ const ApplicationsInProgress = ({
               <Toggler.Disabled>
                 {verifiedSavedForms.map(form => {
                   const formId = form.form;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDsV2[formId];
                   const { lastUpdated, expiresAt } = form.metadata || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
