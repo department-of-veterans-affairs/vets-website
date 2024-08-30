@@ -6,20 +6,20 @@ import PageFieldSummary from '../../../components/PageFieldSummary';
 import SignInMayBeRequired from '../../../components/SignInMyBeRequired';
 import {
   CHAPTER_2,
-  questionAboutDescriptions,
-  questionAboutLabels,
+  whoIsYourQuestionAboutDescriptions,
+  whoIsYourQuestionAboutLabels,
 } from '../../../constants';
 
-const questionAboutPage = {
+const whoIsYourQuestionAboutPage = {
   uiSchema: {
     'ui:description': SignInMayBeRequired,
     'ui:objectViewField': PageFieldSummary,
-    questionAbout: {
+    whoIsYourQuestionAbout: {
       ...radioUI({
         title: CHAPTER_2.PAGE_1.TITLE,
         labelHeaderLevel: '3',
-        labels: questionAboutLabels,
-        descriptions: questionAboutDescriptions,
+        labels: whoIsYourQuestionAboutLabels,
+        descriptions: whoIsYourQuestionAboutDescriptions,
         required: () => true,
         errorMessages: {
           required: 'Please select who your question is about',
@@ -29,11 +29,13 @@ const questionAboutPage = {
   },
   schema: {
     type: 'object',
-    required: ['questionAbout'],
+    required: ['whoIsYourQuestionAbout'],
     properties: {
-      questionAbout: radioSchema(Object.values(questionAboutLabels)),
+      whoIsYourQuestionAbout: radioSchema(
+        Object.values(whoIsYourQuestionAboutLabels),
+      ),
     },
   },
 };
 
-export default questionAboutPage;
+export default whoIsYourQuestionAboutPage;
