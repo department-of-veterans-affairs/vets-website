@@ -85,6 +85,9 @@ describe('Secure Messaging Contact list', () => {
         cy.wrap(selected).each(el => {
           expect(el.preferredTeam).to.eq(true);
         });
+
+        cy.injectAxe();
+        cy.axeCheck(AXE_CONTEXT);
       });
   });
 });
