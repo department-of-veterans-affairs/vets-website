@@ -37,7 +37,7 @@ const LabAndTestDetails = () => {
         setBreadcrumbs([
           {
             url: '/labs-and-tests',
-            label: 'Lab and test results',
+            label: 'lab and test results',
           },
         ]),
       );
