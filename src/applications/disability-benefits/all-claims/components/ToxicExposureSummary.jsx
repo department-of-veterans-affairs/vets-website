@@ -17,7 +17,6 @@ export function ToxicExposureSummary({
   checkboxDefinitions,
   datesObjectName,
   otherObjectName = '',
-  goBackDescription,
   goBackUrlPath,
 }) {
   const { toxicExposure } = formData;
@@ -55,7 +54,6 @@ export function ToxicExposureSummary({
       </ul>
       <p>
         <Link
-          aria-label={goBackDescription}
           to={{
             pathname: goBackUrlPath,
             search: '?redirect',
@@ -93,10 +91,6 @@ ToxicExposureSummary.propTypes = {
    * Path to the first page of this Checkbox and Loop flow
    */
   goBackUrlPath: PropTypes.string.isRequired,
-  /**
-   * Aria label for the go back link
-   */
-  goBackDescription: PropTypes.string,
   /**
    * Name of the object containg an 'other' field info
    */
