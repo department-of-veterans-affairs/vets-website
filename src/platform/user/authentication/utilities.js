@@ -243,7 +243,6 @@ export function sessionTypeUrl({
         codeChallenge,
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
-        // ...(validScope && { scope: validScope }),
         ...(scope && { scope }),
       },
       passedOptions: {
