@@ -7,6 +7,10 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
+function includeChapter(page) {
+  return formData => formData?.chapterSelect[page];
+}
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-min',
@@ -64,12 +68,14 @@ const employersMinItemsPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'employers-min',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    depends: includeChapter('arrayMultiPageBuilderVariations'),
   }),
   employerMinItemsNamePage: pageBuilder.itemPage({
     title: 'Employers Min Items - Name',
     path: 'employers-min/:index/name',
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
+    depends: includeChapter('arrayMultiPageBuilderVariations'),
   }),
 }));
 

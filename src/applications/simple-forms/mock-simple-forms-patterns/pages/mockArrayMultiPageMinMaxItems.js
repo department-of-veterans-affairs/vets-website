@@ -7,6 +7,10 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
+function includeChapter(page) {
+  return formData => formData?.chapterSelect[page];
+}
+
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-min-max',
@@ -65,12 +69,14 @@ const employersMinMaxItemsPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'employers-min-max',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
+    depends: includeChapter('arrayMultiPageBuilderVariations'),
   }),
   employerMinMaxItemsNamePage: pageBuilder.itemPage({
     title: 'Employers Min Max Items - Name',
     path: 'employers-min-max/:index/name',
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
+    depends: includeChapter('arrayMultiPageBuilderVariations'),
   }),
 }));
 

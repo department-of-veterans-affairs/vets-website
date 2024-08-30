@@ -45,6 +45,7 @@ const chapterSelectInitialData = {
   chapterSelect: {
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arrayMultiPageVariations: true,
     arraySinglePage: true,
     checkbox: true,
     date: true,
