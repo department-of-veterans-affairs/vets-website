@@ -43,8 +43,8 @@ export default {
         </p>
         <p>
           <strong>
-            If the Veteran was receiving care at a VA health facility at the
-            time of their death,
+            If the Veteran was receiving care at a VA or federal health facility
+            at the time of their death,
           </strong>{' '}
           you can submit a statement in support of your claim (VA Form 21-4138).
         </p>

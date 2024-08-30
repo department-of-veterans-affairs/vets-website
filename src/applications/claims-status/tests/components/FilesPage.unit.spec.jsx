@@ -58,7 +58,7 @@ describe('<FilesPage>', () => {
     );
 
     expect($('.claim-files', container)).to.not.exist;
-    expect(document.title).to.equal('Files For Your Claim | Veterans Affairs');
+    expect(document.title).to.equal('Files for Your Claim | Veterans Affairs');
     getByText('Claim status is unavailable');
   });
 
@@ -72,7 +72,7 @@ describe('<FilesPage>', () => {
     );
 
     expect($('.claim-files', container)).to.not.exist;
-    expect(document.title).to.equal('Files For Your Claim | Veterans Affairs');
+    expect(document.title).to.equal('Files for Your Claim | Veterans Affairs');
     getByText('Claim status is unavailable');
   });
 

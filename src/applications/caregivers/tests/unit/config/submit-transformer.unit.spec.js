@@ -273,7 +273,9 @@ describe('CG `submitTransformer` method', () => {
       const requiredOnlyFormData = {
         ...requiredOnly,
         'view:useFacilitiesAPI': true,
-        'view:plannedClinic': veteranSelectedPlannedClinic,
+        'view:plannedClinic': {
+          caregiverSupport: veteranSelectedPlannedClinic,
+        },
       };
 
       const formData = { data: requiredOnlyFormData };
