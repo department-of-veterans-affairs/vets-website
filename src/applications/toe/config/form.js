@@ -48,7 +48,6 @@ import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import {
   addWhitespaceOnlyError,
   applicantIsChildOfSponsor,
-  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
   applicantIsaMinor,
@@ -283,11 +282,9 @@ const formConfig = {
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData =>
-                  hideUnder18Field(formData, formFields.dateOfBirth),
+                hideIf: formData => !applicantIsaMinor(formData),
               },
-              'ui:required': formData =>
-                !hideUnder18Field(formData, formFields.dateOfBirth),
+              'ui:required': formData => applicantIsaMinor(formData),
               'ui:validations': [
                 (errors, field) =>
                   addWhitespaceOnlyError(

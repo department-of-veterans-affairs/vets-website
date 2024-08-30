@@ -206,3 +206,9 @@ export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
 };
+
+// end dates for each credential type
+export const CREDENTIAL_DEADLINES = {
+  'My HealtheVet': 'January 31, 2025',
+  'DS Logon': 'September 30, 2025',
+};
