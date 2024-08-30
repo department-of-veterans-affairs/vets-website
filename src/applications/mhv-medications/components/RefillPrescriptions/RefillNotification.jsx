@@ -31,7 +31,7 @@ const RefillNotification = ({ refillStatus }) => {
         }
       }
     },
-    [refillStatus],
+    [refillStatus, successfulMeds, failedMeds],
   );
   const isNotSubmitted =
     refillStatus === 'finished' &&
