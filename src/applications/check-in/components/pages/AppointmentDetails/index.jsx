@@ -163,7 +163,7 @@ const AppointmentDetails = props => {
         });
         break;
       case 'vvc':
-        title = t('video-appointment--title');
+        title = t('#-util-capitalize', { value: t('video-appointment') });
         break;
       default:
         title = t('in-person-appointment');
@@ -345,16 +345,16 @@ const AppointmentDetails = props => {
                     data-testid="appointment-details--facility-value"
                   >
                     {appointment.facility}
-                    {appointment.facilityAddress?.street1 && (
-                      <div className="vads-u-margin-bottom--2">
-                        <AddressBlock
-                          address={appointment.facilityAddress}
-                          placeName={appointment.facility}
-                          showDirections
-                        />
-                      </div>
-                    )}
                   </p>
+                  {appointment.facilityAddress?.street1 && (
+                    <div className="vads-u-margin-bottom--2">
+                      <AddressBlock
+                        address={appointment.facilityAddress}
+                        placeName={appointment.facility}
+                        showDirections
+                      />
+                    </div>
+                  )}
                 </div>
               )}
               {(isPhoneAppointment || isVvcAppointment) && (
