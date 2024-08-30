@@ -188,7 +188,6 @@ export const updateFormDataAddress = (
     updatedData = set([...path, 'city'], city, updatedData);
     updatedData = set([...path, 'stateCode'], stateCode, updatedData);
   }
-
   return updatedData;
 };
 
