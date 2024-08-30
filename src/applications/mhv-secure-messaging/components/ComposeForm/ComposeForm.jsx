@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  useRef,
+} from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
@@ -52,11 +58,14 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
+  const alertRef = useRef();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
+  const [alertDisplayed, setAlertDisplayed] = useState(false);
+  const [alertHasFocused, setAlertHasFocused] = useState(false);
 
   useEffect(
     () => {
@@ -264,14 +273,34 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (
-        messageInvalid ||
-        (isSignatureRequired && (signatureInvalid || checkboxInvalid))
-      ) {
-        focusOnErrorField();
-      }
+      const handleEffect = async () => {
+        const selectedTG = recipientsList.find(
+          recipient => recipient.triageTeamId === +selectedRecipientId,
+        );
+        if (
+          alertDisplayed &&
+          !alertHasFocused &&
+          alertRef.current &&
+          selectedTG
+        ) {
+          await focusElement(selectedTG?.name);
+          focusElement(alertRef.current);
+          setAlertHasFocused(true);
+        } else if (messageInvalid) {
+          focusOnErrorField();
+        }
+      };
+      handleEffect();
     },
-    [checkboxInvalid, isSignatureRequired, messageInvalid, signatureInvalid],
+    [
+      alertDisplayed,
+      alertHasFocused,
+      checkboxInvalid,
+      isSignatureRequired,
+      messageInvalid,
+      selectedRecipientId,
+      signatureInvalid,
+    ],
   );
 
   useEffect(
@@ -351,16 +380,14 @@ const ComposeForm = props => {
         messageValid = false;
       }
       if (
-        (isSignatureRequired && !electronicSignature) ||
-        isSignatureRequired === null
+        messageValid === true &&
+        isSignatureRequired &&
+        !electronicSignature
       ) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         signatureValid = false;
       }
-      if (
-        (isSignatureRequired && !checkboxMarked) ||
-        isSignatureRequired === null
-      ) {
+      if (messageValid === true && isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         checkboxValid = false;
       }
@@ -785,6 +812,9 @@ const ComposeForm = props => {
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <RecipientsSelect
+                alertRef={alertRef}
+                alertDisplayed={alertDisplayed}
+                setAlertDisplayed={setAlertDisplayed}
                 recipientsList={recipientsList}
                 onValueChange={recipientHandler}
                 error={recipientError}
