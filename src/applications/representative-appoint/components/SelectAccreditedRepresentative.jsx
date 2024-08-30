@@ -5,7 +5,7 @@ import {
   VaTextInput,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
-// import RepresentativeList from './RepresentativeList';
+import SearchResult from './SearchResult';
 
 const SelectAccreditedRepresentative = () => {
   const [query, setQuery] = useState('');
@@ -48,8 +48,29 @@ const SelectAccreditedRepresentative = () => {
       return <va-loading-indicator message="Loading..." set-focus />;
     }
     if (representatives?.length) {
-      // result cards will go here
-      return <>{JSON.stringify(representatives)}</>;
+      return (
+        <>
+          {representatives.map((rep, index) => {
+            const representative = rep.data;
+            return (
+              <SearchResult
+                officer={representative.attributes.fullName}
+                key={index}
+                type={representative.type}
+                addressLine1={representative.attributes.addressLine1}
+                addressLine2={representative.attributes.addressLine2}
+                addressLine3={representative.attributes.addressLine3}
+                city={representative.attributes.city}
+                stateCode={representative.attributes.stateCode}
+                zipCode={representative.attributes.zipCode}
+                phone={representative.attributes.phone}
+                email={representative.attributes.email}
+                representativeId={representative.id}
+              />
+            );
+          })}
+        </>
+      );
     }
     return null;
   };
