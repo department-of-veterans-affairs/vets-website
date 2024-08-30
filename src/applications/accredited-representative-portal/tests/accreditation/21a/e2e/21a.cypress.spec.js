@@ -256,8 +256,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
     },
 
-    // TODO: Remove this skip when the form has a content page in prod
-    skip: Cypress.env('CI'),
+    skip: false,
   },
   manifest,
   formConfig,
