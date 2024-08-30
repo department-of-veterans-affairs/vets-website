@@ -275,7 +275,7 @@
   "vaOnlineSchedulingVaosV2Next": "va_online_scheduling_vaos_v2_next",
   "veteranOnboardingBetaFlow": "veteran_onboarding_beta_flow",
   "veteranOnboardingContactInfoFlow": "veteran_onboarding_contact_info_flow",
-  "veteranOnboardingShowToNewlyOnboarded": "veteran_onboarding_show_to_newly_onboarded",
+  "vedtgeranOnboardongShowWelcomeMessageToNewUsers": "veteran_onboarding_show_welcome_message_to_new_users",
   "virtualAgentComponentTesting": "virtual_agent_component_testing",
   "virtualAgentEnableMsftPvaTesting": "virtual_agent_enable_msft_pva_testing",
   "virtualAgentEnableNluPvaTesting": "virtual_agent_enable_nlu_pva_testing",
