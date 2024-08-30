@@ -47,6 +47,11 @@ export function isUnemployedUnder65(formData) {
   return formData.currentEmployment === false && isUnder65(formData);
 }
 
+export function doesNotHaveCurrentEmployers(formData) {
+  const currentEmployers = formData?.currentEmployers;
+  return !currentEmployers || currentEmployers.length === 0;
+}
+
 export function medicaidDoesNotCoverNursingHome(formData) {
   return formData.nursingHome === true && formData.medicaidCoverage === false;
 }
