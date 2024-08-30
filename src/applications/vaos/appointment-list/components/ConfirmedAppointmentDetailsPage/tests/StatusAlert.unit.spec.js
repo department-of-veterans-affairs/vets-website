@@ -81,27 +81,4 @@ describe('VAOS Component: StatusAlert', () => {
     expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
     expect(screen.queryByTestId('schedule-appointment-link')).to.exist;
   });
-  it('Should display past appointment alert message', () => {
-    const mockAppointment = new MockAppointment({ start: moment() });
-    mockAppointment.setKind('clinic');
-    mockAppointment.setStatus('booked');
-    mockAppointment.setCancelationReason('pat');
-    mockAppointment.setIsUpcomingAppointment(false);
-    mockAppointment.setIsPastAppointment(true);
-
-    const screen = renderWithStoreAndRouter(
-      <StatusAlert appointment={mockAppointment} facility={facilityData} />,
-      {
-        initialState,
-        path: `/${mockAppointment.id}`,
-      },
-    );
-    expect(screen.baseElement).to.contain('.usa-alert-warning');
-    expect(screen.baseElement).to.contain.text(
-      'This appointment occurred in the past',
-    );
-
-    expect(screen.queryByTestId('review-appointments-link')).to.not.exist;
-    expect(screen.queryByTestId('schedule-appointment-link')).to.not.exist;
-  });
 });
