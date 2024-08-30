@@ -26,7 +26,7 @@ const testConfig = createTestConfig(
     useWebComponentFields: true,
     dataPrefix: 'data',
 
-    dataSets: ['maximal-test-v2-5'],
+    dataSets: ['maximal-test-v2.5'],
 
     fixtures: {
       data: path.join(__dirname, 'fixtures', 'data'),
