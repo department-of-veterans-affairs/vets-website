@@ -62,7 +62,44 @@ const sendDraft = (req, res) => {
   });
 };
 
+const saveReply = (req, res) => {
+  const { body, category, recipientId, subject } = req.body;
+  return res.json({
+    data: {
+      id: '3885180',
+      type: 'message_drafts',
+      attributes: {
+        messageId: 3885180,
+        category,
+        subject,
+        body,
+        attachment: false,
+        sentDate: null,
+        senderId: 2991831,
+        senderName: 'LEE, JAMIE',
+        recipientId,
+        recipientName: 'AnTran_TGTest',
+        readReceipt: null,
+        triageGroupName: null,
+        proxySenderName: null,
+      },
+      relationships: {
+        attachments: {
+          data: [],
+        },
+      },
+      links: {
+        self: 'http://127.0.0.1:3000/my_health/v1/messaging/messages/3885180',
+      },
+    },
+  });
+};
+
 const updateDraft = (req, res) => {
+  return res.status(204).json();
+};
+
+const deleteDraft = (req, res) => {
   return res.status(204).json();
 };
 
@@ -70,4 +107,6 @@ module.exports = {
   newDraft,
   sendDraft,
   updateDraft,
+  deleteDraft,
+  saveReply,
 };

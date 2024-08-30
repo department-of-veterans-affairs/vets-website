@@ -1,0 +1,284 @@
+{
+    "data": [
+      {
+        "id": "3623588",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3623588,
+          "folderId": -2,
+          "messageId": 3623589,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "MEDICATIONS",
+          "subject": "hello",
+          "triageGroupName": "AnTran_TGTest",
+          "sentDate": null,
+          "draftDate": "2024-05-22T13:34:32.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "AnTran_TGTest",
+          "recipientId": 2343333,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3623588"
+        }
+      },
+      {
+        "id": "3550442",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3550442,
+          "folderId": -2,
+          "messageId": 3550443,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "Draft",
+          "triageGroupName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "sentDate": null,
+          "draftDate": "2024-04-23T15:16:07.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "DETROIT: Dermatology, Bishop, Walter, Md",
+          "recipientId": 3550420,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3550442"
+        }
+      },
+      {
+        "id": "3549580",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3549580,
+          "folderId": -2,
+          "messageId": 3549581,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "DRAFT",
+          "triageGroupName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "sentDate": null,
+          "draftDate": "2024-04-23T13:10:22.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "DETROIT: MHV Coordinator, Prince, Diana",
+          "recipientId": 2993579,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3549580"
+        }
+      },
+      {
+        "id": "3109073",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3109073,
+          "folderId": -2,
+          "messageId": 3109074,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "Test",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "sentDate": null,
+          "draftDate": "2023-11-03T17:05:05.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "recipientId": 2993382,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3109073"
+        }
+      },
+      {
+        "id": "3107711",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3107711,
+          "folderId": -2,
+          "messageId": 3107712,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "Test",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "sentDate": null,
+          "draftDate": "2023-11-02T23:14:14.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "recipientId": 2993382,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3107711"
+        }
+      },
+      {
+        "id": "3105879",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3105879,
+          "folderId": -2,
+          "messageId": 3105880,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "Test, please ignore",
+          "triageGroupName": "AnTran_TGTest",
+          "sentDate": null,
+          "draftDate": "2023-11-01T18:27:30.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "AnTran_TGTest",
+          "recipientId": 2343333,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3105879"
+        }
+      },
+      {
+        "id": "3105875",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3105875,
+          "folderId": -2,
+          "messageId": 3105876,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "TEST_RESULTS",
+          "subject": "Test",
+          "triageGroupName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "sentDate": null,
+          "draftDate": "2023-11-01T18:20:34.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "** DETROIT: Primary Care, Lydon, John R. Md",
+          "recipientId": 2993382,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3105875"
+        }
+      },
+      {
+        "id": "3105863",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3105863,
+          "folderId": -2,
+          "messageId": 3105864,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "OTHER",
+          "subject": "Test",
+          "triageGroupName": "DETROIT: Pharmacy",
+          "sentDate": null,
+          "draftDate": "2023-11-01T18:17:56.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "DETROIT: Pharmacy",
+          "recipientId": 3004609,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3105863"
+        }
+      },
+      {
+        "id": "3090009",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3090009,
+          "folderId": -2,
+          "messageId": 3090010,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "APPOINTMENTS",
+          "subject": "Reschedule Appointment",
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "sentDate": null,
+          "draftDate": "2023-10-24T14:04:00.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "recipientId": 2993563,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3090009"
+        }
+      },
+      {
+        "id": "3004415",
+        "type": "message_threads",
+        "attributes": {
+          "threadId": 3004415,
+          "folderId": -2,
+          "messageId": 3064900,
+          "body": "Testing 123",
+          "threadPageSize": 15,
+          "messageCount": 1,
+          "category": "APPOINTMENTS",
+          "subject": "Appointment Request",
+          "triageGroupName": "DETROIT: Audiology, House, Gregory, Md",
+          "sentDate": null,
+          "draftDate": "2023-10-12T13:09:49.000Z",
+          "senderId": 2991831,
+          "senderName": "LEE, JAMIE",
+          "recipientName": "DETROIT: Audiology, House, Gregory, Md",
+          "recipientId": 2993563,
+          "proxySenderName": null,
+          "hasAttachment": false,
+          "unsentDrafts": true,
+          "unreadMessages": false
+        },
+        "links": {
+          "self": "http://127.0.0.1:3000/my_health/v1/messaging/threads/3004415"
+        }
+      }
+    ]
+  }

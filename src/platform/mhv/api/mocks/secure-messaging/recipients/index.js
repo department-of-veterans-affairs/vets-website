@@ -13,6 +13,18 @@ const recipients = {
       },
     },
     {
+      id: '2993382',
+      type: 'all_triage_teams',
+      attributes: {
+        triageTeamId: 2993377,
+        name: '** DETROIT: RECORD AMENDMENT ADMIN',
+        stationNumber: '989',
+        blockedStatus: false,
+        preferredTeam: true,
+        relationshipType: 'PATIENT',
+      },
+    },
+    {
       id: '2343333',
       type: 'all_triage_teams',
       attributes: {
@@ -84,10 +96,22 @@ const recipients = {
         relationshipType: 'PATIENT',
       },
     },
+    {
+      id: '3004444',
+      type: 'all_triage_teams',
+      attributes: {
+        triageTeamId: 3004609,
+        name: 'DETROIT: Blocked Group',
+        stationNumber: '989',
+        blockedStatus: true,
+        preferredTeam: true,
+        relationshipType: 'PATIENT',
+      },
+    },
   ],
   meta: {
-    associatedTriageGroups: 7,
-    associatedBlockedTriageGroups: 0,
+    associatedTriageGroups: 9,
+    associatedBlockedTriageGroups: 1,
     sort: {
       name: 'ASC',
     },

@@ -70,6 +70,20 @@ const allFolders = {
         self: 'http://127.0.0.1:3000/my_health/v1/messaging/folders/123456',
       },
     },
+    {
+      id: '123457',
+      type: 'folders',
+      attributes: {
+        folderId: 123457,
+        name: 'Empty Folder',
+        count: 0,
+        unreadCount: 0,
+        systemFolder: false,
+      },
+      links: {
+        self: 'http://127.0.0.1:3000/my_health/v1/messaging/folders/123457',
+      },
+    },
   ],
   links: {
     self:
