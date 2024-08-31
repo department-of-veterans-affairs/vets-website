@@ -1,4 +1,5 @@
 import data from '../data/calculator-constants.json';
+import { checkboxData } from './setupCypress';
 
 describe('go bill CT Rearch By Name After Result', () => {
   beforeEach(() => {
@@ -172,6 +173,38 @@ describe('go bill CT Rearch By Name After Result', () => {
       cy.get('[id="spouseActiveDuty"]').should('exist');
       cy.get(militaryStatus).select('child');
       cy.get('[id="spouseActiveDuty"]').should('not.exist');
+    });
+  });
+  describe('Filter your results accordion', () => {
+    checkboxData.forEach(checkbox => {
+      it(`should have ${checkbox.text} checkbox visible and checked`, () => {
+        cy.injectAxeThenAxeCheck();
+        cy.get(checkbox.dataTestId).check({ force: true });
+        cy.get(checkbox.dataTestId).should('be.checked');
+        cy.get(checkbox.id)
+          .should('be.visible')
+          .and('contain.text', `${checkbox.text}`);
+      });
+    });
+    checkboxData.forEach(checkbox => {
+      it(`should uncheck input for ${checkbox.text}  when user clicks`, () => {
+        cy.injectAxeThenAxeCheck();
+        // eslint-disable-next-line cypress/unsafe-to-chain-command
+        cy.get(checkbox.dataTestId)
+          .click()
+          .should('not.be.checked');
+      });
+    });
+    it('should reset all filters back to orginal when user click clear filters button', () => {
+      cy.injectAxeThenAxeCheck();
+      checkboxData.forEach(checkbox => {
+        cy.get(checkbox.dataTestId).click();
+        cy.get(checkbox.dataTestId).should('not.be.checked');
+      });
+      cy.get('[data-testid="clear-button"]').click();
+      checkboxData.forEach(checkbox => {
+        cy.get(checkbox.dataTestId).should('be.checked');
+      });
     });
   });
 });

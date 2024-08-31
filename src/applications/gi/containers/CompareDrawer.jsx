@@ -260,18 +260,14 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div
-            className={compareHeaderClasses}
-            role="button"
-            tabIndex={0}
-            onClick={expandOnClick}
-            onKeyDown={() => {}}
-          >
+          <div className={compareHeaderClasses}>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               aria-expanded={open}
               aria-controls="compare-body"
               className={headerLabelClasses}
               data-testid={headerLabel}
+              onClick={expandOnClick} // Move the onClick handler here if it's not already
             >
               {headerLabel}
               <va-icon
