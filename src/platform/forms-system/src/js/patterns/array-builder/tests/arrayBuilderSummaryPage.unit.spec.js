@@ -105,6 +105,7 @@ describe('ArrayBuilderSummaryPage', () => {
     maxItems = 5,
     isReviewPage = false,
     reviewErrors,
+    text,
   }) {
     const setFormData = sinon.spy();
     const goToPath = sinon.spy();
@@ -112,6 +113,7 @@ describe('ArrayBuilderSummaryPage', () => {
       getItemName: item => item?.name,
       nounPlural: 'employers',
       nounSingular: 'employer',
+      textOverrides: text,
     });
     getText = sinon.spy(getText);
     stubUrlParams(urlParams);
@@ -313,5 +315,50 @@ describe('ArrayBuilderSummaryPage', () => {
       'va-alert[name="employersReviewError"]',
     );
     expect($errorAlert).to.not.exist;
+  });
+
+  it('should display summaryTitleWithoutItems and summaryDescriptionWithoutItems text override when array is empty', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryTitleWithoutItems: 'Custom summary title',
+        summaryDescriptionWithoutItems: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary title');
+    const description = $fieldset.querySelector('p');
+    expect(description).to.exist;
+    expect(description).to.include.text('Custom summary description');
+  });
+
+  it('should display summaryTitle text override when array has data', () => {
+    const { container } = setupArrayBuilderSummaryPage({
+      title: 'Review your employers',
+      arrayData: [{ name: 'Test' }],
+      urlParams: '',
+      maxItems: 5,
+      text: {
+        summaryTitleWithoutItems: 'Custom summary title',
+        summaryDescriptionWithoutItems: 'Custom summary description',
+        summaryTitle: 'Custom summary review title',
+      },
+    });
+
+    const $fieldset = container.querySelector('fieldset');
+    expect($fieldset).to.exist;
+    const $legend = $fieldset.querySelector('legend');
+    expect($legend).to.exist;
+    expect($legend).to.include.text('Custom summary review title');
+    const description = $fieldset.querySelector('p');
+    expect(description).to.not.exist;
   });
 });

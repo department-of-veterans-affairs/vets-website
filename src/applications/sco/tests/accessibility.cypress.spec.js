@@ -1,4 +1,5 @@
 describe('Accessibility', () => {
+  /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
     cy.visit('/education/school-administrators/');
     cy.injectAxe();
@@ -42,11 +43,11 @@ describe('Accessibility', () => {
     cy.repeatKey('Tab', 8);
     cy.focused().should(
       'contain.text',
-      'State Approving Agency Contact Information',
+      'State Approving Agency contact information',
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Education File Upload Portal');
+    cy.focused().should('contain.text', 'Education File upload portal');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
@@ -72,13 +73,13 @@ describe('Accessibility', () => {
     cy.realPress('Enter');
     cy.focused().should('contain.text', 'Collapse all -');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Enrollment Manager');
+    cy.focused().should('contain.text', 'Enrollment manager');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Launch VA Education Platform Portal');
     cy.repeatKey('Tab', 8);
     cy.focused().should(
       'contain.text',
-      'VA Paper Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
+      'VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
     );
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Payment and debt');
@@ -108,7 +109,6 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'Ask questions');
     cy.repeatKey('Tab', 11);
     // Tab to 'Connect with us' section
-
     cy.focused().should('contain.text', 'Connect with us');
     cy.repeatKey('Tab', 5);
     cy.focused().should('contain.text', 'VBA on YouTube');

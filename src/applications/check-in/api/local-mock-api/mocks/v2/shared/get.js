@@ -16,6 +16,7 @@ const aboutToExpireUUID = '25165847-2c16-4c8b-8790-5de37a7f427f';
 const pacificTimezoneUUID = '6c72b801-74ac-47fe-82af-cfe59744b45f';
 const allAppointmentTypesUUID = 'bb48c558-7b35-44ec-8ab7-32b7d49364fc';
 const checkInTooLateUUID = '127c6f75-ea5f-4986-b0f5-d411d9d5e55c';
+const noUpcomingAppointments = '34de41ed-014c-4734-a4a4-3a4738f5e0d8';
 
 // travel-claim UUIDS
 const multiOHAppointmentsUUID = 'd80ade2e-7a96-4a30-9edc-efc08b4d157d';
@@ -344,32 +345,36 @@ const createAppointments = (
 };
 
 const createUpcomingAppointments = (token, number = 4) => {
-  const appointments = [
-    createUpcomingAppointment({
-      id: '123123',
-      clincFriendlyName: `HEART CLINIC-1`,
-      start: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
-    }),
-  ];
-  for (let i = 0; i < number; i += 1) {
+  let appointments;
+  if (token === noUpcomingAppointments) {
+    appointments = [];
+  } else {
+    appointments = [
+      createUpcomingAppointment({
+        id: '123123',
+        clincFriendlyName: `HEART CLINIC-1`,
+        start: dateFns.addDays(new Date('2023-09-26T14:00:00'), 1),
+      }),
+    ];
+    for (let i = 0; i < number; i += 1) {
+      appointments.push(
+        createUpcomingAppointment({
+          id: `12300${i + 1}`,
+          clincFriendlyName: `HEART CLINIC-${i}`,
+          start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
+          kind: kinds[i],
+        }),
+      );
+    }
     appointments.push(
       createUpcomingAppointment({
-        id: `12300${i + 1}`,
-        clincFriendlyName: `HEART CLINIC-${i}`,
-        start: dateFns.addHours(new Date('2023-09-26T14:00:00'), i),
-        kind: kinds[i],
+        id: `123456`,
+        clincFriendlyName: `HEART CLINIC-E`,
+        start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
+        status: 'CANCELLED BY CLINIC',
       }),
     );
   }
-  appointments.push(
-    createUpcomingAppointment({
-      id: `123456`,
-      clincFriendlyName: `HEART CLINIC-E`,
-      start: dateFns.addMonths(new Date('2023-09-26T14:00:00'), 2),
-      status: 'CANCELLED BY CLINIC',
-    }),
-  );
-
   return {
     data: appointments,
   };

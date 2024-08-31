@@ -4,17 +4,16 @@ import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
+    cy.viewport(1200, 800);
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
 
-    cy.tabToElement('[text="Go to your inbox"]').should(
+    cy.tabToElement(Locators.ALERTS.INBOX_TEXT).should(
       'have.text',
       Data.GO_YOUR_INBOX,
     );
-    //
-    cy.tabToElement('[data-testid="compose-message-link"]').should(
-      'have.focus',
-    );
+
+    cy.tabToElement(Locators.LINKS.CREATE_NEW_MESSAGE).should('have.focus');
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.WELCOME_MESSAGE)
       .find('a')
@@ -29,8 +28,10 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
 
     cy.get(Locators.ALERTS.BACK_TOP)
       .shadow()
-      .find('.docked.reveal', { timeout: 1000 })
-      .should('be.visible');
+      .find('a')
+      .should('be.visible')
+      .and(`have.attr`, `href`, `#ds-back-to-top`);
+
     cy.realPress('Tab');
     cy.get(Locators.ALERTS.BACK_TOP).should('have.focus');
 

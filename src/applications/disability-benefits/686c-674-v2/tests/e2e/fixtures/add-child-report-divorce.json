@@ -81,13 +81,13 @@
         "first": "john",
         "last": "does"
       },
-      "ssn": "123211234",
-      "birthDate": "1989-04-08",
       "date": "1991-07-07",
-      "location": {
-        "isOutsideUs": false,
-        "state": "MD",
-        "city": "Army Post Office"
+      "divorceLocation": {
+        "outsideUsa": false,
+        "location": {
+          "state": "MD",
+          "city": "Army Post Office"
+        }
       },
       "reasonMarriageEnded": "Divorce"
     },
