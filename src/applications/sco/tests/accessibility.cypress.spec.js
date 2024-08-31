@@ -34,7 +34,7 @@ describe('Accessibility', () => {
     );
 
     cy.repeatKey('Tab', 2);
-    cy.focused().should('contain.text', 'Training Requirements');
+    cy.focused().should('contain.text', 'Training requirements');
     cy.repeatKey('Tab', 4);
     cy.focused().should('contain.text', 'GovDelivery Message Archive');
     // Tab to 'Program approval information' links
