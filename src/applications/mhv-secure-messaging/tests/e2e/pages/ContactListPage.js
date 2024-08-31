@@ -74,11 +74,9 @@ class ContactListPage {
 
   // mock response will be amended in further updates
   clickSaveAndExitButton = () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/preferences/recipients',
-      '200',
-    ).as('savedList');
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
+      'savedList',
+    );
 
     cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
   };
@@ -101,6 +99,8 @@ class ContactListPage {
       .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
 
     cy.get(Locators.CHECKBOX.CL_ALL).should('have.focus');
+
+    this.verifyAllCheckboxes(false);
   };
 }
 

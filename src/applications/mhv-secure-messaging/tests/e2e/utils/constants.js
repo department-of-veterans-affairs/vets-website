@@ -41,6 +41,7 @@ export const Paths = {
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
+    SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
   },
 };
 
