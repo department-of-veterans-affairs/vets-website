@@ -98,7 +98,7 @@ describe('Accessibility', () => {
     cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', '85/15');
     cy.repeatKey('Tab', 10);
-    cy.focused().should('contain.text', 'About GI Bill Benefits');
+    cy.focused().should('contain.text', 'About GI Bill benefits');
     cy.repeatKey('Tab', 5);
     // Should be focused on right panel now
     cy.focused().should('contain.text', 'Access Enrollment Manager');
