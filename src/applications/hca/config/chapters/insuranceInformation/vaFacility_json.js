@@ -3,15 +3,14 @@ import get from 'platform/utilities/data/get';
 import { states } from 'platform/forms/address';
 import { createUSAStateLabels } from 'platform/forms-system/src/js/helpers';
 import { medicalCenterLabels } from 'platform/utilities/medical-centers/medical-centers';
-
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import { medicalCentersByState } from '../../../utils/helpers';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 const {
   vaMedicalFacility,
@@ -23,15 +22,7 @@ const emptyFacilityList = [];
 
 export default {
   uiSchema: {
-    'view:facilityShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:vaFacilityTitle': {
-      'ui:title': 'VA facility',
-    },
+    ...titleUI(content['insurance-info--facility-title']),
     isEssentialAcaCoverage: {
       'ui:title':
         'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
@@ -81,8 +72,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:facilityShortFormMessage': emptyObjectSchema,
-      'view:vaFacilityTitle': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {

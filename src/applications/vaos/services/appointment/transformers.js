@@ -220,6 +220,7 @@ export function transformVAOSAppointment(appt) {
       },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
+      preferredModality: appt?.preferredModality,
     };
   }
 

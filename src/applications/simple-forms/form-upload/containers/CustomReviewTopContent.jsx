@@ -3,20 +3,14 @@ import { useSelector } from 'react-redux';
 import {
   VaCard,
   VaIcon,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { capitalize } from 'lodash';
-import { getFileSize, mask } from '../helpers';
+import { getFileSize, getFormNumber, mask } from '../helpers';
+import EditLink from './EditLink';
 
 const CustomReviewTopContent = () => {
   const { form } = useSelector(state => state || {});
-  const prefillStore = form?.data?.['view:veteranPrefillStore'];
-  const { uploadedFile, idNumber, address } = form?.data;
-
-  const fullName = prefillStore?.fullName || {};
-  const zipCode = prefillStore?.zipCode || address?.postalCode;
-  const ssn = prefillStore?.ssn || idNumber?.ssn;
-  const vaFileNumber = prefillStore?.vaFileNumber || idNumber?.vaFileNumber;
-  const fileNumberIsSsn = ssn === vaFileNumber;
+  const { uploadedFile, idNumber, address, fullName } = form?.data;
 
   const renderFileInfo = file => (
     <VaCard style={{ maxWidth: '75%' }}>
@@ -41,42 +35,43 @@ const CustomReviewTopContent = () => {
   );
 
   const renderPersonalInfo = () => (
-    <div className="vads-u-border-left--4px vads-u-border-color--primary vads-u-padding-left--1">
-      <p>
-        <b>
-          {fullName.first &&
-            `${capitalize(fullName.first)} ${capitalize(fullName.last)}`}
-        </b>
-      </p>
-      {ssn && (
+    <div>
+      <div>
+        <p className="usa-hint">Name</p>
         <p>
-          Social Security number:
-          <span className="dd-privacy-mask" data-dd-action-name="Veteran's SSN">
-            {mask(ssn)}
-          </span>
+          {fullName.first} {fullName.last}
         </p>
-      )}
-      {vaFileNumber &&
-        !fileNumberIsSsn && <p>VA file number: {vaFileNumber}</p>}
-      {zipCode && <p>Zip code: {zipCode}</p>}
+      </div>
+      <div>
+        <p className="usa-hint">Zip code</p>
+        <p>{address.postalCode}</p>
+      </div>
+      <div>
+        <p className="usa-hint">Social security number</p>
+        <p>{mask(idNumber?.ssn)}</p>
+      </div>
     </div>
   );
 
   return (
     <>
-      <div className="vads-u-margin-top--2">
-        <div className="vads-u-margin-y--1 vads-u-color--gray">Your file</div>
-        {uploadedFile && renderFileInfo(uploadedFile)}
-      </div>
-      <div className="vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
-        <h3>Your personal information</h3>
+      <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+        <h4>Personal information</h4>
+        <EditLink href={`/${getFormNumber()}/name-and-zip-code`} />
       </div>
       {renderPersonalInfo()}
       <p className="vads-u-margin-bottom--5">
-        <b>Note:</b> If you need to update your personal information, please
-        call us at 800-827-1000. We’re here Monday through Friday, 8:00am to
-        9:00pm ET.
+        <b>Note:</b> Changes to personal information here won’t apply to your VA
+        profile. If you need to update your personal information, please call us
+        at <VaTelephone contact="8008271000" />(
+        <VaTelephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00am to 9:00pm ET.
       </p>
+      <div className="vads-u-display--flex vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline vads-u-border-bottom--1px vads-u-margin-top--1 vads-u-margin-bottom--4">
+        <h4>Uploaded file</h4>
+        <EditLink href={`/${getFormNumber()}/upload`} />
+      </div>
+      {uploadedFile && renderFileInfo(uploadedFile)}
     </>
   );
 };

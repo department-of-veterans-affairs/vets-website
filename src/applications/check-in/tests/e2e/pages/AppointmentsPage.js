@@ -144,14 +144,12 @@ class AppointmentsPage {
       .click();
   };
 
-  validateErrorMessage = () => {
-    cy.get('[data-testid="upcoming-appointments-error-message"]').should(
-      'be.visible',
-    );
-  };
-
   validateNoTaskCards = () => {
     cy.get('[data-testid="what-next-header"]').should('not.exist');
+  };
+
+  attemptGoToUpcomingAppointmentsPage = () => {
+    cy.get('[data-testid="go-to-upcoming-appointments-link"]').click();
   };
 }
 

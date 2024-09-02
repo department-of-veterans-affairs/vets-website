@@ -25,7 +25,7 @@ const FacilityList = props => {
 
   const getFacilityName = useCallback(
     val => {
-      const facility = facilities.find(f => f.id.split('_').pop() === val);
+      const facility = facilities.find(f => f.id === val);
       return facility?.name || '&mdash;';
     },
     [facilities],
@@ -37,13 +37,13 @@ const FacilityList = props => {
     return validParts.join(', ');
   };
 
-  const facilityOptions = facilities.map(f => (
+  const facilityOptions = facilities.map(facility => (
     <VaRadioOption
-      key={f.id}
+      key={facility.id}
       name="facility"
-      label={f.attributes.name}
-      value={f.id.split('_').pop()}
-      description={formatAddress(f.attributes.address.physical)}
+      label={facility.name}
+      value={facility.id}
+      description={formatAddress(facility.address.physical)}
       tile
     />
   ));
@@ -93,10 +93,10 @@ const FacilityList = props => {
 };
 
 FacilityList.propTypes = {
-  value: PropTypes.string.isRequired,
   facilities: PropTypes.array,
   formContext: PropTypes.object,
   query: PropTypes.string,
+  value: PropTypes.string,
   onChange: PropTypes.func,
 };
 

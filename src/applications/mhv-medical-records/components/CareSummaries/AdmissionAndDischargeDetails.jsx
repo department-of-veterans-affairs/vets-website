@@ -181,7 +181,10 @@ ${record.summary}`;
 
       <div className="test-results-container">
         <h2>Summary</h2>
-        <p data-testid="note-summary" className="monospace">
+        <p
+          data-testid="note-summary"
+          className="monospace vads-u-line-height--6"
+        >
           {record.summary}
         </p>
       </div>

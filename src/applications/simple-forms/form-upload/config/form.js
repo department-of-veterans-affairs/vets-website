@@ -4,8 +4,7 @@ import manifest from '../manifest.json';
 import getHelp from '../../shared/components/GetFormHelp';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import IntroductionPage from '../containers/IntroductionPage';
-import { uploadPage } from '../pages/upload';
-import { reviewPage } from '../pages/review';
+import { uploadPage, UploadPage } from '../pages/upload';
 import {
   NameAndZipCodePage,
   nameAndZipCodePage,
@@ -19,6 +18,7 @@ import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { CustomTopContent } from '../pages/helpers';
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
@@ -33,6 +33,7 @@ const formConfig = (pathname = null) => {
     },
     trackingPrefix: 'form-upload-flow-',
     confirmation: ConfirmationPage,
+    CustomTopContent,
     CustomReviewTopContent,
     customText: {
       appType: 'form',
@@ -86,20 +87,7 @@ const formConfig = (pathname = null) => {
             title: 'Upload Your File',
             uiSchema: uploadPage.uiSchema,
             schema: uploadPage.schema,
-            pageClass: 'upload',
-            scrollAndFocusTarget,
-          },
-        },
-      },
-      reviewChapter: {
-        title: 'Review',
-        pages: {
-          reviewPage: {
-            path: 'review',
-            title: 'Review Your Information',
-            uiSchema: reviewPage.uiSchema,
-            schema: reviewPage.schema,
-            pageClass: 'review',
+            CustomPage: UploadPage,
             scrollAndFocusTarget,
           },
         },

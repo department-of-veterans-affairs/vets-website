@@ -398,7 +398,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
     });
 
@@ -452,7 +452,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(submitFilesLighthouse.called).to.be.true;
     });
 

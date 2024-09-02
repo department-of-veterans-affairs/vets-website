@@ -7,6 +7,8 @@ import { focusElement } from 'platform/utilities/ui';
 import {
   VaAlert,
   VaLinkAction,
+  VaLink,
+  VaTelephone,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   requiredFiles,
@@ -140,9 +142,26 @@ export function ConfirmationPage(props) {
       </div>
       <h2 className="vads-u-font-size--h3">What to expect next</h2>
       <p>
-        We’ll contact the number you listed on this form by mail or phone if we
-        have questions or need more information.
+        It will take approximately 60 days to process your form once received by
+        CHAMPVA.
       </p>
+      <p>
+        If we have any questions, need additional information, or encounter any
+        issues, we will contact you.
+      </p>
+
+      <h2 className="vads-u-font-size--h3">
+        How to contact us about your form
+      </h2>
+      <p>
+        If you have any questions about your application you can call the
+        CHAMPVA call center at <VaTelephone contact="800-733-8387" />. We’re
+        here Monday through Friday, 8:05 a.m. to 7:30 p.m. ET.
+      </p>
+      <p>You can also contact us online through our Ask VA tool.</p>
+      <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      <br />
+      <br />
       <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );

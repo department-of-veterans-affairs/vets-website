@@ -365,4 +365,9 @@ export default class MockAppointmentResponse {
     this.attributes.status = value;
     return this;
   }
+
+  setPreferredModlity(value) {
+    this.attributes.preferredModality = value;
+    return this;
+  }
 }
