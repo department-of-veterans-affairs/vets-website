@@ -150,7 +150,7 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
                       relativeURL={VERIFICATION_REVIEW_RELATIVE_URL}
                       URL={VERIFICATION_REVIEW_URL}
                       margin="0"
-                      className="vye-mimic-va-button vads-u-font-family--sans"
+                      className="vads-u-font-family--sans"
                     />
                   )}
                   toggleEnrollmentSuccess={toggleEnrollmentSuccess}
