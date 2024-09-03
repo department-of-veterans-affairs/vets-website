@@ -8,10 +8,14 @@ const TIMEZONE_LABELS = {
   MT: 'Mountain time',
   PT: 'Pacific time',
   AKT: 'Alaska time',
+  HT: 'Hawaii time',
+  ST: 'Samoa time',
+  ChT: 'Chamorro time',
+  AT: 'Atlantic time',
 };
 
 export function stripDST(abbr) {
-  if (/^[PMCE][DS]T$|^AK[DS]T$/.test(abbr)) {
+  if (/^[PMCEHSA][DS]T$|^AK[DS]T$|^ChST$/.test(abbr)) {
     return abbr?.replace('ST', 'T').replace('DT', 'T');
   }
 
@@ -39,7 +43,10 @@ export function getTimezoneAbbrFromApi(appointment) {
     : null;
 
   // Strip out middle char in abbreviation so we can ignore DST
-  if (appointmentTZ?.includes('America')) {
+  if (
+    appointmentTZ?.includes('America') ||
+    appointmentTZ?.includes('Pacific')
+  ) {
     timeZoneAbbr = stripDST(timeZoneAbbr);
   }
   return timeZoneAbbr;
@@ -55,7 +62,7 @@ export function getTimezoneAbbrByFacilityId(id) {
   let abbreviation = moment.tz.zone(matchingZone).abbr(moment());
 
   // Strip out middle char in abbreviation so we can ignore DST
-  if (matchingZone.includes('America')) {
+  if (matchingZone.includes('America') || matchingZone.includes('Pacific')) {
     abbreviation = stripDST(abbreviation);
   }
 
