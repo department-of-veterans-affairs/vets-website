@@ -144,6 +144,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
   const address = vapContactInfo.mailingAddress?.addressLine1
     ? vapContactInfo.mailingAddress
     : contactInfo;
+
   const newData = {
     ...formData,
     sponsors,
@@ -173,7 +174,7 @@ export function prefillTransformer(pages, formData, metadata, state) {
       street2: address?.addressLine2 || undefined,
       city: address?.city,
       state: address?.stateCode || address?.province,
-      postalCode: address?.zipCode || address?.internationalPostalCode,
+      postalCode: address?.zipcode || address?.internationalPostalCode,
       country: getSchemaCountryCode(
         address?.countryCodeIso3 || address?.countryCode,
       ),
