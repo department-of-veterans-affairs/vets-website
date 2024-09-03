@@ -46,31 +46,28 @@ export const ConfirmationPage = () => {
     },
   };
 
+  const downloadLink = (
+    <VaLink
+      active
+      data-testid="" // Do we need this?
+      onClick={handlers.onClickDownloadForm}
+      href=""
+      text="Download your form"
+      aria-label="Download your form"
+    />
+  );
+
   return (
     <>
-      <h3>Download, print, and sign your form</h3>
+      <h2>Download, print, and sign your form</h2>
       <p>First, you’ll need to download your form.</p>
       {downloadedFormError ? (
         <VaAlert status="error">
           <h3 slot="headline">You must download your form</h3>
-          <VaLink
-            active
-            data-testid=""
-            onClick={handlers.onClickDownloadForm}
-            href=""
-            text="Download your form"
-            aria-label="Download your form"
-          />
+          {downloadLink}
         </VaAlert>
       ) : (
-        <VaLink
-          active
-          data-testid=""
-          onClick={handlers.onClickDownloadForm}
-          href=""
-          text="Download your form"
-          aria-label="Download your form"
-        />
+        downloadLink
       )}
       <p>Then, you’ll need to print and sign your form.</p>
       <VaCheckbox
