@@ -19,14 +19,13 @@ const WiderThanMobileOfficialGovtWebsite = () => {
             />
 
             <p>An official website of the United States government</p>
-            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               data-testid="official-govt-website-toggle-wider-than-mobile"
               className="usa-accordion-button usa-banner-button"
               aria-expanded={isExpanded}
               aria-controls="gov-banner"
               onClick={toggleExpansion}
-              type="button"
             >
               <span
                 data-testid="official-govt-website-toggle-wider-than-mobile-text"
