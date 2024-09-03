@@ -114,7 +114,7 @@ import { ApplicantAddressCopyPage } from '../../shared/components/applicantLists
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
 import { fileWithMetadataSchema } from '../../shared/components/fileUploads/attachments';
 
-import mockData from '../tests/e2e/fixtures/data/test-data.json';
+// import mockData from '../tests/e2e/fixtures/data/test-data.json';
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
 // Control whether we show the file overview page by calling `hasReq` to
@@ -188,7 +188,7 @@ const formConfig = {
       title: 'Signer information',
       pages: {
         page1: {
-          initialData: mockData.data,
+          // initialData: mockData.data,
           path: 'signer-type',
           title: 'Which of these best describes you?',
           uiSchema: {
