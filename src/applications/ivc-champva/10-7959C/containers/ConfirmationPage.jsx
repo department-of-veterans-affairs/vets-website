@@ -53,7 +53,7 @@ const optionalWarningHeading = (
 const mailPreamble = (
   <>
     <va-link
-      href="/"
+      href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
       text="Learn more about the supporting documents you need to submit (opens in a
       new tab)"
     />
