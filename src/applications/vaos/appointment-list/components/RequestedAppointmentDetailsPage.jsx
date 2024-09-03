@@ -122,7 +122,7 @@ export default function RequestedAppointmentDetailsPage() {
     cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
   ) {
     return (
-      <PageLayout showNeedHelp>
+      <PageLayout showNeedHelp isDetailPage>
         <CancelWarningPage
           {...{
             appointment,
@@ -134,7 +134,7 @@ export default function RequestedAppointmentDetailsPage() {
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
-      <PageLayout showNeedHelp>
+      <PageLayout showNeedHelp isDetailPage>
         <CancelConfirmationPage
           {...{
             appointment,
@@ -147,7 +147,7 @@ export default function RequestedAppointmentDetailsPage() {
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
     return (
       <PageLayout showNeedHelp>
-        <BackLink appointment={appointment} />
+        <BackLink appointment={appointment} showCancelModal />
         <div className="vads-u-margin-y--2p5">
           <VaAlert status="error" visible>
             <h2 slot="headline">We couldn’t cancel your request</h2>

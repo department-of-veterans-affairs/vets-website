@@ -66,7 +66,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     fireEvent.click(detailLinks);
     expect(await screen.findByText('Request for appointment')).to.be.ok;
     expect(
-      screen.getByText('Back to pending appointments').getAttribute('href'),
+      screen.getByText('Back to request for appointments').getAttribute('href'),
     ).to.equal('/pending');
   });
 
@@ -275,6 +275,16 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         .setStatus(APPOINTMENT_STATUS.cancelled);
 
       mockAppointmentApi({ response });
+      mockAppointmentsApi({
+        end: moment()
+          .add(1, 'day')
+          .format('YYYY-MM-DD'),
+        start: moment()
+          .subtract(120, 'days')
+          .format('YYYY-MM-DD'),
+        statuses: ['proposed', 'cancelled'],
+        response: [response],
+      });
       mockAppointmentUpdateApi({ response: canceledResponse });
       mockFacilityFetch({
         facility: new MockFacilityResponse({ id: '983' }),
@@ -287,7 +297,12 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       // Assert
-      expect(await screen.findByText('Request for appointment')).to.be.ok;
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: 'Request for appointment',
+        }),
+      ).to.be.ok;
       expect(screen.baseElement).not.to.contain.text('Canceled');
 
       const button = document.querySelector('va-button[text="Cancel request"]');
@@ -304,7 +319,13 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
       fireEvent.click(link);
       await waitFor(
-        () => expect(screen.queryByText(/Request for appointment/i)).to.be.ok,
+        () =>
+          expect(
+            screen.queryByRole('heading', {
+              level: 1,
+              name: /Pending appointments/i,
+            }),
+          ).to.be.ok,
       );
     });
   });
@@ -374,7 +395,7 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
       });
 
       const link = screen.getByRole('link', {
-        name: 'Back to pending appointments',
+        name: 'Back to request for appointments',
       });
       fireEvent.click(link);
       await waitFor(
