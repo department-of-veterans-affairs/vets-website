@@ -73,6 +73,10 @@ export const ConfirmationPageView = props => {
     }),
   );
 
+  const onPrintPageClick = () => {
+    window.print();
+  };
+
   return (
     <div>
       <div className="print-only">
@@ -92,7 +96,7 @@ export const ConfirmationPageView = props => {
         <p>{`Your confirmation number is ${confirmationNumber}`}</p>
       </VaAlert>
       <div>
-        <h3>Save a copy of your form</h3>
+        <h2>Save a copy of your form</h2>
         <p>If you’d like a copy of your completed form, you can download it.</p>
         <VaAccordion bordered uswds>
           <VaAccordionItem
@@ -110,6 +114,19 @@ export const ConfirmationPageView = props => {
         </VaAccordion>
       </div>
       {childContent || null}
+      <div className="screen-only">
+        <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
+          Print this confirmation page
+        </h2>
+        <p>
+          If you’d like to keep a copy of the information on this page, you can
+          print it now.
+        </p>
+        <va-button
+          onClick={onPrintPageClick}
+          text="Print this page for your records"
+        />
+      </div>
       <div className="vads-u-margin-bottom--6">
         <h2 className="vads-u-font-size--h2 vads-u-font-family--serif">
           How to contact us if you have questions
@@ -126,7 +143,7 @@ export const ConfirmationPageView = props => {
         <p className="vads-u-margin-bottom--4">
           <a href="https://ask.va.gov/">Contact us online through Ask VA</a>
         </p>
-        <p>
+        <p className="screen-only">
           <a
             className="vads-c-action-link--green vads-u-margin-bottom--4"
             href="/"
