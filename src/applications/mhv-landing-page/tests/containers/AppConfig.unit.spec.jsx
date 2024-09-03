@@ -1,7 +1,10 @@
 import React from 'react';
-import { datadogRum } from '@datadog/browser-rum';
 import { waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
+import {
+  setDatadogRumUser,
+  useDatadogRum,
+} from '@department-of-veterans-affairs/mhv/exports';
 import sinon from 'sinon';
 import { expect } from 'chai';
 
@@ -9,34 +12,48 @@ import AppConfig from '../../containers/AppConfig';
 import { appName } from '../../manifest.json';
 
 describe(`${appName} -- <AppConfig />`, () => {
-  describe('calls datadogRum.setUser', () => {
-    const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
-      user: {
-        profile: {
-          accountUuid,
-        },
+  const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
+    user: {
+      profile: {
+        accountUuid,
       },
-    });
+    },
+  });
 
+  it('initializes datadog RUM', async () => {
+    const useRumSpy = sinon.spy(useDatadogRum);
+    const initialState = initialStateFn();
+
+    const { getByText } = renderWithStoreAndRouter(
+      <AppConfig useDatadogRumFn={useRumSpy}>
+        <p>child node</p>
+      </AppConfig>,
+      { initialState },
+    );
+
+    await waitFor(() => {
+      getByText('child node');
+      expect(useRumSpy.called).to.be.true;
+    });
+  });
+
+  describe('calls datadogRum.setUser', () => {
     let setRumUserSpy;
     beforeEach(() => {
-      setRumUserSpy = sinon.spy(datadogRum, 'setUser');
-    });
-
-    afterEach(() => {
-      setRumUserSpy.restore();
+      setRumUserSpy = sinon.spy(setDatadogRumUser);
     });
 
     it('when a user id is available', async () => {
       const initialState = initialStateFn();
 
       const { getByText } = renderWithStoreAndRouter(
-        <AppConfig>
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
           <p>child node</p>
         </AppConfig>,
         { initialState },
       );
-      waitFor(() => {
+
+      await waitFor(() => {
         getByText('child node');
         expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
       });
@@ -46,7 +63,7 @@ describe(`${appName} -- <AppConfig />`, () => {
       const initialState = initialStateFn({ accountUuid: '' });
 
       const { getByText } = renderWithStoreAndRouter(
-        <AppConfig>
+        <AppConfig setDatadogRumUserFn={setRumUserSpy}>
           <p>child node</p>
         </AppConfig>,
         { initialState },
