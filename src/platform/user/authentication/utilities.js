@@ -194,6 +194,7 @@ export function sessionTypeUrl({
     codeChallenge,
     codeChallengeMethod,
     clientId,
+    scope,
   } = getQueryParams();
 
   const externalRedirect = isExternalRedirect();
@@ -242,6 +243,7 @@ export function sessionTypeUrl({
         codeChallenge,
         codeChallengeMethod,
         ...(gaClientId && { gaClientId }),
+        ...(scope && { scope }),
       },
       passedOptions: {
         isSignup,

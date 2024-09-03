@@ -5,6 +5,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
+import { submitHandler } from '../utils/helpers';
 
 import manifest from '../manifest.json';
 
@@ -35,8 +36,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitHandler,
   trackingPrefix: 'benefit-eligibility-questionnaire-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
