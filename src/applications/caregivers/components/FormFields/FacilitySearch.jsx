@@ -14,8 +14,10 @@ const FacilitySearch = props => {
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
+  const [loadingMoreFacilities, setLoadingMoreFacilities] = useState(false);
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
+  const [pages, setPages] = useState(1);
   const dispatch = useDispatch();
   const [coordinates, setCoordinates] = useState({ lat: '', long: '' });
 
@@ -122,41 +124,48 @@ const FacilitySearch = props => {
     setFacilities(facilitiesResponse);
     setSubmittedQuery(query);
     setLoading(false);
+    setPages(1);
   };
 
   const showMoreFacilities = async () => {
-    setLoading(true);
+    setLoadingMoreFacilities(true);
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
-      page: 1,
-      perPage: facilities.length + 5,
+      page: pages + 1,
+      perPage: 5,
     });
 
     if (facilitiesResponse.errorMessage) {
       setError(facilitiesResponse.errorMessage);
-      setLoading(false);
+      setLoadingMoreFacilities(false);
       return;
     }
 
-    setFacilities(facilitiesResponse);
+    setFacilities([...facilities, ...facilitiesResponse]);
     setSubmittedQuery(query);
-    setLoading(false);
+    setLoadingMoreFacilities(false);
+    setPages(pages + 1);
+  };
+
+  const loader = () => {
+    return (
+      <va-loading-indicator
+        label={content['app-loading-generic-text']}
+        message={content['facilities-loading-text']}
+        set-focus
+      />
+    );
   };
 
   const searchResults = () => {
     if (loading) {
-      return (
-        <va-loading-indicator
-          label={content['app-loading-generic-text']}
-          message={content['facilities-loading-text']}
-          set-focus
-        />
-      );
+      return loader();
     }
     if (facilities?.length) {
       return (
         <>
           <FacilityList {...facilityListProps} />
+          {loadingMoreFacilities && loader()}
           <button onClick={showMoreFacilities}>more facilities</button>
         </>
       );

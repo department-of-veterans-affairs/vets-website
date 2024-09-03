@@ -326,7 +326,7 @@ describe('CG <FacilitySearch>', () => {
 
     it('clicking more facilities', async () => {
       const { props, mockStore } = getData({});
-      const { selectors, container } = subject({ props, mockStore });
+      const { selectors, getByText, container } = subject({ props, mockStore });
 
       mapboxStub.resolves(successResponse);
       facilitiesStub.resolves(mockFetchFacilitiesResponse);
@@ -340,16 +340,19 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
         expect(selectors().input).to.not.have.attr('error');
+        expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
       });
 
       await waitFor(() => {
         userEvent.click(selectors().moreFacilities);
+        expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.exist;
       });
 
       await waitFor(() => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
+        expect(getByText(/Showing 1-4 of 4 facilities for/)).to.exist;
         expect(selectors().input).to.not.have.attr('error');
       });
 
