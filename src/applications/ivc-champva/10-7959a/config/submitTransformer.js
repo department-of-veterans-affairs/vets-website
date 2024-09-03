@@ -42,15 +42,11 @@ export default function transformForSubmit(formConfig, form) {
   // ---
 
   // Combine all three street strings into one
-  copyOfData.applicantAddress.streetCombined = concatStreets(
-    copyOfData.applicantAddress,
-  );
+  copyOfData.applicantAddress = concatStreets(copyOfData.applicantAddress);
 
   if (copyOfData.certifierAddress) {
     // Combine streets for 3rd party certifier
-    copyOfData.certifierAddress.streetCombined = concatStreets(
-      copyOfData.certifierAddress,
-    );
+    copyOfData.certifierAddress = concatStreets(copyOfData.certifierAddress);
   }
 
   // Date of signature
