@@ -124,7 +124,8 @@
     },
     {
       "rootFolder": "mhv-medical-records",
-      "slackGroup": "@C04ER7MHX5E"
+      "slackGroup": "<@C04ER7MHX5E>",
+      "continuousDeployment": false
     },
     {
       "rootFolder": "mhv-medications",
