@@ -81,12 +81,10 @@ import {
   studentAdditionalInformationPartSeven,
   studentAdditionalInformationPartEight,
   studentAdditionalInformationPartNine,
-  // studentAddressMarriageTuition,
-  // studentSchoolAddress,
-  // studentTermDates,
-  // studentLastTerm,
-  studentIncomeInformation,
-  studentNetworthInformation,
+  studentAdditionalInformationPartTen,
+  studentAdditionalInformationPartEleven,
+  studentAdditionalInformationPartTwelve,
+  studentAdditionalInformationPartThirteen,
 } from './chapters/674';
 import { householdIncome } from './chapters/household-income';
 
@@ -514,6 +512,7 @@ export const formConfig = {
         },
       },
     },
+
     report674: {
       title: 'Add one or more students between ages 18 and 23',
       pages: {
@@ -623,62 +622,49 @@ export const formConfig = {
           uiSchema: studentAdditionalInformationPartNine.uiSchema,
           schema: studentAdditionalInformationPartNine.schema,
         },
-        // studentAddressMarriageTuition: {
-        //   depends: formData =>
-        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
-        //   title:
-        //     'Information needed to add a student 18 to 23 years old: Additional information',
-        //   path: 'report-674-student-address',
-        //   uiSchema: studentAddressMarriageTuition.uiSchema,
-        //   schema: studentAddressMarriageTuition.schema,
-        //   updateFormData: studentAddressMarriageTuition.updateFormData,
-        // },
-        // studentSchoolAddress: {
-        //   depends: formData =>
-        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
-        //   title:
-        //     'Information needed to add a student 18 to 23 years old: School addresses',
-        //   path: 'report-674-student-school-address',
-        //   uiSchema: studentSchoolAddress.uiSchema,
-        //   schema: studentSchoolAddress.schema,
-        // },
-        // studentTermDates: {
-        //   depends: formData =>
-        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
-        //   title:
-        //     'Information needed to add a student 18 to 23 years old: Student term dates',
-        //   path: 'report-674-student-school-term-dates',
-        //   uiSchema: studentTermDates.uiSchema,
-        //   schema: studentTermDates.schema,
-        // },
-        // studentLastTerm: {
-        //   depends: formData =>
-        //     isChapterFieldRequired(formData, TASK_KEYS.report674),
-        //   title:
-        //     'Information needed to add a student 18 to 23 years old: Last term date',
-        //   path: 'report-674-student-last-term-information',
-        //   uiSchema: studentLastTerm.uiSchema,
-        //   schema: studentLastTerm.schema,
-        // },
-        // NOTE: These are temporarily disabled, and will be reintroduced post-launch as part of 674 pension support.
-        studentIncomeInformation: {
-          depends: () => false,
-          title:
-            'Information needed to add a student 18 to 23 years old: Income information',
-          path: 'report-674-student-income-information',
-          uiSchema: studentIncomeInformation.uiSchema,
-          schema: studentIncomeInformation.schema,
+        studentAdditionalInformationPartTen: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-income-at-school',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTen.uiSchema,
+          schema: studentAdditionalInformationPartTen.schema,
         },
-        studentNetworthInformation: {
-          depends: () => false,
-          title:
-            'Information needed to add a student 18 to 23 years old: Net worth information',
-          path: 'report-674-student-networth-information',
-          uiSchema: studentNetworthInformation.uiSchema,
-          schema: studentNetworthInformation.schema,
+        studentAdditionalInformationPartEleven: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-expected-income-at-school',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartEleven.uiSchema,
+          schema: studentAdditionalInformationPartEleven.schema,
+        },
+        studentAdditionalInformationPartTwelve: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-assets',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartTwelve.uiSchema,
+          schema: studentAdditionalInformationPartTwelve.schema,
+        },
+        studentAdditionalInformationPartThirteen: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/additional-remarks',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartThirteen.uiSchema,
+          schema: studentAdditionalInformationPartThirteen.schema,
         },
       },
     },
+
     reportDivorce: {
       title: 'Information needed to remove a divorced spouse',
       pages: {
@@ -700,6 +686,7 @@ export const formConfig = {
         },
       },
     },
+
     reportStepchildNotInHousehold: {
       title:
         'Information needed to remove a stepchild who has left your household',
@@ -733,6 +720,7 @@ export const formConfig = {
         },
       },
     },
+
     deceasedDependents: {
       title: 'Information needed to remove a dependent who has died',
       pages: {
@@ -756,6 +744,7 @@ export const formConfig = {
         },
       },
     },
+
     reportChildMarriage: {
       title: 'Remove one or more children who got married',
       pages: {
@@ -773,6 +762,7 @@ export const formConfig = {
         },
       },
     },
+
     reportChildStoppedAttendingSchool: {
       title:
         'Remove one or more children between ages 18 and 23 who left school',
@@ -791,6 +781,7 @@ export const formConfig = {
         },
       },
     },
+
     householdIncome: {
       title: 'Your net worth',
       pages: {

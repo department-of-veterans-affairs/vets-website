@@ -51,7 +51,10 @@ export const uiSchema = {
     },
     items: {
       fullName: fullNameNoSuffixUI(title => `Student’s ${title}`),
-      birthDate: currentOrPastDateUI('Student’ date of birth'),
+      birthDate: {
+        ...currentOrPastDateUI('Student’ date of birth'),
+        'ui:required': () => true,
+      },
     },
   },
 };

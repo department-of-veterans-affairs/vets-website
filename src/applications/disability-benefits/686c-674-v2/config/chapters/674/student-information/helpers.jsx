@@ -125,19 +125,6 @@ export const StudentEducationH3 = ({ formData }) => {
   );
 };
 
-export const StudentEducationPaymentH3 = ({ formData }) => {
-  const { first, last } = formData.fullName;
-
-  return (
-    <legend className="schemaform-block-title" id="root__title">
-      <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s education benefit payments
-      </h3>
-    </legend>
-  );
-};
-
 export const StudentProgramH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
 
@@ -163,6 +150,19 @@ export const StudentAdditionalInfoH3 = ({ formData }) => {
   );
 };
 
+export const StudentCurrentTermH3 = ({ formData }) => {
+  const { first, last } = formData.fullName;
+
+  return (
+    <legend className="schemaform-block-title" id="root__title">
+      <h3 className="vads-u-color--black vads-u-margin-top--0">
+        {capitalize(first)} {capitalize(last)}
+        ’s term dates
+      </h3>
+    </legend>
+  );
+};
+
 export const StudentPrevTermH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
 
@@ -171,32 +171,6 @@ export const StudentPrevTermH3 = ({ formData }) => {
       <h3 className="vads-u-color--black vads-u-margin-top--0">
         {capitalize(first)} {capitalize(last)}
         ’s previous term
-      </h3>
-    </legend>
-  );
-};
-
-export const StudentPrevTermDatesH3 = ({ formData }) => {
-  const { first, last } = formData.fullName;
-
-  return (
-    <legend className="schemaform-block-title" id="root__title">
-      <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s previous term dates
-      </h3>
-    </legend>
-  );
-};
-
-export const StudentIncomeH3 = ({ formData }) => {
-  const { first, last } = formData.fullName;
-
-  return (
-    <legend className="schemaform-block-title" id="root__title">
-      <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s income
       </h3>
     </legend>
   );
@@ -236,6 +210,16 @@ export const StudentAssetsH3 = ({ formData }) => {
       <h3 className="vads-u-color--black vads-u-margin-top--0">
         {capitalize(first)} {capitalize(last)}
         ’s assets
+      </h3>
+    </legend>
+  );
+};
+
+export const RemarksH3 = () => {
+  return (
+    <legend className="schemaform-block-title" id="root__title">
+      <h3 className="vads-u-color--black vads-u-margin-top--0">
+        Additional information
       </h3>
     </legend>
   );

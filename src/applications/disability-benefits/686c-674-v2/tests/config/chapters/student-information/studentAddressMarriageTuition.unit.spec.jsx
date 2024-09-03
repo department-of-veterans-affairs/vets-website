@@ -10,7 +10,7 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../../config/form';
 
 describe('Report 674 student address and marriage information', () => {
   const {

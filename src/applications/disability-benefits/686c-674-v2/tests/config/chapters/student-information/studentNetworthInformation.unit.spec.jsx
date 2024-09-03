@@ -13,7 +13,7 @@ import {
   selectRadio,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../../config/form';
 
 describe.skip('Report 674 student networth information', () => {
   const {

@@ -5,7 +5,7 @@ import React from 'react';
 import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-import formConfig from '../../../config/form';
+import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 

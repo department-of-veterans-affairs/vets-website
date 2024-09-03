@@ -8,7 +8,7 @@ import {
   fillData,
 } from 'platform/testing/unit/schemaform-utils.jsx';
 
-import formConfig from '../../config/form';
+import formConfig from '../../../../config/form';
 
 describe('Report 674 school information', () => {
   const {

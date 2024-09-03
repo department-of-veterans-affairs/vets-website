@@ -9,12 +9,10 @@ import * as studentAdditionalInformationPartSix from './student-information/stud
 import * as studentAdditionalInformationPartSeven from './student-information/studentAdditionalInformationPartSeven';
 import * as studentAdditionalInformationPartEight from './student-information/studentAdditionalInformationPartEight';
 import * as studentAdditionalInformationPartNine from './student-information/studentAdditionalInformationPartNine';
-import * as studentAddressMarriageTuition from './student-address-marriage-tuition/studentAddressMarriageTuition';
-import * as studentSchoolAddress from './student-school-address/studentSchoolAddress';
-import * as studentTermDates from './student-term-dates/studentTermDates';
-import * as studentLastTerm from './student-last-term-information/studentLastTerm';
-import * as studentIncomeInformation from './student-income-information/studentIncomeInformation';
-import * as studentNetworthInformation from './student-networth-information/studentNetworthInformation';
+import * as studentAdditionalInformationPartTen from './student-information/studentAdditionalInformationPartTen';
+import * as studentAdditionalInformationPartEleven from './student-information/studentAdditionalInformationPartEleven';
+import * as studentAdditionalInformationPartTwelve from './student-information/studentAdditionalInformationPartTwelve';
+import * as studentAdditionalInformationPartThirteen from './student-information/studentAdditionalInformationPartThirteen';
 
 export {
   studentInformation,
@@ -28,10 +26,8 @@ export {
   studentAdditionalInformationPartSeven,
   studentAdditionalInformationPartEight,
   studentAdditionalInformationPartNine,
-  studentAddressMarriageTuition,
-  studentSchoolAddress,
-  studentTermDates,
-  studentLastTerm,
-  studentIncomeInformation,
-  studentNetworthInformation,
+  studentAdditionalInformationPartTen,
+  studentAdditionalInformationPartEleven,
+  studentAdditionalInformationPartTwelve,
+  studentAdditionalInformationPartThirteen,
 };
