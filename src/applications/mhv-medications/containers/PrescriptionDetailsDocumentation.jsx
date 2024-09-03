@@ -3,7 +3,10 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import { reportGeneratedBy } from '@department-of-veterans-affairs/mhv/exports';
+import {
+  reportGeneratedBy,
+  updatePageTitle,
+} from '@department-of-veterans-affairs/mhv/exports';
 import { getDocumentation } from '../api/rxApi';
 import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -102,6 +105,10 @@ const PrescriptionDetailsDocumentation = () => {
     },
     [userName, dob, prescription],
   );
+
+  useEffect(() => {
+    updatePageTitle(`More about this medication | Veteran Affairs`);
+  }, []);
 
   const downloadText = () => {
     const formattedText = convertHtmlForDownload(htmlContent);
