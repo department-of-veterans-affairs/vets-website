@@ -25,6 +25,9 @@ const ssnServiceInfo = (
   <>
     <h4 className="vads-u-font-weight--bold vads-u-font-family--serif">
       Social Security or service number
+      <span className="form-required-span vads-u-font-weight--normal">
+        (*Required)
+      </span>
     </h4>
     <span className="vads-u-margin-y--0">
       Please provide one of the following:
@@ -59,9 +62,8 @@ export const personalInformationFormSchemas = {
       ssn: ssnSchema,
       serviceNumber: serviceNumberSchema,
     },
-    required: ['ssn'],
+    required: [],
   },
-  socialNum: ssnSchema,
   dateOfBirth: dateOfBirthSchema,
   branchOfService: selectSchema(branchesOfService),
 };
@@ -134,18 +136,10 @@ export const personalInformationUiSchemas = {
   },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
-    'ui:required': () => true,
     'ui:validations': [validateGroup],
     'ui:options': { showFieldLabel: true },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
-  },
-  socialNum: {
-    ...ssnUI(),
-    'ui:required': () => false,
-    'ui:options': {
-      hideIf: () => true,
-    },
   },
   dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
   branchOfService: {
