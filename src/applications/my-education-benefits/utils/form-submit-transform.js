@@ -375,7 +375,6 @@ export function createRelinquishedBenefit(submissionForm) {
   if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
     return {};
   }
-
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
       (formFields?.benefitRelinquished)
@@ -392,18 +391,10 @@ export function createRelinquishedBenefit(submissionForm) {
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
-      ? {
-          relinquishedBenefit: 'NotEligible',
-        }
-      : {};
-  }
-  return submissionForm?.showMebDgi42Features
-    ? {
-        relinquishedBenefit: 'CannotRelinquish',
-      }
-    : {};
+  // Default case when no benefit is relinquished
+  return {
+    relinquishedBenefit: 'NotEligible',
+  };
 }
 
 function setAdditionalConsideration(consideration) {

@@ -131,3 +131,18 @@ export function getChapterFormConfigAskVa(modifiedFormConfig, chapterName) {
 
   return chapterFormConfig;
 }
+
+export const removeDuplicatesByChapterAndPageKey = array => {
+  const seen = new Set();
+
+  return array.filter(item => {
+    const uniqueKey = `${item.chapterKey}-${item.pageKey}`;
+
+    if (seen.has(uniqueKey)) {
+      return false;
+    }
+
+    seen.add(uniqueKey);
+    return true;
+  });
+};

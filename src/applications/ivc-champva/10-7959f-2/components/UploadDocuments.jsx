@@ -4,11 +4,11 @@ export const UploadDocuments = () => {
   return (
     <>
       <div>
-        <h3>
+        <p>
           Upload proof that you paid the provider. This can be a receipt or a
           billing statement that’s marked as "paid." Make sure it includes this
           information:
-        </h3>
+        </p>
         <ul>
           <li>Date you paid the provider</li>
           <li>Care, services, medications, or supplies you paid for</li>

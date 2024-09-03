@@ -21,7 +21,20 @@
         "detail": "",
         "formType": "21-0845",
         "message": null,
-        "status": "received",
+        "status": "pending",
+        "createdAt": "2023-12-20T18:04:04.925Z",
+        "updatedAt": "2023-12-20T18:04:09.292Z"
+      }
+    },
+    {
+      "id": "0c72c438-6d9d-4f93-9569-2c6e34321631",
+      "type": "submission_status",
+      "attributes": {
+        "id": "0c72c438-6d9d-4f93-9569-2c6e34321631",
+        "detail": "",
+        "formType": "20-10207",
+        "message": null,
+        "status": "error",
         "createdAt": "2023-12-20T18:04:04.925Z",
         "updatedAt": "2023-12-20T18:04:09.292Z"
       }
