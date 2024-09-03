@@ -18,7 +18,10 @@ export const MailingAddressInfoPageTaskYellow = () => {
       {showSuccessAlert && showSuccessAlert === 'address,updated' ? (
         <MailingAddressSaveSuccessAlert />
       ) : (
-        <PrefillAlert />
+        <PrefillAlert>
+          We’ve prefilled some of your information from your account. If you
+          need to correct anything, you can select edit below.
+        </PrefillAlert>
       )}
 
       <h3>Mailing address</h3>
