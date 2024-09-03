@@ -147,7 +147,7 @@ export default function RequestedAppointmentDetailsPage() {
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.failed) {
     return (
       <PageLayout showNeedHelp>
-        <BackLink appointment={appointment} showCancelModal />
+        <BackLink appointment={appointment} />
         <div className="vads-u-margin-y--2p5">
           <VaAlert status="error" visible>
             <h2 slot="headline">We couldn’t cancel your request</h2>
