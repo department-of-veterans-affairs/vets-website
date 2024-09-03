@@ -1,7 +1,13 @@
 import { Locators, Paths, Alerts, Data } from '../utils/constants';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 class ContactListPage {
-  loadContactList = () => {
+  loadContactList = (recipients = mockRecipients) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
+      recipients,
+    ).as('allRecipients');
     cy.visit(`${Paths.UI_MAIN + Paths.CONTACT_LIST}`);
   };
 
@@ -33,6 +39,7 @@ class ContactListPage {
       .click({
         waitForAnimations: true,
         force: true,
+        multiple: true,
       });
   };
 
