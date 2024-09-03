@@ -2,16 +2,25 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { useSelector } from 'react-redux';
 import { dataDogActionNames } from '../../util/dataDogConstants';
 
-const RefillNotification = ({ refillResult = {} }) => {
+const RefillNotification = ({ refillStatus }) => {
+  // Selectors
+  const successfulMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.successfulMeds,
+  );
+  const failedMeds = useSelector(
+    state => state.rx.prescriptions?.refillNotification?.failedMeds,
+  );
+
   useEffect(
     () => {
-      if (refillResult?.status === 'finished') {
+      if (refillStatus === 'finished') {
         let elemId = '';
-        if (refillResult?.successfulMeds.length === 0) {
+        if (successfulMeds?.length === 0) {
           elemId = 'failed-refill';
-        } else if (refillResult?.failedMeds.length > 0) {
+        } else if (failedMeds?.length > 0) {
           elemId = 'partial-refill';
         } else {
           elemId = 'success-refill';
@@ -22,14 +31,14 @@ const RefillNotification = ({ refillResult = {} }) => {
         }
       }
     },
-    [refillResult],
+    [refillStatus, successfulMeds, failedMeds],
   );
   const isNotSubmitted =
-    refillResult?.status === 'finished' &&
-    refillResult?.successfulMeds.length === 0 &&
-    refillResult?.failedMeds.length === 0;
-  const isPartiallySubmitted = refillResult?.failedMeds.length > 0;
-  const isSuccess = refillResult?.successfulMeds.length > 0;
+    refillStatus === 'finished' &&
+    successfulMeds?.length === 0 &&
+    failedMeds?.length === 0;
+  const isPartiallySubmitted = failedMeds?.length > 0;
+  const isSuccess = successfulMeds?.length > 0;
   return (
     <>
       <va-alert
@@ -71,9 +80,10 @@ const RefillNotification = ({ refillResult = {} }) => {
           these refill requests:
         </p>
         <ul className="va-list--disc">
-          {refillResult?.failedMeds.map((item, idx) => (
+          {failedMeds?.map((item, idx) => (
             <li
               className="vads-u-padding-y--0 vads-u-font-weight--bold"
+              data-testid="medication-requested-failed"
               key={idx}
             >
               {item?.prescriptionName}
@@ -103,10 +113,10 @@ const RefillNotification = ({ refillResult = {} }) => {
           Refills requested
         </h2>
         <ul className="va-list--disc">
-          {refillResult?.successfulMeds.map((id, idx) => (
+          {successfulMeds?.map((id, idx) => (
             <li
               className="vads-u-padding-y--0"
-              data-testid="medication-requested"
+              data-testid="medication-requested-successful"
               key={idx}
             >
               {id?.prescriptionName}
@@ -138,7 +148,7 @@ const RefillNotification = ({ refillResult = {} }) => {
 };
 
 RefillNotification.propTypes = {
-  refillResult: PropTypes.object,
+  refillStatus: PropTypes.string,
 };
 
 export default RefillNotification;
