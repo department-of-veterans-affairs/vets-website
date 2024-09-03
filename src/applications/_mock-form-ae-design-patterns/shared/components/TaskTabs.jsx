@@ -1,33 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const tabs = [
-  {
-    name: 'Home',
-    path: '/',
-    baseClass: 'vads-u-background-color--primary vads-u-color--white',
-  },
-  {
-    name: 'Green',
-    path: '/1/task-green',
-    introPathWithQuery: '/introduction?loggedIn=false',
-    baseClass: 'vads-u-background-color--green vads-u-color--white',
-  },
-  {
-    name: 'Yellow',
-    path: '/1/task-yellow',
-    introPathWithQuery: '/introduction?loggedIn=true',
-    baseClass: 'vads-u-background-color--gold-light vads-u-color--black',
-  },
-  {
-    name: 'Purple',
-    path: '/1/task-purple',
-    introPathWithQuery: '/introduction?loggedIn=true',
-    baseClass: 'vads-u-background-color--hub-records vads-u-color--white',
-  },
-];
+import { tabsConfig } from '../../utils/data/tabs';
 
 export const TaskTabs = ({ location, formConfig }) => {
+  // get the pattern number from the URL
+  const patternNumber = location.pathname.match(/^\/(\d+)\//)?.[1];
+  const patternKey = `pattern${patternNumber}`;
+  const tabs = tabsConfig[patternKey];
+
   const activeTab = tabs.find(
     tab => location.pathname.includes(tab.path) && tab.path !== '/',
   );
@@ -44,22 +24,33 @@ export const TaskTabs = ({ location, formConfig }) => {
   return (
     <nav>
       <ul
-        className="vads-l-row vads-u-margin-y--0 vads-u-padding-left--0"
+        className="nav-tabs vads-l-row vads-u-margin-y--0 vads-u-padding-left--0"
         style={{ listStyleType: 'none' }}
       >
+        <li
+          key="home"
+          className="vads-u-text-align--center vads-u-margin-bottom--0 vads-u-background-color--primary vads-u-color--white"
+        >
+          <a
+            href={`/mock-form-ae-design-patterns/${patternNumber}`}
+            className="vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full vads-u-background-color--primary vads-u-color--white"
+          >
+            Home
+          </a>
+        </li>
         {tabs.map(tab => (
           <li
             key={tab.name}
-            className={`vads-l-col--3 vads-u-text-align--center vads-u-margin-bottom--0 ${getClassNames(
+            className={`vads-u-text-align--center vads-u-margin-bottom--0 ${getClassNames(
               tab,
             )}`}
           >
             <a
               href={`${formConfig.rootUrl}${tab.path}${tab.introPathWithQuery ||
                 ''}`}
-              className={`${getClassNames(
+              className={`vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full ${getClassNames(
                 tab,
-              )} vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center vads-u-padding-y--1 vads-u-height--full`}
+              )}`}
             >
               {tab.name}
             </a>
