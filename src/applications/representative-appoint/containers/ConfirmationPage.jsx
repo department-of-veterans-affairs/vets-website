@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
 import {
@@ -14,9 +14,18 @@ export const ConfirmationPage = () => {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
 
+  useEffect(() => {
+    const downloaded = localStorage.getItem('downloadedForm');
+
+    if (downloaded !== null) {
+      setDownloadedForm(JSON.parse(downloaded));
+    }
+  }, []);
+
   const handlers = {
     onClickDownloadForm: () => {
       setDownloadedForm(true);
+      localStorage.setItem('downloadedForm', true);
     },
     onChangeSignedFormCheckbox: () => {
       setSignedForm(prevState => !prevState);
@@ -47,9 +56,7 @@ export const ConfirmationPage = () => {
           <VaLink
             active
             data-testid=""
-            onClick={() => {
-              setDownloadedForm(true);
-            }}
+            onClick={handlers.onClickDownloadForm}
             href=""
             text="Download your form"
             aria-label="Download your form"
@@ -59,10 +66,7 @@ export const ConfirmationPage = () => {
         <VaLink
           active
           data-testid=""
-          onClick={() => {
-            // Download form
-            setDownloadedForm(true);
-          }}
+          onClick={handlers.onClickDownloadForm}
           href=""
           text="Download your form"
           aria-label="Download your form"
