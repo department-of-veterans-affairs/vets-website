@@ -79,7 +79,7 @@ class ContactListPage {
     cy.get(`.first-focusable-child`).click();
   };
 
-  // mock response will be amended in further updates
+  // mock response could be amended in further updates
   clickSaveAndExitButton = () => {
     cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
       'savedList',
@@ -105,7 +105,9 @@ class ContactListPage {
       .should(`be.visible`)
       .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
 
-    cy.get(Locators.CHECKBOX.CL_ALL).should('have.focus');
+    cy.get(Locators.CHECKBOX.CL_ALL)
+      .first()
+      .should('have.focus');
 
     this.verifyAllCheckboxes(false);
   };

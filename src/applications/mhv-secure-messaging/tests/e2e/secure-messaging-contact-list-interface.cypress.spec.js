@@ -7,7 +7,7 @@ import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-dat
 import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixRecipients from './fixtures/multi-facilities-recipients-response.json';
 
-describe('Secure Messaging Contact list', () => {
+describe('SM Contact list', () => {
   it('verify base web-elements - single facility', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();

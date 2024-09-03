@@ -3,7 +3,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import ContactListPage from './pages/ContactListPage';
 import { AXE_CONTEXT } from './utils/constants';
 
-describe('Secure Messaging Contact list', () => {
+describe('SM Single Facility Contact list', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
