@@ -5,6 +5,7 @@ import {
   VaAlert,
   VaButton,
   VaCheckbox,
+  VaIcon,
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
@@ -47,14 +48,20 @@ export const ConfirmationPage = () => {
   };
 
   const downloadLink = (
-    <VaLink
-      active
-      data-testid="" // Do we need this?
-      onClick={handlers.onClickDownloadForm}
-      href=""
-      text="Download your form"
-      aria-label="Download your form"
-    />
+    <>
+      <VaIcon
+        size={3}
+        icon="file_download"
+        className="vads-u-margin-right--1"
+      />
+      <VaLink
+        active
+        onClick={handlers.onClickDownloadForm}
+        href=""
+        text="Download your form"
+        aria-label="Download your form"
+      />
+    </>
   );
 
   return (
