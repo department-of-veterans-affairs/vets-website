@@ -8,8 +8,8 @@ import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facil
 import drupalStaticData from '../fixtures/json-triage-mocks/drupal-data-mock.json';
 import reducer from '../../reducers';
 import EditContactList from '../../containers/EditContactList';
-import { Paths } from '../../util/constants';
-import { checkVaCheckbox } from '../../util/testUtils';
+import { ErrorMessages, Paths } from '../../util/constants';
+import { checkVaCheckbox, getProps } from '../../util/testUtils';
 
 describe('Edit Contact List container', async () => {
   const initialState = {
@@ -232,5 +232,35 @@ describe('Edit Contact List container', async () => {
       expect(screen.history.location.pathname).to.equal(Paths.INBOX);
     }, 1000);
     screen.unmount();
+  });
+
+  it('displays error state on first checkbox when "save and exit" is clicked', async () => {
+    const screen = setup(initialState);
+
+    const selectAllFacility2 = await screen.findByTestId(
+      'select-all-Test-Facility-2-teams',
+    );
+    expect(selectAllFacility2).to.have.attribute('checked', 'true');
+
+    await checkVaCheckbox(selectAllFacility2, false);
+
+    const selectAllFacility1 = await screen.findByTestId(
+      'select-all-Test-Facility-1-teams',
+    );
+    expect(selectAllFacility1).to.have.attribute('checked', 'true');
+
+    await checkVaCheckbox(selectAllFacility1, false);
+
+    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    fireEvent.click(saveButton);
+
+    const checkboxInput = await screen.getByTestId(
+      'Test-Facility-2-facility-group',
+    );
+    const checkboxInputError = checkboxInput[getProps(checkboxInput)].error;
+
+    expect(checkboxInputError).to.equal(
+      ErrorMessages.ContactList.MINIMUM_SELECTION,
+    );
   });
 });
