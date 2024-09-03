@@ -1,91 +1,91 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-// import { format, isValid } from 'date-fns';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import {
+  VaAlert,
+  VaButton,
+  VaCheckbox,
+  VaLink,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export class ConfirmationPage extends React.Component {
-  componentDidMount() {
-    focusElement('h2');
-    scrollToTop('topScrollElement');
-  }
+export const ConfirmationPage = () => {
+  const [downloadedForm, setDownloadedForm] = useState(false); // This should be in redux store
+  const [downloadedFormError, setDownloadedFormError] = useState(false);
+  const [signedForm, setSignedForm] = useState(false);
+  const [signedFormError, setSignedFormError] = useState(false);
 
-  render() {
-    const { form } = this.props;
-    const {
-      // submission,
-      formId,
-      data,
-    } = form;
+  const handlers = {
+    onClickDownloadForm: () => {
+      setDownloadedForm(true);
+    },
+    onChangeSignedFormCheckbox: () => {
+      setSignedForm(prevState => !prevState);
 
-    const { fullName } = data;
+      if (signedFormError) setSignedFormError(false);
+    },
+    onClickContinueButton: () => {
+      if (!downloadedForm && !signedForm) {
+        setDownloadedFormError(true);
+        setSignedFormError(true);
+      } else if (!downloadedForm) {
+        setDownloadedFormError(true);
+      } else if (!signedForm) {
+        setSignedFormError(true);
+      } else {
+        // Go to instructions page
+      }
+    },
+  };
 
-    return (
-      <div>
-        <div className="print-only">
-          <img
-            src="https://www.va.gov/img/design/logo/logo-black-and-white.png"
-            alt="VA logo"
-            width="300"
+  return (
+    <>
+      <h3>Download, print, and sign your form</h3>
+      <p>First, you’ll need to download your form.</p>
+      {downloadedFormError ? (
+        <VaAlert status="error">
+          <h3 slot="headline">You must download your form</h3>
+          <VaLink
+            active
+            data-testid=""
+            onClick={() => {
+              setDownloadedForm(true);
+            }}
+            href=""
+            text="Download your form"
+            aria-label="Download your form"
           />
-          <h2>Application for Mock Form</h2>
-        </div>
-        <h2 className="vads-u-font-size--h3">
-          Your application has been submitted
-        </h2>
-        <p>We may contact you for more information or documents.</p>
-        <p className="screen-only">Please print this page for your records.</p>
-        <div className="inset">
-          <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
-            Fill out your form to appoint a VA accredited representative or VSO
-            Claim{' '}
-            <span className="vads-u-font-weight--normal">(Form {formId})</span>
-          </h3>
-          {fullName ? (
-            <span>
-              for {fullName.first} {fullName.middle} {fullName.last}
-              {fullName.suffix ? `, ${fullName.suffix}` : null}
-            </span>
-          ) : null}
-          {/* 
-          {isValid(submitDate) ? (
-            <p>
-              <strong>Date submitted</strong>
-              <br />
-              <span>{format(submitDate, 'MMMM d, yyyy')}</span>
-            </p>
-          ) : null} */}
-          <button
-            type="button"
-            className="usa-button screen-only"
-            onClick={window.print}
-          >
-            Print this for your records
-          </button>
-        </div>
-      </div>
-    );
-  }
-}
-
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    data: PropTypes.shape({
-      fullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
+        </VaAlert>
+      ) : (
+        <VaLink
+          active
+          data-testid=""
+          onClick={() => {
+            // Download form
+            setDownloadedForm(true);
+          }}
+          href=""
+          text="Download your form"
+          aria-label="Download your form"
+        />
+      )}
+      <p>Then, you’ll need to print and sign your form.</p>
+      <VaCheckbox
+        id="signedForm"
+        name="signedForm"
+        class="vads-u-margin-bottom--4"
+        label="I've downloaded, printed, and signed my form"
+        onVaChange={handlers.onChangeSignedFormCheckbox}
+        checked={signedForm}
+        error={
+          signedFormError
+            ? "You must confirm that you've downloaded, printed, and signed your form."
+            : null
+        }
+        required
+      />
+      <VaButton onClick={handlers.onClickContinueButton} text="Continue" />
+    </>
+  );
 };
 
 function mapStateToProps(state) {
