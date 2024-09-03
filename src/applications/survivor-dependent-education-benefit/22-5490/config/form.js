@@ -25,6 +25,7 @@ import PersonalInformation from '../components/PersonalInformation';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
+import FormFooter from '../components/FormFooter';
 
 // const { } = fullSchema.properties;
 
@@ -83,6 +84,7 @@ const formConfig = {
     dateRange,
     usaPhone,
   },
+  footerContent: FormFooter,
   chapters: {
     applicantInformationChapter: {
       title: 'Veteran or Service Member Information',
@@ -254,6 +256,14 @@ const formConfig = {
                         Money for books &amp; supplies
                       </li>
                     </ul>
+
+                    <a
+                      href="https://www.va.gov/education/survivor-dependent-benefits/fry-scholarship/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Fry Scholarship education benefit
+                    </a>
                   </div>
                 </>
               ),
@@ -281,6 +291,14 @@ const formConfig = {
                         Monthly stipened
                       </li>
                     </ul>
+
+                    <a
+                      href="https://www.va.gov/education/survivor-dependent-benefits/dependents-education-assistance/"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Learn more about DEA education benefit
+                    </a>
                   </div>
                   <div>
                     <br />
@@ -305,11 +323,12 @@ const formConfig = {
                       className="fas fa-info-circle vads-u-margin-right--1"
                       aria-hidden="true"
                     />{' '}
-                    <span className="sr-only">information</span> If you’re the
-                    child of a veteran or service member who died in the line of
-                    duty before August 1, 2011 you can use both Fry Scholarship
-                    and DEA and get up to 81 months of benefits. You’ll need to
-                    apply separately and use one program at a time.
+                    <span className="sr-only">Informational Note:</span> If
+                    you’re the child of a veteran or service member who died in
+                    the line of duty before August 1, 2011 you can use both Fry
+                    Scholarship and DEA and get up to 81 months of benefits.
+                    You’ll need to apply separately and use one program at a
+                    time.
                   </span>
                 </>
               ),
