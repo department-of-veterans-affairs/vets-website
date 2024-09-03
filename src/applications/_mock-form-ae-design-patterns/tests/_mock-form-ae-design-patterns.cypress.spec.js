@@ -3,7 +3,7 @@ import path from 'path';
 import testForm from 'platform/testing/e2e/cypress/support/form-tester';
 import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-tester/utilities';
 
-import formConfig from '../config/fallbackForm';
+import formConfig from '../shared/config/fallbackForm';
 import manifest from '../manifest.json';
 
 const testConfig = createTestConfig(
