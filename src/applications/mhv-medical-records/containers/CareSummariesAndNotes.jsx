@@ -18,7 +18,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import { generateNewRecordsIndicator } from '../util/helpers';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -74,6 +74,15 @@ const CareSummariesAndNotes = () => {
     [dispatch],
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    careSummariesAndNotes,
+    updatedRecordList,
+    refreshExtractTypes.VPR,
+    reloadRecords,
+    dispatch,
+  );
+
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
@@ -93,18 +102,10 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(careSummariesAndNotes) &&
-            Array.isArray(updatedRecordList) &&
-            careSummariesAndNotes.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

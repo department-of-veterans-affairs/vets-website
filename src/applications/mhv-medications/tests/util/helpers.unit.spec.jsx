@@ -18,6 +18,7 @@ import {
   createBreadcrumbs,
   pharmacyPhoneNumber,
   sanitizeKramesHtmlStr,
+  generateNewRecordsIndicator,
 } from '../../util/helpers';
 
 describe('Date Format function', () => {
@@ -396,5 +397,43 @@ describe('sanitizeKramesHtmlStr function', () => {
     expect(outputHtml).to.include(
       '<ul><li>Item 1</li></ul><p>Paragraph inside list</p><ul><li>Item 2</li><li>Item 1.1</li><p>Paragraph inside nested list</p></ul>',
     );
+  });
+});
+
+describe('generateNewRecordsIndicator', () => {
+  it('should render NewRecordsIndicator with correct props', () => {
+    const refresh = { status: 'stale' }; // Example refresh state
+    const record = [{ id: 1 }, { id: 2 }]; // Example record list
+    const updatedRecordList = [{ id: 1 }]; // Example updated record list
+    const refreshExtractTypes = { ALLERGY: 'allergy' }; // Example extract types
+    const reloadRecords = sinon.stub(); // Mock function
+    const dispatch = sinon.spy(); // Spy to check if dispatch was called
+
+    const wrapper = shallow(
+      generateNewRecordsIndicator(
+        refresh,
+        record,
+        updatedRecordList,
+        refreshExtractTypes.ALLERGY,
+        reloadRecords,
+        dispatch,
+      ),
+    );
+
+    // Check if NewRecordsIndicator is rendered
+    expect(wrapper.find(NewRecordsIndicator)).to.have.lengthOf(1);
+
+    // Check props
+    const newRecordsIndicatorProps = wrapper.find(NewRecordsIndicator).props();
+    expect(newRecordsIndicatorProps.refreshState).to.equal(refresh);
+    expect(newRecordsIndicatorProps.extractType).to.equal(
+      refreshExtractTypes.ALLERGY,
+    );
+    expect(newRecordsIndicatorProps.newRecordsFound).to.be.true;
+
+    // Trigger reloadFunction
+    newRecordsIndicatorProps.reloadFunction();
+    expect(dispatch.calledOnce).to.be.true;
+    expect(dispatch.calledWith(reloadRecords())).to.be.true;
   });
 });

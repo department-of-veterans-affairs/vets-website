@@ -15,7 +15,7 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import { generateNewRecordsIndicator } from '../util/helpers';
 
 const HealthConditions = () => {
   const dispatch = useDispatch();
@@ -60,6 +60,15 @@ const HealthConditions = () => {
     [dispatch],
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    conditions,
+    updatedRecordList,
+    refreshExtractTypes.VPR,
+    reloadRecords,
+    dispatch,
+  );
+
   return (
     <>
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
@@ -78,18 +87,10 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(conditions) &&
-            Array.isArray(updatedRecordList) &&
-            conditions.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         <va-additional-info
           trigger="About the codes in some condition names"
           class="no-print vads-u-margin-bottom--3"

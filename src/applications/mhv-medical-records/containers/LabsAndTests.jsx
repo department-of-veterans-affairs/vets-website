@@ -16,6 +16,7 @@ import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import { generateNewRecordsIndicator } from '../util/helpers';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,15 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    labsAndTests,
+    updatedRecordList,
+    refreshExtractTypes.CHEM_HEM,
+    reloadRecords,
+    dispatch,
+  );
+
   return (
     <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
@@ -82,18 +92,10 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.CHEM_HEM}
-          newRecordsFound={
-            Array.isArray(labsAndTests) &&
-            Array.isArray(updatedRecordList) &&
-            labsAndTests.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>

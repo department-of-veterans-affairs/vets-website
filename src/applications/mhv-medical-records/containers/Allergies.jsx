@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -26,7 +27,12 @@ import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  generateNewRecordsIndicator,
+} from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -35,7 +41,6 @@ import {
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -96,10 +101,28 @@ const Allergies = props => {
     updatePageTitle,
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    allergies,
+    updatedRecordList,
+    refreshExtractTypes.ALLERGY,
+    reloadRecords,
+    dispatch,
+  );
+
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateAllergiesIntro(allergies);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+
+    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
+    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
+
+    const { title, value, subject, preface } = generateAllergiesIntro(
+      allergies,
+      lastUpdatedIndicator,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -107,9 +130,12 @@ const Allergies = props => {
 
   const generateAllergyListItemTxt = item => {
     setDownloadStarted(true);
+
     return `
+    
 ${txtLine}\n\n
 ${item.name}\n
+
 Date entered: ${item.date}\n
 Signs and symptoms: ${item.reaction}\n
 Type of Allergy: ${item.type}\n
@@ -160,18 +186,10 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.ALLERGY}
-          newRecordsFound={
-            Array.isArray(allergies) &&
-            Array.isArray(updatedRecordList) &&
-            allergies.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}

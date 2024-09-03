@@ -1,9 +1,9 @@
 import { processList } from '../helpers';
 
-export const generateVaccinesIntro = () => {
+export const generateVaccinesIntro = (lastUpdatedIndicator) => {
   return {
     title: 'Vaccines',
-    subject: 'VA Medical Record',
+    subject: 'VA Medical Record\n\n' + lastUpdatedIndicator,
     preface:
       'This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records.',
   };

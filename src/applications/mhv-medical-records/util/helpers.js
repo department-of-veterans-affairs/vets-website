@@ -1,9 +1,11 @@
 import moment from 'moment-timezone';
+import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -417,3 +419,49 @@ export const decodeBase64Report = data => {
   }
   return null;
 };
+
+/**
+ * @function generateNewRecordsIndicator
+ * @description Generates a JSX element that incorporates the `NewRecordsIndicator` component, which checks for and displays updates to the records.
+ * 
+ * @param {object} refresh - The state related to the refresh process.
+ * @param {Array} record - The current list of records.
+ * @param {Array} updatedRecordList - The updated list of records to compare against the original.
+ * @param {object} refreshExtractTypes - An object that contains the extract types related to the refresh process.
+ * @param {function} reloadRecords - The function to trigger the reload of records.
+ * @param {function} dispatch - The dispatch function to send actions to the Redux store.
+ * 
+ * @returns {JSX.Element} - Returns a JSX element containing the `NewRecordsIndicator` component with the appropriate props.
+ */
+export const generateNewRecordsIndicator = (
+  refresh,
+  record, 
+  updatedRecordList, 
+  refreshExtractTypes,
+  reloadRecords, 
+  dispatch,
+  ) => {
+
+  return (
+          <>
+            <NewRecordsIndicator
+              refreshState={refresh}
+              extractType={refreshExtractTypes}
+              newRecordsFound={
+                Array.isArray(record) &&
+                Array.isArray(updatedRecordList) &&
+                record.length !== updatedRecordList.length
+              }
+              reloadFunction={() => {
+                const result = dispatch(reloadRecords());
+                console.log("Result of dispatch(reloadRecords()):", result);
+                return result;
+              }}
+            />
+
+          </>
+  );
+  
+};
+
+

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -32,6 +33,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  generateNewRecordsIndicator,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -41,7 +43,6 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -101,10 +102,27 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    vaccines,
+    updatedRecordList,
+    refreshExtractTypes.VPR,
+    reloadRecords,
+    dispatch,
+  );
+
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro();
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+
+    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
+    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
+
+    const { title, value, subject, preface } = generateVaccinesIntro(
+      lastUpdatedIndicator,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
@@ -161,18 +179,10 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vaccines) &&
-            Array.isArray(updatedRecordList) &&
-            vaccines.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

@@ -21,7 +21,7 @@ import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
+import { generateNewRecordsIndicator } from '../util/helpers';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -71,6 +71,15 @@ const Vitals = () => {
     user.userFullName,
     user.dob,
     updatePageTitle,
+  );
+
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    vitals,
+    updatedRecordList,
+    refreshExtractTypes.VPR,
+    reloadRecords,
+    dispatch,
   );
 
   useEffect(
@@ -128,18 +137,10 @@ const Vitals = () => {
     if (cards?.length) {
       return (
         <>
-          <NewRecordsIndicator
-            refreshState={refresh}
-            extractType={refreshExtractTypes.VPR}
-            newRecordsFound={
-              Array.isArray(vitals) &&
-              Array.isArray(updatedRecordList) &&
-              vitals.length !== updatedRecordList.length
-            }
-            reloadFunction={() => {
-              dispatch(reloadRecords());
-            }}
-          />
+          {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+          component, which checks for and displays updates to the records. */}
+          {RecordsIndicator}
+
           <RecordList
             records={cards}
             type={recordType.VITALS}
