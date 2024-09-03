@@ -37,6 +37,7 @@ describe('MHV Landing Page -- temporary Medical Records page', () => {
 
       await waitFor(() => {
         const goBack1 = getByRole('link', { name: /Go back/ });
+        goBack1.href = '#dummy-link'; // JSDOM does not support navigation
         fireEvent.click(goBack1);
 
         expect(spyDog.called).to.be.true;

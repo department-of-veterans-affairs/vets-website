@@ -8,73 +8,54 @@ import { expect } from 'chai';
 import AppConfig from '../../containers/AppConfig';
 import { appName } from '../../manifest.json';
 
-const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
-  user: {
-    profile: {
-      accountUuid,
-    },
-  },
-});
-
 describe(`${appName} -- <AppConfig />`, () => {
-  it('initializes datadog RUM', () => {
-    const useRumSpy = sinon.spy(datadogRum, 'init');
-
-    const initialState = initialStateFn();
-
-    const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
-        <p>child node</p>
-      </AppConfig>,
-      { initialState },
-    );
-
-    waitFor(() => {
-      getByText('child node');
-
-      // Check that datadogRum methods are called
-      expect(useRumSpy.called).to.be.true;
+  describe('calls datadogRum.setUser', () => {
+    const initialStateFn = ({ accountUuid = 'test-id' } = {}) => ({
+      user: {
+        profile: {
+          accountUuid,
+        },
+      },
     });
 
-    useRumSpy.restore();
-  });
-
-  it('calls datadogRum.setUser when a user id is available', () => {
-    const setRumUserSpy = sinon.spy(datadogRum, 'setUser');
-    const initialState = initialStateFn();
-
-    const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
-        <p>child node</p>
-      </AppConfig>,
-      { initialState },
-    );
-
-    waitFor(() => {
-      getByText('child node');
-      // Check that datadogRum methods are called
-      expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
+    let setRumUserSpy;
+    beforeEach(() => {
+      setRumUserSpy = sinon.spy(datadogRum, 'setUser');
     });
 
-    setRumUserSpy.restore();
-  });
-
-  it('does not call datadogRum.setUser when user id is not available', () => {
-    const setRumUserSpy = sinon.spy(datadogRum, 'setUser');
-    const initialState = initialStateFn({ accountUuid: '' });
-
-    const { getByText } = renderWithStoreAndRouter(
-      <AppConfig>
-        <p>child node</p>
-      </AppConfig>,
-      { initialState },
-    );
-
-    waitFor(() => {
-      getByText('child node');
-      expect(setRumUserSpy.called).to.be.false;
+    afterEach(() => {
+      setRumUserSpy.restore();
     });
 
-    setRumUserSpy.restore();
+    it('when a user id is available', async () => {
+      const initialState = initialStateFn();
+
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+      waitFor(() => {
+        getByText('child node');
+        expect(setRumUserSpy.calledWith({ id: 'test-id' })).to.be.true;
+      });
+    });
+
+    it('when user id is not available', async () => {
+      const initialState = initialStateFn({ accountUuid: '' });
+
+      const { getByText } = renderWithStoreAndRouter(
+        <AppConfig>
+          <p>child node</p>
+        </AppConfig>,
+        { initialState },
+      );
+
+      await waitFor(() => {
+        getByText('child node');
+        expect(setRumUserSpy.called).to.be.false;
+      });
+    });
   });
 });

@@ -100,11 +100,13 @@ describe('MHV Landing Page -- Header Layout', () => {
 
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
+        goBack1.href = '#dummy-link'; // JSDOM does not support navigation
         fireEvent.click(goBack1);
 
         expect(spyDog.called).to.be.true;
 
         const goBack2 = getByTestId('mhv-go-back-2');
+        goBack2.href = '#dummy-link'; // JSDOM does not support navigation
         fireEvent.click(goBack2);
 
         expect(spyDog.calledTwice).to.be.true;
