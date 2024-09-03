@@ -95,7 +95,14 @@ export const ConfirmationPageView = props => {
         )}
         <p>{`Your confirmation number is ${confirmationNumber}`}</p>
       </VaAlert>
-      <div>
+      <div className="print-only">
+        <ChapterSectionCollection
+          chapters={chapters}
+          formData={formData}
+          formConfig={formConfig}
+        />
+      </div>
+      <div className="screen-only">
         <h2>Save a copy of your form</h2>
         <p>If you’d like a copy of your completed form, you can download it.</p>
         <VaAccordion bordered uswds>
