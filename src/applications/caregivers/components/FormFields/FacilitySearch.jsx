@@ -11,26 +11,58 @@ import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
   const [query, setQuery] = useState('');
+  const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [facilities, setFacilities] = useState([]);
 
   const facilityListProps = useMemo(
     () => {
+      const caregiverSupport = async facility => {
+        const offersCaregiverSupport = facility.services?.health?.some(
+          service => service.serviceId === 'caregiverSupport',
+        );
+
+        if (offersCaregiverSupport) {
+          return facility;
+        }
+
+        const loadedParent = facilities.find(
+          entry => entry.id === facility.parent.id,
+        );
+        if (loadedParent) {
+          return loadedParent;
+        }
+
+        const parentFacilityResponse = await fetchFacilities({
+          id: facility.parent.id,
+        });
+        if (parentFacilityResponse.errorMessage) {
+          setError(parentFacilityResponse.errorMessage);
+          return null;
+        }
+
+        return parentFacilityResponse;
+      };
+
       const { onChange, ...restOfProps } = props;
-      const setSelectedFacilities = facilityId => {
+      const setSelectedFacilities = async facilityId => {
         const facility = facilities.find(f => f.id === facilityId);
-        onChange({ veteranSelected: facility });
+        const caregiverSupportFacility = await caregiverSupport(facility);
+        onChange({
+          veteranSelected: facility,
+          caregiverSupport: caregiverSupportFacility,
+        });
       };
       return {
         ...restOfProps,
         value: restOfProps?.formData?.veteranSelected?.id,
         onChange: setSelectedFacilities,
         facilities,
-        query,
+        query: submittedQuery,
       };
     },
-    [facilities, props, query],
+    [facilities, submittedQuery, props],
   );
 
   const handleChange = e => {
@@ -66,6 +98,7 @@ const FacilitySearch = props => {
     }
 
     setFacilities(facilitiesResponse);
+    setSubmittedQuery(query);
     setLoading(false);
   };
 
@@ -87,7 +120,7 @@ const FacilitySearch = props => {
 
   return (
     <>
-      <va-card role="search">
+      <va-card role="search" background>
         <label
           htmlFor="facility-search"
           id="facility-search-label"

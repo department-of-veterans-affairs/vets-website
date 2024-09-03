@@ -163,7 +163,7 @@ const AppointmentDetails = props => {
         });
         break;
       case 'vvc':
-        title = t('video-appointment--title');
+        title = t('#-util-capitalize', { value: t('video-appointment') });
         break;
       default:
         title = t('in-person-appointment');
@@ -293,11 +293,19 @@ const AppointmentDetails = props => {
                     <p>{t('some-appointment-information-not-available')}</p>
                     {/* Slotted p tags can't have margin for some reason. */}
                     <br />
-                    <p>{t('find-all-appointment-information')}</p>
+                    {app === APP_NAMES.PRE_CHECK_IN ? (
+                      <p data-testid="pre-check-in-info">
+                        {t('find-all-appointment-information-pre-check-in')}
+                      </p>
+                    ) : (
+                      <p data-testid="check-in-info">
+                        {t('find-all-appointment-information-check-in')}
+                      </p>
+                    )}
                   </va-alert-expandable>
                 )}
               {app === APP_NAMES.PRE_CHECK_IN &&
-                !getPreCheckinComplete(window)?.complete && (
+                link && (
                   <>
                     <h2 className="vads-u-font-size--sm">
                       {t('review-contact-information')}
@@ -337,16 +345,16 @@ const AppointmentDetails = props => {
                     data-testid="appointment-details--facility-value"
                   >
                     {appointment.facility}
-                    {appointment.facilityAddress?.street1 && (
-                      <div className="vads-u-margin-bottom--2">
-                        <AddressBlock
-                          address={appointment.facilityAddress}
-                          placeName={appointment.facility}
-                          showDirections
-                        />
-                      </div>
-                    )}
                   </p>
+                  {appointment.facilityAddress?.street1 && (
+                    <div className="vads-u-margin-bottom--2">
+                      <AddressBlock
+                        address={appointment.facilityAddress}
+                        placeName={appointment.facility}
+                        showDirections
+                      />
+                    </div>
+                  )}
                 </div>
               )}
               {(isPhoneAppointment || isVvcAppointment) && (

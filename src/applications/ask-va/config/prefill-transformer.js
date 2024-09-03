@@ -1,40 +1,40 @@
 import _ from 'platform/utilities/data';
 
 // Adding mock prefill data for research-testing
-const mockPrefillData = {
-  personalInformation: {
-    first: 'Jason',
-    last: 'Todd',
-    suffix: 'Jr.',
-    preferredName: 'Robin',
-    socialSecurityNumber: '123456987',
-    serviceNumber: '11111111',
-    dateOfBirth: '1999-08-16',
-  },
-  contactInformation: {
-    email: 'j.todd@redhood.com',
-    phone: '4445551212',
-    address: {
-      street: '49119 Wayne Manor',
-      city: 'Gotham',
-      state: 'IL',
-      country: 'USA',
-      postalCode: '86360',
-    },
-  },
-  avaProfile: {
-    schoolInfo: { schoolFacilityCode: '12345678', schoolName: 'Fake School' },
-    businessPhone: '1234567890',
-    businessEmail: 'fake@company.com',
-  },
-  veteranServiceInformation: {
-    branchOfService: 'Army',
-    serviceDateRange: {
-      from: '2012-03-02',
-      to: '2018-10-31',
-    },
-  },
-};
+// const mockPrefillData = {
+//   personalInformation: {
+//     first: 'Jason',
+//     last: 'Todd',
+//     suffix: 'Jr.',
+//     preferredName: 'Robin',
+//     socialSecurityNumber: '123456987',
+//     serviceNumber: '11111111',
+//     dateOfBirth: '1999-08-16',
+//   },
+//   contactInformation: {
+//     email: 'j.todd@redhood.com',
+//     phone: '4445551212',
+//     address: {
+//       street: '49119 Wayne Manor',
+//       city: 'Gotham',
+//       state: 'IL',
+//       country: 'USA',
+//       postalCode: '86360',
+//     },
+//   },
+//   avaProfile: {
+//     schoolInfo: { schoolFacilityCode: '12345678', schoolName: 'Fake School' },
+//     businessPhone: '1234567890',
+//     businessEmail: 'fake@company.com',
+//   },
+//   veteranServiceInformation: {
+//     branchOfService: 'Army',
+//     serviceDateRange: {
+//       from: '2012-03-02',
+//       to: '2018-10-31',
+//     },
+//   },
+// };
 
 export default function prefillTransformer(pages, formData, metadata) {
   const prefillPersonalInformation = data => {
@@ -135,7 +135,7 @@ export default function prefillTransformer(pages, formData, metadata) {
 
   return {
     metadata,
-    formData: transformations.reduce(applyTransformations, mockPrefillData),
+    formData: transformations.reduce(applyTransformations, formData),
     pages,
   };
 }

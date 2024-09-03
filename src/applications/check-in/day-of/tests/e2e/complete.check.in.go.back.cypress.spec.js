@@ -123,8 +123,67 @@ describe('Check In Experience | Day Of |', () => {
 
       UpcomingAppointmentsPage.validatePageLoaded();
       UpcomingAppointmentsPage.validateUpcomingAppointmentsList();
+      cy.createScreenshots('Day-of-check-in--Pages--Upcoming-Appointments');
+      cy.injectAxeThenAxeCheck();
+    });
+  });
+  describe('Patient who completes check-in and navigates back to upcoming appointments but has none', () => {
+    const {
+      initializeFeatureToggle,
+      initializeSessionGet,
+      initializeSessionPost,
+      initializeUpcomingAppointmentsDataGet,
+      initializeCheckInDataGet,
+      initializeCheckInDataPost,
+    } = ApiInitializer;
+    beforeEach(() => {
+      const appointments = [
+        {
+          appointmentIen: '0001',
+        },
+      ];
+      initializeFeatureToggle.withAllFeatures();
+      initializeSessionGet.withSuccessfulNewSession();
+      initializeSessionPost.withValidation();
+      initializeUpcomingAppointmentsDataGet.withSuccess({
+        uuid: '34de41ed-014c-4734-a4a4-3a4738f5e0d8',
+      });
+      initializeCheckInDataGet.withSuccessAndUpdate({
+        appointments,
+        demographicsNeedsUpdate: false,
+        demographicsConfirmedAt: dateFns.format(
+          new Date(),
+          "yyyy-LL-dd'T'HH:mm:ss",
+        ),
+        nextOfKinNeedsUpdate: false,
+        nextOfKinConfirmedAt: dateFns.format(
+          new Date(),
+          "yyyy-LL-dd'T'HH:mm:ss",
+        ),
+        emergencyContactNeedsUpdate: false,
+        emergencyContactConfirmedAt: dateFns.format(
+          new Date(),
+          "yyyy-LL-dd'T'HH:mm:ss",
+        ),
+      });
+      initializeCheckInDataPost.withSuccess();
+      cy.visitWithUUID();
+      ValidateVeteran.validateVeteran();
+      ValidateVeteran.attemptToGoToNextPage();
+      AppointmentsPage.validatePageLoaded();
+      AppointmentsPage.attemptCheckIn();
+      Arrived.validateArrivedPage();
+      Arrived.attemptToGoToNextPage();
+      TravelPages.validatePageLoaded();
+      TravelPages.attemptToGoToNextPage('no');
+      Confirmation.validatePageLoaded();
+    });
+    it('should see a list of upcoming appointments', () => {
+      Confirmation.attemptGoBackToUpcomingAppointments();
+
+      UpcomingAppointmentsPage.validatePageLoaded();
       cy.createScreenshots(
-        'Day-of-check-in--Pages--Upcoming-Appointments-from-confirmation',
+        'Day-of-check-in--Pages--Upcoming-Appointments--no-appointments',
       );
       cy.injectAxeThenAxeCheck();
     });
