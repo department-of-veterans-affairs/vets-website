@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import {
-  VaAlert,
   VaButton,
   VaCheckbox,
   VaIcon,
@@ -10,23 +9,12 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const ConfirmationPage = () => {
-  const [downloadedForm, setDownloadedForm] = useState(false);
-  const [downloadedFormError, setDownloadedFormError] = useState(false);
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
 
-  useEffect(() => {
-    const downloaded = localStorage.getItem('downloadedForm');
-
-    if (downloaded !== null) {
-      setDownloadedForm(JSON.parse(downloaded));
-    }
-  }, []);
-
   const handlers = {
-    onClickDownloadForm: () => {
-      setDownloadedForm(true);
-      localStorage.setItem('downloadedForm', true);
+    onClickDownloadForm: e => {
+      e.preventDefault();
     },
     onChangeSignedFormCheckbox: () => {
       setSignedForm(prevState => !prevState);
@@ -34,12 +22,7 @@ export const ConfirmationPage = () => {
       if (signedFormError) setSignedFormError(false);
     },
     onClickContinueButton: () => {
-      if (!downloadedForm && !signedForm) {
-        setDownloadedFormError(true);
-        setSignedFormError(true);
-      } else if (!downloadedForm) {
-        setDownloadedFormError(true);
-      } else if (!signedForm) {
+      if (!signedForm) {
         setSignedFormError(true);
       } else {
         // Go to instructions page
@@ -47,8 +30,10 @@ export const ConfirmationPage = () => {
     },
   };
 
-  const downloadLink = (
+  return (
     <>
+      <h2>Download, print, and sign your form</h2>
+      <p>First, you’ll need to download your form.</p>
       <VaIcon
         size={3}
         icon="file_download"
@@ -61,21 +46,6 @@ export const ConfirmationPage = () => {
         text="Download your form"
         aria-label="Download your form"
       />
-    </>
-  );
-
-  return (
-    <>
-      <h2>Download, print, and sign your form</h2>
-      <p>First, you’ll need to download your form.</p>
-      {downloadedFormError ? (
-        <VaAlert status="error">
-          <h3 slot="headline">You must download your form</h3>
-          {downloadLink}
-        </VaAlert>
-      ) : (
-        downloadLink
-      )}
       <p>Then, you’ll need to print and sign your form.</p>
       <VaCheckbox
         id="signedForm"
