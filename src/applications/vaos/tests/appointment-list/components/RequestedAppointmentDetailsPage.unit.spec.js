@@ -20,7 +20,6 @@ import {
   renderWithStoreAndRouter,
 } from '../../mocks/setup';
 
-// TODO: Delete this test suite since these test cases are now covered by VARequestLayout.unit.spec
 describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
   const testDate = getTestDate();
 
@@ -65,7 +64,6 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
     const detailLinks = await screen.findByRole('link', { name: /Details/i });
 
     fireEvent.click(detailLinks);
-    screen.debug(null, 10000);
     expect(await screen.findByText('Request for appointment')).to.be.ok;
     expect(
       screen.getByText('Back to pending appointments').getAttribute('href'),

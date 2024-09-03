@@ -17,7 +17,6 @@ import {
 import { mockFacilitiesFetch } from '../../../mocks/fetch';
 import MockAppointmentResponse from '../../../e2e/fixtures/MockAppointmentResponse';
 
-// TODO: Delete this test suite since these test cases are now covered by the various direct schedule appointment layouts.
 describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
   const initialState = {
     featureToggles: {
