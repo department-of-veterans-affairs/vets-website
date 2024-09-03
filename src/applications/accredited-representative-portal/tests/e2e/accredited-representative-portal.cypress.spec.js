@@ -10,26 +10,15 @@ const vamcUser = {
   },
 };
 
-const arpUserLOA3 = {
-  ...user,
-  login: {
-    currentlyLoggedIn: true,
-  },
-};
-
 Cypress.Commands.add('loginArpUser', () => {
   cy.intercept('GET', '**/accredited_representative_portal/v0/user', {
     statusCode: 200,
-    body: arpUserLOA3,
+    body: user,
   }).as('fetchUser');
 });
 
 const setUpInterceptsAndVisit = featureToggles => {
   cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
-  cy.intercept('GET', 'http://localhost:3000/v0/user', {
-    statusCode: 200,
-    body: {},
-  }).as('getUser');
   setFeatureToggles(featureToggles);
   cy.visit('/representative');
   cy.injectAxe();
