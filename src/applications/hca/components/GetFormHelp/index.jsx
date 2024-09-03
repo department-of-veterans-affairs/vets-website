@@ -12,14 +12,14 @@ const GetFormHelp = () => (
     </p>
     <p className="help-talk">
       <strong>
-        If you need help to gather your information or fill out your
-        application,{' '}
-      </strong>
+        If you need help gathering your information or filling out your
+        application/form,
+      </strong>{' '}
+      you can appoint a VA accredited representative.{' '}
       <va-link
-        href="/vso/"
-        text="contact a local Veterans Service Organization (VSO)"
+        href="/get-help-from-accredited-representative/"
+        text="Get help filling out a form"
       />
-      .
     </p>
     <p className="help-talk">
       <strong>If you have questions about VA health care,</strong> call our

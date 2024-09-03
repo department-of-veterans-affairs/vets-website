@@ -14,7 +14,6 @@ export const uiSchema = {
       checkboxObjectName="gulfWar2001"
       checkboxDefinitions={GULF_WAR_2001_LOCATIONS}
       datesObjectName="gulfWar2001Details"
-      goBackDescription="go back and edit locations and dates for service post-9/11"
       goBackUrlPath={`${TE_URL_PREFIX}/gulf-war-2001`}
     />
   ),

@@ -1,11 +1,8 @@
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import VaCheckboxField from '~/platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
   arrayBuilderYesNoUI,
-  currentOrPastMonthYearDateRangeSchema,
-  currentOrPastMonthYearDateRangeUI,
   descriptionUI,
   selectSchema,
   selectUI,
@@ -19,13 +16,11 @@ import {
   characterOfDischargeOptions,
   explanationRequired,
 } from '../../constants/options';
-import { formatReviewDate } from '../helpers/formatReviewDate';
-
-const getDateRange = item => {
-  return `${formatReviewDate(item?.dateRange?.from)} - ${
-    item?.currentlyServing ? 'Present' : formatReviewDate(item?.dateRange?.to)
-  }`;
-};
+import { createDateRangeText } from '../helpers/createDateRangeText';
+import {
+  dateRangeWithCurrentCheckboxSchema,
+  dateRangeWithCurrentCheckboxUI,
+} from '../helpers/dateRangeWithCurrentCheckboxPattern';
 
 const requireExplanation = characterOfDischarge =>
   explanationRequired.includes(characterOfDischarge);
@@ -46,7 +41,7 @@ const arrayBuilderOptions = {
       !item?.explanationOfDischarge),
   text: {
     getItemName: item => item?.branch,
-    cardDescription: item => getDateRange(item),
+    cardDescription: item => createDateRangeText(item, 'currentlyServing'),
   },
 };
 
@@ -71,47 +66,21 @@ const branchAndDateRangePage = {
       nounSingular: arrayBuilderOptions.nounSingular,
     }),
     branch: selectUI('Branch of service'),
-    dateRange: currentOrPastMonthYearDateRangeUI(
-      {
-        title: 'Service start date',
-        hint: 'For example: January 2000',
-      },
-      {
-        title: 'Service end date',
-        hint: 'For example: January 2000',
-        hideIf: (formData, index) =>
-          formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-        required: (formData, index) =>
-          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-      },
-    ),
-    'view:dateRangeEndDateLabel': {
-      'ui:description': 'Service end date',
-      'ui:options': {
-        hideIf: (formData, index) =>
-          !formData?.militaryServiceExperiences?.[index]?.currentlyServing,
-      },
-    },
-    currentlyServing: {
-      'ui:title': 'I am currently serving in this military service experience.',
-      'ui:webComponentField': VaCheckboxField,
-    },
+    ...dateRangeWithCurrentCheckboxUI({
+      fromLabel: 'Service start date',
+      toLabel: 'Service end date',
+      currentLabel:
+        'I am currently serving in this military service experience.',
+      currentKey: 'currentlyServing',
+      isCurrentChecked: (formData, index) =>
+        formData?.militaryServiceExperiences?.[index]?.currentlyServing,
+    }),
   },
   schema: {
     type: 'object',
     properties: {
       branch: selectSchema(branchOptions),
-      dateRange: {
-        ...currentOrPastMonthYearDateRangeSchema,
-        required: ['from'],
-      },
-      'view:dateRangeEndDateLabel': {
-        type: 'object',
-        properties: {},
-      },
-      currentlyServing: {
-        type: 'boolean',
-      },
+      ...dateRangeWithCurrentCheckboxSchema('currentlyServing'),
     },
     required: ['branch'],
   },
