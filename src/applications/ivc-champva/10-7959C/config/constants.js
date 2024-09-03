@@ -25,8 +25,6 @@ export const officeAddress = (
     P.O. Box 469063
     <br />
     Denver, CO 80246-9063
-    <br />
-    United States of America
   </>
 );
 export const officeFaxNum = '3033317808';
