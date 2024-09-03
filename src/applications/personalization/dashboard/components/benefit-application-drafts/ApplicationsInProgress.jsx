@@ -7,8 +7,8 @@ import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
-  isSIPEnabledFormV2,
-  presentableFormIDsV2,
+  isSIPEnabledForm,
+  presentableFormIDs,
   sipFormSorter,
   normalizeSubmissionStatus,
 } from '~/applications/personalization/dashboard/helpers';
@@ -32,7 +32,7 @@ const ApplicationsInProgress = ({
   const verifiedSavedForms = useMemo(
     () =>
       savedForms
-        .filter(isSIPEnabledFormV2)
+        .filter(isSIPEnabledForm)
         .filter(filterOutExpiredForms)
         .sort(sipFormSorter),
     [savedForms],
@@ -108,7 +108,7 @@ const ApplicationsInProgress = ({
                   const formTitle = `application for ${
                     MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
                   }`;
-                  const presentableFormId = presentableFormIDsV2[formId];
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated } = form || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -166,7 +166,7 @@ const ApplicationsInProgress = ({
                   const formTitle = `application for ${
                     MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
                   }`;
-                  const presentableFormId = presentableFormIDsV2[formId];
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated, expiresAt } = form.metadata || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
