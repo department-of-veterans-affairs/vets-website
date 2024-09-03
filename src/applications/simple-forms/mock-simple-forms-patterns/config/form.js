@@ -83,6 +83,14 @@ const formConfig = {
   },
   title: 'Simple Forms Patterns',
   defaultDefinitions: commonDefinitions,
+  additionalRoutes: [
+    {
+      path: 'confirmation-page-new',
+      pageKey: 'confirmation-page-new',
+      component: NewConfirmationPage,
+      depends: () => false,
+    },
+  ],
   chapters: {
     chapterSelect: {
       title: 'Chapter Select',
@@ -351,20 +359,6 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
-      },
-    },
-    staticPages: {
-      title: 'Static Pages',
-      pages: {
-        confirmationPageNew: {
-          path: 'confirmation-page-new',
-          title: 'New Confirmation Page',
-          CustomPage: NewConfirmationPage,
-          uiSchema: mockCustomPage.uiSchema,
-          schema: mockCustomPage.schema,
-          pageKey: 'confirmation-page-new',
-          depends: () => false,
-        },
       },
     },
   },

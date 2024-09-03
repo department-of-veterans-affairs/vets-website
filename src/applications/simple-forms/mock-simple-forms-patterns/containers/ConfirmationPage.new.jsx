@@ -12,7 +12,7 @@ const content = {
   ),
 };
 
-const ConfirmationPage = () => {
+const ConfirmationPage = props => {
   const form = {
     data: { veteran: { fullName: { first: 'John', last: 'Veteran' } } },
     submission: {
@@ -21,13 +21,12 @@ const ConfirmationPage = () => {
     },
   };
   const { timestamp, response = {} } = form.submission;
-  const submitterFullName = form.data?.veteran?.fullName;
 
   return (
     <ConfirmationPageView
       formType="submission"
-      submitterHeader="Who submitted this form"
-      submitterName={submitterFullName}
+      // formName
+      formConfig={props.route.formConfig}
       submitDate={timestamp}
       confirmationNumber={response.confirmationNumber}
       content={content}
