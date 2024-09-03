@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -104,6 +105,13 @@ const ResponseInboxPage = () => {
     getInquiryData();
   }, []);
 
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [loading],
+  );
+
   // render loading indicator while we fetch
   if (loading) {
     return (
@@ -115,7 +123,7 @@ const ResponseInboxPage = () => {
     <div className="row vads-u-padding-x--1">
       <BreadCrumbs currentLocation={location.pathname} />
       <div className="usa-width-two-thirds medium-8 columns vads-u-padding--0">
-        <h1 className="">{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
+        <h1>{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
         <dl className="dashboard-dl">
           <div className="vads-u-margin-bottom--1p5">
             <dt className="sr-only">Status</dt>
@@ -185,7 +193,10 @@ const ResponseInboxPage = () => {
           </button>
         </div>
 
-        <hr className="vads-u-border-color--gray-lightest" />
+        <hr
+          role="presentation"
+          className="vads-u-border-color--gray-lightest"
+        />
         {inquiryData.attributes.reply.data.length === 0 ? (
           <div className="no-messages">
             {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
@@ -202,6 +213,7 @@ const ResponseInboxPage = () => {
                   header={message.modifiedOn}
                   subHeader={getReplySubHeader(message.messageType)}
                   open={inquiryData.attributes.reply.data.length - 1 === ix}
+                  level={3}
                 >
                   <p className="vads-u-margin--0">{message.attributes.reply}</p>
                   {message.attributes.attachmentNames.length > 0 && (

@@ -5,6 +5,7 @@ import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import footerContent from 'platform/forms/components/FormFooter';
 import getHelp from '../components/GetFormHelp';
 import PreSubmitInfo from '../containers/PreSubmitInfo';
+import { submitHandler } from '../utils/helpers';
 
 import manifest from '../manifest.json';
 
@@ -35,13 +36,12 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submit: submitHandler,
   trackingPrefix: 'benefit-eligibility-questionnaire-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
-  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill',
+  stepLabels: 'Goals;Service;Separation;Discharge;Disability;GI Bill;Review',
   formId: 'T-QSTNR',
   customText: {
     submitButtonText: 'Submit',
@@ -104,20 +104,20 @@ const formConfig = {
     chapter2: {
       title: 'Service',
       pages: {
-        militaryService: {
-          path: 'military-service',
-          title: 'Military Service',
-          uiSchema: militaryService.uiSchema,
-          schema: militaryService.schema,
-        },
         militaryServiceTimeServed: {
-          path: 'military-service/time-served',
+          path: 'service/time-served',
           title: 'Military Service Time Served',
           uiSchema: militaryServiceTimeServed.uiSchema,
           schema: militaryServiceTimeServed.schema,
         },
+        militaryService: {
+          path: 'service/current',
+          title: 'Military Service',
+          uiSchema: militaryService.uiSchema,
+          schema: militaryService.schema,
+        },
         militaryServiceCompleted: {
-          path: 'military-service/completed',
+          path: 'service/completed',
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
@@ -139,7 +139,7 @@ const formConfig = {
       title: 'Character of Discharge',
       pages: {
         characterOfDischarge: {
-          path: 'character-of-discharge',
+          path: 'discharge',
           title: 'Character of Discharge',
           uiSchema: characterOfDischarge.uiSchema,
           schema: characterOfDischarge.schema,
@@ -150,7 +150,7 @@ const formConfig = {
       title: 'Disability',
       pages: {
         disabilityRating: {
-          path: 'disability-rating',
+          path: 'disability',
           title: 'Disability Rating',
           uiSchema: disabilityRating.uiSchema,
           schema: disabilityRating.schema,
@@ -161,7 +161,7 @@ const formConfig = {
       title: 'GI Bill Status',
       pages: {
         giBillStatus: {
-          path: 'gi-bill-status',
+          path: 'gi-bill',
           title: 'GI Bill Status',
           uiSchema: giBillStatus.uiSchema,
           schema: giBillStatus.schema,
