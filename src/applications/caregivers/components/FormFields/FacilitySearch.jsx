@@ -127,7 +127,8 @@ const FacilitySearch = props => {
     setPages(1);
   };
 
-  const showMoreFacilities = async () => {
+  const showMoreFacilities = async e => {
+    e.preventDefault();
     setLoadingMoreFacilities(true);
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
@@ -166,7 +167,14 @@ const FacilitySearch = props => {
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
-          <button onClick={showMoreFacilities}>more facilities</button>
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a
+            href="#"
+            onClick={showMoreFacilities}
+            aria-label="page 1, first page"
+          >
+            +[5] more facilities
+          </a>
         </>
       );
     }
@@ -232,8 +240,8 @@ const FacilitySearch = props => {
 };
 
 FacilitySearch.propTypes = {
-  value: PropTypes.string,
   data: PropTypes.object,
+  value: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
