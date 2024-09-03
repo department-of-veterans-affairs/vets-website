@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React, { useState } from 'react';
 import recordEvent from '~/platform/monitoring/record-event';
 
@@ -24,13 +23,14 @@ export const MobileOfficialGovtWebsite = () => {
           className="header-us-flag vads-u-margin-right--1"
           src="https://www.va.gov/img/tiny-usa-flag.png"
         />
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           data-testid="official-govt-website-toggle-mobile"
           aria-controls="official-govt-site-explanation"
           aria-expanded={expanded ? 'true' : 'false'}
           className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none vads-u-display--flex vads-u-align-items--center"
           onClick={onToggle}
+          type="button"
         >
           An official website of the United States government.
           <svg

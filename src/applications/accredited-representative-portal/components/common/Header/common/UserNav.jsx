@@ -78,7 +78,7 @@ const UserNav = ({ isMobile }) => {
   } else if (profile) {
     content = (
       <div className="va-dropdown" ref={dropdownRef}>
-        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+        {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
         <button
           data-testid="user-nav-dropdown-panel-button"
           className="sign-in-drop-down-panel-button va-btn-withicon va-dropdown-trigger"

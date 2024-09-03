@@ -37,11 +37,6 @@ const Footer = () => {
               <a href="https://va.gov/accessibility-at-va">Accessibility</a>
             </li>
             <li>
-              <a href="https://va.gov/resources/your-civil-rights-and-how-to-file-a-discrimination-complaint/">
-                Civil Rights
-              </a>
-            </li>
-            <li>
               <a href="https://department.va.gov/foia/">
                 Freedom of Information Act (FOIA)
               </a>
@@ -65,6 +60,14 @@ const Footer = () => {
               </a>
             </li>
           </ul>
+        </div>
+        <div className="usa-grid usa-grid-full">
+          <p>
+            Looking for U.S. government information and services? Visit{' '}
+            <a className="vads-u-color--white" href="https://usa.gov">
+              USA.gov
+            </a>
+          </p>
         </div>
       </div>
     </footer>
