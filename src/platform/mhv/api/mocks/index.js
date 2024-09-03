@@ -81,6 +81,8 @@ const responses = {
   'DELETE /my_health/v1/messaging/messages/:id': drafts.deleteDraft,
   'POST /my_health/v1/messaging/message_drafts/:replyId/replydraft':
     drafts.saveReply,
+  'PUT /my_health/v1/messaging/message_drafts/:replyId/replydraft/:messageId':
+    drafts.saveReply,
   'GET /my_health/v1/messaging/folders': folders.allFolders,
   'GET /my_health/v1/messaging/folders/:index': folders.oneFolder,
   'POST /my_health/v1/messaging/folders': folders.newFolder,
