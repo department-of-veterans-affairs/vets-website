@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { VaSearchInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { setData } from 'platform/forms-system/src/js/actions';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import { focusElement } from 'platform/utilities/ui';
 import { fetchMapBoxGeocoding } from '../../actions/fetchMapBoxGeocoding';
 import { fetchFacilities } from '../../actions/fetchFacilities';
 import FacilityList from './FacilityList';
@@ -125,6 +126,7 @@ const FacilitySearch = props => {
     setSubmittedQuery(query);
     setLoading(false);
     setPages(1);
+    focusElement('#caregiver_facility_results');
   };
 
   const showMoreFacilities = async e => {
@@ -240,10 +242,10 @@ const FacilitySearch = props => {
 };
 
 FacilitySearch.propTypes = {
-  data: PropTypes.object,
-  value: PropTypes.string,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  data: PropTypes.object,
+  value: PropTypes.string,
 };
 
 export default FacilitySearch;

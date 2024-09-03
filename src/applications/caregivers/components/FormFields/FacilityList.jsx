@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
@@ -49,12 +48,12 @@ const FacilityList = props => {
     />
   ));
 
-  useEffect(
-    () => {
-      focusElement('#caregiver_facility_results');
-    },
-    [facilities],
-  );
+  // useEffect(
+  //   () => {
+  //     focusElement('#caregiver_facility_results');
+  //   },
+  //   [facilities],
+  // );
 
   if (reviewMode) {
     return (
