@@ -44,17 +44,17 @@ export function useVaDateCommon(props) {
     return Number(vals.month) < 1 || Number(vals.month) > 12;
   };
 
-  const isMonthNotNumbers = (vals = {}) => {
-    return isNaN(vals.month);
-  };
+  // const isMonthNotNumbers = (vals = {}) => {
+  //   return isNaN(vals.month);
+  // };
 
   const isDayInvalid = (vals = {}) => {
     return Number(vals.month) < 1 || Number(vals.month) > 12;
   };
 
-  const isDayNotNumbers = (vals = {}) => {
-    return isNaN(vals.day);
-  };
+  // const isDayNotNumbers = (vals = {}) => {
+  //   return isNaN(vals.day);
+  // };
 
   const currentYear = () => {
     return moment().year();
@@ -98,16 +98,21 @@ export function useVaDateCommon(props) {
       setErrorVal('Enter a valid day');
     }
 
-    if (
-      isMonthNotNumbers(newValues) ||
-      isDayNotNumbers(newValues) ||
-      isYearNotNumbers(newValues)
-    ) {
-      setErrorVal('Input numbers only');
-    }
-
     if (isDateInvalid(newValues)) {
       setErrorVal('Please provide a valid current or past date');
+    }
+
+    // if (
+    //   isMonthNotNumbers(newValues) ||
+    //   isDayNotNumbers(newValues) ||
+    //   isYearNotNumbers(newValues)
+    // ) {
+    //   setErrorVal('Input numbers only');
+    // }
+
+    if (isYearNotNumbers(newValues)) {
+      newValues.year = '0';
+      setValues(newValues);
     }
   }
 
