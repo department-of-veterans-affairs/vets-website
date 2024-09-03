@@ -20,7 +20,7 @@ describe(`${appName} -- <AppConfig />`, () => {
     },
   });
 
-  it('initializes datadog RUM', async () => {
+  it('initializes datadog RUM', () => {
     const useRumSpy = sinon.spy(useDatadogRum);
     const initialState = initialStateFn();
 
