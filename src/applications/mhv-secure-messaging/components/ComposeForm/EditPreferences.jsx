@@ -17,7 +17,6 @@ const EditPreferences = () => {
           handleModalClose();
         }}
       />
-
       <button
         ref={editPreferencesButtonRef}
         id="edit-preferences-button"

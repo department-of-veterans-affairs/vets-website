@@ -46,7 +46,12 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             HealtheVet coordinator or secure messaging administrator.
           </p>
 
-          <a href="/find-locations/">Find your nearest VA health facility</a>
+          <a
+            href="/find-locations/"
+            data-dd-action-name="Find your nearest VA health facility link in accordion"
+          >
+            Find your nearest VA health facility
+          </a>
 
           <h4>Getting replies from different providers</h4>
           <p>
@@ -92,8 +97,8 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           <ul>
             <li>
               <strong>If you think your life or health is in danger, </strong>{' '}
-              call <va-telephone contact="911" /> or go to the nearest emergency
-              room.
+              call <va-telephone contact="911" data-dd-action-name="911 link" />
+              or go to the nearest emergency room.
             </li>
           </ul>
         </va-accordion-item>
@@ -131,7 +136,12 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
           </p>
           <p>
             Edit your preferences on{' '}
-            <a href={prefLink} target="_blank" rel="noreferrer">
+            <a
+              href={prefLink}
+              target="_blank"
+              rel="noreferrer"
+              data-dd-action-name="My HealtheVet (opens in new tab) link in accordion"
+            >
               My HealtheVet (opens in new tab)
             </a>
           </p>
@@ -163,7 +173,10 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
             dispute the charges. You’ll need to dispute charges within{' '}
             <strong>30 days</strong> of receiving your copay bill.
           </p>
-          <a href="/health-care/pay-copay-bill/dispute-charges/">
+          <a
+            href="/health-care/pay-copay-bill/dispute-charges/"
+            data-dd-action-name="Learn how to dispute your VA copay charges link in accordion"
+          >
             Learn how to dispute your VA copay charges
           </a>
         </va-accordion-item>
@@ -247,13 +260,18 @@ const FrequentlyAskedQuestions = ({ prefLink }) => {
               <va-button
                 secondary="true"
                 text="Connect with the Veterans Crisis Line"
+                data-dd-action-name="Connect with the Veterans Crisis Line button in accordion"
                 onClick={openCrisisModal}
               />
             </li>
             <li>
               <strong>If you think your life or health is in danger, </strong>{' '}
-              call <va-telephone contact="911" /> or go to the nearest emergency
-              room.
+              call
+              <va-telephone
+                contact="911"
+                data-dd-action-name="911 link in accordion"
+              />
+              or go to the nearest emergency room.
             </li>
           </ul>
         </va-accordion-item>

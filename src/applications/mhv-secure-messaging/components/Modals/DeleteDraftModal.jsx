@@ -11,6 +11,11 @@ const DeleteDraftModal = props => {
       data-testid={`delete-draft-modal${
         draftSequence ? `-${draftSequence}` : ''
       }`}
+      data-dd-action-name={` ${
+        unsavedDraft
+          ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
+          : Prompts.Draft.DELETE_DRAFT_CONFIRM
+      } Modal${draftSequence ? ` ${draftSequence} Closed` : ' Closed'}`}
       modalTitle={
         unsavedDraft
           ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
@@ -29,6 +34,9 @@ const DeleteDraftModal = props => {
         <va-button
           id="delete-draft"
           data-testid="confirm-delete-draft"
+          data-dd-action-name={`Confirm Delete Draft Button ${
+            draftSequence ? ` ${draftSequence}` : ''
+          }`}
           class="vads-u-padding-right--0 vads-u-padding-bottom--1p5 small-screen:vads-u-padding-right--2 small-screen:vads-u-padding-bottom--0"
           text="Delete draft"
           onClick={props.onDelete}
@@ -36,6 +44,9 @@ const DeleteDraftModal = props => {
         <va-button
           id="delete-cancel"
           data-testid="cancel-delete-draft"
+          data-dd-action-name={`Cancel Delete Draft Button ${
+            draftSequence ? ` ${draftSequence}` : ''
+          }`}
           secondary
           text="Cancel"
           onClick={props.onClose}

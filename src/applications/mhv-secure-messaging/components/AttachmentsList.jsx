@@ -130,6 +130,7 @@ const AttachmentsList = props => {
             background-only
             className="file-attached-success vads-u-margin-top--2"
             data-testid="file-attached-success-alert"
+            data-dd-action-name="File Attached Alert Closed"
             disable-analytics
             full-width="false"
             show-icon

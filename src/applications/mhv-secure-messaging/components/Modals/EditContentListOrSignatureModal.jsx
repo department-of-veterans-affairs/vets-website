@@ -27,6 +27,7 @@ const EditContentListOrSignatureModal = props => {
       <a
         className="vads-c-action-link--green"
         data-testid="edit-preferences-link"
+        data-dd-action-name="Edit Preferences Link in Modal"
         href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'preferences')}
         target="_blank"
         rel="noreferrer"
