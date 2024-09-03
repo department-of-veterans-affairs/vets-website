@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
 export const stateNames = {
@@ -76,3 +77,7 @@ export default function State({ state }) {
     </span>
   );
 }
+
+State.propTypes = {
+  state: PropTypes.string,
+};
