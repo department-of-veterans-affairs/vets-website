@@ -150,7 +150,11 @@ export const employmentQuestionnaire = {
   cmsId: 10001,
   formId: '21-4140',
   title: 'Employment Questionnaire',
-  ombNumber: '2900-0079',
+  ombInfo: {
+    expDate: '7/31/2024',
+    ombNumber: '2900-0079',
+    resBurden: 5,
+  },
   chapters: [
     {
       id: 20001,
