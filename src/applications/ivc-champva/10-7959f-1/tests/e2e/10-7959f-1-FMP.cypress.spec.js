@@ -7,7 +7,6 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
   fillAddressWebComponentPattern,
-  fillTextWebComponent,
   reviewAndSubmitPageFlow,
   verifyAllDataWasSubmitted,
   getAllPages,
@@ -31,19 +30,6 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      [ALL_PAGES.page2.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent(
-              'veteranSocialSecurityNumber_ssn',
-              data.veteranSocialSecurityNumber.ssn,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
       [ALL_PAGES.page3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -64,20 +50,6 @@ const testConfig = createTestConfig(
             fillAddressWebComponentPattern(
               'physicalAddress',
               data.physicalAddress,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      [ALL_PAGES.page5.path]: ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            fillTextWebComponent('veteranPhoneNumber', data.veteranPhoneNumber);
-            fillTextWebComponent(
-              'veteranEmailAddress',
-              data.veteranEmailAddress,
             );
             cy.axeCheck();
             cy.findByText(/continue/i, { selector: 'button' }).click();
