@@ -54,33 +54,24 @@ export const AccreditedSchool = (
 );
 
 export const TermDateHint = (
-  <span className="vads-u-color--gray">
+  <va-additional-info
+    className="vads-u-margin-top--2"
+    trigger="What is a regular school term or course?"
+  >
     <p>
       For example, if the student’s school uses semesters, tell us when the
       student’s current semester started. Or if the student’s school uses
       quarters, tell us when the student’s current quarter started.
     </p>
+    <br />
     <p>
       If the student is currently on academic break between semesters, tell us
       when the student’s previous term started
     </p>
-  </span>
+  </va-additional-info>
 );
 
 // TODO: Find a better way to do this. Repeats multiple times - still working on a solution from within arrays
-
-export const StudentHeader = ({ formData, text = null }) => {
-  const { first, last } = formData.fullName;
-
-  return (
-    <legend className="schemaform-block-title" id="root__title">
-      <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        {text}
-      </h3>
-    </legend>
-  );
-};
 
 export const StudentInfoH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
@@ -172,7 +163,7 @@ export const StudentAdditionalInfoH3 = ({ formData }) => {
   );
 };
 
-export const StudentTermH3 = ({ formData }) => {
+export const StudentPrevTermH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
 
   return (

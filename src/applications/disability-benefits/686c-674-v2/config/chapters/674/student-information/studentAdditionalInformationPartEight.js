@@ -2,7 +2,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { StudentTermH3, TermDateHint } from './helpers';
+import { StudentPrevTermH3, TermDateHint } from './helpers';
 
 export const schema = {
   type: 'object',
@@ -36,7 +36,7 @@ export const schema = {
 export const uiSchema = {
   studentInformation: {
     items: {
-      'ui:title': StudentTermH3,
+      'ui:title': StudentPrevTermH3,
       schoolInformation: {
         currentTermDates: {
           officialSchoolStartDate: {

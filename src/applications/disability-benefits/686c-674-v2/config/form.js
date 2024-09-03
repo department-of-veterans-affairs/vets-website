@@ -80,6 +80,7 @@ import {
   studentAdditionalInformationPartSix,
   studentAdditionalInformationPartSeven,
   studentAdditionalInformationPartEight,
+  studentAdditionalInformationPartNine,
   // studentAddressMarriageTuition,
   // studentSchoolAddress,
   // studentTermDates,
@@ -611,6 +612,16 @@ export const formConfig = {
           showPagePerItem: true,
           uiSchema: studentAdditionalInformationPartEight.uiSchema,
           schema: studentAdditionalInformationPartEight.schema,
+        },
+        studentAdditionalInformationPartNine: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.report674),
+          title: 'Add one or more students between ages 18 and 23',
+          path: 'report-674/:index/student-previous-term',
+          arrayPath: 'studentInformation',
+          showPagePerItem: true,
+          uiSchema: studentAdditionalInformationPartNine.uiSchema,
+          schema: studentAdditionalInformationPartNine.schema,
         },
         // studentAddressMarriageTuition: {
         //   depends: formData =>

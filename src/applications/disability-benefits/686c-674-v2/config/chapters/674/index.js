@@ -8,6 +8,7 @@ import * as studentAdditionalInformationPartFive from './student-information/stu
 import * as studentAdditionalInformationPartSix from './student-information/studentAdditionalInformationPartSix';
 import * as studentAdditionalInformationPartSeven from './student-information/studentAdditionalInformationPartSeven';
 import * as studentAdditionalInformationPartEight from './student-information/studentAdditionalInformationPartEight';
+import * as studentAdditionalInformationPartNine from './student-information/studentAdditionalInformationPartNine';
 import * as studentAddressMarriageTuition from './student-address-marriage-tuition/studentAddressMarriageTuition';
 import * as studentSchoolAddress from './student-school-address/studentSchoolAddress';
 import * as studentTermDates from './student-term-dates/studentTermDates';
@@ -26,6 +27,7 @@ export {
   studentAdditionalInformationPartSix,
   studentAdditionalInformationPartSeven,
   studentAdditionalInformationPartEight,
+  studentAdditionalInformationPartNine,
   studentAddressMarriageTuition,
   studentSchoolAddress,
   studentTermDates,
