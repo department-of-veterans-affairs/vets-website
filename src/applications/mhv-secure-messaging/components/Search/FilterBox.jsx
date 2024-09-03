@@ -76,6 +76,7 @@ const FilterBox = forwardRef((props, ref) => {
           primaryButtonText="Ok"
           status="error"
           visible
+          data-dd-action-name="Invalid Search Modal Closed"
         >
           <p>
             Please use at least one of the following search fields or choose a
@@ -87,7 +88,7 @@ const FilterBox = forwardRef((props, ref) => {
         </VaModal>
       )}
 
-      <va-accordion open-single>
+      <va-accordion data-dd-action-name="Add Filters Accordion" open-single>
         <va-accordion-item id="additional-filter-accordion">
           <h3 slot="headline" className="headline-text">
             Add filters
@@ -105,6 +106,11 @@ const FilterBox = forwardRef((props, ref) => {
                 );
               }}
               data-testid="category-dropdown"
+              data-dd-action-name={`${
+                category?.label
+                  ? category?.label
+                  : '' || (category?.label === undefined && '-Select-')
+              } Category Dropdown`} // TODO: add category label
             >
               {SelectCategories.map(item => (
                 <option key={item.value} value={item.value}>
@@ -121,6 +127,7 @@ const FilterBox = forwardRef((props, ref) => {
               value={dateRange}
               onVaSelect={e => setDateRange(e.detail.value)}
               data-testid="date-range-dropdown"
+              data-dd-action-name={`${dateRange.toUpperCase()} Months Date Range Dropdown`}
             >
               {DateRangeOptions.map(item => (
                 <option key={item.value} value={item.value}>

@@ -41,6 +41,9 @@ const MessageThread = props => {
           ref={accordionRef}
           data-testid="thread-expand-all"
           bordered
+          data-dd-action-name={`${
+            accordionRef.current ? 'Collapse' : 'Expand'
+          } All Accordion`}
         >
           {messageHistory.map((m, i) => {
             return (

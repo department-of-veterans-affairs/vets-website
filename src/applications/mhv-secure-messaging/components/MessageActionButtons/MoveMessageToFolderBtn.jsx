@@ -123,7 +123,7 @@ const MoveMessageToFolderBtn = props => {
           modalTitle="Move conversation"
           onCloseEvent={closeModal}
           visible={isMoveModalVisible}
-          data-dd-action-name="Move To Modal Closed"
+          data-dd-action-name="Move Conversation Modal Closed"
         >
           <p>Any replies to this message will appear in your inbox.</p>
           <VaRadio
@@ -181,14 +181,14 @@ const MoveMessageToFolderBtn = props => {
             <va-button
               text="Confirm"
               onClick={handleConfirmMoveFolderTo}
-              data-dd-action-name="Confirm Move to Button"
+              data-dd-action-name="Confirm Move Conversation Button"
             />
             <va-button
               class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
               secondary
               text="Cancel"
               onClick={closeModal}
-              data-dd-action-name="Cancel Move to Button"
+              data-dd-action-name="Cancel Move Conversation Button"
             />
           </div>
         </VaModal>
@@ -212,6 +212,7 @@ const MoveMessageToFolderBtn = props => {
           type="button"
           className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={openModal}
+          data-dd-action-name="Move Button"
         >
           <div className="vads-u-margin-right--0p5">
             <va-icon icon="folder" aria-hidden="true" />

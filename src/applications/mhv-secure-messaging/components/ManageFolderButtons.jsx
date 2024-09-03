@@ -156,6 +156,7 @@ const ManageFolderButtons = props => {
         <VaModal
           className="modal"
           data-testid="error-folder-not-empty"
+          data-dd-action-name="Empty This Folder Modal Closed"
           visible={isEmptyWarning}
           large
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
@@ -173,6 +174,7 @@ const ManageFolderButtons = props => {
               setIsEmptyWarning(false);
               focusElement(removeFolderRef.current);
             }}
+            data-dd-action-name="OK Button Empty This Folder Modal"
           />
         </VaModal>
       )}
@@ -210,7 +212,7 @@ const ManageFolderButtons = props => {
         large
         modalTitle={`Editing: ${folder.name}`}
         onCloseEvent={closeRenameModal}
-        data-dd-action-name="Rename Folder Modal Closed"
+        data-dd-action-name="Edit Folder Name Modal Closed"
       >
         <VaTextInput
           data-dd-privacy="mask"
@@ -225,7 +227,7 @@ const ManageFolderButtons = props => {
           }}
           maxlength="50"
           name="new-folder-name"
-          data-dd-action-name="Rename Folder Input Field"
+          data-dd-action-name="Edit Folder Name Input Field"
           charcount
           width="2xl"
         />
@@ -233,14 +235,14 @@ const ManageFolderButtons = props => {
           class="vads-u-margin-top--1"
           text="Save"
           onClick={confirmRenameFolder}
-          data-dd-action-name="Save Rename Folder Button"
+          data-dd-action-name="Save Edit Folder Name Button"
         />
         <va-button
           class="vads-u-margin-top--1"
           secondary="true"
           text="Cancel"
           onClick={closeRenameModal}
-          data-dd-action-name="Cancel Rename Folder Button"
+          data-dd-action-name="Cancel Edit Folder Name Button"
         />
       </VaModal>
     </>

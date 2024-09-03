@@ -29,13 +29,13 @@ const ThreadListSort = props => {
       <h2 className="sr-only">Sort conversations</h2>
       <VaSelect
         id="sort-order-dropdown"
-        data-dd-action-name="Sort Order Dropdown"
         label={SORT_CONVERSATIONS_LABEL}
         name="sort-order"
         value={sortOrder}
         onVaSelect={e => {
           setSortOrderValue(e.detail.value);
         }}
+        data-dd-action-name={`${SORT_CONVERSATIONS_LABEL} Dropdown`}
       >
         <option
           value={

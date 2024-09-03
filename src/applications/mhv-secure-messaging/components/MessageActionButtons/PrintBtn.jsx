@@ -27,6 +27,7 @@ const PrintBtn = props => {
         onClick={() => {
           handleConfirmPrint();
         }}
+        data-dd-action-name="Print Button"
       >
         <div className="vads-u-margin-right--0p5">
           <va-icon icon="print" aria-hidden="true" />
