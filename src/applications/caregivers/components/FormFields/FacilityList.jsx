@@ -48,13 +48,6 @@ const FacilityList = props => {
     />
   ));
 
-  // useEffect(
-  //   () => {
-  //     focusElement('#caregiver_facility_results');
-  //   },
-  //   [facilities],
-  // );
-
   if (reviewMode) {
     return (
       <span

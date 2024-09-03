@@ -206,7 +206,7 @@ const FacilitySearch = props => {
             (*Required)
           </span>
         </h3>
-        <p className="vads-u-color--gray-light">
+        <p>
           Where the VA medical center is located may be different from the
           Veteran’s home address.
         </p>
