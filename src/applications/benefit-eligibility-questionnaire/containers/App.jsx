@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import SubmitHelper from '../components/SubmitHelper';
 import formConfig from '../config/form';
 
 export default function App({ location, children }) {
@@ -32,8 +34,14 @@ export default function App({ location, children }) {
         wrapping
       />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+        <SubmitHelper />
         {children}
       </RoutedSavableApp>
     </div>
   );
 }
+
+App.propTypes = {
+  children: PropTypes.object,
+  location: PropTypes.object,
+};
