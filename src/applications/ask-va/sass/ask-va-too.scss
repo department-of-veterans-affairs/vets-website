@@ -431,9 +431,14 @@ ul.react-tabs__tab-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+  padding-bottom: 40px;
 }
 
 .dashboard-dl {
   margin-top: 0;
   margin-bottom: 24px;
+}
+
+.custom-review-dl {
+  margin: 16px auto;
 }

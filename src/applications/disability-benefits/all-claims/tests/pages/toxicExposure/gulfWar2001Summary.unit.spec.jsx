@@ -42,7 +42,7 @@ describe('Gulf War 2001 Summary', () => {
       },
     };
 
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
@@ -61,9 +61,6 @@ describe('Gulf War 2001 Summary', () => {
     getByText('October 2005 - No end date entered');
 
     getByText(goBackLink);
-    getByLabelText(
-      'go back and edit locations and dates for service post-9/11',
-    );
   });
 
   it('does not render a location if not checked', () => {

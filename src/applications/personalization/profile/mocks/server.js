@@ -92,9 +92,11 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileHideDirectDeposit: true,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
+            profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+            profileShowNewHealthCareCopayBillNotificationSetting: false,
             profileShowMhvNotificationSettingsEmailAppointmentReminders: false,
             profileShowMhvNotificationSettingsEmailRxShipment: true,
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
@@ -122,14 +124,14 @@ const responses = {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
     // return res.json(user.loa1UserMHV); // LOA1 user w/mhv
     // return res.json(user.badAddress); // user with bad address
     // return res.json(user.nonVeteranUser); // non-veteran user
-    return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
+    // return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
     // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number

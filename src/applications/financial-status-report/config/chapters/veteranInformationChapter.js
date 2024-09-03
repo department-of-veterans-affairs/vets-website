@@ -18,6 +18,7 @@ import {
 } from '../../components/contactInfo/EditContactInfo';
 import DependentCount from '../../components/household/DependentCount';
 import DependentAges from '../../components/household/DependentAges';
+import DependentAgesReview from '../../components/household/DependentAgesReview';
 import SpouseTransitionExplainer from '../../components/householdIncome/SpouseTransitionExplainer';
 import { getGlobalState } from '../../utils/checkGlobalState';
 
@@ -123,8 +124,8 @@ export default {
       },
       dependentCount: {
         path: 'dependents-count',
-        title: 'Dependents count',
-        uiSchema: {},
+        title: 'Dependent count',
+        uiSchema: dependents.uiSchemaEnhanced,
         schema: dependents.schemaEnhanced,
         CustomPage: DependentCount,
         CustomPageReview: null,
@@ -139,7 +140,7 @@ export default {
           formData.questions?.hasDependents !== '0' &&
           formData['view:streamlinedWaiver'],
         CustomPage: DependentAges,
-        CustomPageReview: null,
+        CustomPageReview: DependentAgesReview,
         editModeOnReviewPage: false,
       },
     },
