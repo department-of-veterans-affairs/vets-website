@@ -1,10 +1,10 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
+// import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
@@ -34,7 +34,6 @@ import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 
 // import { prefillTransformer } from '../prefill-transformer';
-
 // import ClaimantType from '../components/ClaimantType';
 
 const mockData = initialData;
@@ -46,8 +45,11 @@ const formConfigFromService = configService.getFormConfig();
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
+  customText: {
+    submitButtonText: 'Continue',
+  },
+  // preSubmitInfo,
   submit: (_form, _formConfig) => {}, // This function is no-op because the form is being submitted on the 'Confirmation' page (which we're using as the 'Download' page)
-  submitButtonText: 'Continue',
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
