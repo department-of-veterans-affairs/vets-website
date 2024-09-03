@@ -1,4 +1,4 @@
-const moment = require('moment');
+const { sub } = require('date-fns');
 
 const inboxThreads = {
   data: [
@@ -15,9 +15,7 @@ const inboxThreads = {
         category: 'OTHER',
         subject: 'Reroute Test',
         triageGroupName: 'DETROIT: Audiology, Justice, French, MD',
-        sentDate: `${moment()
-          .subtract(10, 'days')
-          .format('YYYY-MM-DDThh:mm:ss')}`,
+        sentDate: `${sub(new Date(), { days: 10 })}`,
         draftDate: null,
         senderId: 3586720,
         senderName: 'CALUMPONG, JOEL JON S',
@@ -45,9 +43,7 @@ const inboxThreads = {
         category: 'OTHER',
         subject: 'Wrong Group',
         triageGroupName: 'DETROIT: Cardiology, Yang, Christina, Md',
-        sentDate: `${moment()
-          .subtract(12, 'days')
-          .format('YYYY-MM-DDThh:mm:ss')}`,
+        sentDate: `${sub(new Date(), { days: 12 })}`,
         draftDate: null,
         senderId: 2992380,
         senderName: 'COSTELLO, ANNE M',
@@ -75,9 +71,7 @@ const inboxThreads = {
         category: 'OTHER',
         subject: 'General Inquiry',
         triageGroupName: 'DETROIT: Dermatology, Bishop, Walter, Md',
-        sentDate: `${moment()
-          .subtract(16, 'days')
-          .format('YYYY-MM-DDThh:mm:ss')}`,
+        sentDate: `${sub(new Date(), { days: 16 })}`,
         draftDate: null,
         senderId: 2992380,
         senderName: 'COSTELLO, ANNE M',
@@ -105,9 +99,7 @@ const inboxThreads = {
         category: 'OTHER',
         subject: 'TEST',
         triageGroupName: 'DETROIT: MHV Coordinator, Prince, Diana',
-        sentDate: `${moment()
-          .subtract(20, 'days')
-          .format('YYYY-MM-DDThh:mm:ss')}`,
+        sentDate: `${sub(new Date(), { days: 20 })}`,
         draftDate: null,
         senderId: 2992380,
         senderName: 'COSTELLO, ANNE M',
@@ -135,9 +127,7 @@ const inboxThreads = {
         category: 'OTHER',
         subject: 'General Inquiry',
         triageGroupName: 'DETROIT: Cardiology, Yang, Christina, Md',
-        sentDate: `${moment()
-          .subtract(21, 'days')
-          .format('YYYY-MM-DDThh:mm:ss')}`,
+        sentDate: `${sub(new Date(), { days: 21 })}`,
         draftDate: null,
         senderId: 2992380,
         senderName: 'COSTELLO, ANNE M',
