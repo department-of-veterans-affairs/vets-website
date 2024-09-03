@@ -9,7 +9,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export const ConfirmationPage = () => {
-  const [downloadedForm, setDownloadedForm] = useState(false); // This should be in redux store
+  const [downloadedForm, setDownloadedForm] = useState(false);
   const [downloadedFormError, setDownloadedFormError] = useState(false);
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
