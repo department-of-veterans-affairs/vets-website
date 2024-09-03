@@ -178,55 +178,92 @@ const formConfig = {
         },
       },
     },
-    veteran: {
-      title: 'Veteran Information',
+    veteranInfoForVeterans: {
+      title: 'Your Information',
+      depends: formData => preparerIsVeteran({ formData }),
       pages: {
         veteranPersonalInformation: {
-          title: formData =>
-            `${
-              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-            } name and date of birth`,
+          title: `Your name and date of birth`,
           path: 'veteran-personal-information',
+          depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranPersonalInformation.uiSchema,
           schema: veteranPersonalInformation.schema,
           editModeOnReviewPage: true,
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: formData =>
-            `${
-              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-            }  mailing address`,
+          title: `Your  mailing address`,
+          depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
           editModeOnReviewPage: true,
         },
         veteranContactPhoneEmail: {
           path: 'veteran-contact-phone-email',
-          title: formData =>
-            `${
-              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-            } phone number and email address`,
+          title: `Your phone number and email address`,
+          depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactPhoneEmail.uiSchema,
           schema: veteranContactPhoneEmail.schema,
           editModeOnReviewPage: true,
         },
         veteranIdentification: {
           path: 'veteran-identification',
-          title: formData =>
-            `${
-              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-            } identification information`,
+          title: `Your identification information`,
+          depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranIdentification.uiSchema,
           schema: veteranIdentification.schema,
           editModeOnReviewPage: true,
         },
         veteranServiceInformation: {
           path: 'veteran-service-information',
-          title: formData =>
-            `${
-              preparerIsVeteran({ formData }) ? 'Your' : 'Veteran’s'
-            } service information`,
+          title: `Your service information`,
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranServiceInformation.uiSchema,
+          schema: veteranServiceInformation.schema,
+          editModeOnReviewPage: true,
+        },
+      },
+    },
+    veteranInfoForNonVeterans: {
+      title: 'Veteran Information',
+      depends: formData => !preparerIsVeteran({ formData }),
+      pages: {
+        veteranPersonalInformation: {
+          title: `Veteran's name and date of birth`,
+          path: 'veteran-personal-information',
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactMailing: {
+          path: 'veteran-contact-mailing',
+          title: `Veteran's  mailing address`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranContactMailing.uiSchema,
+          schema: veteranContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactPhoneEmail: {
+          path: 'veteran-contact-phone-email',
+          title: `Veteran's phone number and email address`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranContactPhoneEmail.uiSchema,
+          schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: `Veteran's identification information`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranIdentification.uiSchema,
+          schema: veteranIdentification.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranServiceInformation: {
+          path: 'veteran-service-information',
+          title: `Veteran's service information`,
+          depends: formData => !preparerIsVeteran({ formData }),
           uiSchema: veteranServiceInformation.uiSchema,
           schema: veteranServiceInformation.schema,
           editModeOnReviewPage: true,
