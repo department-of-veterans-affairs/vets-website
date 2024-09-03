@@ -31,11 +31,11 @@ const InsuranceInformation = props => {
 
       <va-additional-info trigger="Why giving us your health insurance information may help you">
         <div>
-          <p className="vads-u-font-weight--bold">
+          <p className="vads-u-font-weight--bold vads-u-margin-top--0">
             Giving us your health insurance information may help you for these
             reasons:
           </p>
-          <ul>
+          <ul className="vads-u-margin-bottom--0">
             <li>
               We must bill your private health insurance provider for any care,
               supplies, or medicines we provide to treat your
