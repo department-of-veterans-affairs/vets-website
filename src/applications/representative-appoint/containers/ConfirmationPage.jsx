@@ -32,7 +32,9 @@ export const ConfirmationPage = () => {
 
   return (
     <>
-      <h2>Download, print, and sign your form</h2>
+      <h2 className="vads-font-size-heading-level-3">
+        Download, print, and sign your form
+      </h2>
       <p>First, you’ll need to download your form.</p>
       <VaIcon
         size={3}
@@ -50,7 +52,7 @@ export const ConfirmationPage = () => {
       <VaCheckbox
         id="signedForm"
         name="signedForm"
-        class="vads-u-margin-bottom--4"
+        className="vads-u-margin-bottom--4"
         label="I've downloaded, printed, and signed my form"
         onVaChange={handlers.onChangeSignedFormCheckbox}
         checked={signedForm}
