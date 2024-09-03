@@ -179,12 +179,10 @@
         "outsideUsa": false
       }
     },
-    "childMarriage": {
-      "fullName": {}
-    },
-    "childStoppedAttendingSchool": {
-      "fullName": {}
-    },
+    "childMarriage": [
+      {}
+    ],
+    "childStoppedAttendingSchool": [{ "fullName": {} }],
     "veteranInformation": {
       "fullName": {
         "first": "Greg",
