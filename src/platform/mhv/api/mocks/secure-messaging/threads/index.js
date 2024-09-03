@@ -1,11 +1,8 @@
-const inboxThreads = require('./inboxThreads.json');
-
+const moment = require('moment');
+const { inboxThreads } = require('./inboxThreads');
 const sendThreads = require('./sendThreads.json');
-
 const draftThreads = require('./draftThreads.json');
-
 const trashThreads = require('./trashThreads.json');
-
 const customFolderThreads = require('./customFolderThreads.json');
 
 const allThreads = {
@@ -42,17 +39,25 @@ const paginatedThreads = (req, res) => {
   const sortFunc = (a, b) => {
     if (sortField === 'SENT_DATE') {
       if (sortOrder === 'DESC') {
-        return b.attributes.sentDate.localeCompare(a.attributes.sentDate);
+        return moment(a.attributes.sentDate).isAfter(b.attributes.sentDate)
+          ? -1
+          : 1;
       }
       if (sortOrder === 'ASC') {
-        return a.attributes.sentDate.localeCompare(b.attributes.sentDate);
+        return moment(a.attributes.sentDate).isBefore(b.attributes.sentDate)
+          ? -1
+          : 1;
       }
     } else if (sortField === 'DRAFT_DATE') {
       if (sortOrder === 'DESC') {
-        return b.attributes.draftDate.localeCompare(a.attributes.draftDate);
+        return moment(a.attributes.draftDate).isAfter(b.attributes.draftDate)
+          ? -1
+          : 1;
       }
       if (sortOrder === 'ASC') {
-        return a.attributes.draftDate.localeCompare(b.attributes.draftDate);
+        return moment(a.attributes.draftDate).isAfter(b.attributes.draftDate)
+          ? -1
+          : 1;
       }
     } else if (sortField === 'SENDER_NAME') {
       if (sortOrder === 'DESC') {
@@ -81,10 +86,10 @@ const paginatedThreads = (req, res) => {
     return res.json({
       data: [
         ...folders[index].data
-          .slice((pageNumber - 1) * pageSize, pageNumber * pageSize)
           .sort((a, b) => {
             return sortFunc(a, b);
-          }),
+          })
+          .slice((pageNumber - 1) * pageSize, pageNumber * pageSize),
       ],
     });
   }
