@@ -7,14 +7,20 @@ import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
 import {
   fillAddressWebComponentPattern,
-  fillDateWebComponentPattern,
   fillTextWebComponent,
+  reviewAndSubmitPageFlow,
+  verifyAllDataWasSubmitted,
+  getAllPages,
 } from '../../../shared/tests/helpers';
+
+import mockFeatureToggles from './fixtures/mocks/featureToggles.json';
+
+const ALL_PAGES = getAllPages(formConfig);
 
 const testConfig = createTestConfig(
   {
     dataPrefix: 'data',
-    dataDir: path.join(__dirname, 'e2e', 'fixtures', 'data'),
+    dataDir: path.join(__dirname, 'fixtures', 'data'),
     // Rename and modify the test data as needed.
     dataSets: ['test-data'],
     pageHooks: {
@@ -25,26 +31,7 @@ const testConfig = createTestConfig(
             .click();
         });
       },
-      'applicant-information': ({ afterHook }) => {
-        cy.injectAxeThenAxeCheck();
-        afterHook(() => {
-          cy.get('@testData').then(data => {
-            // eslint-disable-next-line no-console
-            console.log('data', data);
-            fillDateWebComponentPattern(
-              'veteransFullName',
-              data.veteranFullName,
-            );
-            fillDateWebComponentPattern(
-              'veteranDateOfBirth',
-              data.veteranDateOfBirth,
-            );
-            cy.axeCheck();
-            cy.findByText(/continue/i, { selector: 'button' }).click();
-          });
-        });
-      },
-      'identification-information': ({ afterHook }) => {
+      [ALL_PAGES.page2.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -57,7 +44,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'mailing-address': ({ afterHook }) => {
+      [ALL_PAGES.page3.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -70,7 +57,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'home-address': ({ afterHook }) => {
+      [ALL_PAGES.page4a.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -83,7 +70,7 @@ const testConfig = createTestConfig(
           });
         });
       },
-      'contact-info': ({ afterHook }) => {
+      [ALL_PAGES.page5.path]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
           cy.get('@testData').then(data => {
@@ -97,10 +84,33 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'review-and-submit': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            reviewAndSubmitPageFlow(data.statementOfTruthSignature, `Submit`);
+          });
+        });
+      },
     },
 
     setupPerTest: () => {
-      cy.intercept('POST', formConfig.submitUrl, { status: 200 });
+      cy.intercept('GET', '/v0/feature_toggles?*', mockFeatureToggles);
+      cy.intercept('POST', formConfig.submitUrl, req => {
+        cy.get('@testData').then(dataPreTransform => {
+          // Runs the test-data through transformForSubmit and compares it
+          // to the submitted form data to make sure that all outputs are present:
+          verifyAllDataWasSubmitted(
+            JSON.parse(
+              formConfig.transformForSubmit(formConfig, {
+                data: dataPreTransform,
+              }),
+            ),
+            req.body,
+          );
+        });
+        // Mock response
+        req.reply({ status: 200 });
+      });
       cy.config('includeShadowDom', true);
     },
     // Skip tests in CI until the form is released.
