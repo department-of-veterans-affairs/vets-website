@@ -31,6 +31,7 @@ const RequestDetailsCard = ({ data, response }) => {
   const windowPrint = useCallback(() => {
     window.print();
   }, []);
+  const buttonText = 'Print this page';
 
   const debtListItem = (debt, index) => {
     const debtFor =
@@ -77,13 +78,7 @@ const RequestDetailsCard = ({ data, response }) => {
         </p>
         <p className="vads-u-margin-bottom--0p5">
           <DownloadFormPDF pdfContent={response.content} />
-          <button
-            className="usa-button-secondary button vads-u-background-color--white"
-            onClick={windowPrint}
-            type="button"
-          >
-            Print this page
-          </button>
+          <va-button text={buttonText} onClick={windowPrint} />
         </p>
       </>
     </div>

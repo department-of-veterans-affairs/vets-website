@@ -34,7 +34,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   toeDupContactInfoCall,
@@ -86,18 +85,6 @@ function ToeApp({
       }
     },
     [formData, setFormData, isLOA3],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
   );
 
   useEffect(
@@ -302,7 +289,6 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,

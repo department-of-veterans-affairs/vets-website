@@ -1,7 +1,7 @@
 {
   "data": {
     "role": "attorney",
-    "standingWithBar": true,
+    "lawLicense": true,
     "fullName": {
       "first": "First",
       "middle": "Middle",
@@ -27,18 +27,6 @@
       "state": "CA",
       "postalCode": "12345"
     },
-    "employmentStatus": "other",
-    "describeEmployment": "In May 2024, I was a part of a mass layoff. I just received offers from two firms.",
-    "workName": "My Company",
-    "workAddress": {
-      "view:militaryBaseDescription": {},
-      "country": "USA",
-      "street": "1234 Main St",
-      "street2": "Apt 1",
-      "city": "City",
-      "state": "CA",
-      "postalCode": "12345"
-    },
     "primaryMailingAddress": "other",
     "otherAddress": {
       "view:militaryBaseDescription": {},
@@ -53,13 +41,15 @@
       {
         "branch": "Army",
         "dateRange": {
-          "from": "2000-01-01",
-          "to": "2004-12-31"
+          "from": "2005-01",
+          "to": "2009-12"
         },
         "characterOfDischarge": "Dishonorable",
         "explanationOfDischarge": "My discharge was dishonorable"
       }
     ],
+    "employmentStatus": ["employed", "selfEmployed"],
+    "describeEmployment": "I have a W2 at a law firm, and I have a consulting company.",
     "employers": [
       {
         "name": "Company",
@@ -74,27 +64,36 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "phone": "3453453455",
+        "primaryWorkAddress": ["selected"],
+        "phone": "345-345-3455",
         "extension": "1234",
         "dateRange": {
-          "from": "2000-01-01",
-          "to": "2004-12-31"
+          "from": "2000-01"
         },
-        "reasonForLeaving": "Found a better opportunity"
+        "currentlyEmployed": true
       }
     ],
-    "employmentActivities": ["financial", "home"],
+    "employmentActivities": ["financial", "homeOrNursing"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
         "name": "University of California, Berkeley",
         "dateRange": {
-          "from": "2010-01-01",
-          "to": "2014-12-31"
+          "from": "2010-01",
+          "to": "2014-12"
         },
         "degreeReceived": true,
-        "degree": "Bachelor of Science",
-        "major": "Computer Science"
+        "major": "Computer Science",
+        "degree": "Bachelor's degree",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        }
       }
     ],
     "view:hasEducationalInstitutions": false,
