@@ -114,7 +114,11 @@ export const normalizedForm = {
   cmsId: 71160,
   formId: '2121212',
   title: 'Form with Two Steps',
-  ombNumber: '1212-1212',
+  ombInfo: {
+    expDate: '8/29/2025',
+    ombNumber: '1212-1212',
+    resBurden: 30,
+  },
   chapters: [
     {
       id: 158253,
