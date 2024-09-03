@@ -23,7 +23,6 @@ const SearchResult = ({
 
   const addressExists = addressLine1 || city || stateCode || zipCode;
 
-  // concatenating address for ReportModal
   const address =
     [
       (addressLine1 || '').trim(),
