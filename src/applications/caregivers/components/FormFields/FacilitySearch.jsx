@@ -208,21 +208,27 @@ const FacilitySearch = props => {
           Veteran’s home address.
         </p>
         <va-card role="search" background>
-          <label
-            htmlFor="facility-search"
-            id="facility-search-label"
-            className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+          <div
+            className={`${
+              error ? 'caregiver-facilities-search-input-error' : ''
+            }`}
           >
-            {content['form-facilities-search-label']}
-          </label>
-          {error && searchError()}
-          <VaSearchInput
-            label={content['form-facilities-search-label']}
-            value={query}
-            onInput={handleChange}
-            onSubmit={handleSearch}
-            uswds
-          />
+            <label
+              htmlFor="facility-search"
+              id="facility-search-label"
+              className="vads-u-margin-top--0 vads-u-margin-bottom--1"
+            >
+              {content['form-facilities-search-label']}
+            </label>
+            {error && searchError()}
+            <VaSearchInput
+              label={content['form-facilities-search-label']}
+              value={query}
+              onInput={handleChange}
+              onSubmit={handleSearch}
+              uswds
+            />
+          </div>
         </va-card>
 
         {searchResults()}
@@ -239,9 +245,9 @@ const FacilitySearch = props => {
 };
 
 FacilitySearch.propTypes = {
+  data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
-  data: PropTypes.object,
   value: PropTypes.string,
 };
 

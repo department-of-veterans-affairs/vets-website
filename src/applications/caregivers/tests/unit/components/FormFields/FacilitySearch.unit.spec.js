@@ -297,6 +297,9 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().error.textContent).to.eq(
           'ErrorSome bad error occurred.',
         );
+        expect(selectors().error.parentElement).to.have.class(
+          'caregiver-facilities-search-input-error',
+        );
       });
     });
 
