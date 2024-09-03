@@ -3,7 +3,7 @@ import React from 'react';
 import startReactApp from '@department-of-veterans-affairs/platform-startup/react';
 
 import { Provider } from 'react-redux';
-import { Router, useRouterHistory } from 'react-router';
+import { Router } from 'react-router-dom-v5-compat';
 import { createHistory } from 'history';
 
 import { connectFeatureToggle } from 'platform/utilities/feature-toggles';
@@ -20,10 +20,7 @@ connectFeatureToggle(store.dispatch);
 
 window.appName = manifest.entryName;
 
-// eslint-disable-next-line react-hooks/rules-of-hooks
-const history = useRouterHistory(createHistory)({
-  basename: manifest.rootUrl,
-});
+const history = createHistory();
 
 startReactApp(
   <Provider store={store}>

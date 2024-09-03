@@ -1,7 +1,7 @@
 import upperFirst from 'lodash/upperFirst';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom-v5-compat';
 
 export const createRelationshipCell = attributes => {
   if ('veteran' in attributes) {
