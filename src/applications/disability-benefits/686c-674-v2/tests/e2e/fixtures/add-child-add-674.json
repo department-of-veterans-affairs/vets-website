@@ -106,7 +106,7 @@
     },
     "doesLiveWithSpouse": {},
     "view:additionalEvidenceDescription": {},
-    "reportDivorce": { "fullName": {}, "location": { "isOutsideUs": false } },
+    "reportDivorce": { "fullName": {}, "divorceLocation": {"outsideUsa": false, "location": {}} },
     "childMarriage": { "fullName": {} },
     "childStoppedAttendingSchool": { "fullName": {} },
     "veteranInformation": {
