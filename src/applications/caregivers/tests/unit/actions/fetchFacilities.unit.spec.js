@@ -21,8 +21,18 @@ describe('CG fetchFacilities action', () => {
   });
 
   context('when the request fails', () => {
+    let sentrySpy;
+
+    beforeEach(() => {
+      sentrySpy = sinon.spy(Sentry, 'captureMessage');
+    });
+
+    afterEach(() => {
+      sentrySpy.restore();
+    });
+
     it('should return an error object', async () => {
-      const errorResponse = { status: 503, error: 'my error message' };
+      const errorResponse = { bad: 'some error' };
       mockApiRequest(errorResponse, false);
       setFetchJSONFailure(global.fetch.onCall(0), errorResponse);
 
@@ -31,12 +41,11 @@ describe('CG fetchFacilities action', () => {
         type: 'SEARCH_FAILED',
         errorMessage: 'There was an error fetching the health care facilities.',
       });
-      const sentrySpy = sinon.spy(Sentry, 'captureMessage');
+
       expect(sentrySpy.called).to.be.true;
       expect(sentrySpy.firstCall.args[0]).to.equal(
         'Error fetching Lighthouse VA facilities',
       );
-      sentrySpy.restore();
     });
   });
 });
