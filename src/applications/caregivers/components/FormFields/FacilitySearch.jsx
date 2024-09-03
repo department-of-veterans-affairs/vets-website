@@ -175,7 +175,7 @@ const FacilitySearch = props => {
             onClick={showMoreFacilities}
             aria-label="page 1, first page"
           >
-            +[5] more facilities
+            Load more facilities
           </a>
         </>
       );
@@ -202,9 +202,6 @@ const FacilitySearch = props => {
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
           What VA medical center or clinic does the Veteran get or plan to get
           their health care?
-          <span className="vads-u-color--secondary-dark vads-u-font-weight--normal vads-u-font-size--h4">
-            (*Required)
-          </span>
         </h3>
         <p>
           Where the VA medical center is located may be different from the
