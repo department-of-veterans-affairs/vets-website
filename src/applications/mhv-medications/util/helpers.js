@@ -508,3 +508,13 @@ export const convertHtmlForDownload = (html, option) => {
   });
   return $.text().trim();
 };
+
+/**
+ * Categorizes prescriptions into refillable and renewable
+ */
+export const categorizePrescriptions = ([refillable, renewable], rx) => {
+  if (rx.isRefillable) {
+    return [[...refillable, rx], renewable];
+  }
+  return [refillable, [...renewable, rx]];
+};
