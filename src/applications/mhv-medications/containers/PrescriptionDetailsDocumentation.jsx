@@ -17,6 +17,8 @@ import {
 import PrintDownload from '../components/shared/PrintDownload';
 import { buildMedicationInformationPDF } from '../util/pdfConfigs';
 import { DOWNLOAD_FORMAT } from '../util/constants';
+import { pageType } from '../util/dataDogConstants';
+import BeforeYouDownloadDropdown from '../components/shared/BeforeYouDownloadDropdown';
 
 const PrescriptionDetailsDocumentation = () => {
   const { prescriptionId } = useParams();
@@ -188,7 +190,7 @@ const PrescriptionDetailsDocumentation = () => {
       ) : (
         <div>
           <h1 data-testid="medication-information">
-            Information: {prescription?.prescriptionName}
+            Medication information: {prescription?.prescriptionName}
           </h1>
           <PrintDownload
             onPrint={printPage}
@@ -196,8 +198,10 @@ const PrescriptionDetailsDocumentation = () => {
             onDownload={downloadPdf}
             isSuccess={false}
           />
+          <BeforeYouDownloadDropdown page={pageType.DOCUMENTATION} />
           <div className="no-print rx-page-total-info vads-u-border-bottom--2px vads-u-border-color--gray-lighter vads-u-margin-y--5" />
-          <p className="vads-u-color--secondary vads-u-font-family--serif">
+          <va-on-this-page />
+          <p className="vads-u-font-weight--bold vads-u-font-family--serif">
             Important: How to Use This Information
           </p>
           <p className="vads-u-font-family--serif">
@@ -212,7 +216,9 @@ const PrescriptionDetailsDocumentation = () => {
         </div>
       )}
       {/* NOTE: The HTML content comes from a reliable source (MHV API/Krames API) */}
-      <div ref={contentRef} />
+      <article>
+        <div ref={contentRef} />
+      </article>
     </>
   );
 };
