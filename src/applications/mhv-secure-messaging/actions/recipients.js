@@ -1,5 +1,6 @@
 import { Actions } from '../util/actionTypes';
 import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
+import { getIsPilotFromState } from '.';
 
 const isSignatureRequired = recipients => {
   const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
@@ -18,9 +19,10 @@ const isSignatureRequired = recipients => {
   });
 };
 
-export const getAllTriageTeamRecipients = () => async dispatch => {
+export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
+  const isPilot = getIsPilotFromState(getState);
   try {
-    const response = await getAllRecipients();
+    const response = await getAllRecipients(isPilot);
     const updatedResponse = {
       ...response,
       data: isSignatureRequired(response.data),
