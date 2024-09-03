@@ -41,7 +41,7 @@ function transformApplicants(applicants) {
   applicants.forEach(app => {
     let transformedApp = {
       ...app,
-      ssnOrTin: app.applicantSSN?.ssn ?? '',
+      ssnOrTin: app.applicantSSN ?? '',
       vetRelationship: transformRelationship(
         app.applicantRelationshipToSponsor || 'NA',
       ),
@@ -133,9 +133,8 @@ export default function transformForSubmit(formConfig, form) {
   const dataPostTransform = {
     veteran: {
       fullName: transformedData?.veteransFullName || {},
-      ssnOrTin: transformedData?.ssn?.ssn || '',
-      vaClaimNumber: transformedData?.ssn?.vaFileNumber || '',
-      dateOfBirth: fmtDate(transformedData?.sponsorDob) || '',
+      ssnOrTin: transformedData?.ssn || '',
+      dateOfBirth: fmtDate(transformedData?.sponsorDOB) || '',
       phoneNumber: transformedData?.sponsorPhone || '',
       address: transformedData?.sponsorAddress || {},
       sponsorIsDeceased: transformedData?.sponsorIsDeceased,

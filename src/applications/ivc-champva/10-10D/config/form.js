@@ -6,7 +6,8 @@ import {
   checkboxGroupUI,
   fullNameSchema,
   fullNameUI,
-  ssnOrVaFileNumberSchema,
+  ssnUI,
+  ssnSchema,
   addressSchema,
   addressUI,
   phoneSchema,
@@ -29,8 +30,6 @@ import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { blankSchema } from 'platform/forms-system/src/js/utilities/data/profile';
 import SubmissionError from '../../shared/components/SubmissionError';
 // import { fileUploadUi as fileUploadUI } from '../components/File/upload';
-
-import { ssnOrVaFileNumberCustomUI } from '../components/CustomSsnPattern';
 
 import transformForSubmit from './submitTransformer';
 import prefillTransformer from './prefillTransformer';
@@ -385,14 +384,14 @@ const formConfig = {
               ({ formData }) =>
                 `${sponsorWording(formData)} identification information`,
             ),
-            ssn: ssnOrVaFileNumberCustomUI(),
+            ssn: ssnUI(),
           },
           schema: {
             type: 'object',
             required: ['ssn'],
             properties: {
               titleSchema,
-              ssn: ssnOrVaFileNumberSchema,
+              ssn: ssnSchema,
             },
           },
         },
@@ -602,13 +601,13 @@ const formConfig = {
                   ({ formData }) =>
                     `${applicantWording(formData)} identification information`,
                 ),
-                applicantSSN: ssnOrVaFileNumberCustomUI(),
+                applicantSSN: ssnUI(),
               },
             },
           },
-          schema: applicantListSchema([], {
+          schema: applicantListSchema(['applicantSSN'], {
             titleSchema,
-            applicantSSN: ssnOrVaFileNumberSchema,
+            applicantSSN: ssnSchema,
           }),
         },
         page15a: {
