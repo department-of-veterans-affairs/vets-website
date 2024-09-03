@@ -44,6 +44,13 @@ describe('vaPrescription details container', () => {
     );
     expect(location).to.exist;
   });
+  it('always displays link "Learn more about this medication"', () => {
+    const screen = setup();
+    const learnMoreLink = screen.getAllByText(
+      'Learn more about this medication',
+    );
+    expect(learnMoreLink).to.exist;
+  });
 
   it('displays Shipped on in Refill History', () => {
     const screen = setup();
