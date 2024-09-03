@@ -10,6 +10,7 @@ import {
   selectFeatureAppointmentDetailsRedesign,
   selectFeatureBreadcrumbUrlUpdate,
   selectFeatureVaosV2Next,
+  selectFeatureClaimStatus,
 } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
@@ -18,7 +19,10 @@ import {
 } from '../../../services/appointment';
 import { FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
-import { fetchConfirmedAppointmentDetails } from '../../redux/actions';
+import {
+  fetchConfirmedAppointmentDetails,
+  fetchClaim,
+} from '../../redux/actions';
 import {
   getConfirmedAppointmentDetailsInfo,
   selectIsCanceled,
@@ -37,6 +41,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const {
     appointment,
     appointmentDetailsStatus,
+    fetchClaimStatus,
     facilityData,
     useV2,
   } = useSelector(
@@ -52,6 +57,7 @@ export default function ConfirmedAppointmentDetailsPage() {
   const featureAppointmentDetailsRedesign = useSelector(
     selectFeatureAppointmentDetailsRedesign,
   );
+  const featureFetchClaimStatus = useSelector(selectFeatureClaimStatus);
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
   const isCanceled = selectIsCanceled(appointment);
@@ -73,10 +79,34 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   useEffect(
     () => {
+      if (
+        featureFetchClaimStatus &&
+        isPast &&
+        appointmentDetailsStatus === FETCH_STATUS.succeeded &&
+        fetchClaimStatus !== FETCH_STATUS.loading
+      ) {
+        dispatch(fetchClaim(id, appointment));
+        scrollAndFocus();
+      }
+    },
+    [
+      id,
+      appointmentDate,
+      dispatch,
+      appointmentDetailsStatus,
+      fetchClaimStatus,
+      featureFetchClaimStatus,
+      appointment,
+      isPast,
+    ],
+  );
+
+  useEffect(
+    () => {
       let pageTitle = 'VA appointment on';
       let prefix = null;
 
-      if (selectIsPast(appointment)) prefix = 'Past';
+      if (isPast) prefix = 'Past';
       else if (selectIsCanceled(appointment)) prefix = 'Canceled';
 
       if (isCommunityCare)
@@ -149,7 +179,8 @@ export default function ConfirmedAppointmentDetailsPage() {
 
   if (
     appointmentDetailsStatus === FETCH_STATUS.failed ||
-    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment)
+    (appointmentDetailsStatus === FETCH_STATUS.succeeded && !appointment) ||
+    fetchClaimStatus === FETCH_STATUS.failed
   ) {
     return (
       <PageLayout showBreadcrumbs showNeedHelp>
@@ -157,8 +188,13 @@ export default function ConfirmedAppointmentDetailsPage() {
       </PageLayout>
     );
   }
-
-  if (!appointment || appointmentDetailsStatus === FETCH_STATUS.loading) {
+  if (
+    !appointment ||
+    appointmentDetailsStatus === FETCH_STATUS.loading ||
+    (featureFetchClaimStatus &&
+      isPast &&
+      (!appointment?.claimId || fetchClaimStatus === FETCH_STATUS.loading))
+  ) {
     return (
       <FullWidthLayout>
         <va-loading-indicator set-focus message="Loading your appointment..." />

@@ -652,7 +652,11 @@ export function selectConfirmedAppointmentData(state, appointment) {
 
   const locationId = getVAAppointmentLocationId(appointment);
 
-  const { appointmentDetailsStatus, facilityData } = state.appointments;
+  const {
+    appointmentDetailsStatus,
+    facilityData,
+    fetchClaimStatus,
+  } = state.appointments;
   const facility =
     facilityData?.[locationId] || appointment?.vaos?.facilityData;
 
@@ -719,6 +723,7 @@ export function selectConfirmedAppointmentData(state, appointment) {
     typeOfCareName,
     videoProviderAddress,
     videoProviderName,
+    fetchClaimStatus,
   };
 }
 export function getConfirmedAppointmentDetailsInfo(state, id) {
