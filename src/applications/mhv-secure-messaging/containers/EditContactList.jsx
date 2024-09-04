@@ -22,7 +22,6 @@ import { updateTriageTeamRecipients } from '../actions/recipients';
 import { addAlert } from '../actions/alerts';
 import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
 import { focusOnErrorField } from '../util/formHelpers';
-import { resetUserSession } from '../util/helpers';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
@@ -51,24 +50,6 @@ const EditContactList = () => {
   } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
-
-  const localStorageValues = useMemo(() => {
-    return {
-      atExpires: localStorage.atExpires,
-      hasSession: localStorage.hasSession,
-      sessionExpiration: localStorage.sessionExpiration,
-      userFirstName: localStorage.userFirstName,
-    };
-  }, []);
-
-  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
-
-  const noTimeout = useCallback(
-    () => {
-      clearTimeout(timeoutId);
-    },
-    [timeoutId],
-  );
 
   const isContactListChanged = useMemo(
     () => !_.isEqual(allRecipients, allTriageTeams),
@@ -104,17 +85,6 @@ const EditContactList = () => {
       ),
     );
   };
-
-  const beforeUnloadHandler = useCallback(
-    e => {
-      if (isContactListChanged) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = signOutMessage;
-      }
-    },
-    [isContactListChanged, signOutMessage],
-  );
 
   const handleSaveAndExit = async (e, forceSave) => {
     e.preventDefault();
@@ -182,23 +152,6 @@ const EditContactList = () => {
       }
     },
     [isMinimumSelected],
-  );
-
-  useEffect(
-    () => {
-      if (isContactListChanged) {
-        window.addEventListener('beforeunload', beforeUnloadHandler);
-      } else {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        noTimeout();
-      }
-      return () => {
-        window.removeEventListener('beforeunload', beforeUnloadHandler);
-        window.onbeforeunload = null;
-        noTimeout();
-      };
-    },
-    [beforeUnloadHandler, isContactListChanged, noTimeout],
   );
 
   return (
