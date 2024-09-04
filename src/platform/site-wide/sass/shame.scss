@@ -596,6 +596,7 @@ div[data-widget-type="events"] {
   min-height: 150px;
 }
 
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict */
 /* Fix to crisis line color issue on mobile / tablet */
 #footer-crisis-line.va-button-link.vads-u-color--white,
 #header-crisis-line.va-button-link.vads-u-color--white {
@@ -628,10 +629,10 @@ div[data-widget-type="events"] {
   background-color: var(--vads-color-base-lightest);
   color: var(--vads-color-primary);
 }
-
 /* Fix to 'contact us' color issue */
 .hidden-header a{
   &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
     color: var(--vads-color-white);
   }
 }
+/* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
