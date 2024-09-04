@@ -28,7 +28,6 @@
   "breadcrumb": "Breadcrumb",
   "bring-anything-that-might-help": "Bring anything that might help your health care team work with you to make treatment decisions:",
   "bring-insurance-cards-and-identification": "Bring your health insurance cards and Veteran Health Identification Card.",
-  "bring-insurance-cards-list-medications-other": "Bring your insurance cards, a list of medications, and other things to share with your provider.",
   "bring-list-of-medications-including": "Bring an updated list of all the medications you’re taking, including any of these:",
   "brother": "Brother",
   "by-submitting-claim": "By submitting this claim, you agree to the beneficiary travel agreement.",
@@ -425,7 +424,6 @@
   "review-contact-information": "Review your contact information",
   "prepare-for-your-appointment_one": "Prepare for your appointment",
   "prepare-for-your-appointment_other": "Prepare for your appointments",
-  "find-out-how-to-check-in": "Find out how to check in (opens in new tab)",
   "manage-your-appointments": "Manage your appointments",
   "sign-in-to-vagov-and-schedule": "Sign in to VA.gov and schedule",
   "review-your-upcoming-appointments": "Review your upcoming appointments",
@@ -433,12 +431,13 @@
   "were-sorry-weve-run-into-a-problem": "We’re sorry. We’ve run into a problem.",
   "were-having-trouble-getting-your-upcoming-appointments": "We’re having trouble getting your upcoming appointments. Please try again later.",
   "to-file-another-claim-for-different-date": "To file another claim for a different date, you can visit the Beneficiary Travel Self-Service System (BTSSS). You must file within 30 days of the appointment.",
-  "find-a-full-list-of-things-to-bring": "Find a full list of things to bring to your appointment",
+  "find-a-full-list-of-things-to-bring": "Find out what to bring to your appointment",
   "find-out-how-to-check-in-opens-in-new-tab": "Find out how to check in (opens in new tab)",
   "we-cant-show-all-information": "We can’t show all your information right now",
   "some-appointment-information-not-available": "Some of your appointment information is not available right now.",
   "find-all-appointment-information-check-in": "To find all your appointment information, finish checking in for your appointment first. Then go to appointments on VA.gov.",
   "find-all-appointment-information-pre-check-in": "To find all your appointment information, finish reviewing your contact information first. Then go to appointments on VA.gov.",
   "review-your-appointments": "Review your appointments",
-  "check-current-mileage-rates-new-tab": "Check current mileage rates (opens in a new tab)"
+  "check-current-mileage-rates-new-tab": "Check current mileage rates (opens in a new tab)",
+  "bring-insurance-cards-and-list-medications-other": "Bring your insurance cards. And bring a list of your medications and other information to share with your provider."
 }
