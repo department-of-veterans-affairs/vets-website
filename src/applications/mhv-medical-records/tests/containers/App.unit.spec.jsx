@@ -291,7 +291,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/`,
     });
-    expect(screen.getByTestId('no-breadcrumbs')).to.exist;
+    expect(screen.getByTestId('breadcrumbs')).to.exist;
   });
 
   it('does not render breadcrumbs when downtime and not at the landing page', () => {
@@ -309,7 +309,7 @@ describe('App', () => {
       reducers: reducer,
       path: `/vaccines`,
     });
-    expect(screen.queryByTestId('no-breadcrumbs')).to.not.exist;
+    expect(screen.queryByTestId('breadcrumbs')).to.not.exist;
   });
 
   describe('Side Nav feature flag functionality', () => {
