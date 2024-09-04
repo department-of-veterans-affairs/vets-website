@@ -1,22 +1,22 @@
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import {
   yesNoSchema,
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 
 import manifest from '../../../../manifest.json';
 import content from '../../../../shared/locales/en/content.json';
 
 import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
 
-import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
+import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 
-import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
-import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
 import { EditAddress } from '../EditContactInfoTaskGreen';
-import { MailingAddressInfoPageTaskGreen } from '../MailingAddressInfoPageTaskGreen';
+import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 import VeteranProfileInformation from '../VeteranProfileInformation';
+import { MailingAddressInfoPageTaskGreen } from '../MailingAddressInfoPageTaskGreen';
+import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
