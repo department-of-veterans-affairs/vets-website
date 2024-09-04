@@ -129,7 +129,9 @@ export const useNotificationSettingsUtils = () => {
         toggles.profileShowMhvNotificationSettingsEmailAppointmentReminders ||
         toggles.profileShowMhvNotificationSettingsEmailRxShipment ||
         toggles.profileShowMhvNotificationSettingsMedicalImages ||
-        toggles.profileShowMhvNotificationSettingsNewSecureMessaging
+        toggles.profileShowMhvNotificationSettingsNewSecureMessaging ||
+        toggles.profileShowNewBenefitOverpaymentDebtNotificationSetting ||
+        toggles.profileShowNewHealthCareCopayBillNotificationSetting
       );
     },
     [toggles],
