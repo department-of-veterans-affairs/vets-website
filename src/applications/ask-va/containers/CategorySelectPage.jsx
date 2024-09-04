@@ -26,7 +26,7 @@ const CategorySelectPage = props => {
     isLoading(true);
     onChange({ ...formData, selectCategory: undefined });
     setShowModal({ show: false, selected: '' });
-    isLoading(false);
+    setTimeout(() => isLoading(false), 200);
   };
 
   const showError = data => {
