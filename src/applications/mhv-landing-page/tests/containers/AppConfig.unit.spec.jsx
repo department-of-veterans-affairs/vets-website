@@ -57,7 +57,7 @@ describe(`${appName} -- <AppConfig />`, () => {
       });
     });
 
-    it('when user id is not available', async () => {
+    it('unless user id is not available', async () => {
       const initialState = initialStateFn({ accountUuid: '' });
 
       const { getByText } = renderWithStoreAndRouter(
