@@ -32,7 +32,7 @@ export const ConfirmationPage = () => {
 
   return (
     <>
-      <h2 className="vads-font-size-heading-level-3">
+      <h2 className="vads-u-font-size--h3">
         Download, print, and sign your form
       </h2>
       <p>First, you’ll need to download your form.</p>
