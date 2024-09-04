@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import {
   validateField,
   getImageUri,
@@ -20,6 +21,12 @@ import { dataDogActionNames } from '../../util/dataDogConstants';
 
 const VaPrescription = prescription => {
   const showRefillContent = useSelector(selectRefillContentFlag);
+  const isDisplayingDocumentation = useSelector(
+    state =>
+      state.featureToggles[
+        FEATURE_FLAG_NAMES.mhvMedicationsDisplayDocumentationContent
+      ],
+  );
   const refillHistory = [...(prescription?.rxRfRecords || [])];
   const originalFill = createOriginalFillRecord(prescription);
   const pharmacyPhone = pharmacyPhoneNumber(prescription);
@@ -134,20 +141,24 @@ const VaPrescription = prescription => {
               Quantity
             </h3>
             <p>{validateField(prescription.quantity)}</p>
-            <Link
-              to={`/prescription/${
-                prescription.prescriptionId
-              }/documentation?ndc=${
-                refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
-              }`}
-              data-testid="va-prescription-documentation-link"
-              className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
-              data-dd-action-name={
-                dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
-              }
-            >
-              Learn more about this medication
-            </Link>
+            {isDisplayingDocumentation &&
+              // Any of the Rx's NDC's will work here. They should all show the same information
+              refillHistory.some(p => p.cmopNdcNumber) && (
+                <Link
+                  to={`/prescription/${
+                    prescription.prescriptionId
+                  }/documentation?ndc=${
+                    refillHistory?.find(p => !!p?.cmopNdcNumber)?.cmopNdcNumber
+                  }`}
+                  data-testid="va-prescription-documentation-link"
+                  className="vads-u-margin-top--1 vads-u-display--inline-block vads-u-font-weight--bold"
+                  data-dd-action-name={
+                    dataDogActionNames.detailsPage.RX_DOCUMENTATION_LINK
+                  }
+                >
+                  Learn more about this medication
+                </Link>
+              )}
           </div>
           <div className="vads-u-border-top--1px vads-u-border-color--gray-lighter">
             <h2 className="vads-u-margin-top--3" data-testid="refill-History">

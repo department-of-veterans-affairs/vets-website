@@ -44,8 +44,12 @@ describe('vaPrescription details container', () => {
     );
     expect(location).to.exist;
   });
-  it('always displays link "Learn more about this medication"', () => {
-    const screen = setup();
+  it('displays link "Learn more about this medication" if ff is on and rx has an ndc number', () => {
+    const rxWithCmop = {
+      ...prescription,
+      rxRfRecords: [{ cmopNdcNumber: '12345' }],
+    };
+    const screen = setup(rxWithCmop, true);
     const learnMoreLink = screen.getAllByText(
       'Learn more about this medication',
     );
