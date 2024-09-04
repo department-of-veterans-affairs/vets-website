@@ -187,4 +187,8 @@ export const mochaHooks = {
     cleanupStorage();
     flushPromises();
   },
+  after() {
+    window?.close(); // will force close all setInterval, setTimeout, and Promises
+    global?.dom?.window?.close();
+  },
 };
