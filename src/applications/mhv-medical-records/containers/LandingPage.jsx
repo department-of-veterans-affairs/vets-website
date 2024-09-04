@@ -14,6 +14,7 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
@@ -315,11 +316,10 @@ const LandingPage = () => {
               update your records.
             </p>
             <p className="vads-u-margin-bottom--2">
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
+              <va-link
+                href={`${
+                  environment.BASE_URL
+                }/my-health/secure-messages/new-message/`}
                 text="Start a new message"
               />
             </p>
@@ -352,11 +352,10 @@ const LandingPage = () => {
             </p>
 
             <p className="vads-u-margin-bottom--2">
-              <ExternalLink
-                href={mhvUrl(
-                  isAuthenticatedWithSSOe(fullState),
-                  'secure-messaging',
-                )}
+              <va-link
+                href={`${
+                  environment.BASE_URL
+                }/my-health/secure-messages/new-message/`}
                 text="Start a new message"
               />
             </p>

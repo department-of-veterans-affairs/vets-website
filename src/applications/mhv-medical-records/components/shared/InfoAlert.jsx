@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
-import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import ExternalLink from './ExternalLink';
+import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 
-const InfoAlert = ({ highLowResults, fullState }) => (
+const InfoAlert = ({ highLowResults }) => (
   <>
     <va-alert-expandable
       trigger="Need help understanding your results?"
@@ -27,12 +25,11 @@ const InfoAlert = ({ highLowResults, fullState }) => (
         If you have any questions, send a message to the care team that ordered
         this test.
       </p>
-      <p
-        data-testid="secure-messaging-link"
-        className="vads-u-padding-bottom--2"
-      >
-        <ExternalLink
-          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
+      <p data-testid="new-message-link" className="vads-u-padding-bottom--2">
+        <va-link
+          href={`${
+            environment.BASE_URL
+          }/my-health/secure-messages/new-message/`}
           text="Start a new message"
         />
       </p>

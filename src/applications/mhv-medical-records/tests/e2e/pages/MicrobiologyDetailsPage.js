@@ -52,12 +52,12 @@ class MicrobiologyDetailsPage extends BaseDetailsPage {
 
   verifyComposeMessageLink = composeMessageLink => {
     // verify compose a message on the My Healthvet website
-    cy.get('[data-testid="secure-messaging-link"]').should('be.visible');
-    cy.get('[data-testid="secure-messaging-link"]')
+    cy.get('[data-testid="new-message-link"]').should('be.visible');
+    cy.get('[data-testid="new-message-link"]')
       .contains(composeMessageLink)
       .invoke('attr', 'href')
-      .should('contain', 'myhealth.va.gov/mhv-portal-web/secure-messaging');
-    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/secure-messaging
+      .should('contain', 'va.gov/my-health/secure-messages/new-message');
+    // https://mhv-syst.myhealth.va.gov/mhv-portal-web/new-message
   };
 }
 
