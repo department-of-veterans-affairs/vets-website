@@ -90,7 +90,7 @@ function Default5103EvidenceNotice({
         may need to decide your claim.
       </p>
       <Link className="active-va-link" to="/your-claim-letters">
-        Go to claim letters
+        Find this letter in your claim letters
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
       {isAutomated5103Notice(item.displayName) && (

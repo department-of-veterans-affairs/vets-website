@@ -36,8 +36,8 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      // Newer HLR gives no choice; defaulting to true until new Lighthouse API
-      // is ready
+      // HLR v2.5 gives no choice; default to true (when feature toggle enabled)
+      // Lighthouse v2 & v2.5 has this value as required
       socOptIn: showNewHlrContent(formData) || formData.socOptIn,
     };
 
