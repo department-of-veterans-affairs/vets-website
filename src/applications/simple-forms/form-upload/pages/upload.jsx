@@ -2,7 +2,7 @@ import React from 'react';
 import {
   fileInputUI,
   fileInputSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import {
   UPLOAD_GUIDELINES,
