@@ -163,7 +163,6 @@ SearchResult.propTypes = {
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
-  key: PropTypes.number,
   representativeName: PropTypes.string,
   phone: PropTypes.string,
   representativeId: PropTypes.string,
