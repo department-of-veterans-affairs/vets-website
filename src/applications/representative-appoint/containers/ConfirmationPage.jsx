@@ -24,7 +24,8 @@ export default function ConfirmationPage() {
       if (!signedForm) {
         setSignedFormError(true);
       } else {
-        // Go to instructions page
+        // Todo - Direct user to final Appoint a Rep page
+        // Update the body of this condition once the final page is complete
       }
     },
   };
