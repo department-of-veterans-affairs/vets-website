@@ -1,7 +1,7 @@
 import data from '../data/calculator-constants.json';
 import { checkboxData } from './setupCypress';
 
-describe('go bill CT Rearch By Name After Result', () => {
+describe('GI bill CT research By Name After Result', () => {
   beforeEach(() => {
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
@@ -15,7 +15,7 @@ describe('go bill CT Rearch By Name After Result', () => {
       statusCode: 200,
     });
   });
-  it('should show reslut when user types School, employer, or training provider in the search input and hits Search button', () => {
+  it('should show results when user types School, employer, or training provider in the search input and hits Search button', () => {
     cy.injectAxeThenAxeCheck();
     cy.get('[id="name-search-results-count"]').as('searchResults');
     cy.get('@searchResults').should('be.focused');
