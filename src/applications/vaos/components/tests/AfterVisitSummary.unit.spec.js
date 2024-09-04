@@ -5,11 +5,7 @@ import { renderWithStoreAndRouter } from '../../tests/mocks/setup';
 import AfterVisitSummary from '../AfterVisitSummary';
 
 describe('VAOS Component: AfterVisitSummary', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-    },
-  };
+  const initialState = {};
 
   it('should display after visit summary link', async () => {
     // Arrange

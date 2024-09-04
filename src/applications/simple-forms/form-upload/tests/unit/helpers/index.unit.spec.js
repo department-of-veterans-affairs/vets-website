@@ -7,7 +7,7 @@ import {
   getFormContent,
   handleRouteChange,
   mask,
-} from '../../helpers';
+} from '../../../helpers';
 
 describe('Helpers', () => {
   describe('getFormNumber', () => {
