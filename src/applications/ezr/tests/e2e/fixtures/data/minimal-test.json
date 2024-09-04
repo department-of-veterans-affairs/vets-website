@@ -1,9 +1,9 @@
 {
   "data": {
-    "view:isMedicaidEligible" : {
+    "view:isMedicaidEligible": {
       "isMedicaidEligible": true
     },
-    "view:isEnrolledMedicarePartA" : {
+    "view:isEnrolledMedicarePartA": {
       "isEnrolledMedicarePartA": false
     },
     "view:deductibleMedicalExpenses": {
@@ -45,6 +45,20 @@
       "first": "Jane",
       "last": "Doe"
     },
+    "veteranContacts": [
+      {
+        "fullName": {
+          "first": "John",
+          "middle": "A",
+          "last": "Doe",
+          "suffix": "Jr."
+        },
+        "primaryPhone": "5551234567",
+        "alternatePhone": "5559876543",
+        "relationship": "Brother",
+        "contactType": "Emergency Contact"
+      }
+    ],
     "hasTeraResponse": true,
     "privacyAgreementAccepted": true
   }

@@ -50,6 +50,7 @@ import veteranBirthSex from './chapters/veteranInformation/birthSex';
 import veteranMailingAddress from './chapters/veteranInformation/mailingAddress';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import veteranContantInformation from './chapters/veteranInformation/contactInformation';
+import veteranEmergencyContacts from './chapters/veteranInformation/emergencyContacts';
 
 // chapter 2 - Household Information
 import maritalStatus from './chapters/householdInformation/maritalStatus';
@@ -213,6 +214,7 @@ const formConfig = {
           uiSchema: {},
           schema: VIEW_FIELD_SCHEMA,
         },
+        ...veteranEmergencyContacts,
       },
     },
     militaryService: {

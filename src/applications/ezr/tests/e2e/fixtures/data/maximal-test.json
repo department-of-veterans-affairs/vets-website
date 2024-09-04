@@ -87,6 +87,48 @@
         "otherIncome": 0
       }
     ],
+    "veteranContacts": [
+      {
+        "fullName": {
+          "first": "John",
+          "middle": "A",
+          "last": "Doe",
+          "suffix": "Jr."
+        },
+        "primaryPhone": "5551234567",
+        "alternatePhone": "5559876543",
+        "address": {
+          "street": "123 Main St",
+          "street2": "Apt 4B",
+          "city": "Springfield",
+          "country": "USA",
+          "state": "IL",
+          "postalCode": "62704"
+        },
+        "relationship": "Brother",
+        "contactType": "Emergency Contact"
+      },
+      {
+        "fullName": {
+          "first": "Jane",
+          "middle": "B",
+          "last": "Smith",
+          "suffix": ""
+        },
+        "primaryPhone": "5555555555",
+        "alternatePhone": "",
+        "address": {
+          "street": "456 Oak St",
+          "street2": "",
+          "city": "Chicago",
+          "country": "USA",
+          "state": "IL",
+          "postalCode": "60605"
+        },
+        "relationship": "Friend",
+        "contactType": "Other emergency contact"
+      }
+    ],
     "view:addInsurancePolicy": false,
     "view:reportDependents": false,
     "spouseFullName": {
