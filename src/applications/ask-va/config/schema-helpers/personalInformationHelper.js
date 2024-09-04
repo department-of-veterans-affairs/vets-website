@@ -41,6 +41,14 @@ const validateGroup = (errors, values) => {
   }
 };
 
+const validateSSandSNGroup = (errors, values) => {
+  if (!Object.keys(values).some(key => values[key])) {
+    errors.addError(
+      `Please enter your Social Security number or Service number`,
+    );
+  }
+};
+
 export const personalInformationFormSchemas = {
   first: {
     type: 'string',
@@ -136,7 +144,7 @@ export const personalInformationUiSchemas = {
   },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
-    'ui:validations': [validateGroup],
+    'ui:validations': [validateSSandSNGroup],
     'ui:options': { showFieldLabel: true },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
