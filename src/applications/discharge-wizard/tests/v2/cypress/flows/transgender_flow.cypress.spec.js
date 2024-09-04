@@ -8,7 +8,7 @@ xdescribe('Discharge Upgrade Wizard: Transgender Flow', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -64,7 +64,7 @@ xdescribe('Discharge Upgrade Wizard: Transgender Flow', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 

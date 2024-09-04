@@ -8,7 +8,7 @@ xdescribe('Discharge Upgrade Wizard: Discharge Update to form DD214 from DD215 F
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 

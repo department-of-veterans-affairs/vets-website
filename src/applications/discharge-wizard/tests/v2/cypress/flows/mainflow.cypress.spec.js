@@ -8,7 +8,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -84,7 +84,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       cy.visit(`${h.ROOT}/introduction`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -200,14 +200,14 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.clickBack();
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
     });
 
     it('navigates through the flow forward/backward successfully with changed answers for Reason question', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
       cy.injectAxeThenAxeCheck();
       h.clickStart();
 
@@ -287,7 +287,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.clickBack();
 
       // Home
-      h.verifyUrl(`${ROUTES.HOME}`);
+      h.verifyUrl(ROUTES.HOME);
     });
   });
 });
