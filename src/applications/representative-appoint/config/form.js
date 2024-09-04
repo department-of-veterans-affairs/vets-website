@@ -4,7 +4,6 @@ import profileContactInfo from 'platform/forms-system/src/js/definitions/profile
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
-// import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import ConfirmationPage from '../containers/ConfirmationPage';
 
 import {
@@ -48,8 +47,7 @@ const formConfig = {
   customText: {
     submitButtonText: 'Continue',
   },
-  // preSubmitInfo,
-  submit: (_form, _formConfig) => {}, // This function is no-op because the form is being submitted on the 'Confirmation' page (which we're using as the 'Download' page)
+  submit: (_form, _formConfig) => {}, // This function will have to be updated when we're ready to call the create PDF endpoint
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
