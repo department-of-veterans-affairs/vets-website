@@ -22,7 +22,7 @@ import {
   Paths,
   Prompts,
   ElectronicSignatureBox,
-  // ErrorMessages,
+  ErrorMessages,
 } from '../../../util/constants';
 import { messageSignatureFormatter } from '../../../util/helpers';
 import * as messageActions from '../../../actions/messages';
@@ -33,6 +33,7 @@ import {
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
+  checkVaCheckbox,
 } from '../../../util/testUtils';
 import { drupalStaticData } from '../../fixtures/cerner-facility-mock-data.json';
 
@@ -891,7 +892,7 @@ describe('Compose form component', () => {
     expect(screen.queryByTestId('send-button')).to.not.exist;
   });
 
-  it('displays alerts in Electronic Signature component if signature and checkbox is required', async () => {
+  it('displays alerts in Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
       <ComposeForm
         recipients={initialState.sm.recipients}
@@ -933,19 +934,66 @@ describe('Compose form component', () => {
     );
     inputVaTextInput(screen.container, 'Test User', signatureTextFieldSelector);
     expect(signatureTextField).to.have.attribute('error', '');
+  });
 
-    // const checkboxSelector = `va-checkbox[label='${
-    //   ElectronicSignatureBox.CHECKBOX_LABEL
-    // }']`;
-    // const checkbox = screen.container.querySelector(checkboxSelector);
+  it('displays an error in Electronic Signature component if checkbox is not checked', async () => {
+    const screen = renderWithStoreAndRouter(
+      <ComposeForm
+        recipients={initialState.sm.recipients}
+        messageValid
+        isSignatureRequired
+      />,
+      {
+        initialState,
+        reducers: reducer,
+      },
+    );
+    // Enters value for all other compose form fields first
+    const tgRecipient = initialState.sm.recipients.allowedRecipients.find(
+      r => r.signatureRequired,
+    ).id;
+    selectVaSelect(screen.container, tgRecipient);
+
+    await waitFor(() => {
+      selectVaRadio(screen.container, 'COVID');
+      expect(
+        $('va-radio-option[value="COVID"]', screen.container),
+      ).to.have.attribute('checked', 'true');
+    });
+
+    const subjectInput = 'Test Subject';
+    inputVaTextInput(screen.container, subjectInput);
+    await waitFor(() => {
+      expect(screen.getByTestId('message-subject-field')).to.have.value(
+        subjectInput,
+      );
+    });
+
+    const messageBody = 'test body';
+    inputVaTextInput(screen.container, messageBody, 'va-textarea');
+    await waitFor(() => {
+      expect(screen.getByTestId('message-body-field')).to.have.value(
+        messageBody,
+      );
+    });
+
+    const checkboxSelector = `va-checkbox[label='${
+      ElectronicSignatureBox.CHECKBOX_LABEL
+    }']`;
+    const checkbox = screen.container.querySelector(checkboxSelector);
+    checkVaCheckbox(checkbox, false);
+
     const sendButton = screen.getByTestId('send-button');
-
     fireEvent.click(sendButton);
-    // await waitFor(() => {
-    //   expect(checkbox).to.have.attribute(
-    //     'error',
-    //     `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
-    //   );
-    // });
+    // after clicking send, validation checks on Electronic Signature component runs
+    await waitFor(() => {
+      expect(checkbox).to.have.attribute(
+        'error',
+        `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
+      );
+    });
+
+    checkVaCheckbox(checkbox, true);
+    expect(checkbox).to.have.attribute('error', '');
   });
 });

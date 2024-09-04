@@ -53,7 +53,7 @@ describe('RecipientsSelect', () => {
     expect(options).to.have.lengthOf(recipientsList.length);
   });
 
-  xit('calls the onValueChange callback when a recipient is selected', async () => {
+  it('calls the onValueChange callback when a recipient is selected', async () => {
     const onValueChange = sinon.spy();
     const setCheckboxMarked = sinon.spy();
     const setElectronicSignature = sinon.spy();
@@ -72,19 +72,22 @@ describe('RecipientsSelect', () => {
     waitFor(() => {
       expect(select).to.have.value(val);
       expect(onValueChange.calledOnce).to.be.true;
+      expect(onValueChange.calledWith(recipientsList[0])).to.be.true;
     });
-    expect(onValueChange.calledWith(recipientsList[0])).to.be.true;
   });
 
-  xit('displays the signature alert when a recipient with signatureRequired is selected', async () => {
+  it('displays the signature alert when a recipient with signatureRequired is selected', async () => {
+    const setAlertDisplayed = sinon.spy();
     const customProps = {
       isSignatureRequired: true,
-      messageValid: true,
+      setAlertDisplayed,
+      alertDisplayed: true,
     };
     const { getByTestId } = setup({ props: customProps });
 
     waitFor(() => {
       const alert = getByTestId('signature-alert');
+      expect(setAlertDisplayed).to.be.calledOnce;
       expect(alert).to.exist;
       expect(alert).to.contain.text(
         Constants.Prompts.Compose.SIGNATURE_REQUIRED,
