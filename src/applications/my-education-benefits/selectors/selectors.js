@@ -33,17 +33,6 @@ export const getAppData = state => ({
   showMeb1990EZR6MaintenanceMessage: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMeb1990EZR6MaintenanceMessage
   ],
-  showMebDgi40Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi40Features
-  ],
-  merge1995And5490: !!toggleValues(state)[FEATURE_FLAG_NAMES.merge1995And5490],
-  showMebDgi42Features: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebDgi42Features
-  ],
-  // Add the new feature flag: showMebEnhancements
-  showMebEnhancements: !!toggleValues(state)[
-    FEATURE_FLAG_NAMES.showMebEnhancements
-  ],
   // Add the new feature flag: showMebEnhancements
   showMebEnhancements06: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.showMebEnhancements06

@@ -65,10 +65,6 @@ const testConfig = createTestConfig(
         'homeAddress_state',
         data => data.homeAddress.state,
       ),
-      'work-address': selectDropdownHook(
-        'workAddress_state',
-        data => data.workAddress.state,
-      ),
       'other-address': selectDropdownHook(
         'otherAddress_state',
         data => data.otherAddress.state,
@@ -83,27 +79,39 @@ const testConfig = createTestConfig(
           },
         ],
       ),
-      'military-service-experiences/0/experience': ({ afterHook }) => {
+      'military-service-experiences/0/branch-date-range': selectDropdownHook(
+        'branch',
+        data => data.militaryServiceExperiences[0].branch,
+      ),
+      'military-service-experiences/0/discharge-character': selectDropdownHook(
+        'characterOfDischarge',
+        data => data.militaryServiceExperiences[0].characterOfDischarge,
+      ),
+      'employment-status': selectCheckboxGroupHook('employmentStatus'),
+      'employers/0/address': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
             cy.fillPage();
             selectDropdownWebComponent(
-              'branch',
-              data.militaryServiceExperiences[0].branch,
+              'address_state',
+              data.employers[0].address.state,
             );
-            selectDropdownWebComponent(
-              'characterOfDischarge',
-              data.militaryServiceExperiences[0].characterOfDischarge,
+            selectCheckboxGroupWebComponent(
+              data.employers[0].primaryWorkAddress,
             );
             cy.findByText(/continue/i, { selector: 'button' }).click();
           });
         });
       },
-      'employers/0/address-phone-number': selectDropdownHook(
-        'address_state',
-        data => data.employers[0].address.state,
-      ),
       'employment-activities': selectCheckboxGroupHook('employmentActivities'),
+      'educational-institutions/0/address': selectDropdownHook(
+        'address_state',
+        data => data.educationalInstitutions[0].address.state,
+      ),
+      'educational-institutions/0/degree-information': selectDropdownHook(
+        'degree',
+        data => data.educationalInstitutions[0].degree,
+      ),
       jurisdictions: selectDropdownHook(
         'jurisdiction',
         data => data.jurisdiction,

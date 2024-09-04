@@ -19,7 +19,7 @@ const layoutData = data => {
 };
 
 const CardLayout = ({ data }) => {
-  const { mhvTransitionalMedicalRecordsLandingPage = false } = useSelector(
+  const { mhvIntegrationMedicalRecordsToPhase1 = false } = useSelector(
     state => state.featureToggles,
   );
   const ssoe = useSelector(isAuthenticatedWithSSOe);
@@ -50,7 +50,7 @@ const CardLayout = ({ data }) => {
             key={`col-${y}`}
           >
             {col.title === HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS &&
-            mhvTransitionalMedicalRecordsLandingPage ? (
+            !mhvIntegrationMedicalRecordsToPhase1 ? (
               <MedicalRecordsCard href={blueButtonUrl} />
             ) : (
               <NavCard {...col} />

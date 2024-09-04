@@ -23,6 +23,7 @@ export const Paths = {
   FIND_LOCATIONS: '/find-locations/',
   FIND_LOCATION: '/find-locations',
   HEALTH_CARE_SECURE_MSG: '/health-care/secure-messaging',
+  MHV_LANDING_PAGE: '/my-health',
   THREAD: '/thread',
   CONTACT_LIST: '/contact-list',
   INTERCEPT: {
@@ -40,6 +41,7 @@ export const Paths = {
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
+    SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
   },
 };
 
@@ -80,6 +82,7 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
+  BACK_TO: '.sm-breadcrumb-list-item',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -100,7 +103,7 @@ export const Locators = {
     THREAD_EXPAND: '[data-testid="thread-expand-all"]',
     THREAD_EXPAND_MESSAGES:
       '[data-testid="thread-expand-all"] va-accordion-item',
-    ADDITIONAL_FILTER: '#additional-filter-accordion',
+    ADDITIONAL_FILTER: `.va-accordion__header`,
     TRASH_TEXT: '[data-testid=trash-button-text]',
     TEXT_CONFIRM: 'va-button[text="Confirm"]',
     REPLY: '[data-testid="reply-button-body"]',
@@ -134,8 +137,8 @@ export const Locators = {
     CATEGORY_RADIOBTN: '[data-testid="compose-category-radio-button"]',
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
-    ADD_FILTER_BUTTON: '[id="additional-filter-accordion"] h3.headline-text',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
+    SAVE_CONTACT_LIST: 'va-modal.hydrated > [text="Save and exit"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -191,8 +194,9 @@ export const Locators = {
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
+    CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
-    DS_ALERT: '[data-testid="quit-compose-double-dare"]',
+    ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
   },
   FIELDS: {
@@ -203,6 +207,8 @@ export const Locators = {
     VISIBLE_P: '[visible=""] > p',
     CATEGORY_DROPDOWN: '[data-testid="category-dropdown"]',
     DATE_RANGE_DROPDOWN: '#date-range-dropdown',
+    CATEGORY_OPTION: `[data-testid="category-dropdown"]>option`,
+    DATE_RANGE_OPTION: '[data-testid="date-range-dropdown"]>option',
     SEARCH_MESSAGE_HEADING: '[data-testid="search-messages"] h2',
     SEARCH_MESSAGE: '[data-testid="search-messages"] [aria-live="polite"]',
     FILTER_MESSAGE_TEXT: '[data-testid="search-form"] h2',
@@ -217,8 +223,8 @@ export const Locators = {
     ATTACHMENTS: '.attachments-list',
   },
   CHECKBOX: {
-    CL_ALL: '[data-testid="contact-list-select-all-teams"]',
-    CL_SINGLE: '[data-testid="contact-list-select-team"]',
+    CL_ALL: '[data-testid*="select-all"]',
+    CL_SINGLE: '[data-testid*="contact-list-select-team"]',
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
@@ -243,11 +249,21 @@ export const Alerts = {
       'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
   },
+  CONTACT_LIST: {
+    SAVE: 'Save changes to your contact list?',
+    SAVED: 'Contact list changes saved',
+    EMPTY: `Select at least one team`,
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
   TRY_SEARCH: 'Try the search box or one of the common questions below.',
   SAVE_ATTCH: `We can't save attachments in a draft message`,
+  EL_SIGN: `Messages to this team require a signature. We added a signature box to this page.`,
+  EL_SIGN_NAME: `Enter your full name`,
+  EL_SIGN_CHECK: `You must certify by checking the box.`,
+  SAVE_SIGN: `We can't save your signature in a draft message`,
+  SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
 };
 
 export const Data = {
@@ -300,6 +316,13 @@ export const Data = {
     'The maximum size for each file is 6 MB',
     'The maximum total size for all files attached to 1 message is 10 MB',
   ],
+  EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
+  BUTTONS: {
+    EDIT_DRAFT: `Edit draft`,
+    SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
+    SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
+    SAVE_AND_EXIT: `Save and exit`,
+  },
 };
 export const Assertions = {
   MESSAGES: 'Messages',

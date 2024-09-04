@@ -15,7 +15,7 @@ export const Paths = {
   SEARCH: '/search/',
   SEARCH_RESULTS: '/search/results/',
   REPLY: '/reply/',
-  CONTACT_LIST: '/contact-list',
+  CONTACT_LIST: '/contact-list/',
 };
 
 export const DefaultFolders = {
@@ -52,6 +52,7 @@ export const ErrorMessages = {
   ComposeForm: {
     RECIPIENT_REQUIRED: 'Please select a recipient.',
     CATEGORY_REQUIRED: 'Please select a category.',
+    CHECKBOX_REQUIRED: 'You must certify by checking the box.',
     SUBJECT_REQUIRED: 'Subject cannot be blank.',
     BODY_REQUIRED: 'Message body cannot be blank.',
     SIGNATURE_REQUIRED: 'Enter your full name',
@@ -120,6 +121,14 @@ export const ErrorMessages = {
     UNABLE_TO_SAVE_DRAFT_ATTACHMENT_SIGNATURE_ERROR:
       'unable to save draft with attachment and signature',
   },
+  ContactList: {
+    SAVE_AND_EXIT: {
+      title: 'Save changes to your contact list?',
+      confirmButtonText: 'Save and exit',
+      cancelButtonText: 'Continue editing',
+    },
+    MINIMUM_SELECTION: 'Select at least one team',
+  },
 };
 
 export const Alerts = {
@@ -151,6 +160,7 @@ export const Alerts = {
     SEND_MESSAGE_ERROR: 'We’re sorry. Something went wrong on our end.',
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
+    SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
   },
 
   Folder: {
@@ -240,6 +250,11 @@ export const Breadcrumbs = {
   FOLDERS: { href: Paths.FOLDERS, label: 'More folders', isRouterLink: true },
   SENT: { href: Paths.SENT, label: 'Sent', isRouterLink: true },
   TRASH: { href: Paths.DELETED, label: 'Trash', isRouterLink: true },
+  MESSAGE_THREAD: {
+    href: Paths.MESSAGE_THREAD,
+    label: 'Edit draft',
+    isRouterLink: true,
+  },
 };
 
 export const InnerNavigationPaths = [
@@ -298,6 +313,17 @@ export const Attachments = {
   MAX_FILE_COUNT: 4,
   MAX_FILE_SIZE: 6000000,
   TOTAL_MAX_FILE_SIZE: 10000000,
+};
+
+export const ElectronicSignatureBox = {
+  TITLE: 'Electronic signature',
+  DESCRIPTION:
+    'You need to sign all new messages you send to this team. Enter your full name here to sign your message.',
+  FULLNAME_LABEL: 'Your full name',
+  CHECKBOX_LABEL:
+    'I certify that the above is correct and true to the best of my knowledge and belief.',
+  NOTE_PARAGRAPH:
+    'According to federal law, there are criminal penalties, including a fine and/or imprisonment for up to 5 years, for withholding information or for providing incorrect information (Reference: 18 U.S.C. 1001).',
 };
 
 export const threadSortingOptions = {

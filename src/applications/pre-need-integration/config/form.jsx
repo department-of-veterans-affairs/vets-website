@@ -43,6 +43,8 @@ import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 import { servicePeriodsPages } from './pages/servicePeriodsPages';
 
+import transformForSubmit from './transformForSubmit';
+
 import Footer from '../components/Footer';
 
 import IntroductionPage from '../components/IntroductionPage';
@@ -59,6 +61,8 @@ import {
   transform,
   // isVeteranAndHasServiceName,
   // isNotVeteranAndHasServiceName,
+  isVeteranAndHasServiceName,
+  isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   relationshipToVetTitle,
   relationshipToVetPreparerTitle,
@@ -130,9 +134,9 @@ const formConfig = {
   },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: `${environment.API_URL}/v0/preneeds/burial_forms`,
+  submitUrl: `${environment.API_URL}/simple_forms_api/v1/simple_forms`,
   trackingPrefix: 'preneed-',
-  transformForSubmit: transform,
+  transformForSubmit,
   formId: VA_FORM_IDS.FORM_40_10007,
   saveInProgress: {
     messages: {

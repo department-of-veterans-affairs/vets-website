@@ -126,7 +126,7 @@ describe('VAOS Component: VideoLink', () => {
     expect(screen.queryByText('Join appointment')).not.to.exist;
     expect(
       screen.queryByRole('heading', {
-        level: 2,
+        level: 3,
         name: /We're sorry, we couldn't load the link to join your appointment/,
       }),
     ).to.exist;

@@ -6,17 +6,14 @@ import {
   VaTextInput,
   VaSelect,
   VaCheckboxGroup,
+  VaCheckbox,
+  VaDate,
   VaMemorableDate,
   VaModal,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import { countries, states } from 'platform/forms/address';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
-// import { FormNavButtons } from '@department-of-veterans-affairs/platform-forms-system';
-// import {
-//   countries,
-//   states,
-// } from '@department-of-veterans-affairs/platform-forms';
 
 import { NO_ISSUES_SELECTED } from '../constants';
 
@@ -113,36 +110,61 @@ export const IssueAndDates = ({
       )}
     </VaCheckboxGroup>
 
-    <VaMemorableDate
-      id="from-date"
-      name="from"
-      label={content.dateStart}
-      required
-      onDateChange={handlers.onChange}
-      onDateBlur={handlers.onBlur}
-      value={currentData[dateRangeKey]?.from}
-      error={showError('from')}
-      invalidMonth={isInvalid('from', 'month')}
-      invalidDay={isInvalid('from', 'day')}
-      invalidYear={isInvalid('from', 'year')}
-      month-select={false}
-      uswds
-    />
-    <VaMemorableDate
-      id="to-date"
-      name="to"
-      label={content.dateEnd}
-      required
-      onDateChange={handlers.onChange}
-      onDateBlur={handlers.onBlur}
-      value={currentData[dateRangeKey]?.to}
-      error={showError('to')}
-      invalidMonth={isInvalid('to', 'month')}
-      invalidDay={isInvalid('to', 'day')}
-      invalidYear={isInvalid('to', 'year')}
-      month-select={false}
-      uswds
-    />
+    {dateRangeKey === 'treatmentDate' ? (
+      <>
+        <VaDate
+          id="txdate"
+          name="txdate"
+          monthYearOnly
+          label={content.treatmentDate}
+          hint={content.treatmentHint}
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData.treatmentDate}
+        />
+        <VaCheckbox
+          id="nodate"
+          name="nodate"
+          class="vads-u-margin-bottom--4"
+          label={content.noDate}
+          onVaChange={handlers.onChange}
+          checked={currentData.noDate}
+        />
+      </>
+    ) : (
+      <>
+        <VaMemorableDate
+          id="from-date"
+          name="from"
+          label={content.dateStart}
+          required
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData[dateRangeKey]?.from}
+          error={showError('from')}
+          invalidMonth={isInvalid('from', 'month')}
+          invalidDay={isInvalid('from', 'day')}
+          invalidYear={isInvalid('from', 'year')}
+          month-select={false}
+          uswds
+        />
+        <VaMemorableDate
+          id="to-date"
+          name="to"
+          label={content.dateEnd}
+          required
+          onDateChange={handlers.onChange}
+          onDateBlur={handlers.onBlur}
+          value={currentData[dateRangeKey]?.to}
+          error={showError('to')}
+          invalidMonth={isInvalid('to', 'month')}
+          invalidDay={isInvalid('to', 'day')}
+          invalidYear={isInvalid('to', 'year')}
+          month-select={false}
+          uswds
+        />
+      </>
+    )}
   </>
 );
 
@@ -151,10 +173,15 @@ IssueAndDates.propTypes = {
   content: PropTypes.shape({
     dateStart: PropTypes.string,
     dateEnd: PropTypes.string,
+    noDate: PropTypes.string,
+    treatmentDate: PropTypes.string,
+    treatmentHint: PropTypes.string,
     issuesLabel: PropTypes.string,
   }),
   currentData: PropTypes.shape({
     issues: PropTypes.array,
+    treatmentDate: PropTypes.string,
+    noDate: PropTypes.bool,
   }),
   dateRangeKey: PropTypes.string,
   handlers: PropTypes.shape({
