@@ -130,7 +130,6 @@ const SearchResult = ({
           )}
           {phone && (
             <div className="vads-u-margin-top--1p5">
-              {contact} {extension} {phone}
               <va-telephone
                 contact={contact}
                 extension={extension}
