@@ -16,7 +16,7 @@ const FacilitySearch = props => {
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [loadingMoreFacilities, setLoadingMoreFacilities] = useState(false);
-  const [error, setError] = useState(null);
+  const [searchInputError, setSearchInputError] = useState(null);
   const [facilitiesListError, setFacilitiesListError] = useState(null);
   const [facilities, setFacilities] = useState([]);
   const [pages, setPages] = useState(1);
@@ -28,7 +28,7 @@ const FacilitySearch = props => {
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
       if (!facilities?.length) {
-        setError('Select a medical center or clinic');
+        setSearchInputError('Select a medical center or clinic');
       } else {
         setFacilitiesListError('Select a medical center or clinic');
       }
@@ -60,7 +60,7 @@ const FacilitySearch = props => {
         });
 
         if (parentFacilityResponse.errorMessage) {
-          setError(parentFacilityResponse.errorMessage);
+          setSearchInputError(parentFacilityResponse.errorMessage);
           return null;
         }
 
@@ -68,6 +68,8 @@ const FacilitySearch = props => {
       };
 
       const setSelectedFacilities = async facilityId => {
+        setFacilitiesListError(null);
+        setSearchInputError(null);
         const facility = facilities.find(f => f.id === facilityId);
         const caregiverSupportFacility = await caregiverSupport(facility);
         dispatch(
@@ -106,17 +108,18 @@ const FacilitySearch = props => {
 
   const handleSearch = async () => {
     if (!query.trim()) {
-      setError(content['validation-facilities--search-required']);
+      setSearchInputError(content['validation-facilities--search-required']);
       return;
     }
 
     setLoading(true);
-    setError(null);
+    setFacilitiesListError(null);
+    setSearchInputError(null);
     setFacilities([]);
 
     const mapboxResponse = await fetchMapBoxGeocoding(query);
     if (mapboxResponse.errorMessage) {
-      setError(mapboxResponse.errorMessage);
+      setSearchInputError(mapboxResponse.errorMessage);
       setLoading(false);
       return;
     }
@@ -130,7 +133,7 @@ const FacilitySearch = props => {
     });
 
     if (facilitiesResponse.errorMessage) {
-      setError(facilitiesResponse.errorMessage);
+      setSearchInputError(facilitiesResponse.errorMessage);
       setLoading(false);
       return;
     }
@@ -152,7 +155,7 @@ const FacilitySearch = props => {
     });
 
     if (facilitiesResponse.errorMessage) {
-      setError(facilitiesResponse.errorMessage);
+      setSearchInputError(facilitiesResponse.errorMessage);
       setLoadingMoreFacilities(false);
       return;
     }
@@ -204,7 +207,7 @@ const FacilitySearch = props => {
         role="alert"
       >
         <span className="sr-only">Error</span>
-        {error}
+        {searchInputError}
       </span>
     );
   };
@@ -223,7 +226,7 @@ const FacilitySearch = props => {
         <va-card role="search" background>
           <div
             className={`${
-              error ? 'caregiver-facilities-search-input-error' : ''
+              searchInputError ? 'caregiver-facilities-search-input-error' : ''
             }`}
           >
             <label
@@ -231,13 +234,13 @@ const FacilitySearch = props => {
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
             >
               {content['form-facilities-search-label']}
-              {error && (
+              {searchInputError && (
                 <span className="vads-u-color--secondary-dark">
                   (*Required)
                 </span>
               )}
             </label>
-            {error && searchError()}
+            {searchInputError && searchError()}
             <VaSearchInput
               label={content['form-facilities-search-label']}
               value={query}

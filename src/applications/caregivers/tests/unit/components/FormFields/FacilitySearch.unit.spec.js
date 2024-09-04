@@ -330,7 +330,7 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    it('sets error when trying to click goForward when facilities are rendered', async () => {
+    it('sets error when trying to click goForward when facilities are rendered but none selected', async () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchFacilitiesResponse;
@@ -412,8 +412,8 @@ describe('CG <FacilitySearch>', () => {
         });
 
         mapboxStub.resolves(mapBoxSuccessResponse);
-        facilitiesStub.onCall(0).resolves(mockFetchFacilitiesResponse);
-        facilitiesStub.onCall(1).resolves({
+        facilitiesStub.onFirstCall().resolves(mockFetchFacilitiesResponse);
+        facilitiesStub.onSecondCall().resolves({
           type: 'SEARCH_FAILED',
           errorMessage: 'Some bad error occurred.',
         });
@@ -447,17 +447,15 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
-    context('handles errors', () => {
+    context('handles api errors', () => {
       context('mapbox errors', () => {
         it('should render SEARCH_FAILED when mapbox fetch fails', async () => {
-          const mapboxErrorResponse = {
-            errorMessage: 'Some bad error occurred.',
-            type: 'SEARCH_FAILED',
-          };
           const { props, mockStore } = getData({});
           const { container, selectors } = subject({ props, mockStore });
-          mapboxStub.resolves(mapboxErrorResponse);
-
+          mapboxStub.resolves({
+            errorMessage: 'Some bad error occurred.',
+            type: 'SEARCH_FAILED',
+          });
           await waitFor(() => {
             inputVaSearchInput(container, 'Tampa', selectors().input);
             expect(selectors().loader).to.exist;
@@ -473,13 +471,12 @@ describe('CG <FacilitySearch>', () => {
         });
 
         it('should render NO_SEARCH_RESULTS when mapbox fetch returns nothing', async () => {
-          const mapboxErrorResponse = {
-            errorMessage: 'No search results found.',
-            type: 'NO_SEARCH_RESULTS',
-          };
           const { props, mockStore } = getData({});
           const { container, selectors } = subject({ props, mockStore });
-          mapboxStub.resolves(mapboxErrorResponse);
+          mapboxStub.resolves({
+            errorMessage: 'No search results found.',
+            type: 'NO_SEARCH_RESULTS',
+          });
 
           await waitFor(() => {
             inputVaSearchInput(container, 'Tampa', selectors().input);
