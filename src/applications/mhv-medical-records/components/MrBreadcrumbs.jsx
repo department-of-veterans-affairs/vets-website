@@ -1,45 +1,63 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory, useLocation } from 'react-router-dom';
+import { Breadcrumbs, Paths } from '../util/constants';
+import { setBreadcrumbs } from '../actions/breadcrumbs';
 
 const MrBreadcrumbs = () => {
-  const crumbs = useSelector(state => state.mr.breadcrumbs.list);
-  const isDetails = useSelector(state => state.mr.isDetails.currentIsDetails);
-  const crumb = crumbs[0]?.url?.toLowerCase();
+  const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
+  const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
+
+  const [locationBasePath, locationChildPath] = useMemo(
+    () => {
+      const pathElements = location.pathname.split('/');
+      if (pathElements[0] === '') pathElements.shift();
+      return pathElements;
+    },
+    [location],
+  );
+
+  const headingText = document.querySelector('h1');
+
+  useEffect(
+    () => {
+      const path = locationBasePath ? `/${locationBasePath}/` : '/';
+      const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
+
+      if (path === '/') {
+        dispatch(setBreadcrumbs([]));
+      } else if (locationChildPath && headingText) {
+        const detailCrumb = {
+          href: `${path}${locationChildPath}`,
+          label: headingText.textContent,
+          isRouterLink: true,
+        };
+        dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
+      } else {
+        dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
+      }
+    },
+    [dispatch, locationBasePath, locationChildPath, headingText],
+  );
+
+  const handleRoutechange = ({ detail }) => {
+    const { href } = detail;
+    history.push(href);
+  };
+
   return (
-    <>
-      {crumbs.length > 0 && crumbs[0]?.url ? (
-        <div
-          className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
-          label="Breadcrumb"
-          data-testid="breadcrumbs"
-        >
-          <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
-            <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
-          </span>
-          {isDetails ? (
-            <va-link
-              href=""
-              text={`Back to ${crumbs[0].label}`}
-              onClick={e => {
-                e.preventDefault();
-                history.goBack();
-              }}
-            />
-          ) : (
-            <Link to={crumb === '/my-health/medical-records' ? '/' : crumb}>
-              Back to {crumbs[0].label}
-            </Link>
-          )}
-        </div>
-      ) : (
-        <div
-          className="breadcrumbs-container vads-u-padding-bottom--5"
-          data-testid="no-breadcrumbs"
-        />
-      )}
-    </>
+    <VaBreadcrumbs
+      breadcrumbList={crumbsList}
+      label="Breadcrumb"
+      home-veterans-affairs
+      onRouteChange={handleRoutechange}
+      className="small-screen:vads-u-margin-y--2"
+      dataTestid="mr-breadcrumbs"
+      uswds
+    />
   );
 };
 

@@ -16,7 +16,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   clearVitalDetails,
   getVitalDetails,
@@ -118,14 +117,6 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vitals',
-            label: 'vitals',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVitalDetails());
       };

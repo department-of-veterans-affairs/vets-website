@@ -5,7 +5,6 @@ import {
   getCareSummaryAndNotesDetails,
   clearCareSummariesDetails,
 } from '../actions/careSummariesAndNotes';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
 import {
@@ -32,14 +31,6 @@ const CareSummariesDetails = () => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/summaries-and-notes',
-            label: 'Care summaries and notes',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearCareSummariesDetails());
       };

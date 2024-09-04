@@ -22,7 +22,6 @@ import {
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -67,14 +66,6 @@ const VaccineDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vaccines',
-            label: 'vaccines',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVaccineDetails());
       };

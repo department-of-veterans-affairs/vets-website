@@ -25,7 +25,6 @@ import {
   getConditionDetails,
   clearConditionDetails,
 } from '../actions/conditions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -63,14 +62,6 @@ const ConditionDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/conditions',
-            label: 'Health conditions',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearConditionDetails());
       };
