@@ -36,7 +36,6 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -44,7 +43,6 @@ const chapterSelectInitialData = {
     arrayMultiPageBuilder: true,
     arraySinglePage: true,
     checkbox: true,
-    confirmationPageNew: false,
     date: true,
     formsPattern: true,
     miscellaneous: true,
@@ -83,14 +81,6 @@ const formConfig = {
   },
   title: 'Simple Forms Patterns',
   defaultDefinitions: commonDefinitions,
-  additionalRoutes: [
-    {
-      path: 'confirmation-page-new',
-      pageKey: 'confirmation-page-new',
-      component: NewConfirmationPage,
-      depends: () => false,
-    },
-  ],
   chapters: {
     chapterSelect: {
       title: 'Chapter Select',
