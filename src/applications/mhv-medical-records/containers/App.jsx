@@ -8,6 +8,7 @@ import { RequiredLoginView } from '@department-of-veterans-affairs/platform-user
 import {
   renderMHVDowntime,
   useDatadogRum,
+  MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
 import {
   DowntimeNotification,
@@ -152,13 +153,16 @@ const App = ({ children }) => {
 
   if (featureTogglesLoading || user.profile.loading) {
     return (
-      <div className="vads-l-grid-container">
-        <va-loading-indicator
-          message="Loading your medical records..."
-          setFocus
-          data-testid="mr-feature-flag-loading-indicator"
-        />
-      </div>
+      <>
+        <MhvSecondaryNav />
+        <div className="vads-l-grid-container">
+          <va-loading-indicator
+            message="Loading your medical records..."
+            setFocus
+            data-testid="mr-feature-flag-loading-indicator"
+          />
+        </div>
+      </>
     );
   }
 
@@ -173,38 +177,41 @@ const App = ({ children }) => {
       serviceRequired={[backendServices.MEDICAL_RECORDS]}
     >
       {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
-        <div
-          ref={measuredRef}
-          className="vads-l-grid-container vads-u-padding-left--2"
-        >
-          {mhvMrDown === externalServiceStatus.down ? (
-            <>
-              {atLandingPage && <MrBreadcrumbs />}
-              <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
-                Medical records
-              </h1>
-              <DowntimeNotification
-                appTitle={downtimeNotificationParams.appTitle}
-                dependencies={[
-                  externalServices.mhvMr,
-                  externalServices.mhvPlatform,
-                  externalServices.global,
-                ]}
-                render={renderMHVDowntime}
-              />
-            </>
-          ) : (
-            <>
-              <MrBreadcrumbs />
-              <div className="vads-l-row">
-                <div className="medium-screen:vads-l-col--8">{children}</div>
-              </div>
-            </>
-          )}
-          <va-back-to-top hidden={isHidden} />
-          <ScrollToTop />
-          <PhrRefresh />
-        </div>
+        <>
+          <MhvSecondaryNav />
+          <div
+            ref={measuredRef}
+            className="vads-l-grid-container vads-u-padding-left--2"
+          >
+            {mhvMrDown === externalServiceStatus.down ? (
+              <>
+                {atLandingPage && <MrBreadcrumbs />}
+                <h1 className={atLandingPage ? null : 'vads-u-margin-top--5'}>
+                  Medical records
+                </h1>
+                <DowntimeNotification
+                  appTitle={downtimeNotificationParams.appTitle}
+                  dependencies={[
+                    externalServices.mhvMr,
+                    externalServices.mhvPlatform,
+                    externalServices.global,
+                  ]}
+                  render={renderMHVDowntime}
+                />
+              </>
+            ) : (
+              <>
+                <MrBreadcrumbs />
+                <div className="vads-l-row">
+                  <div className="medium-screen:vads-l-col--8">{children}</div>
+                </div>
+              </>
+            )}
+            <va-back-to-top hidden={isHidden} />
+            <ScrollToTop />
+            <PhrRefresh />
+          </div>
+        </>
       )}
     </RequiredLoginView>
   );

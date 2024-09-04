@@ -67,6 +67,39 @@ describe('MyVAHealth', () => {
     });
   });
 
+  it('should redirect to error page 110 when apiRequest in handleTouClick fails', async () => {
+    const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+    global.window.location = startingLocation;
+
+    server.use(
+      rest.put(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+        (_, res, ctx) =>
+          res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+      ),
+      rest.post(
+        `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/accept_and_provision`,
+        (_, res) => res.networkError(),
+      ),
+    );
+
+    const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
+      initialState: {
+        featureToggles: { terms_of_use: true },
+      },
+    });
+
+    const acceptButton = await findByTestId('accept');
+    expect(acceptButton).to.exist;
+
+    fireEvent.click(acceptButton);
+
+    await waitFor(() => {
+      expect(global.window.location.includes('code=110')).to.be.true;
+      expect(global.window.location).to.not.eql(startingLocation);
+    });
+  });
+
   context('`update_provisioning` returns an error', () => {
     it('display terms when `Agreement not accepted`', async () => {
       const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
@@ -225,6 +258,46 @@ describe('MyVAHealth', () => {
         expect(global.window.location.includes('code=110')).to.be.true;
         expect(global.window.location).to.not.eql(startingLocation);
       });
+    });
+
+    it('display terms + close deny', async () => {
+      const startingLocation = `https://dev.va.gov/terms-of-use/myvahealth/?ssoeTarget=${ssoeTarget}`;
+      global.window.location = startingLocation;
+
+      server.use(
+        rest.put(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/update_provisioning`,
+          (_, res, ctx) =>
+            res(ctx.status(400), ctx.json({ error: 'Agreement not accepted' })),
+        ),
+        rest.post(
+          `https://dev-api.va.gov/v0/terms_of_use_agreements/v1/decline`,
+          (_req, res, ctx) => res(ctx.status(200), ctx.json({ good: 'togo' })),
+        ),
+      );
+
+      const { findByTestId } = renderInReduxProvider(<MyVAHealth />, {
+        initialState: {
+          featureToggles: { terms_of_use: true },
+        },
+      });
+
+      const declineButton = await findByTestId('decline');
+      expect(declineButton).to.exist;
+      const modal = await findByTestId('modal-show');
+      expect(modal).to.exist;
+
+      // via close event
+      fireEvent.click(declineButton);
+      expect(modal.getAttribute('visible')).to.eql('true');
+      modal.__events.closeEvent();
+      expect(modal.getAttribute('visible')).to.eql('false');
+
+      // via secondary button
+      fireEvent.click(declineButton);
+      expect(modal.getAttribute('visible')).to.eql('true');
+      modal.__events.secondaryButtonClick();
+      expect(modal.getAttribute('visible')).to.eql('false');
     });
   });
 });

@@ -8,6 +8,7 @@ const FacilityCheckboxGroup = props => {
     multipleFacilities,
     triageTeams,
     updatePreferredTeam,
+    errorMessage,
   } = props;
 
   const [selectAll, setSelectAll] = useState(false);
@@ -34,6 +35,7 @@ const FacilityCheckboxGroup = props => {
         label={multipleFacilities ? facilityName : null}
         label-header-level={multipleFacilities ? '2' : null}
         class="contactListFacility vads-u-margin-bottom--4 vads-u-margin-top--0"
+        error={errorMessage}
       >
         <VaCheckbox
           data-testid={`select-all-${facilityName?.replace(/ /g, '-')}-teams`}
@@ -43,6 +45,9 @@ const FacilityCheckboxGroup = props => {
           checked={selectAll}
           onVaChange={handleSelectAllChange}
           class="vads-u-margin-bottom--2"
+          message-aria-describedby={
+            errorMessage ? `Error. ${errorMessage}` : ''
+          }
         />
         <div
           className="vads-u-margin-left--2 small-screen:vads-u-margin-left--3"
@@ -68,6 +73,7 @@ const FacilityCheckboxGroup = props => {
 };
 
 FacilityCheckboxGroup.propTypes = {
+  errorMessage: PropTypes.string,
   facilityName: PropTypes.string,
   multipleFacilities: PropTypes.bool,
   triageTeams: PropTypes.array,
