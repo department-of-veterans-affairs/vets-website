@@ -261,7 +261,11 @@ export const Breadcrumbs = {
     isRouterLink: true,
   },
   VACCINES: { href: Paths.VACCINES, label: 'Vaccines', isRouterLink: true },
-  ALLERGIES: { href: Paths.ALLERGIES, label: 'Allergies', isRouterLink: true },
+  ALLERGIES: {
+    href: Paths.ALLERGIES,
+    label: 'Allergies and reactions',
+    isRouterLink: true,
+  },
   HEALTH_CONDITIONS: {
     href: Paths.HEALTH_CONDITIONS,
     label: 'Health conditions',
