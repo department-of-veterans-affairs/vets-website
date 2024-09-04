@@ -98,9 +98,9 @@ describe('Updating Notification Settings', () => {
       cy.get('@appointmentCheckbox').click();
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving/).should('exist');
+      cy.findByText(/Saving /).should('exist');
       // after the PATCH call resolves:
-      cy.findByText(/^Saving/).should('not.exist');
+      cy.findByText(/Saving /).should('not.exist');
       cy.findByText(/update saved/i).should('exist');
 
       // checkbox should now be unchecked

@@ -62,9 +62,9 @@ describe('Updating Notification Settings', () => {
         .click();
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving/).should('exist');
+      cy.findByText(/Saving /).should('exist');
       // after the POST call fails:
-      cy.findByText(/^Saving/).should('not.exist');
+      cy.findByText(/Saving /).should('not.exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
 
       // the checkbox should still be checked after failure
@@ -96,9 +96,9 @@ describe('Updating Notification Settings', () => {
         .click();
 
       // we should now see a saving indicator
-      cy.findByText(/^Saving.../).should('exist');
+      cy.findByText(/Saving.../).should('exist');
       // after the PATCH call fails:
-      cy.findByText(/^Saving/).should('not.exist');
+      cy.findByText(/Saving /).should('not.exist');
       cy.findByText(/update saved/i).should('not.exist');
       cy.findByText(/we’re sorry.*try again/i).should('exist');
 
