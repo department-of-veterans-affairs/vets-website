@@ -50,9 +50,11 @@ export default function transformForSubmit(formConfig, form) {
   // Roll street names into `streetCombined` property on each address
   dataPostTransform.veteran.physical_address = concatStreets(
     dataPostTransform.veteran.physical_address,
+    true,
   );
   dataPostTransform.veteran.mailing_address = concatStreets(
     dataPostTransform.veteran.mailing_address,
+    true,
   );
 
   return JSON.stringify({
