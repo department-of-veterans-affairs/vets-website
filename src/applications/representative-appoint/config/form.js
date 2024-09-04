@@ -47,7 +47,7 @@ const formConfig = {
   customText: {
     submitButtonText: 'Continue',
   },
-  submit: (_form, _formConfig) => {}, // This function will have to be updated when we're ready to call the create PDF endpoint
+  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
