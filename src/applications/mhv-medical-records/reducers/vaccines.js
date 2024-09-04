@@ -4,6 +4,7 @@ import {
   isArrayAndHasItems,
   extractContainedResource,
   formatDate,
+  dateFormat,
 } from '../util/helpers';
 
 const initialState = {
@@ -108,6 +109,9 @@ export const convertVaccine = vaccine => {
     name: vaccine.vaccineCode?.text,
     date: vaccine.occurrenceDateTime
       ? formatDate(vaccine.occurrenceDateTime)
+      : EMPTY_FIELD,
+    lastUpdated: vaccine.meta.lastUpdated
+      ? dateFormat(vaccine.meta.lastUpdated)
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
     manufacturer: vaccine.manufacturer || EMPTY_FIELD,

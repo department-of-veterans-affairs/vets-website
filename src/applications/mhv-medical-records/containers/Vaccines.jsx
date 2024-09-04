@@ -103,7 +103,7 @@ const Vaccines = props => {
 
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro();
+    const { title, subject, preface } = generateVaccinesIntro(vaccines);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
