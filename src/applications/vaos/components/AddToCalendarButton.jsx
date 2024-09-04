@@ -58,6 +58,7 @@ export default function AddToCalendarButton({ appointment, facility }) {
         id="hidden-calendar-link"
         href={`data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`}
         className="vads-u-display--none"
+        data-testid="add-to-calendar-link"
       >
         hidden
       </a>
@@ -68,6 +69,7 @@ export default function AddToCalendarButton({ appointment, facility }) {
           filename,
           ics,
         })}
+        data-testid="add-to-calendar-button"
       />
     </>
   );
