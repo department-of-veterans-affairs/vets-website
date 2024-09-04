@@ -17,13 +17,13 @@ export const NotificationText = () => (
   </div>
 );
 
-export const benefitSchemaLabels = ['CH35', 'FRY', 'FECA', 'OTHER'];
+export const benefitSchemaLabels = ['ch35', 'fry', 'feca', 'other'];
 
 export const benefitUiLabels = {
-  CH35: 'Chapter 35 (also known as Dependent’s Educational Assistance program)',
-  FRY: 'Fry Scholarship',
-  FECA: 'Federal Employees’ Compensation Act (FECA)',
-  OTHER: 'Another program',
+  ch35: 'Chapter 35 (also known as Dependent’s Educational Assistance program)',
+  fry: 'Fry Scholarship',
+  feca: 'Federal Employees’ Compensation Act (FECA)',
+  other: 'Another program',
 };
 
 export const ProgramExamples = (
