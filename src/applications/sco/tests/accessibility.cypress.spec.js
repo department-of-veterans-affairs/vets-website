@@ -1,6 +1,6 @@
 describe('Accessibility', () => {
   it('Traverses content via keyboard', () => {
-    cy.visit('/education/school-administrators/');
+    cy.visit('/school-administrators');
     cy.injectAxe();
     cy.axeCheck();
     // First focusable element in react app
@@ -42,7 +42,7 @@ describe('Accessibility', () => {
     cy.repeatKey('Tab', 8);
     cy.focused().should(
       'contain.text',
-      'State Approving Agency Contact Information',
+      'State Approving Agency contact information',
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');

@@ -682,7 +682,7 @@ describe('<RecentActivity>', () => {
               getByText('Your claim moved into Step 2: Initial review');
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
-              getByText('We closed a request for "5103 Evidence Notice"');
+              getByText('We closed a request for "5103 Notice Response"');
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -1034,7 +1034,7 @@ describe('<RecentActivity>', () => {
               getByText(
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
-              getByText('We closed a request for "5103 Evidence Notice"');
+              getByText('We closed a request for "5103 Notice Response"');
               expect($('va-pagination', container)).not.to.exist;
             });
           },
