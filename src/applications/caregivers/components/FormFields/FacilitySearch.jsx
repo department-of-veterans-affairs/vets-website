@@ -23,14 +23,18 @@ const FacilitySearch = props => {
   const dispatch = useDispatch();
   const [coordinates, setCoordinates] = useState({ lat: '', long: '' });
 
+  const hasFacilities = () => {
+    return facilities?.length > 0;
+  };
+
   const onGoForward = () => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
-      if (!facilities?.length) {
-        setSearchInputError('Select a medical center or clinic');
-      } else {
+      if (hasFacilities()) {
         setFacilitiesListError('Select a medical center or clinic');
+      } else {
+        setSearchInputError('Select a medical center or clinic');
       }
     } else {
       goForward(formData);
@@ -180,17 +184,13 @@ const FacilitySearch = props => {
     if (loading) {
       return loader();
     }
-    if (facilities?.length) {
+    if (hasFacilities()) {
       return (
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
           {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a
-            href="#"
-            onClick={showMoreFacilities}
-            aria-label="page 1, first page"
-          >
+          <a href="#" onClick={showMoreFacilities}>
             Load more facilities
           </a>
         </>
