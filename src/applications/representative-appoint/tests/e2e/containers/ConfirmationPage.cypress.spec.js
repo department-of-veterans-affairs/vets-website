@@ -3,6 +3,7 @@ describe('ConfirmationPage', () => {
     cy.visit(
       '/get-help-from-accredited-representative/appoint-rep/confirmation',
     );
+    cy.injectAxe();
   });
 
   it('should render the page with all components', () => {
@@ -13,10 +14,16 @@ describe('ConfirmationPage', () => {
     cy.get('va-button').contains('Continue');
   });
 
+  it('should render the page with no accessibility violations', () => {
+    cy.axeCheck();
+  });
+
   it('should show an error message if the checkbox is not checked and Continue is clicked', () => {
     cy.get('va-button')
       .contains('Continue')
       .click();
+
+    cy.axeCheck();
 
     cy.get('va-checkbox')
       .shadow()
@@ -34,6 +41,8 @@ describe('ConfirmationPage', () => {
       .contains('Continue')
       .click();
 
+    cy.axeCheck();
+
     cy.get('.usa-error-message').should(
       'contain',
       "You must confirm that you've downloaded, printed, and signed your form.",
@@ -44,9 +53,13 @@ describe('ConfirmationPage', () => {
       .find('input[type="checkbox"]')
       .click({ force: true });
 
+    cy.axeCheck();
+
     cy.get('va-button')
       .contains('Continue')
       .click();
+
+    cy.axeCheck();
 
     cy.get('.usa-error-message').should('not.exist');
   });
@@ -63,17 +76,23 @@ describe('ConfirmationPage', () => {
       .click({ force: true })
       .should('be.checked');
 
+    cy.axeCheck();
+
     cy.get('va-checkbox')
       .shadow()
       .find('input[type="checkbox"]')
       .click({ force: true })
       .should('not.be.checked');
+
+    cy.axeCheck();
   });
 
   it('should trigger the download of the form when the download link is clicked', () => {
     cy.get('va-link')
       .contains('Download your form')
       .click();
+
+    cy.axeCheck();
 
     // Add assertions once the download function is implemented
   });
