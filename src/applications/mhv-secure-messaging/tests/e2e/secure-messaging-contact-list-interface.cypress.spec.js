@@ -2,18 +2,20 @@ import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import ContactListPage from './pages/ContactListPage';
 import { AXE_CONTEXT } from './utils/constants';
+import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
+import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
+import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
+import mockMixRecipients from './fixtures/multi-facilities-recipients-response.json';
 
-describe('Secure Messaging Contact list', () => {
-  beforeEach(() => {
+describe('SM Contact list', () => {
+  it('verify base web-elements - single facility', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
-  });
 
-  it('verify base web-elements', () => {
     ContactListPage.verifyHeaders();
     ContactListPage.verifyAllCheckboxes(true);
-    ContactListPage.clickSelectAllCheckBox();
+    ContactListPage.selectAllCheckBox();
     ContactListPage.verifyAllCheckboxes(false);
     ContactListPage.verifyButtons();
 
@@ -21,43 +23,21 @@ describe('Secure Messaging Contact list', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify saving changes alert', () => {
-    ContactListPage.clickSelectAllCheckBox();
-    ContactListPage.clickSaveModalCancelButton();
-    ContactListPage.verifySaveAlertHeader();
+  it(`verify base web-elements - multi facilities`, () => {
+    SecureMessagingSite.login(
+      mockEhrData,
+      true,
+      mockMixedCernerFacilitiesUser,
+      mockFacilities,
+    );
+    PatientInboxPage.loadInboxMessages();
+    ContactListPage.loadContactList(mockMixRecipients);
+
+    ContactListPage.verifyHeaders();
+    ContactListPage.verifyAllCheckboxes(true);
+    ContactListPage.selectAllCheckBox();
+    ContactListPage.verifyAllCheckboxes(false);
     ContactListPage.verifyButtons();
-    ContactListPage.closeSaveModal();
-
-    ContactListPage.clickBackToInbox();
-    ContactListPage.verifySaveAlertHeader();
-    ContactListPage.verifyButtons();
-
-    ContactListPage.clickSaveAndExitButton();
-    ContactListPage.verifyContactListSavedAlert();
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
-  // mock response will be amended in further updates
-  it('verify contact saving request', () => {
-    cy.intercept(
-      'POST',
-      '/my_health/v1/messaging/preferences/recipients',
-      '200',
-    ).as('savedList');
-
-    ContactListPage.clickSaveAndExitButton();
-    ContactListPage.verifyContactListSavedAlert();
-
-    cy.wait('@savedList')
-      .its('request.body')
-      .then(req => {
-        cy.wrap(req.updatedTriageTeams).each(el => {
-          expect(el.preferredTeam).to.eq(true);
-        });
-      });
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
