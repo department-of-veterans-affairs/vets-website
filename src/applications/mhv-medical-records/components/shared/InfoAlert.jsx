@@ -28,11 +28,11 @@ const InfoAlert = ({ highLowResults, fullState }) => (
         this test.
       </p>
       <p
-        data-testid="compose-message-Link"
+        data-testid="secure-messaging-link"
         className="vads-u-padding-bottom--2"
       >
         <ExternalLink
-          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
+          href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'secure-messaging')}
           text="Start a new message"
         />
       </p>

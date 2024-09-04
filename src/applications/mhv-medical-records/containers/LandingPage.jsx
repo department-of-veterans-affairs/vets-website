@@ -318,7 +318,7 @@ const LandingPage = () => {
               <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
-                  'compose-message',
+                  'secure-messaging',
                 )}
                 text="Start a new message"
               />
@@ -355,7 +355,7 @@ const LandingPage = () => {
               <ExternalLink
                 href={mhvUrl(
                   isAuthenticatedWithSSOe(fullState),
-                  'compose-message',
+                  'secure-messaging',
                 )}
                 text="Start a new message"
               />
