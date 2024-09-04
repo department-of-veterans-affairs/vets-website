@@ -54,7 +54,7 @@ function Default5103EvidenceNotice({
   const submit = () => {
     if (addedEvidence) {
       if (useLighthouse5103) {
-        submit5103(params.id, true);
+        submit5103(params.id, params.trackedItemId, true);
       } else {
         submitRequest(params.id, true);
       }
