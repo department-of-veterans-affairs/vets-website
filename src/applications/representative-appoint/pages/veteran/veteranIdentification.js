@@ -23,7 +23,10 @@ export const uiSchema = {
       } identification information`,
   ),
   ...descriptionUI(
-    `You must enter a Social Security number or VA file number. In most cases, your Social Security and VA file numbers are the same.`,
+    ({ formData }) =>
+      `You must enter a Social Security number or VA file number. In most cases, ${
+        preparerIsVeteran({ formData }) ? 'your' : 'the Veteran’s'
+      } Social Security and VA file numbers are the same. `,
   ),
   veteranSocialSecurityNumber: ssnUI('Social Security number'),
   veteranVAFileNumber: vaFileNumberUI('VA file number'),
