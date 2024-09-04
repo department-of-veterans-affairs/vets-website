@@ -125,7 +125,7 @@ const testConfig = createTestConfig(
       cy.get('@testData').then(data => {
         cy.intercept('GET', '/v0/in_progress_forms/10182', mockPrefill);
         cy.intercept('PUT', 'v0/in_progress_forms/10182', mockInProgress);
-        cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
+        cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
         }).as('getIssues');
       });
