@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux';
 
 import {
   VaButton,
@@ -8,7 +7,7 @@ import {
   VaLink,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export const ConfirmationPage = () => {
+export default function ConfirmationPage() {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
 
@@ -66,12 +65,4 @@ export const ConfirmationPage = () => {
       <VaButton onClick={handlers.onClickContinueButton} text="Continue" />
     </>
   );
-};
-
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-  };
 }
-
-export default connect(mapStateToProps)(ConfirmationPage);
