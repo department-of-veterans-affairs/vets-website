@@ -61,6 +61,108 @@ describe('Notification Settings Feature Toggles', () => {
 
       cy.injectAxeThenAxeCheck();
     });
+
+    it('should SHOW the New benefit overpayment debt notification notification when toggle profileShowPaymentsNotificationSetting and profileShowNewBenefitOverpaymentDebtNotificationSetting are TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowPaymentsNotificationSetting: true,
+          profileShowNewBenefitOverpaymentDebtNotificationSetting: true,
+          profileShowNewHealthCareCopayBillNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: true,
+      });
+
+      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
+        {
+          exists: true,
+        },
+      );
+
+      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
+        {
+          exists: false,
+        },
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should SHOW the New health care copay bill when toggle profileShowPaymentsNotificationSetting and profileShowNewHealthCareCopayBillNotificationSetting are TRUE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowPaymentsNotificationSetting: true,
+          profileShowNewHealthCareCopayBillNotificationSetting: true,
+          profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: true,
+      });
+
+      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
+        {
+          exists: true,
+        },
+      );
+
+      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
+        {
+          exists: false,
+        },
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
+
+    it('should NOT SHOW the New health care copay bill or New benefit overpayment debt notification notification when toggle profileShowPaymentsNotificationSetting is FALSE', () => {
+      cy.intercept(
+        'GET',
+        '/v0/feature_toggles*',
+        generateFeatureToggles({
+          profileShowPaymentsNotificationSetting: false,
+          profileShowNewHealthCareCopayBillNotificationSetting: true,
+          profileShowNewBenefitOverpaymentDebtNotificationSetting: true,
+        }),
+      );
+
+      NotificationSettingsFeature.loginAsUser36AndVisitNotficationSettingsPage();
+
+      NotificationSettingsFeature.confirmHearingReminderNotificationSanityCheck();
+
+      NotificationSettingsFeature.confirmPaymentNotificationSetting({
+        exists: false,
+      });
+
+      NotificationSettingsFeature.confirmNewHealthCareCopayBillNotificationSetting(
+        {
+          exists: false,
+        },
+      );
+
+      NotificationSettingsFeature.confirmNewBenefitOverpaymentDebtNotificationSetting(
+        {
+          exists: false,
+        },
+      );
+
+      cy.injectAxeThenAxeCheck();
+    });
   });
 
   describe('Shows/Hides QuickSubmit settings via feature toggle', () => {
