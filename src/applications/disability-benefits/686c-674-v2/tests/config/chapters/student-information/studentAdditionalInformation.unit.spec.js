@@ -153,7 +153,7 @@ describe('674 Add students: Student information (education benefits)', () => {
           last: 'Student',
         },
         typeOfProgramOrBenefit: {
-          CH35: true,
+          ch35: true,
         },
       },
     ];
