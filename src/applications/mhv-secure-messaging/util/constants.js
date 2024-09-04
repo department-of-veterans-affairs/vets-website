@@ -127,6 +127,7 @@ export const ErrorMessages = {
       confirmButtonText: 'Save and exit',
       cancelButtonText: 'Continue editing',
     },
+    MINIMUM_SELECTION: 'Select at least one team',
   },
 };
 

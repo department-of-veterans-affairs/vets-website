@@ -139,8 +139,8 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards and a list of your medications and
-                other information to share with your provider.
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
                 <br />
                 <va-link
                   text="Find a full list of things to bring to your appointment"

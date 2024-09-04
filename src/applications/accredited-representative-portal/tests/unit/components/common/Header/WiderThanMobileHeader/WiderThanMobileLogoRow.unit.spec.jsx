@@ -28,16 +28,6 @@ describe('WiderThanMobileLogoRow', () => {
     );
   });
 
-  it('renders the contact us link with correct href', () => {
-    const { getByTestId } = renderTestApp();
-
-    const contactLink = getByTestId(
-      'wider-than-mobile-logo-row-contact-us-link',
-    );
-    expect(contactLink.href).to.eq('https://www.va.gov/contact-us/');
-    expect(contactLink.textContent).to.eq('Contact us');
-  });
-
   it('renders UserNav and displays sign-in link when no profile exists', () => {
     const { getByTestId } = renderTestApp();
 

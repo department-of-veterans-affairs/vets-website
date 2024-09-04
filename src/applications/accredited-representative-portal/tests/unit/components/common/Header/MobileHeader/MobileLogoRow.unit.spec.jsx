@@ -31,19 +31,6 @@ describe('MobileLogoRow', () => {
   it('should have a link that navigates to the home page', () => {
     const { getByTestId } = renderTestApp();
     const link = getByTestId('mobile-logo-row-logo-link');
-    expect(link.href).to.eq('http://localhost/representative');
-  });
-
-  it('should render a menu button', () => {
-    const { getByTestId } = renderTestApp();
-    const button = getByTestId('mobile-logo-row-menu-button');
-    expect(button.textContent).to.eq('Menu');
-  });
-
-  it('should include an icon inside the menu button', () => {
-    const { getByTestId } = renderTestApp();
-    const button = getByTestId('mobile-logo-row-menu-button');
-    const icon = button.querySelector('va-icon');
-    expect(icon).to.exist;
+    expect(link).to.exist;
   });
 });

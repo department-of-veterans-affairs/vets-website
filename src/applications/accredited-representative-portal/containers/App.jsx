@@ -58,7 +58,7 @@ const App = ({ location, children }) => {
   }
 
   return (
-    <>
+    <div className="container">
       <Header />
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
@@ -66,7 +66,7 @@ const App = ({ location, children }) => {
         <Form21a location={location}>{children}</Form21a>
       )}
       <Footer />
-    </>
+    </div>
   );
 };
 

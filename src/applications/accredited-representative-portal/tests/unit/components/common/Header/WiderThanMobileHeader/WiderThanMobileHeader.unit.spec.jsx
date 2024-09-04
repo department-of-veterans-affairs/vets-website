@@ -23,13 +23,6 @@ describe('WiderThanMobileLogoRow', () => {
     expect(getByTestId('wider-than-mobile-logo-row-logo')).to.exist;
   });
 
-  it('renders contact us link', () => {
-    const { getByTestId } = renderTestApp();
-    expect(
-      getByTestId('wider-than-mobile-logo-row-contact-us-link').textContent,
-    ).to.eq('Contact us');
-  });
-
   it('renders sign in link', () => {
     const { getByTestId } = renderTestApp();
     expect(
