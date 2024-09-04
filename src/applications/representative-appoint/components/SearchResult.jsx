@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { parsePhoneNumber } from '../utilities/helpers';
 
 const SearchResult = ({
-  officer,
+  representativeName,
   addressLine1,
   addressLine2,
   addressLine3,
@@ -66,14 +66,14 @@ const SearchResult = ({
               {parseFloat(JSON.parse(distance).toFixed(2))} Mi
             </div>
           )}
-          {officer && (
+          {representativeName && (
             <>
               <div
                 className="vads-u-font-family--serif vads-u-margin-top--2p5"
                 id={`result-${representativeId}`}
               >
                 <h3 aria-describedby={`representative-${representativeId}`}>
-                  {officer}
+                  {representativeName}
                 </h3>
               </div>
               {associatedOrgs?.length === 1 && (
@@ -130,6 +130,7 @@ const SearchResult = ({
           )}
           {phone && (
             <div className="vads-u-margin-top--1p5">
+              {contact} {extension} {phone}
               <va-telephone
                 contact={contact}
                 extension={extension}
@@ -163,7 +164,7 @@ SearchResult.propTypes = {
   distance: PropTypes.string,
   email: PropTypes.string,
   key: PropTypes.number,
-  officer: PropTypes.string,
+  representativeName: PropTypes.string,
   phone: PropTypes.string,
   representativeId: PropTypes.string,
   stateCode: PropTypes.string,

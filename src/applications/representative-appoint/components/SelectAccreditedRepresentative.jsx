@@ -54,7 +54,10 @@ const SelectAccreditedRepresentative = () => {
             const representative = rep.data;
             return (
               <SearchResult
-                officer={representative.attributes.fullName}
+                representativeName={
+                  representative.attributes.fullName ||
+                  representative.attributes.name
+                }
                 key={index}
                 type={representative.type}
                 addressLine1={representative.attributes.addressLine1}
