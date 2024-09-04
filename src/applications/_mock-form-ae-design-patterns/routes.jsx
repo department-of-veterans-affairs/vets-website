@@ -5,7 +5,7 @@ import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import App from './App';
-import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
+// import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
 
 const pattern1Routes = [
@@ -35,12 +35,52 @@ const pattern1Routes = [
   },
 ];
 
+const pattern2Routes = [
+  {
+    path: '/2/task-blue',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/2/task-blue/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(greenFormConfig),
+  },
+  {
+    path: '/2/task-red',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/2/task-red/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
+  },
+  {
+    path: '/2/task-pink',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/2/task-pink/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+  },
+  {
+    path: '/2/task-orange',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/2/task-orange/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+  },
+  {
+    path: '/2/task-gray',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/2/task-gray/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+  },
+];
+
 const routes = [
   ...pattern1Routes,
-  {
-    path: '/2',
-    component: Pattern2,
-  },
+  ...pattern2Routes,
   {
     path: '*',
     component: props => (

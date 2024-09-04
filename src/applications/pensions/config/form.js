@@ -26,6 +26,9 @@ const formConfig = {
   trackingPrefix: 'pensions-527EZ-',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   downtime: {
     dependencies: [externalServices.icmhs],
   },
