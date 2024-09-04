@@ -8,9 +8,6 @@ import { convertToLatLng } from '../utils/mapbox';
 
 const facilities = { data: [] };
 
-// Mock facilities api call locally
-// const facilities = healthFacilityMockData;
-
 const YourVAHealthFacilityPage = ({ onChange, goBack, goForward }) => {
   const [apiData, setApiData] = useState(facilities);
   const [isSearching, setIsSearching] = useState(false);

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { isWebComponent, querySelectorWithShadowRoot } from './webComponents';
 
 // .nav-header > h2 contains "Step {index} of {total}: {page title}"
@@ -67,30 +66,39 @@ export function focusElement(selectorOrElement, options, root) {
  *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
+const isCypressRunning = typeof Cypress !== 'undefined' && Cypress.env('CI');
+const defaultTime = isCypressRunning ? 0 : 250;
+const defaultMax = isCypressRunning ? 1 : 6;
 export function waitForRenderThenFocus(
   selector,
   root = document,
-  timeInterval = 250,
+  timeInterval = defaultTime,
   // added because we first need to wait for a component to be rendered, then we
   // need to target an element inside the component (in regular or in a web
   // component's shadow DOM)
   internalSelector,
 ) {
-  const maxIterations = 6; // 1.5 seconds
+  const maxIterations = defaultMax; // 6 iterations * 250 ms = 1.5 seconds
   let count = 0;
 
-  const interval = setInterval(() => {
+  let interval = setInterval(() => {
     const el = (root || document).querySelector(selector);
     if (el) {
       clearInterval(interval);
+      interval = null;
       if (internalSelector) {
         focusElement(internalSelector, {}, el);
       } else {
         focusElement(el);
       }
-    } else if (count >= maxIterations) {
+    } else if (interval && count >= maxIterations) {
       clearInterval(interval);
-      focusElement(defaultFocusSelector); // fallback to breadcrumbs
+      interval = null;
+
+      // Don't set default focus if something is already focused
+      if (document.activeElement === document.body) {
+        focusElement(defaultFocusSelector); // fallback to breadcrumbs
+      }
     }
     count += 1;
   }, timeInterval);

@@ -53,11 +53,7 @@ const FileInput = props => {
       return;
     }
 
-    if (
-      attachments.filter(
-        a => a.name === selectedFile.name && a.size === selectedFile.size,
-      ).length > 0
-    ) {
+    if (attachments.filter(a => a.name === selectedFile.name).length > 0) {
       setError({
         message: ErrorMessages.ComposeForm.ATTACHMENTS.FILE_DUPLICATE,
       });

@@ -29,6 +29,10 @@ class PathologyDetailsPage extends BaseDetailsPage {
     );
   };
 
+  verifyDateCompleted = dateCompleted => {
+    cy.get('[data-testid="date-completed"]').should('contain', dateCompleted);
+  };
+
   verifyComposeMessageLink = composeMessageLink => {
     // verify compose a message on the My Healthvet website
     cy.get('[data-testid="compose-message-Link"]').should('be.visible');

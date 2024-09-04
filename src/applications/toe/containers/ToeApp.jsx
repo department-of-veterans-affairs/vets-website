@@ -18,6 +18,7 @@ import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
   duplicateEmail,
   duplicatePhone,
   formData,
@@ -33,10 +34,10 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   toeDupContactInfoCall,
+  toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -84,18 +85,6 @@ function ToeApp({
       }
     },
     [formData, setFormData, isLOA3],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
   );
 
   useEffect(
@@ -228,6 +217,29 @@ function ToeApp({
     ],
   );
 
+  useEffect(
+    () => {
+      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+        setFormData({
+          ...formData,
+          toeHighSchoolInfoChange,
+        });
+      }
+    },
+    [toeHighSchoolInfoChange],
+  );
+
+  useEffect(
+    () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob],
+  );
   return (
     <>
       <div className="row">
@@ -277,7 +289,6 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
@@ -292,6 +303,9 @@ ToeApp.propTypes = {
 const mapStateToProps = state => {
   return {
     ...getAppData(state),
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: state.form?.data || {},
     claimant: state.data?.formData?.data?.attributes?.claimant,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,

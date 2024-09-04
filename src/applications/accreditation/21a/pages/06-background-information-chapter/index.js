@@ -203,7 +203,7 @@ export default {
     hasConditionThatAffectsExamination: yesNoPageSchema({
       title: 'Condition that affects examination',
       path: 'condition-that-affects-examination',
-      depends: formData => formData?.role === 'CLAIMS_AGENT',
+      depends: formData => formData?.role === 'claimsAgent',
       question:
         'Do you have any physical limitations which would interfere with your completion of written examination administered under the supervision of a VA district counsel?',
     }),

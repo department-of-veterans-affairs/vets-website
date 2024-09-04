@@ -1,11 +1,8 @@
 import React from 'react';
 
 const MissingApplicationHelp = () => (
-  <va-accordion uswds open-single="true" data-testid="missing-application-help">
-    <va-accordion-item
-      header="If you can't find your application or form"
-      uswds
-    >
+  <va-accordion open-single="true" data-testid="missing-application-help">
+    <va-accordion-item header="If you can't find your application or form">
       <p>
         <span className="vads-u-font-weight--bold">
           If you can’t find a draft application or form
@@ -54,10 +51,10 @@ const MissingApplicationHelp = () => (
         </li>
       </ul>
       <p>
-        If you have questions about your applications or forms, call us at
+        If you have questions about your applications or forms, call us at{' '}
         <va-telephone contact="8008271000" /> (
-        <va-telephone contact="711" tty />. We’re here Monday through Friday,
-        8:00 a.m. to 9:00 p.m. ET.
+        <va-telephone contact="711" tty />
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m. ET.
       </p>
     </va-accordion-item>
   </va-accordion>
