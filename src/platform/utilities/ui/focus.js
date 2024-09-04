@@ -95,11 +95,10 @@ export function focusByOrder(selectors, root) {
  *  component we're waiting for (could be an element in shadow DOM)
  * @example waitForRenderThenFocus('h3', document.querySelector('va-radio').shadowRoot);
  */
-const isCypressRunning =
+const noAsyncFocusWhenCypressRunningInCiOrLocally =
   typeof Cypress !== 'undefined' &&
   (Cypress.env('CI') || environment.isLocalhost());
-const defaultTime = isCypressRunning ? 0 : 250;
-const defaultMax = isCypressRunning ? 1 : 6;
+const defaultTime = noAsyncFocusWhenCypressRunningInCiOrLocally ? 0 : 250;
 
 export function waitForRenderThenFocus(
   selector,
@@ -110,7 +109,7 @@ export function waitForRenderThenFocus(
   // component's shadow DOM)
   internalSelector,
 ) {
-  const maxIterations = defaultMax; // 6 iterations * 250 ms = 1.5 seconds
+  const maxIterations = 6; // 6 iterations * 250 ms = 1.5 seconds
   let count = 0;
 
   if (!timeInterval) {
