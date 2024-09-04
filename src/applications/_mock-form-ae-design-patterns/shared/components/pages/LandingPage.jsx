@@ -1,21 +1,26 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { tabsConfig } from '../../../utils/data/tabs';
 import { handleEditPageDisplayTweaks } from '../../../App';
 
 const defaultRootUrl = '/mock-form-ae-design-patterns';
 
-const handleClick = (rootUrl, task) => {
-  if (task === 'task-green') {
-    window.location = `${rootUrl}/1/task-green/introduction?loggedIn=false`;
-  }
-  if (task === 'task-yellow') {
-    window.location = `${rootUrl}/1/task-yellow/introduction?loggedIn=true`;
-  }
-  if (task === 'task-purple') {
-    window.location = `${rootUrl}/1/task-purple/introduction?loggedIn=true`;
-  }
+const handleClick = (rootUrl, path) => {
+  window.location = `${rootUrl}${path}`;
 };
 
-export const LandingPage = ({ rootUrl }) => {
+export const LandingPage = ({ rootUrl = defaultRootUrl }) => {
+  const [tabs, setTabs] = useState([]);
+
+  useEffect(() => {
+    // get the pattern number from the URL
+    const patternNumber = window.location.pathname.match(
+      /mock-form-ae-design-patterns\/(\d+)/,
+    )?.[1];
+    const patternKey = `pattern${patternNumber}`;
+
+    setTabs(tabsConfig[patternKey]);
+  }, []);
+
   return (
     <div className="vads-u-padding-bottom--7">
       <div className="vads-l-row">
@@ -26,63 +31,27 @@ export const LandingPage = ({ rootUrl }) => {
         </div>
       </div>
 
-      <div className="vads-l-row vads-u-margin-y--2">
-        <div className="vads-l-col">
-          <button
-            className="vads-u-width--full"
-            onClick={() => handleClick(rootUrl || defaultRootUrl, 'task-green')}
-            style={{
-              backgroundColor: 'var(--vads-color-success-darker)',
-            }}
-          >
-            Green Task
-          </button>
+      {tabs.map(tab => (
+        <div className="vads-l-row vads-u-margin-y--2" key={tab.name}>
+          <div className="vads-l-col">
+            <button
+              className={`vads-u-width--full ${tab.baseClass}`}
+              onClick={() =>
+                handleClick(rootUrl, tab.path + tab.introPathWithQuery)
+              }
+            >
+              {tab.name}
+            </button>
+          </div>
+          <div className="vads-l-col">
+            <p className="vads-u-margin-left--4">{tab.description}</p>
+          </div>
         </div>
-        <div className="vads-l-col">
-          <p className="vads-u-margin-left--4">10-10EZR Form</p>
-        </div>
-      </div>
-      <div className="vads-l-row vads-u-margin-y--2">
-        <div className="vads-l-col">
-          <button
-            onClick={() =>
-              handleClick(rootUrl || defaultRootUrl, 'task-yellow')
-            }
-            className="vads-u-color--black vads-u-border--2px vads-u-width--full"
-            style={{
-              backgroundColor: 'var(--vads-color-action-focus-on-light)',
-            }}
-          >
-            Yellow Task
-          </button>
-        </div>
-        <div className="vads-l-col">
-          <p className="vads-u-margin-left--4">10-10EZR Form</p>
-        </div>
-      </div>
-
-      <div className="vads-l-row vads-u-margin-y--2">
-        <div className="vads-l-col">
-          <button
-            className="vads-u-width--full"
-            onClick={() =>
-              handleClick(rootUrl || defaultRootUrl, 'task-purple')
-            }
-            style={{ backgroundColor: 'var(--vads-color-link-visited)' }}
-          >
-            Purple Task
-          </button>
-        </div>
-
-        <div className="vads-l-col">
-          <p className="vads-u-margin-left--4">10182 Form</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
 
-//
 export const LandingPageWrapper = ({ children }) => {
   useEffect(() => {
     handleEditPageDisplayTweaks(window.location);

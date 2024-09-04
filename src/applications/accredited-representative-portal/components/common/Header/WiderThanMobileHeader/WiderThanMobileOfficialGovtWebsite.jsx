@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 
-const OfficialGovtWebsite = ({ isMobile }) => {
+const WiderThanMobileOfficialGovtWebsite = () => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpansion = () => {
@@ -18,48 +17,27 @@ const OfficialGovtWebsite = ({ isMobile }) => {
               height="20"
               width="20"
             />
-            {isMobile ? (
-              <>
-                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                <button
-                  data-testid="official-govt-website-toggle-mobile"
-                  className="expand-official-govt-explanation va-button-link vads-u-text-decoration--none"
-                  aria-expanded={isExpanded}
-                  aria-controls="gov-banner"
-                  onClick={toggleExpansion}
-                >
-                  An official website of the United States government
-                  <va-icon
-                    icon="expand_more"
-                    size={3}
-                    className="vads-u-margin-left--0p5"
-                  />
-                </button>
-              </>
-            ) : (
-              <>
-                <p>An official website of the United States government</p>
-                {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
-                <button
-                  data-testid="official-govt-website-toggle-wider-than-mobile"
-                  className="usa-accordion-button usa-banner-button"
-                  aria-expanded={isExpanded}
-                  aria-controls="gov-banner"
-                  onClick={toggleExpansion}
-                >
-                  <span
-                    data-testid="official-govt-website-toggle-wider-than-mobile-text"
-                    className="usa-banner-button-text"
-                  >
-                    Here’s how you know
-                  </span>
-                </button>
-              </>
-            )}
+
+            <p>An official website of the United States government</p>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
+            <button
+              data-testid="official-govt-website-toggle-wider-than-mobile"
+              className="usa-accordion-button usa-banner-button"
+              aria-expanded={isExpanded}
+              aria-controls="gov-banner"
+              onClick={toggleExpansion}
+            >
+              <span
+                data-testid="official-govt-website-toggle-wider-than-mobile-text"
+                className="usa-banner-button-text"
+              >
+                Here’s how you know
+              </span>
+            </button>
           </div>
         </div>
         <div
-          data-testid="official-govt-website-content"
+          data-testid="official-govt-website-content-wider-than-mobile"
           className="usa-banner-content usa-grid usa-accordion-content"
           aria-hidden={!isExpanded}
         >
@@ -100,8 +78,4 @@ const OfficialGovtWebsite = ({ isMobile }) => {
   );
 };
 
-OfficialGovtWebsite.propTypes = {
-  isMobile: PropTypes.bool,
-};
-
-export default OfficialGovtWebsite;
+export default WiderThanMobileOfficialGovtWebsite;
