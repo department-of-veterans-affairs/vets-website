@@ -124,14 +124,6 @@ const testConfig = createTestConfig(
       'review-and-submit': ({ afterHook }) => {
         afterHook(() => {
           cy.get('@testData').then(data => {
-            // Open the form signature accordion, select "signing for myself",
-            // update, and sign + submit the form.
-            cy.get('va-accordion-item')
-              .last()
-              .click();
-            cy.get('[aria-label="Edit Form signature"]').click();
-            selectRadioWebComponent('certifierRole', data.certifierRole);
-            cy.get('[aria-label="Update Form signature"]').click();
             // Type in the signature, check the box, and submit
             cy.get('va-text-input')
               .shadow()

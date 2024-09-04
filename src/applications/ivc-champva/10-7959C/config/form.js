@@ -46,6 +46,7 @@ import {
 
 import { formSignatureSchema } from '../chapters/formSignature';
 import CustomAttestation from '../components/CustomAttestation';
+import { UPLOADS_COMPLETE_PATH } from './constants';
 
 import GetFormHelp from '../../shared/components/GetFormHelp';
 import { hasReq } from '../../shared/components/fileUploads/MissingFileOverview';
@@ -473,7 +474,7 @@ const formConfig = {
       title: 'Form signature',
       pages: {
         formSignature: {
-          path: 'form-signature',
+          path: UPLOADS_COMPLETE_PATH,
           title: 'Form signature',
           ...formSignatureSchema,
         },
