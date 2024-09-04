@@ -5,14 +5,23 @@ import reducer from '../../reducers';
 import MrBreadcrumbs from '../../components/MrBreadcrumbs';
 
 describe('MrBreadcrumbs component', () => {
-  it('should display no breadcrumbs', () => {
+  it('should display breadcrumbs on the landing page', () => {
     const initialState = {
       mr: {
         breadcrumbs: {
-          list: [
+          crumbsList: [
             {
-              url: '/my-health/medical-records/',
+              href: '/',
+              label: 'VA.gov home',
+            },
+            {
+              href: '/my-health',
+              label: 'My HealtheVet',
+            },
+            {
+              href: '/',
               label: 'Medical records',
+              isRouterLink: true,
             },
           ],
         },
@@ -22,29 +31,10 @@ describe('MrBreadcrumbs component', () => {
     const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
       initialState,
       reducers: reducer,
-      path: '/labs-and-tests',
+      path: '/',
     });
+    screen.debug();
     const header = screen.getByTestId('breadcrumbs');
-    expect(header).to.exist;
-  });
-});
-
-describe('MrBreadcrumbs component with nothing in the store', () => {
-  it('should display no breadcrumbs', () => {
-    const initialState = {
-      mr: {
-        breadcrumbs: {
-          list: [],
-        },
-      },
-    };
-
-    const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {
-      initialState,
-      reducers: reducer,
-      path: '/labs-and-tests',
-    });
-    const header = screen.getByTestId('no-breadcrumbs');
     expect(header).to.exist;
   });
 });

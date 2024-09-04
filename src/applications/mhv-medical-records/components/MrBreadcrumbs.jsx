@@ -55,7 +55,7 @@ const MrBreadcrumbs = () => {
       home-veterans-affairs
       onRouteChange={handleRoutechange}
       className="small-screen:vads-u-margin-y--2"
-      dataTestid="mr-breadcrumbs"
+      dataTestid="breadcrumbs"
       uswds
     />
   );
