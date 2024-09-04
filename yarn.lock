@@ -2891,11 +2891,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.13":
-  version "11.0.13"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.13.tgz#e248aaa70bfe17a451be54dcf6896a7c4fb74e31"
-  integrity sha512-N5AxRBfkcCrYQAluAw0IRc0ja6r4IfkbptARLOVVw992mFPK7f+6R+sSRzfVmyUAgxtQFpvdgA5LzEqMoEtbMQ==
-
+"@department-of-veterans-affairs/formation@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.14.tgz#03a9dc55543726c473211466657f33a9793f61a2"
+  integrity sha512-CrnPZAS0m3fieCmdmcRl2hW9vdbkroIA041CpiIgq6qqPfZwpjQIZiQijNzmS2UDlRF+bFK5CziQJCbOJ4wneg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -8827,8 +8826,8 @@ dommatrix@^1.0.3:
 
 domready@^1.0.8:
   version "1.0.8"
-  resolved "https://registry.npmjs.org/domready/-/domready-1.0.8.tgz"
-  integrity sha1-kfJS5Ze2Wvd+dFriTdAYXV4m1Yw=
+  resolved "https://registry.yarnpkg.com/domready/-/domready-1.0.8.tgz#91f252e597b65af77e745ae24dd0185d5e26d58c"
+  integrity sha512-uIzsOJUNk+AdGE9a6VDeessoMCzF8RrZvJCX/W8QtyfgdR6Uofn/MvRonih3OtCO79b2VDzDOymuiABrQ4z3XA==
 
 domutils@^1.5.1:
   version "1.5.1"
@@ -8973,7 +8972,7 @@ element-closest@^2.0.1:
 
 element-closest@^3.0.1:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/element-closest/-/element-closest-3.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.2.tgz#3814a69a84f30e48e63eaf57341f4dbf4227d2aa"
   integrity sha512-JxKQiJKX0Zr5Q2/bCaTx8P+UbfyMET1OQd61qu5xQFeWr1km3fGaxelSJtnfT27XQ5Uoztn2yIyeamAc/VX13g==
 
 element-remove@^1.0.4:
