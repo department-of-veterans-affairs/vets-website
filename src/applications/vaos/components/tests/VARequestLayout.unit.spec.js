@@ -29,7 +29,6 @@ describe('VAOS Component: VARequestLayout', () => {
     },
     featureToggles: {
       vaOnlineSchedulingAfterVisitSummary: true,
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
     },
   };
 

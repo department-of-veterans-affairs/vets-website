@@ -343,7 +343,10 @@ class TrackClaimsPage {
 
   verifyDocRequestfor5103Notice() {
     cy.get('#default-5103-notice-page').should('be.visible');
-    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a.active-va-link').should(
+      'contain',
+      'Find this letter in your claim letters',
+    );
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
       'Upload your evidence here',
