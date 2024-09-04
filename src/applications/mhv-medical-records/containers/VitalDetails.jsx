@@ -37,6 +37,7 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
+  generateNewRecordsIndicator,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
@@ -47,7 +48,6 @@ import {
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
 import { useIsDetails } from '../hooks/useIsDetails';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
 const MAX_PAGE_LIST_LENGTH = 10;
@@ -205,9 +205,27 @@ const VitalDetails = props => {
     [vitalType, vitalsList, dispatch],
   );
 
+  const RecordsIndicator = generateNewRecordsIndicator(
+    refresh,
+    records,
+    updatedRecordList,
+    refreshExtractTypes.VPR,
+    reloadRecords,
+    dispatch,
+  );
+
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVitalsIntro(records);
+
+    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
+    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
+
+    const { title, subject, preface } = generateVitalsIntro(
+      records,
+      lastUpdatedIndicator,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -252,18 +270,11 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
-        <NewRecordsIndicator
-          refreshState={refresh}
-          extractType={refreshExtractTypes.VPR}
-          newRecordsFound={
-            Array.isArray(vitalsList) &&
-            Array.isArray(updatedRecordList) &&
-            vitalsList.length !== updatedRecordList.length
-          }
-          reloadFunction={() => {
-            dispatch(reloadRecords());
-          }}
-        />
+
+        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
+        component, which checks for and displays updates to the records. */}
+        {RecordsIndicator}
+
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}

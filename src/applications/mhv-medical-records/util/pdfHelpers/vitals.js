@@ -1,9 +1,9 @@
 import { vitalTypeDisplayNames } from '../constants';
 
-export const generateVitalsIntro = records => {
+export const generateVitalsIntro = (records, lastUpdatedIndicator) => {
   return {
     title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
-    subject: 'VA Medical Record',
+    subject: 'VA Medical Record\n\n' + lastUpdatedIndicator,
   };
 };
 

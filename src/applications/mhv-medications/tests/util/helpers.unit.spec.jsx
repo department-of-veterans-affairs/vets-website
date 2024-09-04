@@ -1,4 +1,6 @@
 import { expect } from 'chai';
+import { shallow } from 'enzyme';
+import sinon from 'sinon';
 import {
   EMPTY_FIELD,
   imageRootUri,
