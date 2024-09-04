@@ -70,7 +70,7 @@ describe('CG <FacilitySearch>', () => {
       input: container.querySelector('va-search-input'),
       loader: container.querySelector('va-loading-indicator'),
       radioList: container.querySelector('va-radio'),
-      error: queryByRole('alert'),
+      searchInputError: queryByRole('alert'),
       moreFacilities: queryByText('Load more facilities'),
       formNavButtons: {
         back: getByText('Back'),
@@ -97,7 +97,7 @@ describe('CG <FacilitySearch>', () => {
   });
 
   context('when search is attempted with valid data', () => {
-    const successResponse = { center: [1, 2] };
+    const mapBoxSuccessResponse = { center: [1, 2] };
     let mapboxStub;
     let facilitiesStub;
 
@@ -114,7 +114,7 @@ describe('CG <FacilitySearch>', () => {
     it('should fetch list of facilities to select on success', async () => {
       const { props, mockStore } = getData({});
       const { selectors, container } = subject({ props, mockStore });
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
@@ -132,7 +132,7 @@ describe('CG <FacilitySearch>', () => {
     it('only renders query value that was searched for', async () => {
       const { props, mockStore } = getData({});
       const { container, getByText, selectors } = subject({ props, mockStore });
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
       await waitFor(() => {
@@ -153,7 +153,7 @@ describe('CG <FacilitySearch>', () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityWithCaregiverSupportResponse;
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
@@ -186,7 +186,7 @@ describe('CG <FacilitySearch>', () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchFacilitiesResponse;
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
@@ -220,7 +220,7 @@ describe('CG <FacilitySearch>', () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityResponse;
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.onFirstCall().resolves(facilities);
 
       const parentFacility = mockFetchParentFacilityResponse;
@@ -257,7 +257,7 @@ describe('CG <FacilitySearch>', () => {
       const { props, mockStore } = getData({});
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchChildFacilityResponse;
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.onFirstCall().resolves(facilities);
 
       facilitiesStub.onSecondCall().resolves({
@@ -294,10 +294,10 @@ describe('CG <FacilitySearch>', () => {
       await waitFor(() => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
-        expect(selectors().error.textContent).to.eq(
+        expect(selectors().searchInputError.textContent).to.eq(
           'ErrorSome bad error occurred.',
         );
-        expect(selectors().error.parentElement).to.have.class(
+        expect(selectors().searchInputError.parentElement).to.have.class(
           'caregiver-facilities-search-input-error',
         );
       });
@@ -312,7 +312,7 @@ describe('CG <FacilitySearch>', () => {
       });
       const { container, selectors } = subject({ props, mockStore });
       const facilities = mockFetchFacilitiesResponse;
-      mapboxStub.resolves(successResponse);
+      mapboxStub.resolves(mapBoxSuccessResponse);
       facilitiesStub.resolves(facilities);
 
       await waitFor(() => {
@@ -327,6 +327,36 @@ describe('CG <FacilitySearch>', () => {
       });
     });
 
+    it('sets error when trying to click goForward when facilities are rendered', async () => {
+      const { props, mockStore } = getData({});
+      const { container, selectors } = subject({ props, mockStore });
+      const facilities = mockFetchFacilitiesResponse;
+      mapboxStub.resolves(mapBoxSuccessResponse);
+      facilitiesStub.resolves(facilities);
+
+      await waitFor(() => {
+        inputVaSearchInput(container, 'Tampa', selectors().input);
+        expect(selectors().loader).to.exist;
+      });
+
+      await waitFor(() => {
+        expect(selectors().radioList).to.exist;
+        expect(selectors().loader).to.not.exist;
+      });
+
+      await waitFor(() => {
+        userEvent.click(selectors().formNavButtons.forward);
+      });
+
+      await waitFor(() => {
+        expect(goForward.calledOnce).to.be.false;
+        expect(selectors().radioList).to.have.attr(
+          'error',
+          'Select a medical center or clinic',
+        );
+      });
+    });
+
     context('clicking more facilities', () => {
       it('successfully loads more facilities', async () => {
         const { props, mockStore } = getData({});
@@ -335,7 +365,7 @@ describe('CG <FacilitySearch>', () => {
           mockStore,
         });
 
-        mapboxStub.resolves(successResponse);
+        mapboxStub.resolves(mapBoxSuccessResponse);
         facilitiesStub.resolves(mockFetchFacilitiesResponse);
 
         await waitFor(() => {
@@ -378,7 +408,7 @@ describe('CG <FacilitySearch>', () => {
           mockStore,
         });
 
-        mapboxStub.resolves(successResponse);
+        mapboxStub.resolves(mapBoxSuccessResponse);
         facilitiesStub.onCall(0).resolves(mockFetchFacilitiesResponse);
         facilitiesStub.onCall(1).resolves({
           type: 'SEARCH_FAILED',
@@ -406,7 +436,7 @@ describe('CG <FacilitySearch>', () => {
         await waitFor(() => {
           expect(selectors().radioList).to.exist;
           expect(selectors().loader).to.not.exist;
-          expect(selectors().error.textContent).to.eq(
+          expect(selectors().searchInputError.textContent).to.eq(
             'ErrorSome bad error occurred.',
           );
           expect(getByText(/Showing 1-2 of 2 facilities for/)).to.exist;
@@ -433,7 +463,7 @@ describe('CG <FacilitySearch>', () => {
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().error.textContent).to.eq(
+            expect(selectors().searchInputError.textContent).to.eq(
               'ErrorSome bad error occurred.',
             );
           });
@@ -456,7 +486,7 @@ describe('CG <FacilitySearch>', () => {
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().error.textContent).to.eq(
+            expect(selectors().searchInputError.textContent).to.eq(
               'ErrorNo search results found.',
             );
           });
@@ -467,7 +497,7 @@ describe('CG <FacilitySearch>', () => {
         it('should render appropriate error message when facilities fetch fails', async () => {
           const { props, mockStore } = getData({});
           const { container, selectors } = subject({ props, mockStore });
-          mapboxStub.resolves(successResponse);
+          mapboxStub.resolves(mapBoxSuccessResponse);
           facilitiesStub.resolves({
             type: 'SEARCH_FAILED',
             errorMessage: 'Some bad error occurred.',
@@ -481,7 +511,7 @@ describe('CG <FacilitySearch>', () => {
           await waitFor(() => {
             expect(selectors().radioList).to.not.exist;
             expect(selectors().loader).to.not.exist;
-            expect(selectors().error.textContent).to.eq(
+            expect(selectors().searchInputError.textContent).to.eq(
               'ErrorSome bad error occurred.',
             );
           });
@@ -505,25 +535,30 @@ describe('CG <FacilitySearch>', () => {
       expect(goBack.calledOnce).to.be.true;
     });
 
-    it('calls goForward callback when facility is set', () => {
-      const { props, mockStore } = getData({
-        data: {
-          'view:plannedClinic': { caregiverSupport: { id: 'my id' } },
-        },
+    context('goForward', () => {
+      it('calls goForward callback when facility is set', () => {
+        const { props, mockStore } = getData({
+          data: {
+            'view:plannedClinic': { caregiverSupport: { id: 'my id' } },
+          },
+        });
+        const { selectors } = subject({ props, mockStore });
+        userEvent.click(selectors().formNavButtons.forward);
+        expect(goForward.calledOnce).to.be.true;
       });
-      const { selectors } = subject({ props, mockStore });
-      userEvent.click(selectors().formNavButtons.forward);
-      expect(goForward.calledOnce).to.be.true;
-    });
 
-    it('sets error when trying to click goForward with no facility set', () => {
-      const { props, mockStore } = getData({});
-      const { selectors } = subject({ props, mockStore });
-      userEvent.click(selectors().formNavButtons.forward);
-      expect(goForward.calledOnce).to.be.false;
-      expect(selectors().error.textContent).to.eq(
-        'ErrorSelect a medical center or clinic',
-      );
+      it('renders error when trying to click goForward when no facilities are rendered', () => {
+        const { props, mockStore } = getData({});
+        const { selectors } = subject({ props, mockStore });
+        userEvent.click(selectors().formNavButtons.forward);
+        expect(goForward.calledOnce).to.be.false;
+        expect(selectors().searchInputError.textContent).to.eq(
+          'ErrorSelect a medical center or clinic',
+        );
+        expect(selectors().searchInputError.parentElement).to.have.class(
+          'caregiver-facilities-search-input-error',
+        );
+      });
     });
   });
 });

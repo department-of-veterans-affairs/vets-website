@@ -7,7 +7,7 @@ import {
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
-  const { facilities, onChange, query, value } = props;
+  const { facilities, onChange, query, value, error } = props;
   const reviewMode = props?.formContext?.reviewMode || false;
   const submitted = props?.formContext?.submitted || false;
 
@@ -18,10 +18,15 @@ const FacilityList = props => {
     setDirty(true);
   };
 
-  const showError = () =>
-    (submitted || dirty) && !value
+  const showError = () => {
+    if (error) {
+      return error;
+    }
+
+    return (submitted || dirty) && !value
       ? content['validation-facialities--default-required']
       : null;
+  };
 
   const getFacilityName = useCallback(
     val => {
@@ -89,6 +94,7 @@ const FacilityList = props => {
 };
 
 FacilityList.propTypes = {
+  error: PropTypes.string,
   facilities: PropTypes.array,
   formContext: PropTypes.object,
   query: PropTypes.string,

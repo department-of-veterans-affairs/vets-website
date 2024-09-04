@@ -17,6 +17,7 @@ const FacilitySearch = props => {
   const [loading, setLoading] = useState(false);
   const [loadingMoreFacilities, setLoadingMoreFacilities] = useState(false);
   const [error, setError] = useState(null);
+  const [facilitiesListError, setFacilitiesListError] = useState(null);
   const [facilities, setFacilities] = useState([]);
   const [pages, setPages] = useState(1);
   const dispatch = useDispatch();
@@ -26,7 +27,11 @@ const FacilitySearch = props => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
-      setError('Select a medical center or clinic');
+      if (!facilities?.length) {
+        setError('Select a medical center or clinic');
+      } else {
+        setFacilitiesListError('Select a medical center or clinic');
+      }
     } else {
       goForward(formData);
     }
@@ -82,9 +87,17 @@ const FacilitySearch = props => {
         onChange: setSelectedFacilities,
         facilities,
         query: submittedQuery,
+        error: facilitiesListError,
       };
     },
-    [facilities, submittedQuery, props, dispatch, formData],
+    [
+      facilities,
+      submittedQuery,
+      props,
+      dispatch,
+      formData,
+      facilitiesListError,
+    ],
   );
 
   const handleChange = e => {
