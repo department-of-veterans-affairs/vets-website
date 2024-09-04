@@ -92,7 +92,7 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileHideDirectDeposit: true,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
@@ -124,7 +124,7 @@ const responses = {
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
     // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
@@ -134,7 +134,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
-    return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
+    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null

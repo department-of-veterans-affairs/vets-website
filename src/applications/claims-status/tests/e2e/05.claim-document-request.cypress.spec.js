@@ -23,7 +23,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         const trackClaimsPage = new TrackClaimsPageV2();
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
         trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitFilesForReview(false);
@@ -52,7 +52,7 @@ describe('When feature toggle cst_5103_update_enabled disabled', () => {
         trackClaimsPage.loadPage(claimsList, claimDetailsOpen);
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, false);
         trackClaimsPage.verifyDocRequestforDefaultPage(true, true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitFilesForReview(false);
@@ -96,7 +96,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
           true,
         );
         trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, true);
         trackClaimsPage.verifyDocRequestfor5103Notice();
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
@@ -116,7 +116,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
           true,
         );
         trackClaimsPage.verifyInProgressClaim(false);
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true, true);
         trackClaimsPage.verifyDocRequestfor5103Notice(true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(false, true);
         trackClaimsPage.submitEvidenceWaiver();
@@ -159,7 +159,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         );
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice();
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(false, true);
         trackClaimsPage.verifyDocRequestfor5103Notice();
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitEvidenceWaiver();
@@ -180,7 +180,7 @@ describe('When feature toggle cst_5103_update_enabled enabled', () => {
         );
         trackClaimsPage.verifyInProgressClaim(false);
         trackClaimsPage.navigateToFilesTab();
-        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true);
+        trackClaimsPage.verifyPrimaryAlertfor5103Notice(true, true);
         trackClaimsPage.verifyDocRequestfor5103Notice(true);
         trackClaimsPage.verifyDocRequestBreadcrumbs(true, true);
         trackClaimsPage.submitEvidenceWaiver();
