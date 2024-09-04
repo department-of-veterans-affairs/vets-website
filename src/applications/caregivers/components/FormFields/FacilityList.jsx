@@ -85,7 +85,6 @@ const FacilityList = props => {
         value={value}
         onVaValueChange={handleChange}
         error={showError()}
-        required
       >
         {facilityOptions}
       </VaRadio>

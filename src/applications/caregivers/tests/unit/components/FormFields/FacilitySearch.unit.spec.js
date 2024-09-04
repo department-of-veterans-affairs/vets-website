@@ -8,6 +8,7 @@ import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import * as bboxFetch from '../../../../actions/fetchMapBoxGeocoding';
 import * as facilitiesFetch from '../../../../actions/fetchFacilities';
 import FacilitySearch from '../../../../components/FormFields/FacilitySearch';
+import content from '../../../../locales/en/content.json';
 import {
   mockFetchChildFacilityResponse,
   mockFetchChildFacilityWithCaregiverSupportResponse,
@@ -77,7 +78,7 @@ describe('CG <FacilitySearch>', () => {
         forward: getByText('Continue'),
       },
     });
-    return { container, selectors, getByText };
+    return { container, selectors, getByText, queryByText };
   };
 
   afterEach(() => {
@@ -89,10 +90,12 @@ describe('CG <FacilitySearch>', () => {
   context('when the component renders on the form page', () => {
     it('should render `va-search-input`', () => {
       const { props, mockStore } = getData({});
-      const { selectors } = subject({ props, mockStore });
+      const { selectors, queryByText } = subject({ props, mockStore });
       expect(selectors().input).to.exist;
       expect(selectors().radioList).not.to.exist;
       expect(selectors().moreFacilities).not.to.exist;
+      expect(queryByText(content['form-facilities-search-label'])).to.exist;
+      expect(queryByText('(*Required)')).not.to.exist;
     });
   });
 
@@ -549,7 +552,7 @@ describe('CG <FacilitySearch>', () => {
 
       it('renders error when trying to click goForward when no facilities are rendered', () => {
         const { props, mockStore } = getData({});
-        const { selectors } = subject({ props, mockStore });
+        const { selectors, getByText } = subject({ props, mockStore });
         userEvent.click(selectors().formNavButtons.forward);
         expect(goForward.calledOnce).to.be.false;
         expect(selectors().searchInputError.textContent).to.eq(
@@ -558,6 +561,7 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().searchInputError.parentElement).to.have.class(
           'caregiver-facilities-search-input-error',
         );
+        expect(getByText('(*Required)')).to.exist;
       });
     });
   });

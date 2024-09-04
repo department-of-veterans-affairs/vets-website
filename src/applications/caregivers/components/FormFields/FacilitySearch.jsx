@@ -228,10 +228,14 @@ const FacilitySearch = props => {
           >
             <label
               htmlFor="facility-search"
-              id="facility-search-label"
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
             >
               {content['form-facilities-search-label']}
+              {error && (
+                <span className="vads-u-color--secondary-dark">
+                  (*Required)
+                </span>
+              )}
             </label>
             {error && searchError()}
             <VaSearchInput
