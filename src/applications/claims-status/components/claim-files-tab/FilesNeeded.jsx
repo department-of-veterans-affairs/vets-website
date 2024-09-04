@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 
 import {
   truncateDescription,
   isAutomated5103Notice,
 } from '../../utils/helpers';
+import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
 
 function FilesNeeded({
@@ -13,25 +15,27 @@ function FilesNeeded({
   evidenceWaiverSubmitted5103 = false,
   previousPage = null,
 }) {
+  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
+  const cst5103UpdateEnabled = useToggleValue(
+    TOGGLE_NAMES.cst5103UpdateEnabled,
+  );
   // We will not use the truncateDescription() here as these descriptions are custom and specific to what we want
   // the user to see based on the given item type.
   const itemsWithNewDescriptions = [
     {
       type: 'Automated 5103 Notice Response',
-      description: (
-        <>
-          <p>
-            We sent you a "5103 notice" letter that lists the types of evidence
-            we may need to decide your claim.
-          </p>
-          <p>
-            Upload the waiver attached to the letter if you’re finished adding
-            evidence.
-          </p>
-        </>
-      ),
+      description: standard5103Item.description,
     },
   ];
+
+  const getItemDisplayName = () => {
+    let { displayName } = item;
+
+    if (isAutomated5103Notice(item.displayName) && cst5103UpdateEnabled) {
+      displayName = standard5103Item.displayName;
+    }
+    return displayName;
+  };
 
   const getItemDescription = () => {
     const itemWithNewDescription = itemsWithNewDescriptions.find(
@@ -55,7 +59,7 @@ function FilesNeeded({
       status="warning"
     >
       <h4 slot="headline" className="alert-title">
-        {item.displayName}
+        {getItemDisplayName()}
       </h4>
       {!isAutomated5103Notice(item.displayName) && (
         <DueDate date={item.suspenseDate} />
