@@ -128,7 +128,7 @@ const SearchResult = ({
               </a>
             </div>
           )}
-          {phone && (
+          {contact && (
             <div className="vads-u-margin-top--1p5">
               <va-telephone
                 contact={contact}
