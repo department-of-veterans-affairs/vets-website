@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 
-import {
-  VaButton,
-  VaCheckbox,
-  VaIcon,
-  VaLink,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 export default function ConfirmationPage() {
   const [signedForm, setSignedForm] = useState(false);
@@ -36,34 +31,28 @@ export default function ConfirmationPage() {
         Download, print, and sign your form
       </h2>
       <p>First, you’ll need to download your form.</p>
-      <VaIcon
-        size={3}
-        icon="file_download"
-        className="vads-u-margin-right--1"
-      />
-      <VaLink
-        active
-        onClick={handlers.onClickDownloadForm}
+      <va-link
+        download
         href=""
+        label="Download your form"
+        onClick={handlers.onClickDownloadForm}
         text="Download your form"
-        aria-label="Download your form"
       />
       <p>Then, you’ll need to print and sign your form.</p>
       <VaCheckbox
-        id="signedForm"
-        name="signedForm"
-        className="vads-u-margin-bottom--4"
-        label="I've downloaded, printed, and signed my form"
-        onVaChange={handlers.onChangeSignedFormCheckbox}
         checked={signedForm}
+        className="vads-u-margin-bottom--4"
         error={
           signedFormError
             ? "Please confirm that you've downloaded, printed, and signed your form."
             : null
         }
+        label="I've downloaded, printed, and signed my form"
+        name="signedForm"
         required
+        onVaChange={handlers.onChangeSignedFormCheckbox}
       />
-      <VaButton onClick={handlers.onClickContinueButton} text="Continue" />
+      <va-button continue onClick={handlers.onClickContinueButton} />
     </>
   );
 }
