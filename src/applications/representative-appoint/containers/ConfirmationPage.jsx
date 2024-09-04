@@ -58,7 +58,7 @@ export default function ConfirmationPage() {
         checked={signedForm}
         error={
           signedFormError
-            ? "You must confirm that you've downloaded, printed, and signed your form."
+            ? "Please confirm that you've downloaded, printed, and signed your form."
             : null
         }
         required
