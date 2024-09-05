@@ -45,7 +45,6 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
@@ -100,8 +99,6 @@ const VitalDetails = props => {
     },
     [dispatch],
   );
-
-  useIsDetails(dispatch);
 
   const updatedRecordType = useMemo(
     () => {

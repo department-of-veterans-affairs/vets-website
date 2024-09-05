@@ -4,14 +4,14 @@ const initialState = {
   /**
    * The lab or test result currently being displayed to the user
    */
-  currentIsDetails: false,
+  pageNumber: null,
 };
 
-export const isDetailsReducer = (state = initialState, { type, payload }) => {
-  if (type === Actions.IsDetails.SET_IS_DETAILS) {
+export const pageTrackerReducer = (state = initialState, { type, payload }) => {
+  if (type === Actions.PageTracker.SET_PAGE_TRACKER) {
     return {
       ...state,
-      currentIsDetails: payload,
+      pageNumber: payload,
     };
   }
   return state;

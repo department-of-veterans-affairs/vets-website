@@ -2,14 +2,17 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom-v5-compat';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { setPageNumber } from '../actions/pageTracker';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
+  const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -21,6 +24,15 @@ const MrBreadcrumbs = () => {
   );
 
   const textContent = document.querySelector('h1')?.textContent;
+  const [searchParams] = useSearchParams();
+  const page = searchParams.get('page');
+
+  useEffect(
+    () => {
+      if (page) dispatch(setPageNumber(page));
+    },
+    [page, dispatch],
+  );
 
   useEffect(
     () => {
@@ -35,12 +47,24 @@ const MrBreadcrumbs = () => {
           label: textContent,
           isRouterLink: true,
         };
-        dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
+        let backToPageNumCrumb;
+        if (pageNumber) {
+          backToPageNumCrumb = {
+            ...Breadcrumbs[feature],
+            href: `${Breadcrumbs[feature].href.slice(
+              0,
+              -1,
+            )}?page=${pageNumber}`,
+          };
+          dispatch(setBreadcrumbs([backToPageNumCrumb, detailCrumb]));
+        } else {
+          dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
+        }
       } else {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
     },
-    [dispatch, locationBasePath, locationChildPath, textContent],
+    [dispatch, locationBasePath, locationChildPath, textContent, pageNumber],
   );
 
   const handleRoutechange = ({ detail }) => {
