@@ -29,7 +29,6 @@ describe('VAOS Component: PhoneLayout', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
@@ -278,7 +277,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -384,7 +383,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -596,7 +595,7 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
