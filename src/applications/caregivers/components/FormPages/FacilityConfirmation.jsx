@@ -36,7 +36,7 @@ const FacilityConfirmation = props => {
   return (
     <div>
       <h3>Confirm your health care facilities</h3>
-      <h4>The Veteran’s Facility you selected</h4>
+      <h4>The Veteran’s facility you selected</h4>
       <p>
         This is the facility where you told us the Veteran receives or plans to
         receive treatment.

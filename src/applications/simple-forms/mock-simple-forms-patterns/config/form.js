@@ -36,7 +36,6 @@ import {
 } from '../pages/mockArrayMultiPageBuilderPages';
 import { MockCustomPage, mockCustomPage } from '../pages/mockCustomPage';
 import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderChooseFlow';
-import NewConfirmationPage from '../containers/ConfirmationPage.new';
 
 const chapterSelectInitialData = {
   chapterSelect: {
@@ -44,7 +43,6 @@ const chapterSelectInitialData = {
     arrayMultiPageBuilder: true,
     arraySinglePage: true,
     checkbox: true,
-    confirmationPageNew: false,
     date: true,
     formsPattern: true,
     miscellaneous: true,
@@ -351,20 +349,6 @@ const formConfig = {
             depends: includeChapter('arrayMultiPageBuilder'),
           }),
         })),
-      },
-    },
-    staticPages: {
-      title: 'Static Pages',
-      pages: {
-        confirmationPageNew: {
-          path: 'confirmation-page-new',
-          title: 'New Confirmation Page',
-          CustomPage: NewConfirmationPage,
-          uiSchema: mockCustomPage.uiSchema,
-          schema: mockCustomPage.schema,
-          pageKey: 'confirmation-page-new',
-          depends: () => false,
-        },
       },
     },
   },
