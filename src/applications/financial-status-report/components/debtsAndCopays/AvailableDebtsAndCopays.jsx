@@ -184,11 +184,12 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             checked={selectedDebtsAndCopays?.some(
               currDebt => currDebt.selectedDebtId === debt.compositeDebtId,
             )}
+            checkbox-description={getDebtDescription(debt)}
+            data-debt-type={DEBT_TYPES.DEBT}
+            data-index={debt.compositeDebtId}
+            data-testid="debt-selection-checkbox"
             key={debt.compositeDebtId}
             label={getDebtLabel(debt)}
-            checkbox-description={getDebtDescription(debt)}
-            data-index={debt.compositeDebtId}
-            data-debt-type={DEBT_TYPES.DEBT}
           />
         ))}
         {statementsByUniqueFacility.map(copay => (
@@ -196,11 +197,12 @@ const AvailableDebtsAndCopays = ({ formContext }) => {
             checked={selectedDebtsAndCopays?.some(
               currCopay => currCopay.selectedDebtId === copay.id,
             )}
+            checkbox-description={getCopayDescription(copay)}
+            data-debt-type={DEBT_TYPES.COPAY}
+            data-index={copay.id}
+            data-testid="copay-selection-checkbox"
             key={copay.id}
             label={getCopayLabel(copay)}
-            checkbox-description={getCopayDescription(copay)}
-            data-index={copay.id}
-            data-debt-type={DEBT_TYPES.COPAY}
           />
         ))}
       </VaCheckboxGroup>
