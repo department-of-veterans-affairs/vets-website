@@ -8,7 +8,12 @@ import {
   SHORT_NAME_MAP,
   REVIEW_LABEL_MAP,
 } from '../../constants/question-data-map';
-import { updateEditMode, updateRouteMap } from '../../actions';
+import {
+  updateEditMode,
+  updateRouteMap,
+  updateEditQuestion,
+  updateQuestionFlowChanged,
+} from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
 import { ROUTES } from '../../constants';
 
@@ -18,7 +23,9 @@ const ReviewPage = ({
   viewedIntroPage,
   toggleEditMode,
   routeMap,
+  setEditQuestion,
   setRouteMap,
+  toggleQuestionFlowChanged,
   answerChanged,
 }) => {
   const H1 = 'Review your answers';
@@ -30,6 +37,11 @@ const ReviewPage = ({
     [H1],
   );
 
+  useEffect(() => {
+    toggleEditMode(false);
+    toggleQuestionFlowChanged(false);
+  }, []);
+
   useEffect(
     () => {
       if (!viewedIntroPage) {
@@ -39,8 +51,9 @@ const ReviewPage = ({
     [router, viewedIntroPage],
   );
 
-  const onEditAnswerClick = route => {
+  const onEditAnswerClick = (route, name) => {
     toggleEditMode(true);
+    setEditQuestion(name);
     router.push(route);
   };
 
@@ -75,7 +88,7 @@ const ReviewPage = ({
                 href="#"
                 onClick={event => {
                   event.preventDefault();
-                  onEditAnswerClick(ROUTES[shortName]);
+                  onEditAnswerClick(ROUTES[shortName], shortName);
                 }}
                 name={shortName}
                 label={`Edit ${reviewLabel}`}
@@ -132,6 +145,8 @@ ReviewPage.propTypes = {
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
+  setEditQuestion: updateEditQuestion,
+  toggleQuestionFlowChanged: updateQuestionFlowChanged,
   setRouteMap: updateRouteMap,
 };
 

@@ -42,6 +42,7 @@ const RadioGroup = ({
   routeMap,
   setRouteMap,
   questionFlowChanged,
+  editQuestion,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -77,13 +78,23 @@ const RadioGroup = ({
         routeMap,
         questionFlowChanged,
         valueHasChanged,
+        editQuestion,
       );
     }
   };
 
   const onBackClick = () => {
-    if (valueHasChanged && editMode && isForkableQuestion) {
+    if (valueHasChanged) {
+      // Remove answers from the Redux store if the display path ahead has changed
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+      // Set the question flow changed flag to true for review page alert for forkable questions.
+      if (isForkableQuestion && editMode) {
+        toggleQuestionsFlowChanged(true);
+        toggleAnswerChanged(true);
+      } else if (editMode) {
+        toggleAnswerChanged(true);
+      }
     }
     toggleEditMode(false);
     navigateBackward(
@@ -202,6 +213,7 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
 });
 
 export default connect(

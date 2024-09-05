@@ -61,6 +61,7 @@ export const navigateForward = (
   routeMap,
   questionFlowChanged,
   valueHasChanged,
+  editQuestion,
 ) => {
   const roadmap = makeRoadmap();
   if (roadmap?.length) {
@@ -80,8 +81,6 @@ export const navigateForward = (
 
       if (nextIndex > END_INDEX) {
         // No questions after this one in the flow have their display conditions met
-        // Most likely a results page should show
-
         // Results logic
         return;
       }
@@ -107,8 +106,17 @@ export const navigateForward = (
           pushToRoute(nextShortName, router);
           return;
         }
+
+        // This handles the edge case of the edit question not being skipped
+        // when going thru an edit flow.
+        if (editQuestion === nextShortName) {
+          setRouteMap([...localRoadMap, ROUTES?.[nextShortName]]);
+          pushToRoute(nextShortName, router);
+          return;
+        }
+
         // Continue through the flow until you reach Review page or
-        // or you find a question without an answer
+        // or you find a question without an answer.
         if (
           displayConditionsMet(nextShortName, formResponses) &&
           !editMode &&

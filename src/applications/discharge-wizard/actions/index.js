@@ -15,6 +15,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
+  DUW_EDIT_QUESTION,
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
   DUW_ANSWER_CHANGED,
@@ -60,6 +61,13 @@ export const updateQuestionFlowChanged = value => {
 export const updateAnswerChanged = value => {
   return {
     type: DUW_ANSWER_CHANGED,
+    payload: value,
+  };
+};
+
+export const updateEditQuestion = value => {
+  return {
+    type: DUW_EDIT_QUESTION,
     payload: value,
   };
 };

@@ -126,6 +126,7 @@ export const DUW_UPDATE_PRIOR_SERVICE =
 export const DUW_UPDATE_FAILURE_TO_EXHAUST =
   'discharge-upgrade-wizard/DUW_UPDATE_FAILURE_TO_EXHAUST';
 export const DUW_EDIT_MODE = 'discharge-upgrade-wizard/DUW_EDIT_MODE';
+export const DUW_EDIT_QUESTION = 'discharge-upgrade-wizard/DUW_EDIT_QUESTION';
 export const DUW_QUESTION_FLOW_CHANGED =
   'discharge-upgrade-wizard/DUW_QUESTION_FLOW_CHANGED';
 export const DUW_ANSWER_CHANGED = 'discharge-upgrade-wizard/DUW_ANSWER_CHANGED';

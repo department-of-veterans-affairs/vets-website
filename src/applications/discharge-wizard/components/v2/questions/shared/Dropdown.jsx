@@ -45,6 +45,7 @@ const Dropdown = ({
   setRouteMap,
   routeMap,
   questionFlowChanged,
+  editQuestion,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const isForkableQuestion = forkableQuestions.includes(shortName);
@@ -93,14 +94,24 @@ const Dropdown = ({
         routeMap,
         questionFlowChanged,
         valueHasChanged,
+        editQuestion,
       );
     }
   };
 
   const onBackClick = () => {
-    if (valueHasChanged && editMode && isForkableQuestion) {
+    if (valueHasChanged) {
+      // Remove answers from the Redux store if the display path ahead will change.
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+      if (forkableQuestions.includes(shortName) && editMode) {
+        toggleQuestionsFlowChanged(true);
+        toggleAnswerChanged(true);
+      } else if (editMode) {
+        toggleAnswerChanged(true);
+      }
     }
+
     toggleEditMode(false);
     navigateBackward(
       router,
@@ -188,6 +199,7 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
 });
 
 export default connect(
