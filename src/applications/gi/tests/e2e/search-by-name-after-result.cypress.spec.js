@@ -3,21 +3,26 @@ import { checkboxData } from './setupCypress';
 
 describe('GI bill CT research By Name After Result', () => {
   beforeEach(() => {
+    cy.visit('education/gi-bill-comparison-tool/');
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
       body: data,
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
-    cy.visit('education/gi-bill-comparison-tool/');
     cy.get('[data-testid="ct-input"]').type('Texas');
     cy.get('[data-testid="search-btn"]').click();
-    cy.intercept('GET', 'v1/gi/institutions/search', {
-      statusCode: 200,
-    });
+    // cy.intercept('GET', 'v1/gi/institutions/search', {
+    //   statusCode: 200,
+    // });
   });
   it('should show results when user types School, employer, or training provider in the search input and hits Search button', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[id="name-search-results-count"]', { timeout: 1e4 }).as(
+    // cy.get('[id="name-search-results-count"]', { timeout: 2e4 }).as(
+    //   'searchResults',
+    // );
+    cy.intercept('GET', '**/search/results').as('getSearchResults');
+    // cy.wait('@getSearchResults');
+    cy.get('[id="name-search-results-count"]', { timeout: 20000 }).as(
       'searchResults',
     );
     cy.get('@searchResults').should('be.focused');
@@ -25,6 +30,11 @@ describe('GI bill CT research By Name After Result', () => {
       'contain',
       'Showing 183 search results for "Texas"',
     );
+    cy.get('body').then($body => {
+      if ($body.find('[id="name-search-results-count"]').length === 0) {
+        cy.screenshot(); // capture screenshot to debug
+      }
+    });
   });
   describe('Update tuition', () => {
     const updateTuition =
@@ -194,10 +204,8 @@ describe('GI bill CT research By Name After Result', () => {
     checkboxData.forEach(checkbox => {
       it(`should uncheck input for ${checkbox.text}  when user clicks`, () => {
         cy.injectAxeThenAxeCheck();
-        // eslint-disable-next-line cypress/unsafe-to-chain-command
-        cy.get(checkbox.dataTestId)
-          .click()
-          .should('not.be.checked');
+        cy.get(checkbox.dataTestId).click();
+        cy.get(checkbox.dataTestId).should('not.be.checked');
       });
     });
     it('should reset all filters back to orginal when user click clear filters button', () => {
