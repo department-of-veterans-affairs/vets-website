@@ -80,7 +80,6 @@ export function ConfirmationPage(props) {
     showMail: true,
     allPages: form.pages,
     fileNameMap: prefixFileNames(data, requiredFiles),
-    optionalDescription: '',
     requiredDescription: '',
     requiredFiles,
     nonListNameKey: 'applicantName',
