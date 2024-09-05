@@ -1,10 +1,5 @@
 import { expect } from 'chai';
-
-import {
-  FORM_DESCRIPTIONS,
-  SIP_ENABLED_FORMS,
-  MY_VA_SIP_FORMS,
-} from '~/platform/forms/constants';
+import { FORM_DESCRIPTIONS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 
 import {
   normalizeSubmissionStatus,
@@ -14,8 +9,8 @@ import {
 describe('profile helpers:', () => {
   describe('FORM_DESCRIPTIONS', () => {
     it('should have description information for each verified form', () => {
-      SIP_ENABLED_FORMS.forEach(form => {
-        expect(FORM_DESCRIPTIONS[form]).to.exist;
+      MY_VA_SIP_FORMS.forEach(form => {
+        expect(FORM_DESCRIPTIONS[form.id]).to.exist;
       });
     });
   });
