@@ -6,7 +6,7 @@ import {
   firstNameLastNameNoSuffixSchema,
   firstNameLastNameNoSuffixUI,
   titleUI,
-} from '~/platform/forms-system/src/js/web-component-patterns';
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { MUST_MATCH_ALERT } from '../config/constants';
 import { onCloseAlert } from '../helpers';
 import { CustomAlertPage } from './helpers';
@@ -70,11 +70,11 @@ NameAndZipCodePage.propTypes = {
   data: PropTypes.object,
   formContext: PropTypes.object,
   goBack: PropTypes.func,
+  pagePerItemIndex: PropTypes.number,
+  title: PropTypes.string,
+  trackingPrefix: PropTypes.string,
   onChange: PropTypes.func,
   onContinue: PropTypes.func,
   onReviewPage: PropTypes.bool,
   onSubmit: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  title: PropTypes.string,
-  trackingPrefix: PropTypes.string,
 };

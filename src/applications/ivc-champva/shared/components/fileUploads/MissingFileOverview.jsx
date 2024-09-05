@@ -88,7 +88,7 @@ const mailInfo = (
           )}
         </p>
       </address>
-      Or fax your documents here:
+      Or fax it to:
       {officeName ? (
         <>
           <br />

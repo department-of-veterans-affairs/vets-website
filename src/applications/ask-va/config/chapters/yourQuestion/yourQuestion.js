@@ -59,7 +59,7 @@ const yourQuestionPage = {
       },
     },
     fileUpload: {
-      'ui:title': 'Select files to upload',
+      'ui:title': 'Select optional files to upload',
       'ui:webComponentField': FileUpload,
       'ui:options': {
         hideIf: formData => {
