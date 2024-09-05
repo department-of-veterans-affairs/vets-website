@@ -8,9 +8,9 @@ describe('GI bill CT research By Name After Result', () => {
       body: data,
     });
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
+    cy.visit('education/gi-bill-comparison-tool/');
     cy.get('[data-testid="ct-input"]').type('Texas');
     cy.get('[data-testid="search-btn"]').click();
-    cy.visit('education/gi-bill-comparison-tool/');
     // cy.intercept('GET', 'v1/gi/institutions/search', {
     //   statusCode: 200,
     // });
