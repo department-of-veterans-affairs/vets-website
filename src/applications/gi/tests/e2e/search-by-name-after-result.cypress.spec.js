@@ -17,7 +17,7 @@ describe('GI bill CT research By Name After Result', () => {
   });
   it('should show results when user types School, employer, or training provider in the search input and hits Search button', () => {
     cy.injectAxeThenAxeCheck();
-    cy.get('[id="name-search-results-count"]', { timeout: 10000 }).as(
+    cy.get('[id="name-search-results-count"]', { timeout: 1e4 }).as(
       'searchResults',
     );
     cy.get('@searchResults').should('be.focused');
