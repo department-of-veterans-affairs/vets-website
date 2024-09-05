@@ -133,13 +133,14 @@ const ReviewPage = ({
 ReviewPage.propTypes = {
   answerChanged: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
-  questionFlowChanged: PropTypes.bool.isRequired,
   routeMap: PropTypes.array.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  setEditQuestion: PropTypes.func.isRequired,
   setRouteMap: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  toggleQuestionFlowChanged: PropTypes.func.isRequired,
   viewedIntroPage: PropTypes.bool.isRequired,
 };
 
