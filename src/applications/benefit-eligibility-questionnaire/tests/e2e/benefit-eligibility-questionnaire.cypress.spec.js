@@ -40,6 +40,59 @@ const testConfig = createTestConfig(
           });
         });
       },
+      'service/time-served': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'militaryServiceTotalTimeServed';
+            const fieldData = data[fieldName];
+            cy.get(
+              `input[name="root_${fieldName}"][value="${fieldData}"]`,
+            ).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'service/current': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'militaryServiceCurrentlyServing';
+            const fieldData = data[fieldName];
+            cy.get(
+              `input[name="root_${fieldName}"][value="${fieldData}"]`,
+            ).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      separation: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'separation';
+            const fieldData = data[fieldName];
+            cy.get(
+              `input[name="root_${fieldName}"][value="${fieldData}"]`,
+            ).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      discharge: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'characterOfDischarge';
+            const fieldData = data[fieldName];
+            cy.get(`select[name="root_${fieldName}"]`)
+              .shadow()
+              .find('select')
+              .select(fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
