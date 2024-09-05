@@ -28,6 +28,7 @@ const responses = {
       myVaEnableNewSipConfig: true,
       veteranOnboardingBetaFlow: false,
       myVaFormSubmissionStatuses: true,
+      veteranOnboardingShowWelcomeMessageToNewUsers: true,
     },
     true,
   ),
