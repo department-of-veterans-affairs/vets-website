@@ -41,7 +41,6 @@
   "care-you-receive": "Care you receive from other providers",
   "certify-statements": "<0>I have incurred a cost in relation to the travel claim.</0><0>I have neither obtained transportation at Government expense nor through the use of Government request, tickets, or tokens, and have not used any Government-owned convenience or incurred any expenses which may be presented as charges against the Department of Veterans Affairs for transportation, meals, or lodgings in connection with my authorized travel that is not herein claimed.</0><0>I have not received other transportation resources at no-cost to me.</0><0>I am the only person claiming for the travel listed.</0><0>I have not previously received payment for the transportation claimed.</0>",
   "changes-in-medications": "Changes in the medications you’re taking or how you’re taking them",
-  "check-current-mileage-rates": "Check current mileage rates",
   "check-if-your-info-is-up-to-date": "Check if your information is up to date",
   "check-in": "Check-In",
   "check-in-at-va": "Check in at VA",
@@ -440,5 +439,6 @@
   "some-appointment-information-not-available": "Some of your appointment information is not available right now.",
   "find-all-appointment-information-check-in": "To find all your appointment information, finish checking in for your appointment first. Then go to appointments on VA.gov.",
   "find-all-appointment-information-pre-check-in": "To find all your appointment information, finish reviewing your contact information first. Then go to appointments on VA.gov.",
-  "review-your-appointments": "Review your appointments"
+  "review-your-appointments": "Review your appointments",
+  "check-current-mileage-rates-new-tab": "Check current mileage rates (opens in a new tab)"
 }
