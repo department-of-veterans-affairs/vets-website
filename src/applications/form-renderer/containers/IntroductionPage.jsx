@@ -3,6 +3,7 @@
  */
 
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
@@ -10,12 +11,13 @@ import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 
 const IntroductionPage = props => {
+  const ombInfo = useSelector(state => state.ombInfo);
+  const { route } = props;
+  const { formConfig, pageList } = route;
+
   useEffect(() => {
     focusElement('.va-nav-breadcrumbs-list');
   }, []);
-
-  const { ombInfo, route } = props;
-  const { formConfig, pageList } = route;
 
   return (
     <article className="schemaform-intro">
@@ -101,11 +103,6 @@ const IntroductionPage = props => {
 };
 
 IntroductionPage.propTypes = {
-  ombInfo: PropTypes.shape({
-    expDate: PropTypes.string,
-    ombNumber: PropTypes.number,
-    resBurden: PropTypes.string,
-  }),
   route: PropTypes.shape({
     formConfig: PropTypes.shape({
       prefillEnabled: PropTypes.bool,
