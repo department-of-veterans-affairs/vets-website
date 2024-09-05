@@ -347,7 +347,9 @@ export const SIP_ENABLED_FORMS = new Set([
 
 /**
  * The following MY_VA_SIP_FORMS array is a work-in-progress, maintained by the Authenticated Experience team.
- * Platform documentation have NOT been updated to reflect this change
+ * Platform documentation have been updated to reflect this change
+ *
+ * https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-set-up-save-in-progress-si
  */
 
 export const MY_VA_SIP_FORMS = [
@@ -527,7 +529,7 @@ export const MY_VA_SIP_FORMS = [
     title: 'VA home loan certification of eligibility (26-1880)',
     description:
       'VA home loan certification of eligibility application (26-1880)',
-    trackingPrefix: 'undefined',
+    trackingPrefix: '26-1880-',
   },
   {
     id: VA_FORM_IDS.FORM_26_4555,
@@ -615,5 +617,40 @@ export const MY_VA_SIP_FORMS = [
     title: `Appointment of Individual as Claimant's Representative (21-22a)`,
     description: 'Individual representative appointment application',
     trackingPrefix: 'appoint-a-rep-21-22',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959F_1,
+    benefit: `Foreign Medical Program (FMP) Registration Form`,
+    title: `Foreign Medical Program (FMP) Registration Form (10-7959f-1)`,
+    description: '',
+    trackingPrefix: '10-7959f-1-FMP-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959C,
+    benefit: `other health insurance certification`,
+    title: `other health insurance certification (10-7959C)`,
+    description: '',
+    trackingPrefix: '10-7959C-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_10_7959A,
+    benefit: `CHAMPVA claim form`,
+    title: `CHAMPVA claim form (10-7959a)`,
+    description: '',
+    trackingPrefix: '10-7959a-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_40_0247,
+    benefit: `presidential memorial certificate`,
+    title: `presidential memorial certificate (0247-pmc)`,
+    description: '',
+    trackingPrefix: '0247-pmc-',
+  },
+  {
+    id: VA_FORM_IDS.FORM_FORM_UPLOAD_FLOW,
+    benefit: `form upload flow`,
+    title: `form upload flow`,
+    description: '',
+    trackingPrefix: '',
   },
 ];
