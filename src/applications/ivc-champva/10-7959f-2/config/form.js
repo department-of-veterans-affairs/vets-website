@@ -1,3 +1,4 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
 import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
@@ -38,7 +39,7 @@ veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),

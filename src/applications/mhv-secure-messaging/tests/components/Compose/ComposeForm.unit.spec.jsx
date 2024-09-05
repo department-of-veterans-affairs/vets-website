@@ -30,6 +30,7 @@ import * as draftActions from '../../../actions/draftDetails';
 import * as categoriesActions from '../../../actions/categories';
 import threadDetailsReducer from '../../fixtures/threads/reply-draft-thread-reducer.json';
 import {
+  getProps,
   inputVaTextInput,
   selectVaRadio,
   selectVaSelect,
@@ -91,16 +92,6 @@ describe('Compose form component', () => {
         path,
       },
     );
-  };
-
-  const getProps = element => {
-    let prop;
-    Object.keys(element).forEach(key => {
-      if (key.match(/^__react[^$]*(\$.+)$/)) {
-        prop = key;
-      }
-    });
-    return prop;
   };
 
   afterEach(() => {

@@ -102,7 +102,7 @@ const TravelMileage = props => {
               rel="noreferrer"
               className="vads-u-padding-top--3 vads-u-display--block"
             >
-              {t('check-current-mileage-rates')}
+              {t('check-current-mileage-rates-new-tab')}
             </ExternalLink>
           </va-alert-expandable>
           {multipleAppointments ? (

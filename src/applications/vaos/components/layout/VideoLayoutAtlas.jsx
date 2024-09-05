@@ -60,11 +60,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            You will use this appointment code to find your appointment using
-            the computer provided at the site:
+            You’ll use this appointment code to find your appointment using the
+            computer provided at the site:
             <br />
             {atlasConfirmationCode}
-            <br />
             <br />
           </Section>
         )}
@@ -139,8 +138,8 @@ export default function VideoLayoutAtlas({ data: appointment }) {
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards and a list of your medications and
-                other information to share with your provider.
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
                 <br />
                 <va-link
                   text="Find a full list of things to bring to your appointment"

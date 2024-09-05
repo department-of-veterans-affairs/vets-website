@@ -64,7 +64,7 @@ const AllergyDetails = props => {
         setBreadcrumbs([
           {
             url: '/allergies',
-            label: 'Allergies',
+            label: 'allergies',
           },
         ]),
       );

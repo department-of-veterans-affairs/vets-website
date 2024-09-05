@@ -1,15 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
 import content from '../../locales/en/content.json';
 
 const FacilityList = props => {
-  const { facilities, formContext, onChange, query, value } = props;
-  const { reviewMode, submitted } = formContext;
+  const { facilities, onChange, query, value, error } = props;
+  const reviewMode = props?.formContext?.reviewMode || false;
+  const submitted = props?.formContext?.submitted || false;
 
   const [dirty, setDirty] = useState(false);
 
@@ -18,10 +18,15 @@ const FacilityList = props => {
     setDirty(true);
   };
 
-  const showError = () =>
-    (submitted || dirty) && !value
+  const showError = () => {
+    if (error) {
+      return error;
+    }
+
+    return (submitted || dirty) && !value
       ? content['validation-facialities--default-required']
       : null;
+  };
 
   const getFacilityName = useCallback(
     val => {
@@ -48,13 +53,6 @@ const FacilityList = props => {
     />
   ));
 
-  useEffect(
-    () => {
-      focusElement('#caregiver_facility_results');
-    },
-    [facilities],
-  );
-
   if (reviewMode) {
     return (
       <span
@@ -70,10 +68,13 @@ const FacilityList = props => {
   return (
     <div
       role="radiogroup"
-      className="vads-u-margin-top--2 vads-u-border-top--1px vads-u-border-color--gray-lighter"
+      className="vads-u-margin-top--2"
       aria-labelledby="facility-list-heading"
     >
-      <div className="vads-u-margin-top--1" id="caregiver_facility_results">
+      <div
+        className="vads-u-margin-top--1 vads-u-padding-bottom--1 vads-u-border-bottom--1px vads-u-border-color--gray-lighter"
+        id="caregiver_facility_results"
+      >
         Showing 1-
         {facilities.length} of {facilities.length} facilities for{' '}
         <strong>“{query}”</strong>
@@ -84,7 +85,6 @@ const FacilityList = props => {
         value={value}
         onVaValueChange={handleChange}
         error={showError()}
-        required
       >
         {facilityOptions}
       </VaRadio>
@@ -93,6 +93,7 @@ const FacilityList = props => {
 };
 
 FacilityList.propTypes = {
+  error: PropTypes.string,
   facilities: PropTypes.array,
   formContext: PropTypes.object,
   query: PropTypes.string,
