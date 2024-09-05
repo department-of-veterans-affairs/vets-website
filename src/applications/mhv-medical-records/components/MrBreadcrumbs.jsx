@@ -20,8 +20,7 @@ const MrBreadcrumbs = () => {
     [location],
   );
 
-  const headingText = document.querySelector('h1');
-  const textContent = headingText?.textContent;
+  const textContent = document.querySelector('h1')?.textContent;
 
   useEffect(
     () => {
