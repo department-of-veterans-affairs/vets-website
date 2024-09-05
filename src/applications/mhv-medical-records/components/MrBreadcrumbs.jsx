@@ -2,7 +2,6 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useSearchParams } from 'react-router-dom-v5-compat';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { setPageNumber } from '../actions/pageTracker';
@@ -24,12 +23,12 @@ const MrBreadcrumbs = () => {
   );
 
   const textContent = document.querySelector('h1')?.textContent;
-  const [searchParams] = useSearchParams();
-  const page = searchParams.get('page');
+  const searchIndex = new URLSearchParams(window.location.search);
+  const page = searchIndex.get('page');
 
   useEffect(
     () => {
-      if (page) dispatch(setPageNumber(page));
+      if (page) dispatch(setPageNumber(+page));
     },
     [page, dispatch],
   );
