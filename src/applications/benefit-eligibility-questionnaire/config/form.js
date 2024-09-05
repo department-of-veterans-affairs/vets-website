@@ -24,11 +24,11 @@ import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
-const isOnReviewPage = currentLocation => {
+export const isOnReviewPage = currentLocation => {
   return currentLocation?.pathname.includes('/review-and-submit');
 };
 
-const isOnConfirmationPage = currentLocation => {
+export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
