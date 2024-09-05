@@ -7,10 +7,7 @@ describe('GI bill CT research By Name After Result', () => {
       statusCode: 200,
       body: data,
     });
-    cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.visit('education/gi-bill-comparison-tool/');
-    cy.get('[data-testid="ct-input"]').type('Texas');
-    cy.get('[data-testid="search-btn"]').click();
     // cy.intercept('GET', 'v1/gi/institutions/search', {
     //   statusCode: 200,
     // });
@@ -22,6 +19,9 @@ describe('GI bill CT research By Name After Result', () => {
     // );
     cy.get('[data-testid="ct-input"]').type('Texas');
     cy.get('[data-testid="search-btn"]').click();
+    cy.visit(
+      'education/gi-bill-comparison-tool/?search=name&name=Texas&excludeVettec=true&excludedSchoolTypes%5B%5D=PUBLIC&excludedSchoolTypes%5B%5D=FOR%20PROFIT&excludedSchoolTypes%5B%5D=PRIVATE&excludedSchoolTypes%5B%5D=FOREIGN&excludedSchoolTypes%5B%5D=FLIGHT&excludedSchoolTypes%5B%5D=CORRESPONDENCE&excludedSchoolTypes%5B%5D=HIGH%20SCHOOL',
+    );
     cy.get('[id="name-search-results-count"]').as('searchResults');
     cy.get('@searchResults').should('be.focused');
     cy.get('@searchResults').should(
