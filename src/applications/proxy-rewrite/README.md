@@ -26,31 +26,7 @@ This file is created by running `yarn build` from `content-build`. Without optim
 Note: [next-build](https://github.com/department-of-veterans-affairs/next-build) which will eventually replace `content-build` in its entirety but will pull Drupal data the same way.
 
 ## Where does the header/footer data come from?
-The header/footer data is largely populated by Drupal. When `content-build` runs its build, it fetches the Drupal data (outlined below) and uses [create-header-footer.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/site/stages/build/plugins/create-header-footer.js) to structure the data object and generate the `headerFooter.json` inside the `vets-website` build/generated folder.
-
-### Menus
-
-![image](https://github.com/user-attachments/assets/066dd147-237b-4c7e-88b8-6d017453edb6)
-
-**Header megamenu**: All links (excluding promo blocks) in "VA Benefits and Health Care" and "About VA"
-![image](https://github.com/user-attachments/assets/8562db67-4e2a-4016-8e12-a988338644b8)
-
-**VA.gov Footer**: All links under "Veteran programs and services," "More VA resources," and "Get VA updates"
-![image](https://github.com/user-attachments/assets/7bbd81a2-06c9-43da-be2a-1b7d6ed88527)
-
-**VA.gov Footer bottom rail**: All links at the very bottom of the page ("Accessibility" through "Veterans Portrait Project")
-![image](https://github.com/user-attachments/assets/4ce9773d-9cd0-4917-9fe3-d83de8dd9992)
-
-### Promo blocks (mega menu)
-
-![image](https://github.com/user-attachments/assets/d3c0734b-46f9-4fa5-ae0e-cfb632f283e9)
-
-Search for the promo block text (e.g. "The PACT Act and your VA benefits")
-
-![image](https://github.com/user-attachments/assets/10741372-5bad-427e-9498-2488f22e13d3)
-
-### Everything else
-All other header and footer content are hard-coded in vets-website (all within the `src/applications/proxy-rewrite` folder). All links should point to the **production** modernized site as TeamSites do not have lower environments that we can access and it wouldn't make sense to make links environment-dependent.
+[This README](https://github.com/department-of-veterans-affairs/va.gov-team/edit/master/products/header-footer/engineering/README.md) has a detailed explanation of the how the data is retrieved from Drupal and combined with hard-coded markup to create the header/footer.
 
 ## Header/footer injection "Gotchas"
 1. **Whitelisting must consider root vs. path,** if a path within a domain is receiving injection, e.g. https://github.com/department-of-veterans-affairs/vets-website/commit/74e156a10b2d58c040981c99f454d2ccb5cdcb1d, the path needs to be separated from the domain.
