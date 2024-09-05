@@ -8,6 +8,7 @@ export const INTEGRATION_DEPLOYMENT =
 import { fetchDrupalStaticDataFile } from 'platform/site-wide/drupal-static-data/connect/fetch';
 import mockForms from '../../_config/formConfig';
 import { createFormConfig } from '../../utils/formConfig';
+import { ombInfoLoaded } from '../ombInfo';
 
 export const formLoadingInitiated = formId => {
   return {
@@ -61,6 +62,7 @@ export const fetchFormConfig = (
       const form = findFormByFormId(forms, formId);
       const formConfig = createFormConfig(form);
 
+      dispatch(ombInfoLoaded(form.ombInfo));
       dispatch(formLoadingSucceeded(formConfig));
 
       return formConfig;
