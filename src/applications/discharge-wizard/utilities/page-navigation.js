@@ -107,6 +107,8 @@ export const navigateForward = (
           pushToRoute(nextShortName, router);
           return;
         }
+        // Continue through the flow until you reach Review page or
+        // or you find a question without an answer
         if (
           displayConditionsMet(nextShortName, formResponses) &&
           !editMode &&
