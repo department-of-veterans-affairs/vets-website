@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { renderToStaticMarkup } from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
@@ -30,6 +31,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  generateNewRecordsIndicator,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -37,7 +39,6 @@ import {
   ALERT_TYPE_ERROR,
   accessAlertTypes,
   refreshExtractTypes,
-  generateNewRecordsIndicator,
 } from '../util/constants';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
 import useAlerts from '../hooks/use-alerts';
