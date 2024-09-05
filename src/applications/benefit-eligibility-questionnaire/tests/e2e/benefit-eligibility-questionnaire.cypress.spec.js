@@ -93,6 +93,37 @@ const testConfig = createTestConfig(
           });
         });
       },
+      disability: ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'disabilityRating';
+            const fieldData = data[fieldName];
+            cy.get(
+              `input[name="root_${fieldName}"][value="${fieldData}"]`,
+            ).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'gi-bill': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const fieldName = 'giBillStatus';
+            const fieldData = data[fieldName];
+            cy.get(
+              `input[name="root_${fieldName}"][value="${fieldData}"]`,
+            ).click();
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'review-and-submit': () => {
+        cy.get("va-privacy-agreement[name='privacyAgreementAccepted']")
+          .find('#checkbox')
+          .then($el => cy.selectVaCheckbox($el, true));
+      },
     },
     // Skip tests in CI until the form is released.
     // Remove this setting when the form has a content page in production.
