@@ -96,3 +96,13 @@ const routes = [
 ];
 
 export default routes;
+import otherConfig from './config/otherConfig';
+
+export const normalRoute = routes;
+
+export const experimentalRoute = {
+  path: '/',
+  component: App,
+  indexRoute: { onEnter: (nextState, replace) => replace('/introduction') },
+  childRoutes: createRoutesWithSaveInProgress(otherConfig),
+};
