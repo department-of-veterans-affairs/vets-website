@@ -2,16 +2,11 @@ import React from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
-import { FETCH_STATUS, GA_PREFIX } from '../utils/constants';
-import { getCancelInfo } from '../appointment-list/redux/selectors';
+import { useDispatch } from 'react-redux';
+import { GA_PREFIX } from '../utils/constants';
 import { closeCancelAppointment } from '../appointment-list/redux/actions';
 
-export default function BackLink({
-  appointment,
-  featureAppointmentDetailsRedesign = false,
-}) {
+export default function BackLink({ appointment }) {
   const {
     isPastAppointment,
     isPendingAppointment,
@@ -19,7 +14,6 @@ export default function BackLink({
   } = appointment.vaos;
 
   const location = useLocation();
-  const history = useHistory();
   const dispatch = useDispatch();
 
   const handleClickGATracker = () => {
@@ -43,40 +37,25 @@ export default function BackLink({
         event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
       });
 
-      if (featureAppointmentDetailsRedesign) dispatch(closeCancelAppointment());
+      dispatch(closeCancelAppointment());
     };
   };
 
-  const { cancelAppointmentStatus } = useSelector(getCancelInfo);
   const handleBackLinkText = () => {
-    let linkText;
+    // Default to upcoming page
+    let linkText = 'Back to appointments';
     if (isPendingAppointment) {
-      linkText = 'Back to pending appointments';
-      if (
-        featureAppointmentDetailsRedesign &&
-        cancelAppointmentStatus !== FETCH_STATUS.succeeded
-      )
-        linkText = 'Back to request for appointments';
-    } else if (isUpcomingAppointment) {
-      linkText = 'Back to appointments';
+      linkText = 'Back to request for appointments';
     } else if (isPastAppointment) {
       linkText = 'Back to past appointments';
     }
     return linkText;
   };
   const handleBackLink = () => {
-    let link;
+    // Default to upcoming page
+    let link = '/';
     if (isPendingAppointment) {
       link = '/pending';
-      if (
-        featureAppointmentDetailsRedesign &&
-        cancelAppointmentStatus !== FETCH_STATUS.succeeded
-      ) {
-        // Don't change the url
-        link = history.location.pathname;
-      }
-    } else if (isUpcomingAppointment) {
-      link = '/';
     } else if (isPastAppointment) {
       link = '/past';
     }
@@ -108,5 +87,4 @@ export default function BackLink({
 
 BackLink.propTypes = {
   appointment: PropTypes.object.isRequired,
-  featureAppointmentDetailsRedesign: PropTypes.bool,
 };

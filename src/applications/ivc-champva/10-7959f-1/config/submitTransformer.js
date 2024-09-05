@@ -1,6 +1,15 @@
 /* eslint-disable camelcase */
+import { formatDateShort } from 'platform/utilities/date';
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
-import { concatStreets } from '../../shared/utilities';
+
+// Take an address object and turn it into a string with line breaks
+function stringifyAddress(addr) {
+  return addr
+    ? `${addr.street}\n${addr.street2 ?? ''}\n${addr.street3 ?? ''}\n${
+        addr.city
+      }, ${addr.state}\n${addr.postalCode}`
+    : '';
+}
 
 export default function transformForSubmit(formConfig, form) {
   const transformedData = JSON.parse(
@@ -9,7 +18,7 @@ export default function transformForSubmit(formConfig, form) {
 
   const dataPostTransform = {
     veteran: {
-      date_of_birth: transformedData.veteranDateOfBirth,
+      date_of_birth: formatDateShort(transformedData.veteranDateOfBirth),
       full_name: transformedData?.veteranFullName,
       physical_address: transformedData.sameMailingAddress
         ? transformedData.veteranAddress
@@ -36,7 +45,7 @@ export default function transformForSubmit(formConfig, form) {
       email_address: transformedData.veteranEmailAddress || '',
     },
     statementOfTruthSignature: transformedData.statementOfTruthSignature,
-    current_date: new Date().toJSON().slice(0, 10),
+    current_date: formatDateShort(new Date()),
     primaryContactInfo: {
       name: {
         first: transformedData.veteranFullName?.first,
@@ -47,11 +56,11 @@ export default function transformForSubmit(formConfig, form) {
     },
   };
 
-  // Roll street names into `streetCombined` property on each address
-  dataPostTransform.veteran.physical_address = concatStreets(
+  // Stringify and format the addresses so they fit in the PDF fields properly
+  dataPostTransform.veteran.physicalAddressString = stringifyAddress(
     dataPostTransform.veteran.physical_address,
   );
-  dataPostTransform.veteran.mailing_address = concatStreets(
+  dataPostTransform.veteran.mailingAddressString = stringifyAddress(
     dataPostTransform.veteran.mailing_address,
   );
 
