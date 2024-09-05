@@ -3,7 +3,6 @@ import { checkboxData } from './setupCypress';
 
 describe('GI bill CT research By Name After Result', () => {
   beforeEach(() => {
-    cy.visit('education/gi-bill-comparison-tool/');
     cy.intercept('GET', 'v1/gi/calculator_constants', {
       statusCode: 200,
       body: data,
@@ -11,6 +10,7 @@ describe('GI bill CT research By Name After Result', () => {
     cy.intercept('GET', '/data/cms/vamc-ehr.json', { statusCode: 200 });
     cy.get('[data-testid="ct-input"]').type('Texas');
     cy.get('[data-testid="search-btn"]').click();
+    cy.visit('education/gi-bill-comparison-tool/');
     // cy.intercept('GET', 'v1/gi/institutions/search', {
     //   statusCode: 200,
     // });
