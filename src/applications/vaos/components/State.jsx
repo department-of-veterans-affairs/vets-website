@@ -71,10 +71,10 @@ export default function State({ state }) {
   }
 
   return (
-    <span>
+    <>
       <span className="sr-only">{stateName}</span>
       <span aria-hidden="true">{state}</span>
-    </span>
+    </>
   );
 }
 
