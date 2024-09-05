@@ -7,8 +7,8 @@ import configureStore from 'redux-mock-store';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 
 import { mockFetch } from 'platform/testing/unit/helpers';
+import reducer from 'applications/form-renderer/reducers';
 import App from '../../../containers/App';
-import formLoadReducer from '../../../reducers/form-load';
 import { formConfig1, normalizedForm } from '../../../_config/formConfig';
 
 const renderApp = store => {
@@ -51,7 +51,8 @@ describe('<App /> component', () => {
 
 describe('<App /> integration', () => {
   const rootReducer = combineReducers({
-    formLoad: formLoadReducer.formLoad,
+    formLoad: reducer.formLoad,
+    ombInfo: reducer.ombInfo,
   });
 
   beforeEach(() => {
