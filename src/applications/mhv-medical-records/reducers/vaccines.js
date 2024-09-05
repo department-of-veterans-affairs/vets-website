@@ -110,7 +110,7 @@ export const convertVaccine = vaccine => {
     date: vaccine.occurrenceDateTime
       ? formatDate(vaccine.occurrenceDateTime)
       : EMPTY_FIELD,
-    lastUpdated: vaccine.meta.lastUpdated
+    lastUpdated: vaccine.meta?.lastUpdated
       ? dateFormat(vaccine.meta.lastUpdated)
       : EMPTY_FIELD,
     location: extractLocation(vaccine),
