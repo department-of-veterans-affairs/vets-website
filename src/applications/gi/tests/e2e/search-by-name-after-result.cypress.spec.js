@@ -20,11 +20,9 @@ describe('GI bill CT research By Name After Result', () => {
     // cy.get('[id="name-search-results-count"]', { timeout: 2e4 }).as(
     //   'searchResults',
     // );
-    cy.intercept('GET', '**/search/results').as('getSearchResults');
-    // cy.wait('@getSearchResults');
-    cy.get('[id="name-search-results-count"]', { timeout: 20000 }).as(
-      'searchResults',
-    );
+    cy.get('[data-testid="ct-input"]').type('Texas');
+    cy.get('[data-testid="search-btn"]').click();
+    cy.get('[id="name-search-results-count"]').as('searchResults');
     cy.get('@searchResults').should('be.focused');
     cy.get('@searchResults').should(
       'contain',
