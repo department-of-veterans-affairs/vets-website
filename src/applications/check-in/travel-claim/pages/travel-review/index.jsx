@@ -93,7 +93,9 @@ const TravelReview = props => {
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
         style={{ overflow: 'hidden' }}
       >
-        <h3>{t('beneficiary-travel-agreement')}</h3>
+        <h2 className="vads-u-font-size--h3">
+          {t('beneficiary-travel-agreement')}
+        </h2>
         <p>
           <Trans
             i18nKey="penalty-statement"
