@@ -4,6 +4,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
@@ -30,7 +31,11 @@ const TravelReview = props => {
     if (agree) {
       goToNextPage();
     } else {
+      const nestedShadowElement = document
+        .getElementById('travel-agreement-checkbox')
+        .shadowRoot.getElementById('checkbox-element');
       setError(true);
+      focusElement(nestedShadowElement);
     }
   };
   const startOverAction = () => {
@@ -103,6 +108,7 @@ const TravelReview = props => {
           />
         </p>
         <VaCheckbox
+          id="travel-agreement-checkbox"
           description={null}
           error={error ? t('claim-review-error') : null}
           label={t('claim-checkbox-confirm')}
