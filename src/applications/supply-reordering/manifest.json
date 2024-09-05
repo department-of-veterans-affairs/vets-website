@@ -1,0 +1,7 @@
+{
+  "appName": "Health Care Supply Reordering (New)",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "supply-reordering",
+  "rootUrl": "/health-care/order-supplies",
+  "productId": "4aa66a06-9475-4f15-b463-8a8a0e5941c0"
+}
