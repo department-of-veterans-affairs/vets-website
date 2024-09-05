@@ -55,8 +55,9 @@ class AllergyDetailsPage extends BaseDetailsPage {
 
   clickBreadcrumbs = breadcrumb => {
     cy.get('[data-testid="breadcrumbs"]')
-      .find('a')
+      .find('span')
       .contains(breadcrumb)
+      .parent()
       .click();
   };
 
