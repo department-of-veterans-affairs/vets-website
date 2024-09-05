@@ -121,6 +121,13 @@ const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          depends: formData =>
+            formData.militaryServiceCurrentlyServing === 'Yes',
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === 'Yes') {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },

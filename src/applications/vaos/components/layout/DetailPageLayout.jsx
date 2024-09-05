@@ -127,6 +127,7 @@ function CancelButton({ appointment }) {
         });
         dispatch(startAppointmentCancel(appointment));
       }}
+      data-testid="cancel-button"
     />
   );
 

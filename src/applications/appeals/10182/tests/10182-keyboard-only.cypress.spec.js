@@ -22,7 +22,7 @@ describe('Notice of Disagreement keyboard only navigation', () => {
     cy.get('@testData').then(data => {
       const { chapters } = formConfig;
 
-      cy.intercept('GET', `/v0${CONTESTABLE_ISSUES_API}`, {
+      cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}`, {
         data: fixDecisionDates(data.contestedIssues, { unselected: true }),
       }).as('getIssues');
       cy.visit(
