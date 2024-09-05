@@ -60,7 +60,10 @@ describe('Updating Notification Settings', () => {
 
       cy.get('@prescriptionCheckbox').should('exist');
       cy.get('@prescriptionCheckbox').should('not.be.checked');
-      cy.get('@prescriptionCheckbox').click();
+      cy.get('@prescriptionCheckbox')
+        .shadow()
+        .find('input')
+        .click({ force: true });
       cy.get('@prescriptionCheckbox').should('have.attr', 'checked', 'checked');
 
       // we should now see a saving indicator
@@ -102,7 +105,9 @@ describe('Updating Notification Settings', () => {
         .find('input')
         .should('be.checked');
 
-      cy.get('@appointmentCheckbox').click();
+      cy.get('@appointmentCheckboxShadow')
+        .find('input')
+        .click({ force: true });
 
       // we should now see a saving indicator
       cy.findByText(/^Saving/).should('exist');
@@ -148,14 +153,16 @@ describe('Updating Notification Settings', () => {
       .find('input')
       .should('be.checked');
 
-    cy.get('@appointmentCheckbox').click();
+    cy.get('@appointmentCheckboxShadow')
+      .find('input')
+      .click({ force: true });
 
     // we should now see a saving indicator
-    cy.findByText(/^Saving /).should('exist');
+    cy.findByText(/^Saving.../).should('exist');
     // Wait for the PATCH request to complete
     cy.wait('@savePreference');
     // after the PATCH call resolves:
-    cy.findByText(/^Saving /).should('not.exist');
+    cy.findByText(/^Saving.../).should('not.exist');
     cy.findByText(/update saved/i).should('exist');
 
     // checkbox should now be unchecked
