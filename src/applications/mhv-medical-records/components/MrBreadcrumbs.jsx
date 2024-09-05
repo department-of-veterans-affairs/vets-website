@@ -21,6 +21,7 @@ const MrBreadcrumbs = () => {
   );
 
   const headingText = document.querySelector('h1');
+  const textContent = headingText?.textContent;
 
   useEffect(
     () => {
@@ -29,10 +30,10 @@ const MrBreadcrumbs = () => {
 
       if (path === '/') {
         dispatch(setBreadcrumbs([]));
-      } else if (locationChildPath && headingText) {
+      } else if (locationChildPath && textContent) {
         const detailCrumb = {
           href: `${path}${locationChildPath}`,
-          label: headingText.textContent,
+          label: textContent,
           isRouterLink: true,
         };
         dispatch(setBreadcrumbs([Breadcrumbs[feature], detailCrumb]));
@@ -40,7 +41,7 @@ const MrBreadcrumbs = () => {
         dispatch(setBreadcrumbs([Breadcrumbs[feature]]));
       }
     },
-    [dispatch, locationBasePath, locationChildPath, headingText],
+    [dispatch, locationBasePath, locationChildPath, textContent],
   );
 
   const handleRoutechange = ({ detail }) => {
