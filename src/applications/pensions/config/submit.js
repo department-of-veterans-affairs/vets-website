@@ -36,7 +36,7 @@ export function transform(formConfig, form) {
   });
 }
 
-export function submit(form, formConfig, apiPath = '/v0/pension_claims') {
+export function submit(form, formConfig, apiPath = '/pensions/v0/claims') {
   const headers = { 'Content-Type': 'application/json' };
   const body = transform(formConfig, form);
 
