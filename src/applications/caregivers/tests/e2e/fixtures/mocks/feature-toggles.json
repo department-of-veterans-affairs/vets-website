@@ -3,12 +3,8 @@
     "type": "feature_toggles",
     "features": [
       {
-        "name": "caregiverUseFacilitiesApi",
-        "value": false
-      },
-      {
         "name": "caregiver_use_facilities_API",
-        "value": false
+        "value": true
       }
     ]
   }
