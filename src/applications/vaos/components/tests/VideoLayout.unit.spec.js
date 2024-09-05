@@ -29,7 +29,6 @@ describe('VAOS Component: VideoLayout', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
@@ -37,9 +36,7 @@ describe('VAOS Component: VideoLayout', () => {
   describe('When appointment information is missing', () => {
     const nullInitialState = {
       appointments: {},
-      featureToggles: {
-        vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      },
+      featureToggles: {},
     };
     it('should not display heading and text for empty data', async () => {
       // Arrange

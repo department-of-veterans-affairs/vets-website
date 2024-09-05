@@ -22,25 +22,17 @@ const HeaderLayout = ({
 
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
-    if (alertExpandable) {
-      try {
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .alert-expandable-trigger {
-            align-items: center !important;
-          }
-          .alert-expandable-icon {
-            vertical-align: middle !important;
-          }
-        `;
-        alertExpandable.shadowRoot.appendChild(style);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'Error adding custom styles to alert-expandable component',
-          error,
-        );
-      }
+    if (alertExpandable?.shadowRoot) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .alert-expandable-trigger {
+          align-items: center !important;
+        }
+        .alert-expandable-icon {
+          vertical-align: middle !important;
+        }
+      `;
+      alertExpandable.shadowRoot.appendChild(style);
     }
   }, []);
 
