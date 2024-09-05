@@ -99,7 +99,7 @@ class ChemHemDetailsPage extends BaseDetailsPage {
     cy.get('[data-testid="new-message-link"]')
       .contains(composeMessageLink)
       .invoke('attr', 'href')
-      .should('contain', 'va.gov/my-health/secure-messages/new-message');
+      .should('contain', '/my-health/secure-messages/new-message');
     // https://mhv-syst.myhealth.va.gov/mhv-portal-web/new-message
   };
 }
