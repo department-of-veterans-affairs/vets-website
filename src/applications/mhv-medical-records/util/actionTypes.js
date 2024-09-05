@@ -73,5 +73,6 @@ export const Actions = {
   },
   PageTracker: {
     SET_PAGE_TRACKER: 'MR_SET_PAGE_TRACKER',
+    CLEAR_PAGE_TRACKER: 'MR_CLEAR_PAGE_TRACKER',
   },
 };

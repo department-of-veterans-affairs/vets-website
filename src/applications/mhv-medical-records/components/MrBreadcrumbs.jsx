@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
-import { setPageNumber } from '../actions/pageTracker';
+import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
 
 const MrBreadcrumbs = () => {
   const dispatch = useDispatch();
@@ -39,6 +39,7 @@ const MrBreadcrumbs = () => {
       const feature = Object.keys(Paths).find(_path => path === Paths[_path]);
 
       if (path === '/') {
+        dispatch(clearPageNumber());
         dispatch(setBreadcrumbs([]));
       } else if (locationChildPath && textContent) {
         const detailCrumb = {

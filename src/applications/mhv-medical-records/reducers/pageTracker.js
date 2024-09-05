@@ -14,5 +14,11 @@ export const pageTrackerReducer = (state = initialState, { type, payload }) => {
       pageNumber: payload,
     };
   }
+  if (type === Actions.PageTracker.CLEAR_PAGE_TRACKER) {
+    return {
+      ...state,
+      pageNumber: null,
+    };
+  }
   return state;
 };

@@ -6,3 +6,9 @@ export const setPageNumber = pageNumber => async dispatch => {
     payload: pageNumber,
   });
 };
+
+export const clearPageNumber = () => async dispatch => {
+  dispatch({
+    type: Actions.PageTracker.CLEAR_PAGE_TRACKER,
+  });
+};
