@@ -1,24 +1,45 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const BenefitCard = () => (
-  <va-card>
+const BenefitCard = ({ benefit }) => {
+  const { name, category, description, learnMoreURL, applyNowURL } = benefit;
+  return (
     <div className="vads-u-margin-bottom--2">
-      <span className="usa-label">Education</span>
+      <va-card>
+        <div className="vads-u-margin-bottom--2">
+          <span className="usa-label">{category}</span>
+        </div>
+        <h3>{name}</h3>
+        <p className="vads-u-margin-y--0">{description}</p>
+        <div>
+          <div className="vads-u-display--inline-block vads-u-margin-right--2">
+            <va-link-action
+              href={learnMoreURL}
+              text="Learn more"
+              type="secondary"
+            />
+          </div>
+          <div className="vads-u-display--inline-block">
+            <va-link-action
+              href={applyNowURL}
+              text="Apply now"
+              type="secondary"
+            />
+          </div>
+        </div>
+      </va-card>
     </div>
-    <h3 slot="headline">GI Bill</h3>
-    <p className="vads-u-margin-y--0">
-      GI Bill benefits help you pay for college, graduate school, and training
-      programs. Learn more about GI Bill benefits and how to apply for them.
-    </p>
-    <div>
-      <div className="vads-u-display--inline-block vads-u-margin-right--2">
-        <va-link-action href="#" text="Learn more" type="secondary" />
-      </div>
-      <div className="vads-u-display--inline-block">
-        <va-link-action href="#" text="Apply now" type="secondary" />
-      </div>
-    </div>
-  </va-card>
-);
+  );
+};
+
+BenefitCard.propTypes = {
+  benefit: PropTypes.shape({
+    name: PropTypes.string,
+    category: PropTypes.string,
+    description: PropTypes.string,
+    learnMoreURL: PropTypes.string,
+    applyNowURL: PropTypes.string,
+  }),
+};
 
 export default BenefitCard;

@@ -17,7 +17,7 @@ export const uiSchema = {
   ...titleUI('Your personal information'),
   applicantName: fullNameMiddleInitialUI,
   applicantDOB: dateOfBirthUI({
-    required: true,
+    required: () => true,
   }),
 };
 
