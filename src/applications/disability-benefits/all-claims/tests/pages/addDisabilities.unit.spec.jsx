@@ -1,90 +1,81 @@
 import React from 'react';
 import { expect } from 'chai';
+import { render } from '@testing-library/react';
 import sinon from 'sinon';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
 import set from 'platform/utilities/data/set';
 import { mount } from 'enzyme';
 import formConfig from '../../config/form';
-
 import { updateFormData } from '../../pages/addDisabilities';
 
-describe('Add new disabilities', () => {
-  const {
-    schema,
-    uiSchema,
-  } = formConfig.chapters.disabilities.pages.addDisabilities;
-
-  it('should render', () => {
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-      />,
-    );
-
-    expect(form.find('input').length).to.equal(1);
-    form.unmount();
-  });
-
-  it('should add another disability', () => {
+describe('showRevisedNewDisabilitiesPage', () => {
+  it('should show new combobox container', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilities;
     const onSubmit = sinon.spy();
-    const form = mount(
+    const screen = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          newDisabilities: [
-            {
-              condition: 'Abnormal Heart',
-            },
-          ],
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          newDisabilities: ['test condition'],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
         }}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('.va-growable-add-btn').simulate('click');
-
-    expect(
-      form
-        .find('.va-growable-background')
-        .first()
-        .text(),
-    ).to.contain('Abnormal Heart');
-    form.unmount();
+    const labelStr = 'Enter your condition';
+    expect(screen.getByText(labelStr)).to.exist;
   });
 
-  it('should submit when data filled in', () => {
+  it('should render updated content', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilities;
     const onSubmit = sinon.spy();
-    const form = mount(
+    const screen = render(
       <DefinitionTester
         definitions={formConfig.defaultDefinitions}
         schema={schema}
         uiSchema={uiSchema}
         data={{
-          newDisabilities: [
-            {
-              condition: 'Test',
-            },
-          ],
+          'view:claimType': {
+            'view:claimingNew': true,
+            'view:claimingIncrease': true,
+          },
+          newDisabilities: ['test condition'],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
         }}
         formData={{}}
         onSubmit={onSubmit}
       />,
     );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+    const title = 'Tell us the new conditions you want to claim';
+    const exampleConditions = 'Examples of conditions';
+    const conditionInstructions = 'If your conditions aren’t listed';
+    const listItem = 'Tinnitus (ringing or hissing in ears)';
+    expect(screen.getByText(title)).to.exist;
+    expect(screen.getByText(exampleConditions)).to.exist;
+    expect(screen.getByText(conditionInstructions)).to.exist;
+    expect(screen.getByText(listItem)).to.exist;
   });
 
-  it('should show new conditions only alert', () => {
+  it('should display newOnlyAlertRevised if no new conditions are added', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilities;
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -97,8 +88,8 @@ describe('Add new disabilities', () => {
             'view:claimingIncrease': false,
           },
           newDisabilities: [],
-          // previously selected rated disability
-          ratedDisabilities: [{}, { 'view:selected': true }],
+          // no rated disability selected
+          ratedDisabilities: [{}, {}],
         }}
         formData={{}}
         onSubmit={onSubmit}
@@ -107,11 +98,16 @@ describe('Add new disabilities', () => {
     form.find('form').simulate('submit');
     const error = form.find('va-alert');
     expect(error.length).to.equal(1);
-    expect(error.text()).to.contain('add a new disability to claim');
+    expect(error.text()).to.contain('Enter a condition to submit your claim');
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
-  it('should show increase & new alert', () => {
+
+  it('should display increaseAndNewAlertRevised if no new conditions or increase disabilities are added', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilities;
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -134,12 +130,18 @@ describe('Add new disabilities', () => {
     form.find('form').simulate('submit');
     const error = form.find('va-alert');
     expect(error.length).to.equal(1);
-    expect(error.text()).to.contain('add a new disability or choose a rated');
+    expect(error.text()).to.contain(
+      'We can’t process your claim without a disability or new condition selected',
+    );
     expect(onSubmit.called).to.be.false;
     form.unmount();
   });
 
-  it('should not submit when an empty field is submitted', () => {
+  it('should submit when form is completed', () => {
+    const {
+      schema,
+      uiSchema,
+    } = formConfig.chapters.disabilities.pages.addDisabilities;
     const onSubmit = sinon.spy();
     const form = mount(
       <DefinitionTester
@@ -149,7 +151,7 @@ describe('Add new disabilities', () => {
         data={{
           newDisabilities: [
             {
-              condition: '',
+              condition: 'Test',
             },
           ],
         }}
@@ -159,39 +161,8 @@ describe('Add new disabilities', () => {
     );
 
     form.find('form').simulate('submit');
-    const error = form.find('.usa-input-error-message');
-    expect(error.length).to.equal(1);
-    expect(error.text()).to.include('enter a condition or select one');
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
-  it('should not submit when "unknown condition" is submitted', () => {
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          newDisabilities: [
-            {
-              // case in-sensitive; specifically preventing this because it was
-              // previously the default text used when the user submitted an
-              // empty string
-              condition: 'UNKnowN COnDitioN',
-            },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    const error = form.find('.usa-input-error-message');
-    expect(error.length).to.equal(1);
-    expect(error.text()).to.include('enter a condition or select one');
-    expect(onSubmit.called).to.be.false;
+    expect(form.find('.usa-input-error-message').length).to.equal(0);
+    expect(onSubmit.called).to.be.true;
     form.unmount();
   });
 

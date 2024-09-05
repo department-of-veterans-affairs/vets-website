@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, NavLink } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { useDispatch } from 'react-redux';
 import { GA_PREFIX } from '../utils/constants';
@@ -14,53 +15,32 @@ export default function BackLink({ appointment }) {
   } = appointment.vaos;
 
   const location = useLocation();
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const handleClickGATracker = () => {
-    let status;
-    if (isPendingAppointment) {
-      status = 'pending';
-    } else if (isUpcomingAppointment) {
-      status = 'upcoming';
-    } else if (isPastAppointment) {
-      status = 'past';
-    }
+  let status;
+  let link;
+  let linkText;
+  if (isPendingAppointment) {
+    status = 'pending';
+    link = '/pending';
+    linkText = 'Back to request for appointments';
+  } else if (isUpcomingAppointment) {
+    status = 'upcoming';
+    link = '/';
+    linkText = 'Back to appointments';
+  } else if (isPastAppointment) {
+    status = 'past';
+    link = '/past';
+    linkText = 'Back to past appointments';
+  }
 
-    const progress =
-      location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
+  const progress =
+    location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
 
-    if (progress === 'confirmation' && status === 'upcoming') {
-      status = 'direct';
-    }
-    return () => {
-      recordEvent({
-        event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
-      });
-
-      dispatch(closeCancelAppointment());
-    };
-  };
-
-  const handleBackLinkText = () => {
-    // Default to upcoming page
-    let linkText = 'Back to appointments';
-    if (isPendingAppointment) {
-      linkText = 'Back to request for appointments';
-    } else if (isPastAppointment) {
-      linkText = 'Back to past appointments';
-    }
-    return linkText;
-  };
-  const handleBackLink = () => {
-    // Default to upcoming page
-    let link = '/';
-    if (isPendingAppointment) {
-      link = '/pending';
-    } else if (isPastAppointment) {
-      link = '/past';
-    }
-    return link;
-  };
+  if (progress === 'confirmation' && status === 'upcoming') {
+    status = 'direct';
+  }
 
   return (
     <div
@@ -74,12 +54,18 @@ export default function BackLink({ appointment }) {
         ‹
       </div>
       <NavLink
-        aria-label={handleBackLinkText()}
-        to={handleBackLink()}
+        aria-label={linkText}
+        to={link}
         className="vaos-hide-for-print vads-u-color--link-default"
-        onClick={handleClickGATracker()}
+        onClick={() => {
+          recordEvent({
+            event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
+          });
+          dispatch(closeCancelAppointment());
+          if (progress !== 'confirmation') history.goBack();
+        }}
       >
-        {handleBackLinkText()}
+        {linkText}
       </NavLink>
     </div>
   );

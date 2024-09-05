@@ -1,5 +1,7 @@
 import { mockFetch } from '@department-of-veterans-affairs/platform-testing/helpers';
 import { fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+
 import { expect } from 'chai';
 import MockDate from 'mockdate';
 import moment from 'moment';
@@ -65,9 +67,16 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
 
     fireEvent.click(detailLinks);
     expect(await screen.findByText('Request for appointment')).to.be.ok;
-    expect(
-      screen.getByText('Back to request for appointments').getAttribute('href'),
-    ).to.equal('/pending');
+    const link = screen.getByRole('link', {
+      name: 'Back to request for appointments',
+    });
+    userEvent.click(link);
+    expect(screen.history.push.called).to.be.true;
+    await waitFor(() =>
+      expect(screen.history.push.lastCall.args[0].pathname).to.equal(
+        '/pending',
+      ),
+    );
   });
 
   it('should show error message when single fetch errors', async () => {
@@ -318,15 +327,18 @@ describe('VAOS Page: RequestedAppointmentDetailsPage', () => {
         name: 'Back to request for appointments',
       });
       fireEvent.click(link);
-      await waitFor(
-        () =>
-          expect(
-            screen.queryByRole('heading', {
-              level: 1,
-              name: /Pending appointments/i,
-            }),
-          ).to.be.ok,
-      );
+      expect(screen.history.push.called).to.be.true;
+      await waitFor(() => {
+        expect(screen.history.push.lastCall.args[0].pathname).to.equal(
+          '/pending',
+        );
+        expect(
+          screen.queryByRole('heading', {
+            level: 1,
+            name: /Pending appointments/i,
+          }),
+        ).to.be.ok;
+      });
     });
   });
 

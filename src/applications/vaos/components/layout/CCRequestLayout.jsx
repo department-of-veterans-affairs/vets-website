@@ -89,7 +89,9 @@ export default function CCRequestLayout({ data: appointment }) {
             {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+          <span className="vaos-u-word-break--break-word">
+            Other details: {`${otherDetails || 'Not available'}`}
+          </span>
         </Section>
         <Section heading="Your contact details">
           <span data-dd-privacy="mask">Email: {email}</span>
