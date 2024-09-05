@@ -60,11 +60,10 @@ export default function VideoLayoutAtlas({ data: appointment }) {
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="How to join">
-            You will use this appointment code to find your appointment using
-            the computer provided at the site:
+            You’ll use this appointment code to find your appointment using the
+            computer provided at the site:
             <br />
             {atlasConfirmationCode}
-            <br />
             <br />
           </Section>
         )}
