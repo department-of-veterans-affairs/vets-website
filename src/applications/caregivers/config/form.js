@@ -27,6 +27,7 @@ import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
+import FacilitySearch from '../components/FormFields/FacilitySearch';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -54,7 +55,6 @@ import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
 import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
-import FacilitySearch from '../components/FormFields/FacilitySearch';
 
 const {
   address,

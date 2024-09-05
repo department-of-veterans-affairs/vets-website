@@ -189,10 +189,13 @@ const FacilitySearch = props => {
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a href="#" onClick={showMoreFacilities}>
+          <button
+            type="button"
+            className="va-button-link"
+            onClick={showMoreFacilities}
+          >
             Load more facilities
-          </a>
+          </button>
         </>
       );
     }
