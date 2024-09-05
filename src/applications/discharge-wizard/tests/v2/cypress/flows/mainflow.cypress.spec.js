@@ -1,8 +1,8 @@
-import * as h from './helpers';
-import { ROUTES } from '../../../constants';
-import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import * as h from '../helpers';
+import { ROUTES } from '../../../../constants';
+import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard', () => {
+xdescribe('Discharge Upgrade Wizard Main Flow', () => {
   describe('Base navigation', () => {
     it('navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
@@ -37,7 +37,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 3);
+      h.selectRadio(h.REASON_INPUT, 1);
       h.clickContinue();
 
       // INTENTION
@@ -81,7 +81,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
   });
   describe('Forward and Backward navigation', () => {
     it('navigates through the flow forward/backward successfully', () => {
-      cy.visit(`${h.ROOT}/introduction1`);
+      cy.visit(`${h.ROOT}/introduction`);
 
       // Home
       h.verifyUrl(ROUTES.HOME);
@@ -113,7 +113,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 3);
+      h.selectRadio(h.REASON_INPUT, 1);
       h.clickContinue();
 
       // INTENTION
