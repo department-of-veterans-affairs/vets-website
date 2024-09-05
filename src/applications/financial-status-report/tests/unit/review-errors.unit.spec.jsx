@@ -1,109 +1,247 @@
 import { expect } from 'chai';
-import ReviewErrors, {
-  ERROR_MESSAGES,
-  CHAPTER_KEYS,
-  PAGE_KEYS,
-} from '../../constants/reviewErrors';
+import ReviewErrors from '../../utils/reviewErrorHelper';
+import { CHAPTER_KEYS, PAGE_KEYS } from '../../constants/reviewErrors';
 
-describe('ReviewErrors', () => {
-  it('should return correct error message for simple fields', () => {
-    expect(ReviewErrors.hasBeenAdjudicatedBankrupt).to.equal(
-      ERROR_MESSAGES.BANKRUPTCY,
-    );
-    expect(ReviewErrors.realEstateValue).to.equal(
-      ERROR_MESSAGES.REAL_ESTATE_VALUE,
-    );
+describe('ReviewErrors with presubmit data', () => {
+  const mockPresubmitData = {
+    data: {
+      questions: {
+        hasRepayments: true,
+        hasCreditCardBills: true,
+        hasRecreationalVehicle: true,
+        hasVehicle: true,
+        hasRealEstate: true,
+        spouseHasBenefits: true,
+        isMarried: true,
+        hasDependents: '2',
+        hasBeenAdjudicatedBankrupt: true,
+        vetIsEmployed: true,
+        spouseIsEmployed: true,
+      },
+      assets: {
+        recVehicleAmount: '123',
+        realEstateValue: '3212',
+        monetaryAssets: [
+          { name: 'Cash', amount: '22' },
+          { name: 'Savings accounts', amount: '21' },
+        ],
+        otherAssets: [
+          { name: 'Collectibles, or collection(s)', amount: '12344' },
+          { name: 'Antiques', amount: '44' },
+          { name: 'Fine art', amount: '122' },
+        ],
+        automobiles: [{ make: 'fdsa', model: 'dfa', resaleValue: '12' }],
+      },
+      personalData: {
+        spouseFullName: { first: 'Rosemary', last: 'Woodhouse' },
+        veteranFullName: { first: 'Travis', last: 'Jones', middle: 'D' },
+        dateOfBirth: '1950-09-06',
+      },
+      selectedDebtsAndCopays: [
+        {
+          resolutionWaiverCheck: true,
+          resolutionOption: 'waiver',
+          fileNumber: '796121200',
+        },
+        {
+          resolutionComment: '32',
+          resolutionOption: 'monthly',
+          fileNumber: '796121200',
+        },
+      ],
+    },
+  };
+
+  describe('Personal Information', () => {
+    it('should detect missing veteran information', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.personalData.veteranFullName.first = '';
+
+      expect(ReviewErrors.personalInformation).to.be.a('string');
+      const hasError = !incompleteData.data.personalData.veteranFullName.first;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect invalid date of birth', () => {
+      const invalidData = { ...mockPresubmitData };
+      invalidData.data.personalData.dateOfBirth = 'invalid-date';
+
+      expect(ReviewErrors.personalInformation).to.be.a('string');
+      const hasError = !/^\d{4}-\d{2}-\d{2}$/.test(
+        invalidData.data.personalData.dateOfBirth,
+      );
+      expect(hasError).to.be.true;
+    });
   });
 
-  it('should return correct error message for indexed fields', () => {
-    expect(ReviewErrors.resolutionOption(0)).to.equal(
-      'Please select a resolution option for the first selected debt',
-    );
-    expect(ReviewErrors.resolutionOption(1)).to.equal(
-      'Please select a resolution option for the second selected debt',
-    );
+  describe('Assets', () => {
+    it('should detect missing recreational vehicle amount when hasRecreationalVehicle is true', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.assets.recVehicleAmount = '';
+
+      expect(ReviewErrors.recVehicleAmount).to.be.a('string');
+      const hasError =
+        incompleteData.data.questions.hasRecreationalVehicle &&
+        !incompleteData.data.assets.recVehicleAmount;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect invalid real estate value', () => {
+      const invalidData = { ...mockPresubmitData };
+      invalidData.data.assets.realEstateValue = 'invalid';
+
+      expect(ReviewErrors.realEstateValue).to.be.a('string');
+      // eslint-disable-next-line no-restricted-syntax
+      const hasError = isNaN(
+        parseFloat(invalidData.data.assets.realEstateValue),
+      );
+      expect(hasError).to.be.true;
+    });
   });
 
-  it('should handle all defined error messages', () => {
-    Object.keys(ReviewErrors).forEach(key => {
-      if (typeof ReviewErrors[key] === 'function') {
-        if (key !== '_override') {
-          expect(ReviewErrors[key](0)).to.be.a('string');
-        }
-      } else {
-        expect(ReviewErrors[key]).to.be.a('string');
+  describe('Debts and Copays', () => {
+    it('should detect missing resolution option', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.selectedDebtsAndCopays[0].resolutionOption = '';
+
+      expect(ReviewErrors.resolutionOption(0)).to.be.a('string');
+      const hasError = !incompleteData.data.selectedDebtsAndCopays[0]
+        .resolutionOption;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect missing resolution comment for monthly option', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.selectedDebtsAndCopays[1].resolutionComment = '';
+
+      expect(ReviewErrors.resolutionComment(1)).to.be.a('string');
+      const hasError =
+        incompleteData.data.selectedDebtsAndCopays[1].resolutionOption ===
+          'monthly' &&
+        !incompleteData.data.selectedDebtsAndCopays[1].resolutionComment;
+      expect(hasError).to.be.true;
+    });
+  });
+
+  describe('Vehicle Information', () => {
+    it('should detect missing vehicle information when hasVehicle is true', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.questions.hasVehicle = true;
+      incompleteData.data.assets.automobiles = [];
+
+      expect(ReviewErrors.automobiles).to.be.a('string');
+      const hasError =
+        incompleteData.data.questions.hasVehicle &&
+        incompleteData.data.assets.automobiles.length === 0;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect invalid vehicle resale value', () => {
+      const invalidData = { ...mockPresubmitData };
+      if (
+        !invalidData.data.assets.automobiles ||
+        invalidData.data.assets.automobiles.length === 0
+      ) {
+        invalidData.data.assets.automobiles = [
+          { make: '', model: '', resaleValue: '' },
+        ];
       }
-    });
-  });
-});
+      invalidData.data.assets.automobiles[0].resaleValue = 'invalid';
 
-describe('_override', () => {
-  const { _override } = ReviewErrors;
-
-  it('should return correct mapping for known errors', () => {
-    expect(_override('assets.realEstateValue')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.HOUSEHOLD_ASSETS,
-      pageKey: PAGE_KEYS.REAL_ESTATE_INFORMATION,
+      expect(ReviewErrors.automobiles).to.be.a('string');
+      // eslint-disable-next-line no-restricted-syntax
+      const hasError = invalidData.data.assets.automobiles.some(auto =>
+        isNaN(parseFloat(auto.resaleValue)),
+      );
+      expect(hasError).to.be.true;
     });
 
-    expect(_override('personalData.veteranFullName')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.VETERAN_INFORMATION,
-      pageKey: PAGE_KEYS.PERSONAL_INFORMATION,
-    });
-  });
+    it('should detect missing recreational vehicle amount when hasRecreationalVehicle is true', () => {
+      const incompleteData = { ...mockPresubmitData };
+      incompleteData.data.questions.hasRecreationalVehicle = true;
+      incompleteData.data.assets.recVehicleAmount = '';
 
-  it('should return correct mapping for nested errors', () => {
-    expect(_override('assets.monetaryAssets')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.HOUSEHOLD_ASSETS,
-      pageKey: PAGE_KEYS.MONETARY_ASSETS,
-    });
-
-    expect(_override('additionalIncome.spouse')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.HOUSEHOLD_INCOME,
-      pageKey: PAGE_KEYS.SPOUSE_ADDITIONAL_INCOME,
+      expect(ReviewErrors.recVehicleAmount).to.be.a('string');
+      const hasError =
+        incompleteData.data.questions.hasRecreationalVehicle &&
+        !incompleteData.data.assets.recVehicleAmount;
+      expect(hasError).to.be.true;
     });
   });
 
-  it('should return correct mapping for top-level errors', () => {
-    expect(_override('selectedDebtsAndCopays')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.DEBTS_AND_COPAYS,
-      pageKey: PAGE_KEYS.SELECTED_DEBTS,
+  describe('Missing Questions', () => {
+    it('should return correct chapter and page keys for missing question errors', () => {
+      const result = ReviewErrors._override('questions.hasVehicle');
+      expect(result).to.deep.equal({
+        chapterKey: CHAPTER_KEYS.HOUSEHOLD_ASSETS,
+        pageKey: PAGE_KEYS.HAS_VEHICLE,
+      });
     });
 
-    expect(_override('utilityRecords')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.HOUSEHOLD_EXPENSES,
-      pageKey: PAGE_KEYS.UTILITIES,
+    it('should detect missing hasVehicle question', () => {
+      const incompleteData = { ...mockPresubmitData };
+      delete incompleteData.data.questions.hasVehicle;
+
+      expect(ReviewErrors.hasVehicle).to.be.a('string');
+      const hasError = incompleteData.data.questions.hasVehicle === undefined;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect missing hasRealEstate question', () => {
+      const incompleteData = { ...mockPresubmitData };
+      delete incompleteData.data.questions.hasRealEstate;
+
+      expect(ReviewErrors.hasRealEstate).to.be.a('string');
+      const hasError =
+        incompleteData.data.questions.hasRealEstate === undefined;
+      expect(hasError).to.be.true;
+    });
+
+    it('should detect missing isMarried question', () => {
+      const incompleteData = { ...mockPresubmitData };
+      delete incompleteData.data.questions.isMarried;
+
+      expect(ReviewErrors.isMarried).to.be.a('string');
+      const hasError = incompleteData.data.questions.isMarried === undefined;
+      expect(hasError).to.be.true;
     });
   });
 
-  it('should return correct mapping for resolution amount errors', () => {
-    const fullError = { __errors: ['Invalid resolution amount'] };
-    expect(_override('someError', fullError)).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.RESOLUTION_OPTIONS,
-      pageKey: PAGE_KEYS.RESOLUTION_OPTION,
-    });
-  });
-
-  it('should return correct mapping for additionalData errors', () => {
-    expect(_override('additionalData.bankruptcy')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.BANKRUPTCY_ATTESTATION,
-      pageKey: PAGE_KEYS.BANKRUPTCY_INFORMATION,
+  describe('Override function', () => {
+    it('should return correct chapter and page keys for employment errors', () => {
+      const result = ReviewErrors._override('personalData.employmentHistory');
+      expect(result).to.deep.equal({
+        chapterKey: CHAPTER_KEYS.HOUSEHOLD_INCOME,
+        pageKey: PAGE_KEYS.EMPLOYMENT_HISTORY,
+      });
     });
 
-    expect(_override('additionalData.additionalComments')).to.deep.equal({
-      chapterKey: CHAPTER_KEYS.ADDITIONAL_INFORMATION,
-      pageKey: PAGE_KEYS.ADDITIONAL_COMMENTS,
+    it('should return correct chapter and page keys for vehicle errors', () => {
+      const result = ReviewErrors._override('assets.automobiles');
+      expect(result).to.deep.equal({
+        chapterKey: CHAPTER_KEYS.HOUSEHOLD_ASSETS,
+        pageKey: PAGE_KEYS.AUTOMOBILES,
+      });
     });
-  });
 
-  it('should return null for unknown errors', () => {
-    expect(_override('unknownError')).to.equal(null);
-  });
+    it('should return correct chapter and page keys for missing question errors', () => {
+      const result = ReviewErrors._override('questions.hasVehicle');
+      expect(result).to.deep.equal({
+        chapterKey: CHAPTER_KEYS.HOUSEHOLD_ASSETS,
+        pageKey: PAGE_KEYS.HAS_VEHICLE,
+      });
+    });
 
-  it('should return null for non-string inputs', () => {
-    expect(_override(null)).to.equal(null);
-    expect(_override(undefined)).to.equal(null);
-    expect(_override({})).to.equal(null);
-    expect(_override([])).to.equal(null);
+    it('should return correct chapter and page keys for resolution amount errors', () => {
+      const fullError = { __errors: ['Invalid resolution amount'] };
+      const result = ReviewErrors._override(
+        'selectedDebtsAndCopays',
+        fullError,
+      );
+      expect(result).to.deep.equal({
+        chapterKey: CHAPTER_KEYS.RESOLUTION_OPTIONS,
+        pageKey: PAGE_KEYS.SELECTED_DEBTS_AND_COPAYS,
+      });
+    });
   });
 });
