@@ -78,6 +78,13 @@ describe('Updating Notification Settings', () => {
       cy.login(mockPatient);
       cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
 
+      // Alias the PATCH request to wait for it
+      cy.intercept('PATCH', '/v0/profile/communication_preferences/*', {
+        statusCode: 200,
+        body: mockPatchSuccess,
+        delay: 200,
+      }).as('savePreference');
+
       // checkbox will start off checked because of the
       // mocked response from mockCommunicationPreferences
       cy.findByText(APPOINTMENT_NOTIFICATION_TEXT)
@@ -99,6 +106,8 @@ describe('Updating Notification Settings', () => {
 
       // we should now see a saving indicator
       cy.findByText(/^Saving/).should('exist');
+      // Wait for the PATCH request to complete
+      cy.wait('@savePreference');
       // after the PATCH call resolves:
       cy.findByText(/^Saving/).should('not.exist');
       cy.findByText(/update saved/i).should('exist');
@@ -110,5 +119,50 @@ describe('Updating Notification Settings', () => {
 
       cy.injectAxeThenAxeCheck();
     });
+  });
+  it('should allow opting out of getting notifications - C8545', () => {
+    cy.login(mockPatient);
+    cy.visit(PROFILE_PATHS.NOTIFICATION_SETTINGS);
+
+    // Alias the PATCH request to wait for it
+    cy.intercept('PATCH', '/v0/profile/communication_preferences/*', {
+      statusCode: 200,
+      body: mockPatchSuccess,
+      delay: 200,
+    }).as('savePreference');
+
+    // checkbox will start off checked because of the
+    // mocked response from mockCommunicationPreferences
+    cy.findByText(APPOINTMENT_NOTIFICATION_TEXT)
+      .closest('fieldset')
+      .find('va-checkbox')
+      .as('appointmentCheckbox');
+
+    cy.get('@appointmentCheckbox').should('exist');
+
+    cy.get('@appointmentCheckbox')
+      .shadow()
+      .as('appointmentCheckboxShadow');
+
+    cy.get('@appointmentCheckboxShadow')
+      .find('input')
+      .should('be.checked');
+
+    cy.get('@appointmentCheckbox').click();
+
+    // we should now see a saving indicator
+    cy.findByText(/^Saving/).should('exist');
+    // Wait for the PATCH request to complete
+    cy.wait('@savePreference');
+    // after the PATCH call resolves:
+    cy.findByText(/^Saving/).should('not.exist');
+    cy.findByText(/update saved/i).should('exist');
+
+    // checkbox should now be unchecked
+    cy.get('@appointmentCheckboxShadow')
+      .find('input')
+      .should('not.be.checked');
+
+    cy.injectAxeThenAxeCheck();
   });
 });
