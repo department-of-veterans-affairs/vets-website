@@ -379,15 +379,11 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (
-        messageValid === true &&
-        isSignatureRequired &&
-        !electronicSignature
-      ) {
+      if (messageValid && isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
         signatureValid = false;
       }
-      if (messageValid === true && isSignatureRequired && !checkboxMarked) {
+      if (messageValid && isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
         checkboxValid = false;
       }
@@ -524,10 +520,10 @@ const ComposeForm = props => {
       await setMessageInvalid(false);
       await setSendMessageFlag(false);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
-      const validSignatureRequired =
+      const isSignatureValid =
         isSignatureRequired && signatureValid && checkboxValid && messageValid;
 
-      if (validSignatureNotRequired || validSignatureRequired) {
+      if (validSignatureNotRequired || isSignatureValid) {
         setSendMessageFlag(true);
         setNavigationError(null);
         setLastFocusableElement(e.target);
@@ -544,7 +540,7 @@ const ComposeForm = props => {
       const isBlankForm = () =>
         messageBody === '' &&
         subject === '' &&
-        (selectedRecipientId === 0 || selectedRecipientId === '0') &&
+        Number(selectedRecipientId) === 0 &&
         category === null &&
         attachments.length === 0;
 

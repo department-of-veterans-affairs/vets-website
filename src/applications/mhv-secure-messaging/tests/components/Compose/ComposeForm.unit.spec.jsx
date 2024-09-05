@@ -894,11 +894,7 @@ describe('Compose form component', () => {
 
   it('displays alerts in Electronic Signature component if signature is required', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        recipients={initialState.sm.recipients}
-        messageValid
-        isSignatureRequired
-      />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,
@@ -938,11 +934,7 @@ describe('Compose form component', () => {
 
   it('displays an error in Electronic Signature component if checkbox is not checked', async () => {
     const screen = renderWithStoreAndRouter(
-      <ComposeForm
-        recipients={initialState.sm.recipients}
-        messageValid
-        isSignatureRequired
-      />,
+      <ComposeForm recipients={initialState.sm.recipients} />,
       {
         initialState,
         reducers: reducer,

@@ -70,6 +70,7 @@ describe('RecipientsSelect', () => {
     const select = screen.getByTestId('compose-recipient-select');
 
     waitFor(() => {
+      expect(setAlertDisplayed).to.be.calledOnce;
       expect(select).to.have.value(val);
       expect(onValueChange.calledOnce).to.be.true;
       expect(onValueChange.calledWith(recipientsList[0])).to.be.true;
