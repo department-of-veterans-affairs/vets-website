@@ -4,7 +4,6 @@ import fullSchema1990e from 'vets-json-schema/dist/22-1990E-schema.json';
 
 import applicantInformation from 'platform/forms/pages/applicantInformation';
 import environment from 'platform/utilities/environment';
-import { VA_FORM_IDS } from 'platform/forms/constants';
 import FormFooter from 'platform/forms/components/FormFooter';
 import * as address from 'platform/forms/definitions/address';
 import fullNameUISchema from 'platform/forms/definitions/fullName';
@@ -58,7 +57,7 @@ const formConfig = {
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/education_benefits_claims/1990e`,
   trackingPrefix: 'edu-1990e-',
-  formId: VA_FORM_IDS.FORM_22_1990E,
+  formId: '22-1990E',
   saveInProgress: {
     messages: {
       messages: {
