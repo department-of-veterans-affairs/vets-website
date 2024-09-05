@@ -19,14 +19,16 @@ export default function BackLink({ appointment }) {
   const dispatch = useDispatch();
 
   let status;
-  let link = '/';
-  let linkText = 'Back to appointments';
+  let link;
+  let linkText;
   if (isPendingAppointment) {
     status = 'pending';
     link = '/pending';
     linkText = 'Back to request for appointments';
   } else if (isUpcomingAppointment) {
     status = 'upcoming';
+    link = '/';
+    linkText = 'Back to appointments';
   } else if (isPastAppointment) {
     status = 'past';
     link = '/past';
@@ -36,8 +38,8 @@ export default function BackLink({ appointment }) {
   const progress =
     location.search === '?confirmMsg=true' ? 'confirmation' : 'appointment';
 
-  if (location.search === '?confirmMsg=true') {
-    link = location.pathname.includes('/pending') ? '/pending' : '/';
+  if (progress === 'confirmation' && status === 'upcoming') {
+    status = 'direct';
   }
 
   return (
@@ -57,7 +59,7 @@ export default function BackLink({ appointment }) {
         className="vaos-hide-for-print vads-u-color--link-default"
         onClick={() => {
           recordEvent({
-            event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link-clicked`,
+            event: `${GA_PREFIX}-${status}-${progress}-details-descriptive-back-link`,
           });
           dispatch(closeCancelAppointment());
           if (progress !== 'confirmation') history.goBack();
