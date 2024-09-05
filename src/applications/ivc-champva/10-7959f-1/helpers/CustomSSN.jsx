@@ -58,7 +58,6 @@ export function CustomSSNReviewPage(props) {
           secondary
           onClick={props?.editPage}
           text="Edit"
-          uswds
         />
       </div>
       <dl className="review">
