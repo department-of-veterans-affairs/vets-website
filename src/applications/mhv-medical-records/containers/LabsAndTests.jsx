@@ -15,7 +15,6 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import { generateNewRecordsIndicator } from '../util/helpers';
 
 const LabsAndTests = () => {

@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
+import { sinon } from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
@@ -14,8 +14,11 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
+  // generateNewRecordsIndicator,
 } from '../../util/helpers';
+
 import { refreshPhases } from '../../util/constants';
+// import NewRecordsIndicator from '../../components/shared/NewRecordsIndicator';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -445,3 +448,73 @@ describe('getStatusExtractPhase', () => {
     );
   });
 });
+
+// describe('generateNewRecordsIndicator', () => {
+//   const refresh = { initialFhirLoad: false };
+//   const labsAndTests = [{ id: 1, name: 'Test 1' }];
+//   const updatedRecordList = [
+//     { id: 1, name: 'Test 1' },
+//     { id: 2, name: 'Test 2' },
+//   ];
+//   const refreshExtractTypes = { CHEM_HEM: 'chem_hem' };
+//   const reloadRecords = sinon.spy();
+//   const dispatch = sinon.spy();
+
+//   // Mock NewRecordsIndicator component
+//   const mockNewRecordsIndicator = props => {
+//     return {
+//       type: 'NewRecordsIndicator',
+//       props,
+//     };
+//   };
+
+//   beforeEach(() => {
+//     sinon
+//       .stub(NewRecordsIndicator, 'render')
+//       .callsFake(mockNewRecordsIndicator);
+//   });
+
+//   afterEach(() => {
+//     sinon.restore();
+//   });
+
+// it('should return a mock NewRecordsIndicator element with correct props', () => {
+//   Generate the indicator
+//   const RecordsIndicator = generateNewRecordsIndicator(
+//     refresh,
+//     labsAndTests,
+//     updatedRecordList,
+//     refreshExtractTypes.CHEM_HEM,
+//     reloadRecords,
+//     dispatch,
+//   );
+
+//   Assert that the returned object is the mock NewRecordsIndicator
+//   expect(RecordsIndicator.type).to.equal('NewRecordsIndicator');
+
+//   Assert the props passed to the mock component
+//   const { props } = RecordsIndicator;
+//   expect(props.refreshState).to.equal(refresh);
+//   expect(props.extractType).to.equal(refreshExtractTypes.CHEM_HEM);
+//   expect(props.newRecordsFound).to.be.true; // since labsAndTests and updatedRecordList are different
+// });
+
+// it('should call reloadRecords on reloadFunction', () => {
+//   const RecordsIndicator = generateNewRecordsIndicator(
+//     refresh,
+//     labsAndTests,
+//     updatedRecordList,
+//     refreshExtractTypes.CHEM_HEM,
+//     reloadRecords,
+//     dispatch,
+//   );
+
+//   // Call the reloadFunction from the props
+//   const { reloadFunction } = RecordsIndicator.props;
+//   reloadFunction();
+
+//   // Check that dispatch(reloadRecords) was called
+//   expect(dispatch.calledOnce).to.be.true;
+//   expect(reloadRecords.calledOnce).to.be.true;
+// });
+// });
