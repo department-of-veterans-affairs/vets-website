@@ -20,7 +20,7 @@ const ShareResultsModal = () => {
       <va-button
         id="share-your-results"
         message-aria-describedby="Share your results"
-        text="Share your results"
+        text="Save Results"
         onClick={() => toggleModal(true)}
       />
       <VaModal
