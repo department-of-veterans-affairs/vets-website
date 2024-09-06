@@ -20,7 +20,7 @@ const SubmitHelper = props => {
 
 SubmitHelper.propTypes = {
   form: PropTypes.shape({
-    data: PropTypes.array,
+    data: PropTypes.object,
   }),
   getResults: PropTypes.func,
 };
