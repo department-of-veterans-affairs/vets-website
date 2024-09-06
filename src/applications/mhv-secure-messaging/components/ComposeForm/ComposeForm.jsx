@@ -65,7 +65,6 @@ const ComposeForm = props => {
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
   const [alertDisplayed, setAlertDisplayed] = useState(false);
-  const [alertHasFocused, setAlertHasFocused] = useState(false);
 
   useEffect(
     () => {
@@ -273,28 +272,10 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      const handleEffect = async () => {
-        const selectedTG = recipientsList.find(
-          recipient => recipient.triageTeamId === +selectedRecipientId,
-        );
-        if (
-          alertDisplayed &&
-          !alertHasFocused &&
-          alertRef.current &&
-          selectedTG
-        ) {
-          await focusElement(selectedTG?.name);
-          focusElement(alertRef.current);
-          setAlertHasFocused(true);
-        } else if (messageInvalid) {
-          focusOnErrorField();
-        }
-      };
-      handleEffect();
+      focusOnErrorField();
     },
     [
       alertDisplayed,
-      alertHasFocused,
       checkboxInvalid,
       isSignatureRequired,
       messageInvalid,
