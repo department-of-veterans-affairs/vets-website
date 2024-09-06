@@ -82,18 +82,19 @@ const ReviewPage = ({
                 <span className="vads-u-font-weight--bold">{reviewLabel}</span>
                 <span data-testid={`answer-${shortName}`}>{reviewAnswer}</span>
               </p>
-              <va-link
-                class="vads-u-padding-left--2"
-                data-testid="duw-edit-link"
-                href="#"
-                onClick={event => {
-                  event.preventDefault();
-                  onEditAnswerClick(ROUTES[shortName], shortName);
-                }}
-                name={shortName}
-                label={`Edit ${reviewLabel}`}
-                text="Edit"
-              />
+              <span>
+                <va-link
+                  data-testid="duw-edit-link"
+                  href="#"
+                  onClick={event => {
+                    event.preventDefault();
+                    onEditAnswerClick(ROUTES[shortName], shortName);
+                  }}
+                  name={shortName}
+                  label={`Edit ${reviewLabel}`}
+                  text="Edit"
+                />
+              </span>
             </div>
           </li>
         )
