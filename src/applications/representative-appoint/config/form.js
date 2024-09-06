@@ -46,6 +46,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   customText: {
+    appType: 'form',
     submitButtonText: 'Continue',
   },
   submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
