@@ -1,71 +1,21 @@
 import manifest from '../../../manifest.json';
-import mockUsers from '../../../mocks/endpoints/user';
-import mockPrefills from '../../../mocks/endpoints/in-progress-forms/mock-form-ae-design-patterns';
+import { mockInterceptors } from '../helpers';
 
-describe('Prefill pattern - Yellow Task', () => {
+describe('Prefill pattern - Purple Task', () => {
   beforeEach(() => {
-    cy.login(mockUsers.loa3User72);
-    cy.intercept('GET', '/v0/feature_toggles*', { loading: false }).as(
-      'mockFeatureToggles',
-    );
-    cy.intercept('/v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS', {
-      statusCode: 200,
-      body: mockPrefills.prefill,
-    }).as('mockSip');
+    mockInterceptors();
 
-    cy.intercept('/v0/profile/address_validation', {
-      statusCode: 200,
-      body: {
-        addresses: [
-          {
-            address: {
-              addressLine1: '345 Mailing Address St.',
-              city: 'Fulton',
-              stateCode: 'NY',
-              zipCode: '97063',
-            },
-            addressMetaData: {
-              confidenceScore: 100,
-              addressType: 'Domestic',
-              deliveryPointValidation: 'CONFIRMED',
-              residentialDeliveryIndicator: 'RESIDENTIAL',
-            },
-            validationKey: -1565212962,
-          },
-        ],
-      },
-    });
-
-    cy.intercept('GET', '/v0/profile/status/*', {
-      statusCode: 200,
-      body: {
-        data: {
-          attributes: {
-            data: {
-              id: '',
-              type: 'async_transaction_va_profile_mock_transactions',
-              attributes: {
-                transactionId: 'mock-update-mailing-address-transaction-id',
-                transactionStatus: 'COMPLETED_SUCCESS',
-                type: 'AsyncTransaction::VAProfile::MockTransaction',
-                metadata: [],
-              },
-            },
-          },
-        },
-      },
-    });
-
-    cy.intercept('PUT', '/v0/profile/addresses', {
+    // intercept for phone api calls
+    cy.intercept('/v0/profile/telephones', {
       statusCode: 200,
       body: {
         data: {
           id: '',
-          type: 'async_transaction_va_profile_address_transactions',
+          type: 'async_transaction_va_profile_mock_transactions',
           attributes: {
-            transactionId: 'mock-update-mailing-address-transaction-id',
+            transactionId: 'mock-update-phone-transaction-id',
             transactionStatus: 'RECEIVED',
-            type: 'AsyncTransaction::VAProfile::AddressTransaction',
+            type: 'AsyncTransaction::VAProfile::MockTransaction',
             metadata: [],
           },
         },
@@ -97,11 +47,12 @@ describe('Prefill pattern - Yellow Task', () => {
     cy.url().should('contain', '/veteran-information');
   });
 
-  it('should successfully show prefill data on the form', () => {
+  it('should successfully show prefill data on the form and allow updating home phone', () => {
     cy.visit(`${manifest.rootUrl}/1/task-purple/introduction?loggedIn=true`);
 
     cy.injectAxeThenAxeCheck();
 
+    // there are two buttons with the same text, so we need to find the first one
     cy.findAllByRole('link', {
       name: /Start the Board Appeal request/i,
     })
@@ -110,10 +61,8 @@ describe('Prefill pattern - Yellow Task', () => {
 
     cy.wait('@mockSip');
 
+    // check prefilled contact info page
     cy.url().should('contain', '/veteran-information');
-
-    cy.injectAxeThenAxeCheck();
-
     cy.findByText('Home phone number').should('exist');
     cy.get('va-telephone[contact="9898981233"]').should('exist');
 
@@ -127,8 +76,29 @@ describe('Prefill pattern - Yellow Task', () => {
     cy.findByText('123 Mailing Address St.').should('exist');
     cy.findByText('Fulton, NY 97063').should('exist');
 
-    cy.findByRole('button', { name: /Continue/i }).click();
+    cy.injectAxeThenAxeCheck();
 
+    // update phone number and save form
+    cy.findByLabelText('Edit home phone number').click();
+
+    // need this to access the input in the web component shadow dom
+    cy.get('va-text-input[name="root_inputPhoneNumber"]')
+      .shadow()
+      .find('input')
+      .as('homePhoneInput');
+
+    cy.get('@homePhoneInput').clear();
+    cy.get('@homePhoneInput').type('9898985555');
+    cy.findByTestId('save-edit-button').click();
+
+    // redirect to previous page and show save alert
+    cy.url().should('contain', '/veteran-information');
+    cy.findByText('We’ve updated your home phone number').should('exist');
+    cy.findByText('Home phone number').should('exist');
+    cy.get('va-telephone[contact="9898985555"]').should('exist');
+
+    // once the task is complete it should redirect to the pattern landing page
+    cy.findByRole('button', { name: /Continue/i }).click();
     cy.url().should('contain', 'mock-form-ae-design-patterns/');
   });
 });
