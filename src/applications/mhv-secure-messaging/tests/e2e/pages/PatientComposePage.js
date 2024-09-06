@@ -501,7 +501,7 @@ class PatientComposePage {
 
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
+    // cy.get('[visible=""] > [secondary=""]').click({ force: true });
   };
 }
 
