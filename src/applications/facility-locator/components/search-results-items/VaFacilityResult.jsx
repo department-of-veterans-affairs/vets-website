@@ -30,12 +30,7 @@ const VaFacilityResult = ({
   );
 
   return (
-    <div
-      className="facility-result"
-      id={location.id}
-      key={location.id}
-      tabIndex={index}
-    >
+    <div className="facility-result" id={location.id} key={location.id}>
       <>
         <LocationDistance
           distance={location.distance}
