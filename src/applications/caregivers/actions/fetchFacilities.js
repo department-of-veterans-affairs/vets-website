@@ -46,7 +46,7 @@ export const fetchFacilities = async ({
         };
       });
     })
-    .catch(({ error }) => {
+    .catch(error => {
       Sentry.withScope(scope => {
         scope.setExtra('error', error);
         Sentry.captureMessage(content['error--facilities-fetch']);
@@ -54,7 +54,7 @@ export const fetchFacilities = async ({
 
       return {
         type: 'SEARCH_FAILED',
-        errorMessage: error,
+        errorMessage: 'There was an error fetching the health care facilities.',
       };
     });
 };
