@@ -1,10 +1,14 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import recordEvent from 'platform/monitoring/record-event';
-import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaLoadingIndicator,
+  VaButton,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 // import environment from 'platform/utilities/environment';
 import JumpLink from '../../components/profile/JumpLink';
 // import LearnMoreLabel from '../../components/LearnMoreLabel';
@@ -384,7 +388,6 @@ export function FilterBeforeResults({
       'gibct-home-form-value': e.target.checked,
     });
   };
-
   const handleVetTechPreferredProviderChange = (e, currentName) => {
     const { checked } = e.target;
     const name = currentName || e.target.name;
@@ -764,35 +767,21 @@ export function FilterBeforeResults({
           {specializedMissionAttributes()}
           {smallScreen && renderLocation()}
           <div className="modal-button-wrapper">
-            <button
+            <VaButton
               type="button"
               id={`update-${createId(title)}-button`}
-              className="update-results-button apply-filter-button vads-u-margin-top--3"
+              className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}
+              text="Apply filter"
+            />
+            <ClearFiltersBtn
+              testId="clear-button"
+              // isCleared={isCleared}
+              // setIsCleared={setIsCleared}
+              onClick={onApplyFilterClick}
             >
-              Apply filters
-            </button>
-            {isProductionOrTestProdEnv() ? (
-              <ClearFiltersBtn
-                testId="clear-button"
-                // isCleared={isCleared}
-                // setIsCleared={setIsCleared}
-                onClick={onApplyFilterClick}
-              >
-                Reset search
-              </ClearFiltersBtn>
-            ) : (
-              <button
-                onClick={clearAllFilters}
-                className={
-                  smallScreen
-                    ? 'clear-filters-button mobile-clear-filter-button'
-                    : 'clear-filters-button'
-                }
-              >
-                Reset search
-              </button>
-            )}
+              Reset search
+            </ClearFiltersBtn>
           </div>
           <div
             id="learn-more-about-specialized-missions-accordion-button"
@@ -874,7 +863,18 @@ const mapDispatchToProps = {
   dispatchFilterChange: filterChange,
   dispatchError: setError,
 };
-
+FilterBeforeResults.propTypes = {
+  dispatchError: PropTypes.func,
+  dispatchFilterChange: PropTypes.func,
+  errorReducer: PropTypes.object,
+  filters: PropTypes.object,
+  modalClose: PropTypes.func,
+  nameVal: PropTypes.string,
+  preview: PropTypes.object,
+  search: PropTypes.object,
+  searchType: PropTypes.string,
+  onApplyFilterClick: PropTypes.func,
+};
 export default connect(
   mapStateToProps,
   mapDispatchToProps,
