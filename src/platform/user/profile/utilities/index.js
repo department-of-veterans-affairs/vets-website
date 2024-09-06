@@ -1,6 +1,7 @@
 import camelCaseKeysRecursive from 'camelcase-keys-recursive';
 
 import { apiRequest } from 'platform/utilities/api';
+import localStorage from 'platform/utilities/storage/localStorage';
 import { ssoKeepAliveSession } from 'platform/utilities/sso';
 import { removeInfoToken } from 'platform/utilities/oauth/utilities';
 import {
