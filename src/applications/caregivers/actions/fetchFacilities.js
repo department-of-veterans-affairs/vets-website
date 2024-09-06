@@ -3,13 +3,17 @@ import environment from 'platform/utilities/environment';
 import { apiRequest } from 'platform/utilities/api';
 import content from '../locales/en/content.json';
 
-export const fetchFacilities = async ({
-  lat = null,
-  long = null,
-  radius = null,
-  page = null,
-  perPage = null,
-  facilityIds = [],
+const joinAddressParts = (...parts) => {
+  return parts.filter(part => part != null).join(', ');
+};
+
+const formatQueryParams = ({
+  lat,
+  long,
+  radius,
+  page,
+  perPage,
+  facilityIds,
 }) => {
   let facilityIdParams = '';
   if (facilityIds.length > 0) {
@@ -17,7 +21,7 @@ export const fetchFacilities = async ({
     facilityIdParams = `${facilityIdParams.join('&')}`;
   }
 
-  const queryParams = [
+  const params = [
     lat ? `lat=${lat}` : null,
     long ? `long=${long}` : null,
     radius ? `radius=${radius}` : null,
@@ -26,22 +30,37 @@ export const fetchFacilities = async ({
     facilityIdParams || null,
   ];
 
-  let filteredParams = queryParams.filter(Boolean);
+  let filteredParams = params.filter(Boolean);
   if (filteredParams.length > 0) {
     filteredParams = `&${filteredParams.join('&')}`;
   }
 
+  return filteredParams;
+};
+
+export const fetchFacilities = async ({
+  lat = null,
+  long = null,
+  radius = null,
+  page = null,
+  perPage = null,
+  facilityIds = [],
+}) => {
   const baseUrl = `${
     environment.API_URL
   }/v0/health_care_applications/facilities?type=health`;
 
-  const requestUrl = `${baseUrl}${filteredParams}`;
-  const fetchRequest = apiRequest(requestUrl);
+  const queryParams = formatQueryParams({
+    lat,
+    long,
+    radius,
+    page,
+    perPage,
+    facilityIds,
+  });
 
-  // Helper function to join address parts, filtering out null or undefined values
-  const joinAddressParts = (...parts) => {
-    return parts.filter(part => part != null).join(', ');
-  };
+  const requestUrl = `${baseUrl}${queryParams}`;
+  const fetchRequest = apiRequest(requestUrl);
 
   return fetchRequest
     .then(response => {
