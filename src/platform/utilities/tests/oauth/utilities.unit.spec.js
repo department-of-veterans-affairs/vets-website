@@ -2,7 +2,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import {
   mockFetch,
   setFetchJSONFailure as setFetchFailure,
@@ -471,9 +470,10 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('logoutEvent', () => {
+    const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+
     it('should teardown profile', async () => {
       localStorage.setItem('hasSession', true);
-      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
       oAuthUtils.logoutEvent('logingov');
 
       expect(teardownSpy.called).to.be.true;
@@ -482,7 +482,6 @@ describe('OAuth - Utilities', () => {
     });
     it('should teardown profile after a certain duration', async () => {
       localStorage.setItem('hasSession', true);
-      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
       await oAuthUtils.logoutEvent('logingov', {
         shouldWait: true,
         duration: 300,
