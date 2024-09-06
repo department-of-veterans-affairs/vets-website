@@ -40,15 +40,17 @@ describe('profile helpers:', () => {
     });
 
     it('should normalize "received" from api submission status', () => {
-      ['received', 'processing', 'success', 'VBMS'].forEach(value => {
+      ['VBMS'].forEach(value => {
         expect(normalizeSubmissionStatus(value)).to.equal('received');
       });
     });
 
     it('should normalize "inProgress" from api submission status', () => {
-      ['pending', 'uploaded'].forEach(value => {
-        expect(normalizeSubmissionStatus(value)).to.equal('inProgress');
-      });
+      ['pending', 'uploaded', 'received', 'processing', 'success'].forEach(
+        value => {
+          expect(normalizeSubmissionStatus(value)).to.equal('inProgress');
+        },
+      );
     });
   });
 
