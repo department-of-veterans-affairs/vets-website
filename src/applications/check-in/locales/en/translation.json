@@ -127,7 +127,7 @@
   "how-you-traveled": "How you traveled",
   "husband": "Husband",
   "i-live-on-a-united-states-military-base-outside-of-the-united-states": "I live on a United States military base outside of the United States.",
-  "if-claiming-other-expenses-file-online-or-mail-or-in-person": "If you’re claiming other expenses, like lodging, meals, or tolls, you can file online through the Beneficiary Travel Self Service System (BTSSS). Or you can file by mail or in person. You’ll need receipts for other expenses.",
+  "if-claiming-other-expenses-file-online-or-mail-or-in-person": "If you’re claiming other expenses, like lodging, meals, or tolls, you will need receipts for these expenses. You can file online through the Beneficiary Travel Self Service System (BTSSS), by mail, or in person.",
   "if-this-is-not-your-correct-information-a-staff-member-can-help--dayOf": "If this is not your correct information, select <0>No</0> and a staff member can help you check in and update your information.",
   "if-this-is-not-your-correct-information-a-staff-member-can-help--preCheckIn": "If this is not your correct information, select <0>No</0>. A staff member will help you update your next of kin information on the day of your appointment.",
   "if-you-choose-to-file-later": "<0>If you choose to file later, you can text travel to 54804 until the end of today.</0> Or you can file within 30 days through the Beneficiary Travel Self-Service System (BTSSS).",
@@ -440,5 +440,8 @@
   "review-your-appointments": "Review your appointments",
   "check-current-mileage-rates-new-tab": "Check current mileage rates (opens in a new tab)",
   "bring-insurance-cards-and-list-medications-other": "Bring your insurance cards. And bring a list of your medications and other information to share with your provider.",
-  "veterans-affairs": "Veterans Affairs"
+  "veterans-affairs": "Veterans Affairs",
+  "if-youre-claiming-mileage-file-online-now--UPDATE": "If you’re claiming only mileage, you can file online right now. We’ll ask you a few questions. You won’t need receipts.",
+  "if-claiming-other-expenses-file-online-or-mail-or-in-person--UPDATE": "If you’re claiming other expenses, like lodging, meals, or tolls, you will need receipts for these expenses. You can file online through the Beneficiary Travel Self Service System (BTSSS), by mail, or in person."
+
 }
