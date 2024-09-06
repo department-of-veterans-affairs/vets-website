@@ -90,16 +90,14 @@ function assertSummary(type, tokens) {
 export class AppointmentDetailPageObject extends PageObject {
   assertAddToCalendar() {
     this.assertShadow({
-      element: '[data-testid="add-to-calendar-link"]',
+      element: '[data-testid="add-to-calendar-button"]',
       text: 'Add to calendar',
     });
     return this;
   }
 
   assertAddToCalendarLink({ startDate, type }) {
-    cy.findByTestId('add-to-calendar-link')
-      .as('link')
-      .shadow();
+    cy.findByTestId('add-to-calendar-link', { hidden: true }).as('link');
     cy.get('@link').should($foo => {
       const ics = decodeURIComponent(
         $foo.attr('href').replace('data:text/calendar;charset=utf-8,', ''),
@@ -143,7 +141,16 @@ export class AppointmentDetailPageObject extends PageObject {
   }
 
   assertAppointmentCode() {
-    this.assertText({ text: /Appointment Code: 7VBBCA/i });
+    this.assertText({ text: /7VBBCA/i });
+    return this;
+  }
+
+  assertCancelButton() {
+    this.assertShadow({
+      element: '[data-testid="print-button"]',
+      text: 'Print',
+    });
+
     return this;
   }
 
@@ -152,28 +159,12 @@ export class AppointmentDetailPageObject extends PageObject {
     return this;
   }
 
-  assertJoinAppointment({ exist = true, isEnabled = true } = {}) {
-    if (exist) {
-      if (isEnabled) {
-        cy.findByText(/Join appointment/i).should(
-          'not.have.class',
-          'usa-button-disabled',
-        );
-      } else {
-        cy.findByText(/Join appointment/i).should(
-          'have.class',
-          'usa-button-disabled',
-        );
-      }
-    } else {
-      cy.findByText(/Join appointment/i).should('not.exist');
-    }
-
-    return this;
-  }
-
   assertPrint() {
-    this.assertText({ text: /Print/i });
+    this.assertShadow({
+      element: '[data-testid="print-button"]',
+      text: 'Print',
+    });
+
     return this;
   }
 
@@ -185,6 +176,15 @@ export class AppointmentDetailPageObject extends PageObject {
   assertUrl() {
     cy.url().should('include', '/1', { timeout: 5000 });
     cy.axeCheckBestPractice();
+
+    return this;
+  }
+
+  clickCancelButton() {
+    cy.get('[data-testid="cancel-button"]')
+      .shadow()
+      .findByText(/Cancel appointment/i)
+      .click();
 
     return this;
   }

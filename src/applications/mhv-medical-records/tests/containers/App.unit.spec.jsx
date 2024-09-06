@@ -157,6 +157,7 @@ describe('App', () => {
           'Review, print, and download your VA medical records.',
         ),
       );
+      expect(screen.getByRole('navigation', { name: 'My HealtheVet' }));
     });
 
     it('renders the global downtime notification', () => {
