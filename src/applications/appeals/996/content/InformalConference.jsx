@@ -27,7 +27,7 @@ export const InformalConferenceDescription = (
           </p>
           <p className="vads-u-margin-bottom--0">
             During the call, you or your accredited representative should
-            dentify any errors in the decision, and discuss why you think the
+            identify any errors in the decision, and discuss why you think the
             decision should change. The reviewer will consider the errors you
             identify. But you can’t submit new evidence.
           </p>
