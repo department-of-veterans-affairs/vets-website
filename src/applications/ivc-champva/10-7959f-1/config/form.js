@@ -98,7 +98,7 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
           messageAriaDescribedby: 'Name and date of birth',
           schema: {
