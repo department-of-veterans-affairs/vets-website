@@ -17,9 +17,11 @@ const SearchResultMessage = ({
         description={message}
       />
     );
-  } else if (facilityType && !resultsFound) {
+  }
+  if (facilityType && !resultsFound) {
     return (
-      <div className="search-result-title" ref={resultRef}>
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      <div className="search-result-title" ref={resultRef} tabIndex="0">
         <strong>For better results:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>
