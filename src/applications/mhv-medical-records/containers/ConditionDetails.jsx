@@ -107,7 +107,7 @@ const ConditionDetails = props => {
 
   const generateConditionDetailsPdf = async () => {
     setDownloadStarted(true);
-    const title = `Health Conditions: ${record.name}`;
+    const title = `Health conditions: ${record.name}`;
     const subject = 'VA Medical Record';
     const scaffold = generatePdfScaffold(user, title, subject);
     const pdfData = { ...scaffold, ...generateConditionContent(record) };

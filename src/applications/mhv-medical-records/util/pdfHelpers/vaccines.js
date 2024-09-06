@@ -5,8 +5,8 @@ export const generateVaccinesIntro = records => {
     title: 'Vaccines',
     subject: 'VA Medical Record',
     preface: `This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n 
-${records[0].lastUpdated && `Last updated': ${records[0].lastUpdated}`}\n
-Showing # records from newest to oldest: ${records.length}`,
+${records[0].lastUpdated && `Last updated: ${records[0].lastUpdated}`}\n
+Showing ${records.length} records from newest to oldest:`,
   };
 };
 
