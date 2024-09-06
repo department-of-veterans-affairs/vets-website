@@ -9,8 +9,6 @@ const props = {
   checkboxObjectName: 'gulfWar1990',
   checkboxDefinitions: GULF_WAR_1990_LOCATIONS,
   datesObjectName: 'gulfWar1990Details',
-  goBackDescription:
-    'go back and edit locations and dates for service after August 2, 1990',
   goBackUrlPath: `${TE_URL_PREFIX}/gulf-war-1990`,
 };
 
@@ -33,9 +31,6 @@ describe('toxicExposureSummary', () => {
     tree.getByText(noDatesEntered);
 
     tree.getByText(goBackLink);
-    tree.getByLabelText(
-      'go back and edit locations and dates for service after August 2, 1990',
-    );
   });
 
   it('renders when a location has both dates', () => {
