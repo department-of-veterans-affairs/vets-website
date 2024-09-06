@@ -4,17 +4,36 @@ import { apiRequest } from 'platform/utilities/api';
 import content from '../locales/en/content.json';
 
 export const fetchFacilities = async ({
-  lat,
-  long,
-  radius = 500,
-  page = 1,
-  perPage = 5,
+  lat = null,
+  long = null,
+  radius = null,
+  page = null,
+  perPage = null,
+  facilityIds = [],
 }) => {
-  const lightHouseRequestUrl = `${
-    environment.API_URL
-  }/v0/health_care_applications/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}`;
+  let facilityIdParams = '';
+  if (facilityIds.length > 0) {
+    facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`);
+    facilityIdParams = `${facilityIdParams.join('&')}`;
+  }
 
-  const fetchRequest = apiRequest(`${lightHouseRequestUrl}`, {});
+  const queryParams = [
+    lat ? `lat=${lat}` : null,
+    long ? `long=${long}` : null,
+    radius ? `radius=${radius}` : null,
+    page ? `page=${page}` : null,
+    perPage ? `per_page=${perPage}` : null,
+    facilityIdParams || null,
+  ];
+
+  const filteredParams = queryParams.filter(Boolean);
+
+  const baseUrl = `${
+    environment.API_URL
+  }/v0/health_care_applications/facilities?type=health`;
+
+  const requestUrl = `${baseUrl}&${filteredParams.join('&')}`;
+  const fetchRequest = apiRequest(requestUrl, {});
 
   // Helper function to join address parts, filtering out null or undefined values
   const joinAddressParts = (...parts) => {

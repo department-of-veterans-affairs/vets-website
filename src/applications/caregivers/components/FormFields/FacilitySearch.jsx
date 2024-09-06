@@ -60,7 +60,7 @@ const FacilitySearch = props => {
         }
 
         const parentFacilityResponse = await fetchFacilities({
-          id: facility.parent.id,
+          facilityIds: [facility.parent.id],
         });
 
         if (parentFacilityResponse.errorMessage) {
@@ -68,7 +68,7 @@ const FacilitySearch = props => {
           return null;
         }
 
-        return parentFacilityResponse;
+        return parentFacilityResponse[0];
       };
 
       const setSelectedFacilities = async facilityId => {
@@ -134,6 +134,9 @@ const FacilitySearch = props => {
     const facilitiesResponse = await fetchFacilities({
       long: longitude,
       lat: latitude,
+      radius: 500,
+      perPage: 5,
+      page: 1,
     });
 
     if (facilitiesResponse.errorMessage) {
@@ -155,6 +158,7 @@ const FacilitySearch = props => {
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
       page: pages + 1,
+      radius: 500,
       perPage: 5,
     });
 
@@ -189,11 +193,7 @@ const FacilitySearch = props => {
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
-          <button
-            type="button"
-            className="va-button-link"
-            onClick={showMoreFacilities}
-          >
+          <button className="va-button-link" onClick={showMoreFacilities}>
             Load more facilities
           </button>
         </>
