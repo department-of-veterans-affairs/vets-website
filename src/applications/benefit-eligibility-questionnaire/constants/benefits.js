@@ -34,6 +34,22 @@ const serviceLengthTypes = {
   OVER_3_YEARS: 'over3yr',
 };
 
+const separationTypes = {
+  UP_TO_6MO: 'upTo6mo',
+  UP_TO_1YR: 'upTo1yr',
+  UP_TO_2YRS: 'upTo2yr',
+  UP_TO_3YRS: 'upTo3yr',
+  OVER_3YRS: 'over3yr',
+};
+
+const expectedSparationTypes = {
+  WITHIN_3MO: 'Within the next 3 months',
+  FROM_3_TO_6_MO: 'More than 3 months but less than 6 months',
+  FROM_6MO_TO_1YR: 'More than 6 months but less than 1 year',
+  OVER_1YR: 'More than 1 year from now',
+  OVER_3YRS_AGO: 'More than 3 years ago',
+};
+
 const giBillTypes = {
   APPLIED_AND_RECEIVED: 'appliedAndReceived',
   SUBMITTED: 'submitted',
@@ -57,6 +73,7 @@ export const mappingTypes = {
   LENGTH_OF_SERVICE: 'militaryServiceTotalTimeServed',
   CURRENTLY_SERVING: 'militaryServiceCurrentlyServing',
   PREVIOUS_SERVICE: 'militaryServiceCompleted',
+  EXPECTED_SEPARATION: 'expectedSeparation',
   SEPARATION: 'separation',
   CHARACTER_OF_DISCHARGE: 'characterOfDischarge',
   DISABILITY_RATING: 'disabilityRating',
@@ -152,5 +169,45 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
+  },
+  {
+    name: 'Apply for Personalized Career Planning and Guidance (PCPG) benefits',
+    category: [categories.EDUCATION, categories.EMPLOYMENT],
+    id: 'PCG',
+    description:
+      'Personalized Career Planning and Guidance (PCPG), or VA Chapter 36, offers free educational and career guidance, planning, and resources to Veterans and their dependents who are eligible for a VA education benefit.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.JOBS,
+        goalTypes.PROGRESS,
+        goalTypes.CAREER_PATH,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [
+        expectedSparationTypes.WITHIN_3MO,
+        expectedSparationTypes.FROM_3_TO_6_MO,
+      ],
+      [mappingTypes.SEPARATION]: [
+        separationTypes.UP_TO_6MO,
+        separationTypes.UP_TO_1YR,
+      ],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        blankType.BLANK,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/careers-employment/education-and-career-counseling/',
+    applyNowURL:
+      'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/',
   },
 ];
