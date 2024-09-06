@@ -11,7 +11,7 @@ import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
-import ShareResultsModal from '../components/ShareResultsModal';
+import SaveResultsModal from '../components/SaveResultsModal';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -58,7 +58,7 @@ export class ConfirmationPage extends React.Component {
           before you apply.
         </p>
 
-        <ShareResultsModal />
+        <SaveResultsModal />
 
         <div id="results-container">
           <div id="filters-section-desktop">
