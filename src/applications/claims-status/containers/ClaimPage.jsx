@@ -3,14 +3,19 @@ import { connect } from 'react-redux';
 import { Outlet, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
-import { getClaim as getClaimAction } from '../actions';
+import {
+  getClaim as getClaimAction,
+  clearClaim as clearClaimAction,
+} from '../actions';
 
-export function ClaimPage({ getClaim }) {
+export function ClaimPage({ getClaim, clearClaim }) {
   const navigate = useNavigate();
   const params = useParams();
 
   useEffect(() => {
     getClaim(params.id, navigate);
+    // Reset claim and loading state on dismount.
+    return () => clearClaim();
   }, []);
 
   return <Outlet />;
@@ -18,6 +23,7 @@ export function ClaimPage({ getClaim }) {
 
 const mapDispatchToProps = {
   getClaim: getClaimAction,
+  clearClaim: clearClaimAction,
 };
 
 export default connect(
@@ -27,4 +33,5 @@ export default connect(
 
 ClaimPage.propTypes = {
   getClaim: PropTypes.func,
+  clearClaim: PropTypes.func,
 };

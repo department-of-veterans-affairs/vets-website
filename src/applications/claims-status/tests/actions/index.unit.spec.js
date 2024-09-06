@@ -9,6 +9,7 @@ import {
   addFile,
   cancelUpload,
   clearAdditionalEvidenceNotification,
+  clearClaim,
   clearNotification,
   getClaims,
   getClaim,
@@ -28,6 +29,7 @@ import {
 import {
   ADD_FILE,
   CANCEL_UPLOAD,
+  CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
   GET_CLAIM_DETAIL,
@@ -247,6 +249,14 @@ describe('Actions', () => {
         })
         .then(() => apiStub.restore())
         .then(done, done);
+    });
+  });
+  describe('clearClaim', () => {
+    it('should return the correct action object', () => {
+      const action = clearClaim();
+      expect(action).to.eql({
+        type: CLEAR_CLAIM_DETAIL,
+      });
     });
   });
   describe('getClaims', () => {

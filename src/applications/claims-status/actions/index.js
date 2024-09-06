@@ -16,6 +16,7 @@ import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
   DONE_UPLOADING,
   FETCH_APPEALS_ERROR,
@@ -217,6 +218,8 @@ export const getClaim = (id, navigate) => {
       });
   };
 };
+
+export const clearClaim = () => ({ type: CLEAR_CLAIM_DETAIL });
 
 export function submitRequest(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
