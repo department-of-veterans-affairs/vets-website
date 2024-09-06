@@ -55,6 +55,7 @@ export function mapRawUserDataToState(json) {
       },
     },
     meta,
+    errors,
   } = camelCaseKeysRecursive(json);
 
   const userState = {
@@ -81,6 +82,7 @@ export function mapRawUserDataToState(json) {
     vapContactInfo: vet360ContactInformation,
     session,
     veteranStatus: {},
+    errors: errors || meta?.errors || false,
   };
 
   if (meta && veteranStatus === null) {
