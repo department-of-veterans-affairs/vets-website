@@ -15,6 +15,7 @@ import {
   verifyCurrentBalance,
   setPageFocus,
 } from '../../combined/utils/helpers';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DetailPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -28,6 +29,8 @@ const DetailPage = ({ match }) => {
   const acctNum = selectedCopay?.pHAccountNumber
     ? selectedCopay?.pHAccountNumber.toString()
     : selectedCopay?.pHCernerAccountNumber.toString();
+
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');

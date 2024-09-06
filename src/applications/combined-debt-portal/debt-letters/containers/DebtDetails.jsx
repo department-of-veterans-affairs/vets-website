@@ -21,6 +21,7 @@ import {
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -46,6 +47,9 @@ const DebtDetails = () => {
     personEntitled: currentDebt.personEntitled,
     deductionCode: currentDebt.deductionCode,
   };
+
+  const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
+  useHeaderPageTitle(title);
 
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
@@ -107,7 +111,7 @@ const DebtDetails = () => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 className="vads-u-margin-bottom--2" tabIndex="-1">
-          Your {deductionCodes[currentDebt.deductionCode]}
+          {title}
         </h1>
         {dateUpdated && (
           <p className="va-introtext">

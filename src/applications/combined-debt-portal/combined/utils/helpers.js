@@ -116,3 +116,7 @@ export const setPageFocus = selector => {
     document.querySelector('#main h1').focus();
   }
 };
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
