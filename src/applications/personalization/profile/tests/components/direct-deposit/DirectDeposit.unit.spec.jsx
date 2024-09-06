@@ -5,15 +5,11 @@ import { fireEvent } from '@testing-library/dom';
 import { getVaButtonByText } from '~/applications/personalization/common/unitHelpers';
 import { DirectDeposit } from '~/applications/personalization/profile/components/direct-deposit/DirectDeposit';
 
-import { Toggler } from '~/platform/utilities/feature-toggles';
-
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import { generateFeatureTogglesState } from '../../../mocks/endpoints/feature-toggles';
 import { renderWithProfileReducersAndRouter } from '../../unit-test-helpers';
 
-const baseToggles = generateFeatureTogglesState({
-  [Toggler.TOGGLE_NAMES.profileShowDirectDepositSingleForm]: true,
-}).featureToggles;
+const baseToggles = generateFeatureTogglesState().featureToggles;
 
 // all required data for direct deposit page in a 'happy path' state
 // loading is set to false for dependent api calls
@@ -121,7 +117,6 @@ describe('authenticated experience -- profile -- unified direct deposit', () => 
             serviceType: CSP_IDS.ID_ME,
             toggles: generateFeatureTogglesState({
               profileHideDirectDeposit: true,
-              profileShowDirectDepositSingleFormUAT: false,
             }).featureToggles,
           }),
           path: '/profile/direct-deposit',

@@ -207,27 +207,6 @@ export const hasPaymentRestrictionIndicatorsError = errors =>
     ],
   });
 
-// BEGIN TODO: remove this once the direct deposit form is updated to use single form
-export const cnpDirectDepositBankInfo = apiData => {
-  return apiData?.paymentAccount;
-};
-
-export const eduDirectDepositAccountNumber = apiData => {
-  return apiData?.accountNumber;
-};
-
-export const isEligibleForCNPDirectDeposit = apiData => {
-  const controlInfo = apiData?.controlInformation;
-  return !!controlInfo?.canUpdateDirectDeposit;
-};
-
-export const isSignedUpForCNPDirectDeposit = apiData =>
-  !!cnpDirectDepositBankInfo(apiData)?.accountNumber;
-
-export const isSignedUpForEDUDirectDeposit = apiData =>
-  !!eduDirectDepositAccountNumber(apiData);
-// END TODO: remove this once the direct deposit form is updated to use single form
-
 const getLighthouseErrorCode = (errors = []) => {
   // there should only be one error code in the errors array, but just in case
   const error = errors.find(err => err?.code);

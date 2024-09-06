@@ -132,13 +132,7 @@ describe('Direct Deposit - CNP using Lighthouse endpoint', () => {
       'v0/profile/direct_deposits',
       mockDirectDeposits.base,
     ).as('getDirectDeposit');
-    cy.intercept(
-      'GET',
-      'v0/feature_toggles?*',
-      generateFeatureToggles({
-        profileShowDirectDepositSingleForm: true,
-      }),
-    );
+    cy.intercept('GET', 'v0/feature_toggles?*', generateFeatureToggles());
     cy.visit(PROFILE_PATHS.DIRECT_DEPOSIT);
     cy.wait(['@getDirectDeposit']);
     cy.injectAxeThenAxeCheck();
