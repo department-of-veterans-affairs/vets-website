@@ -69,18 +69,19 @@ export function schoolTypesCheckboxes(
   smallScreen,
   automatedTest = false,
 ) {
+  const schoolTypes = (
+    <h3
+      className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
+      aria-level={2}
+    >
+      School types
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         className="about-school-checkbox"
-        label={
-          <h3
-            className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-            aria-level={2}
-          >
-            School types
-          </h3>
-        }
+        label={schoolTypes}
         onChange={handleIncludedSchoolTypesChange}
         options={options}
         row={!smallScreen}
@@ -94,14 +95,7 @@ export function schoolTypesCheckboxes(
   return (
     <CheckboxGroup
       className="about-school-checkbox"
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'school-types-label' : ''}
-          aria-level={2}
-        >
-          School types
-        </h3>
-      }
+      label={schoolTypes}
       onChange={handleIncludedSchoolTypesChange}
       options={options}
       row={!smallScreen}
@@ -153,7 +147,10 @@ export function aboutTheSchoolOptions(
       checked: excludeCautionFlags,
       dataTestId: 'exclude-caution-flags',
       optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="excludeCautionFlags"
+        >
           Has no cautionary warnings
         </label>
       ),
@@ -163,7 +160,10 @@ export function aboutTheSchoolOptions(
       dataTestId: 'accredited',
       checked: accredited,
       optionLabel: (
-        <label className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block">
+        <label
+          className="vads-u-margin--0 vads-u-margin-right--0p5 vads-u-display--inline-block"
+          htmlFor="accredited"
+        >
           Is accredited
         </label>
       ),
@@ -189,16 +189,17 @@ export function aboutTheSchool(
   smallScreen,
   automatedTest = false,
 ) {
+  const aboutTheSchoolLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      About the school
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         // setIsCleared={setIsCleared}
         className="about-school-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            About the school
-          </h3>
-        }
+        label={aboutTheSchoolLabel}
         onChange={onChangeCheckbox}
         options={options}
         row={!smallScreen}
@@ -211,14 +212,7 @@ export function aboutTheSchool(
     <CheckboxGroup
       // setIsCleared={setIsCleared}
       className={isProductionOrTestProdEnv() ? 'about-school-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          About the school
-        </h3>
-      }
+      label={aboutTheSchoolLabel}
       onChange={onChangeCheckbox}
       options={options}
       row={!smallScreen}
@@ -234,15 +228,16 @@ export function otherCheckboxes(
   smallScreen,
   automatedTest = false,
 ) {
+  const otherLabel = (
+    <h3 className="about-school-label" aria-level={2}>
+      Other
+    </h3>
+  );
   if (isShowCommunityFocusVACheckbox(automatedTest)) {
     return (
       <VACheckboxGroupGi
         className="other-checkbox"
-        label={
-          <h3 className="about-school-label" aria-level={2}>
-            Other
-          </h3>
-        }
+        label={otherLabel}
         onChange={handleVetTechPreferredProviderChange}
         options={options}
         // setIsCleared={setIsCleared}
@@ -254,14 +249,7 @@ export function otherCheckboxes(
   return (
     <CheckboxGroup
       className={isProductionOrTestProdEnv() ? 'other-checkbox' : ''}
-      label={
-        <h3
-          className={isProductionOrTestProdEnv() ? 'about-school-label' : ''}
-          aria-level={2}
-        >
-          Other
-        </h3>
-      }
+      label={otherLabel}
       onChange={handleVetTechPreferredProviderChange}
       options={options}
       // setIsCleared={setIsCleared}
