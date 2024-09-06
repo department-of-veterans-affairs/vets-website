@@ -200,7 +200,7 @@
   "our-staff-can-help-you-update-your-emergency-contact-information": "Our staff can help you update your emergency contact information.",
   "our-staff-can-help-you-update-your-next-of-kin-information": "Our staff can help you update your next of kin information.",
   "over-the-counter-medications": "Over-the-counter medications (like antacids)",
-  "penalty-statement": "<0>Penalty statement:</0> There are severe criminal and civil penalties, including a fine, or imprisonment, or both, for knowingly submitting a false, fictitious, or fraudulent claim.",
+  "penalty-statement": "<0>Penalty statement:</0> There are severe criminal and civil penalties, including a fine, imprisonment, or both, for knowingly submitting a false, fictitious, or fraudulent claim.",
   "phone": "Phone",
   "phone-call": "Phone Call",
   "please-call": "Please call <0></0> and select 0. We’re here 24/7.",
@@ -442,6 +442,8 @@
   "bring-insurance-cards-and-list-medications-other": "Bring your insurance cards. And bring a list of your medications and other information to share with your provider.",
   "veterans-affairs": "Veterans Affairs",
   "if-youre-claiming-mileage-file-online-now--UPDATE": "If you’re claiming only mileage, you can file online right now. We’ll ask you a few questions. You won’t need receipts.",
-  "if-claiming-other-expenses-file-online-or-mail-or-in-person--UPDATE": "If you’re claiming other expenses, like lodging, meals, or tolls, you will need receipts for these expenses. You can file online through the Beneficiary Travel Self Service System (BTSSS), by mail, or in person."
+  "if-claiming-other-expenses-file-online-or-mail-or-in-person--UPDATE": "If you’re claiming other expenses, like lodging, meals, or tolls, you will need receipts for these expenses. You can file online through the Beneficiary Travel Self Service System (BTSSS), by mail, or in person.",
+  "penalty-statement--UPDATE": "<0>Penalty statement:</0> There are severe criminal and civil penalties, including a fine, imprisonment, or both, for knowingly submitting a false, fictitious, or fraudulent claim."
+
 
 }
