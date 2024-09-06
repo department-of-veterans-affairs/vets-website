@@ -3,7 +3,7 @@ import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-for
 import formConfig from '../config/form';
 import { CONTESTABLE_ISSUES_API } from '../constants';
 
-import mockV3Data from './fixtures/data/maximal-test-v3.json';
+import mockV2p5Data from './fixtures/data/maximal-test-v2.5.json';
 import mockInProgress from './fixtures/mocks/in-progress-forms.json';
 import mockPrefill from './fixtures/mocks/prefill.json';
 import mockSubmit from './fixtures/mocks/application-submit.json';
@@ -21,7 +21,7 @@ describe('Higher-Level Review keyboard only navigation', () => {
 
     resetStoredSubTask();
 
-    cy.wrap(mockV3Data.data).as('testData');
+    cy.wrap(mockV2p5Data.data).as('testData');
 
     cy.intercept('GET', '/v0/in_progress_forms/20-0996', mockPrefill);
     cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
