@@ -454,7 +454,11 @@ const FacilitiesMap = props => {
             emergency department right away.
           </VaAlert>
         )}
-        <div id="search-results-title" ref={searchResultTitleRef}>
+        <div
+          id="search-results-title"
+          ref={searchResultTitleRef}
+          tabIndex={results?.length ? -1 : 0}
+        >
           {!searchError && (
             <SearchResultsHeader
               results={results}
