@@ -1,10 +1,8 @@
 import { expect } from 'chai';
-import {
-  mockApiRequest,
-  setFetchJSONFailure,
-} from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
 import * as Sentry from '@sentry/browser';
 import sinon from 'sinon';
+import environment from 'platform/utilities/environment';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
   mockFacilitiesResponse,
@@ -12,15 +10,51 @@ import {
 } from '../../mocks/responses';
 
 describe('CG fetchFacilities action', () => {
+  const lat = 1;
+  const long = 2;
+  const perPage = 5;
+  const page = 1;
+  const radius = 500;
+  const facilityIds = ['12', '34'];
+  let apiRequestStub;
+
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
   context('success', () => {
-    it('returns valid response when lat and long are passed', async () => {
-      mockApiRequest(mockFacilitiesResponse);
-      const response = await fetchFacilities({ lat: 1, long: 2 });
+    it('calls correct url when all params are passed', async () => {
+      await fetchFacilities({ long, lat, perPage, radius, page, facilityIds });
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/health_care_applications/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds[]=${
+        facilityIds[0]
+      }&facilityIds[]=${facilityIds[1]}`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('calls url without params when no params are passed', async () => {
+      await fetchFacilities({});
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/health_care_applications/facilities?type=health`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('formats facility addresses', async () => {
+      apiRequestStub.resolves(mockFacilitiesResponse);
+      const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
     });
   });
 
-  context('when the request fails', () => {
+  context('failure', () => {
     let sentrySpy;
 
     beforeEach(() => {
@@ -31,12 +65,11 @@ describe('CG fetchFacilities action', () => {
       sentrySpy.restore();
     });
 
-    it('should return an error object', async () => {
+    it('should log to sentry and return an error object', async () => {
       const errorResponse = { bad: 'some error' };
-      mockApiRequest(errorResponse, false);
-      setFetchJSONFailure(global.fetch.onCall(0), errorResponse);
+      apiRequestStub.rejects(errorResponse);
 
-      const response = await fetchFacilities({ lat: 1, long: 2 });
+      const response = await fetchFacilities({ long, lat });
       expect(response).to.eql({
         type: 'SEARCH_FAILED',
         errorMessage: 'There was an error fetching the health care facilities.',
