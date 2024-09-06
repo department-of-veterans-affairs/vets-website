@@ -1,36 +1,36 @@
 {
   "data": {
     "veteran": {
-      "ssnLastFour": "7821",
+      "ssnLastFour": "9876",
       "vaFileLastFour": "8765",
       "address": {
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
-        "addressLine3": "Box 4567890",
+        "addressLine3": "Box 45678901234",
         "city": "New York",
         "countryName": "United States",
         "countryCodeIso2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },
-      "homePhone": {
+      "phone": {
         "countryCode": "6",
         "areaCode": "555",
         "phoneNumber": "8001111",
         "extension": "2345"
       },
-      "mobilePhone": {
-        "countryCode": "6",
-        "areaCode": "555",
-        "phoneNumber": "8002222",
-        "extension": "5678"
-      },
       "email": "user@example.com"
     },
-    "view:primaryPhone": "home",
-    "benefitType": "compensation",
+    "homeless": false,
+    "boardReviewOption": "evidence_submission",
+    "hearingTypePreference": "central_office",
+    "socOptIn": false,
+    "view:additionalEvidence": true,
+    "requestingExtension": true,
+    "extensionReason": "Lorem ipsum",
+    "appealingVHADenial": false,
+
     "contestedIssues": [],
-    "legacyCount": 0,
     "additionalIssues": [
       {
         "issue": "issue 00",
@@ -538,48 +538,17 @@
         "view:selected": true
       }
     ],
-    "locations": [
+    "areaOfDisagreement": [],
+    "evidence": [
       {
-        "locationAndName": "VAMC Location",
-        "issues": [
-          "Headaches"
-        ],
-        "evidenceDates": {
-          "from": "2022-01-01",
-          "to": "2022-01-02"
-        }
-      }
-    ],
-    "providerFacility": [
+        "name": "file-1.pdf",
+        "confirmationCode": "some-UUID",
+        "isEncrypted": false
+      },
       {
-        "treatmentDateRange": {
-          "from": "2022-01-01",
-          "to": "2022-02-01"
-        },
-        "issues": [
-          "Headaches"
-        ],
-        "providerFacilityAddress": {
-          "country": "USA",
-          "street": "123 main",
-          "city": "city",
-          "state": "AK",
-          "postalCode": "90210"
-        },
-        "providerFacilityName": "Private Hospital"
+        "name": "file-2.pdf",
+        "confirmationCode": "another-UUID"
       }
-    ],
-    "limitedConsent": "Pizza addiction",
-    "view:patientAcknowledgement": {
-      "view:acknowledgement": true
-    },
-    "view:hasVaEvidence": true,
-    "view:hasPrivateEvidence": false,
-    "view:hasOtherEvidence": false,
-    "privateMedicalRecordAttachments": [],
-    "additionalDocuments": [],
-    "socOptIn": true,
-    "form5103Acknowledged": true,
-    "privacyAgreementAccepted": true
+    ]
   }
 }
