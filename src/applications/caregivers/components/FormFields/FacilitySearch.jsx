@@ -22,6 +22,7 @@ const FacilitySearch = props => {
   const [pages, setPages] = useState(1);
   const dispatch = useDispatch();
   const [coordinates, setCoordinates] = useState({ lat: '', long: '' });
+  const radius = 500;
 
   const hasFacilities = () => {
     return facilities?.length > 0;
@@ -134,7 +135,7 @@ const FacilitySearch = props => {
     const facilitiesResponse = await fetchFacilities({
       long: longitude,
       lat: latitude,
-      radius: 500,
+      radius,
       perPage: 5,
       page: 1,
     });
@@ -158,7 +159,7 @@ const FacilitySearch = props => {
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
       page: pages + 1,
-      radius: 500,
+      radius,
       perPage: 5,
     });
 

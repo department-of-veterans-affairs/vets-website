@@ -18,8 +18,7 @@ const formatQueryParams = ({
   const formatFacilityIdParams = () => {
     let facilityIdParams = '';
     if (facilityIds.length > 0) {
-      facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`);
-      facilityIdParams = `${facilityIdParams.join('&')}`;
+      facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`).join('&');
     }
 
     return facilityIdParams;
