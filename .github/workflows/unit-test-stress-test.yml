@@ -1,8 +1,9 @@
 name: Unit Test Stability Review
 
 on:
-  schedule:
-    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  # schedule:
+  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
+  push
 
 jobs:
   testing-reports-prep:
@@ -237,7 +238,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level trace
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
