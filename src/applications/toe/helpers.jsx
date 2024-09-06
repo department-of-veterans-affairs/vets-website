@@ -493,8 +493,7 @@ export const applicantIsaMinor = formData => {
   if (!formData || !formData?.dob) {
     return true;
   }
-  const dateParts = formData && formData?.dob.split('-');
-
+  const dateParts = formData.dob.split('-');
   if (!dateParts || dateParts.length !== 3) {
     return true;
   }
@@ -507,6 +506,5 @@ export const applicantIsaMinor = formData => {
       0,
     ),
   );
-
   return birthday.getTime() >= today18YearsAgo.getTime();
 };
