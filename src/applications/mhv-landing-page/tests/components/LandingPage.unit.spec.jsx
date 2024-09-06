@@ -36,20 +36,20 @@ const setup = ({ initialState = stateFn(), props = {} } = {}) =>
 
 describe('LandingPage component', () => {
   it('renders', () => {
-    const { findByRole } = setup();
-    findByRole('heading', { level: 1, name: /My HealtheVet/ });
+    const { getByRole } = setup();
+    getByRole('heading', { level: 1, name: /My HealtheVet/ });
   });
 
   it('shows the Welcome component, when enabled', () => {
     const initialState = stateFn({ mhv_landing_page_personalization: true });
-    const { findByRole } = setup({ initialState });
-    findByRole('heading', { level: 2, name: /Welcome/ });
+    const { getByRole } = setup({ initialState });
+    getByRole('heading', { level: 2, name: /Welcome/ });
   });
 
   describe('learn more expandable alert', () => {
     it('shows when MR Phase 1 toggle is not enabled', () => {
-      const { findByTestId } = setup();
-      findByTestId('learn-more-alert');
+      const { getByTestId } = setup();
+      getByTestId('learn-more-alert');
     });
 
     it('does not show when MR Phase 1 toggle is enabled', () => {
