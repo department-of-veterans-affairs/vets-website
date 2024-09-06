@@ -41,6 +41,7 @@ export const Paths = {
     MESSAGE_SIGNATURE: '/my_health/v1/messaging/messages/signature',
     MESSAGE_ALLRECIPIENTS: '/my_health/v1/messaging/allrecipients',
     MESSAGES: '/my_health/v1/messaging/messages',
+    SELECTED_RECIPIENTS: `/my_health/v1/messaging/preferences/recipients`,
   },
 };
 
@@ -81,6 +82,7 @@ export const Locators = {
   ACCORDIONS: '[data-testid="faq-accordion-item"]',
   MESSAGE_THREAD_META: '.message-thread-meta',
   SPINNER: `[data-testid="loading-indicator"]`,
+  BACK_TO: '.sm-breadcrumb-list-item',
   FOLDERS: {
     FOLDER_NAME: '[label="Folder name"]',
     FOLDER_REMOVE: '[text="Yes, remove this folder"]',
@@ -136,6 +138,7 @@ export const Locators = {
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
+    SAVE_CONTACT_LIST: 'va-modal.hydrated > [text="Save and exit"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -191,6 +194,7 @@ export const Locators = {
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
     CONFIRM: '[data-testid="alert-text"]',
+    CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
@@ -219,8 +223,8 @@ export const Locators = {
     ATTACHMENTS: '.attachments-list',
   },
   CHECKBOX: {
-    CL_ALL: '[data-testid="contact-list-select-all-teams"]',
-    CL_SINGLE: '[data-testid="contact-list-select-team"]',
+    CL_ALL: '[data-testid*="select-all"]',
+    CL_SINGLE: '[data-testid*="contact-list-select-team"]',
   },
   HEADERS: {
     DRAFTS_HEADER: '#draft-reply-header',
@@ -244,6 +248,11 @@ export const Alerts = {
     PARAGRAPH:
       'If you need to contact this care team, call your VA health facility.',
     LINK: 'Find your VA health facility',
+  },
+  CONTACT_LIST: {
+    SAVE: 'Save changes to your contact list?',
+    SAVED: 'Contact list changes saved',
+    EMPTY: `Select at least one team`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
@@ -312,6 +321,7 @@ export const Data = {
     EDIT_DRAFT: `Edit draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
+    SAVE_AND_EXIT: `Save and exit`,
   },
 };
 export const Assertions = {

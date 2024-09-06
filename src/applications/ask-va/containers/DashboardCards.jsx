@@ -1,17 +1,22 @@
-import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format, parse } from 'date-fns';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
-import { envUrl } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import {
+  mockInquiryData,
+  mockInquiryDataWithBusiness,
+} from '../utils/mockData';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const [, setOriginalInquries] = useState([]);
   const [lastUpdatedFilter, setLastUpdatedFilter] = useState('newestToOldest');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
@@ -23,23 +28,14 @@ const DashboardCards = () => {
     return format(parsedDate, 'MMM d, yyyy');
   };
 
-  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(card => card.levelOfAuthentication === 'Business');
 
   const getData = async () => {
-    const response = await apiRequest(DASHBOARD_DATA)
-      .then(res => {
-        // Using mock data until BE is ready with new fields and pagination
-        setOriginalInquries(res);
-        setLoading(false);
-        return mockInquiryData;
-      })
-      .catch(() => {
-        hasError(true);
-      });
-
+    setLoading(false);
+    const response = mockInquiryDataWithBusiness;
+    hasError(false);
     const data = [];
     if (response) {
       for (const inquiry of response.data) {
@@ -57,6 +53,7 @@ const DashboardCards = () => {
   };
 
   useEffect(() => {
+    focusElement('.schemaform-title > h1');
     getData();
   }, []);
 
@@ -87,23 +84,26 @@ const DashboardCards = () => {
     return (
       <div className="dashboard-cards-grid">
         {sortedInquiries.map(card => (
-          <div className="" key={card.inquiryNumber}>
-            <va-card className="vacard">
-              <div>
-                <span className="usa-label">{card.status}</span>
-              </div>
-              <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                Submitted on {formatDate(card.createdOn)}
+          <div key={card.inquiryNumber}>
+            <va-card class="vacard">
+              <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                  {card.status}
+                </span>
+                <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                  {`Submitted on ${formatDate(card.createdOn)}`}
+                </span>
               </h3>
               <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                Last Updated: {formatDate(card.lastUpdate)}
+                {`Last Updated: ${formatDate(card.lastUpdate)}`}
               </p>
-              <p className="vads-u-margin--0">Category: {card.category}</p>
-              <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
-              <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
+              <p className="vacardCategory multiline-ellipsis-1">
+                Category: {card.category}
+              </p>
+              <p className="vacardSubmitterQuestion">
                 {card.submitterQuestion}
               </p>
-              <Link to={`/user/dashboard/${card.id}`}>
+              <Link to={`/user/dashboard-mock/${card.id}`}>
                 <va-link active text="Check details" />
               </Link>
             </va-card>
@@ -132,15 +132,15 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
+      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
-        <div className="vads-u-margin-bottom--2">
+        <>
           {/* Filters and Buttons  */}
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
-            <div className="vads-u-flex--1">
-              <va-select
+          <div className="vacardSelectFilters">
+            <div className="vads-u-flex--1 vads-u-width--full">
+              <VaSelect
                 hint={null}
                 label="Last updated"
                 name="lastUpdated"
@@ -149,10 +149,10 @@ const DashboardCards = () => {
               >
                 <option value="newestToOldest">Newest to oldest</option>
                 <option value="oldestToNewest">Oldest to newest</option>
-              </va-select>
+              </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <va-select
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
+              <VaSelect
                 hint={null}
                 label="Filter by category"
                 name="category"
@@ -165,10 +165,10 @@ const DashboardCards = () => {
                     {category}
                   </option>
                 ))}
-              </va-select>
+              </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
-              <va-select
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
+              <VaSelect
                 hint={null}
                 label="Filter by status"
                 name="status"
@@ -176,11 +176,10 @@ const DashboardCards = () => {
                 onVaSelect={event => setStatusFilter(event.target.value)}
               >
                 <option value="All">All</option>
-                <option value="New">New</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Replied">Replied</option>
                 <option value="Reopened">Reopened</option>
-                <option value="Resolved">Archived</option>
-              </va-select>
+              </VaSelect>
             </div>
           </div>
           {/* Inquiries Views */}
@@ -198,7 +197,7 @@ const DashboardCards = () => {
           ) : (
             inquiriesGridView('Personal')
           )}
-        </div>
+        </>
       ) : (
         <div className="vads-u-margin-bottom--5">
           <va-alert
@@ -213,6 +212,20 @@ const DashboardCards = () => {
           </va-alert>
         </div>
       )}
+      {/* Used for research study mock, this design will copy over to live one
+      once approved, leaving pagination here as placeholder */}
+      <VaPagination
+        page={mockInquiryData.meta.meta.pagination.currentPage}
+        pages={mockInquiryData.meta.meta.pagination.totalPages}
+        maxPageListLength={5}
+        showLastPage
+        className={
+          inquiries.length > 0 &&
+          mockInquiryData.meta.meta.pagination.totalPages > 1
+            ? 'vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5'
+            : 'vads-u-border-top--0 vads-u-padding--0'
+        }
+      />
     </div>
   );
 };
