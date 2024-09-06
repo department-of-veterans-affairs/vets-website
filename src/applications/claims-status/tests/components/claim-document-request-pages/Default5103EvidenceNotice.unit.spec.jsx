@@ -42,7 +42,9 @@ describe('<Default5103EvidenceNotice>', () => {
     );
     expect($('#default-5103-notice-page', container)).to.exist;
     getByText('5103 Evidence Notice');
-    expect($('.active-va-link', container)).to.have.text('Go to claim letters');
+    expect($('.active-va-link', container)).to.have.text(
+      'Find this letter in your claim letters',
+    );
     getByText('If you have more evidence to submit');
     expect(getByTestId('upload-evidence-link').textContent).to.equal(
       'Upload your evidence here',

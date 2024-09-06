@@ -83,7 +83,7 @@ import fullSchema from './form-0995-schema.json';
 import { focusEvidence } from '../utils/focus';
 import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 
-import maximalData from '../tests/fixtures/data/maximal-test.json';
+import maximalData from '../tests/fixtures/data/prototype-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
 import NeedHelp from '../../../shared/content/NeedHelp';
