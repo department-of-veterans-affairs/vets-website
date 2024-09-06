@@ -36,14 +36,14 @@ const setup = ({ initialState = stateFn(), props = {} } = {}) =>
 
 describe('LandingPage component', () => {
   it('renders', () => {
-    const { getByRole } = setup();
-    getByRole('heading', { level: 1, name: /My HealtheVet/ });
+    const { findByRole } = setup();
+    findByRole('heading', { level: 1, name: /My HealtheVet/ });
   });
 
   it('shows the Welcome component, when enabled', () => {
     const initialState = stateFn({ mhv_landing_page_personalization: true });
-    const { getByRole } = setup({ initialState });
-    getByRole('heading', { level: 2, name: /Welcome/ });
+    const { findByRole } = setup({ initialState });
+    findByRole('heading', { level: 2, name: /Welcome/ });
   });
 
   describe('learn more expandable alert', () => {
