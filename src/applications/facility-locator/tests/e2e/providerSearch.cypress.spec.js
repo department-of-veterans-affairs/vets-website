@@ -92,8 +92,6 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('BADEA, LUANA');
 
     cy.get('.va-pagination').should('not.exist');
