@@ -7,11 +7,16 @@ import ProviderServiceDescription from '../ProviderServiceDescription';
 import LocationDistance from './common/LocationDistance';
 import ProviderTraining from './common/ProviderTraining';
 
-const CCProviderResult = ({ provider, query }) => {
+const CCProviderResult = ({ provider, query, index }) => {
   const { name } = provider.attributes;
 
   return (
-    <div className="facility-result" id={provider.id} key={provider.id}>
+    <div
+      className="facility-result"
+      id={provider.id}
+      key={provider.id}
+      tabIndex={index}
+    >
       <div>
         <LocationDistance
           distance={provider.distance}
@@ -38,6 +43,7 @@ const CCProviderResult = ({ provider, query }) => {
 };
 
 CCProviderResult.propTypes = {
+  index: PropTypes.number,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

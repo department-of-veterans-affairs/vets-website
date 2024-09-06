@@ -8,11 +8,16 @@ import LocationPhoneLink from './common/LocationPhoneLink';
 import LocationDistance from './common/LocationDistance';
 import ProviderTraining from './common/ProviderTraining';
 
-const UrgentCareResult = ({ provider, query }) => {
+const UrgentCareResult = ({ provider, query, index }) => {
   const { name } = provider.attributes;
 
   return (
-    <div className="facility-result" id={provider.id} key={provider.id}>
+    <div
+      className="facility-result"
+      id={provider.id}
+      key={provider.id}
+      tabIndex={index}
+    >
       <div>
         <LocationDistance
           distance={provider.distance}
@@ -58,6 +63,7 @@ const UrgentCareResult = ({ provider, query }) => {
   );
 };
 UrgentCareResult.propTypes = {
+  index: PropTypes.number,
   provider: PropTypes.object,
   query: PropTypes.object,
 };

@@ -35,7 +35,12 @@ const Covid19Result = ({ location, index }) => {
   );
 
   return (
-    <div className="facility-result" id={location.id} key={location.id}>
+    <div
+      className="facility-result"
+      id={location.id}
+      key={location.id}
+      tabIndex={index}
+    >
       <>
         <LocationDistance
           distance={location.distance}
@@ -96,9 +101,9 @@ const Covid19Result = ({ location, index }) => {
 };
 
 Covid19Result.propTypes = {
+  index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,
-  index: PropTypes.number,
 };
 
 export default Covid19Result;

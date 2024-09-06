@@ -505,13 +505,7 @@ const FacilitiesMap = props => {
               className="columns search-results-container vads-u-padding-left--0 medium-4 small-12"
               id="searchResultsContainer"
             >
-              <div
-                className="facility-search-results"
-                // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-                tabIndex="0"
-              >
-                {resultsList()}
-              </div>
+              <div className="facility-search-results">{resultsList()}</div>
             </div>
             {renderMap(false, results)}
             {paginationWrapper()}
