@@ -6,6 +6,7 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -35,7 +36,7 @@ const emptyMessage = message => (
 );
 const getReplySubHeader = messageType => messageType.split(':')[1].trim();
 
-const ResponseInboxPage = ({ loggedIn }) => {
+const ResponseInboxPage = () => {
   const [error, hasError] = useState(false);
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, isLoading] = useState(true);
@@ -104,6 +105,13 @@ const ResponseInboxPage = ({ loggedIn }) => {
     getInquiryData();
   }, []);
 
+  useEffect(
+    () => {
+      focusElement('h1');
+    },
+    [loading],
+  );
+
   // render loading indicator while we fetch
   if (loading) {
     return (
@@ -111,47 +119,58 @@ const ResponseInboxPage = ({ loggedIn }) => {
     );
   }
 
-  return !error && loggedIn ? (
-    <div className="row">
+  return !error ? (
+    <div className="row vads-u-padding-x--1">
       <BreadCrumbs currentLocation={location.pathname} />
       <div className="usa-width-two-thirds medium-8 columns vads-u-padding--0">
-        <h1 className="">{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
-
-        <div className="vads-u-margin-bottom--3">
-          <div>
-            <span className="usa-label">{inquiryData.attributes.status}</span>
+        <h1>{RESPONSE_PAGE.QUESTION_DETAILS}</h1>
+        <dl className="dashboard-dl">
+          <div className="vads-u-margin-bottom--1p5">
+            <dt className="sr-only">Status</dt>
+            <dd>
+              <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                {inquiryData.attributes.status}
+              </span>
+            </dd>
           </div>
-
-          <div className="vads-u-margin-top--2">
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">Submitted:</span>{' '}
+          <div className="vads-u-margin-bottom--1">
+            <dt className="vads-u-display--inline vads-u-font-weight--bold">
+              Submitted:
+            </dt>
+            <dd className="vads-u-display--inline">
+              {' '}
               {formatDate(inquiryData.attributes.createdOn)}
-            </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">Last updated:</span>{' '}
-              {formatDate(inquiryData.attributes.lastUpdate)}
-            </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">Category:</span>{' '}
-              {inquiryData.attributes.category}
-            </p>
-            <p className="vads-u-margin--0">
-              <span className="vads-u-font-weight--bold">
-                Reference number:
-              </span>{' '}
-              {inquiryData.attributes.inquiryNumber}
-            </p>
+            </dd>
           </div>
-        </div>
+          <div className="vads-u-margin-bottom--1">
+            <dt className="vads-u-display--inline vads-u-font-weight--bold">
+              Last updated:
+            </dt>
+            <dd className="vads-u-display--inline">
+              {' '}
+              {formatDate(inquiryData.attributes.lastUpdate)}
+            </dd>
+          </div>
+          <div className="vads-u-margin-bottom--1">
+            <dt className="vads-u-display--inline vads-u-font-weight--bold">
+              Category:
+            </dt>
+            <dd className="vads-u-display--inline">
+              {' '}
+              {inquiryData.attributes.category}
+            </dd>
+          </div>
+          <div>
+            <dt className="vads-u-display--inline vads-u-font-weight--bold">
+              Reference number:
+            </dt>
+            <dd className="vads-u-display--inline">
+              {' '}
+              {inquiryData.attributes.inquiryNumber}
+            </dd>
+          </div>
+        </dl>
 
-        {/* Temporarily hidden for research study
-        <h2 className="vad-u-margin-top--0">{RESPONSE_PAGE.ATTACHMENTS}</h2>
-        {inboxMessage.attributes.attachments.length === 0
-          ? emptyMessage(RESPONSE_PAGE.NO_ATTACHMENTS)
-          : inboxMessage.attributes.attachments.map(attachment => (
-              <div key={attachment.id}>{attachmentBox(attachment.name)}</div>
-            ))}
-        <hr /> */}
         <div className="vads-l-row vads-u-justify-content--space-between vads-u-align-items--baseline">
           <h2 className="vads-u-margin-y--2">
             {RESPONSE_PAGE.YOUR_CONVERSATION}
@@ -174,19 +193,27 @@ const ResponseInboxPage = ({ loggedIn }) => {
           </button>
         </div>
 
-        <hr className="vads-u-border-color--gray-lightest" />
+        <hr
+          role="presentation"
+          className="vads-u-border-color--gray-lightest"
+        />
         {inquiryData.attributes.reply.data.length === 0 ? (
           <div className="no-messages">
             {emptyMessage(RESPONSE_PAGE.EMPTY_INBOX)}
           </div>
         ) : (
           <div className="inbox-replies">
-            <va-accordion bordered>
-              {inquiryData.attributes.reply.data.map(message => (
+            <va-accordion
+              bordered
+              open-single={inquiryData.attributes.reply.data.length === 1}
+            >
+              {inquiryData.attributes.reply.data.map((message, ix) => (
                 <va-accordion-item
                   key={message.id}
                   header={message.modifiedOn}
                   subHeader={getReplySubHeader(message.messageType)}
+                  open={inquiryData.attributes.reply.data.length - 1 === ix}
+                  level={3}
                 >
                   <p className="vads-u-margin--0">{message.attributes.reply}</p>
                   {message.attributes.attachmentNames.length > 0 && (
@@ -207,7 +234,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
         )}
 
         <h2 className="vads-u-margin-bottom--0">{RESPONSE_PAGE.SEND_REPLY}</h2>
-        <form onSubmit={handlers.onSubmit}>
+        <form className="vads-u-margin-bottom--5" onSubmit={handlers.onSubmit}>
           <fieldset>
             <va-textarea
               class="resize-y"
@@ -218,11 +245,8 @@ const ResponseInboxPage = ({ loggedIn }) => {
               required
             />
 
-            <h4 className="vads-u-margin-top--4">
-              {RESPONSE_PAGE.ATTACHMENTS}
-            </h4>
             <VaFileInputMultiple
-              label="Select files to upload"
+              label="Select optional files to upload"
               hint="You can upload a .pdf, .jpeg, or .png file. that is less than 25 MB in size"
               name="my-file-input"
               onClick={() => {
@@ -242,7 +266,7 @@ const ResponseInboxPage = ({ loggedIn }) => {
             <VaButton
               onClick={handlers.onSubmit}
               primary
-              className="vads-u-margin-y--2"
+              className="vads-u-margin-top--2"
               text={RESPONSE_PAGE.SUBMIT_MESSAGE}
             />
           </fieldset>

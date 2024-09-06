@@ -37,7 +37,7 @@ const App = ({ formEnabled }) => {
         <a href="https://www.va.gov/find-forms/about-form-10-7959f-1/">
           Get VA Form 10-7959f-1 to download
         </a>
-        <p>Mail your completed form to this address.</p>
+        <p>Mail your completed form to this address:</p>
         <p className="va-address-block">
           VHA Office of Integrated Veteran Care (OIVC)
           <br />

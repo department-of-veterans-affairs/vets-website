@@ -86,9 +86,12 @@ dl.review {
     border-top: 1px solid var(--vads-color-base-light);
     padding: 0.9375rem;
     padding-left: 0;
+    column-gap: 0.9375rem;
     > dd {
       font-weight: bold;
-      text-align: right;
+      @media (min-width: $xsmall-screen) {
+        text-align: right;
+      }
     }
     > dt > p {
       margin-top: 0;
@@ -96,14 +99,6 @@ dl.review {
     }
     @media (min-width: var(--small-screen)) {
       flex-direction: row;
-      > dd {
-        padding-left: 5px;
-        min-width: 100px;
-      }
-      > dt {
-        max-width: 60%;
-        min-width: 40%;
-      }
     }
   }
   border-bottom: 1px solid var(--vads-color-base-light);
@@ -599,8 +594,10 @@ va-accordion-item[data-unviewed-pages="true"] {
   background: var(--vads-color-white);
   border: 1px solid var(--vads-color-base-dark);
   // Box shadow only sides and bottom of suggestion list.
-  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light), -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
-    7px 7px 7px -7px var(--vads-color-action-focus-on-light), -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
+  box-shadow: 3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    -3px 3px 3px -3px var(--vads-color-action-focus-on-light),
+    7px 7px 7px -7px var(--vads-color-action-focus-on-light),
+    -7px 7px 7px -7px var(--vads-color-action-focus-on-light);
   list-style: none;
   margin-top: -0.3125rem;
   max-width: 28.75rem;

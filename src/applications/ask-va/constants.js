@@ -2,10 +2,6 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 
 export const envUrl = environment.API_URL;
 
-// Used to test against dev
-// export const envUrl = 'https://dev-api.va.gov';
-//
-
 export const baseURL = '/ask_va_api/v0';
 
 export const URL = {
@@ -16,21 +12,21 @@ export const URL = {
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
 };
 
+export const CategoryEducation =
+  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)';
+
 export const requireSignInCategories = [
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+  CategoryEducation,
   'Disability compensation',
   'Debt for benefit overpayments and health care copay bills',
   'Benefits issues outside the U.S.',
 ];
 
-export const requireSignInTopics = [
-  'Compensation',
-  'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
-];
+export const requireSignInTopics = ['Compensation', CategoryEducation];
 
 // list of topics required to render the subtopic page
 export const requiredForSubtopicPage = [
@@ -162,20 +158,20 @@ export const aboutTheirRelationshipToVet = {
 };
 
 // Who your question is about
-export const whoYourQuestionIsAbout = {
+export const isQuestionAboutVeteranOrSomeoneElseLabels = {
   VETERAN: 'Veteran',
   SOMEONE_ELSE: 'Someone else',
 };
 
 // Question About labels
-export const questionAboutLabels = {
+export const whoIsYourQuestionAboutLabels = {
   MYSELF: 'Myself',
   SOMEONE_ELSE: 'Someone else',
   GENERAL: "It's a general question",
 };
 
 // Question About descriptions
-export const questionAboutDescriptions = {
+export const whoIsYourQuestionAboutDescriptions = {
   GENERAL: `For example, "What type of home loans does the VA offer?`,
 };
 

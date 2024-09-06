@@ -540,7 +540,7 @@ const formConfig = {
               },
               items: {
                 applicantName: fullNameUI(),
-                applicantDob: dateOfBirthUI({ required: true }),
+                applicantDob: dateOfBirthUI({ required: () => true }),
               },
             },
           },

@@ -58,13 +58,13 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
           'href',
-          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
         );
 
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
         );
       });
     });
@@ -78,13 +78,13 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
           'href',
-          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
         );
 
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
         );
       });
     });
@@ -100,11 +100,15 @@ describe('MHV Landing Page -- Header Layout', () => {
 
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
+        // Change the link to an anchor, so JSDOM does not complain about navigation
+        goBack1.href = '#dummy-link';
         fireEvent.click(goBack1);
 
         expect(spyDog.called).to.be.true;
 
         const goBack2 = getByTestId('mhv-go-back-2');
+        // Change the link to an anchor, so JSDOM does not complain about navigation
+        goBack2.href = '#dummy-link';
         fireEvent.click(goBack2);
 
         expect(spyDog.calledTwice).to.be.true;

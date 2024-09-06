@@ -6,7 +6,7 @@ export default {
       'ui:title': (
         <>
           <p>
-            <b>Have you applied for and been approved for GI Bill benefits?</b>
+            <b>Have you applied for and been awarded GI Bill benefits?</b>
           </p>
           <p>
             This includes the Post-9/11 GI Bill, Montgomery GI Bill Active Duty
@@ -17,8 +17,18 @@ export default {
       'ui:widget': 'radio',
       'ui:options': {
         widgetProps: {
-          YES: { giBillStatus: 'Yes' },
-          NO: { giBillStatus: 'No' },
+          appliedAndReceived: {
+            giBillStatus: "I've applied and received GI Bill benefits",
+          },
+          submitted: {
+            giBillStatus: "I've submitted but haven't received a decision yet",
+          },
+          started: {
+            giBillStatus: "I've started the process but haven't submitted yet",
+          },
+          notApplied: {
+            giBillStatus: "I haven't applied for GI Bill benefits",
+          },
         },
       },
     },
@@ -28,7 +38,12 @@ export default {
     properties: {
       giBillStatus: {
         type: 'string',
-        enum: ['Yes', 'No'],
+        enum: [
+          "I've applied and received GI Bill benefits",
+          "I've submitted but haven't received a decision yet",
+          "I've started the process but haven't submitted yet",
+          "I haven't applied for GI Bill benefits",
+        ],
       },
     },
   },

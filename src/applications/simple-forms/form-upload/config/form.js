@@ -11,13 +11,24 @@ import {
 } from '../pages/nameAndZipCode';
 import { SAVE_IN_PROGRESS_CONFIG, PROGRESS_BAR_LABELS } from './constants';
 import prefillTransformer from './prefill-transformer';
-import submitTransformer from './submit-transformer';
-import CustomReviewTopContent from '../containers/CustomReviewTopContent';
-import { scrollAndFocusTarget, getFormContent } from '../helpers';
+import transformForSubmit from './submit-transformer';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
+import { getMockData, scrollAndFocusTarget, getFormContent } from '../helpers';
 import {
   VeteranIdentificationInformationPage,
   veteranIdentificationInformationPage,
 } from '../pages/veteranIdentificationInformation';
+import { CustomTopContent } from '../pages/helpers';
+
+// mock-data import for local development
+import testData from '../tests/e2e/fixtures/data/veteran.json';
+
+// export isLocalhost() to facilitate unit-testing
+export function isLocalhost() {
+  return environment.isLocalhost();
+}
+
+const mockData = testData.data;
 
 const formConfig = (pathname = null) => {
   const { title, subTitle, formNumber } = getFormContent(pathname);
@@ -32,6 +43,7 @@ const formConfig = (pathname = null) => {
     },
     trackingPrefix: 'form-upload-flow-',
     confirmation: ConfirmationPage,
+    CustomTopContent,
     CustomReviewTopContent,
     customText: {
       appType: 'form',
@@ -43,7 +55,7 @@ const formConfig = (pathname = null) => {
     version: 0,
     prefillEnabled: true,
     prefillTransformer,
-    transformForSubmit: submitTransformer,
+    transformForSubmit,
     savedFormMessages: {
       notFound: 'Please start over to upload your form.',
       noAuth: 'Please sign in again to continue uploading your form.',
@@ -66,6 +78,9 @@ const formConfig = (pathname = null) => {
             schema: nameAndZipCodePage.schema,
             CustomPage: NameAndZipCodePage,
             scrollAndFocusTarget,
+            // we want req'd fields prefilled for LOCAL testing/previewing
+            // one single initialData prop here will suffice for entire form
+            initialData: getMockData(mockData, isLocalhost),
           },
           veteranIdentificationInformationPage: {
             path: 'identification-information',
