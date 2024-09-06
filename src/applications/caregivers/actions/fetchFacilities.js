@@ -15,11 +15,15 @@ const formatQueryParams = ({
   perPage,
   facilityIds,
 }) => {
-  let facilityIdParams = '';
-  if (facilityIds.length > 0) {
-    facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`);
-    facilityIdParams = `${facilityIdParams.join('&')}`;
-  }
+  const formatFacilityIdParams = () => {
+    let facilityIdParams = '';
+    if (facilityIds.length > 0) {
+      facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`);
+      facilityIdParams = `${facilityIdParams.join('&')}`;
+    }
+
+    return facilityIdParams;
+  };
 
   const params = [
     lat ? `lat=${lat}` : null,
@@ -27,7 +31,7 @@ const formatQueryParams = ({
     radius ? `radius=${radius}` : null,
     page ? `page=${page}` : null,
     perPage ? `per_page=${perPage}` : null,
-    facilityIdParams || null,
+    formatFacilityIdParams() || null,
   ];
 
   let filteredParams = params.filter(Boolean);
