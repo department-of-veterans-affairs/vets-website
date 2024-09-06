@@ -137,9 +137,9 @@
   "if-you-have-other-expenses-to-claim": "If you have other expenses to claim",
   "if-you-have-questions-about-your-appointments": "<0>If you have questions about your appointments,</0> call your VA health facility.",
   "if-you-have-questions-please-call-us-were-here-24-7": "If you have questions, please call us at <0></0> (<1></1>). We’re here 24/7.",
-  "if-you-need-submit-receipts-other-expenses": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail or in person.",
+  "if-you-need-submit-receipts-other-expenses": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
   "if-you-need-to-make-changes-please-talk-to-a-staff-member-when-you-check-in": "If you need to make changes, please talk to a staff member when you check in.",
-  "if-you-need-to-submit-receipts-for-other-expenses--helptext": "If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim now. But you can file your claim online 24/7 through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail, fax, email, or in person.",
+  "if-you-need-to-submit-receipts-for-other-expenses--helptext": "If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim now. But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
   "if-you-think-your-life-or-health-is-in-danger": "<0>If you think your life or health is in danger,</0> call <1></1> or go to the nearest emergency room.",
   "if-you-traveled-by-bus-train-taxi-or-other-authorized--help-text": "<0>If you traveled by bus, train, taxi, or other authorized public transportation, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail or in person.",
   "if-you-traveled-from-a-different-address-you--helptext": "<0>If you traveled from a different address, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). Or you can use VA Form 10-3542 to submit a claim by mail or in person.",
@@ -443,7 +443,7 @@
   "veterans-affairs": "Veterans Affairs",
   "if-youre-claiming-mileage-file-online-now--UPDATE": "If you’re claiming only mileage, you can file online right now. We’ll ask you a few questions. You won’t need receipts.",
   "if-claiming-other-expenses-file-online-or-mail-or-in-person--UPDATE": "If you’re claiming other expenses, like lodging, meals, or tolls, you will need receipts for these expenses. You can file online through the Beneficiary Travel Self Service System (BTSSS), by mail, or in person.",
-  "penalty-statement--UPDATE": "<0>Penalty statement:</0> There are severe criminal and civil penalties, including a fine, imprisonment, or both, for knowingly submitting a false, fictitious, or fraudulent claim."
-
-
+  "penalty-statement--UPDATE": "<0>Penalty statement:</0> There are severe criminal and civil penalties, including a fine, imprisonment, or both, for knowingly submitting a false, fictitious, or fraudulent claim.",
+  "if-you-need-submit-receipts-other-expenses--UPDATE": "<0>If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim in this tool right now.</0> But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542.",
+  "if-you-need-to-submit-receipts-for-other-expenses--helptext--UPDATE": "If you need to submit receipts for other expenses like tolls, meals, or lodging, you can’t file a claim now. But you can file your claim online, within 30 days, through the Beneficiary Travel Self Service System (BTSSS). You can also file by mail or in person using VA Form 10-3542."
 }
