@@ -103,7 +103,7 @@ const DebtDetails = () => {
             href: `/manage-va-debt/summary/debt-balances/details/${
               selectedDebt.compositeDebtId
             }`,
-            label: 'Debt details',
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"

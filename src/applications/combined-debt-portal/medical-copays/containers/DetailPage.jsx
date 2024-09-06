@@ -63,7 +63,7 @@ const DetailPage = ({ match }) => {
           },
           {
             href: `/manage-va-debt/summary/copay-balances/${selectedId}/detail`,
-            label: `Copay bill for ${selectedCopay?.station.facilityName}`,
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"
