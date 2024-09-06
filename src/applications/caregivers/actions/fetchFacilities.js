@@ -26,14 +26,17 @@ export const fetchFacilities = async ({
     facilityIdParams || null,
   ];
 
-  const filteredParams = queryParams.filter(Boolean);
+  let filteredParams = queryParams.filter(Boolean);
+  if (filteredParams.length > 0) {
+    filteredParams = `&${filteredParams.join('&')}`;
+  }
 
   const baseUrl = `${
     environment.API_URL
   }/v0/health_care_applications/facilities?type=health`;
 
-  const requestUrl = `${baseUrl}&${filteredParams.join('&')}`;
-  const fetchRequest = apiRequest(requestUrl, {});
+  const requestUrl = `${baseUrl}${filteredParams}`;
+  const fetchRequest = apiRequest(requestUrl);
 
   // Helper function to join address parts, filtering out null or undefined values
   const joinAddressParts = (...parts) => {
