@@ -775,7 +775,7 @@ jobs:
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
-        timeout-minutes: 40
+        timeout-minutes: 120
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}

@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-
+import content from '../../../../locales/en/content.json';
 import { mockFetchFacilitiesResponse } from '../../../mocks/responses';
 import FacilityList from '../../../../components/FormFields/FacilityList';
 
@@ -11,6 +11,7 @@ describe('CG <FacilityList>', () => {
     reviewMode = false,
     submitted = false,
     value = undefined,
+    error = undefined,
   }) => ({
     props: {
       facilities: mockFetchFacilitiesResponse,
@@ -18,6 +19,7 @@ describe('CG <FacilityList>', () => {
       onChange: sinon.spy(),
       query: 'Tampa',
       value,
+      error,
     },
   });
   const subject = ({ props }) => {
@@ -53,14 +55,6 @@ describe('CG <FacilityList>', () => {
     });
   });
 
-  context('when form has been submitted with no value', () => {
-    it('should add `error` prop to the `va-radio` web component', () => {
-      const { props } = getData({ submitted: true });
-      const { selectors } = subject({ props });
-      expect(selectors().vaRadio).to.have.attr('error');
-    });
-  });
-
   context('when radio option has been selected', () => {
     it('should fire the `onChange` method', async () => {
       const { props } = getData({});
@@ -71,6 +65,23 @@ describe('CG <FacilityList>', () => {
         expect(props.onChange.calledWith(value)).to.be.true;
         expect(selectors().vaRadio).to.not.have.attr('error');
       });
+    });
+  });
+
+  context('errors', () => {
+    it('renders error when form has been submitted with no value', () => {
+      const { props } = getData({ submitted: true });
+      const { selectors } = subject({ props });
+      expect(selectors().vaRadio).to.have.attr(
+        'error',
+        content['validation-facialities--default-required'],
+      );
+    });
+
+    it('renders error when passed error string', () => {
+      const { props } = getData({ error: 'some error' });
+      const { selectors } = subject({ props });
+      expect(selectors().vaRadio).to.have.attr('error', 'some error');
     });
   });
 });

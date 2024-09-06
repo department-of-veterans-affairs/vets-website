@@ -52,7 +52,7 @@ const App = () => {
   }
 
   return (
-    <>
+    <div className="container">
       <Header />
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
@@ -60,7 +60,7 @@ const App = () => {
         <Outlet />
       )}
       <Footer />
-    </>
+    </div>
   );
 };
 
