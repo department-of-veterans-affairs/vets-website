@@ -18,6 +18,7 @@ import {
   updateFormStore,
   updateQuestionFlowChanged,
   updateRouteMap,
+  updateAnswerChanged,
 } from '../../../../actions';
 import {
   determineErrorMessage,
@@ -40,9 +41,11 @@ const Dropdown = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  toggleAnswerChanged,
   setRouteMap,
   routeMap,
   questionFlowChanged,
+  editQuestion,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const isForkableQuestion = forkableQuestions.includes(shortName);
@@ -74,6 +77,9 @@ const Dropdown = ({
 
         if (forkableQuestions.includes(shortName) && editMode) {
           toggleQuestionsFlowChanged(true);
+          toggleAnswerChanged(true);
+        } else if (editMode) {
+          toggleAnswerChanged(true);
         }
       }
 
@@ -87,16 +93,35 @@ const Dropdown = ({
         setRouteMap,
         routeMap,
         questionFlowChanged,
+        valueHasChanged,
+        editQuestion,
       );
     }
   };
 
   const onBackClick = () => {
-    if (valueHasChanged && editMode && isForkableQuestion) {
+    if (valueHasChanged) {
+      // Remove answers from the Redux store if the display path ahead will change.
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+      if (forkableQuestions.includes(shortName) && editMode) {
+        toggleQuestionsFlowChanged(true);
+        toggleAnswerChanged(true);
+      } else if (editMode) {
+        toggleAnswerChanged(true);
+      }
     }
+
     toggleEditMode(false);
-    navigateBackward(router, setRouteMap, routeMap, editMode);
+    navigateBackward(
+      router,
+      setRouteMap,
+      routeMap,
+      shortName,
+      editMode,
+      isForkableQuestion,
+      valueHasChanged,
+    );
   };
 
   return (
@@ -116,18 +141,19 @@ const Dropdown = ({
       >
         {options}
       </VaSelect>
-      {editMode &&
-        forkableQuestions.includes(shortName) && (
-          <va-alert-expandable
-            class="vads-u-margin-top--4"
-            status="info"
-            trigger="Changing your answer may lead to a new set of questions."
-          >
+      {editMode && (
+        <va-alert-expandable
+          class="vads-u-margin-top--4"
+          status="info"
+          trigger="Changing your answer may lead to a new set of questions."
+        >
+          <p>
             If you change your answer to this question, you may be asked for
             more information to ensure that we provide you with the best
             results.
-          </va-alert-expandable>
-        )}
+          </p>
+        </va-alert-expandable>
+      )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
@@ -140,22 +166,23 @@ const Dropdown = ({
 };
 
 Dropdown.propTypes = {
+  editMode: PropTypes.bool.isRequired,
   formError: PropTypes.bool.isRequired,
   formResponses: PropTypes.object.isRequired,
   H1: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
+  questionFlowChanged: PropTypes.bool.isRequired,
+  routeMap: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
+  setRouteMap: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  toggleAnswerChanged: PropTypes.func.isRequired,
+  toggleEditMode: PropTypes.func.isRequired,
+  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
   valueSetter: PropTypes.func.isRequired,
-  editMode: PropTypes.bool.isRequired,
-  questionFlowChanged: PropTypes.bool.isRequired,
-  toggleEditMode: PropTypes.func.isRequired,
-  routeMap: PropTypes.array.isRequired,
-  toggleQuestionsFlowChanged: PropTypes.func.isRequired,
-  setRouteMap: PropTypes.func.isRequired,
   formValue: PropTypes.string,
 };
 
@@ -163,6 +190,7 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  toggleAnswerChanged: updateAnswerChanged,
   setRouteMap: updateRouteMap,
 };
 
@@ -171,6 +199,7 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
 });
 
 export default connect(

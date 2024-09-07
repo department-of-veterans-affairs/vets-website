@@ -15,8 +15,10 @@ import {
   DUW_UPDATE_FAILURE_TO_EXHAUST,
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
+  DUW_ANSWER_CHANGED,
   DUW_ROUTE_MAP,
   ROUTES,
+  DUW_EDIT_QUESTION,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -42,7 +44,9 @@ const initialState = {
   viewedIntroPage: false,
   editMode: false,
   questionFlowChanged: false,
-  routeMap: [ROUTES.HOMEPAGE, ROUTES.SERVICE_BRANCH],
+  answerChanged: false,
+  routeMap: [ROUTES.HOME, ROUTES.SERVICE_BRANCH],
+  editQuestion: '',
 };
 
 export default (state = initialState, action) => {
@@ -84,6 +88,11 @@ export default (state = initialState, action) => {
           ...action.payload,
         },
       };
+    case DUW_EDIT_QUESTION:
+      return {
+        ...state,
+        editQuestion: action.payload,
+      };
     case DUW_EDIT_MODE:
       return {
         ...state,
@@ -93,6 +102,11 @@ export default (state = initialState, action) => {
       return {
         ...state,
         questionFlowChanged: action.payload,
+      };
+    case DUW_ANSWER_CHANGED:
+      return {
+        ...state,
+        answerChanged: action.payload,
       };
     case DUW_ROUTE_MAP:
       return {

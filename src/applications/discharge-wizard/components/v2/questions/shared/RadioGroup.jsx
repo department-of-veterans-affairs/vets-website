@@ -18,6 +18,7 @@ import {
   updateFormStore,
   updateQuestionFlowChanged,
   updateRouteMap,
+  updateAnswerChanged,
 } from '../../../../actions';
 import { determineErrorMessage } from '../../../../utilities/shared';
 
@@ -37,9 +38,11 @@ const RadioGroup = ({
   editMode,
   toggleEditMode,
   toggleQuestionsFlowChanged,
+  toggleAnswerChanged,
   routeMap,
   setRouteMap,
   questionFlowChanged,
+  editQuestion,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -58,6 +61,9 @@ const RadioGroup = ({
         // Set the question flow changed flag to true for review page alert for forkable questions.
         if (isForkableQuestion && editMode) {
           toggleQuestionsFlowChanged(true);
+          toggleAnswerChanged(true);
+        } else if (editMode) {
+          toggleAnswerChanged(true);
         }
       }
 
@@ -71,13 +77,24 @@ const RadioGroup = ({
         setRouteMap,
         routeMap,
         questionFlowChanged,
+        valueHasChanged,
+        editQuestion,
       );
     }
   };
 
   const onBackClick = () => {
-    if (valueHasChanged && editMode && isForkableQuestion) {
+    if (valueHasChanged) {
+      // Remove answers from the Redux store if the display path ahead has changed
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
+
+      // Set the question flow changed flag to true for review page alert for forkable questions.
+      if (isForkableQuestion && editMode) {
+        toggleQuestionsFlowChanged(true);
+        toggleAnswerChanged(true);
+      } else if (editMode) {
+        toggleAnswerChanged(true);
+      }
     }
     toggleEditMode(false);
     navigateBackward(
@@ -137,18 +154,19 @@ const RadioGroup = ({
           </div>
         )}
       </VaRadio>
-      {editMode &&
-        forkableQuestions.includes(shortName) && (
-          <va-alert-expandable
-            class="vads-u-margin-top--4"
-            status="info"
-            trigger="Changing your answer may lead to a new set of questions."
-          >
+      {editMode && (
+        <va-alert-expandable
+          class="vads-u-margin-top--4"
+          status="info"
+          trigger="Changing your answer may lead to a new set of questions."
+        >
+          <p>
             If you change your answer to this question, you may be asked for
             more information to ensure that we provide you with the best
             results.
-          </va-alert-expandable>
-        )}
+          </p>
+        </va-alert-expandable>
+      )}
       <VaButtonPair
         class="vads-u-margin-top--3 small-screen:vads-u-margin-x--0p5"
         data-testid="duw-buttonPair"
@@ -173,6 +191,7 @@ RadioGroup.propTypes = {
   setRouteMap: PropTypes.func.isRequired,
   shortName: PropTypes.string.isRequired,
   testId: PropTypes.string.isRequired,
+  toggleAnswerChanged: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   toggleQuestionsFlowChanged: PropTypes.func.isRequired,
   updateCleanedFormStore: PropTypes.func.isRequired,
@@ -185,6 +204,7 @@ const mapDispatchToProps = {
   updateCleanedFormStore: updateFormStore,
   toggleEditMode: updateEditMode,
   toggleQuestionsFlowChanged: updateQuestionFlowChanged,
+  toggleAnswerChanged: updateAnswerChanged,
   setRouteMap: updateRouteMap,
 };
 
@@ -193,6 +213,7 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
+  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
 });
 
 export default connect(

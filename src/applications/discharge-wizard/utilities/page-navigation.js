@@ -57,16 +57,18 @@ export const navigateForward = (
   formResponses,
   router,
   editMode,
-  updateRouteMap,
+  setRouteMap,
   routeMap,
   questionFlowChanged,
+  valueHasChanged,
+  editQuestion,
 ) => {
   const roadmap = makeRoadmap();
-
   if (roadmap?.length) {
     const CURRENT_INDEX = roadmap?.indexOf(SHORT_NAME);
     const END_INDEX = roadmap?.length - 1;
     let nextIndex = CURRENT_INDEX + 1;
+    const localRoadMap = [...routeMap];
 
     if (CURRENT_INDEX === END_INDEX) {
       // Results logic
@@ -79,8 +81,6 @@ export const navigateForward = (
 
       if (nextIndex > END_INDEX) {
         // No questions after this one in the flow have their display conditions met
-        // Most likely a results page should show
-
         // Results logic
         return;
       }
@@ -93,31 +93,53 @@ export const navigateForward = (
           !formResponses[nextShortName] &&
           editMode
         ) {
-          updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
-          pushToRoute(nextShortName, router);
-          return;
-        }
-
-        if (
-          displayConditionsMet(nextShortName, formResponses) &&
-          !editMode &&
-          formResponses[nextShortName] &&
-          questionFlowChanged
-        ) {
-          nextIndex += 1;
-        } else if (
-          displayConditionsMet(nextShortName, formResponses) &&
-          !editMode
-        ) {
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
-            updateRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            if (valueHasChanged) {
+              const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
+              const newRouteMap = routeMap.slice(0, index + 1);
+              setRouteMap([...newRouteMap, ROUTES?.[nextShortName]]);
+            } else {
+              setRouteMap([...routeMap, ROUTES?.[nextShortName]]);
+            }
           }
 
           pushToRoute(nextShortName, router);
           return;
         }
 
-        nextIndex += 1;
+        // This handles the edge case of the edit question not being skipped
+        // when going thru an edit flow.
+        if (editQuestion === nextShortName) {
+          setRouteMap([...localRoadMap, ROUTES?.[nextShortName]]);
+          pushToRoute(nextShortName, router);
+          return;
+        }
+
+        // Continue through the flow until you reach Review page or
+        // or you find a question without an answer.
+        if (
+          displayConditionsMet(nextShortName, formResponses) &&
+          !editMode &&
+          formResponses[nextShortName] &&
+          questionFlowChanged
+        ) {
+          if (formResponses[nextShortName]) {
+            localRoadMap.push(ROUTES?.[nextShortName]);
+          }
+          nextIndex += 1;
+        } else if (
+          displayConditionsMet(nextShortName, formResponses) &&
+          !editMode
+        ) {
+          if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
+            setRouteMap([...localRoadMap, ROUTES?.[nextShortName]]);
+          }
+
+          pushToRoute(nextShortName, router);
+          return;
+        } else {
+          nextIndex += 1;
+        }
       } else {
         // No entry in DISPLAY_CONDITIONS for next question
         printErrorMessage('Unable to determine next question to display');
