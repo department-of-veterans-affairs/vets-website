@@ -191,14 +191,13 @@ export const getLatestCopay = statements => {
 export const normalizeSubmissionStatus = apiStatusValue => {
   const value = apiStatusValue.toLowerCase();
   switch (value) {
-    case 'pending':
-    case 'uploaded':
-      return 'inProgress';
+    case 'vbms':
+      return 'received';
     case 'error':
     case 'expired':
       return 'actionNeeded';
     default:
-      return 'received';
+      return 'inProgress';
   }
 };
 

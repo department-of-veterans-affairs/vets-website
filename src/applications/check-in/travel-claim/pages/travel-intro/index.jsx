@@ -89,11 +89,8 @@ const TravelIntro = props => {
             </ExternalLink>
           </va-process-list-item>
         </va-process-list>
-        <va-summary-box class="vads-u-margin-bottom--1" uswds>
-          <h2
-            className="vads-u-font-size--h3 vads-u-margin-top--0"
-            slot="headline"
-          >
+        <va-alert class="vads-u-margin-bottom--1" uswds status="info" show-icon>
+          <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
             {t('set-up-direct-deposit')}
           </h2>
           <p>{t('set-up-direct-deposit-to-receive-travel-reimbursement')}</p>
@@ -105,7 +102,7 @@ const TravelIntro = props => {
           >
             {t('set-up-direct-deposit')}
           </ExternalLink>
-        </va-summary-box>
+        </va-alert>
       </Wrapper>
     </>
   );

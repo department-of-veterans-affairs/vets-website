@@ -117,6 +117,19 @@ const formsWithStatus = [
       updatedAt: STATUS_UPDATED_AT,
     },
   },
+  {
+    id: '3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80',
+    type: 'submission_status',
+    attributes: {
+      id: '3b03b5a0-3ad9-4207-b61e-3a13ed1c8b80',
+      detail: '',
+      formType: '22-1990',
+      message: null,
+      status: 'vbms',
+      createdAt: STATUS_CREATED_AT,
+      updatedAt: STATUS_UPDATED_AT,
+    },
+  },
 ];
 
 describe('ApplicationsInProgress component', () => {
@@ -379,13 +392,18 @@ describe('ApplicationsInProgress component', () => {
       );
 
       const receivedApplications = view.getAllByTestId('submitted-application');
-      expect(receivedApplications.length).to.equal(1);
-      expect(receivedApplications[0]).to.contain.text('Received');
+      expect(receivedApplications.length).to.equal(2);
+      expect(receivedApplications[0]).to.contain.text('Submission in Progress');
       expect(receivedApplications[0]).to.contain.text('VA Form 21-0845');
       expect(receivedApplications[0]).to.contain.text('Submitted on: ');
       expect(receivedApplications[0]).to.contain.text('December 15, 2023');
-      expect(receivedApplications[0]).to.contain.text('Received on: ');
-      expect(receivedApplications[0]).to.contain.text(
+
+      expect(receivedApplications[1]).to.contain.text('Received');
+      expect(receivedApplications[1]).to.contain.text('VA Form 22-1990');
+      expect(receivedApplications[1]).to.contain.text('Submitted on: ');
+      expect(receivedApplications[1]).to.contain.text('December 15, 2023');
+      expect(receivedApplications[1]).to.contain.text('Received on: ');
+      expect(receivedApplications[1]).to.contain.text(
         format(new Date(STATUS_UPDATED_AT), 'MMMM d, yyyy'),
       );
     });
