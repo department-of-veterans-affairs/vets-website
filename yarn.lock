@@ -2891,20 +2891,20 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.12":
-  version "11.0.12"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.12.tgz#9f06fd3f4bb006fa001e0bc54a1391932610ca60"
-  integrity sha512-GIMB56GYDP9PrZvefw7VWGoWZsOI7l3otEQLaoPP/z3AxzkORoDWkrSn5+yHiuST3z4BQfiA8fEKLOl1/jZJ0w==
+"@department-of-veterans-affairs/formation@11.0.14":
+  version "11.0.14"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/formation/-/formation-11.0.14.tgz#03a9dc55543726c473211466657f33a9793f61a2"
+  integrity sha512-CrnPZAS0m3fieCmdmcRl2hW9vdbkroIA041CpiIgq6qqPfZwpjQIZiQijNzmS2UDlRF+bFK5CziQJCbOJ4wneg==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
     element-closest "^3.0.1"
     foundation-sites "5"
 
-"@department-of-veterans-affairs/generator-vets-website@^3.10.0":
-  version "3.10.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.10.0.tgz#1a720e22b9250a7691c42d4f2fddebdd48452577"
-  integrity sha512-6+uOjLzCDfgMpEccwbeQ4E9vf8tJ7KebDGHvQ65jV3I9Or+Mor2EJUpDNz85szQfGqvlD+x8xeTRdF0oU1xMow==
+"@department-of-veterans-affairs/generator-vets-website@^3.11.0":
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/generator-vets-website/-/generator-vets-website-3.11.0.tgz#eafe0db79294d3a8c11f7b3537347b6809bb4233"
+  integrity sha512-fg3X6e3kOTzNNYpG5xTNYpdVnfizM+F9Z7kDn6y9DxhkQ0EIW548jbaVU6ijBpJsPArBw4b1HPG37Wa120zjNA==
   dependencies:
     chalk "^4.1.2"
     yeoman-generator "^5.6.1"
@@ -8826,8 +8826,8 @@ dommatrix@^1.0.3:
 
 domready@^1.0.8:
   version "1.0.8"
-  resolved "https://registry.npmjs.org/domready/-/domready-1.0.8.tgz"
-  integrity sha1-kfJS5Ze2Wvd+dFriTdAYXV4m1Yw=
+  resolved "https://registry.yarnpkg.com/domready/-/domready-1.0.8.tgz#91f252e597b65af77e745ae24dd0185d5e26d58c"
+  integrity sha512-uIzsOJUNk+AdGE9a6VDeessoMCzF8RrZvJCX/W8QtyfgdR6Uofn/MvRonih3OtCO79b2VDzDOymuiABrQ4z3XA==
 
 domutils@^1.5.1:
   version "1.5.1"
@@ -8972,7 +8972,7 @@ element-closest@^2.0.1:
 
 element-closest@^3.0.1:
   version "3.0.2"
-  resolved "https://registry.npmjs.org/element-closest/-/element-closest-3.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/element-closest/-/element-closest-3.0.2.tgz#3814a69a84f30e48e63eaf57341f4dbf4227d2aa"
   integrity sha512-JxKQiJKX0Zr5Q2/bCaTx8P+UbfyMET1OQd61qu5xQFeWr1km3fGaxelSJtnfT27XQ5Uoztn2yIyeamAc/VX13g==
 
 element-remove@^1.0.4:
