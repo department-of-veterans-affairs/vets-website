@@ -19,8 +19,8 @@ const path = !showIncomeAndAssetsClarification()
 
 /** @type {PageSchema} */
 export default {
-  title: path,
-  path: 'financial/total-net-worth',
+  title: 'Total net worth',
+  path,
   depends: () => !showIncomeAndAssetsClarification(),
   uiSchema: {
     ...titleUI(

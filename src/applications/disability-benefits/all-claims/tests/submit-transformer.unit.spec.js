@@ -5,20 +5,13 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import formConfig from '../config/form';
-import { CHAR_LIMITS, SHOW_REVISED_ADD_DISABILITIES_PAGE } from '../constants';
+import { CHAR_LIMITS } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
-  beforeEach(() => {
-    sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, false);
-  });
-  afterEach(() => {
-    sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
-  });
-
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
