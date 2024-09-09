@@ -14,9 +14,11 @@ import mockSubmission from '../fixtures/mocks/mock-submission.json';
 export const setupPerTest = () => {
   cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
   cy.intercept('POST', 'v0/form1010cg/attachments', mockUpload);
-  cy.intercept('GET', '/v1/facilities/va?*', mockFacilities).as(
-    'getFacilities',
-  );
+  cy.intercept(
+    'GET',
+    '/v0/health_care_applications/facilities?*',
+    mockFacilities,
+  ).as('getFacilities');
   cy.intercept('POST', '/v0/caregivers_assistance_claims', mockSubmission);
 };
 
@@ -42,13 +44,13 @@ export const pageHooks = {
   'veteran-information/va-medical-center/locator': ({ afterHook }) => {
     afterHook(() => {
       cy.fillPage();
-      cy.get('va-text-input')
+      cy.get('va-search-input')
         .shadow()
         .find('input')
-        .type('33880');
-      cy.get('[data-testid="caregivers-search-btn"]').click();
+        .type('43231');
+      cy.realPress('Enter');
       cy.wait('@getFacilities');
-      cy.get('#root_plannedClinic_plannedClinic')
+      cy.get('#root_facility_search_list')
         .should('be.visible')
         .first()
         .click();
