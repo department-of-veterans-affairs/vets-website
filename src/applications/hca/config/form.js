@@ -11,13 +11,16 @@ import { prefillTransformer, transform } from '../utils/helpers';
 import {
   isLoggedOut,
   isSigiEnabled,
+  isRegOnlyEnabled,
   isMissingVeteranDob,
   hasDifferentHomeAddress,
   hasLowDisabilityRating,
   hasNoCompensation,
   hasHighCompensation,
   notShortFormEligible,
+  includeRegOnlyAuthQuestions,
   includeRegOnlyGuestQuestions,
+  showRegOnlyAuthConfirmation,
   showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   includeTeraInformation,
@@ -37,13 +40,18 @@ import {
 import { SHARED_PATHS } from '../utils/constants';
 import migrations from './migrations';
 import manifest from '../manifest.json';
-import IdentityPage from '../containers/IdentityPage';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import SubmissionErrorAlert from '../components/FormAlerts/SubmissionErrorAlert';
 import DowntimeWarning from '../components/FormAlerts/DowntimeWarning';
 import PreSubmitNotice from '../components/PreSubmitNotice';
 import GetFormHelp from '../components/GetFormHelp';
+
+// Before you begin
+import IdentityPage from '../containers/IdentityPage';
+import PersonalInformationPage from '../containers/PersonalInformationPage';
+import AuthBenefitsPackagePage from '../containers/AuthBenefitsPackagePage';
+import AuthRegistrationOnlyPage from '../containers/AuthRegistrationOnlyPage';
 
 // chapter 1 Veteran Information
 import VeteranInformation from '../components/FormPages/VeteranInformation';
@@ -104,6 +112,7 @@ import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicare
 import general from './chapters/insuranceInformation/general';
 import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -152,6 +161,24 @@ const formConfig = {
       pageKey: 'id-form',
       depends: isLoggedOut,
     },
+    {
+      path: 'check-your-personal-information',
+      component: PersonalInformationPage,
+      pageKey: 'verify-personal-information',
+      depends: isRegOnlyEnabled,
+    },
+    {
+      path: 'va-benefits-package',
+      component: AuthBenefitsPackagePage,
+      pageKey: 'auth-va-benefits-package',
+      depends: includeRegOnlyAuthQuestions,
+    },
+    {
+      path: 'care-for-service-connected-conditions',
+      component: AuthRegistrationOnlyPage,
+      pageKey: 'auth-reg-only-confirmation',
+      depends: showRegOnlyAuthConfirmation,
+    },
   ],
   confirmation: ConfirmationPage,
   submissionError: SubmissionErrorAlert,
@@ -176,6 +203,7 @@ const formConfig = {
           CustomPageReview: null,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
+          depends: formData => !isRegOnlyEnabled(formData),
         },
         dobInformation: {
           path: 'veteran-information/profile-information-dob',
@@ -261,14 +289,14 @@ const formConfig = {
           schema: basicInformation.schema,
         },
         vaBenefitsPackage: {
-          path: 'va-benefits/select-benefits-package',
+          path: 'va-benefits/benefits-package',
           title: 'VA benefits package',
           depends: includeRegOnlyGuestQuestions,
           uiSchema: benefitsPackage.uiSchema,
           schema: benefitsPackage.schema,
         },
         vaRegOnlyConfirmation: {
-          path: 'va-benefits/care-for-service-connected-conditions',
+          path: 'va-benefits/service-connected-care',
           title: 'Care for service-connected conditions',
           initialData: {},
           depends: showRegOnlyGuestConfirmation,
@@ -530,6 +558,14 @@ const formConfig = {
           depends: collectMedicareInformation,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
+        },
+        insuranceIntro: {
+          path: 'insurance-information/your-health-insurance',
+          title: 'Your health insurance',
+          CustomPage: InsuranceInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         general: {
           path: 'insurance-information/general',
