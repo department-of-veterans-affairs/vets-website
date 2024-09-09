@@ -14,7 +14,7 @@ const HeaderLayout = ({
   showLearnMore = false,
 }) => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const goBackUrl = mhvUrl(ssoe, 'home');
+  const goBackUrl = mhvUrl(ssoe, 'download-my-data');
 
   const alertExpandableRef = useRef(null);
 

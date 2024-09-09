@@ -89,6 +89,37 @@ describe('waitForRenderThenFocus', async () => {
     });
   });
 
+  it('should immediately focus selector when time interval is zero', async () => {
+    const { container } = await render(
+      <ul>
+        <li>
+          <h3 id="first">Header 1</h3>
+        </li>
+        <li>
+          <h3 id="second">Header 2</h3>
+        </li>
+      </ul>,
+    );
+
+    waitForRenderThenFocus('#first', container, 0);
+    expect(document.activeElement.id).to.eq('first');
+  });
+
+  it('should focus on default selector if not found & when time interval is zero', async () => {
+    const { container } = await render(
+      <div className="nav-header">
+        <h2 id="first">Header 2</h2>
+        <h3 id="second">Header 3</h3>
+      </div>,
+    );
+
+    waitForRenderThenFocus('#third', container, 0);
+
+    await waitFor(() => {
+      expect(document.activeElement.id).to.eq('first');
+    });
+  });
+
   it('should keep existing focus', async () => {
     const { container } = await render(
       <ul>
@@ -102,7 +133,7 @@ describe('waitForRenderThenFocus', async () => {
     );
 
     focusElement('#second', {}, container);
-    waitForRenderThenFocus('#first', container, 0);
+    waitForRenderThenFocus('#first', container, 10);
 
     await waitFor(() => {
       expect(document.activeElement.id).to.eq('second');
