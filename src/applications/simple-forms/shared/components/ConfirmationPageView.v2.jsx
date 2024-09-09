@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -20,6 +21,50 @@ import {
 import { PropTypes } from 'prop-types';
 import GetFormHelp from './GetFormHelp';
 import { ChapterSectionCollection } from './confirmationPageViewHelpers';
+
+const PdfDownload = () => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(true);
+
+  // placeholder for now
+  const pdfDownloadUrl = '/';
+
+  // mock loading time until we have a real PDF to download
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <va-loading-indicator
+          label="Loading"
+          message="Generating your PDF. This may take a minute."
+        />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <va-alert slim status="error" visible>
+        Sorry, we’re unable to generate a PDF at this time. You can still review
+        and print the information you submitted in your form.
+      </va-alert>
+    );
+  }
+
+  return (
+    <va-link
+      download
+      filetype="PDF"
+      href={pdfDownloadUrl}
+      text="Download a copy of your VA Form"
+    />
+  );
+};
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
@@ -98,6 +143,7 @@ export const ConfirmationPageView = props => {
       <div className="screen-only">
         <h2>Save a copy of your form</h2>
         <p>If you’d like a copy of your completed form, you can download it.</p>
+        <PdfDownload />
         <VaAccordion bordered uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
