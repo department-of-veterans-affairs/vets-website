@@ -155,9 +155,10 @@ const PrescriptionDetailsDocumentation = () => {
     };
     await generateMedicationsPDF(
       'medications',
-      `medication-information-${prescription.prescriptionName}-${
-        userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+      `medication-information-${prescription.prescriptionName}-${dateFormat(
+        Date.now(),
+        'M-D-YYYY',
+      ).replace(/\./g, '')}`,
       setup,
     );
   };
