@@ -133,21 +133,21 @@ const TravelMileage = props => {
             <va-button
               uswds
               big
+              secondary
+              onClick={goToPreviousPage}
+              data-testid="back-button"
+              class="vads-u-margin-top--2"
+              value="back"
+              back
+            />
+            <va-button
+              uswds
+              big
               onClick={continueClick}
               continue
               data-testid="continue-button"
               class="vads-u-margin-top--2"
               value="continue"
-            />
-            <va-button
-              uswds
-              big
-              secondary
-              onClick={goToPreviousPage}
-              data-testid="back-button"
-              class="vads-u-margin-top--2 small-screen:vads-u-order--first"
-              value="back"
-              back
             />
           </div>
         </div>

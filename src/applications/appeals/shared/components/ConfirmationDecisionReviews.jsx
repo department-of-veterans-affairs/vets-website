@@ -14,9 +14,14 @@ import { renderFullName } from '../utils/data';
 import { parseDate } from '../utils/dates';
 import { FORMAT_READABLE_DATE_FNS } from '../constants';
 
+const defaultAlertContent =
+  'When we’ve completed our review, we’ll mail you a decision packet with the details of our decision.';
+
 export const ConfirmationDecisionReviews = ({
   pageTitle,
   alertTitle,
+  alertContent = defaultAlertContent,
+  appType = 'claim',
   children,
 }) => {
   const alertRef = useRef(null);
@@ -55,20 +60,19 @@ export const ConfirmationDecisionReviews = ({
 
       <va-alert status="success" ref={alertRef} uswds>
         <h2 slot="headline">{alertTitle}</h2>
-        <p>
-          When we’ve completed our review, we’ll mail you a decision packet with
-          the details of our decision.
-        </p>
+        <p>{alertContent}</p>
       </va-alert>
 
       <va-summary-box uswds class="vads-u-margin-top--2">
         <h3 slot="headline" className="vads-u-margin-top--0">
-          Your information for this claim
+          Your information for this {appType}
         </h3>
 
         <h4>Your name</h4>
         {renderFullName(name)}
-        {submitDate && <DateSubmitted submitDate={submitDate} />}
+        {submitDate && (
+          <DateSubmitted appType={appType} submitDate={submitDate} />
+        )}
         <IssuesSubmitted issues={issues} />
       </va-summary-box>
 
@@ -78,8 +82,10 @@ export const ConfirmationDecisionReviews = ({
 };
 
 ConfirmationDecisionReviews.propTypes = {
+  alertContent: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   alertDescription: PropTypes.element,
   alertTitle: PropTypes.string,
+  appType: PropTypes.string,
   children: PropTypes.array,
   form: PropTypes.shape({
     data: PropTypes.shape({}),
