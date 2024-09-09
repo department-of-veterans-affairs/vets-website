@@ -26,6 +26,10 @@ describe('MrBreadcrumbs component', () => {
           ],
         },
       },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_integration_medical_records_to_phase_1: true,
+      },
     };
 
     const screen = renderWithStoreAndRouter(<MrBreadcrumbs />, {

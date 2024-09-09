@@ -76,7 +76,7 @@ const MrBreadcrumbs = () => {
   };
 
   if (!phase0p5Flag) {
-    if (location.pathname === '/') {
+    if (location.pathname === '/' || !crumbsList) {
       return <div className="vads-u-padding-bottom--5" />;
     }
     return (
