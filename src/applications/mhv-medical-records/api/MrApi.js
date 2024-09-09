@@ -46,8 +46,9 @@ export const getMhvRadiologyTests = () => {
 };
 
 export const getMhvRadiologyDetails = async id => {
+  const numericId = +id.substring(1).split('-')[0];
   const response = await getMhvRadiologyTests();
-  let details = response.find(record => +record.id === +id.substring(1));
+  let details = response.find(record => +record.id === numericId);
   if (!details) {
     // If the underlying radiology ID has changed due to wipe-and-replace, use the hash to compare.
     const hashId = id.split('-')[1];
