@@ -5,191 +5,261 @@ import DetailsVA from '../DetailsVA';
 import { Facility } from '../../../../tests/mocks/unit-test-helpers';
 import { createTestStore } from '../../../../tests/mocks/setup';
 
-const appointmentData = {
-  start: '2024-07-19T08:00:00-07:00',
-  version: 2,
-  vaos: {
-    isCanceled: false,
-    appointmentType: 'vaAppointment',
-    isUpcomingAppointment: true,
-    isPastAppointment: false,
-    isCompAndPenAppointment: false,
-  },
-  videoData: {
-    isVideo: false,
-  },
-  location: {
-    vistaId: '983',
-    clinicId: '848',
-    stationId: '983',
-    clinicName: 'CHY PC VAR2',
-  },
-};
-
 const facilityData = new Facility();
 
 describe('VAOS Component: DetailsVA', () => {
   const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: false,
-    },
+    featureToggles: {},
   };
 
-  it('should not display type of care header for upcoming C&P appointments', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-      vaos: {
-        ...appointmentData.vaos,
-        isCompAndPenAppointment: true,
-        apiData: { serviceType: 'audiology' },
-      },
-    };
+  describe('When not canceling an appointment', () => {
+    it('should display comp and pension appointment layout', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: true,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          apiData: {
+            serviceCategory: [
+              {
+                text: 'COMPENSATION & PENSION',
+              },
+            ],
+          },
+        },
+        status: 'booked',
+      };
 
-    const props = { appointment, facilityData };
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
 
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /Claim exam/i,
+        }),
+      ).to.be.ok;
     });
 
-    expect(wrapper.queryByText(/Type of care:/i)).not.to.exist;
+    it('should display phone appointment layout', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isPhoneAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /Phone appointment/i,
+        }),
+      ).to.be.ok;
+    });
+
+    it('should display in-person appointment layout', async () => {
+      // Arrange
+      const store = createTestStore(initialState);
+      const appointment = {
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
+
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /In-person appointment/i,
+        }),
+      ).to.be.ok;
+    });
   });
 
-  it('should display type of care for past C&P appointments', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-      vaos: {
-        isUpcomingAppointment: true,
-        isPastAppointment: false,
-        isCompAndPenAppointment: true,
-        apiData: { serviceType: 'audiology' },
-      },
-    };
+  describe('When canceling an appointment', () => {
+    it('should display cancel warning page', async () => {
+      // Arrange
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
-    const props = { appointment, facilityData };
+      const store = createTestStore({
+        appointments: {
+          appointmentToCancel: null,
+          showCancelModal: true,
+          cancelAppointmentStatus: 'notStarted',
 
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
+          confirmed: [appointment],
+          appointmentDetails: {},
+        },
+      });
+
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /Would you like to cancel this appointment/i,
+        }),
+      ).to.be.ok;
     });
 
-    expect(
-      wrapper.getByText('Audiology and speech', {
-        exact: true,
-        selector: 'h2',
-      }),
-    ).to.exist;
-  });
+    it('should display cancel confirmation page', async () => {
+      // Arrange
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
-  it('should render StatusAlert', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-      vaos: {
-        isUpcomingAppointment: false,
-        isPastAppointment: true,
-      },
-    };
+      const store = createTestStore({
+        appointments: {
+          appointmentToCancel: null,
+          showCancelModal: true,
+          cancelAppointmentStatus: 'succeeded',
 
-    const props = { appointment, facilityData };
+          confirmed: [appointment],
+          appointmentDetails: {},
+        },
+      });
 
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 1,
+          name: /You have canceled your appointment/i,
+        }),
+      ).to.be.ok;
     });
 
-    // StatusAlert with past appointment
-    expect(await wrapper.findByText('This appointment occurred in the past.'))
-      .to.exist;
-  });
+    it('should display cancel alert page on failure', async () => {
+      // Arrange
+      const appointment = {
+        id: '1',
+        location: {},
+        videoData: {},
+        vaos: {
+          isCommunityCare: false,
+          isCompAndPenAppointment: false,
+          isCOVIDVaccine: false,
+          isPendingAppointment: false,
+          isUpcomingAppointment: true,
+          isCancellable: true,
+          apiData: {
+            serviceType: 'primaryCare',
+          },
+        },
+        status: 'booked',
+      };
 
-  it('should render VAFacilityLocation', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-    };
+      const store = createTestStore({
+        appointments: {
+          appointmentToCancel: null,
+          showCancelModal: true,
+          cancelAppointmentStatus: 'failed',
 
-    const props = { appointment, facilityData };
+          confirmed: [appointment],
+          appointmentDetails: {},
+        },
+      });
 
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
+      // Act
+      const props = { appointment, facilityData };
+      const screen = renderWithStoreAndRouter(<DetailsVA {...props} />, {
+        store,
+      });
+
+      // Assert
+      expect(
+        await screen.findByRole('heading', {
+          level: 2,
+          name: /We couldn.t cancel your appointment/i,
+        }),
+      ).to.be.ok;
     });
-
-    // VAFacilityLocation with upcoming appointment
-    expect(await wrapper.findByText('View facility information')).to.exist;
-  });
-
-  it('should render VAInstructions', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-      comment: 'Follow-up/Routine: I have a headache',
-    };
-
-    const props = { appointment, facilityData };
-
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
-    });
-
-    // VAInstructions with upcoming appointment
-    expect(await wrapper.findByText('Follow-up/Routine: I have a headache')).to
-      .exist;
-  });
-
-  it('should render CalendarLink', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-    };
-
-    const props = { appointment, facilityData };
-
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
-    });
-
-    // CalendarLink with upcoming appointment, it's a va-link web component
-    // so use data - testid to locate
-    expect(await wrapper.findByTestId('add-to-calendar-link')).to.exist;
-  });
-
-  it('should render NoOnlineCancelAlert', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-      vaos: {
-        ...appointmentData.vaos,
-        isCancellable: false,
-      },
-    };
-
-    const props = { appointment, facilityData };
-
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
-    });
-
-    // NoOnlineCancelAlert with upcoming appointment
-    expect(
-      await wrapper.findByText(
-        'To reschedule or cancel this appointment, contact the VA facility where you scheduled it.',
-      ),
-    ).to.exist;
-  });
-
-  it('should render PrintLink', async () => {
-    const store = createTestStore(initialState);
-    const appointment = {
-      ...appointmentData,
-    };
-
-    const props = { appointment, facilityData };
-
-    const wrapper = renderWithStoreAndRouter(<DetailsVA {...props} />, {
-      store,
-    });
-
-    // PrintLink with upcoming appointment
-    expect(await wrapper.findByText('Print')).to.exist;
   });
 });

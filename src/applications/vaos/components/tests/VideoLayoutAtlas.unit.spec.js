@@ -29,7 +29,6 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
@@ -311,7 +310,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /You will use this appointment code to find your appointment using the computer provided at the site:/i,
+          /You’ll use this appointment code to find your appointment using the computer provided at the site:/i,
         ),
       );
 
@@ -386,7 +385,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider/i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -698,7 +697,7 @@ describe('VAOS Component: VideoLayoutAtlas', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider/i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(

@@ -6,11 +6,7 @@ import moment from 'moment';
 import ErrorMessage from '../../../components/ErrorMessage';
 import FullWidthLayout from '../../../components/FullWidthLayout';
 import VideoLayout from '../../../components/layout/VideoLayout';
-import {
-  selectFeatureAppointmentDetailsRedesign,
-  selectFeatureBreadcrumbUrlUpdate,
-  selectFeatureVaosV2Next,
-} from '../../../redux/selectors';
+import { selectFeatureBreadcrumbUrlUpdate } from '../../../redux/selectors';
 import {
   isAtlasVideoAppointment,
   isClinicVideoAppointment,
@@ -25,11 +21,9 @@ import {
   selectIsInPerson,
   selectIsPast,
 } from '../../redux/selectors';
-import CancelAppointmentModal from '../cancel/CancelAppointmentModal';
 import PageLayout from '../PageLayout';
-import DetailsCC from './DetailsCC';
 import DetailsVA from './DetailsVA';
-import DetailsVideo from './DetailsVideo';
+import CCLayout from '../../../components/layout/CCLayout';
 
 export default function ConfirmedAppointmentDetailsPage() {
   const dispatch = useDispatch();
@@ -45,12 +39,6 @@ export default function ConfirmedAppointmentDetailsPage() {
   );
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
-  );
-  const featureVaosV2Next = useSelector(state =>
-    selectFeatureVaosV2Next(state),
-  );
-  const featureAppointmentDetailsRedesign = useSelector(
-    selectFeatureAppointmentDetailsRedesign,
   );
   const isInPerson = selectIsInPerson(appointment);
   const isPast = selectIsPast(appointment);
@@ -166,36 +154,8 @@ export default function ConfirmedAppointmentDetailsPage() {
     );
   }
 
-  if (featureAppointmentDetailsRedesign) {
-    return (
-      <PageLayout isDetailPage showNeedHelp>
-        {isVA && (
-          <DetailsVA
-            appointment={appointment}
-            facilityData={facilityData}
-            useV2={useV2}
-          />
-        )}
-        {isCommunityCare && (
-          <DetailsCC
-            appointment={appointment}
-            useV2={useV2}
-            featureVaosV2Next={featureVaosV2Next}
-          />
-        )}
-        {isVideo && <VideoLayout data={appointment} />}
-      </PageLayout>
-    );
-  }
-
   return (
-    <PageLayout
-      isDetailPage={featureAppointmentDetailsRedesign}
-      showNeedHelp={featureAppointmentDetailsRedesign}
-    >
-      {isVideo && (
-        <DetailsVideo appointment={appointment} facilityData={facilityData} />
-      )}
+    <PageLayout isDetailPage showNeedHelp>
       {isVA && (
         <DetailsVA
           appointment={appointment}
@@ -203,14 +163,8 @@ export default function ConfirmedAppointmentDetailsPage() {
           useV2={useV2}
         />
       )}
-      {isCommunityCare && (
-        <DetailsCC
-          appointment={appointment}
-          useV2={useV2}
-          featureVaosV2Next={featureVaosV2Next}
-        />
-      )}
-      <CancelAppointmentModal />
+      {isCommunityCare && <CCLayout data={appointment} />}
+      {isVideo && <VideoLayout data={appointment} />}
     </PageLayout>
   );
 }

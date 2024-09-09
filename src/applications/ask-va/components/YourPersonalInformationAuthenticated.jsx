@@ -1,20 +1,16 @@
 import format from 'date-fns/format';
-import { setData } from 'platform/forms-system/src/js/actions';
 import { focusElement } from 'platform/utilities/ui';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
-// import prefillTransformer from '../config/prefill-transformer';
 
 const PersonalAuthenticatedInformation = ({
   goBack,
   goForward,
-  // setFormData,
   formData,
   isLoggedIn,
 }) => {
-  // const prefillData = prefillTransformer();
   if (!isLoggedIn) {
     goForward(formData);
   }
@@ -37,14 +33,12 @@ const PersonalAuthenticatedInformation = ({
     ssnLastFour = ssn.substr(ssn.length - 4);
   }
 
-  useEffect(() => {
-    focusElement('h2');
-    // if (!formData.aboutYourself.first) {
-    //   setFormData({
-    //     ...prefillData.formData,
-    //   });
-    // }
-  }, []);
+  useEffect(
+    () => {
+      focusElement('h2');
+    },
+    [formData.aboutYourself],
+  );
 
   return (
     <>
@@ -99,11 +93,4 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = {
-  setFormData: setData,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(PersonalAuthenticatedInformation);
+export default connect(mapStateToProps)(PersonalAuthenticatedInformation);

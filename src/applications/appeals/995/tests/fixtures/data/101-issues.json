@@ -35,7 +35,7 @@
       {
         "issue": "issue 00",
         "decisionDate": "2022-06-07",
-        "view:selected": true
+        "view:selected": false
       },
       {
         "issue": "issue 01",
@@ -535,7 +535,7 @@
       {
         "issue": "issue 100",
         "decisionDate": "2023-6-7",
-        "view:selected": false
+        "view:selected": true
       }
     ],
     "locations": [
