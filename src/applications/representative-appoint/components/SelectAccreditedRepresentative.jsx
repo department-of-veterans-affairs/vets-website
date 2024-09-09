@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import PropTypes from 'prop-types';
 import {
   VaButton,
@@ -7,7 +8,7 @@ import {
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import SearchResult from './SearchResult';
 
-const SelectAccreditedRepresentative = () => {
+const SelectAccreditedRepresentative = ({ formData, setFormData }) => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -68,7 +69,10 @@ const SelectAccreditedRepresentative = () => {
                 zipCode={representative.attributes.zipCode}
                 phone={representative.attributes.phone}
                 email={representative.attributes.email}
+                representative={representative}
                 representativeId={representative.id}
+                formData={formData}
+                setFormData={setFormData}
               />
             );
           })}
