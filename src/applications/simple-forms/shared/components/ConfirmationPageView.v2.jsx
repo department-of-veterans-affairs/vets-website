@@ -8,6 +8,8 @@ import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
+  VaProcessList,
+  VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   createPageListByChapter,
@@ -133,6 +135,29 @@ export const ConfirmationPageView = props => {
           onClick={onPrintPageClick}
           text="Print this page for your records"
         />
+      </div>
+      <div>
+        <h2>What to expect next</h2>
+        <VaProcessList>
+          <VaProcessListItem
+            header="We’ll confirm that we’ve received your form"
+            active
+          >
+            <p>
+              This can take up to 10 days. When we receive your form, we’ll
+              update the status on My VA.
+            </p>
+            <p>
+              <a href="/my-va">Check the status of your form on My VA</a>
+            </p>
+          </VaProcessListItem>
+          <VaProcessListItem header="We’ll review your form">
+            <p>
+              If we need more information after reviewing your form, we’ll
+              contact you.
+            </p>
+          </VaProcessListItem>
+        </VaProcessList>
       </div>
       <div className="vads-u-margin-bottom--6">
         <h2 className="vads-u-font-size--h2 vads-u-font-family--serif">
