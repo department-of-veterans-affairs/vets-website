@@ -1,10 +1,10 @@
-import * as h from './helpers';
-import { ROUTES } from '../../../constants';
-import { SHORT_NAME_MAP } from '../../../constants/question-data-map';
+import * as h from '../helpers';
+import { ROUTES } from '../../../../constants';
+import { SHORT_NAME_MAP } from '../../../../constants/question-data-map';
 
-xdescribe('Discharge Upgrade Wizard', () => {
+xdescribe('Discharge Upgrade Wizard: Discharge Unjust Flow', () => {
   describe('Base navigation', () => {
-    it('navigates through the flow forward successfully', () => {
+    it('Flow 1: Navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
@@ -37,7 +37,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 3);
+      h.selectRadio(h.REASON_INPUT, 6);
       h.clickContinue();
 
       // INTENTION
@@ -53,11 +53,6 @@ xdescribe('Discharge Upgrade Wizard', () => {
       // PREVIOUS_APPLICATION
       h.verifyUrl(ROUTES.PREV_APPLICATION);
       h.selectRadio(h.PREV_APPLICATION_INPUT, 0);
-      h.clickContinue();
-
-      // PREVIOUS_APPLICATION_YEAR
-      h.verifyUrl(ROUTES.PREV_APPLICATION_YEAR);
-      h.selectRadio(h.PREV_APPLICATION_YEAR_INPUT, 1);
       h.clickContinue();
 
       // PREVIOUS_APPLICATION_TYPE
@@ -78,9 +73,9 @@ xdescribe('Discharge Upgrade Wizard', () => {
       // REVIEW
       h.verifyUrl(ROUTES.REVIEW);
     });
-  });
-  describe('Forward and Backward navigation', () => {
-    it('navigates through the flow forward/backward successfully', () => {
+
+    // Skips failure to exhaust question
+    it('Flow 2: Navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
@@ -113,7 +108,7 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 3);
+      h.selectRadio(h.REASON_INPUT, 6);
       h.clickContinue();
 
       // INTENTION
@@ -131,19 +126,9 @@ xdescribe('Discharge Upgrade Wizard', () => {
       h.selectRadio(h.PREV_APPLICATION_INPUT, 0);
       h.clickContinue();
 
-      // PREVIOUS_APPLICATION_YEAR
-      h.verifyUrl(ROUTES.PREV_APPLICATION_YEAR);
-      h.selectRadio(h.PREV_APPLICATION_YEAR_INPUT, 1);
-      h.clickContinue();
-
       // PREVIOUS_APPLICATION_TYPE
       h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
-      h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
-      h.clickContinue();
-
-      // FAILURE_TO_EXHAUST
-      h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
-      h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
+      h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 0);
       h.clickContinue();
 
       // PRIOR_SERVICE
@@ -153,57 +138,10 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // REVIEW
       h.verifyUrl(ROUTES.REVIEW);
-      h.clickBack();
-
-      // PRIOR_SERVICE
-      h.verifyUrl(ROUTES.PRIOR_SERVICE);
-      h.clickBack();
-
-      // FAILURE_TO_EXHAUST
-      h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
-      h.clickBack();
-
-      // PREVIOUS_APPLICATION_TYPE
-      h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
-      h.clickBack();
-
-      // PREVIOUS_APPLICATION_YEAR
-      h.verifyUrl(ROUTES.PREV_APPLICATION_YEAR);
-      h.clickBack();
-
-      // PREVIOUS_APPLICATION
-      h.verifyUrl(ROUTES.PREV_APPLICATION);
-      h.clickBack();
-
-      // COURT_MARTIAL
-      h.verifyUrl(ROUTES.COURT_MARTIAL);
-      h.clickBack();
-
-      // INTENTION
-      h.verifyUrl(ROUTES.INTENTION);
-      h.clickBack();
-
-      // DISCHARGE_REASON
-      h.verifyUrl(ROUTES.REASON);
-      h.clickBack();
-
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.clickBack();
-
-      // DISCHARGE_YEAR
-      h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.clickBack();
-
-      // SERVICE_BRANCH
-      h.verifyUrl(ROUTES.SERVICE_BRANCH);
-      h.clickBack();
-
-      // Home
-      h.verifyUrl(ROUTES.HOME);
     });
 
-    it('navigates through the flow forward/backward successfully with changed answers for Reason question', () => {
+    // Skips prev app type and failure to exhaust question
+    it('Flow 3: Navigates through the flow forward successfully', () => {
       cy.visit(`${h.ROOT}/introduction1`);
 
       // Home
@@ -236,58 +174,31 @@ xdescribe('Discharge Upgrade Wizard', () => {
 
       // DISCHARGE_REASON
       h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 0);
+      h.selectRadio(h.REASON_INPUT, 6);
       h.clickContinue();
 
       // INTENTION
       h.verifyUrl(ROUTES.INTENTION);
-      h.clickBack();
-
-      // DISCHARGE_REASON
-      h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 2);
-      h.clickContinue();
-
-      // DISCHARGE_TYPE
-      h.verifyUrl(ROUTES.DISCHARGE_TYPE);
-      h.clickBack();
-
-      // DISCHARGE_REASON
-      h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 4);
+      h.selectRadio(h.INTENTION_INPUT, 1);
       h.clickContinue();
 
       // COURT_MARTIAL
       h.verifyUrl(ROUTES.COURT_MARTIAL);
-      h.clickBack();
-
-      // DISCHARGE_REASON
-      h.verifyUrl(ROUTES.REASON);
-      h.selectRadio(h.REASON_INPUT, 5);
+      h.selectRadio(h.COURT_MARTIAL_INPUT, 1);
       h.clickContinue();
 
-      // PREV_APPLICATION_TYPE
-      h.verifyUrl(ROUTES.PREV_APPLICATION_TYPE);
-      h.clickBack();
+      // PREVIOUS_APPLICATION
+      h.verifyUrl(ROUTES.PREV_APPLICATION);
+      h.selectRadio(h.PREV_APPLICATION_INPUT, 1);
+      h.clickContinue();
 
-      // DISCHARGE_REASON
-      h.verifyUrl(ROUTES.REASON);
-      h.clickBack();
+      // PRIOR_SERVICE
+      h.verifyUrl(ROUTES.PRIOR_SERVICE);
+      h.selectRadio(h.PRIOR_SERVICE_INPUT, 1);
+      h.clickContinue();
 
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.clickBack();
-
-      // DISCHARGE_YEAR
-      h.verifyUrl(ROUTES.DISCHARGE_YEAR);
-      h.clickBack();
-
-      // SERVICE_BRANCH
-      h.verifyUrl(ROUTES.SERVICE_BRANCH);
-      h.clickBack();
-
-      // Home
-      h.verifyUrl(ROUTES.HOME);
+      // REVIEW
+      h.verifyUrl(ROUTES.REVIEW);
     });
   });
 });
