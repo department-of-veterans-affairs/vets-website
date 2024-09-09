@@ -76,12 +76,12 @@ const formConfig = {
       title: 'Name and date of birth',
       pages: {
         page1: {
-          path: 'veteran-info',
+          path: 'veteran-information',
           title: 'Personal Information',
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
           schema: {
             type: 'object',
@@ -208,7 +208,7 @@ const formConfig = {
       title: 'Contact Information',
       pages: {
         page5: {
-          path: 'contact-info',
+          path: 'contact-information',
           title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
