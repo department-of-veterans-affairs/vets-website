@@ -17,7 +17,7 @@ import householdAssetsChapter from './chapters/householdAssetsChapter';
 import householdExpensesChapter from './chapters/householdExpensesChapter';
 import resolutionOptionsChapter from './chapters/resolutionOptionsChapter';
 import bankruptcyAttestationChapter from './chapters/bankruptcyAttestationChapter';
-import reviewErrors from '../constants/reviewErrors';
+import reviewErrors from '../utils/reviewErrors';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
