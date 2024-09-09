@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import {
   VaButton,
   VaTextInput,
@@ -8,17 +9,12 @@ import {
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import SearchResult from './SearchResult';
 
-const SelectAccreditedRepresentative = ({ formData, setFormData }) => {
+const SelectAccreditedRepresentative = props => {
+  const { setFormData, formData, router, routes, location } = props;
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [representatives, setRepresentatives] = useState([]);
-
-  // const listProps = useMemo(() => ({ ...props, representatives, query }), [
-  //   representatives,
-  //   props,
-  //   query,
-  // ]);
 
   const handleChange = e => {
     setQuery(e.target.value);
@@ -42,6 +38,13 @@ const SelectAccreditedRepresentative = ({ formData, setFormData }) => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const goForward = () => {
+    const { pageList } = routes[1];
+    const { pathname } = location;
+    const nextPagePath = getNextPagePath(pageList, formData, pathname);
+    router.push(nextPagePath);
   };
 
   const searchResults = () => {
@@ -73,6 +76,7 @@ const SelectAccreditedRepresentative = ({ formData, setFormData }) => {
                 representativeId={representative.id}
                 formData={formData}
                 setFormData={setFormData}
+                goForward={goForward}
               />
             );
           })}
@@ -114,4 +118,4 @@ SelectAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
 };
 
-export default SelectAccreditedRepresentative;
+export default withRouter(SelectAccreditedRepresentative);

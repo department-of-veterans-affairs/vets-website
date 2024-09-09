@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { connect } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parsePhoneNumber } from '../utilities/helpers';
 
@@ -21,6 +23,7 @@ const SearchResult = ({
   query,
   formData,
   setFormData,
+  goForward,
 }) => {
   const { contact, extension } = parsePhoneNumber(phone);
 
@@ -42,11 +45,13 @@ const SearchResult = ({
     // pending analytics event
   };
 
-  const handleClick = async selectedRepResult => {
+  const handleSelect = async selectedRepResult => {
     setFormData({
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
     });
+
+    goForward();
   };
 
   return (
@@ -148,7 +153,7 @@ const SearchResult = ({
         <VaButton
           data-testid="representative-search-btn"
           text="Select"
-          onClick={() => handleClick(representative)}
+          onClick={() => handleSelect(representative)}
         />
       </div>
     </va-card>
@@ -172,4 +177,11 @@ SearchResult.propTypes = {
   setFormData: PropTypes.func.isRequired,
 };
 
-export default SearchResult;
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SearchResult);
