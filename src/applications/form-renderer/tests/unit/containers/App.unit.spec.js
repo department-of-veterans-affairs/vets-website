@@ -52,7 +52,6 @@ describe('<App /> component', () => {
 describe('<App /> integration', () => {
   const rootReducer = combineReducers({
     formLoad: reducer.formLoad,
-    ombInfo: reducer.ombInfo,
   });
 
   beforeEach(() => {
