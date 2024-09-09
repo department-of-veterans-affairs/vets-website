@@ -85,6 +85,7 @@ export default function ArrayBuilderSummaryPage({
   maxItems,
   nounPlural,
   nounSingular,
+  summaryDescription,
   required,
   titleHeaderLevel = '3',
 }) {
@@ -421,6 +422,8 @@ export default function ArrayBuilderSummaryPage({
       uiSchema['ui:title'] = (
         <>
           {Title}
+          {/* {summaryDescription && <p>{getText('summaryDescription', summaryDescription)}</p>} */}
+          {summaryDescription && <p>{summaryDescription}</p>}
           {isMaxItemsReached && (
             <MaxItemsAlert>
               {getText('alertMaxItems', updatedItemData)}
