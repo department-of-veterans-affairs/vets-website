@@ -117,6 +117,13 @@ class ContactListPage {
       .find(`a[href*="contact"]`)
       .should(`be.visible`)
       .and('have.text', Data.CL_LINK_TEXT);
+
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .click({ force: true });
+
+    cy.contains(`Delete draft`).click({ force: true });
+    cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
   };
 }
 
