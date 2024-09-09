@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { setDocumentTitle } from '../utils/helpers';
+
+export const setDocumentTitle = title => {
+  document.title = `${title} | Veterans Affairs`;
+};
 
 const useHeaderPageTitle = location => {
   useEffect(
