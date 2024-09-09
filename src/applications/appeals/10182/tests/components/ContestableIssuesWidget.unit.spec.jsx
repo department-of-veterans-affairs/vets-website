@@ -53,7 +53,6 @@ describe('<ContestableIssuesWidget>', () => {
         setFormData,
         getContestableIssues,
         contestableIssues: { issues: contestedIssues, status: apiLoadStatus },
-        showPart3: true,
       },
       mockStore: {
         getState: () => ({
@@ -67,13 +66,6 @@ describe('<ContestableIssuesWidget>', () => {
           contestableIssues: {
             status: apiLoadStatus,
           },
-          featureToggles: [
-            {
-              loading: false,
-              // eslint-disable-next-line camelcase
-              nod_part3_update: true,
-            },
-          ],
         }),
         subscribe: () => {},
         dispatch: () => ({

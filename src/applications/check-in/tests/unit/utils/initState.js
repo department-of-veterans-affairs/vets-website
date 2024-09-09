@@ -30,6 +30,14 @@ const createStore = ({
       clinicName: 'Green Team Clinic1',
     },
   ],
+  upcomingAppointments = [
+    {
+      clinicPhone: '555-867-5309',
+      startTime: '2021-07-19T13:56:31',
+      facilityName: 'Acme VA',
+      clinicName: 'Green Team Clinic1',
+    },
+  ],
   veteranData = {},
   formPages = ['first-page', 'second-page', 'third-page', 'fourth-page'],
   features = {},
@@ -37,7 +45,10 @@ const createStore = ({
   seeStaffMessage = null,
   eligibleToFile = null,
   alreadyFiled = null,
-  facilitiesToFile = null,
+  appointmentToFile = null,
+  token = 'some-token',
+  additionalContext = {},
+  activeAppointmentId = null,
 } = {}) => {
   const middleware = [];
   const mockStore = configureStore(middleware);
@@ -45,9 +56,10 @@ const createStore = ({
     checkInData: {
       app,
       context: {
-        token: 'some-token',
         eligibleToFile,
         alreadyFiled,
+        token,
+        ...additionalContext,
       },
       form: {
         pages: formPages,
@@ -60,10 +72,12 @@ const createStore = ({
           'travel-mileage': travelMileage,
           'travel-vehicle': travelVehicle,
           'travel-review': travelReview,
-          facilitiesToFile,
+          appointmentToFile,
+          activeAppointmentId,
         },
       },
       appointments,
+      upcomingAppointments,
       veteranData,
       error,
       seeStaffMessage,

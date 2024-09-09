@@ -1,37 +1,44 @@
 import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
+  signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
   isLoggedIn,
   selectProfile,
+  isLOA1,
   isLOA3,
   isInMPI,
+  isProfileLoading,
+  isVAPatient,
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { isLandingPageEnabled, personalizationEnabled } from './featureToggles';
-import { isLandingPageEnabledForUser } from './isLandingPageEnabledForUser';
-import { hasHealthData } from './hasHealthData';
-import { selectHasMHVAccountState } from './hasMHVAccountState';
+import { personalizationEnabled } from './featureToggles';
+import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
-  hasHealthData,
+  hasMhvAccount,
+  hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isInMPI,
-  isLandingPageEnabled,
-  isLandingPageEnabledForUser,
+  isLOA1,
   isLOA3,
   isLoggedIn,
+  isProfileLoading,
+  isVAPatient,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  selectHasMHVAccountState,
+  signInServiceName,
+  showVerifyAndRegisterAlert,
 };

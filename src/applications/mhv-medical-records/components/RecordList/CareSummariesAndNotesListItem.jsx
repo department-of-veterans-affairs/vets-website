@@ -1,53 +1,81 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { loincCodes } from '../../util/constants';
+import { loincCodes, dischargeSummarySortFields } from '../../util/constants';
 
 const CareSummariesAndNotesListItem = props => {
   const { record } = props;
   const isDischargeSummary = record.type === loincCodes.DISCHARGE_SUMMARY;
 
+  const admDate = dischargeSummarySortFields.ADMISSION_DATE;
+  const disDate = dischargeSummarySortFields.DISCHARGE_DATE;
+  const entDate = dischargeSummarySortFields.DATE_ENTERED;
+  const fieldMappings = {
+    [disDate]: { label: 'discharged', dateProperty: 'dischargeDate' },
+    [entDate]: { label: 'entered', dateProperty: 'dateEntered' },
+    [admDate]: { label: 'admitted', dateProperty: 'admissionDate' },
+  };
+
+  const dsDisplayDate = note => {
+    const field = fieldMappings[note.sortByField] || fieldMappings[admDate];
+    return note[field.dateProperty];
+  };
+
+  const dischargeSummaryDateField = note => {
+    const field = fieldMappings[note.sortByField] || fieldMappings[admDate];
+    const dateLabel = field.label;
+    const dateValue = note[field.dateProperty];
+
+    return (
+      <>
+        <span className="vads-u-display--inline">Date {dateLabel}: </span>
+        <span className="vads-u-display--inline" data-dd-privacy="mask">
+          {dateValue}
+        </span>
+      </>
+    );
+  };
+
   return (
     <va-card
       background
-      class="record-list-item vads-u-margin-y--2p5"
+      class="record-list-item vads-u-margin-y--2p5 vads-u-padding-x--3"
       data-testid="record-list-item"
     >
       {/* web view header */}
-      <h3 className="vads-u-font-size--h4 vads-u-line-height--4 vads-u-margin-bottom--0p5 no-print">
-        <Link to={`/summaries-and-notes/${record.id}`} data-dd-privacy="mask">
-          <span>
-            {record.name}
-            <span className="sr-only">
-              on {isDischargeSummary ? record.admissionDate : record.dateSigned}
-            </span>
+      <Link to={`/summaries-and-notes/${record.id}`} data-dd-privacy="mask">
+        <span className="vads-u-font-weight--bold vads-u-margin-y--1 vads-u-line-height--4 no-print">
+          {record.name}
+          <span className="sr-only" data-testid="sr-note-date">
+            on {isDischargeSummary ? dsDisplayDate(record) : record.date}
           </span>
-        </Link>
-      </h3>
+        </span>
+      </Link>
 
       {/* print view header */}
       <h3
-        className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        className="vads-u-font-size--h5 vads-u-line-height--4 print-only"
         data-dd-privacy="mask"
       >
         {record.name}
       </h3>
 
-      <div>
-        {isDischargeSummary && (
-          <span className="vads-u-display--inline">Admitted on </span>
+      {/* fields */}
+      <div data-testid="note-item-date">
+        {isDischargeSummary && dischargeSummaryDateField(record)}
+        {!isDischargeSummary && (
+          <span className="vads-u-display--inline" data-dd-privacy="mask">
+            Date entered: {record.date}
+          </span>
         )}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.admissionDate : record.dateSigned}
-        </span>
       </div>
       <div data-dd-privacy="mask">{record.location}</div>
       <div>
         <span className="vads-u-display--inline">
-          {isDischargeSummary ? 'Discharged by ' : 'Signed by '}
+          {isDischargeSummary ? 'Discharged by ' : 'Written by '}
         </span>
         <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {isDischargeSummary ? record.dischargedBy : record.signedBy}
+          {isDischargeSummary ? record.dischargedBy : record.writtenBy}
         </span>
       </div>
     </va-card>

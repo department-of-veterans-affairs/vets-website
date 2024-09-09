@@ -1,6 +1,6 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import PropType from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import DeleteDraftModal from '../Modals/DeleteDraftModal';
@@ -8,43 +8,75 @@ import {
   ALERT_TYPE_SUCCESS,
   Alerts,
   DefaultFolders,
+  ErrorMessages,
+  Paths,
 } from '../../util/constants';
-import { navigateToFolderByFolderId } from '../../util/helpers';
+import {
+  navigateToFolderByFolderId,
+  setUnsavedNavigationError,
+} from '../../util/helpers';
 import { addAlert } from '../../actions/alerts';
 import { deleteDraft } from '../../actions/draftDetails';
 
 const DeleteDraft = props => {
   const history = useHistory();
+  const location = useLocation();
   const dispatch = useDispatch();
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const deleteDraftButtonRef = useRef();
   const activeFolder = useSelector(state => state.sm.folders.folder);
-
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const {
     cannotReply,
     draftId,
     draftsCount,
+    draftBody,
     formPopulated,
     navigationError,
     refreshThreadCallback,
-    setDeleteButtonClicked,
     setNavigationError,
-    setUnsavedNavigationError,
     messageBody,
+    draftSequence,
+    setHideDraft,
+    setIsEditing,
+    savedComposeDraft,
   } = props;
 
-  const savedDraft = draftId;
-  const savedReplyDraft = !!savedDraft === true && formPopulated === undefined;
-  const unsavedReplyDraft = draftId === null;
-  const unsavedNewDraft = draftId === undefined;
-  const inProgressReplyDraft =
-    messageBody !== '' && !!unsavedReplyDraft === true;
-  const blankReplyDraft =
-    unsavedReplyDraft && formPopulated === undefined && messageBody === '';
-  const editableDraft = !!savedDraft === true && formPopulated === true;
-  const newMessageNavErr = unsavedNewDraft && navigationError !== null;
-  const blankNewMessage =
-    (unsavedNewDraft || unsavedReplyDraft) && navigationError === null;
+  const showIcon = useState(!!cannotReply);
+
+  // Navigation props
+  const savedDraft = useMemo(() => draftId, [draftId]);
+
+  const unsavedDraft = useMemo(() => draftId === undefined, [draftId]);
+
+  const savedReplyDraft = useMemo(
+    () => !!savedDraft && formPopulated === undefined,
+    [savedDraft, formPopulated],
+  );
+
+  const blankReplyDraft = useMemo(
+    () => draftBody === undefined && messageBody === '',
+    [draftBody, messageBody],
+  );
+
+  const inProgressReplyDraft = useMemo(
+    () => !blankReplyDraft && messageBody !== draftBody,
+    [blankReplyDraft, messageBody, draftBody],
+  );
+
+  const editableDraft = useMemo(() => !!savedDraft && formPopulated === true, [
+    savedDraft,
+    formPopulated,
+  ]);
+
+  const newMessageNavErr = useMemo(
+    () => unsavedDraft && navigationError !== null,
+    [unsavedDraft, navigationError],
+  );
+
+  const unsavedNewDraftMsg = useMemo(
+    () => draftId === undefined && navigationError === null,
+    [draftId, navigationError],
+  );
 
   const unsavedDeleteSuccessful = () =>
     dispatch(
@@ -57,29 +89,46 @@ const DeleteDraft = props => {
       setIsModalVisible(false);
       dispatch(deleteDraft(draftId)).then(() => {
         if (draftsCount === 1) {
-          navigateToFolderByFolderId(
-            activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
-            history,
-          );
+          const { pathname } = location;
+          const defaultFolderId = activeFolder
+            ? activeFolder.folderId
+            : DefaultFolders.DRAFTS.id;
+
+          if (pathname.includes('/new-message')) {
+            navigateToFolderByFolderId(
+              activeFolder ? activeFolder.folderId : DefaultFolders.DRAFTS.id,
+              history,
+            );
+          }
+
+          if (pathname.includes(Paths.REPLY)) {
+            history.goBack();
+          } else if (pathname.includes(Paths.MESSAGE_THREAD + draftId)) {
+            navigateToFolderByFolderId(defaultFolderId, history);
+          } else if (pathname.includes(Paths.MESSAGE_THREAD)) {
+            setIsEditing(false);
+            setHideDraft(true);
+          }
         } else {
           refreshThreadCallback();
         }
       });
     }
 
-    if (unsavedNewDraft || unsavedReplyDraft) {
+    if (unsavedDraft) {
       setIsModalVisible(false);
       unsavedDeleteSuccessful();
-      navigateToFolderByFolderId(
-        activeFolder ? activeFolder.folderId : DefaultFolders.INBOX.id,
-        history,
-      );
+      history.goBack();
     }
   };
 
   const handleDeleteModalClose = () => {
-    if (blankNewMessage) {
-      setUnsavedNavigationError('no attachments and navigating away');
+    if (unsavedNewDraftMsg) {
+      setUnsavedNavigationError(
+        ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+        setNavigationError,
+        ErrorMessages,
+      );
     }
     setIsModalVisible(false);
     focusElement(deleteDraftButtonRef.current);
@@ -90,46 +139,37 @@ const DeleteDraft = props => {
       {/* TODO add GA event */}
       <button
         type="button"
-        id="delete-draft-button"
+        id={`delete-draft-button${draftSequence ? `-${draftSequence}` : ''}`}
         ref={deleteDraftButtonRef}
-        className={`usa-button usa-button-${
-          cannotReply
-            ? 'primary vads-u-padding-x--4'
-            : 'secondary vads-u-flex--1'
-        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5`}
-        data-testid="delete-draft-button"
+        className={`usa-button usa-button-secondary ${
+          cannotReply ? 'vads-u-padding-x--4' : 'vads-u-flex--1'
+        } delete-draft-button vads-u-margin-top--0 vads-u-margin-right--0 vads-u-margin-bottom--0 vads-u-padding-x--0p5 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center`}
+        data-testid={`delete-draft-button${
+          draftSequence ? `-${draftSequence}` : ''
+        }`}
         onClick={() => {
           if (
             newMessageNavErr ||
             editableDraft ||
             savedReplyDraft ||
-            inProgressReplyDraft
+            inProgressReplyDraft ||
+            savedComposeDraft
           ) {
             setIsModalVisible(true);
-            setDeleteButtonClicked(true);
             setNavigationError(null);
           }
-          if (blankReplyDraft) {
+          if (blankReplyDraft || unsavedNewDraftMsg) {
             unsavedDeleteSuccessful();
-            navigateToFolderByFolderId(
-              activeFolder ? activeFolder.folderId : DefaultFolders.SENT.id,
-              history,
-            );
-          }
-          if (blankNewMessage) {
-            unsavedDeleteSuccessful();
-            navigateToFolderByFolderId(
-              activeFolder ? activeFolder.folderId : DefaultFolders.INBOX.id,
-              history,
-            );
+            history.goBack();
           }
         }}
       >
-        <i className="fas fa-trash-alt" aria-hidden="true" />
-        Delete draft
+        {showIcon && <va-icon icon="delete" aria-hidden="true" />}
+        Delete draft {draftSequence && `${draftSequence}`}
       </button>
       <DeleteDraftModal
-        unsavedNewDraft={unsavedNewDraft}
+        draftSequence={draftSequence}
+        unsavedDraft={unsavedDraft}
         visible={isModalVisible}
         onClose={handleDeleteModalClose}
         onDelete={handleDeleteDraftConfirm}
@@ -140,16 +180,22 @@ const DeleteDraft = props => {
 
 DeleteDraft.propTypes = {
   cannotReply: PropType.bool,
-  draft: PropType.object,
+  draftBody: PropType.string,
   draftId: PropType.number,
+  draftSequence: PropType.number,
   draftsCount: PropType.number,
   formPopulated: PropType.bool,
+  isModalVisible: PropType.bool,
   messageBody: PropType.string,
   navigationError: PropType.object,
   refreshThreadCallback: PropType.func,
-  setDeleteButtonClicked: PropType.func,
+  savedComposeDraft: PropType.bool,
+  setHideDraft: PropType.func,
+  setIsEditing: PropType.func,
+  setIsModalVisible: PropType.func,
   setNavigationError: PropType.func,
   setUnsavedNavigationError: PropType.func,
+  showIcon: PropType.bool,
 };
 
 export default DeleteDraft;

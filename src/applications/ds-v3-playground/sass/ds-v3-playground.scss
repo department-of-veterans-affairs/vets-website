@@ -1,14 +1,4 @@
-@import "~@department-of-veterans-affairs/css-library/dist/utilities.css";
-
-@font-face {
-  font-family: "Font Awesome 5 Free";
-  src: url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff2") format("woff2"),
-       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.woff") format("woff"),
-       url("~@fortawesome/fontawesome-free/webfonts/fa-solid-900.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
 @font-face {
   font-family: "Source Sans Pro Web";

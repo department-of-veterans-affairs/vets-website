@@ -14,8 +14,9 @@ const defaultRumSettings = {
   site: 'ddog-gov.com',
   // see src/site/constants/vsp-environments.js for defaults
   env: environment.vspEnvironment(), // 'production'
-  sessionSampleRate: 5,
-  sessionReplaySampleRate: 20,
+  sessionSampleRate: environment.vspEnvironment() === 'staging' ? 100 : 5,
+  sessionReplaySampleRate:
+    environment.vspEnvironment() === 'staging' ? 100 : 20,
   trackInteractions: true,
   trackUserInteractions: true,
   trackFrustrations: true,

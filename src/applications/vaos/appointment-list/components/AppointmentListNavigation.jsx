@@ -41,6 +41,7 @@ export default function AppointmentListNavigation({ count, callback }) {
           <li>
             <NavLink
               to="/pending"
+              style={{ whiteSpace: 'nowrap' }}
               onClick={() => {
                 callback(true);
                 recordEvent({

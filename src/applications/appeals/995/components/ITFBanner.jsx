@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from 'platform/utilities/ui';
-import environment from 'platform/utilities/environment';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   itfMessage,
@@ -18,6 +20,7 @@ import { BASE_URL } from '../constants';
 
 const ITFBanner = props => {
   const [messageDismissed, setMessageDismissed] = useState(false);
+  const [reviewInitialFocus, setReviewInitialFocus] = useState(false);
 
   const goHome = () => {
     props.router.push(`${BASE_URL}/introduction`);
@@ -28,6 +31,16 @@ const ITFBanner = props => {
   };
 
   if (messageDismissed) {
+    // Showing review page content doesn't re-render the progress bar
+    if (
+      !reviewInitialFocus &&
+      props.router?.location.pathname.endsWith('review-and-submit')
+    ) {
+      scrollTo('topScrollElement');
+      // Focus on review & submit page h2 in stepper initially
+      setReviewInitialFocus(true);
+      waitForRenderThenFocus('va-segmented-progress-bar', document, 250, 'h2');
+    }
     return props.children;
   }
 
@@ -35,9 +48,9 @@ const ITFBanner = props => {
   switch (props.status) {
     case 'error':
       message = itfMessage(
-        'We’re sorry. Something went wrong on our end.',
+        'We can’t confirm if we have an intent to file on record for you right now',
         itfError,
-        'error',
+        'info',
       );
       break;
     case 'itf-found':
@@ -61,6 +74,7 @@ const ITFBanner = props => {
   }
 
   setTimeout(() => {
+    scrollTo('topContentElement');
     focusElement('.itf-wrapper h2');
   }, 100);
 
@@ -69,29 +83,13 @@ const ITFBanner = props => {
       <div className="usa-content">
         {message}
         <div className="vads-u-margin-top--2">{itfExpander}</div>
-        {props.status === 'error' ? (
-          <p>
-            <Link to={BASE_URL} className="vads-u-margin-top--2">
-              Back
-            </Link>
-            {!environment.isProduction() && (
-              <va-button
-                class="vads-u-margin-left--2"
-                onClick={dismissMessage}
-                text="Continue (testing only)"
-                uswds
-              />
-            )}
-          </p>
-        ) : (
-          <VaButtonPair
-            class="vads-u-margin-top--2"
-            continue
-            onPrimaryClick={dismissMessage}
-            onSecondaryClick={goHome}
-            uswds
-          />
-        )}
+        <VaButtonPair
+          class="vads-u-margin-top--2"
+          continue
+          onPrimaryClick={dismissMessage}
+          onSecondaryClick={goHome}
+          uswds
+        />
       </div>
     </div>
   );
@@ -105,6 +103,9 @@ ITFBanner.propTypes = {
   previousITF: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
   }),
 };
 

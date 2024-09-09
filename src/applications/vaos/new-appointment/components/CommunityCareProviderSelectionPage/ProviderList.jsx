@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 
 import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
@@ -183,7 +184,7 @@ export default function ProviderList({
               <>
                 <button
                   type="button"
-                  className="additional-info-button va-button-link vads-u-display--block vads-u-margin-right--2"
+                  className="additional-info-button usa-button-secondary vads-u-display--block vads-u-margin-right--2"
                   onClick={() => {
                     setProvidersListLength(
                       providersListLength + initialProviderDisplayCount,
@@ -194,13 +195,19 @@ export default function ProviderList({
                   }}
                 >
                   <span className="sr-only">show</span>
-                  <span className="va-button-link">
-                    +{' '}
+                  <span>
+                    Show{' '}
                     {Math.min(
                       communityCareProviderList.length - providersListLength,
                       initialProviderDisplayCount,
                     )}{' '}
-                    more providers
+                    more provider
+                    {Math.min(
+                      communityCareProviderList.length - providersListLength,
+                      initialProviderDisplayCount,
+                    ) > 1
+                      ? 's'
+                      : ''}
                   </span>
                 </button>
               </>
@@ -208,7 +215,7 @@ export default function ProviderList({
             {communityCareProviderList?.length > 0 && (
               <button
                 type="button"
-                className="vaos-appts__cancel-btn va-button-link vads-u-margin--0 vads-u-flex--0"
+                className="vaos-appts__cancel-btn usa-button-secondary"
                 onClick={() => {
                   setProvidersListLength(initialProviderDisplayCount);
                   setShowProvidersList(false);
@@ -224,3 +231,14 @@ export default function ProviderList({
     </div>
   );
 }
+ProviderList.propTypes = {
+  checkedProvider: PropTypes.any,
+  idSchema: PropTypes.object,
+  initialProviderDisplayCount: PropTypes.number,
+  providersListLength: PropTypes.number,
+  setCheckedProvider: PropTypes.func,
+  setProvidersListLength: PropTypes.func,
+  setShowProvidersList: PropTypes.func,
+  showProvidersList: PropTypes.bool,
+  onChange: PropTypes.func,
+};

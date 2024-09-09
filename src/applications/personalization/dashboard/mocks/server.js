@@ -9,6 +9,7 @@ const { createAppealsSuccess } = require('./appeals');
 const { createDebtsSuccess, createNoDebtsSuccess } = require('./debts');
 const { createClaimsSuccess } = require('./claims');
 const { createHealthCareStatusSuccess } = require('./health-care');
+const { createApplications } = require('./benefit-applications');
 const { allFoldersWithUnreadMessages } = require('./messaging');
 const { user81Copays } = require('./medical-copays');
 const { v2 } = require('./appointments');
@@ -24,6 +25,9 @@ const responses = {
     {
       authExpVbaDowntimeMessage: false,
       myVaUseExperimental: false,
+      myVaEnableNewSipConfig: true,
+      veteranOnboardingBetaFlow: false,
+      myVaFormSubmissionStatuses: true,
     },
     true,
   ),
@@ -32,10 +36,30 @@ const responses = {
   'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/medical_copays': user81Copays,
   'GET /v0/profile/payment_history': createSuccessPayment(false),
+  'GET /v0/profile/service_history': {
+    data: {
+      id: '',
+      type: 'arrays',
+      attributes: {
+        dataSource: 'api.va_profile',
+        serviceHistory: [
+          {
+            branchOfService: 'Air Force',
+            beginDate: '2009-04-12',
+            endDate: '2013-04-11',
+            periodOfServiceTypeCode: 'V',
+            periodOfServiceTypeText: 'Reserve member',
+            characterOfDischargeCode: 'A',
+          },
+        ],
+      },
+    },
+  },
   'GET /v0/appeals': createAppealsSuccess(),
   'GET /v0/benefits_claims': createClaimsSuccess(),
   'GET /v0/health_care_applications/enrollment_status': createHealthCareStatusSuccess(),
   'GET /my_health/v1/messaging/folders': allFoldersWithUnreadMessages,
+  'GET /v0/my_va/submission_statuses': createApplications(),
   'GET /v0/profile/full_name': {
     id: '',
     type: 'hashes',
@@ -63,15 +87,6 @@ const responses = {
     }
 
     return res.json({ data: [] });
-  },
-  'GET /v0/profile/service_history': {
-    data: {
-      id: '',
-      type: 'arrays',
-      attributes: {
-        serviceHistory: [],
-      },
-    },
   },
   'GET /v0/disability_compensation_form/rating_info': {
     data: {

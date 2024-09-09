@@ -2,8 +2,10 @@ import React from 'react';
 import { expect } from 'chai';
 import { render } from '@testing-library/react';
 
+import MockDate from 'mockdate';
 import { setupI18n, teardownI18n } from '../../../utils/i18n/i18n';
 import CheckInProvider from '../../../tests/unit/utils/CheckInProvider';
+
 import Error from './index';
 
 const appointments = [
@@ -18,6 +20,7 @@ describe('check-in', () => {
   });
   afterEach(() => {
     teardownI18n();
+    MockDate.reset();
   });
   describe('travel-claim', () => {
     describe('Error component', () => {
@@ -64,6 +67,7 @@ describe('check-in', () => {
         expect(component.getByTestId('find-out-link')).to.exist;
       });
       it('renders the correct error on already-filed-claim', () => {
+        MockDate.set('2024-01-01T12:30:00.000-05:00');
         const component = render(
           <CheckInProvider
             store={{ error: 'already-filed-claim', appointments }}

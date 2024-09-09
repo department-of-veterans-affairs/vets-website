@@ -1,13 +1,11 @@
-$nav-width-bar-max-width: 696px;
-$nav-mobile-breakpoint: 650px;
-$nav-abbr-breakpoint: 415px;
+@import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
-.mhv-c-sec-nav-bar {
-  max-width: $nav-width-bar-max-width;
-}
+$nav-width-bar-max-width: 720px;
+$nav-mobile-breakpoint: 650px;
 
 .mhv-c-sec-nav-bar-row {
-  justify-content: space-evenly;
+  justify-content: space-around;
+  max-width: $nav-width-bar-max-width;
 }
 
 .mhv-c-sec-nav-item {
@@ -15,26 +13,29 @@ $nav-abbr-breakpoint: 415px;
 
   a, a:visited, a:active, abbr {
     color: var(--vads-color-white);
-  }
-
-  a:hover {
-    color: var(--vads-color-primary);
-    background-color: rgba(255, 255, 255, 0.6);
     border-radius: 5px;
   }
 
-  i {
-    height: 17px;
-    padding-right: 0.7rem;
+  a:hover {
+    color: var(--vads-color-primary-darker);
+    background-color: rgba(255, 255, 255, 0.6);
+  }
+
+  va-icon {
+    padding-right: 0.25rem;
+    padding-bottom: 0.25rem;
+    vertical-align: middle;
   }
 }
 
 .mhv-u-sec-nav-header-style a {
-    padding: 11px 7px 11px 7px;
+    padding: 8px 7px 11px;
+    min-width: 170px;
 }
 
 .mhv-u-sec-nav-item-style a {
-    padding: 13px 7px 13px 7px;
+    padding: 11px 7px 12px;
+    min-width: 75px;
 }
 
 .mhv-u-sec-nav-active-style {
@@ -46,12 +47,23 @@ $nav-abbr-breakpoint: 415px;
   a, a:visited, a:active, abbr {
     color: var(--vads-color-primary);
   }
+
+  a:hover {
+    color: var(--vads-color-primary-darker);
+  }
 }
 
 // Mobile view
 @media (max-width: $nav-mobile-breakpoint) {
   .mhv-u-sec-nav-header-style {
     flex: 0 0 100%;
+    height: 50px;
+
+    a, a:hover, a:visited, a:active {
+      display: block;
+      border-radius: 0px;
+      padding: 9px 7px;
+    }
 
     // Show the header item as a white bar when active
     &.mhv-u-sec-nav-active-style {
@@ -65,29 +77,29 @@ $nav-abbr-breakpoint: 415px;
       // Make the icon appear on top of the text
       display: grid;
       justify-items: center;
-      padding: 7px 7px 1px 7px;
+      padding: 4px 7px;
     }
 
-    i {
+    va-icon {
       display: contents;
     }
   }
 }
 
 // Show the abbreviation instead of the long title
-@media (max-width: $nav-abbr-breakpoint) {
+@media (max-width: $small-screen) {
   .mhv-u-sec-nav-item-title {
     display: none;
   }
 }
 
 // Show the title instead of the abbreviation
-@media (min-width: $nav-abbr-breakpoint) {
+@media (min-width: $small-screen) {
   .mhv-u-sec-nav-short-title {
     display: none;
   }
 
   .mhv-u-sec-nav-item-title {
-    display: inherit;
+    display: inline;
   }
 }

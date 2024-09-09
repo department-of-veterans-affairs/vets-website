@@ -23,7 +23,7 @@ describe('<CompareScroller>', () => {
       />,
     );
     expect(tree.type()).to.not.equal(null);
-    tree.find('.right-arrow i').simulate('click');
+    tree.find('.right-arrow va-icon').simulate('click');
     expect(clickHandler.called).to.be.true;
     expect(clickHandler.args[0][0]).to.eq(50);
     tree.unmount();
@@ -46,12 +46,12 @@ describe('<CompareScroller>', () => {
     expect(wrapper.find('.left-arrow')).to.have.lengthOf(1);
     expect(wrapper.find('.circles')).to.have.lengthOf(1);
     expect(wrapper.find('.right-arrow')).to.have.lengthOf(1);
-    expect(wrapper.find('.circles i')).to.have.lengthOf(divisions);
+    expect(wrapper.find('.gi-compare-circle')).to.have.lengthOf(divisions);
 
     const leftArrow = wrapper.find('.left-arrow');
-    leftArrow.find('i').simulate('click');
+    leftArrow.find('va-icon').simulate('click');
     const rightArrow = wrapper.find('.right-arrow');
-    rightArrow.find('i').simulate('click');
+    rightArrow.find('va-icon').simulate('click');
     wrapper.unmount();
   });
 });

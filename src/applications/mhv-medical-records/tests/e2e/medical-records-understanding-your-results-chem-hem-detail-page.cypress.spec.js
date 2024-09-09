@@ -1,18 +1,20 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import ChemHemDetailsPage from './pages/ChemHemDetailsPage';
+import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records Understanding Your Results Detail Page', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('Understanding Your Results Chem/Hem Detail Page', () => {
     // Given As a Medical Records User I wanted to Navigate to "Chemistry And Hematology" Detail Page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(0);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(3, labsAndTests.entry[1]);
 
     // When I want to get "help to be able to understand results" of my MR data
     ChemHemDetailsPage.verifyExpandUnderstandResults();

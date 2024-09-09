@@ -59,8 +59,8 @@ const formConfig = {
     noAuth:
       'Sign in again to continue your application for Planning and career guidance.',
   },
-  title:
-    'Apply for Personalized Career Planning and Guidance with VA Form 25-8832',
+  title: 'Apply for Personalized Career Planning and Guidance',
+  subTitle: 'Form 27-8832 (formally known as 28-8832, or 25-8832)',
   defaultDefinitions: { ...fullSchema.definitions },
   chapters: {
     claimantInformation: {

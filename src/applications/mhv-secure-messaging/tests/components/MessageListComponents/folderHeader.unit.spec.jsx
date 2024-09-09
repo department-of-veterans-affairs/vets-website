@@ -131,12 +131,6 @@ describe('Folder Header component', () => {
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
       );
-
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${customFolder.name} ${
-          filterDescription.withMsgId
-        }`,
-      );
     });
 
     it('does not render FilterBox w/o `threadCount` on CUSTOM FOLDER', () => {
@@ -174,6 +168,11 @@ describe('Folder Header component', () => {
       );
       expect(screen.getByText(inbox.name, { selector: 'h1' })).to.exist;
       expect(screen.queryByText(Folders.CUSTOM_FOLDER.desc)).to.not.exist;
+
+      const inboxTab = screen.getByTestId('inbox-inner-nav');
+      expect(inboxTab).to.have.attribute('activetab', 'active-innerNav-link');
+      const foldersTab = screen.getByTestId('folders-inner-nav');
+      expect(foldersTab).to.have.attribute('activetab', '');
     });
 
     it('renders FilterBox with `threadCount` in INBOX FOLDER', () => {
@@ -194,9 +193,6 @@ describe('Folder Header component', () => {
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${inbox.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -304,9 +300,6 @@ describe('Folder Header component', () => {
       expect(filterInputElement.getAttribute('label')).to.equal(
         'Enter information from one of these fields: To, from, or subject',
       );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${drafts.name} ${filterDescription.noMsgId}`,
-      );
     });
 
     it('does not render FilterBox w/o `threadCount` on DRAFTS FOLDER', () => {
@@ -349,9 +342,6 @@ describe('Folder Header component', () => {
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${sent.name} ${filterDescription.withMsgId}`,
       );
     });
 
@@ -407,9 +397,6 @@ describe('Folder Header component', () => {
       const filterInputElement = screen.queryByTestId('keyword-search-input');
       expect(filterInputElement.getAttribute('label')).to.equal(
         filterDescription.withMsgId,
-      );
-      expect(filterInputElement.getAttribute('aria-label')).to.equal(
-        `Filter messages in ${trash.name} ${filterDescription.withMsgId}`,
       );
     });
 

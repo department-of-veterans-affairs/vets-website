@@ -7,7 +7,11 @@ const renderContentions = (contentions, limit = MAX_CONTENTIONS) => {
   const list = contentions.slice(0, limit);
 
   return list.map((contention, index) => {
-    return <li key={index}>{contention.name}</li>;
+    return (
+      <li key={index} data-dd-privacy="mask" data-dd-action-name="contention">
+        {contention.name}
+      </li>
+    );
   });
 };
 

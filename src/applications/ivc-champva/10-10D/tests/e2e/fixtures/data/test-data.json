@@ -22,7 +22,7 @@
         },
         "applicantDependentStatus": { "status": "enrolled" },
         "applicantEnrolledInOHI": false,
-        "applicantDOB": "2003-01-04",
+        "applicantDob": "2003-01-04",
         "applicantName": {
           "first": "Johnny",
           "middle": "T",
@@ -36,16 +36,6 @@
         "applicantHasOhi": { "hasOhi": "yes" }
       }
     ],
-    "sponsorPhone": "5555555555",
-    "sponsorHasPhone": "yes",
-    "sponsorAddress": {
-      "country": "USA",
-      "street": "123 Anystreet",
-      "city": "Anyville",
-      "state": "AL",
-      "postalCode": "12345"
-    },
-    "sponsorHasAddress": "yes",
     "ssn": {
       "ssn": "123123123"
     },
@@ -53,7 +43,7 @@
       "first": "Joe",
       "last": "Johnson"
     },
-    "sponsorDOB": "1958-01-01",
+    "sponsorDob": "1958-01-01",
     "sponsorIsDeceased": true,
     "sponsorDOD": "2001-01-01",
     "sponsorDeathConditions": false,

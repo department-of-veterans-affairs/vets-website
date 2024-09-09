@@ -6,6 +6,8 @@ import {
   VaPagination,
   VaLoadingIndicator,
   VaCheckbox,
+  VaRadio,
+  VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import Scroll from 'react-scroll';
 import { connect } from 'react-redux';
@@ -15,6 +17,7 @@ import {
   searchInputChange,
   selectInstitution,
   searchSchools,
+  toggleManualSchoolEntry,
 } from '../actions/schoolSearch';
 import {
   selectCurrentPageNumber,
@@ -34,7 +37,10 @@ import {
   selectShowPaginationLoading,
   selectShowSearchResults,
 } from '../selectors/schoolSearch';
-import { transformSearchToolAddress } from '../helpers';
+import {
+  displaySingleLineAddress,
+  transformSearchToolAddress,
+} from '../helpers';
 
 const { Element } = Scroll;
 
@@ -73,23 +79,25 @@ export class SchoolSelectField extends React.Component {
   }
 
   handleManualSchoolEntryToggled = currentValue => {
+    this.props.toggleManualSchoolEntry(currentValue);
     this.props.onChange({
       ...this.props.formData,
-      'view:manualSchoolEntryChecked': !currentValue,
+      'view:manualSchoolEntryChecked': currentValue,
     });
   };
 
-  handleOptionClick = ({
-    address1,
-    address2,
-    address3,
-    city,
-    country,
-    facilityCode,
-    name,
-    state,
-    zip,
-  }) => {
+  handleOptionClick = institution => {
+    const {
+      address1,
+      address2,
+      address3,
+      city,
+      country,
+      facilityCode,
+      name,
+      state,
+      zip,
+    } = institution;
     this.props.selectInstitution({
       address1,
       address2,
@@ -119,7 +127,6 @@ export class SchoolSelectField extends React.Component {
   handlePageSelect = e => {
     const { page } = e.detail;
     this.resultCount.focus();
-
     this.debouncedSearchInstitutions({
       institutionQuery: this.props.institutionQuery,
       page,
@@ -263,7 +270,9 @@ export class SchoolSelectField extends React.Component {
                 {errorMessages.map((message, index) => (
                   <span key={index}>
                     <span className="sr-only">Error</span>
-                    {message}
+                    {!showInstitutions
+                      ? message
+                      : `Select a school on this page. If you can't find your school, select the box to enter the school's name and address.`}
                   </span>
                 ))}
               </span>
@@ -292,13 +301,12 @@ export class SchoolSelectField extends React.Component {
                   Search Schools
                 </button>
               </div>
-              <div className="clear-search">
-                <button
-                  className="va-button-link start-over"
+              <div className="clear-search vads-u-margin-top--1p5">
+                <va-button
+                  secondary
                   onClick={this.handleStartOver}
-                >
-                  Start Over
-                </button>
+                  text="Reset Search"
+                />
               </div>
             </div>
           </div>
@@ -307,13 +315,12 @@ export class SchoolSelectField extends React.Component {
             onVaChange={event =>
               this.handleManualSchoolEntryToggled(event.detail.checked)
             }
-            description="If you don’t find your school in the search results, then check the box to enter in your school information manually."
             label="I want to type in my school’s name and address."
           />
           <div aria-live="polite" aria-relevant="additions text">
             {showSearchResults &&
               searchResultsCount > 0 && (
-                <span
+                <div
                   className="search-results-count"
                   // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
                   tabIndex="0"
@@ -322,91 +329,52 @@ export class SchoolSelectField extends React.Component {
                   }}
                 >
                   {`${searchResultsCount} results for ${institutionQuery}`}
-                </span>
+                </div>
               )}
             {showSearchResults &&
               showInstitutions && (
-                <div>
-                  {institutions.map(
-                    (
-                      {
-                        address1,
-                        address2,
-                        address3,
-                        city,
-                        country,
-                        facilityCode,
-                        name,
-                        state,
-                        zip,
-                      },
-                      index,
-                    ) => (
-                      <div key={index}>
-                        <div className="radio-button">
-                          <input
-                            autoComplete="false"
-                            checked={facilityCodeSelected === facilityCode}
-                            id={`page-${currentPageNumber}-${index}`}
-                            name={`page-${currentPageNumber}`}
-                            type="radio"
-                            onKeyDown={this.onKeyDown}
-                            onChange={() =>
-                              this.handleOptionClick({
-                                address1,
-                                address2,
-                                address3,
-                                city,
-                                country,
-                                facilityCode,
-                                name,
-                                state,
-                                zip,
-                              })
-                            }
-                            value={facilityCode}
-                          />
-                          <label
-                            id={`institution-${index}-label`}
-                            htmlFor={`page-${currentPageNumber}-${index}`}
-                          >
-                            <span className="institution-information">
-                              {name && (
-                                <span className="institution-name">{name}</span>
-                              )}
-                              {address1 && (
-                                <span className="institution-address">
-                                  {address1}
-                                </span>
-                              )}
-                              {address2 && (
-                                <span className="institution-address">
-                                  {address2}
-                                </span>
-                              )}
-                              {address3 && (
-                                <span className="institution-address">
-                                  {address3}
-                                </span>
-                              )}
-                              {(city || state) && (
-                                <span className="institution-city-state">
-                                  {`${city}${city && state && ', '}${state}`}
-                                </span>
-                              )}
-                              {!city &&
-                                !state && (
-                                  <span className="institution-country">
-                                    {country}
-                                  </span>
-                                )}
-                            </span>
-                          </label>
-                        </div>
-                      </div>
-                    ),
-                  )}
-                </div>
+                <VaRadio
+                  className="school-select-field-radio"
+                  onVaValueChange={e =>
+                    this.handleOptionClick(
+                      _.find(institutions, { facilityCode: e?.detail?.value }),
+                    )
+                  }
+                >
+                  {institutions.map(institution => {
+                    const {
+                      address1,
+                      address2,
+                      address3,
+                      city,
+                      country,
+                      facilityCode,
+                      name,
+                      state,
+                      zip,
+                    } = institution;
+                    return (
+                      <VaRadioOption
+                        name={`page-${currentPageNumber}-radio-option`}
+                        className="school-select-field-radio-option"
+                        key={facilityCode}
+                        value={facilityCode}
+                        checked={facilityCode === facilityCodeSelected}
+                        label={name}
+                        tile
+                        description={displaySingleLineAddress({
+                          address1,
+                          address2,
+                          address3,
+                          city,
+                          country,
+                          state,
+                          zip,
+                        }).toUpperCase()}
+                      />
+                    );
+                  })}
+                </VaRadio>
               )}{' '}
             {showSearchResults &&
               showInstitutionsLoading && (
@@ -506,6 +474,7 @@ const mapDispatchToProps = {
   searchInputChange,
   searchSchools,
   selectInstitution,
+  toggleManualSchoolEntry,
 };
 
 SchoolSelectField.propTypes = {

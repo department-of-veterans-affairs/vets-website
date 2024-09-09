@@ -27,7 +27,11 @@ export default {
           pattern: content['phone-number-error-message'],
         },
       },
-      email: emailUI(),
+      email: emailUI({
+        errorMessages: {
+          pattern: content['email-pattern-error-message'],
+        },
+      }),
     },
   },
   schema: {

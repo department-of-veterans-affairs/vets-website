@@ -75,16 +75,9 @@ const MessageThreadHeader = props => {
         formattedRecipient,
       } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
-      if (!isAssociated) {
+      if (!isAssociated || isBlocked) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageGroupList([formattedRecipient]);
-      } else if (recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(isBlocked);
-        setBlockedTriageGroupList(
-          recipients.blockedRecipients.filter(
-            recipient => recipient.name === formattedRecipient.name,
-          ),
-        );
       }
     }
 
@@ -116,9 +109,7 @@ const MessageThreadHeader = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [categoryLabel, message, subject],
   );

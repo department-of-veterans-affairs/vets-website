@@ -4,12 +4,10 @@ import PatientComposePage from './pages/PatientComposePage';
 import { AXE_CONTEXT, Data } from './utils/constants';
 
 describe('Secure Messaging Compose Errors', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
-    landingPage.navigateToComposePage();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
+    PatientInboxPage.navigateToComposePage();
   });
 
   it('error message for no recipient', () => {
@@ -19,9 +17,12 @@ describe('Secure Messaging Compose Errors', () => {
       force: true,
     });
     PatientComposePage.clickSaveDraftButton();
+
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_RECIPIENT);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
-    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_RECIPIENT);
   });
 
   it('focus on error message for empty category', () => {
@@ -29,7 +30,10 @@ describe('Secure Messaging Compose Errors', () => {
     PatientComposePage.getMessageSubjectField().type(Data.TEST_SUBJECT);
     PatientComposePage.getMessageBodyField();
     PatientComposePage.clickSaveDraftButton();
-    PatientComposePage.verifyFocusOnErrorMessage(Data.PLEASE_SELECT_CATEGORY);
+
+    PatientComposePage.verifyErrorText(Data.PLEASE_SELECT_CATEGORY);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -41,7 +45,10 @@ describe('Secure Messaging Compose Errors', () => {
       force: true,
     });
     PatientComposePage.clickSaveDraftButton();
-    PatientComposePage.verifyFocusOnErrorMessage(Data.SUBJECT_CANNOT_BLANK);
+
+    PatientComposePage.verifyErrorText(Data.SUBJECT_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
@@ -53,9 +60,9 @@ describe('Secure Messaging Compose Errors', () => {
       force: true,
     });
     PatientComposePage.clickSaveDraftButton();
-    PatientComposePage.verifyFocusOnErrorMessage(
-      'Message body cannot be blank.',
-    );
+
+    PatientComposePage.verifyErrorText(Data.BODY_CANNOT_BLANK);
+    PatientComposePage.verifyFocusOnErrorMessage();
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

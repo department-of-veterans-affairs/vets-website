@@ -2,7 +2,7 @@ export const generateConditionContent = record => ({
   details: {
     items: [
       {
-        title: 'Date',
+        title: 'Date entered',
         value: record.date,
         inline: true,
       },
@@ -12,24 +12,14 @@ export const generateConditionContent = record => ({
         inline: true,
       },
       {
-        title: 'Provider Notes',
-        value: record.note,
-        inline: !record.comments.length,
-      },
-      {
-        title: 'Status of health condition',
-        value: record.active,
-        inline: true,
-      },
-      {
         title: 'Location',
         value: record.facility,
         inline: true,
       },
       {
-        title: 'SNOMED Clinical term',
-        value: record.name,
-        inline: true,
+        title: 'Provider Notes',
+        value: record.comments,
+        inline: !record.comments.length,
       },
     ],
   },

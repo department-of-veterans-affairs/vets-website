@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 
 export const Auth = ({
   DynamicHeader,
@@ -25,14 +26,25 @@ export const Auth = ({
     vcfUrl,
   } = representative ?? {};
 
+  const isPostLogin = document.location.search?.includes('postLogin=true');
+
+  useEffect(
+    () => {
+      if (isPostLogin) {
+        focusElement('.poa-display');
+      }
+    },
+    [id, isPostLogin],
+  );
+
   if (isLoading) {
     return (
-      <div>
+      <va-card show-shadow>
         <va-loading-indicator
           label="Loading"
-          message="Loading your accredited representative information..."
+          message="Loading your information..."
         />
-      </div>
+      </va-card>
     );
   }
 
@@ -42,11 +54,7 @@ export const Auth = ({
         <va-card show-shadow>
           <div className="auth-card">
             <div className="auth-header-icon">
-              <va-icon
-                icon="account_circle"
-                size={4}
-                srtext="Your representative"
-              />{' '}
+              <va-icon icon="account_circle" size={4} />{' '}
             </div>
             <div className="auth-rep-text">
               <div className="auth-rep-header">
@@ -66,8 +74,8 @@ export const Auth = ({
 
               <div className="auth-rep-body">
                 {concatAddress && (
-                  <div className="contact-info vads-u-margin-top--1p5">
-                    <div className="contact-icon">
+                  <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                    <div className="vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5 vads-u-margin-right--1">
                       <va-icon
                         icon="location_on"
                         size={2}
@@ -97,8 +105,8 @@ export const Auth = ({
                 )}
                 {poaType === 'representative' &&
                   email && (
-                    <div className="contact-info vads-u-margin-top--1p5">
-                      <div className="contact-icon">
+                    <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                         <va-icon
                           icon="mail"
                           size={2}
@@ -109,8 +117,8 @@ export const Auth = ({
                     </div>
                   )}
                 {contact && (
-                  <div className="contact-info vads-u-margin-top--1p5">
-                    <div className="contact-icon">
+                  <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                    <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
                       <va-icon
                         icon="phone"
                         size={2}
@@ -126,13 +134,9 @@ export const Auth = ({
                 )}
                 {poaType === 'representative' &&
                   (contact || email) && (
-                    <div className="contact-info vads-u-margin-top--1p5">
-                      <div className="contact-icon">
-                        <va-icon
-                          icon="file_download"
-                          size={2}
-                          srtext="Download your accredited representative's contact information"
-                        />
+                    <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                      <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                        <va-icon icon="file_download" size={2} />
                       </div>
                       <va-link
                         filetype="VCF"
@@ -142,13 +146,9 @@ export const Auth = ({
                       />
                     </div>
                   )}
-                <div className="contact-info vads-u-margin-top--1p5">
-                  <div className="contact-icon">
-                    <va-icon
-                      icon="search"
-                      size={2}
-                      srtext="Learn about accredited representatives"
-                    />
+                <div className="vads-u-display--flex vads-u-margin-top--1p5">
+                  <div className="vads-u-margin-right--1 vads-u-display--flex vads-u-align-items--flex-start vads-u-margin-top--0p5">
+                    <va-icon icon="search" size={2} />
                   </div>
                   <va-link
                     href="https://www.va.gov/resources/va-accredited-representative-faqs/"
@@ -199,15 +199,16 @@ export const Auth = ({
       uswds
       visible
     >
-      <h2 slot="headline">We don’t seem to have your records</h2>
+      <DynamicHeader slot="headline">
+        We can’t check if you have an accredited representative.
+      </DynamicHeader>
       <React.Fragment key=".1">
-        <p>We’re sorry. We can’t match your information to our records.</p>
+        <p>We’re sorry. Our system isn’t working right now. Try again later.</p>
 
         <p className="vads-u-margin-y--0">
-          If you think your information should be here, please try again later
-          or call us at <va-telephone contact={CONTACTS.VA_411} extension={0} />{' '}
-          (<va-telephone contact={CONTACTS['711']} tty />
-          ). We’re here 24/7.
+          If it still doesn’t work, call us at{' '}
+          <va-telephone contact={CONTACTS.VA_BENEFITS} /> to check if you have
+          an accredited representative.
         </p>
       </React.Fragment>
     </va-alert>

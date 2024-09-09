@@ -6,22 +6,21 @@
         "addressLine1": "123 Main St",
         "addressLine2": "Suite #1200",
         "city": "New York",
-        "countryCodeISO2": "US",
+        "countryCodeIso2": "US",
         "stateCode": "NY",
         "zipCode": "30012"
       },
       "phone": {
         "countryCode": "1",
         "areaCode": "987",
-        "phoneNumber": "5551218",
-        "extension": "1234"
+        "phoneNumber": "5551218"
       },
       "email": "user@example.com"
     },
     "homeless": false,
 
-    "informalConferenceTime": "time0800to1200",
     "informalConference": "me",
+    "informalConferenceTime": "time1200to1630",
     "contestedIssues": [
       {
         "type": "contestableIssue",
@@ -91,7 +90,7 @@
     "areaOfDisagreement": [
       {
         "disagreementOptions": {
-          "serviceConnection": true
+          "effectiveDate": true
         },
         "id": null,
         "type": "contestableIssue",

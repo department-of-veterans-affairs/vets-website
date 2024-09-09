@@ -71,11 +71,11 @@ const mapDispatchToProps = {
 
 Orange22B.propTypes = {
   formResponses: PropTypes.object.isRequired,
-  setOrange22B: PropTypes.func.isRequired,
-  viewedIntroPage: PropTypes.bool.isRequired,
   router: PropTypes.shape({
     push: PropTypes.func,
-  }),
+  }).isRequired,
+  setOrange22B: PropTypes.func.isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
 export default connect(

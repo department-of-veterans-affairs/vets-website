@@ -1,74 +1,3 @@
-.search-controls {
-  .cells {
-    padding: 16px 20px 20px 20px;
-  }
-
-  .location-wrap {
-    position: relative;
-  }
-
-  .location-wrap:before {
-    color: var(--vads-color-primary);
-    content: "\f3c5";
-    font-family: "Font Awesome 5 Free";
-    position: absolute;
-    font-style: normal;
-    left: 10px;
-    top: 10px;
-    width: 20px;
-    height: 100%;
-    font-weight: 900;
-    pointer-events: none;
-  }
-
-  input.location-input {
-    width: 355px;
-    padding-left: 30px;
-  }
-
-  #distance-dropdown {
-    label.wrap {
-      position: relative;
-    }
-
-    label.wrap:after {
-      color: var(--vads-color-primary);
-      content: "\F107";
-      font-family: "Font Awesome 5 Free";
-      position: absolute;
-      font-style: normal;
-      right: 8px;
-      top: 5px;
-      width: 20px;
-      height: 100%;
-      font-weight: 900;
-      font-size: 150%;
-      pointer-events: none;
-    }
-
-    #distance {
-      color: var(--vads-color-base-dark);
-      font-style: italic;
-      width: 110px;
-      background-image: none;
-    }
-  }
-
-  #school-search-button {
-    margin-right: 0px;
-  }
-
-  border-radius: 0px 0px 6px 6px;
-
-  ::placeholder {
-    font-style: italic;
-  }
-
-  .search-section-label {
-    font-weight: bold;
-    color: var(--vads-color-gray-medium);
-  }
-}
 .update-results-form {
   margin-top: -2em;
   border-left: solid var(--vads-color-base-lightest);
@@ -104,10 +33,10 @@
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
-  padding: 1rem 2rem;
+  padding: 0.625rem 1.25rem;
   text-align: center;
   text-decoration: none;
   width: 80%;
@@ -137,7 +66,7 @@
   display: inline-block;
   font-family: "Source Sans Pro", "Helvetica Neue", "Helvetica", "Roboto",
     "Arial", sans-serif;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 1;
   text-decoration: underline;
@@ -159,13 +88,13 @@
 .labels-margin {
   margin-top: -10px !important;
 }
-.community-focus-container{
+.community-focus-container {
   display: flex;
   flex-direction: column;
   padding-top: 15px;
 }
-.visually-hidden{
-  clip: rect(0,0,0,0);
+.visually-hidden {
+  clip: rect(0, 0, 0, 0);
   margin: -1;
   overflow: hidden;
   border: 0;
@@ -173,88 +102,20 @@
   height: 1px;
   padding: 0;
 }
-.filter-before-res-jump-link{
+.filter-before-res-jump-link {
   font-weight: 700;
   color: rgb(0, 94, 162);
   text-decoration: underline;
   transition-duration: 0.3s;
   transition-timing-function: ease-in-out;
-  font-size: 1.6rem;
+  font-size: 1rem;
   position: relative;
   z-index: 1;
   display: inline !important;
   padding: 0 !important;
 }
-.filter-before-res-jump-link:hover, .filter-before-res-jump-link:visited{
+.filter-before-res-jump-link:hover,
+.filter-before-res-jump-link:visited {
   color: rgb(0, 94, 162);
   background-color: transparent;
-}
-
-.accordion-dropdown {
-  border: 1px solid var(--vads-color-base-dark);
-  position: relative;
-  min-width: 230px;
-  margin: 0.2em 0;
-
-  .opener {
-    label {
-      margin: 0px;
-      display: inline-block;
-    }
-
-    label:after {
-      color: var(--vads-color-primary);
-      content: "\F107";
-      font-family: "Font Awesome 5 Free";
-      position: absolute;
-      font-style: normal;
-      right: 8px;
-      top: 5px;
-      width: 20px;
-      height: 100%;
-      font-weight: 900;
-      font-size: 150%;
-      pointer-events: none;
-    }
-
-    i {
-      font-size: 150% !important;
-      position: absolute;
-      right: 8px;
-      top: 5px;
-    }
-  }
-}
-
-.accordion-dropdown-out {
-  padding: 14px;
-  background-color: var(--vads-color-white);
-  width: calc(100% + 2px);
-  position: absolute;
-  z-index: 50;
-  left: -1px;
-  top: 40px;
-
-  span.gibct-legend,
-  label {
-    margin-top: 2px;
-    cursor: initial;
-  }
-
-  .dropdown-divider {
-    border-bottom: 2px solid var(--vads-color-base-light);
-    margin: 14px -14px 14px -14px;
-  }
-
-  .footer-controls {
-    padding: 12px 0px 8px 0px;
-
-    button {
-      width: 23rem;
-    }
-
-    .cancel {
-      cursor: pointer;
-    }
-  }
 }

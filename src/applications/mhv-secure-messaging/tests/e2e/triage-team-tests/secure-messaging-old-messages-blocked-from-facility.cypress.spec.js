@@ -8,17 +8,14 @@ import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
 
 describe('Verify old messages - blocked from facility', () => {
-  const site = new SecureMessagingSite();
-  const landingPage = new PatientInboxPage();
-
   const currentDate = new Date();
   const fortyFiveDaysAgo = new Date();
   fortyFiveDaysAgo.setDate(currentDate.getDate() - 46);
 
   beforeEach(() => {
-    site.login();
+    SecureMessagingSite.login();
 
-    landingPage.loadInboxMessages(
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockFacilityBlockedRecipients,
@@ -43,7 +40,10 @@ describe('Verify old messages - blocked from facility', () => {
       ],
     };
 
-    landingPage.loadSingleThread(oldThreadWithNoAssociatedTG, fortyFiveDaysAgo);
+    PatientInboxPage.loadSingleThread(
+      oldThreadWithNoAssociatedTG,
+      fortyFiveDaysAgo,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {
@@ -109,7 +109,7 @@ describe('Verify old messages - blocked from facility', () => {
       ],
     };
 
-    landingPage.loadSingleThread(
+    PatientInboxPage.loadSingleThread(
       mockThreadWithOldDraft,
       fortyFiveDaysAgo,
       fortyFiveDaysAgo,

@@ -2,8 +2,9 @@ import React, { useState, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
+import { utcToZonedTime } from 'date-fns-tz';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { formatList } from '../../../utils/formatters';
+import { focusElement } from 'platform/utilities/ui';
 import { makeSelectVeteranAddress, makeSelectForm } from '../../../selectors';
 import { useFormRouting } from '../../../hooks/useFormRouting';
 import TravelPage from '../../../components/pages/TravelPage';
@@ -13,7 +14,7 @@ const TravelReview = props => {
   const { t } = useTranslation();
   const selectForm = useMemo(makeSelectForm, []);
   const { data } = useSelector(selectForm);
-  const { facilitiesToFile } = data;
+  const { appointmentToFile } = data;
   const { jumpToPage, goToNextPage } = useFormRouting(router);
   const [agree, setAgree] = useState(false);
   const [error, setError] = useState(false);
@@ -30,22 +31,16 @@ const TravelReview = props => {
     if (agree) {
       goToNextPage();
     } else {
+      const nestedShadowElement = document
+        .getElementById('travel-agreement-checkbox')
+        .shadowRoot.getElementById('checkbox-element');
       setError(true);
+      focusElement(nestedShadowElement);
     }
   };
   const startOverAction = () => {
     jumpToPage('/travel-mileage');
   };
-
-  const claimList = formatList(
-    facilitiesToFile.map(facility => {
-      return `${facility.appointmentCount} ${t('appointments-at', {
-        count: facility.appointmentCount,
-      })} ${facility.facility}`;
-    }),
-    t('and'),
-    false,
-  );
 
   const bodyText = (
     <div data-testid="review-body">
@@ -59,12 +54,25 @@ const TravelReview = props => {
       </div>
       <dl className="vads-u-font-family--sans">
         <dt className="vads-u-margin-top--2p5">{t('what-youre-claiming')}</dt>
-        <dd
-          className="vads-u-margin-top--0p5"
-          data-testid={`claiming-${facilitiesToFile.length}-facilities`}
-        >
-          <span data-testid="claim-list">
-            {t('mileage-only-reimbursement-for')} {claimList}
+        <dd className="vads-u-margin-top--0p5">
+          <span data-testid="claim-info">
+            {`${t('mileage-only-reimbursement-for-your', {
+              facility: appointmentToFile.facility,
+              provider: appointmentToFile.doctorName
+                ? ` ${'with'} ${appointmentToFile.doctorName}`
+                : '',
+              date: {
+                date: utcToZonedTime(
+                  appointmentToFile.startTime,
+                  appointmentToFile.timezone,
+                ),
+                timezone: appointmentToFile.timezone,
+              },
+            })}${
+              appointmentToFile.clinicFriendlyName
+                ? `, ${appointmentToFile.clinicFriendlyName}`
+                : ''
+            }`}
           </span>
         </dd>
       </dl>
@@ -90,7 +98,9 @@ const TravelReview = props => {
         className="vads-u-background-color--gray-lightest vads-u-padding-x--2 vads-u-padding-bottom--4 vads-u-font-family--sans"
         style={{ overflow: 'hidden' }}
       >
-        <h3>{t('beneficiary-travel-agreement')}</h3>
+        <h2 className="vads-u-font-size--h3">
+          {t('beneficiary-travel-agreement')}
+        </h2>
         <p>
           <Trans
             i18nKey="penalty-statement"
@@ -100,6 +110,7 @@ const TravelReview = props => {
           />
         </p>
         <VaCheckbox
+          id="travel-agreement-checkbox"
           description={null}
           error={error ? t('claim-review-error') : null}
           label={t('claim-checkbox-confirm')}

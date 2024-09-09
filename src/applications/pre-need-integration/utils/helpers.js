@@ -5,6 +5,9 @@ import get from 'platform/utilities/data/get';
 import omit from 'platform/utilities/data/omit';
 import * as Sentry from '@sentry/browser';
 
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { focusElement } from 'platform/utilities/ui';
+
 import dateRangeUI from 'platform/forms-system/src/js/definitions/dateRange';
 import fullNameUI from 'platform/forms/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
@@ -24,10 +27,12 @@ import { useSelector } from 'react-redux';
 import { fetchAndUpdateSessionExpiration as fetch } from 'platform/utilities/api';
 import * as autosuggest from 'platform/forms-system/src/js/definitions/autosuggest';
 import ApplicantDescription from 'platform/forms/components/ApplicantDescription';
+import jsonData from './Military Ranks.json';
 import { serviceLabels } from './labels';
 import RaceEthnicityReviewField from '../components/RaceEthnicityReviewField';
 import ServicePeriodView from '../components/ServicePeriodView';
 import CurrentlyBuriedDescription from '../components/CurrentlyBuriedDescription';
+import HighestRankAutoSuggest from '../components/HighestRankAutoSuggest';
 
 export const nonRequiredFullNameUI = omit('required', fullNameUI);
 
@@ -36,6 +41,25 @@ export const veteranApplicantDetailsSubHeader = (
     <h3 className="vads-u-font-size--h5">Your details</h3>
   </div>
 );
+
+export function veteranApplicantDetailsSummary({ formContext }) {
+  return (
+    <>
+      {formContext.isLoggedIn &&
+        !formContext.onReviewPage && (
+          <div className="veteranApplicantDetailsSummaryBox">
+            <va-summary-box>
+              <p className="veteranApplicantDetailsSummaryBoxText">
+                We’ve prefilled some of your information from your account. If
+                you need to correct anything, you can edit the form fields
+                below.
+              </p>
+            </va-summary-box>
+          </div>
+        )}
+    </>
+  );
+}
 
 export const veteranApplicantDetailsPreparerSubHeader = (
   <div className="applicantDetailsSubHeader">
@@ -179,6 +203,38 @@ export function militaryDetailsSubHeader(formData) {
       )}
     </div>
   );
+}
+
+export const createPayload = (file, formId, password) => {
+  const payload = new FormData();
+  payload.set('form_id', formId);
+  payload.append('file', file);
+  if (password) {
+    payload.append('password', password);
+  }
+  return payload;
+};
+
+export function parseResponse({ data }) {
+  const { name } = data.attributes;
+  const focusFileCard = () => {
+    const target = $$('.schemaform-file-list li').find(entry =>
+      entry.textContent?.trim().includes(name),
+    );
+
+    if (target) {
+      focusElement(target);
+    }
+  };
+
+  setTimeout(() => {
+    focusFileCard();
+  }, 100);
+
+  return {
+    name,
+    confirmationCode: data.attributes.confirmationCode,
+  };
 }
 
 export const contactInfoDescription = (
@@ -510,7 +566,10 @@ export function sponsorMailingAddressHasState(item) {
 }
 
 export function isVeteran(item) {
-  return get('application.claimant.relationshipToVet', item) === 'veteran';
+  const response =
+    get('application.claimant.relationshipToVet', item) ||
+    get('formData.application.claimant.relationshipToVet', item);
+  return response === 'veteran';
 }
 
 export function isSponsorDeceased(item) {
@@ -793,8 +852,11 @@ export const veteranUI = {
       pattern: 'Your VA claim number must be between 8 to 9 digits',
     },
   },
-  placeOfBirth: {
-    'ui:title': 'Place of birth (City, State, or Territory)',
+  cityOfBirth: {
+    'ui:title': 'Your birth city or county',
+  },
+  stateOfBirth: {
+    'ui:title': 'Your birth state or territory',
   },
   gender: {
     'ui:title': 'What’s your sex?',
@@ -823,7 +885,7 @@ export const veteranUI = {
   },
   ethnicity: {
     // 'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your ethnicity?',
+    'ui:title': applicantDemographicsEthnicityTitle,
     'ui:widget': 'radio',
     'ui:options': {
       labels: {
@@ -837,7 +899,7 @@ export const veteranUI = {
   },
   race: {
     'ui:field': RaceEthnicityReviewField,
-    'ui:title': 'What’s your race?',
+    'ui:title': applicantDemographicsRaceTitle,
     'ui:webComponentField': VaCheckboxGroupField,
     isAmericanIndianOrAlaskanNative: {
       'ui:title': 'American Indian or Alaskan Native',
@@ -854,11 +916,11 @@ export const veteranUI = {
     isWhite: {
       'ui:title': 'White',
     },
-    isOther: {
-      'ui:title': 'Other',
-    },
     na: {
       'ui:title': 'Prefer not to answer',
+    },
+    isOther: {
+      'ui:title': 'Other',
     },
     'ui:validations': [
       // require at least one value to be true/checked
@@ -873,6 +935,21 @@ export const veteranUI = {
       showFieldLabel: true,
     },
   },
+  raceComment: {
+    'ui:title': 'Enter the race that best describes you',
+    'ui:widget': 'textarea',
+    'ui:required': form => {
+      return form?.application?.veteran?.race?.isOther;
+    },
+    'ui:options': {
+      expandUnder: 'race',
+      maxLength: 100,
+      pattern: /^(?!\s+$)[\w\s.,'"!?()-]+$/,
+      hideIf: form => {
+        return !form?.application?.veteran?.race?.isOther;
+      },
+    },
+  },
   militaryStatus: {
     'ui:title': 'Current military status',
     'ui:webComponentField': VaSelectField,
@@ -881,8 +958,8 @@ export const veteranUI = {
         'You can add more service history information later in this application.',
       labels: {
         A: 'Active duty',
-        I: 'Death Related to Inactive Duty Training',
-        D: 'Died on Active Duty',
+        I: 'Death related to inactive duty training',
+        D: 'Died on active duty',
         S: 'Reserve/National Guard',
         R: 'Retired',
         E: 'Retired active duty',
@@ -1017,6 +1094,95 @@ export const preparerVeteranUI = {
   },
 };
 
+export const validateMilitaryHistory = (errors, serviceRecords, formData) => {
+  // Map the highestRank to the corresponding Rank Description from jsonData
+  const rankMap = jsonData.reduce((map, rank) => {
+    // eslint-disable-next-line no-param-reassign
+    map[rank['Rank Code'].toUpperCase()] = rank[
+      'Rank Description'
+    ].toUpperCase();
+    return map;
+  }, {});
+
+  // Create a list of valid rank descriptions
+  const validRanks = jsonData.map(rank =>
+    rank['Rank Description'].toUpperCase(),
+  );
+
+  for (let index = 0; index < serviceRecords.length; index++) {
+    const serviceRecord = serviceRecords[index];
+
+    // Check if serviceBranch is undefined and highestRank is defined
+    if (
+      serviceRecord.serviceBranch === undefined &&
+      serviceRecord.highestRank !== undefined
+    ) {
+      if (isVeteran(formData)) {
+        if (!isAuthorizedAgent(formData)) {
+          // Self
+          errors[index].highestRank.addError(
+            'Select a branch of service before selecting your highest rank attained.',
+          );
+        } else {
+          // Applicant
+          errors[index].highestRank.addError(
+            "Select Applicant's branch of service before selecting the Applicant's highest rank attained.",
+          );
+        }
+      } else {
+        // Sponsor
+        errors[index].highestRank.addError(
+          "Select Sponsor's branch of service before selecting the Sponsor's highest rank attained.",
+        );
+      }
+    }
+
+    // Validate if highestRank is valid using Rank Description
+    const highestRank = serviceRecord.highestRank?.toUpperCase();
+    const highestRankDescription = rankMap[highestRank] || highestRank;
+
+    if (
+      highestRankDescription &&
+      !validRanks.includes(highestRankDescription)
+    ) {
+      errors[index].highestRank.addError(
+        'Enter a valid rank, or leave this field blank.',
+      );
+    }
+
+    // Date of birth validation
+    let dob;
+    let errorMessage;
+
+    if (isVeteran(formData)) {
+      if (!isAuthorizedAgent(formData)) {
+        // Self
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage = 'Provide a valid date that is after your date of birth';
+      } else {
+        // Applicant
+        dob = formData.application.claimant.dateOfBirth;
+        errorMessage =
+          "Provide a valid date that is after the applicant's date of birth";
+      }
+    } else {
+      // Sponsor
+      dob = formData.application.veteran.dateOfBirth;
+      errorMessage =
+        "Provide a valid date that is after the sponsor's date of birth";
+    }
+
+    // Date of birth validation against service start date and service end date
+    if (serviceRecord.dateRange.from <= dob) {
+      errors[index].dateRange.from.addError(errorMessage);
+    }
+
+    if (serviceRecord.dateRange.to <= dob) {
+      errors[index].dateRange.to.addError(errorMessage);
+    }
+  }
+};
+
 export const selfServiceRecordsUI = {
   'ui:title': 'Your service period(s)',
   'ui:options': {
@@ -1025,11 +1191,12 @@ export const selfServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1042,8 +1209,8 @@ export const selfServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Service start date',
-      'Service end date',
+      'Service Start Date',
+      'Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1063,6 +1230,11 @@ export const selfServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',
@@ -1084,11 +1256,12 @@ export const preparerServiceRecordsUI = {
     keepInPageOnReview: true,
     useDlWrap: true,
   },
+  'ui:validations': [validateMilitaryHistory],
   items: {
     'ui:order': [
       'serviceBranch',
-      'highestRank',
       'dateRange',
+      'highestRank',
       'dischargeType',
       'nationalGuardState',
     ],
@@ -1101,8 +1274,8 @@ export const preparerServiceRecordsUI = {
       },
     }),
     dateRange: dateRangeUI(
-      'Applicant’s service start date',
-      'Applicant’s service end date',
+      'Applicant’s Service Start Date',
+      'Applicant’s Service End Date',
       'Service start date must be after end date',
     ),
     dischargeType: {
@@ -1122,6 +1295,11 @@ export const preparerServiceRecordsUI = {
     },
     highestRank: {
       'ui:title': 'Applicant’s highest rank attained',
+      'ui:field': HighestRankAutoSuggest,
+      'ui:options': {
+        hint:
+          'This field may clear if the branch of service or service start and end dates are updated.',
+      },
     },
     nationalGuardState: {
       'ui:title': 'State (for National Guard Service only)',

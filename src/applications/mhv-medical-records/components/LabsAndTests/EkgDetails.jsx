@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -26,6 +26,7 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -37,6 +38,9 @@ const EkgDetails = props => {
   );
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -90,7 +94,11 @@ const EkgDetails = props => {
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="ekg-date" />
+      <DateSubheading
+        date={record.date}
+        id="ekg-date"
+        label="Date and time collected"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -100,9 +108,9 @@ const EkgDetails = props => {
       />
       <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
 
-      <div className="electrocardiogram-details max-80">
+      <div className="test-details-container max-80">
         <h2 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
+          Location
         </h2>
         <p data-testid="ekg-record-facility">
           {record.facility || 'There is no facility reported at this time'}
@@ -115,7 +123,7 @@ const EkgDetails = props => {
           results, you can request a copy of your complete medical record from
           your VA health facility.
         </p>
-        <p className="vads-u-margin-top--2 no-print">
+        <p className="vads-u-margin-top--3 no-print">
           <a href="https://www.va.gov/resources/how-to-get-your-medical-records-from-your-va-health-facility/">
             Learn how to get records from your VA health facility
           </a>

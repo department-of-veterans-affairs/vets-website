@@ -68,6 +68,7 @@ import {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
@@ -128,7 +129,9 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -183,6 +186,7 @@ const formConfig = {
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
+  CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
@@ -320,7 +324,8 @@ const formConfig = {
         addDisabilities: {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
-          depends: DISABILITY_SHARED_CONFIG.addDisabilities.depends,
+          depends: formData =>
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
@@ -730,6 +735,13 @@ const formConfig = {
             !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

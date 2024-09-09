@@ -6,7 +6,7 @@
  * a FHIR resource request
  */
 
-import { getCommunityCareFacilities, getCommunityCareFacility } from '../var';
+import { getCommunityCareFacilities } from '../var';
 import { mapToFHIRErrors } from '../utils';
 
 import { VHA_FHIR_ID } from '../../utils/constants';
@@ -22,7 +22,6 @@ import {
   transformSettingsV2,
   transformFacilityV2,
   setSupportedSchedulingMethods,
-  transformCommunityProvider,
   transformCommunityProviders,
 } from './transformers';
 import { getRealFacilityId } from '../../utils/appointment';
@@ -221,30 +220,6 @@ export async function getCommunityProvidersByTypeOfCare({
     });
 
     return transformCommunityProviders(communityCareProviders);
-  } catch (e) {
-    if (e.errors) {
-      throw mapToFHIRErrors(e.errors);
-    }
-
-    throw e;
-  }
-}
-
-/**
- * Fetch a single location associated with the given VistA site id that are
- * marked as VAST parent locations
- *
- * @export
- * @async
- * @param {string} id VistA site id
- * @returns {Object<Location>} A FHIR Location resources
- */
-
-// Possibly no longer needed - the facilities call isn't needed in cc appointments flow
-export async function getCommunityProvider(id) {
-  try {
-    const facility = await getCommunityCareFacility(id);
-    return transformCommunityProvider(facility);
   } catch (e) {
     if (e.errors) {
       throw mapToFHIRErrors(e.errors);

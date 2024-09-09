@@ -19,9 +19,9 @@ import {
 } from '../../../mocks/setup';
 
 import ReviewPage from '../../../../new-appointment/components/ReviewPage';
-import { mockAppointmentSubmitV2 } from '../../../mocks/helpers.v2';
-import { createMockCheyenneFacilityByVersion } from '../../../mocks/data';
-import { mockFacilityFetchByVersion } from '../../../mocks/fetch';
+import { mockAppointmentSubmit } from '../../../mocks/helpers';
+import { createMockCheyenneFacility } from '../../../mocks/data';
+import { mockFacilityFetch } from '../../../mocks/fetch';
 
 const initialState = {
   featureToggles: {
@@ -30,72 +30,6 @@ const initialState = {
     show_new_schedule_view_appointments_page: true,
   },
 };
-
-// describe('VAOS Page: ReviewPage VA request', () => {
-//   let store;
-//   let start;
-
-//   const defaultState = {
-//     ...initialState,
-//     newAppointment: {
-//       pages: {},
-//       data: {
-//         facilityType: FACILITY_TYPES.VAMC,
-//         typeOfCareId: '323',
-//         phoneNumber: '1234567890',
-//         email: 'joeblow@gmail.com',
-//         reasonForAppointment: 'routine-follow-up',
-//         reasonAdditionalInfo: 'I need an appt',
-//         vaParent: '983',
-//         vaFacility: '983',
-//         visitType: 'telehealth',
-//         selectedDates: ['2020-05-25T00:00:00.000', '2020-05-26T12:00:00.000'],
-//         bestTimeToCall: {
-//           morning: true,
-//           afternoon: true,
-//           evening: true,
-//         },
-//       },
-//       clinics: {},
-//       parentFacilities: [
-//         {
-//           id: '983',
-//           identifier: [
-//             { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-//             {
-//               system: 'http://med.va.gov/fhir/urn',
-//               value: 'urn:va:facility:983',
-//             },
-//           ],
-//         },
-//       ],
-//       facilities: {
-//         '323': [
-//           {
-//             id: '983',
-//             name: 'Cheyenne VA Medical Center',
-//             identifier: [
-//               { system: 'urn:oid:2.16.840.1.113883.6.233', value: '983' },
-//             ],
-//             address: {
-//               postalCode: '82001-5356',
-//               city: 'Cheyenne',
-//               state: 'WY',
-//               line: ['2360 East Pershing Boulevard'],
-//             },
-//             telecom: [{ system: 'phone', value: '307-778-7550' }],
-//           },
-//         ],
-//       },
-//     },
-//   };
-
-//   beforeEach(() => {
-//     mockFetch();
-//     start = moment();
-//   });
-
-// });
 
 describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
   let store;
@@ -146,7 +80,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should submit successfully', async () => {
     store = createTestStore(defaultState);
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -198,7 +132,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -250,7 +184,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
         },
       },
     });
-    mockAppointmentSubmitV2({
+    mockAppointmentSubmit({
       id: 'fake_id',
       attributes: {
         reasonCode: {},
@@ -282,8 +216,8 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
   it('should show error message on failure', async () => {
     store = createTestStore(defaultState);
-    mockFacilityFetchByVersion({
-      facility: createMockCheyenneFacilityByVersion({}),
+    mockFacilityFetch({
+      facility: createMockCheyenneFacility({}),
     });
     setFetchJSONFailure(
       global.fetch.withArgs(`${environment.API_URL}/vaos/v2/appointments`),
@@ -300,7 +234,7 @@ describe('VAOS Page: ReviewPage VA request with VAOS service', () => {
 
     userEvent.click(screen.getByText(/Submit request/i));
 
-    await screen.findByText('We couldn’t schedule this appointment');
+    await screen.findByText('We can’t submit your request');
 
     expect(screen.baseElement).contain.text(
       'Something went wrong when we tried to submit your request. You can try again later, or call your VA medical center to help with your request.',

@@ -7,7 +7,6 @@ import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import { $ } from 'platform/forms-system/src/js/utilities/ui';
 
 import formConfig from '../../config/form';
-import { SHOW_PART3 } from '../../constants';
 
 import { ExtensionReasonReviewField } from '../../content/extensionReason';
 
@@ -18,7 +17,6 @@ const {
 
 describe('extension request page', () => {
   const defaultData = {
-    [SHOW_PART3]: true,
     requestingExtension: true,
     extensionReason: 'Lorem ipsum',
   };

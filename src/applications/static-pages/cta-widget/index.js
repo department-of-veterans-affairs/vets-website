@@ -4,20 +4,20 @@ import PropTypes from 'prop-types';
 import appendQuery from 'append-query';
 import { connect } from 'react-redux';
 // Relative imports.
-import recordEvent from 'platform/monitoring/record-event';
-import { fetchMHVAccount } from 'platform/user/profile/actions';
-import { mhvUrl } from 'platform/site-wide/mhv/utilities';
-import sessionStorage from 'platform/utilities/storage/sessionStorage';
+import recordEvent from '~/platform/monitoring/record-event';
+import { fetchMHVAccount } from '~/platform/user/profile/actions';
+import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
+import sessionStorage from '~/platform/utilities/storage/sessionStorage';
 
-import { isAuthenticatedWithSSOe } from 'platform/user/authentication/selectors';
-import { isLoggedIn, selectProfile } from 'platform/user/selectors';
+import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import { isLoggedIn, selectProfile } from '~/platform/user/selectors';
 import {
   logout as IAMLogout,
   mfa,
-} from 'platform/user/authentication/utilities';
-import { logoutUrlSiS } from 'platform/utilities/oauth/utilities';
-import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
-import { AUTH_EVENTS } from 'platform/user/authentication/constants';
+} from '~/platform/user/authentication/utilities';
+import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
+import { toggleLoginModal } from '~/platform/site-wide/user-nav/actions';
+import { AUTH_EVENTS } from '~/platform/user/authentication/constants';
 import MFA from './components/messages/DirectDeposit/MFA';
 import ChangeAddress from './components/messages/ChangeAddress';
 import DeactivatedMHVIds from './components/messages/DeactivatedMHVIds';
@@ -78,6 +78,8 @@ export class CallToActionWidget extends Component {
     this._toolDetails = ctaWidget?.deriveToolUrlDetails() || {};
     this._toolUrl = null;
     this._gaPrefix = 'register-mhv';
+    this._featureToggle = ctaWidget?.featureToggle;
+    this._headerLevel = ctaWidget?.headerLevel || props.headerLevel;
   }
 
   componentDidMount() {
@@ -154,7 +156,7 @@ export class CallToActionWidget extends Component {
         return (
           <DirectDepositUnAuthed
             primaryButtonHandler={this.openLoginModal}
-            headerLevel={this.props.headerLevel}
+            headerLevel={this._headerLevel}
             ariaLabel={this.props.ariaLabel}
             ariaDescribedby={this.props.ariaDescribedby}
           />
@@ -164,7 +166,7 @@ export class CallToActionWidget extends Component {
         <SignIn
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.openLoginModal}
-          headerLevel={this.props.headerLevel}
+          headerLevel={this._headerLevel}
           ariaLabel={this.props.ariaLabel}
           ariaDescribedby={this.props.ariaDescribedby}
         />
@@ -181,6 +183,7 @@ export class CallToActionWidget extends Component {
         <Verify
           serviceDescription={this._serviceDescription}
           primaryButtonHandler={this.verifyHandler}
+          headerLevel={this._headerLevel}
         />
       );
     }
@@ -321,6 +324,7 @@ export class CallToActionWidget extends Component {
           <Verify
             serviceDescription={this._serviceDescription}
             primaryButtonHandler={this.verifyHandler}
+            headerLevel={this._headerLevel}
           />
         );
 
@@ -489,6 +493,11 @@ export class CallToActionWidget extends Component {
 
     // Derive the CTA widget.
     const ctaWidget = ctaWidgetsLookup?.[appId];
+
+    // Render nothing if feature toggle is off.
+    if (!!this._featureToggle && !featureToggles[this._featureToggle]) {
+      return null;
+    }
 
     // Derive the CTA URL.
     const url = ctaWidget?.deriveToolUrlDetails(authenticatedWithSSOe)?.url;

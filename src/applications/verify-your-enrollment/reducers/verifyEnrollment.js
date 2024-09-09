@@ -30,7 +30,11 @@ const verifyEnrollment = (state = initialState, action) => {
         loading: false,
         error: action.errors,
       };
-
+    case 'RESET_ENROLLMENT_ERROR':
+      return {
+        ...state,
+        error: null,
+      };
     default:
       return state;
   }

@@ -22,6 +22,7 @@ import { duplicateArrays } from '../utils/validation';
 export const App = ({
   children,
   claimantInfo,
+  dgiRudisillHideBenefitsSelectionStep,
   eligibility,
   exclusionPeriods,
   featureTogglesLoaded,
@@ -40,9 +41,6 @@ export const App = ({
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
   showDgiDirectDeposit1990EZ,
-  showMebDgi40Features,
-  showMebDgi42Features,
-  showMebEnhancements,
   showMebEnhancements06,
   showMebEnhancements08,
   showMebEnhancements09,
@@ -159,7 +157,6 @@ export const App = ({
       isLOA3,
       isLoggedIn,
       setFormData,
-      showMebDgi40Features,
     ],
   );
 
@@ -199,18 +196,6 @@ export const App = ({
 
   useEffect(
     () => {
-      if (showMebDgi40Features !== formData.showMebDgi40Features) {
-        setFormData({
-          ...formData,
-          showMebDgi40Features,
-        });
-      }
-      if (showMebDgi42Features !== formData.showMebDgi42Features) {
-        setFormData({
-          ...formData,
-          showMebDgi42Features,
-        });
-      }
       if (
         showMeb1990EZMaintenanceAlert !== formData.showMeb1990EZMaintenanceAlert
       ) {
@@ -267,12 +252,6 @@ export const App = ({
         });
       }
 
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
       if (showMebEnhancements06 !== formData.showMebEnhancements06) {
         setFormData({
           ...formData,
@@ -294,6 +273,15 @@ export const App = ({
         setFormData({
           ...formData,
           mebAutoPopulateRelinquishmentDate,
+        });
+      }
+      if (
+        dgiRudisillHideBenefitsSelectionStep !==
+        formData.dgiRudisillHideBenefitsSelectionStep
+      ) {
+        setFormData({
+          ...formData,
+          dgiRudisillHideBenefitsSelectionStep,
         });
       }
 
@@ -329,15 +317,13 @@ export const App = ({
       }
     },
     [
+      dgiRudisillHideBenefitsSelectionStep,
       formData,
       isLOA3,
       setFormData,
       showDgiDirectDeposit1990EZ,
-      showMebDgi40Features,
-      showMebDgi42Features,
       showMeb1990EZMaintenanceAlert,
       showMeb1990EZR6MaintenanceMessage,
-      showMebEnhancements,
       showMebEnhancements06,
       showMebEnhancements08,
       showMebEnhancements09,
@@ -367,7 +353,12 @@ export const App = ({
   useEffect(
     () => {
       const fetchAndUpdateDirectDepositInfo = async () => {
-        if (showDgiDirectDeposit1990EZ && isLoggedIn && !fetchedDirectDeposit) {
+        if (
+          showDgiDirectDeposit1990EZ &&
+          isLoggedIn &&
+          isLOA3 &&
+          !fetchedDirectDeposit
+        ) {
           await getDirectDeposit();
           setFetchedDirectDeposit(true);
         }
@@ -437,6 +428,7 @@ export const App = ({
 App.propTypes = {
   children: PropTypes.object,
   claimantInfo: PropTypes.object,
+  dgiRudisillHideBenefitsSelectionStep: PropTypes.bool,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   eligibility: PropTypes.arrayOf(PropTypes.string),
@@ -459,9 +451,6 @@ App.propTypes = {
   showDgiDirectDeposit1990EZ: PropTypes.bool,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
-  showMebDgi40Features: PropTypes.bool,
-  showMebDgi42Features: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showMebEnhancements09: PropTypes.bool,

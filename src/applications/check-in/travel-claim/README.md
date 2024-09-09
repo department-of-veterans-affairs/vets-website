@@ -37,11 +37,7 @@ See README in the root of check-in for more instructions on setting up a local i
 
 When running locally there are 3 UUIDs available:
 - defaultUUID: `46bebc0a-b99c-464f-a5c5-560bc9eae287`
-    This UUID has a single appointment payload. This can be used to test the single facility and single appointment functionality.
-- multiApptSingleFacilityUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
-    This UUID has 2 appointments at 1 facility. Use this UUID to test multi-appointments while still seeing the single facility context.
-- multiApptMultiFacilityUUID: `8379d4b5-b9bc-4f3f-84a2-9cb9983a1af0`
-    This UUID has several appointments across 3 facilities. Use this UUID to test multi-facility functionality.
+- multiOHAppointmentsUUID: `d80ade2e-7a96-4a30-9edc-efc08b4d157d`
 
 After completing a travel-claim locally that facility will be added to local storage with a timestamp. Once that happens, you will no longer be able to test a claim with that facility unless you clear local storage first. This can also be used to test the already filed functionality. Local storage can be managed from the application tab in your browser tools.
 

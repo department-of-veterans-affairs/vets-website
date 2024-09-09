@@ -30,13 +30,13 @@
       width: 44px;
 
       span {
-        i {
+        va-icon {
           margin-right: 0;
-          font-size: 2rem;
+          font-size: 1.25rem;
 
           @include media($medium-screen) {
-            margin-right: 0.8rem;
-            font-size: 1.5rem;
+            margin-right: 0.5rem;
+            font-size: 0.9375rem;
           }
         }
 

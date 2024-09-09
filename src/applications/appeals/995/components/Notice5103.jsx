@@ -55,6 +55,7 @@ const Notice5103 = ({
       <Notice5103Description onReviewPage={onReviewPage} />
       <VaCheckbox
         label={content.label}
+        name="5103"
         error={hasError ? content.error : null}
         onVaChange={handlers.onChange}
         checked={data.form5103Acknowledged}
@@ -64,7 +65,7 @@ const Notice5103 = ({
       >
         <div slot="description">{content.descriptionInCheckbox}</div>
       </VaCheckbox>
-      <div className="form-nav-buttons vads-u-margin-top--4">
+      <div className="form-nav-buttons vads-u-margin-y--4">
         {onReviewPage && (
           <va-button
             onClick={handlers.onGoForward}

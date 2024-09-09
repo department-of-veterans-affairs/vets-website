@@ -25,7 +25,7 @@ export default {
         hint: content['insurance-medicare-claim-number-hint'],
       },
       'ui:errorMessages': {
-        required: content['validation-medicare-claim-number'],
+        pattern: content['validation-medicare-claim-number'],
       },
     },
   },

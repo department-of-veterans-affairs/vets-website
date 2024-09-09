@@ -7,8 +7,8 @@
     await import('../../../travel-claim/tests/e2e/errors-submitting-travel-claim.cypress.spec');
     await import('../../../travel-claim/tests/e2e/errors-uuid.cypress.spec');
     await import('../../../travel-claim/tests/e2e/errors-validation.cypress.spec');
-    await import('../../../travel-claim/tests/e2e/multiple-facility.cypress.spec');
-    await import('../../../travel-claim/tests/e2e/single-facility.cypress.spec');
+    await import('../../../travel-claim/tests/e2e/multiple-appointment.cypress.spec');
+    await import('../../../travel-claim/tests/e2e/single-appointment.cypress.spec');
   }
 })();
 describe('Screenshots Travel-claim application', () => {

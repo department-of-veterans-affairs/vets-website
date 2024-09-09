@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
@@ -7,6 +7,18 @@ import { vitalTypeDisplayNames } from '../../util/constants';
 const VitalListItem = props => {
   const { record } = props;
   const displayName = vitalTypeDisplayNames[record.type];
+
+  const updatedRecordType = useMemo(
+    () => {
+      const typeMap = {
+        PULSE: 'HEART-RATE',
+        RESPIRATION: 'BREATHING-RATE',
+        PULSE_OXIMETRY: 'BLOOD-OXYGEN-LEVEL',
+      };
+      return typeMap[record.type] || record.type;
+    },
+    [record.type],
+  );
 
   return (
     <va-card
@@ -40,7 +52,6 @@ const VitalListItem = props => {
               {record.measurement}
             </span>
           </div>
-
           <div
             className="vads-u-line-height--4 vads-u-margin-bottom--1"
             data-dd-privacy="mask"
@@ -51,15 +62,24 @@ const VitalListItem = props => {
           </div>
 
           <Link
-            to={`/vitals/${_.kebabCase(record.type)}-history`}
+            to={`/vitals/${_.kebabCase(updatedRecordType)}-history`}
             className="vads-u-line-height--4"
             data-testid="vital-li-review-over-time"
           >
-            <strong>Review {displayName.toLowerCase()} over time</strong>
-            <i
-              className="fas fa-angle-right details-link-icon"
-              aria-hidden="true"
-            />
+            <strong>
+              Review your{' '}
+              {displayName === 'Blood oxygen level (pulse oximetry)'
+                ? displayName
+                    .toLowerCase()
+                    .split(' ')
+                    .slice(0, 3)
+                    .join(' ')
+                : displayName.toLowerCase()}{' '}
+              over time
+            </strong>
+            <span aria-hidden="true">
+              <va-icon icon="navigate_next" size={1} />
+            </span>
           </Link>
         </>
       )}

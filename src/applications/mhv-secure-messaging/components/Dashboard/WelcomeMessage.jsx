@@ -49,7 +49,7 @@ const WelcomeMessage = () => {
           target="_blank"
           rel="noreferrer"
         >
-          Go back to the previous version of secure messaging
+          Go back to the previous version of secure messaging (opens in new tab)
         </a>
       </p>
     </div>

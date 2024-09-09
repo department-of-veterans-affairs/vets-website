@@ -12,8 +12,8 @@ import {
 
 import ClinicChoicePage from '../../../covid-19-vaccine/components/ClinicChoicePage';
 import { TYPE_OF_CARE_ID } from '../../../covid-19-vaccine/utils';
-import { mockEligibilityFetchesByVersion } from '../../mocks/fetch';
-import { createMockClinicByVersion } from '../../mocks/data';
+import { mockEligibilityFetches } from '../../mocks/fetch';
+import { createMockClinic } from '../../mocks/data';
 
 const initialState = {
   featureToggles: {
@@ -27,12 +27,12 @@ const initialState = {
 };
 
 describe('VAOS vaccine flow: ClinicChoicePage', () => {
-  const clinic1 = createMockClinicByVersion({
+  const clinic1 = createMockClinic({
     id: '308',
     stationId: '983',
     friendlyName: 'Green team clinic',
   });
-  const clinic2 = createMockClinicByVersion({
+  const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
     friendlyName: 'Red team clinic',
@@ -41,7 +41,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
 
   beforeEach(() => mockFetch());
   it('should display multiple clinics and require one to be chosen', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,
@@ -99,7 +99,7 @@ describe('VAOS vaccine flow: ClinicChoicePage', () => {
   });
 
   it('should retain form data after page changes', async () => {
-    mockEligibilityFetchesByVersion({
+    mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,
       clinics,

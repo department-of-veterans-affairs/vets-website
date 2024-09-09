@@ -1,13 +1,11 @@
 import React from 'react';
 import { MemoryRouter } from 'react-router-dom';
-import {
-  fireEvent,
-  waitForElementToBeRemoved,
-  within,
-} from '@testing-library/react';
-import user from '@testing-library/user-event';
+import { fireEvent, waitForElementToBeRemoved } from '@testing-library/react';
 import { expect } from 'chai';
 import { setupServer } from 'msw/node';
+
+import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+
 import {
   FIELD_TITLES,
   FIELD_NAMES,
@@ -60,17 +58,19 @@ function editPhoneNumber(
   const editButton = getEditButton(numberName);
   editButton.click();
 
-  const phoneNumberInput = view.getByLabelText(
-    `${numberName} (U.S. numbers only)`,
-    { exact: false },
+  const phoneNumberInput = $(
+    `va-text-input[label^="${numberName}"]`,
+    view.container,
   );
-  const extensionInput = view.getByLabelText('Extension (6 digits maximum)');
+  const extensionInput = $('va-text-input[label^="Extension"]', view.container);
   expect(phoneNumberInput).to.exist;
 
   // enter a new phone number in the form
-  user.clear(phoneNumberInput);
-  user.type(phoneNumberInput, `${options.areaCode} ${options.phoneNumber}`);
-  user.clear(extensionInput);
+  phoneNumberInput.value = `${options.areaCode} ${options.phoneNumber}`;
+  fireEvent.input(phoneNumberInput, { target: {} });
+
+  extensionInput.value = '';
+  fireEvent.input(extensionInput, { target: {} });
 
   // save
   view.getByText('Save', { selector: 'button' }).click();
@@ -266,12 +266,8 @@ describe('Editing', () => {
 
     fireEvent.click(await view.findByText(/Save/i));
 
-    const alert = await view.findByRole('alert');
-    expect(alert).to.exist;
-
-    within(alert).getByText('This field should be at least 10', {
-      exact: false,
-    });
+    const homePhoneInput = $('va-text-input[label^="Home phone"]');
+    expect(homePhoneInput.error).to.contain('This field should be at least 10');
   });
 
   it('validates a phone number that has letters in the field', async () => {
@@ -284,11 +280,7 @@ describe('Editing', () => {
 
     fireEvent.click(await view.findByText(/Save/i));
 
-    const alert = await view.findByRole('alert');
-    expect(alert).to.exist;
-
-    within(alert).getByText('Enter a 10 digit phone number', {
-      exact: false,
-    });
+    const homePhoneInput = $('va-text-input[label^="Home phone"]');
+    expect(homePhoneInput.error).to.eq('Enter a 10 digit phone number');
   });
 });

@@ -1,7 +1,8 @@
 // Determines which results page to display
 
 import { DISPLAY_CONDITIONS } from '../constants/display-conditions';
-import { NONE } from '../constants/display-conditions/results-screens';
+import { NONE } from '../constants/display-conditions/results-pages';
+import { SHORT_NAME_MAP } from '../constants/question-data-map';
 import {
   filterForYesResponses,
   getQuestionBatch,
@@ -58,13 +59,42 @@ export const responsesMatchResultsDCs = (yesShortNames, pageDCsForFlow) => {
  */
 export const determineResultsPage = (formResponses, router) => {
   const responseToServicePeriod = getServicePeriodResponse(formResponses);
+  const { RESULTS_4 } = SHORT_NAME_MAP;
 
-  const allResultsDCs = DISPLAY_CONDITIONS?.RESULTS;
+  const resultsPages = DISPLAY_CONDITIONS?.RESULTS;
   const yesShortNames = filterForYesResponses(formResponses);
 
-  for (const resultsPage of Object?.keys(allResultsDCs)) {
+  // Because Results 4 requires answers to specific questions rather than any answer in a batch,
+  // it must be evaluated first when determining the results page as other results pages'
+  // display conditions may also be true
+  const pageDCsForResults4 =
+    resultsPages?.[RESULTS_4]?.SERVICE_PERIOD_SELECTION?.[
+      responseToServicePeriod
+    ].YES;
+
+  if (pageDCsForResults4) {
+    let goToResults4 = false;
+
+    for (const question of pageDCsForResults4) {
+      if (yesShortNames.includes(question)) {
+        goToResults4 = true;
+        break;
+      }
+    }
+
+    if (goToResults4) {
+      pushToRoute(RESULTS_4, router);
+      return;
+    }
+  }
+
+  const filteredResultsPages = Object.keys(resultsPages).filter(
+    page => page !== RESULTS_4,
+  );
+
+  for (const resultsPage of filteredResultsPages) {
     const pageDCsForFlow =
-      allResultsDCs[resultsPage]?.SERVICE_PERIOD_SELECTION?.[
+      resultsPages[resultsPage]?.SERVICE_PERIOD_SELECTION?.[
         responseToServicePeriod
       ];
 

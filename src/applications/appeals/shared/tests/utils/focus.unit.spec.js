@@ -13,6 +13,9 @@ import {
   focusCancelButton,
   focusRadioH3,
   focusAlertH3,
+  focusToggledHeader,
+  focusH3,
+  focusOnAlert,
 } from '../../utils/focus';
 import { LAST_ISSUE } from '../../constants';
 
@@ -349,6 +352,100 @@ describe('focusAlertH3', () => {
     const { container } = await renderPage();
 
     await focusAlertH3();
+    await waitFor(() => {
+      const target = $('h3', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+});
+
+describe('focusH3', () => {
+  const renderPage = () =>
+    render(
+      <div id="main">
+        <h3>test</h3>
+      </div>,
+    );
+
+  it('should focus on H3', async () => {
+    const { container } = await renderPage();
+
+    await focusH3();
+    await waitFor(() => {
+      const target = $('h3', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+});
+
+describe('focusOnAlert', () => {
+  const renderPage = (hasErrorAlert = true) =>
+    render(
+      <div id="main">
+        <div />
+        <va-alert status="info">
+          <h3>Test</h3>
+        </va-alert>
+        {hasErrorAlert && (
+          <va-alert status="error">
+            <h3>Test 2</h3>
+          </va-alert>
+        )}
+      </div>,
+    );
+
+  it('should focus on alert', async () => {
+    const { container } = await renderPage();
+
+    await focusOnAlert();
+    await waitFor(() => {
+      const target = $('va-alert[status="error"] h3', container);
+      expect(document.activeElement).to.eq(target);
+    });
+  });
+  it('should not focus on alert', async () => {
+    await renderPage(false);
+
+    await focusOnAlert();
+    await waitFor(() => {
+      expect(document.activeElement?.tagName).to.eq('BODY');
+    });
+  });
+});
+
+describe('focusToggledHeader', () => {
+  const renderPage = (hasRadio = true) =>
+    render(
+      <div id="main">
+        {hasRadio ? (
+          <va-radio label-header-level="3" label="test">
+            <va-radio-option label="1" name="test" value="1" />
+            <va-radio-option label="2" name="test" value="2" />
+          </va-radio>
+        ) : (
+          <div className="nav-header">
+            <h3>test 2</h3>
+          </div>
+        )}
+      </div>,
+    );
+
+  it('should focus on H3 inside va-radio', async () => {
+    global.sessionStorage.setItem('hlrUpdated', 'false');
+    const focusSpy = sinon.spy(focusUtils, 'waitForRenderThenFocus');
+    await renderPage();
+
+    await focusToggledHeader();
+    await waitFor(() => {
+      expect(focusSpy.args[0][0]).to.eq('h3');
+      focusSpy.restore();
+    });
+  });
+  it('should focus on H3', async () => {
+    global.sessionStorage.setItem('hlrUpdated', 'true');
+    const { container } = await renderPage(false);
+
+    await focusToggledHeader();
     await waitFor(() => {
       const target = $('h3', container);
       expect(document.activeElement).to.eq(target);

@@ -208,8 +208,6 @@ function CalculateYourBenefitsForm({
     recalculateBenefits();
   };
 
-  const [isDisabled] = useState(false);
-
   const updateEligibility = (e, name, number) => {
     if (number === 2) {
       const { value } = e.detail;
@@ -220,14 +218,6 @@ function CalculateYourBenefitsForm({
       });
       eligibilityChange({ [name]: value });
 
-      if (name === 'militaryStatus') {
-        /*
-        setIsDisabled(true);
-        if (value === 'spouse' || value === 'child') {
-          setIsDisabled(false);
-        } */
-        // eligibilityChange({ giBillChapter: '33a' });
-      }
       recalculateBenefits();
     }
 
@@ -240,14 +230,6 @@ function CalculateYourBenefitsForm({
     });
     eligibilityChange({ [field]: value });
 
-    if (field === 'militaryStatus') {
-      /*
-      setIsDisabled(true);
-      if (value === 'spouse' || value === 'child') {
-        setIsDisabled(false);
-      } */
-      // eligibilityChange({ giBillChapter: '33a' });
-    }
     recalculateBenefits();
   };
 
@@ -1105,7 +1087,6 @@ function CalculateYourBenefitsForm({
             hideModal={hideModal}
             showModal={showModal}
             inputs={inputs}
-            optionDisabled={isDisabled}
             displayedInputs={displayedInputs}
             handleInputFocus={handleEYBInputFocus}
             giBillChapterOpen={[displayedInputs?.giBillBenefit]}

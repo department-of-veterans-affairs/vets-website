@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import FormNavButtons from '@department-of-veterans-affairs/platform-forms-system/FormNavButtons';
+import { waitForRenderThenFocus } from '@department-of-veterans-affairs/platform-utilities/ui';
 import ReviewPageNavigationAlert from '../alerts/ReviewPageNavigationAlert';
 
 const ResolutionExplainerWidget = ({
@@ -28,7 +29,10 @@ const ResolutionExplainerWidget = ({
       goBack();
     }
   };
-
+  React.useEffect(() => {
+    // focus on the h3  when the page loads for screen readers
+    waitForRenderThenFocus('h3');
+  }, []);
   return (
     <form
       onSubmit={event => {
@@ -41,9 +45,8 @@ const ResolutionExplainerWidget = ({
           close-btn-aria-label="Close notification"
           disable-analytics="false"
           full-width="false"
-          show-icon
           status="info"
-          visible="true"
+          visible
         >
           <h3 slot="headline">
             Next, you’ll be asked to choose a relief option for each debt you

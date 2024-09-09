@@ -1,5 +1,12 @@
 const { spawn, spawnSync } = require('child_process');
 
+const childProcesses = [];
+process.on('SIGINT', () => {
+  childProcesses.forEach(child => {
+    child.kill('SIGINT');
+  });
+});
+
 const runCommand = cmd => {
   const child = spawn(cmd, [], { shell: true, stdio: 'inherit' });
 
@@ -11,9 +18,7 @@ const runCommand = cmd => {
   });
 
   // When we ^C out of the parent Node script, also interrupt the child
-  process.on('SIGINT', () => {
-    child.kill('SIGINT');
-  });
+  childProcesses.push(child);
 };
 
 const runCommandSync = cmd => {

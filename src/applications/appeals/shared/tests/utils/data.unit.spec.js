@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { getFullName, renderFullName } from '../../utils/data';
+import { getFullName, renderFullName, maskVafn } from '../../utils/data';
 
 describe('getFullName', () => {
   it('should return nothing for an empty object', () => {
@@ -60,5 +60,18 @@ describe('renderFullName', () => {
     const { container } = render(<div>{renderFullName()}</div>);
     expect($('.dd-privacy-hidden', container)).to.not.exist;
     expect(container.innerHTML).to.eq('<div></div>');
+  });
+});
+
+describe('maskVafn', () => {
+  it('should return HTML with empty values', () => {
+    const { container } = render(maskVafn(''));
+    const text = container.textContent;
+    expect(text).to.contain('●●●–●●–V A file number ending with ');
+  });
+  it('should return HTML with masked last 4', () => {
+    const { container } = render(maskVafn('1234'));
+    const text = container.textContent;
+    expect(text).to.contain('●●●–●●–1234V A file number ending with 1 2 3 4');
   });
 });

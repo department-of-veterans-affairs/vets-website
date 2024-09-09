@@ -6,6 +6,7 @@ import { connect, useDispatch } from 'react-redux';
 import { selectProfile } from 'platform/user/selectors';
 import environment from 'platform/utilities/environment';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -23,13 +24,11 @@ import { WIZARD_STATUS } from '../wizard/constants';
 import {
   fsrWizardFeatureToggle,
   fsrFeatureToggle,
-  enhancedFSRFeatureToggle,
-  streamlinedWaiverFeatureToggle,
-  streamlinedWaiverAssetUpdateFeatureToggle,
   reviewPageNavigationFeatureToggle,
 } from '../utils/helpers';
 import user from '../mocks/user.json';
 import useDetectFieldChanges from '../hooks/useDetectFieldChanges';
+import useDocumentTitle from '../hooks/useDocumentTitle';
 
 const App = ({
   children,
@@ -50,6 +49,13 @@ const App = ({
 }) => {
   const dispatch = useDispatch();
   const { shouldShowReviewButton } = useDetectFieldChanges(formData);
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const showUpdatedExpensePages = useToggleValue(
+    TOGGLE_NAMES.financialStatusReportExpensesUpdate,
+  );
+
+  // Set the document title based on the current page
+  useDocumentTitle(location);
 
   useEffect(
     () => {
@@ -149,11 +155,17 @@ const App = ({
         'view:streamlinedWaiver': true,
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
+        'view:showUpdatedExpensePages': showUpdatedExpensePages,
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [showReviewPageNavigationFeature, setFormData, isStartingOver],
+    [
+      isStartingOver,
+      setFormData,
+      showReviewPageNavigationFeature,
+      showUpdatedExpensePages,
+    ],
   );
 
   if (pending) {
@@ -217,11 +229,8 @@ App.propTypes = {
   }),
   router: PropTypes.object,
   setFormData: PropTypes.func,
-  showEnhancedFSR: PropTypes.bool,
   showFSR: PropTypes.bool,
   showReviewPageNavigationFeature: PropTypes.bool,
-  showStreamlinedWaiver: PropTypes.bool,
-  showStreamlinedWaiverAssetUpdate: PropTypes.bool,
   showWizard: PropTypes.bool,
 };
 
@@ -233,11 +242,6 @@ const mapStateToProps = state => ({
   profile: selectProfile(state) || {},
   showWizard: fsrWizardFeatureToggle(state),
   showFSR: fsrFeatureToggle(state),
-  showEnhancedFSR: enhancedFSRFeatureToggle(state),
-  showStreamlinedWaiver: streamlinedWaiverFeatureToggle(state),
-  showStreamlinedWaiverAssetUpdate: streamlinedWaiverAssetUpdateFeatureToggle(
-    state,
-  ),
   showReviewPageNavigationFeature: reviewPageNavigationFeatureToggle(state),
   isLoadingFeatures: toggleValues(state).loading,
   isStartingOver: state.form.isStartingOver,

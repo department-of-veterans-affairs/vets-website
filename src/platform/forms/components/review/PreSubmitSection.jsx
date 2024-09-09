@@ -147,12 +147,7 @@ export function PreSubmitSection(props) {
                 rel="noopener noreferrer"
               >
                 privacy policy
-                <span className="sr-only">opens in a new window</span>
-                <i
-                  className="fas fa-arrow-up-right-from-square"
-                  aria-hidden="true"
-                  role="img"
-                />
+                <va-icon icon="launch" srtext="opens in a new window" />
               </a>
               .
             </p>

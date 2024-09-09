@@ -1,25 +1,20 @@
 import _ from 'platform/utilities/data';
-
+import {
+  yesNoUI,
+  yesNoSchema,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import { serviceTreatmentRecordsSubmitLater } from '../content/serviceTreatmentRecords';
 
 export const uiSchema = {
   'view:uploadServiceTreatmentRecordsQualifier': {
-    'view:hasServiceTreatmentRecordsToUpload': {
-      'ui:title': `Do you want to upload your service treatment records? (You’ll
+    'view:hasServiceTreatmentRecordsToUpload': yesNoUI({
+      title: `Do you want to upload your service treatment records? (You’ll
         have a chance to upload your medical records later in the application.)`,
-      'ui:widget': 'yesNo',
-      'ui:options': {
-        labels: {
-          Y: 'Yes',
-          N: 'No, I will submit them later.',
-        },
-        widgetProps: {
-          N: {
-            'aria-describedby': 'submit-str-asap',
-          },
-        },
+      labels: {
+        Y: 'Yes',
+        N: 'No, I will submit them later.',
       },
-    },
+    }),
   },
   'view:serviceTreatmentRecordsSubmitLater': {
     'ui:title': '',
@@ -42,9 +37,7 @@ export const schema = {
       required: ['view:hasServiceTreatmentRecordsToUpload'],
       type: 'object',
       properties: {
-        'view:hasServiceTreatmentRecordsToUpload': {
-          type: 'boolean',
-        },
+        'view:hasServiceTreatmentRecordsToUpload': yesNoSchema,
       },
     },
     'view:serviceTreatmentRecordsSubmitLater': {

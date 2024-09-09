@@ -14,10 +14,10 @@ import {
   renderWithStoreAndRouter,
   setCommunityCareFlow,
 } from '../../../mocks/setup';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
-import { createMockFacilityByVersion } from '../../../mocks/data';
-import { mockFacilitiesFetchByVersion } from '../../../mocks/fetch';
+import { mockSchedulingConfigurations } from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
+import { createMockFacility } from '../../../mocks/data';
+import { mockFacilitiesFetch } from '../../../mocks/fetch';
 
 async function chooseMorningRequestSlot(screen) {
   const currentMonth = moment()
@@ -120,9 +120,10 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
     // Get the first day in the second week of the month, which
     // should always be a Monday
-    const mondayInMonth = within(screen.getAllByRole('row')[2])
-      .getAllByRole('cell')[0]
-      .querySelector('button').textContent;
+    let mondayInMonth = within(screen.getAllByRole('rowgroup')[2]);
+    mondayInMonth = within(mondayInMonth.getAllByRole('row')[2]);
+    mondayInMonth = within(mondayInMonth.getAllByRole('cell')[0]);
+    mondayInMonth = mondayInMonth.queryAllByRole('button')[0].textContent;
 
     // Verify the first button in the second week is actually a Monday
     expect(
@@ -473,14 +474,14 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
   describe('community care iterations flag is turned on', () => {
     beforeEach(() => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities: [
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '983',
           }),
-          createMockFacilityByVersion({
+          createMockFacility({
             id: '984',
           }),
         ],
@@ -505,7 +506,6 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Given the user has two or more supported parent sites
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles: {},
         registeredSites: ['983', '984'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983', '983GC'],
@@ -541,9 +541,6 @@ describe('VAOS Page: DateTimeRequestPage', () => {
       // Given the user has one supported parent site
       // And the user is in the community care flow
       const store = await setCommunityCareFlow({
-        toggles: {
-          vaOnlineSchedulingFacilitiesServiceV2: true,
-        },
         registeredSites: ['983'],
         parentSites: [{ id: '983' }, { id: '983GC' }],
         supportedSites: ['983'],

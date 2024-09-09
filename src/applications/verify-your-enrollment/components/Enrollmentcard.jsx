@@ -25,19 +25,19 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
           <div key={index}>
             <div className="vads-u-margin-top--3">
               <h2 className="vye-highlighted-title-container">
-                {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
+                {translateDateIntoMonthYearFormat(enrollment[0].actBegin)}
               </h2>
             </div>
             <div className="vye-highlighted-content-container">
               {!confirmationPage &&
                 `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                  enrollment[0].awardBeginDate,
+                  enrollment[0].actBegin,
                 )}.`}
               {enrollment.map(nestedEnrollment => {
                 {
                   /* sending true as second argument turns on left border */
                 }
-                return getPeriodsToVerify([nestedEnrollment], true);
+                return getPeriodsToVerify([nestedEnrollment]);
               })}
             </div>
           </div>
@@ -47,16 +47,16 @@ const EnrollmentCard = ({ enrollmentPeriods, confirmationPage = false }) => {
         <div key={index}>
           <div className="vads-u-margin-top--3">
             <h2 className="vye-highlighted-title-container">
-              {translateDateIntoMonthYearFormat(enrollment[0].awardBeginDate)}
+              {translateDateIntoMonthYearFormat(enrollment[0].actBegin)}
             </h2>
           </div>
           <div className="vye-highlighted-content-container">
             {!confirmationPage &&
               `This is the enrollment information we have on file for you for ${translateDateIntoMonthYearFormat(
-                enrollment[0].awardBeginDate,
+                enrollment[0].actBegin,
               )}.`}
             {/* sending true as second argument turns on left border */}
-            {getPeriodsToVerify(enrollment, true)}
+            {getPeriodsToVerify(enrollment)}
           </div>
         </div>
       );

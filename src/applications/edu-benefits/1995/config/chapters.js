@@ -18,7 +18,7 @@ import {
   sponsorInfo,
 } from '../pages';
 
-import { isProductionOfTestProdEnv } from '../helpers';
+import { isProductionOfTestProdEnv, sponsorInformationTitle } from '../helpers';
 import guardianInformation from '../pages/guardianInformation';
 
 export const applicantInformationField = (automatedTest = false) => {
@@ -82,6 +82,12 @@ export const servicePeriodsSchema = (automatedTest = false) => {
     : servicePeriodsUpdate.schema;
 };
 
+export const newSchoolTitle = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? 'School, university, program, or training facility you want to attend'
+    : 'School or training facility you want to attend';
+};
+
 export const newSchoolUiSchema = (automatedTest = false) => {
   return isProductionOfTestProdEnv(automatedTest)
     ? newSchool.uiSchema
@@ -100,6 +106,32 @@ export const directDepositField = (automatedTest = false) => {
     : createDirectDepositChangePageUpdate(fullSchema1995);
 };
 
+export const serviceHistoryTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Service history';
+  }
+  return 'Applicant service history';
+};
+const militaryService = {
+  title: serviceHistoryTitle(),
+  pages: {
+    servicePeriods: {
+      path: 'military/service',
+      title: 'Service periods',
+      uiSchema: servicePeriodsUiSchema(),
+      schema: servicePeriodsSchema(),
+    },
+  },
+};
+
+if (isProductionOfTestProdEnv()) {
+  militaryService.pages.militaryHistory = {
+    title: 'Military history',
+    path: 'military/history',
+    uiSchema: militaryHistory.uiSchema,
+    schema: militaryHistory.schema,
+  };
+}
 export const chapters = {
   applicantInformation: {
     title: 'Applicant information',
@@ -125,36 +157,20 @@ export const chapters = {
     },
   },
   sponsorInformation: {
-    title: 'Sponsor information',
+    title: sponsorInformationTitle(),
     pages: {
       sponsorInformation: sponsorInfo(fullSchema1995),
     },
   },
-  militaryService: {
-    title: 'Service history',
-    pages: {
-      servicePeriods: {
-        path: 'military/service',
-        title: 'Service periods',
-        uiSchema: servicePeriodsUiSchema(),
-        schema: servicePeriodsSchema(),
-      },
-      militaryHistory: {
-        title: 'Military history',
-        depends: () => isProductionOfTestProdEnv(),
-        path: 'military/history',
-        uiSchema: militaryHistory.uiSchema,
-        schema: militaryHistory.schema,
-      },
-    },
-  },
+  militaryService,
   schoolSelection: {
-    title: 'School selection',
+    title: isProductionOfTestProdEnv()
+      ? 'School selection'
+      : 'School/training facility selection',
     pages: {
       newSchool: {
         path: 'school-selection/new-school',
-        title:
-          'School, university, program, or training facility you want to attend',
+        title: newSchoolTitle(),
         initialData: {
           newSchoolAddress: {},
         },

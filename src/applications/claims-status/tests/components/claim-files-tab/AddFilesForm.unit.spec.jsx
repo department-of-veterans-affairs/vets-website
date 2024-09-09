@@ -52,6 +52,7 @@ describe('<AddFilesForm>', () => {
       expect(checkbox.label).to.equal(
         'The files I uploaded support this claim only.',
       );
+      expect(checkbox.required).to.be.true;
       const link = $('#how-to-file-claim', container);
       expect(link.text).to.equal('How to File a Claim');
       expect($('.files-form-information', container)).to.exist;
@@ -591,5 +592,42 @@ describe('<AddFilesForm>', () => {
 
     // VaTextInput has a name prop set to 'password'
     expect(tree.everySubTree('*', byName('password'))[0]).to.exist;
+  });
+
+  it('should mask filenames from Datadog (no PII)', () => {
+    const fileFormProps = {
+      field: { value: '', dirty: false },
+      files: [
+        {
+          file: {
+            size: 20,
+            name: 'something.jpeg',
+          },
+          docType: 'L501',
+        },
+      ],
+      onSubmit: () => {},
+      onAddFile: () => {},
+      onRemoveFile: () => {},
+      onFieldChange: () => {},
+      onCancel: () => {},
+      removeFile: () => {},
+      onDirtyFields: () => {},
+    };
+    const files = [
+      {
+        file: {
+          size: 20,
+          name: 'something.jpeg',
+        },
+        docType: 'L501',
+      },
+    ];
+    const { container } = render(
+      <AddFilesForm {...fileFormProps} files={files} />,
+    );
+    expect(
+      $('.document-title', container).getAttribute('data-dd-privacy'),
+    ).to.equal('mask');
   });
 });

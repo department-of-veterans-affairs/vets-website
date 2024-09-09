@@ -1,12 +1,12 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import SecureMessagingLandingPage from './pages/SecureMessagingLandingPage';
+import FolderLoadPage from './pages/FolderLoadPage';
 import { Assertions, AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockRecipients from './fixtures/recipients-response.json';
 
 describe('SM main page', () => {
   beforeEach(() => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
   });
 
@@ -48,12 +48,19 @@ describe('SM main page', () => {
     cy.get(Locators.LINKS.GO_TO_INBOX).click({ force: true });
     cy.location('pathname').should('contain', 'inbox');
   });
+
+  it('verify breadcrumbs', () => {
+    FolderLoadPage.verifyBreadCrumbsLength(3);
+
+    FolderLoadPage.verifyBreadCrumbText(0, 'VA.gov home');
+    FolderLoadPage.verifyBreadCrumbText(1, 'My HealtheVet');
+    FolderLoadPage.verifyBreadCrumbText(2, 'Messages');
+  });
 });
 
 describe('SM main page without API calls', () => {
   it('validate Inbox and New Message links exists in the page', () => {
-    const site = new SecureMessagingSite();
-    site.login();
+    SecureMessagingSite.login();
     cy.intercept(
       'GET',
       Paths.INTERCEPT.MESSAGE_ALLRECIPIENTS,

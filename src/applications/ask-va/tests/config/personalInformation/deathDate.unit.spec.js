@@ -1,21 +1,21 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   $,
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
+import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.dateOfDeath_familysomeonesbenefits;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran.pages.dateOfDeath_aboutsomeoneelserelationshipfamilymemberaboutveteran;
 
 describe('deathDatePage', () => {
   it('should render', () => {
@@ -35,7 +35,7 @@ describe('deathDatePage', () => {
     const labels = $$('label', container);
     const labelList = ['Month', 'Day', 'Year'];
 
-    expect($('h4', container).textContent).to.eq('When did the Veteran die?');
+    expect($('h3', container).textContent).to.eq("Date of Veteran's death");
 
     labels.forEach(
       label =>

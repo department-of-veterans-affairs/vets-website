@@ -5,26 +5,24 @@ import { renderLetterHistory } from '../const/diary-codes';
 
 const HistoryTable = ({ history }) => {
   return (
-    <div className=" vads-u-margin-y--4">
-      <va-table>
-        <va-table-row slot="headers">
-          <span>Date</span>
-          <span>Letter</span>
+    <va-table table-title="Debt letter history" uswds table-type="bordered">
+      <va-table-row slot="headers">
+        <span>Date</span>
+        <span>Letter</span>
+      </va-table-row>
+      {history.map((debt, index) => (
+        <va-table-row key={`${debt.date}-${index}`}>
+          <span className="vads-u-width--fit">
+            {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+          </span>
+          <span>
+            <div className="vads-u-margin-top--0">
+              {renderLetterHistory(debt.letterCode)}
+            </div>
+          </span>
         </va-table-row>
-        {history.map((debt, index) => (
-          <va-table-row key={`${debt.date}-${index}`}>
-            <span>
-              {moment(debt.date, 'MM-DD-YYYY').format('MMMM D, YYYY')}
-            </span>
-            <span>
-              <div className="vads-u-margin-top--0">
-                {renderLetterHistory(debt.letterCode)}
-              </div>
-            </span>
-          </va-table-row>
-        ))}
-      </va-table>
-    </div>
+      ))}
+    </va-table>
   );
 };
 

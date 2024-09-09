@@ -11,7 +11,7 @@ import {
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { accessAlertTypes, pageTitles } from '../util/constants';
 import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
-import { getTxtContent } from '../util/txtHelpers/downloadRecords';
+import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
@@ -42,7 +42,15 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      dispatch(
+        setBreadcrumbs(
+          [{ url: '/my-health/medical-records', label: 'Medical records' }],
+          {
+            url: '/my-health/medical-records/download-all',
+            label: 'Download all medical records',
+          },
+        ),
+      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.DOWNLOAD_PAGE_TITLE);
     },
@@ -244,11 +252,15 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           type="button"
           onClick={generatePdf}
           data-testid="download-blue-button-pdf"
+          style={{ position: 'absolute' }}
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
+          <span
+            className="vads-u-margin-right--0p5"
             aria-hidden="true"
-          />
+            style={{ position: 'relative', top: '2px' }}
+          >
+            <va-icon icon="file_download" size={1} />
+          </span>
           Download PDF document
         </button>
         <br />
@@ -257,14 +269,18 @@ const DownloadRecordsPage = ({ runningUnitTest }) => {
           type="button"
           onClick={generateTxt}
           data-testid="download-blue-button-txt"
+          style={{ position: 'absolute' }}
         >
-          <i
-            className="fas fa-download vads-u-margin-right--0p5"
+          <span
+            className="vads-u-margin-right--0p5"
             aria-hidden="true"
-          />
+            style={{ position: 'relative', top: '2px' }}
+          >
+            <va-icon icon="file_download" size={1} />
+          </span>
           Download Text file
         </button>
-        <h3 className="vads-u-margin-top--2">
+        <h3 className="vads-u-margin-top--6">
           What to do if you can’t find all your records
         </h3>
         <p>

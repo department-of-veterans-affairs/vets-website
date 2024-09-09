@@ -7,7 +7,9 @@ import { $ } from 'platform/forms-system/src/js/utilities/ui';
 import {
   MessageAlert,
   NoneSelectedAlert,
+  MaxSelectionsAlert,
 } from '../../content/contestableIssues';
+import { MAX_LENGTH } from '../../constants';
 
 describe('MessageAlert', () => {
   it('should render alert', () => {
@@ -74,5 +76,20 @@ describe('NoneSelectedAlert', () => {
     const { container } = render(<NoneSelectedAlert inReviewMode />);
     const content = container.innerHTML;
     expect(content).to.contain('vads-u-margin-y--2');
+  });
+});
+
+describe('MaxSelectionsAlert', () => {
+  it('should render', () => {
+    const { container } = render(
+      <div>
+        <MaxSelectionsAlert closeModal={() => {}} appName="Test app" />
+      </div>,
+    );
+    const content = container.innerHTML;
+
+    expect($('va-modal[status="warning"]', container)).to.exist;
+    expect(content).to.contain(MAX_LENGTH.SELECTIONS);
+    expect(content).to.contain('Test app request');
   });
 });

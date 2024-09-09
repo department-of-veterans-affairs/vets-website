@@ -2,9 +2,7 @@ import Timeouts from 'platform/testing/e2e/timeouts';
 
 class Demographics {
   validatePageLoaded = () => {
-    cy.get('h1', { timeout: Timeouts.slow })
-      .should('be.visible')
-      .and('include.text', 'Is this your current contact information?');
+    cy.get('h1', { timeout: Timeouts.slow }).should('be.visible');
   };
 
   validateSubTitle = () => {

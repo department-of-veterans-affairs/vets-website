@@ -31,6 +31,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -48,6 +49,8 @@ const AllergyDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  useIsDetails(dispatch);
+
   useEffect(
     () => {
       if (allergyId) dispatch(getAllergyDetails(allergyId, allergyList));
@@ -61,7 +64,7 @@ const AllergyDetails = props => {
         setBreadcrumbs([
           {
             url: '/allergies',
-            label: 'Allergies',
+            label: 'allergies',
           },
         ]),
       );

@@ -47,8 +47,11 @@ export const uiSchema = {
         'ui:title': 'Sponsor’s Social Security number',
       },
       dateOfBirth: currentOrPastDateUI('Sponsor’s date of birth'),
-      placeOfBirth: {
-        'ui:title': "Sponsor's place of birth (City, State, or Territory)",
+      cityOfBirth: {
+        'ui:title': "Sponsor's birth city or county",
+      },
+      stateOfBirth: {
+        'ui:title': "Sponsor's birth state or territory",
       },
     }),
   },
@@ -75,7 +78,8 @@ export const schema = {
               'currentName',
               'ssn',
               'dateOfBirth',
-              'placeOfBirth',
+              'cityOfBirth',
+              'stateOfBirth',
             ]),
           ),
         },

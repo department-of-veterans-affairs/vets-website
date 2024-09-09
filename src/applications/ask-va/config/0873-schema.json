@@ -197,12 +197,22 @@
         "street": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 50
+          "maxLength": 100
+        },
+        "unitNumber": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
         },
         "street2": {
           "type": "string",
           "minLength": 1,
-          "maxLength": 50
+          "maxLength": 100
+        },
+        "street3": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
         },
         "city": {
           "type": "string",

@@ -1,3 +1,4 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
 export const selectYesNoWebComponent = (fieldName, value) => {
   cy.selectYesNoVaRadioOption(`root_${fieldName}`, value);
 };
@@ -41,7 +42,14 @@ export const fillAddressWebComponentPattern = (fieldName, addressObject) => {
   fillTextWebComponent(`${fieldName}_street`, addressObject.street);
   fillTextWebComponent(`${fieldName}_street2`, addressObject.street2);
   fillTextWebComponent(`${fieldName}_street3`, addressObject.street3);
-  selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+  // List loop fields sometimes fail on this because the state <select> renders as a text input
+  // TODO: look into that bug. For now, set the test to check which field type we have
+  cy.get('body').then(body => {
+    if (body.find(`va-select[name="root_${fieldName}_state"]`).length > 0)
+      selectDropdownWebComponent(`${fieldName}_state`, addressObject.state);
+    if (body.find(`va-text-input[name="root_${fieldName}_state"]`).length > 0)
+      fillTextWebComponent(`${fieldName}_state`, addressObject.state);
+  });
   fillTextWebComponent(`${fieldName}_postalCode`, addressObject.postalCode);
 };
 
@@ -118,3 +126,68 @@ export const reviewAndSubmitPageFlow = (
     selector: 'button',
   }).click();
 };
+
+/**
+ * Puts all page objects into an object where pagename maps to page data
+ * E.g., {page1: {path: '/blah'}}*
+ * @param {object} formConfig A standard config representing a form
+ * @returns object mapping page name to the matching page object: {page1: {path: '/blah'}}
+ */
+export function getAllPages(formConfig) {
+  const allPages = {};
+  Object.values(formConfig.chapters).forEach(ch =>
+    Object.keys(ch.pages).forEach(p => {
+      allPages[p] = ch.pages[p];
+    }),
+  );
+  return allPages;
+}
+
+export function missingValErrMsg(key, original, submitted) {
+  const ogVal =
+    typeof original[key] === 'object'
+      ? JSON.stringify(original[key])
+      : original[key];
+  const subVal =
+    typeof submitted[key] === 'object'
+      ? JSON.stringify(submitted[key])
+      : submitted[key];
+  return `Property with name ${key} and value ${ogVal} not found in submitted data (instead got ${subVal})`;
+}
+
+/**
+ * Verifies that every key in `data` has a matching key in `req` with an identical value.
+ *
+ * Expect all original data used to populate the form to be present
+ * in the submission - this is how we know that pages we intended to
+ * fill didn't get skipped on standard fill runthroughs:
+ *
+ * @param {object} data Object containing form data to be input in a form
+ * @param {object} req Object containing form data from a form submission
+ */
+export function verifyAllDataWasSubmitted(data, req) {
+  describe('Data submitted after E2E runthrough should include all data supplied in test file', () => {
+    Object.keys(data).forEach(k => {
+      // handle special cases:
+      const lc = k.toLowerCase();
+      if (lc.includes('dob') || lc.includes('date') || k === 'missingUploads') {
+        // Just check length match. There's a discrepancy in the
+        // format of dates (goes from YYYY-MM-DD to MM-DD-YYYY).
+        // TODO: Address discrepancy at some point.
+        expect(data[k]?.length, missingValErrMsg(k, data, req)).to.equal(
+          req[k]?.length,
+        );
+
+        // if 'missingUploads' -> we just want to check that we have the same number
+        // of files listed, so re-using this conditional works.
+      } else {
+        // eslint-disable-next-line no-unused-expressions
+        expect(
+          req[k],
+          `Expected submitted data to include property ${k} and for it to not be undefined.`,
+        ).to.not.be.undefined;
+      }
+      // cy.axeCheck();
+    });
+  });
+}

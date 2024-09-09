@@ -43,11 +43,6 @@
   },
   {
     "appName": "How To Apply For A Veterans Burial Allowance",
-    "rootUrl": "/burials-memorials/veterans-burial-allowance",
-    "widgetType": "burials-v2-how-do-i-apply-widget"
-  },
-  {
-    "appName": "How To Apply For A Veterans Burial Allowance",
     "rootUrl": "/burials-memorials/veterans-burial-allowance/burials-app-status",
     "widgetType": "burials-app-status"
   },
@@ -141,5 +136,10 @@
     "appName": "Representative Status",
     "rootUrl": "/representative-status",
     "widgetType": "representative-status"
+  },
+  {
+    "appName": "Verify Your Enrollment Widget",
+    "rootUrl": "/education/verify-school-enrollment",
+    "widgetType": "vye-enrollment-login-widget"
   }
 ]

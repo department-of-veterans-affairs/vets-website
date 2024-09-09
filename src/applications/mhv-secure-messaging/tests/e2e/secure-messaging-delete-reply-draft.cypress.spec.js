@@ -3,45 +3,43 @@ import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
 import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientReplyPage from './pages/PatientReplyPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockMessages from './fixtures/messages-response.json';
-import { AXE_CONTEXT } from './utils/constants';
+import { AXE_CONTEXT, Locators } from './utils/constants';
 
 describe('Secure Messaging Delete Reply Draft', () => {
-  it('Axe Check Message Delete Reply Draft with Axe Check', () => {
-    const draftsPage = new PatientMessageDraftsPage();
-    const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    const site = new SecureMessagingSite();
-    site.login();
-    const messageDetails = landingPage.getNewMessageDetails();
+  const currentDate = GeneralFunctionsPage.getDateFormat();
+  it('verify user can delete draft on reply', () => {
+    SecureMessagingSite.login();
+    const messageDetails = PatientInboxPage.getNewMessageDetails();
+    PatientInboxPage.loadInboxMessages(mockMessages, messageDetails);
 
-    landingPage.loadInboxMessages(mockMessages, messageDetails);
-    messageDetailsPage.loadMessageDetails(messageDetails);
-    messageDetailsPage.loadReplyPageDetails(messageDetails);
+    PatientMessageDetailsPage.loadMessageDetails(messageDetails);
+    PatientMessageDetailsPage.loadReplyPageDetails(messageDetails);
     PatientInterstitialPage.getContinueButton().click();
-    const testMessageBody = 'Test body';
+
     PatientReplyPage.getMessageBodyField().click();
-    PatientReplyPage.getMessageBodyField().type(testMessageBody, {
+
+    PatientReplyPage.getMessageBodyField().type(`Test Body`, {
       force: true,
     });
-    cy.realPress(['Enter']).then(() => {
-      PatientReplyPage.clickSaveReplyDraftButton(
-        messageDetails,
-        `\n\n\nName\nTitleTest${testMessageBody}`,
-      );
-      cy.log(
-        `the message details after clickSaveReplyDraftButton ${JSON.stringify(
-          messageDetails,
-        )}`,
-      );
-    });
-    draftsPage.clickDeleteButton();
-    draftsPage.confirmDeleteDraft(messageDetails);
-    draftsPage.verifyDeleteConfirmationMessage();
-    draftsPage.verifyDraftMessageBannerTextHasFocus();
 
+    PatientReplyPage.clickSaveReplyDraftButton(
+      messageDetails,
+      `\n\n\nName\nTitleTestTest Body`,
+    );
+
+    cy.get(Locators.ALERTS.SAVE_ALERT).should(
+      'contain',
+      `message was saved on ${currentDate}`,
+    );
+
+    PatientMessageDraftsPage.clickMultipleDeleteButton();
+    PatientMessageDraftsPage.confirmDeleteDraft(messageDetails);
+    PatientMessageDraftsPage.verifyDeleteConfirmationMessage();
+    PatientMessageDraftsPage.verifyDraftMessageBannerTextHasFocus();
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

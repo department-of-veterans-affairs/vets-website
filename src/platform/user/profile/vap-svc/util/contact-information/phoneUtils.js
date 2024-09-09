@@ -1,4 +1,6 @@
 import pickBy from 'lodash/pickBy';
+import VaTextInputField from '~/platform/forms-system/src/js/web-component-fields/VaTextInputField';
+
 import { PHONE_TYPE, USA } from '../../constants';
 
 export const phoneFormSchema = {
@@ -28,6 +30,7 @@ export const phoneUiSchema = fieldName => {
   return {
     inputPhoneNumber: {
       'ui:title': `${fieldName} (U.S. numbers only)`,
+      'ui:webComponentField': VaTextInputField,
       'ui:validations': [
         (errors, field) => {
           // checks that the phone number is at least 10 numerical digits
@@ -40,14 +43,17 @@ export const phoneUiSchema = fieldName => {
       'ui:errorMessages': {
         pattern: phoneErrorMessage,
       },
+      'ui:autocomplete': 'tel',
       'ui:options': {
+        inputType: 'tel',
         ariaDescribedby: 'error-message-details',
       },
     },
     extension: {
       'ui:title': 'Extension (6 digits maximum)',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
-        pattern: 'Please enter a valid extension up to 6 digits.',
+        pattern: 'You must enter a valid extension up to 6 digits.',
       },
     },
   };

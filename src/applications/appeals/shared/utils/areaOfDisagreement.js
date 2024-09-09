@@ -1,4 +1,10 @@
-import { MAX_LENGTH, SUBMITTED_DISAGREEMENTS } from '../constants';
+import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
+
+import {
+  MAX_LENGTH,
+  SUBMITTED_DISAGREEMENTS,
+  DISAGREEMENT_TYPES,
+} from '../constants';
 import { getIssueName } from './issues';
 
 /**
@@ -63,4 +69,16 @@ export const calculateOtherMaxLength = areaOfDisagreement => {
     return totalLength;
   }, 0);
   return MAX_LENGTH.DISAGREEMENT_REASON - stringLength;
+};
+
+export const disagreeWith = (data = {}, { prefix = 'Disagree with' } = {}) => {
+  const list = Object.keys(DISAGREEMENT_TYPES).map(type => {
+    if (type === 'otherEntry') {
+      return data?.otherEntry || '';
+    }
+    return data?.disagreementOptions?.[type]
+      ? DISAGREEMENT_TYPES[type]?.toLowerCase()
+      : '';
+  });
+  return `${prefix} ${readableList(list)}`.trim();
 };

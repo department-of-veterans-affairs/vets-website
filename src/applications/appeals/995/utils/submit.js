@@ -23,10 +23,6 @@ import {
 } from '../../shared/utils/replace';
 import { removeEmptyEntries } from '../../shared/utils/submit';
 
-export const getTimeZone = () =>
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/resolvedOptions
-  Intl.DateTimeFormat().resolvedOptions().timeZone;
-
 /**
  * @typedef ClaimantData
  * @type {Object}
@@ -130,7 +126,7 @@ export const getPhone = formData => {
         countryCode: truncate('countryCode', MAX_LENGTH.PHONE_COUNTRY_CODE),
         areaCode: truncate('areaCode', MAX_LENGTH.PHONE_AREA_CODE),
         phoneNumber: truncate('phoneNumber', MAX_LENGTH.PHONE_NUMBER),
-        phoneNumberExt: truncate('phoneNumberExt', MAX_LENGTH.PHONE_NUMBER_EXT),
+        phoneNumberExt: truncate('extension', MAX_LENGTH.PHONE_NUMBER_EXT),
       })
     : {};
 };

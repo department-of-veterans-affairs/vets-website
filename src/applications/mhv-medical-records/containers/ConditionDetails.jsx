@@ -39,6 +39,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -57,6 +58,8 @@ const ConditionDetails = props => {
   const dispatch = useDispatch();
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -120,13 +123,11 @@ ${record.name} \n
 ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
-Date entered: ${record.date} \n
-${txtLine} \n
-Provider: ${record.provider} \n
-Provider Notes: ${processList(record.note)} \n
-Status of health condition: ${record.active} \n
-Location: ${record.facility} \n
-SNOMED Clinical term: ${record.name} \n`;
+Date entered: ${record.date}\n
+${txtLine}\n
+Provider: ${record.provider}\n
+Location: ${record.facility}\n
+Provider Notes: ${processList(record.comments)}\n`;
 
     const fileName = `VA-Conditions-details-${getNameDateAndTime(user)}`;
 
@@ -134,6 +135,11 @@ SNOMED Clinical term: ${record.name} \n`;
   };
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
+
+  function containsSctOrIcd(inputString) {
+    const regex = /\b(sct|icd)/i;
+    return regex.test(inputString);
+  }
 
   const content = () => {
     if (accessAlert) {
@@ -153,7 +159,7 @@ SNOMED Clinical term: ${record.name} \n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {record.name.split(' (')[0]}
+            {`Health conditions: ${record.name}`}
           </h1>
           <DateSubheading
             date={record.date}
@@ -168,6 +174,7 @@ SNOMED Clinical term: ${record.name} \n`;
             downloadTxt={generateConditionTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
+          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
 
           <div className="condition-details max-80">
             <h2 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -182,11 +189,31 @@ SNOMED Clinical term: ${record.name} \n`;
             <p data-dd-privacy="mask" data-testid="condition-location">
               {record.facility || 'There is no facility reported at this time'}
             </p>
-            <h2 className="vads-u-margin-bottom--0">Provider notes</h2>
+            <h2 className="vads-u-margin-bottom--0 vads-u-font-family--sans">
+              Provider notes
+            </h2>
             <ItemList
               data-testid="condition-provider-notes"
               list={record.comments}
             />
+            {containsSctOrIcd(record.name) && (
+              <>
+                <h2 className="vads-u-font-size--base vads-u-font-family--sans">
+                  About the code in this condition name
+                </h2>
+                <p
+                  data-dd-privacy="mask"
+                  data-testid="about-the-condition-code"
+                >
+                  Some of your health conditions may have diagnosis codes in the
+                  name that start with SCT or ICD. Providers use these codes to
+                  track your health conditions and to communicate with other
+                  providers about your care. If you have a question about these
+                  codes or a health condition, ask your provider at your next
+                  appointment.
+                </p>
+              </>
+            )}
           </div>
         </>
       );

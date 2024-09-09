@@ -1,4 +1,3 @@
-// Relative imports.
 import environment from 'platform/utilities/environment';
 import crossDomainRedirects from './crossDomainRedirects.json';
 

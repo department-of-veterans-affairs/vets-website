@@ -4,7 +4,7 @@ import version2Updates, {
   forceV2Migration,
 } from '../../migrations/01-lighthouse-v2-updates';
 
-import saveInProgress from '../fixtures/data/save-in-progress-v1';
+import saveInProgress from '../fixtures/data/migrated/save-in-progress-v1';
 import transformed01 from '../fixtures/data/migrated/01-migrated-v1-to-v2';
 
 describe('HLR v2 migration', () => {
@@ -87,7 +87,7 @@ describe('HLR v2 migration', () => {
     });
     it('should return in progress data if v2 feature is disabled', () => {
       const data = {
-        formData: { hlrV2: false },
+        formData: {},
         metadata: { test: true },
       };
       expect(version2Updates(data)).to.deep.equal(data);

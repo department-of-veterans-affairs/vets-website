@@ -67,14 +67,9 @@ export const YourClaimLetters = ({ isLoading, showClaimLetters }) => {
     setDocumentTitle('Your VA Claim Letters');
   }, []);
 
-  useEffect(
-    () => {
-      if (!lettersLoading) {
-        setPageFocus();
-      }
-    },
-    [lettersLoading],
-  );
+  useEffect(() => {
+    setPageFocus();
+  });
 
   /**
    * This commented code was deemed likely to be needed.

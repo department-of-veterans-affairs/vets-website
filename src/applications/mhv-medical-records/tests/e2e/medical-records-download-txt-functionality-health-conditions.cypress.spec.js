@@ -11,7 +11,7 @@ describe('Medical Records Health Conditions', () => {
   });
 
   it('Health Conditions Toggle Menu button Print or download ', () => {
-    // Given Navigate to Health Conditions List Page
+    ConditionsListPage.gotoConditionsListPage();
 
     ConditionsListPage.clickConditionsDetailsLink(0);
 

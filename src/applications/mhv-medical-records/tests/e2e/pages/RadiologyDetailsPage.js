@@ -26,8 +26,8 @@ class RadiologyDetailsPage extends BaseDetailsPage {
 
   verifyRadiologyImageLink = radiologyImage => {
     // Radiology Image Expand Button
-    cy.get('[data-testid="radiology-image"]').should('be.visible');
-    cy.get('[data-testid="radiology-image"]')
+    cy.get('[data-testid="radiology-images-link"]').should('be.visible');
+    cy.get('[data-testid="radiology-images-link"]')
       .contains(radiologyImage)
       .invoke('attr', 'href')
       .should(

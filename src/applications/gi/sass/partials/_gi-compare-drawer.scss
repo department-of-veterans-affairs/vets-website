@@ -86,24 +86,6 @@
         outline: none;
       }
     }
-
-    .header-label::after {
-      font-family: "Font Awesome 5 Free";
-      font-weight: 900;
-      font-size: 150%;
-      vertical-align: middle;
-      padding-left: 0.5em;
-      margin-top: -4px;
-      background-color: transparent;
-    }
-
-    .header-label.open::after {
-      content: "\F107";
-    }
-
-    .header-label.closed::after {
-      content: "\F106";
-    }
   }
 
   .compare-body {

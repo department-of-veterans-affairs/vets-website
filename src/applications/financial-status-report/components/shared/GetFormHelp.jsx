@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const GetFormHelp = () => {
   return (
-    <div>
+    <>
       <p>
         If you have trouble using this online form, call our MyVA411 main
         information line at <va-telephone contact="8006982411" /> (
@@ -11,11 +11,12 @@ const GetFormHelp = () => {
         ).
       </p>
       <p>
-        If you need help to gather your information or fill out your form,
-        <a href="https://www.va.gov/vso/" className="vads-u-margin-left--0p5">
-          contact a local Veterans Service Organization (VSO)
+        If you need help with your request, you can appoint a VA accredited
+        representative.
+        <br />
+        <a href="https://www.va.gov/get-help-from-accredited-representative/">
+          Get help filling out a form
         </a>
-        .
       </p>
       <p>
         If you have questions about your benefit overpayments, call us at{' '}
@@ -32,7 +33,7 @@ const GetFormHelp = () => {
         <va-telephone contact="8664001238" />. We’re here Monday through Friday,
         8:00 a.m. to 8:00 p.m. ET.
       </p>
-    </div>
+    </>
   );
 };
 

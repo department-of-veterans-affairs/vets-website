@@ -21,9 +21,9 @@ const clinicsVisited = avs => {
         </h3>
         <p>
           <span className="clinic-information" key="clinicSite">
-            <i
-              className="fas fa-building"
-              aria-hidden="true"
+            <va-icon
+              icon="location_city"
+              size={4}
               data-testid="appointment-icon"
             />
             {clinic.site}

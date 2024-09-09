@@ -3,13 +3,18 @@ import React from 'react';
 const BenefitsProfileStatement = () => {
   return (
     <div id="benefits-gi-bill-profile-statement">
-      <h1>Your benefits profile</h1>
+      <h1 id="benefits-gi-bill-profile-statement-title">
+        Your Montgomery GI Bill benefits information
+      </h1>
 
       <p className="va-introtext">
-        If you have an active benefit award for the Montgomery GI Bill® you’ll
-        need to verify your enrollment at the end of each month to keep
-        receiving payments. Active records are those with activity in the last
-        12 months.
+        Update your address and direct deposit information for your Montgomery
+        GI Bill benefits. You can also review the status of your benefits.
+      </p>
+      <p className="va-introtext">
+        <span className="vads-u-font-weight--bold">Note: </span>
+        Any updates you make here will affect your Montgomery GI Bill benefits
+        only.
       </p>
     </div>
   );

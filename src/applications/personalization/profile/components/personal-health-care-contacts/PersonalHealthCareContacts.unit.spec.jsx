@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { fireEvent, waitFor } from '@testing-library/react';
+import { waitFor } from '@testing-library/react';
 import sinon from 'sinon';
 import { expect } from 'chai';
 import * as redux from 'react-redux';
@@ -77,16 +77,6 @@ describe('PersonalHealthCareContacts component', () => {
       expect(dispatchSpy.calledWithExactly(fetchProfileContactsSpy())).to.be
         .true;
       expect(dispatchSpy.calledOnce).to.be.true;
-    });
-  });
-
-  it('displays help desk contact information', async () => {
-    const { getByTestId } = setup();
-    await waitFor(() => {
-      const infoComponent = getByTestId('phcc-how-to-update');
-      fireEvent.click(infoComponent);
-      getByTestId('help-desk-va-800-number');
-      getByTestId('help-desk-va-711-number');
     });
   });
 

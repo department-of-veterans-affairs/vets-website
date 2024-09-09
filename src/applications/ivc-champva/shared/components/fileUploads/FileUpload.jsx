@@ -5,8 +5,8 @@ import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/Sc
 import MissingFileOverview, { hasReq } from './MissingFileOverview';
 
 export function FileFieldCustom(props) {
-  // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
   const updateButton = (
+    // eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component
     <button type="submit" onClick={props.updatePage}>
       Update page
     </button>
@@ -63,8 +63,13 @@ export function FileFieldCustom(props) {
       if (uploadsMissing(props.contentAfterButtons.props.form.data)) {
         props.goToPath('/supporting-files');
       } else {
-        // Since we just uploaded the last file, bypass files overview page
-        props.goToPath('/review-and-submit');
+        // Since we just uploaded the last file, bypass files overview page.
+        // Optionally, jump to a predefined path. Otherwise, go to review page.
+        props.goToPath(
+          props.uploadsCompletePath
+            ? `/${props.uploadsCompletePath}`
+            : '/review-and-submit',
+        );
       }
     } else {
       props.goForward(args);
@@ -112,25 +117,25 @@ export function FileFieldCustom(props) {
   );
 }
 
-// TODO: update these:
 FileFieldCustom.propTypes = {
+  contentAfterButtons: PropTypes.any,
+  contentBeforeButtons: PropTypes.any,
   data: PropTypes.object,
   formContext: PropTypes.object,
   goBack: PropTypes.func,
+  goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   name: PropTypes.string || PropTypes.func,
-  onChange: PropTypes.func,
-  // eslint-disable-next-line react/sort-prop-types
-  onReviewPage: PropTypes.bool,
   pagePerItemIndex: PropTypes.any,
   requiredFiles: PropTypes.any,
   schema: PropTypes.object,
+  setFormData: PropTypes.func,
   title: PropTypes.any,
   trackingPrefix: PropTypes.string,
   uiSchema: PropTypes.object,
-  contentAfterButtons: PropTypes.any,
-  contentBeforeButtons: PropTypes.any,
-  setFormData: PropTypes.func,
-  goToPath: PropTypes.func,
-  goForward: PropTypes.func,
+  updatePage: PropTypes.func,
+  uploadsCompletePath: PropTypes.string,
+  onChange: PropTypes.func,
+  onReviewPage: PropTypes.bool,
 };
 export default FileFieldCustom;

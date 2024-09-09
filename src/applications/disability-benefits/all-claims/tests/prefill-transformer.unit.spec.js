@@ -368,6 +368,21 @@ describe('526v2 prefill transformer', () => {
       });
     });
   });
+
+  describe('prefillStartedFormVersion', () => {
+    it('should transform toxic exposure indicator when present', () => {
+      const { pages, metadata } = noTransformData;
+      const formData = {
+        startedFormVersion: '2022',
+      };
+
+      const transformedData = prefillTransformer(pages, formData, metadata)
+        .formData;
+      expect(transformedData.startedFormVersion).to.equal(
+        formData.startedFormVersion,
+      );
+    });
+  });
 });
 
 describe('addNoneDisabilityActionType', () => {

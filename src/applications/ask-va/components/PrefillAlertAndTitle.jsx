@@ -16,15 +16,12 @@ const Title = () => (
 const PrefillAlertAndTitle = ({ loggedIn }) => {
   return loggedIn ? (
     <>
-      <va-alert
-        close-btn-aria-label="Close notification"
-        status="info"
-        uswds
-        visible
-      >
+      <va-alert status="info" uswds visible>
         <p className="vads-u-margin-y--0">
           We’ve prefilled some of your information from your account. If you
-          need to correct anything, you can edit the form fields below.
+          need to correct anything, you can edit the form fields below. Any
+          updates you make here to your contact information will only apply to
+          this form.
         </p>
       </va-alert>
       <Title />

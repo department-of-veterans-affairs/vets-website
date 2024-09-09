@@ -21,9 +21,9 @@ const apiSettings = {
 };
 
 const railsEngineApi = {
-  baseUrl: `${environment.API_URL}/facilities_api/v1`,
-  url: `${environment.API_URL}/facilities_api/v1/va`,
-  ccUrl: `${environment.API_URL}/facilities_api/v1/ccp`,
+  baseUrl: `${environment.API_URL}/facilities_api/v2`,
+  url: `${environment.API_URL}/facilities_api/v2/va`,
+  ccUrl: `${environment.API_URL}/facilities_api/v2/ccp`,
   settings: apiSettings,
 };
 
@@ -134,6 +134,36 @@ export const resolveParamsWithUrl = ({
     ];
   }
 
+  const postLocationParams = {};
+  locationParams.forEach(param => {
+    if (param === null) return;
+    const arr = param.split('=');
+
+    if (arr[0] === 'bbox[]') {
+      if (!('bbox' in postLocationParams)) {
+        postLocationParams.bbox = [];
+      }
+      postLocationParams.bbox.push(param.split('=')[1]);
+    } else {
+      postLocationParams[arr[0]] = arr[1];
+    }
+  });
+
+  const postParamsObj = {
+    type: facility && !communityServiceType ? facility : null,
+    services:
+      filterableLocations.includes(facility) && service ? [service] : null,
+    page,
+    // eslint-disable-next-line camelcase
+    per_page: perPage,
+    mobile:
+      facility === LocationType.VET_CENTER || facility === LocationType.HEALTH
+        ? false
+        : null,
+    radius: roundRadius || null,
+    ...postLocationParams,
+  };
+
   return {
     url,
     params: compact([
@@ -148,6 +178,9 @@ export const resolveParamsWithUrl = ({
       roundRadius ? `radius=${roundRadius}` : null,
       ...locationParams,
     ]).join('&'),
+    postParams: Object.fromEntries(
+      Object.entries(postParamsObj).filter(([_, v]) => v != null),
+    ),
   };
 };
 
@@ -160,21 +193,21 @@ export const facilityTypes = {
   [FacilityType.EMERGENCY_CARE]: 'Emergency Care',
   [FacilityType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
-  [FacilityType.VA_CEMETARY]: 'VA cemeteries',
+  [FacilityType.VA_CEMETERY]: 'VA cemeteries',
   [FacilityType.VA_BENEFITS_FACILITY]: 'Benefits',
   [FacilityType.VET_CENTER]: 'Vet Centers',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.CC_PROVIDER]: 'Community providers (in VA’s network)',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.BENEFITS]: 'VA benefits',
 };
 
 export const healthServices = {
   All: 'All VA health services',
   PrimaryCare: 'Primary care',
-  MentalHealthCare: 'Mental health care',
+  MentalHealth: 'Mental health care',
   Covid19Vaccine: 'COVID-19 vaccines',
-  DentalServices: 'Dental services',
+  Dental: 'Dental services',
   UrgentCare: 'Urgent care',
   EmergencyCare: 'Emergency care',
   Audiology: 'Audiology',
@@ -252,7 +285,7 @@ export const facilityTypesOptions = {
   [LocationType.URGENT_CARE_PHARMACIES]:
     'Community pharmacies (in VA’s network)',
   [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
 };
 
@@ -260,6 +293,6 @@ export const nonPPMSfacilityTypeOptions = {
   [LocationType.NONE]: 'Choose a facility type',
   [LocationType.HEALTH]: 'VA health',
   [LocationType.BENEFITS]: 'VA benefits',
-  [LocationType.CEMETARY]: 'VA cemeteries',
+  [LocationType.CEMETERY]: 'VA cemeteries',
   [LocationType.VET_CENTER]: 'Vet Centers',
 };

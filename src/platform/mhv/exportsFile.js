@@ -7,7 +7,7 @@ export {
   default as MhvSecondaryNav,
 } from './secondary-nav/containers/MhvSecondaryNav';
 export { renderMHVDowntime } from './downtime';
-export { useDatadogRum } from './hooks/useDatadogRum';
+export { useDatadogRum, setDatadogRumUser } from './hooks/useDatadogRum';
 export { default as usePrintTitle } from './hooks/usePrintTitle';
 export {
   formatName,

@@ -11,7 +11,6 @@ import LocationHours from '../components/LocationHours';
 import LocationMap from '../components/LocationMap';
 import LocationPhoneLink from '../components/search-results-items/common/LocationPhoneLink';
 import ServicesAtFacility from '../components/ServicesAtFacility';
-import AppointmentInfo from '../components/AppointmentInfo';
 import { FacilityType } from '../constants';
 import VABenefitsCall from '../components/VABenefitsCall';
 import { facilityLocatorShowOperationalHoursSpecialInstructions } from '../utils/featureFlagSelectors';
@@ -71,12 +70,10 @@ class FacilityDetail extends Component {
         </div>
         {website &&
           website !== 'NULL' && (
-            <span>
-              <a href={website} target="_blank" rel="noopener noreferrer">
-                <i className="fa fa-globe" />
-                Website
-              </a>
-            </span>
+            <>
+              <va-icon icon="language" size="3" />
+              <va-link href={website} text="Website" />
+            </>
           )}
         <div>
           <LocationDirectionsLink location={facility} from="FacilityDetail" />
@@ -120,7 +117,6 @@ class FacilityDetail extends Component {
             <ServicesAtFacility facility={facility} />
           </div>
           <div>
-            <AppointmentInfo location={facility} />
             <AccessToCare location={facility} />
           </div>
         </div>

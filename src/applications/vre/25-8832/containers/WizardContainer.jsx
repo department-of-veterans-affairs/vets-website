@@ -24,11 +24,10 @@ const WizardContainer = props => {
     <div className="row vads-u-margin-bottom--1">
       <div className="usa-width-two-thirds medium-8 columns">
         <h1 className="vads-u-margin-top--1">
-          Apply for Personalized Career Planning and Guidance with VA Form
-          25-8832
+          Apply for Personalized Career Planning and Guidance
         </h1>
-        <p>
-          Equal to VA Form 28-8832 (Education/Vocational Counseling Application)
+        <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg2">
+          Form 27-8832 (formally known as 28-8832, or 25-8832)
         </p>
         <h2 className="vads-u-margin-top--3">Is this the form I need?</h2>
         <p>
@@ -46,8 +45,9 @@ const WizardContainer = props => {
               handleClick();
             }}
           >
-            Apply online with VA Form 25-8832
+            Apply online with VA Form 27-8832
           </a>
+          , this is the same form as 28-8832 or 25-8832.
         </p>
         <Wizard
           pages={pages}

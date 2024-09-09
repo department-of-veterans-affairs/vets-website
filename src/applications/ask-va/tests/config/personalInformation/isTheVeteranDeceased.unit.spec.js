@@ -1,21 +1,18 @@
-import React from 'react';
-import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import formConfig from '../../../config/form';
-import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 import { getData } from '../../fixtures/data/mock-form-data';
+import { removeReqFromLabel } from '../../fixtures/test-helpers/helpers';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.personalInformation.pages.veteranDeceased_familysomeonesbenefits;
+} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMemberAboutVeteran.pages.veteranDeceased_aboutsomeoneelserelationshipfamilymemberaboutveteran;
 
 describe('isTheVeteranDeceasedPage', () => {
   it('should render', () => {
@@ -35,7 +32,9 @@ describe('isTheVeteranDeceasedPage', () => {
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = ['Yes', 'No'];
 
-    expect($('h4', container).textContent).to.eq('Is the Veteran deceased?');
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label')).to.equal('Is the Veteran deceased?');
+
     radioLabels.forEach(
       radio =>
         expect(radioLabelList.includes(removeReqFromLabel(radio.textContent)))

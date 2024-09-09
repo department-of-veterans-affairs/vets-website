@@ -63,6 +63,30 @@ describe('Schemaform <FormApp>', () => {
     expect(tree.everySubTree('FormTitle')[0].props.title).to.equal(titles[1]);
   });
 
+  it('should show dynamic subTitle', () => {
+    const subTitles = ['Main subTitle', 'Alternate subTitle'];
+    const formData = { test: false };
+    const formConfig = {
+      title: 'Test',
+      subTitle: props => subTitles[props.formData.test ? 1 : 0],
+    };
+    const currentLocation = {
+      pathname: '/veteran-information/personal-information',
+      search: '',
+    };
+
+    const tree = shallowFormApp({ formConfig, currentLocation, formData });
+
+    expect(tree.everySubTree('FormTitle')[0].props.subTitle).to.equal(
+      subTitles[0],
+    );
+    formData.test = true;
+    tree.reRender({ formData, currentLocation, formConfig });
+    expect(tree.everySubTree('FormTitle')[0].props.subTitle).to.equal(
+      subTitles[1],
+    );
+  });
+
   it('should hide title, nav and layout classes when formOptions are set', () => {
     const formConfig = {
       formOptions: { noTitle: true, noTopNav: true, fullWidth: true },

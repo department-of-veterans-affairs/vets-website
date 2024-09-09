@@ -1,24 +1,38 @@
-// import defaultConditions from '../fixtures/Conditions.json';
+import defaultConditions from '../fixtures/conditions.json';
 import BaseListPage from './BaseListPage';
 
 class ConditionsListPage extends BaseListPage {
-  /*
-  clickGotoConditionsLink = (
-   Conditions = defaultConditions,
+  // clickGotoConditionsLink = (
+  //   conditions = defaultConditions,
+  //   waitForConditions = false,
+  // ) => {
+  //   cy.intercept(
+  //     'GET',
+  //     '/my_health/v1/medical_records/conditions',
+  //     conditions,
+  //   ).as('ConditionsList');
+  //   // cy.get('[href="/my-health/medical-records/conditions"]').click();
+  //   cy.visit('my-health/medical-records/conditions');
+  //   if (waitForConditions) {
+  //     cy.wait('@ConditionsList');
+  //   }
+  // };
+
+  gotoConditionsListPage = (
+    conditions = defaultConditions,
     waitForConditions = false,
   ) => {
     cy.intercept(
       'GET',
-      '/my_health/v1/medical_records/Conditions',
-      Conditions,
+      '/my_health/v1/medical_records/conditions',
+      conditions,
     ).as('ConditionsList');
-    cy.get('[href="/my-health/medical-records/Conditions"]').click();
+    // cy.get('[href="/my-health/medical-records/conditions"]').click();
+    cy.visit('my-health/medical-records/conditions');
     if (waitForConditions) {
       cy.wait('@ConditionsList');
     }
   };
-
-*/
 
   verifyConditionsPageTitle = () => {
     // Verify Conditions Page Title

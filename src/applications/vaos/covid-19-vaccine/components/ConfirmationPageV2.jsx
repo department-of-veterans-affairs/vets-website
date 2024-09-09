@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
@@ -22,13 +22,12 @@ import getNewAppointmentFlow from '../../new-appointment/newAppointmentFlow';
 
 const pageTitle = 'We’ve scheduled your appointment';
 
-function handleClick(history, dispatch, typeOfCare) {
+function handleClick(dispatch) {
   return () => {
     recordEvent({
       event: `${GA_PREFIX}-schedule-appointment-button-clicked`,
     });
     dispatch(startNewAppointmentFlow());
-    history.push(typeOfCare.url);
   };
 }
 
@@ -40,7 +39,6 @@ function ConfirmationPageV2({
   submitStatus,
   changeCrumb,
 }) {
-  const history = useHistory();
   const dispatch = useDispatch();
   const featureBreadcrumbUrlUpdate = useSelector(state =>
     selectFeatureBreadcrumbUrlUpdate(state),
@@ -92,7 +90,8 @@ function ConfirmationPageV2({
           <va-link
             text="Schedule a new appointment"
             data-testid="schedule-appointment-link"
-            onClick={handleClick(history, dispatch, typeOfCare)}
+            onClick={handleClick(dispatch)}
+            href={`${root.url}${typeOfCare.url}`}
           />
         </div>
       </InfoAlert>
@@ -138,7 +137,7 @@ function ConfirmationPageV2({
       </div>
 
       <div className="vads-u-margin-top--2 vaos-appts__block-label vaos-hide-for-print">
-        <i aria-hidden="true" className="fas fa-print vads-u-margin-right--1" />
+        <va-icon icon="print" size="3" aria-hidden="true" />
         <button
           type="button"
           className="va-button-link"

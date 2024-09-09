@@ -23,6 +23,7 @@ import cypressSetup from '../../shared/tests/cypress.setup';
 
 const testConfig = createTestConfig(
   {
+    useWebComponentFields: true,
     dataPrefix: 'data',
 
     dataSets: ['maximal-test-v2', 'minimal-test-v2'],
@@ -51,17 +52,6 @@ const testConfig = createTestConfig(
         });
       },
 
-      homeless: ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(testData => {
-            const { homeless } = testData;
-            cy.get(`va-radio-option[value="${homeless ? 'Y' : 'N'}"]`).click();
-            cy.axeCheck();
-            cy.findByText('Continue', { selector: 'button' }).click();
-          });
-        });
-      },
-
       [CONTESTABLE_ISSUES_PATH]: ({ afterHook }) => {
         cy.injectAxeThenAxeCheck();
         afterHook(() => {
@@ -82,10 +72,7 @@ const testConfig = createTestConfig(
                 cy.get('.add-new-issue').click();
                 cy.url().should('include', `${BASE_URL}/add-issue?index=`);
                 cy.axeCheck();
-                cy.get('#issue-name')
-                  .shadow()
-                  .find('input')
-                  .type(additionalIssue.issue);
+                cy.fillVaTextInput('issue-name', additionalIssue.issue);
                 cy.fillDate('decision-date', getRandomDate());
                 cy.get('#submit').click();
               }
@@ -117,35 +104,6 @@ const testConfig = createTestConfig(
           });
         });
       },
-
-      'informal-conference/representative-info': ({ afterHook }) => {
-        afterHook(() => {
-          cy.get('@testData').then(testData => {
-            const rep = testData.informalConferenceRep;
-            cy.get('[name="root_informalConferenceRep_firstName"]')
-              .shadow()
-              .find('input')
-              .type(rep.firstName);
-            cy.get('[name="root_informalConferenceRep_lastName"]')
-              .shadow()
-              .find('input')
-              .type(rep.lastName);
-            cy.get('[name="root_informalConferenceRep_phone"]')
-              .shadow()
-              .find('input')
-              .type(rep.phone);
-            cy.get('[name="root_informalConferenceRep_extension"]')
-              .shadow()
-              .find('input')
-              .type(rep.extension);
-            cy.get('[name="root_informalConferenceRep_email"]')
-              .shadow()
-              .find('input')
-              .type(rep.email);
-            cy.findByText('Continue', { selector: 'button' }).click();
-          });
-        });
-      },
     },
 
     setupPerTest: () => {
@@ -161,7 +119,7 @@ const testConfig = createTestConfig(
         cy.intercept('PUT', '/v0/in_progress_forms/20-0996', mockInProgress);
         cy.intercept('GET', `/v1${CONTESTABLE_ISSUES_API}compensation`, {
           data: fixDecisionDates(data.contestedIssues, { unselected: true }),
-        });
+        }).as('getIssues');
       });
     },
   },

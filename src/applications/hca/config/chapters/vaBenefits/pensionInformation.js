@@ -15,7 +15,6 @@ export default {
       'ui:title': 'Do you receive a Veterans pension from the VA?',
       'ui:description': PensionTypeDescription,
       'ui:reviewField': CustomReviewField,
-      'ui:required': () => true,
       'ui:widget': 'radio',
       'ui:options': {
         labels: {
@@ -27,9 +26,7 @@ export default {
   },
   schema: {
     type: 'object',
-    required: ['vaCompensationType'],
-    properties: {
-      vaPensionType,
-    },
+    required: ['vaPensionType'],
+    properties: { vaPensionType },
   },
 };

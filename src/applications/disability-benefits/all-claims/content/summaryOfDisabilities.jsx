@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import {
   capitalizeEachWord,
-  isBDD,
   isClaimingIncrease,
   isClaimingNew,
   isDisabilityPtsd,
@@ -62,7 +61,7 @@ const getRedirectLink = formData => {
 export const SummaryOfDisabilitiesDescription = ({ formData }) => {
   const { ratedDisabilities, newDisabilities } = formData;
   const ratedDisabilityNames =
-    ratedDisabilities && isClaimingIncrease(formData) && !isBDD(formData)
+    ratedDisabilities && isClaimingIncrease(formData)
       ? ratedDisabilities
           .filter(disability => disability['view:selected'])
           .map(

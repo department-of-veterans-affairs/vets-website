@@ -34,7 +34,6 @@ export const decisionReviewPage = {
     }),
     decisionDate: currentOrPastDateUI({
       title: 'When was your decision dated',
-      required: true,
       errorMessages: {
         required: 'Enter the decision date',
       },
@@ -50,7 +49,7 @@ export const decisionReviewPage = {
 };
 
 /** @type {PageSchema} */
-export const decisionReviewTypePage = {
+export const selectDecisionReviewPage = {
   uiSchema: {
     decisionReviewType: radioUI({
       title: 'Which description is true for you?',

@@ -7,6 +7,7 @@ import {
   goBackLink,
   gulfWar1990PageTitle,
   noDatesEntered,
+  notSureDatesSummary,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
 
@@ -41,7 +42,7 @@ describe('Gulf War 1990 Summary', () => {
       },
     };
 
-    const { getByText, getByLabelText } = render(
+    const { getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
 
@@ -60,9 +61,6 @@ describe('Gulf War 1990 Summary', () => {
     getByText('October 2023 - No end date entered');
 
     getByText(goBackLink);
-    getByLabelText(
-      'go back and edit locations and dates for service after August 2, 1990',
-    );
   });
 
   it('does not render a location if not checked', () => {
@@ -93,5 +91,33 @@ describe('Gulf War 1990 Summary', () => {
 
     expect(queryByText(GULF_WAR_1990_LOCATIONS.airspace)).to.not.exist;
     expect(queryByText('October 2023 - No end date entered')).to.not.exist;
+  });
+
+  it('renders `notSureDatesSummary` when `view:notSure` was selected', () => {
+    const formData = {
+      toxicExposure: {
+        gulfWar1990: {
+          airspace: true,
+          waters: true,
+        },
+        gulfWar1990Details: {
+          airspace: {},
+          waters: {
+            'view:notSure': true,
+          },
+        },
+      },
+    };
+
+    const { getByText } = render(
+      <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
+    );
+
+    getByText(gulfWar1990PageTitle);
+    getByText('Summary');
+    getByText(GULF_WAR_1990_LOCATIONS.airspace);
+    getByText(noDatesEntered);
+    getByText(GULF_WAR_1990_LOCATIONS.waters);
+    getByText(notSureDatesSummary);
   });
 });

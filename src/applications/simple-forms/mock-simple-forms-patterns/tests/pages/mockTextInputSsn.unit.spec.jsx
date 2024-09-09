@@ -4,7 +4,7 @@ import {
 } from '../../../shared/tests/pages/pageTests.spec';
 import formConfig from '../../config/form';
 
-const { schema, uiSchema } = formConfig.chapters.textInput.pages.textInputSsn;
+const { schema, uiSchema } = formConfig.chapters.textInput.pages.ssn;
 
 const pageTitle = 'mock ssn inputs';
 

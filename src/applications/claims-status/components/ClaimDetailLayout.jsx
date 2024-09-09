@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   buildDateFormatter,
   claimAvailable,
-  getClaimType,
   isClaimOpen,
   isPopulatedClaim,
+  generateClaimTitle,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
@@ -21,22 +21,10 @@ const focusHeader = () => {
   setFocus('.claim-contentions-header');
 };
 
-const getBreadcrumbText = (currentTab, claimType) => {
-  let joiner;
-  if (currentTab === 'Status' || currentTab === 'Details') {
-    joiner = 'of';
-  } else {
-    joiner = 'for';
-  }
-
-  return `${currentTab} ${joiner} your ${claimType} claim`;
-};
-
 export default function ClaimDetailLayout(props) {
   const { claim, clearNotification, currentTab, loading, message } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
   let headingContent;
@@ -48,7 +36,7 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claimAvailable(claim)) {
-    const claimTitle = `Your ${claimType} claim`;
+    const claimTitle = generateClaimTitle(claim, 'detail');
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
 
@@ -112,35 +100,19 @@ export default function ClaimDetailLayout(props) {
 
   const crumb = {
     href: `../status`,
-    label: getBreadcrumbText(currentTab, claimType),
+    label: generateClaimTitle(claim, 'breadcrumb', currentTab),
     isRouterLink: true,
   };
 
   return (
     <div>
       <div name="topScrollElement" />
-      <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
-        <div className="vads-l-row vads-u-margin-x--neg1p5 medium-screen:vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12">
-            <ClaimsBreadcrumbs crumbs={[crumb]} />
-          </div>
-        </div>
-        {!!headingContent && (
-          <div className="vads-l-row vads-u-margin-x--neg2p5">
-            <div className="vads-l-col--12 vads-u-padding-x--2p5">
-              {headingContent}
-            </div>
-          </div>
-        )}
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            {bodyContent}
-          </div>
-        </div>
-        <div className="vads-l-row vads-u-margin-x--neg2p5">
-          <div className="vads-l-col--12 vads-u-padding-x--2p5 medium-screen:vads-l-col--8">
-            <NeedHelp />
-          </div>
+      <div className="row">
+        <div className="usa-width-two-thirds medium-8 columns">
+          <ClaimsBreadcrumbs crumbs={[crumb]} />
+          {!!headingContent && <div>{headingContent}</div>}
+          <div>{bodyContent}</div>
+          <NeedHelp />
         </div>
       </div>
     </div>

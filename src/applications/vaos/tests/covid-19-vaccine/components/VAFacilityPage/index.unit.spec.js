@@ -14,18 +14,17 @@ import {
   createTestStore,
   renderWithStoreAndRouter,
 } from '../../../mocks/setup';
-import { mockGetCurrentPosition } from '../../../mocks/helpers';
 import { TYPE_OF_CARE_ID } from '../../../../covid-19-vaccine/utils';
+import { createMockClinic, createMockFacility } from '../../../mocks/data';
 import {
-  createMockClinicByVersion,
-  createMockFacilityByVersion,
-} from '../../../mocks/data';
-import {
-  mockEligibilityFetchesByVersion,
-  mockFacilitiesFetchByVersion,
+  mockEligibilityFetches,
+  mockFacilitiesFetch,
 } from '../../../mocks/fetch';
-import { mockSchedulingConfigurations } from '../../../mocks/helpers.v2';
-import { getSchedulingConfigurationMock } from '../../../mocks/v2';
+import {
+  mockSchedulingConfigurations,
+  mockGetCurrentPosition,
+} from '../../../mocks/helpers';
+import { getSchedulingConfigurationMock } from '../../../mocks/mock';
 
 const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 
@@ -35,7 +34,7 @@ const facilityIds = ['983', '983GB', '983GC', '983HK', '983QA', '984'];
 // );
 
 const facilities = facilityIds.map((id, index) =>
-  createMockFacilityByVersion({
+  createMockFacility({
     id: id.replace('vha_', ''),
     name: `Fake facility name ${index + 1}`,
     lat: Math.random() * 90,
@@ -83,7 +82,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: facilityIds,
         facilities,
@@ -122,7 +121,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       expect(screen.baseElement).not.to.contain.text('Fake facility name 6');
 
       // Find show more button and fire click event
-      const moreLocationsBtn = screen.getByText('+ 1 more location');
+      const moreLocationsBtn = screen.getByText('Show 1 more location');
       expect(moreLocationsBtn).to.have.tagName('span');
       fireEvent.click(moreLocationsBtn);
 
@@ -160,7 +159,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: facilityIds,
         facilities,
@@ -240,11 +239,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     beforeEach(() => {
       mockFetch();
 
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
       });
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: ['983', '984'],
         facilities,
@@ -344,7 +343,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       );
 
       mockSchedulingConfigurations(configs);
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         ids: facilityIds.slice(0, 5),
         facilities: facilities.slice(0, 5),
@@ -434,11 +433,11 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       },
     };
 
-    const facility983 = createMockFacilityByVersion({
+    const facility983 = createMockFacility({
       id: '983',
       name: 'Facility 983',
     });
-    const facility984 = createMockFacilityByVersion({
+    const facility984 = createMockFacility({
       id: '984',
       name: 'Facility 984',
     });
@@ -462,7 +461,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
 
     it('should display error messaging if user denied location permissions', async () => {
       mockGetCurrentPosition({ fail: true });
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
@@ -524,7 +523,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
       };
       const store = createTestStore(state);
 
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
@@ -555,7 +554,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     it('should display an error message when eligibility calls fail', async () => {
       const store = createTestStore(initialState);
 
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
@@ -582,16 +581,16 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show alert when only one facility is supported', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
-      const clinic = createMockClinicByVersion({
+      const clinic = createMockClinic({
         id: '1',
         stationId: '983',
         name: '',
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
         clinics: [clinic, clinic],
@@ -632,15 +631,14 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show alert and not allow user to continue if only one facility and no clinics', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
-      mockEligibilityFetchesByVersion({
+      mockEligibilityFetches({
         facilityId: '983',
         typeOfCareId: TYPE_OF_CARE_ID,
         clinics: [],
-        version: 2,
       });
       mockSchedulingConfigurations([
         getSchedulingConfigurationMock({
@@ -677,7 +675,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show error and not allow user to continue if only one facility and clinic call fails', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });
@@ -704,7 +702,7 @@ describe('VAOS vaccine flow: VAFacilityPage', () => {
     });
 
     it('should show eligibility modal with error if clinic call fails', async () => {
-      mockFacilitiesFetchByVersion({
+      mockFacilitiesFetch({
         children: true,
         facilities: [facility983, facility984],
       });

@@ -1,75 +1,68 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   renderMHVDowntime,
   MhvSecondaryNav,
 } from '@department-of-veterans-affairs/mhv/exports';
+import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import DowntimeNotification, {
   externalServices,
 } from '~/platform/monitoring/DowntimeNotification';
-import { isLOA1 } from '~/platform/user/selectors';
-import { signInServiceName } from '~/platform/user/authentication/selectors';
-import { SERVICE_PROVIDERS } from '~/platform/user/authentication/constants';
-import IdentityNotVerified from '~/platform/user/authorization/components/IdentityNotVerified';
-// eslint-disable-next-line import/no-named-default
-import { default as recordEventFn } from '~/platform/monitoring/record-event';
 
 import CardLayout from './CardLayout';
 import HeaderLayout from './HeaderLayout';
 import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
-import { hasHealthData, personalizationEnabled } from '../selectors';
-import UnregisteredAlert from './UnregisteredAlert';
+import HelpdeskInfo from './HelpdeskInfo';
+import Alerts from '../containers/Alerts';
+import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
+import manifest from '../manifest.json';
 
-const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
+const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
-  const isUnverified = useSelector(isLOA1);
-  const hasHealth = useSelector(hasHealthData);
-  const signInService = useSelector(signInServiceName);
+  const userVerified = useSelector(isLOA3);
+  const vaPatient = useSelector(isVAPatient);
+  const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
-  const showCards = hasHealth && !isUnverified;
-  const serviceLabel = SERVICE_PROVIDERS[signInService]?.label;
-  const unVerifiedHeadline = `Verify your identity to use your ${serviceLabel} account on My HealtheVet`;
-  const noCardsDisplay = isUnverified ? (
-    <IdentityNotVerified
-      headline={unVerifiedHeadline}
-      showHelpContent={false}
-      showVerifyIdenityHelpInfo
-      signInService={signInService}
-    />
-  ) : (
-    <UnregisteredAlert />
-  );
-
-  useEffect(() => {
-    if (isUnverified) {
-      recordEvent({
-        event: 'nav-alert-box-load',
-        action: 'load',
-        'alert-box-headline': unVerifiedHeadline,
-        'alert-box-status': 'continue',
-      });
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
-      {!isUnverified && <MhvSecondaryNav />}
+      {userRegistered && <MhvSecondaryNav />}
       <div
-        className="vads-u-margin-y--3 medium-screen:vads-u-margin-y--5"
+        className="vads-u-margin-bottom--3 medium-screen:vads-u-margin-bottom--5"
         data-testid="landing-page-container"
       >
         <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+          <VaBreadcrumbs
+            homeVeteransAffairs
+            breadcrumbList={[
+              { label: 'VA.gov home', href: '/' },
+              { label: 'My HealtheVet', href: manifest.rootUrl },
+            ]}
+          />
           <DowntimeNotification
             dependencies={[externalServices.mhvPlatform]}
             render={renderMHVDowntime}
           />
-          <HeaderLayout showWelcomeMessage={showWelcomeMessage} />
-          {showCards ? <CardLayout data={cards} /> : noCardsDisplay}
+          <HeaderLayout
+            showWelcomeMessage={showWelcomeMessage}
+            showLearnMore={userRegistered}
+          />
+          <Alerts />
+          {userRegistered && <CardLayout data={cards} />}
         </div>
-        <HubLinks hubs={hubs} />
-        <NewsletterSignup />
+        {userRegistered && (
+          <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+            <div className="vads-l-row vads-u-margin-top--3">
+              <div className="vads-l-col medium-screen:vads-l-col--8">
+                <HelpdeskInfo />
+              </div>
+            </div>
+          </div>
+        )}
+        {userRegistered && <HubLinks hubs={hubs} />}
+        {userRegistered && <NewsletterSignup />}
       </div>
     </>
   );
@@ -77,7 +70,6 @@ const LandingPage = ({ data = {}, recordEvent = recordEventFn }) => {
 
 LandingPage.propTypes = {
   data: PropTypes.object,
-  recordEvent: PropTypes.func,
 };
 
 export default LandingPage;

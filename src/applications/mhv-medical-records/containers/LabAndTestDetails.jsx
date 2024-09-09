@@ -18,6 +18,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -28,13 +29,15 @@ const LabAndTestDetails = () => {
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
+  useIsDetails(dispatch);
+
   useEffect(
     () => {
       dispatch(
         setBreadcrumbs([
           {
             url: '/labs-and-tests',
-            label: 'Lab and test results',
+            label: 'lab and test results',
           },
         ]),
       );

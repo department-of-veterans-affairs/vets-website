@@ -17,12 +17,12 @@ export const generateDischargeSummaryContent = record => ({
         inline: true,
       },
       {
-        title: 'Admission date',
+        title: 'Date admitted',
         value: record.admissionDate,
         inline: true,
       },
       {
-        title: 'Discharge date',
+        title: 'Date discharged',
         value: record.dischargeDate,
         inline: true,
       },
@@ -64,8 +64,8 @@ export const generateProgressNoteContent = record => {
           inline: true,
         },
         {
-          title: 'Signed by',
-          value: record.signedBy,
+          title: 'Written by',
+          value: record.writtenBy,
           inline: true,
         },
         {
@@ -90,10 +90,10 @@ export const generateProgressNoteContent = record => {
     },
   };
 
-  if (record.coSignedBy !== EMPTY_FIELD) {
+  if (record.signedBy !== EMPTY_FIELD) {
     content.details.items.splice(3, 0, {
-      title: 'Co-signed by',
-      value: record.coSignedBy,
+      title: 'Signed by',
+      value: record.signedBy,
       inline: true,
     });
   }

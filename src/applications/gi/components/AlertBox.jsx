@@ -48,7 +48,7 @@ class AlertBox extends React.Component {
         aria-label="Close notification"
         onClick={this.props.onCloseAlert}
       >
-        <i className="fas fa-times-circle" aria-hidden="true" />
+        <va-icon icon="cancel" size={3} aria-hidden="true" />
       </button>
     );
 

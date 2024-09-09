@@ -56,4 +56,12 @@ describe('<RemoveFileModal>', () => {
     $('va-modal', container).__events.closeEvent();
     expect(closeModal.calledOnce).to.be.true;
   });
+
+  it('should mask filename from Datadog (no PII)', () => {
+    const { container } = render(<RemoveFileModal {...props} />);
+
+    expect($('strong', container).getAttribute('data-dd-privacy')).to.equal(
+      'mask',
+    );
+  });
 });

@@ -20,7 +20,7 @@ function buildAddressArray(location) {
 
   // FHIR address format
   if (location?.address) {
-    const address = location.address;
+    const { address } = location;
 
     return address.line
       .concat([`${address.city}, ${address.state} ${address.postalCode}`])

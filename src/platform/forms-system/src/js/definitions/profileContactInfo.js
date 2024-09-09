@@ -98,7 +98,7 @@ const profileContactInfo = ({
     wrapperProperties[addressKey] = addressSchema || profileAddressSchema;
     config[`${contactInfoPageKey}EditMailingAddress`] = {
       title: content.editMailingAddress,
-      path: `edit-${contactPath}-mailing-address`,
+      path: `${contactPath}/edit-mailing-address`,
       CustomPage: props => EditAddress({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -113,7 +113,7 @@ const profileContactInfo = ({
       phoneSchema || standardPhoneSchema(requiredList.includes(keys.homePhone));
     config[`${contactInfoPageKey}EditHomePhone`] = {
       title: content.editHomePhone,
-      path: `edit-${contactPath}-home-phone`,
+      path: `${contactPath}/edit-home-phone`,
       CustomPage: props => EditHomePhone({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -128,7 +128,7 @@ const profileContactInfo = ({
       standardPhoneSchema(requiredList.includes(keys.mobilePhone));
     config[`${contactInfoPageKey}EditMobilePhone`] = {
       title: content.editMobilePhone,
-      path: `edit-${contactPath}-mobile-phone`,
+      path: `${contactPath}/edit-mobile-phone`,
       CustomPage: props => EditMobilePhone({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page
@@ -141,7 +141,7 @@ const profileContactInfo = ({
     wrapperProperties[emailKey] = emailSchema || standardEmailSchema;
     config[`${contactInfoPageKey}EditEmailAddress`] = {
       title: content.editEmail,
-      path: `edit-${contactPath}-email-address`,
+      path: `${contactPath}/edit-email-address`,
       CustomPage: props => EditEmail({ ...props, content, contactPath }),
       CustomPageReview: null, // not shown on review & submit
       depends: () => false, // accessed from contact info page

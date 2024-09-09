@@ -26,6 +26,30 @@ function keepAlive() {
     : liveKeepAlive();
 }
 
+export const verifySession = () => {
+  const hasSessionSSO =
+    JSON.parse(localStorage.getItem('hasSessionSSO')) ?? false;
+  const loginAttempted =
+    JSON.parse(localStorage.getItem('loginAttempted')) ?? false;
+  const sessionExpiration = localStorage
+    .getItem('sessionExpirationSSO')
+    ?.toString();
+  const isValidPath = !window.location.pathname?.includes('terms-of-use');
+  const isNotSubdomain = [
+    'www.va.gov',
+    'dev.va.gov',
+    'staging.va.gov',
+  ].includes(window.location.host);
+
+  return (
+    isNotSubdomain &&
+    isValidPath &&
+    hasSessionSSO &&
+    loginAttempted &&
+    sessionExpiration?.length > 0
+  );
+};
+
 export async function ssoKeepAliveSession() {
   const keepAliveResponse = await keepAlive();
   const { ttl } = keepAliveResponse;
@@ -57,7 +81,6 @@ export async function checkAutoSession(
   profile = {},
 ) {
   const { ttl, transactionid, ...queryParams } = await ssoKeepAliveSession();
-
   /**
    * Ensure user is authenticated with SSOe by verifying
    * loggedIn status and transaction ID
@@ -101,14 +124,15 @@ export async function checkAutoSession(
   } else if (
     !loggedIn &&
     ttl > 0 &&
-    !getLoginAttempted() &&
+    (!getLoginAttempted() || verifySession()) &&
     queryParams.csp_type
   ) {
     /**
      * Create an auto-login when the following are true
      * 1. No active VA.gov session
      * 2. Active SSOe session
-     * 3. No previously attempted to login (sessionStorage `setLoginAttempted` is false)
+     * 3a. No previously attempted to login (localStorage `loginAttempted` is false)
+     * 3b. If `loginAttempted` is true but `hasSessionSSO` is true & `sessionExpirationSSO` has a timestamp
      * 4. Have a non-empty type value from eAuth keepalive endpoint
      */
     login({

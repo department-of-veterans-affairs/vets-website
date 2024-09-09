@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 import formConfig from '../../../config/form';
 import IntroductionPage from '../../../containers/IntroductionPage';
+import GetFormHelp from '../../../../shared/components/GetFormHelp';
 
 const props = {
   route: {
@@ -56,6 +57,17 @@ describe('IntroductionPage', () => {
     const { container } = render(
       <Provider store={mockStore}>
         <IntroductionPage {...props} />
+      </Provider>,
+    );
+    expect(container).to.exist;
+  });
+});
+
+describe('GetFormHelp', () => {
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={mockStore}>
+        <GetFormHelp />
       </Provider>,
     );
     expect(container).to.exist;

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
@@ -29,6 +29,7 @@ import {
   generatePathologyContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
+import { useIsDetails } from '../../hooks/useIsDetails';
 
 const PathologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -40,6 +41,9 @@ const PathologyDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
+
+  const dispatch = useDispatch();
+  useIsDetails(dispatch);
 
   useEffect(
     () => {
@@ -76,8 +80,8 @@ ${formatName(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 Details about this test: \n
 ${txtLine} \n
-Sample tested: ${record.sampleTested} \n
-Lab location: ${record.labLocation} \n
+Site or sample tested: ${record.sampleTested} \n
+Location: ${record.labLocation} \n
 Date completed: ${record.date} \n
 Results: \n
 ${record.results} \n`;
@@ -97,7 +101,12 @@ ${record.results} \n`;
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="pathology-date" />
+      <DateSubheading
+        date={record.dateCollected}
+        id="pathology-date"
+        label="Date and time collected"
+        labelClass="vads-font-weight-regular"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -110,22 +119,22 @@ ${record.results} \n`;
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
         <p data-testid="pathology-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Lab location
+          Location
         </h3>
         <p data-testid="pathology-location">{record.labLocation}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p data-testid="pathology-date-completed">{record.date}</p>
+        <p data-testid="date-completed">{record.date}</p>
       </div>
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p data-testid="pathology-results" className="monospace">
+        <p data-testid="pathology-report" className="monospace">
           {record.results}
         </p>
       </div>

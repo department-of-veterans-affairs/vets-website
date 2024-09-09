@@ -12,22 +12,23 @@ export const getItemSchema = (schema, index) => {
   return itemSchema.additionalItems;
 };
 
+export const outsidePaths = [
+  '/start',
+  '/introduction',
+  '/confirmation',
+  '/form-saved',
+  '/error',
+  '/resume',
+];
+
+const trailingSlashRegex = /\/$/;
+
 /**
- * Return a phone number object
- * @param {String} phone - phone number string to convert to an object
- * @return {phoneObject}
+ * Check if the form has been started
+ * @param {String} pathname - pathname from Router or window location object
+ * @returns {Boolean}
  */
-export const returnPhoneObject = phone => {
-  const result = {
-    countryCode: '',
-    areaCode: '',
-    phoneNumber: '',
-    phoneNumberExt: '',
-  };
-  if (typeof phone === 'string' && phone?.length === 10) {
-    result.countryCode = '1';
-    result.areaCode = phone.slice(0, 3);
-    result.phoneNumber = phone.slice(-7);
-  }
-  return result;
+export const isOutsideForm = pathname => {
+  const currentPath = (pathname || '').replace(trailingSlashRegex, '');
+  return outsidePaths.some(path => currentPath.endsWith(path));
 };

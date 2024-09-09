@@ -33,7 +33,7 @@ const OptionalStep = ({ formValues }) => {
             rel="noopener noreferrer"
             href="https://health.mil/PDBR"
           >
-            Learn more about PBDR reviews
+            Learn more about PBDR reviews (opens in a new tab)
           </a>
           .{' '}
           <a
@@ -41,7 +41,7 @@ const OptionalStep = ({ formValues }) => {
             rel="noopener noreferrer"
             href="https://health.mil/Military-Health-Topics/Conditions-and-Treatments/Physical-Disability/Disability-Evaluation/Physical-Disability-Board-of-Review/PDBR-Application-Process"
           >
-            Apply for a PBDR review
+            Apply for a PBDR review (opens in a new tab)
           </a>
           .
         </p>

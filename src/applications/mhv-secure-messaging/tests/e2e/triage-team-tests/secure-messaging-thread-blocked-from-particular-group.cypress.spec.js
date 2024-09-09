@@ -7,11 +7,9 @@ import mockBlockedRecipients from '../fixtures/recipientsResponse/blocked-recipi
 import blockedThread from '../fixtures/recipientsResponse/thread-with-blocked-group-response.json';
 
 describe('Verify Thread - Blocked from particular Triage Group', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages(
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages(
       mockMessages,
       mockSingleMessage,
       mockBlockedRecipients,
@@ -20,18 +18,12 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
   describe('general alert', () => {
     beforeEach(() => {
-      landingPage.loadSingleThread(blockedThread);
+      PatientInboxPage.loadSingleThread(blockedThread);
     });
 
     it('verify alert header', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
         .should('be.visible')
@@ -40,13 +32,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
     it('verify alert not expanded', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .shadow()
@@ -57,7 +43,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
   describe('expanded alert', () => {
     beforeEach(() => {
-      landingPage.loadSingleThread(blockedThread);
+      PatientInboxPage.loadSingleThread(blockedThread);
     });
 
     beforeEach(() => {
@@ -67,13 +53,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
     });
     it('alert expanded', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
 
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .shadow()
@@ -83,13 +63,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
     it('verify alert paragraph', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('p')
         .should('include.text', Alerts.BLOCKED.PARAGRAPH);
@@ -97,13 +71,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
     it('verify link text', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('a')
         .should('include.text', Alerts.BLOCKED.LINK);
@@ -111,13 +79,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
     it('verify link', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
       cy.get(Locators.ALERTS.BLOCKED_GROUP)
         .find('a')
         .should('have.attr', 'href', Paths.FIND_LOCATIONS);
@@ -125,13 +87,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
 
     it('reply btn does not exist', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
 
       cy.get(Locators.BUTTONS.REPLY).should('not.exist');
     });
@@ -140,13 +96,7 @@ describe('Verify Thread - Blocked from particular Triage Group', () => {
   describe('verify user can not create a message to blocked group', () => {
     it('creating message view', () => {
       cy.injectAxe();
-      cy.axeCheck(AXE_CONTEXT, {
-        rules: {
-          'aria-required-children': {
-            enabled: false,
-          },
-        },
-      });
+      cy.axeCheck(AXE_CONTEXT);
 
       cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({
         waitForAnimations: true,

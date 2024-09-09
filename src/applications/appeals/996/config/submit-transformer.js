@@ -5,19 +5,23 @@ import {
   getConferenceTime, // v2
   getContact,
   getRep,
-  getTimeZone,
 } from '../utils/submit';
 
 import {
   addAreaOfDisagreement,
   addIncludedIssues,
   getPhone,
+  getTimeZone,
 } from '../../shared/utils/submit';
+
+import { showNewHlrContent } from '../utils/helpers';
 
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const informalConference = formData.informalConference !== 'no';
+    const informalConference = showNewHlrContent(formData)
+      ? formData.informalConferenceChoice === 'yes'
+      : ['me', 'rep'].includes(formData.informalConference);
     const attributes = {
       // This value may empty if the user restarts the form; see
       // va.gov-team/issues/13814
@@ -32,7 +36,9 @@ export function transform(formConfig, form) {
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      socOptIn: formData.socOptIn,
+      // HLR v2.5 gives no choice; default to true (when feature toggle enabled)
+      // Lighthouse v2 & v2.5 has this value as required
+      socOptIn: showNewHlrContent(formData) || formData.socOptIn,
     };
 
     const included = addAreaOfDisagreement(

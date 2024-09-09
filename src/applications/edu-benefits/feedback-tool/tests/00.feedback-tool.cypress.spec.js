@@ -1,7 +1,8 @@
-import Timeouts from 'platform/testing/e2e/timeouts';
 import mockFeedbackPost from './fixtures/mocks/feedback-post.json';
 import mockFeedbackGet from './fixtures/mocks/feedback-1234.json';
 import testData from './schema/maximal-test.json';
+
+const Timeouts = require('platform/testing/e2e/timeouts.js');
 
 describe('Feedback Tool Test', () => {
   it('Fills the form and navigates accordingly', () => {
@@ -18,14 +19,14 @@ describe('Feedback Tool Test', () => {
       .click();
 
     cy.url().should('not.contain', '/introduction');
-
     // Applicant relationship
-    cy.get('input[name="root_onBehalfOf"][value="Myself"]').should('exist');
+    cy.get('va-radio-option[value="Myself"]').should('exist');
     cy.injectAxeThenAxeCheck();
-    cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
-    cy.get('.usa-alert.usa-alert-info.background-color-only', {
-      timeout: Timeouts.slow,
-    }).should('be.visible');
+    cy.get('va-radio-option[value="Myself"]').click();
+    // cy.selectRadio('root_onBehalfOf', testData.data.onBehalfOf);
+    // cy.get('.usa-alert.usa-alert-info.background-color-only', {
+    //   timeout: Timeouts.slow,
+    // }).should('be.visible');
 
     cy.get('.form-progress-buttons .usa-button-primary').click();
     cy.url().should('not.contain', '/applicant-relationship');
@@ -84,15 +85,12 @@ describe('Feedback Tool Test', () => {
     cy.get('input[type="checkbox"]').should('exist');
     cy.axeCheck();
 
-    // checkbox to enter information manually
+    // Select checkbox to enter information manually
     cy.get('label[id="option-label"]').click();
-
-    cy.get('label[id="option-label"]').click();
-
     cy.get(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       { timeout: Timeouts.slow },
-    );
+    ).should('be.visible');
     cy.fill(
       'input[name="root_educationDetails_school_view:manualSchoolEntry_name"]',
       testData.data.educationDetails.school['view:manualSchoolEntry'].name,
@@ -133,7 +131,7 @@ describe('Feedback Tool Test', () => {
     cy.axeCheck();
     cy.get('.form-progress-buttons .usa-button-primary').click();
 
-    cy.get('.js-test-location', { timeout: Timeouts.submission })
+    cy.get('.js-test-location', { timeout: Timeouts.slow })
       .invoke('attr', 'data-location')
       .should('not.contain', '/review-and-submit');
 

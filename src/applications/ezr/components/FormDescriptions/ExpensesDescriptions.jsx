@@ -3,7 +3,7 @@ import React from 'react';
 export const EducationalExpensesDescription = (
   <va-additional-info
     trigger="What we consider college or vocational expenses"
-    class="vads-u-margin-y--1"
+    class="vads-u-margin-y--1 hydrated"
     uswds
   >
     <div>
@@ -28,7 +28,7 @@ export const EducationalExpensesDescription = (
 export const MedicalExpensesDescription = (
   <va-additional-info
     trigger="What we consider non-reimbursable medical expenses"
-    class="vads-u-margin-top--1 vads-u-margin-bottom--4"
+    class="vads-u-margin-top--1 vads-u-margin-bottom--4 hydrated"
   >
     <div>
       <p className="vads-u-margin-top--0">

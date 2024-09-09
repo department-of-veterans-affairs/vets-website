@@ -36,6 +36,7 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import { useIsDetails } from '../hooks/useIsDetails';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -53,6 +54,8 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
+  useIsDetails(dispatch);
+
   useEffect(
     () => {
       if (vaccineId) {
@@ -68,7 +71,7 @@ const VaccineDetails = props => {
         setBreadcrumbs([
           {
             url: '/vaccines',
-            label: 'Vaccines',
+            label: 'vaccines',
           },
         ]),
       );
@@ -160,7 +163,7 @@ Provider notes: ${processList(record.notes)}\n`;
             downloadTxt={generateVaccineTxt}
           />
           <DownloadingRecordsInfo allowTxtDownloads={allowTxtDownloads} />
-          <div className="vads-u-margin-top--4 vads-u-margin-bottom--3 vads-u-border-top--1px vads-u-border-color--gray-light" />
+          <div className="vads-u-margin-y--4 vads-u-border-top--1px vads-u-border-color--gray-light" />
           <div>
             <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--base vads-u-font-family--sans">
               Location

@@ -302,7 +302,7 @@ export function createVapServiceState(customState = {}) {
             inputPhoneNumber: {
               'ui:title': 'Home phone number (U.S. numbers only)',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid 10-digit U.S. phone number.',
+                pattern: 'You must enter a valid 10-digit U.S. phone number.',
               },
               'ui:options': {
                 ariaDescribedby: 'error-message-details',
@@ -311,7 +311,7 @@ export function createVapServiceState(customState = {}) {
             extension: {
               'ui:title': 'Extension',
               'ui:errorMessages': {
-                pattern: 'Please enter a valid extension.',
+                pattern: 'You must enter a valid extension.',
               },
             },
           },

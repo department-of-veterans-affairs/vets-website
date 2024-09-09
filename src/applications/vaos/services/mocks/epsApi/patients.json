@@ -1,0 +1,43 @@
+{
+    "address": {
+      "city": "Anytown",
+      "country": "USA",
+      "line": [
+        "123 Main Street",
+        "Suite 101"
+      ],
+      "postalCode": "12345",
+      "state": "FL",
+      "type": "both",
+      "use": "home"
+    },
+    "birthDate": "1977-01-01",
+    "contactInfo": [
+      {
+        "system": "phone",
+        "use": "mobile",
+        "value": "555-555-1111"
+      },
+      {
+        "system": "email",
+        "value": "jdoe@example.com"
+      }
+    ],
+    "gender": "female",
+    "id": "b6cc1875-5313-4ca8-af8b-74adac0c5d0c",
+    "identifier": [
+      {
+        "system": "ssn",
+        "value": "111-00-1111"
+      }
+    ],
+    "name": [
+      {
+        "family": "Doe",
+        "given": [
+          "Jane",
+          "Jill"
+        ]
+      }
+    ]
+  }

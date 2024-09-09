@@ -33,7 +33,7 @@ export const generatePdfScaffold = (user, title, subject, preface) => {
     headerBanner: [
       {
         text:
-          'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis line at ',
+          'If you’re ever in crisis and need to talk with someone right away, call the Veterans Crisis Line at ',
       },
       {
         text: '988',
@@ -62,7 +62,7 @@ export const updatePageTitle = newTitle => {
 
 /**
  * Opens the veterans Crisis modal (the modal that appears when clicking the red banner in the header
- * (or footer on mobile) to connect to the crisis line)
+ * (or footer on mobile) to connect to the Crisis Line)
  */
 export const openCrisisModal = () => {
   const modal = document.querySelector('#modal-crisisline');

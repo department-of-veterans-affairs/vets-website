@@ -22,7 +22,7 @@ import { customizeTitle } from '../utilities/customize-title';
  * 2) Non-standard: GMT < NMT  In some rural areas, the Geographic Means Test is lower than the National Means Test
  */
 const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
-  const APPLY_URL = '/health-care/apply/application/introduction';
+  const APPLY_URL = '/health-care/apply-for-health-care-form-10-10ez/';
   const currentYear = new Date().getFullYear();
   const H1 = `Your income limits for ${year || currentYear}`;
 
@@ -121,12 +121,7 @@ const Results = ({ dependents, pastMode, results, router, year, zipCode }) => {
     );
 
     const applyUrl = (
-      <a
-        href={APPLY_URL}
-        className="vads-u-display--block vads-u-margin-top--3 vads-u-margin-bottom--1 vads-c-action-link--green"
-      >
-        Apply for VA health care
-      </a>
+      <va-link-action href={APPLY_URL} text="Apply for VA health care" />
     );
 
     return (

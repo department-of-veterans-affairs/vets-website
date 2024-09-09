@@ -16,7 +16,13 @@
       "classesPerWeek": 4,
       "hoursPerWeek": 5
     },
+    "agencyOrProgram": {
+      "agencyName": "fbi",
+      "typeOfProgramOrBenefit": "Trade school",
+      "datePaymentsBegan": "2009-03-03"
+    },
     "currentTermDates": {
+      "isSchoolAccredited": true,
       "officialSchoolStartDate": "2010-06-04",
       "expectedStudentStartDate": "2011-04-06",
       "expectedGraduationDate": "2013-05-04"
@@ -50,9 +56,7 @@
         "zipCode": "34012"
       },
       "wasMarried": false,
-      "tuitionIsPaidByGovAgency": true,
-      "agencyName": "fbi",
-      "datePaymentsBegan": "2009-03-03"
+      "tuitionIsPaidByGovAgency": true
     },
     "studentNameAndSsn": {
       "view:674Information": {},

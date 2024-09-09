@@ -1,160 +1,121 @@
 import React from 'react';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { links } from '../../definitions/content';
 
 const ProcessTimeline = () => (
   <>
     <h2>Follow these steps to get started:</h2>
 
-    <va-process-list uswds>
-      {/* Prepare */}
-      <va-process-list-item header="Prepare" uswds>
+    <va-process-list>
+      <va-process-list-item header="Check your eligibility">
         <p className="vads-u-margin-top--2">
-          To fill out this application, the Veteran and each family caregiver
-          applicant will need to provide specific information. You’ll need:
+          Check our eligibility requirements before you apply.
+        </p>
+        <p>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/"
+          >
+            Find out if you’re eligible for the Program of Comprehensive
+            Assistance for Family Caregivers
+          </a>
+        </p>
+      </va-process-list-item>
+
+      <va-process-list-item header="Gather your information">
+        <p className="vads-u-margin-top--2">
+          You’ll need this information for the Veteran and each family
+          caregiver:
         </p>
 
-        <ul className="process-lists">
-          <li>
-            The address, telephone number, and date of birth for the Veteran and
-            each family caregiver applicant
-          </li>
-          <li>The VA medical center where the Veteran will receive care</li>
-          <li>Health insurance information for the Primary Family Caregiver</li>
-          <li>
-            Veteran’s Social Security number (SSN) or tax identification number
-            (TIN)
-          </li>
+        <ul>
+          <li>Social Security number or tax identification number</li>
+          <li>Date of birth, address, and phone number</li>
         </ul>
 
-        <va-additional-info
-          trigger="What if I don't want to put my SSN or TIN in the application?"
-          class="vads-u-margin-y--3"
-          uswds
-        >
-          <p className="vads-u-margin-top--0">
-            We only require your SSN or TIN if you apply online. If you want to
-            apply without putting this information in your application, you can
-            apply by mail or in person.
-          </p>
-          <p className="vads-u-margin-bottom--0">
-            <a href="/family-member-benefits/comprehensive-assistance-for-family-caregivers/#how-do-i-apply-for-this-progra">
-              Get instructions for how to apply for the PCAFC program by mail or
-              in person
-            </a>
-          </p>
-        </va-additional-info>
-
-        <p data-testid="poa-info-note" className="vads-u-margin-bottom--4">
-          <strong>Note:</strong> If you’re a legal representative who can make
-          decisions for the Veteran, you can sign this application for them.
-          You’ll need to upload proof of your legal authority to make decisions
-          for the Veteran. Upload a document that we can accept (such as a valid
-          power of attorney, legal guardianship order, or other legal document).
+        <p>
+          You’ll also need to share the VA medical center where the Veteran
+          receives care or plans to receive care.
         </p>
 
-        <h4>What if I have questions or need help filling out the form?</h4>
-
-        <p className="vads-u-margin--0">
-          If you have a question or need help, you can contact us in any of
-          these ways:
+        <p>
+          And if you’re a representative signing this application on behalf the
+          Veteran, you’ll need to submit a document showing you have legal
+          authority to make decisions for the Veteran (like a valid power of
+          attorney, legal guardianship order, or other legal document). Or
+          you’ll need to upload a document showing you have authority to fill
+          out and sign applications on behalf of the Veteran.
         </p>
 
-        <ul className="process-lists">
+        <p className="vads-u-margin-bottom--4">
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="/family-and-caregiver-benefits/health-and-disability/comprehensive-assistance-for-family-caregivers/#what-documents-can-i-submit-if"
+          >
+            Learn more about the documents you can submit
+          </a>
+        </p>
+
+        <h4>What if I have questions or need help with this application?</h4>
+
+        <p>If you have questions or need help, here’s what you can do:</p>
+
+        <ul>
           <li>
-            Call us at{' '}
-            <va-telephone contact={CONTACTS.HEALTHCARE_ELIGIBILITY_CENTER} />{' '}
-            and ask for help filling out the form
+            Call the Caregiver Support Line at{' '}
+            <va-telephone contact={CONTACTS.CAREGIVER} /> (
+            <va-telephone contact={CONTACTS[711]} tty />) and ask for help
+            filling out the form.
           </li>
           <li>
-            Use the online{' '}
+            Find a Caregiver Support Team Coordinator at your nearest VA health
+            facility.{' '}
             <a
-              href={links.caregiverSupportCoordinators.link}
               target="_blank"
               rel="noopener noreferrer"
+              href="https://www.caregiver.va.gov/support/New_CSC_Page.asp"
             >
-              Caregiver Support Coordinator locator
-            </a>{' '}
-            to find a coordinator at your nearest VA health care facility
+              Go to our Caregiver Support Program Teams directory
+            </a>
           </li>
           <li>
-            Contact the VA National Caregiver Support Line by calling{' '}
-            <va-telephone contact={CONTACTS.CAREGIVER} />
+            Get help from an accredited representative, like a Veterans Service
+            Organization (VSO).{' '}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="/get-help-from-accredited-representative/"
+            >
+              Learn more about getting help from an accredited representative
+            </a>
           </li>
         </ul>
 
         <va-additional-info
-          trigger="What&apos;s a Caregiver Support Coordinator ?"
+          trigger="What’s a Caregiver Support Team?"
           class="vads-u-margin-top--3"
-          uswds
         >
-          A Caregiver Support Coordinator is a clinical professional who
-          connects Veteran caregivers with VA and community resources that offer
-          supportive programs and services. Caregiver Support Coordinators are
-          located at every VA medical center and specialize in caregiving
-          issues.
+          A Caregiver Support Team connects the Veteran caregivers with VA and
+          community resources that offer supportive programs and services.
+          Caregiver Support Teams are located at every VA medical center and
+          specialize in caregiving issues.
         </va-additional-info>
       </va-process-list-item>
 
-      {/* Apply */}
-      <va-process-list-item header="Apply" uswds>
+      <va-process-list-item header="Start your application">
         <p className="vads-u-margin-top--2">
-          Please remember, whether you’re the Veteran or a family caregiver,
-          you’ll need to complete all form questions before submitting the form.
-          After submitting the form, you’ll receive a confirmation screen that
-          you can print for your records.
+          We’ll take you through each step of the process. It should take about
+          15 minutes.
         </p>
-
         <p>
-          Each time the Veteran wants to add a new family caregiver, the Veteran
-          and the new caregiver will need to submit a new application. There can
-          only be one Primary and up to two Secondary Family Caregivers at any
-          one time.
+          If the Veteran is already enrolled in this program and wants to add a
+          new family caregiver, the Veteran and the new caregiver can use this
+          application.{' '}
         </p>
-
         <p>
-          <strong>Note:</strong> If the Veteran isn’t enrolled in VA health care
-          or is currently on active duty with a medical discharge, they’ll need
-          to fill out an{' '}
-          <a
-            href={links.applyVAHealthCare.link}
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            {links.applyVAHealthCare.label}
-          </a>{' '}
-          (VA Form 10-10EZ).
-        </p>
-      </va-process-list-item>
-
-      {/* Next steps */}
-      <va-process-list-item header="Next steps" uswds>
-        <p className="vads-u-margin-top--2">
-          A member of the Caregiver Support Program at the VA medical center
-          where the Veteran plans to receive care will contact you to discuss
-          your application and eligibility.
-        </p>
-
-        <p>
-          If you aren’t eligible for PCAFC you have the right to appeal. You can
-          contact the patient advocate at your local VA medical center to
-          discuss the appeal process. Your Caregiver Support Coordinator is also
-          available if you have additional questions.
-        </p>
-
-        <p>
-          You may also be eligible for the Program of General Caregiver Support
-          Services (PGCSS). To find out more, call the VA Caregiver Support Line
-          at <va-telephone contact={CONTACTS.CAREGIVER} />, visit{' '}
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            href={links.caregiverHelpPage.link}
-          >
-            {links.caregiverHelpPage.label}
-          </a>
-          , or discuss your options with your local Caregiver Support
-          Coordinator.
+          <strong>Note:</strong> There can only be 1 Primary and up to 2
+          Secondary Family caregivers at any one time.
         </p>
       </va-process-list-item>
     </va-process-list>

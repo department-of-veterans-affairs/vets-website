@@ -79,6 +79,8 @@ export default {
         confirmRemove: true,
         useDlWrap: true,
         useVaCards: true,
+        showSave: true,
+        reviewMode: true,
       },
       items: {
         spouseFullName: fullNameUI(title => `Former spouse’s ${title}`),
@@ -139,6 +141,7 @@ export default {
             'locationOfMarriage',
             'locationOfSeparation',
           ],
+          /* What should we do about this object? */
           properties: {
             spouseFullName: fullNameSchema,
             reasonForSeparation: radioSchema(Object.keys(separationTypeLabels)),

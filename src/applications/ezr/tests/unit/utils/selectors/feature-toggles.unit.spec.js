@@ -6,7 +6,7 @@ describe('ezr FeatureToggles selector', () => {
     featureToggles: {
       /* eslint-disable camelcase */
       hca_browser_monitoring_enabled: true,
-      ezr_tera_enabled: true,
+      ezr_upload_enabled: true,
       loading: false,
     },
   };
@@ -17,7 +17,7 @@ describe('ezr FeatureToggles selector', () => {
       expect(selectFeatureToggles(state)).to.eql({
         isLoadingFeatureFlags: false,
         isBrowserMonitoringEnabled: true,
-        isTeraEnabled: true,
+        isUploadEnabled: true,
       });
     });
   });

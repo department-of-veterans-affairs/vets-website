@@ -11,24 +11,6 @@ import {
 } from '../constants';
 import FormTitle from './FormTitle';
 
-const deriveLinkPropsFromFormURL = url => {
-  const linkProps = {};
-  if (!url) return linkProps;
-
-  const isSameOrigin = url.startsWith(window.location.origin);
-  const isPDF = url.toLowerCase().includes('.pdf');
-
-  if (!isSameOrigin || !isPDF) {
-    linkProps.target = '_blank';
-  } else {
-    linkProps.download = true;
-
-    if (isPDF) linkProps.type = 'application/pdf';
-  }
-
-  return linkProps;
-};
-
 // helper for replacing the form title to keep same domain for testing in non production
 const regulateURL = url => {
   if (!url) return '';
@@ -165,7 +147,6 @@ const SearchResult = ({
   const relativeFormToolUrl = formToolUrl
     ? replaceWithStagingDomain(formToolUrl)
     : formToolUrl;
-  const linkProps = deriveLinkPropsFromFormURL(url);
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
   const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
@@ -180,13 +161,6 @@ const SearchResult = ({
 
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
-
-    recordEvent({
-      event: 'int-modal-click',
-      'modal-status': 'opened',
-      'modal-title': 'Download this PDF and open it in Acrobat Reader',
-    });
-
     toggleModalState(formName, url, pdfLabel);
   };
 
@@ -195,7 +169,6 @@ const SearchResult = ({
       <FormTitle
         id={id}
         formUrl={regulateURL(formDetailsUrl)}
-        lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
         formName={formName}
@@ -208,19 +181,14 @@ const SearchResult = ({
       {relatedTo}
       {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
-          <va-link
-            className="vads-c-action-link--green"
-            disable-analytics
+          <va-link-action
             href={relativeFormToolUrl}
-            lang={language}
-            onClick={() =>
-              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
-            }
             text={deriveLanguageTranslation(
               language,
               'goToOnlineTool',
               formName,
             )}
+            type="secondary"
           />
         </div>
       ) : null}
@@ -236,14 +204,12 @@ const SearchResult = ({
             }
           }}
           onClick={pdfDownloadHandler}
-          {...linkProps}
         >
-          <i
-            aria-hidden="true"
-            className="fas fa-download fa-lg vads-u-margin-right--1"
-            role="presentation"
-          />
-          <span lang={language} className="vads-u-text-decoration--underline">
+          <va-icon icon="file_download" size="3" />
+          <span
+            lang={language}
+            className="vads-u-text-decoration--underline vads-u-margin-left--0p5"
+          >
             {deriveLanguageTranslation(language, 'downloadVaForm', formName)}
           </span>
         </button>

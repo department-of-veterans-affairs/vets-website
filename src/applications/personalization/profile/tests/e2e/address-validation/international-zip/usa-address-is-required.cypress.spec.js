@@ -14,12 +14,12 @@ describe('Personal and contact information', () => {
       cy.injectAxeThenAxeCheck();
       addressPage.fillAddressForm(formFields);
       // clear zip code
-      cy.findByLabelText(/Zip code/i).clear();
+      cy.get('va-text-input[label="Zip code"]')
+        .shadow()
+        .find('input')
+        .clear();
       addressPage.saveForm();
-      cy.get('#root_zipCode-error-message').should(
-        'contain',
-        'Zip code is required',
-      );
+      cy.get('va-text-input[label="Zip code"][error="Zip code is required"]');
     });
   });
 });

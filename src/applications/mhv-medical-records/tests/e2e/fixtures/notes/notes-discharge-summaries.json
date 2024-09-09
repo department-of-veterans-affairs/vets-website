@@ -1,0 +1,769 @@
+{
+  "id": "9cdf6bf5-a79b-43c7-a114-0c33f8c36074",
+  "meta": {
+    "lastUpdated": "2023-11-24T18:02:15.411-05:00"
+  },
+  "type": "searchset",
+  "total": 4,
+  "link": [
+    {
+      "relation": "self",
+      "url": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference?_count=9999&patient=7004&type=11506-3%2C18842-5"
+    }
+  ],
+  "entry": [
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-30",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "2022-08-09T13:41:23Z",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-09T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjogQXVnIDUsMjAyMgpEQVRFIE9GIERJU0NIQVJHRTogCiAKUFJJTkNJUExFIERJU0NIQVJHRSBESUFHTk9TSVM6IFRFU1QgRElTR05PU0lTLCBNYXJ1ZiBBaG1lZC4KQURESVRJT05BTCBESUFHTk9TRVM6CiAKQ09OU1VMVEFOVChTKToKUFJPQ0VEVVJFKFMpOgogCkJSSUVGIEFETUlTU0lPTiBISVNUT1JZOgo3MSB5ZWFyIG9sZCBNQUxFIHRlc3QKIApCUklFRiBBRE1JU1NJT04gUEhZU0lDQUwgRVhBTTogIHRlc3QgZXhhbQogCkFETUlTU0lPTiBMQUIvRUtHL1gtUkFZIFJFU1VMVFM6ICB0ZXN0IGFnYWluCiAKSE9TUElUQUwgQ09VUlNFOgogIHZpYTJ2ZGlmIHRyYW5zc3RpdGlvbgogCkNPTkRJVElPTiBPTiBESVNDSEFSR0U6IHRlc3QKIApESVNDSEFSR0UgSU5TVFJVQ1RJT05TOgogICBBY3Rpdml0eTogICAgdGVzdDEKICAgRGlldDogICAgICAgIHRlc3QyCiAgIE1lZGljYXRpb25zOiB0ZXN0MwogICBTcGVjaWFsIEluc3RydWN0aW9uczogdGVzdCBhZ2FpbgogICBGb2xsb3ctdXAgUGxhbnM6IHRlc3QgYWdhaW4gYWdhaW4KIAovZXMvIE1BUlVGIEFITUVEClBIWVNJQ0lBTgpTaWduZWQ6IDA4LzA5LzIwMjIgMTM6NDQKIAovZXMvIE1VQVpaQU0gS0hBTgpQaHlzaWNpYW4KQ29zaWduZWQ6IDA4LzEyLzIwMjIgMTI6MTcKZm9yIE5BSkVFQiBBSE1FRCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKQU1PRA==",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+            "start": "2022-08-05T13:41:23Z"
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-31",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-09T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjogQXVnIDYsMjAyMgpEQVRFIE9GIERJU0NIQVJHRTogCiAKUFJJTkNJUExFIERJU0NIQVJHRSBESUFHTk9TSVM6IFRFU1QgRElTR05PU0lTLCBNYXJ1ZiBBaG1lZC4KQURESVRJT05BTCBESUFHTk9TRVM6CiAKQ09OU1VMVEFOVChTKToKUFJPQ0VEVVJFKFMpOgogCkJSSUVGIEFETUlTU0lPTiBISVNUT1JZOgo3MSB5ZWFyIG9sZCBNQUxFIHRlc3QKIApCUklFRiBBRE1JU1NJT04gUEhZU0lDQUwgRVhBTTogIHRlc3QgZXhhbQogCkFETUlTU0lPTiBMQUIvRUtHL1gtUkFZIFJFU1VMVFM6ICB0ZXN0IGFnYWluCiAKSE9TUElUQUwgQ09VUlNFOgogIHZpYTJ2ZGlmIHRyYW5zc3RpdGlvbgogCkNPTkRJVElPTiBPTiBESVNDSEFSR0U6IHRlc3QKIApESVNDSEFSR0UgSU5TVFJVQ1RJT05TOgogICBBY3Rpdml0eTogICAgdGVzdDEKICAgRGlldDogICAgICAgIHRlc3QyCiAgIE1lZGljYXRpb25zOiB0ZXN0MwogICBTcGVjaWFsIEluc3RydWN0aW9uczogdGVzdCBhZ2FpbgogICBGb2xsb3ctdXAgUGxhbnM6IHRlc3QgYWdhaW4gYWdhaW4KIAovZXMvIE1BUlVGIEFITUVEClBIWVNJQ0lBTgpTaWduZWQ6IDA4LzA5LzIwMjIgMTM6NDQKIAovZXMvIE1VQVpaQU0gS0hBTgpQaHlzaWNpYW4KQ29zaWduZWQ6IDA4LzEyLzIwMjIgMTI6MTcKZm9yIE5BSkVFQiBBSE1FRCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKQU1PRA==",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-32",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "2022-08-09T13:41:23Z",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-09T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjoKREFURSBPRiBESVNDSEFSR0U6IEF1ZyA5LDIwMjIKIApQUklOQ0lQTEUgRElTQ0hBUkdFIERJQUdOT1NJUzogVEVTVCBESVNHTk9TSVMsIE1hcnVmIEFobWVkLgpBRERJVElPTkFMIERJQUdOT1NFUzoKIApDT05TVUxUQU5UKFMpOgpQUk9DRURVUkUoUyk6CiAKQlJJRUYgQURNSVNTSU9OIEhJU1RPUlk6CjcxIHllYXIgb2xkIE1BTEUgdGVzdAogCkJSSUVGIEFETUlTU0lPTiBQSFlTSUNBTCBFWEFNOiAgdGVzdCBleGFtCiAKQURNSVNTSU9OIExBQi9FS0cvWC1SQVkgUkVTVUxUUzogIHRlc3QgYWdhaW4KIApIT1NQSVRBTCBDT1VSU0U6CiAgdmlhMnZkaWYgdHJhbnNzdGl0aW9uCiAKQ09ORElUSU9OIE9OIERJU0NIQVJHRTogdGVzdAogCkRJU0NIQVJHRSBJTlNUUlVDVElPTlM6CiAgIEFjdGl2aXR5OiAgICB0ZXN0MQogICBEaWV0OiAgICAgICAgdGVzdDIKICAgTWVkaWNhdGlvbnM6IHRlc3QzCiAgIFNwZWNpYWwgSW5zdHJ1Y3Rpb25zOiB0ZXN0IGFnYWluCiAgIEZvbGxvdy11cCBQbGFuczogdGVzdCBhZ2FpbiBhZ2FpbgogCi9lcy8gTUFSVUYgQUhNRUQKUEhZU0lDSUFOClNpZ25lZDogMDgvMDkvMjAyMiAxMzo0NAogCi9lcy8gTVVBWlpBTSBLSEFOClBoeXNpY2lhbgpDb3NpZ25lZDogMDgvMTIvMjAyMiAxMjoxNwpmb3IgTkFKRUVCIEFITUVEICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApBTU9E",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+            "end": "2022-08-09T13:41:23Z"
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-33",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-09T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjoKREFURSBPRiBESVNDSEFSR0U6IEF1ZyAxMCwyMDIyCiAKUFJJTkNJUExFIERJU0NIQVJHRSBESUFHTk9TSVM6IFRFU1QgRElTR05PU0lTLCBNYXJ1ZiBBaG1lZC4KQURESVRJT05BTCBESUFHTk9TRVM6CiAKQ09OU1VMVEFOVChTKToKUFJPQ0VEVVJFKFMpOgogCkJSSUVGIEFETUlTU0lPTiBISVNUT1JZOgo3MSB5ZWFyIG9sZCBNQUxFIHRlc3QKIApCUklFRiBBRE1JU1NJT04gUEhZU0lDQUwgRVhBTTogIHRlc3QgZXhhbQogCkFETUlTU0lPTiBMQUIvRUtHL1gtUkFZIFJFU1VMVFM6ICB0ZXN0IGFnYWluCiAKSE9TUElUQUwgQ09VUlNFOgogIHZpYTJ2ZGlmIHRyYW5zc3RpdGlvbgogCkNPTkRJVElPTiBPTiBESVNDSEFSR0U6IHRlc3QKIApESVNDSEFSR0UgSU5TVFJVQ1RJT05TOgogICBBY3Rpdml0eTogICAgdGVzdDEKICAgRGlldDogICAgICAgIHRlc3QyCiAgIE1lZGljYXRpb25zOiB0ZXN0MwogICBTcGVjaWFsIEluc3RydWN0aW9uczogdGVzdCBhZ2FpbgogICBGb2xsb3ctdXAgUGxhbnM6IHRlc3QgYWdhaW4gYWdhaW4KIAovZXMvIE1BUlVGIEFITUVEClBIWVNJQ0lBTgpTaWduZWQ6IDA4LzA5LzIwMjIgMTM6NDQKIAovZXMvIE1VQVpaQU0gS0hBTgpQaHlzaWNpYW4KQ29zaWduZWQ6IDA4LzEyLzIwMjIgMTI6MTcKZm9yIE5BSkVFQiBBSE1FRCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKQU1PRA==",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-34",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "2022-08-18T13:41:23Z",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-13T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjoKREFURSBPRiBESVNDSEFSR0U6CiAKUFJJTkNJUExFIERJU0NIQVJHRSBESUFHTk9TSVM6IFRFU1QgRElTR05PU0lTLCBNYXJ1ZiBBaG1lZC4KQURESVRJT05BTCBESUFHTk9TRVM6CiAKQ09OU1VMVEFOVChTKToKUFJPQ0VEVVJFKFMpOgogCkJSSUVGIEFETUlTU0lPTiBISVNUT1JZOgo3MSB5ZWFyIG9sZCBNQUxFIHRlc3QKIApCUklFRiBBRE1JU1NJT04gUEhZU0lDQUwgRVhBTTogIHRlc3QgZXhhbQogCkFETUlTU0lPTiBMQUIvRUtHL1gtUkFZIFJFU1VMVFM6ICB0ZXN0IGFnYWluCiAKSE9TUElUQUwgQ09VUlNFOgogIHZpYTJ2ZGlmIHRyYW5zc3RpdGlvbgogCkNPTkRJVElPTiBPTiBESVNDSEFSR0U6IHRlc3QKIApESVNDSEFSR0UgSU5TVFJVQ1RJT05TOgogICBBY3Rpdml0eTogICAgdGVzdDEKICAgRGlldDogICAgICAgIHRlc3QyCiAgIE1lZGljYXRpb25zOiB0ZXN0MwogICBTcGVjaWFsIEluc3RydWN0aW9uczogdGVzdCBhZ2FpbgogICBGb2xsb3ctdXAgUGxhbnM6IHRlc3QgYWdhaW4gYWdhaW4KIAovZXMvIE1BUlVGIEFITUVEClBIWVNJQ0lBTgpTaWduZWQ6IDA4LzA5LzIwMjIgMTM6NDQKIAovZXMvIE1VQVpaQU0gS0hBTgpQaHlzaWNpYW4KQ29zaWduZWQ6IDA4LzEyLzIwMjIgMTI6MTcKZm9yIE5BSkVFQiBBSE1FRCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKQU1PRA==",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    },
+    {
+      "fullUrl": "https://mhv-intb-api.myhealth.va.gov/fhir/DocumentReference/7509",
+      "resource": {
+        "resourceType": "DocumentReference",
+        "id": "ex-MHV-note-35",
+        "meta": {
+          "profile": [
+            "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.note"
+          ]
+        },
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Generated Narrative: DocumentReference</b><a name=\"ex-MHV-note-4\"> </a></p><div style=\"display: inline-block; background-color: #d9e0e7; padding: 6px; margin: 4px; border: 1px solid #8da1b4; border-radius: 5px; line-height: 60%\"><p style=\"margin-bottom: 0px\">Resource DocumentReference &quot;ex-MHV-note-4&quot; </p><p style=\"margin-bottom: 0px\">Profile: <a href=\"StructureDefinition-VA.MHV.PHR.note.html\">VA MHV PHR Notes</a></p></div><p><b>identifier</b>: id:\u00a0NoteTO.5281877\u00a0(use:\u00a0USUAL)</p><p><b>status</b>: current</p><p><b>type</b>: DISCHARGE SUMMARY <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"https://loinc.org/\">LOINC</a>#18842-5 &quot;Discharge summary&quot;)</span></p><p><b>category</b>: Clinical Note <span style=\"background: LightGoldenRodYellow; margin: 4px; border: 1px solid khaki\"> (<a href=\"http://hl7.org/fhir/us/core/STU5.0.1/CodeSystem-us-core-documentreference-category.html\">US Core DocumentReferences Category Codes</a>#clinical-note)</span></p><p><b>subject</b>: <a href=\"Patient-ex-MHV-patient-1.html\">Patient/ex-MHV-patient-1</a> &quot; DAYTSHR&quot;</p><p><b>date</b>: Aug 9, 2022, 8:41:23\u202fAM</p><p><b>author</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><p><b>authenticator</b>: <a name=\"ex-MHV-practitioner-36556\"> </a></p><blockquote><p/><p><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><blockquote><p><b>content</b></p><h3>Attachments</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>ContentType</b></td><td><b>Data</b></td><td><b>Title</b></td></tr><tr><td style=\"display: none\">*</td><td>text/plain</td><td>(base64 data - 1080 bytes)</td><td>Discharge Summary</td></tr></table></blockquote><h3>Contexts</h3><table class=\"grid\"><tr><td style=\"display: none\">-</td><td><b>Related</b></td></tr><tr><td style=\"display: none\">*</td><td><a name=\"ex-MHV-location-552\"> </a><blockquote><p/><p><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></td></tr></table><hr/><blockquote><p><b>Generated Narrative: Practitioner #ex-MHV-practitioner-36556</b><a name=\"ex-MHV-practitioner-36556\"> </a></p><p><b>identifier</b>: id:\u00a0AuthorTO.37556\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: AHMED,MARUF</p></blockquote><hr/><blockquote><p><b>Generated Narrative: Location #ex-MHV-location-552</b><a name=\"ex-MHV-location-552\"> </a></p><p><b>identifier</b>: id:\u00a0HospitalLocationTO.552\u00a0(use:\u00a0USUAL)</p><p><b>name</b>: DAYTON</p></blockquote></div>"
+        },
+        "contained": [
+          {
+            "resourceType": "Practitioner",
+            "id": "ex-MHV-practitioner-36556",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.practitioner"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "AuthorTO.37556"
+              }
+            ],
+            "name": [
+              {
+                "text": "AHMED,MARUF",
+                "family": "MARUF",
+                "given": ["AHMED"]
+              }
+            ]
+          },
+          {
+            "resourceType": "Location",
+            "id": "ex-MHV-location-552",
+            "meta": {
+              "profile": [
+                "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.location"
+              ]
+            },
+            "identifier": [
+              {
+                "use": "usual",
+                "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+                "value": "HospitalLocationTO.552"
+              }
+            ],
+            "name": "DAYTON"
+          }
+        ],
+        "identifier": [
+          {
+            "use": "usual",
+            "system": "urn:oid:2.16.840.1.113883.4.349.4.989",
+            "value": "NoteTO.5281877"
+          }
+        ],
+        "status": "current",
+        "type": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "18842-5",
+              "display": "Discharge summary"
+            }
+          ],
+          "text": "DISCHARGE SUMMARY"
+        },
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://hl7.org/fhir/us/core/CodeSystem/us-core-documentreference-category",
+                "code": "clinical-note"
+              }
+            ]
+          }
+        ],
+        "subject": {
+          "reference": "Patient/ex-MHV-patient-1"
+        },
+        "date": "2022-08-28T13:41:23Z",
+        "author": [
+          {
+            "reference": "#ex-MHV-practitioner-36556"
+          }
+        ],
+        "authenticator": {
+          "extension": [
+            {
+              "url": "https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/noteAuthenticatedWhen",
+              "valueDateTime": "2022-08-28T13:44:59Z"
+            }
+          ],
+          "reference": "#ex-MHV-practitioner-36556"
+        },
+        "content": [
+          {
+            "attachment": {
+              "contentType": "text/plain",
+              "data": "TE9DQUwgVElUTEU6IERpc2NoYXJnZSBTdW1tYXJ5ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIApTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgIERJQ1QgREFURTogQVVHIDA5LCAyMDIyQDEzOjQyICAgICBFTlRSWSBEQVRFOiBBVUcgMDksIDIwMjJAMTM6NDM6MDIgICAgICAKIERJQ1RBVEVEIEJZOiBBSE1FRCxNQVJVRiAgICAgICAgICAgICBBVFRFTkRJTkc6IEFITUVELE5BSkVFQiAgICAgICAgICAgICAgICAgCiAgICAgVVJHRU5DWTogcm91dGluZSAgICAgICAgICAgICAgICAgICAgU1RBVFVTOiBDT01QTEVURUQgICAgICAgICAgICAgICAgICAgICAKCiAKIApEQVRFIE9GIEFETUlTU0lPTjoKREFURSBPRiBESVNDSEFSR0U6CiAKUFJJTkNJUExFIERJU0NIQVJHRSBESUFHTk9TSVM6IFRFU1QgRElTR05PU0lTLCBNYXJ1ZiBBaG1lZC4KQURESVRJT05BTCBESUFHTk9TRVM6CiAKQ09OU1VMVEFOVChTKToKUFJPQ0VEVVJFKFMpOgogCkJSSUVGIEFETUlTU0lPTiBISVNUT1JZOgo3MSB5ZWFyIG9sZCBNQUxFIHRlc3QKIApCUklFRiBBRE1JU1NJT04gUEhZU0lDQUwgRVhBTTogIHRlc3QgZXhhbQogCkFETUlTU0lPTiBMQUIvRUtHL1gtUkFZIFJFU1VMVFM6ICB0ZXN0IGFnYWluCiAKSE9TUElUQUwgQ09VUlNFOgogIHZpYTJ2ZGlmIHRyYW5zc3RpdGlvbgogCkNPTkRJVElPTiBPTiBESVNDSEFSR0U6IHRlc3QKIApESVNDSEFSR0UgSU5TVFJVQ1RJT05TOgogICBBY3Rpdml0eTogICAgdGVzdDEKICAgRGlldDogICAgICAgIHRlc3QyCiAgIE1lZGljYXRpb25zOiB0ZXN0MwogICBTcGVjaWFsIEluc3RydWN0aW9uczogdGVzdCBhZ2FpbgogICBGb2xsb3ctdXAgUGxhbnM6IHRlc3QgYWdhaW4gYWdhaW4KIAovZXMvIE1BUlVGIEFITUVEClBIWVNJQ0lBTgpTaWduZWQ6IDA4LzA5LzIwMjIgMTM6NDQKIAovZXMvIE1VQVpaQU0gS0hBTgpQaHlzaWNpYW4KQ29zaWduZWQ6IDA4LzEyLzIwMjIgMTI6MTcKZm9yIE5BSkVFQiBBSE1FRCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKQU1PRA==",
+              "title": "Discharge Summary"
+            }
+          }
+        ],
+        "context": {
+          "period": {
+          },
+          "related": [
+            {
+              "reference": "#ex-MHV-location-552"
+            }
+          ]
+        }
+      },
+      "search": {
+        "mode": "match"
+      }
+    }
+],
+"resourceType": "Bundle"
+}

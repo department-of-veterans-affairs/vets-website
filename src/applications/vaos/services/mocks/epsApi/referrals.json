@@ -1,0 +1,28 @@
+{
+    "count": 2,
+    "nextToken": "YTI0NTM5NzUtNzA2My00NTU5LWJiYWYtZTg3MGY4ZWZlYzg5",
+    "referrals": [
+      {
+        "id": "ff826316-b95c-4888-b8bb-930598785fed",
+        "patientId": "e7c4a9c2-e7d9-46a5-8c5a-3596d5a403ca",
+        "referralNumber": "23456",
+        "requested": {
+          "careCategory": "Dental",
+          "specialtyIds": [
+            "1223G0001X"
+          ]
+        },
+        "state": "pending"
+      },
+      {
+        "id": "8d85bbad-2d8a-411f-8806-cb94a9a600d1",
+        "patientId": "8a5fe127-82f1-48aa-8b70-0249cf9880fc",
+        "referralNumber": "34567",
+        "requested": {
+          "careCategory": "Orthopaedic Surgery"
+        },
+        "state": "pending"
+      }
+    ],
+    "total": 5
+  }

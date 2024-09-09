@@ -16,6 +16,7 @@ export const App = ({
   toggleLoginModal,
   authenticatedWithSSOe,
   authenticatedWithOAuth,
+  verbose,
 }) => {
   const DynamicHeader = `h${baseHeader}`;
   const DynamicSubheader = `h${baseHeader + 1}`;
@@ -39,18 +40,24 @@ export const App = ({
   return (
     <>
       {loggedIn ? (
-        <>
+        <div
+          aria-live="polite"
+          aria-atomic
+          tabIndex="-1"
+          className="poa-display"
+        >
           <Auth
             DynamicHeader={DynamicHeader}
             DynamicSubheader={DynamicSubheader}
             useRepresentativeStatus={useRepresentativeStatus}
           />
-        </>
+        </div>
       ) : (
         <>
           <Unauth
             toggleLoginModal={toggleLoginModal}
             DynamicHeader={DynamicHeader}
+            verbose={verbose}
           />
         </>
       )}
@@ -64,6 +71,7 @@ App.propTypes = {
   authenticatedWithSSOe: PropTypes.bool,
   baseHeader: PropTypes.number,
   hasRepresentative: PropTypes.bool,
+  verbose: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({

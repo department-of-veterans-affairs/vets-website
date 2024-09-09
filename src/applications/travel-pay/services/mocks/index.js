@@ -2,7 +2,7 @@ const delay = require('mocker-api/lib/delay');
 
 const TOGGLE_NAMES = require('../../../../platform/utilities/feature-toggles/featureFlagNames.json');
 const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
-const travelClaims = require('./travel-claims.json');
+const travelClaims = require('./travel-claims-31.json');
 
 const responses = {
   ...commonResponses,

@@ -50,33 +50,39 @@ describe('VAOS Component: EnrolledRoute', () => {
     expect(await screen.findByText('Child content')).to.exist;
   });
 
-  // TODO: THIS TEST IS INCOMPATIBLE WITH WEB COMPONENTS;
-  // Contents of the shadow DOM cannot be searched,  perhaps ony confirm
-  // existence of loader tag?
-  // it('should not render route content when not logged in', async () => {
-  //   const myInitialState = {
-  //     ...initialState,
-  //     user: {
-  //       ...initialState.user,
-  //       login: {
-  //         currentlyLoggedIn: false,
-  //       },
-  //     },
-  //   };
-  //   const store = createTestStore(myInitialState);
-  //   const screen = renderWithStoreAndRouter(
-  //     <>
-  //       <Switch>
-  //         <EnrolledRoute component={() => <div>Child content</div>} />
-  //       </Switch>
-  //     </>,
-  //     {
-  //       store,
-  //     },
-  //   );
+  it('should not render route content when not logged in', async () => {
+    const myInitialState = {
+      ...initialState,
+      user: {
+        ...initialState.user,
+        login: {
+          currentlyLoggedIn: false,
+        },
+      },
+    };
+    const store = createTestStore(myInitialState);
+    const screen = renderWithStoreAndRouter(
+      <>
+        <Switch>
+          <EnrolledRoute component={() => <div>Child content</div>} />
+        </Switch>
+      </>,
+      {
+        store,
+      },
+    );
 
-  //   expect(await screen.findByText(/Redirecting to login/i)).to.exist;
-  // });
+    const loadingIndicatorSelector = screen.container.querySelector(
+      'va-loading-indicator',
+    );
+    await waitFor(() => {
+      expect(loadingIndicatorSelector).to.exist;
+      expect(loadingIndicatorSelector).to.have.attribute(
+        'message',
+        'Redirecting to login...',
+      );
+    });
+  });
 
   it('should render can’t find any VA medical facility registrations message', async () => {
     const myInitialState = {

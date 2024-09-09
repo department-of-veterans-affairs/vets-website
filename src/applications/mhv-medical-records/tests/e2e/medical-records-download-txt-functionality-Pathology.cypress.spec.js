@@ -1,19 +1,21 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import PathologyDetailsPage from './pages/PathologyDetailsPage';
+import labsAndTests from './fixtures/labs-and-tests/labsAndTests.json';
 
 describe('Medical Records Health PathologyListPage', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {
     site.login();
-    cy.visit('my-health/medical-records/labs-and-tests');
+    // cy.visit('my-health/medical-records/labs-and-tests');
+    LabsAndTestsListPage.goToLabsAndTests();
   });
 
   it('Pathology ListPage Toggle Menu button Print or download ', () => {
     // Given Navigate to Pathology ListPage
 
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(9);
+    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[8]);
 
     // should display a toggle menu button
     PathologyDetailsPage.verifyPrintOrDownload();

@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import InfoPair from './InfoPair';
-
 import {
   formatDateShort,
   formatDateParsedZoneLong,
 } from 'platform/utilities/date';
+import InfoPair from './InfoPair';
+
 import {
   formatPercent,
   formatVAFileNumber,
@@ -52,15 +52,15 @@ function UserInfoSection({ enrollmentData = {}, showCurrentAsOfAlert }) {
   }
 
   let entitlementInfo;
-  const originalEntitlement = enrollmentData.originalEntitlement;
-  const usedEntitlement = enrollmentData.usedEntitlement;
-  const remainingEntitlement = enrollmentData.remainingEntitlement;
+  const { originalEntitlement } = enrollmentData;
+  const { usedEntitlement } = enrollmentData;
+  const { remainingEntitlement } = enrollmentData;
 
   if (enrollmentData.veteranIsEligible) {
     entitlementInfo = (
       <div>
         <div className="section">
-          <h4>Your Benefits</h4>
+          <h2>Your Benefits</h2>
           <InfoPair
             label="Total months received"
             value={formatMonthDayFields(originalEntitlement)}

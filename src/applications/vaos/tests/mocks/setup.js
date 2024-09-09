@@ -22,10 +22,7 @@ import moment from '../../lib/moment-tz';
 import ClinicChoicePage from '../../new-appointment/components/ClinicChoicePage';
 import VaccineClinicChoicePage from '../../covid-19-vaccine/components/ClinicChoicePage';
 import PreferredDatePage from '../../new-appointment/components/PreferredDatePage';
-import { getParentSiteMock } from './v0';
-import { mockCommunityCareEligibility, mockParentSites } from './helpers';
 
-import createRoutesWithStore from '../../routes';
 import TypeOfEyeCarePage from '../../new-appointment/components/TypeOfEyeCarePage';
 import TypeOfFacilityPage from '../../new-appointment/components/TypeOfFacilityPage';
 import VAFacilityPageV2 from '../../new-appointment/components/VAFacilityPage/VAFacilityPageV2';
@@ -35,12 +32,12 @@ import {
   mockSchedulingConfigurations,
   mockV2CommunityCareEligibility,
   mockVAOSParentSites,
-} from './helpers.v2';
+} from './helpers';
 import { TYPES_OF_CARE } from '../../utils/constants';
 import ClosestCityStatePage from '../../new-appointment/components/ClosestCityStatePage';
-import { createMockFacilityByVersion } from './data';
-import { mockFacilitiesFetchByVersion } from './fetch';
-import { getSchedulingConfigurationMock } from './v2';
+import { createMockFacility } from './data';
+import { mockFacilitiesFetch } from './fetch';
+import { getSchedulingConfigurationMock } from './mock';
 
 /**
  * Creates a Redux store when the VAOS reducers loaded and the thunk middleware applied
@@ -123,34 +120,6 @@ export function renderWithStoreAndRouter(
   );
 
   return { ...screen, history: historyObject };
-}
-
-/**
- * @deprecated Please use renderWithStoreAndRouter instead
- *
- * @export
- * @param {{ initialState: Object, store: ReduxStore, path: string }} params
- * @returns RTL render result plus history
- */
-export function renderFromRoutes({ initialState, store = null, path = '/' }) {
-  const testStore =
-    store ||
-    createStore(
-      combineReducers({ ...commonReducer, ...reducers }),
-      initialState,
-      applyMiddleware(thunk),
-    );
-  const history = createTestHistory(path);
-  const screen = renderInReduxProvider(
-    <Router history={history}>{createRoutesWithStore(testStore)}</Router>,
-    {
-      store: testStore,
-      initialState,
-      reducers,
-    },
-  );
-
-  return { ...screen, history };
 }
 
 /**
@@ -255,6 +224,7 @@ export async function setTypeOfEyeCare(store, label) {
 export async function setVAFacility(
   store,
   facilityId,
+  typeOfCareId = 'primaryCare',
   { facilityData = null } = {},
 ) {
   // TODO: Make sure this works in staging before removal
@@ -262,32 +232,29 @@ export async function setVAFacility(
 
   const facilities = [
     facilityData ||
-      createMockFacilityByVersion({
+      createMockFacility({
         id: facilityId,
       }),
   ];
 
-  mockFacilitiesFetchByVersion({ children: true, facilities });
+  mockFacilitiesFetch({ children: true, facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
-      typeOfCareId: 'primaryCare',
+      typeOfCareId,
       directEnabled: true,
       requestEnabled: true,
     }),
   ]);
 
-  const { findByText, history } = renderWithStoreAndRouter(
-    <VAFacilityPageV2 />,
-    { store },
-  );
+  const screen = renderWithStoreAndRouter(<VAFacilityPageV2 />, { store });
 
-  const continueButton = await findByText(/Continue/);
+  const continueButton = await screen.findByText(/Continue/);
   fireEvent.click(continueButton);
-  await waitFor(() => expect(history.push.called).to.be.true);
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
 
 /**
@@ -304,13 +271,13 @@ export async function setVaccineFacility(store, facilityId, facilityData = {}) {
   // const realFacilityID = facilityId.replace('983', '442').replace('984', '552');
 
   const facilities = [
-    createMockFacilityByVersion({
+    createMockFacility({
       id: facilityId,
       ...facilityData,
     }),
   ];
 
-  mockFacilitiesFetchByVersion({ children: true, facilities, version: 2 });
+  mockFacilitiesFetch({ children: true, facilities });
   mockSchedulingConfigurations([
     getSchedulingConfigurationMock({
       id: '983',
@@ -424,7 +391,7 @@ export async function setPreferredDate(store, preferredDate) {
  * @param {Object} params
  * @param {Object} toggles Any feature toggles to set. CC toggle is set by default
  * @param {Array<Object>} parentSites List of parent sites and data, in the format used
- *  by the createMockFacilityByVersion params, so you can pass name, id, and address
+ *  by the createMockFacility params, so you can pass name, id, and address
  * @param {?Array<string>} supportedSites List of site ids that support community care.
  *  Defaults to the parent site ids if not provided
  * @param {?Array<string>} registeredSites List of registered site ids. Will use ids
@@ -435,7 +402,6 @@ export async function setPreferredDate(store, preferredDate) {
  * @returns {ReduxStore} Redux store with data set up
  */
 export async function setCommunityCareFlow({
-  toggles = {},
   parentSites,
   registeredSites,
   supportedSites,
@@ -443,7 +409,6 @@ export async function setCommunityCareFlow({
   residentialAddress = null,
 }) {
   const typeOfCare = TYPES_OF_CARE.find(care => care.idV2 === typeOfCareId);
-  const useV2 = toggles.vaOnlineSchedulingFacilitiesServiceV2;
   const registered =
     registeredSites ||
     parentSites.filter(data => data.id.length === 3).map(data => data.id);
@@ -451,7 +416,6 @@ export async function setCommunityCareFlow({
   const store = createTestStore({
     featureToggles: {
       vaOnlineSchedulingCommunityCare: true,
-      ...toggles,
     },
     user: {
       profile: {
@@ -466,36 +430,17 @@ export async function setCommunityCareFlow({
     },
   });
 
-  if (useV2) {
-    mockVAOSParentSites(
-      registered,
-      parentSites.map(data =>
-        createMockFacilityByVersion({ ...data, isParent: true }),
-      ),
-      true,
-    );
-    mockV2CommunityCareEligibility({
-      parentSites: parentSites.map(data => data.id),
-      supportedSites: supportedSites || parentSites.map(data => data.id),
-      careType: typeOfCare.cceType,
-    });
-  } else {
-    mockParentSites(
-      registered,
-      parentSites.map(data =>
-        getParentSiteMock({
-          ...data,
-          city: data.address?.city,
-          state: data.address?.state,
-        }),
-      ),
-    );
-    mockCommunityCareEligibility({
-      parentSites: parentSites.map(data => data.id),
-      supportedSites: supportedSites || parentSites.map(data => data.id),
-      careType: typeOfCare.cceType,
-    });
-  }
+  mockVAOSParentSites(
+    registered,
+    parentSites.map(data => createMockFacility({ ...data, isParent: true })),
+    true,
+  );
+  mockV2CommunityCareEligibility({
+    parentSites: parentSites.map(data => data.id),
+    supportedSites: supportedSites || parentSites.map(data => data.id),
+    careType: typeOfCare.cceType,
+  });
+
   await setTypeOfCare(store, new RegExp(typeOfCare.name));
   await setTypeOfFacility(store, /Community Care/i);
 
@@ -508,20 +453,21 @@ export async function setCommunityCareFlow({
  * @export
  * @async
  * @param {ReduxStore} store The Redux store to use to render the page
- * @param {MomentDate} label The name of the city to select
+ * @param {MomentDate} cityValue The value of the city to select
  * @returns {string} The url path that was routed to after clicking Continue
  */
-export async function setClosestCity(store, label) {
-  const { findByLabelText, getByText, history } = renderWithStoreAndRouter(
-    <ClosestCityStatePage />,
-    { store },
-  );
+export async function setClosestCity(store, cityValue) {
+  const screen = renderWithStoreAndRouter(<ClosestCityStatePage />, { store });
 
-  const radioButton = await findByLabelText(label);
-  fireEvent.click(radioButton);
-  fireEvent.click(getByText(/Continue/));
-  await waitFor(() => expect(history.push.called).to.be.true);
+  const radioSelector = screen.container.querySelector('va-radio');
+  const changeEvent = new CustomEvent('selected', {
+    detail: { value: cityValue },
+  });
+  radioSelector.__events.vaValueChange(changeEvent);
+
+  fireEvent.click(screen.getByText(/Continue/));
+  await waitFor(() => expect(screen.history.push.called).to.be.true);
   await cleanup();
 
-  return history.push.firstCall.args[0];
+  return screen.history.push.firstCall.args[0];
 }
