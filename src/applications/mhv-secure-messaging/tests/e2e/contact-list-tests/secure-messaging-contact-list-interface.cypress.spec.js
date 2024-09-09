@@ -21,6 +21,8 @@ describe('SM Contact list', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.openRecipientsDropdown();
     ContactListPage.verifyContactListLink();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify base web-elements - single facility', () => {
