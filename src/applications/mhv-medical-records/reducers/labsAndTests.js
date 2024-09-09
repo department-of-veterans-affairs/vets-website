@@ -416,6 +416,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
       };
     }
+    case Actions.LabsAndTests.GET_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: action.response,
+      };
+    }
     case Actions.LabsAndTests.GET_LIST: {
       const oldList = state.labsAndTestsList;
       const labsAndTestsList =

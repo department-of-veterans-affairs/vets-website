@@ -44,6 +44,11 @@ export const getMhvRadiologyTests = () => {
   });
 };
 
+export const getMhvRadiologyDetails = async id => {
+  const response = await getMhvRadiologyTests();
+  return response.find(record => +record.id === +id.substring(1));
+};
+
 export const getNotes = () => {
   return apiRequest(`${apiBasePath}/medical_records/clinical_notes`, {
     headers,

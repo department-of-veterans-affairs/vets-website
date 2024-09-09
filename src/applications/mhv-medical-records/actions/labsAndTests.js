@@ -3,10 +3,12 @@ import {
   getLabsAndTests,
   getLabOrTest,
   getMhvRadiologyTests,
+  getMhvRadiologyDetails,
 } from '../api/MrApi';
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
+import { dispatchDetails } from '../util/helpers';
 
 export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -31,16 +33,22 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
   }
 };
 
-export const getlabsAndTestsDetails = labId => async dispatch => {
+export const getlabsAndTestsDetails = (labId, labList) => async dispatch => {
   try {
-    let response;
+    let getDetailsFunc = getLabOrTest;
+
     if (labId && labId.charAt(0).toLowerCase() === 'r') {
-      const records = await getMhvRadiologyTests();
-      response = records.find(record => +record.id === +labId.substring(1));
-    } else {
-      response = await getLabOrTest(labId);
+      getDetailsFunc = getMhvRadiologyDetails;
     }
-    dispatch({ type: Actions.LabsAndTests.GET, response });
+
+    await dispatchDetails(
+      labId,
+      labList,
+      dispatch,
+      getDetailsFunc,
+      Actions.LabsAndTests.GET_FROM_LIST,
+      Actions.LabsAndTests.GET,
+    );
   } catch (error) {
     dispatch(addAlert(Constants.ALERT_TYPE_ERROR, error));
     throw error;
