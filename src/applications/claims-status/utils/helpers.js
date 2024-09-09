@@ -1119,7 +1119,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
-    ? '5103 Evidence Notice'
+    ? 'Review evidence list (5103 notice)'
     : `Request for ${displayName}`;
 }
 
