@@ -60,6 +60,8 @@ export class ConfirmationPage extends React.Component {
 
         <SaveResultsModal />
 
+        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
+
         <div id="results-container">
           <div id="filters-section-desktop">
             <b>Filters</b>
