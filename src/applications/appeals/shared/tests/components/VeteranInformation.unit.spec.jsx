@@ -11,7 +11,7 @@ import {
 import VeteranInformation from '../../components/VeteranInformation';
 
 describe('<VeteranInformation>', () => {
-  const getData = (emptyData = true) => ({
+  const getData = (emptyData = true, suffix = '') => ({
     props: {
       formData: {
         veteran: {
@@ -28,6 +28,7 @@ describe('<VeteranInformation>', () => {
               first: 'uno',
               middle: 'dos',
               last: 'tres',
+              suffix,
             },
             dob: '2000-01-05',
             gender: 'F',
@@ -64,7 +65,7 @@ describe('<VeteranInformation>', () => {
   });
 
   it('should render profile data', () => {
-    const { props, store } = getData(false);
+    const { props, store } = getData(false, 'suffix');
     const { container } = render(
       <Provider store={store}>
         <VeteranInformation {...props} />
@@ -72,7 +73,7 @@ describe('<VeteranInformation>', () => {
     );
 
     expect($('h3')).to.exist;
-    expect($('.name', container).textContent).to.equal('uno dos tres');
+    expect($('.name', container).textContent).to.equal('uno dos tres, suffix');
     expect($('.ssn', container).textContent).to.contain('●●●–●●–5678');
     expect($('.vafn', container).textContent).to.contain('●●●–●●–8765');
     expect($('.dob', container).textContent).to.contain('January 5, 2000');

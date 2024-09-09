@@ -49,7 +49,7 @@ describe('Recent Job Applications', () => {
 
     await userEvent.click(getByText('Submit'));
     expect(
-      $$('va-checkbox[error="Please provide a response"]', container).length,
+      $$('va-checkbox[error="You must provide a response"]', container).length,
     ).to.equal(0);
     expect(onSubmit.called).to.be.true;
   });
@@ -70,7 +70,7 @@ describe('Recent Job Applications', () => {
     await userEvent.click(getByText('Submit'));
 
     expect(
-      $$('va-checkbox[error="Please provide a response"]', container).length,
+      $$('va-checkbox[error="You must provide a response"]', container).length,
     ).to.equal(2);
 
     expect(onSubmit.called).to.be.false;

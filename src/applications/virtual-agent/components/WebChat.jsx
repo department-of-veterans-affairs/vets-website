@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { isMobile } from 'react-device-detect'; // Adding this library for accessibility reasons to distinguish between desktop and mobile
 
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
@@ -75,6 +76,17 @@ const WebChat = ({
   const [speechPonyfill, setBotPonyfill] = useState();
   const [isRXSkill, setIsRXSkill] = useState();
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  // value of specific toggle
+  const isComponentToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentComponentTesting,
+  );
+
+  const isRootBotToggleOn = useToggleValue(
+    TOGGLE_NAMES.virtualAgentEnableRootBot,
+  );
+
   validateParameters({
     csrfToken,
     apiSession,
@@ -91,6 +103,8 @@ const WebChat = ({
     userUuid,
     isMobile,
     environment,
+    isComponentToggleOn,
+    isRootBotToggleOn,
   });
 
   clearBotSessionStorageEventListener(isLoggedIn);

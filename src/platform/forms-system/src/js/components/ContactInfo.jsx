@@ -249,7 +249,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-home-phone"
-              to={`/edit-${contactPath}-home-phone`}
+              to={`/${contactPath}/edit-home-phone`}
               aria-label={content.editHomePhone}
             >
               {editText}
@@ -270,7 +270,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-mobile-phone"
-              to={`/edit-${contactPath}-mobile-phone`}
+              to={`/${contactPath}/edit-mobile-phone`}
               aria-label={content.editMobilePhone}
             >
               {editText}
@@ -291,7 +291,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-email"
-              to={`/edit-${contactPath}-email-address`}
+              to={`/${contactPath}/edit-email-address`}
               aria-label={content.editEmail}
             >
               {editText}
@@ -310,7 +310,7 @@ const ContactInfo = ({
           <p className="vads-u-margin-top--0p5">
             <Link
               id="edit-address"
-              to={`/edit-${contactPath}-mailing-address`}
+              to={`/${contactPath}/edit-mailing-address`}
               aria-label={content.editMailingAddress}
             >
               {editText}

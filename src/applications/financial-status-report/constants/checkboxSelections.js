@@ -76,3 +76,16 @@ export const otherLivingExpensesOptions = [
   'Pet care',
   'Transportation and car expenses',
 ];
+export const otherLivingExpensesList = [
+  `Clothing`,
+  `Entertainment`,
+  `Family and child care`,
+  `Food`,
+  `Health expenses`,
+  `Homeowner's Association (HOA) fees`,
+  `Household maintenance`,
+  `Legal fees`,
+  `Pet care`,
+  `Renters insurance`,
+  `Transportation and car expenses (including insurance)`,
+];

@@ -346,6 +346,11 @@ export default class ArrayField extends React.Component {
     const uiItemName = (uiOptions.itemName || 'item').toLowerCase();
     const { generateIndividualItemHeaders, useVaCards } = uiOptions;
 
+    const modalPrimaryButtonText =
+      uiOptions.modalPrimaryButtonText || `Yes, remove this ${uiItemName}`;
+    const modalSecondaryButtonText =
+      uiOptions.modalSecondaryButtonText || 'No, cancel';
+
     // if we have form data, use that, otherwise use an array with a single default object
     const items =
       formData && formData.length
@@ -379,7 +384,6 @@ export default class ArrayField extends React.Component {
         <div className="va-growable">
           <Element name={`topOfTable_${idSchema.$id}`} />
           {items.map((item, index) => {
-            // This is largely copied from the default ArrayField
             const itemSchema = this.getItemSchema(index);
             const itemIdPrefix = `${idSchema.$id}_${index}`;
             const itemIdSchema = toIdSchema(
@@ -491,8 +495,8 @@ export default class ArrayField extends React.Component {
                       clickToClose
                       status="warning"
                       modalTitle={`Are you sure you want to remove this ${uiItemName}?`}
-                      primaryButtonText={`Yes, remove this ${uiItemName}`}
-                      secondaryButtonText="No, cancel"
+                      primaryButtonText={modalPrimaryButtonText}
+                      secondaryButtonText={modalSecondaryButtonText}
                       onCloseEvent={() => this.closeRemoveModal(index)}
                       onPrimaryButtonClick={() => this.handleRemoveModal(index)}
                       onSecondaryButtonClick={() =>
@@ -501,9 +505,18 @@ export default class ArrayField extends React.Component {
                       visible={isRemoving}
                       uswds
                     >
-                      {uiOptions.confirmRemoveDescription && (
-                        <p>{uiOptions.confirmRemoveDescription}</p>
-                      )}
+                      <>
+                        {(uiOptions.confirmRemoveDescription ||
+                          uiOptions.confirmRemoveDisplayFields) && (
+                          <p>
+                            {uiOptions.confirmRemoveDescription}
+                            {typeof uiOptions.confirmRemoveDisplayFields ===
+                            'function'
+                              ? uiOptions.confirmRemoveDisplayFields(item)
+                              : ''}
+                          </p>
+                        )}
+                      </>
                     </VaModal>
                   )}
                 </CardOrDiv>

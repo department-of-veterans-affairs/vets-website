@@ -8,15 +8,12 @@ import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 
 describe('Secure Messaging - Move Message with Attachment', () => {
   it('can move with attachment', () => {
-    const site = new SecureMessagingSite();
-    const landingPage = new PatientInboxPage();
-    const messageDetailsPage = new PatientMessageDetailsPage();
-    site.login();
+    SecureMessagingSite.login();
     mockMessagewithAttachment.data.id = '7192838';
     mockMessagewithAttachment.data.attributes.messageId = '7192838';
     mockMessagewithAttachment.data.attributes.attachment = true;
     mockMessagewithAttachment.data.attributes.body = 'attachment';
-    landingPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
+    PatientInboxPage.loadInboxMessages(mockMessages, mockMessagewithAttachment);
     cy.intercept(
       'GET',
       `${
@@ -31,9 +28,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
       }/move?folder_id=-3`,
       mockMessagewithAttachment,
     ).as('moveMessagewithAttachment');
-
-    cy.get('.is-active').click();
-    messageDetailsPage.loadMessageDetails(
+    PatientMessageDetailsPage.loadMessageDetails(
       mockMessagewithAttachment,
       mockThreadwithAttachment,
     );
@@ -50,7 +45,7 @@ describe('Secure Messaging - Move Message with Attachment', () => {
     cy.wait('@moveMessagewithAttachment');
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
-    landingPage.verifyMoveMessageWithAttachmentSuccessMessage();
+    PatientInboxPage.verifyMoveMessageWithAttachmentSuccessMessage();
     cy.get('@moveMessagewithAttachment')
       .its('response')
       .then(response => {

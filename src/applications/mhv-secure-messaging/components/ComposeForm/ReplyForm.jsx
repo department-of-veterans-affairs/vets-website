@@ -2,7 +2,10 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { capitalize } from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import EmergencyNote from '../EmergencyNote';
@@ -10,6 +13,7 @@ import { updateTriageGroupRecipientStatus } from '../../util/helpers';
 import CannotReplyAlert from '../shared/CannotReplyAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import ReplyDrafts from './ReplyDrafts';
+import MessageActionButtons from '../MessageActionButtons';
 import {
   BlockedTriageAlertStyles,
   PageTitles,
@@ -21,24 +25,37 @@ import { clearThread } from '../../actions/threadDetails';
 import { getPatientSignature } from '../../actions/preferences';
 
 const ReplyForm = props => {
-  const { cannotReply, drafts, replyMessage, recipients, messages } = props;
+  const {
+    cannotReply,
+    drafts,
+    replyMessage,
+    recipients,
+    isCreateNewModalVisible,
+    setIsCreateNewModalVisible,
+    messages,
+    threadId,
+    isEditing,
+    setIsEditing,
+    setIsSending,
+  } = props;
   const dispatch = useDispatch();
-  const [lastFocusableElement, setLastFocusableElement] = useState(null);
-  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
   const header = useRef();
 
-  const [category, setCategory] = useState(null);
-  const [subject, setSubject] = useState('');
+  const alertStatus = useSelector(state => state.sm.alerts?.alertFocusOut);
+  const signature = useSelector(state => state.sm.preferences?.signature);
   const { replyToName, isSaving } = useSelector(
     state => state.sm.threadDetails,
   );
+
+  const [lastFocusableElement, setLastFocusableElement] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [subject, setSubject] = useState('');
   const [
     showBlockedTriageGroupAlert,
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
   const [blockedTriageGroupList, setBlockedTriageGroupList] = useState([]);
-
-  const signature = useSelector(state => state.sm.preferences.signature);
+  const [hideDraft, setHideDraft] = useState(false);
 
   useEffect(() => {
     const draftToEdit = drafts?.[0];
@@ -51,23 +68,15 @@ const ReplyForm = props => {
         type: Recipients.CARE_TEAM,
         status: RecipientStatus.ALLOWED,
       };
-
       const {
         isAssociated,
         isBlocked,
         formattedRecipient,
       } = updateTriageGroupRecipientStatus(recipients, tempRecipient);
 
-      if (!isAssociated) {
+      if (!isAssociated || isBlocked) {
         setShowBlockedTriageGroupAlert(true);
         setBlockedTriageGroupList([formattedRecipient]);
-      } else if (recipients.associatedBlockedTriageGroupsQty) {
-        setShowBlockedTriageGroupAlert(isBlocked);
-        setBlockedTriageGroupList(
-          recipients.blockedRecipients.filter(
-            recipient => recipient.name === formattedRecipient.name,
-          ),
-        );
       }
     }
     // The Blocked Triage Group alert should stay visible until the draft is sent or user navigates away
@@ -77,11 +86,7 @@ const ReplyForm = props => {
     () => {
       setSubject(replyMessage.subject);
       setCategory(replyMessage.category);
-      updatePageTitle(
-        `${replyMessage.category}: ${replyMessage.subject} ${
-          PageTitles.PAGE_TITLE_TAG
-        }`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [replyMessage],
   );
@@ -147,6 +152,27 @@ const ReplyForm = props => {
           />
         )}
 
+        <MessageActionButtons
+          threadId={threadId}
+          hideDraft={hideDraft}
+          hideReplyButton
+          replyMsgId={replyMessage.messageId}
+          showEditDraftButton={
+            !cannotReply && !showBlockedTriageGroupAlert && !hideDraft
+          }
+          handleEditDraftButton={() => {
+            if (isEditing === false) {
+              setIsEditing(true);
+              scrollTo('draft-reply-header');
+              focusElement(document.getElementById('draft-reply-header'));
+            } else {
+              setIsEditing(false);
+            }
+          }}
+          hasMultipleDrafts={drafts?.length > 1}
+          isCreateNewModalVisible={isCreateNewModalVisible}
+          setIsCreateNewModalVisible={setIsCreateNewModalVisible}
+        />
         <section>
           <form
             className="reply-form vads-u-padding-bottom--2"
@@ -154,17 +180,28 @@ const ReplyForm = props => {
           >
             {!cannotReply &&
               !showBlockedTriageGroupAlert && <EmergencyNote dropDownFlag />}
-
-            <ReplyDrafts
-              drafts={drafts}
-              cannotReply={cannotReply}
-              isSaving={isSaving}
-              replyToName={replyToName}
-              replyMessage={replyMessage}
-              setLastFocusableElement={setLastFocusableElement}
-              signature={signature}
-              showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
-            />
+            {/* {DELETE BUTTON IS PRESSED, DELETES SINGLE DRAFT} */}
+            {!hideDraft && (
+              <>
+                <h2 id="draft-reply-header">
+                  {drafts && drafts.length > 1 ? 'Drafts' : 'Draft'}
+                </h2>
+                <ReplyDrafts
+                  drafts={drafts}
+                  cannotReply={cannotReply}
+                  isSaving={isSaving}
+                  replyToName={replyToName}
+                  replyMessage={replyMessage}
+                  setLastFocusableElement={setLastFocusableElement}
+                  signature={signature}
+                  showBlockedTriageGroupAlert={showBlockedTriageGroupAlert}
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
+                  setHideDraft={setHideDraft}
+                  setIsSending={setIsSending}
+                />
+              </>
+            )}
           </form>
         </section>
       </>
@@ -176,9 +213,15 @@ ReplyForm.propTypes = {
   cannotReply: PropTypes.bool,
   drafts: PropTypes.array,
   header: PropTypes.object,
+  isCreateNewModalVisible: PropTypes.bool,
+  isEditing: PropTypes.bool,
   messages: PropTypes.array,
   recipients: PropTypes.object,
   replyMessage: PropTypes.object,
+  setIsCreateNewModalVisible: PropTypes.func,
+  setIsEditing: PropTypes.func,
+  threadId: PropTypes.number,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyForm;

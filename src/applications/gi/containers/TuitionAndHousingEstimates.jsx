@@ -117,7 +117,7 @@ export function TuitionAndHousingEstimates({
       </div>
     </div>
   );
-  const title = 'Update tuition and housing estimates';
+  const title = 'Update tuition, housing, and monthly benefit estimates';
 
   return (
     <div className="vads-u-margin-bottom--2">
@@ -136,7 +136,7 @@ export function TuitionAndHousingEstimates({
       {smallScreen && (
         <div className="modal-wrapper">
           <div>
-            <h1>Update tuition and housing estimates</h1>
+            <h1>Update tuition, housing, and monthly benefit estimates</h1>
             {controls}
           </div>
           <div className="modal-button-wrapper">

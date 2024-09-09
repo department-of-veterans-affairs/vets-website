@@ -1,58 +1,30 @@
 import { differenceInCalendarDays, parseISO } from 'date-fns';
-
-const isWithInDays = (days, pageLastUpdated) => {
-  const daysAgo = differenceInCalendarDays(Date.now(), pageLastUpdated);
-  return daysAgo <= days;
-};
+import { getDemographicsStatuses } from '../demographics';
 
 const updateFormPages = (
   patientDemographicsStatus,
   pages,
   URLS,
   isTravelReimbursementEnabled = false,
-  appointments = [],
-  isTravelLogicEnabled = false,
-  travelPaySent = {},
+  travelPaySent = '',
 ) => {
   const skippedPages = [];
-  const {
-    demographicsNeedsUpdate,
-    demographicsConfirmedAt,
-    nextOfKinNeedsUpdate,
-    nextOfKinConfirmedAt,
-    emergencyContactNeedsUpdate,
-    emergencyContactConfirmedAt,
-  } = patientDemographicsStatus;
 
-  const skippablePages = [
-    {
-      url: URLS.DEMOGRAPHICS,
-      confirmedAt: demographicsConfirmedAt,
-      needsUpdate: demographicsNeedsUpdate,
-    },
-    {
-      url: URLS.NEXT_OF_KIN,
-      confirmedAt: nextOfKinConfirmedAt,
-      needsUpdate: nextOfKinNeedsUpdate,
-    },
-    {
-      url: URLS.EMERGENCY_CONTACT,
-      confirmedAt: emergencyContactConfirmedAt,
-      needsUpdate: emergencyContactNeedsUpdate,
-    },
-  ];
-  skippablePages.forEach(page => {
-    const pageLastUpdated = page.confirmedAt
-      ? new Date(page.confirmedAt)
-      : null;
-    if (
-      pageLastUpdated &&
-      isWithInDays(7, pageLastUpdated) &&
-      page.needsUpdate === false
-    ) {
-      skippedPages.push(page.url);
-    }
-  });
+  const {
+    demographicsUpToDate,
+    nextOfKinUpToDate,
+    emergencyContactUpToDate,
+  } = getDemographicsStatuses(patientDemographicsStatus);
+
+  if (demographicsUpToDate) {
+    skippedPages.push(URLS.DEMOGRAPHICS);
+  }
+  if (nextOfKinUpToDate) {
+    skippedPages.push(URLS.NEXT_OF_KIN);
+  }
+  if (emergencyContactUpToDate) {
+    skippedPages.push(URLS.EMERGENCY_CONTACT);
+  }
 
   const travelPayPages = [
     URLS.TRAVEL_QUESTION,
@@ -62,16 +34,9 @@ const updateFormPages = (
     URLS.TRAVEL_REVIEW,
   ];
 
-  // Skip travel pay if not enabled, if veteran has more than one appointment for the day, or station if not in the allow list.
-  // The allowlist currently only looks at the first appointment in the array, if we support multiple appointments later, this will need to get updated to a loop.
-  let skipLogic = appointments.length > 1;
-
-  if (isTravelLogicEnabled) {
-    const { stationNo } = appointments[0];
-    skipLogic =
-      stationNo in travelPaySent &&
-      !differenceInCalendarDays(Date.now(), parseISO(travelPaySent[stationNo]));
-  }
+  const skipLogic =
+    travelPaySent &&
+    !differenceInCalendarDays(Date.now(), parseISO(travelPaySent));
   if (!isTravelReimbursementEnabled || skipLogic) {
     skippedPages.push(...travelPayPages);
   }
@@ -85,13 +50,14 @@ const URLS = Object.freeze({
   ERROR: 'error',
   INTRODUCTION: 'introduction',
   LANDING: '',
+  LOADING: 'loading',
+  APPOINTMENTS: 'appointments',
+  UPCOMING_APPOINTMENTS: 'upcoming-appointments',
   NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   VERIFY: 'verify',
   COMPLETE: 'complete',
-  DETAILS: 'details',
   VALIDATION_NEEDED: 'verify',
-  LOADING: 'loading-appointments',
   TRAVEL_AGREEMENT: 'travel-agreement',
   TRAVEL_INTRO: 'travel-pay',
   TRAVEL_QUESTION: 'travel-pay',
@@ -100,7 +66,9 @@ const URLS = Object.freeze({
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  UPCOMING_APPOINTMENT_DETAILS: 'upcoming-appointment-details',
   ARRIVED: 'arrived',
+  RESOURCES: 'what-to-bring',
 });
 
 export { updateFormPages, URLS };

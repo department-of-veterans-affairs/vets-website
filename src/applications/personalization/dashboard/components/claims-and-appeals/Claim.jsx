@@ -48,9 +48,11 @@ const Claim = ({ claim }) => {
         {capitalizeFirstLetter(getClaimType(claim))} claim received {dateRecd}
       </h3>
       <div className="vads-u-display--flex">
-        <i
-          aria-hidden="true"
-          className="fas fa-fw fa-check-circle vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
+        <va-icon
+          icon="check_circle"
+          size={2}
+          srtext="Success"
+          class="vads-u-margin-right--1 vads-u-margin-top--0p5 vads-u-color--green"
         />
         <div>
           <p className="vads-u-margin-y--0">{status}</p>

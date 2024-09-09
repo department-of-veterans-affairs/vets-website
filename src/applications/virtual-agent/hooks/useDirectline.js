@@ -21,7 +21,7 @@ function getDirectLineToken(token, isLoggedIn) {
 }
 
 const getDirectLineDomain = () =>
-  process.env.USE_LOCAL_DIRECTLINE === 'true'
+  process.env.USE_LOCAL_DIRECTLINE
     ? 'http://localhost:3002/v3/directline'
     : 'https://northamerica.directline.botframework.com/v3/directline';
 

@@ -54,7 +54,6 @@ import { supportingEvidenceOrientation } from '../content/supportingEvidenceOrie
 import {
   adaptiveBenefits,
   addDisabilities,
-  addDisabilitiesRevised,
   additionalBehaviorChanges,
   additionalDocuments,
   additionalRemarks781,
@@ -69,6 +68,7 @@ import {
   evidenceTypesBDD,
   federalOrders,
   finalIncident,
+  fullyDevelopedClaim,
   homelessOrAtRisk,
   individualUnemployability,
   mentalHealthChanges,
@@ -109,7 +109,6 @@ import {
   workBehaviorChanges,
 } from '../pages';
 import { toxicExposurePages } from '../pages/toxicExposure/toxicExposurePages';
-import { showRevisedNewDisabilitiesPage } from '../content/addDisabilities';
 
 import { ancillaryFormsWizardDescription } from '../content/ancillaryFormsWizardIntro';
 
@@ -130,7 +129,9 @@ import migrations from '../migrations';
 import reviewErrors from '../reviewErrors';
 
 import manifest from '../manifest.json';
+import CustomReviewTopContent from '../components/CustomReviewTopContent';
 
+/** @type {FormConfig} */
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -185,6 +186,7 @@ const formConfig = {
   title: ({ formData }) => getPageTitle(formData),
   subTitle: 'VA Form 21-526EZ',
   preSubmitInfo,
+  CustomReviewTopContent,
   chapters: {
     veteranDetails: {
       title: ({ onReviewPage }) =>
@@ -323,28 +325,10 @@ const formConfig = {
           title: 'Add a new disability',
           path: DISABILITY_SHARED_CONFIG.addDisabilities.path,
           depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            !showRevisedNewDisabilitiesPage(),
+            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData),
           uiSchema: addDisabilities.uiSchema,
           schema: addDisabilities.schema,
           updateFormData: addDisabilities.updateFormData,
-          appStateSelector: state => ({
-            // needed for validateDisabilityName to work properly on the review
-            // & submit page. Validation functions are provided the pageData and
-            // not the formData on the review & submit page. For more details
-            // see https://dsva.slack.com/archives/CBU0KDSB1/p1614182869206900
-            newDisabilities: state.form?.data?.newDisabilities || [],
-          }),
-        },
-        addDisabilitiesRevised: {
-          title: 'Add a new disability REVISED!',
-          path: 'new-disabilities-revised/add',
-          depends: formData =>
-            DISABILITY_SHARED_CONFIG.addDisabilities.depends(formData) &&
-            showRevisedNewDisabilitiesPage(),
-          uiSchema: addDisabilitiesRevised.uiSchema,
-          schema: addDisabilitiesRevised.schema,
-          updateFormData: addDisabilitiesRevised.updateFormData,
           appStateSelector: state => ({
             // needed for validateDisabilityName to work properly on the review
             // & submit page. Validation functions are provided the pageData and
@@ -751,6 +735,13 @@ const formConfig = {
             !isBDD(formData),
           uiSchema: trainingPayWaiver.uiSchema,
           schema: trainingPayWaiver.schema,
+        },
+        fullyDevelopedClaim: {
+          title: 'Fully developed claim program',
+          path: 'fully-developed-claim',
+          uiSchema: fullyDevelopedClaim.uiSchema,
+          schema: fullyDevelopedClaim.schema,
+          depends: formData => !isBDD(formData),
         },
       },
     },

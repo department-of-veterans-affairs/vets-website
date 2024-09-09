@@ -9,7 +9,7 @@
           "addressLine2": "Suite #1200",
           "addressLine3": "Box 4",
           "city": "New York",
-          "countryName": "United States",
+          "countryCodeISO2": "US",
           "stateCode": "NY",
           "zipCode5": "30012"
         },
@@ -17,10 +17,12 @@
           "countryCode": "6",
           "areaCode": "555",
           "phoneNumber": "8001111",
-          "phoneNumberExt": "2"
+          "phoneNumberExt": "2345"
         },
-        "emailAddressText": "user@example.com"
+        "email": "user@example.com"
       },
+      "appealingVhaDenial": false,
+      "requestingExtension": false,
       "boardReviewOption": "hearing",
       "hearingTypePreference": "central_office",
       "timezone": "America/Los_Angeles",

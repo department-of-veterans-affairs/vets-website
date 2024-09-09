@@ -1,7 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { createId } from '../../utils/helpers';
 import _ from 'lodash';
+import { createId } from '../../utils/helpers';
 import LearnMoreLabel from '../LearnMoreLabel';
 
 export default function EstimatedBenefits({
@@ -160,6 +160,9 @@ export default function EstimatedBenefits({
         >
           Your estimated benefits
         </h3>
+        <h4 id="estimated-benefits-note small-screen-header">
+          Note: We round your estimated benefits to the nearest dollar
+        </h4>
         <div aria-atomic="true" aria-live="polite" role="status">
           {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
           <ul
@@ -215,7 +218,7 @@ export default function EstimatedBenefits({
                   buttonId="book-stipend-learn-more"
                 />
               }
-              id={'book-stipend'}
+              id="book-stipend"
               value={outputs.bookStipend.value}
               visible={outputs.bookStipend.visible}
               screenReaderSpan={year}

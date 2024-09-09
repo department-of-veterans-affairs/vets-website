@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { useSelector, useDispatch } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -85,13 +84,13 @@ ${reportGeneratedBy}\n
 Date: ${record.date}\n
 ${txtLine}\n\n
 Details about this test\n
-Sample tested: ${record.sampleTested}\n
-Sample from: ${record.sampleFrom}\n
+${
+      record.labType ? `Lab type: ${record.labType}\n\n` : ''
+    }Site or sample tested: ${record.sampleTested}\n
+Collection sample: ${record.sampleFrom}\n
 Ordered by: ${record.orderedBy}\n
-Ordering location: ${record.orderingLocation}\n
-Collecting location: ${record.collectingLocation}\n
-Lab location: ${record.labLocation}\n
-Date completed: ${record.date}\n
+Location: ${record.collectingLocation}\n
+Date completed: ${record.dateCompleted}\n
 ${txtLine}\n\n
 Results\n
 ${record.results}`;
@@ -105,10 +104,19 @@ ${record.results}`;
   return (
     <div className="vads-l-grid-container vads-u-padding-x--0 vads-u-margin-bottom--5">
       <PrintHeader />
-      <h1 className="vads-u-margin-bottom--0" aria-describedby="microbio-date">
+      <h1
+        className="vads-u-margin-bottom--0"
+        aria-describedby="microbio-date"
+        data-testid="microbio-name"
+      >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="microbio-date" />
+      <DateSubheading
+        date={record.date}
+        id="microbio-date"
+        label="Date and time collected"
+        labelClass="vads-font-weight-regular"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -120,40 +128,42 @@ ${record.results}`;
 
       <div className="test-details-container max-80">
         <h2>Details about this test</h2>
+        {record.labType && (
+          <>
+            <h3 className="vads-u-font-size--base vads-u-font-family--sans">
+              Lab type
+            </h3>
+            <p data-testid="microbio-sample-tested">{record.labType}</p>
+          </>
+        )}
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
-        <p>{record.sampleTested}</p>
+        <p data-testid="microbio-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample from
+          Collection sample
         </h3>
-        <p>{record.sampleFrom}</p>
+        <p data-testid="microbio-sample-from">{record.sampleFrom}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Ordered by
         </h3>
-        <p>{record.orderedBy}</p>
+        <p data-testid="microbio-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
+          Location
         </h3>
-        <p>{record.orderingLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
-        </h3>
-        <p>{record.collectingLocation}</p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Lab location
-        </h3>
-        <p>{record.labLocation}</p>
+        <p data-testid="microbio-collecting-location">
+          {record.collectingLocation}
+        </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
           Date completed
         </h3>
-        <p>{record.date}</p>
+        <p data-testid="microbio-date-completed">{record.dateCompleted}</p>
       </div>
 
       <div className="test-results-container">
         <h2>Results</h2>
         <InfoAlert fullState={fullState} />
-        <p className="vads-u-font-size--base monospace">
+        <p className="vads-u-font-size--base monospace vads-u-line-height--3">
           {record.results}
         </p>{' '}
       </div>

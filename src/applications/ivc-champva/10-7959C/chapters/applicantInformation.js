@@ -1,14 +1,13 @@
+import { cloneDeep } from 'lodash';
 import {
   addressUI,
   addressSchema,
-  dateOfBirthUI,
-  dateOfBirthSchema,
-  emailUI,
-  emailSchema,
   fullNameUI,
   fullNameSchema,
   phoneUI,
   phoneSchema,
+  radioUI,
+  radioSchema,
   ssnUI,
   ssnSchema,
   titleUI,
@@ -18,24 +17,19 @@ import { nameWording } from '../helpers/utilities';
 
 export const blankSchema = { type: 'object', properties: {} };
 
+const fullNameMiddleInitialUI = cloneDeep(fullNameUI());
+fullNameMiddleInitialUI.middle['ui:title'] = 'Middle initial';
+
 export const applicantNameDobSchema = {
   uiSchema: {
-    ...titleUI(
-      ({ formData }) =>
-        `${
-          formData.certifierRole === 'applicant' ? 'Your' : 'Applicant'
-        } name and date of birth`,
-    ),
-    applicantName: fullNameUI(),
-    applicantDOB: dateOfBirthUI({ required: true }),
+    ...titleUI('Beneficiary’s name'),
+    applicantName: fullNameMiddleInitialUI,
   },
   schema: {
     type: 'object',
-    required: ['applicantDOB'],
     properties: {
       titleSchema,
       applicantName: fullNameSchema,
-      applicantDOB: dateOfBirthSchema,
     },
   },
 };
@@ -43,8 +37,13 @@ export const applicantNameDobSchema = {
 export const applicantSsnSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} identification information`,
-      `You must enter a Social Security number`,
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} identification information`,
     ),
     applicantSsn: ssnUI(),
   },
@@ -61,23 +60,45 @@ export const applicantSsnSchema = {
 export const applicantAddressInfoSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} mailing address`,
-      'We’ll send any important information about your application to this address.',
+      ({ formData }) =>
+        `${nameWording(formData, undefined, undefined, true)} mailing address`,
+      'We’ll send any important information about this form to this address.',
     ),
     applicantAddress: {
-      ...addressUI({
-        labels: {
-          militaryCheckbox:
-            'Address is on a United States military base outside the country.',
+      ...addressUI({ labels: { street3: 'Apartment or unit number' } }),
+    },
+    applicantNewAddress: {
+      ...radioUI({
+        updateUiSchema: formData => {
+          const labels = {
+            yes: 'Yes',
+            no: 'No',
+            unknown: 'I’m not sure',
+          };
+
+          return {
+            'ui:title': `Has ${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} mailing address changed since their last CHAMPVA form submission?`,
+            'ui:options': {
+              labels,
+              hint: `If yes, we will update our records with the new mailing address`,
+            },
+          };
         },
       }),
     },
   },
   schema: {
     type: 'object',
+    required: ['applicantNewAddress'],
     properties: {
       titleSchema,
       applicantAddress: addressSchema(),
+      applicantNewAddress: radioSchema(['yes', 'no', 'unknown']),
     },
   },
 };
@@ -85,16 +106,11 @@ export const applicantAddressInfoSchema = {
 export const applicantContactInfoSchema = {
   uiSchema: {
     ...titleUI(
-      ({ formData }) => `${nameWording(formData)} phone number`,
       ({ formData }) =>
-        `This information helps us contact ${nameWording(
-          formData,
-          false,
-          false,
-        )} faster if we need to follow up with you about the application.`,
+        `${nameWording(formData, undefined, undefined, true)} phone number`,
+      'We’ll contact this phone number if we need to follow up about this form.',
     ),
     applicantPhone: phoneUI(),
-    applicantEmailAddress: emailUI(),
   },
   schema: {
     type: 'object',
@@ -102,7 +118,56 @@ export const applicantContactInfoSchema = {
     properties: {
       titleSchema,
       applicantPhone: phoneSchema,
-      applicantEmailAddress: emailSchema,
+    },
+  },
+};
+
+export const applicantGenderSchema = {
+  uiSchema: {
+    ...titleUI(
+      ({ formData }) =>
+        `${nameWording(
+          formData,
+          undefined,
+          undefined,
+          true,
+        )} sex listed at birth`,
+    ),
+    applicantGender: {
+      ...radioUI({
+        updateUiSchema: formData => {
+          const labels = {
+            male: 'Male',
+            female: 'Female',
+          };
+
+          return {
+            'ui:title': `What's ${nameWording(
+              formData,
+              undefined,
+              undefined,
+              true,
+            )} sex listed at birth?`,
+            'ui:options': {
+              labels,
+              hint: `Enter the sex that appears on ${nameWording(
+                formData,
+                undefined,
+                undefined,
+                true,
+              )} birth certificate.`,
+            },
+          };
+        },
+      }),
+    },
+  },
+  schema: {
+    type: 'object',
+    required: ['applicantGender'],
+    properties: {
+      titleSchema,
+      applicantGender: radioSchema(['male', 'female']),
     },
   },
 };

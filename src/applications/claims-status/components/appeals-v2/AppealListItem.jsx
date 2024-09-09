@@ -76,10 +76,26 @@ export default function AppealListItem({ appeal, name }) {
         {appeal.attributes.description && (
           <p>
             {appeal.attributes.issues.length === 1 ? 'Issue' : 'Issues'} on
-            {isAppeal ? ' appeal' : ' review'}: {appeal.attributes.description}
+            {isAppeal ? ' appeal' : ' review'}:{' '}
+            <span
+              className="masked-issue"
+              data-dd-privacy="mask"
+              data-dd-action-name="appeal issue"
+            >
+              {appeal.attributes.description}
+            </span>
           </p>
         )}
-        <p>Status: {getStatusContents(appeal, name).title}</p>
+        <p>
+          Status:{' '}
+          <span
+            className="masked-issue"
+            data-dd-privacy="mask"
+            data-dd-action-name="appeal issue"
+          >
+            {getStatusContents(appeal, name).title}
+          </span>
+        </p>
         <p>Last updated: {updatedOn}</p>
       </div>
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

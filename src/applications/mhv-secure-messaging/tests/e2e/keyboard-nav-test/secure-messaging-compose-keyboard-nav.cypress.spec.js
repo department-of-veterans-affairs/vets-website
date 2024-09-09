@@ -3,35 +3,27 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import { AXE_CONTEXT } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
 
-describe('Secure Messaging Compose Form Keyboard Nav', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
+describe('Secure Messaging Compose Keyboard Nav', () => {
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
+
+  afterEach(() => {
+    PatientComposePage.backToInbox();
+  });
+
   it('Tab to Message Body', () => {
-    landingPage.navigateToComposePage();
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.keyboardNavToMessageBodyField().should('exist');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
+
   it('Tab to Message Subject Field', () => {
-    landingPage.navigateToComposePage();
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    PatientInboxPage.navigateToComposePage();
     PatientComposePage.keyboardNavToMessageSubjectField().should('exist');
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

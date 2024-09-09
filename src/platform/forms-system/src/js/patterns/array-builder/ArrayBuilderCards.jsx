@@ -75,6 +75,7 @@ const ArrayBuilderCards = ({
   onRemove,
   required,
   isReview,
+  forceRerender,
 }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -128,6 +129,10 @@ const ArrayBuilderCards = ({
       focusRemoveButton: false,
     });
     onRemove(removedIndex, removedItem);
+    // forceRerender should happen BEFORE onRemoveAll because
+    // we should handle any data manipulation before a potential
+    // change of URL
+    forceRerender(newData);
     if (arrayWithRemovedItem.length === 0) {
       onRemoveAll();
     }
@@ -154,6 +159,7 @@ const ArrayBuilderCards = ({
           <ul className="vads-u-margin-top--2 vads-u-padding--0">
             {arrayData.map((itemData, index) => {
               const itemName = getText('getItemName', itemData);
+              const itemDescription = getText('cardDescription', itemData);
               return (
                 <li key={index} style={{ listStyleType: 'none' }}>
                   <Card index={index}>
@@ -162,7 +168,7 @@ const ArrayBuilderCards = ({
                       <CardHeading className="vads-u-margin-top--0">
                         {itemName}
                       </CardHeading>
-                      {getText('cardDescription', itemData)}
+                      {itemDescription}
                       {isIncomplete(itemData) && (
                         <MissingInformationAlert>
                           {getText('cardItemMissingInformation', itemData)}
@@ -176,17 +182,11 @@ const ArrayBuilderCards = ({
                           index,
                           isReview,
                         })}
-                        srText={`${itemName}. ${getText(
-                          'cardDescription',
-                          itemData,
-                        )}`}
+                        srText={`Edit ${itemName}`}
                       />
                       <RemoveButton
                         onClick={() => showRemoveConfirmationModal(index)}
-                        srText={`Delete ${itemName}. ${getText(
-                          'cardDescription',
-                          itemData,
-                        )}`}
+                        srText={`Delete ${itemName}`}
                       />
                     </span>
                   </Card>
@@ -239,8 +239,9 @@ ArrayBuilderCards.propTypes = {
     PropTypes.func,
     PropTypes.node,
     PropTypes.string,
-  ]).isRequired,
+  ]),
   editItemPathUrl: PropTypes.string.isRequired,
+  forceRerender: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
   getText: PropTypes.func.isRequired,
   isIncomplete: PropTypes.func.isRequired,

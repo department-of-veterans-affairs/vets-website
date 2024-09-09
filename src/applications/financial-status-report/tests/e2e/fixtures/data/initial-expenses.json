@@ -1,0 +1,116 @@
+{
+  "data": {
+    "view:components": {
+      "view:veteranInfo": {},
+      "view:maritalStatus": {},
+      "view:dependentsAdditionalInfo": {},
+      "view:vaBenefitsOnFile": {},
+      "view:realEstateAdditionalInfo": {},
+      "view:recVehicleInfo": {},
+      "view:contractsAdditionalInfo": {}
+    },
+    "personalData": {
+      "veteranFullName": {
+        "first": "Brendan",
+        "last": "Eich",
+        "middle": "JS"
+      },
+      "dateOfBirth": "1950-09-06",
+      "veteranContactInformation": {
+        "email": "test@user.com",
+        "mobilePhone": {
+          "areaCode": "505",
+          "countryCode": "1",
+          "createdAt": "2023-08-10T14:15:12.000+00:00",
+          "extension": null,
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2023-08-14T16:56:53.000+00:00",
+          "id": 375052,
+          "isInternational": false,
+          "isTextable": null,
+          "isTextPermitted": null,
+          "isTty": null,
+          "isVoicemailable": null,
+          "phoneNumber": "2700638",
+          "phoneType": "MOBILE",
+          "sourceDate": "2023-08-14T16:56:53.000+00:00",
+          "sourceSystemUser": null,
+          "transactionId": "05f6f7a0-997b-40b0-8a02-ade3b7b1da39",
+          "updatedAt": "2023-08-14T16:56:56.000+00:00",
+          "vet360Id": "134281"
+        },
+        "address": {
+          "addressLine1": "1060 W Addison St",
+          "addressPou": "CORRESPONDENCE",
+          "addressType": "DOMESTIC",
+          "city": "Chicago",
+          "countryName": "United States",
+          "countryCodeIso2": "US",
+          "countryCodeIso3": "USA",
+          "countryCodeFips": null,
+          "countyCode": null,
+          "countyName": "Cook County",
+          "createdAt": "2024-03-19T15:34:10.000Z",
+          "effectiveEndDate": null,
+          "effectiveStartDate": "2024-03-19T15:34:10.000Z",
+          "geocodeDate": "2024-03-19T15:34:10.000Z",
+          "geocodePrecision": 32.0,
+          "id": 19652768,
+          "internationalPostalCode": null,
+          "latitude": 41.9475,
+          "longitude": -87.6547,
+          "province": null,
+          "sourceDate": "2024-03-19T15:34:10.000Z",
+          "sourceSystemUser": null,
+          "stateCode": "IL",
+          "transactionId": "a8f8153f-92dd-4ea5-93ae-5fe2a6ba8e2f",
+          "updatedAt": "2024-03-19T15:34:10.000Z",
+          "validationKey": null,
+          "vet360Id": "21306345",
+          "zipCode": "60613",
+          "zipCodeSuffix": null,
+          "badAddress": false
+        }
+      },
+      "spouseFullName": {},
+      "address": {
+        "street": "1060 W Addison St",
+        "city": "Chicago",
+        "state": "IL",
+        "country": "USA",
+        "postalCode": "60613"
+      },
+      "telephoneNumber": "6304825671",
+      "emailAddress": "test@user.com"
+    },
+    "personalIdentification": {
+      "ssn": "3018",
+      "fileNumber": "3018"
+    },
+    "selectedDebtsAndCopays": [],
+    "questions": {},
+    "additionalIncome": {
+      "spouse": {}
+    },
+    "benefits": {
+      "spouseBenefits": {}
+    },
+    "assets": {},
+    "expenses": {},
+    "additionalData": {
+      "bankruptcy": {}
+    },
+    "view:enhancedFinancialStatusReport": true,
+    "view:streamlinedWaiver": true,
+    "view:streamlinedWaiverAssetUpdate": true,
+    "view:reviewPageNavigationToggle": true,
+    "view:showUpdatedExpensePages": true,
+    "income": [
+      {
+        "veteranOrSpouse": "VETERAN",
+        "compensationAndPension": "3261.1",
+        "education": "50"
+      }
+    ]
+  }
+}

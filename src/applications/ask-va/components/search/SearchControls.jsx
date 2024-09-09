@@ -1,6 +1,6 @@
+import { focusElement } from 'platform/utilities/ui';
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import { focusElement } from 'platform/utilities/ui';
 
 import { geoLocateUser } from '../../actions/geoLocateUser';
 import { setLocationInput } from '../../actions/index';
@@ -14,6 +14,8 @@ const SearchControls = props => {
     userLocation,
     searchQuery,
     geoCodeError,
+    searchTitle,
+    searchHint,
   } = props;
 
   const [queryState, setQueryState] = useState(searchQuery);
@@ -66,29 +68,24 @@ const SearchControls = props => {
             htmlFor="street-city-state-zip"
             id="street-city-state-zip-label"
           >
-            City, state or postal code{' '}
+            {searchTitle}
             <span className="form-required-span">(*Required)</span>
           </label>
           {geolocationInProgress ? (
             <div className="use-my-location-link">
-              <i
-                className="fa fa-spinner fa-spin"
-                aria-hidden="true"
-                role="presentation"
+              <va-loading-indicator
+                label="Finding your location"
+                message="Finding your location..."
+                set-focus
               />
-              <span aria-live="assertive">Finding your location...</span>
             </div>
           ) : (
             <button
               onClick={handleGeolocationButtonClick}
               type="button"
-              className="use-my-location-link"
+              className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
             >
-              <i
-                className="use-my-location-button"
-                aria-hidden="true"
-                role="presentation"
-              />
+              <va-icon icon="near_me" size={3} />
               Use my location
             </button>
           )}
@@ -96,9 +93,10 @@ const SearchControls = props => {
         {geoCodeError && (
           <span className="usa-input-error-message" role="alert">
             <span className="sr-only">Error</span>
-            Please fill in a city, state, or postal code.
+            Please fill in a city or postal code.
           </span>
         )}
+        {searchHint && <p className="search-hint-text">{searchHint}</p>}
         <div className="search-input">
           <input
             className="usa-input"
@@ -114,9 +112,16 @@ const SearchControls = props => {
               aria-label="Clear your city, state or postal code"
               type="button"
               id="clear-input"
-              className="fas fa-times-circle clear-button"
+              className="clear-button"
               onClick={handleClearInput}
-            />
+            >
+              <va-icon
+                icon="cancel"
+                size={2}
+                id="clear-input"
+                onClick={handleClearInput}
+              />
+            </button>
           )}
           <input
             id="facility-search"
@@ -133,7 +138,9 @@ const SearchControls = props => {
   return (
     <div className="search-controls-container clearfix">
       <div id="facility-search-controls">
-        <div className="columns">{renderLocationInputField()}</div>
+        <div className="columns vads-u-padding-0">
+          {renderLocationInputField()}
+        </div>
       </div>
     </div>
   );

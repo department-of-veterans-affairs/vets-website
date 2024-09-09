@@ -179,7 +179,6 @@
           "@department-of-veterans-affairs/platform-site-wide/m-footer": "./src/platform/site-wide/sass/modules/m-footer.scss",
           "@department-of-veterans-affairs/platform-site-wide/m-downtime-notification": "./src/platform/site-wide/sass/modules/m-downtime-notification.scss",
           "@department-of-veterans-affairs/platform-site-wide/m-layers": "./src/platform/site-wide/sass/modules/m-layers.scss",
-          "@department-of-veterans-affairs/platform-site-wide/iconography": "./src/platform/site-wide/sass/modules/iconography.scss",
           "@department-of-veterans-affairs/platform-site-wide/sitemap-helpers": "./src/platform/site-wide/tests/sitemap/sitemap-helpers.js",
           "@department-of-veterans-affairs/platform-site-wide/actions": "./src/platform/site-wide/user-nav/actions/index.js",
           "@department-of-veterans-affairs/platform-site-wide/AutoSSO": "./src/platform/site-wide/user-nav/containers/AutoSSO.jsx",

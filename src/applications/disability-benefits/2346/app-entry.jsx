@@ -6,6 +6,7 @@ import routes from './routes';
 import './sass/form-2346.scss';
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

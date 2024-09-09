@@ -3,8 +3,11 @@ import { connect } from 'react-redux';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
 
-import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import EbenefitsLink from 'platform/site-wide/ebenefits/containers/EbenefitsLink';
+import {
+  VaButton,
+  VaNeedHelp,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import EnrollmentHistory from '../components/EnrollmentHistory';
 import UserInfoSection from '../components/UserInfoSection';
@@ -37,13 +40,11 @@ class StatusPage extends React.Component {
 
       printButton = (
         <div className="section">
-          <button
+          <VaButton
+            text="Get printable statement of benefits"
             onClick={this.navigateToPrint}
-            className="usa-button-primary"
             id="print-button"
-          >
-            Get Printable Statement of Benefits
-          </button>
+          />
         </div>
       );
     }
@@ -52,27 +53,29 @@ class StatusPage extends React.Component {
       <div className="gib-info vads-l-grid-container large-screen:vads-u-padding-x--0">
         <div className="vads-l-row">
           <div className="medium-screen:vads-l-col--9">
-            <FormTitle title="Post-9/11 GI Bill Statement of Benefits" />
+            <h1>Your Post-9/11 GI Bill Statement of Benefits</h1>
             {introText}
             {printButton}
             <UserInfoSection enrollmentData={enrollmentData} />
-            <h4>How can I see my Post-9/11 GI Bill benefit payments?</h4>
+            <h3>How can I see my Post-9/11 GI Bill benefit payments?</h3>
             <div>
               If you've received education benefit payments through this
               program,{' '}
-              <EbenefitsLink path="ebenefits/about/feature?feature=payment-history">
-                you can see your payment history on eBenefits
-              </EbenefitsLink>
+              <a href="/va-payment-history/payments/">
+                you can see your payment history
+              </a>
               .
             </div>
             <EnrollmentHistory enrollmentData={enrollmentData} />
-            <div className="feature help-desk">
-              <h2>Need help?</h2>
-              <div>
-                Call 888-GI-BILL-1 (<a href="tel:+18884424551">888-442-4551</a>
-                ), Monday &#8211; Friday, 8:00 a.m. &#8211; 7:00 p.m. ET
+            <VaNeedHelp>
+              <div slot="content">
+                <p>
+                  Call us at <VaTelephone contact="8008271000" />. We're here
+                  Monday through Friday, 8:00 a.m to 9:00 p.m ET. If you have
+                  hearing loss, call <VaTelephone contact="711" tty="true" />.
+                </p>
               </div>
-            </div>
+            </VaNeedHelp>
           </div>
         </div>
       </div>

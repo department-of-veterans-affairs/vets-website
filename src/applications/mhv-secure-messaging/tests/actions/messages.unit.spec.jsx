@@ -6,6 +6,8 @@ import {
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as apiCalls from '../../api/SmApi';
 import { Actions } from '../../util/actionTypes';
 import * as Constants from '../../util/constants';
 import {
@@ -59,6 +61,26 @@ describe('messages actions', () => {
       expect(store.getActions()[1]).to.include({
         type: Actions.Thread.GET_THREAD,
       });
+    });
+  });
+
+  it('should call getMessageThreadWithFullBody with arg true when isPilot', async () => {
+    const messageId = '1234';
+    const isPilot = true;
+    const isPilotState = {
+      sm: {
+        app: {
+          isPilot,
+        },
+      },
+    };
+    const getThreadSpy = sinon.spy(apiCalls, 'getMessageThreadWithFullBody');
+    const store = mockStore(isPilotState);
+    const req1 = { shouldResolve: true, response: threadResponse };
+    const req2 = { shouldResolve: true, response: messageResponse };
+    mockMultipleApiRequests([req1, req2]);
+    await store.dispatch(retrieveMessageThread('1234')).then(() => {
+      expect(getThreadSpy.calledWith({ messageId, isPilot })).to.be.true;
     });
   });
 

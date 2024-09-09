@@ -9,8 +9,6 @@ import prefillTransformer from './prefill-transformer';
 import { transform } from './submit-transformer';
 import submitForm from './submitForm';
 
-import { onFormLoaded } from '../utils/redirect';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import AddContestableIssue from '../components/AddContestableIssue';
@@ -19,7 +17,6 @@ import {
   canUploadEvidence,
   wantsToUploadEvidence,
   needsHearingType,
-  showPart3,
   showExtensionReason,
 } from '../utils/helpers';
 
@@ -47,12 +44,18 @@ import {
   savedFormMessages,
 } from '../content/saveInProgress';
 
+import submissionError from '../../shared/content/submissionError';
 import { getIssueTitle } from '../../shared/content/areaOfDisagreement';
 import { appStateSelector } from '../../shared/utils/issues';
 import { CONTESTABLE_ISSUES_PATH } from '../../shared/constants';
 import GetFormHelp from '../../shared/content/GetFormHelp';
 import reviewErrors from '../../shared/content/reviewErrors';
-import { focusRadioH3 } from '../../shared/utils/focus';
+import {
+  focusRadioH3,
+  focusH3,
+  focusOnAlert,
+  focusIssue,
+} from '../../shared/utils/focus';
 
 // import initialData from '../tests/initialData';
 
@@ -88,13 +91,12 @@ const formConfig = {
   submit: submitForm,
   // showReviewErrors: true,
   reviewErrors,
-  onFormLoaded,
   // SaveInProgress messages
   customText,
   savedFormMessages,
   saveInProgress,
   // errorText: '',
-  // submissionError: '',
+  submissionError,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
 
@@ -102,6 +104,7 @@ const formConfig = {
   // when true, initial focus on page to H3s by default, and enable page
   // scrollAndFocusTarget (selector string or function to scroll & focus)
   useCustomScrollAndFocus: true,
+  scrollAndFocusTarget: focusH3, // scroll and focus fallback
   // Fix double headers (only show v3)
   v3SegmentedProgressBar: true,
 
@@ -138,10 +141,8 @@ const formConfig = {
         extensionRequest: {
           title: 'Request an extension',
           path: 'extension-request',
-          depends: showPart3,
           uiSchema: extensionRequest.uiSchema,
           schema: extensionRequest.schema,
-          onContinue: extensionRequest.onContinue,
         },
         extensionReason: {
           title: 'Reason for extension',
@@ -153,7 +154,6 @@ const formConfig = {
         appealingVhaDenial: {
           title: 'Appealing denial of VA health care benefits',
           path: 'appealing-denial',
-          depends: showPart3,
           uiSchema: appealingVhaDenial.uiSchema,
           schema: appealingVhaDenial.schema,
         },
@@ -163,6 +163,8 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
+          onContinue: focusOnAlert,
         },
         addIssue: {
           title: 'Add issues for review',

@@ -12,7 +12,7 @@ describe('ITFBanner', () => {
     const { container } = render(<ITFBanner status="error" />);
     const h2 = $('va-alert h2', container);
     expect(h2.textContent).to.contain(
-      'We’re sorry. Something went wrong on our end.',
+      'We can’t confirm if we have an intent to file on record for you right now',
     );
     await waitFor(() => {
       expect(document.activeElement).to.eq(h2);

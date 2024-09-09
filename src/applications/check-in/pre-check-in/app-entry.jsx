@@ -12,6 +12,7 @@ import { setupI18n } from '../utils/i18n/i18n';
 setupI18n();
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   createRoutesWithStore,

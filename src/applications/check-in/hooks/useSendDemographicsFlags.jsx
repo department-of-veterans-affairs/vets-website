@@ -1,54 +1,70 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo, useState, useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { makeSelectApp } from '../selectors';
 import { api } from '../api';
 import { useStorage } from './useStorage';
 import { useDemographicsFlags } from './useDemographicsFlags';
+import { makeSelectApp, makeSelectCurrentContext } from '../selectors';
 
 const useSendDemographicsFlags = () => {
   const selectApp = useMemo(makeSelectApp, []);
   const { app } = useSelector(selectApp);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [error, setError] = useState(false);
 
   const {
     getShouldSendDemographicsFlags,
     setShouldSendDemographicsFlags,
   } = useStorage(app);
-  const {
-    demographicsData,
-    demographicsFlagsSent,
-    setDemographicsFlagsSent,
-    demographicsFlagsEmpty,
-  } = useDemographicsFlags();
 
-  useEffect(
+  const { demographicsData, demographicsFlagsEmpty } = useDemographicsFlags();
+
+  const selectCurrentContext = useMemo(makeSelectCurrentContext, []);
+  const { token } = useSelector(selectCurrentContext);
+
+  useLayoutEffect(
     () => {
-      if (
-        demographicsFlagsSent ||
-        demographicsFlagsEmpty ||
-        !getShouldSendDemographicsFlags(window)
-      )
+      if (demographicsFlagsEmpty || !getShouldSendDemographicsFlags(window))
         return;
-      api.v2
-        .patchDayOfDemographicsData(demographicsData)
-        .then(resp => {
-          if (resp.data.error || resp.data.errors) {
-            throw new Error();
-          } else {
-            setDemographicsFlagsSent(true);
-            setShouldSendDemographicsFlags(window, false);
-          }
-        })
-        .catch(() => {});
+
+      if (token && !isComplete && !isLoading) {
+        setIsLoading(true);
+        api.v2
+          .patchDayOfDemographicsData(demographicsData)
+          .then(resp => {
+            if (resp.data.error || resp.data.errors) {
+              setError(true);
+            } else {
+              setShouldSendDemographicsFlags(window, false);
+            }
+          })
+          .catch(() => {
+            setError(true);
+          })
+          .finally(() => {
+            setIsComplete(true);
+            setIsLoading(false);
+          });
+      }
     },
     [
+      token,
       demographicsData,
       demographicsFlagsEmpty,
-      demographicsFlagsSent,
+      isLoading,
+      setIsLoading,
+      isComplete,
+      setIsComplete,
       getShouldSendDemographicsFlags,
-      setDemographicsFlagsSent,
       setShouldSendDemographicsFlags,
     ],
   );
+  return {
+    demographicsFlagsEmpty,
+    isLoading,
+    isComplete,
+    error,
+  };
 };
 
-export default useSendDemographicsFlags;
+export { useSendDemographicsFlags };

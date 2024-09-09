@@ -23,7 +23,7 @@ const HealthCareCTA = ({
       {(!isVAPatient || isLOA1) && (
         <IconCTALink
           text="Apply for VA health care"
-          icon="file-medical"
+          icon="note_add"
           href="/health-care/apply-for-health-care-form-10-10ez/"
           testId="apply-va-healthcare-link-from-cta"
           onClick={() =>
@@ -39,7 +39,7 @@ const HealthCareCTA = ({
         viewMhvLink && (
           <IconCTALink
             text="Visit My HealtheVet on VA.gov"
-            icon="briefcase-medical"
+            icon="language"
             href="/my-health"
             testId="visit-mhv-on-va-gov"
             onClick={() =>
@@ -56,7 +56,7 @@ const HealthCareCTA = ({
           <>
             <IconCTALink
               text="Go to your inbox"
-              icon="comments"
+              icon="inbox"
               dotIndicator={unreadMessagesCount > 0}
               ariaLabel={
                 unreadMessagesCount > 0 &&
@@ -76,7 +76,7 @@ const HealthCareCTA = ({
               !hasAppointmentsError && (
                 <IconCTALink
                   href="/my-health/appointments"
-                  icon="calendar"
+                  icon="calendar_today"
                   text="Schedule and manage your appointments"
                   testId="view-manage-appointments-link-from-cta"
                   onClick={() => {
@@ -96,7 +96,7 @@ const HealthCareCTA = ({
                 authenticatedWithSSOe,
                 'web/myhealthevet/refill-prescriptions',
               )}
-              icon="prescription-bottle"
+              icon="pill"
               text="Refill and track your prescriptions"
               testId="refill-prescriptions-link-from-cta"
               onClick={() => {
@@ -111,7 +111,7 @@ const HealthCareCTA = ({
             {/* Request travel reimbursement */}
             <IconCTALink
               href="/health-care/get-reimbursed-for-travel-pay/"
-              icon="suitcase"
+              icon="work"
               text="Request travel reimbursement"
               testId="request-travel-reimbursement-link-from-cta"
               onClick={() => {
@@ -126,7 +126,7 @@ const HealthCareCTA = ({
             {/* VA Medical records */}
             <IconCTALink
               href={mhvUrl(authenticatedWithSSOe, 'download-my-data')}
-              icon="file-medical"
+              icon="note_add"
               text="Get your VA medical records and lab and test results"
               testId="get-medical-records-link-from-cta"
               onClick={() => {

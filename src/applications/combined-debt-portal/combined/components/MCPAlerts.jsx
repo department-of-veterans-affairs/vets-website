@@ -53,7 +53,7 @@ Alert.PastDue = ({ copay }) => {
       data-testid="past-due-balance-alert"
     >
       <h2 slot="headline">Your balance may be overdue</h2>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         Your balance on
         <time dateTime={statementDate} className="vads-u-margin-x--0p5">
           {statementDate}
@@ -94,7 +94,7 @@ Alert.ZeroBalance = ({ copay }) => {
       data-testid="zero-balance-alert"
     >
       <h2 slot="headline">You don’t need to make a payment at this time</h2>
-      <p className="vads-u-font-size--base vads-u-font-family--sans">
+      <p>
         Your balance is $0 and was updated on
         <time dateTime={statementDate} className="vads-u-margin-x--0p5">
           {statementDate}
@@ -130,7 +130,7 @@ Alert.NoHealthcare = () => (
     data-testid="no-healthcare-alert"
   >
     <h2 slot="headline">You’re not enrolled in VA health care</h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <p>
       You can’t check copay balances at this time because our records show that
       you’re not enrolled in VA health care.
       <a
@@ -160,7 +160,7 @@ Alert.NoHistory = () => (
     <h2 slot="headline">
       You haven’t received a copay bill in the past 6 months
     </h2>
-    <p className="vads-u-font-size--base vads-u-font-family--sans">
+    <p>
       You can’t check copay balances at this time because our records show that
       you haven’t received a copay bill in the past 6 months.
     </p>

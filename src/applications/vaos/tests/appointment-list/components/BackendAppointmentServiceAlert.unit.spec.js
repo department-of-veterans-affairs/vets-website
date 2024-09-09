@@ -359,7 +359,6 @@ describe('VAOS Backend Service Alert', () => {
           ...initialState,
           featureToggles: {
             ...initialState.featureToggles,
-            vaOnlineSchedulingStatusImprovement: true,
             vaOnlineSchedulingVAOSServiceRequests: true,
           },
         },
@@ -452,7 +451,6 @@ describe('VAOS Backend Service Alert', () => {
           ...initialState,
           featureToggles: {
             ...initialState.featureToggles,
-            vaOnlineSchedulingStatusImprovement: true,
             vaOnlineSchedulingVAOSServiceRequests: true,
           },
         },

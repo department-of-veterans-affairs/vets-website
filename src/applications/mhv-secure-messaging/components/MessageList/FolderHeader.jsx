@@ -17,11 +17,14 @@ import ComposeMessageButton from '../MessageActionButtons/ComposeMessageButton';
 import CernerFacilityAlert from './CernerFacilityAlert';
 import BlockedTriageGroupAlert from '../shared/BlockedTriageGroupAlert';
 import CernerTransitioningFacilityAlert from '../Alerts/CernerTransitioningFacilityAlert';
+import InnerNavigation from '../InnerNavigation';
 
 const FolderHeader = props => {
   const { folder, searchProps, threadCount } = props;
   const location = useLocation();
   const userFacilities = useSelector(state => state?.user?.profile?.facilities);
+  const showInnerNav =
+    folder.folderId === Folders.INBOX.id || folder.folderId === Folders.SENT.id;
 
   const drupalCernerFacilities = useSelector(selectCernerFacilities);
 
@@ -112,10 +115,13 @@ const FolderHeader = props => {
           )}
 
         <>{handleFolderDescription()}</>
-        {folder.folderId === Folders.INBOX.id &&
+        {showInnerNav &&
           (!noAssociations && !allTriageGroupsBlocked) && (
             <ComposeMessageButton />
           )}
+
+        {showInnerNav && <InnerNavigation />}
+
         <ManageFolderButtons folder={folder} />
         {threadCount > 0 && (
           <SearchForm

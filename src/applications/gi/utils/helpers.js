@@ -43,12 +43,42 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
     return false;
   }
   return (
-    environment.isProduction() || // Comment out to send to production
+    environment.isProduction() ||
     environment.isStaging() ||
     environment.isDev() ||
     isReviewInstance() ||
     environment.isLocalhost()
   );
+};
+
+export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (environment.isDev() || isTest || automatedTest) {
+    return false;
+  }
+  return (
+    environment.isLocalhost() ||
+    environment.isStaging() ||
+    isReviewInstance() ||
+    environment.isProduction()
+  );
+};
+
+export const isShowVetTec = (automatedTest = false) => {
+  const isTest = global && global?.window && global?.window?.buildType;
+  if (isTest || automatedTest) {
+    return false;
+  }
+  return environment.isDev();
+  // Or
+  /*
+  return (
+    environment.isProduction() || // Comment out to send to production
+    environment.isStaging() ||
+    environment.isDev() ||
+    isReviewInstance() ||
+    environment.isLocalhost()
+  ); */
 };
 
 export const formatNumber = value => {
@@ -112,7 +142,7 @@ export function convertRatingToStars(rating) {
   let half = false;
 
   if (firstDecimal > 7) {
-    full++;
+    full += 1;
   } else if (firstDecimal >= 3) {
     half = true;
   }
@@ -445,4 +475,17 @@ export const managePushHistory = (history, url) => {
     window.sessionStorage.setItem(PREVIOUS_URL_PUSHED_TO_HISTORY, url);
     history.push(url);
   }
+};
+export function showSchoolContentBasedOnType(type) {
+  const validateTypes = {
+    FLIGHT: false,
+    CORRESPONDENCE: false,
+  };
+  return !(type in validateTypes);
+}
+
+export const getGIBillHeaderText = (automatedTest = false) => {
+  return isShowVetTec(automatedTest)
+    ? 'Learn about and compare your GI Bill benefits at approved schools, employers, and VET TEC providers.'
+    : 'Learn about and compare your GI Bill benefits at approved schools and employers.';
 };

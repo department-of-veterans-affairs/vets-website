@@ -1,3 +1,5 @@
+import React from 'react';
+
 export function doesHaveCareExpenses(formData) {
   return formData.hasCareExpenses === true;
 }
@@ -12,4 +14,19 @@ export function ownsHome(formData) {
 
 export function doesReceiveIncome(formData) {
   return formData.receivesIncome === true;
+}
+
+export function SupportingDocumentsNotice() {
+  return (
+    <div>
+      <p>
+        Based on your answer, you’ll need to submit a supporting document about
+        your income and assets.
+      </p>
+      <p>
+        We’ll give you instructions for submitting your document at the end of
+        this application.
+      </p>
+    </div>
+  );
 }

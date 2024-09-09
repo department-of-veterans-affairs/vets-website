@@ -1,7 +1,8 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import { format as formatDate, isDate } from 'date-fns';
+import { isDate } from 'date-fns';
+import { format as formatDate } from 'date-fns-tz';
 import { enUS as en, es } from 'date-fns/locale';
 import { get } from 'lodash';
 import enTranslation from '../../locales/en/translation.json';
@@ -46,10 +47,28 @@ export const dateFormatInterpolators = {
     return formatDate(value, 'h:mm aaaa', { locale });
   },
   day: (value, _format, _lng, locale) => {
-    return formatDate(value, 'iiii', { locale });
+    return formatDate(value, 'EEEE', { locale });
   },
   monthDay: (value, _format, _lng, locale) => {
-    return formatDate(value, "MMMM' 'dd", { locale });
+    return formatDate(value, 'MMMM d', { locale });
+  },
+  dayOfWeekAbbr: (value, _format, _lng, locale) => {
+    return formatDate(value, 'E', { locale });
+  },
+  monthAndYear: (value, _format, _lng, locale) => {
+    return formatDate(value, 'MMMM Y', { locale });
+  },
+  dayOfMonth: (value, _format, _lng, locale) => {
+    return formatDate(value, 'd', { locale });
+  },
+  dayWithTime: (value, _format, _lng, locale) => {
+    return formatDate(value.date, 'MMMM dd, yyyy, h:mm aaaa', {
+      locale,
+      timeZone: value.timezone,
+    });
+  },
+  date: (value, _format, _lng, locale) => {
+    return formatDate(value, 'E, MMMM do', { locale });
   },
   dayOfWeek: (value, _format, _lng, locale) => {
     return formatDate(value, 'eeee', { locale });
@@ -70,7 +89,7 @@ const i18nOptions = {
   interpolation: {
     escapeValue: false,
     format: (value, format, lng) => {
-      if (isDate(value)) {
+      if (isDate(value) || isDate(value?.date)) {
         const locale = locales[lng];
         const interpolator = get(
           dateFormatInterpolators,
@@ -78,6 +97,12 @@ const i18nOptions = {
           dateFormatInterpolators.default,
         );
         return interpolator(value, format, lng, locale);
+      }
+      if (format === 'capitalize') {
+        return `${value.substr(0, 1).toUpperCase()}${value.substr(1)}`;
+      }
+      if (format === 'uncapitalize') {
+        return `${value.substr(0, 1).toLowerCase()}${value.substr(1)}`;
       }
       return value;
     },

@@ -1,15 +1,15 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-process-list";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-form-process";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-process-list";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-form-process";
 @import "../../../platform/forms/sass/m-schemaform";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-omb-info";
 @import "../../../platform/forms/sass/m-form-confirmation";
 @import "./m-review-box-field";
 
 // Introduction Page
 .omb-info {
-	margin: 4rem 0 3rem;
+	margin: 2.5rem 0 1.875rem;
 }
 
 /* Form Styling Overrides
@@ -31,7 +31,7 @@ fieldset.schemaform-field-template {
 }
 .form-review-panel-page .schemaform-field-template,
 .form-review-panel-page fieldset.schemaform-field-template {
-	margin-top: 3rem;
+	margin-top: 1.875rem;
 }
 .form-expanding-group-open .schemaform-block-header + div .schemaform-field-template {
 	margin-top: 0;
@@ -48,7 +48,7 @@ fieldset.schemaform-field-template {
 	margin-bottom: 1em;
 }
 .schemaform-label[for^="root_view:phoneNumbers"] {
-	margin-top: 1.5rem;
+	margin-top: 0.9375rem;
 }
 .usa-input-error .schemaform-label[for^="root_view:phoneNumbers"] {
 	margin-top: 0;
@@ -56,7 +56,7 @@ fieldset.schemaform-field-template {
 #root_view\:phoneNumbers_phoneNumber_phone-label,
 #root_view\:phoneNumbers_mobilePhoneNumber_phone-label,
 .schemaform-label[for="root_view\:toursOfDutyCorrect_toursOfDutyCorrect"] {
-	margin-top: 3rem;
+	margin-top: 1.875rem;
 }
 
 // Date
@@ -99,8 +99,8 @@ va-alert {
 
 @media only screen and (min-width: 64.0625em) {
 	.usa-alert {
-		margin-left: -2rem;
-		width: calc(117.1875% + 2rem);
+		margin-left: -1.25rem;
+		width: calc(117.1875% + 1.25rem);
 	}
 	.form-review-panel-page .usa-alert {
 		margin: 0;
@@ -223,7 +223,7 @@ va-accordion-item .service-history-details {
 }
 
 #LiveOnMilitaryBaseTooltip {
-	margin-top: 3rem;
+	margin-top: 1.875rem;
 }
 
 // Additional Considerations page - BEGIN
@@ -239,36 +239,26 @@ va-accordion-item .service-history-details {
 	border-left-style: solid;
 	border-left-width: 10px;
 	box-sizing: border-box;
-	display: table;
-	padding: 1.6rem;
-	vertical-align: middle;
+	display: flex;
+	align-items: flex-start; /* Align items to the startt */
+	padding: 1rem;
+	position: relative;
 	width: 100%;
 }
+
+.meb-alert va-icon {
+	margin-right: 1rem; /* Space between icon and text */
+	margin-top: -0.25rem; /* Adjust ro move the Icon higher */
+}
+
 .meb-alert--warning {
 	border-left-color: var(--vads-color-warning);
 }
-.meb-alert > i {
-	font-family: "Font Awesome 5 Free";
-	font-style: normal;
-	font-weight: 900;
-}
-.meb-alert--warning > i::before {
-	content: "";
-}
-.meb-alert--warning > i::before {
-	display: flex;
-	margin-right: 1.6rem;
-}
 .meb-list-label {
-	margin-top: 1.8rem;
+	margin-top: 1.125rem;
 }
 .meb-alert_body {
-	display: table-cell;
 	margin: 0;
-	padding-left: 0px;
-	padding-right: 0px;
-	vertical-align: middle;
-	width: 100%;
 }
 
 [id="root_view:benefitSelection_benefitRelinquished-label"] {
@@ -396,7 +386,7 @@ dl.review .review-row > dd {
 .form-review-panel-page .usa-button-primary,
 .form-review-panel-page .schemaform-field-container .form-checkbox,
 .form-review-panel-page .schemaform-field-container .schemaform-field-template {
-	margin-left: 1rem;
+	margin-left: 0.625rem;
 }
 
 // This is a huge hack to not have a blue border next to text for the
@@ -407,7 +397,7 @@ dl.review .review-row > dd {
 	left: -1em;
 	margin-bottom: 0;
 	margin-right: -1em;
-	padding-bottom: 3rem;
+	padding-bottom: 1.875rem;
 	padding-left: 1em;
 	position: relative;
 }
@@ -457,7 +447,7 @@ dl.review .review-row > dd {
 }
 
 .meb-confirmation-page .loading-indicator-container {
-	margin: 10rem 0;
+	margin: 6.25rem 0;
 }
 
 @media print {
@@ -475,7 +465,7 @@ dl.review .review-row > dd {
 
 label.schemaform-label[for=root_mobilePhoneNumber_isInternational],
 label.schemaform-label[for=root_phoneNumber_isInternational] {
-	margin-top: 2rem;
+	margin-top: 1.25rem;
 }
 
 // Hide Labels

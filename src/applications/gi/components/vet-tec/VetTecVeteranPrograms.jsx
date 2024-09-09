@@ -34,9 +34,17 @@ export class VetTecVeteranPrograms extends React.Component {
   };
 
   renderProgramLabel = (program, index) => {
-    const icon = program.available
-      ? 'fa fa-check vads-u-padding-right--1'
-      : 'fa fa-remove';
+    const icon = program.available ? (
+      <va-icon
+        id="checkIcon"
+        icon="check"
+        size={3}
+        class="vads-u-padding-right--1"
+        aria-hidden="true"
+      />
+    ) : (
+      <va-icon icon="close" size={3} aria-hidden="true" />
+    );
 
     const link =
       (program.available &&
@@ -57,7 +65,7 @@ export class VetTecVeteranPrograms extends React.Component {
       '';
     return (
       <div key={index}>
-        <i className={icon} aria-hidden="true" />
+        {icon}
         <LearnMoreLabel
           text={program.text}
           onClick={this.props.onShowModal.bind(this, program.modal)}

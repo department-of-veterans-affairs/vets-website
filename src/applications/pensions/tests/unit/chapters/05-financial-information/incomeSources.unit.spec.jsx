@@ -1,3 +1,9 @@
+import React from 'react';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { render } from '@testing-library/react';
+import { expect } from 'chai';
+
+import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import {
   testNumberOfErrorsOnSubmitForWebComponents,
   testNumberOfErrorsOnSubmit,
@@ -5,6 +11,7 @@ import {
   testNumberOfFields,
   testSubmitsWithoutErrors,
   testNumberOfFieldsByType,
+  FakeProvider,
 } from '../pageTests.spec';
 import formConfig from '../../../../config/form';
 import incomeSources from '../../../../config/chapters/05-financial-information/incomeSources';
@@ -149,4 +156,21 @@ describe('Pension: Financial information, income sources page', () => {
     },
     pageTitle,
   );
+
+  it('shows additional info instead of alert', () => {
+    const data = { incomeSources: [{}] };
+    const { container } = render(
+      <FakeProvider>
+        <DefinitionTester
+          schema={schema}
+          data={data}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+        />
+      </FakeProvider>,
+    );
+
+    expect($$('va-alert', container).length).to.equal(0);
+    expect($$('va-additional-info', container).length).to.equal(1);
+  });
 });

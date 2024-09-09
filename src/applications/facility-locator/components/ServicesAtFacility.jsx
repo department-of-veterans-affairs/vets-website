@@ -53,28 +53,13 @@ class ServicesAtFacility extends Component {
       },
     } = this.props;
 
-    if (
-      !services.benefits ||
-      services.benefits.length === 0 ||
-      (services.benefits.standard && services.benefits.standard.length === 0)
-    ) {
+    if (!services || !services.benefits || services.benefits.length === 0) {
       return null;
     }
 
-    /**
-     * Since moving to v1 the services object changed. For now,
-     * supporting v0 as the implementation is still on flipper.
-     *
-     * v0  - services.benefits.standard
-     * v1  - services.benefits
-     */
     return (
       <div className="vads-u-margin-bottom--4">
-        <ul>
-          {(services.benefits.standard &&
-            services.benefits.standard.map(s => this.renderService(s))) ||
-            services.benefits.map(s => this.renderService(s))}
-        </ul>
+        <ul>{services.benefits.map(s => this.renderService(s.name))}</ul>
       </div>
     );
   }
@@ -116,7 +101,9 @@ class ServicesAtFacility extends Component {
           <ul>
             {services.health.map(
               s =>
-                s.sl1 ? this.renderService(s.sl1[0]) : this.renderService(s),
+                s.sl1
+                  ? this.renderService(s.sl1[0])
+                  : this.renderService(s.name),
             )}
           </ul>
         </div>

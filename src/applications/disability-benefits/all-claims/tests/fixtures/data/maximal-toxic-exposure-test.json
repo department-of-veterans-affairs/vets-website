@@ -4,7 +4,7 @@
       "view:claimingIncrease": true,
       "view:claimingNew": true
     },
-    "standardClaim": false,
+    "standardClaim": true,
     "view:fdcWarning": {},
     "isVaEmployee": true,
     "homelessOrAtRisk": "homeless",
@@ -165,6 +165,58 @@
           "startDate": "2002-01-01"
         },
         "airspace": {}
+      },
+      "herbicide": {
+        "guam": true,
+        "laos": true,
+        "c123": true
+      },
+      "herbicideDetails": {
+        "c123": {
+          "endDate": "1966-02-20"
+        },
+        "laos": {
+          "startDate": "1965-01-01"
+        },
+        "guam": {},
+        "cambodia": {},
+        "koreandemilitarizedzone": {},
+        "johnston": {},
+        "thailand": {},
+        "vietnam": {
+          "view:notSure": true
+        }
+      },
+      "view:herbicideAdditionalInfo": {},
+      "otherHerbicideLocations": {
+        "description": "Test location 1",
+        "startDate": "1968-01-01",
+        "endDate": "1969-01-01"
+      },
+      "otherExposuresDetails": {
+        "asbestos": {},
+        "radiation": {
+          "endDate": "2005-05-30"
+        },
+        "mos": {
+          "startDate": "2001-01-08"
+        },
+        "chemical": {},
+        "water": {},
+        "mustardgas": {}
+      },
+      "view:otherExposuresAdditionalInfo": {},
+      "specifyOtherExposures": {
+        "startDate": "2000-03-20",
+        "endDate": "2001-03-01",
+        "description": "Test substance 1, Test Substance 2, Test Substance 3"
+      },
+      "view:additionalExposuresAdditionalInfo": {},
+      "otherExposures": {
+        "asbestos": true,
+        "mos": true,
+        "radiation": true,
+        "notsure": true
       }
     },
     "view:powStatus": true,

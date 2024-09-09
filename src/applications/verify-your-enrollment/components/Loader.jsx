@@ -6,7 +6,11 @@ const Loader = ({
   message = 'Please wait while we load the application for you.',
 }) => (
   <div className={className}>
-    <va-loading-indicator message={message} label="Loading" set-focus />
+    <va-loading-indicator
+      message={message}
+      label="Loading"
+      aria-hidden="true"
+    />
   </div>
 );
 

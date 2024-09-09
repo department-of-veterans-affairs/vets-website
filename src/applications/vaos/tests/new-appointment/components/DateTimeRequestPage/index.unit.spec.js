@@ -120,9 +120,10 @@ describe('VAOS Page: DateTimeRequestPage', () => {
 
     // Get the first day in the second week of the month, which
     // should always be a Monday
-    const mondayInMonth = within(screen.getAllByRole('row')[2])
-      .getAllByRole('cell')[0]
-      .querySelector('button').textContent;
+    let mondayInMonth = within(screen.getAllByRole('rowgroup')[2]);
+    mondayInMonth = within(mondayInMonth.getAllByRole('row')[2]);
+    mondayInMonth = within(mondayInMonth.getAllByRole('cell')[0]);
+    mondayInMonth = mondayInMonth.queryAllByRole('button')[0].textContent;
 
     // Verify the first button in the second week is actually a Monday
     expect(

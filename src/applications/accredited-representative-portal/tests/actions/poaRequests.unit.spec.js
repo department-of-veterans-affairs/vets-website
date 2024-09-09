@@ -8,7 +8,7 @@ import {
   declinePOARequest,
   getPOARequestsByCodes,
 } from '../../actions/poaRequests';
-import mockResponseData from '../../mocks/mockPOARequestsResponse.json';
+import mockPOARequestsResponse from '../../mocks/mockPOARequestsResponse.json';
 
 const API_PREFIX = `${environment.API_URL}/accredited_representative_portal/v0`;
 const server = setupServer();
@@ -128,16 +128,16 @@ describe('POA Requests Retrieval', () => {
       rest.get(`${API_PREFIX}/power_of_attorney_requests`, (req, res, ctx) => {
         const queryPoaCodes = req.url.searchParams.get('poa_codes');
         if (queryPoaCodes === testPoaCodes) {
-          return res(ctx.json(mockResponseData), ctx.status(200));
+          return res(ctx.json(mockPOARequestsResponse), ctx.status(200));
         }
         return res(ctx.status(404));
       }),
     );
 
     const response = await getPOARequestsByCodes(testPoaCodes);
-    expect(response.records).to.deep.equal(mockResponseData.records);
+    expect(response.data).to.eql(mockPOARequestsResponse.data);
     expect(response.meta.totalRecords).to.eq(
-      mockResponseData.meta.totalRecords,
+      mockPOARequestsResponse.meta.totalRecords,
     );
   });
 

@@ -5,25 +5,13 @@ import moment from 'moment';
 import { expect } from 'chai';
 
 import formConfig from '../config/form';
-import {
-  CHAR_LIMITS,
-  SHOW_REVISED_ADD_DISABILITIES_PAGE,
-  SHOW_TOXIC_EXPOSURE,
-} from '../constants';
+import { CHAR_LIMITS } from '../constants';
 
 import { transform } from '../submit-transformer';
 
 import maximalData from './fixtures/data/maximal-test.json';
 
 describe('transform', () => {
-  beforeEach(() => {
-    sessionStorage.removeItem(SHOW_TOXIC_EXPOSURE);
-    sessionStorage.setItem(SHOW_REVISED_ADD_DISABILITIES_PAGE, false);
-  });
-  afterEach(() => {
-    sessionStorage.removeItem(SHOW_REVISED_ADD_DISABILITIES_PAGE);
-  });
-
   const servicePeriodsBDD = [
     {
       serviceBranch: 'Air Force Reserves',
@@ -44,14 +32,14 @@ describe('transform', () => {
     .forEach(fileName => {
       // Loop through them
       it(`should transform ${fileName} correctly`, () => {
-        // special logic for unreleased pages. set the flag, otherwise the test considers TE pages as inactive
-        if (fileName === 'maximal-toxic-exposure-test.json') {
-          sessionStorage.setItem(SHOW_TOXIC_EXPOSURE, true);
-        }
-
         const rawData = JSON.parse(
           fs.readFileSync(path.join(dataDir, fileName), 'utf8'),
         );
+
+        // special logic for unreleased pages. set the indicator, otherwise the test considers TE pages as inactive
+        if (fileName === 'maximal-toxic-exposure-test.json') {
+          rawData.data.startedFormVersion = '2022';
+        }
 
         let transformedData;
         try {

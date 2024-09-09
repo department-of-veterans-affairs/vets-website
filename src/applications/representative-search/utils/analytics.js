@@ -2,7 +2,6 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 export const recordSearchResultsChange = (
   {
-    locationInputString,
     representativeType,
     distance,
     representativeName,
@@ -14,7 +13,6 @@ export const recordSearchResultsChange = (
   changeLabel = '',
 ) => {
   const eventParams = {
-    'search-query': locationInputString,
     'search-filters-list': {
       'representative-type': representativeType,
       'search-radius': distance,

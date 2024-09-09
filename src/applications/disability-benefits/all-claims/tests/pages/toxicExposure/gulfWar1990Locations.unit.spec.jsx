@@ -8,6 +8,7 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { checkVaCheckbox } from '@department-of-veterans-affairs/platform-testing/helpers';
 import formConfig from '../../../config/form';
 import {
   gulfWar1990PageTitle,
@@ -74,39 +75,63 @@ describe('Gulf War 1990 Locations', () => {
     );
 
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'oman' } },
-      detail: { checked: true },
-    });
-
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'syria' } },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'oman');
+    checkVaCheckbox(checkboxGroup, 'syria');
 
     userEvent.click(getByText('Submit'));
     expect(onSubmit.calledOnce).to.be.true;
   });
 
-  it('should display error when condition and "none"', async () => {
+  it('should display error when location and "none"', async () => {
     const formData = {};
     const { container, getByText } = render(
       <DefinitionTester schema={schema} uiSchema={uiSchema} data={formData} />,
     );
     const checkboxGroup = $('va-checkbox-group', container);
-    await checkboxGroup.__events.vaChange({
-      target: { checked: true, dataset: { key: 'afghanistan' } },
-      detail: { checked: true },
-    });
-    await checkboxGroup.__events.vaChange({
-      target: {
-        checked: true,
-        dataset: { key: 'none' },
-      },
-      detail: { checked: true },
-    });
+    checkVaCheckbox(checkboxGroup, 'afghanistan');
+    checkVaCheckbox(checkboxGroup, 'none');
 
-    await userEvent.click(getByText('Submit'));
+    userEvent.click(getByText('Submit'));
     expect($('va-checkbox-group').error).to.equal(noneAndLocationError);
+  });
+
+  it('should submit with `none` and `notsure` selected', async () => {
+    const formData = {};
+    const onSubmit = sinon.spy();
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={formData}
+        onSubmit={onSubmit}
+      />,
+    );
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'none');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
+  });
+
+  it('should submit with `notsure` and other locations selected', async () => {
+    const onSubmit = sinon.spy();
+
+    const { container, getByText } = render(
+      <DefinitionTester
+        schema={schema}
+        uiSchema={uiSchema}
+        data={{}}
+        onSubmit={onSubmit}
+      />,
+    );
+
+    const checkboxGroup = $('va-checkbox-group', container);
+    checkVaCheckbox(checkboxGroup, 'oman');
+    checkVaCheckbox(checkboxGroup, 'syria');
+    checkVaCheckbox(checkboxGroup, 'notsure');
+
+    userEvent.click(getByText('Submit'));
+    expect(onSubmit.calledOnce).to.be.true;
   });
 });

@@ -152,9 +152,8 @@ export const ctaWidgetsLookup = {
     isHealthTool: false,
     mhvToolName: null,
     requiredServices: null,
-    serviceDescription: 'order hearing aid batteries and accessories online',
+    serviceDescription: 'order hearing aid and CPAP supplies',
     featureToggle: featureFlagNames.haCpapSuppliesCta,
-    headerLevel: '4',
   },
   [CTA_WIDGET_TYPES.HEALTH_RECORDS]: {
     id: CTA_WIDGET_TYPES.HEALTH_RECORDS,

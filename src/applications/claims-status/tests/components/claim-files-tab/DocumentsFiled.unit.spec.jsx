@@ -463,5 +463,12 @@ describe('<DocumentsFiled>', () => {
       expect(getAllByText('Received on January 8, 2024')).to.exist;
       expect(getByText('Reviewed by VA on January 9, 2024')).to.exist;
     });
+
+    it('should mask filenames from Datadog (no PII)', () => {
+      const { container } = render(<DocumentsFiled claim={claim} />);
+      expect(
+        $('.filename-title', container).getAttribute('data-dd-privacy'),
+      ).to.equal('mask');
+    });
   });
 });

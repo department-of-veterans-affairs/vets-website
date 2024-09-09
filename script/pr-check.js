@@ -126,12 +126,12 @@ function identifyAdditions(diffLines) {
       position = 1;
     } else if (/@@ -[0-9]+(,[0-9]+)? \+([0-9]+)(,[0-9]+)? @@.*/.test(line)) {
       // Increment the position when we reach the beginning of a new diff chunk
-      position++;
+      position += 1;
     } else if (/^([ +-]).*/.test(line)) {
       // Only add to the output if this line of content is an addition (begins with a "+")
       if (/^[+].*/.test(line)) output.push({ path, position, line });
       // Increment position for each line of actual content in the diff
-      position++;
+      position += 1;
     }
     inNewFile = !!match;
     return output;

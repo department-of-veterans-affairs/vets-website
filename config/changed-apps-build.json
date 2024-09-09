@@ -5,7 +5,7 @@
       "slackGroup": "<@C04UBETRY8N>"
     },
     {
-      "rootFolder": "burials",
+      "rootFolder": "burials-ez",
       "slackGroup": "<@U0329KDCJ0Y> <@U031KTDNYEP>"
     },
     {
@@ -70,6 +70,11 @@
       "slackGroup": "@mhv-on-va-gov-group"
     },
     {
+      "rootFolder": "mhv-secure-messaging",
+      "slackGroup": "@mhv-sm-redesign-devs",
+      "continuousDeployment": false
+    },
+    {
       "rootFolder": "personalization",
       "slackGroup": "<@C053JC66YHF>, <@U026GBU02UW>",
       "continuousDeployment": false
@@ -111,6 +116,19 @@
       "rootFolder": "pensions",
       "slackGroup": "<@C0667PCPVLM>",
       "continuousDeployment": false
+    },
+    {
+      "rootFolder": "income-and-asset-statement",
+      "slackGroup": "<@C0667PCPVLM>",
+      "continuousDeployment": false
+    },
+    {
+      "rootFolder": "mhv-medical-records",
+      "slackGroup": "@C04ER7MHX5E"
+    },
+    {
+      "rootFolder": "mhv-medications",
+      "slackGroup": "@C059Q28DV99"
     }
   ]
 }

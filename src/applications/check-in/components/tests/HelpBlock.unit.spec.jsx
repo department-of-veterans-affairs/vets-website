@@ -9,10 +9,6 @@ import HelpBlock from '../HelpBlock';
 describe('<HelpBlock />', () => {
   const initState = {
     app: 'dayOf',
-    features: {
-      // eslint-disable-next-line camelcase
-      check_in_experience_45_minute_reminder: true,
-    },
   };
 
   beforeEach(() => {

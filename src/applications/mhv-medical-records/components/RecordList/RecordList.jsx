@@ -21,13 +21,11 @@ const RecordList = props => {
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
-  const [isInitialPage, setInitialPage] = useState(false);
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
-    setInitialPage(false);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
   };
@@ -55,17 +53,17 @@ const RecordList = props => {
         setCurrentRecords(paginatedRecords.current[currentPage - 1]);
       }
     },
-    [currentPage, records, perPage],
+    [records, perPage],
   );
 
   useEffect(
     () => {
-      if (!isInitialPage) {
+      if (currentPage > 1 && records?.length) {
         focusElement(document.querySelector('#showingRecords'));
         window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
       }
     },
-    [currentPage, isInitialPage],
+    [currentPage, records],
   );
 
   const displayNums = fromToNums(currentPage, records?.length);

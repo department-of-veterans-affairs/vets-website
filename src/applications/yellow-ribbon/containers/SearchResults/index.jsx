@@ -2,7 +2,10 @@
 /* eslint-disable react/static-property-placement */
 // Dependencies.
 import React, { Component } from 'react';
-import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaAlert,
+  VaPagination,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { connect } from 'react-redux';
@@ -236,10 +239,10 @@ export class SearchResults extends Component {
     // Show the error alert box if there was an error.
     if (error) {
       return (
-        <va-alert status="error">
+        <VaAlert status="error">
           <h3 slot="headline">Something went wrong</h3>
           <div className="usa-alert-text vads-u-font-size--base">{error}</div>
-        </va-alert>
+        </VaAlert>
       );
     }
 
@@ -258,8 +261,9 @@ export class SearchResults extends Component {
           >
             No schools found for your search criteria.
           </h2>
-          <va-alert
-            onClose={toggleAlertToolTip}
+          <VaAlert
+            closeBtnAriaLabel="Close notification"
+            onCloseEvent={toggleAlertToolTip}
             visible={isToolTipOpen}
             closeable
             status="info"
@@ -268,7 +272,7 @@ export class SearchResults extends Component {
             <div className="usa-alert-text vads-u-font-size--base">
               {TOOL_TIP_CONTENT}
             </div>
-          </va-alert>
+          </VaAlert>
         </>
       );
     }
@@ -296,8 +300,9 @@ export class SearchResults extends Component {
             </span>
           </span>
         </h2>
-        <va-alert
-          onClose={toggleAlertToolTip}
+        <VaAlert
+          closeBtnAriaLabel="Close notification"
+          onCloseEvent={toggleAlertToolTip}
           visible={isToolTipOpen}
           closeable
           status="info"
@@ -306,7 +311,7 @@ export class SearchResults extends Component {
           <div className="usa-alert-text vads-u-font-size--base">
             {TOOL_TIP_CONTENT}
           </div>
-        </va-alert>
+        </VaAlert>
 
         {/* Table of Results */}
         <ul

@@ -1,10 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
-
-import ConfirmEligibilityView from '../../containers/ConfirmEligibilityView';
 import createCommonStore from 'platform/startup/store';
 import { Provider } from 'react-redux';
+import ConfirmEligibilityView from '../../containers/ConfirmEligibilityView';
 
 const createStore = (data = {}) =>
   createCommonStore({
@@ -59,36 +58,34 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(0)
-      .find('i');
-    expect(icon.hasClass('fa-check')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--green')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--green')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
 
   it('should display X for incorrect benefit', () => {
-    const store = createStore({
-      'view:benefit': { chapter30: true },
-    });
-    const props = {
-      ...defaultProps,
-      ...store.getState(),
-    };
+    const store = createStore({ 'view:benefit': { chapter30: true } });
+    const props = { ...defaultProps, ...store.getState() };
     const tree = mount(
       <Provider store={store}>
         <ConfirmEligibilityView {...props} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(0)
-      .find('i');
-
-    expect(icon.hasClass('fa-times')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--gray-medium')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--gray-medium')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
@@ -99,12 +96,14 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(1)
-      .find('i');
-    expect(icon.hasClass('fa-check')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--green')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--green')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
@@ -121,12 +120,14 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(1)
-      .find('i');
-    expect(icon.hasClass('fa-check')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--green')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--green')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
@@ -144,12 +145,14 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(1)
-      .find('i');
-    expect(icon.hasClass('fa-times')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--gray-medium')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--gray-medium')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
@@ -160,31 +163,33 @@ describe('<ConfirmEligibilityView>', () => {
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(5)
-      .find('i');
-    expect(icon.hasClass('fa-check')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--green')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--green')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });
 
   it('should display X for incorrect benefitLeft', () => {
-    const store = createStore({
-      benefitLeft: 'moreThanSixMonths',
-    });
+    const store = createStore({ benefitLeft: 'moreThanSixMonths' });
     const tree = mount(
       <Provider store={store}>
         <ConfirmEligibilityView {...defaultProps} />
       </Provider>,
     );
-    const icon = tree
+    const iconLi = tree
       .find('li')
       .at(5)
-      .find('i');
-    expect(icon.hasClass('fa-times')).to.equal(true);
-    expect(icon.hasClass('vads-u-color--gray-medium')).to.equal(true);
+      .find('span.icon-li');
+    expect(iconLi).to.not.be.undefined;
+    expect(iconLi.hasClass('vads-u-color--gray-medium')).to.equal(true);
+    const icon = iconLi.find('va-icon');
+    expect(icon).to.not.be.undefined;
 
     tree.unmount();
   });

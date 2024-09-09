@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
+const FormTitle = ({ id, formUrl, title, recordGAEvent, formName }) => (
   <div
     className="vads-u-margin--0 vads-u-font-weight--bold"
     data-e2e-id="result-title"
@@ -14,30 +14,24 @@ const FormTitle = ({ id, formUrl, title, lang, recordGAEvent, formName }) => (
         >
           Form {formName}
         </p>
-        <h3
-          aria-describedby={id}
-          className="vads-u-font-size--base vads-u-margin--0"
-        >
-          <a
+        <h3 aria-describedby={id} className="vads-u-margin--0">
+          <va-link
+            disable-analytics
             href={formUrl}
-            className="vads-u-font-family--serif vads-u-margin-top--1"
             onClick={() => recordGAEvent(title, formUrl, 'title')}
-            lang={lang}
-          >
-            {title}
-          </a>
+            text={title}
+          />
         </h3>
       </>
     ) : (
       <>
-        <p id={id} className="vads-u-font-weight--normal vads-u-margin--0">
+        <p
+          id={id}
+          className="vads-u-font-weight--normal vads-u-margin-top--0 vads-u-margin-bottom--1p5"
+        >
           Form {formName}
         </p>
-        <h3
-          aria-describedby={id}
-          className="vads-u-font-family--serif vads-u-font-size--base vads-u-margin--0 vads-u-margin-top--1p5"
-          lang={lang}
-        >
+        <h3 aria-describedby={id} className="vads-u-margin--0">
           {title}
         </h3>
       </>

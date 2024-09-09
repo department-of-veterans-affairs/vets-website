@@ -1,17 +1,17 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
-@import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
-@import "~@department-of-veterans-affairs/formation/sass/modules/va-tabs";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-modal";
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/va-tabs";
 
-$messaging-label-width: 10rem;
+$messaging-label-width: 6.25rem;
 
 @mixin messaging-rectangular-button {
   background: var(--vads-color-white);
   border-radius: 0;
   border: 1px solid var(--vads-color-black);
   color: var(--vads-color-black);
-  font-size: 1.5rem;
+  font-size: 0.9375rem;
   margin: 0;
-  padding: 1rem;
+  padding: 0.625rem;
   width: auto;
 
   &:focus,

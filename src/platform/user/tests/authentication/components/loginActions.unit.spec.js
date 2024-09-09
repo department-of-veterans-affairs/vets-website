@@ -62,7 +62,7 @@ describe('login DOM ', () => {
       const loginButtons = mount(<LoginActions externalApplication={csp} />);
       expect(loginButtons.find('button').length).to.eql(4);
       expect(loginButtons.find('#create-account').exists()).to.be.true;
-      expect(loginButtons.find('a').length).to.eql(2);
+      expect(loginButtons.find('a').length).to.eql(3);
       loginButtons.unmount();
     });
   });

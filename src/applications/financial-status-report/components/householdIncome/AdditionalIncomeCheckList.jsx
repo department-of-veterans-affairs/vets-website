@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 import { otherIncome } from '../../constants/checkboxSelections';
 import Checklist from '../shared/CheckList';
-import { calculateTotalAnnualIncome } from '../../utils/streamlinedDepends';
+import { checkIncomeGmt } from '../../utils/streamlinedDepends';
 
 const AdditionalIncomeCheckList = ({
   data,
@@ -16,16 +16,16 @@ const AdditionalIncomeCheckList = ({
   contentAfterButtons,
 }) => {
   const {
-    gmtData,
     additionalIncome,
+    gmtData,
     questions,
     reviewNavigation = false,
     'view:reviewPageNavigationToggle': showReviewNavigation,
   } = data;
   const { addlIncRecords = [] } = additionalIncome;
 
-  // Calculate income properties as necessary
-  const updateStreamlinedValues = () => {
+  // Compare calculated income to thresholds
+  useEffect(() => {
     if (
       questions?.isMarried ||
       addlIncRecords?.length ||
@@ -33,37 +33,19 @@ const AdditionalIncomeCheckList = ({
     )
       return;
 
-    const calculatedIncome = calculateTotalAnnualIncome(data);
+    checkIncomeGmt(data, setFormData);
+  }, []);
+
+  const onChange = ({ name, checked }) => {
     setFormData({
       ...data,
-      gmtData: {
-        ...gmtData,
-        incomeBelowGmt: calculatedIncome < gmtData?.gmtThreshold,
-        incomeBelowOneFiftyGmt:
-          calculatedIncome < gmtData?.incomeUpperThreshold,
+      additionalIncome: {
+        ...additionalIncome,
+        addlIncRecords: checked
+          ? [...addlIncRecords, { name, amount: '' }]
+          : addlIncRecords.filter(source => source.name !== name),
       },
     });
-  };
-
-  const onChange = ({ target }) => {
-    const { value } = target;
-    return addlIncRecords.some(source => source.name === value)
-      ? setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: addlIncRecords.filter(
-              source => source.name !== value,
-            ),
-          },
-        })
-      : setFormData({
-          ...data,
-          additionalIncome: {
-            ...additionalIncome,
-            addlIncRecords: [...addlIncRecords, { name: value, amount: '' }],
-          },
-        });
   };
 
   const onSubmit = event => {
@@ -100,11 +82,12 @@ const AdditionalIncomeCheckList = ({
             options={otherIncome}
             onChange={event => onChange(event)}
             isBoxChecked={isBoxChecked}
+            isRequired={false}
           />
           {contentBeforeButtons}
           <FormNavButtons
             goBack={goBack}
-            goForward={updateStreamlinedValues}
+            goForward={goForward}
             submitToContinue
           />
           {contentAfterButtons}
@@ -132,6 +115,7 @@ AdditionalIncomeCheckList.propTypes = {
       isMarried: PropTypes.bool,
     }),
     reviewNavigation: PropTypes.bool,
+    'view:reviewPageNavigationToggle': PropTypes.bool,
   }),
   goBack: PropTypes.func,
   goForward: PropTypes.func,

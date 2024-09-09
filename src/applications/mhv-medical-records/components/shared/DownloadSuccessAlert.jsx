@@ -19,7 +19,7 @@ const DownloadSuccessAlert = props => {
       status={ALERT_TYPE_SUCCESS}
       visible
       class={`vads-u-margin-top--4 no-print ${className}`}
-      aria-live="polite"
+      role="alert"
     >
       <h2 slot="headline" data-testid="download-success-alert-message">
         Download started

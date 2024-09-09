@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { getNextPagePath } from 'platform/forms-system/src/js/routing';
 import {
   createArrayBuilderItemAddPath,
   onNavForwardKeepUrlParams,
@@ -171,6 +172,26 @@ export function validateMinItems(minItems) {
   }
 }
 
+export function assignGetItemName(options) {
+  const safeGetItemName = getItemFn => {
+    return item => {
+      try {
+        return getItemFn(item);
+      } catch (e) {
+        return null;
+      }
+    };
+  };
+
+  if (options.getItemName) {
+    return safeGetItemName(options.getItemName);
+  }
+  if (options.text?.getItemName) {
+    return safeGetItemName(options.text.getItemName);
+  }
+  return DEFAULT_ARRAY_BUILDER_TEXT.getItemName;
+}
+
 /**
  * README: {@link https://github.com/department-of-veterans-affairs/vets-website/tree/main/src/platform/forms-system/src/js/patterns/array-builder/README.md|Array Builder Usage/Guidance/Examples}
  *
@@ -206,7 +227,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     arrayPath,
     nounSingular,
     nounPlural,
-    getItemName = DEFAULT_ARRAY_BUILDER_TEXT.getItemName,
     isItemIncomplete = item => item?.name,
     minItems = 1,
     maxItems = 100,
@@ -214,6 +234,8 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     reviewPath = 'review-and-submit',
     required: userRequired,
   } = options;
+
+  const getItemName = assignGetItemName(options);
 
   const getText = initGetText({
     getItemName,
@@ -299,34 +321,48 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
 
   /** @type {FormConfigPage['onNavForward']} */
   const navForwardSummary = ({ formData, goPath, pageList }) => {
+    const index = formData[arrayPath] ? formData[arrayPath].length : 0;
+
     if (formData[hasItemsKey]) {
-      const index = formData[arrayPath] ? formData[arrayPath].length : 0;
       const path = createArrayBuilderItemAddPath({
         path: firstItemPagePath,
         index,
       });
       goPath(path);
     } else {
-      const nextPage = getPageAfterPageKey(pageList, itemLastPageKey);
-      goPath(nextPage?.path);
+      const nextPagePath = getNextPagePath(
+        pageList,
+        formData,
+        `/${lastItemPagePath.replace(
+          ':index',
+          index === 0 ? index : index - 1,
+        )}`,
+      );
+      goPath(nextPagePath);
     }
   };
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardIntro = ({ formData, goPath, goNextPath }) => {
+  const navForwardIntro = ({ formData, goPath, urlParams }) => {
+    let path;
     // required flow:
     // intro -> items -> summary -> items -> summary
     //
     // optional flow:
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
-      const path = createArrayBuilderItemAddPath({
+      path = createArrayBuilderItemAddPath({
         path: firstItemPagePath,
         index: 0,
+        isReview: urlParams?.review,
       });
       goPath(path);
     } else {
-      goPath(summaryPath);
+      path = summaryPath;
+      if (urlParams?.review) {
+        path = `${path}?review=true`;
+      }
+      goPath(path);
     }
   };
 
@@ -378,6 +414,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       scrollAndFocusTarget: 'h3',
       onNavForward: navForwardSummary,
+      onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
     };
   };

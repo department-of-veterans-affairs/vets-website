@@ -88,9 +88,8 @@ ${txtLine}\n\n
 Type of test: ${record.type} \n
 Sample tested: ${record.sampleTested} \n
 Ordered by: ${record.orderedBy} \n
-Order location: ${record.orderingLocation} \n
-Collecting location: ${record.collectingLocation} \n
-Provider notes: ${processList(record.comments)} \n
+Location: ${record.collectingLocation} \n
+Lab comments: ${processList(record.comments)} \n
 ${txtLine}\n\n
 Results:
 ${record.results
@@ -102,8 +101,7 @@ ${txtLineDotted}
 Result: ${entry.result}
 Standard range: ${entry.standardRange}
 Status: ${entry.status}
-Lab location: ${entry.labLocation}
-Interpretation: ${entry.interpretation}\n`,
+Lab comments: ${entry.labComments}\n`,
       )
       .join('')}`;
 
@@ -123,7 +121,12 @@ Interpretation: ${entry.interpretation}\n`,
       >
         {record.name}
       </h1>
-      <DateSubheading date={record.date} id="chem-hem-date" />
+      <DateSubheading
+        date={record.date}
+        id="chem-hem-date"
+        label="Date and time collected"
+        labelClass="vads-u-font-weight--normal"
+      />
 
       {downloadStarted && <DownloadSuccessAlert />}
       <PrintDownload
@@ -141,7 +144,7 @@ Interpretation: ${entry.interpretation}\n`,
         </h3>
         <p data-testid="chem-hem-category">{record.category}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Sample tested
+          Site or sample tested
         </h3>
         <p data-testid="chem-hem-sample-tested">{record.sampleTested}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
@@ -149,19 +152,13 @@ Interpretation: ${entry.interpretation}\n`,
         </h3>
         <p data-testid="chem-hem-ordered-by">{record.orderedBy}</p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Ordering location
-        </h3>
-        <p data-testid="chem-hem-ordering-location">
-          {record.orderingLocation}
-        </p>
-        <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Collecting location
+          Location
         </h3>
         <p data-testid="chem-hem-collecting-location">
           {record.collectingLocation}
         </p>
         <h3 className="vads-u-font-size--base vads-u-font-family--sans">
-          Provider notes
+          Lab comments
         </h3>
         <ItemList list={record.comments} />
       </div>

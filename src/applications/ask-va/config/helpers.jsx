@@ -219,3 +219,14 @@ export const isEqualToOnlyEmail = obj => {
   const keys = Object.keys(obj);
   return keys.length === 1 && keys[0] === 'EMAIL' && obj.EMAIL === 'Email';
 };
+
+export const MilitaryBaseInfo = () => (
+  <div className="">
+    <va-additional-info trigger="Learn more about military base addresses">
+      <span>
+        The United States is automatically chosen as your country if you live on
+        a military base outside of the country.
+      </span>
+    </va-additional-info>
+  </div>
+);

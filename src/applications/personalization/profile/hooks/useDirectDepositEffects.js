@@ -80,7 +80,7 @@ export const useDirectDepositEffects = ({
   useEffect(
     () => {
       if (wasEditing && !ui.isEditing) {
-        focusElement('button', {}, '#edit-bank-info-button');
+        focusElement('button', {}, editButtonRef.current);
       }
     },
     [wasEditing, ui.isEditing, editButtonRef],

@@ -4,25 +4,23 @@ import { AXE_CONTEXT } from './utils/constants';
 import mockThread from './fixtures/thread-response.json';
 
 describe('verify signature', () => {
-  const landingPage = new PatientInboxPage();
-  const site = new SecureMessagingSite();
   const currentDate = new Date().toISOString();
   beforeEach(() => {
-    site.login();
-    landingPage.loadInboxMessages();
+    SecureMessagingSite.login();
+    PatientInboxPage.loadInboxMessages();
   });
   it('signature added on composing', () => {
-    landingPage.navigateToComposePage();
-    landingPage.verifySignature();
+    PatientInboxPage.navigateToComposePage();
+    PatientInboxPage.verifySignature();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});
   });
 
   it('signature added on replying', () => {
-    landingPage.loadSingleThread(mockThread, currentDate);
-    landingPage.replyToMessage();
-    landingPage.verifySignature();
+    PatientInboxPage.loadSingleThread(mockThread, currentDate);
+    PatientInboxPage.replyToMessage();
+    PatientInboxPage.verifySignature();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT, {});

@@ -34,6 +34,7 @@ const ManageFolderButtons = props => {
   const renameModalReference = useRef(null);
   const removeButton = useRef(null);
   const emptyFolderConfirmBtn = useRef(null);
+  const removeFolderRef = useRef(null);
 
   useEffect(() => {
     if (!folders) {
@@ -120,23 +121,32 @@ const ManageFolderButtons = props => {
   return (
     <>
       {folder.folderId > 0 && (
-        // This container needs to be updated to USWDS v3 when the project updates. These buttons are to become a button group, segmented
-        <div className="manage-folder-container">
+        <div
+          className="            
+            vads-u-display--flex
+            vads-u-flex-direction--column
+            small-screen:vads-u-flex-direction--row
+            small-screen:vads-u-align-content--flex-start
+          "
+        >
           {/* TODO add GA event for both buttons */}
           <button
             type="button"
-            className="left-button usa-button-secondary"
+            className="usa-button-secondary"
             data-testid="edit-folder-button"
             onClick={openRenameModal}
             ref={renameModalReference}
+            data-dd-action-name="Edit Folder Name Button"
           >
             Edit folder name
           </button>
           <button
             type="button"
-            className="right-button usa-button-secondary"
+            className="usa-button-secondary"
             data-testid="remove-folder-button"
             onClick={openDelModal}
+            data-dd-action-name="Remove Folder Button"
+            ref={removeFolderRef}
           >
             Remove folder
           </button>
@@ -151,9 +161,7 @@ const ManageFolderButtons = props => {
           modalTitle={Alerts.Folder.DELETE_FOLDER_ERROR_NOT_EMPTY_HEADER}
           onCloseEvent={() => {
             setIsEmptyWarning(false);
-            document
-              .querySelector('[data-testid=remove-folder-button]')
-              ?.focus();
+            focusElement(removeFolderRef.current);
           }}
           status="warning"
         >
@@ -163,6 +171,7 @@ const ManageFolderButtons = props => {
             text="Ok"
             onClick={() => {
               setIsEmptyWarning(false);
+              focusElement(removeFolderRef.current);
             }}
           />
         </VaModal>

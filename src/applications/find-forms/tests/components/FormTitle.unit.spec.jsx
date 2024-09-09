@@ -12,7 +12,6 @@ describe('Find VA Forms <FormTitle />', () => {
     formDetailsUrl:
       'https://www.va.gov/health-care/about-information-for-pre-complaint-processing/',
     title: 'Information for Pre-Complaint Processing',
-    language: 'en',
     recordGAEvent: recordSpy,
     formName: 'VA10192',
   };
@@ -23,7 +22,6 @@ describe('Find VA Forms <FormTitle />', () => {
         id={props.id}
         formUrl={props.formDetailsUrl}
         recordGAEvent={props.recordGAEvent}
-        lang={props.language}
         title={props.title}
         formName={props.formName}
       />,
@@ -50,7 +48,6 @@ describe('Find VA Forms <FormTitle />', () => {
     const treeText = tree.text();
 
     // expecting result node tree text to include the following
-    expect(treeText).to.include(props.title);
     expect(treeText).to.include(props.formName);
     tree.unmount();
   });
@@ -80,7 +77,7 @@ describe('Find VA Forms <FormTitle />', () => {
         />,
       );
 
-      tree.find('a').simulate('click');
+      tree.find('va-link').simulate('click');
       expect(recordSpy.called).to.be.true;
 
       tree.unmount();

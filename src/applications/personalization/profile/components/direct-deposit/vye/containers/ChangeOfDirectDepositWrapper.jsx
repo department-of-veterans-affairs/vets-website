@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import '../sass/change-of-direct-deposit-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfDirectDepositForm from '../components/ChangeOfDirectDepositForm';
@@ -37,6 +36,7 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     setShowModal(false);
     scrollToTopOfForm();
   }, []);
+
   const onCancelButtonClick = () => {
     if (hasFormChanged(formData, applicantName)) {
       setShowModal(true);
@@ -50,9 +50,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
     const fields = {
       phone: formData[`${prefix}phone`],
       // phone2: formData[`${prefix}phone`],
-      fullName: formData[`${prefix}fullName`],
+      fullName: applicantName,
       email: formData[`${prefix}email`],
-      acctType: formData[`${prefix}AccountType`],
+      acctType: formData[`${prefix}AccountType`].toLowerCase(),
       routingNo: formData[`${prefix}RoutingNumber`],
       acctNo: formData[`${prefix}AccountNumber`],
       bankName: formData[`${prefix}BankName`],
@@ -63,11 +63,13 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   useEffect(
     () => {
-      if (!loading) {
+      if (!loading && (response || error)) {
         handleCloseForm();
+      } else {
+        window.scrollTo(0, 0);
       }
     },
-    [handleCloseForm, loading],
+    [error, handleCloseForm, loading, response],
   );
   const directDepositDescription = (
     <div className="vads-u-margin-top--2 vads-u-margin-bottom--2">
@@ -140,9 +142,9 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
 
   return (
     <div id={CHANGE_OF_DIRECT_DEPOSIT_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
-        {CHANGE_OF_DIRECT_DEPOSIT_TITLE}
-      </p>
+      <h3 className="heading vads-u-background-color--gray-lightest vads-u-border-color--gray-lighter vads-u-color--gray-darkest vads-u-border-top--1px vads-u-border-left--1px vads-u-border-right--1px vads-u-margin--0 vads-u-padding-x--2 vads-u-padding-y--1p5 vads-u-font-size--h3 medium-screen:vads-u-padding-x--4 medium-screen:vads-u-padding-y--2">
+        Montgomery Gl Bill benefit payments
+      </h3>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -155,11 +157,6 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
       >
         {!toggleDirectDepositForm && (
           <>
-            <va-button
-              id="VYE-add-new-account-button"
-              onClick={handleAddNewClick}
-              text={DIRECT_DEPOSIT_BUTTON_TEXT}
-            />
             {error && (
               <Alert
                 status="error"
@@ -169,39 +166,42 @@ const ChangeOfDirectDepositWrapper = ({ applicantName }) => {
             {response?.ok && (
               <Alert
                 status="success"
-                message="Your direct deposit information has been updated."
+                title="New account added"
+                message="We’ve updated your direct deposit information for Montgomery GI Bill benefits."
               />
             )}
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-y--2"
-            >
-              <p className="vye-alert-absolute-title-position">
-                This direct deposit information is only used for payments for
-                Montgomery GI Bill® Benefits.
-              </p>
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-bottom--2 vads-u-margin-top--0">
+              Account
+            </h3>
+            <va-button
+              id="VYE-add-new-account-button"
+              onClick={handleAddNewClick}
+              text={DIRECT_DEPOSIT_BUTTON_TEXT}
+            />
+            <div>
               <p>
-                To change your direct deposit information for other VA services,
-                edit your{' '}
-                <a href="https://www.va.gov/profile/personal-information">
-                  VA Profile.
-                </a>
+                <span className="vads-u-font-weight--bold">Note: </span>
+                Any updates you make here will affect your Montgomery GI Bill
+                benefits only.{' '}
               </p>
-            </va-alert>
-            {bankInfoHelpText}
+              {/* <va-link
+                href="/change-direct-deposit/"
+                text="Learn how to update your direct deposit account for other VA benefits"
+              /> */}
+              <div className="vads-u-margin-top--3">{bankInfoHelpText}</div>
+            </div>
           </>
         )}
         {toggleDirectDepositForm && (
           <div className="direct-deposit-form-container">
-            <p className="vads-u-font-weight--bold">Add new account</p>
+            <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--serif vads-u-margin-y--0">
+              Add new account
+            </h3>
             {directDepositDescription}
             {loading && <Loader className="loader" />}
             <ChangeOfDirectDepositForm
               defaultName={applicantName}
-              formData={formData}
+              formData={formData ?? {}}
               formChange={data => setFormData(data)}
               formPrefix={prefix}
               formSubmit={saveBankInfo}

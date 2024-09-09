@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {
   LOAD_SCHOOLS_FAILED,
   LOAD_SCHOOLS_STARTED,
@@ -8,8 +9,8 @@ import {
   SEARCH_CLEARED,
   SEARCH_INPUT_CHANGED,
   INSTITUTION_SELECTED,
+  MANUAL_SCHOOL_ENTRY_TOGGLED,
 } from '../actions/schoolSearch';
-import _ from 'lodash';
 
 const initialState = {
   currentPageNumber: 1,
@@ -58,7 +59,7 @@ export default function schoolSearch(state = initialState, action) {
     case LOAD_SCHOOLS_FAILED: {
       const currentPageNumber = 0;
       const institutionSelected = {};
-      const institutionQuery = action.institutionQuery;
+      const { institutionQuery } = action;
       const institutions = [];
       const pagesCount = 0;
       const searchResultsCount = 0;
@@ -86,9 +87,9 @@ export default function schoolSearch(state = initialState, action) {
 
     case RESTORE_FROM_PREFILL_STARTED: {
       const currentPageNumber = action.page ? action.page : 1;
-      const institutionQuery = action.institutionQuery;
+      const { institutionQuery } = action;
       const institutions = [];
-      const institutionSelected = action.institutionSelected;
+      const { institutionSelected } = action;
       const manualSchoolEntryChecked = false;
       const searchInputValue = action.institutionQuery;
       const searchResultsCount = 0;
@@ -118,7 +119,7 @@ export default function schoolSearch(state = initialState, action) {
     }
     case LOAD_SCHOOLS_STARTED: {
       const currentPageNumber = action.page ? action.page : 1;
-      const institutionQuery = action.institutionQuery;
+      const { institutionQuery } = action;
       const institutions = [];
       const institutionSelected = {};
       const manualSchoolEntryChecked = false;
@@ -157,7 +158,7 @@ export default function schoolSearch(state = initialState, action) {
 
       const searchResultsCount = meta.count;
 
-      const institutionQuery = action.institutionQuery;
+      const { institutionQuery } = action;
       const institutions = data
         .map(({ attributes }) => {
           // pull only necessary attributes from response
@@ -224,6 +225,12 @@ export default function schoolSearch(state = initialState, action) {
       return {
         ...state,
         searchInputValue: action.searchInputValue,
+      };
+    }
+    case MANUAL_SCHOOL_ENTRY_TOGGLED: {
+      return {
+        ...state,
+        manualSchoolEntryChecked: action.manualSchoolEntryChecked,
       };
     }
 

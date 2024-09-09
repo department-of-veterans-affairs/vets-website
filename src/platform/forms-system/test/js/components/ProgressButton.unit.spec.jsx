@@ -116,22 +116,6 @@ describe('<ProgressButton>', () => {
     wrapper.unmount();
   });
 
-  it('should add aria-hidden button icons', () => {
-    const tree = shallow(
-      <ProgressButton
-        buttonText="Button text"
-        buttonClass="usa-button-primary"
-        disabled={false}
-        beforeText="«"
-        afterText="»"
-      />,
-    );
-    expect(tree.text()).to.equal('Button text');
-    const icons = tree.find('i[aria-hidden="true"]');
-    expect(icons).to.have.length.of(2);
-    tree.unmount();
-  });
-
   it('should pass aXe check when enabled', () =>
     axeCheck(
       <ProgressButton

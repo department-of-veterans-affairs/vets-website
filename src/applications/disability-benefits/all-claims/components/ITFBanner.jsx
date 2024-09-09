@@ -31,9 +31,9 @@ export default class ITFBanner extends React.Component {
     switch (this.props.status) {
       case 'error':
         message = itfMessage(
-          'We’re sorry. Something went wrong on our end.',
+          'We can’t confirm if we have an intent to file on record for you right now',
           itfError,
-          'error',
+          'info',
         );
         break;
       case 'itf-found':
@@ -73,15 +73,13 @@ export default class ITFBanner extends React.Component {
           >
             Back
           </Link>
-          {this.props.status !== 'error' && (
-            <button
-              type="button"
-              className="usa-button-primary"
-              onClick={this.dismissMessage}
-            >
-              Continue
-            </button>
-          )}
+          <button
+            type="button"
+            className="usa-button-primary"
+            onClick={this.dismissMessage}
+          >
+            Continue
+          </button>
         </div>
       </div>
     );

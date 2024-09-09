@@ -2,7 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import environment from 'platform/utilities/environment';
 import Validate from './pages/Validate';
-import Introduction from './pages/Introduction';
+import AppointmentsPage from '../components/pages/Appointments';
+import UpcomingAppointmentsPage from '../components/pages/UpcomingAppointments';
 import Demographics from './pages/Demographics';
 import NextOfKin from './pages/NextOfKin';
 import EmergencyContact from './pages/EmergencyContact';
@@ -11,6 +12,7 @@ import Landing from './pages/Landing';
 import Error from './pages/Error';
 import ErrorTest from './pages/ErrorTest';
 import AppointmentDetails from '../components/pages/AppointmentDetails';
+import AppointmentResources from './pages/AppointmentResources';
 import { URLS } from '../utils/navigation';
 import { APP_NAMES } from '../utils/appConstants';
 import withFeatureFlip from '../containers/withFeatureFlip';
@@ -33,6 +35,24 @@ const routes = [
     permissions: {
       requiresForm: true,
     },
+  },
+  {
+    path: URLS.APPOINTMENTS,
+    component: AppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+  },
+  {
+    path: URLS.UPCOMING_APPOINTMENTS,
+    component: UpcomingAppointmentsPage,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
   },
   {
     path: URLS.DEMOGRAPHICS,
@@ -62,14 +82,6 @@ const routes = [
     reloadable: true,
   },
   {
-    path: URLS.INTRODUCTION,
-    component: Introduction,
-    permissions: {
-      requiresForm: true,
-      requireAuthorization: true,
-    },
-  },
-  {
     path: URLS.CONFIRMATION,
     component: Confirmation,
     permissions: {
@@ -85,6 +97,25 @@ const routes = [
   {
     path: `${URLS.APPOINTMENT_DETAILS}/:appointmentId`,
     component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+  },
+  {
+    path: `${URLS.UPCOMING_APPOINTMENT_DETAILS}/:appointmentId`,
+    component: AppointmentDetails,
+    permissions: {
+      requiresForm: true,
+      requireAuthorization: true,
+    },
+    reloadable: true,
+    reloadUpcoming: true,
+  },
+  {
+    path: URLS.RESOURCES,
+    component: AppointmentResources,
     permissions: {
       requiresForm: true,
       requireAuthorization: true,
@@ -125,7 +156,11 @@ const createRoutesWithStore = () => {
           /* eslint-disable react/jsx-props-no-spreading */
           if (route.reloadable) {
             return (
-              <ReloadWrapper app={APP_NAMES.PRE_CHECK_IN} {...props}>
+              <ReloadWrapper
+                reloadUpcoming={route.reloadUpcoming}
+                app={APP_NAMES.PRE_CHECK_IN}
+                {...props}
+              >
                 <Component {...props} />
               </ReloadWrapper>
             );

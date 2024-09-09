@@ -97,7 +97,11 @@ export class SearchResult extends Component {
           >
             <span className="additional-info-title">
               Learn about {item?.name}{' '}
-              <i className={`fa fa-chevron-${learnIcon}`} />
+              {learnIcon === 'down' ? (
+                <va-icon icon="expand_more" size={3} />
+              ) : (
+                <va-icon icon="expand_less" size={3} />
+              )}
             </span>
           </button>
         </div>

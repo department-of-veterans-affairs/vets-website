@@ -1,24 +1,17 @@
-import PropTypes from 'prop-types';
-
+import { PAGE_PROPS, REVIEW_PAGE_PROPS } from '../config/constants';
 import ApplicantRelationshipPage, {
   ApplicantRelationshipReviewPage,
   appRelBoilerplate,
 } from '../../shared/components/applicantLists/ApplicantRelationshipPage';
 
-const KEYNAME = 'applicantMedicarePartD';
-const PRIMARY = 'enrollment';
-const SECONDARY = 'otherEnrollment'; // unused
+const PROPERTY_NAMES = {
+  keyname: 'applicantMedicarePartD',
+  primary: 'enrollment',
+  secondary: '_unused',
+};
 
 export function generateOptions({ data, pagePerItemIndex }) {
-  const {
-    currentListItem,
-    personTitle,
-    applicant,
-    useFirstPerson,
-    relative,
-    beingVerbPresent,
-    relativePossessive,
-  } = appRelBoilerplate({ data, pagePerItemIndex });
+  const bp = appRelBoilerplate({ data, pagePerItemIndex });
 
   const options = [
     {
@@ -31,20 +24,14 @@ export function generateOptions({ data, pagePerItemIndex }) {
     },
   ];
 
-  const prompt = `Is ${applicant} enrolled in Medicare Part D?`;
+  const prompt = `Is ${bp.applicant} enrolled in Medicare Part D?`;
 
   return {
     options,
-    currentListItem,
-    personTitle,
-    relativePossessive,
-    relativeBeingVerb: `${relative} ${beingVerbPresent}`,
-    useFirstPerson,
-    applicant,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
-    customTitle: `${applicant}'s Medicare status`,
+    ...bp,
+    relativeBeingVerb: `${bp.relative} ${bp.beingVerbPresent}`,
+    ...PROPERTY_NAMES,
+    customTitle: `${bp.applicant}’s Medicare Part D status`,
     description: prompt,
   };
 }
@@ -54,9 +41,7 @@ export function generateOptions({ data, pagePerItemIndex }) {
 export function ApplicantMedicareStatusContinuedPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipPage(newProps);
@@ -64,28 +49,11 @@ export function ApplicantMedicareStatusContinuedPage(props) {
 export function ApplicantMedicareStatusContinuedReviewPage(props) {
   const newProps = {
     ...props,
-    keyname: KEYNAME,
-    primary: PRIMARY,
-    secondary: SECONDARY,
+    ...PROPERTY_NAMES,
     genOp: generateOptions,
   };
   return ApplicantRelationshipReviewPage(newProps);
 }
 
-ApplicantMedicareStatusContinuedReviewPage.propTypes = {
-  data: PropTypes.object,
-  editPage: PropTypes.func,
-  pagePerItemIndex: PropTypes.number,
-  props: PropTypes.object,
-  title: PropTypes.func,
-};
-
-ApplicantMedicareStatusContinuedPage.propTypes = {
-  data: PropTypes.object,
-  goBack: PropTypes.func,
-  goForward: PropTypes.func,
-  pagePerItemIndex: PropTypes.string,
-  setFormData: PropTypes.func,
-  updatePage: PropTypes.func,
-  onReviewPage: PropTypes.bool,
-};
+ApplicantMedicareStatusContinuedReviewPage.propTypes = REVIEW_PAGE_PROPS;
+ApplicantMedicareStatusContinuedPage.propTypes = PAGE_PROPS;

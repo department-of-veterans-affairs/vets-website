@@ -1,6 +1,8 @@
+import moment from 'moment';
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import VitalsListPage from './pages/VitalsListPage';
 import VitalsDetailsPage from './pages/VitalsDetailsPage';
+import defaultVitals from '../fixtures/vitals.json';
 
 describe('Medical Records Vitals Details Page', () => {
   const site = new MedicalRecordsSite();
@@ -12,42 +14,46 @@ describe('Medical Records Vitals Details Page', () => {
 
   it('Vitals Details Weight', () => {
     VitalsListPage.goToVitals();
-    // click vitals page weight link
+    // click weight link
     VitalsListPage.clickLinkByRecordListItemIndex(5);
 
-    // verify first reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       0,
-      'October',
-      '185 pounds',
-      'ADTP BURNETT',
+      moment
+        .parseZone(defaultVitals.entry[9].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[9].resource.valueQuantity.value} pounds`,
+      defaultVitals.entry[9].resource.contained[0].name,
       'None noted',
     );
 
-    // verify second reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       1,
-      'August',
-      '200 pounds',
-      '23 HOUR OBSERVATION',
+      moment
+        .parseZone(defaultVitals.entry[19].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[19].resource.valueQuantity.value} pounds`,
+      defaultVitals.entry[19].resource.contained[0].name,
       'None noted',
     );
 
-    // verify third reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       2,
-      'August',
-      '190 pounds',
-      'ADMISSIONS (LOC)',
+      moment
+        .parseZone(defaultVitals.entry[29].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[29].resource.valueQuantity.value} pounds`,
+      defaultVitals.entry[29].resource.contained[0].name,
       'None noted',
     );
 
-    // verify fourth reading
     VitalsDetailsPage.verifyVitalReadingByIndex(
       3,
-      'May',
-      '185 pounds',
-      'ADTP SCREENING',
+      moment
+        .parseZone(defaultVitals.entry[39].resource.effectiveDateTime)
+        .format('MMMM D, YYYY, h:mm'),
+      `${defaultVitals.entry[39].resource.valueQuantity.value} pounds`,
+      defaultVitals.entry[39].resource.contained[0].name,
       'None noted',
     );
 

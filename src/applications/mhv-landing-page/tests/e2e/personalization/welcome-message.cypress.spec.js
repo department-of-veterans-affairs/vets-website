@@ -1,7 +1,6 @@
-import { appName, rootUrl } from '../../../manifest.json';
-import { generateFeatureToggles } from '../../../mocks/api/feature-toggles';
-import user from '../../fixtures/user.json';
+import { appName } from '../../../manifest.json';
 import ApiInitializer from '../utilities/ApiInitializer';
+import LandingPage from '../pages/LandingPage';
 
 describe(`${appName} -- Welcome message`, () => {
   beforeEach(() => {
@@ -9,29 +8,15 @@ describe(`${appName} -- Welcome message`, () => {
   });
 
   it('personalization enabled', () => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        mhvLandingPagePersonalization: true,
-      }),
-    ).as('featureToggles');
-    cy.login(user);
-    cy.visit(rootUrl);
+    ApiInitializer.initializeFeatureToggle.withAllFeatures();
+    LandingPage.visit();
     cy.findByRole('heading', { level: 2, name: /^Welcome/ }).should.exist;
     cy.injectAxeThenAxeCheck();
   });
 
   it('personalization disabled', () => {
-    cy.intercept(
-      'GET',
-      '/v0/feature_toggles*',
-      generateFeatureToggles({
-        mhvLandingPagePersonalization: false,
-      }),
-    ).as('featureToggles');
-    cy.login(user);
-    cy.visit(rootUrl);
+    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
+    LandingPage.visit();
     cy.findByRole('heading', { level: 2, name: /^Welcome/ }).should(
       'not.exist',
     );

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchRefreshStatus } from '../../actions/refresh';
 import { STATUS_POLL_INTERVAL, refreshPhases } from '../../util/constants';
+import { Actions } from '../../util/actionTypes';
 
 /**
  * State-management component to offload some of the work from App.jsx.
@@ -11,7 +12,7 @@ import { STATUS_POLL_INTERVAL, refreshPhases } from '../../util/constants';
 const PhrRefresh = () => {
   const dispatch = useDispatch();
   const refresh = useSelector(state => state.mr.refresh);
-  const [endPollingDate, setEndPollingDate] = useState(new Date());
+  const [endPollingDate, setEndPollingDate] = useState(null);
 
   /** How long to poll the status endpoint, in milliseconds */
   const POLL_DURATION = 120000;
@@ -40,13 +41,17 @@ const PhrRefresh = () => {
     () => {
       let timeoutId;
       if (
+        endPollingDate &&
         refresh.status &&
-        refresh.phase !== refreshPhases.CURRENT &&
-        new Date() <= endPollingDate
+        refresh.phase !== refreshPhases.CURRENT
       ) {
-        timeoutId = setTimeout(() => {
-          dispatch(fetchRefreshStatus());
-        }, STATUS_POLL_INTERVAL);
+        if (new Date() <= endPollingDate) {
+          timeoutId = setTimeout(() => {
+            dispatch(fetchRefreshStatus());
+          }, STATUS_POLL_INTERVAL);
+        } else {
+          dispatch({ type: Actions.Refresh.TIMED_OUT });
+        }
       }
       return () => {
         // Clear the timeout if the component unmounts.

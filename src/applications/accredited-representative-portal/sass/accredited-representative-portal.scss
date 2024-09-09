@@ -1,5 +1,11 @@
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 
+.container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
 .homepage-hero {
   &__look-and-feel {
     background: linear-gradient(
@@ -28,7 +34,7 @@
 .limitations-row {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 8px;
 
   &__warning-icon {
     color: var(--vads-color-action-focus-on-light);
@@ -37,7 +43,7 @@
 
 .relationship-row {
   display: block;
-  font-size: 1.4rem;
+  font-size: 14px;
   line-height: 1;
 }
 
@@ -48,3 +54,18 @@
     font-weight: 700;
   }
 }
+
+.arp-footer {
+  background-color: var(--vads-color-primary-darker);
+  min-width: 100%;
+
+  a:hover {
+    color: var(--vads-color-warning) !important;
+  }
+}
+
+// There is a div in content-build accredited-representative-portal.html that would require changes to platform code to remove. For now this scss hides it.
+.arp-footer-hidden {
+    display: none;
+}
+

@@ -21,7 +21,6 @@ function IntroductionLoginV2({
   user,
   showMeb1990EZMaintenanceAlert,
   showMeb1990EZR6MaintenanceMessage,
-  showMebEnhancements, // Add showMebEnhancements as a prop
   showMebEnhancements06, // Add showMebEnhancements06 as a prop
   showMebEnhancements09, // Add showMebEnhancements09 as a prop
 }) {
@@ -45,7 +44,7 @@ function IntroductionLoginV2({
   if (showMeb1990EZR6MaintenanceMessage) {
     // Message for the R6 maintenance period
     maintenanceMessage =
-      'We are currently performing system updates. Please come back on May 6 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
+      'We are currently performing system updates. Please come back on July 8 when the application will be back up and running. Thank you for your patience while we continue improving our systems to provide faster, more convenient service to GI Bill beneficiaries.';
   } else if (shouldShowMaintenanceAlert) {
     // General maintenance message
     maintenanceMessage =
@@ -117,22 +116,14 @@ function IntroductionLoginV2({
               </div>
             </va-alert>
             <p className="vads-u-margin-top--4">
-              {showMebEnhancements ? (
-                // If showMebEnhancements is true, display paper form option
-                <>
-                  If you don't want to sign in, you can{' '}
-                  <a href="https://www.va.gov/find-forms/about-form-22-1990/">
-                    apply using the paper form
-                  </a>
-                  . Please expect longer processing time for decisions when
-                  opting for this method.
-                </>
-              ) : (
-                // If showMebEnhancements is false, display option to start application without signing in
-                <a href="/education/apply-for-education-benefits/application/1990/applicant/information">
-                  Start your application without signing in
+              <>
+                If you don't want to sign in, you can{' '}
+                <a href="https://www.va.gov/find-forms/about-form-22-1990/">
+                  apply using the paper form
                 </a>
-              )}
+                . Please expect longer processing time for decisions when opting
+                for this method.
+              </>
             </p>
           </>
         )}
@@ -200,7 +191,7 @@ IntroductionLoginV2.propTypes = {
   showHideLoginModal: PropTypes.func,
   showMeb1990EZMaintenanceAlert: PropTypes.bool,
   showMeb1990EZR6MaintenanceAlert: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool, // Add showMebEnhancements to propTypes
+  showMeb1990EZR6MaintenanceMessage: PropTypes.bool,
   showMebEnhancements06: PropTypes.bool, // Add showMebEnhancements06 to propTypes
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
   user: PropTypes.object,

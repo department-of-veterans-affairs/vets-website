@@ -3,10 +3,9 @@ import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import { VAPServiceProfileField } from '../../containers/VAPServiceProfileField';
-
 import vapService from '~/platform/user/profile/vap-svc/reducers';
 import { renderInReduxProvider } from '~/platform/testing/unit/react-testing-library-helpers';
+import { VAPServiceProfileField } from '../../containers/VAPServiceProfileField';
 
 function Content() {
   return <h1>Content</h1>;
@@ -54,7 +53,7 @@ const initialState = {
           inputPhoneNumber: {
             'ui:title': 'Home phone number (U.S. numbers only)',
             'ui:errorMessages': {
-              pattern: 'Please enter a valid 10-digit U.S. phone number.',
+              pattern: 'You must enter a valid 10-digit U.S. phone number.',
             },
             'ui:options': {
               ariaDescribedby: 'error-message-details',
@@ -63,7 +62,7 @@ const initialState = {
           extension: {
             'ui:title': 'Extension (6 digits maximum)',
             'ui:errorMessages': {
-              pattern: 'Please enter a valid extension up to 6 digits.',
+              pattern: 'You must enter a valid extension up to 6 digits.',
             },
           },
         },

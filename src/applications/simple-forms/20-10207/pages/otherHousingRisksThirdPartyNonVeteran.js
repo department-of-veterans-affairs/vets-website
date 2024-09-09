@@ -11,9 +11,6 @@ export default {
       'ui:title':
         'Tell us about other housing risks the claimant is experiencing',
       'ui:webComponentField': VaTextareaField,
-      'ui:errorMessages': {
-        required: 'List other housing risks the claimant is experiencing',
-      },
       'ui:options': {
         charcount: true,
       },
@@ -34,6 +31,5 @@ export default {
         properties: {},
       },
     },
-    required: ['otherHousingRisks'],
   },
 };

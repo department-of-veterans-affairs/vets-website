@@ -5,9 +5,10 @@ import applicantInformation from 'platform/forms/pages/applicantInformation';
 import FormFooter from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
+import preSubmitInfo from 'platform/forms/preSubmitInfo';
+import * as personId from 'platform/forms/definitions/personId';
 import GetFormHelp from '../../components/GetFormHelp';
 import ErrorText from '../../components/ErrorText';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 
 import applicantServicePage from '../../pages/applicantService';
 import createOldSchoolPage from '../../pages/oldSchool';
@@ -16,8 +17,6 @@ import contactInformationPage from '../../pages/contactInformation';
 import createDirectDepositChangePage from '../../pages/directDepositChange';
 
 import sponsorFullNameUI from '../../definitions/sponsorFullName';
-
-import * as personId from 'platform/forms/definitions/personId';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -29,6 +28,9 @@ import { urlMigration } from '../../config/migrations';
 import { survivorBenefitsLabels } from '../../utils/labels';
 
 import manifest from '../manifest.json';
+import { convertToggle } from '../../utils/helpers';
+import IntroductionPageUpdate from '../containers/IntroductionPageUpdate';
+// import { introductionPage } from '../../1995/helpers';
 
 const {
   benefit,
@@ -37,7 +39,6 @@ const {
 } = fullSchema5495.properties;
 
 const { school, educationType, date, fullName } = fullSchema5495.definitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -62,7 +63,7 @@ const formConfig = {
       'Please sign in again to resume your application for education benefits.',
   },
   transformForSubmit: transform,
-  introduction: IntroductionPage,
+  introduction: !convertToggle() ? IntroductionPageUpdate : IntroductionPage,
   confirmation: ConfirmationPage,
   defaultDefinitions: {
     fullName,
@@ -72,7 +73,11 @@ const formConfig = {
   },
   title: 'Update your Education Benefits',
   subTitle: 'Form 22-5495',
-  preSubmitInfo,
+  preSubmitInfo: convertToggle()
+    ? preSubmitInfo
+    : {
+        CustomComponent: IntroductionPageUpdate,
+      },
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,

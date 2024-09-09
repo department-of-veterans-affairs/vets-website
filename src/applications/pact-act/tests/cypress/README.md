@@ -1,82 +1,55 @@
 # Cypress Test Approach
 
-Reference: [Mural](https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1692989444688/0044b9825c82d8d23920601f68c41a61d047d681?sender=ue51e6049230e03c1248b5078)
+Refer to this [Mural](https://app.mural.co/t/departmentofveteransaffairs9999/m/departmentofveteransaffairs9999/1692989444688/0044b9825c82d8d23920601f68c41a61d047d681?sender=ue51e6049230e03c1248b5078) for a complete diagram of all question flows.
 
-We want to test as many flows as possible to ensure the display logic is functioning as expected, and the user can
-navigate forward and backward correctly in any situation. This includes navigation between questions, and
-to and from the introduction screen and results screens.
+We want to use automated tests for as many flows as possible to ensure the display logic is functioning as expected and the user can
+navigate forward and backward correctly in any situation. This includes navigation between questions and
+to and from the introduction page and results pages.
 
-## Service Period Folders
+## Cypress testing structure
 
-There are 3 folders for SERVICE_PERIOD ("When did you serve in the U.S. military?") responses:
-- 1990 or later
-- 1989 or earlier
-- During both of these time periods
+### Parent folders
 
-These three folders correspond to the 3 response options for this question.
+Inside `/tests/cypress`, there is a folder for each response to the first question in the flow: "When did you serve in the U.S. military (including time spent in training)?" (known as SERVICE_PERIOD). You can think of these as "parent folders:"
+1. 1990 or later
+2. 1989 or earlier
+3. During both of these time periods
 
-Each of these responses takes a unique path through the application, with "During both of these time periods"
-being the most complex, and including the most questions.
+### Child folders
+Each of these SERVICE_PERIOD responses takes the user through a unique path of questions with "Yes," "No," and "I'm not sure" responses. These 3 responses have folders inside the parent folders that you can think of as "child folders."
 
-## 1990 or later
+## File anatomy
 
-This folder has a "No" and "I'm not sure" spec file, and a folder for 3 "Yes" spec files
+In most files, there is a comment section at the top describing the path that is verified. 
 
-### "Yes" folder
+### `yes` files
+The below example is from `service-period-1990-or-later/yes/yes-flow-A.cypress.spec.js`.
 
-The path for "1990 or later" has 3 ways to get to results screen 1. Each of the Burn Pit questions, when answered
-"Yes", will skip questions after, if applicable, and lead to results screen 1. This covers "Yes" for all 3 questions.
-In order to get to the 2nd and 3rd Burn Pit questions, "No" must be answered for the preceding question.
+```
+// Flow A
+// Service Period - 1990 or later
+// Burn Pit 2.1 - Yes
+// Burn Pit 2.1.1 - No
+// Burn Pit 2.1.2 - No
+// Burn Pit 2.1.3 - No
+// Main Flow 2.5 - No
+// Results 4
+```
 
-### "No" and "I'm not sure" spec files
+Note that this file is a `yes-` file, but it does not use "Yes" for every question. "Yes" responses often change the outcome for the results page. There are multiple `yes` files for each parent folder to cover "Yes" responses to each question.
 
-The path for both of these flows is the same; when each Burn Pit question is answered "No" or "I'm not sure",
-this leads to results screen 1.
+### `no` and `im-not-sure` files
 
-## 1989 or earlier
+These files use the same answer ("No" or "I'm not sure" respectively) for every question. These flows are generally longer than "Yes" flows and cover most questions.
 
-This folder has a folder for "Yes," "No" and "I'm not sure" spec files. The main folder has a mix spec file.
+### `mix` files
 
-### "Yes" folder
+The mix files test a single flow with a variety of responses to questions.
 
-The "Yes" flow has 4 paths to get to a results screen. Agent Orange 2.2.A, 2.2.1.A, and 2.2.2, when answered "Yes,"
-will skip any subsequent Agent Orange questions and proceed to Radiation, then Camp Lejeune. Each of these flows is 
-tested separately and ends at results screen 1. The 4th way requires a "Yes" response to Camp Lejeune only; meaning 
-all the other questions are answered "No."
+### `deep-linking`
 
-### "No" folder
+This application should not allow a user to navigate directly to any question in the flow. This file validates that the flow redirects to `/introduction` for every page.
 
-The "No" flow has 2 paths to get to a results screen. If every question is answered "No," results screen 3 will show.
-If 1 question is answered "Yes," results screen 1 will show.
+### `form-validation`
 
-### "I'm not sure" folder
-
-The "I'm not sure" flow has 2 paths to get to a results screen. If every question is answered "I'm not sure," results screen 3 will show.
-If 1 question is answered "Yes," results screen 1 will show.
-
-### Mix spec file
-
-The mix spec file is intended to cover a mix of the above scenarios.
-
-## During both of these time periods
-
-### "Yes" folder
-
-The "Yes" flow has 4 paths to get to a results screen. Agent Orange 2.2.A, 2.2.1.A, and 2.2.2, when answered "Yes,"
-will skip any subsequent Agent Orange questions and proceed to Radiation, then Camp Lejeune. Each of these flows is 
-tested separately and ends at results screen 1. The 4th way requires a "Yes" response to Camp Lejeune only; meaning 
-all the other questions are answered "No."
-
-### "No" folder
-
-The "No" flow has 2 paths to get to a results screen. If every question is answered "No," results screen 3 will show.
-If 1 question is answered "Yes," results screen 1 will show.
-
-### "I'm not sure" folder
-
-The "I'm not sure" flow has 2 paths to get to a results screen. If every question is answered "I'm not sure," results screen 3 will show.
-If 1 question is answered "Yes," results screen 1 will show.
-
-### Mix spec file
-
-The mix spec file is intended to cover a mix of the above scenarios.
+This file validates that every question (radio or checkbox) requires a response and does not show an error when it is not needed.

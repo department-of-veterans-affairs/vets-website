@@ -2,6 +2,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 // Relative imports.
+import { apiRequest } from 'platform/utilities/api';
 import {
   fetchResultsAction,
   fetchResultsFailure,
@@ -60,6 +61,8 @@ describe('Yellow Ribbon actions', () => {
   describe('fetchResultsThunk', () => {
     let mockedLocation;
     let mockedHistory;
+    let updateQueryParamsStub;
+    let apiRequestStub;
 
     beforeEach(() => {
       mockedLocation = {
@@ -70,6 +73,22 @@ describe('Yellow Ribbon actions', () => {
       mockedHistory = {
         replaceState: sinon.stub(),
       };
+
+      const queryParams = new URLSearchParams(mockedLocation.search);
+
+      apiRequestStub = sinon.stub(apiRequest, 'default').resolves({
+        data: {
+          results: [],
+          totalResults: 0,
+        },
+      });
+
+      updateQueryParamsStub = sinon.stub(queryParams, 'updateQuery').returns();
+    });
+
+    afterEach(() => {
+      apiRequestStub.restore();
+      updateQueryParamsStub.restore();
     });
 
     it('updates search params', async () => {

@@ -2,7 +2,7 @@ import { titleUI } from '~/platform/forms-system/src/js/web-component-patterns';
 import { NEW_EVIDENCE_HANDOFF } from '../config/constants';
 
 /** @type {PageSchema} */
-export const newEvidenceHandoffPage = {
+export const claimStatusToolPage = {
   uiSchema: {
     ...titleUI({
       title: "There's a better way to request your personal records",

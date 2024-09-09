@@ -16,7 +16,9 @@ class ProgressButton extends React.Component {
     let beforeText = '';
 
     if (this.props.beforeText && this.props.beforeText === '«') {
-      beforeText = <i aria-hidden="true" className="fa fa-angles-left" />;
+      beforeText = (
+        <va-icon icon="navigate_far_before" class="vads-u-padding-right--1" />
+      );
     } else if (this.props.beforeText) {
       beforeText = (
         <span className="button-icon" aria-hidden="true">
@@ -29,7 +31,9 @@ class ProgressButton extends React.Component {
     let afterText = '';
 
     if (this.props.afterText && this.props.afterText === '»') {
-      afterText = <i aria-hidden="true" className="fa fa-angles-right" />;
+      afterText = (
+        <va-icon icon="navigate_far_next" class="vads-u-padding-left--1" />
+      );
     } else if (this.props.afterText) {
       afterText = (
         <span className="button-icon" aria-hidden="true">

@@ -420,8 +420,7 @@ export const isWithinServicePeriod = (
 };
 
 export const missingConditionMessage =
-  'Please enter a condition or select one from the suggested list';
-
+  'Enter a condition, diagnosis, or short description of your symptoms';
 /**
  * Validates a given disability name for length and duplication.
  * @param {Object} err - Errors object from rjsf, which includes an addError method
@@ -451,7 +450,7 @@ export const validateDisabilityName = (
     !LOWERED_DISABILITY_DESCRIPTIONS.includes(fieldData.toLowerCase()) &&
     fieldData.length > 255
   ) {
-    err.addError('Condition names should be less than 256 characters');
+    err.addError('This needs to be less than 256 characters');
   }
 
   if (
@@ -474,7 +473,7 @@ export const validateDisabilityName = (
     item => item === itemLowerCased || sippableId(item) === itemSippableId,
   );
   if (itemCount.length > 1) {
-    err.addError('Please enter a unique condition name');
+    err.addError('You’ve already added this condition to your claim');
   }
 };
 
@@ -503,7 +502,7 @@ export const requireDisability = (err, fieldData, formData) => {
 export const limitNewDisabilities = (err, fieldData, formData) => {
   if (formData.newDisabilities?.length > 100) {
     err.addError(
-      'You have reached the 100 condition limit. If you need to add another condition, you must remove a previously added condition.',
+      'You’ve added the maximum number of conditions. If you’d like to add another one, you’ll need to remove a condition from your claim.',
     );
   }
 };

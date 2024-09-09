@@ -14,6 +14,7 @@ import {
   addressLabel,
   noSuggestedAddress,
   prepareAddressData,
+  removeCommas,
 } from '../helpers';
 
 const SuggestedAddress = ({
@@ -25,6 +26,8 @@ const SuggestedAddress = ({
   setSuggestedAddressPicked,
   suggestedAddressPicked,
   setGoBackToEdit,
+  scrollToTopOfForm,
+  applicantName,
 }) => {
   const dispatch = useDispatch();
   const { isLoadingValidateAddress, addressValidationData } = useSelector(
@@ -69,7 +72,7 @@ const SuggestedAddress = ({
       setSuggestedAddressPicked(true);
       dispatch(handleSuggestedAddressPicked(true));
       try {
-        dispatch(validateAddress(fields, formData?.fullName));
+        dispatch(validateAddress(fields, applicantName));
       } catch (err) {
         throw new Error(err);
       } finally {
@@ -77,17 +80,16 @@ const SuggestedAddress = ({
       }
     } else {
       try {
-        await dispatch(
-          postMailingAddress({
-            veteranName: formData.fullName,
-            address1: formData.addressLine1,
-            address2: formData.addressLine2,
-            address3: formData.addressLine3,
-            address4: formData.addressLine4,
-            city: formData.city,
-            ...addressState,
-          }),
-        );
+        const enteredAddress = {
+          veteranName: applicantName,
+          address1: formData.addressLine1,
+          address2: formData.addressLine2,
+          address3: formData.addressLine3,
+          address4: formData.addressLine4,
+          city: formData.city,
+          ...addressState,
+        };
+        await dispatch(postMailingAddress(removeCommas(enteredAddress)));
         setAddressToUI({
           street: `${formData.addressLine1} ${formData.addressLine2 || ''}`,
           city: formData.city,
@@ -100,6 +102,7 @@ const SuggestedAddress = ({
         setFormData({});
       }
     }
+    scrollToTopOfForm();
   };
 
   return (
@@ -107,13 +110,13 @@ const SuggestedAddress = ({
       {(isLoadingValidateAddress || isLoading) && (
         <Loader className="loader" message="updating..." />
       )}
-      <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
+      <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
         Mailing address
-      </p>
+      </h3>
       <div>
         <NoSuggestedAddress
           deliveryPointValidation={deliveryPointValidation}
-          formData={formData}
+          formData={removeCommas(formData)}
           setChooseAddress={setChooseAddress}
         />
       </div>
@@ -140,8 +143,7 @@ const SuggestedAddress = ({
               className="usa-radio__label vads-u-margin-top--1"
               htmlFor="entered-address"
             >
-              {' '}
-              {addressLabel(formData)}
+              {addressLabel(removeCommas(formData))}
             </label>
           </div>
           <div className="usa-radio vads-u-margin-top--2p5">
@@ -183,12 +185,14 @@ const SuggestedAddress = ({
 };
 
 SuggestedAddress.propTypes = {
+  applicantName: PropTypes.string.isRequired,
   handleAddNewClick: PropTypes.func.isRequired,
   setAddressToUI: PropTypes.func.isRequired,
   setFormData: PropTypes.func.isRequired,
   setGoBackToEdit: PropTypes.func.isRequired,
   address: PropTypes.object,
   formData: PropTypes.object,
+  scrollToTopOfForm: PropTypes.func,
   setSuggestedAddressPicked: PropTypes.func,
   suggestedAddressPicked: PropTypes.bool,
 };

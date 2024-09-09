@@ -33,8 +33,7 @@ describe('<HomeAcreageValueInput />', () => {
       </Provider>,
     );
 
-    expect($$('va-text-input,input', container).length).to.equal(0);
-    expect($$('va-number-input,input', container).length).to.equal(1);
+    expect($$('va-text-input,input', container).length).to.equal(1);
     expect($('button[type="submit"]', container)).to.exist;
   });
   it('should allow submit when currency is valid', async () => {

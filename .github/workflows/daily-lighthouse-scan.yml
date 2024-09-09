@@ -90,7 +90,7 @@ jobs:
 
       - name: Audit URLs using Lighthouse on ${{ matrix.registry }}
         id: lighthouse-checks
-        uses: treosh/lighthouse-ci-action@v8
+        uses: treosh/lighthouse-ci-action@v9
         with:
           urls: |
             https://www.va.gov${{ matrix.registry }}

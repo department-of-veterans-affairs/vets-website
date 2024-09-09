@@ -14,7 +14,7 @@ import { makeHumanReadable } from '../../utilities';
  */
 function alertOrLink(file, entryName, index, fileNameDict = {}) {
   const fn = fileNameDict?.[file.name] ?? makeHumanReadable(file.name);
-  const t = `Upload ${entryName}’s ${fn}`;
+  const t = `Upload ${entryName}’s ${fn} now`;
   const href = file?.path
     ? `${file?.path.replace(/:index/, index)}?fileReview=true`
     : '';
@@ -44,8 +44,10 @@ function alertOrLink(file, entryName, index, fileNameDict = {}) {
  * @param {string} param0.title: title text to display
  * @param {string} param0.description: description text to display
  * @param {boolean} param0.disableLinks: whether or not to show link to edit page
- * @param {string} param0.subset: which classification of files to show: 'required', 'optional', 'all'
+ * @param {boolean} param0.subset: whether we're displaying required files (true) or optional (false)
  * @param {object} param0.filenameMap: (optional) all file names mapped to user-friendly labels
+ * @param {boolean} param0.showNameHeader - whether or not to show the person's name above their grouping of missing files
+ * @param {boolean} param0.showFileBullets - whether or not to show the file type in a separate <li> above the clickable link (only works when `param0.disableLinks===false`)
  * @returns JSX
  */
 export default function MissingFileList({
@@ -56,16 +58,9 @@ export default function MissingFileList({
   disableLinks,
   subset,
   fileNameMap,
+  showNameHeader,
+  showFileBullets,
 }) {
-  const inSubset = file => {
-    if (subset === 'required') {
-      return file.required === true;
-    }
-    if (subset === 'optional') {
-      return file.required === false;
-    }
-    return true; // Show all if subset is other
-  };
   // data: an array or a single object, must have 'missingUploads' on it
   const wrapped = Array.isArray(data) ? data : [data];
   if (
@@ -80,24 +75,43 @@ export default function MissingFileList({
   return (
     <div>
       <h3 className="vads-u-font-size--h4">{title || ''}</h3>
-      <p>{description || ''}</p>
+      <p>
+        <strong>{description || ''}</strong>
+      </p>
       {wrapped.map((entry, idx) => {
-        if (entry?.missingUploads.filter(f => inSubset(f)).length === 0)
+        if (
+          entry?.missingUploads.filter(f => f.required === subset).length === 0
+        )
           return <></>;
-        const entryName = `${entry[nameKey].first} ${entry[nameKey]?.middle ||
-          ''} ${entry[nameKey].last}${entry[nameKey]?.suffix || ''}`;
+        const entryName = `${entry[nameKey].first || ''}`;
         return (
           <div key={`${entryName}-${subset}`}>
-            <strong>{entryName}</strong>
-            <ul style={!disableLinks ? { listStyleType: 'none' } : {}}>
+            {showNameHeader ? <strong>{entryName}</strong> : null}
+            <ul
+              style={
+                !disableLinks && !showFileBullets
+                  ? { listStyleType: 'none' }
+                  : { listStylePosition: 'inside' }
+              }
+            >
               {entry.missingUploads?.map((file, index) => {
-                return inSubset(file) &&
+                const fn =
+                  fileNameMap?.[file.name] ?? makeHumanReadable(file.name);
+                return file.required === subset &&
                   (disableLinks ? file.uploaded === false : true) ? (
-                  <li key={file.name + file.uploaded + index}>
-                    {!disableLinks
-                      ? alertOrLink(file, entryName, idx, fileNameMap)
-                      : fileNameMap?.[file.name] ??
-                        makeHumanReadable(file.name)}
+                  <li
+                    key={file.name + file.uploaded + index}
+                    className="vads-u-margin-y--1"
+                  >
+                    {!disableLinks ? (
+                      <>
+                        {showFileBullets ? fn : null}
+                        <br />
+                        {alertOrLink(file, entryName, idx, fileNameMap)}
+                      </>
+                    ) : (
+                      `${entryName}’s ${fn}`
+                    )}
                   </li>
                 ) : null;
               })}
@@ -115,6 +129,8 @@ MissingFileList.propTypes = {
   disableLinks: PropTypes.bool,
   fileNameMap: PropTypes.any,
   nameKey: PropTypes.string,
-  subset: PropTypes.string,
+  showFileBullets: PropTypes.bool,
+  showNameHeader: PropTypes.bool,
+  subset: PropTypes.bool,
   title: PropTypes.string,
 };

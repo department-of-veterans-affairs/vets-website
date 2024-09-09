@@ -14,7 +14,7 @@ export default function VAProfileWrapper() {
     <div className="va-profile-wrapper">
       <InitializeVAPServiceID>
         <VAPServicePendingTransactionCategory
-          categoryType={TRANSACTION_CATEGORY_TYPES.VAP_ADDRESS}
+          categoryType={TRANSACTION_CATEGORY_TYPES.ADDRESS}
         >
           <AddressField
             fieldName={FIELD_NAMES.MAILING_ADDRESS}

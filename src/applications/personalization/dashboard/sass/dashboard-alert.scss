@@ -1,24 +1,9 @@
-@import "~@fortawesome/fontawesome-free/scss/variables";
-
-@mixin make-status-styles($status,
-  $color,
-  $icon: $fa-var-exclamation,
-  $top: 1px,
-  $left: 7.5px,
-  $size: 13px) {
-
+@mixin make-status-styles($status, $status-color) {
   &-#{$status} section.status {
-    border-color: $color;
+    border-color: $status-color;
 
-    .status-icon-container i {
-      background-color: $color;
-
-      &::before {
-        content: fa-content($icon);
-        font-size: $size;
-        margin-top: $top;
-        margin-left: $left;
-      }
+    va-icon {
+      background-color: $status-color;
     }
   }
 }
@@ -46,21 +31,10 @@
     .status-icon-container {
       width: units(4);
       padding-top: 3px;
+    }
 
-      i {
-        display: inline-block;
-        width: units(2.5);
-        height: units(2.5);
-        color: var(--vads-color-white);
-        border-radius: 50%;
-
-        &::before {
-          font-family: "Font Awesome 5 Free";
-          font-style: normal;
-          font-weight: 900;
-          position: absolute;
-        }
-      }
+    va-icon {
+      color: var(--vads-color-white);
     }
 
     h3 {
@@ -82,35 +56,27 @@
 
   @include make-status-styles(
     $status: "closed",
-    $color: var(--vads-color-black),
+    $status-color: var(--vads-color-black),
   );
 
   @include make-status-styles(
     $status: "decision",
-    $color: var(--vads-color-secondary),
+    $status-color: var(--vads-color-secondary),
   );
 
   @include make-status-styles(
     $status: "enrolled",
-    $color: var(--vads-color-success-dark),
-    $icon: $fa-var-check,
-    $top: 1px,
-    $left: 2.5px,
-    $size: 14px,
+    $status-color: var(--vads-color-success-dark),
   );
 
   @include make-status-styles(
     $status: "in-progress",
-    $color: var(--vads-color-primary),
-    $icon: $fa-var-file,
-    $top: 2px,
-    $left: 6px,
-    $size: 11px,
+    $status-color: var(--vads-color-primary),
   );
 
   @include make-status-styles(
     $status: "update",
-    $color: var(--vads-color-action-focus-on-light),
+    $status-color: var(--vads-color-action-focus-on-light),
   );
 
   section.content {

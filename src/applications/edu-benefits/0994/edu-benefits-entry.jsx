@@ -9,6 +9,7 @@ import manifest from './manifest.json';
 import analyticsEvents from './analytics-events';
 
 startApp({
+  entryName: manifest.entryName,
   url: manifest.rootUrl,
   reducer,
   routes,

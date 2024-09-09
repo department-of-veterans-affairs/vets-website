@@ -836,13 +836,13 @@ describe('<CallToActionWidget>', () => {
     describe('enabled', () => {
       it('promps to sign in w/ h4 when enabled and user signed out', () => {
         const tree = setup({ haCpapSuppliesCta: true });
-        expect(tree.find('h4').exists()).to.be.true;
+        expect(tree.find('h3').exists()).to.be.true;
         expect(tree.find('SignIn').exists()).to.be.true;
       });
 
       it('promps to verify w/ h4 when enabled and user is unverified', () => {
         const tree = setup({ haCpapSuppliesCta: true, isLoggedIn: true });
-        expect(tree.find('h4').exists()).to.be.true;
+        expect(tree.find('h3').exists()).to.be.true;
         expect(tree.find('Verify').exists()).to.be.true;
       });
 

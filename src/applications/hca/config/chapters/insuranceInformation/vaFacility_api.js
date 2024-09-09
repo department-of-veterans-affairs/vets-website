@@ -1,14 +1,12 @@
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-import constants from 'vets-json-schema/dist/constants.json';
-import { STATES_WITHOUT_MEDICAL } from '../../../utils/constants';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   EssentialCoverageDescription,
   FacilityLocatorDescription,
 } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
 import VaMedicalCenter from '../../../components/FormFields/VaMedicalCenter';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
 import { emptyObjectSchema } from '../../../definitions';
+import content from '../../../locales/en/content.json';
 
 // define default schema properties
 const {
@@ -16,22 +14,9 @@ const {
   wantsInitialVaContact,
 } = fullSchemaHca.properties;
 
-// define states/territories with health care facilities
-const healthcareStates = constants.states.USA.filter(state => {
-  return !STATES_WITHOUT_MEDICAL.includes(state.value);
-});
-
 export default {
   uiSchema: {
-    'view:facilityShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': {
-        hideIf: notShortFormEligible,
-      },
-    },
-    'view:vaFacilityTitle': {
-      'ui:title': 'VA facility',
-    },
+    ...titleUI(content['insurance-info--facility-title']),
     isEssentialAcaCoverage: {
       'ui:title':
         'I’m enrolling to get minimum essential coverage under the Affordable Care Act.',
@@ -40,17 +25,7 @@ export default {
       'ui:description': EssentialCoverageDescription,
     },
     'view:preferredFacility': {
-      'ui:title': 'Select your preferred VA medical facility',
-      'view:facilityState': {
-        'ui:title': 'State',
-      },
-      vaMedicalFacility: {
-        'ui:title': 'Center or clinic',
-        'ui:widget': VaMedicalCenter,
-        'ui:options': {
-          hideLabelText: true,
-        },
-      },
+      'ui:field': VaMedicalCenter,
     },
     'view:locator': {
       'ui:description': FacilityLocatorDescription,
@@ -64,8 +39,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:facilityShortFormMessage': emptyObjectSchema,
-      'view:vaFacilityTitle': emptyObjectSchema,
       isEssentialAcaCoverage,
       'view:isEssentialCoverageDesc': emptyObjectSchema,
       'view:preferredFacility': {
@@ -74,8 +47,6 @@ export default {
         properties: {
           'view:facilityState': {
             type: 'string',
-            enum: healthcareStates.map(object => object.value),
-            enumNames: healthcareStates.map(object => object.label),
           },
           vaMedicalFacility: {
             type: 'string',

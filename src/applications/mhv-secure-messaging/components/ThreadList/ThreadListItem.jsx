@@ -93,7 +93,7 @@ const ThreadListItem = props => {
               <span
                 aria-hidden="true"
                 role="img"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-dark unread-bubble"
                 data-testid="thread-list-unread-icon"
               />
             </span>
@@ -159,7 +159,7 @@ const ThreadListItem = props => {
                 messageCount > 0 && (
                   <span className="vads-u-color--gray-medium">, </span>
                 )}
-              <span className="vads-u-color--secondary-darkest">Draft</span>
+              <span className="vads-u-color--secondary-darkest">[Draft]</span>
             </>
           )}
         </div>
@@ -177,7 +177,7 @@ const ThreadListItem = props => {
               <span
                 role="img"
                 aria-label="Unread message"
-                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-darker unread-bubble"
+                className="unread-icon vads-u-margin-right--1 vads-u-color--primary-dark unread-bubble"
                 data-testid="thread-list-unread-icon"
                 alt="Unread message icon"
               />

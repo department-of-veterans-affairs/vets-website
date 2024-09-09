@@ -39,24 +39,6 @@ function getProps(dependentsToggle, errorCode, validVaFileNumber, isLoading) {
 }
 
 describe('Introduction Page', () => {
-  it('should render with undefined dependents toggle', () => {
-    const props = getProps(undefined, null);
-    const component = shallow(<IntroductionPage {...props} />);
-    const loadingIndicators = component.find('va-loading-indicator');
-    expect(loadingIndicators.length).to.eql(1);
-    component.unmount();
-  });
-
-  it('should render with falsy dependents toggle', () => {
-    const props = getProps(false, null);
-    const component = shallow(<IntroductionPage {...props} />);
-    const [subheader] = component.find('h2');
-    expect(subheader.props.children).to.eql(
-      'We’re still working on this feature',
-    );
-    component.unmount();
-  });
-
   it('should render with server errors', () => {
     const props = getProps(true, 500);
     const component = shallow(<IntroductionPage {...props} />);

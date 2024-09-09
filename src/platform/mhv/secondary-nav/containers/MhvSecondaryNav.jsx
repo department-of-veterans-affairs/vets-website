@@ -30,6 +30,7 @@ export const mhvSecNavItems = [
     title: 'Appointments',
     actionName: `${actionPrefix} - Appointments`,
     abbreviation: 'Appts',
+    ariaLabel: 'Appointments',
     icon: 'calendar_today',
     href: `/my-health/appointments`,
   },
@@ -43,8 +44,9 @@ export const mhvSecNavItems = [
     title: 'Medications',
     abbreviation: 'Meds',
     actionName: `${actionPrefix} - Medications`,
-    icon: 'medication',
-    href: `/my-health/medications`,
+    icon: 'pill',
+    href: '/my-health/medications/about',
+    appRootUrl: '/my-health/medications',
   },
 ];
 
@@ -57,11 +59,15 @@ const MhvSecondaryNav = () => {
   const {
     loading,
     mhvTransitionalMedicalRecordsLandingPage = false,
+    mhvIntegrationMedicalRecordsToPhase1 = false,
   } = useSelector(state => state.featureToggles);
 
   if (loading) return <></>;
 
-  if (mhvTransitionalMedicalRecordsLandingPage) {
+  if (
+    mhvTransitionalMedicalRecordsLandingPage &&
+    !mhvIntegrationMedicalRecordsToPhase1
+  ) {
     items.push(transitionalMedicalRecordsLink);
   } else {
     items.push(medicalRecordsLink);

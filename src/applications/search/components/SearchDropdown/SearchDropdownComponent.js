@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isSearchStrInvalid } from '../../utils';
+import { isSearchTermValid } from '~/platform/utilities/search-utilities';
 
 const Keycodes = {
   Backspace: 8,
@@ -582,7 +582,7 @@ class SearchDropdownComponent extends React.Component {
   };
 
   checkInputForErrors = () => {
-    if (isSearchStrInvalid(this.state.inputValue)) {
+    if (!isSearchTermValid(this.state.inputValue)) {
       this.setState({
         a11yLongStringMessage:
           'The search is over the character limit. Shorten the search and try again.',

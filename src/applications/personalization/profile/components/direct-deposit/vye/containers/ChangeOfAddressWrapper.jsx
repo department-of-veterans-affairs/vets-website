@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import '../sass/change-of-address-wrapper.scss';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import LoadingButton from '~/platform/site-wide/loading-button/LoadingButton';
 import ChangeOfAddressForm from '../components/ChangeOfAddressForm';
 import {
   compareAddressObjects,
-  hasFormChanged,
-  objectHasNoUndefinedValues,
+  formatAddress,
+  hasAddressFormChanged,
   prepareAddressData,
   scrollToElement,
 } from '../helper';
@@ -21,10 +20,8 @@ import Alert from '../components/Alert';
 import Loader from '../components/Loader';
 import SuggestedAddress from '../components/SuggestedAddress';
 import AlertModal from '../components/AlertModal';
-import { useData } from '../hooks/useData';
 
-const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
-  const { latestAddress: mailingAddress } = useData();
+const ChangeOfAddressWrapper = ({ mailingAddress, applicantName }) => {
   const { loading: isLoading, error, data: response } = useSelector(
     state => state.updateAddress,
   );
@@ -94,24 +91,35 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
       address: addressData,
     };
     try {
-      dispatch(validateAddress(fields, formData.fullName));
+      dispatch(validateAddress(fields, applicantName));
     } catch (err) {
       throw new Error(err);
     }
     if (validationError) {
       setEditFormData({});
     }
+    scrollToTopOfForm();
   };
 
   // This Effcet to close form after loading is done
   useEffect(
     () => {
-      if (!isLoading && !isLoadingValidateAddress) {
+      if (
+        !isLoading &&
+        !isLoadingValidateAddress &&
+        (addressValidationData || validationError)
+      ) {
         handleCloseForm();
         setSuggestedAddressPicked(false);
       }
     },
-    [handleCloseForm, isLoading, isLoadingValidateAddress],
+    [
+      addressValidationData,
+      handleCloseForm,
+      isLoading,
+      isLoadingValidateAddress,
+      validationError,
+    ],
   );
   const setAddressToUI = value => {
     setNewAddress(value);
@@ -128,7 +136,6 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
     },
     [dispatch, error, response, validationError],
   );
-
   useEffect(
     () => {
       dispatch({ type: 'RESET_ADDRESS_VALIDATIONS' });
@@ -138,44 +145,33 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
   const addressDescription = () => {
     return (
       <>
-        {loading ? (
-          <va-loading-indicator
-            label="Loading"
-            message="Loading mailing address..."
-          />
-        ) : (
-          <div className="vads-u-margin-bottom--1">
-            {(error || validationError) && (
-              <Alert
-                status="error"
-                message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
-              />
-            )}
-            {response?.ok && (
-              <Alert
-                status="success"
-                message="Your Address has been successfully updated."
-              />
-            )}
-            <p className="vads-u-margin-top--0 vads-u-font-weight--bold">
-              Mailing address
-            </p>
-            <p>
-              {objectHasNoUndefinedValues(newAddress) && (
-                <>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.street}`}
-                  </span>
-                  <span className="vads-u-display--block">
-                    {`${newAddress?.city}, ${newAddress?.stateCode} ${
-                      newAddress?.zipCode
-                    }`}
-                  </span>
-                </>
-              )}
-            </p>
-          </div>
-        )}
+        <div className="vads-u-margin-bottom--1">
+          {(error || validationError) && (
+            <Alert
+              status="error"
+              message="We’re sorry. We can’t update your information right now. We’re working to fix this problem. Please try again later."
+            />
+          )}
+          {response?.ok && (
+            <Alert
+              status="success"
+              message="We’ve successfully updated your mailing address for Montgomery GI Bill benefits."
+            />
+          )}
+          <h3 className="vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans vads-u-margin-y--0">
+            Payment Mailing address
+          </h3>
+          <p>
+            <>
+              <span className="vads-u-display--block">
+                {`${newAddress?.street ?? ''}`}
+              </span>
+              <span className="vads-u-display--block">
+                {formatAddress(newAddress)}
+              </span>
+            </>
+          </p>
+        </div>
       </>
     );
   };
@@ -196,7 +192,7 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
   };
   const onCancleButtonClicked = () => {
     if (
-      (hasFormChanged(formData, applicantName) && !goBackToEdit) ||
+      (hasAddressFormChanged(formData) && !goBackToEdit) ||
       (goBackToEdit && compareAddressObjects(editFormData, beforeDditFormData))
     ) {
       setShowModal(true);
@@ -210,32 +206,21 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
     if (tempData?.['view:livesOnMilitaryBase']) {
       tempData.countryCodeIso3 = 'USA';
     }
-    if (!tempData?.['view:livesOnMilitaryBase']) {
-      if (
-        tempData?.city === 'APO' ||
+    if (
+      !tempData?.['view:livesOnMilitaryBase'] &&
+      (tempData?.city === 'APO' ||
         tempData?.city === 'FPO' ||
-        tempData?.city === 'DPO'
-      ) {
-        tempData.city = '';
-      }
-
-      if (
-        tempData?.stateCode === 'AA' ||
-        tempData?.stateCode === 'AE' ||
-        tempData?.stateCode === 'AP'
-      ) {
-        tempData.stateCode = '';
-      }
+        tempData?.city === 'DPO')
+    ) {
+      tempData.city = '';
     }
+
     setFormData(tempData);
     setEditFormData(tempData);
   };
 
   return (
     <div id={CHANGE_OF_ADDRESS_TITLE}>
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
-        {CHANGE_OF_ADDRESS_TITLE}
-      </p>
       <div
         className="vads-u-border-color--gray-lighter
             vads-u-color-gray-dark
@@ -259,6 +244,8 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
                 setSuggestedAddressPicked={setSuggestedAddressPicked}
                 suggestedAddressPicked={suggestedAddressPicked}
                 setGoBackToEdit={setGoBackToEdit}
+                scrollToTopOfForm={scrollToTopOfForm}
+                applicantName={applicantName}
               />
             ) : (
               <>
@@ -270,31 +257,24 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
                 />
               </>
             )}
-
-            <va-alert
-              close-btn-aria-label="Close notification"
-              status="info"
-              visible
-              background-only
-              class="vads-u-margin-y--2"
-            >
-              <p className="vye-alert-absolute-title-position">
-                This address is only used for payments for Montgomery GI Bill®
-                Benefits.
-              </p>
+            <div>
               <p>
-                To change your address for other VA services, edit your{' '}
-                <a href="https://www.va.gov/profile/personal-information">
-                  VA Profile.
-                </a>
+                <span className="vads-u-font-weight--bold">Note: </span> Any
+                updates you make here will affect your Montgomery GI Bill
+                benefits only.
               </p>
-            </va-alert>
-            {/* {bankInfoHelpText} */}
+              <va-link
+                href="/resources/change-your-address-on-file-with-va/"
+                text="Learn how to update your mailing address for other VA benefits"
+              />
+            </div>
           </>
         )}
         {toggleAddressForm && (
           <div className="address-change-form-container">
-            <p className="vads-u-font-weight--bold">Change mailing address</p>
+            <h3 className="vads-u-margin-y--2 vads-u-line-height--4 vads-u-font-size--base vads-u-font-family--sans">
+              Change mailing address
+            </h3>
             {(isLoadingValidateAddress || isLoading) && (
               <Loader className="loader" message="updating..." />
             )}
@@ -306,7 +286,6 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
             />
 
             <ChangeOfAddressForm
-              applicantName={applicantName}
               addressFormData={formData}
               formChange={addressData => updateAddressData(addressData)}
               formPrefix={PREFIX}
@@ -340,7 +319,6 @@ const ChangeOfAddressWrapper = ({ loading, applicantName }) => {
 };
 ChangeOfAddressWrapper.propTypes = {
   applicantName: PropTypes.string,
-  loading: PropTypes.bool,
   mailingAddress: PropTypes.object,
 };
 export default ChangeOfAddressWrapper;

@@ -18,8 +18,8 @@ const IntroductionPage = props => {
   return (
     <div className="schemaform-intro">
       <FormTitle title="Apply for Personalized Career Planning and Guidance" />
-      <p>
-        Equal to VA Form 28-8832 (Education/Vocational Counseling Application).
+      <p className="vads-u-font-size--h3 vads-u-margin-bottom--0 vads-u-margin-top--neg2 vads-u-margin-bottom--2">
+        Form 27-8832 (formally known as 28-8832, or 25-8832)
       </p>
       <SaveInProgressIntro
         prefillEnabled={props.route.formConfig.prefillEnabled}
@@ -29,11 +29,7 @@ const IntroductionPage = props => {
         downtime={props.route.formConfig.downtime}
         startText="Apply for career planning and guidance"
         headingLevel={2}
-      >
-        <p>
-          Complete the 25-8832 form to apply for Planning and career guidance.
-        </p>
-      </SaveInProgressIntro>
+      />
       <h2>Follow the steps below to apply for career planning and guidance.</h2>
       <div className="process schemaform-process">
         <ol>
@@ -116,7 +112,7 @@ const IntroductionPage = props => {
           exp-date="12/31/2021"
         />
       </div>
-      <va-alert status="info" background-only uswds="false">
+      <va-alert status="info">
         <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
           Do you have a service-connected disability or pre-discharge disability
           rating?

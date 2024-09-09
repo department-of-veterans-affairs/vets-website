@@ -72,6 +72,7 @@ describe('ArrayBuilderCards', () => {
           getText={getText}
           required={() => false}
           isReview={false}
+          forceRerender={() => null}
         />
       </Provider>,
     );

@@ -73,7 +73,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
 
     expect(
       tree
-        .find('.usa-alert-heading')
+        .find('va-alert h2')
         .last()
         .text(),
     ).to.include(format(fromUnixTime(lastUpdated), "MMMM d, yyyy', at'"));
@@ -125,8 +125,7 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         headingLevel={1}
       />,
     );
-
-    expect(tree.find('.usa-alert-heading').text()).to.contain(
+    expect(tree.find('va-alert h1').text()).to.contain(
       'Your application is in progress',
     );
     tree.unmount();
@@ -839,8 +838,8 @@ describe('Schemaform <SaveInProgressIntro>', () => {
         formConfig={emptyMessageConfig}
       />,
     );
-    expect(tree.find('.usa-alert-heading')).to.have.lengthOf(1);
-    expect(tree.find('.usa-alert-heading').text()).to.not.contain(
+    expect(tree.find('va-alert h2')).to.have.lengthOf(1);
+    expect(tree.find('va-alert h2').text()).to.not.contain(
       'Your application is in progress',
     );
 

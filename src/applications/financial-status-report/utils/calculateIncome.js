@@ -1,3 +1,6 @@
+import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+import * as Sentry from '@sentry/browser';
 import {
   sumValues,
   otherDeductionsName,
@@ -192,6 +195,34 @@ const getMonthlyIncome = formData => {
     spIncome,
     totalMonthlyNetIncome,
   };
+};
+
+export const getCalculatedMonthlyIncomeApi = async formData => {
+  const body = JSON.stringify(formData);
+
+  try {
+    const url = `${environment.API_URL}/debts_api/v0/calculate_monthly_income`;
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Key-Inflection': 'camel',
+        'Source-App-Name': window.appName,
+      },
+      body,
+      mode: 'cors',
+    };
+
+    return await apiRequest(url, options);
+  } catch (error) {
+    Sentry.withScope(scope => {
+      scope.setExtra('error', error);
+      Sentry.captureMessage(
+        `calculate_monthly_income request handler failed: ${error}`,
+      );
+    });
+    return null;
+  }
 };
 
 export { calculateIncome, getMonthlyIncome, safeNumber };

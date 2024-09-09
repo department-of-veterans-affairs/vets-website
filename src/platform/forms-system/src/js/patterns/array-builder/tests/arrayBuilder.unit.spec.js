@@ -2,7 +2,11 @@ import sinon from 'sinon';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import { YesNoField } from 'platform/forms-system/src/js/web-component-fields';
-import { arrayBuilderPages, getPageAfterPageKey } from '../arrayBuilder';
+import {
+  arrayBuilderPages,
+  assignGetItemName,
+  getPageAfterPageKey,
+} from '../arrayBuilder';
 import {
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoUI,
@@ -24,14 +28,14 @@ const validYesNoPattern = arrayBuilderYesNoUI({
 
 const validIntroPage = {
   title: 'Employment history',
-  path: '/employers-intro',
+  path: 'employers-intro',
   uiSchema: {},
   schema: {},
 };
 
 const validSummaryPage = {
   title: 'Employment history',
-  path: '/employers-summary',
+  path: 'employers-summary',
   uiSchema: {
     hasEmployment: validYesNoPattern,
   },
@@ -40,14 +44,14 @@ const validSummaryPage = {
 
 const validFirstPage = {
   title: 'Name of employer',
-  path: '/employers/name/:index',
+  path: 'employers/name/:index',
   uiSchema: {},
   schema: {},
 };
 
 const validLastPage = {
   title: 'Address of employer',
-  path: '/employers/address/:index',
+  path: 'employers/address/:index',
   uiSchema: {},
   schema: {},
 };
@@ -356,7 +360,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       goNextPath,
       formData: mockFormData,
     });
-    expect(goPath.args[0][0]).to.eql('/employers-summary');
+    expect(goPath.args[0][0]).to.eql('employers-summary');
 
     mockFormData = {
       hasEmployment: true,
@@ -369,7 +373,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       goNextPath,
       formData: mockFormData,
     });
-    expect(goPath.args[1][0]).to.eql('/employers/name/0?add=true');
+    expect(goPath.args[1][0]).to.eql('employers/name/0?add=true');
   });
 
   it('should navigate forward correctly on the summary page', () => {
@@ -392,7 +396,7 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       formData: mockFormData,
       pageList: mockPageList,
     });
-    expect(goPath.args[0][0]).to.eql('/employers/name/1?add=true');
+    expect(goPath.args[0][0]).to.eql('employers/name/1?add=true');
 
     mockFormData = {
       hasEmployment: false,
@@ -422,14 +426,14 @@ describe('arrayBuilderPages required parameters and props tests', () => {
       urlParams: { add: true },
       pathname: '/employers/address/0',
     });
-    expect(goPath.args[0][0]).to.eql('/employers-summary');
+    expect(goPath.args[0][0]).to.eql('employers-summary');
 
     lastPage.onNavForward({
       goPath,
       urlParams: { edit: true },
       pathname: '/employers/address/0',
     });
-    expect(goPath.args[1][0]).to.eql('/employers-summary?updated=employer-0');
+    expect(goPath.args[1][0]).to.eql('employers-summary?updated=employer-0');
 
     lastPage.onNavForward({
       goPath,
@@ -508,5 +512,66 @@ describe('arrayBuilderPatterns', () => {
         'You must add at least one employer for us to process this form.',
       ),
     ).to.not.exist;
+  });
+});
+
+describe('assignGetItemName', () => {
+  it('should default to looking for object.name for getItemName if not defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test' })).to.eq('test');
+  });
+
+  it('should use getItemName if defined', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      getItemName: item => item.otherName,
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should use getItemName if defined on text', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.otherName,
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({ name: 'test', otherName: 'other name' })).to.eq(
+      'other name',
+    );
+  });
+
+  it('should gracefully return null if we get an exception on getItemName', () => {
+    const options = {
+      arrayPath: 'employers',
+      nounSingular: 'employer',
+      nounPlural: 'employers',
+      required: true,
+      text: {
+        getItemName: item => item.value.otherName,
+      },
+    };
+
+    const getItemName = assignGetItemName(options);
+    expect(getItemName({})).to.eq(null);
   });
 });

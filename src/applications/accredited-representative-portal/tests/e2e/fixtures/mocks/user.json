@@ -1,0 +1,23 @@
+{
+  "authnContext": "http://idmanagement.gov/ns/assurance/loa/3",
+  "email": "william.phelps@email.com",
+  "fingerprint": "127.0.0.1",
+  "firstName": "William",
+  "icn": "1008596379V859838",
+  "idmeUuid": "85c50aa76934460c8736f687a6a30546",
+  "lastName": "Phelps",
+  "lastSignedIn": "2024-06-05T02:05:12.556Z",
+  "loa": {
+    "current": 3,
+    "highest": 3
+  },
+  "logingovUuid": null,
+  "ogcRegistrationNumber": null,
+  "poaCodes": null,
+  "signIn": {
+    "serviceName": "idme",
+    "clientId": "arp",
+    "authBroker": "sis"
+  },
+  "uuid": "85c50aa76934460c8736f687a6a30546"
+}

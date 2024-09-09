@@ -4,13 +4,16 @@ import PropTypes from 'prop-types';
 import phoneUI from '@department-of-veterans-affairs/platform-forms-system/phone';
 import emailUI from '@department-of-veterans-affairs/platform-forms-system/email';
 import SchemaForm from '@department-of-veterans-affairs/platform-forms-system/SchemaForm';
-import { VaRadioField } from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import {
+  VaRadioField,
+  VaTextInputField,
+} from '@department-of-veterans-affairs/platform-forms-system/web-component-fields';
+import { CHANGE_OF_DIRECT_DEPOSIT_TITLE } from '../constants';
 
 export function makeFormProperties(prefix) {
   return {
     phone: `${prefix}phone`,
     phone2: `${prefix}phone`,
-    fullName: `${prefix}fullName`,
     email: `${prefix}email`,
     accountType: `${prefix}AccountType`,
     routingNumber: `${prefix}RoutingNumber`,
@@ -21,15 +24,11 @@ export function makeFormProperties(prefix) {
   };
 }
 
-export function makeSchemas(prefix, defaultName) {
+export function makeSchemas(prefix) {
   const properties = makeFormProperties(prefix);
   const schema = {
     type: 'object',
     properties: {
-      [properties.fullName]: {
-        type: 'string',
-        default: defaultName,
-      },
       [properties.phone]: {
         type: 'string',
         pattern: '^\\d{10}$',
@@ -64,7 +63,6 @@ export function makeSchemas(prefix, defaultName) {
       },
     },
     required: [
-      properties.fullName,
       properties.phone,
       properties.email,
       properties.bankName,
@@ -77,23 +75,25 @@ export function makeSchemas(prefix, defaultName) {
   };
 
   const uiSchema = {
-    [properties.fullName]: {
-      'ui:title': "Veteran's Full Name",
-      'ui:errorMessages': {
-        required: "Please enter the Veteran's Full Name",
-      },
-    },
     [properties.bankName]: {
-      'ui:title': 'Name of Financial Institution',
+      'ui:title': 'Name of financial institution ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         required: 'Please enter the name of your Financial Institution',
       },
     },
-    [properties.phone]: phoneUI("Veteran's Phone Number"),
-    [properties.email]: emailUI("Veteran's Email Address"),
-    [properties.bankPhone]: phoneUI(
-      'Telephone Number of Financial Institution',
-    ),
+    [properties.phone]: {
+      ...phoneUI("Veteran's phone number "),
+      'ui:webComponentField': VaTextInputField,
+    },
+    [properties.email]: {
+      ...emailUI("Veteran's email address "),
+      'ui:webComponentField': VaTextInputField,
+    },
+    [properties.bankPhone]: {
+      ...phoneUI('Telephone number of financial institution'),
+      'ui:webComponentField': VaTextInputField,
+    },
     [properties.accountType]: {
       'ui:title': 'Account type',
       'ui:webComponentField': VaRadioField,
@@ -102,21 +102,24 @@ export function makeSchemas(prefix, defaultName) {
       },
     },
     [properties.routingNumber]: {
-      'ui:title': 'Routing number',
+      'ui:title': 'Routing number ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your bank’s 9-digit routing number',
         required: 'Please enter your bank’s 9-digit routing number',
       },
     },
     [properties.accountNumber]: {
-      'ui:title': 'Account number (This should be no more than 17 digits)',
+      'ui:title': 'Account number (This should be no more than 17 digits) ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
       },
     },
     [properties.verifyAccountNumber]: {
-      'ui:title': 'Verify account number',
+      'ui:title': 'Verify account number ',
+      'ui:webComponentField': VaTextInputField,
       'ui:errorMessages': {
         pattern: 'Please enter your account number',
         required: 'Please enter your account number',
@@ -140,16 +143,15 @@ const ChangeOfDirectDepositForm = ({
   formData,
   formPrefix,
   formSubmit,
-  defaultName,
 }) => {
-  const { schema, uiSchema } = makeSchemas(formPrefix, defaultName);
+  const { schema, uiSchema } = makeSchemas(formPrefix);
 
   return (
     <SchemaForm
       addNameAttribute
       name="Direct Deposit Information"
       // title is required by the SchemaForm and used internally
-      title="Direct Deposit Information"
+      title={CHANGE_OF_DIRECT_DEPOSIT_TITLE}
       schema={schema}
       uiSchema={uiSchema}
       data={formData}

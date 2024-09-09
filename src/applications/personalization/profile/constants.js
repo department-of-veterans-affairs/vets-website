@@ -1,6 +1,5 @@
 // all the active feature toggles for the profile app with a default value of false
 export const PROFILE_TOGGLES = {
-  profileContacts: false,
   profileShowPronounsAndSexualOrientation: false,
   profileHideDirectDeposit: false,
   profileShowPaymentsNotificationSetting: false,
@@ -77,6 +76,7 @@ export const PROFILE_PATHS_WITH_NAMES = Object.entries(PROFILE_PATHS).map(
 
 export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '402', // VA Maine Healthcare System - Togus
+  '438', // Royal C. Johnson Veterans Memorial Medical Center
   '459', // VA Pacific Islands Health Care System
   '504', // Amarillo VA Health Care System
   '512', // Baltimore VA Medical Center - VA Maryland Health Care System
@@ -89,7 +89,6 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '548', // West Palm Beach VAMC
   '550', // VA Illiana
   '554', // VA Eastern Colorado Health Care System (ECHCS)
-  '556', // Captain James A. Lovell Federal Health Care Center
   '558', // Durham VA Health Care System
   '561', // East Orange Campus of the VA New Jersey Health Care System
   '570', // Central California VA Health Care System
@@ -100,6 +99,7 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '585', // Oscar G. Johnson VA Medical Center
   '589A6', // VA Eastern Kansas Health Care System - Dwight D. Eisenhower VA Medical Center
   '590', // Hampton VA Medical Center
+  '593', // VA Southern Nevada Healthcare System
   '596', // Lexington VA Medical Center
   '598', // Central Arkansas Veterans Healthcare System John L. McClellan Memorial Veterans Hospital
   '603', // Robley Rex VA Medical Center
@@ -111,9 +111,11 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '614', // VA Memphis Healthcare System
   '621', // Mountain Home VAMC/Johnson City
   '636', // Omaha VA Medical Center--VA Nebraska-Western Iowa HCS
+  '636A8', // Iowa City HCS
   '637', // Charles George VAMC
   '650', // Providence VA Medical Center
   '656', // St. Cloud VA Health Care System
+  '657', // VA St. Louis Health Care System
   '658', // Salem VA Health Care System
   '659', // Salisbury - W.G. (Bill) Hefner VA Medical Center
   '660', // VA Salt Lake City Health Care System
@@ -122,7 +124,9 @@ export const RX_TRACKING_SUPPORTING_FACILITIES = new Set([
   '673', // James A. Haley Veterans' Hospital
   '675', // Orlando VA Medical Center
   '676', // Tomah VA Medical Center
+  '678', // Southern Arizona VA Health Care System
   '688', // Washington DC VA Medical Center
+  '693', // Wilkes-Barre VA Medical Center
   '695', // Clement J. Zablocki Veterans Affairs Medical Center
   '756', // El Paso VA Health Care System
   '983', // test-only facility ID, used by user 36 among others
@@ -136,6 +140,22 @@ export const NOTIFICATION_GROUPS = Object.freeze({
   YOUR_HEALTH_CARE: 'group3',
   PAYMENTS: 'group4',
   QUICK_SUBMIT: 'group5',
+});
+
+export const NOTIFICATION_ITEM_IDS = Object.freeze({
+  APPEAL_HEARING_REMINDERS: 'item1',
+  HEALTH_APPOINTMENT_REMINDERS: 'item3',
+  PRESCRIPTION_SHIPMENT: 'item4',
+  DISABILITY_PENSION_DEPOSIT: 'item5',
+  APPEAL_STATUS_UPDATES: 'item6',
+  RX_REFILL: 'item7',
+  VA_APPOINTMENT_REMINDERS: 'item8',
+  SECURE_MESSAGING: 'item9',
+  MEDICAL_IMAGES: 'item10',
+  BIWEEKLY_MHV_NEWSLETTER: 'item11',
+  QUICK_SUBMIT: 'item12',
+  BENEFIT_OVERPAYMENT_DEBT: 'item13',
+  HEALTH_CARE_COPAY_BILL: 'item14',
 });
 
 export const NOTIFICATION_CHANNEL_IDS = Object.freeze({
@@ -157,16 +177,16 @@ export const NOTIFICATION_CHANNEL_LABELS = Object.freeze({
  * 9 - Securing messaging alert
  * 10 - Medical images and reports available
  * 11 - Biweekly MHV newsletter
+ * 12 - QuickSubmit
  *
  * These are all email based notifications
  *
  */
 export const BLOCKED_MHV_NOTIFICATION_IDS = [
-  'item7',
-  'item8',
-  'item9',
-  'item10',
-  'item11',
+  NOTIFICATION_ITEM_IDS.RX_REFILL,
+  NOTIFICATION_ITEM_IDS.VA_APPOINTMENT_REMINDERS,
+  NOTIFICATION_ITEM_IDS.BIWEEKLY_MHV_NEWSLETTER,
+  NOTIFICATION_ITEM_IDS.QUICK_SUBMIT,
 ];
 
 // used for api status GA events
@@ -185,4 +205,10 @@ export const ACCOUNT_TYPES_OPTIONS = {
 export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
+};
+
+// end dates for each credential type
+export const CREDENTIAL_DEADLINES = {
+  'My HealtheVet': 'January 31, 2025',
+  'DS Logon': 'September 30, 2025',
 };

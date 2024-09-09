@@ -317,7 +317,7 @@ export function createContactInfo(submissionForm) {
     addressType: getAddressType(submissionForm[formFields.viewMailingAddress]),
     city: address?.city,
     countryCode: getLTSCountryCode(address?.country),
-    emailAddress: submissionForm.email.email,
+    emailAddress: submissionForm?.email?.email?.toLowerCase(),
     homePhoneNumber: phoneNumbers?.phoneNumber.phone,
     mobilePhoneNumber: phoneNumbers?.mobilePhoneNumber.phone,
     stateCode: address?.state,
@@ -340,9 +340,9 @@ export function createMilitaryClaimant(submissionForm) {
   // Access formField and viewComponent sources for userFullName and dateOfBirth
   const formFieldUserFullName =
     submissionForm['view:userFullName']?.userFullName;
-  const viewComponentUserFullName = submissionForm.userFullName;
+  const viewComponentUserFullName = submissionForm?.userFullName;
   const formFieldDateOfBirth = submissionForm['view:dateOfBirth'];
-  const viewComponentDateOfBirth = submissionForm.veteranDateOfBirth;
+  const viewComponentDateOfBirth = submissionForm?.veteranDateOfBirth;
   // Explicitly check if formField sources are not undefined and not empty, otherwise use viewComponent
   const userFullName =
     formFieldUserFullName !== undefined &&
@@ -355,7 +355,7 @@ export function createMilitaryClaimant(submissionForm) {
       : viewComponentDateOfBirth;
   // Define the notification method
   const notificationMethod = getNotificationMethod(
-    submissionForm[formFields.viewReceiveTextMessages].receiveTextMessages,
+    submissionForm[formFields.viewReceiveTextMessages]?.receiveTextMessages,
   );
   // Construct And Return the claimant object
   return {
@@ -375,31 +375,26 @@ export function createRelinquishedBenefit(submissionForm) {
   if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
     return {};
   }
-
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
-      formFields.benefitRelinquished
+      (formFields?.benefitRelinquished)
     ];
-
+  // if the dgiRudisillHideBenefitSelectionStep feature flag is ON return null as the relinquished benefit
+  if (submissionForm?.dgiRudisillHideBenefitsSelectionStep) {
+    return {
+      relinquishedBenefit: null,
+    };
+  }
   if (benefitRelinquished) {
     return {
       relinquishedBenefit: benefitRelinquished,
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
-      ? {
-          relinquishedBenefit: 'NotEligible',
-        }
-      : {};
-  }
-  return submissionForm?.showMebDgi42Features
-    ? {
-        relinquishedBenefit: 'CannotRelinquish',
-      }
-    : {};
+  // Default case when no benefit is relinquished
+  return {
+    relinquishedBenefit: 'NotEligible',
+  };
 }
 
 function setAdditionalConsideration(consideration) {

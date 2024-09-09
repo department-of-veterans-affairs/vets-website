@@ -9,8 +9,8 @@ export default {
     formChapters.applicantInformation.pages.contactInformation.path,
 
   servicePeriod: formChapters.militaryHistory.pages.servicePeriod.path,
-  generalHistory: formChapters.militaryHistory.pages.generalHistory.path,
-  previousNames: formChapters.militaryHistory.pages.previousNames.path,
+  generalHistory: formChapters.militaryHistory.pages.hasOtherNames.path,
+  previousNames: formChapters.militaryHistory.pages.otherNames.path,
   pow: formChapters.militaryHistory.pages.pow.path,
 
   age: formChapters.healthAndEmploymentInformation.pages.age.path,

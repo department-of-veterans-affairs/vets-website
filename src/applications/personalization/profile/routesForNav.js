@@ -72,17 +72,11 @@ export const routesForNav = [
 ];
 
 export const getRoutesForNav = (
-  { profileContacts = false, profileShowDirectDepositSingleForm = false } = {
-    profileContacts: false,
+  { profileShowDirectDepositSingleForm = false } = {
     profileShowDirectDepositSingleForm: false,
   },
 ) => {
   return routesForNav.reduce((acc, route) => {
-    // don't include the contacts route if the profileContacts flag is false
-    if (!profileContacts && route.name === PROFILE_PATH_NAMES.CONTACTS) {
-      return acc;
-    }
-
     // use the new direct deposit root route component if profileShowDirectDepositSingleForm flag is true
     if (
       profileShowDirectDepositSingleForm &&

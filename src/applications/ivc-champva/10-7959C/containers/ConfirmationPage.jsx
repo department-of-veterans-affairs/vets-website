@@ -1,29 +1,45 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { format, isValid } from 'date-fns';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { requiredFiles } from '../config/constants';
+import {
+  VaAlert,
+  VaLinkAction,
+  VaLink,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  requiredFiles,
+  officeAddress,
+  officeFaxNum,
+} from '../config/constants';
+import { applicantWording } from '../../shared/utilities';
+import { prefixFileNames } from '../components/MissingFileConsentPage';
 import MissingFileOverview from '../../shared/components/fileUploads/MissingFileOverview';
+import { ConfirmationPagePropTypes } from '../../shared/constants';
 
 const heading = (
   <>
     <VaAlert uswds status="success">
-      <h2>You’ve submitted your CHAMPVA application</h2>
+      <h2>
+        You’ve submitted your CHAMPVA Other Health Insurance Certification form
+      </h2>
     </VaAlert>
   </>
 );
 
 const requiredWarningHeading = (
   <>
-    {heading}
-    <p>
-      You’ll still need to send us these required documents in order for us to
-      process this application:
-    </p>
+    <VaAlert uswds status="warning">
+      <h2>
+        You’ve submitted your CHAMPVA Other Health Insurance Certification form
+        without required documents
+      </h2>
+    </VaAlert>
+    <h2>You still need to mail supporting documents</h2>
+    <p>We can’t review your form until we receive copies of these documents:</p>
   </>
 );
 
@@ -31,6 +47,22 @@ const optionalWarningHeading = (
   <>
     {heading}
     <p>You can still send us these optional documents for faster processing:</p>
+  </>
+);
+
+const mailPreamble = (
+  <>
+    <va-link
+      href="https://www.va.gov/family-and-caregiver-benefits/health-and-disability/champva/#supporting-documents-for-your"
+      text="Learn more about the supporting documents you need to submit (opens in a
+      new tab)"
+    />
+
+    <p>
+      Write the sponsor’s first and last name and last four digits of their
+      Social Security number on each page of the document.
+    </p>
+    <p>Mail copies of the supporting documents to this address:</p>
   </>
 );
 
@@ -47,9 +79,16 @@ export function ConfirmationPage(props) {
     requiredWarningHeading: <>{requiredWarningHeading}</>,
     showMail: true,
     allPages: form.pages,
-    fileNameMap: { ...requiredFiles },
+    fileNameMap: prefixFileNames(data, requiredFiles),
+    optionalDescription: '',
+    requiredDescription: '',
     requiredFiles,
     nonListNameKey: 'applicantName',
+    mailingAddress: officeAddress,
+    mailPreamble,
+    faxNum: officeFaxNum,
+    showNameHeader: false,
+    showRequirementHeaders: false,
   });
 
   useEffect(() => {
@@ -70,25 +109,25 @@ export function ConfirmationPage(props) {
 
       {OverviewComp}
 
-      <h2 className="vads-u-font-size--h3">What to expect next</h2>
-      <p>
-        We'll contact you by mail or phone if we have questions or need more
-        information.
-        <br />
-        <br />
-        And we'll send you a letter in the mail with our decision.
-      </p>
       <div className="inset">
         <h3 className="vads-u-margin-top--0 vads-u-font-size--h4">
           Your submission information
         </h3>
-        {data.statementOfTruthSignature && (
-          <span className="veterans-full-name">
-            <strong>Who submitted this form</strong>
+        {(data.statementOfTruthSignature || data.signature) && (
+          <>
+            <span className="veterans-full-name">
+              <strong>Applicant’s name</strong>
+              <br />
+              {applicantWording(form.data, false, false, false)}
+            </span>
             <br />
-            {data.statementOfTruthSignature}
             <br />
-          </span>
+            <span className="signer-name">
+              <strong>Who submitted this form</strong>
+              <br />
+              {data.statementOfTruthSignature || data.signature}
+            </span>
+          </>
         )}
         <br />
         {data.statementOfTruthSignature && (
@@ -111,6 +150,7 @@ export function ConfirmationPage(props) {
           You can print this confirmation for page for your records.
         </span>
         <br />
+        <br />
         <va-button
           uswds
           className="usa-button screen-only"
@@ -118,34 +158,31 @@ export function ConfirmationPage(props) {
           text="Print this page"
         />
       </div>
-      <a className="vads-c-action-link--green" href="https://www.va.gov/">
-        Go back to VA.gov
-      </a>
+      <h2 className="vads-u-font-size--h3">What to expect next</h2>
+      <p>It will take about 90 days to process your application.</p>
+      <p>
+        If we have any questions or need additional information, we'll contact
+        you.
+      </p>
+
+      <h2 className="vads-u-font-size--h3">
+        How to contact us about your form
+      </h2>
+      <p>
+        If you have any questions about your form, you can call us at{' '}
+        <VaTelephone contact="800-733-8387" /> (TTY: 711). We’re here Monday
+        through Friday, 8:05 a.m. to 7:30 p.m. ET.
+      </p>
+      <p>You can also contact us online through our Ask VA tool.</p>
+      <VaLink text="Go to Ask VA" href="https://ask.va.gov/" />
+      <br />
+      <br />
+      <VaLinkAction href="/" text="Go back to VA.gov" />
     </div>
   );
 }
 
-ConfirmationPage.propTypes = {
-  form: PropTypes.shape({
-    pages: PropTypes.object,
-    data: PropTypes.shape({
-      applicants: PropTypes.array,
-      statementOfTruthSignature: PropTypes.string,
-      veteransFullName: {
-        first: PropTypes.string,
-        middle: PropTypes.string,
-        last: PropTypes.string,
-        suffix: PropTypes.string,
-      },
-    }),
-    formId: PropTypes.string,
-    submission: PropTypes.shape({
-      response: PropTypes.shape({ confirmationNumber: PropTypes.string }),
-      timestamp: PropTypes.string,
-    }),
-  }),
-  name: PropTypes.string,
-};
+ConfirmationPage.propTypes = ConfirmationPagePropTypes;
 
 function mapStateToProps(state) {
   return {

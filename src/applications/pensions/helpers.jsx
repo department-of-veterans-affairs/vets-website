@@ -1,6 +1,15 @@
 import React from 'react';
-import moment from 'moment';
 import Scroll from 'react-scroll';
+import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const isSameOrBefore = (date1, date2) => {
+  return isBefore(date1, date2) || isEqual(date1, date2);
+};
+
+export const isSameOrAfter = (date1, date2) => {
+  return isAfter(date1, date2) || isEqual(date1, date2);
+};
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -30,9 +39,12 @@ export function servedDuringWartime(period) {
     // If the service period starts before the war ends and finishes after the
     // war begins, they served during a wartime.
     const overlap =
-      moment(periodEnd).isSameOrAfter(warStart) &&
-      moment(periodStart).isSameOrBefore(warEnd);
-    return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
+      isSameOrAfter(parseISO(periodEnd), parseISO(warStart)) &&
+      isSameOrBefore(parseISO(periodStart), parseISO(warEnd));
+
+    return warEnd
+      ? overlap
+      : isSameOrBefore(parseISO(warStart), parseISO(periodEnd));
   });
 }
 
@@ -109,24 +121,23 @@ export const obfuscateAccountNumber = accountNumber => {
   return accountNumber.replace(/\d(?=\d{4})/g, '*');
 };
 
-// TODO: Remove when removing TOGGLE_NAMES.pensionMultiresponseStyles
-const MULTIRESPONSE_STYLES = 'multiresponse_styles';
-
-export const setSessionMultiresponseStyles = () =>
-  sessionStorage.setItem(MULTIRESPONSE_STYLES, true);
-
-export const removeSessionMultiresponseStyles = () =>
-  sessionStorage.removeItem(MULTIRESPONSE_STYLES);
-
-// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, replace occurences of this helper with 'true'
-export const multiresponseStyles = () =>
-  sessionStorage.getItem(MULTIRESPONSE_STYLES) === 'true';
-
-// TODO: when removing TOGGLE_NAMES.pensionMultiresponseStyles, remove this, and
-// update the ui:options of any schema where it appears to have showSave: true and reviewMode: true
-export const updateMultiresponseUiOptions = (_formData, schema, uiSchema) => {
-  const currentUiOptions = uiSchema['ui:options'];
-  currentUiOptions.showSave = multiresponseStyles();
-  currentUiOptions.reviewMode = multiresponseStyles();
-  return schema;
+export const isProductionEnv = () => {
+  return (
+    !environment.BASE_URL.includes('localhost') &&
+    !window.DD_RUM?.getInitConfiguration() &&
+    !window.Mocha
+  );
 };
+
+export const showMultiplePageResponse = () =>
+  window.sessionStorage.getItem('showMultiplePageResponse') === 'true';
+
+export const showIncomeAndAssetsClarification = () =>
+  window.sessionStorage.getItem('showIncomeAndAssetsClarification') === 'true';
+
+// TODO: Remove when pensions_medical_evidence_clarification flipper is removed
+export const showMedicalEvidenceClarification = () =>
+  window.sessionStorage.getItem('showPensionEvidenceClarification') === 'true';
+
+export const showUploadDocuments = () =>
+  window.sessionStorage.getItem('showUploadDocuments') === 'true';

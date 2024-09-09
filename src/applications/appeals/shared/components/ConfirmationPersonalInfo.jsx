@@ -5,6 +5,7 @@ import { getPhoneString } from '~/platform/forms-system/src/js/utilities/data/pr
 
 import { renderFullName, maskVafn } from '../utils/data';
 import { getReadableDate } from '../utils/dates';
+import { showValueOrNotSelected } from '../utils/confirmation';
 
 const ConfirmationPersonalInfo = ({
   dob = '',
@@ -24,15 +25,17 @@ const ConfirmationPersonalInfo = ({
           <div className="page-title vads-u-color--gray">Name</div>
           {renderFullName(userFullName)}
         </li>
-        <li>
-          <div className="page-title vads-u-color--gray">VA File Number</div>
-          <div
-            className="page-value dd-privacy-hidden"
-            data-dd-action-name="VA file number"
-          >
-            {maskVafn(vaFileLastFour || '')}
-          </div>
-        </li>
+        {vaFileLastFour && (
+          <li>
+            <div className="page-title vads-u-color--gray">VA File Number</div>
+            <div
+              className="page-value dd-privacy-hidden"
+              data-dd-action-name="VA file number"
+            >
+              {maskVafn(vaFileLastFour || '')}
+            </div>
+          </li>
+        )}
         <li>
           <div className="page-title vads-u-color--gray">Date of birth</div>
           <div
@@ -50,7 +53,7 @@ const ConfirmationPersonalInfo = ({
             className="page-value dd-privacy-hidden"
             data-dd-action-name="homeless"
           >
-            {homeless ? 'Yes' : 'No'}
+            {showValueOrNotSelected(homeless)}
           </div>
         </li>
         <li>
@@ -63,7 +66,7 @@ const ConfirmationPersonalInfo = ({
           >
             <va-telephone
               contact={getPhoneString(phone)}
-              extension={phone?.phoneNumberExt}
+              extension={phone?.extension}
               not-clickable
             />
           </div>

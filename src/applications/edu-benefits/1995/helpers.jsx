@@ -1,13 +1,25 @@
 import React from 'react';
-import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import moment from 'moment/moment';
+import IntroductionPage from './containers/IntroductionPage';
+import IntroductionPageUpdate from './containers/IntroductionPageUpdate';
+import { convertToggle } from '../utils/helpers';
 
 export const isProductionOfTestProdEnv = automatedTest => {
-  return (
-    environment.isProduction() ||
-    automatedTest ||
-    (global && global?.window && global?.window?.buildType)
-  );
+  const toggle = convertToggle();
+  return toggle || automatedTest || global?.window?.isProd;
+};
+
+export const introductionPage = (automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? IntroductionPage
+    : IntroductionPageUpdate;
+};
+
+export const sponsorInformationTitle = (automatedTest = false) => {
+  if (isProductionOfTestProdEnv(automatedTest)) {
+    return 'Sponsor information';
+  }
+  return 'DEA, Chapter 35 sponsor information';
 };
 
 export const directDepositMethod = (formData, automatedTest = false) => {
@@ -65,13 +77,26 @@ export const eighteenOrOver = birthday => {
     moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
   );
 };
+
+export const eighteenOrOverUpdate = birthday => {
+  return (
+    birthday === undefined ||
+    birthday.length !== 10 ||
+    !moment(birthday, 'YYYY-MM-DD').isValid() ||
+    moment().diff(moment(birthday, 'YYYY-MM-DD'), 'years') > 17
+  );
+};
+
 export const ageWarning = (
   <div
     className="vads-u-display--flex vads-u-align-items--flex-start vads-u-background-color--primary-alt-lightest vads-u-margin-top--3 vads-u-padding-right--3"
     aria-live="polite"
   >
     <div className="vads-u-flex--1 vads-u-margin-top--2p5 vads-u-margin-x--2 ">
-      <i className="fas fa-info-circle" />
+      <va-icon
+        size={4}
+        icon="see name mappings here https://design.va.gov/foundation/icons"
+      />
     </div>
     <div className="vads-u-flex--5">
       <p className="vads-u-font-size--base">
@@ -85,3 +110,9 @@ export const ageWarning = (
     </div>
   </div>
 );
+
+export const isEighteenOrOlder = (birthday, automatedTest = false) => {
+  return isProductionOfTestProdEnv(automatedTest)
+    ? eighteenOrOver(birthday)
+    : eighteenOrOverUpdate(birthday);
+};
