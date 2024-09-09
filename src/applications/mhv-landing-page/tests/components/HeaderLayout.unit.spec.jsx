@@ -58,13 +58,13 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
           'href',
-          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
         );
 
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
         );
       });
     });
@@ -78,13 +78,13 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
           'href',
-          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
         );
 
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
         );
       });
     });
