@@ -23,13 +23,7 @@ import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const {
-    childContent = null,
-    confirmationNumber,
-    content = {},
-    formConfig,
-    submitDate,
-  } = props;
+  const { confirmationNumber, submitDate, formConfig } = props;
 
   useEffect(
     () => {
@@ -41,18 +35,6 @@ export const ConfirmationPageView = props => {
     },
     [alertRef],
   );
-
-  const { headlineText, nextStepsText } = content;
-  const dateSubmitted = isValid(submitDate)
-    ? format(submitDate, 'MMMM d, yyyy')
-    : null;
-  const dynamicHeadline = `Form submission started`;
-  const headline = `${headlineText || dynamicHeadline}${
-    dateSubmitted ? ` on ${dateSubmitted}` : ''
-  }`;
-
-  const nextStepsContent =
-    typeof nextStepsText === 'string' ? <p>{nextStepsText}</p> : nextStepsText;
 
   const form = useSelector(state => state.form);
   const formData = form.data;
@@ -92,21 +74,15 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <VaAlert uswds status="success" ref={alertRef}>
-        <h2 slot="headline">{headline}</h2>
-        {nextStepsContent ? (
-          <>
-            {nextStepsContent}
-            <p>Your confirmation number is {confirmationNumber}.</p>
-          </>
-        ) : (
-          <>
-            <p>Your submission is in progress.</p>
-            <p>
-              It can take up to 10 days for us to receive your form. Your
-              confirmation number is {confirmationNumber}.
-            </p>
-          </>
-        )}
+        <h2 slot="headline">
+          Form submission started on{' '}
+          {isValid(submitDate) && format(submitDate, 'MMMM d, yyyy')}
+        </h2>
+        <p>Your submission is in progress.</p>
+        <p>
+          It can take up to 10 days for us to receive your form. Your
+          confirmation number is {confirmationNumber}.
+        </p>
         <VaLinkAction
           href="/my-va"
           text="Check the status of your form on My VA"
@@ -137,7 +113,6 @@ export const ConfirmationPageView = props => {
           </VaAccordionItem>
         </VaAccordion>
       </div>
-      {childContent || null}
       <div className="screen-only">
         <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
           Print this confirmation page
@@ -208,12 +183,7 @@ export const ConfirmationPageView = props => {
 };
 
 ConfirmationPageView.propTypes = {
-  childContent: PropTypes.shape(),
-  confirmationNumber: PropTypes.string,
-  content: PropTypes.shape(),
-  formConfig: PropTypes.object,
-  formContext: PropTypes.object,
-  formName: PropTypes.string,
-  formType: PropTypes.string,
-  submitDate: PropTypes.object,
+  confirmationNumber: PropTypes.string.isRequired,
+  submitDate: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
 };
