@@ -23,6 +23,7 @@ import {
   veteranPersonalInformation,
   veteranContactPhoneEmail,
   veteranContactMailing,
+  veteranContactMailingClaimant,
   veteranIdentification,
   veteranServiceInformation,
   selectAccreditedRepresentative,
@@ -236,12 +237,12 @@ const formConfig = {
           schema: veteranPersonalInformation.schema,
           editModeOnReviewPage: true,
         },
-        veteranContactMailing: {
+        veteranContactMailingClaimant: {
           path: 'veteran-contact-mailing',
           title: `Veteran's  mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactMailing.uiSchema,
-          schema: veteranContactMailing.schema,
+          uiSchema: veteranContactMailingClaimant.uiSchema,
+          schema: veteranContactMailingClaimant.schema,
           editModeOnReviewPage: true,
         },
         veteranContactPhoneEmail: {

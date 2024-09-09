@@ -6,7 +6,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 export const uiSchema = {
-  ...titleUI('Your mailing address'),
+  ...titleUI('Veteran’s mailing address'),
   veteranHomeAddress: addressUI({
     labels: {
       militaryCheckbox: `This address is on a United States military base outside of the U.S.`,
