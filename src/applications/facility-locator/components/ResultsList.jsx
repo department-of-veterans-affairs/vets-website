@@ -62,7 +62,7 @@ export const ResultsList = ({
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current);
+      setFocus(searchResultTitle.current, false);
     },
     [results, inProgress, props.error],
   );

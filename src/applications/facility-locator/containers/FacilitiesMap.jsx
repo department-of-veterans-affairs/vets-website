@@ -634,10 +634,10 @@ const FacilitiesMap = props => {
   useEffect(
     () => {
       if (searchResultTitleRef.current && props.resultTime) {
-        setFocus(searchResultTitleRef.current);
+        setFocus(searchResultTitleRef.current, !!props.results?.length);
       }
     },
-    [props.resultTime],
+    [props.resultTime, props.results],
   );
 
   useEffect(
