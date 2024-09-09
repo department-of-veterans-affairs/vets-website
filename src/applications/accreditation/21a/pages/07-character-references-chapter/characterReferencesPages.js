@@ -22,6 +22,8 @@ const arrayBuilderOptions = {
   arrayPath: 'characterReferences',
   nounSingular: 'character reference',
   nounPlural: 'character references',
+  summaryDescription:
+    'You must add at least 3 and no more than 4 character references.',
   required: true,
   isItemIncomplete: item =>
     !item?.fullName || !item?.address || !item?.phone || !item?.email,
