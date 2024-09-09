@@ -426,7 +426,7 @@ const generateHash = async data => {
 };
 
 export const radiologyRecordHash = async record => {
-  const { radiologist, stationNumber, eventDate } = record;
-  const dataString = `${radiologist}|${stationNumber}|${eventDate}`;
+  const { procedureName, radiologist, stationNumber, eventDate } = record;
+  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
   return (await generateHash(dataString)).substring(0, 8);
 };
