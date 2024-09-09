@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-export default function ConfirmationPage() {
+export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
 
@@ -16,11 +17,10 @@ export default function ConfirmationPage() {
       if (signedFormError) setSignedFormError(false);
     },
     onClickContinueButton: () => {
-      if (!signedForm) {
-        setSignedFormError(true);
+      if (signedForm) {
+        router.push('/next-steps');
       } else {
-        // Todo - Direct user to final Appoint a Rep page
-        // Update the body of this condition once the final page is complete
+        setSignedFormError(true);
       }
     },
   };
@@ -56,3 +56,7 @@ export default function ConfirmationPage() {
     </>
   );
 }
+
+ConfirmationPage.propTypes = {
+  router: PropTypes.object,
+};
