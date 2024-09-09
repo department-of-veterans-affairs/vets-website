@@ -1,7 +1,4 @@
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -34,7 +31,8 @@ describe('whoHasAQuestionPage', () => {
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = ['Veteran', 'Someone else'];
 
-    expect($('h3', container).textContent).to.eq(
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label')).to.equal(
       'Is your question about the Veteran or someone else?',
     );
 
