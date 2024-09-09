@@ -54,7 +54,7 @@ function Default5103EvidenceNotice({
   const submit = () => {
     if (addedEvidence) {
       if (useLighthouse5103) {
-        submit5103(params.id, true);
+        submit5103(params.id, params.trackedItemId, true);
       } else {
         submitRequest(params.id, true);
       }
@@ -65,7 +65,7 @@ function Default5103EvidenceNotice({
     }
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
-  const isStandard5103Notice = item.displayName === '5103 Evidence Notice';
+  const isStandard5103Notice = item.displayName === 'Review evidence list';
 
   if (!isAutomated5103Notice(item.displayName) && !isStandard5103Notice) {
     return null;
@@ -86,11 +86,12 @@ function Default5103EvidenceNotice({
         5103 Evidence Notice
       </h1>
       <p>
-        We sent you a “5103 notice” letter that lists the types of evidence we
-        may need to decide your claim.
+        We sent you a "List of evidence we may need (5103 notice)" letter. This
+        letter lets you know about different types of additional evidence that
+        could help your claim.
       </p>
       <Link className="active-va-link" to="/your-claim-letters">
-        Go to claim letters
+        Find this letter in your claim letters
         <va-icon icon="chevron_right" size={3} aria-hidden="true" />
       </Link>
       {isAutomated5103Notice(item.displayName) && (

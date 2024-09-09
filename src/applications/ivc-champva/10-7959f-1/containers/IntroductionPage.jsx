@@ -24,8 +24,9 @@ const IntroductionPage = props => {
       />
       <p>
         If you’re a Veteran who gets medical care outside the U.S. for a
-        service-connected condition, we may cover the cost of your care. Use
-        this form to register for the Foreign Medical Program.
+        service-connected condition, we may cover the cost of your care through
+        the Foreign Medical Program (FMP). Use this form to register for the
+        Foreign Medical Program.
       </p>
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         What to know before you fill out this form
@@ -38,8 +39,7 @@ const IntroductionPage = props => {
           <li>
             After you register, we’ll send you a benefits authorization letter.
             This letter will list your service-connected conditions that we’ll
-            cover. Then you can file FMP claims for care related to the covered
-            conditions.
+            cover.
           </li>
         </ul>
       </div>

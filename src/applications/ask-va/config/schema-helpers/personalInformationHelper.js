@@ -25,6 +25,9 @@ const ssnServiceInfo = (
   <>
     <h4 className="vads-u-font-weight--bold vads-u-font-family--serif">
       Social Security or service number
+      <span className="form-required-span vads-u-font-weight--normal">
+        (*Required)
+      </span>
     </h4>
     <span className="vads-u-margin-y--0">
       Please provide one of the following:
@@ -35,6 +38,14 @@ const ssnServiceInfo = (
 const validateGroup = (errors, values) => {
   if (!Object.keys(values).some(key => values[key])) {
     errors.addError(`Please provide an answer`);
+  }
+};
+
+const validateSSandSNGroup = (errors, values) => {
+  if (!Object.keys(values).some(key => values[key])) {
+    errors.addError(
+      `Please enter your Social Security number or Service number`,
+    );
   }
 };
 
@@ -59,9 +70,8 @@ export const personalInformationFormSchemas = {
       ssn: ssnSchema,
       serviceNumber: serviceNumberSchema,
     },
-    required: ['ssn'],
+    required: [],
   },
-  socialNum: ssnSchema,
   dateOfBirth: dateOfBirthSchema,
   branchOfService: selectSchema(branchesOfService),
 };
@@ -134,18 +144,10 @@ export const personalInformationUiSchemas = {
   },
   socialOrServiceNum: {
     'ui:title': ssnServiceInfo,
-    'ui:required': () => true,
-    'ui:validations': [validateGroup],
+    'ui:validations': [validateSSandSNGroup],
     'ui:options': { showFieldLabel: true },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
-  },
-  socialNum: {
-    ...ssnUI(),
-    'ui:required': () => false,
-    'ui:options': {
-      hideIf: () => true,
-    },
   },
   dateOfBirth: { ...dateOfBirthUI(), 'ui:required': () => true },
   branchOfService: {
@@ -203,16 +205,16 @@ export const personalInformationAboutYourselfUiSchemas = {
       uswds: true,
       showFieldLabel: true,
       hideIf: formData =>
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        (formData.questionAbout === 'Myself' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Myself' &&
+          formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        formData.questionAbout === "It's a general question",
+        formData.whoIsYourQuestionAbout === "It's a general question",
     },
     ssn: ssnUI(),
     serviceNumber: serviceNumberUI('Service number'),
@@ -220,14 +222,14 @@ export const personalInformationAboutYourselfUiSchemas = {
   socialNum: {
     ...ssnUI(),
     'ui:required': formData =>
-      formData.questionAbout === 'Myself' &&
-      formData.personalRelationship === "I'm a family member of a Veteran",
+      formData.whoIsYourQuestionAbout === 'Myself' &&
+      formData.relationshipToVeteran === "I'm a family member of a Veteran",
     'ui:options': {
       uswds: true,
       hideIf: formData =>
         !(
-          formData.questionAbout === 'Myself' &&
-          formData.personalRelationship === "I'm a family member of a Veteran"
+          formData.whoIsYourQuestionAbout === 'Myself' &&
+          formData.relationshipToVeteran === "I'm a family member of a Veteran"
         ),
     },
   },
@@ -235,33 +237,33 @@ export const personalInformationAboutYourselfUiSchemas = {
     ...dateOfBirthUI(),
     'ui:required': formData =>
       !(
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        formData.questionAbout === "It's a general question"
+        formData.whoIsYourQuestionAbout === "It's a general question"
       ),
     'ui:options': {
       uswds: true,
       hideIf: formData =>
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)") ||
-        (formData.questionAbout === 'Someone else' &&
-          formData.personalRelationship ===
+        (formData.whoIsYourQuestionAbout === 'Someone else' &&
+          formData.relationshipToVeteran ===
             "I'm a family member of a Veteran") ||
-        formData.questionAbout === "It's a general question",
+        formData.whoIsYourQuestionAbout === "It's a general question",
     },
   },
   branchOfService: {
     'ui:title': 'Branch of service',
     'ui:webComponentField': VaSelectField,
     'ui:required': formData =>
-      (formData.questionAbout === 'Myself' ||
-        formData.questionAbout === 'Someone else') &&
-      formData.personalRelationship === "I'm the Veteran" &&
+      (formData.whoIsYourQuestionAbout === 'Myself' ||
+        formData.whoIsYourQuestionAbout === 'Someone else') &&
+      formData.relationshipToVeteran === "I'm the Veteran" &&
       (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
         formData.selectCategory === 'Survivor Benefits' ||
         formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||
@@ -271,9 +273,9 @@ export const personalInformationAboutYourselfUiSchemas = {
       uswds: true,
       hideIf: formData =>
         !(
-          (formData.questionAbout === 'Myself' ||
-            formData.questionAbout === 'Someone else') &&
-          formData.personalRelationship === "I'm the Veteran" &&
+          (formData.whoIsYourQuestionAbout === 'Myself' ||
+            formData.whoIsYourQuestionAbout === 'Someone else') &&
+          formData.relationshipToVeteran === "I'm the Veteran" &&
           (formData.selectCategory === 'Veteran Identification Card (VIC)' ||
             formData.selectCategory === 'Survivor Benefits' ||
             formData.selectCategory === 'Burial & Memorial Benefits (NCA)' ||

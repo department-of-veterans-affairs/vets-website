@@ -48,7 +48,6 @@ import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import {
   addWhitespaceOnlyError,
   applicantIsChildOfSponsor,
-  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
   applicantIsaMinor,
@@ -283,18 +282,21 @@ const formConfig = {
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData =>
-                  hideUnder18Field(formData, formFields.dateOfBirth),
+                hideIf: formData => !applicantIsaMinor(formData),
               },
-              'ui:required': formData =>
-                !hideUnder18Field(formData, formFields.dateOfBirth),
+              'ui:required': formData => applicantIsaMinor(formData),
               'ui:validations': [
-                (errors, field) =>
+                (errors, field) => {
                   addWhitespaceOnlyError(
                     field,
                     errors,
                     'Please enter a parent/guardian signature',
-                  ),
+                  );
+                  // Add validation for character limit
+                  if (field && field.length > 46) {
+                    errors.addError('Signature must be 46 characters or less');
+                  }
+                },
               ],
               'ui:errorMessages': {
                 required: 'Please enter a parent/guardian signature',
@@ -302,49 +304,29 @@ const formConfig = {
             },
             [formFields.highSchoolDiploma]: {
               'ui:options': {
-                hideIf: formData => {
-                  if (!formData.toeHighSchoolInfoChange) return true;
-
-                  if (!applicantIsaMinor(formData)) return true;
-
-                  return false;
-                },
+                hideIf: formData =>
+                  !formData.toeHighSchoolInfoChange ||
+                  !applicantIsaMinor(formData),
               },
-              'ui:required': formData => {
-                if (!formData.toeHighSchoolInfoChange) return false;
-                if (applicantIsaMinor(formData)) return true;
-
-                return false;
-              },
+              'ui:required': formData =>
+                formData.toeHighSchoolInfoChange && applicantIsaMinor(formData),
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
             },
             [formFields.highSchoolDiplomaDate]: {
               'ui:options': {
-                hideIf: formData => {
-                  if (!formData.toeHighSchoolInfoChange) return true;
-
-                  if (
+                hideIf: formData =>
+                  !formData.toeHighSchoolInfoChange ||
+                  !(
                     applicantIsaMinor(formData) &&
                     formData[formFields.highSchoolDiploma] === 'Yes'
-                  )
-                    return false;
-
-                  return true;
-                },
+                  ),
               },
-              'ui:required': formData => {
-                if (!formData.toeHighSchoolInfoChange) return false;
-
-                if (
-                  applicantIsaMinor(formData) &&
-                  formData[formFields.highSchoolDiploma] === 'Yes'
-                )
-                  return true;
-
-                return false;
-              },
+              'ui:required': formData =>
+                formData.toeHighSchoolInfoChange &&
+                applicantIsaMinor(formData) &&
+                formData[formFields.highSchoolDiploma] === 'Yes',
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),

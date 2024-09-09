@@ -98,8 +98,9 @@ const formConfig = {
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
+          messageAriaDescribedby: 'Name and date of birth',
           schema: {
             type: 'object',
             required: ['veteranFullName', 'veteranDateOfBirth'],
@@ -174,9 +175,9 @@ const formConfig = {
       pages: {
         page4: {
           path: 'same-as-mailing-address',
-          title: 'Home address ',
+          title: 'Home address status ',
           uiSchema: {
-            ...titleUI('Home address'),
+            ...titleUI('Home address status'),
             sameMailingAddress: yesNoUI({
               title: 'Is your home address the same as your mailing address?',
               labels: {

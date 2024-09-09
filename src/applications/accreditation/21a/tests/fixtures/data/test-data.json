@@ -48,6 +48,8 @@
         "explanationOfDischarge": "My discharge was dishonorable"
       }
     ],
+    "employmentStatus": ["employed", "selfEmployed"],
+    "describeEmployment": "I have a W2 at a law firm, and I have a consulting company.",
     "employers": [
       {
         "name": "Company",
@@ -62,28 +64,36 @@
           "state": "CA",
           "postalCode": "12345"
         },
-        "phone": "3453453455",
+        "primaryWorkAddress": ["selected"],
+        "phone": "345-345-3455",
         "extension": "1234",
         "dateRange": {
-          "from": "2000-01-01",
-          "to": "2004-12-31"
+          "from": "2000-01"
         },
-        "reasonForLeaving": "Found a better opportunity"
+        "currentlyEmployed": true
       }
     ],
-    "employmentStatus": "employed",
-    "employmentActivities": ["financial", "home"],
+    "employmentActivities": ["financial", "homeOrNursing"],
     "view:hasEmployers": false,
     "educationalInstitutions": [
       {
         "name": "University of California, Berkeley",
         "dateRange": {
-          "from": "2010-01-01",
-          "to": "2014-12-31"
+          "from": "2010-01",
+          "to": "2014-12"
         },
         "degreeReceived": true,
-        "degree": "Bachelor of Science",
-        "major": "Computer Science"
+        "major": "Computer Science",
+        "degree": "Bachelor's degree",
+        "address": {
+          "view:militaryBaseDescription": {},
+          "country": "USA",
+          "street": "1234 Main St",
+          "street2": "Apt 1",
+          "city": "City",
+          "state": "CA",
+          "postalCode": "12345"
+        }
       }
     ],
     "view:hasEducationalInstitutions": false,
