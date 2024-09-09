@@ -1,6 +1,6 @@
 import React from 'react';
 import * as Sentry from '@sentry/browser';
-import { isPlainObject } from 'lodash';
+import { capitalize, isPlainObject } from 'lodash';
 import { isAfter, parse } from 'date-fns';
 import {
   VA_FORM_IDS,
@@ -121,6 +121,9 @@ export function sipFormSorter(formA, formB) {
   return formA.metadata.expiresAt - formB.metadata.expiresAt;
 }
 
+export const formatFormTitle = (title = '') =>
+  capitalize(title).replace(/\bva\b/, 'VA');
+
 export const recordDashboardClick = (
   product,
   actionType = 'view-link',
@@ -183,4 +186,27 @@ export const getLatestCopay = statements => {
     }
     return acc;
   }, null);
+};
+
+export const normalizeSubmissionStatus = apiStatusValue => {
+  const value = apiStatusValue.toLowerCase();
+  switch (value) {
+    case 'vbms':
+      return 'received';
+    case 'error':
+    case 'expired':
+      return 'actionNeeded';
+    default:
+      return 'inProgress';
+  }
+};
+
+const SUBMISSION_STATUS_MAP = {
+  inProgress: 'Submission in Progress',
+  actionNeeded: 'Action Needed',
+  received: 'Received',
+};
+
+export const formatSubmissionDisplayStatus = status => {
+  return SUBMISSION_STATUS_MAP[status];
 };

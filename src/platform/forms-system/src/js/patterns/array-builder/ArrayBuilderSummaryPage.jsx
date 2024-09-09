@@ -288,15 +288,13 @@ export default function ArrayBuilderSummaryPage({
       }
     }
 
-    const Title = (
-      <>
-        <Heading
-          className="vads-u-color--gray-dark vads-u-margin-top--0"
-          data-title-for-noun-singular={`${nounSingular}`}
-        >
-          {getText('summaryTitle', updatedItemData)}
-        </Heading>
-      </>
+    const Title = ({ textType }) => (
+      <Heading
+        className="vads-u-color--gray-dark vads-u-margin-top--0"
+        data-title-for-noun-singular={nounSingular}
+      >
+        {getText(textType, updatedItemData)}
+      </Heading>
     );
 
     const UpdatedAlert = ({ show }) => {
@@ -375,7 +373,7 @@ export default function ArrayBuilderSummaryPage({
       return (
         <>
           {arrayData?.length ? (
-            Title
+            <Title textType="summaryTitle" />
           ) : (
             <>
               <div className="form-review-panel-page-header-row">
@@ -421,8 +419,7 @@ export default function ArrayBuilderSummaryPage({
     if (arrayData?.length > 0) {
       uiSchema['ui:title'] = (
         <>
-          {Title}
-          {/* {summaryDescription && <p>{getText('summaryDescription', summaryDescription)}</p>} */}
+          <Title textType="summaryTitle" />
           {summaryDescription && (
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
               {summaryDescription}
@@ -438,8 +435,9 @@ export default function ArrayBuilderSummaryPage({
       // ensure new reference to trigger re-render
       uiSchema['ui:description'] = <Cards />;
     } else {
-      uiSchema['ui:title'] = undefined;
-      uiSchema['ui:description'] = undefined;
+      uiSchema['ui:title'] = <Title textType="summaryTitleWithoutItems" />;
+      uiSchema['ui:description'] =
+        getText('summaryDescriptionWithoutItems') || undefined;
     }
 
     if (schema?.properties && maxItems && arrayData?.length >= maxItems) {

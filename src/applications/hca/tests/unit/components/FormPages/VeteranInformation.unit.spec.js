@@ -62,12 +62,12 @@ describe('hca VeteranInformation page', () => {
         <VeteranInformation {...props} />
       </Provider>,
     );
-    const selectors = {
+    const selectors = () => ({
       primaryBtn: container.querySelector('.usa-button-primary'),
       secondaryBtn: container.querySelector('.usa-button-secondary'),
       profileCard: container.querySelector('[data-testid="hca-profile-card"]'),
       guestCard: container.querySelector('[data-testid="hca-guest-card"]'),
-    };
+    });
     return { container, selectors };
   };
 
@@ -77,8 +77,9 @@ describe('hca VeteranInformation page', () => {
       formData: { ...mockData, 'view:isLoggedIn': true },
     });
     const { selectors } = subject({ mockStore, props });
-    expect(selectors.profileCard).to.exist;
-    expect(selectors.guestCard).to.not.exist;
+    const { guestCard, profileCard } = selectors();
+    expect(profileCard).to.exist;
+    expect(guestCard).to.not.exist;
   });
 
   it('should render Veteran information from ID form when the user is not logged in', () => {
@@ -87,8 +88,9 @@ describe('hca VeteranInformation page', () => {
       formData: mockData,
     });
     const { selectors } = subject({ mockStore, props });
-    expect(selectors.profileCard).to.not.exist;
-    expect(selectors.guestCard).to.exist;
+    const { guestCard, profileCard } = selectors();
+    expect(profileCard).to.not.exist;
+    expect(guestCard).to.exist;
   });
 
   it('should fire `goBack` method when the `back` button is clicked', () => {
@@ -97,7 +99,7 @@ describe('hca VeteranInformation page', () => {
       formData: mockData,
     });
     const { selectors } = subject({ mockStore, props });
-    fireEvent.click(selectors.secondaryBtn);
+    fireEvent.click(selectors().secondaryBtn);
     expect(props.goBack.called).to.be.true;
   });
 
@@ -107,7 +109,7 @@ describe('hca VeteranInformation page', () => {
       formData: mockData,
     });
     const { selectors } = subject({ mockStore, props });
-    fireEvent.click(selectors.primaryBtn);
+    fireEvent.click(selectors().primaryBtn);
     expect(props.goForward.called).to.be.true;
   });
 });

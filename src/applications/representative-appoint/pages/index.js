@@ -6,11 +6,17 @@ import * as authorizeOutsideVA from './authorizations/authorizeOutsideVA';
 import * as authorizeOutsideVANames from './authorizations/authorizeOutsideVANames';
 import * as formToggle from './formToggle';
 import * as claimantType from './claimant/claimantType';
-import * as claimantContactPhoneEmail from './personalInformation/claimantContactPhoneEmail';
-import * as claimantRelationship from './personalInformation/claimantRelationship';
-import * as claimantPersonalInformation from './personalInformation/claimantPersonalInformation';
-import * as confirmClaimantPersonalInformation from './personalInformation/confirmClaimantPersonalInformation';
-import * as claimantContactMailing from './personalInformation/claimantContactMailing';
+import * as claimantContactPhoneEmail from './claimant/claimantContactPhoneEmail';
+import * as claimantRelationship from './claimant/claimantRelationship';
+import * as claimantPersonalInformation from './claimant/claimantPersonalInformation';
+import * as confirmClaimantPersonalInformation from './claimant/confirmClaimantPersonalInformation';
+import * as claimantContactMailing from './claimant/claimantContactMailing';
+import * as veteranPersonalInformation from './veteran/veteranPersonalInformation';
+import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
+import * as veteranContactMailing from './veteran/veteranContactMailing';
+import * as veteranIdentification from './veteran/veteranIdentification';
+import * as veteranServiceInformation from './veteran/veteranServiceInformation';
+import * as selectAccreditedRepresentative from './representative/selectAccreditedRepresentative';
 
 export {
   authorizeMedical,
@@ -26,4 +32,10 @@ export {
   claimantPersonalInformation,
   confirmClaimantPersonalInformation,
   claimantContactMailing,
+  veteranPersonalInformation,
+  veteranContactPhoneEmail,
+  veteranContactMailing,
+  veteranIdentification,
+  veteranServiceInformation,
+  selectAccreditedRepresentative,
 };

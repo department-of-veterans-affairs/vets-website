@@ -119,7 +119,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
         {/* Mobile expand/collapse */}
         <button
           className={classNames(
-            'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-darker vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
+            'vads-u-align-items--center vads-u-width--full vads-u-display--flex vads-u-margin--0 vads-u-justify-content--space-between vads-u-padding-y--2 vads-u-color--primary-dark vads-u-background-color--gray-lightest medium-screen:vads-u-display--none',
             { 'va-border-bottom-radius--0': expanded },
           )}
           onClick={() => setExpanded(!expanded)}
@@ -128,7 +128,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           Search resources and support
           <va-icon
             class={classNames(
-              'vads-u-font-size--base vads-u-color--primary-darker',
+              'vads-u-font-size--base vads-u-color--primary-dark',
               {
                 'vads-u-display--none': expanded,
                 'vads-u-visibility--visible': !expanded,
@@ -139,7 +139,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
           />
           <va-icon
             class={classNames(
-              'vads-u-font-size--base vads-u-color--primary-darker',
+              'vads-u-font-size--base vads-u-color--primary-dark',
               {
                 'vads-u-display--none': !expanded,
                 'vads-u-visibility--visible': expanded,

@@ -1,6 +1,10 @@
 import { transformForSubmit as formsSystemTransformForSubmit } from 'platform/forms-system/src/js/helpers';
 import { REQUIRED_FILES, OPTIONAL_FILES } from './constants';
-import { adjustYearString, concatStreets } from '../../shared/utilities';
+import {
+  adjustYearString,
+  concatStreets,
+  getAgeInYears,
+} from '../../shared/utilities';
 
 // Rearranges date string from YYYY-MM-DD to MM-DD-YYYY
 function fmtDate(date) {
@@ -52,7 +56,7 @@ function transformApplicants(applicants) {
         .filter(el => el), // Drop any undefineds/nulls
     };
     transformedApp = adjustYearString(transformedApp);
-    transformedApp.applicantAddress.streetCombined = concatStreets(
+    transformedApp.applicantAddress = concatStreets(
       transformedApp.applicantAddress,
     );
     applicantsPostTransform.push(transformedApp);
@@ -117,12 +121,12 @@ export default function transformForSubmit(formConfig, form) {
   );
 
   if (transformedData.sponsorAddress)
-    transformedData.sponsorAddress.streetCombined = concatStreets(
+    transformedData.sponsorAddress = concatStreets(
       transformedData.sponsorAddress,
     );
 
   if (transformedData.certifierAddress)
-    transformedData.certifierAddress.streetCombined = concatStreets(
+    transformedData.certifierAddress = concatStreets(
       transformedData.certifierAddress,
     );
 
@@ -188,6 +192,11 @@ export default function transformForSubmit(formConfig, form) {
       });
     }
   });
+
+  // Set a top-level boolean indicating if any applicants are over 65
+  dataPostTransform.hasApplicantOver65 = dataPostTransform.applicants.some(
+    app => getAgeInYears(app.applicantDob) >= 65,
+  );
 
   dataPostTransform.supportingDocs = dataPostTransform.supportingDocs
     .flat()

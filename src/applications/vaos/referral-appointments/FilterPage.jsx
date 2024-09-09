@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import FormLayout from '../new-appointment/components/FormLayout';
-import mockData from '../services/mocks/wellHive/providerServices.json';
+import mockData from '../services/mocks/epsApi/providerServices.json';
 import { setSelectedProvider, setSortProviderBy } from './redux/actions';
 import { selectProvider, selectProviderSortBy } from './redux/selectors';
 

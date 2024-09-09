@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
-
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -41,7 +44,12 @@ export default function App({ location, children }) {
         <Toggler.Enabled>
           <VaBreadcrumbs breadcrumbList={breadcrumbList} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-            {children}
+            <DowntimeNotification
+              appTitle={`CHAMPVA Form ${formConfig.formId}`}
+              dependencies={[externalServices.pega]}
+            >
+              {children}
+            </DowntimeNotification>
           </RoutedSavableApp>
         </Toggler.Enabled>
         <Toggler.Disabled>

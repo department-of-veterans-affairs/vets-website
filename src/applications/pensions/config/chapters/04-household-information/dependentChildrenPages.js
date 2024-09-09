@@ -65,6 +65,7 @@ const options = {
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
   text: {
     getItemName: item => formatFullName(item.fullName),
+    summaryTitleWithoutItems: 'Dependent children',
   },
 };
 
@@ -77,6 +78,7 @@ const summaryPage = {
   uiSchema: {
     'view:isAddingDependents': arrayBuilderYesNoUI(options, {
       title: 'Do you have any dependent children?',
+      labelHeaderLevel: ' ',
       hint: null,
     }),
   },
@@ -201,6 +203,7 @@ const attendingSchoolPage = {
       'ui:options': {
         expandUnder: 'attendingCollege',
       },
+      'ui:required': () => true,
     },
   },
   schema: {
@@ -209,7 +212,6 @@ const attendingSchoolPage = {
       attendingCollege: yesNoSchema,
       'view:schoolWarning': { type: 'object', properties: {} },
     },
-    required: ['attendingCollege'],
   },
 };
 
@@ -325,6 +327,7 @@ const addressPage = {
         'ui:options': {
           classNames: 'schemaform-currency-input-v3',
         },
+        'ui:required': () => true,
       },
     ),
   },
@@ -335,7 +338,6 @@ const addressPage = {
       personWhoLivesWithChild: fullNameSchema,
       monthlyPayment: { type: 'number' },
     },
-    required: ['childAddress', 'monthlyPayment'],
   },
 };
 
@@ -408,8 +410,8 @@ export const dependentChildrenPages = arrayBuilderPages(
       depends: () => showMultiplePageResponse(),
       onNavForward: props => {
         return props.formData.childInHousehold
-          ? helpers.navForwardFinishedItem(props) // go to next page
-          : helpers.navForwardKeepUrlParams(props); // return to summary
+          ? helpers.navForwardFinishedItem(props) // return to summary
+          : helpers.navForwardKeepUrlParams(props); // go to next page
       },
       uiSchema: inHouseholdPage.uiSchema,
       schema: inHouseholdPage.schema,

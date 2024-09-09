@@ -98,6 +98,7 @@ import createVYEEnrollmentWidget from './vye-enrollment-login-widget/createVYEEn
 
 import create1010DAccess from './ivc-champva/10-10D/entry';
 import create107959CAccess from './ivc-champva/10-7959c/entry';
+import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F1Access from './ivc-champva/10-7959f-1/entry';
 
 // Set the app name header when using the apiRequest helper
@@ -236,6 +237,7 @@ createFormUploadAccess(store, widgetTypes.FORM_UPLOAD);
 
 create1010DAccess(store, widgetTypes.FORM_1010D);
 create107959CAccess(store, widgetTypes.FORM_107959C);
+create107959AAccess(store, widgetTypes.FORM_107959A);
 create107959F1Access(store, widgetTypes.FORM_107959F1);
 
 // Create the My VA Login widget only on the homepage.
