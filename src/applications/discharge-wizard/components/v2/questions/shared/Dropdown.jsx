@@ -45,7 +45,7 @@ const Dropdown = ({
   setRouteMap,
   routeMap,
   questionFlowChanged,
-  editQuestion,
+  questionSelectedToEdit,
 }) => {
   const [valueHasChanged, setValueHasChanged] = useState(false);
   const isForkableQuestion = forkableQuestions.includes(shortName);
@@ -75,11 +75,11 @@ const Dropdown = ({
         // Remove answers from the Redux store if the display path ahead will change.
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
 
-        if (forkableQuestions.includes(shortName) && editMode) {
-          toggleQuestionsFlowChanged(true);
+        if (editMode) {
           toggleAnswerChanged(true);
-        } else if (editMode) {
-          toggleAnswerChanged(true);
+          if (forkableQuestions.includes(shortName)) {
+            toggleQuestionsFlowChanged(true);
+          }
         }
       }
 
@@ -94,7 +94,7 @@ const Dropdown = ({
         routeMap,
         questionFlowChanged,
         valueHasChanged,
-        editQuestion,
+        questionSelectedToEdit,
       );
     }
   };
@@ -104,11 +104,11 @@ const Dropdown = ({
       // Remove answers from the Redux store if the display path ahead will change.
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
 
-      if (forkableQuestions.includes(shortName) && editMode) {
-        toggleQuestionsFlowChanged(true);
+      if (editMode) {
         toggleAnswerChanged(true);
-      } else if (editMode) {
-        toggleAnswerChanged(true);
+        if (forkableQuestions.includes(shortName)) {
+          toggleQuestionsFlowChanged(true);
+        }
       }
     }
 
@@ -172,6 +172,7 @@ Dropdown.propTypes = {
   H1: PropTypes.string.isRequired,
   options: PropTypes.array.isRequired,
   questionFlowChanged: PropTypes.bool.isRequired,
+  questionSelectedToEdit: PropTypes.string.isRequired,
   routeMap: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
   setFormError: PropTypes.func.isRequired,
@@ -199,7 +200,8 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
-  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
+  questionSelectedToEdit:
+    state?.dischargeUpgradeWizard?.duwForm?.questionSelectedToEdit,
 });
 
 export default connect(

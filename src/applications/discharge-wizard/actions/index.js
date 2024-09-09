@@ -15,7 +15,7 @@ import {
   DUW_UPDATE_PREV_APPLICATION_YEAR,
   DUW_UPDATE_PRIOR_SERVICE,
   DUW_UPDATE_FAILURE_TO_EXHAUST,
-  DUW_EDIT_QUESTION,
+  DUW_QUESTION_SELECTED_TO_EDIT,
   DUW_EDIT_MODE,
   DUW_QUESTION_FLOW_CHANGED,
   DUW_ANSWER_CHANGED,
@@ -65,9 +65,9 @@ export const updateAnswerChanged = value => {
   };
 };
 
-export const updateEditQuestion = value => {
+export const updateQuestionSelectedToEdit = value => {
   return {
-    type: DUW_EDIT_QUESTION,
+    type: DUW_QUESTION_SELECTED_TO_EDIT,
     payload: value,
   };
 };

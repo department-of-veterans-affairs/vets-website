@@ -18,7 +18,7 @@ import {
   DUW_ANSWER_CHANGED,
   DUW_ROUTE_MAP,
   ROUTES,
-  DUW_EDIT_QUESTION,
+  DUW_QUESTION_SELECTED_TO_EDIT,
 } from '../../constants';
 
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
@@ -46,7 +46,7 @@ const initialState = {
   questionFlowChanged: false,
   answerChanged: false,
   routeMap: [ROUTES.HOME, ROUTES.SERVICE_BRANCH],
-  editQuestion: '',
+  questionSelectedToEdit: '',
 };
 
 export default (state = initialState, action) => {
@@ -88,10 +88,10 @@ export default (state = initialState, action) => {
           ...action.payload,
         },
       };
-    case DUW_EDIT_QUESTION:
+    case DUW_QUESTION_SELECTED_TO_EDIT:
       return {
         ...state,
-        editQuestion: action.payload,
+        questionSelectedToEdit: action.payload,
       };
     case DUW_EDIT_MODE:
       return {

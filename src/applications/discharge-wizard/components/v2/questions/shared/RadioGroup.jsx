@@ -42,7 +42,7 @@ const RadioGroup = ({
   routeMap,
   setRouteMap,
   questionFlowChanged,
-  editQuestion,
+  questionSelectedToEdit,
 }) => {
   const [headerHasFocused, setHeaderHasFocused] = useState(false);
   const [valueHasChanged, setValueHasChanged] = useState(false);
@@ -59,11 +59,11 @@ const RadioGroup = ({
         cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
 
         // Set the question flow changed flag to true for review page alert for forkable questions.
-        if (isForkableQuestion && editMode) {
-          toggleQuestionsFlowChanged(true);
+        if (editMode) {
           toggleAnswerChanged(true);
-        } else if (editMode) {
-          toggleAnswerChanged(true);
+          if (isForkableQuestion) {
+            toggleQuestionsFlowChanged(true);
+          }
         }
       }
 
@@ -78,7 +78,7 @@ const RadioGroup = ({
         routeMap,
         questionFlowChanged,
         valueHasChanged,
-        editQuestion,
+        questionSelectedToEdit,
       );
     }
   };
@@ -89,11 +89,11 @@ const RadioGroup = ({
       cleanUpAnswers(formResponses, updateCleanedFormStore, shortName);
 
       // Set the question flow changed flag to true for review page alert for forkable questions.
-      if (isForkableQuestion && editMode) {
-        toggleQuestionsFlowChanged(true);
+      if (editMode) {
         toggleAnswerChanged(true);
-      } else if (editMode) {
-        toggleAnswerChanged(true);
+        if (isForkableQuestion) {
+          toggleQuestionsFlowChanged(true);
+        }
       }
     }
     toggleEditMode(false);
@@ -184,6 +184,7 @@ RadioGroup.propTypes = {
   formResponses: PropTypes.object.isRequired,
   H1: PropTypes.string.isRequired,
   questionFlowChanged: PropTypes.bool.isRequired,
+  questionSelectedToEdit: PropTypes.string.isRequired,
   responses: PropTypes.arrayOf(PropTypes.string).isRequired,
   routeMap: PropTypes.array.isRequired,
   router: PropTypes.object.isRequired,
@@ -213,7 +214,8 @@ const mapStateToProps = state => ({
   routeMap: state?.dischargeUpgradeWizard?.duwForm?.routeMap,
   questionFlowChanged:
     state?.dischargeUpgradeWizard?.duwForm?.questionFlowChanged,
-  editQuestion: state?.dischargeUpgradeWizard?.duwForm?.editQuestion,
+  questionSelectedToEdit:
+    state?.dischargeUpgradeWizard?.duwForm?.questionSelectedToEdit,
 });
 
 export default connect(
