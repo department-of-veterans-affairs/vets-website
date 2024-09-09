@@ -47,7 +47,8 @@ export const navigateBackward = (
 };
 
 /** ================================================================
- * Responsible for determining next question in flow, or redirecting to a results screen
+ * Responsible for determining next question in flow, or redirecting to a results screen.
+ * Also we build a routemap for proper navigation of back/continue buttons.
  *
  * @param {string} SHORT_NAME - name for the current question
  * @param {object} formResponses - all answers in the store
@@ -61,7 +62,7 @@ export const navigateForward = (
   routeMap,
   questionFlowChanged,
   valueHasChanged,
-  editQuestion,
+  questionSelectedToEdit,
 ) => {
   const roadmap = makeRoadmap();
   if (roadmap?.length) {
@@ -93,6 +94,8 @@ export const navigateForward = (
           !formResponses[nextShortName] &&
           editMode
         ) {
+          // This logic builds the routemap of questions that may have been skipped,
+          // allowing the usage of the back button to previous questions in the flow.
           if (routeMap[routeMap.length - 1] !== ROUTES?.[nextShortName]) {
             if (valueHasChanged) {
               const index = routeMap.indexOf(ROUTES[SHORT_NAME]);
@@ -109,7 +112,7 @@ export const navigateForward = (
 
         // This handles the edge case of the edit question not being skipped
         // when going thru an edit flow.
-        if (editQuestion === nextShortName) {
+        if (questionSelectedToEdit === nextShortName) {
           setRouteMap([...localRoadMap, ROUTES?.[nextShortName]]);
           pushToRoute(nextShortName, router);
           return;

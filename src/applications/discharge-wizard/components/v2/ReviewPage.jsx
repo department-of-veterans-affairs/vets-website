@@ -11,7 +11,7 @@ import {
 import {
   updateEditMode,
   updateRouteMap,
-  updateEditQuestion,
+  updateQuestionSelectedToEdit,
   updateQuestionFlowChanged,
 } from '../../actions';
 import { pageSetup } from '../../utilities/page-setup';
@@ -23,7 +23,7 @@ const ReviewPage = ({
   viewedIntroPage,
   toggleEditMode,
   routeMap,
-  setEditQuestion,
+  setQuestionSelectedToEdit,
   setRouteMap,
   toggleQuestionFlowChanged,
   answerChanged,
@@ -53,7 +53,7 @@ const ReviewPage = ({
 
   const onEditAnswerClick = (route, name) => {
     toggleEditMode(true);
-    setEditQuestion(name);
+    setQuestionSelectedToEdit(name);
     router.push(route);
   };
 
@@ -138,7 +138,7 @@ ReviewPage.propTypes = {
   router: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
-  setEditQuestion: PropTypes.func.isRequired,
+  setQuestionSelectedToEdit: PropTypes.func.isRequired,
   setRouteMap: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
   toggleQuestionFlowChanged: PropTypes.func.isRequired,
@@ -147,7 +147,7 @@ ReviewPage.propTypes = {
 
 const mapDispatchToProps = {
   toggleEditMode: updateEditMode,
-  setEditQuestion: updateEditQuestion,
+  setQuestionSelectedToEdit: updateQuestionSelectedToEdit,
   toggleQuestionFlowChanged: updateQuestionFlowChanged,
   setRouteMap: updateRouteMap,
 };
