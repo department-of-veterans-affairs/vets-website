@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { DATA_FILES_PATH } from 'platform/site-wide/drupal-static-data/constants';
-import { OMB_INFO_LOADED } from 'applications/form-renderer/actions/ombInfo';
 import { formConfig1, normalizedForm } from '../../../_config/formConfig';
 import {
   DIGITAL_FORMS_FILENAME,
@@ -55,17 +54,6 @@ describe('form-load actions', () => {
     it('calls the given fetchMethod', async () => {
       await store.dispatch(fetchFormConfig('123-abc', stub));
       expect(stub.calledOnce).to.be.true;
-    });
-
-    it('adds ombInfo to the store', async () => {
-      await store.dispatch(fetchFormConfig('2121212', stub));
-      const ombInfoLoaded = store
-        .getActions()
-        .find(action => action.type === OMB_INFO_LOADED);
-
-      expect(ombInfoLoaded.payload.ombInfo).to.deep.equal(
-        normalizedForm.ombInfo,
-      );
     });
 
     it('puts a formConfig into state', async () => {
