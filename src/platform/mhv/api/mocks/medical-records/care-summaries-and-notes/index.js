@@ -18,7 +18,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '17356',
+        id: '12341',
         meta: {
           versionId: '1',
           lastUpdated: '2024-02-07T15:44:39.979-05:00',
@@ -163,7 +163,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '1000',
+        id: '12342',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -308,7 +308,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10001',
+        id: '12343',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -453,7 +453,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10002',
+        id: '12344',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -598,7 +598,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10003',
+        id: '12345',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -743,7 +743,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10004',
+        id: '12346',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -888,7 +888,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10005',
+        id: '12347',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1034,7 +1034,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1102',
       resource: {
-        id: '1102',
+        id: '12348',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1158,7 +1158,7 @@ const all = {
               contentType: 'text/plain',
               data:
                 'TE9DQUwgVElUTEU6IERJU0NIQVJHRSBTVU1NQVJZDQpTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkNCkRBVEUgT0YgTk9URTogSkFOIDA4LCAyMDI0QDEwOjEyIEVOVFJZIERBVEU6IEpBTiAwOCwgMjAyNEAxMDoxMjo1NA0KQVVUSE9SOiBEQU5BIE9XRU5TIEVYUCBDT1NJR05FUjoNClVSR0VOQ1k6IFNUQVRVUzogQ09NUExFVEVEDQpESVNDSEFSR0UgU1VNTUFSWToNClZJVEFMIFNJR05TIE1PTklUT1JJTkcNCkRhdGUgYW5kIFRpbWU6MS84LzIwMjQgQCAwOTQ5DQpCbG9vZCBwcmVzc3VyZSA6IDEyMi84N21tIEhHDQpQdWxzZSByYXRlIDogODhwZXIgbWluDQpSZXNwaXJhdG9yeSByYXRlIDogMTdwZXIgbWluDQpUZW1wZXJhdHVyZSA6IDk3LjdGDQpPMiBTYXR1cmF0aW9uIDogMTAwcGVyY2VudA0KKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKg0KUG9zdCBBbmVzdGhlc2lhIFNlZGF0aW9uIFNjb3JlIC0gUGhhc2UgMQ0KUGhhc2UgMSBEaXNjaGFyZ2UgQ3JpdGVyaWENClRPVEFMIFNDT1JFPTE0DQpPeHlnZW5hdGlvbg0KMiBQb2ludHMgLSBTcE8yIGdyZWF0ZXIgdGhhbiBvciBlcXVhbCB0byA5NCUgb3IgYmFzZWxpbmUgb24gcm9vbSBhaXINClBBQ1UgUmVzcGlyYXRvcnkgU3RhdHVzDQoyIFBvaW50cyAtIE5vcm1hbCBicmVhdGhpbmcgYW5kIGRlZXAgY291Z2ggb24gY29tbWFuZA0KQ2lyY3VsYXRvcnkgU3RhdHVzDQoyIFBvaW50cyAtIEJQL0hSIGxlc3MgdGhhbiAyMCUgb3IgMjAgbW1IZyBvZiBiYXNlbGluZQ0KTGV2ZWwgb2YgQ29uc2Npb3VzbmVzcw0KMiBQb2ludHMgLSBGdWxseSBhd2FrZSBvciBlYXNpbHkgYXdha2VuZWQNClBhaW4NCjIgUG9pbnRzIC0gTWluaW1hbCBvciBub25lIC0gUGFpbiBTY29yZSAwLTQgb3IgYXQgdG9sZXJhYmxlIGxldmVsIG9yIGF0IGJhc2VsaW5lDQpOYXVzZWEvVm9taXRpbmcNCjIgUG9pbnRzIC0gTWluaW1hbCBvciBub25lDQpMZXZlbCBvZiBBY3Rpdml0eQ0KMiBQb2ludHMgLSBBYmxlIHRvIG1vdmUgYWxsIGV4dHJlbWl0aWVzIHZvbHVudGFyaWx5IG9yIG9uIGNvbW1hbmQgb3IgbW92ZXMgYWxsIGV4dHJlbWl0aWVzIHdpdGggdGhlIGV4Y2VwdGlvbiBvZiBleHRyZW1pdHkgdHJlYXRlZCB3aXRoIHBlcmlwaGVyYWwgbmVydmUgYmxvY2sgb3IgcGF0aWVudCBiYXNlbGluZQ0KVkEtUEFTIFBoYXNlIDEgdGltZSBkb2N1bWVudGVkDQpUaW1lOiAwOTQ5DQpOdXJzaW5nIE5vdGU6UGF0aWVudCByZWFkeSBmb3IgZGlzY2hhcmdlLiBEaXNjaGFyZ2UgaW5zdHJ1Y3Rpb25zIGFuZCBwcm9jZWR1cmUgcmVwb3J0IGdpdmVuIHRvIHBhdGllbnQuIFRoZSBwYXRpZW50IHZlcmJhbGl6ZXMgdW5kZXJzdGFuZGluZyBvZiBpbnN0cnVjdGlvbnMuDQpFS0c6IE5vIGFjdXRlIEVLRyBjaGFuZ2VzDQpSRVNQSVJBVE9SWToNCk8yIGFkbWluaXN0ZXJlZDpub25lLA0KR1U6DQpVcmluZSBPdXRwdXQ6aGFzIG5vdCB2b2lkZWQNCkNvbG9yOiBVcmluZTpuL2ENCkdJOg0KTmF1c2VhIDogTm8NClZvbWl0aW5nOiBObw0KQWJkb21lbjpub24tZGlzdGVuZGVkDQpCb3dlbCBTb3VuZHM6cHJlc2VudA0KSU5UQUtFOg0KUE86IDAgbWwNCklWOiA1MDBtbA0KVE9UQUw6IDUwMG1sDQpPVVRQVVQ6DQpVcmluZTogMG1sDQpUT1RBTDogMG1sDQpQQUNVIERJU0NIQVJHRSBDUklURVJJQQ0KRGlzY2hhcmdlZCBieSBhbmVzdGhlc2lvbG9naXN0Lg0KQWxlcnQgYW5kIG9yaWVudGVkIG9yIGF0IGJhc2VsaW5lLg0KTW92ZXMgYWxsIGV4dHJlbWl0aWVzIG9yIGF0IGJhc2VsaW5lLg0KVml0YWwgc2lnbnMgYXJlIHN0YWJsZSBvciBhdCBiYXNlbGluZS4NCk5vIGV4Y2Vzc2l2ZSBibGVlZGluZy4NCkFkZXF1YXRlIHBhaW4gY29udHJvbA0KL2VzLyBEQU5BIE9XRU5TDQpSTiBTVEFGRg0KU2lnbmVkOiAwMS8wOC8yMDI0IDEwOjIz',
-              title: 'Discharge Summary',
+              title: 'DISCHARGE SUMMARY',
               creation: '2024-01-08T09:00:00-05:00',
             },
           },
@@ -1185,7 +1185,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10006',
+        id: '12349',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1331,7 +1331,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1102',
       resource: {
-        id: '11021',
+        id: '123410',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1455,7 +1455,7 @@ const all = {
               contentType: 'text/plain',
               data:
                 'TE9DQUwgVElUTEU6IERJU0NIQVJHRSBTVU1NQVJZDQpTVEFOREFSRCBUSVRMRTogRElTQ0hBUkdFIFNVTU1BUlkNCkRBVEUgT0YgTk9URTogTk9WIDMwLCAyMDIzQDEwOjEyIEVOVFJZIERBVEU6IE5PViAzMCwgMjAyM0AxMDoxMjo1NA0KQVVUSE9SOiBDSFJJU1RPUEhFUiBXQUxMQUNFIEVYUCBDT1NJR05FUjoNClVSR0VOQ1k6IFNUQVRVUzogQ09NUExFVEVEDQpESVNDSEFSR0UgU1VNTUFSWToNClZJVEFMIFNJR05TIE1PTklUT1JJTkcNCkRhdGUgYW5kIFRpbWU6MTEvMzAvMjAyMyBAIDA5NDkNCkJsb29kIHByZXNzdXJlIDogMTIyLzg3bW0gSEcNClB1bHNlIHJhdGUgOiA4OHBlciBtaW4NClJlc3BpcmF0b3J5IHJhdGUgOiAxN3BlciBtaW4NClRlbXBlcmF0dXJlIDogOTcuN0YNCk8yIFNhdHVyYXRpb24gOiAxMDBwZXJjZW50DQoqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqDQpQb3N0IEFuZXN0aGVzaWEgU2VkYXRpb24gU2NvcmUgLSBQaGFzZSAxDQpQaGFzZSAxIERpc2NoYXJnZSBDcml0ZXJpYQ0KVE9UQUwgU0NPUkU9MTQNCk94eWdlbmF0aW9uDQoyIFBvaW50cyAtIFNwTzIgZ3JlYXRlciB0aGFuIG9yIGVxdWFsIHRvIDk0JSBvciBiYXNlbGluZSBvbiByb29tIGFpcg0KUEFDVSBSZXNwaXJhdG9yeSBTdGF0dXMNCjIgUG9pbnRzIC0gTm9ybWFsIGJyZWF0aGluZyBhbmQgZGVlcCBjb3VnaCBvbiBjb21tYW5kDQpDaXJjdWxhdG9yeSBTdGF0dXMNCjIgUG9pbnRzIC0gQlAvSFIgbGVzcyB0aGFuIDIwJSBvciAyMCBtbUhnIG9mIGJhc2VsaW5lDQpMZXZlbCBvZiBDb25zY2lvdXNuZXNzDQoyIFBvaW50cyAtIEZ1bGx5IGF3YWtlIG9yIGVhc2lseSBhd2FrZW5lZA0KUGFpbg0KMiBQb2ludHMgLSBNaW5pbWFsIG9yIG5vbmUgLSBQYWluIFNjb3JlIDAtNCBvciBhdCB0b2xlcmFibGUgbGV2ZWwgb3IgYXQgYmFzZWxpbmUNCk5hdXNlYS9Wb21pdGluZw0KMiBQb2ludHMgLSBNaW5pbWFsIG9yIG5vbmUNCkxldmVsIG9mIEFjdGl2aXR5DQoyIFBvaW50cyAtIEFibGUgdG8gbW92ZSBhbGwgZXh0cmVtaXRpZXMgdm9sdW50YXJpbHkgb3Igb24gY29tbWFuZCBvciBtb3ZlcyBhbGwgZXh0cmVtaXRpZXMgd2l0aCB0aGUgZXhjZXB0aW9uIG9mIGV4dHJlbWl0eSB0cmVhdGVkIHdpdGggcGVyaXBoZXJhbCBuZXJ2ZSBibG9jayBvciBwYXRpZW50IGJhc2VsaW5lDQpWQS1QQVMgUGhhc2UgMSB0aW1lIGRvY3VtZW50ZWQNClRpbWU6IDA5NDkNCk51cnNpbmcgTm90ZTpQYXRpZW50IHJlYWR5IGZvciBkaXNjaGFyZ2UuIERpc2NoYXJnZSBpbnN0cnVjdGlvbnMgYW5kIHByb2NlZHVyZSByZXBvcnQgZ2l2ZW4gdG8gcGF0aWVudC4gVGhlIHBhdGllbnQgdmVyYmFsaXplcyB1bmRlcnN0YW5kaW5nIG9mIGluc3RydWN0aW9ucy4NCkVLRzogTm8gYWN1dGUgRUtHIGNoYW5nZXMNClJFU1BJUkFUT1JZOg0KTzIgYWRtaW5pc3RlcmVkOm5vbmUsDQpHVToNClVyaW5lIE91dHB1dDpoYXMgbm90IHZvaWRlZA0KQ29sb3I6IFVyaW5lOm4vYQ0KR0k6DQpOYXVzZWEgOiBObw0KVm9taXRpbmc6IE5vDQpBYmRvbWVuOm5vbi1kaXN0ZW5kZWQNCkJvd2VsIFNvdW5kczpwcmVzZW50DQpJTlRBS0U6DQpQTzogMCBtbA0KSVY6IDUwMG1sDQpUT1RBTDogNTAwbWwNCk9VVFBVVDoNClVyaW5lOiAwbWwNClRPVEFMOiAwbWwNClBBQ1UgRElTQ0hBUkdFIENSSVRFUklBDQpEaXNjaGFyZ2VkIGJ5IGFuZXN0aGVzaW9sb2dpc3QuDQpBbGVydCBhbmQgb3JpZW50ZWQgb3IgYXQgYmFzZWxpbmUuDQpNb3ZlcyBhbGwgZXh0cmVtaXRpZXMgb3IgYXQgYmFzZWxpbmUuDQpWaXRhbCBzaWducyBhcmUgc3RhYmxlIG9yIGF0IGJhc2VsaW5lLg0KTm8gZXhjZXNzaXZlIGJsZWVkaW5nLg0KQWRlcXVhdGUgcGFpbiBjb250cm9sDQovZXMvIENIUklTVE9QSEVSIFdBTExBQ0UNClJOIFNUQUZGDQpTaWduZWQ6IDExLzMwLzIwMjMgMTA6MjM=',
-              title: 'Discharge Summary',
+              title: 'DISCHARGE SUMMARY',
               creation: '2023-11-30T09:00:00-05:00',
             },
           },
@@ -1482,7 +1482,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10007',
+        id: '123411',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1627,7 +1627,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10008',
+        id: '123412',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1772,7 +1772,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10009',
+        id: '123413',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -1917,7 +1917,7 @@ const all = {
       fullUrl:
         'https://mhv-sysb-api.myhealth.va.gov/fhir/DocumentReference/1000',
       resource: {
-        id: '10009',
+        id: '123414',
         meta: {
           versionId: '2',
           lastUpdated: '2024-05-03T12:05:25.407-04:00',
@@ -2065,7 +2065,7 @@ const all = {
 const single = (req, res) => {
   const { id } = req.params;
   const response = all.entry.find(item => {
-    return item.id === id;
+    return +item.id === +id;
   });
   return res.json(response);
 };

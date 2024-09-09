@@ -1,11 +1,11 @@
-const commonResponses = require('../../../../platform/testing/local-dev-mock-api/common');
 const { generateFeatureToggles } = require('./feature-toggles/index');
 const { USER_MOCKS } = require('./user/index');
 const folders = require('./mhv-api/messaging/folders/index');
 const personalInformation = require('../../tests/fixtures/personal-information.json');
 
 const responses = (userMock = USER_MOCKS.DEFAULT) => ({
-  ...commonResponses,
+  'OPTIONS /v0/maintenance_windows': 'OK',
+  'GET /v0/maintenance_windows': { data: [] },
   'GET /v0/user': userMock,
   '/v0/feature_toggles(.*)': generateFeatureToggles(),
   // '/v0/feature_toggles(.*)': generateFeatureToggles({ enableAll: true }),

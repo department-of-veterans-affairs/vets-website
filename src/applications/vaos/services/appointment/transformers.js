@@ -14,32 +14,6 @@ import {
   getTypeOfCareById,
 } from '../../utils/appointment';
 
-/**
- * Gets appointment info from comments field for Va appointment Requests.
- *
- * @param {String} comments VA appointment comments value
- * @param {String} key key of appointment info you want returned
- * @returns {Array} returns formatted data
- */
-export function getAppointmentInfoFromComments(comments, key) {
-  const data = [];
-  const appointmentInfo = comments?.split('|');
-
-  if (key === 'modality') {
-    const preferredModality = appointmentInfo
-      ? appointmentInfo
-          .filter(item => item.includes('preferred modality:'))[0]
-          ?.split(':')[1]
-          ?.trim()
-      : null;
-
-    if (appointmentInfo) {
-      data.push(preferredModality);
-    }
-    return data;
-  }
-  return data;
-}
 function getAppointmentType(appt) {
   if (appt.kind === 'cc' && appt.start) {
     return APPOINTMENT_TYPES.ccAppointment;
@@ -220,6 +194,7 @@ export function transformVAOSAppointment(appt) {
       },
       contact: appt.contact,
       preferredDates: appt?.preferredDates || [],
+      preferredModality: appt?.preferredModality,
     };
   }
 

@@ -23,7 +23,7 @@ export default function CancelPageLayoutRequest() {
     preferredTimesForPhoneCall,
     provider: preferredProvider,
     typeOfCareName,
-    typeOfVisit,
+    preferredModality,
   } = useSelector(
     state => selectRequestedAppointmentDetails(state, id),
     shallowEqual,
@@ -73,7 +73,7 @@ export default function CancelPageLayoutRequest() {
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             How you prefer to attend
           </h3>
-          {typeOfVisit}
+          {preferredModality}
           <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
             Facility
           </h3>
@@ -99,7 +99,9 @@ export default function CancelPageLayoutRequest() {
         Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Your contact details
       </h3>

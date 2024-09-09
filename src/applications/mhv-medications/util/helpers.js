@@ -427,6 +427,7 @@ export const sanitizeKramesHtmlStr = htmlString => {
       return word;
     });
     h2.textContent = words.join(' ');
+    h2.setAttribute('id', h2.textContent);
     heading.replaceWith(h2);
   });
 
@@ -507,4 +508,14 @@ export const convertHtmlForDownload = (html, option) => {
     $(el).after('\n\n');
   });
   return $.text().trim();
+};
+
+/**
+ * Categorizes prescriptions into refillable and renewable
+ */
+export const categorizePrescriptions = ([refillable, renewable], rx) => {
+  if (rx.isRefillable) {
+    return [[...refillable, rx], renewable];
+  }
+  return [refillable, [...renewable, rx]];
 };

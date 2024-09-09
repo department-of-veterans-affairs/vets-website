@@ -1,13 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
-import React from 'react';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-import {
-  COUNTRY_VALUES,
-  COUNTRY_NAMES,
-  REJECT_WHITESPACE_ONLY,
-} from 'platform/forms-system/src/js/definitions/profileAddress';
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -23,22 +16,24 @@ import {
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
-  confirmClaimantPersonalInformation,
+  // confirmClaimantPersonalInformation,
   claimantContactPhoneEmail,
   claimantContactMailing,
+  veteranPersonalInformation,
+  veteranContactPhoneEmail,
+  veteranContactMailing,
+  veteranIdentification,
+  veteranServiceInformation,
+  selectAccreditedRepresentative,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
-import {
-  preparerIsVeteranAndHasPrefill,
-  preparerIsVeteran,
-} from '../utilities/helpers';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 
 // import { prefillTransformer } from '../prefill-transformer';
-
 // import ClaimantType from '../components/ClaimantType';
 
 const mockData = initialData;
@@ -50,9 +45,11 @@ const formConfigFromService = configService.getFormConfig();
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  customText: {
+    appType: 'form',
+    submitButtonText: 'Continue',
+  },
+  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -106,7 +103,18 @@ const formConfig = {
         },
       },
     },
-    yourInformation: {
+    accreditedRepresentative: {
+      title: 'Accredited Representative',
+      pages: {
+        selectAccreditedRepresentative: {
+          title: 'Representative Select',
+          path: 'representative-select',
+          uiSchema: selectAccreditedRepresentative.uiSchema,
+          schema: selectAccreditedRepresentative.schema,
+        },
+      },
+    },
+    claimant: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -118,7 +126,7 @@ const formConfig = {
         },
         claimantPersonalInformation: {
           path: 'claimant-personal-information',
-          depends: formData => !preparerIsVeteranAndHasPrefill({ formData }),
+          depends: formData => !preparerIsVeteran({ formData }),
           initialData:
             /* istanbul ignore next */
             !!mockData && environment.isLocalhost() && !window.Cypress
@@ -128,16 +136,17 @@ const formConfig = {
           uiSchema: claimantPersonalInformation.uiSchema,
           schema: claimantPersonalInformation.schema,
         },
-        confirmClaimantPersonalInformation: {
-          path: 'confirm-claimant-personal-information',
-          depends: formData => preparerIsVeteranAndHasPrefill({ formData }),
-          title: 'Your Personal Information',
-          uiSchema: confirmClaimantPersonalInformation.uiSchema,
-          schema: confirmClaimantPersonalInformation.schema,
-          editModeOnReviewPage: true,
-        },
+        // confirmClaimantPersonalInformation: {
+        //   path: 'confirm-claimant-personal-information',
+        //   depends: formData => !preparerIsVeteran({ formData }),
+        //   title: 'Your Personal Information',
+        //   uiSchema: confirmClaimantPersonalInformation.uiSchema,
+        //   schema: confirmClaimantPersonalInformation.schema,
+        //   editModeOnReviewPage: true,
+        // },
         claimantContactPhoneEmail: {
           path: 'claimant-contact-phone-email',
+          depends: formData => !preparerIsVeteran({ formData }),
           title: 'Your phone number and email address',
           uiSchema: claimantContactPhoneEmail.uiSchema,
           schema: claimantContactPhoneEmail.schema,
@@ -146,149 +155,117 @@ const formConfig = {
         ...profileContactInfo({
           contactInfoPageKey: 'confirmContactInfo',
           contactPath: 'claimant-contact',
-          phoneSchema: {
-            type: 'object',
-            properties: {
-              countryCode: {
-                type: 'string',
-                pattern: '^[0-9]+$',
-                minLength: 1,
-                maxLength: 3,
-              },
-              areaCode: {
-                type: 'string',
-                pattern: '^[0-9]{1,4}$',
-                minLength: 1,
-                maxLength: 4,
-              },
-              phoneNumber: {
-                type: 'string',
-                pattern: '^[0-9]{1,14}$',
-                minLength: 1,
-                maxLength: 14,
-              },
-              phoneNumberExt: {
-                type: 'string',
-                pattern: '^[a-zA-Z0-9]{1,10}$',
-                minLength: 1,
-                maxLength: 10,
-              },
-            },
-            required: ['areaCode', 'phoneNumber'],
-          },
-          emailSchema: {
-            type: 'string',
-            format: 'email',
-            minLength: 6,
-            maxLength: 255,
-          },
-          addressSchema: {
-            type: 'object',
-            required: ['country', 'street', 'city', 'postalCode'],
-            properties: {
-              isMilitary: {
-                type: 'boolean',
-              },
-              country: {
-                type: 'string',
-                enum: COUNTRY_VALUES, // from /definitions/profileAddress
-                enumNames: COUNTRY_NAMES, // from /definitions/profileAddress
-              },
-              street: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              street2: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              street3: {
-                type: 'string',
-                minLength: 1,
-                maxLength: 100,
-                pattern: REJECT_WHITESPACE_ONLY, // from /definitions/profileAddress
-              },
-              city: {
-                type: 'string',
-              },
-              state: {
-                type: 'string',
-              },
-              postalCode: {
-                type: 'string',
-              },
-            },
-          },
-
-          // ** Object key wrapping contact info, e.g. **
-          // ** { veteran: { mailingAddress: {}, primaryPhone: {}, ... } }
-          wrapperKey: 'veteran',
-          addressKey: 'mailingAddress',
-          homePhoneKey: 'homePhone',
-          emailKey: 'email',
-          contactInfoRequiredKeys: ['mailingAddress', 'email', 'homePhone'],
-
-          // ** Use the same keys as defined above **
-          included: ['homePhone', 'mailingAddress', 'email'],
-
-          content: {
-            title: 'Contact information',
-            description: (
-              <>
-                <p>
-                  This is the contact information we have on file for you. We’ll
-                  send any updates or information about your application to this
-                  address.
-                </p>
-              </>
-            ),
-
-            // ** Page titles & link aria-labels **
-            editHomePhone: 'Edit home phone number',
-            editEmail: 'Edit email address',
-            editMailingAddress: 'Edit mailing address',
-
-            edit: 'Edit', // link text
-            editLabel: 'Edit contact information', // link aria-label
-            update: 'Update page', // update button on review & submit page
-            updated: 'updated', // alert updated text
-
-            // ** Missing info alert messaging **
-            missingHomePhone: 'home phone',
-            missingAddress: 'mailing address',
-            missingEmail: 'email address',
-            alertContent:
-              'The missing information has been added to your application. You may continue.',
-
-            // ** Review & submit & section titles **
-            mailingAddress: 'Mailing address',
-            homePhone: 'Home number',
-            email: 'Email address',
-            country: 'Country',
-            address1: 'Street address',
-            address2: 'Street address line 2',
-            address3: 'Street address line 3',
-            city: 'City',
-            state: 'State',
-            province: 'Province',
-            postal: 'Postal code',
-
-            // // ** Error on review & submit **
-            // missingEmailError: 'Missing email address',
-
-            // // ** contact info depends callback
-            // depends = null,
+          contactInfoRequiredKeys: [
+            'mailingAddress',
+            'email',
+            'homePhone',
+            'mobilePhone',
+          ],
+          included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
+          depends: formData => {
+            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            const isNotVeteran = !preparerIsVeteran({ formData });
+            return isLoggedIn && isNotVeteran;
           },
         }),
         claimantContactMailing: {
           path: 'claimant-contact-mailing',
-          title: 'Veteran’s mailing address',
+          depends: formData => !preparerIsVeteran({ formData }),
+          title: 'Your mailing address',
           uiSchema: claimantContactMailing.uiSchema,
           schema: claimantContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+      },
+    },
+    veteranInfoForVeterans: {
+      title: 'Your Information',
+      depends: formData => preparerIsVeteran({ formData }),
+      pages: {
+        veteranPersonalInformation: {
+          title: `Your name and date of birth`,
+          path: 'veteran-personal-information',
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactMailing: {
+          path: 'veteran-contact-mailing',
+          title: `Your  mailing address`,
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranContactMailing.uiSchema,
+          schema: veteranContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactPhoneEmail: {
+          path: 'veteran-contact-phone-email',
+          title: `Your phone number and email address`,
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranContactPhoneEmail.uiSchema,
+          schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: `Your identification information`,
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranIdentification.uiSchema,
+          schema: veteranIdentification.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranServiceInformation: {
+          path: 'veteran-service-information',
+          title: `Your service information`,
+          depends: formData => preparerIsVeteran({ formData }),
+          uiSchema: veteranServiceInformation.uiSchema,
+          schema: veteranServiceInformation.schema,
+          editModeOnReviewPage: true,
+        },
+      },
+    },
+    veteranInfoForNonVeterans: {
+      title: 'Veteran Information',
+      depends: formData => !preparerIsVeteran({ formData }),
+      pages: {
+        veteranPersonalInformation: {
+          title: `Veteran's name and date of birth`,
+          path: 'veteran-personal-information',
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranPersonalInformation.uiSchema,
+          schema: veteranPersonalInformation.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactMailing: {
+          path: 'veteran-contact-mailing',
+          title: `Veteran's  mailing address`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranContactMailing.uiSchema,
+          schema: veteranContactMailing.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranContactPhoneEmail: {
+          path: 'veteran-contact-phone-email',
+          title: `Veteran's phone number and email address`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranContactPhoneEmail.uiSchema,
+          schema: veteranContactPhoneEmail.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranIdentification: {
+          path: 'veteran-identification',
+          title: `Veteran's identification information`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranIdentification.uiSchema,
+          schema: veteranIdentification.schema,
+          editModeOnReviewPage: true,
+        },
+        veteranServiceInformation: {
+          path: 'veteran-service-information',
+          title: `Veteran's service information`,
+          depends: formData => !preparerIsVeteran({ formData }),
+          uiSchema: veteranServiceInformation.uiSchema,
+          schema: veteranServiceInformation.schema,
           editModeOnReviewPage: true,
         },
       },

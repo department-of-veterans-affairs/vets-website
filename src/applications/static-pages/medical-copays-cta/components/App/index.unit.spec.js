@@ -7,12 +7,6 @@ import { Provider } from 'react-redux';
 import { App } from '.';
 
 describe('Medical Copays CTA <App>', () => {
-  it('does not render when feature toggle is falsey', () => {
-    const wrapper = shallow(<App show={false} />);
-    expect(wrapper.type()).to.equal(null);
-    wrapper.unmount();
-  });
-
   it('renders what we expect when unauthenticated', () => {
     const mockStore = {
       getState: () => ({}),

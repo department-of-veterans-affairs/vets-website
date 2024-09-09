@@ -8,12 +8,12 @@ const SchoolCertifyingOfficialHandbook = () => {
     <div className="merger-r-rail hub-promo" id="promo">
       <img src={scoImgSrc} alt="Education Sco" />
       <section className="hub-promo-text">
-        <h4 className="heading">
+        <h2 className="heading">
           <va-link
             href="https://iam.education.va.gov/"
             text="Access Enrollment Manager"
           />
-        </h4>
+        </h2>
         <p>via the VA Education Platform Portal</p>
       </section>
     </div>

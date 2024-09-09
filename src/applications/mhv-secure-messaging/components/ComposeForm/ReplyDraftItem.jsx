@@ -45,6 +45,7 @@ const ReplyDraftItem = props => {
     showBlockedTriageGroupAlert,
     setHideDraft,
     setIsEditing,
+    setIsSending,
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
@@ -336,20 +337,26 @@ const ReplyDraftItem = props => {
         } else {
           sendData = JSON.stringify(messageData);
         }
-
+        setIsSending(true);
         dispatch(sendReply(replyToMessageId, sendData, attachments.length > 0))
           .then(() => {
-            if (draftsCount > 1) {
-              // send a call to get updated thread
-              dispatch(retrieveMessageThread(replyMessage.messageId));
-            } else {
-              navigateToFolderByFolderId(
-                draft?.threadFolderId ? draft?.threadFolderId : folderId,
-                history,
-              );
-            }
+            setTimeout(() => {
+              if (draftsCount > 1) {
+                // send a call to get updated thread
+                dispatch(retrieveMessageThread(replyMessage.messageId)).then(
+                  setIsSending(false),
+                );
+              } else {
+                setIsSending(false);
+                navigateToFolderByFolderId(
+                  draft?.threadFolderId ? draft?.threadFolderId : folderId,
+                  history,
+                );
+              }
+            }, 1000);
           })
           .catch(() => {
+            setIsSending(false);
             setSendMessageFlag(false);
             setIsAutosave(true);
           });
@@ -567,6 +574,7 @@ ReplyDraftItem.propTypes = {
   setLastFocusableElement: PropTypes.func,
   showBlockedTriageGroupAlert: PropTypes.bool,
   signature: PropTypes.object,
+  setIsSending: PropTypes.func,
 };
 
 export default ReplyDraftItem;

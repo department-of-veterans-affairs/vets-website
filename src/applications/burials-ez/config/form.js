@@ -38,8 +38,8 @@ import tribalLandLocation from './chapters/04-benefits-selection/tribalLandLocat
 import plotAllowancePartOne from './chapters/04-benefits-selection/plotAllowancePartOne';
 import plotAllowancePartTwo from './chapters/04-benefits-selection/plotAllowancePartTwo';
 import transportationExpenses from './chapters/04-benefits-selection/transportationExpenses';
+import supportingDocuments from './chapters/05-additional-information/supportingDocuments';
 import fasterClaimProcessing from './chapters/05-additional-information/fasterClaimProcessing';
-
 import deathCertificate from './chapters/05-additional-information/deathCertificate';
 import transportationReceipts from './chapters/05-additional-information/transportationReceipts';
 import additionalEvidence from './chapters/05-additional-information/additionalEvidence';
@@ -81,12 +81,12 @@ const formConfig = {
   },
   savedFormMessages: {
     notFound:
-      'Please start over to apply for a Veterans burial allowance and reimbursement.',
+      'Please start over to apply for a Veterans burial allowance and transportation benefits.',
     noAuth:
       'Please sign in again to resume your application for burial benefits.',
   },
-  title: 'Apply for a Veterans burial allowance and reimbursement',
-  subTitle: 'Form 21P-530EZ',
+  title: 'Apply for a Veterans burial allowance and transportation benefits',
+  subTitle: 'Application for Burial Benefits (VA Form 21P-530EZ)',
   preSubmitInfo,
   footerContent: FormFooter,
   getHelp: GetFormHelp,
@@ -395,6 +395,17 @@ const formConfig = {
     additionalInformation: {
       title: 'Additional information',
       pages: {
+        supportingDocuments: {
+          title: 'Supporting Documents',
+          reviewTitle: () => (
+            <div>
+              <h4 className="vads-u-font-size--h3">Supporting Documents</h4>
+            </div>
+          ),
+          path: 'additional-information/supporting-documents',
+          uiSchema: supportingDocuments.uiSchema,
+          schema: supportingDocuments.schema,
+        },
         deathCertificate: {
           title: 'Death certificate',
           reviewTitle: () => (

@@ -147,7 +147,7 @@ class PilotEnvPage {
     option = 'Oldest to newest',
     sortedResponse,
   ) => {
-    cy.get(Locators.DROPDOWN)
+    cy.get(Locators.DROPDOWN.SORT)
       .shadow()
       .find('select')
       .select(`${option}`, { force: true });

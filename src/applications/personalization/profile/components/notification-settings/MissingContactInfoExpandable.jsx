@@ -30,7 +30,7 @@ const AddYourInfoDescription = ({ channel }) => {
 
 AddYourInfoDescription.propTypes = {
   channel: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }).isRequired,
 };
@@ -75,7 +75,7 @@ const AddYourInfoLink = ({ channel }) => {
 
 AddYourInfoLink.propTypes = {
   channel: PropTypes.shape({
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
   }).isRequired,
 };
 

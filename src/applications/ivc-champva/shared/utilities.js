@@ -138,3 +138,21 @@ export function adjustYearString(data) {
   });
   return copy;
 }
+
+/**
+ * Combine all street fields from an address into a single string.
+ * @param {Object} addr Standard form address object containing one or more `street` properties (e.g., street, street1, street2)
+ * @param {boolean} newLines Whether or not to separate streets with a '\n' character
+ * @returns Copy of passed-in address object with a new `streetCombined` property (string)
+ */
+export function concatStreets(addr, newLines = false) {
+  const updated = { ...addr, streetCombined: '' };
+  if (addr) {
+    for (const [k, v] of Object.entries(addr)) {
+      updated.streetCombined += k.includes('street')
+        ? `${v}${newLines ? '\n' : ' '}`
+        : '';
+    }
+  }
+  return updated;
+}

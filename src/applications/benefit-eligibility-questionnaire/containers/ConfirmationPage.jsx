@@ -2,60 +2,130 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+
+import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
+import appendQuery from 'append-query';
+import { browserHistory } from 'react-router';
+import { displayResults as displayResultsAction } from '../reducers/actions';
+import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
-import GetFormHelp from '../../simple-forms/shared/components/GetFormHelp';
+import GetFormHelp from '../components/GetFormHelp';
+import ShareResultsModal from '../components/ShareResultsModal';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('h2');
     scrollToTop('topScrollElement');
+    // Update query string based on results.
+    if (this.props.results.data && this.props.results.data.length > 0) {
+      const benefits = this.props.results.data.map(r => r.id).join(',');
+      const queryParams = { benefits };
+      const queryStringObj = appendQuery(
+        `${this.props.location.basename}${this.props.location.pathname}`,
+        queryParams,
+      );
+      browserHistory.replace(queryStringObj);
+    } else if (
+      this.props.location.query &&
+      Object.keys(this.props.location.query).length > 0
+    ) {
+      // Display results based on query string.
+      const { benefits } = this.props.location.query;
+      const benefitIds = benefits.split(',');
+      this.props.displayResults(benefitIds);
+    }
   }
 
+  handleClick = e => {
+    e.preventDefault();
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+    this.props.router.goBack();
+  };
+
   render() {
+    const hasResults = !!this.props.results.data;
+    const resultsCount = hasResults ? this.props.results.data.length : 0;
+    const resultsText = resultsCount === 1 ? 'result' : 'results';
     return (
       <div>
         <p>
-          Based on your goals and experiences, we recommend exploring the
-          benefits listed below. You may be eligible for these benefits, but
-          please double-check the eligibility requirements before applying.
-        </p>
-        <p>
-          You can filter and sort the recommended benefits. If you want to copy
-          the link to your personalized results or email the results to
-          yourself, select the “Share results” button.
+          Based on your answers, you may be eligible for these benefits and
+          services. Learn more about each benefit. And check your eligibility
+          before you apply.
         </p>
 
-        <div className="vads-u-margin-y--2">
-          <va-alert-expandable
-            status="info"
-            trigger="Time-sensitive benefits"
-          />
+        <ShareResultsModal />
+
+        <div id="results-container">
+          <div id="filters-section-desktop">
+            <b>Filters</b>
+          </div>
+
+          <div id="filters-section-mobile">
+            <va-link-action
+              href="#"
+              message-aria-describedby="Filter and sort"
+              text="Filter and sort"
+              type="secondary"
+            />
+          </div>
+
+          <div id="results-section">
+            <b>
+              {hasResults &&
+                `Showing ${resultsCount} ${resultsText}, filtered to show all results, sorted alphabetically`}
+            </b>
+
+            <p>
+              <va-link
+                href="#"
+                onClick={this.handleClick}
+                text="Go back and review your entries"
+              />
+            </p>
+
+            <div className="vads-u-margin-y--2">
+              <va-alert-expandable
+                status="info"
+                trigger="Time-sensitive benefits"
+              />
+            </div>
+
+            <div>
+              {this.props.results.isLoading ? (
+                <va-loading-indicator
+                  label="Loading"
+                  message="Loading results..."
+                />
+              ) : (
+                this.props.results &&
+                this.props.results.data.map(benefit => (
+                  <BenefitCard
+                    key={benefit.id}
+                    benefit={benefit}
+                    className="vads-u-margin-bottom--2"
+                  />
+                ))
+              )}
+            </div>
+
+            <va-accordion>
+              <va-accordion-item
+                header="Show benefits that I may not qualify for"
+                id="show"
+              />
+            </va-accordion>
+          </div>
         </div>
-
-        <va-button
-          message-aria-describedby="Share your results"
-          text="Share your results"
-          onClick={() => {}}
-        />
-
-        <hr className="divider vads-u-margin-y--2" />
-
-        <va-accordion>
-          <va-accordion-item
-            header="Recommended benefits and resources"
-            id="recommended"
-          />
-          <va-accordion-item
-            header="Show benefits that I may not qualify for"
-            id="show"
-          />
-        </va-accordion>
 
         <AdditionalSupport />
 
         <div className="row vads-u-margin-bottom--2">
-          <div className="usa-width-two-thirds medium-8 columns">
+          <div className="usa-width-one-whole medium-8 columns">
             <va-need-help>
               <div slot="content">
                 <GetFormHelp formConfig={this.props.formConfig} />
@@ -68,10 +138,44 @@ export class ConfirmationPage extends React.Component {
   }
 }
 
+const mapDispatchToProps = {
+  setSubmission: setSubmissionAction,
+  displayResults: displayResultsAction,
+};
+
 function mapStateToProps(state) {
   return {
     form: state.form,
+    results: state.results,
   };
 }
 
-export default connect(mapStateToProps)(ConfirmationPage);
+ConfirmationPage.propTypes = {
+  displayResults: PropTypes.func,
+  formConfig: PropTypes.object,
+  location: PropTypes.shape({
+    basename: PropTypes.string,
+    pathname: PropTypes.string,
+    query: PropTypes.object,
+  }),
+  results: PropTypes.shape({
+    isLoading: PropTypes.bool,
+    isError: PropTypes.bool,
+    data: PropTypes.array,
+    error: PropTypes.object,
+  }),
+  route: PropTypes.shape({
+    pageList: PropTypes.array,
+    formConfig: PropTypes.shape({
+      prefillEnabled: PropTypes.bool,
+      downtime: PropTypes.object,
+    }),
+  }),
+  router: PropTypes.object,
+  setSubmission: PropTypes.func,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(ConfirmationPage);

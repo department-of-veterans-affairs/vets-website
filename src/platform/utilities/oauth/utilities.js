@@ -142,6 +142,10 @@ export async function createOAuthRequest({
       type.includes('idme') && {
         [OAUTH_ALLOWED_PARAMS.OPERATION]: OPERATIONS.SIGNUP,
       }),
+    ...(isMobileOAuth &&
+      passedQueryParams.scope && {
+        [OAUTH_ALLOWED_PARAMS.SCOPE]: passedQueryParams.scope,
+      }),
   };
 
   const url = new URL(API_SIGN_IN_SERVICE_URL({ type: useType }));
@@ -152,7 +156,6 @@ export async function createOAuthRequest({
 
   sessionStorage.setItem('ci', usedClientId);
   recordEvent({ event: `login-attempted-${type}-oauth-${clientId}` });
-
   return url.toString();
 }
 

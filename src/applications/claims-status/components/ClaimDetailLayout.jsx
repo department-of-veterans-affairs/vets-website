@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   buildDateFormatter,
   claimAvailable,
-  getClaimType,
   isClaimOpen,
   isPopulatedClaim,
+  generateClaimTitle,
 } from '../utils/helpers';
 import { setFocus } from '../utils/page';
 import AddingDetails from './AddingDetails';
@@ -21,22 +21,10 @@ const focusHeader = () => {
   setFocus('.claim-contentions-header');
 };
 
-const getBreadcrumbText = (currentTab, claimType) => {
-  let joiner;
-  if (currentTab === 'Status' || currentTab === 'Details') {
-    joiner = 'of';
-  } else {
-    joiner = 'for';
-  }
-
-  return `${currentTab} ${joiner} your ${claimType} claim`;
-};
-
 export default function ClaimDetailLayout(props) {
   const { claim, clearNotification, currentTab, loading, message } = props;
 
   const tabs = ['Status', 'Files', 'Details', 'Overview'];
-  const claimType = getClaimType(claim).toLowerCase();
 
   let bodyContent;
   let headingContent;
@@ -48,7 +36,7 @@ export default function ClaimDetailLayout(props) {
       />
     );
   } else if (claimAvailable(claim)) {
-    const claimTitle = `Your ${claimType} claim`;
+    const claimTitle = generateClaimTitle(claim, 'detail');
     const { claimDate, closeDate, contentions, status } =
       claim.attributes || {};
 
@@ -112,7 +100,7 @@ export default function ClaimDetailLayout(props) {
 
   const crumb = {
     href: `../status`,
-    label: getBreadcrumbText(currentTab, claimType),
+    label: generateClaimTitle(claim, 'breadcrumb', currentTab),
     isRouterLink: true,
   };
 

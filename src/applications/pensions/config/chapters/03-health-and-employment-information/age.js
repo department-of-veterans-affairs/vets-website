@@ -8,7 +8,7 @@ const { isOver65 } = fullSchemaPensions.properties;
 
 const path = !showMedicalEvidenceClarification()
   ? 'medical/history/age'
-  : 'temporarily-hidden';
+  : 'temporarily-hidden-age';
 
 /** @type {PageSchema} */
 export default {
