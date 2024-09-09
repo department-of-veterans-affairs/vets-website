@@ -111,6 +111,13 @@ class ContactListPage {
 
     this.verifyAllCheckboxes(false);
   };
+
+  verifyContactListLink = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .should(`be.visible`)
+      .and('have.text', Data.CL_LINK_TEXT);
+  };
 }
 
 export default new ContactListPage();

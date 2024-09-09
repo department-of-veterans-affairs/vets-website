@@ -1,3 +1,5 @@
+import mockToggles from '../fixtures/toggles-response.json';
+
 class GeneralFunctionsPage {
   updatedThreadDates = data => {
     const currentDate = new Date();
@@ -23,6 +25,22 @@ class GeneralFunctionsPage {
           },
         };
       }),
+    };
+  };
+
+  updateFeatureToggles = (name, value) => {
+    return {
+      ...mockToggles,
+      data: {
+        ...mockToggles.data,
+        features: [
+          ...mockToggles.data.features,
+          {
+            name,
+            value,
+          },
+        ],
+      },
     };
   };
 
