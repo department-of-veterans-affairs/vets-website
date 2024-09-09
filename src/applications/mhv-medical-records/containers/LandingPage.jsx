@@ -27,6 +27,7 @@ import {
   selectSettingsPageFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
+import FeedbackEmail from '../components/shared/FeedbackEmail';
 
 const LandingPage = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,9 @@ const LandingPage = () => {
   const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
+  );
+  const phase0p5Flag = useSelector(
+    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
   );
 
   useEffect(
@@ -316,12 +320,20 @@ const LandingPage = () => {
               update your records.
             </p>
             <p className="vads-u-margin-bottom--2">
-              <va-link
-                href={`${
-                  environment.BASE_URL
-                }/my-health/secure-messages/new-message/`}
-                text="Start a new message"
-              />
+              {phase0p5Flag ? (
+                <va-link
+                  href="/my-health/secure-messages/new-message/"
+                  text="Start a new message"
+                />
+              ) : (
+                <ExternalLink
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'compose-message',
+                  )}
+                  text="Compose a message on the My HealtheVet website"
+                />
+              )}
             </p>
           </va-accordion-item>
           <va-accordion-item bordered="true">
@@ -397,10 +409,19 @@ const LandingPage = () => {
                   <span className="vads-u-font-weight--bold">
                     For questions about how to use this tool,{' '}
                   </span>
-                  call us at <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
-                  <va-telephone tty contact={CONTACTS['711']} />
-                  ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.
-                  ET.
+                  {phase0p5Flag ? (
+                    <span>
+                      call us at{' '}
+                      <va-telephone contact={CONTACTS.MY_HEALTHEVET} /> (
+                      <va-telephone tty contact={CONTACTS['711']} />
+                      ). We’re here Monday through Friday, 8:00 a.m. to 8:00
+                      p.m. ET.
+                    </span>
+                  ) : (
+                    <span>
+                      Email us at <FeedbackEmail />.
+                    </span>
+                  )}
                 </p>
               </>
             )}
