@@ -322,7 +322,7 @@ Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
 
 export const convertMhvRadiologyRecord = record => {
   return {
-    id: `r${record.id}`,
+    id: `r${record.id}-${record.hash}`,
     name: record.procedureName,
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,

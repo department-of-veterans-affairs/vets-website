@@ -417,3 +417,16 @@ export const decodeBase64Report = data => {
   }
   return null;
 };
+
+const generateHash = async data => {
+  const dataBuffer = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+};
+
+export const radiologyRecordHash = async record => {
+  const { radiologist, stationNumber, eventDate } = record;
+  const dataString = `${radiologist}|${stationNumber}|${eventDate}`;
+  return (await generateHash(dataString)).substring(0, 8);
+};

@@ -8,7 +8,7 @@ import {
 import * as Constants from '../util/constants';
 import { addAlert } from './alerts';
 import { getListWithRetry } from './common';
-import { dispatchDetails } from '../util/helpers';
+import { dispatchDetails, radiologyRecordHash } from '../util/helpers';
 
 export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
   dispatch({
@@ -21,10 +21,16 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
       getLabsAndTests,
     );
     const radiologyResponse = await getMhvRadiologyTests();
+    const hashedRadiologyResponse = await Promise.all(
+      radiologyResponse.map(async record => ({
+        ...record,
+        hash: await radiologyRecordHash(record),
+      })),
+    );
     dispatch({
       type: Actions.LabsAndTests.GET_LIST,
       labsAndTestsResponse,
-      radiologyResponse,
+      radiologyResponse: hashedRadiologyResponse,
       isCurrent,
     });
   } catch (error) {
