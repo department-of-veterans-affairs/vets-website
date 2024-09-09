@@ -25,26 +25,36 @@ const getPreparerFullName = formData => {
   return fullName;
 };
 
+const content = {
+  headlineText: 'You’ve successfully submitted your Lay or Witness Statement',
+  nextStepsText:
+    'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
+};
+
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const showNewConfirmationPage = useSelector(
     state =>
       toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
   );
-  const ConfirmationPageView = showNewConfirmationPage
-    ? NewConfirmationPageView
-    : OldConfirmationPageView;
   const { formConfig } = props.route;
   const { submission } = form;
   const preparerFullName = getPreparerFullName(form.data);
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
 
-  return (
-    <ConfirmationPageView
+  return showNewConfirmationPage ? (
+    <NewConfirmationPageView
+      submitDate={submitDate}
+      confirmationNumber={confirmationNumber}
+      formConfig={formConfig}
+    />
+  ) : (
+    <OldConfirmationPageView
       submitterName={preparerFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
+      content={content}
       formConfig={formConfig}
     />
   );
