@@ -16,6 +16,8 @@ export default function prefillTransformer(pages, formData, metadata) {
     return {
       ...data.contactInformation,
       ...data.avaProfile,
+      phoneNumber: data.contactInformation.phone,
+      emailAddress: data.contactInformation.email,
     };
   };
 
