@@ -17,6 +17,7 @@ import HowToPay from '../components/HowToPay';
 import FinancialHelp from '../components/FinancialHelp';
 import { OnThisPageOverview } from '../components/OnThisPageOverview';
 import MCPAlerts from '../../combined/components/MCPAlerts';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const renderAlert = (alertType, debts) => {
   const alertInfo = alertMessage(alertType, APP_TYPES.COPAY);
@@ -86,6 +87,7 @@ const OverviewPage = () => {
   const sortedStatements = sortStatementsByDate(statements ?? []);
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const title = 'Current copay balances';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');
