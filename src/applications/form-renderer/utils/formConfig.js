@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   dateOfBirthSchema,
   dateOfBirthUI,
@@ -68,7 +69,9 @@ export const createFormConfig = form => {
     trackingPrefix: `${formId}-`,
     // eslint-disable-next-line no-console
     submit: () => console.log(`Submitted ${subTitle}`),
-    introduction: IntroductionPage,
+    introduction: props => (
+      <IntroductionPage {...props} ombInfo={form.ombInfo} />
+    ),
     confirmation: ConfirmationPage,
     formId,
     saveInProgress: {},
