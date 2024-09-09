@@ -419,7 +419,7 @@ const LandingPage = () => {
                     </span>
                   ) : (
                     <span>
-                      Email us at <FeedbackEmail />.
+                      email us at <FeedbackEmail />.
                     </span>
                   )}
                 </p>
