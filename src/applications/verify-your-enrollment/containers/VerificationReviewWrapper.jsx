@@ -59,7 +59,7 @@ const VerificationReviewWrapper = ({
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
-    const fakeError = new Error('Internal Server Error.');
+    const submissionError = new Error('Internal Server Error.');
 
     const currentDateTime = toLocalISOString(new Date());
     // update pendingVerifications to a blank array
@@ -80,7 +80,7 @@ const VerificationReviewWrapper = ({
     } else {
       dispatch({
         type: VERIFY_ENROLLMENT_FAILURE,
-        errors: fakeError.toString(),
+        errors: submissionError.toString(),
       });
     }
   };
