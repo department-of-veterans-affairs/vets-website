@@ -8,17 +8,16 @@ const handleClick = (rootUrl, path) => {
   window.location = `${rootUrl}${path}`;
 };
 
-export const LandingPage = ({ rootUrl = defaultRootUrl }) => {
+export const LandingPage = ({ rootUrl = defaultRootUrl, location }) => {
   const [tabs, setTabs] = useState([]);
 
   useEffect(() => {
     // get the pattern number from the URL
-    const patternNumber = window.location.pathname.match(
-      /mock-form-ae-design-patterns\/(\d+)/,
-    )?.[1];
-    const patternKey = `pattern${patternNumber}`;
+    const patternNumber = location?.pathname.match(/(\d+)/)?.[1];
 
-    setTabs(tabsConfig[patternKey]);
+    const patternKey = `pattern${patternNumber || 'Fallback'}`;
+
+    setTabs(tabsConfig[patternKey] || []);
   }, []);
 
   return (
@@ -31,23 +30,24 @@ export const LandingPage = ({ rootUrl = defaultRootUrl }) => {
         </div>
       </div>
 
-      {tabs.map(tab => (
-        <div className="vads-l-row vads-u-margin-y--2" key={tab.name}>
-          <div className="vads-l-col">
-            <button
-              className={`vads-u-width--full ${tab.baseClass}`}
-              onClick={() =>
-                handleClick(rootUrl, tab.path + tab.introPathWithQuery)
-              }
-            >
-              {tab.name}
-            </button>
+      {tabs.length > 0 &&
+        tabs.map(tab => (
+          <div className="vads-l-row vads-u-margin-y--2" key={tab.name}>
+            <div className="vads-l-col">
+              <button
+                className={`vads-u-width--full ${tab.baseClass}`}
+                onClick={() =>
+                  handleClick(rootUrl, tab.path + tab.introPathWithQuery)
+                }
+              >
+                {tab.name}
+              </button>
+            </div>
+            <div className="vads-l-col">
+              <p className="vads-u-margin-left--4">{tab.description}</p>
+            </div>
           </div>
-          <div className="vads-l-col">
-            <p className="vads-u-margin-left--4">{tab.description}</p>
-          </div>
-        </div>
-      ))}
+        ))}
     </div>
   );
 };

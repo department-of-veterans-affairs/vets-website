@@ -159,7 +159,7 @@ export function ConfirmationPage(props) {
         />
       </div>
       <h2 className="vads-u-font-size--h3">What to expect next</h2>
-      <p>It will take about 60 days to process your application.</p>
+      <p>It will take about 90 days to process your application.</p>
       <p>
         If we have any questions or need additional information, we'll contact
         you.
