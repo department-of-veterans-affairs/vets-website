@@ -5,8 +5,13 @@ import { EXTERNAL_APPS } from '../constants';
 export const defaultSignInProviders = {
   logingov: true,
   idme: true,
-  dslogon: true,
+  dslogon: false,
   mhv: true,
+};
+
+export const v2SignInProviders = {
+  logingov: true,
+  idme: true,
 };
 
 export const defaultSignUpProviders = {

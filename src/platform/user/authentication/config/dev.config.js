@@ -1,7 +1,7 @@
 import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from '../constants';
 import {
   defaultSignUpProviders,
-  defaultSignInProviders,
+  v2SignInProviders,
   defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
@@ -10,7 +10,7 @@ import {
 
 export default {
   default: {
-    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignInProviders: { ...v2SignInProviders },
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
@@ -23,7 +23,7 @@ export default {
     requiresVerification: false,
   },
   [EXTERNAL_APPS.MHV]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignInProviders: { ...v2SignInProviders },
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
@@ -36,7 +36,7 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MHV],
   },
   [EXTERNAL_APPS.MY_VA_HEALTH]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignInProviders: { ...v2SignInProviders },
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
@@ -49,7 +49,7 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH],
   },
   [EXTERNAL_APPS.EBENEFITS]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignInProviders: { ...v2SignInProviders },
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: false,
     queryParams: {
@@ -62,7 +62,7 @@ export default {
     externalRedirectUrl: EXTERNAL_REDIRECTS[EXTERNAL_APPS.EBENEFITS],
   },
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: {
-    allowedSignInProviders: { ...defaultSignInProviders },
+    allowedSignInProviders: { ...v2SignInProviders },
     allowedSignUpProviders: { ...defaultSignUpProviders },
     isMobile: true,
     queryParams: { ...defaultMobileQueryParams },
@@ -73,7 +73,7 @@ export default {
   },
   [EXTERNAL_APPS.VA_OCC_MOBILE]: {
     allowedSignInProviders: {
-      default: { ...defaultSignInProviders },
+      default: { ...v2SignInProviders },
       registeredApps: { dslogon: true },
     },
     allowedSignUpProviders: {
