@@ -88,9 +88,9 @@ export default function App({ location, children }) {
       }
       handleEditPageDisplayTweaks(location);
 
-      // having the pollTimeout allows api calls locally
+      // having the pollTimeout present triggers api calls to be made locally and in codespaces
       if (!window?.VetsGov?.pollTimeout) {
-        window.VetsGov.pollTimeout = 5000;
+        window.VetsGov.pollTimeout = 500;
       }
     },
     [location, setHasSession],
