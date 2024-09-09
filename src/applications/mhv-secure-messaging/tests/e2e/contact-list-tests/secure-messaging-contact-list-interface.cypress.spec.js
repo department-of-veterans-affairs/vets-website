@@ -1,11 +1,11 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import ContactListPage from './pages/ContactListPage';
-import { AXE_CONTEXT } from './utils/constants';
-import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
-import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
-import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
-import mockMixRecipients from './fixtures/multi-facilities-recipients-response.json';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import ContactListPage from '../pages/ContactListPage';
+import { AXE_CONTEXT } from '../utils/constants';
+import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
+import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
+import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
+import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
 
 describe('SM Contact list', () => {
   it('verify base web-elements - single facility', () => {
