@@ -172,9 +172,6 @@ export class ComboBox extends React.Component {
     if (searchTerm.length === 0) {
       filtered = [];
     }
-    if (searchTerm === value) {
-      filtered = [];
-    }
     let ariaLive1;
     let ariaLive2;
     if (bump) {
