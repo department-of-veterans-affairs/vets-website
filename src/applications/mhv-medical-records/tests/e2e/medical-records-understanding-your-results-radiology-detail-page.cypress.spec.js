@@ -30,6 +30,9 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
     );
 
     // verify compose a message on the My Healthvet website
+    RadiologyDetailsPage.verifyComposeMessageLink(
+      'Compose a message on the My HealtheVet website',
+    );
     RadiologyDetailsPage.verifyComposeMessageLink('Start a new message');
 
     cy.injectAxe();
