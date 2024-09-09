@@ -12,7 +12,7 @@ export const URL = {
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
-  GET_SCHOOL: `/v0/gi/institutions/search?name=`,
+  GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
 };
 
@@ -282,9 +282,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   THEIR_RELATIONSHIP_TO_VET: {
-    TITLE: 'What is their relationship to the veteran?',
+    TITLE: 'What is their relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Please describe their relationship to the veteran',
+    QUESTION_1: 'Please describe their relationship to the Veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -330,7 +330,6 @@ export const CHAPTER_3 = {
   WHO_QUES_IS_ABOUT: {
     TITLE: 'Is your question about the Veteran or someone else?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select who your question is about:',
   },
   VA_EMPLOYEE: {
     TITLE: 'VA employee',

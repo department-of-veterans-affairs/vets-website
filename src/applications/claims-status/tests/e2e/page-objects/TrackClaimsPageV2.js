@@ -513,7 +513,7 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyPrimaryAlertfor5103Notice(isStandard = false) {
+  verifyPrimaryAlertfor5103Notice(isStandard = false, is5103Update = false) {
     const testId = isStandard
       ? '[data-testid="standard-5103-notice-alert"]'
       : '[data-testid="item-13"]';
@@ -521,10 +521,10 @@ class TrackClaimsPageV2 {
       ? '/track-claims/your-claims/189685/5103-evidence-notice'
       : '/track-claims/your-claims/189685/document-request/13';
     cy.get(testId).should('be.visible');
-    if (isStandard) {
+    if (isStandard || is5103Update) {
       cy.get(testId)
         .find('h4')
-        .should('contain', '5103 Evidence Notice');
+        .should('contain', 'Review evidence list');
     } else {
       cy.get(testId)
         .find('h4')
@@ -534,16 +534,11 @@ class TrackClaimsPageV2 {
       .find('a')
       .should('contain', 'Details');
     cy.get(testId)
-      .find('.alert-description > p')
+      .find('.alert-description')
       .first()
       .should(
         'contain',
-        'We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.',
-      )
-      .next()
-      .should(
-        'contain',
-        'Upload the waiver attached to the letter if you’re finished adding evidence.',
+        'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
       );
     cy.get(testId)
       .find('a')
@@ -575,7 +570,10 @@ class TrackClaimsPageV2 {
         'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
       );
     }
-    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a.active-va-link').should(
+      'contain',
+      'Find this letter in your claim letters',
+    );
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
       'Upload your evidence here',

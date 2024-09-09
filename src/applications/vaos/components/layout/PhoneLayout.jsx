@@ -107,7 +107,9 @@ export default function PhoneLayout({ data: appointment }) {
           Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
         </span>
         <br />
-        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+        <span className="vaos-u-word-break--break-word">
+          Other details: {`${otherDetails || 'Not available'}`}
+        </span>
       </Section>
       {featureMedReviewInstructions &&
         !isPastAppointment &&
@@ -115,8 +117,8 @@ export default function PhoneLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards and a list of your medications and
-              other information to share with your provider.
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
             </p>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
               <va-link
