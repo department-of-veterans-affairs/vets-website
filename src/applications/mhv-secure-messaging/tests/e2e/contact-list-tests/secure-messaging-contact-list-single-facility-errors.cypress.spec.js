@@ -1,7 +1,7 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import ContactListPage from './pages/ContactListPage';
-import { AXE_CONTEXT } from './utils/constants';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import ContactListPage from '../pages/ContactListPage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('SM Single Facility Contact list', () => {
   beforeEach(() => {
