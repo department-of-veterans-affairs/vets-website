@@ -423,7 +423,11 @@ export default function ArrayBuilderSummaryPage({
         <>
           {Title}
           {/* {summaryDescription && <p>{getText('summaryDescription', summaryDescription)}</p>} */}
-          {summaryDescription && <p>{summaryDescription}</p>}
+          {summaryDescription && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {summaryDescription}
+            </span>
+          )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
               {getText('alertMaxItems', updatedItemData)}
