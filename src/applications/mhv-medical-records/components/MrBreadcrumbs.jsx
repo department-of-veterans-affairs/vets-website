@@ -1,7 +1,7 @@
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { Breadcrumbs, Paths } from '../util/constants';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { clearPageNumber, setPageNumber } from '../actions/pageTracker';
@@ -12,6 +12,9 @@ const MrBreadcrumbs = () => {
   const history = useHistory();
   const crumbsList = useSelector(state => state.mr.breadcrumbs.crumbsList);
   const pageNumber = useSelector(state => state.mr.pageTracker.pageNumber);
+  const phase0p5Flag = useSelector(
+    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
+  );
 
   const [locationBasePath, locationChildPath] = useMemo(
     () => {
@@ -71,6 +74,26 @@ const MrBreadcrumbs = () => {
     const { href } = detail;
     history.push(href);
   };
+
+  if (!phase0p5Flag) {
+    if (location.pathname === '/') {
+      return <div className="vads-u-padding-bottom--5" />;
+    }
+    return (
+      <div
+        className="vads-l-row vads-u-padding-y--3 breadcrumbs-container no-print"
+        label="Breadcrumb"
+        data-testid="breadcrumbs"
+      >
+        <span className="breadcrumb-angle vads-u-padding-right--0p5 vads-u-padding-top--0p5">
+          <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
+        </span>
+        <Link to={crumbsList[crumbsList.length - 2].href}>
+          {`Back to ${crumbsList[crumbsList.length - 2].label}`}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <VaBreadcrumbs
