@@ -1,0 +1,45 @@
+import React from 'react';
+
+import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+
+export default function NextStepsPage() {
+  return (
+    <div className="row">
+      <div className="usa-width-two-thirds medium-8 columns">
+        <FormTitle
+          title="Fill out your form to appoint a VA accredited representative or VSO"
+          subTitle="VA Forms 21-22 and 21-22a"
+        />
+        <h2 className="vads-u-font-size--h3">Your next steps</h2>
+        <p>
+          Both you and the accredited [attorney -or- claims agent -or- VSO
+          representative] will need to sign your form. You can bring your form
+          to them in person or mail it to them.
+        </p>
+        <p>REP CARD GOES HERE</p>
+        <p>
+          After your form is signed, you or the accredited [attorney -or- claims
+          agent -or- VSO representative] can submit it online, by mail, or in
+          person.
+        </p>
+        <va-link href="" text="Learn how to submit your form" />
+        <h2 className="vads-u-font-size--h3">
+          After you submit your printed form
+        </h2>
+        <p>
+          We usually process your form within 1 week. You can contact the
+          accredited representative any time.
+        </p>
+        <p>ORG CARD GOES HERE</p>
+        <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
+          Need help?
+        </h2>
+        <p>
+          Call us at <va-telephone contact="8008271000" />. We’re here Monday
+          through Friday, 8:00 a.m to 9:00 p.m ET. If you have hearing loss,
+          call <va-telephone contact="711" tty />.
+        </p>
+      </div>
+    </div>
+  );
+}
