@@ -8,6 +8,7 @@ import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
+  VaLinkAction,
   VaProcessList,
   VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -25,10 +26,8 @@ export const ConfirmationPageView = props => {
   const {
     childContent = null,
     confirmationNumber,
-    content,
+    content = {},
     formConfig,
-    formName = 'VA Form',
-    formType = 'application',
     submitDate,
   } = props;
 
@@ -47,9 +46,13 @@ export const ConfirmationPageView = props => {
   const dateSubmitted = isValid(submitDate)
     ? format(submitDate, 'MMMM d, yyyy')
     : null;
-  const dynamicHeadline = `You've submitted your ${formName} ${formType}`;
-  const headline = `${headlineText || dynamicHeadline} ${dateSubmitted &&
-    ` on ${dateSubmitted}`}`;
+  const dynamicHeadline = `Form submission started`;
+  const headline = `${headlineText || dynamicHeadline}${
+    dateSubmitted ? ` on ${dateSubmitted}` : ''
+  }`;
+
+  const nextStepsContent =
+    typeof nextStepsText === 'string' ? <p>{nextStepsText}</p> : nextStepsText;
 
   const form = useSelector(state => state.form);
   const formData = form.data;
@@ -89,13 +92,25 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <VaAlert uswds status="success" ref={alertRef}>
-        <h2 slot="headline">{headline}.</h2>
-        {typeof nextStepsText === 'string' ? (
-          <p>{nextStepsText}</p>
+        <h2 slot="headline">{headline}</h2>
+        {nextStepsContent ? (
+          <>
+            {nextStepsContent}
+            <p>Your confirmation number is {confirmationNumber}.</p>
+          </>
         ) : (
-          nextStepsText
+          <>
+            <p>Your submission is in progress.</p>
+            <p>
+              It can take up to 10 days for us to receive your form. Your
+              confirmation number is {confirmationNumber}.
+            </p>
+          </>
         )}
-        <p>{`Your confirmation number is ${confirmationNumber}`}</p>
+        <VaLinkAction
+          href="/my-va"
+          text="Check the status of your form on My VA"
+        />
       </VaAlert>
       <div className="print-only">
         <ChapterSectionCollection

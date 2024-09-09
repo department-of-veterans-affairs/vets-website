@@ -25,12 +25,6 @@ const getPreparerFullName = formData => {
   return fullName;
 };
 
-const content = {
-  headlineText: 'You’ve successfully submitted your Lay or Witness Statement',
-  nextStepsText:
-    'Once we’ve reviewed your submission, a coordinator will contact you to discuss next steps.',
-};
-
 export const ConfirmationPage = props => {
   const form = useSelector(state => state.form || {});
   const showNewConfirmationPage = useSelector(
@@ -51,7 +45,6 @@ export const ConfirmationPage = props => {
       submitterName={preparerFullName}
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
-      content={content}
       formConfig={formConfig}
     />
   );
