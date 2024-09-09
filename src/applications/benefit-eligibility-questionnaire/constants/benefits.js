@@ -16,6 +16,11 @@ const blankType = {
   BLANK: '',
 };
 
+const yesNoType = {
+  YES: 'yes',
+  NO: 'no',
+};
+
 const goalTypes = {
   PROGRESS: 'progressInMyMilitaryCareer',
   PLAN: 'planForMyTransition',
@@ -26,13 +31,13 @@ const goalTypes = {
   UNDERSTAND: 'understandMyBenefits',
 };
 
-const serviceLengthTypes = {
-  UP_TO_90_DAYS: 'upTo90days',
-  UP_TO_1_YEAR: 'upTo1yr',
-  UP_TO_2_YEARS: 'upTo2yr',
-  UP_TO_3_YEARS: 'upTo3yr',
-  OVER_3_YEARS: 'over3yr',
-};
+// const serviceLengthTypes = {
+//   UP_TO_90_DAYS: 'upTo90days',
+//   UP_TO_1_YEAR: 'upTo1yr',
+//   UP_TO_2_YEARS: 'upTo2yr',
+//   UP_TO_3_YEARS: 'upTo3yr',
+//   OVER_3_YEARS: 'over3yr',
+// };
 
 const separationTypes = {
   UP_TO_6MO: 'upTo6mo',
@@ -82,82 +87,17 @@ export const mappingTypes = {
 
 export const BENEFITS_LIST = [
   {
-    name: 'Apply for a GI Bill program [Post 9/11]',
+    name: 'GI Bill',
     category: categories.EDUCATION,
-    id: 'GP9',
+    id: 'GIB',
     description:
       'GI Bill benefits help you pay for college, graduate school, and training programs. Since 1944, the GI Bill has helped qualifying Veterans and their family members get money to cover all or some of the costs for school or training.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.PROGRESS,
-        goalTypes.CAREER_PATH,
-        goalTypes.UNDERSTAND,
-      ],
-      [mappingTypes.LENGTH_OF_SERVICE]: [
-        serviceLengthTypes.UP_TO_1_YEAR,
-        serviceLengthTypes.UP_TO_2_YEARS,
-        serviceLengthTypes.UP_TO_3_YEARS,
-        serviceLengthTypes.OVER_3_YEARS,
-      ],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [anyType.ANY],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        blankType.BLANK,
-      ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
-    },
-    learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
-  },
-  {
-    name: 'Apply for a GI Bill program [MGIB Active Duty]',
-    category: categories.EDUCATION,
-    id: 'GBD',
-    description:
-      'GI Bill benefits help you pay for college, graduate school, and training programs. Since 1944, the GI Bill has helped qualifying Veterans and their family members get money to cover all or some of the costs for school or training.',
-    isTimeSensitive: false,
-    mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.PROGRESS,
-        goalTypes.CAREER_PATH,
-        goalTypes.UNDERSTAND,
-      ],
-      [mappingTypes.LENGTH_OF_SERVICE]: [
-        serviceLengthTypes.UP_TO_3_YEARS,
-        serviceLengthTypes.OVER_3_YEARS,
-      ],
-      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
-      [mappingTypes.SEPARATION]: [anyType.ANY],
-      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
-        characterOfDischargeTypes.HONORABLE,
-        blankType.BLANK,
-      ],
-      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
-    },
-    learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
-  },
-  {
-    name: 'Apply for a GI Bill program [MGIB Selected Reserve]',
-    category: categories.EDUCATION,
-    id: 'GSR',
-    description:
-      'GI Bill benefits help you pay for college, graduate school, and training programs. Since 1944, the GI Bill has helped qualifying Veterans and their family members get money to cover all or some of the costs for school or training.',
-    isTimeSensitive: false,
-    mappings: {
-      [mappingTypes.GOALS]: [
-        goalTypes.PROGRESS,
-        goalTypes.CAREER_PATH,
-        goalTypes.UNDERSTAND,
-      ],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
       [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [anyType.ANY],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
@@ -165,35 +105,66 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
+      [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
+    applyNowURL: '',
   },
   {
-    name: 'Apply for Personalized Career Planning and Guidance (PCPG) benefits',
-    category: [categories.EDUCATION, categories.EMPLOYMENT],
-    id: 'PCG',
+    name: 'Skillbridge Program',
+    category: categories.EMPLOYMENT,
+    id: 'SBP',
     description:
-      'Personalized Career Planning and Guidance (PCPG), or VA Chapter 36, offers free educational and career guidance, planning, and resources to Veterans and their dependents who are eligible for a VA education benefit.',
+      'The DOD SkillBridge program is an opportunity for service members to gain valuable civilian work experience through specific industry training, apprenticeships, or internships during the last 180 days of service. For service members, DOD SkillBridge provides an invaluable chance to work and learn in civilian career areas.',
     isTimeSensitive: false,
     mappings: {
       [mappingTypes.GOALS]: [
         goalTypes.JOBS,
-        goalTypes.PROGRESS,
+        goalTypes.CAREER_PATH,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        blankType.BLANK,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://skillbridge.osd.mil/program-overview.htm',
+    applyNowURL: '',
+  },
+  {
+    name: 'Educational and career counseling (Chapter 36)',
+    category: categories.EMPLOYMENT,
+    id: 'ECC',
+    description:
+      "Get support transitioning to a civilian career with free educational and career counseling. You can use this benefit if you're leaving active service soon, have been discharged within the past year, or are a Veteran or dependent who is eligible for VA education benefits.",
+    isTimeSensitive: true,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.JOBS,
+        goalTypes.PLAN,
         goalTypes.CAREER_PATH,
         goalTypes.UNDERSTAND,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
-      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [
         expectedSparationTypes.WITHIN_3MO,
         expectedSparationTypes.FROM_3_TO_6_MO,
+        blankType.BLANK,
       ],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
       [mappingTypes.SEPARATION]: [
         separationTypes.UP_TO_6MO,
         separationTypes.UP_TO_1YR,
+        blankType.BLANK,
       ],
       [mappingTypes.CHARACTER_OF_DISCHARGE]: [
         characterOfDischargeTypes.HONORABLE,
@@ -205,9 +176,56 @@ export const BENEFITS_LIST = [
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
+    extraConditions: {
+      oneIsNotBlank: [
+        mappingTypes.EXPECTED_SEPARATION,
+        mappingTypes.SEPARATION,
+      ],
+    },
     learnMoreURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling/',
+      'https://www.va.gov/careers-employment/education-and-career-counseling',
     applyNowURL:
-      'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-28-8832/',
+      'https://www.va.gov/careers-employment/education-and-career-counseling/apply-career-guidance-form-25-8832/introduction',
+  },
+  {
+    name: 'Preference for veterans in federal hiring',
+    category: categories.EMPLOYMENT,
+    id: 'FHV',
+    description:
+      'The Federal government is committed to helping those who have served in the Armed Forces find rewarding Federal careers. Explore this page to learn more about the Federal hiring process and the career resources and opportunities available to veterans, transitioning service members, and military family members.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.JOBS, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        blankType.BLANK,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    extraConditions: {
+      dependsOn: [
+        {
+          field: mappingTypes.CURRENTLY_SERVING,
+          value: yesNoType.YES,
+          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
+          dependsOnValue: yesNoType.YES,
+        },
+        {
+          field: mappingTypes.PREVIOUS_SERVICE,
+          value: yesNoType.YES,
+          dependsOnField: mappingTypes.CURRENTLY_SERVING,
+          dependsOnValue: yesNoType.YES,
+        },
+      ],
+    },
+    learnMoreURL: 'https://www.opm.gov/fedshirevets/',
+    applyNowURL: '',
   },
 ];
