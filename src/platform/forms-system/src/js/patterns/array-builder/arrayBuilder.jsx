@@ -233,7 +233,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     text: userText = {},
     reviewPath = 'review-and-submit',
     required: userRequired,
-    summaryDescription,
+    showSummaryDescription,
   } = options;
 
   const getItemName = assignGetItemName(options);
@@ -242,7 +242,6 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
     getItemName,
     nounPlural,
     nounSingular,
-    summaryDescription,
     textOverrides: userText,
   });
 
@@ -402,7 +401,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       maxItems,
       nounPlural,
       nounSingular,
-      summaryDescription,
+      showSummaryDescription,
       required,
     };
 

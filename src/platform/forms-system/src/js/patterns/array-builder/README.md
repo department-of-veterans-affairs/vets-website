@@ -366,6 +366,7 @@ const options = {
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `summaryTitleWithoutItems` |
+| `summaryDescription` |
 | `summaryDescriptionWithoutItems` |
 | `yesNoBlankReviewQuestion` |
 

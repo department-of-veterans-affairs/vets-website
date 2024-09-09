@@ -27,8 +27,6 @@ const arrayBuilderOptions = {
   arrayPath: 'characterReferences',
   nounSingular: 'character reference',
   nounPlural: 'character references',
-  summaryDescription:
-    'You must add at least 3 and no more than 4 character references.',
   required: true,
   isItemIncomplete: item =>
     !item?.fullName ||
@@ -38,12 +36,15 @@ const arrayBuilderOptions = {
     !item?.relationship,
   minItems: 3, // TODO: [Fix arrayBuilder minItems validation](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/87155)
   maxItems: 4,
+  showSummaryDescription: true,
   text: {
     getItemName: item =>
       `${item?.fullName?.first} ${item?.fullName?.last}${
         item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
       }`,
     cardDescription: item => `${item?.phone}, ${item?.email}`,
+    summaryDescription:
+      'You must add at least 3 and no more than 4 character references.',
   },
 };
 
