@@ -1,5 +1,7 @@
+/* eslint-disable no-console */
+import React from 'react';
 import { expect } from 'chai';
-import { sinon } from 'sinon';
+import sinon from 'sinon';
 import {
   concatObservationInterpretations,
   dateFormat,
@@ -14,11 +16,11 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
-  // generateNewRecordsIndicator,
+  generateNewRecordsIndicator,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
-// import NewRecordsIndicator from '../../components/shared/NewRecordsIndicator';
+import NewRecordsIndicator from '../../components/shared/NewRecordsIndicator';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -449,72 +451,73 @@ describe('getStatusExtractPhase', () => {
   });
 });
 
-// describe('generateNewRecordsIndicator', () => {
-//   const refresh = { initialFhirLoad: false };
-//   const labsAndTests = [{ id: 1, name: 'Test 1' }];
-//   const updatedRecordList = [
-//     { id: 1, name: 'Test 1' },
-//     { id: 2, name: 'Test 2' },
-//   ];
-//   const refreshExtractTypes = { CHEM_HEM: 'chem_hem' };
-//   const reloadRecords = sinon.spy();
-//   const dispatch = sinon.spy();
+describe('generateNewRecordsIndicator', () => {
+  let dispatchSpy;
+  let reloadRecordsSpy;
 
-//   // Mock NewRecordsIndicator component
-//   const mockNewRecordsIndicator = props => {
-//     return {
-//       type: 'NewRecordsIndicator',
-//       props,
-//     };
-//   };
+  const refresh = { initialFhirLoad: false };
+  const record = [{ id: 1, name: 'Test 1' }];
+  const updatedRecordList = [
+    { id: 1, name: 'Test 1' },
+    { id: 2, name: 'Test 2' },
+  ];
+  const refreshExtractTypes = { CHEM_HEM: 'chem_hem' };
 
-//   beforeEach(() => {
-//     sinon
-//       .stub(NewRecordsIndicator, 'render')
-//       .callsFake(mockNewRecordsIndicator);
-//   });
+  beforeEach(() => {
+    dispatchSpy = sinon.spy();
+    reloadRecordsSpy = sinon.spy();
+  });
 
-//   afterEach(() => {
-//     sinon.restore();
-//   });
+  it('should return a JSX element with correct props for NewRecordsIndicator', () => {
+    // Call the function
+    const result = generateNewRecordsIndicator(
+      refresh,
+      record,
+      updatedRecordList,
+      refreshExtractTypes,
+      reloadRecordsSpy,
+      dispatchSpy,
+    );
 
-// it('should return a mock NewRecordsIndicator element with correct props', () => {
-//   Generate the indicator
-//   const RecordsIndicator = generateNewRecordsIndicator(
-//     refresh,
-//     labsAndTests,
-//     updatedRecordList,
-//     refreshExtractTypes.CHEM_HEM,
-//     reloadRecords,
-//     dispatch,
-//   );
+    // Check that the result is a valid JSX element
+    expect(React.isValidElement(result)).to.be.true;
 
-//   Assert that the returned object is the mock NewRecordsIndicator
-//   expect(RecordsIndicator.type).to.equal('NewRecordsIndicator');
+    // Extract the NewRecordsIndicator element
+    const [newRecordsIndicatorElement] = React.Children.toArray(
+      result.props.children,
+    );
 
-//   Assert the props passed to the mock component
-//   const { props } = RecordsIndicator;
-//   expect(props.refreshState).to.equal(refresh);
-//   expect(props.extractType).to.equal(refreshExtractTypes.CHEM_HEM);
-//   expect(props.newRecordsFound).to.be.true; // since labsAndTests and updatedRecordList are different
-// });
+    // Check the type of element
+    expect(newRecordsIndicatorElement.type).to.equal(NewRecordsIndicator);
 
-// it('should call reloadRecords on reloadFunction', () => {
-//   const RecordsIndicator = generateNewRecordsIndicator(
-//     refresh,
-//     labsAndTests,
-//     updatedRecordList,
-//     refreshExtractTypes.CHEM_HEM,
-//     reloadRecords,
-//     dispatch,
-//   );
+    // Check that the props are passed correctly to the NewRecordsIndicator
+    const { props } = newRecordsIndicatorElement;
+    expect(props.refreshState).to.deep.equal(refresh);
+    expect(props.extractType).to.equal(refreshExtractTypes);
+    expect(props.newRecordsFound).to.be.true; // record length is different from updatedRecordList length
+  });
 
-//   // Call the reloadFunction from the props
-//   const { reloadFunction } = RecordsIndicator.props;
-//   reloadFunction();
+  it('should call dispatch and reloadRecords in reloadFunction', () => {
+    // Call the function
+    const result = generateNewRecordsIndicator(
+      refresh,
+      record,
+      updatedRecordList,
+      refreshExtractTypes,
+      reloadRecordsSpy,
+      dispatchSpy,
+    );
 
-//   // Check that dispatch(reloadRecords) was called
-//   expect(dispatch.calledOnce).to.be.true;
-//   expect(reloadRecords.calledOnce).to.be.true;
-// });
-// });
+    // Extract the NewRecordsIndicator element
+    const [newRecordsIndicatorElement] = React.Children.toArray(
+      result.props.children,
+    );
+
+    // Simulate the reloadFunction being called
+    newRecordsIndicatorElement.props.reloadFunction();
+
+    // Check that dispatch was called with reloadRecords
+    expect(dispatchSpy.calledOnce).to.be.true;
+    expect(reloadRecordsSpy.calledOnce).to.be.true;
+  });
+});
