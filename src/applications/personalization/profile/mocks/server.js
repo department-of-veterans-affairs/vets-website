@@ -123,8 +123,8 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
-    return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
     // return res.json(user.loa1UserDSLogon); // LOA1 user w/dslogon
@@ -184,13 +184,13 @@ const responses = {
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
     // this endpoint is used for the single form version of the direct deposit page
-    return res.status(200).json(directDeposits.base);
+    // return res.status(200).json(directDeposits.base);
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
     // return res.json(directDeposits.isEligible);
     // direct deposit blocked edge cases
-    // return res.json(directDeposits.isDeceased);
+    return res.json(directDeposits.isDeceased);
     // return res.json(directDeposits.isFiduciary);
     // return res.json(directDeposits.isNotCompetent);
     // return res.json(directDeposits.isNotEligible);

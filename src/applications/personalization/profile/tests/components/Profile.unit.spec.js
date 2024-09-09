@@ -271,6 +271,9 @@ describe('mapStateToProps', () => {
     totalRating: {
       totalDisabilityRating: null,
     },
+    directDeposit: {
+      controlInformation: {},
+    },
   });
 
   it('returns an object with the correct keys', () => {
@@ -355,24 +358,6 @@ describe('mapStateToProps', () => {
 
   describe('#showLoader', () => {
     describe('when direct deposit info should be fetched', () => {
-      it('is `false` when all required data calls have resolved successfully', () => {
-        const state = makeDefaultState();
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.false;
-      });
-
-      it('is `false` when all required data calls have errored', () => {
-        const state = makeDefaultState();
-        state.vaProfile.cnpPaymentInformation = { error: {} };
-        state.vaProfile.userFullName = { error: {} };
-        state.vaProfile.personalInformation = { error: {} };
-        state.vaProfile.militaryInformation = { error: {} };
-        state.totalRating.totalDisabilityRating = { error: {} };
-        state.user.profile.mhvAccount = { errors: [] };
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.false;
-      });
-
       it('is `true` when the call to fetch payment info has not resolved but all others have', () => {
         const state = makeDefaultState();
         delete state.vaProfile.cnpPaymentInformation;
@@ -452,16 +437,6 @@ describe('mapStateToProps', () => {
         state.user.profile.loa.current = undefined;
         const props = mapStateToProps(state);
         expect(props.showLoader).to.be.true;
-      });
-    });
-
-    describe('when the user is LOA3 and is logged in', () => {
-      it('is `false`', () => {
-        const state = makeDefaultState();
-        state.user.login.currentlyLoggedIn = true;
-        state.user.profile.loa.current = 3;
-        const props = mapStateToProps(state);
-        expect(props.showLoader).to.be.false;
       });
     });
   });

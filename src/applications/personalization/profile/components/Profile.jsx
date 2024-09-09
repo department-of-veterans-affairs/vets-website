@@ -184,12 +184,7 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const toggles = this.props.profileToggles;
-
-    const routes = getRoutes({
-      profileShowDirectDepositSingleForm:
-        toggles.profileShowDirectDepositSingleForm,
-    });
+    const routes = getRoutes();
 
     return (
       <BrowserRouter>
@@ -316,22 +311,15 @@ const mapStateToProps = state => {
   const isEligibleForDD =
     signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
   const shouldFetchCNPDirectDepositInformation =
-    isEligibleForDD &&
-    isLighthouseAvailable &&
-    !profileToggles?.profileShowDirectDepositSingleForm;
-  const shouldFetchEDUDirectDepositInformation =
-    isEligibleForDD && !profileToggles?.profileShowDirectDepositSingleForm;
+    isEligibleForDD && isLighthouseAvailable;
+  const shouldFetchEDUDirectDepositInformation = isEligibleForDD;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
-    profileToggles?.profileShowDirectDepositSingleForm &&
-    !(
-      profileToggles?.profileHideDirectDeposit &&
-      !profileToggles?.profileShowDirectDepositSingleFormUAT
-    );
+    !profileToggles?.profileHideDirectDeposit;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
