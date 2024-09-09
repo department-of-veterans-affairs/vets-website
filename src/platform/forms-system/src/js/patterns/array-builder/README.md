@@ -211,9 +211,11 @@ const options = {
   required: false,
   isItemIncomplete: item => !item?.name, // include all required fields here
   maxItems: 5,
+  showSummaryDescription: true,
   text: {
     getItemName: item => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
+    summaryDescription: 'You can add up to 5 items',
   },
 };
 
