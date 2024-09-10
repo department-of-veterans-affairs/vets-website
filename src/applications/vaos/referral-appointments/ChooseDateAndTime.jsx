@@ -1,36 +1,25 @@
 import React, { useState } from 'react';
 import moment from 'moment';
+import { startOfMonth } from 'date-fns';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import FormLayout from '../new-appointment/components/FormLayout';
 // import { onCalendarChange } from "../new-appointment/redux/actions";
 // import { useDispatch } from 'react-redux';
 import FormButtons from '../components/FormButtons';
+import { getAvailableSlots } from './temp-data/referral';
 
 export const ChooseDateAndTime = () => {
   // const dispatch = useDispatch();
-  const availableSlots = [
-    {
-      end: '2024-07-02T17:00:00Z',
-      id: '32303',
-      start: '2024-07-01T10:00:00',
-    },
-    {
-      end: '2024-07-02T18:00:00Z',
-      id: '23555',
-      start: '2024-07-02T11:00:00',
-    },
-  ];
   const selectedDates = ['2024-07-02T11:00:00'];
   const timezone = 'America/Denver';
-  const preferredDate = '2024-07-02';
-  const startMonth = preferredDate
-    ? moment(preferredDate).format('YYYY-MM')
-    : null;
+  const preferredDate = new Date();
+  const startMonth = startOfMonth(preferredDate).toDateString();
   const [submitted, setSubmitted] = useState(false);
+  const pageTitle = 'Choose a date and time';
   return (
-    <FormLayout>
+    <FormLayout pageTitle={pageTitle}>
       <div>
-        <h1>Choose a date and time</h1>
+        <h1>{pageTitle}</h1>
         <p>Physical Therapy</p>
         <p>GLA Medical Canter - Southwest</p>
 
@@ -44,7 +33,7 @@ export const ChooseDateAndTime = () => {
       <div>
         <CalendarWidget
           maxSelections={1}
-          availableSlots={availableSlots}
+          availableSlots={getAvailableSlots()}
           value={selectedDates}
           id="dateTime"
           timezone={timezone}
