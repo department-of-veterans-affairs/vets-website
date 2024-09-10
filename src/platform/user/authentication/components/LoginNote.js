@@ -5,8 +5,8 @@ export default ({ isV2 }) => (
     {!isV2 && (
       <p className="vads-u-font-size--base vads-u-margin-top--3 vads-u-padding-x--1">
         <strong>Note:</strong> We're moving to a simpler and more modern sign-in
-        experience. We'll remove the My HealtheVet option after
-        <strong>January 31, 2025,</strong> and the DS Logon option after
+        experience. We'll remove the My HealtheVet option after{' '}
+        <strong>January 31, 2025,</strong> and the DS Logon option after{' '}
         <strong>September 30, 2025.</strong>
       </p>
     )}

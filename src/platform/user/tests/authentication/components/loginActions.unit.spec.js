@@ -13,15 +13,16 @@ describe('login DOM ', () => {
   const mockStore = {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
-    getState: () => {},
+    getState: () => ({
+      // featureToggles: {
+      //   // eslint-disable-next-line camelcase
+      //   sign_in_modal_v2: false
+      // }
+    }),
   };
 
   beforeEach(function() {
     sandbox.spy(authUtilities, 'login');
-    sandbox.stub(global.window, 'location').value({
-      assign: sinon.stub(),
-      href: '',
-    });
   });
 
   afterEach(() => {
