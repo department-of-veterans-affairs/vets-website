@@ -6,6 +6,27 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 import { Paths, threadSortingOptions } from '../../util/constants';
 
 const SORT_CONVERSATIONS_LABEL = 'Show conversations in this order';
+const getDDTagLabel = sortOrderValue => {
+  const sortOrderMap = {
+    [threadSortingOptions.SENT_DATE_ASCENDING?.value]: threadSortingOptions
+      .SENT_DATE_ASCENDING.label,
+    [threadSortingOptions.SENT_DATE_DESCENDING?.value]: threadSortingOptions
+      .SENT_DATE_DESCENDING.label,
+    [threadSortingOptions.SENDER_ALPHA_ASCENDING.value]:
+      threadSortingOptions.SENDER_ALPHA_ASCENDING.label,
+    [threadSortingOptions.SENDER_ALPHA_DESCENDING.value]:
+      threadSortingOptions.SENDER_ALPHA_DESCENDING.label,
+    [threadSortingOptions.DRAFT_DATE_DESCENDING.value]:
+      threadSortingOptions.DRAFT_DATE_DESCENDING.label,
+    [threadSortingOptions.DRAFT_DATE_ASCENDING.value]:
+      threadSortingOptions.DRAFT_DATE_ASCENDING.label,
+    [threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.value]:
+      threadSortingOptions.RECEPIENT_ALPHA_DESCENDING.label,
+    [threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.value]:
+      threadSortingOptions.RECEPIENT_ALPHA_ASCENDING.label,
+  };
+  return sortOrderMap[sortOrderValue] || SORT_CONVERSATIONS_LABEL;
+};
 
 const ThreadListSort = props => {
   const { sortOrder, sortCallback } = props;
@@ -35,7 +56,7 @@ const ThreadListSort = props => {
         onVaSelect={e => {
           setSortOrderValue(e.detail.value);
         }}
-        data-dd-action-name={`${SORT_CONVERSATIONS_LABEL} Dropdown`}
+        data-dd-action-name={`${getDDTagLabel(sortOrderValue)} Dropdown`}
       >
         <option
           value={
@@ -78,10 +99,10 @@ const ThreadListSort = props => {
         ) : (
           <>
             <option value={threadSortingOptions.SENDER_ALPHA_ASCENDING.value}>
-              A to Z - Sender’s name
+              {threadSortingOptions.SENDER_ALPHA_ASCENDING.label}
             </option>
             <option value={threadSortingOptions.SENDER_ALPHA_DESCENDING.value}>
-              Z to A - Sender’s name
+              {threadSortingOptions.SENDER_ALPHA_DESCENDING.label}
             </option>
           </>
         )}

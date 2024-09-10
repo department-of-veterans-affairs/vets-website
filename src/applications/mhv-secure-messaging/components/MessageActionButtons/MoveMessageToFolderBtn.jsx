@@ -49,6 +49,16 @@ const MoveMessageToFolderBtn = props => {
     [folderInputError],
   );
 
+  const getDDRadioButtonLabel = folderId => {
+    const sortRadioMap = {
+      [Constants.DefaultFolders.INBOX.id]:
+        Constants.DefaultFolders.INBOX.header,
+      [Constants.DefaultFolders.DELETED.id]:
+        Constants.DefaultFolders.DELETED.header,
+    };
+    return sortRadioMap[folderId] || 'Custom Folder';
+  };
+
   const openModal = () => {
     setIsMoveModalVisible(true);
   };
@@ -153,6 +163,9 @@ const MoveMessageToFolderBtn = props => {
                     }
                     name="defaultName"
                     value={folder.id}
+                    data-dd-action-name={`${getDDRadioButtonLabel(
+                      selectedFolder,
+                    )} Radio in Move Conversation Modal`}
                   />
                 </>
               ))}
@@ -164,7 +177,7 @@ const MoveMessageToFolderBtn = props => {
                 name="defaultName"
                 value="newFolder"
                 checked={selectedFolder === 'newFolder'}
-                data-dd-action-name="Select Move to Radio Button"
+                data-dd-action-name="Create New Folder Radio in Move Conversation Modal"
               />
             </>
           </VaRadio>

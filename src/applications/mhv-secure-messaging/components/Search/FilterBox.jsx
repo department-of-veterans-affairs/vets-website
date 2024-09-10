@@ -106,11 +106,8 @@ const FilterBox = forwardRef((props, ref) => {
                 );
               }}
               data-testid="category-dropdown"
-              data-dd-action-name={`${
-                category?.label
-                  ? category?.label
-                  : '' || (category?.label === undefined && '-Select-')
-              } Category Dropdown`} // TODO: add category label
+              data-dd-action-name={`${category?.label ??
+                '-Select-'} Category Dropdown`}
             >
               {SelectCategories.map(item => (
                 <option key={item.value} value={item.value}>
