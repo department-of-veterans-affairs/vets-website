@@ -68,6 +68,7 @@ function ClearFiltersBtn({
               ? 'clear-filters-button mobile-clear-filter-button'
               : 'clear-filters-button'
           }
+          data-testid={testId}
         >
           {children}
         </button>

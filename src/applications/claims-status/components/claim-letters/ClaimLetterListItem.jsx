@@ -43,14 +43,22 @@ const downloadHandler = docType => {
 
 const ClaimLetterListItem = ({ letter }) => {
   const formattedDate = formatDate(letter.receivedAt);
-  const heading = `${formattedDate} letter`;
 
   return (
     <li className="vads-u-border-bottom--1px vads-u-border-color--gray-lighter vads-u-padding-bottom--2">
-      <h2 className="vads-u-font-size--h4">{heading}</h2>
-      <div className="vads-u-color--gray-warm-dark vads-u-margin-bottom--0p5">
-        {getDescription(letter.docType)}
-      </div>
+      <h2 className="vads-u-margin-y--0">
+        {/*
+          Both the heading and subheading, while styled differently, are
+          contained in the h2 in an attempt to guarantee uniqueness in headings
+          for accessibility.
+        */}
+        <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--3 vads-u-margin-bottom--1">
+          {getDescription(letter.docType)}
+        </span>{' '}
+        <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal vads-u-color--gray-warm-dark vads-u-line-height--4 vads-u-margin-bottom--0p5">
+          {formattedDate}
+        </span>
+      </h2>
       <va-link
         download
         filename={filename}

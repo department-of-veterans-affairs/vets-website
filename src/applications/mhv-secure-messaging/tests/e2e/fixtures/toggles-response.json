@@ -15,10 +15,6 @@
         "value": true
       },
       {
-        "name": "mhv_secure_messaging_edit_contact_list",
-        "value": true
-      },
-      {
         "name": "mhv_secure_messaging_filter_accordion",
         "value": true
       }
