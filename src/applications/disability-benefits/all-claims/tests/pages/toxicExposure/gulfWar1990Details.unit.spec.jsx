@@ -10,6 +10,7 @@ import {
   dateRangeDescriptionWithLocation,
   endDateApproximate,
   gulfWar1990PageTitle,
+  notSureDatesDetails,
   startDateApproximate,
 } from '../../../content/toxicExposure';
 import { GULF_WAR_1990_LOCATIONS } from '../../../constants';
@@ -53,7 +54,8 @@ describe('gulfWar1990Details', () => {
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
 
-        getByText('I’m not sure of the dates I served in this location');
+        expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
+          .exist;
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(
