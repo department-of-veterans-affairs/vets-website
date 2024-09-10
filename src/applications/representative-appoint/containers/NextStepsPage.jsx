@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import AddressBlock from '../components/AddressBlock';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
@@ -16,6 +17,16 @@ export default function NextStepsPage() {
     return 'VSO representative';
   };
 
+  // The following formData values are not real and must be updated
+  // They are for illustrative purposes only
+  const getAddress = () => ({
+    address1: formData.address1,
+    address2: formData.address2,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+  });
+
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -29,6 +40,11 @@ export default function NextStepsPage() {
           -or- VSO representative] will need to sign your form. You can bring
           your form to them in person or mail it to them.
         </p>
+        <AddressBlock
+          repName={formData.repName}
+          orgName={formData.orgName}
+          address={getAddress()}
+        />
         <p>REP CARD GOES HERE</p>
         <p>
           After your form is signed, you or the accredited [attorney -or- claims
