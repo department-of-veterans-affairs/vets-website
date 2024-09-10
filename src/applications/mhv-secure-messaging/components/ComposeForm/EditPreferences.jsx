@@ -28,7 +28,7 @@ const EditPreferences = () => {
         onClick={() => setEditListModal(true)}
         type="button"
       >
-        <div className="vads-u-display--flex vads-u-flex-direction-row vads-u-justify-content--center">
+        <div className="vads-u-display--flex vads-u-flex-direction-row vads-u-justify-content--center vads-u-color--white">
           <div className="vads-u-padding-right--0p5">
             <va-icon icon="settings" aria-hidden />
           </div>

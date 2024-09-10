@@ -111,7 +111,7 @@ const fieldEntries = (key, uiSchema, data, schema) => {
     );
   }
 
-  if (dataType === 'array') {
+  if (dataType === 'array' && data) {
     return data.flatMap(dataPoint =>
       Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) =>
         fieldEntries(

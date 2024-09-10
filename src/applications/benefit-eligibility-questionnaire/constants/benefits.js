@@ -18,6 +18,7 @@ const blankType = {
 
 const goalTypes = {
   PROGRESS: 'progressInMyMilitaryCareer',
+  PLAN: 'planForMyTransition',
   NETWORK: 'buildMyNetwork',
   JOBS: 'findACivilJob',
   CAREER_PATH: 'setACareerPath',
@@ -33,18 +34,21 @@ const serviceLengthTypes = {
   OVER_3_YEARS: 'over3yr',
 };
 
-const yesNoTypes = {
-  YES: 'Yes',
-  NO: 'No',
+const giBillTypes = {
+  APPLIED_AND_RECEIVED: 'appliedAndReceived',
+  SUBMITTED: 'submitted',
+  STARTED: 'started',
+  NOT_APPLIED: 'notApplied',
 };
 
 const characterOfDischargeTypes = {
   HONORABLE: 'Honorable',
   UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
-  UNDER_HONORABLE_CONDITIONS: 'Under Honorable Conditions',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'Under Other Than Honorable Conditions',
+  BAD_CONDUCT: 'Bad Conduct',
   DISHONORABLE: 'Dishonorable',
   UNCHARACTERIZED: 'Uncharacterized',
-  BAD_CONDUCT: 'Bad Conduct',
   NOT_SURE: "I'm not sure",
 };
 
@@ -87,7 +91,7 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [yesNoTypes.NO],
+      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
@@ -117,7 +121,7 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [yesNoTypes.NO],
+      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
@@ -144,7 +148,7 @@ export const BENEFITS_LIST = [
         blankType.BLANK,
       ],
       [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
-      [mappingTypes.GI_BILL]: [yesNoTypes.NO],
+      [mappingTypes.GI_BILL]: [giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
     applyNowURL: 'https://www.va.gov/education/how-to-apply/',
