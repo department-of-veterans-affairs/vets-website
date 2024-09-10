@@ -7,6 +7,15 @@ import AddressBlock from '../components/AddressBlock';
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
+  // Mock data until selected rep and org attributes are added to formData
+  formData.selectedRepName = 'Steven McBob';
+  formData.selectedOrgName = 'Best VSO';
+  formData.address1 = '123 Main Street';
+  formData.address2 = undefined;
+  formData.city = 'Anytown';
+  formData.state = 'VT';
+  formData.zip = '05495';
+
   const getRepType = () => {
     const repType = formData.repTypeRadio;
 
@@ -41,8 +50,8 @@ export default function NextStepsPage() {
           your form to them in person or mail it to them.
         </p>
         <AddressBlock
-          repName={formData.repName}
-          orgName={formData.orgName}
+          repName={formData.selectedRepName}
+          orgName={formData.selectedOrgName}
           address={getAddress()}
         />
         <p>
