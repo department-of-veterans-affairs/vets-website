@@ -27,7 +27,7 @@ import {
 } from '../actions/threads';
 import SearchResults from './SearchResults';
 import { clearSearchResults } from '../actions/search';
-import { convertPathNameToTitleCase } from '../util/helpers';
+import { convertPathNameToTitleCase, scrollTo } from '../util/helpers';
 
 const FolderThreadListView = props => {
   const { testing } = props;
@@ -63,6 +63,7 @@ const FolderThreadListView = props => {
   };
 
   const handlePagination = page => {
+    scrollTo(document.querySelector('h1'));
     dispatch(setThreadPage(page));
     waitForRenderThenFocus(displayingNumberOfThreadsSelector, document, 500);
   };
