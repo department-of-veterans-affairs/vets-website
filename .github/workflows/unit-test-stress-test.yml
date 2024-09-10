@@ -162,10 +162,8 @@ jobs:
 
   unit-tests-stress-test:
     name: Unit Tests
-    runs-on: ubuntu-16-cores-latest
-    needs: [tests-prep]
-    outputs:
-      app_folders: ${{ steps.get-changed-apps.outputs.folders }}
+    runs-on: ubuntu-latest
+    needs: [fetch-unit-tests-allow-list, tests-prep]
 
     env:
       APPS_TO_VERIFY: ${{ needs.tests-prep.outputs.apps-to-stress-test }}
@@ -238,7 +236,7 @@ jobs:
           path: .
 
       - name: Run unit tests
-        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level debug
+        run: yarn test:unit:gha ${APP_FOLDERS:+"{script,$APP_FOLDERS}/**/*.unit.spec.js?(x)"} --coverage --log-level trace
         env:
           MOCHA_FILE: test-results/unit-tests.xml
           APP_FOLDERS: ${{ steps.get-changed-apps.outputs.folders }}
