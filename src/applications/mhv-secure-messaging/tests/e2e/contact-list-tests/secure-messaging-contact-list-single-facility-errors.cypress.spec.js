@@ -1,22 +1,18 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientInboxPage from './pages/PatientInboxPage';
-import ContactListPage from './pages/ContactListPage';
-import { AXE_CONTEXT } from './utils/constants';
-import mockEhrData from './fixtures/userResponse/vamc-ehr-cerner-mixed.json';
-import mockMixedCernerFacilitiesUser from './fixtures/userResponse/user-cerner-mixed.json';
-import mockFacilities from './fixtures/facilityResponse/cerner-facility-mock-data.json';
-import mockMixRecipients from './fixtures/multi-facilities-recipients-response.json';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import ContactListPage from '../pages/ContactListPage';
+import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM Single Facility Contact list', () => {
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+    'mhv_secure_messaging_edit_contact_list',
+    true,
+  );
   beforeEach(() => {
-    SecureMessagingSite.login(
-      mockEhrData,
-      true,
-      mockMixedCernerFacilitiesUser,
-      mockFacilities,
-    );
+    SecureMessagingSite.login(updatedFeatureToggle);
     PatientInboxPage.loadInboxMessages();
-    ContactListPage.loadContactList(mockMixRecipients);
+    ContactListPage.loadContactList();
   });
 
   it('verify contact list alerts', () => {

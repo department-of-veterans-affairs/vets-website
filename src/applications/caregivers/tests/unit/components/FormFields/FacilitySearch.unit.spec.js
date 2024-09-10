@@ -100,7 +100,11 @@ describe('CG <FacilitySearch>', () => {
   });
 
   context('when search is attempted with valid data', () => {
-    const mapBoxSuccessResponse = { center: [1, 2] };
+    const lat = 1;
+    const long = 2;
+    const perPage = 5;
+    const radius = 500;
+    const mapBoxSuccessResponse = { center: [long, lat] };
     let mapboxStub;
     let facilitiesStub;
 
@@ -129,6 +133,14 @@ describe('CG <FacilitySearch>', () => {
         expect(selectors().radioList).to.exist;
         expect(selectors().loader).to.not.exist;
         expect(selectors().input).to.not.have.attr('error');
+        sinon.assert.calledWith(mapboxStub, 'Tampa');
+        sinon.assert.calledWith(facilitiesStub, {
+          lat,
+          long,
+          perPage,
+          radius,
+          page: 1,
+        });
       });
     });
 
@@ -227,7 +239,7 @@ describe('CG <FacilitySearch>', () => {
       facilitiesStub.onFirstCall().resolves(facilities);
 
       const parentFacility = mockFetchParentFacilityResponse;
-      facilitiesStub.onSecondCall().resolves(parentFacility);
+      facilitiesStub.onSecondCall().resolves([parentFacility]);
 
       await waitFor(() => {
         inputVaSearchInput(container, 'Tampa', selectors().input);
@@ -246,6 +258,8 @@ describe('CG <FacilitySearch>', () => {
       });
 
       await waitFor(() => {
+        sinon.assert.calledWith(mapboxStub, 'Tampa');
+        sinon.assert.calledWith(facilitiesStub, { facilityIds: ['vha_757'] });
         expect(dispatch.firstCall.args[0].type).to.eq('SET_DATA');
         expect(dispatch.firstCall.args[0].data).to.deep.include({
           'view:plannedClinic': {
@@ -397,6 +411,14 @@ describe('CG <FacilitySearch>', () => {
         });
 
         await waitFor(() => {
+          sinon.assert.calledWith(mapboxStub, 'Tampa');
+          sinon.assert.calledWith(facilitiesStub, {
+            lat,
+            long,
+            perPage,
+            radius,
+            page: 2,
+          });
           expect(mapboxStub.callCount).to.equal(1);
           // This is 3 because there is an existing bug that using submit with the va-search-input component triggers two requests
           // https://github.com/department-of-veterans-affairs/vets-design-system-documentation/issues/3117
