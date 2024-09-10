@@ -25,7 +25,6 @@ import {
   getConditionDetails,
   clearConditionDetails,
 } from '../actions/conditions';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -39,7 +38,6 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateConditionContent } from '../util/pdfHelpers/conditions';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const ConditionDetails = props => {
   const { runningUnitTest } = props;
@@ -59,18 +57,8 @@ const ConditionDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/my-health/medical-records/conditions',
-            label: 'Health conditions',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearConditionDetails());
       };

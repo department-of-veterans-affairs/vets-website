@@ -52,6 +52,10 @@ const generateFeatureToggles = (toggles = {}) => {
 
         // medical records
         {
+          name: 'mhv_integration_medical_records_to_phase_1',
+          value: true,
+        },
+        {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
         },
