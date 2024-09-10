@@ -138,6 +138,7 @@ if (testsToVerify === null) {
       ),
     );
   for (const app of appsToVerify) {
+    console.log(app);
     const testsToRun = testsToVerify
       .filter(
         test =>
