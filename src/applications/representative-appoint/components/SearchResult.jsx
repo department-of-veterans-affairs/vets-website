@@ -45,7 +45,7 @@ const SearchResult = ({
     // pending analytics event
   };
 
-  const handleSelect = async selectedRepResult => {
+  const handleSelect = selectedRepResult => {
     setFormData({
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
