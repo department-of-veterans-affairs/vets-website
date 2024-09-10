@@ -17,7 +17,7 @@ const options = {
   nounSingular: content['insurance-info--array-noun-singular'],
   required: false,
   isItemIncomplete: validateInsurancePolicy,
-  text: insuranceTextOverrides,
+  text: insuranceTextOverrides(),
 };
 
 // build schemas based on declared options
