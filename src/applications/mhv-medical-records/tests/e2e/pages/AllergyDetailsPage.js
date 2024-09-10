@@ -53,9 +53,11 @@ class AllergyDetailsPage extends BaseDetailsPage {
     });
   };
 
-  clickBreadcrumbs = () => {
+  clickBreadcrumbs = breadcrumb => {
     cy.get('[data-testid="breadcrumbs"]')
-      .find('a')
+      .find('span')
+      .contains(breadcrumb)
+      .parent()
       .click();
   };
 
