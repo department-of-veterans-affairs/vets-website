@@ -4,11 +4,11 @@ import { Outlet, useNavigate, useParams } from 'react-router-dom-v5-compat';
 import PropTypes from 'prop-types';
 
 import {
-  getClaim as getClaimAction,
   clearClaim as clearClaimAction,
+  getClaim as getClaimAction,
 } from '../actions';
 
-export function ClaimPage({ getClaim, clearClaim }) {
+export function ClaimPage({ clearClaim, getClaim }) {
   const navigate = useNavigate();
   const params = useParams();
 
@@ -32,6 +32,6 @@ export default connect(
 )(ClaimPage);
 
 ClaimPage.propTypes = {
-  getClaim: PropTypes.func,
   clearClaim: PropTypes.func,
+  getClaim: PropTypes.func,
 };
