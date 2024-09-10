@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { VaTextInput } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import debounce from 'platform/utilities/data/debounce';
-
 import { EVIDENCE_VA_PATH } from '../constants';
 import { content } from '../content/evidenceVaRecords';
 import { getIndex, hasErrors } from '../utils/evidence';
@@ -101,7 +99,7 @@ const EvidenceVaRecords = ({
       setCurrentState(defaultState);
       focusEvidence();
       setForceReload(false);
-      debounce(() => setIsBusy(false));
+      setTimeout(() => setIsBusy(false));
     },
     // don't include locations or we clear state & move focus every time
     // eslint-disable-next-line react-hooks/exhaustive-deps
