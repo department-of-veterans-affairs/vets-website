@@ -24,7 +24,7 @@ const options = {
   isItemIncomplete: item => !item?.jobType || !item?.jobHoursWeek, // include all required fields here
   maxItems: 2,
   text: {
-    getItemName: item => item.jobType,
+    getItemName: item => item?.jobType,
     summaryTitleWithoutItems: 'Current employment',
   },
 };

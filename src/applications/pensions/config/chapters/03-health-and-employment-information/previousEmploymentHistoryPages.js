@@ -30,7 +30,7 @@ const options = {
     !item?.jobType || !item?.jobHoursWeek || !item?.jobTitle, // include all required fields here
   maxItems: 4,
   text: {
-    getItemName: item => item.jobType,
+    getItemName: item => item?.jobType,
     summaryTitleWithoutItems: 'Previous employment',
   },
 };
