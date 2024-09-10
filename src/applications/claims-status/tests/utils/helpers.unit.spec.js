@@ -1429,13 +1429,19 @@ describe('Disability benefits helpers: ', () => {
 
   describe('generateClaimTitle', () => {
     const claimDate = '2024-08-21';
+    const compensationClaim = { attributes: { claimType: 'Compensation' } };
     const addOrRemoveDependentClaim = {
       attributes: { claimTypeCode: '130DPNDCYAUT', claimDate },
     };
     context('when generating a card title', () => {
-      it('should generate a title based on the claim type', () => {
+      it('should generate a default title', () => {
         expect(generateClaimTitle()).to.equal(
           'Claim for disability compensation',
+        );
+      });
+      it('should generate a title based on the claim type', () => {
+        expect(generateClaimTitle(compensationClaim)).to.equal(
+          'Claim for compensation',
         );
       });
       it('should generate a different title for requests to add or remove a dependent', () => {
@@ -1445,9 +1451,14 @@ describe('Disability benefits helpers: ', () => {
       });
     });
     context('when generating a detail page heading', () => {
-      it('should generate a title based on the claim type', () => {
+      it('should generate a default title', () => {
         expect(generateClaimTitle({}, 'detail')).to.equal(
           'Your disability compensation claim',
+        );
+      });
+      it('should generate a title based on the claim type', () => {
+        expect(generateClaimTitle(compensationClaim, 'detail')).to.equal(
+          'Your compensation claim',
         );
       });
       it('should generate a different title for requests to add or remove a dependent', () => {
@@ -1457,13 +1468,18 @@ describe('Disability benefits helpers: ', () => {
       });
     });
     context('when generating a breadcrumb title', () => {
-      it('should generate a title based on the tab name and claim type', () => {
-        expect(generateClaimTitle({}, 'breadcrumb', 'Files')).to.equal(
-          'Files for your disability compensation claim',
-        );
+      it('should generate a default title if the claim is unavailable', () => {
         expect(generateClaimTitle({}, 'breadcrumb', 'Status')).to.equal(
-          'Status of your disability compensation claim',
+          'Status of your claim',
         );
+      });
+      it('should generate a title based on the tab name and claim type', () => {
+        expect(
+          generateClaimTitle(compensationClaim, 'breadcrumb', 'Files'),
+        ).to.equal('Files for your compensation claim');
+        expect(
+          generateClaimTitle(compensationClaim, 'breadcrumb', 'Status'),
+        ).to.equal('Status of your compensation claim');
       });
       it('should generate a different title for requests to add or remove a dependent', () => {
         expect(
