@@ -3,15 +3,10 @@ import PropTypes from 'prop-types';
 import { shallowEqual, useSelector } from 'react-redux';
 import { getCernerURL } from 'platform/utilities/cerner';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import recordEvent from '@department-of-veterans-affairs/platform-monitoring/record-event';
 import { selectFacilitiesRadioWidget } from '../../redux/selectors';
 import State from '../../../components/State';
 import InfoAlert from '../../../components/InfoAlert';
-import {
-  FACILITY_SORT_METHODS,
-  FETCH_STATUS,
-  GA_PREFIX,
-} from '../../../utils/constants';
+import { FACILITY_SORT_METHODS, FETCH_STATUS } from '../../../utils/constants';
 import { scrollAndFocus } from '../../../utils/scrollAndFocus';
 import { isCernerLocation } from '../../../services/location';
 import NoAddressNote from '../NoAddressNote';
@@ -93,9 +88,6 @@ export default function FacilitiesRadioWidget({
             label="Sort facilities"
             name="sort"
             onVaSelect={type => {
-              recordEvent({
-                event: `${GA_PREFIX}-variant-method-${type.detail.value}`,
-              });
               updateFacilitySortMethod(type.detail.value);
             }}
             value={sortMethod}

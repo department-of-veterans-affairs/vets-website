@@ -11,8 +11,9 @@ export default function LearnMoreLabel({
   buttonId,
   bold,
   buttonClassName,
+  dataTestId,
 }) {
-  let displayText = text && <React.Fragment>{text} </React.Fragment>;
+  let displayText = text && <>{text} </>;
   if (labelFor && text) {
     displayText = (
       <label
@@ -26,6 +27,10 @@ export default function LearnMoreLabel({
 
   return (
     <span
+      data-testid={dataTestId}
+      role="button"
+      tabIndex="0"
+      onKeyDown={() => {}}
       className={classNames(
         buttonClassName,
         'vads-u-margin--0',
