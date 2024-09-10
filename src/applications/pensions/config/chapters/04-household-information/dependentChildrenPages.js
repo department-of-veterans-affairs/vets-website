@@ -64,7 +64,8 @@ const options = {
         !item.personWhoLivesWithChild.last)) ||
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
   text: {
-    getItemName: item => formatFullName(item.fullName),
+    getItemName: item =>
+      item.fullName ? formatFullName(item.fullName) : undefined,
     summaryTitleWithoutItems: 'Dependent children',
   },
 };
