@@ -12,7 +12,7 @@ import {
   fetchDirectDeposit,
   fetchDuplicateContactInfo,
 } from '../actions';
-import { mapFormSponsors } from '../helpers';
+import { mapFormSponsors, prefillTransformer } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
@@ -307,7 +307,7 @@ const mapStateToProps = state => {
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: state.form?.data || {},
-    claimant: state.data?.formData?.data?.attributes?.claimant,
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
