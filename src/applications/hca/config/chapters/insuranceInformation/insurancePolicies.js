@@ -16,7 +16,6 @@ const options = {
   nounPlural: content['insurance-info--array-noun-plural'],
   nounSingular: content['insurance-info--array-noun-singular'],
   required: false,
-  depends: formData => formData['view:isInsuranceV2Enabled'],
   isItemIncomplete: validateInsurancePolicy,
   text: insuranceTextOverrides,
 };

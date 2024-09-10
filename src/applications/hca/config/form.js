@@ -575,7 +575,14 @@ const formConfig = {
           uiSchema: general.uiSchema,
           schema: general.schema,
         },
-        ...insurancePolicyPages,
+        healthInsurancePolicySummary: {
+          ...insurancePolicyPages.healthInsurancePolicySummary,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        healthInsurancePolicyInformation: {
+          ...insurancePolicyPages.healthInsurancePolicyInformation,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
         vaFacilityJson: {
           path: 'insurance-information/va-facility-json',
           title: 'VA Facility',
