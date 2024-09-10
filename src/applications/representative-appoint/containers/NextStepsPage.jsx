@@ -45,9 +45,8 @@ export default function NextStepsPage() {
         />
         <h2 className="vads-u-font-size--h3">Your next steps</h2>
         <p>
-          Both you and the accredited {getRepType()} [attorney -or- claims agent
-          -or- VSO representative] will need to sign your form. You can bring
-          your form to them in person or mail it to them.
+          Both you and the accredited {getRepType()} will need to sign your
+          form. You can bring your form to them in person or mail it to them.
         </p>
         <AddressBlock
           repName={formData.selectedRepName}
