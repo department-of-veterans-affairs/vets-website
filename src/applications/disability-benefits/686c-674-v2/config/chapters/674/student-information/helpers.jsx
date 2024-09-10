@@ -73,14 +73,19 @@ export const TermDateHint = (
 
 // TODO: Find a better way to do this. Repeats multiple times - still working on a solution from within arrays
 
+const formatPossessive = (first, last) => {
+  const lastNamePossessive = last.endsWith('s')
+    ? `${capitalize(last)}’`
+    : `${capitalize(last)}’s`;
+  return `${capitalize(first)} ${lastNamePossessive}`;
+};
+
 export const StudentInfoH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s information
+        {formatPossessive(first, last)} information
       </h3>
     </legend>
   );
@@ -88,12 +93,10 @@ export const StudentInfoH3 = ({ formData }) => {
 
 export const StudentAddressH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s address
+        {formatPossessive(first, last)} address
       </h3>
     </legend>
   );
@@ -101,12 +104,10 @@ export const StudentAddressH3 = ({ formData }) => {
 
 export const StudentMarriageH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s marital status
+        {formatPossessive(first, last)} marital status
       </h3>
     </legend>
   );
@@ -114,12 +115,10 @@ export const StudentMarriageH3 = ({ formData }) => {
 
 export const StudentEducationH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s education benefits
+        {formatPossessive(first, last)} education benefits
       </h3>
     </legend>
   );
@@ -127,12 +126,10 @@ export const StudentEducationH3 = ({ formData }) => {
 
 export const StudentProgramH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s education program or school
+        {formatPossessive(first, last)} education program or school
       </h3>
     </legend>
   );
@@ -140,7 +137,6 @@ export const StudentProgramH3 = ({ formData }) => {
 
 export const StudentAdditionalInfoH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
@@ -152,12 +148,10 @@ export const StudentAdditionalInfoH3 = ({ formData }) => {
 
 export const StudentCurrentTermH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s term dates
+        {formatPossessive(first, last)} term dates
       </h3>
     </legend>
   );
@@ -165,12 +159,10 @@ export const StudentCurrentTermH3 = ({ formData }) => {
 
 export const StudentPrevTermH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s previous term
+        {formatPossessive(first, last)} previous term
       </h3>
     </legend>
   );
@@ -178,12 +170,11 @@ export const StudentPrevTermH3 = ({ formData }) => {
 
 export const StudentIncomeAtSchoolH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s income in the year their current school term began
+        {formatPossessive(first, last)} income in the year their current school
+        term began
       </h3>
     </legend>
   );
@@ -191,12 +182,10 @@ export const StudentIncomeAtSchoolH3 = ({ formData }) => {
 
 export const StudentExpectedIncomeH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s expected income next year
+        {formatPossessive(first, last)} expected income next year
       </h3>
     </legend>
   );
@@ -204,12 +193,10 @@ export const StudentExpectedIncomeH3 = ({ formData }) => {
 
 export const StudentAssetsH3 = ({ formData }) => {
   const { first, last } = formData.fullName;
-
   return (
     <legend className="schemaform-block-title" id="root__title">
       <h3 className="vads-u-color--black vads-u-margin-top--0">
-        {capitalize(first)} {capitalize(last)}
-        ’s assets
+        {formatPossessive(first, last)} assets
       </h3>
     </legend>
   );

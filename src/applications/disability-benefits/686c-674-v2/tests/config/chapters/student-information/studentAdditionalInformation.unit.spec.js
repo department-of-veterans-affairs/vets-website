@@ -20,6 +20,12 @@ const formData = {
         last: 'Student',
       },
     },
+    {
+      fullName: {
+        first: 'Dan',
+        last: 'Cummins',
+      },
+    },
   ],
 };
 
@@ -48,6 +54,28 @@ describe('674 Add students: Student information (ssn)', () => {
 
     expect(h3).to.not.be.null;
     expect(h3.textContent).to.equal('My Student’s information');
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ information');
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
   });
@@ -82,6 +110,29 @@ describe('674 Add students: Student information (address)', () => {
     expect($$('va-select', container).length).to.equal(1);
     expect($$('va-text-input', container).length).to.equal(6);
   });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ address');
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(6);
+  });
 });
 
 describe('674 Add students: Student information (marital status)', () => {
@@ -112,6 +163,28 @@ describe('674 Add students: Student information (marital status)', () => {
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
   });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ marital status');
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
 });
 
 describe('674 Add students: Student information (education benefits)', () => {
@@ -139,6 +212,30 @@ describe('674 Add students: Student information (education benefits)', () => {
 
     expect(h3).to.not.be.null;
     expect(h3.textContent).to.equal('My Student’s education benefits');
+    expect($$('va-checkbox', container).length).to.equal(4);
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+    expect($$('va-additional-info', container).length).to.equal(1);
+  });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ education benefits');
     expect($$('va-checkbox', container).length).to.equal(4);
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
@@ -208,6 +305,27 @@ describe('674 Add students: Student information (program or school)', () => {
 
     expect(h3).to.not.be.null;
     expect(h3.textContent).to.equal('My Student’s education program or school');
+    expect($$('va-text-input', container).length).to.equal(1);
+  });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ education program or school');
     expect($$('va-text-input', container).length).to.equal(1);
   });
 });
@@ -335,6 +453,28 @@ describe('674 Add students: Student information (term dates)', () => {
     expect($$('va-additional-info', container).length).to.equal(1);
     expect($$('va-memorable-date', container).length).to.equal(3);
   });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ term dates');
+    expect($$('va-additional-info', container).length).to.equal(1);
+    expect($$('va-memorable-date', container).length).to.equal(3);
+  });
 });
 
 describe('674 Add students: Student information (attended last term)', () => {
@@ -362,6 +502,28 @@ describe('674 Add students: Student information (attended last term)', () => {
 
     expect(h3).to.not.be.null;
     expect(h3.textContent).to.equal('My Student’s previous term');
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ previous term');
     expect($$('va-radio', container).length).to.equal(1);
     expect($$('va-radio-option', container).length).to.equal(2);
   });
@@ -396,6 +558,29 @@ describe('674 Add students: Student information (income during school year)', ()
     );
     expect($$('va-text-input', container).length).to.equal(4);
   });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal(
+      'Dan Cummins’ income in the year their current school term began',
+    );
+    expect($$('va-text-input', container).length).to.equal(4);
+  });
 });
 
 describe('674 Add students: Student information (income during next school year)', () => {
@@ -425,6 +610,27 @@ describe('674 Add students: Student information (income during next school year)
     expect(h3.textContent).to.equal('My Student’s expected income next year');
     expect($$('va-text-input', container).length).to.equal(4);
   });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ expected income next year');
+    expect($$('va-text-input', container).length).to.equal(4);
+  });
 });
 
 describe('674 Add students: Student information (assets)', () => {
@@ -452,6 +658,27 @@ describe('674 Add students: Student information (assets)', () => {
 
     expect(h3).to.not.be.null;
     expect(h3.textContent).to.equal('My Student’s assets');
+    expect($$('va-text-input', container).length).to.equal(5);
+  });
+
+  it('should render alternate possessive title', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
+
+    const h3 = container.querySelector('h3');
+
+    expect(h3).to.not.be.null;
+    expect(h3.textContent).to.equal('Dan Cummins’ assets');
     expect($$('va-text-input', container).length).to.equal(5);
   });
 });
