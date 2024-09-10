@@ -1,8 +1,21 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 export default function NextStepsPage() {
+  const { data: formData } = useSelector(state => state.form);
+
+  const getRepType = () => {
+    const repType = formData.repTypeRadio;
+
+    if (repType === 'Attorney' || repType === 'Claims Agent') {
+      return repType.toLowerCase;
+    }
+
+    return 'VSO representative';
+  };
+
   return (
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
@@ -12,9 +25,9 @@ export default function NextStepsPage() {
         />
         <h2 className="vads-u-font-size--h3">Your next steps</h2>
         <p>
-          Both you and the accredited [attorney -or- claims agent -or- VSO
-          representative] will need to sign your form. You can bring your form
-          to them in person or mail it to them.
+          Both you and the accredited {getRepType()} [attorney -or- claims agent
+          -or- VSO representative] will need to sign your form. You can bring
+          your form to them in person or mail it to them.
         </p>
         <p>REP CARD GOES HERE</p>
         <p>
