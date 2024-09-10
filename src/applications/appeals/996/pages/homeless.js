@@ -10,7 +10,6 @@ import errorMessages from '../../shared/content/errorMessages';
 import {
   homelessTitle,
   homelessRiskTitle,
-  homelessRiskHint,
   homelessLabels,
   homelessReviewField,
 } from '../../shared/content/homeless';
@@ -36,7 +35,6 @@ export default {
           return {
             'ui:title': showNew ? homelessRiskTitle : homelessTitle,
             'ui:options': {
-              hint: showNew ? homelessRiskHint : '',
               labelHeaderLevel: showNew ? '' : '3',
             },
           };
