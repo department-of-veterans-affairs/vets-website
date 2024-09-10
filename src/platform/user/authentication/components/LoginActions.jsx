@@ -55,29 +55,37 @@ export default function LoginActions({ externalApplication }) {
           isValid && (
             <div>
               <h2>Other sign-in options</h2>
-              <h3 className="vads-u-margin--0">My HealtheVet sign-in option</h3>
-              <p>
-                <strong>Available through January 31, 2025</strong>
-              </p>
+              <h3 id="mhvH3" className="vads-u-margin--0">
+                My HealtheVet sign-in option
+                <span className="vads-u-display--block">
+                  Available through January 31, 2025
+                </span>
+              </h3>
               <p>
                 You'll still be able to use the <strong>My HealtheVet</strong>{' '}
-                website after this date.
-                <br />
-                You'll just need to start signing in with a{' '}
-                <strong>Login.gov</strong> or <strong>ID.me</strong> account.
+                website after this date. You'll just need to start signing in
+                with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
+                account.
               </p>
               <LoginButton csp="mhv" useOAuth={useOAuth} />
-              <h3 className="vads-u-margin-bottom--0 vads-u-margin-top--3">
+              <h3
+                id="dslogonH3"
+                className="vads-u-margin-bottom--0 vads-u-margin-top--3"
+              >
                 DS Logon sign-in-option
+                <span className="vads-u-display--block">
+                  Available through September 25, 2025
+                </span>
               </h3>
-              <p className="vads-u-margin-top--0">
-                <strong>Available through September 25, 2025</strong>
-              </p>
               <p>
                 You'll still be able to use you <strong>DS Logon</strong>{' '}
                 account on Defense Department websites after this date.
               </p>
-              <LoginButton csp="dslogon" useOAuth={useOAuth} />
+              <LoginButton
+                csp="dslogon"
+                useOAuth={useOAuth}
+                ariaDescribedBy="dslogonH3"
+              />
             </div>
           )}
         {!isSignInV2 &&

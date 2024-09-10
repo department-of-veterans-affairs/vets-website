@@ -13,6 +13,9 @@ export default ({ isV2 }) => (
     <a
       href="https://www.va.gov/resources/creating-an-account-for-vagov"
       className="vads-u-padding-x--1"
+      target="_blank"
+      aria-label="Creating a Login.gov or ID.me account. (Opens in a new window)"
+      rel="noreferrer"
     >
       Learn more about creating a Login.gov or ID.me account
     </a>
