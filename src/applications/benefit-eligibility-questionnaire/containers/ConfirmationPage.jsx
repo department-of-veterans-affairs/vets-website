@@ -57,6 +57,12 @@ export class ConfirmationPage extends React.Component {
           services. Learn more about each benefit. And check your eligibility
           before you apply.
         </p>
+        <p>
+          Please note that this is a recommendation tool, not an eligibility
+          determination tool. VA determines your eligibility once you apply for
+          a benefit. You'll need to review the eligibility requirements before
+          applying for VA bebefits.
+        </p>
 
         <ShareResultsModal />
 

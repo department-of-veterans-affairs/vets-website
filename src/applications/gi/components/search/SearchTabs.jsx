@@ -43,11 +43,12 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
       'search-tab',
       `${tabName}-search-tab`,
     );
-
+    const testId = label.replaceAll(' ', '-');
     return (
       <button
         className={tabClasses}
         aria-selected={activeTab}
+        data-testid={testId}
         role="tab"
         onClick={() => {
           onChange(tabName);
