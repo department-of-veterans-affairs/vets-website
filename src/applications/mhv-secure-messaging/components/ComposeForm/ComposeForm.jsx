@@ -1,10 +1,4 @@
-import React, {
-  useState,
-  useEffect,
-  useMemo,
-  useCallback,
-  useRef,
-} from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { validateNameSymbols } from 'platform/forms-system/src/js/web-component-patterns/fullNamePattern';
 import { useDispatch, useSelector } from 'react-redux';
@@ -58,13 +52,11 @@ const ComposeForm = props => {
   } = recipients;
   const dispatch = useDispatch();
   const history = useHistory();
-  const alertRef = useRef();
 
   const [recipientsList, setRecipientsList] = useState(allowedRecipients);
   const [selectedRecipientId, setSelectedRecipientId] = useState(null);
   const [isSignatureRequired, setIsSignatureRequired] = useState(null);
   const [checkboxMarked, setCheckboxMarked] = useState(false);
-  const [alertDisplayed, setAlertDisplayed] = useState(false);
 
   useEffect(
     () => {
@@ -93,8 +85,6 @@ const ComposeForm = props => {
   const [fieldsString, setFieldsString] = useState('');
   const [sendMessageFlag, setSendMessageFlag] = useState(false);
   const [messageInvalid, setMessageInvalid] = useState(false);
-  const [signatureInvalid, setSignatureInvalid] = useState(false);
-  const [checkboxInvalid, setCheckboxInvalid] = useState(false);
   const [navigationError, setNavigationError] = useState(null);
   const [saveError, setSaveError] = useState(null);
   const [lastFocusableElement, setLastFocusableElement] = useState(null);
@@ -272,14 +262,11 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (
-        messageInvalid ||
-        (isSignatureRequired && (signatureInvalid || checkboxInvalid))
-      ) {
+      if (messageInvalid || isSignatureRequired) {
         focusOnErrorField();
       }
     },
-    [checkboxInvalid, isSignatureRequired, messageInvalid, signatureInvalid],
+    [isSignatureRequired, messageInvalid],
   );
 
   useEffect(
@@ -335,9 +322,6 @@ const ComposeForm = props => {
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
-      let signatureValid = true;
-      let checkboxValid = true;
-
       if (
         selectedRecipientId === '0' ||
         selectedRecipientId === '' ||
@@ -358,19 +342,17 @@ const ComposeForm = props => {
         setCategoryError(ErrorMessages.ComposeForm.CATEGORY_REQUIRED);
         messageValid = false;
       }
-      if (messageValid && isSignatureRequired && !electronicSignature) {
+      if (isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
-        signatureValid = false;
+        messageValid = false;
       }
-      if (messageValid && isSignatureRequired && !checkboxMarked) {
+      if (isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
-        checkboxValid = false;
+        messageValid = false;
       }
 
       setMessageInvalid(!messageValid);
-      setSignatureInvalid(!signatureValid);
-      setCheckboxInvalid(!checkboxValid);
-      return { messageValid, signatureValid, checkboxValid };
+      return { messageValid };
     },
     [
       selectedRecipientId,
@@ -386,21 +368,13 @@ const ComposeForm = props => {
 
   const saveDraftHandler = useCallback(
     async (type, e) => {
-      const {
-        messageValid,
-        signatureValid,
-        checkboxValid,
-      } = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
         // if all checks are valid, then save the draft
         const validSignatureNotRequired = messageValid && !isSignatureRequired;
         const isSignatureValid =
-          isSignatureRequired &&
-          signatureValid &&
-          checkboxValid &&
-          !saveError &&
-          messageValid;
+          isSignatureRequired && !saveError && messageValid;
         if (validSignatureNotRequired || isSignatureValid) {
           setNavigationError(null);
           setSavedDraft(true);
@@ -493,18 +467,13 @@ const ComposeForm = props => {
 
   const sendMessageHandler = useCallback(
     async e => {
-      const {
-        messageValid,
-        signatureValid,
-        checkboxValid,
-      } = checkMessageValidity();
+      const { messageValid } = checkMessageValidity();
 
       // TODO add GA event
       await setMessageInvalid(false);
       await setSendMessageFlag(false);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
-      const isSignatureValid =
-        isSignatureRequired && signatureValid && checkboxValid && messageValid;
+      const isSignatureValid = isSignatureRequired && messageValid;
 
       if (validSignatureNotRequired || isSignatureValid) {
         setSendMessageFlag(true);
@@ -791,9 +760,6 @@ const ComposeForm = props => {
             !noAssociations &&
             !allTriageGroupsBlocked && (
               <RecipientsSelect
-                alertRef={alertRef}
-                alertDisplayed={alertDisplayed}
-                setAlertDisplayed={setAlertDisplayed}
                 recipientsList={recipientsList}
                 onValueChange={recipientHandler}
                 error={recipientError}

@@ -43,13 +43,12 @@ const RecipientsSelect = ({
   isSignatureRequired,
   setCheckboxMarked,
   setElectronicSignature,
-  alertDisplayed,
-  setAlertDisplayed,
-  alertRef,
 }) => {
+  const alertRef = useRef(null);
   const isSignatureRequiredRef = useRef();
   isSignatureRequiredRef.current = isSignatureRequired;
 
+  const [alertDisplayed, setAlertDisplayed] = useState(false);
   const [selectedRecipient, setSelectedRecipient] = useState(null);
 
   useEffect(
@@ -58,7 +57,7 @@ const RecipientsSelect = ({
         setAlertDisplayed(true);
       }
     },
-    [isSignatureRequired, setAlertDisplayed],
+    [isSignatureRequired],
   );
 
   useEffect(
@@ -93,12 +92,7 @@ const RecipientsSelect = ({
         setAlertDisplayed(true);
       }
     },
-    [
-      recipientsList,
-      isSignatureRequired,
-      setSelectedRecipient,
-      setAlertDisplayed,
-    ],
+    [recipientsList, isSignatureRequired, setSelectedRecipient],
   );
 
   return (
@@ -152,12 +146,9 @@ const RecipientsSelect = ({
 RecipientsSelect.propTypes = {
   recipientsList: PropTypes.array.isRequired,
   onValueChange: PropTypes.func.isRequired,
-  alertDisplayed: PropTypes.bool,
-  alertRef: PropTypes.object,
   defaultValue: PropTypes.number,
   error: PropTypes.string,
   isSignatureRequired: PropTypes.bool,
-  setAlertDisplayed: PropTypes.func,
   setCheckboxMarked: PropTypes.func,
   setElectronicSignature: PropTypes.func,
 };
