@@ -16,14 +16,23 @@
 }
 
 #filters-section-desktop {
-    flex: 1 1 200px;
+    flex: 1 1 600px;
     margin-right: 20px;
     border-right: 2px solid var(--vads-color-gray-medium);
+    padding-right: 20px;
     min-height: 200px;
     text-align: left;
     @media (max-width: $small-screen) {
         display: none;
     }
+}
+
+#filters-section-desktop p {
+  margin: 10px 0 5px 0;
+}
+
+#filters-section-desktop select {
+  margin-bottom: 35px
 }
 
 #filters-section-mobile {
