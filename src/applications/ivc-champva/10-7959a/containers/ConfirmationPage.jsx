@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import { applicantWording } from '../../shared/utilities';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -16,10 +17,6 @@ export class ConfirmationPage extends React.Component {
     const { form } = this.props;
     const { submission, data } = form;
     const submitDate = new Date(submission?.timestamp);
-
-    const fullName = Object.values(data?.applicantName || {})
-      .filter(el => el)
-      .join(' ');
 
     return (
       <div>
@@ -38,13 +35,21 @@ export class ConfirmationPage extends React.Component {
 
         <div className="inset">
           <h3 className="vads-u-margin-top--0">Your submission information</h3>
-          {fullName && (
-            <span className="veterans-full-name">
-              <strong>CHAMPVA claim (Form 10-7959a)</strong>
+          {data.applicantName && (
+            <>
+              <span className="veterans-full-name">
+                <strong>Applicant’s name</strong>
+                <br />
+                {applicantWording(form.data, false, false, false)}
+              </span>
               <br />
-              For {fullName}
               <br />
-            </span>
+              <span className="signer-name">
+                <strong>Who submitted this form</strong>
+                <br />
+                {data.statementOfTruthSignature || data.signature}
+              </span>
+            </>
           )}
           {isValid(submitDate) && (
             <p className="date-submitted">
@@ -67,18 +72,15 @@ export class ConfirmationPage extends React.Component {
         </div>
 
         <h2>What to expect next</h2>
+        <p>It will take about 90 days to process your claim.</p>
         <p>
-          It will take approximately 90 days to process your claim once received
-          by CHAMPVA.
-          <br />
-          <br />
-          We’ll review your documents. If we need more information, we’ll
-          contact you.
+          If we have any questions or need additional information, we'll contact
+          you.
         </p>
         <h3>If we decide we can cover this claim under CHAMPVA</h3>
         <p>
-          We’ll send you an explanation of benefits. This document explains the
-          amount we’ll cover and the amount you’ll need to pay.
+          We’ll send you an explanation of benefits. This document explains
+          details about the amount we'll cover.
         </p>
         <h3>If we decide we can’t cover this claim under CHAMPVA</h3>
         <p>
@@ -100,7 +102,7 @@ export class ConfirmationPage extends React.Component {
         </p>
         <h2>How to contact us about CHAMPVA claims</h2>
         <p>
-          If you have any questions about your form you can call us at at{' '}
+          If you have any questions about your claim, call us at{' '}
           <va-telephone contact="8007338387" /> (TTY: 711). We’re here Monday
           through Friday, 8:05 a.m. to 7:30 p.m. ET.
           <br />
@@ -119,13 +121,8 @@ export class ConfirmationPage extends React.Component {
             <br />
           </p>
           <p>You can also contact us online through Ask VA.</p>
-          <va-link
-            href="https://ask.va.gov/"
-            text="Contact us online through Ask VA"
-          />
+          <va-link href="https://ask.va.gov/" text="Go to Ask VA" />
         </p>
-        <br />
-        <br />
         <va-link-action href="/" text="Go back to VA.gov" />
       </div>
     );
@@ -141,6 +138,8 @@ ConfirmationPage.propTypes = {
         last: PropTypes.string,
         suffix: PropTypes.string,
       },
+      statementOfTruthSignature: PropTypes.string,
+      signature: PropTypes.string,
     }),
     submission: PropTypes.shape({
       timestamp: PropTypes.string,

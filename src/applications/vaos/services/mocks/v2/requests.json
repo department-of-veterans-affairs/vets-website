@@ -159,7 +159,7 @@
                     }
                 ],
                 "reasonCode": {
-                    "text": "station id: 983|preferred modality: FACE TO FACE|phone number: 4173004779|email: TESTING@ABC.COM|preferred dates:07/08/2024 AM|reason code:QUESTIONMEDS|comments:DO NOT CANCEL OR PROCESS THIS REQUEST.  \n\nTHIS REQUEST IS USED TO TEST REQUEST LIMITS IN THE AUTOMATION TESTING TOOL. "
+                    "text": "station id: 983|preferred modality: FACE TO FACE|phone number: 4173004779|email: TESTING@ABC.COM|preferred dates:07/08/2024 AM|reason code:QUESTIONMEDS|comments:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 },
                 "patientIcn": "1013012762V562525",
                 "locationId": "983",
@@ -193,7 +193,7 @@
                         }
                     ]
                 },
-                "patientComments": "DO NOT CANCEL OR PROCESS THIS REQUEST.  \n\nTHIS REQUEST IS USED TO TEST REQUEST LIMITS IN THE AUTOMATION TESTING TOOL.",
+                "patientComments": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "reasonForAppointment": "Medication concern",
                 "preferredDates": [
                     "Mon, July 8, 2024 in the morning"
@@ -333,7 +333,7 @@
                         }
                     ]
                 },
-                "additionalAppointmentDetails": "Test",
+                "patientComments": "Test",
                 "location": {
                     "id": "984GD",
                     "type": "appointments",
@@ -374,14 +374,14 @@
             }
         },
         {
-            "id": "affd60fe40dfacd5d4e6c5ef40491dcfc2f5d7e02216717c787b72ceb79fc44d",
+            "id": "9de214703fa773e7cec3011c821477e05e32c1c3d4eab44ec9b842eb71efab53",
             "type": "appointments",
             "attributes": {
-                "id": "affd60fe40dfacd5d4e6c5ef40491dcfc2f5d7e02216717c787b72ceb79fc44d",
+                "id": "9de214703fa773e7cec3011c821477e05e32c1c3d4eab44ec9b842eb71efab53",
                 "identifier": [
                     {
                         "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
-                        "value": "15802"
+                        "value": "16454"
                     }
                 ],
                 "kind": "cc",
@@ -393,15 +393,15 @@
                     }
                 ],
                 "reasonCode": {
-                    "text": "PR - Test - 03/27"
+                    "text": "\nNew Problem: VAOS AUTOMATED SMOKE TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 },
-                "patientIcn": "1012845944V882130",
+                "patientIcn": "1012845331V153043",
                 "locationId": "983",
-                "created": "2024-03-27T22:39:00Z",
+                "created": "2024-06-25T12:49:03Z",
                 "requestedPeriods": [
                     {
-                        "start": "2024-04-02T18:00:00Z",
-                        "localStartTime": "2024-04-02T12:00:00.000-06:00"
+                        "start": "2024-06-26T08:00:00Z",
+                        "localStartTime": "2024-06-26T02:00:00.000-06:00"
                     }
                 ],
                 "contact": {
@@ -432,7 +432,13 @@
                     "ccRequestedCancellation": false,
                     "hsrmTaskId": "15802"
                 },
+                "station": null,
+                "ien": null,
                 "preferredProviderName": null,
+                "patientComments": "\nNew Problem: VAOS AUTOMATED SMOKE TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "preferredDates": [
+                    "Wed, June 26, 2024 in the morning"
+                ],
                 "location": {
                     "id": "983",
                     "type": "appointments",
@@ -489,7 +495,8 @@
                         ],
                         "operatingStatus": {
                             "code": "NORMAL"
-                        }
+                        },
+                        "ehrSystem": "VistA"
                     }
                 }
             }
