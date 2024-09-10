@@ -54,9 +54,8 @@ export default function NextStepsPage() {
           address={getAddress()}
         />
         <p>
-          After your form is signed, you or the accredited [attorney -or- claims
-          agent -or- VSO representative] can submit it online, by mail, or in
-          person.
+          After your form is signed, you or the accredited {getRepType()} can
+          submit it online, by mail, or in person.
         </p>
         <va-link href="" text="Learn how to submit your form" />
         <h2 className="vads-u-font-size--h3">
