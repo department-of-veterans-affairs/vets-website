@@ -79,6 +79,7 @@ const AlertBackgroundBox = props => {
   // these props check if the current page is the folder view page or thread view page
   const foldersViewPage = /folders\/\d+/.test(location.pathname);
   const threadViewPage = /thread\/\d+/.test(location.pathname);
+  const contactListPage = /contact-list/.test(location.pathname);
 
   // sets custom server error messages for the landing page and folder view pages
   useEffect(
@@ -91,6 +92,7 @@ const AlertBackgroundBox = props => {
         lastPathName !== 'Messages' &&
         !foldersViewPage &&
         !threadViewPage &&
+        !contactListPage &&
         (isServiceOutage || isErrorAlert)
       ) {
         content = SERVER_ERROR_503;
