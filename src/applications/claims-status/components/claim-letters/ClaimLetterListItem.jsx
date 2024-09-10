@@ -17,6 +17,13 @@ const docTypeToDescription = {
   706: '5103 notice',
   858: '5103 notice',
   184: 'Notification letter',
+  34: 'Request for specific evidence or information',
+  700: 'Request for specific evidence or information',
+  859: 'Request for specific evidence or information',
+  408: 'Notification: Exam with VHA has been scheduled',
+  942: 'Final notification: Request for specific evidence or information',
+  864: 'Copy of request for medical records sent to a non-VA provider',
+  1605: 'Copy of request for medical records sent to a non-VA provider',
 };
 
 const getDescription = docType => {
