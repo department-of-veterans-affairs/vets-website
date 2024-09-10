@@ -19,6 +19,7 @@ const recipients = require('./secure-messaging/recipients');
 const categories = require('./secure-messaging/categories');
 const maintenanceWindows = require('./secure-messaging/endpoints/maintenance-windows');
 const drafts = require('./secure-messaging/drafts');
+const messages = require('./secure-messaging/messages');
 
 const session = require('./medical-records/session');
 const status = require('./medical-records/status');
@@ -93,10 +94,10 @@ const responses = {
     threads.paginatedThreads,
   'GET /my_health/v1/messaging/folders/:index/threads':
     threads.paginatedThreads,
-  'GET /my_health/v1/messaging/messages/:id': threads.singleMessage,
-  'GET /my_health/v1/messaging/messages/:id/thread': threads.thread,
+  'GET /my_health/v1/messaging/messages/:id': messages.singleMessage,
+  'GET /my_health/v1/messaging/messages/:id/thread': messages.singleThread,
   'PATCH /my_health/v1/messaging/threads/:id/move': threads.moveThread,
-  'POST /my_health/v1/messaging/folders/:index/search': threads.searchThreads,
+  'POST /my_health/v1/messaging/folders/:index/search': messages.searchMessages,
   'POST /my_health/v1/messaging/preferences/recipients': { status: 200 },
 
   // medical records

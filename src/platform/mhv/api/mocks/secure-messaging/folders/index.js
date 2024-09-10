@@ -20,8 +20,8 @@ const allFolders = {
       attributes: {
         folderId: -1,
         name: 'Sent',
-        count: 57,
-        unreadCount: 57,
+        count: 10,
+        unreadCount: 10,
         systemFolder: true,
       },
       links: {
