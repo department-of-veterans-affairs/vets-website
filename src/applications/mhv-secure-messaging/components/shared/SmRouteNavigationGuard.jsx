@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Prompt } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { resetUserSession } from '../../util/helpers';
 
 const SmRouteNavigationGuard = ({
   when,
@@ -43,12 +44,56 @@ const SmRouteNavigationGuard = ({
     [isBlocking, setIsBlocking, updateModalVisible],
   );
 
+  const localStorageValues = useMemo(() => {
+    return {
+      atExpires: localStorage.atExpires,
+      hasSession: localStorage.hasSession,
+      sessionExpiration: localStorage.sessionExpiration,
+      userFirstName: localStorage.userFirstName,
+    };
+  }, []);
+
+  const { signOutMessage, timeoutId } = resetUserSession(localStorageValues);
+
+  const noTimeout = useCallback(
+    () => {
+      clearTimeout(timeoutId);
+    },
+    [timeoutId],
+  );
+
+  const beforeUnloadHandler = useCallback(
+    e => {
+      if (when) {
+        e.preventDefault();
+        window.onbeforeunload = () => signOutMessage;
+        e.returnValue = signOutMessage;
+      }
+    },
+    [when, signOutMessage],
+  );
+
   // Update blocking state based on the `when` prop
   useEffect(
     () => {
       setIsBlocking(when);
+
+      // beforeunload prevents the user from navigating away from the page
+      // without saving their work. This is a browser feature and cannot be
+      // disabled. The message displayed to the user is also a browser feature
+      if (when) {
+        window.addEventListener('beforeunload', beforeUnloadHandler);
+      } else {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        noTimeout();
+      }
+      return () => {
+        window.removeEventListener('beforeunload', beforeUnloadHandler);
+        window.onbeforeunload = null;
+        noTimeout();
+      };
     },
-    [when],
+    [when, beforeUnloadHandler, noTimeout],
   );
 
   return (
