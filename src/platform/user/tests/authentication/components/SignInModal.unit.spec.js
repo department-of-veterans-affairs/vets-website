@@ -53,7 +53,6 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    // Mock the recordEvent function
     window.dataLayer = [];
     screen.rerender(<SignInModal visible useSiS />);
 
@@ -67,7 +66,6 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    // Mock the recordEvent function
     window.dataLayer = [];
     screen.rerender(<SignInModal visible={false} useSiS />);
 
@@ -81,6 +79,6 @@ describe('SignInModal', () => {
       initialState: generateStore(),
     });
 
-    expect(screen.getByText('Sign in')).to.exist; // Assuming the 'Sign in' text is in LoginContainer
+    expect(screen.getByText('Sign in')).to.exist;
   });
 });
