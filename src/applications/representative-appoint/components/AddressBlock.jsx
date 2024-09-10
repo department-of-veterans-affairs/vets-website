@@ -11,6 +11,7 @@ export default function AddressBlock({ repName, orgName, address }) {
           <br />
         </>
       )}
+      <br />
       {address.address1}
       <br />
       {address.address2 && (
