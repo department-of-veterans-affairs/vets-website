@@ -30,7 +30,6 @@ import {
   SchoolAttendanceAlert,
 } from '../../../components/FormAlerts';
 import { childRelationshipLabels } from '../../../labels';
-import { isBetween18And23 } from './helpers';
 import {
   DependentSeriouslyDisabledDescription,
   formatFullName,
@@ -383,11 +382,7 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildAttendingSchoolPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/school',
-      depends: (formData, index) =>
-        showMultiplePageResponse() &&
-        isBetween18And23(
-          get(['dependents', index, 'childDateOfBirth'], formData),
-        ),
+      depends: () => showMultiplePageResponse(),
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
