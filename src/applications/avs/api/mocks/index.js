@@ -5,9 +5,11 @@ const commonResponses = require('../../../../platform/testing/local-dev-mock-api
 
 const featureToggles = require('./feature-toggles');
 const avs = require('./avs');
+const maintenanceWindows = require('./maintenance-windows');
 
 const responses = {
   ...commonResponses,
+  ...maintenanceWindows,
   'GET /v0/feature_toggles': featureToggles.generateFeatureToggles({}),
   'GET /avs/v0/avs/:id': (req, res) => {
     const { data } = avs.data(req.params.id);

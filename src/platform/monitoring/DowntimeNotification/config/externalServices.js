@@ -1,9 +1,12 @@
 /**
  * A list of services that correspond to those which we have downtime information as provided by the API.
- * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/devops/blob/master/ansible/deployment/config/vets-api/prod-settings.local.yml.j2#L284
+ * API - see services under maintenance_windows - https://github.com/department-of-veterans-affairs/vsp-infra-application-manifests/blob/main/apps/vets-api/prod/values.yaml
+ * Config path: vets_api.common.configMaps.configMap.data.maintenance
  */
 export default {
   arcgis: 'arcgis',
+  // After-visit Summary
+  avs: 'avs',
   appeals: 'appeals',
   // Benefits Gateway Services
   bgs: 'bgs',
