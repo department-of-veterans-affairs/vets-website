@@ -2,9 +2,9 @@ import { EXTERNAL_APPS, EXTERNAL_REDIRECTS } from '../constants';
 import {
   defaultSignUpProviders,
   defaultSignInProviders,
+  defaultMobileQueryParams,
   defaultWebOAuthOptions,
   defaultMobileOAuthOptions,
-  defaultMobileQueryParams,
   arpWebOAuthOptions,
 } from './constants';
 

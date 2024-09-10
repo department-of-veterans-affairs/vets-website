@@ -14,10 +14,10 @@ describe('login DOM ', () => {
     dispatch: sinon.spy(),
     subscribe: sinon.spy(),
     getState: () => ({
-      // featureToggles: {
-      //   // eslint-disable-next-line camelcase
-      //   sign_in_modal_v2: false
-      // }
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        sign_in_modal_v2: false,
+      },
     }),
   };
 
