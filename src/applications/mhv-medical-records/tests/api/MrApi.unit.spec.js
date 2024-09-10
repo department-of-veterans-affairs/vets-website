@@ -20,6 +20,7 @@ import {
   getLabOrTest,
   getLabsAndTests,
   getMhvRadiologyTests,
+  getMhvRadiologyDetails,
   getNote,
   getNotes,
   getVaccine,
@@ -57,6 +58,55 @@ describe('Get radiology tests from MHV api call', () => {
 
     return getMhvRadiologyTests().then(res => {
       expect(res.length).to.equal(21);
+    });
+  });
+});
+
+describe('Get radiology detais from MHV api call', () => {
+  beforeEach(() => {
+    // Create a simple hash function for the mock (non-cryptographic)
+    const simpleHash = data => {
+      let hash = 0;
+      for (let i = 0; i < data.length; i++) {
+        hash = Math.imul(31, hash) + data[i]; // Use Math.imul for safe 32-bit multiplication
+        hash = Math.abs(hash % 2 ** 32); // Ensure hash stays within 32-bit bounds
+      }
+      // Convert hash to Uint8Array
+      const buffer = new Uint8Array([
+        hash % 256,
+        Math.floor(hash / 256) % 256,
+        Math.floor(hash / 65536) % 256,
+        Math.floor(hash / 16777216) % 256,
+      ]);
+      return buffer.buffer;
+    };
+
+    // Mock the global crypto.subtle.digest function
+    global.crypto = {
+      subtle: {
+        digest: (algorithm, data) => {
+          // Simulate digest based on the input data
+          return Promise.resolve(simpleHash(new Uint8Array(data)));
+        },
+      },
+    };
+  });
+
+  it('should make an api call to get MHV radiology tests and pick based on ID', () => {
+    const mockData = radiologyListMhv;
+    mockApiRequest(mockData);
+
+    return getMhvRadiologyDetails('r5621491-aaa').then(res => {
+      expect(res.eventDate).to.equal('2001-02-16T18:16:00Z');
+    });
+  });
+
+  it('should make an api call to get MHV radiology tests and pick based on hash', () => {
+    const mockData = radiologyListMhv;
+    mockApiRequest(mockData);
+
+    return getMhvRadiologyDetails('r12345-f8f80533').then(res => {
+      expect(res.eventDate).to.equal('2001-02-16T18:16:00Z');
     });
   });
 });

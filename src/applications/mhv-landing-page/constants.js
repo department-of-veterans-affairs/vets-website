@@ -53,7 +53,7 @@ const HEALTH_TOOL_LINKS = freeze({
   MEDICAL_RECORDS: freeze([
     {
       href: '/my-health/medical-records/',
-      text: 'Get VA medical records',
+      text: 'Get medical records',
     },
   ]),
   PAYMENTS: freeze([
