@@ -16,7 +16,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   clearVitalDetails,
   getVitalDetails,
@@ -46,7 +45,6 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
@@ -102,8 +100,6 @@ const VitalDetails = props => {
     [dispatch],
   );
 
-  useIsDetails(dispatch);
-
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
@@ -118,14 +114,6 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vitals',
-            label: 'Vitals',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVitalDetails());
       };

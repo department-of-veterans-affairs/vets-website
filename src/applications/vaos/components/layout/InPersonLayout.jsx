@@ -118,8 +118,7 @@ export default function InPersonLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
@@ -138,7 +137,9 @@ export default function InPersonLayout({ data: appointment }) {
           Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
         </span>
         <br />
-        <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+        <span className="vaos-u-word-break--break-word">
+          Other details: {`${otherDetails || 'Not available'}`}
+        </span>
       </Section>
       {featureMedReviewInstructions &&
         !isPastAppointment &&
@@ -146,13 +147,15 @@ export default function InPersonLayout({ data: appointment }) {
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
-              Bring your insurance cards and a list of your medications and
-              other information to share with your provider.
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
             </p>
-            <va-link
-              text="Find a full list of things to bring to your appointment"
-              href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
-            />
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <va-link
+                text="Find a full list of things to bring to your appointment"
+                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+              />
+            </p>
           </Prepare>
         )}
     </DetailPageLayout>

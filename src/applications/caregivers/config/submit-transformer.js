@@ -12,7 +12,9 @@ const submitTransformer = (formConfig, form) => {
     : null;
 
   if (formData['view:useFacilitiesAPI']) {
-    const plannedClinicId = formData['view:plannedClinic'].id.split('_').pop();
+    const plannedClinicId = formData['view:plannedClinic'].caregiverSupport.id
+      .split('_')
+      .pop();
 
     formData.veteranPlannedClinic = plannedClinicId;
   }

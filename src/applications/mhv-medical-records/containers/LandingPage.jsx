@@ -13,7 +13,6 @@ import {
 } from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import FeedbackEmail from '../components/shared/FeedbackEmail';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
@@ -23,6 +22,7 @@ import {
   selectVaccinesFlag,
   selectVitalsFlag,
   selectLabsAndTestsFlag,
+  selectSettingsPageFlag,
 } from '../util/selectors';
 import ExternalLink from '../components/shared/ExternalLink';
 
@@ -34,6 +34,7 @@ const LandingPage = () => {
   const displayConditions = useSelector(selectConditionsFlag);
   const displayVitals = useSelector(selectVitalsFlag);
   const displayLabsAndTest = useSelector(selectLabsAndTestsFlag);
+  const displayMedicalRecordsSettings = useSelector(selectSettingsPageFlag);
   const killExternalLinks = useSelector(
     state => state.featureToggles.mhv_medical_records_kill_external_links,
   );
@@ -42,12 +43,6 @@ const LandingPage = () => {
     () => {
       // Create the user's MHV session when they arrive at the MR landing page
       createSession();
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/',
-          label: 'Medical records',
-        }),
-      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
     },
@@ -191,6 +186,27 @@ const LandingPage = () => {
           </Link>
         </section>
       )}
+      {displayMedicalRecordsSettings && (
+        <section>
+          <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
+            Manage your medical records settings
+          </h2>
+          <p className="vads-u-margin-bottom--2">
+            Review and update your medical records sharing and notification
+            settings.
+          </p>
+          <Link
+            to={mhvUrl(
+              isAuthenticatedWithSSOe(fullState),
+              'electronic-record-sharing-options',
+            )}
+            className="vads-c-action-link--blue"
+            data-testid="settings-link"
+          >
+            Go to your medical records settings
+          </Link>
+        </section>
+      )}
       {(!displayLabsAndTest ||
         !displayNotes ||
         !displayVaccines ||
@@ -229,13 +245,13 @@ const LandingPage = () => {
       )}
       <section>
         <h2 className="vads-u-margin-top--4 vads-u-margin-bottom--1">
-          Download your VA medical records
+          Download your Blue Button report or health summary
         </h2>
         <p className="vads-u-margin-bottom--2">
-          We’re working on a way for you to download your VA medical records
-          here on VA.gov. For now, you can continue to download your VA Blue
-          Button® report or your VA Health Summary on the previous version of My
-          HealtheVet.
+          We’re working on a way to download all your medical records here as a
+          single file or a summary. For now, you can continue to download your
+          VA Blue Button® report or your VA Health Summary on the previous
+          version of My HealtheVet.
         </p>
         <p
           data-testid="go-to-mhv-download-records"
@@ -246,7 +262,7 @@ const LandingPage = () => {
               isAuthenticatedWithSSOe(fullState),
               'download-my-data',
             )}
-            text="Go back to the previous version of My HealtheVet to download your records."
+            text="Go back to the previous version of My HealtheVet to download your records"
           />
         </p>
       </section>

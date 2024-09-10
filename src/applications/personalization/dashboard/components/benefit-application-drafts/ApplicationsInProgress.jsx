@@ -3,49 +3,39 @@ import { connect } from 'react-redux';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
   isSIPEnabledForm,
-  isSIPEnabledFormV2,
   presentableFormIDs,
-  presentableFormIDsV2,
   sipFormSorter,
+  normalizeSubmissionStatus,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
+import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
 import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
-import StatusCard from './StatusCard';
+import SubmissionCard from './SubmissionCard';
 
 const ApplicationsInProgress = ({
-  formsWithStatus,
+  submittedForms,
   savedForms,
   hideH3,
   isLOA1,
 }) => {
-  // the following will be removed in issue #82798
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isUsingNewSipConfig = useToggleValue(
-    TOGGLE_NAMES.myVaEnableNewSipConfig,
-  );
-
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
       savedForms
-        .filter(isUsingNewSipConfig ? isSIPEnabledFormV2 : isSIPEnabledForm)
+        .filter(isSIPEnabledForm)
         .filter(filterOutExpiredForms)
         .sort(sipFormSorter),
-    [savedForms, isUsingNewSipConfig],
+    [savedForms],
   );
 
   const transformedSavedForms = useMemo(
@@ -64,16 +54,23 @@ const ApplicationsInProgress = ({
   // Renaming updatedAt to lastUpdated, formType to form, and converting datetime to UNIX time
   const transformedStatusForms = useMemo(
     () =>
-      formsWithStatus.map(form => {
-        const { formType, updatedAt, status, ...rest } = form.attributes;
+      submittedForms.map(form => {
+        const {
+          formType,
+          createdAt,
+          updatedAt,
+          status,
+          ...rest
+        } = form.attributes;
         return {
           ...rest,
           status,
           form: formType,
+          createdAt: getUnixTime(new Date(createdAt)),
           lastUpdated: getUnixTime(new Date(updatedAt)),
         };
       }),
-    [formsWithStatus],
+    [submittedForms],
   );
 
   const allForms = useMemo(
@@ -108,14 +105,10 @@ const ApplicationsInProgress = ({
                 {allForms.map(form => {
                   const formId = form.form;
                   const formStatus = form.status;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated } = form || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -148,18 +141,18 @@ const ApplicationsInProgress = ({
                     // if form is not a Draft and has status, render Status Card
                     const { createdAt } = form || {};
                     const submittedDate = format(
-                      new Date(createdAt),
+                      fromUnixTime(createdAt),
                       'MMMM d, yyyy',
                     );
                     return (
-                      <StatusCard
+                      <SubmissionCard
                         key={formId}
                         formId={formId}
                         formTitle={formTitle}
                         lastSavedDate={lastSavedDate}
                         submittedDate={submittedDate}
                         presentableFormId={presentableFormId}
-                        status={formStatus}
+                        status={normalizeSubmissionStatus(formStatus)}
                       />
                     );
                   }
@@ -170,14 +163,10 @@ const ApplicationsInProgress = ({
               <Toggler.Disabled>
                 {verifiedSavedForms.map(form => {
                   const formId = form.form;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated, expiresAt } = form.metadata || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -217,16 +206,16 @@ const ApplicationsInProgress = ({
 };
 
 ApplicationsInProgress.propTypes = {
-  formsWithStatus: PropTypes.array,
   hideH3: PropTypes.bool,
   isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
+  submittedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {
   return {
     savedForms: selectProfile(state).savedForms || [],
-    formsWithStatus: state.allFormsWithStatuses.forms || [],
+    submittedForms: state.submittedForms.forms || [],
   };
 };
 

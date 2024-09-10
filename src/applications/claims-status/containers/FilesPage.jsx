@@ -3,20 +3,16 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { Toggler } from '~/platform/utilities/feature-toggles';
-import AdditionalEvidenceItem from '../components/AdditionalEvidenceItem';
+
+import { clearNotification } from '../actions';
 import AskVAToDecide from '../components/AskVAToDecide';
 import ClaimDetailLayout from '../components/ClaimDetailLayout';
-import RequestedFilesInfo from '../components/RequestedFilesInfo';
-import SubmittedTrackedItem from '../components/SubmittedTrackedItem';
 import AdditionalEvidencePage from '../components/claim-files-tab/AdditionalEvidencePage';
 import ClaimFileHeader from '../components/claim-files-tab/ClaimFileHeader';
 import DocumentsFiled from '../components/claim-files-tab/DocumentsFiled';
 
-import { clearNotification } from '../actions';
 import {
   claimAvailable,
-  getFilesNeeded,
-  getFilesOptional,
   isClaimOpen,
   setPageFocus,
   setTabDocumentTitle,
@@ -30,7 +26,8 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 class FilesPage extends React.Component {
   componentDidMount() {
     const { claim } = this.props;
-    setTabDocumentTitle(claim, 'Files');
+    // Only set the document title at mount-time if the claim is already available.
+    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
     setTimeout(() => {
       const { lastPage, loading } = this.props;
@@ -44,6 +41,9 @@ class FilesPage extends React.Component {
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
+    // Set the document title when loading completes.
+    //   If loading was successful it will display a title specific to the claim.
+    //   Otherwise it will display a default title of "Files for Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
     }
@@ -75,8 +75,6 @@ class FilesPage extends React.Component {
       claimPhaseDates.latestPhaseType === FIRST_GATHERING_EVIDENCE_PHASE &&
       !waiverSubmitted;
 
-    const filesNeeded = getFilesNeeded(trackedItems, true);
-    const optionalFiles = getFilesOptional(trackedItems, true);
     const documentsTurnedIn = trackedItems.filter(
       item => !item.status.startsWith(NEED_ITEMS_STATUS),
     );
@@ -89,49 +87,14 @@ class FilesPage extends React.Component {
 
     return (
       <div className="claim-files">
-        <Toggler toggleName={Toggler.TOGGLE_NAMES.cstUseClaimDetailsV2}>
+        <ClaimFileHeader isOpen={isOpen} />
+        <AdditionalEvidencePage />
+        <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
           <Toggler.Disabled>
-            {isOpen && (
-              <RequestedFilesInfo
-                id={claim.id}
-                filesNeeded={filesNeeded}
-                optionalFiles={optionalFiles}
-              />
-            )}
-            <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-              <Toggler.Disabled>
-                {showDecision && <AskVAToDecide />}
-              </Toggler.Disabled>
-            </Toggler>
-            <div className="submitted-files-list">
-              <h2 className="claim-file-border">Documents filed</h2>
-              {documentsTurnedIn.length === 0 ? (
-                <div>
-                  <p>You haven’t turned in any documents to VA.</p>
-                </div>
-              ) : null}
-
-              {documentsTurnedIn.map(
-                (item, itemIndex) =>
-                  item.status && item.id ? (
-                    <SubmittedTrackedItem item={item} key={itemIndex} />
-                  ) : (
-                    <AdditionalEvidenceItem item={item} key={itemIndex} />
-                  ),
-              )}
-            </div>
+            {showDecision && <AskVAToDecide />}
           </Toggler.Disabled>
-          <Toggler.Enabled>
-            <ClaimFileHeader isOpen={isOpen} />
-            <AdditionalEvidencePage />
-            <Toggler toggleName={Toggler.TOGGLE_NAMES.cst5103UpdateEnabled}>
-              <Toggler.Disabled>
-                {showDecision && <AskVAToDecide />}
-              </Toggler.Disabled>
-            </Toggler>
-            <DocumentsFiled claim={claim} />
-          </Toggler.Enabled>
         </Toggler>
+        <DocumentsFiled claim={claim} />
       </div>
     );
   }

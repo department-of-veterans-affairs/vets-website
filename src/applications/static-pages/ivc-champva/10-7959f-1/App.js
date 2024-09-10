@@ -27,31 +27,34 @@ const App = ({ formEnabled }) => {
           <strong>Option 1: Online</strong>
         </h3>
         <a
-          className="vads-c-action-link--blue"
+          className="vads-c-action-link--green"
           href="/health-care/foreign-medical-program/register-form-10-7959f-1"
         >
           Register for the Foreign Medical Program
         </a>
-        <h3>Option 2: By Mail</h3>
+        <h3>Option 2: By mail</h3>
+        <p>Fill out an FMP Registration Form (VA Form 10-7959f-1).</p>
+        <a href="https://www.va.gov/find-forms/about-form-10-7959f-1/">
+          Get VA Form 10-7959f-1 to download
+        </a>
+        <p>Mail your completed form to this address:</p>
+        <p className="va-address-block">
+          VHA Office of Integrated Veteran Care (OIVC)
+          <br />
+          Foreign Medical Program (FMP)
+          <br />
+          P.O. Box 469061
+          <br />
+          Denver, CO 80246-9061
+          <br />
+        </p>
+        <h3>Option 3: By fax</h3>
         <p>Fill out an FMP Registration Form (VA Form 10-7959f-1).</p>
         <a href="https://www.va.gov/find-forms/about-form-10-7959f-1/">
           Get VA Form 10-7959f-1 to download
         </a>
         <p>
-          Mail your completed form to this address: VHA Office of Integrated
-          Veteran Care (OIVC) Foreign Medical Program (FMP) P.O. Box 469061
-          Denver, CO 80246-9061
-        </p>
-        <h3>Option 3: By fax</h3>
-        <p>Fill out an FMP Registration Form (VA Form 10-7959f-1).</p>
-        <a
-          className="vads-c-action-link--blue"
-          href="https://www.va.gov/find-forms/about-form-10-7959f-1/"
-        >
-          Get VA Form 10-7959f-1 to download
-        </a>
-        <p>
-          Fax your completed form to <va-telephone contact="3033317803" />
+          Fax your completed form to <va-telephone contact="3033317803" />.
         </p>
       </>
     );
@@ -70,7 +73,7 @@ const App = ({ formEnabled }) => {
         to register for the Foreign Medical Program.
       </p>
       <a
-        className="vads-c-action-link--blue"
+        className="vads-c-action-link--green"
         href="https://www.va.gov/find-forms/about-form-10-7959f-1/"
       >
         Get VA Form 10-7959f-1 to download
@@ -78,22 +81,28 @@ const App = ({ formEnabled }) => {
       <h3>
         <strong>Option 1: Online</strong>
       </h3>
-      <a className="vads-c-action-link--blue" href="https://ask.va.gov/">
+      <a href="https://ask.va.gov/">
         Upload your completed form through Ask VA
       </a>
       <h3>
-        <strong>Option 2: By Mail</strong>
+        <strong>Option 2: By mail</strong>
       </h3>
       <p>Mail your completed form to this address:</p>
-      <p>
-        VHA Office of Integrated Veteran Care (OIVC) Foreign Medical Program
-        (FMP) P.O. Box 469061 Denver, CO 80246-9061
+      <p className="va-address-block">
+        VHA Office of Integrated Veteran Care (OIVC)
+        <br />
+        Foreign Medical Program (FMP)
+        <br />
+        P.O. Box 469061
+        <br />
+        Denver, CO 80246-9061
+        <br />
       </p>
       <h3>
         <strong>Option 3: By fax</strong>
       </h3>
       <p>
-        Fax your completed form to <va-telephone contact="3033317803" />
+        Fax your completed form to <va-telephone contact="3033317803" />.
       </p>
     </>
   );

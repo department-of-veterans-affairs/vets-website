@@ -16,7 +16,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import ItemList from '../components/shared/ItemList';
 import { clearAllergyDetails, getAllergyDetails } from '../actions/allergies';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -31,7 +30,6 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateAllergyItem } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const AllergyDetails = props => {
   const { runningUnitTest } = props;
@@ -49,8 +47,6 @@ const AllergyDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       if (allergyId) dispatch(getAllergyDetails(allergyId, allergyList));
@@ -60,14 +56,6 @@ const AllergyDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/allergies',
-            label: 'Allergies',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearAllergyDetails());
       };

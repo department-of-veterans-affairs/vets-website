@@ -1,24 +1,12 @@
 import React from 'react';
 import SkinDeep from 'skin-deep';
 import { expect } from 'chai';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { within } from '@testing-library/react';
 
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import ClaimDetailLayout from '../../components/ClaimDetailLayout';
 import { renderWithRouter } from '../utils';
-
-const store = createStore(() => ({}));
-
-const getStore = (cstUseClaimDetailsV2Enabled = false) =>
-  createStore(() => ({
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      cst_use_claim_details_v2: cstUseClaimDetailsV2Enabled,
-    },
-  }));
 
 describe('<ClaimDetailLayout>', () => {
   it('should render loading indicator', () => {
@@ -43,11 +31,7 @@ describe('<ClaimDetailLayout>', () => {
       },
     };
 
-    const screen = renderWithRouter(
-      <Provider store={store}>
-        <ClaimDetailLayout claim={claim} />
-      </Provider>,
-    );
+    const screen = renderWithRouter(<ClaimDetailLayout claim={claim} />);
 
     expect(screen.getByRole('heading', { level: 1 })).to.contain.text(
       'Received on November 23, 2023',
@@ -86,7 +70,7 @@ describe('<ClaimDetailLayout>', () => {
     expect(tree.everySubTree('AddingDetails')).to.be.empty;
   });
 
-  it('should render 3 tabs when toggle false', () => {
+  it('should render 3 tabs', () => {
     const claim = {
       attributes: {
         claimType: 'Compensation',
@@ -96,28 +80,7 @@ describe('<ClaimDetailLayout>', () => {
     };
 
     const { container } = renderWithRouter(
-      <Provider store={getStore()}>
-        <ClaimDetailLayout currentTab="Files" claim={claim} />
-      </Provider>,
-    );
-
-    const tabList = $('.tabs', container);
-    expect(within(tabList).getAllByRole('listitem').length).to.equal(3);
-  });
-
-  it('should render 3 tabs when toggle true', () => {
-    const claim = {
-      attributes: {
-        claimType: 'Compensation',
-        claimDate: '2010-05-05',
-        contentions: [{ name: 'Condition 1' }, { name: 'Condition 2' }],
-      },
-    };
-
-    const { container } = renderWithRouter(
-      <Provider store={getStore(true)}>
-        <ClaimDetailLayout currentTab="Files" claim={claim} />
-      </Provider>,
+      <ClaimDetailLayout currentTab="Files" claim={claim} />,
     );
 
     const tabList = $('.tabs', container);
@@ -159,5 +122,44 @@ describe('<ClaimDetailLayout>', () => {
     );
 
     expect(tree.subTree('Notification')).not.to.be.false;
+  });
+
+  describe('<ClaimsBreadcrumbs>', () => {
+    it('should render default breadcrumbs for the Your Claims list page while loading', () => {
+      const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.be.an('array')
+        .that.is.empty;
+    });
+    it('should render breadcrumbs specific to the claim once loaded', () => {
+      const claim = {
+        attributes: {
+          claimDate: '2024-09-04',
+          claimType: 'Dependency',
+          claimTypeCode: '130PSA',
+        },
+      };
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={claim} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your request to add or remove a dependent',
+          isRouterLink: true,
+        },
+      ]);
+    });
+    it('should render a default breadcrumb if the claim fails to load', () => {
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={null} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your claim',
+          isRouterLink: true,
+        },
+      ]);
+    });
   });
 });

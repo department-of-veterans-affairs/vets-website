@@ -4,12 +4,14 @@ import { format, isValid, parseISO } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { scrollAndFocus, scrollToTop } from 'platform/utilities/ui';
+import titleCase from 'platform/utilities/data/titleCase';
 import { setUpPage, isTab } from './page';
 
 import { SET_UNAUTHORIZED } from '../actions/types';
 import {
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
+  addOrRemoveDependentClaimTypeCodes,
 } from '../constants';
 
 // Adding !! so that we convert this to a boolean
@@ -1068,6 +1070,57 @@ export const isAutomated5103Notice = itemDisplayName => {
   return itemDisplayName === 'Automated 5103 Notice Response';
 };
 
+// Capitalizes the first letter in a given string
+export const sentenceCase = str => {
+  return typeof str === 'string' && str.length > 0
+    ? str[0].toUpperCase().concat(str.substring(1))
+    : '';
+};
+
+// Returns a title for a claim for the specified placement:
+//   'detail' for the heading on the single page view
+//   'breadcrumb' for the breadcrumbs on the single page view
+//   'document' for the browser tab title on the single page view
+//   the default return is for the list view (card heading)
+export const generateClaimTitle = (claim, placement, tab) => {
+  // This will default to 'disability compensation'
+  const claimType = getClaimType(claim).toLowerCase();
+  const isRequestToAddOrRemoveDependent = addOrRemoveDependentClaimTypeCodes.includes(
+    claim?.attributes?.claimTypeCode,
+  );
+  // Determine which word should follow the tab name.
+  // "Files for...", "Status of...", "Details of...", "Overview of..."
+  const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
+  // Use the following to (somewhat) cut down on repetition in the switch below.
+  const addOrRemoveDependentClaimTitle = 'request to add or remove a dependent';
+  const baseClaimTitle = isRequestToAddOrRemoveDependent
+    ? addOrRemoveDependentClaimTitle
+    : `${claimType} claim`;
+  // This switch may not scale well; it might be better to create a map of the strings instead.
+  // For examples of output given different parameters, see the unit tests.
+  switch (placement) {
+    case 'detail':
+      return `Your ${baseClaimTitle}`;
+    case 'breadcrumb':
+      if (claimAvailable(claim)) {
+        return `${tabPrefix} your ${baseClaimTitle}`;
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} your claim`;
+    case 'document':
+      if (claimAvailable(claim)) {
+        const formattedDate = buildDateFormatter()(claim.attributes.claimDate);
+        return titleCase(`${tabPrefix} ${formattedDate} ${baseClaimTitle}`);
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} Your Claim`;
+    default:
+      return isRequestToAddOrRemoveDependent
+        ? sentenceCase(addOrRemoveDependentClaimTitle)
+        : `Claim for ${claimType}`;
+  }
+};
+
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
@@ -1077,22 +1130,9 @@ export function setDocumentRequestPageTitle(displayName) {
 
 // Used to set page title for the CST Tabs
 export function setTabDocumentTitle(claim, tabName) {
-  if (claimAvailable(claim)) {
-    const claimDate = buildDateFormatter()(claim.attributes.claimDate);
-    const claimType = getClaimType(claim);
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For ${claimDate} ${claimType} Claim`
-        : `${tabName} Of ${claimDate} ${claimType} Claim`;
-    setDocumentTitle(title);
-  } else {
-    const title =
-      tabName === 'Files'
-        ? `${tabName} For Your Claim`
-        : `${tabName} Of Your Claim`;
-    setDocumentTitle(title);
-  }
+  setDocumentTitle(generateClaimTitle(claim, 'document', tabName));
 }
+
 // Used to set the page focus on the CST Tabs
 export function setPageFocus(lastPage, loading) {
   if (!isTab(lastPage)) {

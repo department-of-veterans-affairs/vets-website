@@ -7,7 +7,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVitals, reloadRecords } from '../actions/vitals';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
   vitalTypes,
@@ -59,7 +58,6 @@ const Vitals = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VITALS_PAGE_TITLE);
     },

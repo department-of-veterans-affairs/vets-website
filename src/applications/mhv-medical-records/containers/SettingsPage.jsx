@@ -5,7 +5,6 @@ import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
   updateSharingStatus,
@@ -26,7 +25,6 @@ const SettingsPage = () => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
     },
