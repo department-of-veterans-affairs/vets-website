@@ -1,22 +1,21 @@
-import React from 'react';
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import {
   CHAPTER_3,
   isQuestionAboutVeteranOrSomeoneElseLabels,
 } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
-
-const question = (
-  <h3 className="vads-u-display--inline">
-    {CHAPTER_3.WHO_QUES_IS_ABOUT.TITLE}
-  </h3>
-);
 
 const isQuestionAboutVeteranOrSomeoneElsePage = {
   uiSchema: {
-    'ui:title': question,
     isQuestionAboutVeteranOrSomeoneElse: radioUI({
-      title: CHAPTER_3.WHO_QUES_IS_ABOUT.QUESTION_1,
+      title: CHAPTER_3.WHO_QUES_IS_ABOUT.TITLE,
+      labelHeaderLevel: '3',
       labels: isQuestionAboutVeteranOrSomeoneElseLabels,
+      errorMessages: {
+        required: 'Please let us know who your question is about.',
+      },
     }),
   },
   schema: {

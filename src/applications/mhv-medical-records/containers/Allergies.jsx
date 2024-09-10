@@ -14,7 +14,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
   ALERT_TYPE_ERROR,
@@ -82,7 +81,6 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },

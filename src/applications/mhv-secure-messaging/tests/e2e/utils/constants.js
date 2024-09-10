@@ -323,6 +323,7 @@ export const Data = {
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save and exit`,
   },
+  CL_LINK_TEXT: 'Show more teams in your contact list',
 };
 export const Assertions = {
   MESSAGES: 'Messages',

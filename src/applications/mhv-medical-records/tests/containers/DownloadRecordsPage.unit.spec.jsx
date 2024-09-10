@@ -39,7 +39,9 @@ describe('DownloadRecordsPage', () => {
         ),
       },
       vaccines: {
-        vaccinesList: vaccines.entry.map(vaccine => convertVaccine(vaccine)),
+        vaccinesList: vaccines.entry.map(vaccine =>
+          convertVaccine(vaccine.resource),
+        ),
       },
       vitals: {
         vitalsList: vitals.entry.map(item => convertVital(item.resource)),
