@@ -272,16 +272,14 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      focusOnErrorField();
+      if (
+        messageInvalid ||
+        (isSignatureRequired && (signatureInvalid || checkboxInvalid))
+      ) {
+        focusOnErrorField();
+      }
     },
-    [
-      alertDisplayed,
-      checkboxInvalid,
-      isSignatureRequired,
-      messageInvalid,
-      selectedRecipientId,
-      signatureInvalid,
-    ],
+    [checkboxInvalid, isSignatureRequired, messageInvalid, signatureInvalid],
   );
 
   useEffect(
@@ -396,10 +394,14 @@ const ComposeForm = props => {
 
       if (type === 'manual') {
         // if all checks are valid, then save the draft
-        if (
-          (messageValid && !isSignatureRequired) ||
-          (isSignatureRequired && signatureValid && checkboxValid && !saveError)
-        ) {
+        const validSignatureNotRequired = messageValid && !isSignatureRequired;
+        const isSignatureValid =
+          isSignatureRequired &&
+          signatureValid &&
+          checkboxValid &&
+          !saveError &&
+          messageValid;
+        if (validSignatureNotRequired || isSignatureValid) {
           setNavigationError(null);
           setSavedDraft(true);
           setLastFocusableElement(e?.target);
