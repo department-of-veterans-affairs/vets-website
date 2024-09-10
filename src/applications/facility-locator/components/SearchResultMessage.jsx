@@ -20,7 +20,7 @@ const SearchResultMessage = ({
   }
   if (facilityType && !resultsFound) {
     return (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex, jsx-a11y/tabindex-no-positive
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
       <div className="search-result-title" ref={resultRef} tabIndex={0}>
         <strong>For better results:</strong>
         <ul className="vads-u-margin-y--1p5">
