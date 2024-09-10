@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 
 import {
   SHORT_NAME_MAP,
@@ -22,7 +21,7 @@ const StepThree = ({ formResponses }) => {
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
   const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
   const oldDischarge =
-    moment().diff(moment([dischargeYear, dischargeMonth]), 'years', true) > 15;
+    new Date().getFullYear() - new Date(dischargeYear, dischargeMonth) > 15;
 
   const boardToSubmit = determineBoardObj(formResponses);
   const branchOfService = determineBranchOfService(
