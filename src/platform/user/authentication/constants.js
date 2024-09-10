@@ -160,6 +160,7 @@ export const AUTH_PARAMS = {
   clientId: 'client_id',
   to: 'to',
   redirectUri: 'redirect_uri',
+  scope: 'scope',
 };
 
 export const OCC_MOBILE = {

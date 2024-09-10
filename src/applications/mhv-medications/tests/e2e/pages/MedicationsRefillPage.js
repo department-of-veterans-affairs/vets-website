@@ -407,7 +407,7 @@ class MedicationsRefillPage {
   };
 
   verifyMedicationRefillRequested = refillName => {
-    cy.get('[data-testid="medication-requested"]').should(
+    cy.get('[data-testid="medication-requested-successful"]').should(
       'contain',
       refillName,
     );

@@ -123,6 +123,6 @@ describe('getDebtDetailsCardContent function', () => {
     const diaryCode = '100';
     const balance = '100.00';
     const result = getDebtDetailsCardContent(diaryCode, null, balance);
-    expect(result.headerText).to.include("We're reviewing your account");
+    expect(result.headerText).to.include('We’re reviewing your account');
   });
 });

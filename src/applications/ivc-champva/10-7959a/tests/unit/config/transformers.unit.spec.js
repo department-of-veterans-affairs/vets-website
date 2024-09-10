@@ -28,4 +28,16 @@ describe('Submit transformer', () => {
     expect(result.primaryEob[0].documentType).to.equal('Eob');
     expect(result.secondaryEob[0].documentType).to.equal('Eob');
   });
+
+  it('should set primaryContact name to false if none present', () => {
+    const result = JSON.parse(
+      transformForSubmit(formConfig, {
+        data: {
+          applicantAddress: { street: '' },
+          certifierAddress: { street: '' },
+        },
+      }),
+    );
+    expect(result.primaryContactInfo.name).to.be.false;
+  });
 });

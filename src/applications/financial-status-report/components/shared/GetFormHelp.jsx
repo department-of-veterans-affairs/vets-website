@@ -3,7 +3,7 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 
 const GetFormHelp = () => {
   return (
-    <div>
+    <>
       <p>
         If you have trouble using this online form, call our MyVA411 main
         information line at <va-telephone contact="8006982411" /> (
@@ -33,7 +33,7 @@ const GetFormHelp = () => {
         <va-telephone contact="8664001238" />. We’re here Monday through Friday,
         8:00 a.m. to 8:00 p.m. ET.
       </p>
-    </div>
+    </>
   );
 };
 

@@ -19,7 +19,7 @@ function MilitaryAutoSuggest({
     [value],
   );
 
-  const itemToString = item => (item ? item.value || item.key : '');
+  const itemToString = item => (item ? item.value || item.key : inputValue);
 
   const getMatchScore = (input, labelValue) => {
     if (!input || !labelValue) return 0;
@@ -52,9 +52,10 @@ function MilitaryAutoSuggest({
         <div className="relative">
           <input
             {...getInputProps({
-              value: inputValue,
+              value,
               onChange: e => {
                 setInputValue(e.target.value);
+                onSelectionChange(e.target.value);
               },
             })}
           />

@@ -9,6 +9,7 @@ import {
   primaryHasDifferentMailingAddress,
   secondaryOneHasDifferentMailingAddress,
   secondaryTwoHasDifferentMailingAddress,
+  showFacilityConfirmation,
 } from '../utils/helpers/form-config';
 import submitTransformer from './submit-transformer';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -26,7 +27,7 @@ import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
-import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
+import FacilitySearch from '../components/FormFields/FacilitySearch';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -49,6 +50,7 @@ import secondaryTwoIdentityInfoPage from './chapters/secondaryTwo/identityInform
 import secondaryTwoHomeAddressPage from './chapters/secondaryTwo/homeAddress';
 import secondaryTwoMailingAddressPage from './chapters/secondaryTwo/mailingAddress';
 import secondaryTwoContactInfoPage from './chapters/secondaryTwo/contactInformation';
+import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
@@ -107,6 +109,7 @@ const formConfig = {
     uuid,
     signature,
   },
+  dev: { disableWindowUnloadInCI: true },
   chapters: {
     veteranInformation: {
       title: content['vet-info-title--chapter'],
@@ -146,8 +149,19 @@ const formConfig = {
           path: 'veteran-information/va-medical-center/locator',
           title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
-          uiSchema: vetMedicalCenterApiPage.uiSchema,
-          schema: vetMedicalCenterApiPage.schema,
+          CustomPage: FacilitySearch,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
+        vetMedicalCenterConfirmation: {
+          path: 'veteran-information/va-medical-center/confirm',
+          title: content['vet-info-title--facility'],
+          depends: showFacilityConfirmation,
+          CustomPage: FacilityConfirmation,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
       },
     },

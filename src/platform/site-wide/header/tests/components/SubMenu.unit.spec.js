@@ -40,7 +40,7 @@ describe('Header <SubMenu>', () => {
       wrapper.find('li.vads-u-background-color--gray-lightest'),
     ).to.have.length(1);
     expect(
-      wrapper.find('li.vads-u-background-color--primary-darker'),
+      wrapper.find('li.vads-u-background-color--primary-dark'),
     ).to.have.length(7);
 
     wrapper.find('.header-menu-item-button').simulate('click');

@@ -7,6 +7,7 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
+import { scrollToTop } from '../util/helpers';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,16 @@ const MessageReply = () => {
   const [acknowledged, setAcknowledged] = useState(false);
   const recipients = useSelector(state => state.sm.recipients);
   const [isEditing, setIsEditing] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+
+  useEffect(
+    () => {
+      if (isSending === true) {
+        scrollToTop();
+      }
+    },
+    [isSending],
+  );
 
   useEffect(
     () => {
@@ -62,6 +73,7 @@ const MessageReply = () => {
         messages={messages}
         isEditing={isEditing}
         setIsEditing={setIsEditing}
+        setIsSending={setIsSending}
       />
     );
   };
@@ -85,7 +97,15 @@ const MessageReply = () => {
         />
       ) : (
         <>
-          <div className="vads-l-grid-container compose-container">
+          <va-loading-indicator
+            message="Sending message..."
+            data-testid="sending-indicator"
+            style={{ display: isSending ? 'block' : 'none' }}
+          />
+          <div
+            className="vads-l-grid-container compose-container"
+            style={{ display: isSending && 'none' }}
+          >
             <AlertBackgroundBox closeable />
             {content()}
             {messages?.length && thread()}

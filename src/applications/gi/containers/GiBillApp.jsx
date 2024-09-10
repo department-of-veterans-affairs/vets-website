@@ -79,7 +79,7 @@ export function GiBillApp({
   const showDisclaimer = onComparePage || !compare.open;
 
   return (
-    <div className="gi-app" role="application">
+    <div className="gi-app" role="application" aria-hidden="true">
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}

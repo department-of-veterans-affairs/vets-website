@@ -43,11 +43,6 @@
   },
   {
     "appName": "How To Apply For A Veterans Burial Allowance",
-    "rootUrl": "/burials-memorials/veterans-burial-allowance",
-    "widgetType": "burials-v2-how-do-i-apply-widget"
-  },
-  {
-    "appName": "How To Apply For A Veterans Burial Allowance",
     "rootUrl": "/burials-memorials/veterans-burial-allowance/burials-app-status",
     "widgetType": "burials-app-status"
   },

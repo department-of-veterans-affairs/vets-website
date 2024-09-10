@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
@@ -11,7 +11,7 @@ import OmbInfo from '../content/OmbInfo';
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollTo('topContentElement');
   }, []);
 
   const { route, location } = props;
@@ -51,7 +51,7 @@ const IntroductionPage = props => {
           </p>
           <ul>
             <li>
-              You have new and relevant evidence that we didn’t consider before,
+              You have new and relevant evidence that we didn’t consider before,{' '}
               <strong>or</strong>
             </li>
             <li>
@@ -109,29 +109,27 @@ const IntroductionPage = props => {
           </p>
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          Here’s what you’ll need to apply:
+          <p>Here’s what you’ll need to apply:</p>
           <ul>
             <li>
               New evidence. You can either submit new evidence (supporting
               documents) or identify new evidence you want us to gather for you.
-              <div>
+              <p>
                 <strong> Note:</strong> If you have a condition that we consider
                 presumptive under a new law or regulation (such as the PACT
                 Act), you don’t need to submit evidence to prove that your
                 service caused the condition.
-              </div>
+              </p>
             </li>
             <li>
               The decision date of any issue you want us to review. You can ask
               us to review more than 1 issue.
             </li>
             <li>
-              The name and address of any private medical facility you’d like us
+              The name and address of any non-VA medical facility you’d like us
               to request your records from.
             </li>
-            <li>
-              The dates you were treated at that private medical facility.
-            </li>
+            <li>The dates you were treated at that non-VA medical facility.</li>
           </ul>
           <va-additional-info trigger="Types of Evidence">
             <div>

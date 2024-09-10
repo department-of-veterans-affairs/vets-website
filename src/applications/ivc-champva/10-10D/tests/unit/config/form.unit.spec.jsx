@@ -132,7 +132,7 @@ testNumberOfWebComponentFields(
   formConfig.chapters.applicantInformation.pages.page14.schema,
   formConfig.chapters.applicantInformation.pages.page14.uiSchema,
   2,
-  'Applicant - SSN and date of birth',
+  'Applicant - SSN and VA File Num',
   { applicants },
 );
 

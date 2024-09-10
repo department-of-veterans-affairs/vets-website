@@ -829,3 +829,13 @@ export function customDirectDepositDescription() {
     </div>
   );
 }
+
+// utils/caseConverter.js
+export const toSnakeCase = obj => {
+  const result = {};
+  Object.keys(obj).forEach(key => {
+    const snakeKey = key.replace(/([A-Z])/g, '_$1').toLowerCase();
+    result[snakeKey] = obj[key];
+  });
+  return result;
+};

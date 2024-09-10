@@ -1,29 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setTopicID } from '../actions';
+import CatAndTopicSummary from '../components/CatAndTopicSummary';
+import RequireSignInModal from '../components/RequireSignInModal';
 import { ServerErrorAlert } from '../config/helpers';
 import {
   CHAPTER_1,
-  CHAPTER_2,
   URL,
   envUrl,
   requireSignInTopics,
   requiredForSubtopicPage,
 } from '../constants';
-import RequireSignInModal from '../components/RequireSignInModal';
-import CatAndTopicSummary from '../components/CatAndTopicSummary';
 
 const TopicSelectPage = props => {
-  const { onChange, loggedIn, goBack, goToPath, formData, categoryID } = props;
+  const {
+    onChange,
+    loggedIn,
+    goBack,
+    goToPath,
+    goForward,
+    formData,
+    categoryID,
+  } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -42,7 +49,7 @@ const TopicSelectPage = props => {
       if (requiredForSubtopicPage.includes(data.selectTopic)) {
         return goToPath(`/${CHAPTER_1.PAGE_3.PATH}`);
       }
-      return goToPath(`/${CHAPTER_2.PAGE_1.PATH}`);
+      return goForward(data);
     }
     focusElement('va-radio');
     return setValidationError('Please select a topic');
@@ -106,16 +113,18 @@ const TopicSelectPage = props => {
           label={CHAPTER_1.PAGE_2.QUESTION_1}
           label-header-level={CHAPTER_1.PAGE_2.QUESTION_1}
           error={validationError}
+          name="select_topic"
           required
           uswds
         >
           {apiData.map(topic => (
             <VaRadioOption
               key={topic.id}
-              name={topic.attributes.name}
+              name="select_topic"
               id={topic.id}
               value={topic.attributes.name}
               label={topic.attributes.name}
+              checked={topic.attributes.name === formData.selectTopic}
               uswds
             />
           ))}

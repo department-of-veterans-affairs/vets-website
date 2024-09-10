@@ -9,7 +9,7 @@ import LocationOperationStatus from './LocationOperationStatus';
 const LocationInfoBlock = ({ location }) => {
   const { name, website, operatingStatus } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
-  const distance = location.distance;
+  const { distance } = location;
   return (
     <div>
       {distance &&
@@ -23,7 +23,7 @@ const LocationInfoBlock = ({ location }) => {
         )}
       {isProvider ? (
         <span>
-          <h2 className="vads-u-font-size--h5 no-marg-top">{name}</h2>
+          <h2 className="vads-u-margin-top--0">{name}</h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
           )}
@@ -31,11 +31,11 @@ const LocationInfoBlock = ({ location }) => {
       ) : (
         <span>
           {isVADomain(website) ? (
-            <a href={website}>
-              <h3 className="vads-u-font-size--h5 no-marg-top">{name}</h3>
-            </a>
+            <h3 className="vads-u-margin-top--0">
+              <va-link href={website} text={name} />
+            </h3>
           ) : (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-margin-top--0">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}

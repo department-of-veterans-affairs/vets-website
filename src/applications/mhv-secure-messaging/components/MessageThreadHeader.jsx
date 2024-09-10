@@ -109,9 +109,7 @@ const MessageThreadHeader = props => {
   useEffect(
     () => {
       focusElement(document.querySelector('h1'));
-      updatePageTitle(
-        `${categoryLabel}: ${subject} ${PageTitles.PAGE_TITLE_TAG}`,
-      );
+      updatePageTitle(PageTitles.CONVERSATION_TITLE_TAG);
     },
     [categoryLabel, message, subject],
   );

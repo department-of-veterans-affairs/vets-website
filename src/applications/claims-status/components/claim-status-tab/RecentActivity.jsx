@@ -30,7 +30,7 @@ export default function RecentActivity({ claim }) {
   const is5103Notice = item => {
     return (
       isAutomated5103Notice(item.displayName) ||
-      item.displayName === '5103 Notice Response'
+      item.displayName === 'Review evidence list'
     );
   };
 

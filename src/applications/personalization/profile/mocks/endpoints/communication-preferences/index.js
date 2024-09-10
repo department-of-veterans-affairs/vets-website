@@ -10,6 +10,30 @@ const maximalSetOfPreferences = {
           description: 'Payments to the Veteran',
           communicationItems: [
             {
+              id: 13,
+              name: 'New benefit overpayment debt notification',
+              communicationChannels: [
+                {
+                  id: 2,
+                  name: 'Email',
+                  description: 'Email Notification',
+                  defaultSendIndicator: true,
+                },
+              ],
+            },
+            {
+              id: 14,
+              name: 'New health care copay bill',
+              communicationChannels: [
+                {
+                  id: 2,
+                  name: 'Email',
+                  description: 'Email Notification',
+                  defaultSendIndicator: true,
+                },
+              ],
+            },
+            {
               id: 5,
               name: 'Disability and pension deposit notifications',
               communicationChannels: [

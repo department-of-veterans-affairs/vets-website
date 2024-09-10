@@ -1,7 +1,7 @@
 import { radioUI } from 'platform/forms-system/src/js/web-component-patterns';
 
 import { checkConferenceTimes } from '../validations';
-import { errorMessages, CONFERENCE_TIMES_V3 } from '../constants';
+import { errorMessages, CONFERENCE_TIMES_V2_5 } from '../constants';
 
 import {
   InformalConferenceTimesTitleRep,
@@ -44,7 +44,7 @@ export default {
           const showNew = showNewHlrContent(formData);
           return {
             ...schema,
-            enumNames: Object.values(CONFERENCE_TIMES_V3).map(
+            enumNames: Object.values(CONFERENCE_TIMES_V2_5).map(
               name => name[showNew ? 'labelRep' : 'label'],
             ),
           };
@@ -59,8 +59,8 @@ export default {
     properties: {
       informalConferenceTime: {
         type: 'string',
-        enum: Object.keys(CONFERENCE_TIMES_V3),
-        enumNames: Object.values(CONFERENCE_TIMES_V3).map(name => name.label),
+        enum: Object.keys(CONFERENCE_TIMES_V2_5),
+        enumNames: Object.values(CONFERENCE_TIMES_V2_5).map(name => name.label),
       },
     },
   },

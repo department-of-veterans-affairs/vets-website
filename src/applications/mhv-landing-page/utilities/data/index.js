@@ -3,6 +3,8 @@ import { mhvUrl } from '@department-of-veterans-affairs/platform-site-wide/utili
 // Links to MHV subdomain need to use `mhvUrl`. Va.gov links can just be paths
 import { HEALTH_TOOL_HEADINGS, HEALTH_TOOL_LINKS } from '../../constants';
 
+const isLinkData = x => x?.href !== undefined && x?.text !== undefined;
+
 const countUnreadMessages = folders => {
   if (Array.isArray(folders?.data)) {
     return folders.data.reduce((accumulator, currentFolder) => {
@@ -44,21 +46,6 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
-
   const myVaHealthBenefitsLinks = [
     {
       href: '/health-care/copay-rates/',
@@ -88,11 +75,11 @@ const resolveLandingPageLinks = (
     //   href: '#FIXME-need-link',
     //   text: 'Download my IRS 1095-B form',
     // },
-  ];
+  ].filter(isLinkData);
 
   const moreResourcesLinks = [
     featureToggles[FEATURE_FLAG_NAMES.mhvVaHealthChatEnabled] && {
-      href: 'https://veteran.apps.va.gov/users/v2/login?redirect_uri=/cirrusmd',
+      href: 'https://eauth.va.gov/MAP/users/v2/landing?redirect_uri=/cirrusmd/',
       text: 'Chat live with a health professional on VA Health Chat',
     },
     {
@@ -123,7 +110,7 @@ const resolveLandingPageLinks = (
       href: mhvUrl(authdWithSSOe, 'ss20200320-va-video-connect'),
       text: 'How to use VA Video Connect',
     },
-  ];
+  ].filter(isLinkData);
 
   const spotlightLinks = [
     {
@@ -159,7 +146,10 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      links: medicalRecordsLinks,
+      introduction:
+        'Our new tool makes it easier to find, print, and download your medical records.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
+      tag: 'NEW',
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
@@ -194,6 +184,7 @@ const resolveLandingPageLinks = (
 
 export {
   countUnreadMessages,
+  isLinkData,
   resolveLandingPageLinks,
   resolveUnreadMessageAriaLabel,
 };

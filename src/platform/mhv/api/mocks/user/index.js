@@ -9,7 +9,7 @@ const defaultUser = {
         },
         email: 'fake@fake.com',
         loa: { current: 3 },
-        firstName: 'Gina',
+        firstName: 'Pat',
         middleName: '',
         lastName: 'Doe',
         gender: 'F',
@@ -38,6 +38,7 @@ const defaultUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',
@@ -57,6 +58,7 @@ const defaultUser = {
           },
         ],
         mhvAccountState: 'OK',
+        vaPatient: true,
       },
     },
   },
@@ -96,6 +98,7 @@ const cernerUser = {
         'health-records',
         'rx',
         'messaging',
+        'medical-records',
       ],
       vaProfile: {
         status: 'OK',
@@ -125,12 +128,18 @@ const cernerUser = {
 };
 
 const generateUserWithFacilities = ({ facilities = [], name = 'Harry' }) => {
+  const vaPatient = facilities.length > 0;
   return {
     ...defaultUser,
     data: {
       ...defaultUser.data,
       attributes: {
         ...defaultUser.data.attributes,
+        vaProfile: {
+          ...defaultUser.data.attributes.va_profile,
+          facilities,
+          vaPatient,
+        },
         profile: {
           ...defaultUser.data.attributes.profile,
           facilities,

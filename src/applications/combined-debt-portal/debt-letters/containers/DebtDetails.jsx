@@ -21,6 +21,7 @@ import {
 } from '../const/deduction-codes';
 import DebtDetailsCard from '../components/DebtDetailsCard';
 import PaymentHistoryTable from '../components/PaymentHistoryTable';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const DebtDetails = () => {
   const { selectedDebt, debts } = useSelector(
@@ -47,6 +48,9 @@ const DebtDetails = () => {
     deductionCode: currentDebt.deductionCode,
   };
 
+  const title = `Your ${deductionCodes[currentDebt.deductionCode]}`;
+  useHeaderPageTitle(title);
+
   const showDebtLetterDownload = useSelector(state =>
     debtLettersShowLettersVBMS(state),
   );
@@ -60,18 +64,6 @@ const DebtDetails = () => {
 
     return mostRecentDate;
   };
-
-  const getFirstPaymentDateFromCurrentDebt = debt => {
-    const firstPaymentDate = last(debt.fiscalTransactionData)?.transactionDate;
-
-    if (firstPaymentDate === '') return 'N/A';
-
-    return firstPaymentDate;
-  };
-
-  currentDebt.firstPaymentDate = getFirstPaymentDateFromCurrentDebt(
-    currentDebt,
-  );
 
   useEffect(() => {
     setPageFocus('h1');
@@ -108,9 +100,10 @@ const DebtDetails = () => {
             label: 'Current VA debt',
           },
           {
-            href: `/manage-va-debt/summary/debt-balances/details/${selectedDebt.fileNumber +
-              selectedDebt.deductionCode}`,
-            label: 'Debt details',
+            href: `/manage-va-debt/summary/debt-balances/details/${
+              selectedDebt.compositeDebtId
+            }`,
+            label: `${title}`,
           },
         ]}
         label="Breadcrumb"
@@ -118,7 +111,7 @@ const DebtDetails = () => {
       />
       <div className="medium-screen:vads-l-col--10 small-desktop-screen:vads-l-col--8">
         <h1 className="vads-u-margin-bottom--2" tabIndex="-1">
-          Your {deductionCodes[currentDebt.deductionCode]}
+          {title}
         </h1>
         {dateUpdated && (
           <p className="va-introtext">

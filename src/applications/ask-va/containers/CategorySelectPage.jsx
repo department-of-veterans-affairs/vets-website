@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect, useDispatch } from 'react-redux';
 import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { focusElement } from 'platform/utilities/ui';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import { connect, useDispatch } from 'react-redux';
+import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
+import RequireSignInModal from '../components/RequireSignInModal';
+import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
 import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
-import RequireSignInModal from '../components/RequireSignInModal';
 
 const CategorySelectPage = props => {
-  const { id, onChange, value, loggedIn, goBack, goToPath, formData } = props;
+  const { onChange, loggedIn, goBack, goToPath, formData } = props;
   const dispatch = useDispatch();
 
   const [apiData, setApiData] = useState([]);
@@ -22,8 +23,10 @@ const CategorySelectPage = props => {
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const onModalNo = () => {
-    onChange({ ...formData, selectCategory: null });
+    isLoading(true);
+    onChange({ ...formData, selectCategory: undefined });
     setShowModal({ show: false, selected: '' });
+    setTimeout(() => isLoading(false), 200);
   };
 
   const showError = data => {
@@ -37,10 +40,13 @@ const CategorySelectPage = props => {
   const handleChange = event => {
     const selectedValue = event.detail.value;
     const selected = apiData.find(cat => cat.attributes.name === selectedValue);
-    dispatch(setCategoryID(selected.id));
-    onChange({ ...formData, selectCategory: selectedValue });
-    if (requireSignInCategories.includes(selectedValue) && !loggedIn)
+    localStorage.removeItem('askVAFiles');
+    if (requireSignInCategories.includes(selectedValue) && !loggedIn) {
       setShowModal({ show: true, selected: `${selectedValue}` });
+    } else {
+      dispatch(setCategoryID(selected.id));
+      onChange({ ...formData, selectCategory: selectedValue });
+    }
   };
 
   const getApiData = url => {
@@ -70,7 +76,6 @@ const CategorySelectPage = props => {
     [loading],
   );
 
-  // render loading indicator while we fetch
   if (loading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -79,14 +84,15 @@ const CategorySelectPage = props => {
 
   return !error ? (
     <>
+      <SignInMayBeRequiredCategoryPage />
       <h3>Category</h3>
       <form className="rjsf">
         <VaSelect
-          id={id}
+          id="root_selectCategory"
           label="Select the category that best describes your question"
           name="Select category"
           messageAriaDescribedby={CHAPTER_1.PAGE_1.QUESTION_1}
-          value={value}
+          value={formData.selectCategory}
           onVaSelect={handleChange}
           required
           error={validationError}

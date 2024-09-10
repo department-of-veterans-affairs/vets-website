@@ -50,7 +50,7 @@ export default function CancelConfirmationPage({ appointment, cancelInfo }) {
 
   return (
     <>
-      <BackLink appointment={appointment} featureAppointmentDetailsRedesign />
+      <BackLink appointment={appointment} />
       <h1 className="vads-u-margin-y--2p5">{heading}</h1>
       <p>
         If you still need an appointment, call us or request a new appointment

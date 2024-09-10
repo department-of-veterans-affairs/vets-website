@@ -4,28 +4,30 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   endDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
   herbicidePageTitle,
   notSureDatesDetails,
   startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(herbicidePageTitle),
-  'ui:description': ({ formData }) => {
+  'ui:title': ({ formData }) => {
     const indexAndSelectedCount = getSelectedCount(
       'herbicide',
       formData,
       'otherHerbicideLocations',
     );
-    return dateRangePageDescription(
-      indexAndSelectedCount,
-      indexAndSelectedCount,
-      getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+    return detailsPageBegin(
+      herbicidePageTitle,
+      teSubtitle(
+        indexAndSelectedCount,
+        indexAndSelectedCount,
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ),
     );
   },
   toxicExposure: {

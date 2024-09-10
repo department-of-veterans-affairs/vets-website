@@ -6,12 +6,10 @@ import { toggleValues } from '~/platform/site-wide/feature-toggles/selectors';
 import FEATURE_FLAG_NAMES from '~/platform/utilities/feature-toggles/featureFlagNames';
 import SearchForm from '../containers/SearchForm';
 import SearchResults from '../containers/SearchResults';
-import PdfAlert from './PdfAlert';
 
-export const FindVaForms = ({ showPdfWarningBanner = false }) => {
+export const FindVaForms = () => {
   return (
     <>
-      {showPdfWarningBanner && <PdfAlert />}
       <SearchForm />
       <SearchResults />
       <h2>Frequently used VA forms</h2>

@@ -1,13 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL } from '../../constants';
+import LoadingIndicator from '../LoadingIndicator';
 import FormFooter from '../FormFooter';
 
-export default function ConfirmationDenied({
+const ConfirmationDenied = ({
   claimantName,
   confirmationDate,
+  confirmationError,
+  confirmationLoading,
   printPage,
-}) {
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'DENIED',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
   return (
     <div className="meb-confirmation-page meb-confirmation-page_denied">
       <va-alert status="info">
@@ -39,13 +69,12 @@ export default function ConfirmationDenied({
           <dt>Date received</dt>
           <dd>{confirmationDate}</dd>
         </dl>
-        <button
+        <va-button
+          uswds
           className="usa-button meb-print"
+          text="Print this page"
           onClick={printPage}
-          type="button"
-        >
-          Print this page
-        </button>
+        />
       </div>
 
       <h2>What happens next?</h2>
@@ -74,10 +103,22 @@ export default function ConfirmationDenied({
       <FormFooter />
     </div>
   );
-}
+};
 
 ConfirmationDenied.propTypes = {
   claimantName: PropTypes.string.isRequired,
   confirmationDate: PropTypes.string.isRequired,
   printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool,
+  confirmationLoading: PropTypes.bool,
 };
+
+ConfirmationDenied.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+};
+
+export default ConfirmationDenied;

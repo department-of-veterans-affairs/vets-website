@@ -162,7 +162,7 @@ describe('Direct deposit information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .last()
       .click({ force: true });
     cy.get('[id="root_GI-Bill-Chapters-email-label"]').should(
@@ -178,7 +178,7 @@ describe('Direct deposit information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click();
   });

@@ -19,6 +19,7 @@ const useSendPreCheckInData = () => {
     getPreCheckinComplete,
     setPreCheckinComplete,
     setCompleteTimestamp,
+    getCompleteTimestamp,
   } = useStorage(APP_NAMES.PRE_CHECK_IN);
 
   const { updateError } = useUpdateError();
@@ -54,7 +55,10 @@ const useSendPreCheckInData = () => {
             updateError('pre-check-in-post-error');
           } else {
             setPreCheckinComplete(window, true);
-            setCompleteTimestamp(window, Date.now());
+            const completeTime = getCompleteTimestamp(window);
+            if (!completeTime) {
+              setCompleteTimestamp(window, Date.now());
+            }
             // hide loading screen
             setIsLoading(false);
             focusElement('h1');
@@ -80,6 +84,7 @@ const useSendPreCheckInData = () => {
       nextOfKinUpToDate,
       setPreCheckinComplete,
       setCompleteTimestamp,
+      getCompleteTimestamp,
       token,
     ],
   );

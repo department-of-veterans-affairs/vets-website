@@ -377,6 +377,12 @@ class SaveInProgressIntro extends React.Component {
             message={`Checking to see if you have a saved version of this ${appType} ...`}
           />
           <br />
+          {devOnlyForceShowFormControls && (
+            <>
+              <div>dev only:</div>
+              <div>{this.getFormControls(savedForm)}</div>
+            </>
+          )}
         </div>
       );
     }

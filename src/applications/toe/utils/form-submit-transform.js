@@ -370,6 +370,14 @@ export function transformTOEForm(_formConfig, form) {
       ? formFieldDateOfBirth
       : viewComponentDateOfBirth;
 
+  const highSchoolDiploma = form.data?.toeHighSchoolInfoChange
+    ? form?.data?.highSchoolDiploma === 'Yes'
+    : form?.data?.highSchoolDiplomaLegacy === 'Yes';
+
+  const highSchoolDiplomaDate = form.data?.toeHighSchoolInfoChange
+    ? form?.data?.highSchoolDiplomaDate
+    : form?.data?.highSchoolDiplomaDateLegacy;
+
   const payload = {
     formId: form?.formId,
     '@type': 'ToeSubmission',
@@ -387,7 +395,7 @@ export function transformTOEForm(_formConfig, form) {
         addressLine2: form?.data['view:mailingAddress']?.address?.street2,
         city: form?.data['view:mailingAddress']?.address?.city,
         zipcode: form?.data['view:mailingAddress']?.address?.postalCode,
-        emailAddress: form?.data?.email?.email,
+        emailAddress: form?.data?.email?.email?.toLowerCase(),
         addressType: form?.data['view:mailingAddress']?.livesOnMilitaryBase
           ? 'MILITARY_OVERSEAS'
           : 'DOMESTIC',
@@ -404,8 +412,8 @@ export function transformTOEForm(_formConfig, form) {
     parentOrGuardianSignature: form?.data?.parentGuardianSponsor,
     sponsorOptions: getSponsorInformation(form),
     highSchoolDiplomaInfo: {
-      highSchoolDiplomaOrCertificate: form?.data?.highSchoolDiploma === 'Yes',
-      highSchoolDiplomaOrCertificateDate: form?.data?.highSchoolDiplomaDate,
+      highSchoolDiplomaOrCertificate: highSchoolDiploma,
+      highSchoolDiplomaOrCertificateDate: highSchoolDiplomaDate,
     },
     directDeposit: {
       directDepositAccountType: form?.data?.bankAccount?.accountType,

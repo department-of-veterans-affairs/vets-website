@@ -17,6 +17,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplaySettingsPage = true,
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
+    mhvSecureMessagingEditContactList = true,
   } = toggles;
 
   return {
@@ -45,6 +46,10 @@ const generateFeatureToggles = (toggles = {}) => {
         },
 
         // medical records
+        {
+          name: 'mhv_medical_records_kill_external_links',
+          value: true,
+        },
         {
           name: 'mhv_transitional_medical_records_landing_page',
           value: mhvTransitionalMedicalRecordsLandingPage,
@@ -88,6 +93,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'mhv_medical_records_to_va_gov_release',
           value: mhvMedicalRecordsToVaGovRelease,
+        },
+        {
+          name: 'mhv_secure_messaging_edit_contact_list',
+          value: mhvSecureMessagingEditContactList,
         },
       ],
     },

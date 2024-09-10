@@ -36,7 +36,7 @@ export const CONTESTABLE_ISSUES_API =
 export const ITF_API = '/intent_to_file';
 
 // Evidence upload API - same endpoint as NOD
-export const EVIDENCE_UPLOAD_API = '/v0/decision_review_evidence';
+export const EVIDENCE_UPLOAD_API = '/v1/decision_review_evidence';
 
 export const SUBMIT_URL = '/v1/supplemental_claims';
 

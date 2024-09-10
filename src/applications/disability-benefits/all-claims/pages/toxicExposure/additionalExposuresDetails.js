@@ -2,11 +2,10 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { formTitle } from '../../utils';
 import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   exposureEndDateApproximate,
   exposureStartDateApproximate,
   getKeyIndex,
@@ -24,13 +23,16 @@ import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
  */
 function makeUiSchema(itemId) {
   return {
-    'ui:title': formTitle(additionalExposuresPageTitle),
-    'ui:description': ({ formData }) =>
-      dateRangePageDescription(
-        getKeyIndex(itemId, 'otherExposures', formData),
-        getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
-        ADDITIONAL_EXPOSURES[itemId],
-        'Hazard',
+    'ui:title': ({ formData }) =>
+      detailsPageBegin(
+        additionalExposuresPageTitle,
+        teSubtitle(
+          getKeyIndex(itemId, 'otherExposures', formData),
+          getSelectedCount('otherExposures', formData, 'specifyOtherExposures'),
+          ADDITIONAL_EXPOSURES[itemId],
+          'Hazard',
+        ),
+        'hazards',
       ),
     toxicExposure: {
       otherExposuresDetails: {

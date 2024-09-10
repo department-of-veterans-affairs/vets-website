@@ -29,7 +29,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };

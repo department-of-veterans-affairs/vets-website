@@ -28,8 +28,8 @@ import IntroductionPage from '../containers/IntroductionPage';
 
 import ApplicantIdentityView from '../components/ApplicantIdentityView';
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage.jsx';
+import CustomEmailField from '../components/CustomEmailField';
 import DirectDepositViewField from '../components/DirectDepositViewField';
-import EmailReviewField from '../components/EmailReviewField';
 import EmailViewField from '../components/EmailViewField';
 import FirstSponsorRadioGroup from '../components/FirstSponsorRadioGroup';
 import FirstSponsorReviewPage from '../components/FirstSponsorReviewPage';
@@ -43,13 +43,14 @@ import Sponsors from '../components/Sponsors';
 import SponsorsSelectionHeadings from '../components/SponsorsSelectionHeadings';
 import YesNoReviewField from '../components/YesNoReviewField';
 import preSubmitInfo from '../components/preSubmitInfo';
+import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 
 import {
   addWhitespaceOnlyError,
   applicantIsChildOfSponsor,
-  hideUnder18Field,
   isOnlyWhitespace,
   prefillTransformer,
+  applicantIsaMinor,
 } from '../helpers';
 
 import { transformTOEForm } from '../utils/form-submit-transform';
@@ -89,6 +90,8 @@ const formConfig = {
   //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   transformForSubmit: transformTOEForm,
   trackingPrefix: 'toe-',
+  // Fix double headers (only show v3)
+  v3SegmentedProgressBar: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_22_1990EMEB,
@@ -279,27 +282,63 @@ const formConfig = {
             [formFields.parentGuardianSponsor]: {
               'ui:title': 'Parent / Guardian signature',
               'ui:options': {
-                hideIf: formData =>
-                  hideUnder18Field(formData, formFields.dateOfBirth),
+                hideIf: formData => !applicantIsaMinor(formData),
               },
-              'ui:required': formData =>
-                !hideUnder18Field(formData, formFields.dateOfBirth),
+              'ui:required': formData => applicantIsaMinor(formData),
               'ui:validations': [
-                (errors, field) =>
+                (errors, field) => {
                   addWhitespaceOnlyError(
                     field,
                     errors,
                     'Please enter a parent/guardian signature',
-                  ),
+                  );
+                  // Add validation for character limit
+                  if (field && field.length > 46) {
+                    errors.addError('Signature must be 46 characters or less');
+                  }
+                },
               ],
               'ui:errorMessages': {
                 required: 'Please enter a parent/guardian signature',
               },
             },
+            [formFields.highSchoolDiploma]: {
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.toeHighSchoolInfoChange ||
+                  !applicantIsaMinor(formData),
+              },
+              'ui:required': formData =>
+                formData.toeHighSchoolInfoChange && applicantIsaMinor(formData),
+              'ui:title':
+                'Did you earn a high school diploma or equivalency certificate?',
+              'ui:widget': 'radio',
+            },
+            [formFields.highSchoolDiplomaDate]: {
+              'ui:options': {
+                hideIf: formData =>
+                  !formData.toeHighSchoolInfoChange ||
+                  !(
+                    applicantIsaMinor(formData) &&
+                    formData[formFields.highSchoolDiploma] === 'Yes'
+                  ),
+              },
+              'ui:required': formData =>
+                formData.toeHighSchoolInfoChange &&
+                applicantIsaMinor(formData) &&
+                formData[formFields.highSchoolDiploma] === 'Yes',
+              ...currentOrPastDateUI(
+                'When did you earn your high school diploma or equivalency certificate?',
+              ),
+            },
           },
           schema: {
             type: 'object',
-            required: [formFields.dateOfBirth],
+            required: [
+              formFields.dateOfBirth,
+              formFields.highSchoolDiploma,
+              formFields.highSchoolDiplomaDate,
+            ],
             properties: {
               'view:subHeadings': {
                 type: 'object',
@@ -332,6 +371,11 @@ const formConfig = {
               [formFields.parentGuardianSponsor]: {
                 type: 'string',
               },
+              [formFields.highSchoolDiploma]: {
+                type: 'string',
+                enum: ['Yes', 'No'],
+              },
+              [formFields.highSchoolDiplomaDate]: date,
             },
           },
         },
@@ -624,7 +668,9 @@ const formConfig = {
         highSchool: {
           title: 'Verify your high school education',
           path: 'high-school',
-          depends: formData => applicantIsChildOfSponsor(formData),
+          depends: formData =>
+            applicantIsChildOfSponsor(formData) &&
+            !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -645,7 +691,7 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.highSchoolDiploma]: {
+            [formFields.highSchoolDiplomaLegacy]: {
               'ui:title':
                 'Did you earn a high school diploma or equivalency certificate?',
               'ui:widget': 'radio',
@@ -653,13 +699,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiploma],
+            required: [formFields.highSchoolDiplomaLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiploma]: {
+              [formFields.highSchoolDiplomaLegacy]: {
                 type: 'string',
                 enum: ['Yes', 'No'],
               },
@@ -671,7 +717,8 @@ const formConfig = {
           path: 'high-school-completion',
           depends: formData =>
             applicantIsChildOfSponsor(formData) &&
-            formData[formFields.highSchoolDiploma] === 'Yes',
+            formData[formFields.highSchoolDiplomaLegacy] === 'Yes' &&
+            !formData.toeHighSchoolInfoChange,
           uiSchema: {
             'view:subHeadings': {
               'ui:description': (
@@ -692,7 +739,7 @@ const formConfig = {
                 </>
               ),
             },
-            [formFields.highSchoolDiplomaDate]: {
+            [formFields.highSchoolDiplomaDateLegacy]: {
               ...currentOrPastDateUI(
                 'When did you earn your high school diploma or equivalency certificate?',
               ),
@@ -700,13 +747,13 @@ const formConfig = {
           },
           schema: {
             type: 'object',
-            required: [formFields.highSchoolDiplomaDate],
+            required: [formFields.highSchoolDiplomaDateLegacy],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              [formFields.highSchoolDiplomaDate]: date,
+              [formFields.highSchoolDiplomaDateLegacy]: date,
             },
           },
         },
@@ -771,7 +818,7 @@ const formConfig = {
               email: {
                 ...emailUI('Email address'),
                 'ui:validations': [validateEmail],
-                'ui:reviewField': EmailReviewField,
+                'ui:widget': CustomEmailField,
               },
               confirmEmail: {
                 ...emailUI('Confirm email address'),
@@ -783,14 +830,18 @@ const formConfig = {
               'ui:validations': [
                 (errors, field) => {
                   if (
-                    field[formFields.email] !== field[formFields.confirmEmail]
+                    field?.email?.toLowerCase() !==
+                    field?.confirmEmail?.toLowerCase()
                   ) {
-                    errors[formFields.confirmEmail].addError(
+                    errors.confirmEmail?.addError(
                       'Sorry, your emails must match',
                     );
                   }
                 },
               ],
+            },
+            'view:confirmDuplicateData': {
+              'ui:description': DuplicateContactInfoModal,
             },
           },
           schema: {
@@ -814,6 +865,10 @@ const formConfig = {
                   email,
                   confirmEmail: email,
                 },
+              },
+              'view:confirmDuplicateData': {
+                type: 'object',
+                properties: {},
               },
             },
           },
@@ -1064,6 +1119,7 @@ const formConfig = {
                       };
                     },
                   );
+
                   return form => filterContactMethods(form);
                 })(),
               },
@@ -1211,6 +1267,91 @@ const formConfig = {
                   ]?.isInternational,
               },
             },
+            'view:emailOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get email notifications because your
+                    email is on file for another person with education benefits.
+                    You will not be able to take full advantage of VA’s
+                    electronic notifications and enrollment verifications
+                    available. If you cannot, certain electronic services will
+                    be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isNo = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 3)
+                    ?.includes('No,');
+                  const noDuplicates = formData?.duplicateEmail?.some(
+                    entry => entry?.dupe === false,
+                  );
+
+                  // Return true if isNo is false OR noDuplicates is not false
+                  return (
+                    !formData?.toeDupContactInfoCall || (!isNo || noDuplicates)
+                  );
+                },
+              },
+            },
+            'view:mobilePhoneOnFileWithSomeoneElse': {
+              'ui:description': (
+                <va-alert status="warning">
+                  <>
+                    You can’t choose to get text notifications because your
+                    mobile phone number is on file for another person with
+                    education benefits. You will not be able to take full
+                    advantage of VA’s electronic notifications and enrollment
+                    verifications available. If you cannot, certain electronic
+                    services will be limited or unavailable.
+                    <br />
+                    <br />
+                    <a
+                      target="_blank"
+                      href="https://www.va.gov/education/verify-school-enrollment"
+                      rel="noreferrer"
+                    >
+                      Learn more about the Enrollment Verifications
+                    </a>
+                  </>
+                </va-alert>
+              ),
+              'ui:options': {
+                hideIf: formData => {
+                  const isYes = formData[
+                    'view:receiveTextMessages'
+                  ]?.receiveTextMessages
+                    ?.slice(0, 4)
+                    ?.includes('Yes');
+                  const noDuplicates = formData?.duplicatePhone?.some(
+                    entry => entry?.dupe === false,
+                  );
+                  const mobilePhone =
+                    formData[(formFields?.viewPhoneNumbers)]?.[
+                      formFields?.mobilePhoneNumber
+                    ]?.phone;
+
+                  // Return true if isYes is false, noDuplicates is true, or mobilePhone is undefined
+                  return (
+                    !formData?.toeDupContactInfoCall ||
+                    (!isYes || noDuplicates || !mobilePhone)
+                  );
+                },
+              },
+            },
           },
           schema: {
             type: 'object',
@@ -1241,6 +1382,18 @@ const formConfig = {
                 },
               },
               'view:internationalTextMessageAlert': {
+                type: 'object',
+                properties: {},
+              },
+              'view:emailOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:mobilePhoneOnFileWithSomeoneElse': {
+                type: 'object',
+                properties: {},
+              },
+              'view:duplicateEmailAndPhoneAndNoHomePhone': {
                 type: 'object',
                 properties: {},
               },

@@ -81,6 +81,19 @@ const homeAddressDeleteReceived = {
   },
 };
 
+const mailingAddressUpdateReceivedPrefillTaskGreen = {
+  data: {
+    id: '',
+    type: 'async_transaction_va_profile_address_transactions',
+    attributes: {
+      transactionId: 'mock-update-mailing-address-transaction-id',
+      transactionStatus: 'RECEIVED',
+      type: 'AsyncTransaction::VAProfile::AddressTransaction',
+      metadata: [],
+    },
+  },
+};
+
 const homeAddressUpdateSuccess = {
   data: {
     id: '',
@@ -116,12 +129,31 @@ const addressValidation = {
   validationKey: -981994727,
 };
 
+const addressValidationMatch = (req, res) => {
+  return res.json({
+    addresses: [
+      {
+        address: req.body.address,
+        addressMetaData: {
+          confidenceScore: 100,
+          addressType: 'Domestic',
+          deliveryPointValidation: 'CONFIRMED',
+          residentialDeliveryIndicator: 'RESIDENTIAL',
+        },
+      },
+    ],
+    validationKey: -1565212962,
+  });
+};
+
 module.exports = {
   mailingAddressUpdateReceived,
+  mailingAddressUpdateReceivedPrefillTaskGreen,
   mailingAddressUpdateNoChangeDetected,
   mailingAddressStatusSuccess,
   homeAddressUpdateReceived,
   homeAddressUpdateSuccess,
   homeAddressDeleteReceived,
   addressValidation,
+  addressValidationMatch,
 };

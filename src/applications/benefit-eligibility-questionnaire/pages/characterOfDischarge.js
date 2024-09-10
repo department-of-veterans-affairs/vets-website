@@ -1,23 +1,25 @@
 import React from 'react';
 
-const CHARACTER_OF_DISCHARGE = [
-  'Honorable',
-  'Under Honorable Conditions (General)',
-  'Under Honorable Conditions',
-  'Dishonorable',
-  'Uncharacterized',
-  'Bad Conduct',
-  "I'm not sure",
-];
+const CHARACTER_OF_DISCHARGE = {
+  honorable: 'Honorable',
+  underHonorableConditionsGeneral: 'Under Honorable Conditions (General)',
+  underOtherThanHonorableConditions: 'Under Other Than Honorable Conditions',
+  badConduct: 'Bad Conduct',
+  dishonorable: 'Dishonorable',
+  uncharacterized: 'Uncharacterized',
+  notSure: "I'm not sure",
+};
 
 export default {
   uiSchema: {
-    // 'view:characterOfDischarge': {
     characterOfDischarge: {
       'ui:title': (
         <>
           <p>
-            <b>What was your character of discharge?</b>
+            <b>
+              What is the highest character of discharge you have received or
+              expect to receive?
+            </b>
             <span className="schemaform-required-span">(*Required)</span>
           </p>
         </>
@@ -25,8 +27,8 @@ export default {
       'ui:description': (
         <>
           <p>
-            If you served multiple titles with different characters of
-            discharge, please select the "highest" of your discharge statuses.
+            If you served multiple times with different characters of discharge,
+            please select the "highest" of your discharge statuses.
           </p>
           <p>
             If you feel your character of discharge is unjust, you can apply for
@@ -34,31 +36,15 @@ export default {
           </p>
         </>
       ),
-      // 'ui:webComponentField': VaSelectField,
       'ui:widget': 'select',
       'ui:options': {
         placeholder: 'Select',
-
-        widgetProps: {
-          honorable: { characterOfDischarge: 'Honorable' },
-          underHonorableConditionsGeneral: {
-            characterOfDischarge: 'Under Honorable Conditions (General)',
-          },
-          underHonorableConditions: {
-            characterOfDischarge: 'Under Honorable Conditions',
-          },
-          dishonorable: { characterOfDischarge: 'Dishonorable' },
-          uncharacterized: { characterOfDischarge: 'Uncharacterized' },
-          badConduct: { characterOfDischarge: 'Bad Conduct' },
-          notSure: { characterOfDischarge: "I'm not sure" },
-        },
       },
       'ui:required': () => true,
       'ui:errorMessages': {
         required: 'Character of discharge is required',
       },
     },
-    // },
     characterOfDischargeTWO: {
       'ui:title': '',
       'ui:description': (
@@ -84,7 +70,8 @@ export default {
     properties: {
       characterOfDischarge: {
         type: 'string',
-        enum: CHARACTER_OF_DISCHARGE,
+        enum: Object.keys(CHARACTER_OF_DISCHARGE),
+        enumNames: Object.values(CHARACTER_OF_DISCHARGE),
       },
       characterOfDischargeTWO: { type: 'object', properties: {} },
     },

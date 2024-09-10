@@ -102,6 +102,8 @@ const BenefitsProfileWrapper = ({ children }) => {
                     street: `${
                       latestAddress?.address1
                     } ${latestAddress?.address2 ?? ''}`,
+                    street2: `${latestAddress?.address3 ??
+                      ''} ${latestAddress?.address4 ?? ''}`,
                     city: latestAddress?.city,
                     stateCode: latestAddress?.state,
                     zipCode: latestAddress?.zipCode,

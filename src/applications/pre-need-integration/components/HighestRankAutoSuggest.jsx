@@ -20,9 +20,11 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
   };
 
   const handleSelectionChange = selection => {
+    const highestRankTemp =
+      typeof selection === 'string' ? selection : selection.key;
     if (selection.key)
       setRank(`${selection.key.toUpperCase()} - ${selection.value}`);
-    else setRank('');
+    else setRank(highestRankTemp);
 
     if (formData.application.veteran.serviceRecords) {
       const updatedFormData = {
@@ -36,8 +38,8 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
                 idx === index
                   ? {
                       ...record,
-                      highestRank: selection.key,
-                      highestRankDescription: selection.value,
+                      highestRank: highestRankTemp,
+                      highestRankDescription: selection.value || undefined,
                     }
                   : record,
             ),
@@ -108,11 +110,17 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
 
         const currentRank = serviceRecords[currentIndex];
         if (currentRank?.highestRank) {
-          setRank(
-            `${currentRank.highestRank} - ${
-              currentRank.highestRankDescription
-            }`,
-          );
+          if (currentRank.highestRankDescription) {
+            setRank(
+              `${currentRank.highestRank} - ${
+                currentRank.highestRankDescription
+              }`,
+            );
+          } else if (typeof currentRank.highestRank !== 'object') {
+            setRank(currentRank.highestRank);
+          } else {
+            setRank(' ');
+          }
         }
       }
     },
@@ -148,7 +156,7 @@ function HighestRankAutoSuggest({ formData, formContext, idSchema, uiSchema }) {
       (formContext.onReviewPage && !formContext.reviewMode) ? (
         <div className="highestRank">
           <AutoSuggest
-            value={rank || ''}
+            value={typeof rank === 'object' || rank === undefined ? '' : rank}
             setValue={setRank}
             labels={rankOptions}
             onSelectionChange={handleSelectionChange}

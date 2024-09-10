@@ -42,6 +42,7 @@ describe('App', () => {
       },
       profile: {
         services: [backendServices.MESSAGING],
+        verified: true,
       },
     },
     sm: {

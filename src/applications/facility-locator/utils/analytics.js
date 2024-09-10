@@ -6,7 +6,7 @@ import { distBetween } from './facilityDistance';
  */
 export const recordMarkerEvents = r => {
   const { classification, name, facilityType, id } = r.attributes;
-  const distance = r.distance;
+  const { distance } = r;
 
   if (classification && name && facilityType && distance && id) {
     recordEvent({
@@ -21,41 +21,11 @@ export const recordMarkerEvents = r => {
 };
 
 /**
- * Helper fn to record map zoom and panning events for GA
- */
-export const recordZoomPanEvents = (e, searchCoords, currentZoomLevel) => {
-  if (currentZoomLevel && e.zoom > currentZoomLevel) {
-    recordEvent({ event: 'fl-map-zoom-in' });
-  } else if (currentZoomLevel && e.zoom < currentZoomLevel) {
-    recordEvent({ event: 'fl-map-zoom-out' });
-  }
-
-  if (searchCoords && searchCoords.lat && searchCoords.lng) {
-    const distanceMoved = distBetween(
-      searchCoords.lat,
-      searchCoords.lng,
-      e.center[0],
-      e.center[1],
-    );
-
-    if (distanceMoved > 0) {
-      recordEvent({
-        event: 'fl-search',
-        'fl-map-miles-moved': distanceMoved,
-      });
-      recordEvent({
-        'fl-map-miles-moved': undefined,
-      });
-    }
-  }
-};
-
-/**
  * Helper fn to record click result data layer
  */
 export const recordResultClickEvents = (location, index) => {
   const { classification, name, facilityType, id } = location.attributes;
-  const currentPage = location.currentPage;
+  const { currentPage } = location;
 
   if (classification && name && facilityType && id) {
     recordEvent({
@@ -117,10 +87,13 @@ export const recordSearchResultsEvents = (props, results) => {
  * Helper fn to record map zoom
  */
 export const recordZoomEvent = (lastZoom, currentZoom) => {
-  if (lastZoom === currentZoom) return;
+  if (lastZoom === currentZoom) {
+    return;
+  }
+
   if (lastZoom < currentZoom) {
     recordEvent({ event: 'fl-map-zoom-in' });
-  } else if (lastZoom > currentZoom) {
+  } else {
     recordEvent({ event: 'fl-map-zoom-out' });
   }
 };
@@ -130,6 +103,7 @@ export const recordZoomEvent = (lastZoom, currentZoom) => {
  */
 export const recordPanEvent = (mapCenter, currentQuery) => {
   const { searchCoords, searchArea } = currentQuery;
+
   return new Promise((resolve, _) => {
     let distanceMoved;
 

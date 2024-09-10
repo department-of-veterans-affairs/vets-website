@@ -122,7 +122,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .last()
       .click({ force: true });
     cy.get('[class="usa-checkbox__label"]').should(
@@ -140,7 +140,7 @@ describe('Contact information', () => {
       'contain',
       'Are you sure?',
     );
-    cy.get('va-button[uswds]')
+    cy.get('va-button')
       .first()
       .click();
     cy.get(

@@ -11,6 +11,7 @@ import { ProfileLink } from '@@profile/components/ProfileLink';
 import BadAddressAlert from '@@profile/components/alerts/bad-address/ProfileAlert';
 import { HubCard } from './HubCard';
 import { EduMigrationAlert } from '../direct-deposit/legacy/alerts/EduMigrationAlert';
+import { ContactInfoNeeded } from '../alerts/ContactInfoNeeded';
 
 export const Hub = () => {
   const { label, link } = useSignInServiceProvider();
@@ -30,6 +31,8 @@ export const Hub = () => {
       </div>
 
       <EduMigrationAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
+
+      <ContactInfoNeeded className="vads-u-margin-top--0 vads-u-margin-bottom--4 medium-screen:vads-l-col--10" />
 
       {hasBadAddress && (
         <BadAddressAlert className="vads-u-margin-top--0 vads-u-margin-bottom--4 vads-l-col--10" />

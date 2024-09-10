@@ -65,3 +65,7 @@ export const mask = value => {
 export const onCloseAlert = e => {
   e.target.visible = false;
 };
+
+export const getMockData = (mockData, isLocalhost) => {
+  return !!mockData && isLocalhost() && !window.Cypress ? mockData : undefined;
+};

@@ -1,10 +1,10 @@
 import get from 'platform/forms-system/src/js/utilities/data/get';
-import moment from 'moment';
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 import titleCase from 'platform/utilities/data/titleCase';
 import { createSelector } from 'reselect';
 import { Title } from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
+import { isWithinInterval, parseISO, startOfDay, subYears } from 'date-fns';
 
 export function isSeparated(formData) {
   return formData.maritalStatus === 'SEPARATED';
@@ -37,14 +37,14 @@ export function showSpouseAddress(formData) {
 }
 
 export function isBetween18And23(childDOB) {
-  return moment(childDOB).isBetween(
-    moment()
-      .startOf('day')
-      .subtract(23, 'years'),
-    moment()
-      .startOf('day')
-      .subtract(18, 'years'),
-  );
+  const today = startOfDay(new Date());
+  const lowerBound = subYears(today, 23);
+  const upperBound = subYears(today, 18);
+
+  return isWithinInterval(parseISO(childDOB), {
+    start: lowerBound,
+    end: upperBound,
+  });
 }
 
 export function dependentIsOutsideHousehold(formData, index) {

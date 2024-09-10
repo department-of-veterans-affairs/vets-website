@@ -21,6 +21,7 @@ import {
   focusOnChange,
   getFocusableElements,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { removeDuplicatesByChapterAndPageKey } from '../utils/reviewPageHelper';
 import ArrayField from './ArrayField';
 
 const { Element, scroller } = Scroll;
@@ -338,6 +339,9 @@ class ReviewCollapsibleChapter extends React.Component {
       viewedPages,
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
+    const uniqueExpandedPages = removeDuplicatesByChapterAndPageKey(
+      expandedPages,
+    );
     return (
       <div
         className="usa-accordion-content schemaform-chapter-accordion-content"
@@ -352,7 +356,7 @@ class ReviewCollapsibleChapter extends React.Component {
             push
           />
         )}
-        {expandedPages.map(page => {
+        {uniqueExpandedPages.map(page => {
           const pageConfig = form.pages[page.pageKey];
           const editing = pageConfig.showPagePerItem
             ? pageConfig.editMode[page.index]

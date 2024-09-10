@@ -1,8 +1,42 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { LETTER_URL, LETTER_ENDPOINT } from '../../constants';
+import LoadingIndicator from '../LoadingIndicator';
 
-export default function DeniedConfirmation({ user, dateReceived }) {
+const DeniedConfirmation = ({
+  user,
+  dateReceived,
+  confirmationError,
+  confirmationLoading,
+  printPage,
+  sendConfirmation,
+  userEmail,
+  userFirstName,
+}) => {
+  useEffect(
+    () => {
+      sendConfirmation({
+        claimStatus: 'DENIED',
+        email: userEmail,
+        firstName: userFirstName,
+      });
+    },
+    [sendConfirmation, userEmail, userFirstName],
+  );
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationLoading) {
+    return <LoadingIndicator message="Sending confirmation email..." />;
+  }
+
+  if (confirmationError) {
+    return (
+      <div>Error sending confirmation email: {confirmationError.message}</div>
+    );
+  }
   return (
     <>
       <div className="vads-u-margin-bottom--6">
@@ -15,13 +49,13 @@ export default function DeniedConfirmation({ user, dateReceived }) {
           <div>
             <p>
               Unfortunately, based on the information you provided and
-              Department of Defense records, we have determined you're not
+              Department of Defense records, we have determined you’re not
               eligible for the Transfer of Entitlement for Post-9/11 GI Bill®
               (Chapter 33) benefit at this time.
             </p>{' '}
             <p>
               You can now download your decision letter, which explains why
-              you're not eligible. We'll also mail a physical copy to your
+              you’re not eligible. We’ll also mail a physical copy to your
               mailing address.
             </p>
           </div>
@@ -56,13 +90,13 @@ export default function DeniedConfirmation({ user, dateReceived }) {
               <strong>Date received</strong>
               {dateReceived}
             </div>
-            <button
-              type="button"
-              onClick={() => window.print()}
+            <br />
+            <va-button
+              uswds
               className="usa-button vads-u-margin-top--3 vads-u-width--auto"
-            >
-              Print this page
-            </button>
+              text="Print this page"
+              onClick={printPage}
+            />
           </div>
         </va-alert>
       </div>
@@ -74,16 +108,29 @@ export default function DeniedConfirmation({ user, dateReceived }) {
             <a href={LETTER_URL}>Download your VA education letters</a>.
           </li>
           <li>
-            We'll notify you if you're eligible for other VA education benefits.
+            We’ll notify you if you’re eligible for other VA education benefits.
           </li>
-          <li>We don't require further action by you at this time.</li>
+          <li>We don’t require further action by you at this time.</li>
         </ul>
       </div>
     </>
   );
-}
+};
 
 DeniedConfirmation.propTypes = {
+  printPage: PropTypes.func.isRequired,
+  sendConfirmation: PropTypes.func.isRequired,
+  userEmail: PropTypes.string.isRequired,
+  userFirstName: PropTypes.string.isRequired,
+  confirmationError: PropTypes.bool,
+  confirmationLoading: PropTypes.bool,
   dateReceived: PropTypes.string,
   user: PropTypes.string,
 };
+
+DeniedConfirmation.defaultProps = {
+  confirmationError: null,
+  confirmationLoading: false,
+};
+
+export default DeniedConfirmation;

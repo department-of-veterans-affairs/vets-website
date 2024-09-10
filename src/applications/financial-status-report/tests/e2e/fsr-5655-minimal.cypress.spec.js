@@ -67,12 +67,16 @@ const testConfig = createTestConfig(
       // 120.4-166.67
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-debt"]`)
-            .first()
-            .check();
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="debt-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -145,7 +149,11 @@ const testConfig = createTestConfig(
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]').check();
+          cy.get('va-checkbox')
+            .first()
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },

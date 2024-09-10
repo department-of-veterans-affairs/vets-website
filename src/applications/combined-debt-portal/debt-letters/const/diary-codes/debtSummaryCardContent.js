@@ -168,6 +168,16 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
           to pay this debt.
         </DebtSummaryMessage>
       );
+    case '081': // TODO: No Definition in mockup
+    case '500':
+    case '510':
+    case '503':
+      return (
+        <DebtSummaryMessage IconComponent={WarningIcon}>
+          We’re referring this debt to the U.S. Department of the Treasury
+          today.
+        </DebtSummaryMessage>
+      );
     case '811':
       return (
         <DebtSummaryMessage IconComponent={InfoIcon}>
@@ -240,10 +250,6 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '422':
     case '627':
     case '425': // ok - defined in spreadsheet
-    case '081': // TODO: No Definition in mockup
-    case '500':
-    case '510':
-    case '503':
     default:
       return (
         <DebtSummaryMessage IconComponent={InfoIcon}>

@@ -139,6 +139,7 @@ describe('AuthMetrics', () => {
   });
 
   it('should run if no session active', () => {
+    localStorage.clear();
     const payload = createPayload('dslogon', true);
     const authMetrics = new AuthMetrics('dslogon', payload);
     const sessionSpy = sinon.spy(authMetrics, 'recordGAAuthEvents');

@@ -85,7 +85,7 @@ const testConfig = createTestConfig(
             cy.get('va-text-input')
               .shadow()
               .get('#inputField')
-              .type(data.signature);
+              .type(data.signature, { force: true });
             cy.get(`va-checkbox`)
               .shadow()
               .find('input')

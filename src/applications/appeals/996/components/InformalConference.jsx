@@ -15,6 +15,7 @@ import sharedErrorMessages from '../../shared/content/errorMessages';
 import {
   informalConferenceTitle,
   InformalConferenceDescription,
+  informalConferenceLabel,
   informalConferenceLabels,
   newInformalConferenceLabels,
   informalConferenceDescriptions,
@@ -137,7 +138,7 @@ export const InformalConference = ({
             {InformalConferenceDescription}
             <VaRadio
               class="vads-u-margin-y--2"
-              label={informalConferenceTitle}
+              label={informalConferenceLabel}
               error={hasError && sharedErrorMessages.requiredYesNo}
               onVaValueChange={handlers.onSelectionNew}
               required

@@ -24,9 +24,6 @@ export const API_RESPONSES = Object.freeze({
 export const combinedPortalAccess = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];
 
-export const debtLettersShowLetters = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLetters];
-
 export const debtLettersShowLettersVBMS = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.debtLettersShowLettersVBMS];
 
@@ -48,14 +45,6 @@ export const currency = amount => {
   });
   return formatter.format(parseFloat(amount));
 };
-
-export const mcpFeatureToggle = state =>
-  toggleValues(state)[FEATURE_FLAG_NAMES.showMedicalCopays];
-
-export const mcpHTMLStatementToggle = state =>
-  toggleValues(state)[
-    FEATURE_FLAG_NAMES.medicalCopaysHtmlMedicalStatementsViewEnabled
-  ];
 
 export const cdpAccessToggle = state =>
   toggleValues(state)[FEATURE_FLAG_NAMES.combinedDebtPortalAccess];

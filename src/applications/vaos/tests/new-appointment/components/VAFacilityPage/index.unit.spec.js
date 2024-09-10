@@ -1387,4 +1387,132 @@ describe('VAOS Page: VAFacilityPage', () => {
       );
     });
   });
+
+  describe('when OH Direct Scheduling is enabled', () => {
+    beforeEach(() => mockFetch());
+
+    const initialState = {
+      drupalStaticData: {
+        vamcEhrData: {
+          loading: false,
+          data: {
+            ehrDataByVhaId: {
+              '442': {
+                vhaId: '442',
+                vamcFacilityName: 'Cheyenne VA Medical Center',
+                vamcSystemName: 'VA Cheyenne health care',
+                ehr: 'cerner',
+              },
+              '552': {
+                vhaId: '552',
+                vamcFacilityName: 'Dayton VA Medical Center',
+                vamcSystemName: 'VA Dayton health care',
+                ehr: 'cerner',
+              },
+            },
+            cernerFacilities: [
+              {
+                vhaId: '442',
+                vamcFacilityName: 'Cheyenne VA Medical Center',
+                vamcSystemName: 'VA Cheyenne health care',
+                ehr: 'cerner',
+              },
+              {
+                vhaId: '552',
+                vamcFacilityName: 'Dayton VA Medical Center',
+                vamcSystemName: 'VA Dayton health care',
+                ehr: 'cerner',
+              },
+            ],
+            vistaFacilities: [],
+          },
+        },
+      },
+      featureToggles: {
+        vaOnlineSchedulingDirect: true,
+        vaOnlineSchedulingUseDsot: true,
+        vaOnlineSchedulingFacilitiesServiceV2: true,
+        vaOnlineSchedulingOhDirectSchedule: true,
+      },
+      user: {
+        profile: {
+          facilities: [
+            {
+              facilityId: '442', // Must use real facility id when using DSOT
+              isCerner: false, // Not used when using DSOT
+            },
+            { facilityId: '552', isCerner: false },
+          ],
+        },
+      },
+    };
+
+    it('should not display MHV scheduling link for foodAndNutrition appointments', async () => {
+      mockFacilitiesFetch({
+        children: true,
+        facilities: [
+          createMockFacility({
+            id: '983',
+            name: 'First cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+          }),
+          createMockFacility({
+            id: '984',
+            name: 'Second Cerner facility',
+            lat: 39.1362562,
+            long: -83.1804804,
+          }),
+        ],
+      });
+
+      mockSchedulingConfigurations([
+        getSchedulingConfigurationMock({
+          id: '983',
+          typeOfCareId: 'foodAndNutrition',
+          directEnabled: true,
+        }),
+        getSchedulingConfigurationMock({
+          id: '984',
+          typeOfCareId: 'foodAndNutrition',
+          directEnabled: true,
+        }),
+      ]);
+
+      const store = createTestStore({
+        ...initialState,
+        user: {
+          ...initialState.user,
+          profile: {
+            ...initialState.user.profile,
+            vapContactInfo: {
+              residentialAddress: {
+                latitude: 39.1362562,
+                longitude: -84.6804804,
+              },
+            },
+          },
+        },
+      });
+
+      await setTypeOfCare(store, /nutrition and food/i);
+
+      const screen = renderWithStoreAndRouter(<VAFacilityPage />, {
+        store,
+      });
+
+      // Make sure Cerner facilities show up
+      expect(await screen.findByText(/First Cerner facility/i)).to.be.ok;
+      expect(await screen.getByText(/Second Cerner facility/i)).to.be.ok;
+
+      // Make sure Cerner link does not show up for foodAndNutrition
+      const cernerSiteLabel = document.querySelector(
+        `label[for="${screen.getByLabelText(/First Cerner facility/i).id}"]`,
+      );
+
+      expect(
+        within(cernerSiteLabel).queryByRole('link', { name: /My VA Health/ }),
+      ).not.to.exist;
+    });
+  });
 });

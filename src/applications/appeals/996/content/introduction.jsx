@@ -88,8 +88,8 @@ export const ProcessList = () => (
             <li>
               <strong>Submit a written statement.</strong> If you choose this
               option, you must mail us your statement or submit it in person,
-              together with your completed VA Form 20-0996. We can’t accept
-              written statements if you complete the online form at this time.
+              together with your completed VA Form 20-0996. At this time, we
+              can’t accept written statements if you complete the online form.
             </li>
           </ul>
           <p>

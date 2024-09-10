@@ -127,7 +127,7 @@ const MobileHeader = ({ isDesktop, megaMenuData }) => {
       {/* end Veterans Crisis Line banner */}
 
       <nav className="vads-u-display--flex vads-u-flex-direction--column vads-u-margin--0 vads-u-padding--0">
-        <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+        <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
           {/* start VA logo */}
           <a
             aria-label="VA logo"

@@ -69,6 +69,9 @@ describe('Actions', () => {
 
     before(() => {
       server.listen();
+    });
+
+    beforeEach(() => {
       server.events.on('request:start', req => {
         expectedUrl = req.url.href;
       });
@@ -98,7 +101,7 @@ describe('Actions', () => {
           ),
         );
 
-        const thunk = submit5103(ID, true);
+        const thunk = submit5103(ID, 12345, true);
         const dispatchSpy = sinon.spy();
         const dispatch = action => {
           dispatchSpy(action);
@@ -481,6 +484,9 @@ describe('Actions', () => {
 
       before(() => {
         server.listen();
+      });
+
+      beforeEach(() => {
         server.events.on('request:start', req => {
           expectedUrl = req.url.href;
         });

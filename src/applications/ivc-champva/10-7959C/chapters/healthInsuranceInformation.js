@@ -218,8 +218,8 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
   };
 }
 
-export function applicantInsuranceEOBSchema(isPrimary) {
-  const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
+export function applicantInsuranceEobSchema(isPrimary) {
+  const keyname = isPrimary ? 'applicantPrimaryEob' : 'applicantSecondaryEob';
   const provider = isPrimary
     ? 'applicantPrimaryProvider'
     : 'applicantSecondaryProvider';

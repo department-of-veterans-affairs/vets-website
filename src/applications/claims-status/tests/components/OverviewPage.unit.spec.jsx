@@ -148,7 +148,7 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
+      'Overview of Your Claim | Veterans Affairs',
     );
     getByText('Claim status is unavailable');
   });
@@ -161,7 +161,7 @@ describe('<OverviewPage>', () => {
     );
     expect($('.overview-container', container)).to.not.exist;
     expect(document.title).to.equal(
-      'Overview Of Your Claim | Veterans Affairs',
+      'Overview of Your Claim | Veterans Affairs',
     );
     getByText('Claim status is unavailable');
   });
@@ -220,9 +220,10 @@ describe('<OverviewPage>', () => {
         getByText(
           'Learn about the VA claim process and what happens after you file your claim.',
         );
+
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and disability compensation claim', () => {
@@ -280,7 +281,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
   });
@@ -312,7 +313,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is closed and dependency compensation claim', () => {
@@ -341,7 +342,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and disability compensation claim', () => {
@@ -370,7 +371,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
     context('when claim is open and dependency compensation claim', () => {
@@ -399,7 +400,7 @@ describe('<OverviewPage>', () => {
         );
         expect($('.claim-phase-diagram', container)).to.not.exist;
         expect($('.claim-phase-stepper', container)).to.not.exist;
-        expect($('.claim-timeline', container)).to.exist;
+        expect($('va-process-list', container)).to.exist;
       });
     });
   });

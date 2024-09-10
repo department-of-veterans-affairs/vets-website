@@ -31,12 +31,11 @@ describe('VAOS Component: AppointmentCard', () => {
     featureToggles: {},
   };
 
-  it('should display appointment card when vaOnlineSchedulingAppointmentDetailsRedesign is true', async () => {
+  it('should display appointment card', async () => {
     const state = {
       ...initialState,
       featureToggles: {
         ...initialState.featureToggles,
-        vaOnlineSchedulingAppointmentDetailsRedesign: true,
       },
     };
 
@@ -58,34 +57,5 @@ describe('VAOS Component: AppointmentCard', () => {
     );
 
     expect(wrapper.getByTestId('appointment-card')).to.exist;
-  });
-
-  it('should not display appointment card when vaOnlineSchedulingAppointmentDetailsRedesign is false', async () => {
-    const state = {
-      ...initialState,
-      featureToggles: {
-        ...initialState.featureToggles,
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      },
-    };
-
-    const store = createTestStore(state);
-
-    const appointment = {
-      ...appointmentData,
-    };
-
-    const wrapper = renderWithStoreAndRouter(
-      <AppointmentCard appointment={appointment}>
-        <h1 className="vads-u-margin-y--2p5">
-          <AppointmentDateTime appointment={appointment} />
-        </h1>
-      </AppointmentCard>,
-      {
-        store,
-      },
-    );
-
-    expect(wrapper.queryByTestId('appointment-card')).to.be.null;
   });
 });

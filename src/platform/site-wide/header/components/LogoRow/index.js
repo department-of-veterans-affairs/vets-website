@@ -19,7 +19,7 @@ export const LogoRow = ({
   };
 
   return (
-    <div className="header-logo-row vads-u-background-color--primary-darkest vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
+    <div className="header-logo-row vads-u-background-color--primary-darker vads-u-display--flex vads-u-align-items--center vads-u-justify-content--space-between vads-u-padding-y--1p5 vads-u-padding-left--1p5 vads-u-padding-right--1">
       <a
         aria-label="VA logo"
         className="header-logo vads-u-display--flex vads-u-align-items--center vads-u-justify-content--center"

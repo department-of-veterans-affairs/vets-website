@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ProgressButton from 'platform/forms-system/src/js/components/ProgressButton';
 
-const DisabilityConfirmation = props => {
+const FinancialConfirmation = props => {
   const { goBack, goForward } = props;
 
   return (
@@ -53,9 +53,9 @@ const DisabilityConfirmation = props => {
   );
 };
 
-DisabilityConfirmation.propTypes = {
+FinancialConfirmation.propTypes = {
   goBack: PropTypes.func,
   goForward: PropTypes.func,
 };
 
-export default DisabilityConfirmation;
+export default FinancialConfirmation;

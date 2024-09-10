@@ -8,16 +8,11 @@ import {
   yesNoUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import { typeOfPhoneOptions } from '../../constants/options';
 import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../helpers/internationalPhonePatterns';
-
-const typeOfPhoneOptions = {
-  CELL: 'Cell',
-  HOME: 'Home',
-  WORK: 'Work',
-};
 
 /** @type {PageSchema} */
 export default {
@@ -25,7 +20,10 @@ export default {
   path: 'contact-information',
   uiSchema: {
     ...titleUI('Contact information'),
-    phone: internationalPhoneUI('Primary number'),
+    phone: internationalPhoneUI({
+      title: 'Primary phone number',
+      hint: 'Enter with dashes and no spaces. For example: 206-555-0100',
+    }),
     typeOfPhone: radioUI({
       title: 'Type of phone',
       labels: typeOfPhoneOptions,

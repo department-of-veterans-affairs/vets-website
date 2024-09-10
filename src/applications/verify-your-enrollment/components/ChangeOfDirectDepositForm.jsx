@@ -41,6 +41,7 @@ export function makeSchemas(prefix) {
       },
       [properties.bankName]: {
         type: 'string',
+        maxLength: 55,
       },
       [properties.bankPhone]: {
         type: 'string',

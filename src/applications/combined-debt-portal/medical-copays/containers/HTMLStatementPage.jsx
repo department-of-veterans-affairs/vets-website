@@ -19,6 +19,7 @@ import DisputeCharges from '../components/DisputeCharges';
 import HowToPay from '../components/HowToPay';
 import BalanceQuestions from '../components/BalanceQuestions';
 import FinancialHelp from '../components/FinancialHelp';
+import useHeaderPageTitle from '../../combined/hooks/useHeaderPageTitle';
 
 const HTMLStatementPage = ({ match }) => {
   const selectedId = match.params.id;
@@ -36,6 +37,8 @@ const HTMLStatementPage = ({ match }) => {
   const fullName = userFullName.middle
     ? `${userFullName.first} ${userFullName.middle} ${userFullName.last}`
     : `${userFullName.first} ${userFullName.last}`;
+
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');

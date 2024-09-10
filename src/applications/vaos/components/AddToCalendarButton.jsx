@@ -51,7 +51,6 @@ export default function AddToCalendarButton({ appointment, facility }) {
   );
 
   const filename = `${summary.replace(/\s/g, '_')}.ics`;
-  const formattedDate = moment.parseZone(startDate).format('MMMM D, YYYY');
 
   return (
     <>
@@ -59,17 +58,18 @@ export default function AddToCalendarButton({ appointment, facility }) {
         id="hidden-calendar-link"
         href={`data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`}
         className="vads-u-display--none"
+        data-testid="add-to-calendar-link"
       >
         hidden
       </a>
       <VaButton
         text="Add to calendar"
-        label={`Add ${formattedDate} appointment to your calendar`}
         secondary
         onClick={handleClick({
           filename,
           ics,
         })}
+        data-testid="add-to-calendar-button"
       />
     </>
   );

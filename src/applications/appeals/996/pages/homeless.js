@@ -10,9 +10,9 @@ import errorMessages from '../../shared/content/errorMessages';
 import {
   homelessTitle,
   homelessRiskTitle,
+  homelessRiskHint,
   homelessLabels,
   homelessReviewField,
-  homelessDescription,
 } from '../../shared/content/homeless';
 
 export default {
@@ -36,7 +36,7 @@ export default {
           return {
             'ui:title': showNew ? homelessRiskTitle : homelessTitle,
             'ui:options': {
-              hint: showNew ? homelessDescription : '',
+              hint: showNew ? homelessRiskHint : '',
               labelHeaderLevel: showNew ? '' : '3',
             },
           };

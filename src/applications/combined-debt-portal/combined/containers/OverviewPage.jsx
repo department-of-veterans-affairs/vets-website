@@ -9,9 +9,11 @@ import {
   calculateTotalBills,
 } from '../utils/balance-helpers';
 import DisasterAlert from '../components/DisasterAlert';
+import useHeaderPageTitle from '../hooks/useHeaderPageTitle';
 
 const OverviewPage = () => {
   const title = 'Your VA debt and bills';
+  useHeaderPageTitle(title);
 
   useEffect(() => {
     setPageFocus('h1');

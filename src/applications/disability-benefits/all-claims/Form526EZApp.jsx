@@ -14,7 +14,6 @@ import { isLoggedIn } from 'platform/user/selectors';
 
 import scrollToTop from '@department-of-veterans-affairs/platform-utilities/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import formConfig from './config/form';
 import AddPerson from './containers/AddPerson';
 import ITFWrapper from './containers/ITFWrapper';
@@ -23,7 +22,6 @@ import {
   DOCUMENT_TITLE_SUFFIX,
   PAGE_TITLE_SUFFIX,
   SHOW_8940_4192,
-  SHOW_REVISED_ADD_DISABILITIES_PAGE,
   WIZARD_STATUS,
 } from './constants';
 import {
@@ -99,10 +97,7 @@ export const Form526Entry = ({
 }) => {
   const { profile = {} } = user;
   const wizardStatus = sessionStorage.getItem(WIZARD_STATUS);
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-  const showRevisedNewDisabilitiesPage = useToggleValue(
-    TOGGLE_NAMES.disability526ImprovedAutosuggestionsAddDisabilitiesPage,
-  );
+
   const hasSavedForm = savedForms.some(
     form =>
       form.form === formConfig.formId && !isExpired(form.metaData?.expiresAt),
@@ -146,16 +141,6 @@ export const Form526Entry = ({
       }
     },
     [inProgressFormId, location, profile, showSubforms, wizardStatus],
-  );
-
-  useEffect(
-    () => {
-      window.sessionStorage.setItem(
-        SHOW_REVISED_ADD_DISABILITIES_PAGE,
-        showRevisedNewDisabilitiesPage,
-      );
-    },
-    [showRevisedNewDisabilitiesPage],
   );
 
   useEffect(

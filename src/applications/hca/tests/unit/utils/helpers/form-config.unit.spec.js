@@ -4,8 +4,13 @@ import {
   isLoggedOut,
   hasLowDisabilityRating,
   hasHighCompensation,
+  hasLowCompensation,
   hasNoCompensation,
   notShortFormEligible,
+  includeRegOnlyAuthQuestions,
+  includeRegOnlyGuestQuestions,
+  showRegOnlyAuthConfirmation,
+  showRegOnlyGuestConfirmation,
   dischargePapersRequired,
   isMissingVeteranDob,
   isSigiEnabled,
@@ -75,6 +80,22 @@ describe('hca form config helpers', () => {
     it('should return `true` when compensation type is `highDisability`', () => {
       const formData = getData({ type: 'highDisability' });
       expect(hasHighCompensation(formData)).to.be.true;
+    });
+  });
+
+  context('when `hasLowCompensation` executes', () => {
+    const getData = ({ type = 'none' }) => ({
+      vaCompensationType: type,
+    });
+
+    it('should return `false` when compensation type is not `lowDisability`', () => {
+      const formData = getData({});
+      expect(hasLowCompensation(formData)).to.be.false;
+    });
+
+    it('should return `true` when compensation type is `lowDisability`', () => {
+      const formData = getData({ type: 'lowDisability' });
+      expect(hasLowCompensation(formData)).to.be.true;
     });
   });
 
@@ -178,6 +199,124 @@ describe('hca form config helpers', () => {
     it('should return `true` when mailing does not match home address', () => {
       const formData = { 'view:doesMailingMatchHomeAddress': false };
       expect(hasDifferentHomeAddress(formData)).to.be.true;
+    });
+  });
+
+  context('when `includeRegOnlyAuthQuestions` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      'view:totalDisabilityRating': totalRating,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature toggle is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when user has no disability rating', () => {
+      const formData = getData({ totalRating: 0 });
+      expect(includeRegOnlyAuthQuestions(formData)).to.be.false;
+    });
+  });
+
+  context('when `includeRegOnlyGuestQuestions` executes', () => {
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      compensationType = 'lowDisability',
+    }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
+      vaCompensationType: compensationType,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged in', () => {
+      const formData = getData({ loggedIn: true });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when feature toggle is disabled', () => {
+      const formData = getData({ enabled: false });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+
+    it('should return `false` when user does not have a `lowDisability` rating', () => {
+      const formData = getData({ compensationType: 'none' });
+      expect(includeRegOnlyGuestQuestions(formData)).to.be.false;
+    });
+  });
+
+  context('when `showRegOnlyAuthConfirmation` executes', () => {
+    const getData = ({ loggedIn = true, selectedPackage = 'regOnly' }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:vaBenefitsPackage': selectedPackage,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged out', () => {
+      const formData = getData({ loggedIn: false });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when user skips the question', () => {
+      const formData = getData({ selectedPackage: '' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when selects a non-`regOnly` value', () => {
+      const formData = getData({ selectedPackage: 'fullPackage' });
+      expect(showRegOnlyAuthConfirmation(formData)).to.be.false;
+    });
+  });
+
+  context('when `showRegOnlyGuestConfirmation` executes', () => {
+    const getData = ({ loggedIn = false, selectedPackage = 'regOnly' }) => ({
+      'view:isLoggedIn': loggedIn,
+      'view:vaBenefitsPackage': selectedPackage,
+    });
+
+    it('should return `true` when all data values are correct', () => {
+      const formData = getData({});
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.true;
+    });
+
+    it('should return `false` when user is logged in', () => {
+      const formData = getData({ loggedIn: true });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when user skips the question', () => {
+      const formData = getData({ selectedPackage: '' });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
+    });
+
+    it('should return `false` when selects a non-`regOnly` value', () => {
+      const formData = getData({ selectedPackage: 'fullPackage' });
+      expect(showRegOnlyGuestConfirmation(formData)).to.be.false;
     });
   });
 

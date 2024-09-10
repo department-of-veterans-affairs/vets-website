@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
+import ExternalLink from './ExternalLink';
 
 const InfoAlert = ({ highLowResults, fullState }) => (
   <>
@@ -30,12 +31,10 @@ const InfoAlert = ({ highLowResults, fullState }) => (
         data-testid="compose-message-Link"
         className="vads-u-padding-bottom--2"
       >
-        <a
+        <ExternalLink
           href={mhvUrl(isAuthenticatedWithSSOe(fullState), 'compose-message')}
-          rel="noreferrer" // check dis
-        >
-          Compose a message on the My HealtheVet website
-        </a>
+          text="Compose a message on the My HealtheVet website"
+        />
       </p>
       <p data-testid="result-Alert-note">
         <strong>Note:</strong> If you have questions about more than 1 test

@@ -80,7 +80,7 @@ const IntroductionPage = ({ route }) => {
           hideUnauthedStartLink
           pageList={pageList}
           prefillEnabled={formConfig.prefillEnabled}
-          startText="Go to the upload tool for this form"
+          startText="Start uploading your form"
           verifiedPrefillAlert={<></>}
           customLink={PrimaryActionLink}
         />

@@ -4,7 +4,7 @@
     "secondaryAdditionalComments": "Secondary comment",
     "secondaryMedigapPlan": "D",
     "applicantSecondaryInsuranceType": "medigap",
-    "applicantSecondaryEOB": true,
+    "applicantSecondaryEob": true,
     "applicantSecondaryHasPrescription": true,
     "applicantSecondaryThroughEmployer": true,
     "applicantSecondaryProvider": "Secondary Provider Name",
@@ -14,7 +14,7 @@
     "primaryAdditionalComments": "Additional primary comment",
     "primaryMedigapPlan": "B",
     "applicantPrimaryInsuranceType": "medigap",
-    "applicantPrimaryEOB": false,
+    "applicantPrimaryEob": false,
     "applicantPrimaryHasPrescription": true,
     "applicantPrimaryThroughEmployer": true,
     "applicantPrimaryProvider": "Primary Provider Name",
@@ -38,7 +38,6 @@
       "last": "Jones",
       "suffix": "Sr."
     },
-    "applicantDOB": "1950-02-03",
     "missingUploads": [
       {
         "name": "primaryInsuranceCard",

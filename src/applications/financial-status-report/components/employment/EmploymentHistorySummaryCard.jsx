@@ -170,19 +170,12 @@ const EmploymentHistorySummaryCard = ({
             </span>
           </Link>
 
-          <button
-            type="button"
-            aria-label={`Delete ${ariaLabel}`}
-            className="usa-button summary-card-delete-button vads-u-margin--0 vads-u-padding--1 vads-u-margin-right--neg1"
+          <va-button-icon
+            button-type="delete"
+            class="vads-u-margin-right--neg1 small-screen:vads-u-margin-right--neg2 summary-card-delete-button"
             onClick={() => handleDeleteClick(index)}
-          >
-            <va-icon
-              icon="delete"
-              size={3}
-              className="vads-u-padding-right--0p5"
-            />
-            <span>DELETE</span>
-          </button>
+          />
+
           {isModalOpen ? (
             <DeleteConfirmationModal
               isOpen={isModalOpen}

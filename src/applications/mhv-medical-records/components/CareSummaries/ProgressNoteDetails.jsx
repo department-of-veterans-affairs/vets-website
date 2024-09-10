@@ -150,7 +150,10 @@ ${record.note}`;
 
       <div className="test-results-container">
         <h2>Note</h2>
-        <p data-testid="note-record" className="monospace">
+        <p
+          data-testid="note-record"
+          className="monospace vads-u-line-height--6"
+        >
           {record.note}
         </p>
       </div>

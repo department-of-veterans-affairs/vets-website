@@ -20,13 +20,6 @@ const WiderThanMobileLogoRow = () => {
         <div className="menu-rule usa-one-whole" />
       </div>
       <div className="vet-toolbar">
-        <a
-          data-testid="wider-than-mobile-logo-row-contact-us-link"
-          className="vads-u-color--white vads-u-text-decoration--none vads-u-padding-x--1 vads-u-font-weight--bold"
-          href="https://www.va.gov/contact-us/"
-        >
-          Contact us
-        </a>
         <div className="sign-in-nav">
           <div className="sign-in-links">
             <UserNav isMobile={false} />

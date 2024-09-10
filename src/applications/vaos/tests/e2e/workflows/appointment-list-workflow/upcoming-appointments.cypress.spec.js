@@ -22,9 +22,7 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
     });
 
@@ -191,9 +189,7 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
     });
 
@@ -327,30 +323,20 @@ describe('VAOS upcoming appointment flow', () => {
         .selectListItem();
 
       // Assert
-      cy.findByText(/Cancel appointment/i)
-        .should('exist')
-        .click({ waitForAnimations: true });
-
-      cy.get('#cancelAppt').shadow();
-      cy.findByText(/Yes, cancel this appointment/i)
-        .should('exist')
-        .click({
-          waitForAnimations: true,
+      AppointmentDetailPageObject.assertUrl()
+        .assertCancelButton()
+        .clickCancelButton()
+        .assertUrl()
+        .assertHeading({
+          name: /Would you like to cancel this appointment/i,
+          level: 1,
+        })
+        .clickButton({ label: /Yes, cancel appointment/i })
+        .assertUrl()
+        .assertHeading({
+          name: /You have canceled your appointment/i,
+          level: 1,
         });
-
-      cy.get('#cancelAppt')
-        .shadow()
-        .find('h2')
-        .should('be.visible')
-        .and('contain', 'Your appointment has been canceled');
-      cy.get('#cancelAppt')
-        .shadow()
-        .get('.va-modal-alert-body va-button')
-        .first()
-        .click();
-
-      cy.findByText(/You canceled this appointment/i);
-
       cy.axeCheckBestPractice();
     });
 
@@ -573,9 +559,7 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
     });
 
@@ -613,11 +597,10 @@ describe('VAOS upcoming appointment flow', () => {
         })
         .selectListItem();
 
-      AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /Type of care/,
-        })
-        .assertText({ text: /Community care provider/i });
+      AppointmentDetailPageObject.assertUrl().assertHeading({
+        name: /Community care appointment/i,
+        level: 1,
+      });
 
       cy.axeCheckBestPractice();
     });
@@ -627,9 +610,7 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
     });
 
@@ -670,10 +651,7 @@ describe('VAOS upcoming appointment flow', () => {
         .selectListItem();
 
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /Type of care/,
-        })
-        .assertHeading({ name: /VA appointment/i, level: 2 })
+        .assertHeading({ name: /In-person appointment/i, level: 1 })
         .assertText({ text: /Clinic 1/i })
         .assertText({ text: /Room 1/i });
 
@@ -685,20 +663,21 @@ describe('VAOS upcoming appointment flow', () => {
     beforeEach(() => {
       vaosSetup();
 
-      mockFeatureToggles({
-        vaOnlineSchedulingAppointmentDetailsRedesign: false,
-      });
+      mockFeatureToggles({});
       mockVamcEhrApi();
     });
 
     it('should display "Join" button if 30 minutes in the future', () => {
       // Arrange
+      const response = MockAppointmentResponse.createMobileResponses({
+        localStartTime: moment()
+          .clone()
+          .add(30, 'minutes'),
+      });
+      response[0].setUrl();
+
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(30, 'minutes'),
-        }),
+        response,
       });
       mockClinicsApi({
         locationId: '983',
@@ -722,11 +701,11 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at home/,
+        .assertHeading({
+          name: /Video appointment/,
+          level: 1,
         })
         .assertText({ text: /You can join this meeting from/i, exist: false })
-        .assertJoinAppointment({ isEnabled: true })
         .assertAddToCalendar()
         .assertPrint();
 
@@ -735,12 +714,15 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display "Join" button if less than 4 hours in the past', () => {
       // Arrange
+      const response = MockAppointmentResponse.createMobileResponses({
+        localStartTime: moment()
+          .clone()
+          .add(30, 'minutes'),
+      });
+      response[0].setUrl();
+
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(240, 'minutes'),
-        }),
+        response,
       });
       mockClinicsApi({
         locationId: '983',
@@ -765,11 +747,11 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at home/,
+        .assertHeading({
+          name: /Video appointment/,
+          level: 1,
         })
         .assertText({ text: /You can join this meeting from/i, exist: false })
-        .assertJoinAppointment({ isEnabled: true })
         .assertAddToCalendar()
         .assertPrint();
 
@@ -778,12 +760,15 @@ describe('VAOS upcoming appointment flow', () => {
 
     it('should display "Join" button if less than 30 minutes in the future', () => {
       // Arrange
+      const response = MockAppointmentResponse.createMobileResponses({
+        localStartTime: moment()
+          .clone()
+          .add(30, 'minutes'),
+      });
+      response[0].setUrl();
+
       mockAppointmentsGetApi({
-        response: MockAppointmentResponse.createMobileResponses({
-          localStartTime: moment()
-            .clone()
-            .add(20, 'minutes'),
-        }),
+        response,
       });
       mockClinicsApi({
         locationId: '983',
@@ -807,11 +792,13 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at home/,
+        .assertHeading({
+          name: /Video appointment/,
+          level: 1,
         })
-        .assertText({ text: /You can join this meeting from/i, exist: false })
-        .assertJoinAppointment({ isEnabled: true })
+        .assertText({
+          text: /Join the video appointment using the link/i,
+        })
         .assertAddToCalendar()
         .assertPrint();
 
@@ -849,10 +836,10 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at an ATLAS location/,
+        .assertHeading({
+          name: /Video appointment at an ATLAS location/,
+          level: 1,
         })
-        .assertDirections()
         .assertAppointmentCode()
         .assertAddToCalendar()
         .assertPrint();
@@ -894,16 +881,16 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at VA location/,
+        .assertHeading({
+          name: /Video appointment at a VA location/,
+          level: 1,
         })
         .assertText({
-          text: /You must join this video meeting from the VA location listed below./i,
+          text: /Join this video appointment at a VA facility/i,
         })
         .assertText({
           text: /Room 1/i,
         })
-        .assertJoinAppointment({ exist: false })
         .assertDirections()
         .assertAddToCalendar()
         .assertPrint();
@@ -918,7 +905,7 @@ describe('VAOS upcoming appointment flow', () => {
           .clone()
           .add(2, 'day'),
       });
-      responses[0].setLocationId('983');
+      responses[0].setLocationId('983').setUrl();
       mockAppointmentsGetApi({
         response: responses,
       });
@@ -944,10 +931,13 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect using VA device/i,
+        .assertHeading({
+          name: /Video appointment/i,
+          level: 1,
         })
-        .assertJoinAppointment({ isEnabled: false })
+        .assertText({
+          text: /We.ll add the link to join this appointment/i,
+        })
         .assertAddToCalendar()
         .assertPrint();
 
@@ -987,11 +977,14 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at home/,
+        .assertHeading({
+          name: /Video appointment/,
+          level: 1,
         })
-        .assertText({ text: /You can join this meeting from/i, exist: true })
-        .assertJoinAppointment({ isEnabled: false })
+        .assertText({
+          text: /We.ll add the link to join this appointment/i,
+          exist: true,
+        })
         .assertAddToCalendar()
         .assertPrint();
 
@@ -1032,17 +1025,17 @@ describe('VAOS upcoming appointment flow', () => {
 
       // Assert
       AppointmentDetailPageObject.assertUrl()
-        .assertText({
-          text: /VA Video Connect at VA location/,
+        .assertHeading({
+          name: /Video appointment at a VA location/,
+          level: 1,
         })
         .assertText({
-          text: /You must join this video meeting from the VA location listed below./i,
+          text: /Join this video appointment at a VA facility/i,
         })
         .assertText({
           text: /Room 1/i,
         })
 
-        .assertJoinAppointment({ exist: false })
         .assertDirections()
         .assertAddToCalendar()
         .assertPrint();

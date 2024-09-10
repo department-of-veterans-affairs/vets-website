@@ -17,18 +17,19 @@ const verifyLink = data => {
     />,
   );
 
-  const anchorProps = wrapper.find('a').props();
+  const anchorProps = wrapper.find('va-link').props();
   const testProps = _.pick(anchorProps, ['href', 'rel', 'target']);
 
   expect(testProps).to.eql({
     href:
       'https://maps.google.com?saddr=my house&daddr=7901 Metropolis Drive, Austin, TX 78744-3111',
-    rel: 'noopener noreferrer',
   });
-  expect(wrapper.find('a').text()).to.equal(
+  expect(wrapper.find('va-link').prop('text')).to.equal(
+    'Get directions on Google Maps',
+  );
+  expect(wrapper.find('va-link').prop('label')).to.equal(
     'Get directions on Google Maps to Austin VA Clinic',
   );
-  expect(wrapper.find('.sr-only').text()).to.equal('to Austin VA Clinic');
 
   wrapper.unmount();
 };

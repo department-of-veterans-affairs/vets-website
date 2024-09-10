@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   titleFormDetails,
-  title995Omb,
   subTitle995,
   title4142Omb,
   subTitle4142Omb,
@@ -10,8 +9,6 @@ import {
 
 const OmbInfo = () => (
   <>
-    <h2 className="vads-u-margin-top--0">{titleFormDetails}</h2>
-    <h3>{title995Omb}</h3>
     <p>{subTitle995}</p>
     <va-omb-info res-burden="15" omb-number="2900-0886" exp-date="4/30/2024">
       <p>
@@ -65,6 +62,7 @@ const OmbInfo = () => (
       </p>
     </va-omb-info>
 
+    <h2 className="vads-u-margin-y--2">{titleFormDetails}</h2>
     <h3>{title4142Omb}</h3>
     <p>{subTitle4142Omb}</p>
     <va-omb-info res-burden="10" omb-number="2900-0858" exp-date="7/31/2024">
@@ -122,6 +120,21 @@ const OmbInfo = () => (
         1, 1975 and still in effect.
       </p>
     </va-omb-info>
+
+    <h3>If you experienced military sexual trauma (MST)</h3>
+    <p>
+      We provide free treatment for any physical or mental health conditions
+      related to your experiences of MST. You don’t need to have reported the
+      MST at the time or have other proof that the MST occurred to get care.
+    </p>
+    <p className="vads-u-margin-bottom--4">
+      <a
+        href="/health-care/health-needs-conditions/military-sexual-trauma/"
+        target="_blank"
+      >
+        Learn more about MST-related services (opens in new tab)
+      </a>
+    </p>
   </>
 );
 

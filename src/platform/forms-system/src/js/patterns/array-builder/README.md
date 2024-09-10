@@ -365,6 +365,8 @@ const options = {
 | `deleteYes` |
 | `reviewAddButtonText` |
 | `summaryTitle` |
+| `summaryTitleWithoutItems` |
+| `summaryDescriptionWithoutItems` |
 | `yesNoBlankReviewQuestion` |
 
 ## URL Query Params

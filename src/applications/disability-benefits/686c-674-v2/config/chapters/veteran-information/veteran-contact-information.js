@@ -6,8 +6,8 @@ import {
   emailUI,
   phoneSchema,
   emailSchema,
+  titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import { generateTitle } from '../../helpers';
 
 /**
  * @param {string | UIOptions & {
@@ -45,7 +45,7 @@ export const internationalPhoneSchema = {
 export const uiSchema = {
   veteranContactInformation: {
     veteranContactInformation: {
-      'ui:title': generateTitle('Phone and email address'),
+      ...titleUI('Phone and email address'),
       phoneNumber: {
         ...phoneUI(),
         'ui:required': () => true,

@@ -6,6 +6,7 @@ import {
 import { Actions } from '../../util/actionTypes';
 import paginatedSortedListApiResponse from '../fixtures/paginatedSortedListApiResponse.json';
 import prescriptionDetails from '../fixtures/prescriptionDetails.json';
+import { categorizePrescriptions } from '../../util/helpers';
 
 describe('Prescriptions reducer', () => {
   function reduce(action, state = initialState) {
@@ -37,14 +38,22 @@ describe('Prescriptions reducer', () => {
     expect(state).to.deep.equal(rxState);
   });
 
-  it('should change refillablePrescriptionsList when GET_REFILLABLE_LIST action is passed', () => {
+  it('should change refillableList and renewableList when GET_REFILLABLE_LIST action is passed', () => {
+    const refillablePrescriptionsList = paginatedSortedListApiResponse.data
+      .map(rx => {
+        return { ...rx.attributes };
+      })
+      .sort((a, b) => a.prescriptionName.localeCompare(b.prescriptionName));
+
+    const [refillableList, renewableList] = refillablePrescriptionsList.reduce(
+      categorizePrescriptions,
+      [[], []],
+    );
+
     const rxState = {
       ...initialState,
-      refillablePrescriptionsList: paginatedSortedListApiResponse.data.map(
-        rx => {
-          return { ...rx.attributes };
-        },
-      ),
+      refillableList,
+      renewableList,
       apiError: false,
     };
     const state = reduce({

@@ -137,7 +137,7 @@ Provider Notes: ${processList(record.comments)}\n`;
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;
 
   function containsSctOrIcd(inputString) {
-    const regex = /\b(sct|icd)\b/i;
+    const regex = /\b(sct|icd)/i;
     return regex.test(inputString);
   }
 
@@ -159,7 +159,7 @@ Provider Notes: ${processList(record.comments)}\n`;
             aria-describedby="condition-date"
             data-dd-privacy="mask"
           >
-            {`Health Conditions: ${record.name}`}
+            {`Health conditions: ${record.name}`}
           </h1>
           <DateSubheading
             date={record.date}

@@ -45,8 +45,8 @@ describe(manifest.appName, () => {
       cy.get('va-button[text="Submit files"]').click();
       cy.get('va-file-input')
         .shadow()
-        .find('#error-message')
-        .should('have.id', 'error-message');
+        .find('#file-input-error-alert')
+        .should('have.id', 'file-input-error-alert');
     });
   });
 

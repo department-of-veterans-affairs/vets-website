@@ -1,7 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import moment from 'moment';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 
 import {
@@ -10,6 +9,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { formatISO, subYears } from 'date-fns';
 import formConfig from '../../../../config/form';
 import { FakeProvider, testNumberOfFieldsByType } from '../pageTests.spec';
 import { fillRadio } from '../../testHelpers/webComponents';
@@ -30,9 +30,7 @@ const dependentData = {
         first: 'Jane',
         last: 'Doe',
       },
-      childDateOfBirth: moment()
-        .subtract(19, 'years')
-        .toISOString(),
+      childDateOfBirth: formatISO(subYears(new Date(), 19)),
     },
   ],
 };
@@ -174,9 +172,7 @@ describe('Child information page', () => {
   it('should not ask if the child is in school', () => {
     dependentData.dependents[0] = {
       ...dependentData.dependents[0],
-      childDateOfBirth: moment()
-        .subtract(5, 'years')
-        .toISOString(),
+      childDateOfBirth: formatISO(subYears(new Date(), 5)),
     };
 
     const onSubmit = sinon.spy();
@@ -198,9 +194,7 @@ describe('Child information page', () => {
   it('should always ask if the child is disabled', () => {
     dependentData.dependents[0] = {
       ...dependentData.dependents[0],
-      childDateOfBirth: moment()
-        .subtract(10, 'years')
-        .toISOString(),
+      childDateOfBirth: formatISO(subYears(new Date(), 10)),
     };
 
     const onSubmit = sinon.spy();
@@ -232,9 +226,7 @@ describe('Child information page', () => {
           childSocialSecurityNumber: '111223333',
           disabled: false,
           previouslyMarried: false,
-          childDateOfBirth: moment()
-            .subtract(19, 'years')
-            .toISOString(),
+          childDateOfBirth: formatISO(subYears(new Date(), 19)),
         },
       ],
     };
@@ -279,9 +271,7 @@ describe('Child information page', () => {
             last: 'Doe',
           },
           previouslyMarried: true,
-          childDateOfBirth: moment()
-            .subtract(25, 'years')
-            .toISOString(),
+          childDateOfBirth: formatISO(subYears(new Date(), 25)),
         },
       ],
     };

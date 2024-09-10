@@ -52,12 +52,8 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_RECORDS: freeze([
     {
-      href: '/my-health/medical-records/download-all',
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: '/my-health/medical-records/labs-and-tests',
-      text: 'Lab and test results',
+      href: '/my-health/medical-records/',
+      text: 'Get VA medical records',
     },
   ]),
   PAYMENTS: freeze([
@@ -74,12 +70,8 @@ const HEALTH_TOOL_LINKS = freeze({
   ]),
   MEDICAL_SUPPLIES: freeze([
     {
-      href: '/health-care/order-hearing-aid-batteries-and-accessories',
-      text: 'Order hearing aid batteries and accessories',
-    },
-    {
-      href: '/health-care/order-cpap-supplies/',
-      text: 'Order CPAP supplies',
+      href: '/health-care/order-hearing-aid-or-CPAP-supplies-form/introduction',
+      text: 'Order hearing aid and CPAP supplies',
     },
     {
       href: '/health-care/order-medical-supplies/',

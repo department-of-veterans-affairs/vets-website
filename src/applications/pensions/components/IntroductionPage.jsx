@@ -39,8 +39,10 @@ const IntroductionPage = props => {
         <strong>Note:</strong> A Veterans Pension is different from a military
         retirement pension.
       </p>
-      {/* Add href when content has this page ready */}
-      <va-link href="" text="Learn about the different types of pensions" />
+      <va-link
+        href="https://www.va.gov/resources/how-are-pension-benefits-and-disability-compensation-different/"
+        text="Learn about the different types of pensions"
+      />
       <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
         Follow these steps to get started
       </h2>
@@ -56,7 +58,7 @@ const IntroductionPage = props => {
           />
         </va-process-list-item>
         <va-process-list-item header="Gather your information">
-          <h4 className="vads-u-margiin-y--1">
+          <h4 className="vads-u-margin-y--1">
             Here’s what you’ll need to apply:
           </h4>
           <ul>

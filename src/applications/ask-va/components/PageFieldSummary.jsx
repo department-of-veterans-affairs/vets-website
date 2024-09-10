@@ -32,9 +32,7 @@ const PageFieldSummary = props => {
       )}
       {!noEditBtn.includes(title) && (
         <div className="form-review-panel-page-header-row">
-          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            {title}
-          </h4>
+          <h5 className="form-review-panel-page-header">{title}</h5>
           <span>{defaultEditButton({ label: `Edit` })}</span>
         </div>
       )}

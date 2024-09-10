@@ -3,22 +3,19 @@ import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
 import {
   schema as addressSchema,
   uiSchema as addressUI,
-} from '~/platform/forms/definitions/address';
-import { HomeAddressDescription } from '../../../components/FormDescriptions';
-import ShortFormAlert from '../../../components/FormAlerts/ShortFormAlert';
-import { notShortFormEligible } from '../../../utils/helpers/form-config';
-import { emptyObjectSchema } from '../../../definitions';
+} from 'platform/forms/definitions/address';
+import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import content from '../../../locales/en/content.json';
 
 const { veteranHomeAddress: address } = fullSchemaHca.properties;
 
 export default {
   uiSchema: {
-    'view:homeAddressShortFormMessage': {
-      'ui:description': ShortFormAlert,
-      'ui:options': { hideIf: notShortFormEligible },
-    },
+    ...titleUI(
+      content['vet-info--home-address-title'],
+      content['vet-info--home-address-description'],
+    ),
     veteranHomeAddress: merge({}, addressUI(null, true), {
-      'ui:title': HomeAddressDescription,
       street: {
         'ui:title': 'Street address',
         'ui:errorMessages': {
@@ -42,7 +39,6 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:homeAddressShortFormMessage': emptyObjectSchema,
       veteranHomeAddress: merge(
         {},
         addressSchema({ definitions: { address } }, true),

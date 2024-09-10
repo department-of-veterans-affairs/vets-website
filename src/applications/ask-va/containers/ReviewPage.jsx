@@ -80,17 +80,16 @@ const ReviewPage = props => {
   };
 
   return (
-    <article>
+    <article className="vads-u-padding-x--2p5 vads-u-padding-bottom--7">
       <div name="topScrollElement" />
       <div name="topNavScrollElement" />
-      <div className="vads-u-margin-y--7">
+      <div className="vads-u-margin-y--3">
         {showAlert ? (
           <VaAlert
             closeBtnAriaLabel="Close notification"
             closeable
             onCloseEvent={() => setShowAlert(false)}
             status="info"
-            uswds
             visible
           >
             <h3 id="track-your-status-on-mobile" slot="headline">
@@ -106,7 +105,7 @@ const ReviewPage = props => {
           </VaAlert>
         ) : null}
       </div>
-      <VaAccordion uswds>
+      <VaAccordion>
         {props.chapters
           .filter(chapter => chapter.name === 'yourQuestion')
           .map(chapter => {
@@ -118,6 +117,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -151,6 +151,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -184,6 +185,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -217,6 +219,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -250,6 +253,7 @@ const ReviewPage = props => {
                 level={4}
                 id={chapter.name}
                 open
+                className="vads-u-margin-bottom--2"
               >
                 <ReviewCollapsibleChapter
                   expandedPages={chapter.expandedPages}
@@ -282,13 +286,11 @@ const ReviewPage = props => {
 };
 
 function mapStateToProps(state, ownProps) {
-  // from ownprops
   const { formContext } = ownProps;
 
-  // from redux state
-  const { form } = state;
-  const formData = state.form.data;
-  const { openChapters } = state.askVA.reviewPageView;
+  const { form, askVA } = state;
+  const formData = form.data;
+  const { openChapters } = askVA.reviewPageView;
   const viewedPages = getViewedPages(state);
 
   const pagesToMoveConfig = {
@@ -302,7 +304,6 @@ function mapStateToProps(state, ownProps) {
     relationshipToTheVeteran: [
       'relationshipToVeteran',
       'moreAboutYourRelationshipToVeteran_aboutmyselfrelationshipfamilymember',
-      'aboutYourself_aboutmyselfrelationshipveteran',
       'aboutYourRelationshipToFamilyMember_aboutsomeoneelserelationshipveteran',
       'isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember',
       'theirRelationshipToVeteran_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
@@ -336,7 +337,7 @@ function mapStateToProps(state, ownProps) {
     ],
     yourInformation: [
       'aboutYourself_aboutmyselfrelationshipveteran',
-      'searchVAMedicalCenter_aboutmyselfrelationshipfamilymember',
+      'yourVAHealthFacility_aboutmyselfrelationshipfamilymember',
       'yourContactInformation_aboutmyselfrelationshipfamilymember',
       'yourLocationOfResidence_aboutmyselfrelationshipfamilymember',
       'yourMailingAddress_aboutmyselfrelationshipfamilymember',
@@ -347,25 +348,31 @@ function mapStateToProps(state, ownProps) {
       'yourPostalCode_aboutmyselfrelationshipveteran',
       'yourVAHealthFacility_aboutmyselfrelationshipveteran',
       'aboutYourself_aboutsomeoneelserelationshipconnectedthroughwork',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipconnectedthroughwork',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipconnectedthroughwork',
       'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughwork',
       'yourMailingAddress_aboutsomeoneelserelationshipconnectedthroughwork',
       'aboutYourself_aboutsomeoneelserelationshipconnectedthroughworkeducation',
       'yourContactInformation_aboutsomeoneelserelationshipconnectedthroughworkeducation',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutfamilymember',
       'aboutYourselfRelationshipFamilyMember_aboutsomeoneelserelationshipfamilymemberaboutveteran',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipfamilymemberaboutveteran',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'yourContactInformation_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'yourMailingAddress_aboutsomeoneelserelationshipfamilymemberaboutveteran',
       'aboutYourself_aboutsomeoneelserelationshipveteran',
-      'searchVAMedicalCenter_aboutsomeoneelserelationshipveteran',
+      'yourVAHealthFacility_aboutsomeoneelserelationshipveteran',
       'yourContactInformation_aboutsomeoneelserelationshipveteran',
       'yourMailingAddress_aboutsomeoneelserelationshipveteran',
       'aboutYourself_aboutsomeoneelserelationshipveteranorfamilymembereducation',
       'schoolStOrResidency_aboutsomeoneelserelationshipveteranorfamilymembereducation',
       'yourContactInformation_aboutsomeoneelserelationshipveteranorfamilymembereducation',
+      'aboutYourselfGeneral_generalquestion',
+      'yourContactInformation_generalquestion',
+      'yourLocationOfResidence_generalquestion',
+      'yourMailingAddress_generalquestion',
+      'yourPostalCode_generalquestion',
+      'yourVAHealthFacility_generalquestion',
     ],
   };
 

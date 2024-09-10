@@ -13,6 +13,19 @@ const monthNames = [
   'December',
 ];
 
+/**
+ * Formats a date string into a more readable format.
+ *
+ * @param {string} dateString - The date string in 'YYYY-MM-DD', 'YYYYMMDD', or 'YYYY-MM' format.
+ * @param {boolean} monthYear - If true, returns the format 'Month Year'. Otherwise, returns 'Month Day, Year'.
+ * @returns {string|undefined} - The formatted date string or undefined if the input is invalid.
+ *
+ * @example
+ * formatReviewDate('1990-01-01'); // "January 1, 1990"
+ * formatReviewDate('19900101'); // "January 1, 1990"
+ * formatReviewDate('1990-01'); // "January 1990"
+ * formatReviewDate('1990-01', true); // "January 1990"
+ */
 export const formatReviewDate = (dateString, monthYear = false) => {
   if (dateString) {
     let [year, month, day] = dateString.split('-', 3);
@@ -23,12 +36,11 @@ export const formatReviewDate = (dateString, monthYear = false) => {
       day = dateString.substring(6, 8);
     }
 
-    const formattedMonth = monthNames[parseInt(month, 10) - 1];
-    const formattedDay = parseInt(day, 10).toString();
+    const formattedMonth = monthNames[Number(month) - 1];
 
-    return monthYear
+    return monthYear || !day
       ? `${formattedMonth} ${year}`
-      : `${formattedMonth} ${formattedDay}, ${year}`;
+      : `${formattedMonth} ${day}, ${year}`;
   }
 
   return undefined;

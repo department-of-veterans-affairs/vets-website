@@ -7,7 +7,7 @@ import { requestStates } from 'platform/utilities/constants';
 import ITFBanner from '../components/ITFBanner';
 import { ITF_STATUSES } from '../constants';
 import { createITF, fetchITF } from '../actions';
-import { isActiveITF, isSupportedBenefitType } from '../utils/itf';
+import { isActiveITF /* , isSupportedBenefitType */ } from '../utils/itf';
 import { isOutsideForm } from '../../../shared/utils/helpers';
 
 const fetchWaitingStates = [requestStates.notCalled, requestStates.pending];
@@ -17,7 +17,7 @@ const showLoading = (message, label) => (
 );
 
 const ITFWrapper = ({
-  loggedIn,
+  // loggedIn,
   benefitType,
   pathname,
   children,
@@ -26,7 +26,8 @@ const ITFWrapper = ({
   accountUuid,
   inProgressFormId,
 }) => {
-  const allowITF = loggedIn && isSupportedBenefitType(benefitType);
+  // **** Don't need to allow ITF for this prototype SC ****
+  const allowITF = true; // loggedIn && isSupportedBenefitType(benefitType);
   const [isFetching, setIsFetching] = useState(false);
   const [isCreating, setIsCreating] = useState(false);
 

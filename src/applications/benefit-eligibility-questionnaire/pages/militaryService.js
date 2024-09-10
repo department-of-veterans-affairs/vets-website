@@ -1,22 +1,55 @@
+import React from 'react';
+
 export default {
   uiSchema: {
-    militaryService: {
-      'ui:title': 'Are you currently serving in the military?',
+    militaryServiceCurrentlyServing: {
+      'ui:title': (
+        <>
+          <p>
+            <b>Are you currently serving in the military?</b>
+          </p>
+        </>
+      ),
       'ui:widget': 'radio',
       'ui:options': {
         widgetProps: {
-          YES: { militaryService: 'Yes' },
-          NO: { militaryService: 'No' },
+          yes: { militaryServiceTwo: 'yes' },
+          no: {
+            militaryServiceTwo: 'no',
+          },
         },
+      },
+    },
+    expectedSeparation: {
+      'ui:title': (
+        <>
+          <p>
+            <b>When do you expect to separate or retire from the service?</b>
+          </p>
+        </>
+      ),
+      'ui:widget': 'radio',
+      'ui:options': {
+        hideIf: formData => formData.militaryServiceCurrentlyServing !== 'Yes',
       },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      militaryService: {
+      militaryServiceCurrentlyServing: {
         type: 'string',
         enum: ['Yes', 'No'],
+      },
+      expectedSeparation: {
+        type: 'string',
+        enum: [
+          'Within the next 3 months',
+          'More than 3 months but less than 6 months',
+          'More than 6 months but less than 1 year',
+          'More than 1 year from now',
+          'More than 3 years ago',
+        ],
       },
     },
   },

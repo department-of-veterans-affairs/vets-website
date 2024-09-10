@@ -54,6 +54,7 @@
   $formation-font-path: "~@department-of-veterans-affairs/formation/assets/fonts";
 
   @import "~@department-of-veterans-affairs/formation/sass/core";
+  @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities.css";
 
   /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
   /*!
@@ -2796,3 +2797,9 @@
 .merger.modal-open {
   margin-right: 0 !important;
 }
+/* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+/* Fix for team sites, important is necessary because of button */
+ div.ts-header-container button.vcl-modal-open, div.ts-footer-container button.va-button-link{
+  color: #fff !important;
+}
+/* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/

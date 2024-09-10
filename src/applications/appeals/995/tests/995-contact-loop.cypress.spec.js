@@ -69,12 +69,7 @@ describe('995 contact info loop', () => {
       .should('be.visible')
       .then(() => {
         // Click past the ITF message
-        cy.get('va-button-pair')
-          .shadow()
-          .find('va-button[back]')
-          .shadow()
-          .find('button')
-          .click();
+        cy.selectVaButtonPairSecondary();
       });
     cy.location('pathname').should('eq', `${BASE_URL}/introduction`);
   });
@@ -147,17 +142,10 @@ describe('995 contact info loop', () => {
     cy.contains('Edit mobile phone number').should('be.visible');
     cy.location('pathname').should(
       'eq',
-      `${BASE_URL}/contact-information/edit-mobile-phone`,
+      `${MAIN_CONTACT_PATH}/edit-mobile-phone`,
     );
 
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .clear();
-    cy.get('va-text-input[label^="Mobile phone"]')
-      .shadow()
-      .find('input')
-      .type('8885551212');
+    cy.get('va-text-input[value="5109224444"]');
 
     cy.findAllByText(/save/i, { selector: 'button' })
       .first()

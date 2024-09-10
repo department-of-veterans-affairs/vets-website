@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { focusElement } from 'platform/utilities/ui';
-import scrollToTop from 'platform/utilities/ui/scrollToTop';
+import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import { PageTitle } from '../content/title';
 import { IntroText, ProcessList, OmbBlock } from '../content/introduction';
@@ -12,7 +12,7 @@ import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 export const IntroductionPage = props => {
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollTo('topContentElement');
   });
 
   const { route, location } = props;

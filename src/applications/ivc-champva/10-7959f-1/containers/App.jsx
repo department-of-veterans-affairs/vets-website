@@ -1,4 +1,8 @@
 import React from 'react';
+import {
+  DowntimeNotification,
+  externalServices,
+} from '@department-of-veterans-affairs/platform-monitoring/DowntimeNotification';
 import PropTypes from 'prop-types';
 import { Toggler } from 'platform/utilities/feature-toggles';
 
@@ -26,7 +30,12 @@ export default function App({ location, children }) {
         <Toggler.Enabled>
           <va-breadcrumbs breadcrumb-list={bcString} />
           <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
-            {children}
+            <DowntimeNotification
+              appTitle={`CHAMPVA Form ${formConfig.formId}`}
+              dependencies={[externalServices.pega]}
+            >
+              {children}
+            </DowntimeNotification>
           </RoutedSavableApp>
         </Toggler.Enabled>
         <Toggler.Disabled>

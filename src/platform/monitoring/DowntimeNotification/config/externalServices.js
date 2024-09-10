@@ -39,6 +39,8 @@ export default {
   mhvSm: 'mhv_sm',
   // My HealtheVet Medications
   mhvMeds: 'mhv_meds',
+  // PEGA form ingestion for IVC CHAMPVA forms (10-10d, 10-7959x)
+  pega: 'pega',
   // Search.gov API
   search: 'search',
   // The Image Management System (education forms)

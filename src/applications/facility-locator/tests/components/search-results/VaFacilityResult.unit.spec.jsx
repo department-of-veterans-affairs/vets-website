@@ -44,7 +44,7 @@ describe('VaFacilityResult', () => {
 
   it('Should render VaFacility VA, facility type cemetery', () => {
     const query = {
-      facilityType: LocationType.CEMETARY,
+      facilityType: LocationType.CEMETERY,
     };
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[7]} query={query} />,
@@ -71,7 +71,7 @@ describe('VaFacilityResult', () => {
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
-    expect(wrapper.find('.facility-result a').props().href).to.equal(
+    expect(wrapper.find('.facility-result va-link').props().href).to.equal(
       'https://va.gov/alexandria',
     );
     expect(wrapper.find('LocationOperationStatus').length).to.equal(0);

@@ -19,6 +19,7 @@ const options = {
     !item?.previousFullName?.first || !item.previousFullName?.last, // include all required fields here
   text: {
     getItemName: item => formatFullName(item.previousFullName),
+    summaryTitleWithoutItems: 'Other Service names',
   },
 };
 
@@ -33,6 +34,7 @@ const summaryPage = {
       options,
       {
         title: 'Did you serve under another name?',
+        labelHeaderLevel: ' ',
         hint: null,
         labels: {
           Y: 'Yes, I have a previous name to report',

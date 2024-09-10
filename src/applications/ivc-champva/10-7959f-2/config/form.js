@@ -1,7 +1,9 @@
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { cloneDeep } from 'lodash';
+import { externalServices } from 'platform/monitoring/DowntimeNotification';
 
 import {
-  ssnOrVaFileNumberSchema,
+  ssnOrVaFileNumberNoHintSchema,
   ssnOrVaFileNumberNoHintUI,
   fullNameUI,
   fullNameSchema,
@@ -13,10 +15,12 @@ import {
   addressSchema,
   emailUI,
   emailSchema,
+  radioSchema,
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
+import transformForSubmit from './submitTransformer';
 import SubmissionError from '../../shared/components/SubmissionError';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -26,7 +30,11 @@ import {
   internationalPhoneSchema,
   internationalPhoneUI,
 } from '../../shared/components/InternationalPhone';
-import PaymentSelectionUI from '../components/PaymentSelection';
+import PaymentSelectionUI, {
+  PaymentReviewScreen,
+} from '../components/PaymentSelection';
+import { fileUploadUi as fileUploadUI } from '../../shared/components/fileUploads/upload';
+import { UploadDocuments } from '../components/UploadDocuments';
 
 const veteranFullNameUI = cloneDeep(fullNameUI());
 veteranFullNameUI.middle['ui:title'] = 'Middle initial';
@@ -35,7 +43,8 @@ veteranFullNameUI.middle['ui:title'] = 'Middle initial';
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
+  transformForSubmit,
+  submitUrl: `${environment.API_URL}/ivc_champva/v1/forms`,
   footerContent: GetFormHelp,
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
@@ -43,17 +52,35 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   v3SegmentedProgressBar: true,
+  customText: {
+    reviewPageTitle: 'Review and submit',
+    submitButtonText: 'Submit',
+  },
+  preSubmitInfo: {
+    statementOfTruth: {
+      body:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      messageAriaDescribedby:
+        'I confirm that the identifying information in this form is accurate and has been represented correctly.',
+      fullNamePath: 'veteranFullName',
+    },
+  },
   submissionError: SubmissionError,
   formId: '10-7959F-2',
   saveInProgress: {
-    // messages: {
-    //   inProgress: 'Your health care benefits application (10-7959F-2) is in progress.',
-    //   expired: 'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
-    //   saved: 'Your health care benefits application has been saved.',
-    // },
+    messages: {
+      inProgress:
+        'Your health care benefits application (10-7959F-2) is in progress.',
+      expired:
+        'Your saved health care benefits application (10-7959F-2) has expired. If you want to apply for health care benefits, please start a new application.',
+      saved: 'Your health care benefits application has been saved.',
+    },
   },
   version: 0,
   prefillEnabled: true,
+  downtime: {
+    dependencies: [externalServices.pega],
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for health care benefits.',
     noAuth:
@@ -64,15 +91,15 @@ const formConfig = {
   defaultDefinitions: {},
   chapters: {
     veteranInfoChapter: {
-      title: 'Name and date of birth',
+      title: 'Personal information',
       pages: {
         page1: {
           path: 'veteran-info',
-          title: 'Personal Information',
+          title: 'Name and date of birth',
           uiSchema: {
             ...titleUI('Name and date of birth'),
             veteranFullName: veteranFullNameUI,
-            veteranDateOfBirth: dateOfBirthUI({ required: true }),
+            veteranDateOfBirth: dateOfBirthUI({ required: () => true }),
           },
           schema: {
             type: 'object',
@@ -90,10 +117,11 @@ const formConfig = {
       title: 'Identification information',
       pages: {
         page2: {
-          path: 'identification-information',
+          path: 'identification-information ',
+          title: 'Identification information ',
           uiSchema: {
             ...titleUI(
-              'Identification information',
+              'Identification information ',
               'You must enter either a Social Security Number or a VA file number.',
             ),
             messageAriaDescribedby:
@@ -105,7 +133,7 @@ const formConfig = {
             required: ['veteranSocialSecurityNumber'],
             properties: {
               titleSchema,
-              veteranSocialSecurityNumber: ssnOrVaFileNumberSchema,
+              veteranSocialSecurityNumber: ssnOrVaFileNumberNoHintSchema,
             },
           },
         },
@@ -116,7 +144,7 @@ const formConfig = {
       pages: {
         page3: {
           path: 'mailing-address',
-          title: 'Mailing address ',
+          title: 'Mail to',
           uiSchema: {
             ...titleUI(
               'Mailing address',
@@ -146,9 +174,9 @@ const formConfig = {
       pages: {
         page4: {
           path: 'same-as-mailing-address',
-          title: 'Home address ',
+          title: 'Home address status',
           uiSchema: {
-            ...titleUI('Home address'),
+            ...titleUI('Home address status'),
             sameMailingAddress: yesNoUI({
               title: 'Is your home address the same as your mailing address?',
               labels: {
@@ -168,7 +196,7 @@ const formConfig = {
         },
         page4a: {
           path: 'home-address',
-          title: 'Home address ',
+          title: 'Current address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
             ...titleUI(
@@ -196,7 +224,7 @@ const formConfig = {
       },
     },
     contactInformation: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         page5: {
           path: 'contact-info',
@@ -224,11 +252,11 @@ const formConfig = {
       },
     },
     paymentSelection: {
-      title: 'Payment Selection',
+      title: 'Payment selection',
       pages: {
         page6: {
-          path: 'payment',
-          title: 'Payment Selection',
+          path: 'payment-selection',
+          title: 'Payment options',
           uiSchema: {
             ...titleUI('Where to send the payment'),
             sendPayment: PaymentSelectionUI(),
@@ -238,7 +266,53 @@ const formConfig = {
             required: ['sendPayment'],
             properties: {
               titleSchema,
-              sendPayment: yesNoSchema,
+              sendPayment: radioSchema(['Veteran', 'Provider']),
+            },
+          },
+          CustomPageReview: PaymentReviewScreen,
+        },
+      },
+    },
+    fileUpload: {
+      title: 'Supporting files',
+      pages: {
+        page7: {
+          path: 'upload-supporting-documents',
+          title: 'Included files',
+          uiSchema: {
+            ...titleUI({
+              title: 'Upload billing statements and supporting documents',
+              headerLevel: 2,
+            }),
+            'view:UploadDocuments': {
+              'ui:description': UploadDocuments,
+            },
+            uploadSection: fileUploadUI({
+              label: 'Upload file',
+              attachmentName: false,
+            }),
+          },
+          schema: {
+            type: 'object',
+            required: ['uploadSection'],
+            properties: {
+              titleSchema,
+              'view:UploadDocuments': {
+                type: 'object',
+                properties: {},
+              },
+              uploadSection: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  type: 'object',
+                  properties: {
+                    name: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
             },
           },
         },

@@ -64,7 +64,7 @@ const IntroductionPage = ({ route }) => {
           </ul>
           <p>
             We also recommend providing a copy of the Veteran’s DD214 or other
-            separation documents, you can request these documents now.
+            separation documents including all their service periods.
           </p>
           <p>
             If you don’t have their DD214 or other separation documents, you can
@@ -76,6 +76,16 @@ const IntroductionPage = ({ route }) => {
             />
           </p>
           <p>
+            And if you’re claiming a burial allowance for a service-connected
+            death, you can submit additional supporting documents (like medical
+            records).
+            <br />
+            <va-link
+              href="/get-help-from-accredited-representative/"
+              text="Find out which supporting documents you can submit with your application"
+            />
+          </p>
+          <p>
             <strong>What if I need help with my application?</strong>
           </p>
           <p>
@@ -83,7 +93,7 @@ const IntroductionPage = ({ route }) => {
             (VSO), can help you fill out your application.
             <br />
             <va-link
-              href="/disability/get-help-filing-claim/"
+              href="/get-help-from-accredited-representative/"
               text="Learn more about getting help from an accredited representative"
             />
           </p>

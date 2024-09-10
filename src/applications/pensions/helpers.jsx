@@ -1,8 +1,15 @@
 import React from 'react';
-import moment from 'moment';
 import Scroll from 'react-scroll';
-
+import { isBefore, isAfter, isEqual, parseISO } from 'date-fns';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
+
+export const isSameOrBefore = (date1, date2) => {
+  return isBefore(date1, date2) || isEqual(date1, date2);
+};
+
+export const isSameOrAfter = (date1, date2) => {
+  return isAfter(date1, date2) || isEqual(date1, date2);
+};
 
 const { scroller } = Scroll;
 export const scrollToTop = () => {
@@ -32,9 +39,12 @@ export function servedDuringWartime(period) {
     // If the service period starts before the war ends and finishes after the
     // war begins, they served during a wartime.
     const overlap =
-      moment(periodEnd).isSameOrAfter(warStart) &&
-      moment(periodStart).isSameOrBefore(warEnd);
-    return warEnd ? overlap : moment(warStart).isSameOrBefore(periodEnd);
+      isSameOrAfter(parseISO(periodEnd), parseISO(warStart)) &&
+      isSameOrBefore(parseISO(periodStart), parseISO(warEnd));
+
+    return warEnd
+      ? overlap
+      : isSameOrBefore(parseISO(warStart), parseISO(periodEnd));
   });
 }
 

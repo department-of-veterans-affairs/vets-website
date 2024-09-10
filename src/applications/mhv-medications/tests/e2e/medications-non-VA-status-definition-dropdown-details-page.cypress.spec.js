@@ -17,6 +17,7 @@ describe('Medications Details Page NonVARx Status DropDown', () => {
     cy.axeCheck('main');
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationDetailsLink(nonVARx, cardNumber);
+    detailsPage.verifyActiveNonVAStatusDisplayedOnDetailsPage('Active: Non-VA');
     detailsPage.clickWhatDoesThisStatusMeanDropDown();
     detailsPage.verifyNonVAStatusDropDownDefinition();
   });

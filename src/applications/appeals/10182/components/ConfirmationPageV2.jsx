@@ -29,7 +29,7 @@ export const ConfirmationPageV2 = () => {
       if (alertRef?.current) {
         scrollTo('topScrollElement');
         // delay focus for Safari
-        waitForRenderThenFocus('h2', alertRef.current);
+        waitForRenderThenFocus('#main h2', alertRef.current);
       }
     },
     [alertRef],

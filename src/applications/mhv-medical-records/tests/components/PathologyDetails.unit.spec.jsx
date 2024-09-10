@@ -50,7 +50,7 @@ describe('Pathology details component', () => {
   });
 
   it('should display the formatted date', () => {
-    const formattedDate = screen.getByText('august', {
+    const formattedDate = screen.getAllByText('august', {
       exact: false,
     });
     expect(formattedDate).to.exist;

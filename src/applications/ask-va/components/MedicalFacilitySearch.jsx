@@ -54,6 +54,7 @@ const MedicalFacilitySearch = ({ onChange }) => {
         <SearchControls
           locateUser={getFacilitiesFromLocation}
           onSubmit={getFacilities}
+          searchTitle="City or postal code"
         />
         {isSearching ? (
           <va-loading-indicator

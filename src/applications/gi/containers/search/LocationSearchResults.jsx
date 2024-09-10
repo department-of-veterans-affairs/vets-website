@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import classNames from 'classnames';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import recordEvent from 'platform/monitoring/record-event';
+import { VaPagination } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import ResultCard from './ResultCard';
 import { mapboxToken } from '../../utils/mapboxToken';
 import { MapboxInit, MAX_SEARCH_AREA_DISTANCE, TABS } from '../../constants';
@@ -56,6 +57,47 @@ function LocationSearchResults({
   const [markerClicked, setMarkerClicked] = useState(null);
   const [activeMarker, setActiveMarker] = useState(null);
   const [myLocation, setMyLocation] = useState(null);
+  const MAX_PAGE_LIST_LENGTH = 10;
+  const paginationRef = useRef(null);
+
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    totalPages: 0,
+  });
+
+  // set Total Pages and skip map when hit tap
+
+  useEffect(
+    () => {
+      setPagination(prevState => ({
+        ...prevState,
+        totalPages: Math.ceil(cardResults?.length / MAX_PAGE_LIST_LENGTH),
+      }));
+      if (cardResults?.length > 0) {
+        document.querySelector('canvas.mapboxgl-canvas').tabIndex = '-1';
+        document.querySelector('button.mapboxgl-ctrl-zoom-in').tabIndex = '-1';
+        document.querySelector('button.mapboxgl-ctrl-zoom-out').tabIndex = '-1';
+        const mapMarkers = [
+          ...document.getElementsByClassName('mapboxgl-marker'),
+        ];
+        mapMarkers.forEach(marker => {
+          const newMarker = marker;
+          newMarker.tabIndex = '-1';
+        });
+      }
+    },
+    [cardResults],
+  );
+  const startIdx = (pagination.currentPage - 1) * MAX_PAGE_LIST_LENGTH;
+  const endIdx = pagination.currentPage * MAX_PAGE_LIST_LENGTH;
+  const paginatedRenewablePrescriptions = cardResults?.slice(startIdx, endIdx);
+
+  const onPageChange = page => {
+    setPagination(prevState => ({
+      ...prevState,
+      currentPage: page,
+    }));
+  };
   const usingUserLocation = () => {
     const currentPositions = document.getElementsByClassName(
       'current-position',
@@ -91,6 +133,20 @@ function LocationSearchResults({
       setMapState(search.query.mapState);
     },
     [search.query.mapState],
+  );
+
+  // This Effect is to change the style of the pagination
+  useEffect(
+    () => {
+      document.querySelector('va-pagination')?.shadowRoot.append(
+        Object.assign(document.createElement('STYLE'), {
+          innerText: `nav ul li.va-pagination__item:not(:has(a.usa-current)) {
+                                              display:none
+                                            }`,
+        }),
+      );
+    },
+    [pagination],
   );
 
   /**
@@ -187,11 +243,20 @@ function LocationSearchResults({
     const locationSearchResults = document.getElementById(
       'location-search-results-container',
     );
+    const targetElement = document.getElementById(
+      `${createId(name)}-result-card-placeholder`,
+    );
+    const containerOffsetTop = locationSearchResults.getBoundingClientRect()
+      .top;
+    const targetOffsetTop = targetElement.getBoundingClientRect().top;
     scrollTo(
       `${createId(name)}-result-card-placeholder`,
       getScrollOptions({
         containerId: 'location-search-results-container',
-        offset: -locationSearchResults.getBoundingClientRect().top,
+        top:
+          targetOffsetTop -
+          containerOffsetTop +
+          locationSearchResults.scrollTop,
       }),
     );
     setActiveMarker(name);
@@ -236,6 +301,15 @@ function LocationSearchResults({
     markerElement.className = 'location-letter-marker';
     markerElement.innerText = index + 1;
 
+    const currentPage = Math.ceil((index + 1) / MAX_PAGE_LIST_LENGTH);
+    markerElement.addEventListener('click', () => {
+      setPagination(prev => {
+        return {
+          ...prev,
+          currentPage,
+        };
+      });
+    });
     const popup = new mapboxgl.Popup();
     popup.on('open', () => {
       if (smallScreen || landscape) {
@@ -278,7 +352,18 @@ function LocationSearchResults({
     ]);
     markers.push(currentMarkerElement);
   };
-
+  // This useEffect to scroll to the top and focus the first card of each page
+  useEffect(
+    () => {
+      if (paginationRef.current?.[pagination.currentPage]) {
+        paginationRef.current?.[pagination.currentPage].scrollIntoView({
+          behavior: 'smooth',
+        });
+        paginationRef.current[pagination.currentPage].focus();
+      }
+    },
+    [pagination.currentPage],
+  );
   /**
    * Takes results and puts them on the map
    * Excludes results that are not visible on the map when using "Search this area of the map"
@@ -347,38 +432,52 @@ function LocationSearchResults({
     },
     [results, smallScreen, landscape, mobileTab],
   );
-
   /**
    * Creates result cards for display
    */
-  const resultCards = cardResults?.map((institution, index) => {
-    const { distance, name } = institution;
-    const miles = Number.parseFloat(distance).toFixed(2);
+  const resultCards = paginatedRenewablePrescriptions?.map(
+    (institution, index) => {
+      const { distance, name } = institution;
+      const miles = Number.parseFloat(distance).toFixed(2);
+      const { currentPage } = pagination;
 
-    const header = (
-      <div className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2">
-        <span className="location-letter vads-u-font-size--sm">
-          {index + 1}
-        </span>
-        {usingUserLocation() && (
-          <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
-            <strong>{miles} miles</strong>
+      const cardNumber = (currentPage - 1) * MAX_PAGE_LIST_LENGTH + index + 1;
+      const header = (
+        <div
+          className="location-header vads-u-display--flex vads-u-padding-top--1 vads-u-padding-bottom--2"
+          id="cards-container"
+        >
+          <span className="location-letter vads-u-font-size--sm">
+            {cardNumber}
           </span>
-        )}
-      </div>
-    );
+          {usingUserLocation() && (
+            <span className="vads-u-padding-x--0p5 vads-u-font-size--sm">
+              <strong>{miles} miles</strong>
+            </span>
+          )}
+        </div>
+      );
 
-    return (
-      <ResultCard
-        institution={institution}
-        location
-        header={header}
-        active={activeMarker === name}
-        version={preview.version}
-        key={institution.facilityCode}
-      />
-    );
-  });
+      return (
+        <ResultCard
+          institution={institution}
+          location
+          header={header}
+          active={activeMarker === name}
+          version={preview.version}
+          key={institution.facilityCode}
+          paginationRef={el => {
+            if (index === 0) {
+              if (!paginationRef.current) {
+                paginationRef.current = [];
+              }
+              paginationRef.current[pagination.currentPage] = el;
+            }
+          }}
+        />
+      );
+    },
+  );
 
   /**
    * Called when user uses "Search this area of the map"
@@ -601,7 +700,20 @@ function LocationSearchResults({
           id="location-search-results-container"
           className={containerClassNames}
         >
+          <h2 className="sr-only">Search results</h2>
           {resultCards}
+          <div>
+            <VaPagination
+              className="vads-u-border-top--0 location-pagination"
+              onPageSelect={e => onPageChange(e.detail.page)}
+              page={pagination.currentPage}
+              pages={pagination.totalPages}
+              unbounded
+              uswds
+              maxPageListLength={5}
+              showLastPage
+            />
+          </div>
         </div>
       );
     }
@@ -624,7 +736,7 @@ function LocationSearchResults({
     const isMobileDevice = smallScreen || landscape;
     return (
       <div
-        tabIndex="0"
+        tabIndex="-1"
         role="region"
         className={containerClassNames}
         aria-label="Find VA locations on an interactive map. Tab again to interact with map"

@@ -25,7 +25,6 @@ const CareSummariesAndNotes = () => {
   const updatedRecordList = useSelector(
     state => state.mr.careSummariesAndNotes.updatedList,
   );
-
   const careSummariesAndNotes = useSelector(
     state => state.mr.careSummariesAndNotes.careSummariesAndNotesList,
   );
@@ -65,7 +64,7 @@ const CareSummariesAndNotes = () => {
         setBreadcrumbs([
           {
             url: '/',
-            label: 'Medical records',
+            label: 'medical records',
           },
         ]),
       );

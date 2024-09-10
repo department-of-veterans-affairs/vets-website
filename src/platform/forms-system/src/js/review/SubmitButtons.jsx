@@ -30,15 +30,21 @@ export default function SubmitButtons(props) {
         formConfig={formConfig}
       />
     );
-  } else if (submission.status === 'submitPending') {
+  }
+
+  if (submission.status === 'submitPending') {
     return (
       <Pending onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
     );
-  } else if (submission.status === 'applicationSubmitted') {
+  }
+
+  if (submission.status === 'applicationSubmitted') {
     return (
       <Submitted onBack={onBack} onSubmit={onSubmit} formConfig={formConfig} />
     );
-  } else if (submission.status === 'clientError') {
+  }
+
+  if (submission.status === 'clientError') {
     return (
       <ClientError
         buttonText={buttonText}
@@ -47,7 +53,9 @@ export default function SubmitButtons(props) {
         onSubmit={onSubmit}
       />
     );
-  } else if (submission.status === 'throttledError') {
+  }
+
+  if (submission.status === 'throttledError') {
     return (
       <ThrottledError
         buttonText={buttonText}
@@ -57,7 +65,9 @@ export default function SubmitButtons(props) {
         onSubmit={onSubmit}
       />
     );
-  } else if (submission.status === 'validationError') {
+  }
+
+  if (submission.status === 'validationError') {
     return (
       <ValidationError
         appType={appType}
@@ -68,26 +78,27 @@ export default function SubmitButtons(props) {
         onSubmit={onSubmit}
       />
     );
-  } else {
-    return (
-      <GenericError
-        appType={appType}
-        formConfig={formConfig}
-        onBack={onBack}
-        onSubmit={onSubmit}
-      />
-    );
   }
+
+  return (
+    <GenericError
+      appType={appType}
+      formConfig={formConfig}
+      onBack={onBack}
+      onSubmit={onSubmit}
+    />
+  );
 }
 
 SubmitButtons.propTypes = {
-  onBack: PropTypes.func,
-  onSubmit: PropTypes.func,
-  submission: PropTypes.object,
   formConfig: PropTypes.shape({
     customText: PropTypes.shape({
       appType: PropTypes.string,
       submitButtonText: PropTypes.string,
     }),
   }),
+  formErrors: PropTypes.object,
+  submission: PropTypes.object,
+  onBack: PropTypes.func,
+  onSubmit: PropTypes.func,
 };

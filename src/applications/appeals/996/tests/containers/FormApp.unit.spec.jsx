@@ -14,9 +14,6 @@ import { SET_DATA } from '~/platform/forms-system/src/js/actions';
 import Form0996App from '../../containers/Form0996App';
 import { CONTESTABLE_ISSUES_API } from '../../constants';
 
-import maximalTestV1 from '../fixtures/data/maximal-test-v1.json';
-import migratedMaximalTestV1 from '../fixtures/data/migrated/maximal-test-v1-to-v2.json';
-
 import { SELECTED } from '../../../shared/constants';
 import {
   FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
@@ -392,40 +389,6 @@ describe('Form0996App', () => {
     await waitFor(() => {
       const action = store.getActions()[0];
       expect(action).to.be.undefined;
-    });
-  });
-
-  it('should force transform of v1 data', async () => {
-    const { props, data } = getData({
-      contestableIssues: {
-        benefitType: 'compensation',
-        status: FETCH_CONTESTABLE_ISSUES_SUCCEEDED,
-        issues: maximalTestV1.data.contestedIssues,
-        legacyCount: 0,
-      },
-      formData: {
-        ...maximalTestV1.data,
-        benefitType: 'compensation',
-        contestedIssues: [],
-        legacyCount: 0,
-        internalTesting: true,
-      },
-    });
-    const store = mockStore(data);
-
-    render(
-      <Provider store={store}>
-        <Form0996App {...props} />
-      </Provider>,
-    );
-
-    await waitFor(() => {
-      const action = store.getActions()[0];
-      expect(action.type).to.eq(SET_DATA);
-      expect(action.data).to.deep.equal({
-        ...migratedMaximalTestV1,
-        internalTesting: true,
-      });
     });
   });
 });

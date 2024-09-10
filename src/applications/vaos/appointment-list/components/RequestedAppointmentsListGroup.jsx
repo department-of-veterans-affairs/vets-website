@@ -19,7 +19,7 @@ import InfoAlert from '../../components/InfoAlert';
 import { scrollAndFocus } from '../../utils/scrollAndFocus';
 import RequestAppointmentLayout from './AppointmentsPage/RequestAppointmentLayout';
 import BackendAppointmentServiceAlert from './BackendAppointmentServiceAlert';
-import referralDetails from '../../services/mocks/wellHive/basicReferralDetails.json';
+import referralDetails from '../../services/mocks/epsApi/basicReferralDetails.json';
 import PendingReferralCard from '../../referral-appointments/components/PendingReferralCard';
 import { selectFeatureCCDirectScheduling } from '../../redux/selectors';
 

@@ -134,7 +134,7 @@ class TrackClaimsPageV2 {
     cy.get('.main va-alert')
       .should('be.visible')
       .then(alertElem => {
-        cy.wrap(alertElem).should('contain', 'We decided your claim on');
+        cy.wrap(alertElem).should('contain', 'We closed your claim on');
       });
 
     cy.get('.disability-benefits-timeline').should('not.exist');
@@ -208,17 +208,6 @@ class TrackClaimsPageV2 {
       'contain',
       `${count} ${count > 1 ? 'items' : 'item'} need your attention`,
     );
-  }
-
-  verifyNumberOfTrackedItems(number) {
-    cy.get('.tabs li:nth-child(2) > a')
-      .click()
-      .then(() => {
-        cy.get('.additional-evidence-container').should('be.visible');
-        cy.injectAxeThenAxeCheck();
-      });
-    cy.get('a.tab.tab--current').should('contain', 'Files');
-    cy.get('.file-request-list-item').should('have.length', number);
   }
 
   verifyNumberOfFiles(number) {
@@ -363,7 +352,7 @@ class TrackClaimsPageV2 {
       .then(() => {
         cy.get('va-file-input')
           .shadow()
-          .find('#error-message')
+          .find('#file-input-error-alert')
           .should('contain', 'Please select a file first');
         cy.injectAxeThenAxeCheck();
       });
@@ -509,7 +498,7 @@ class TrackClaimsPageV2 {
       .find('.due-date-header')
       .should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     cy.get('[data-testid="item-2"]')
       .find('.alert-description')
@@ -524,7 +513,7 @@ class TrackClaimsPageV2 {
     );
   }
 
-  verifyPrimaryAlertfor5103Notice(isStandard = false) {
+  verifyPrimaryAlertfor5103Notice(isStandard = false, is5103Update = false) {
     const testId = isStandard
       ? '[data-testid="standard-5103-notice-alert"]'
       : '[data-testid="item-13"]';
@@ -532,10 +521,10 @@ class TrackClaimsPageV2 {
       ? '/track-claims/your-claims/189685/5103-evidence-notice'
       : '/track-claims/your-claims/189685/document-request/13';
     cy.get(testId).should('be.visible');
-    if (isStandard) {
+    if (isStandard || is5103Update) {
       cy.get(testId)
         .find('h4')
-        .should('contain', '5103 Evidence Notice');
+        .should('contain', 'Review evidence list');
     } else {
       cy.get(testId)
         .find('h4')
@@ -545,16 +534,11 @@ class TrackClaimsPageV2 {
       .find('a')
       .should('contain', 'Details');
     cy.get(testId)
-      .find('.alert-description > p')
+      .find('.alert-description')
       .first()
       .should(
         'contain',
-        'We sent you a "5103 notice" letter that lists the types of evidence we may need to decide your claim.',
-      )
-      .next()
-      .should(
-        'contain',
-        'Upload the waiver attached to the letter if you’re finished adding evidence.',
+        'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
       );
     cy.get(testId)
       .find('a')
@@ -572,7 +556,7 @@ class TrackClaimsPageV2 {
     } else {
       cy.get('.due-date-header').should(
         'contain',
-        'Needed from you by February 4, 2022 - Due 2 years ago',
+        'Needed from you by February 4, 2022 - Due 3 years ago',
       );
     }
     cy.get('va-additional-info').should('be.visible');
@@ -586,7 +570,10 @@ class TrackClaimsPageV2 {
         'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
       );
     }
-    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a.active-va-link').should(
+      'contain',
+      'Find this letter in your claim letters',
+    );
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
       'Upload your evidence here',
@@ -745,7 +732,7 @@ class TrackClaimsPageV2 {
       'contain',
       'Learn about the VA claim process and what happens after you file your claim.',
     );
-    cy.get('.claim-timeline').should('be.visible');
+    cy.get('va-process-list').should('be.visible');
   }
 
   verifyOverviewShowPastUpdates() {

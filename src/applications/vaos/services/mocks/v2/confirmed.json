@@ -1,6 +1,136 @@
 {
   "data": [
 {
+    "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+    "type": "appointments",
+    "attributes": {
+        "id": "d25610df3e30a8d6701e6ed42ee661890bbc198c33b4e996be6bb96ddb4363e7",
+        "identifier": [
+            {
+                "system": "Appointment/",
+                "value": "4139383435363538"
+            },
+            {
+                "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+                "value": "984:5658"
+            }
+        ],
+        "kind": "telehealth",
+        "status": "booked",
+        "serviceType": "outpatientMentalHealth",
+        "serviceTypes": [
+            {
+                "coding": [
+                    {
+                        "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                        "code": "outpatientMentalHealth"
+                    }
+                ]
+            }
+        ],
+        "serviceCategory": [
+            {
+                "coding": [
+                    {
+                        "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                        "code": "REGULAR",
+                        "display": "REGULAR"
+                    }
+                ],
+                "text": "REGULAR"
+            }
+        ],
+        "patientIcn": "1012845331V153043",
+        "locationId": "984GA",
+        "clinic": "4284",
+        "practitioners": [
+            {
+                "identifier": [
+                    {
+                        "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                        "value": "0000546167"
+                    }
+                ],
+                "name": {
+                    "family": "ZZZPPP",
+                    "given": [
+                        "LLL"
+                    ]
+                }
+            }
+        ],
+        "start": "2024-08-16T15:30:00Z",
+        "end": "2024-08-16T16:00:00Z",
+        "minutesDuration": 30,
+        "slot": {
+            "id": "3230323430383134313533303A323032343038313431363030",
+            "start": "2024-08-16T15:30:00Z",
+            "end": "2024-08-16T16:00:00Z"
+        },
+        "created": "2023-07-25T00:00:00Z",
+        "cancellable": false,
+        "extension": {
+            "ccLocation": {
+                "address": {}
+            },
+            "vistaStatus": [
+                "NO ACTION TAKEN"
+            ],
+            "preCheckinAllowed": false,
+            "eCheckinAllowed": false,
+            "clinic": {
+                "physicalLocation": "",
+                "phoneNumber": "",
+                "phoneNumberExtension": ""
+            }
+        },
+        "localStartTime": "2024-08-16T14:00:00.000-04:00",
+        "station": "984",
+        "ien": "5658",
+        "avsPath": null,
+        "serviceName": "MID-V10 CRH MH PSY MD PT",
+        "friendlyName": "MID-V10 CRH MH PSY MD PT",
+        "location": {
+            "id": "984GA",
+            "type": "appointments",
+            "attributes": {
+                "id": "984GA",
+                "vistaSite": "984",
+                "vastParent": "984",
+                "type": "va_health_facility",
+                "name": "Middletown VA Clinic",
+                "classification": "Multi-Specialty CBOC",
+                "timezone": {
+                    "timeZoneId": "America/New_York"
+                },
+                "lat": 39.50603,
+                "long": -84.316475,
+                "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+                "phone": {
+                    "main": "513-423-8387"
+                },
+                "physicalAddress": {
+                    "type": "physical",
+                    "line": [
+                        "4337 North Union Road"
+                    ],
+                    "city": "Middletown",
+                    "state": "OH",
+                    "postalCode": "45005-5211"
+                },
+                "healthService": [
+                    "Audiology",
+                    "MentalHealthCare",
+                    "Optometry",
+                    "Podiatry",
+                    "PrimaryCare",
+                    "SpecialtyCare"
+                ]
+            }
+        }
+    }
+},
+{
     "id": "7e5cab9523b99cbe1ca941399ef419f942837cda5dda71bbf95f6e5a375d2710",
     "type": "appointments",
     "attributes": {
@@ -163,6 +293,11 @@
       "patientIcn": "1013678363V916823",
       "locationId": "984",
       "clinic": "4570",
+      "reasonCode": {
+        "text": "reasonCode:QUESTIONMEDS|comments:test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "patientComments": "test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "reasonForAppointment": "Medication concern",
       "practitioners": [
           {
               "identifier": [
@@ -918,6 +1053,11 @@
             }
         ],
         "description": "PC Established Patient",
+        "reasonCode": {
+          "text": "reasonCode:QUESTIONMEDS|comments:test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "patientComments": "test appointment scheduling TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "reasonForAppointment": "Medication concern",
         "patientIcn": "1012845331V153043",
         "locationId": "757",
         "practitioners": [
@@ -1730,7 +1870,140 @@
         }
     }
 },
-
+{
+  "id": "805eb1710aefb85bcc07813ae36a744f1467fd4306c0a950ba16e023fb514cea",
+  "type": "appointments",
+  "attributes": {
+      "id": "805eb1710aefb85bcc07813ae36a744f1467fd4306c0a950ba16e023fb514cea",
+      "identifier": [
+          {
+              "system": "Appointment/",
+              "value": "4139383436323830"
+          },
+          {
+              "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_84",
+              "value": "984:6280"
+          },
+          {
+              "system": "http://med.va.gov/fhir/urn/vaos/vvs/id",
+              "value": "6641d9ca-bcf0-4040-947a-ed9ed822e495"
+          }
+      ],
+      "kind": "telehealth",
+      "status": "cancelled",
+      "serviceType": "outpatientMentalHealth",
+      "serviceTypes": [
+          {
+              "coding": [
+                  {
+                      "system": "http://veteran.apps.va.gov/terminologies/fhir/CodeSystem/vats-service-type",
+                      "code": "outpatientMentalHealth"
+                  }
+              ]
+          }
+      ],
+      "serviceCategory": [
+          {
+              "coding": [
+                  {
+                      "system": "http://www.va.gov/Terminology/VistADefinedTerms/409_1",
+                      "code": "REGULAR",
+                      "display": "REGULAR"
+                  }
+              ],
+              "text": "REGULAR"
+          }
+      ],
+      "patientIcn": "1012845331V153043",
+      "locationId": "984GA",
+      "clinic": "4284",
+      "practitioners": [
+          {
+              "identifier": [
+                  {
+                      "system": "https://veteran.apps.va.gov/terminology/fhir/sid/secid",
+                      "value": "1034242903"
+                  }
+              ],
+              "name": {
+                  "family": "ALSAHHAR",
+                  "given": [
+                      "SAMI"
+                  ]
+              }
+          }
+      ],
+      "start": "2025-01-14T14:00:00Z",
+      "end": "2025-01-14T14:30:00Z",
+      "minutesDuration": 30,
+      "slot": {
+          "id": "3230323331313134313330303A323032333131313431333330",
+          "start": "2025-01-14T14:00:00Z",
+          "end": "2025-01-14T14:30:00Z"
+      },
+      "created": "2025-01-07T00:00:00Z",
+      "cancellable": false,
+      "telehealth": {
+          "url": "https://dev.care.va.gov/vvc-app/?join=1&media=1&escalate=1&userType=guest&conference=VAC000001440@dev.care.va.gov&pin=590094&aid=6641d9ca-bcf0-4040-947a-ed9ed822e495#",
+          "group": false,
+          "vvsKind": "CLINIC_BASED"
+      },
+      "extension": {
+          "ccLocation": {
+              "address": {}
+          },
+          "vistaStatus": [
+              "NO ACTION TAKEN"
+          ],
+          "patientHasMobileGfe": true,
+          "preCheckinAllowed": false,
+          "eCheckinAllowed": false,
+          "clinic": {}
+      },
+      "localStartTime": "2025-01-14T09:00:00.000-05:00",
+      "avsPath": null,
+      "serviceName": "MID-V10 CRH MH PSY MD PT",
+      "friendlyName": "MID-V10 CRH MH PSY MD PT",
+      "location": {
+          "id": "984GA",
+          "type": "appointments",
+          "attributes": {
+              "id": "984GA",
+              "vistaSite": "984",
+              "vastParent": "984",
+              "type": "va_health_facility",
+              "name": "Middletown VA Clinic",
+              "classification": "Multi-Specialty CBOC",
+              "timezone": {
+                  "timeZoneId": "America/New_York"
+              },
+              "lat": 39.50603,
+              "long": -84.316475,
+              "website": "https://www.dayton.va.gov/locations/midtwn_cboc.asp",
+              "phone": {
+                  "main": "513-423-8387"
+              },
+              "physicalAddress": {
+                  "type": "physical",
+                  "line": [
+                      "4337 North Union Road"
+                  ],
+                  "city": "Middletown",
+                  "state": "OH",
+                  "postalCode": "45005-5211"
+              },
+              "healthService": [
+                  "Audiology",
+                  "MentalHealthCare",
+                  "Optometry",
+                  "Podiatry",
+                  "PrimaryCare",
+                  "SpecialtyCare"
+              ]
+          }
+      }
+  }
+},
 {
     "id": "0fbc293324755816b690f11eab25c827b5e4fbea375ac06e8e9694205f95590e",
     "type": "appointments",
@@ -3193,6 +3466,95 @@
         "start": "2024-11-22T12:00:00Z",
         "created": "2024-11-22T20:33:54Z",
         "localStartTime": "2024-11-22T09:00:00.000-06:00",
+        "reasonCode":
+        {
+          "text": "\nNew Problem: VAOS AUTOMATED SMOKE TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "patientComments": "\nNew Problem: VAOS AUTOMATED SMOKE TESTaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "extension": {
+          "ccLocation": {
+            "address": {
+              "line": [
+                "1 E NATIONAL RD ; STE 300"
+              ],
+              "city": "VANDALIA",
+              "state": "OH",
+              "postalCode": "45377",
+              "text": "1 E NATIONAL RD ; STE 300\nVANDALIA OH 45377"
+            },
+            "telecom": []
+          },
+          "hsrmTaskId": "",
+          "ccTreatingSpecialty": ""
+        },
+        "location": {
+          "id": "984",
+          "type": "appointments",
+          "attributes": {
+            "id": "984",
+            "vistaSite": "984",
+            "vastParent": "984",
+            "type": "va_health_facility",
+            "name": "Dayton VA Medical Center",
+            "classification": "VA Medical Center (VAMC)",
+            "timezone": {
+              "timeZoneId": "America/New_York"
+            },
+            "lat": 39.74935,
+            "long": -84.2532,
+            "website": "https://www.dayton.va.gov/locations/directions.asp",
+            "phone": {
+              "main": "937-268-6511"
+            },
+            "physicalAddress": {
+              "type": "physical",
+              "line": [
+                "4100 West Third Street"
+              ],
+              "city": "Dayton",
+              "state": "OH",
+              "postalCode": "45428-9000"
+            },
+            "healthService": [
+              "Audiology",
+              "Cardiology",
+              "DentalServices",
+              "Dermatology",
+              "Gastroenterology",
+              "Gynecology",
+              "MentalHealthCare",
+              "Nutrition",
+              "Ophthalmology",
+              "Optometry",
+              "Orthopedics",
+              "Podiatry",
+              "PrimaryCare",
+              "SpecialtyCare",
+              "Urology",
+              "WomensHealth"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "110143CD",
+      "type": "appointments",
+      "attributes": {
+        "id": "110144",
+        "identifier": [
+          {
+            "system": "http://med.va.gov/fhir/urn/vaos/hsrm/id",
+            "value": "524641||2||1"
+          }
+        ],
+        "kind": "cc",
+        "status": "cancelled",
+        "patientIcn": "1013120820V528557",
+        "locationId": "984",
+        "start": "2024-11-22T13:00:00Z",
+        "created": "2024-11-22T21:33:54Z",
+        "localStartTime": "2024-11-22T10:00:00.000-06:00",
         "extension": {
           "ccLocation": {
             "address": {

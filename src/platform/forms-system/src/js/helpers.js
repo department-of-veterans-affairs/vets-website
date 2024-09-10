@@ -191,6 +191,14 @@ function formatYear(val) {
   return val;
 }
 
+export function formatMonthYearISOPartialDate({ month, year }) {
+  if (month || year) {
+    return `${formatYear(year)}-${formatDayMonth(month)}`;
+  }
+
+  return undefined;
+}
+
 export function formatISOPartialDate({ month, day, year }) {
   if (month || day || year) {
     return `${formatYear(year)}-${formatDayMonth(month)}-${formatDayMonth(

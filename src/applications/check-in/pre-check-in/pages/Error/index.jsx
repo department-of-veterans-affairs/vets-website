@@ -64,7 +64,7 @@ const Error = () => {
       </div>
       <div className="vads-u-margin-top--2">
         <span className="appointment-type-label vads-u-font-weight--bold">
-          {t('video-appointment--title')}
+          {t('#-util-capitalize', { value: t('video-appointment') })}
         </span>
       </div>
       <div className="vads-u-margin-top--2">{t('video-error-help-text')}</div>
