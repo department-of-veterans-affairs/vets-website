@@ -13,9 +13,9 @@ const formatDate = buildDateFormatter();
 
 const docTypeToDescription = {
   27: 'Board decision',
-  704: 'Evidence list (5103 notice)',
-  706: 'Evidence list (5103 notice)',
-  858: 'Evidence list (5103 notice)',
+  704: 'List of evidence we may need (5103 notice)',
+  706: 'List of evidence we may need (5103 notice)',
+  858: 'List of evidence we may need (5103 notice)',
   184: 'Notification letter',
 };
 
