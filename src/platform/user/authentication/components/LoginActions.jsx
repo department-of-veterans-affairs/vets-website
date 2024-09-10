@@ -43,7 +43,6 @@ export default function LoginActions({ externalApplication }) {
       ? { logingov: true, idme: true }
       : allowedSignInProviders;
   const isValid = isRegisteredApp !== OCC_MOBILE.REGISTERED_APPS;
-  // const isSignInV2 = true;
 
   return (
     <div className="row">
