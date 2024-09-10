@@ -1,4 +1,9 @@
-import { BENEFITS_LIST, mappingTypes, anyType } from '../constants/benefits';
+import {
+  BENEFITS_LIST,
+  mappingTypes,
+  anyType,
+  blankType,
+} from '../constants/benefits';
 
 export const FETCH_RESULTS_STARTED = 'FETCH_RESULTS_STARTED';
 export const FETCH_RESULTS_SUCCESS = 'FETCH_RESULTS_SUCCESS';
@@ -62,12 +67,15 @@ const mapBenefitFromFormInputData = (benefit, formData) => {
       const mappingValue = benefit.mappings[key][i];
 
       if (
-        formData[key] === mappingValue ||
-        formData[key][mappingValue] === true
+        (formData[key] &&
+          (formData[key] === mappingValue ||
+            formData[key][mappingValue] === true)) ||
+        (!formData[key] && mappingValue === blankType.BLANK)
       ) {
         foundMappingValue = true;
       }
     }
+
     if (!foundMappingValue) return false;
   }
 

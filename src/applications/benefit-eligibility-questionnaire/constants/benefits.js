@@ -1,6 +1,6 @@
 const categories = {
   EDUCATION: 'Education',
-  EMPLOYMENT: 'Employment',
+  EMPLOYMENT: 'Careers & Employment',
   MORE_SUPPORT: 'More Support',
   HEALTHCARE: 'Healthcare',
   DISABILITY: 'Disability',
@@ -12,11 +12,11 @@ export const anyType = {
   ANY: 'any',
 };
 
-const blankType = {
+export const blankType = {
   BLANK: '',
 };
 
-const yesNoType = {
+export const yesNoType = {
   YES: 'yes',
   NO: 'no',
 };
@@ -55,22 +55,28 @@ const expectedSparationTypes = {
   OVER_3YRS_AGO: 'More than 3 years ago',
 };
 
+const disabilityTypes = {
+  APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
+  SUBMITTED: "I've submitted but haven't received a rating yet",
+  STARTED: "I've started the process but haven't submitted yet",
+  NOT_APPLIED: "I haven't applied for a disability rating",
+};
+
 const giBillTypes = {
-  APPLIED_AND_RECEIVED: 'appliedAndReceived',
-  SUBMITTED: 'submitted',
-  STARTED: 'started',
-  NOT_APPLIED: 'notApplied',
+  APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
+  SUBMITTED: "I've submitted but haven't received a decision yet",
+  STARTED: "I've started the process but haven't submitted yet",
+  NOT_APPLIED: "I haven't applied for GI Bill benefits",
 };
 
 const characterOfDischargeTypes = {
-  HONORABLE: 'Honorable',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
-    'Under Other Than Honorable Conditions',
-  BAD_CONDUCT: 'Bad Conduct',
-  DISHONORABLE: 'Dishonorable',
-  UNCHARACTERIZED: 'Uncharacterized',
-  NOT_SURE: "I'm not sure",
+  HONORABLE: 'honorable',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'underHonorableConditionsGeneral',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS: 'underOtherThanHonorableConditions',
+  BAD_CONDUCT: 'badConduct',
+  DISHONORABLE: 'dishonorable',
+  UNCHARACTERIZED: 'uncharacterized',
+  NOT_SURE: 'notSure',
 };
 
 export const mappingTypes = {
@@ -227,5 +233,130 @@ export const BENEFITS_LIST = [
     },
     learnMoreURL: 'https://www.opm.gov/fedshirevets/',
     applyNowURL: '',
+  },
+  {
+    name: 'Support for your Veteran-owned small business',
+    category: categories.EMPLOYMENT,
+    id: 'SVC',
+    description:
+      "Veteran-owned small businesses can use this application to be certified by SBA to compete for federal contracts. Certified veteran-owned small businesses will have the opportunity to pursue sole-source and set-aside contracts at the Department of Veterans Affairs under the VA's Vets First program.",
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.BUSINESS, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    extraConditions: {
+      dependsOn: [
+        {
+          field: mappingTypes.CURRENTLY_SERVING,
+          value: yesNoType.YES,
+          dependsOnField: mappingTypes.PREVIOUS_SERVICE,
+          dependsOnValue: yesNoType.YES,
+        },
+        {
+          field: mappingTypes.PREVIOUS_SERVICE,
+          value: yesNoType.YES,
+          dependsOnField: mappingTypes.CURRENTLY_SERVING,
+          dependsOnValue: yesNoType.YES,
+        },
+      ],
+    },
+    learnMoreURL:
+      'https://www.va.gov/careers-employment/veteran-owned-business-support/',
+    applyNowURL: '',
+  },
+  {
+    name: 'Transition Assistance Program (TAP)',
+    category: categories.MORE_SUPPORT,
+    id: 'TAP',
+    description:
+      'DoD TAP is an outcome-based statutory program (10 USC, Ch. 58) that bolsters opportunities, services, and training for transitioning Service members in their preparation to meet post-military goals.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.PLAN, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [yesNoType.YES],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [anyType.ANY],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.dodtap.mil/dodtap/app/home',
+    applyNowURL: '',
+  },
+  {
+    name: 'Veteran Readiness and Employment (Chapter 31)',
+    category: categories.EDUCATION,
+    id: 'VRE',
+    description:
+      'If you have a service-connected disability that limits your ability to work or prevents you from working, find out how to apply for VR&E services. You can apply up to 12 years from when you receive your notice of separation or your first VA disability rating.',
+    isTimeSensitive: true,
+    mappings: {
+      [mappingTypes.GOALS]: [
+        goalTypes.JOBS,
+        goalTypes.CAREER_PATH,
+        goalTypes.BUSINESS,
+        goalTypes.UNDERSTAND,
+      ],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        blankType.BLANK,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [
+        disabilityTypes.APPLIED_AND_RECEIVED,
+        disabilityTypes.SUBMITTED,
+        disabilityTypes.STARTED,
+      ],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL:
+      'https://www.va.gov/careers-employment/vocational-rehabilitation',
+    applyNowURL:
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+  },
+  {
+    name: 'VetSuccess on Campus',
+    category: categories.EMPLOYMENT,
+    id: 'VSC',
+    description:
+      'VetSuccess on Campus (VSOC) supports Veterans and service members who are transitioning from military to college life, and certain qualified dependents. We have vocational rehabilitation counselors, called VSOC counselors, at 104 college campuses across the country.',
+    isTimeSensitive: false,
+    mappings: {
+      [mappingTypes.GOALS]: [goalTypes.CAREER_PATH, goalTypes.UNDERSTAND],
+      [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
+      [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
+      [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
+      [mappingTypes.PREVIOUS_SERVICE]: [anyType.ANY],
+      [mappingTypes.SEPARATION]: [anyType.ANY],
+      [mappingTypes.CHARACTER_OF_DISCHARGE]: [
+        characterOfDischargeTypes.HONORABLE,
+        characterOfDischargeTypes.UNDER_HONORABLE_CONDITIONS_GENERAL,
+        characterOfDischargeTypes.UNDER_OTHER_THAN_HONORABLE_CONDITIONS,
+        characterOfDischargeTypes.UNCHARACTERIZED,
+        blankType.BLANK,
+      ],
+      [mappingTypes.DISABILITY_RATING]: [anyType.ANY],
+      [mappingTypes.GI_BILL]: [anyType.ANY],
+    },
+    learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
+    applyNowURL:
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
   },
 ];
