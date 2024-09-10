@@ -17,10 +17,11 @@ export default function NextStepsPage() {
   formData.zip = '05495';
 
   const getRepType = () => {
-    const repType = formData.repTypeRadio;
+    // const repType = formData.repTypeRadio;
+    const repType = 'Attorney';
 
     if (repType === 'Attorney' || repType === 'Claims Agent') {
-      return repType.toLowerCase;
+      return repType.toLowerCase();
     }
 
     return 'VSO representative';
