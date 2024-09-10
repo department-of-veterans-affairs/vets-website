@@ -11,7 +11,7 @@ import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
-import ShareResultsModal from '../components/ShareResultsModal';
+import SaveResultsModal from '../components/SaveResultsModal';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
@@ -109,7 +109,9 @@ export class ConfirmationPage extends React.Component {
           applying for VA bebefits.
         </p>
 
-        <ShareResultsModal />
+        <SaveResultsModal />
+
+        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container">
           <div id="filters-section-desktop">
