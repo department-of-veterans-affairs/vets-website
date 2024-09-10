@@ -18,6 +18,10 @@ class MedicalRecordsSite {
         type: 'feature_toggles',
         features: [
           {
+            name: 'mhv_integration_medical_records_to_phase_1',
+            value: true,
+          },
+          {
             name: 'mhvMedicalRecordsPhrRefreshOnLogin',
             value: false,
           },

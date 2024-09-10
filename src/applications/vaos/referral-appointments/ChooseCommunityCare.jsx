@@ -92,11 +92,12 @@ export default function ChooseCommunityCare() {
         <div className="vads-l-grid-container vads-u-padding--0 vads-u-margin-top--2">
           <div className="vads-l-row">
             <div className="vads-l-col vads-u-font-weight--bold">
-              <va-icon icon="filter_list" size={4} srtext="Filter icon" />{' '}
               <va-link
                 aria-label="Filter"
                 text="Filter"
                 data-testid="filter-link"
+                icon-name="filter_list"
+                icon-size={4}
                 onClick={goToFilterPage}
               />
             </div>

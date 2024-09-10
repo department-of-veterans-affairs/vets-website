@@ -11,6 +11,7 @@ import {
   dateRangeDescriptionWithLocation,
   endDateApproximate,
   herbicidePageTitle,
+  notSureDatesDetails,
   startDateApproximate,
 } from '../../../content/toxicExposure';
 
@@ -53,7 +54,8 @@ describe('herbicideDetails', () => {
         expect($(`va-memorable-date[label="${endDateApproximate}"]`, container))
           .to.exist;
 
-        getByText('I’m not sure of the dates I served in this location');
+        expect($(`va-checkbox[label="${notSureDatesDetails}"]`, container)).to
+          .exist;
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(
