@@ -221,7 +221,10 @@ const SearchBenefits = ({
         )}
 
       {giBillChapter === '31' && (
-        <div className="military-status-info info form-group">
+        <div
+          className="military-status-info info form-group"
+          data-testid="to-apply-for-VR&E"
+        >
           <va-icon icon="info" />
           To apply for VR&E benefits, please{' '}
           <EbenefitsLink path="ebenefits/about/feature?feature=vocational-rehabilitation-and-employment">

@@ -14,7 +14,6 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
 import {
@@ -48,12 +47,6 @@ const LandingPage = () => {
     () => {
       // Create the user's MHV session when they arrive at the MR landing page
       createSession();
-      dispatch(
-        setBreadcrumbs([], {
-          url: '/',
-          label: 'Medical records',
-        }),
-      );
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.MEDICAL_RECORDS_PAGE_TITLE);
     },

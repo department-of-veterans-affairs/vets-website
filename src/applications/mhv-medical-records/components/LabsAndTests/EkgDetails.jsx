@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -26,7 +26,6 @@ import {
   generateEkgContent,
 } from '../../util/pdfHelpers/labsAndTests';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const EkgDetails = props => {
   const { record, runningUnitTest } = props;
@@ -38,9 +37,6 @@ const EkgDetails = props => {
   );
   const user = useSelector(state => state.user.profile);
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
 
   useEffect(
     () => {
