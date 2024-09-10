@@ -34,7 +34,7 @@ const resolveLandingPageLinks = (
   registered = false,
 ) => {
   const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
-  messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
+  if (messagesLinks[0]) messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
