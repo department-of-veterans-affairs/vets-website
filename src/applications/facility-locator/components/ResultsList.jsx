@@ -62,7 +62,7 @@ export const ResultsList = ({
 
   useEffect(
     () => {
-      setFocus(searchResultTitle.current, false);
+      setFocus(searchResultTitle.current);
     },
     [results, inProgress, props.error],
   );
@@ -124,7 +124,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           } else if (searchQuery.serviceType === PHARMACY_RETAIL_SERVICE) {
@@ -133,7 +132,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           } else if (
@@ -144,7 +142,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           } else {
@@ -153,7 +150,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           }
@@ -164,7 +160,6 @@ export const ResultsList = ({
               provider={result}
               query={searchQuery}
               key={result.id}
-              index={index}
             />
           );
           break;
@@ -175,7 +170,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           } else {
@@ -196,7 +190,6 @@ export const ResultsList = ({
                 provider={result}
                 query={searchQuery}
                 key={result.id}
-                index={index}
               />
             );
           } else {
