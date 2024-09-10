@@ -89,7 +89,7 @@ const MrBreadcrumbs = () => {
           <va-icon icon="arrow_back" size={1} style={{ color: '#808080' }} />
         </span>
         <Link to={crumbsList[crumbsList.length - 2].href}>
-          {`Back to ${crumbsList[crumbsList.length - 2].label}`}
+          {`Back to ${crumbsList[crumbsList.length - 2].label.toLowerCase()}`}
         </Link>
       </div>
     );
