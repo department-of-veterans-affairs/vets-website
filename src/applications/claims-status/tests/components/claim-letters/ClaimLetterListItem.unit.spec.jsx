@@ -27,17 +27,12 @@ describe('<ClaimLetterListItem>', () => {
     expect(container).to.exist;
   });
 
-  it('should have the correct title', () => {
+  it('should have the correct title and description', () => {
     const { getByRole } = render(<ClaimLetterListItem letter={mockLetter} />);
 
     const title = getByRole('heading', { level: 2 });
-    expect(title.textContent).to.eq('September 22, 2022 letter');
-  });
-
-  it('should have the correct description', () => {
-    const { getByText } = render(<ClaimLetterListItem letter={mockLetter} />);
-
-    getByText('Notification letter');
+    // Both the title and description are contained in the <h2>
+    expect(title.textContent).to.eq('Notification letter September 22, 2022');
   });
 
   it('should use the default description when no `docType` is provided', () => {

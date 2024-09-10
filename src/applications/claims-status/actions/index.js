@@ -16,6 +16,7 @@ import {
   BACKEND_SERVICE_ERROR,
   CANCEL_UPLOAD,
   CLEAR_ADDITIONAL_EVIDENCE_NOTIFICATION,
+  CLEAR_CLAIM_DETAIL,
   CLEAR_NOTIFICATION,
   DONE_UPLOADING,
   FETCH_APPEALS_ERROR,
@@ -218,6 +219,8 @@ export const getClaim = (id, navigate) => {
   };
 };
 
+export const clearClaim = () => ({ type: CLEAR_CLAIM_DETAIL });
+
 export function submitRequest(id, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
@@ -267,15 +270,19 @@ export function submitRequest(id, cstClaimPhasesEnabled = false) {
   };
 }
 
-export function submit5103(id, cstClaimPhasesEnabled = false) {
+export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
 
+    const body = JSON.stringify({
+      trackedItemId: Number(trackedItemId) || null,
+    });
+
     makeAuthRequest(
       `/v0/benefits_claims/${id}/submit5103`,
-      { method: 'POST' },
+      { method: 'POST', body },
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
