@@ -45,7 +45,6 @@ export default function NextStepsPage() {
           orgName={formData.orgName}
           address={getAddress()}
         />
-        <p>REP CARD GOES HERE</p>
         <p>
           After your form is signed, you or the accredited [attorney -or- claims
           agent -or- VSO representative] can submit it online, by mail, or in
