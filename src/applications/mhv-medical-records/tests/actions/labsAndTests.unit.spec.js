@@ -37,6 +37,15 @@ describe('Get labs and tests details action', () => {
       );
     });
   });
+
+  it('should dispatch a get details action and pull from the list argument', () => {
+    const dispatch = sinon.spy();
+    return getlabsAndTestsDetails('1', [{ id: '1' }])(dispatch).then(() => {
+      expect(dispatch.firstCall.args[0].type).to.equal(
+        Actions.LabsAndTests.GET_FROM_LIST,
+      );
+    });
+  });
 });
 
 describe('Clear labs and tests details action', () => {

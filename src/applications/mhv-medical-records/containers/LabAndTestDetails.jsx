@@ -25,6 +25,9 @@ const LabAndTestDetails = () => {
   const labAndTestDetails = useSelector(
     state => state.mr.labsAndTests.labsAndTestsDetails,
   );
+  const labAndTestList = useSelector(
+    state => state.mr.labsAndTests.labsAndTestsList,
+  );
   const fullState = useSelector(state => state);
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
@@ -37,7 +40,7 @@ const LabAndTestDetails = () => {
         setBreadcrumbs([
           {
             url: '/labs-and-tests',
-            label: 'Lab and test results',
+            label: 'lab and test results',
           },
         ]),
       );
@@ -51,10 +54,10 @@ const LabAndTestDetails = () => {
   useEffect(
     () => {
       if (labId) {
-        dispatch(getlabsAndTestsDetails(labId));
+        dispatch(getlabsAndTestsDetails(labId, labAndTestList));
       }
     },
-    [labId, dispatch],
+    [labId, labAndTestList, dispatch],
   );
 
   const accessAlert = activeAlert && activeAlert.type === ALERT_TYPE_ERROR;

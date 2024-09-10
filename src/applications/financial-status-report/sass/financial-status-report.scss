@@ -10,7 +10,9 @@
 #root__title {
   min-height: 40px;
 }
-
+.form-review-panel-page {
+  margin-bottom: 0;
+}
 .form-review-panel-page tr td:last-child {
   font-weight: inherit;
 }
@@ -269,15 +271,10 @@
   position: relative;
 }
 
-.summary-card-delete-button {
-  color: var(--vads-color-secondary-dark);
-  background-color: transparent;
-  width: auto !important;
-  font-weight: bold;
-  &:hover,
-  &:active {
-    color: var(--vads-color-secondary-darkest);
-    background-color: var(--vads-color-secondary-lightest);
+va-button-icon.summary-card-delete-button {
+  &::part(button) {
+    padding: 0.5rem 0.625rem;
+    column-gap: 0.25rem;
   }
 }
 
@@ -387,5 +384,22 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 va-checkbox {
   &::part(checkbox) {
     max-width: fit-content;
+  }
+}
+
+// debt selection for VaCheckboxGroup, we want to bold the label hidden in the shadow dom text for the
+//  va-checkbox label and make the checkbox-description text grey
+.debt-selection-checkbox-group {
+  va-checkbox {
+    &::part(checkbox) {
+      max-width: fit-content;
+    }
+    &::part(label) {
+      font-weight: bold;
+    }
+    &::part(description) {
+      color: var(--vads-color-gray);
+      font-weight: normal;
+    }
   }
 }

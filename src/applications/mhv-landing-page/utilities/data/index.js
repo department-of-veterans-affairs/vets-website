@@ -46,21 +46,6 @@ const resolveLandingPageLinks = (
     },
   ];
 
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
-
   const myVaHealthBenefitsLinks = [
     {
       href: '/health-care/copay-rates/',
@@ -161,7 +146,9 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      links: medicalRecordsLinks,
+      introduction:
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,

@@ -85,7 +85,10 @@ export default function SearchAccordion({
             {buttonLabel}
           </button>
           {isProductionOrTestProdEnv() && (
-            <ClearFiltersBtn onClick={dispatchFocusSearch}>
+            <ClearFiltersBtn
+              onClick={dispatchFocusSearch}
+              testId="clear-button"
+            >
               Reset search
             </ClearFiltersBtn>
           )}

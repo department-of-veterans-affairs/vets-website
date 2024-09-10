@@ -1,6 +1,8 @@
 import { apiRequest } from 'platform/utilities/api';
 import environment from 'platform/utilities/environment';
 
+import { toSnakeCase } from './helpers';
+
 export const CLAIMANT_INFO_ENDPOINT = `${
   environment.API_URL
 }/meb_api/v0/forms_claimant_info`;
@@ -50,6 +52,12 @@ export const FETCH_DUPLICATE_CONTACT_INFO_SUCCESS =
 export const FETCH_DUPLICATE_CONTACT_INFO_FAILURE =
   'FETCH_DUPLICATE_CONTACT_INFO_FAILURE';
 export const ACKNOWLEDGE_DUPLICATE = 'ACKNOWLEDGE_DUPLICATE';
+const CONFIRMATION_ENDPOINT = `${
+  environment.API_URL
+}/meb_api/v0/forms_send_confirmation_email`;
+export const SEND_CONFIRMATION = 'SEND_CONFIRMATION';
+export const SEND_CONFIRMATION_SUCCESS = 'SEND_CONFIRMATION_SUCCESS';
+export const SEND_CONFIRMATION_FAILURE = 'SEND_CONFIRMATION_FAILURE';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 export const UPDATE_GLOBAL_EMAIL = 'UPDATE_GLOBAL_EMAIL';
 export const UPDATE_GLOBAL_PHONE_NUMBER = 'UPDATE_GLOBAL_PHONE_NUMBER';
@@ -197,6 +205,30 @@ export function fetchDuplicateContactInfo(email, phoneNumber) {
       .catch(errors =>
         dispatch({
           type: FETCH_DUPLICATE_CONTACT_INFO_FAILURE,
+          errors,
+        }),
+      );
+  };
+}
+
+export function sendConfirmation(params) {
+  return async dispatch => {
+    dispatch({ type: SEND_CONFIRMATION });
+    const snakeCaseParams = toSnakeCase(params);
+    return apiRequest(CONFIRMATION_ENDPOINT, {
+      method: 'POST',
+      body: JSON.stringify(snakeCaseParams),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .then(response =>
+        dispatch({
+          type: SEND_CONFIRMATION_SUCCESS,
+          response,
+        }),
+      )
+      .catch(errors =>
+        dispatch({
+          type: SEND_CONFIRMATION_FAILURE,
           errors,
         }),
       );

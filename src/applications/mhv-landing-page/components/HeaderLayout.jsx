@@ -14,7 +14,8 @@ const HeaderLayout = ({
   showLearnMore = false,
 }) => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const goBackUrl = mhvUrl(ssoe, 'home');
+  const mhvHomeUrl = mhvUrl(ssoe, 'home');
+  const mhvDownloadUrl = mhvUrl(ssoe, 'download-my-data');
 
   const alertExpandableRef = useRef(null);
 
@@ -22,25 +23,17 @@ const HeaderLayout = ({
 
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
-    if (alertExpandable) {
-      try {
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .alert-expandable-trigger {
-            align-items: center !important;
-          }
-          .alert-expandable-icon {
-            vertical-align: middle !important;
-          }
-        `;
-        alertExpandable.shadowRoot.appendChild(style);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'Error adding custom styles to alert-expandable component',
-          error,
-        );
-      }
+    if (alertExpandable?.shadowRoot) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .alert-expandable-trigger {
+          align-items: center !important;
+        }
+        .alert-expandable-icon {
+          vertical-align: middle !important;
+        }
+      `;
+      alertExpandable.shadowRoot.appendChild(style);
     }
   }, []);
 
@@ -83,7 +76,7 @@ const HeaderLayout = ({
                   )
                 }
                 data-testid="mhv-go-back-1"
-                href={goBackUrl}
+                href={mhvHomeUrl}
               >
                 {goBackLinkText}
               </a>
@@ -130,7 +123,7 @@ const HeaderLayout = ({
                         )
                       }
                       data-testid="mhv-go-back-2"
-                      href={goBackUrl}
+                      href={mhvDownloadUrl}
                     >
                       {goBackLinkText}
                     </a>
