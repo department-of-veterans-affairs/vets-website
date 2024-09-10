@@ -60,6 +60,7 @@ const formConfig = {
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   formId: '22-5490',
+  title: 'Apply to use survivor dependent education benefits',
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your DEPENDENTS&#39; APPLICATION FOR VA EDUCATION BENEFITS  application (22-5490) is in progress.',
@@ -235,22 +236,28 @@ const formConfig = {
                     </h4>
                     <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
                       <li>
-                        <i
-                          className="fas fa-school fry-dea-benefit-selection-icon"
+                        <va-icon
+                          size={4}
+                          icon="null"
+                          className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
                         Tuition &amp; fees
                       </li>
                       <li>
-                        <i
-                          className="fas fa-home fry-dea-benefit-selection-icon"
+                        <va-icon
+                          size={4}
+                          icon="home"
+                          className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
                         Money for housing
                       </li>
                       <li>
-                        <i
-                          className="fas fa-book fry-dea-benefit-selection-icon"
+                        <va-icon
+                          size={4}
+                          icon="null"
+                          className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
                         Money for books &amp; supplies
@@ -284,8 +291,10 @@ const formConfig = {
                     </h4>
                     <ul className="fry-dea-benefits-list vads-u-margin--0 vads-u-padding--0 vads-u-margin-bottom--3">
                       <li>
-                        <i
-                          className="fas fa-money-bill fry-dea-benefit-selection-icon"
+                        <va-icon
+                          size={4}
+                          icon="null"
+                          className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
                         Monthly stipened
@@ -319,8 +328,10 @@ const formConfig = {
                     Which education benefit would you like to apply for?
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
-                    <i
-                      className="fas fa-info-circle vads-u-margin-right--1"
+                    <va-icon
+                      size={4}
+                      icon="info"
+                      className="vads-u-margin-right--1"
                       aria-hidden="true"
                     />{' '}
                     <span className="sr-only">Informational Note:</span> If
