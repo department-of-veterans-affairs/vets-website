@@ -169,7 +169,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
   return (
     <>
       {reasonStatement()}
-      {priorServiceStatement()}
+      <div className="vads-u-padding-bottom--2">{priorServiceStatement()}</div>
     </>
   );
 };
