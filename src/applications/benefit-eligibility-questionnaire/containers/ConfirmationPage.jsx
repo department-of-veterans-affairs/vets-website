@@ -53,26 +53,32 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value || 'alphabetical';
 
-    const sortedBenefits = this.state.benefits.sort((a, b) => {
-      if (a[key] < b[key]) return -1;
-      if (a[key] > b[key]) return 1;
-      return 0;
+    this.setState(prevState => {
+      const sortedBenefits = prevState.benefits.sort((a, b) => {
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
+        return 0;
+      });
+      return { benefits: sortedBenefits };
     });
-    this.setState({ benefits: sortedBenefits });
   };
 
   filterBenefits = e => {
     const key = e.target.value;
 
     if (key === 'All') {
-      this.setState({ benefits: this.props.results.data });
+      this.setState(() => ({
+        benefits: this.props.results.data,
+      }));
       return;
     }
-    const filteredBenefits = this.props.results.data.filter(benefit => {
-      return benefit.category === key;
-    });
 
-    this.setState({ benefits: filteredBenefits });
+    this.setState(() => {
+      const filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.category === key;
+      });
+      return { benefits: filteredBenefits };
+    });
   };
 
   handleClick = e => {
