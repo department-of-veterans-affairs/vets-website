@@ -67,8 +67,7 @@ const transformForSubmit = (_formConfig, form) => {
   const setEmployment = () => {
     const employmentStatus = Object.keys(form.employmentStatus)[0];
     transformedData.employmentStatus = employmentStatus;
-    transformedData.employmentStatusId =
-      EMPLOYMENT_STATUS_ID[employmentStatus];
+    transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[employmentStatus];
     if (form.describeEmployment) {
       transformedData.employmentStatusExplanation = form.describeEmployment;
     }
@@ -85,8 +84,8 @@ const transformForSubmit = (_formConfig, form) => {
 
       transformedData.businessAddressId = ADDRESS_TYPE_ID.business;
 
-    if (workAddress.street2)
-      transformedData.businessAddress.line2 = workAddress.street2;
+      if (workAddress.street2)
+        transformedData.businessAddress.line2 = workAddress.street2;
     }
   };
 
@@ -244,10 +243,13 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.wasAgentAttorney = form.data.representativeForAgency;
     transformedData.wasReprimanded = form.data.reprimandedInAgency;
     transformedData.hasResignedToAvoidReprimand = form.data.resignedFromAgency;
-    transformedData.hasAppliedForAccreditation = form.data.appliedForVaAccreditation;
+    transformedData.hasAppliedForAccreditation =
+      form.data.appliedForVaAccreditation;
     transformedData.wasAccreditationTerminated = form.data.terminatedByVsorg;
-    transformedData.hasImpairments = form.data.conditionThatAffectsRepresentation;
-    transformedData.hasPhysicalLimitations = form.data.conditionThatAffectsExamination;
+    transformedData.hasImpairments =
+      form.data.conditionThatAffectsRepresentation;
+    transformedData.hasPhysicalLimitations =
+      form.data.conditionThatAffectsExamination;
   };
 
   setName();
