@@ -5,13 +5,12 @@ import {
   SERVICE_BRANCH_ID,
   DISCHARGE_TYPE_ID,
   PHONE_TYPE_ID,
-  INSTITUTION_TYPE_ID,
   DEGREE_TYPE_ID,
   ADMITTANCE_TYPE_ID,
   RELATION_TO_APPLICANT_ID
 } from 'enums';
 
-const transformForSubmit = (formConfig, form) => {
+const transformForSubmit = (_formConfig, form) => {
   let transformedData = {};
 
   const {
@@ -82,6 +81,8 @@ const transformForSubmit = (formConfig, form) => {
       country: workAddress.country,
     };
 
+    transformedData.businessAddressId = ADDRESS_TYPE_ID['business'];
+
     if(workAddress.street2) transformedData.businessAddress.line2 = workAddress.street2;
 
   };
@@ -125,7 +126,8 @@ const transformForSubmit = (formConfig, form) => {
           state: employers[i].address.state,
           postalCode: employers[i].address.postalCode,
           country: employers[i].address.country,
-        }
+        },
+        employerAddressId: ADDRESS_TYPE_ID['business'],
       };
 
       if(employers[i].address?.street2) employer.employerAddress.line2 = employers[i].address.street2;
@@ -142,7 +144,7 @@ const transformForSubmit = (formConfig, form) => {
         wasDegreeReceived: educationalInstitutions[i].degreeReceived,
         major: educationalInstitutions[i].major,
         degreeType: {
-          name: educationalInstitutions[i].degree
+          name: educationalInstitutions[i].degree,
         },
         institutionAddress: {
           addressType: educationalInstitutions[i].address.isMilitary,
@@ -151,7 +153,9 @@ const transformForSubmit = (formConfig, form) => {
           state: educationalInstitutions[i].address.state,
           postalCode: educationalInstitutions[i].address.postalCode,
           country: educationalInstitutions[i].address.country
-        }
+        },
+        institutionAddressId: ADDRESS_TYPE_ID['institution'],
+        degreeTypeId: DEGREE_TYPE_ID[educationalInstitutions[i].degree],
       };
 
       if(educationalInstitutions[i].address?.street2) institution.institutionAddress.line2 = educationalInstitutions[i].address.street2;
@@ -168,6 +172,7 @@ const transformForSubmit = (formConfig, form) => {
         name: jurisdictions[i].jurisdiction,
         admissionDate: jurisdictions[i].admissionDate,
         membershipRegistrationNumber: jurisdictions[i].membershipOrRegistrationNumber,
+        admittanceTypeId: ADMITTANCE_TYPE_ID['Jurisdiction'],
       };
 
       transformedData.jurisdictions.push(jurisdiction);
@@ -182,6 +187,7 @@ const transformForSubmit = (formConfig, form) => {
         name: agenciesOrCourts[i].name,
         admissionDate: agenciesOrCourts[i].admissionDate,
         membershipRegistrationNumber: agenciesOrCourts[i].membershipOrRegistrationNumber,
+        admittanceTypeId: ADMITTANCE_TYPE_ID['Agency'],
       };
 
       transformedData.agencies.push(agency);
@@ -208,6 +214,7 @@ const transformForSubmit = (formConfig, form) => {
         phoneTypeId: PHONE_TYPE_ID['Home'],
         email: characterReferences[i].email,
         relationshipToApplicantTypeId: RELATION_TO_APPLICANT_ID[characterReferences[i].relationship],
+        addressId: ADDRESS_TYPE_ID['home'],
       };
 
       transformedData.characterReferences.push(characterReference);
