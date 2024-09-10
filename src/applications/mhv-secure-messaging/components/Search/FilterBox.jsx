@@ -124,7 +124,7 @@ const FilterBox = forwardRef((props, ref) => {
               value={dateRange}
               onVaSelect={e => setDateRange(e.detail.value)}
               data-testid="date-range-dropdown"
-              data-dd-action-name={`${dateRange.toUpperCase()} Months Date Range Dropdown`}
+              data-dd-action-name={`${dateRange?.toUpperCase()} Months Date Range Dropdown`}
             >
               {DateRangeOptions.map(item => (
                 <option key={item.value} value={item.value}>
