@@ -57,27 +57,28 @@ const SelectAccreditedRepresentative = props => {
           {representatives.map((rep, index) => {
             const representative = rep.data;
             return (
-              <SearchResult
-                representativeName={
-                  representative.attributes.fullName ||
-                  representative.attributes.name
-                }
-                key={index}
-                type={representative.type}
-                addressLine1={representative.attributes.addressLine1}
-                addressLine2={representative.attributes.addressLine2}
-                addressLine3={representative.attributes.addressLine3}
-                city={representative.attributes.city}
-                stateCode={representative.attributes.stateCode}
-                zipCode={representative.attributes.zipCode}
-                phone={representative.attributes.phone}
-                email={representative.attributes.email}
-                representative={representative}
-                representativeId={representative.id}
-                formData={formData}
-                setFormData={setFormData}
-                goForward={goForward}
-              />
+              <div key={index} className="vads-u-margin-y--4">
+                <SearchResult
+                  representativeName={
+                    representative.attributes.fullName ||
+                    representative.attributes.name
+                  }
+                  type={representative.type}
+                  addressLine1={representative.attributes.addressLine1}
+                  addressLine2={representative.attributes.addressLine2}
+                  addressLine3={representative.attributes.addressLine3}
+                  city={representative.attributes.city}
+                  stateCode={representative.attributes.stateCode}
+                  zipCode={representative.attributes.zipCode}
+                  phone={representative.attributes.phone}
+                  email={representative.attributes.email}
+                  representative={representative}
+                  representativeId={representative.id}
+                  formData={formData}
+                  setFormData={setFormData}
+                  goForward={goForward}
+                />
+              </div>
             );
           })}
         </>
@@ -88,12 +89,15 @@ const SelectAccreditedRepresentative = props => {
 
   return (
     <>
-      <va-card role="search">
-        <label
-          htmlFor="representative-search"
-          id="representative-search-label"
-          className="vads-u-margin-top--0 vads-u-margin-bottom--1p5"
-        >
+      <h3 className="vads-u-margin-y--5">
+        Select the accredited representative or VSO you’d like to appoint
+      </h3>
+      <p className="vads-u-margin-bottom--0">
+        Enter the name of the accredited representative or Veterans Service
+        Organization (VSO) you’d like to appoint
+      </p>
+      <div className="vads-u-display--flex vads-u-margin-bottom--3">
+        <div className="vads-u-margin-right--2 vads-u-flex--1">
           <VaTextInput
             id="representative_search"
             name="representative_search"
@@ -101,15 +105,23 @@ const SelectAccreditedRepresentative = props => {
             onInput={handleChange}
             required
           />
+        </div>
+        <div className="vads-u-margin-top--1">
           <VaButton
             data-testid="representative-search-btn"
             text="Search"
             onClick={handleClick}
           />
-        </label>
-      </va-card>
+        </div>
+      </div>
 
       {searchResults()}
+
+      <p className="vads-u-margin-y--4">
+        <strong>Note:</strong> if you don’t know who you’d like to appoint, you
+        can use our online tool to search for an accredited attorney, claims
+        agent, or VSO representative.
+      </p>
     </>
   );
 };

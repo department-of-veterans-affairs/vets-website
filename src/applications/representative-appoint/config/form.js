@@ -104,8 +104,8 @@ const formConfig = {
         },
       },
     },
-    accreditedRepresentative: {
-      title: 'Accredited Representative',
+    accreditedRepresentativeInformation: {
+      title: 'Accredited representative information',
       pages: {
         selectAccreditedRepresentative: {
           title: 'Representative Select',
