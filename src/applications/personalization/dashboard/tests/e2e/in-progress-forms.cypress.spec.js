@@ -190,7 +190,7 @@ describe('The My VA Dashboard', () => {
         cy.findByRole('heading', {
           name: /benefit applications and forms/i,
         }).should('exist');
-        cy.findAllByTestId('submitted-application').should('have.length', 3);
+        cy.findAllByTestId('submitted-application').should('have.length', 4);
         // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
