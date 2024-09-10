@@ -48,7 +48,7 @@ const InfoAlert = ({ highLowResults, fullState }) => {
                 isAuthenticatedWithSSOe(fullState),
                 'compose-message',
               )}
-              text="Compose a message on the My HealtheVet website"
+              text="Start a new message"
             />
           )}
         </p>

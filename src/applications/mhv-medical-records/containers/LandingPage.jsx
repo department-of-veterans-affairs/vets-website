@@ -14,7 +14,6 @@ import {
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
-import { environment } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { setBreadcrumbs } from '../actions/breadcrumbs';
 import { downtimeNotificationParams, pageTitles } from '../util/constants';
 import { createSession } from '../api/MrApi';
@@ -331,7 +330,7 @@ const LandingPage = () => {
                     isAuthenticatedWithSSOe(fullState),
                     'compose-message',
                   )}
-                  text="Compose a message on the My HealtheVet website"
+                  text="Start a new message"
                 />
               )}
             </p>
@@ -364,12 +363,20 @@ const LandingPage = () => {
             </p>
 
             <p className="vads-u-margin-bottom--2">
-              <va-link
-                href={`${
-                  environment.BASE_URL
-                }/my-health/secure-messages/new-message/`}
-                text="Start a new message"
-              />
+              {phase0p5Flag ? (
+                <va-link
+                  href="/my-health/secure-messages/new-message/"
+                  text="Start a new message"
+                />
+              ) : (
+                <ExternalLink
+                  href={mhvUrl(
+                    isAuthenticatedWithSSOe(fullState),
+                    'compose-message',
+                  )}
+                  text="Start a new message"
+                />
+              )}
             </p>
             <p className="vads-u-margin-bottom--2">
               Only use messages for non-urgent needs. Your care team may take up
