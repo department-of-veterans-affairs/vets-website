@@ -47,7 +47,6 @@ import {
 import { signInServiceName as signInServiceNameSelector } from '~/platform/user/authentication/selectors';
 import { connectDrupalSourceOfTruthCerner as dispatchConnectDrupalSourceOfTruthCerner } from '~/platform/utilities/cerner/dsot';
 
-import { PowerToolsLoader } from 'platform/user/profile/utilities/powertools/PowerToolsLoader';
 import { fetchTotalDisabilityRating as fetchTotalDisabilityRatingAction } from '../../common/actions/ratedDisabilities';
 
 import getRoutes from '../routes';
@@ -56,8 +55,6 @@ import { PROFILE_PATHS } from '../constants';
 import ProfileWrapper from './ProfileWrapper';
 import { canAccess } from '../../common/selectors';
 import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/directDeposit';
-
-import { profilePluginConfig } from './powertools/Plugin';
 
 class Profile extends Component {
   componentDidMount() {
@@ -241,7 +238,6 @@ class Profile extends Component {
                 <Redirect to={PROFILE_PATHS.PROFILE_ROOT} />
               </Route>
             </Switch>
-            <PowerToolsLoader plugin={profilePluginConfig} />
           </ProfileWrapper>
         </LastLocationProvider>
       </BrowserRouter>

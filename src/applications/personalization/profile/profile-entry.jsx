@@ -1,5 +1,4 @@
 import '@@profile/sass/profile.scss';
-import '../common/components/devtools/sass/DevTools.scss';
 import '../common/components/LoadingButton/LoadingButton.scss';
 import '~/platform/polyfills';
 import React, { StrictMode } from 'react';
