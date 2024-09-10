@@ -97,10 +97,10 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             status="info"
             content={
               <>
-                <h4 className="usa-alert-heading">
+                <h2 className="usa-alert-heading">
                   You can apply for VA benefits using your honorable
                   characterization.
-                </h4>
+                </h2>
                 <p>
                   Because you served honorably in one period of service, you can
                   apply for VA benefits using that honorable characterization.
@@ -124,10 +124,10 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
             status="info"
             content={
               <>
-                <h4 className="usa-alert-heading">
+                <h2 className="usa-alert-heading">
                   You can apply for VA benefits using your honorable
                   characterization.
-                </h4>
+                </h2>
                 <div className="vads-u-font-size--base">
                   <p className="vads-u-margin-top--2">
                     Because you served honorably in one period of service, you
