@@ -4,7 +4,6 @@ import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import { render, fireEvent, waitFor } from '@testing-library/react';
-import moment from 'moment';
 
 import {
   $,
@@ -12,6 +11,7 @@ import {
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
+import { parseISO } from 'date-fns';
 import getFixtureData, {
   FixtureDataType,
 } from '../../../fixtures/vets-json-api/getFixtureData';
@@ -111,21 +111,23 @@ describe('pension applicant information page', () => {
     it('should return true if veteranDateOfBirth is over 65 years ago', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: '1950-01-01' },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.true;
     });
+
     it('should return false if veteranDateOfBirth is under 65 years ago', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: '2000-01-01' },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.false;
     });
+
     it('should return undefined if veteranDateOfBirth is invalid or null', () => {
       const over65 = isOver65(
         { veteranDateOfBirth: null },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(over65).to.be.undefined;
     });
@@ -136,15 +138,16 @@ describe('pension applicant information page', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(formData.isOver65).to.be.false;
     });
+
     it('should update isOver65 if veteranDateOfBirth changes', () => {
       const formData = setDefaultIsOver65(
         { veteranDateOfBirth: '2000-01-01', isOver65: false },
         { veteranDateOfBirth: '1950-01-01', isOver65: false },
-        moment('2020-01-01'),
+        parseISO('2020-01-01'),
       );
       expect(formData.isOver65).to.be.true;
     });

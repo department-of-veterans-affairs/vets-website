@@ -1721,8 +1721,8 @@ export const mockInquiryData = {
         hasAttachments: false,
         hasBeenSplit: true,
         levelOfAuthentication: 'Personal',
-        lastUpdate: '11/14/24',
-        createdOn: '11/6/24',
+        lastUpdate: '11/14/23',
+        createdOn: '11/6/23',
         status: 'Replied',
         submitterQuestion:
           'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
