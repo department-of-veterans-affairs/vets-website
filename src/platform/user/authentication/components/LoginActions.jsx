@@ -55,9 +55,9 @@ export default function LoginActions({ externalApplication }) {
           isValid && (
             <div>
               <h2>Other sign-in options</h2>
-              <h3 id="mhvH3" className="vads-u-margin--0">
+              <h3 id="mhvH3">
                 My HealtheVet sign-in option
-                <span className="vads-u-display--block">
+                <span className="vads-u-display--block vads-u-font-size--base">
                   Available through January 31, 2025
                 </span>
               </h3>
@@ -67,13 +67,17 @@ export default function LoginActions({ externalApplication }) {
                 with a <strong>Login.gov</strong> or <strong>ID.me</strong>{' '}
                 account.
               </p>
-              <LoginButton csp="mhv" useOAuth={useOAuth} />
+              <LoginButton
+                csp="mhv"
+                useOAuth={useOAuth}
+                ariaDescribedBy="mhvH3"
+              />
               <h3
                 id="dslogonH3"
                 className="vads-u-margin-bottom--0 vads-u-margin-top--3"
               >
                 DS Logon sign-in-option
-                <span className="vads-u-display--block">
+                <span className="vads-u-display--block vads-u-font-size--base">
                   Available through September 25, 2025
                 </span>
               </h3>
