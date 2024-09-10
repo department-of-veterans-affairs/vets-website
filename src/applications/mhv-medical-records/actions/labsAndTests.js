@@ -21,12 +21,14 @@ export const getLabsAndTestsList = (isCurrent = false) => async dispatch => {
       getLabsAndTests,
     );
     const radiologyResponse = await getMhvRadiologyTests();
-    const hashedRadiologyResponse = await Promise.all(
-      radiologyResponse.map(async record => ({
-        ...record,
-        hash: await radiologyRecordHash(record),
-      })),
-    );
+    const hashedRadiologyResponse = Array.isArray(radiologyResponse)
+      ? await Promise.all(
+          radiologyResponse.map(async record => ({
+            ...record,
+            hash: await radiologyRecordHash(record),
+          })),
+        )
+      : [];
     dispatch({
       type: Actions.LabsAndTests.GET_LIST,
       labsAndTestsResponse,
