@@ -1,54 +1,29 @@
-import {
-  ERROR_MAPPING,
-  questionErrors,
-  personalDataErrors,
-  incomeAndBenefitsErrors,
-  expensesErrors,
-  assetsErrors,
-  additionalDataErrors,
-  resolutionErrors,
-} from '../constants/errorMessages';
+import { ERROR_MAPPING, errorMessages } from '../constants/errorMessages';
 
 const _override = (error, fullError) => {
-  const [category, key] = error.split('.');
-
-  if (category === 'questions' && ERROR_MAPPING.questions[key]) {
-    return ERROR_MAPPING.questions[key];
+  if (!error) {
+    return null;
   }
 
-  if (error === 'selectedDebtsAndCopays') {
-    if (fullError && fullError.__errors && Array.isArray(fullError.__errors)) {
-      const hasResolutionAmountError = fullError.__errors.some(
-        err => typeof err === 'string' && err.includes('resolution amount'),
-      );
+  const errorKey = error.includes('selectedDebtsAndCopays')
+    ? 'selectedDebtsAndCopays'
+    : error.split('.').slice(-1)[0];
 
-      if (hasResolutionAmountError) {
-        return {
-          chapterKey: 'resolutionOptionsChapter',
-          pageKey: 'resolutionComment',
-        };
-      }
-    }
-    return ERROR_MAPPING.selectedDebtsAndCopays;
+  if (ERROR_MAPPING[errorKey]) {
+    return ERROR_MAPPING[errorKey];
   }
 
-  return null;
+  if (fullError?.__errors?.some(str => str.includes('resolution amount'))) {
+    return {
+      chapterKey: 'resolutionOptionsChapter',
+      pageKey: 'resolutionComment',
+    };
+  }
+
+  return ERROR_MAPPING[errorKey] || null;
 };
 
 export default {
-  ...Object.entries(questionErrors).reduce(
-    (acc, [key, value]) => ({ ...acc, [`questions.${key}`]: value }),
-    {},
-  ),
-  ...Object.entries(personalDataErrors).reduce(
-    (acc, [key, value]) => ({ ...acc, [`personalData.${key}`]: value }),
-    {},
-  ),
-  ...incomeAndBenefitsErrors,
-  ...expensesErrors,
-  ...assetsErrors,
-  ...additionalDataErrors,
-  ...resolutionErrors,
-  monthlyHousingExpenses: expensesErrors.monthlyHousingExpenses,
+  ...errorMessages,
   _override,
 };

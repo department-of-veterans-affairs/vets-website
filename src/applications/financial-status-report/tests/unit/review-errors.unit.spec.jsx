@@ -36,7 +36,7 @@ describe('ReviewErrors', () => {
       );
       expect(result).to.deep.equal({
         chapterKey: 'resolutionOptionsChapter',
-        pageKey: 'resolutionComment',
+        pageKey: 'resolutionOption',
       });
     });
 
@@ -47,5 +47,6 @@ describe('ReviewErrors', () => {
         pageKey: 'spouseInformation',
       });
     });
+    it;
   });
 });

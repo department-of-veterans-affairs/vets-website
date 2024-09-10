@@ -1,0 +1,398 @@
+{
+    "questions": {
+      "hasRepayments": "invalid",
+      "hasCreditCardBills": "invalid",
+      "hasRecreationalVehicle": "invalid",
+      "hasVehicle": "invalid",
+      "hasRealEstate": "invalid",
+      "spouseHasBenefits": "invalid",
+      "isMarried": "invalid",
+      "hasDependents": 1,
+      "hasBeenAdjudicatedBankrupt": "invalid",
+      "vetIsEmployed": "invalid",
+      "spouseIsEmployed": "invalid"
+    },
+    "view:components": {
+      "view:contractsAdditionalInfo": {},
+      "view:recVehicleInfo": {},
+      "view:maritalStatus": {},
+      "view:veteranInfo": {},
+      "view:dependentsAdditionalInfo": {},
+      "view:vaBenefitsOnFile": {}
+    },
+    "expenses": {
+      "monthlyHousingExpenses": "invalid",
+      "creditCardBills": [
+        {
+          "purpose": "Credit card payment",
+          "creditorName": "",
+          "originalAmount": "invalid",
+          "unpaidBalance": "22",
+          "amountDueMonthly": "22",
+          "dateStarted": "invalid-date",
+          "amountPastDue": "invalid"
+        }
+      ]
+    },
+    "assets": {
+      "recVehicleAmount": null,
+      "realEstateValue": null,
+      "monetaryAssets": [
+        {
+          "name": "Cash on hand (not in bank)",
+          "amount": "300"
+        },
+        {
+          "name": "Cash in a bank (savings and checkings)",
+          "amount": "300"
+        },
+        {
+          "name": "U.S. Savings Bonds",
+          "amount": "300"
+        }
+      ],
+      "otherAssets": [
+        {
+          "name": "Antiques",
+          "amount": "invalid"
+        }
+      ],
+      "automobiles": [
+        {
+          "make": "22",
+          "model": "22",
+          "year": "2020",
+          "resaleValue": "300"
+        }
+      ]
+    },
+    "benefits": {
+      "spouseBenefits": {
+        "compensationAndPension": "300",
+        "education": "300"
+      }
+    },
+    "personalData": {
+      "spouseFullName": {
+        "first": "",
+        "last": ""
+      },
+      "veteranFullName": {
+        "first": "Travis",
+        "last": "Jones",
+        "middle": "D"
+      },
+      "dateOfBirth": "invalid-date",
+      "veteranContactInformation": {
+        "email": "invalid-email",
+        "mobilePhone": {
+          "areaCode": "510",
+          "countryCode": "1",
+          "phoneNumber": "invalid"
+        },
+        "address": {
+          "addressLine1": "1200 Park Ave",
+          "addressLine2": "c/o Pixar",
+          "city": "Emeryville",
+          "stateCode": "invalid",
+          "zipCode": "invalid"
+        }
+      },
+      "dependents": [
+        {
+          "dependentAge": "invalid"
+        },
+        {
+          "dependentAge": "11"
+        }
+      ],
+      "address": {
+        "street": "375 Mountainhigh Dr",
+        "city": "Antioch",
+        "state": "TN",
+        "country": "USA",
+        "postalCode": "invalid"
+      },
+      "telephoneNumber": "invalid",
+      "emailAddress": "invalid-email",
+      "employmentHistory": {
+        "newRecord": {
+          "type": "",
+          "from": "",
+          "to": "",
+          "isCurrent": false,
+          "employerName": "",
+          "grossMonthlyIncome": "",
+          "deductions": []
+        },
+        "veteran": {
+          "employmentRecords": [
+            {
+              "type": "Full time",
+              "from": "invalid-date",
+              "to": "",
+              "isCurrent": true,
+              "employerName": "Employer",
+              "grossMonthlyIncome": "333",
+              "deductions": [
+                {
+                  "name": "State tax",
+                  "amount": "333"
+                },
+                {
+                  "name": "Federal tax",
+                  "amount": "300"
+                }
+              ]
+            }
+          ]
+        },
+        "spouse": {
+          "spEmploymentRecords": [
+            {
+              "type": "Full time",
+              "from": "invalid-date",
+              "to": "",
+              "isCurrent": true,
+              "employerName": "234",
+              "grossMonthlyIncome": "333",
+              "deductions": [
+                {
+                  "name": "State tax",
+                  "amount": "333"
+                },
+                {
+                  "name": "Federal tax",
+                  "amount": "333"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "personalIdentification": {
+      "ssn": "invalid",
+      "fileNumber": "invalid"
+    },
+    "selectedDebtsAndCopays": [
+      {
+        "resolutionWaiverCheck": true,
+        "resolutionOption": "",
+        "fileNumber": "796123018",
+        "payeeNumber": "00",
+        "personEntitled": "TJONES",
+        "deductionCode": "71",
+        "benefitType": "CH33 Books, Supplies/MISC EDU",
+        "diaryCode": "100",
+        "diaryCodeDescription": "First Demand Letter - Inactive Benefits - Due Process",
+        "amountOverpaid": 0,
+        "amountWithheld": 0,
+        "originalAr": 166.67,
+        "currentAr": 120.4,
+        "debtHistory": [
+          {
+            "date": "invalid-date",
+            "letterCode": "100",
+            "description": "First Demand Letter - Inactive Benefits - Due Process"
+          }
+        ],
+        "fiscalTransactionData": [
+          {
+            "debtId": 317876,
+            "debtIncreaseAmount": 28.53,
+            "hinesCode": null,
+            "offsetAmount": 28.53,
+            "offsetType": null,
+            "paymentType": null,
+            "transactionAdminAmount": 28.53,
+            "transactionCourtAmount": 0,
+            "transactionDate": "invalid-date",
+            "transactionDescription": "Increase to AR",
+            "transactionExplanation": "Increase to AR",
+            "transactionFiscalCode": "04P",
+            "transactionFiscalSource": "MR_FISC_TRX_HIST",
+            "transactionFiscalYear": null,
+            "transactionInterestAmount": 0,
+            "transactionMarshallAmount": 0,
+            "transactionPrincipalAmount": 0,
+            "transactionTotalAmount": 28.53
+          }
+        ],
+        "compositeDebtId": "71166",
+        "id": 1,
+        "debtType": "DEBT",
+        "resolutionComment": "commment"
+      },
+      {
+        "resolutionComment": "",
+        "resolutionOption": "",
+        "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "pSSeqNum": 1,
+        "pSTotSeqNum": 1,
+        "pSFacilityNum": "757",
+        "pSFacPhoneNum": null,
+        "pSTotStatement": 3,
+        "pSStatementVal": "0000037953E",
+        "pSStatementDate": "invalid-date",
+        "pSStatementDateOutput": "06/24/2024",
+        "pSProcessDate": "invalid-date",
+        "pSProcessDateOutput": "12/10/2020",
+        "pHPatientLstNme": "HHUFHYULSEHU",
+        "pHPatientFstNme": "CDAA",
+        "pHPatientMidNme": "A",
+        "pHAddress1": "7780 RED MAPLE CT",
+        "pHAddress2": null,
+        "pHAddress3": null,
+        "pHCity": "HUBER HEIGHTS",
+        "pHState": "OH",
+        "pHZipCde": "invalid",
+        "pHZipCdeOutput": "45424",
+        "pHCtryNme": null,
+        "pHAmtDue": 105.24,
+        "pHAmtDueOutput": "105.24&nbsp;&nbsp;",
+        "pHPrevBal": 103.21,
+        "pHPrevBalOutput": "103.21&nbsp;&nbsp;",
+        "pHTotCharges": 2.03,
+        "pHTotChargesOutput": "2.03&nbsp;&nbsp;",
+        "pHTotCredits": 0,
+        "pHTotCreditsOutput": ".00&nbsp;&nbsp;",
+        "pHNewBalance": 105.24,
+        "pHNewBalanceOutput": "105.24&nbsp;&nbsp;",
+        "pHSpecialNotes": null,
+        "pHroParaCdes": "0125304050556065708085",
+        "pHNumOfLines": 2,
+        "pHDfnNumber": 197750,
+        "pHCernerStatementNumber": 0,
+        "pHCernerPatientId": "                ",
+        "pHCernerAccountNumber": "                ",
+        "pHIcnNumber": "                 ",
+        "pHAccountNumber": 7570000000197750,
+        "pHLargeFontIndcator": 0,
+        "details": [
+          {
+            "pDDatePosted": null,
+            "pDDatePostedOutput": "",
+            "pDTransDesc": "INTEREST/ADM. CHARGE (Int:0.10 Adm:1.93 Other:0.00",
+            "pDTransDescOutput": "INTEREST/ADM. CHARGE (Int:0.10 Adm:1.93 Other:0.00",
+            "pDTransAmt": 2.03,
+            "pDTransAmtOutput": "2.03&nbsp;&nbsp;",
+            "pDRefNo": null
+          },
+          {
+            "pDDatePosted": null,
+            "pDDatePostedOutput": "",
+            "pDTransDesc": "Please refer to previous statement of rights.",
+            "pDTransDescOutput": "&nbsp;&nbsp;&nbsp;Please refer to previous statement of rights.",
+            "pDTransAmt": 0,
+            "pDTransAmtOutput": ".00&nbsp;&nbsp;",
+            "pDRefNo": null
+          }
+        ],
+        "station": {
+          "facilitYNum": "757",
+          "visNNum": "10",
+          "facilitYDesc": "CHALMERS P WYLIE VA ACC (757)",
+          "cyclENum": "004",
+          "remiTToFlag": "L",
+          "maiLInsertFlag": "0",
+          "staTAddress1": "420 N JAMES RD",
+          "staTAddress2": null,
+          "staTAddress3": null,
+          "city": "Columbus",
+          "state": "OH",
+          "ziPCde": "invalid",
+          "ziPCdeOutput": "43219-1834",
+          "baRCde": "*432191834203*",
+          "teLNumFlag": "S",
+          "teLNum": "1-866-812-0318",
+          "teLNum2": null,
+          "contacTInfo": null,
+          "dM2TelNum": null,
+          "contacTInfo2": null,
+          "toPTelNum": null,
+          "lbXFedexAddress1": null,
+          "lbXFedexAddress2": null,
+          "lbXFedexAddress3": null,
+          "lbXFedexCity": null,
+          "lbXFedexState": null,
+          "lbXFedexZipCde": null,
+          "lbXFedexBarCde": null,
+          "lbXFedexContact": null,
+          "lbXFedexContactTelNum": null,
+          "facilityName": "Chalmers P. Wylie Veterans Outpatient Clinic"
+        },
+        "debtType": "COPAY",
+        "resolutionWaiverCheck": false
+      }
+    ],
+    "additionalIncome": {
+      "addlIncRecords": [
+        {
+          "name": "Social Security",
+          "amount": "444"
+        },
+        {
+          "name": "Alimony",
+          "amount": "444"
+        }
+      ],
+      "spouse": {
+        "spAddlIncome": [
+          {
+            "name": "Alimony",
+            "amount": "444"
+          }
+        ]
+      }
+    },
+    "utilityRecords": [
+      {
+        "name": "Electricity",
+        "amount": "444"
+      }
+    ],
+    "otherExpenses": [
+      {
+        "name": "Clothing",
+        "amount": "444"
+      }
+    ],
+    "additionalData": {
+      "bankruptcy": {
+        "dateDischarged": "invalid-date",
+        "courtLocation": "",
+        "docketNumber": ""
+      },
+      "additionalComments": ""
+    },
+    "view:enhancedFinancialStatusReport": true,
+    "view:streamlinedWaiver": true,
+    "view:streamlinedWaiverAssetUpdate": true,
+    "view:reviewPageNavigationToggle": true,
+    "view:showUpdatedExpensePages": true,
+    "income": [
+      {
+        "veteranOrSpouse": "VETERAN"
+      }
+    ],
+    "gmtData": {
+      "isEligibleForStreamlined": false,
+      "gmtThreshold": null,
+      "error": {
+        "error": "Invalid zipcode"
+      },
+      "liquidAssetsBelowGmt": false
+    },
+    "installmentContracts": [
+      {
+        "purpose": "22",
+        "creditorName": "22",
+        "originalAmount": "invalid",
+        "unpaidBalance": "invalid",
+        "amountDueMonthly": "invalid",
+        "dateStarted": "invalid-date",
+        "amountPastDue": "invalid"
+      }
+    ]
+  }
