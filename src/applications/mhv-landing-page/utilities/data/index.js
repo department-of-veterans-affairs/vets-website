@@ -147,9 +147,8 @@ const resolveLandingPageLinks = (
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
       introduction:
-        'Our new tool makes it easier to find, print, and download your medical records.',
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
       links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
-      tag: 'NEW',
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,
