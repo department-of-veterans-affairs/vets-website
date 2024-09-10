@@ -66,23 +66,29 @@ const transformForSubmit = (_formConfig, form) => {
   };
 
   const setEmployment = () => {
-    transformedData.employmentStatus = form.employmentStatus;
+    const employmentStatus = Object.keys(form.employmentStatus)[0];
+    transformedData.employmentStatus = employmentStatus;
     transformedData.employmentStatusId =
-      EMPLOYMENT_STATUS_ID[form.employmentStatus];
-    transformedData.employmentStatusExplanation = form.describeEmployment;
-    transformedData.businessAddress = {
-      addressType: workAddress.isMilitary,
-      line1: workAddress.street,
-      city: workAddress.city,
-      state: workAddress.state,
-      postalCode: workAddress.postalCode,
-      country: workAddress.country,
-    };
+      EMPLOYMENT_STATUS_ID[employmentStatus];
+    if (form.describeEmployment) {
+      transformedData.employmentStatusExplanation = form.describeEmployment;
+    }
 
-    transformedData.businessAddressId = ADDRESS_TYPE_ID.business;
+    if (employmentStatus === 'employed') {
+      transformedData.businessAddress = {
+        addressType: workAddress.isMilitary,
+        line1: workAddress.street,
+        city: workAddress.city,
+        state: workAddress.state,
+        postalCode: workAddress.postalCode,
+        country: workAddress.country,
+      };
+
+      transformedData.businessAddressId = ADDRESS_TYPE_ID.business;
 
     if (workAddress.street2)
       transformedData.businessAddress.line2 = workAddress.street2;
+    }
   };
 
   const setMilitaryService = () => {
@@ -228,6 +234,23 @@ const transformForSubmit = (_formConfig, form) => {
     }
   };
 
+  const setBackgroundInfo = () => {
+    transformedData.wasImprisoned = form.data.conviction;
+    transformedData.wasMilitaryConviction = form.data.courtMartialed;
+    transformedData.isCurrentlyCharged = form.data.underCharges;
+    transformedData.wasSuspended = form.data.resignedFromEducation;
+    transformedData.hasWithdrawn = form.data.withdrawnFromEducation;
+    transformedData.wasDisciplined = form.data.disciplinedForDishonesty;
+    transformedData.hasResignedRetired = form.data.resignedForDishonesty;
+    transformedData.wasAgentAttorney = form.data.representativeForAgency;
+    transformedData.wasReprimanded = form.data.reprimandedInAgency;
+    transformedData.hasResignedToAvoidReprimand = form.data.resignedFromAgency;
+    transformedData.hasAppliedForAccreditation = form.data.appliedForVaAccreditation;
+    transformedData.wasAccreditationTerminated = form.data.terminatedByVsorg;
+    transformedData.hasImpairments = form.data.conditionThatAffectsRepresentation;
+    transformedData.hasPhysicalLimitations = form.data.conditionThatAffectsExamination;
+  };
+
   setName();
   setBirth();
   setHomeAddress();
@@ -239,6 +262,7 @@ const transformForSubmit = (_formConfig, form) => {
   setJurisdictions();
   setAgencies();
   setCharacterReferences();
+  setBackgroundInfo();
 
   return JSON.stringify({ ...transformedData });
 };
