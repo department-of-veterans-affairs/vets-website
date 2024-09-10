@@ -33,18 +33,8 @@ const resolveLandingPageLinks = (
   unreadMessageAriaLabel,
   registered = false,
 ) => {
-  const messagesLinks = [
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[0],
-      ariaLabel: unreadMessageAriaLabel,
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[1],
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[2],
-    },
-  ];
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
