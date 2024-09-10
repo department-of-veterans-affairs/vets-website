@@ -102,11 +102,7 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
-            profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormUAT: false,
-            profileShowDirectDepositSingleFormAlert: true,
-            profileShowDirectDepositSingleFormEduDowntime: true,
+            profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
           }),
@@ -183,14 +179,19 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(directDeposits.base),
+      secondsOfDelay,
+    );
     // this endpoint is used for the single form version of the direct deposit page
-    // return res.status(200).json(directDeposits.base);
+
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible
     // return res.json(directDeposits.isEligible);
     // direct deposit blocked edge cases
-    return res.json(directDeposits.isDeceased);
+    // return res.json(directDeposits.isDeceased);
     // return res.json(directDeposits.isFiduciary);
     // return res.json(directDeposits.isNotCompetent);
     // return res.json(directDeposits.isNotEligible);
