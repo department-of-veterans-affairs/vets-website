@@ -105,17 +105,12 @@ describe('HCA-Shortform-Authenticated-High-Disability', () => {
 
     // medicaid
     goToNextPage('/insurance-information/medicaid');
-    cy.get('[type=radio]#root_isMedicaidEligibleNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isMedicaidEligibleNo').check('N');
 
-    // general insurance
+    // insurance policies
+    goToNextPage('/insurance-information/your-health-insurance');
     goToNextPage('/insurance-information/general');
-    cy.get('[type=radio]#root_isCoveredByHealthInsuranceNo')
-      .first()
-      .scrollIntoView()
-      .check('N');
+    cy.get('#root_isCoveredByHealthInsuranceNo').check('N');
 
     goToNextPage('/insurance-information/va-facility');
     cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(

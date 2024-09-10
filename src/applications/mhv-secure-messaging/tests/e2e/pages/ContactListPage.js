@@ -1,7 +1,13 @@
-import { Locators, Paths, Alerts } from '../utils/constants';
+import { Locators, Paths, Alerts, Data } from '../utils/constants';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 class ContactListPage {
-  loadContactList = () => {
+  loadContactList = (recipients = mockRecipients) => {
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
+      recipients,
+    ).as('allRecipients');
     cy.visit(`${Paths.UI_MAIN + Paths.CONTACT_LIST}`);
   };
 
@@ -27,13 +33,21 @@ class ContactListPage {
     });
   };
 
-  clickSelectAllCheckBox = () => {
+  selectAllCheckBox = () => {
     cy.get(Locators.CHECKBOX.CL_ALL)
       .find(`#checkbox-element`)
       .click({
         waitForAnimations: true,
         force: true,
+        multiple: true,
       });
+  };
+
+  selectCheckBox = name => {
+    cy.get(`[label*=${name}]`)
+      .shadow()
+      .find(`input`)
+      .click({ force: true });
   };
 
   verifyButtons = () => {
@@ -41,7 +55,7 @@ class ContactListPage {
       .shadow()
       .find(`button`)
       .should(`be.visible`)
-      .and(`include.text`, `Save and exit`);
+      .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
     cy.get(`[text="Cancel"]`)
       .shadow()
@@ -50,7 +64,7 @@ class ContactListPage {
       .and(`include.text`, `Cancel`);
   };
 
-  clickSaveModalCancelButton = () => {
+  clickCancelButton = () => {
     cy.get(Locators.ALERTS.CANCEL).click({ force: true });
   };
 
@@ -65,7 +79,12 @@ class ContactListPage {
     cy.get(`.first-focusable-child`).click();
   };
 
+  // mock response could be amended in further updates
   clickSaveAndExitButton = () => {
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
+      'savedList',
+    );
+
     cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
   };
 
@@ -74,10 +93,37 @@ class ContactListPage {
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
+    cy.get('.va-alert').should(`be.focused`);
   };
 
   clickBackToInbox = () => {
     cy.get(Locators.BACK_TO).click();
+  };
+
+  verifyEmptyContactListAlert = () => {
+    cy.get(`#checkbox-error-message`)
+      .should(`be.visible`)
+      .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
+
+    cy.get(Locators.CHECKBOX.CL_ALL)
+      .first()
+      .should('have.focus');
+
+    this.verifyAllCheckboxes(false);
+  };
+
+  verifyContactListLink = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .should(`be.visible`)
+      .and('have.text', Data.CL_LINK_TEXT);
+
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .click({ force: true });
+
+    cy.contains(`Delete draft`).click({ force: true });
+    cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
   };
 }
 

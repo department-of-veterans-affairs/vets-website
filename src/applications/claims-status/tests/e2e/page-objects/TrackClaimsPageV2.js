@@ -570,7 +570,10 @@ class TrackClaimsPageV2 {
         'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
       );
     }
-    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a.active-va-link').should(
+      'contain',
+      'Find this letter in your claim letters',
+    );
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
       'Upload your evidence here',

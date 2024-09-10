@@ -24,11 +24,11 @@ import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
-const isOnReviewPage = currentLocation => {
+export const isOnReviewPage = currentLocation => {
   return currentLocation?.pathname.includes('/review-and-submit');
 };
 
-const isOnConfirmationPage = currentLocation => {
+export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
@@ -121,6 +121,13 @@ const formConfig = {
           title: 'Military Service Completed',
           uiSchema: militaryServiceCompleted.uiSchema,
           schema: militaryServiceCompleted.schema,
+          depends: formData =>
+            formData.militaryServiceCurrentlyServing === 'Yes',
+          onNavForward: ({ formData, goPath }) => {
+            if (formData.militaryServiceCurrentlyServing === 'Yes') {
+              goPath(formConfig.chapters.chapter3.pages.separation.path);
+            }
+          },
         },
       },
     },

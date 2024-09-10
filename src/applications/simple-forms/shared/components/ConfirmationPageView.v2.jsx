@@ -8,6 +8,9 @@ import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
+  VaLinkAction,
+  VaProcessList,
+  VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   createPageListByChapter,
@@ -20,15 +23,7 @@ import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const {
-    childContent = null,
-    confirmationNumber,
-    content,
-    formConfig,
-    formName = 'VA Form',
-    formType = 'application',
-    submitDate,
-  } = props;
+  const { confirmationNumber, submitDate, formConfig } = props;
 
   useEffect(
     () => {
@@ -40,14 +35,6 @@ export const ConfirmationPageView = props => {
     },
     [alertRef],
   );
-
-  const { headlineText, nextStepsText } = content;
-  const dateSubmitted = isValid(submitDate)
-    ? format(submitDate, 'MMMM d, yyyy')
-    : null;
-  const dynamicHeadline = `You've submitted your ${formName} ${formType}`;
-  const headline = `${headlineText || dynamicHeadline} ${dateSubmitted &&
-    ` on ${dateSubmitted}`}`;
 
   const form = useSelector(state => state.form);
   const formData = form.data;
@@ -87,13 +74,19 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <VaAlert uswds status="success" ref={alertRef}>
-        <h2 slot="headline">{headline}.</h2>
-        {typeof nextStepsText === 'string' ? (
-          <p>{nextStepsText}</p>
-        ) : (
-          nextStepsText
-        )}
-        <p>{`Your confirmation number is ${confirmationNumber}`}</p>
+        <h2 slot="headline">
+          Form submission started on{' '}
+          {isValid(submitDate) && format(submitDate, 'MMMM d, yyyy')}
+        </h2>
+        <p>Your submission is in progress.</p>
+        <p>
+          It can take up to 10 days for us to receive your form. Your
+          confirmation number is {confirmationNumber}.
+        </p>
+        <VaLinkAction
+          href="/my-va"
+          text="Check the status of your form on My VA"
+        />
       </VaAlert>
       <div className="print-only">
         <ChapterSectionCollection
@@ -120,7 +113,6 @@ export const ConfirmationPageView = props => {
           </VaAccordionItem>
         </VaAccordion>
       </div>
-      {childContent || null}
       <div className="screen-only">
         <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
           Print this confirmation page
@@ -134,14 +126,37 @@ export const ConfirmationPageView = props => {
           text="Print this page for your records"
         />
       </div>
+      <div>
+        <h2>What to expect next</h2>
+        <VaProcessList>
+          <VaProcessListItem
+            header="We’ll confirm that we’ve received your form"
+            active
+          >
+            <p>
+              This can take up to 10 days. When we receive your form, we’ll
+              update the status on My VA.
+            </p>
+            <p>
+              <a href="/my-va">Check the status of your form on My VA</a>
+            </p>
+          </VaProcessListItem>
+          <VaProcessListItem header="We’ll review your form">
+            <p>
+              If we need more information after reviewing your form, we’ll
+              contact you.
+            </p>
+          </VaProcessListItem>
+        </VaProcessList>
+      </div>
       <div className="vads-u-margin-bottom--6">
         <h2 className="vads-u-font-size--h2 vads-u-font-family--serif">
           How to contact us if you have questions
         </h2>
         <p>
-          Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} />
-          (TTY: <va-telephone contact={CONTACTS[711]} />) We’re here Monday
-          through Friday, 8:00 a.m. to 8:00 p.m. ET.
+          Call us at <va-telephone contact={CONTACTS.VA_BENEFITS} /> (TTY:{' '}
+          <va-telephone contact={CONTACTS[711]} />) We’re here Monday through
+          Friday, 8:00 a.m. to 8:00 p.m. ET.
         </p>
         <p>
           Or you can ask us a question online through Ask VA. Select the
@@ -168,12 +183,7 @@ export const ConfirmationPageView = props => {
 };
 
 ConfirmationPageView.propTypes = {
-  childContent: PropTypes.shape(),
-  confirmationNumber: PropTypes.string,
-  content: PropTypes.shape(),
-  formConfig: PropTypes.object,
-  formContext: PropTypes.object,
-  formName: PropTypes.string,
-  formType: PropTypes.string,
-  submitDate: PropTypes.object,
+  confirmationNumber: PropTypes.string.isRequired,
+  submitDate: PropTypes.object.isRequired,
+  formConfig: PropTypes.object.isRequired,
 };

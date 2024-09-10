@@ -112,7 +112,7 @@ const MessageThreadItem = props => {
           aria-hidden
           data-testid="unread-icon"
           role="img"
-          className="vads-u-color--primary vads-u-padding--0p25 vads-u-margin-right--1 unread-bubble"
+          className=" vads-u-margin-top--0p5 vads-u-margin-right--1 unread-bubble vads-u-display--inline-block"
           slot="icon"
           alt="Unread message icon"
         />

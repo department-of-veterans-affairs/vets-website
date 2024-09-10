@@ -1,5 +1,6 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
+import mockFeatureToggles from '../fixtures/toggles-response.json';
 import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
@@ -9,6 +10,7 @@ import { AXE_CONTEXT, Locators } from '../utils/constants';
 describe('Secure Messaging Inbox Cerner', () => {
   it('verify cerner facilities displays in alert banner', () => {
     SecureMessagingSite.login(
+      mockFeatureToggles,
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,
