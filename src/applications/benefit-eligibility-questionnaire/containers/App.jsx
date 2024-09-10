@@ -14,7 +14,7 @@ export default function App({ location, children }) {
   const path = location.pathname.split('/')[1];
   const breadcrumb =
     path === 'confirmation'
-      ? 'Benefit Questionnaire Results'
+      ? 'Your benefits and resources'
       : capitalizeFirstLetter(path);
 
   return (
