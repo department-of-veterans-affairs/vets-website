@@ -19,12 +19,13 @@ import {
   getActiveExpandedPages,
 } from '~/platform/forms-system/exportsFile';
 import { PropTypes } from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import GetFormHelp from './GetFormHelp';
 import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
-const PdfDownload = () => {
+const PdfDownload = ({ trackingPrefix }) => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(true);
+  const [error, setError] = useState(false);
 
   // placeholder for now
   const pdfDownloadUrl = '/';
@@ -35,6 +36,12 @@ const PdfDownload = () => {
       setLoading(false);
     }, 3000);
   }, []);
+
+  const onClick = () => {
+    recordEvent({
+      event: `${trackingPrefix}confirmation-pdf-download`,
+    });
+  };
 
   if (loading) {
     return (
@@ -61,6 +68,7 @@ const PdfDownload = () => {
       download
       filetype="PDF"
       href={pdfDownloadUrl}
+      onClick={onClick}
       text="Download a copy of your VA Form"
     />
   );
@@ -143,7 +151,7 @@ export const ConfirmationPageView = props => {
       <div className="screen-only">
         <h2>Save a copy of your form</h2>
         <p>If you’d like a copy of your completed form, you can download it.</p>
-        <PdfDownload />
+        <PdfDownload trackingPrefix={formConfig.trackingPrefix} />
         <VaAccordion bordered uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
