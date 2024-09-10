@@ -223,6 +223,8 @@
   "showMebInternationalAddressPrefill": "show_meb_international_address_prefill",
   "showMebLettersMaintenanceAlert": "show_meb_letters_maintenance_alert",
   "showMebServiceHistoryCategorizeDisagreement": "show_meb_service_history_categorize_disagreement",
+  "showMeb5490MaintenanceAlert": "show_meb_5490_maintenance_alert",
+  "showMedicalCopays": "show_medical_copays",
   "showNewRefillTrackPrescriptionsPage": "show_new_refill_track_prescriptions_page",
   "showNewScheduleViewAppointmentsPage": "show_new_schedule_view_appointments_page",
   "showPaymentAndDebtSection": "show_payment_and_debt_section",
