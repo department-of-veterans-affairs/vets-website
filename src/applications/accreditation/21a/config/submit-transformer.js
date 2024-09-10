@@ -7,11 +7,11 @@ import {
   PHONE_TYPE_ID,
   DEGREE_TYPE_ID,
   ADMITTANCE_TYPE_ID,
-  RELATION_TO_APPLICANT_ID
-} from 'enums';
+  RELATION_TO_APPLICANT_ID,
+} from './enums';
 
 const transformForSubmit = (_formConfig, form) => {
-  let transformedData = {};
+  const transformedData = {};
 
   const {
     fullName,
@@ -24,18 +24,14 @@ const transformForSubmit = (_formConfig, form) => {
     jurisdictions,
     agenciesOrCourts,
     characterReferences,
-   } = form.data;
-
-   const setAccreditationTypeId = () => {
-    transformedData.accreditationTypeId = ACCREDITATION_TYPE_ID;
-   };
+  } = form.data;
 
   const setName = () => {
     transformedData.firstName = fullName.first;
     transformedData.lastName = fullName.last;
-    
-    if(fullName?.middle) transformedData.middleName = fullName.middle;
-    if(fullName?.suffix) transformedData.suffix = fullName.suffix;
+
+    if (fullName?.middle) transformedData.middleName = fullName.middle;
+    if (fullName?.suffix) transformedData.suffix = fullName.suffix;
   };
 
   const setBirth = () => {
@@ -54,10 +50,11 @@ const transformForSubmit = (_formConfig, form) => {
       country: homeAddress.country,
     };
 
-    transformedData.homeAddressId = ADDRESS_TYPE_ID['home'];
+    transformedData.homeAddressId = ADDRESS_TYPE_ID.home;
 
-    if(homeAddress?.street2) transformedData.homeAddress.line2 = homeAddress.street2;
-  }
+    if (homeAddress?.street2)
+      transformedData.homeAddress.line2 = homeAddress.street2;
+  };
 
   const setContactInfo = () => {
     transformedData.homePhone = form.data.phone;
@@ -70,7 +67,8 @@ const transformForSubmit = (_formConfig, form) => {
 
   const setEmployment = () => {
     transformedData.employmentStatus = form.employmentStatus;
-    transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[form.employmentStatus];
+    transformedData.employmentStatusId =
+      EMPLOYMENT_STATUS_ID[form.employmentStatus];
     transformedData.employmentStatusExplanation = form.describeEmployment;
     transformedData.businessAddress = {
       addressType: workAddress.isMilitary,
@@ -81,18 +79,19 @@ const transformForSubmit = (_formConfig, form) => {
       country: workAddress.country,
     };
 
-    transformedData.businessAddressId = ADDRESS_TYPE_ID['business'];
+    transformedData.businessAddressId = ADDRESS_TYPE_ID.business;
 
-    if(workAddress.street2) transformedData.businessAddress.line2 = workAddress.street2;
-
+    if (workAddress.street2)
+      transformedData.businessAddress.line2 = workAddress.street2;
   };
 
   const setMilitaryService = () => {
     transformedData.militaryServices = [];
 
     for (let i = 0; i < militaryServiceExperiences.length; i += 1) {
-      let service = {
-        dischargeTypeExplanation: militaryServiceExperiences[i].explanationOfDischarge,
+      const service = {
+        dischargeTypeExplanation:
+          militaryServiceExperiences[i].explanationOfDischarge,
         entryDate: militaryServiceExperiences[i].dateRange,
         dischargeDate: militaryServiceExperiences[i].dateRange,
         serviceBranch: {
@@ -101,8 +100,10 @@ const transformForSubmit = (_formConfig, form) => {
         dischargeType: {
           name: militaryServiceExperiences[i].characterOfDischarge,
         },
-        dischargeTypeId: DISCHARGE_TYPE_ID[militaryServiceExperiences[i].characterOfDischarge],
-        serviceBranchId: SERVICE_BRANCH_ID[militaryServiceExperiences[i].branch],
+        dischargeTypeId:
+          DISCHARGE_TYPE_ID[militaryServiceExperiences[i].characterOfDischarge],
+        serviceBranchId:
+          SERVICE_BRANCH_ID[militaryServiceExperiences[i].branch],
       };
 
       transformedData.militaryServices.push(service);
@@ -113,10 +114,10 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.employment = [];
 
     for (let i = 0; i < employers.length; i += 1) {
-      let employer = {
+      const employer = {
         phoneNumber: employers[i].phone,
         phoneExtension: employers[i].extension,
-        phoneTypeId: PHONE_TYPE_ID['Work'],
+        phoneTypeId: PHONE_TYPE_ID.Work,
         positionTitle: employers[i].positionTitle,
         supervisorName: employers[i].supervisorName,
         employerAddress: {
@@ -127,10 +128,11 @@ const transformForSubmit = (_formConfig, form) => {
           postalCode: employers[i].address.postalCode,
           country: employers[i].address.country,
         },
-        employerAddressId: ADDRESS_TYPE_ID['business'],
+        employerAddressId: ADDRESS_TYPE_ID.business,
       };
 
-      if(employers[i].address?.street2) employer.employerAddress.line2 = employers[i].address.street2;
+      if (employers[i].address?.street2)
+        employer.employerAddress.line2 = employers[i].address.street2;
 
       transformedData.employment.push(employer);
     }
@@ -140,7 +142,7 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.education = [];
 
     for (let i = 0; i < educationalInstitutions.length; i += 1) {
-      let institution = {
+      const institution = {
         wasDegreeReceived: educationalInstitutions[i].degreeReceived,
         major: educationalInstitutions[i].major,
         degreeType: {
@@ -152,13 +154,15 @@ const transformForSubmit = (_formConfig, form) => {
           city: educationalInstitutions[i].address.city,
           state: educationalInstitutions[i].address.state,
           postalCode: educationalInstitutions[i].address.postalCode,
-          country: educationalInstitutions[i].address.country
+          country: educationalInstitutions[i].address.country,
         },
-        institutionAddressId: ADDRESS_TYPE_ID['institution'],
+        institutionAddressId: ADDRESS_TYPE_ID.institution,
         degreeTypeId: DEGREE_TYPE_ID[educationalInstitutions[i].degree],
       };
 
-      if(educationalInstitutions[i].address?.street2) institution.institutionAddress.line2 = educationalInstitutions[i].address.street2;
+      if (educationalInstitutions[i].address?.street2)
+        institution.institutionAddress.line2 =
+          educationalInstitutions[i].address.street2;
 
       transformedData.education.push(institution);
     }
@@ -168,11 +172,12 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.jurisdictions = [];
 
     for (let i = 0; i < jurisdictions.length; i += 1) {
-      let jurisdiction = {
+      const jurisdiction = {
         name: jurisdictions[i].jurisdiction,
         admissionDate: jurisdictions[i].admissionDate,
-        membershipRegistrationNumber: jurisdictions[i].membershipOrRegistrationNumber,
-        admittanceTypeId: ADMITTANCE_TYPE_ID['Jurisdiction'],
+        membershipRegistrationNumber:
+          jurisdictions[i].membershipOrRegistrationNumber,
+        admittanceTypeId: ADMITTANCE_TYPE_ID.Jurisdiction,
       };
 
       transformedData.jurisdictions.push(jurisdiction);
@@ -183,11 +188,12 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.agencies = [];
 
     for (let i = 0; i < agenciesOrCourts.length; i += 1) {
-      let agency = {
+      const agency = {
         name: agenciesOrCourts[i].name,
         admissionDate: agenciesOrCourts[i].admissionDate,
-        membershipRegistrationNumber: agenciesOrCourts[i].membershipOrRegistrationNumber,
-        admittanceTypeId: ADMITTANCE_TYPE_ID['Agency'],
+        membershipRegistrationNumber:
+          agenciesOrCourts[i].membershipOrRegistrationNumber,
+        admittanceTypeId: ADMITTANCE_TYPE_ID.Agency,
       };
 
       transformedData.agencies.push(agency);
@@ -198,7 +204,7 @@ const transformForSubmit = (_formConfig, form) => {
     transformedData.characterReferences = [];
 
     for (let i = 0; i < characterReferences.length; i += 1) {
-      let characterReference = {
+      const characterReference = {
         firstName: characterReferences[i].fullName.first,
         middleName: characterReferences[i].fullName.middle,
         lastName: characterReferences[i].fullName.last,
@@ -211,10 +217,11 @@ const transformForSubmit = (_formConfig, form) => {
         addressCountry: characterReferences[i].address.country,
         addressIsMilitary: characterReferences[i].address.isMilitary,
         phoneNumber: characterReferences[i].phone,
-        phoneTypeId: PHONE_TYPE_ID['Home'],
+        phoneTypeId: PHONE_TYPE_ID.Home,
         email: characterReferences[i].email,
-        relationshipToApplicantTypeId: RELATION_TO_APPLICANT_ID[characterReferences[i].relationship],
-        addressId: ADDRESS_TYPE_ID['home'],
+        relationshipToApplicantTypeId:
+          RELATION_TO_APPLICANT_ID[characterReferences[i].relationship],
+        addressId: ADDRESS_TYPE_ID.home,
       };
 
       transformedData.characterReferences.push(characterReference);
