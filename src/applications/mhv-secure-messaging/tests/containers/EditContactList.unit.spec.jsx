@@ -2,6 +2,7 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
@@ -262,5 +263,46 @@ describe('Edit Contact List container', async () => {
     expect(checkboxInputError).to.equal(
       ErrorMessages.ContactList.MINIMUM_SELECTION,
     );
+  });
+
+  it('adds eventListener if path is /contact-list', async () => {
+    const screen = setup();
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+  });
+
+  it('removes eventListener if contact list changes are reverted', async () => {
+    const screen = setup();
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+
+    checkVaCheckbox(checkbox, true);
+
+    await waitFor(() => {
+      expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
   });
 });
