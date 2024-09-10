@@ -33,7 +33,6 @@ const StepOne = ({ formResponses }) => {
     },
   };
 
-  /* eslint-enable quote-props */
   const strongCaseTips = () => {
     if (specialReason) {
       const { name, type } = reasonsObj[reason];

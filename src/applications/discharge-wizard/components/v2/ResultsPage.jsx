@@ -33,7 +33,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   return (
     <article className="dw-guidance" data-testid="duw-results">
       <h1>{H1}</h1>
-      <div className="medium-8">
+      <>
         <ResultsSummary formResponses={formResponses} />
         <CarefulConsiderationStatement formResponses={formResponses} />
         <Warnings formResponses={formResponses} />
@@ -43,7 +43,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
             <StepOne formResponses={formResponses} />
           </va-process-list>
         </section>
-      </div>
+      </>
     </article>
   );
 };
