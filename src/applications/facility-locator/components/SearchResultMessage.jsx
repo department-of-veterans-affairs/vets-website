@@ -59,11 +59,11 @@ const SearchResultMessage = ({
 };
 
 SearchResultMessage.propTypes = {
-  message: PropTypes.string,
   error: PropTypes.any,
-  resultsFound: PropTypes.bool,
-  resultRef: PropTypes.any,
   facilityType: PropTypes.string,
+  message: PropTypes.string,
+  resultRef: PropTypes.any,
+  resultsFound: PropTypes.bool,
 };
 
 export default SearchResultMessage;
