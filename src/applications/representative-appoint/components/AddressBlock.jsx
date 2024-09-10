@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 export default function AddressBlock({ repName, orgName, address }) {
   return (
@@ -25,3 +26,9 @@ export default function AddressBlock({ repName, orgName, address }) {
     </p>
   );
 }
+
+AddressBlock.propTypes = {
+  address: PropTypes.object,
+  orgName: PropTypes.string,
+  repName: PropTypes.string,
+};
