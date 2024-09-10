@@ -112,6 +112,7 @@ import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicare
 import general from './chapters/insuranceInformation/general';
 import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -557,6 +558,14 @@ const formConfig = {
           depends: collectMedicareInformation,
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
+        },
+        insuranceIntro: {
+          path: 'insurance-information/your-health-insurance',
+          title: 'Your health insurance',
+          CustomPage: InsuranceInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         general: {
           path: 'insurance-information/general',

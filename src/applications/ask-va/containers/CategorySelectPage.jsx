@@ -8,6 +8,7 @@ import { connect, useDispatch } from 'react-redux';
 import FormNavButtons from '~/platform/forms-system/src/js/components/FormNavButtons';
 import { setCategoryID } from '../actions';
 import RequireSignInModal from '../components/RequireSignInModal';
+import SignInMayBeRequiredCategoryPage from '../components/SignInMayBeRequiredCategoryPage';
 import { ServerErrorAlert } from '../config/helpers';
 import { CHAPTER_1, URL, envUrl, requireSignInCategories } from '../constants';
 
@@ -22,8 +23,10 @@ const CategorySelectPage = props => {
   const [showModal, setShowModal] = useState({ show: false, selected: '' });
 
   const onModalNo = () => {
-    onChange({ ...formData, selectCategory: null });
+    isLoading(true);
+    onChange({ ...formData, selectCategory: undefined });
     setShowModal({ show: false, selected: '' });
+    setTimeout(() => isLoading(false), 200);
   };
 
   const showError = data => {
@@ -73,7 +76,6 @@ const CategorySelectPage = props => {
     [loading],
   );
 
-  // render loading indicator while we fetch
   if (loading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -82,6 +84,7 @@ const CategorySelectPage = props => {
 
   return !error ? (
     <>
+      <SignInMayBeRequiredCategoryPage />
       <h3>Category</h3>
       <form className="rjsf">
         <VaSelect

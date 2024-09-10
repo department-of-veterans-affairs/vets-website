@@ -4,7 +4,7 @@ import SecureMessagingLandingPage from '../pages/SecureMessagingLandingPage';
 
 describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
   it('Tab to Links and Buttons on the Landing Page', () => {
-    cy.viewport(1810, 1080);
+    cy.viewport(1200, 800);
     SecureMessagingSite.login();
     SecureMessagingLandingPage.loadMainPage();
 
@@ -23,8 +23,6 @@ describe('Secure Messaging Verify Links and Buttons Keyboard Nav', () => {
       cy.realPress('Tab');
       cy.get(el).should('have.focus');
     });
-
-    cy.get(Locators.ALERTS.BACK_TOP).scrollIntoView();
 
     cy.get(Locators.ALERTS.BACK_TOP)
       .shadow()

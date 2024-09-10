@@ -267,15 +267,19 @@ export function submitRequest(id, cstClaimPhasesEnabled = false) {
   };
 }
 
-export function submit5103(id, cstClaimPhasesEnabled = false) {
+export function submit5103(id, trackedItemId, cstClaimPhasesEnabled = false) {
   return dispatch => {
     dispatch({
       type: SUBMIT_DECISION_REQUEST,
     });
 
+    const body = JSON.stringify({
+      trackedItemId: Number(trackedItemId) || null,
+    });
+
     makeAuthRequest(
       `/v0/benefits_claims/${id}/submit5103`,
-      { method: 'POST' },
+      { method: 'POST', body },
       dispatch,
       () => {
         dispatch({ type: SET_DECISION_REQUESTED });
