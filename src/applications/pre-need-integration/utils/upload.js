@@ -13,8 +13,8 @@ export function fileUploadUi(content) {
       fileUploadUrl: `${
         environment.API_URL
       }/simple_forms_api/v1/simple_forms/submit_supporting_documents`,
-      fileTypes: ['pdf'],
-      maxSize: 15728640,
+      fileTypes: ['pdf', '.jpg', '.jpeg', '.png'],
+      maxSize: 1024 * 1024 * 100, // 100 MB max size,
       minSize: 1024,
       createPayload,
       parseResponse,
