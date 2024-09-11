@@ -51,28 +51,38 @@ class ContactListPage {
   };
 
   verifyButtons = () => {
-    cy.get(`[text="Save and exit"]`)
+    cy.get(Locators.BUTTONS.CL_SAVE)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
       .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
-    cy.get(`[text="Cancel"]`)
-      .shadow()
-      .find(`button`)
+    cy.get(Locators.BUTTONS.CL_GO_BACK)
       .should(`be.visible`)
-      .and(`include.text`, `Cancel`);
+      .and(`include.text`, Data.BUTTONS.GO_BACK);
   };
 
   clickCancelButton = () => {
-    cy.get(Locators.ALERTS.CANCEL).click({ force: true });
+    cy.get(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
   };
 
-  verifySaveAlertHeader = () => {
+  verifySaveAlert = () => {
     cy.get(Locators.ALERTS.HEADER).should(
       `include.text`,
       Alerts.CONTACT_LIST.SAVE,
     );
+
+    cy.get(Locators.ALERTS.CL_SAVE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, `Save`);
+
+    cy.get(Locators.ALERTS.CL_DELETE_AND_EXIT)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, `Delete changes and exit`);
   };
 
   closeSaveModal = () => {
@@ -80,12 +90,15 @@ class ContactListPage {
   };
 
   // mock response could be amended in further updates
-  clickSaveAndExitButton = () => {
+  clickSaveContactListButton = () => {
     cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
       'savedList',
     );
 
-    cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
+    cy.get(Locators.BUTTONS.CL_SAVE)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
   };
 
   verifyContactListSavedAlert = () => {

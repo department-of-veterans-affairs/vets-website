@@ -15,19 +15,18 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.loadContactList();
   });
 
-  it('verify contact list alerts', () => {
+  it('verify empty contact list alerts', () => {
     ContactListPage.selectAllCheckBox();
     ContactListPage.clickCancelButton();
-    ContactListPage.verifySaveAlertHeader();
-    ContactListPage.verifyButtons();
+
+    ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
     ContactListPage.clickBackToInbox();
-    ContactListPage.verifySaveAlertHeader();
-    ContactListPage.verifyButtons();
+    ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    ContactListPage.clickSaveAndExitButton();
+    ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyEmptyContactListAlert();
 
     cy.injectAxe();
@@ -38,7 +37,11 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.selectAllCheckBox();
     ContactListPage.selectCheckBox(`100`);
 
-    ContactListPage.clickSaveAndExitButton();
+    ContactListPage.clickCancelButton();
+    ContactListPage.verifySaveAlert();
+    ContactListPage.closeSaveModal();
+
+    ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyContactListSavedAlert();
 
     cy.wait('@savedList')
@@ -62,8 +65,12 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.selectCheckBox(`100`);
     ContactListPage.selectCheckBox(`Cardio`);
     ContactListPage.selectCheckBox(`TG-7410`);
-    ContactListPage.clickSaveAndExitButton();
 
+    ContactListPage.clickCancelButton();
+    ContactListPage.verifySaveAlert();
+    ContactListPage.closeSaveModal();
+
+    ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyContactListSavedAlert();
 
     cy.wait('@savedList')
