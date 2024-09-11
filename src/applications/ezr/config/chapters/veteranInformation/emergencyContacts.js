@@ -13,6 +13,13 @@ import {
   yesNoUI,
   yesNoSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
+import {
+  getItemName,
+  getCardDescription,
+  getDeleteTitle,
+  getDeleteYes,
+  getDeleteDescription,
+} from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
 import { isEmergencyContactsEnabled } from '../../../utils/helpers/form-config';
 
@@ -34,23 +41,11 @@ const arrayBuilderOptions = {
     !item?.primaryPhone ||
     !item?.relationship,
   text: {
-    getItemName: item => {
-      if (item && item.fullName && item.fullName.first && item.fullName.last) {
-        return `${item.fullName.first} ${item.fullName.last}`;
-      }
-      return '';
-    },
-    cardDescription: item => `${item?.primaryPhone || ''}`,
-    deleteTitle: _ => 'Delete this emergency contact?',
-    deleteYes: _ => 'Yes, delete this emergency contact',
-    deleteDescription: item => {
-      if (item && item.fullName && item.fullName.first && item.fullName.last) {
-        return `This will delete ${item.fullName.first} ${
-          item.fullName.last
-        } and all the information from your list of emergency contacts.`;
-      }
-      return 'This will delete this contact and all the information from your list of emergency contacts.'; // Fallback if data is missing
-    },
+    getItemName,
+    cardDescription: getCardDescription,
+    deleteTitle: getDeleteTitle,
+    deleteYes: getDeleteYes,
+    deleteDescription: getDeleteDescription,
   },
   depends: isEmergencyContactsEnabled,
 };
@@ -61,27 +56,19 @@ const emergencyContactsPage = {
       content['emergency-contact-title'],
       content['emergency-contact-description'],
     ),
-    fullName: {
-      ...fullNameUI,
+    fullName: fullNameUI(title => `Emergency contact's ${title}`, {
       first: {
-        'ui:title': 'Emergency contact\u2019s first name',
         'ui:errorMessages': {
           required: 'Please enter a first name',
         },
       },
       last: {
-        'ui:title': 'Emergency contact\u2019s last name',
         'ui:errorMessages': {
           required: 'Please enter a last name',
         },
       },
-      middle: {
-        'ui:title': 'Emergency contact\u2019s middle name',
-      },
-      suffix: {
-        'ui:title': 'Emergency contact\u2019s suffix',
-      },
-    },
+    }),
+
     primaryPhone: {
       ...phoneUI(content['emergency-contact-phone']),
       'ui:errorMessages': {
