@@ -17,6 +17,14 @@ export default function NextStepsPage() {
   formData.state = 'VT';
   formData.zip = '05495';
 
+  const repAddress = {
+    address1: formData.address1,
+    address2: formData.address2,
+    city: formData.city,
+    state: formData.state,
+    zip: formData.zip,
+  };
+
   const getRepType = () => {
     // const repType = formData.repTypeRadio;
     const repType = 'Attorney';
@@ -27,16 +35,6 @@ export default function NextStepsPage() {
 
     return 'VSO representative';
   };
-
-  // The following formData values are not real and must be updated
-  // They are for illustrative purposes only
-  const getAddress = () => ({
-    address1: formData.address1,
-    address2: formData.address2,
-    city: formData.city,
-    state: formData.state,
-    zip: formData.zip,
-  });
 
   return (
     <div className="row">
@@ -53,7 +51,7 @@ export default function NextStepsPage() {
         <AddressBlock
           repName={formData.selectedRepName}
           orgName={formData.selectedOrgName}
-          address={getAddress()}
+          address={repAddress}
         />
         <p>
           After your form is signed, you or the accredited {getRepType()} can
