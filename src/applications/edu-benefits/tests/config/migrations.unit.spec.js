@@ -22,6 +22,7 @@ describe('EDU migrations', () => {
         },
       };
 
+
       const data1990e = {
         formId: formConfig1990e.formId,
         metadata: {
@@ -56,6 +57,7 @@ describe('EDU migrations', () => {
           returnUrl: '/abc/',
         },
       });
+
 
       expect(migrations1990e[0](data1990e)).to.eql({
         formId: formConfig1990e.formId,
