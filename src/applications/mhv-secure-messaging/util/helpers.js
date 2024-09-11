@@ -146,6 +146,17 @@ export const titleCase = str => {
 export const httpRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#/%?=~_|!:,.;]*[-A-Z0-9+&@#/%=~_|])/gi; // Accepts 'http'
 export const urlRegex = /[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&//=]*)/gi; // Accepts www and https
 
+export const decodeHtmlEntities = str => {
+  if (typeof str !== 'string') return str;
+
+  return str
+    .replace(/&quot;/g, '"') // Replace &quot; with "
+    .replace(/&lt;/g, '<') // Replace &lt; with <
+    .replace(/&gt;/g, '>') // Replace &gt; with >
+    .replace(/&amp;/g, '&') // Replace &amp; with &
+    .replace(/&#x22;/g, '"'); // Replace &#x22; with "
+};
+
 /**
  * Comparing a timestampt to current date and time, if older than days return true
  * @param {*} timestamp
