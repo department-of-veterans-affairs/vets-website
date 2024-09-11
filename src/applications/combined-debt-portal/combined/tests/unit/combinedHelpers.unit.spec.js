@@ -73,7 +73,7 @@ describe('Helper Functions', () => {
 
   describe('calcDueDate', () => {
     it('should calculate due date correctly', () => {
-      expect(calcDueDate('01-15-2023', 30)).to.equal('February 14, 2023');
+      expect(calcDueDate('01-14-2023', 30)).to.equal('February 14, 2023');
     });
   });
 
