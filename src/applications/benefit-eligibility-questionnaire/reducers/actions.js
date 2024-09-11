@@ -1,4 +1,9 @@
-import { BENEFITS_LIST, mappingTypes, anyType } from '../constants/benefits';
+import {
+  BENEFITS_LIST,
+  mappingTypes,
+  anyType,
+  blankType,
+} from '../constants/benefits';
 
 export const FETCH_RESULTS_STARTED = 'FETCH_RESULTS_STARTED';
 export const FETCH_RESULTS_SUCCESS = 'FETCH_RESULTS_SUCCESS';
@@ -16,11 +21,33 @@ const fetchResultsFailure = error => ({
   error,
 });
 
-const mapBenefitFromFormInputData = (benefit, formData) => {
-  // Check the any value condition first.
-  if (benefit.mappings[0] === anyType.ANY) {
-    return true;
+const checkExtraConditions = (benefit, formData) => {
+  let result = true;
+
+  if (benefit.extraConditions) {
+    if (benefit.extraConditions.oneIsNotBlank) {
+      result = benefit.extraConditions.oneIsNotBlank.some(
+        key => formData[key] !== '',
+      );
+    }
+
+    if (result === true && benefit.extraConditions.dependsOn) {
+      for (let i = 0; i < benefit.extraConditions.dependsOn.length; i++) {
+        const dependsOnObj = benefit.extraConditions.dependsOn[i];
+        if (
+          formData[dependsOnObj.field] === dependsOnObj.value &&
+          formData[dependsOnObj.dependsOnField] !== dependsOnObj.dependsOnValue
+        )
+          result = false;
+      }
+    }
   }
+
+  return result;
+};
+
+const mapBenefitFromFormInputData = (benefit, formData) => {
+  if (checkExtraConditions(benefit, formData) === false) return false;
 
   const mappingKeys = Object.keys(mappingTypes);
   // Each mapping type (i.e. GOALS).
@@ -28,23 +55,31 @@ const mapBenefitFromFormInputData = (benefit, formData) => {
     const key = mappingTypes[mappingKeys[m]];
 
     // Does this benefit map to the form input data values?
-    // Condition is OR, so if one value is mapped successfully, return true.
+    let foundMappingValue = false;
+    if (!benefit.mappings[key] || benefit.mappings[key][0] === anyType.ANY) {
+      foundMappingValue = true;
+    }
     for (
       let i = 0;
-      benefit.mappings[key] && i < benefit.mappings[key].length;
+      !foundMappingValue && i < benefit.mappings[key].length;
       i++
     ) {
       const mappingValue = benefit.mappings[key][i];
 
       if (
-        formData[key] === mappingValue ||
-        formData[key][mappingValue] === true
+        (formData[key] &&
+          (formData[key] === mappingValue ||
+            formData[key][mappingValue] === true)) ||
+        (!formData[key] && mappingValue === blankType.BLANK)
       ) {
-        return true;
+        foundMappingValue = true;
       }
     }
+
+    if (!foundMappingValue) return false;
   }
-  return false;
+
+  return true;
 };
 
 export function getResults(formData) {
