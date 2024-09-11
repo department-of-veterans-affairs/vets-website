@@ -189,7 +189,7 @@ export const buildMedicationInformationPDF = list => {
     ...list
       .filter(listItem => listOfHeaders.includes(listItem.type))
       .map(listItem => {
-        const object = { header: '', items: [] };
+        const object = { header: '', headerSize: 'H2', items: [] };
         object.header = listItem.text;
         const index = list.indexOf(listItem);
         const nextHeader = list
@@ -198,22 +198,35 @@ export const buildMedicationInformationPDF = list => {
         const nextIndex = nextHeader ? list.indexOf(nextHeader) : list.length;
         const subList = list.slice(index + 1, nextIndex);
         const isEndOfList = i => subList[i + 1]?.type !== 'li';
-        object.items = [
-          {
-            value: `${subList
-              .map((subItem, i) => {
-                if (subItem.type === 'li') {
-                  return `    * ${subItem.text}${isEndOfList(i) ? '\n' : ''}`;
-                }
-                return `${subItem.text}\n`;
-              })
-              .join('\n')}\n`,
-          },
-        ];
+        let liArray = [];
+        object.items = subList.flatMap((subItem, i) => {
+          if (subItem.type === 'li') {
+            liArray.push(subItem.text);
+            if (isEndOfList(i)) {
+              return {
+                value: [
+                  {
+                    value: liArray,
+                  },
+                ],
+                isRich: true,
+              };
+            }
+            return [];
+          }
+          liArray = [];
+          return [
+            {
+              value: subItem.text,
+              noIndentation: true,
+            },
+          ];
+        });
         return object;
       }),
   ];
   return {
+    sectionSeparators: false,
     sections,
   };
 };
