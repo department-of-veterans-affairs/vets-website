@@ -12,6 +12,7 @@ import {
   dateRangeDescriptionWithHazard,
   exposureEndDateApproximate,
   exposureStartDateApproximate,
+  notSureHazardDetails,
 } from '../../../content/toxicExposure';
 
 /**
@@ -59,7 +60,8 @@ describe('additional exposures details', () => {
           ),
         ).to.exist;
 
-        getByText('I’m not sure of the dates I was exposed to this hazard');
+        expect($(`va-checkbox[label="${notSureHazardDetails}"]`, container)).to
+          .exist;
 
         const addlInfo = container.querySelector('va-additional-info');
         expect(addlInfo).to.have.attribute(

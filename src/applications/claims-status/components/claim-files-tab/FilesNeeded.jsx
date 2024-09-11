@@ -10,11 +10,7 @@ import {
 import { standard5103Item } from '../../constants';
 import DueDate from '../DueDate';
 
-function FilesNeeded({
-  item,
-  evidenceWaiverSubmitted5103 = false,
-  previousPage = null,
-}) {
+export default function FilesNeeded({ item, previousPage = null }) {
   const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
   const cst5103UpdateEnabled = useToggleValue(
     TOGGLE_NAMES.cst5103UpdateEnabled,
@@ -45,12 +41,6 @@ function FilesNeeded({
       ? itemWithNewDescription.description
       : truncateDescription(item.description); // Truncating the item description to only 200 characters incase it is long
   };
-
-  // Hide the due date when item type is Automated 5103 Notice Response
-  // When evidenceWaiverSubmitted5103 is true and is5103Notice is true FilesNeeded should show null
-  if (evidenceWaiverSubmitted5103 && isAutomated5103Notice(item.displayName)) {
-    return null;
-  }
 
   return (
     <va-alert
@@ -86,8 +76,5 @@ function FilesNeeded({
 
 FilesNeeded.propTypes = {
   item: PropTypes.object.isRequired,
-  evidenceWaiverSubmitted5103: PropTypes.bool,
   previousPage: PropTypes.string,
 };
-
-export default FilesNeeded;

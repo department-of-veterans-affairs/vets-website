@@ -32,6 +32,9 @@ const App = ({ children }) => {
     flagsLoadedAndMhvEnabled,
     state => state.featureToggles,
   );
+  const phase0p5Flag = useSelector(
+    state => state.featureToggles.mhv_integration_medical_records_to_phase_1,
+  );
 
   const dispatch = useDispatch();
 
@@ -154,7 +157,7 @@ const App = ({ children }) => {
   if (featureTogglesLoading || user.profile.loading) {
     return (
       <>
-        <MhvSecondaryNav />
+        {phase0p5Flag && <MhvSecondaryNav />}
         <div className="vads-l-grid-container">
           <va-loading-indicator
             message="Loading your medical records..."
@@ -178,7 +181,7 @@ const App = ({ children }) => {
     >
       {isMissingRequiredService(user.login.currentlyLoggedIn, userServices) || (
         <>
-          <MhvSecondaryNav />
+          {phase0p5Flag && <MhvSecondaryNav />}
           <div
             ref={measuredRef}
             className="vads-l-grid-container vads-u-padding-left--2"

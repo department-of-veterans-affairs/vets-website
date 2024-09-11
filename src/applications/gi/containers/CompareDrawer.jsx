@@ -248,7 +248,7 @@ export function CompareDrawer({
   return (
     <>
       <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
-        <div className={expandCollapse}>
+        <div className={expandCollapse} data-testid="compare-container">
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal
               name={institutions[promptingFacilityCode].name}
@@ -260,17 +260,14 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div
-            className={compareHeaderClasses}
-            role="button"
-            tabIndex={0}
-            onClick={expandOnClick}
-            onKeyDown={() => {}}
-          >
+          <div className={compareHeaderClasses}>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               aria-expanded={open}
               aria-controls="compare-body"
               className={headerLabelClasses}
+              data-testid={headerLabel}
+              onClick={expandOnClick} // Move the onClick handler here if it's not already
             >
               {headerLabel}
               <va-icon
@@ -283,7 +280,10 @@ export function CompareDrawer({
 
           {open && (
             <div className="compare-body vads-l-grid-container">
-              <div className="small-function-label">
+              <div
+                className="small-function-label"
+                data-testid="2-to-3-institutions"
+              >
                 You can compare 2 to 3 institutions
               </div>
               <div className="vads-l-row vads-u-padding-top--1">
