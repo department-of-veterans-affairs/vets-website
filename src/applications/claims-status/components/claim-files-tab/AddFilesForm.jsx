@@ -3,12 +3,12 @@ import React from 'react';
 import Scroll from 'react-scroll';
 
 import {
-  VaFileInput,
   VaModal,
   VaSelect,
   VaTextInput,
   VaCheckbox,
   VaButton,
+  VaFileInputMultiple,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
 import {
@@ -171,6 +171,19 @@ class AddFilesForm extends React.Component {
   };
 
   render() {
+    const additionalFormInputsContent = (
+      <div>
+        <va-select uswds label="What kind of file is this?" required>
+          <option key="1" value="1">
+            Public Document
+          </option>
+          <option key="2" value="2">
+            Private Document
+          </option>
+        </va-select>
+      </div>
+    );
+
     const showUploadModal =
       this.props.uploading && this.state.canShowUploadModal;
 
@@ -185,7 +198,7 @@ class AddFilesForm extends React.Component {
             </a>{' '}
             page.
           </p>
-          <VaFileInput
+          <VaFileInputMultiple
             id="file-upload"
             className="vads-u-margin-bottom--3"
             error={this.getErrorMessage()}
@@ -196,7 +209,9 @@ class AddFilesForm extends React.Component {
             name="fileUpload"
             additionalErrorClass="claims-upload-input-error-message"
             aria-describedby="file-requirements"
-          />
+          >
+            {additionalFormInputsContent}
+          </VaFileInputMultiple>
         </div>
         {this.props.files.map(
           ({ file, docType, isEncrypted, password }, index) => (
