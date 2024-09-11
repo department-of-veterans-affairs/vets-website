@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { format, isValid } from 'date-fns';
 import scrollTo from 'platform/utilities/ui/scrollTo';
@@ -23,51 +22,18 @@ import recordEvent from 'platform/monitoring/record-event';
 import GetFormHelp from './GetFormHelp';
 import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
-const PdfDownload = ({ trackingPrefix }) => {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-
-  // placeholder for now
-  const pdfDownloadUrl = '/';
-
-  // mock loading time until we have a real PDF to download
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
-
+const PdfDownloadLink = ({ url, trackingPrefix }) => {
   const onClick = () => {
     recordEvent({
       event: `${trackingPrefix}confirmation-pdf-download`,
     });
   };
 
-  if (loading) {
-    return (
-      <div>
-        <va-loading-indicator
-          label="Loading"
-          message="Generating your PDF. This may take a minute."
-        />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <va-alert slim status="error" visible>
-        Sorry, we’re unable to generate a PDF at this time. You can still review
-        and print the information you submitted in your form.
-      </va-alert>
-    );
-  }
-
   return (
     <va-link
       download
       filetype="PDF"
-      href={pdfDownloadUrl}
+      href={url}
       onClick={onClick}
       text="Download a copy of your VA Form"
     />
@@ -76,7 +42,7 @@ const PdfDownload = ({ trackingPrefix }) => {
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { confirmationNumber, submitDate, formConfig } = props;
+  const { confirmationNumber, submitDate, formConfig, pdfUrl } = props;
 
   useEffect(
     () => {
@@ -117,6 +83,12 @@ export const ConfirmationPageView = props => {
     window.print();
   };
 
+  const onCheckVaStatusClick = () => {
+    recordEvent({
+      event: `${formConfig.trackingPrefix}confirmation-check-status-my-va`,
+    });
+  };
+
   return (
     <div>
       <div className="print-only">
@@ -133,12 +105,15 @@ export const ConfirmationPageView = props => {
         </h2>
         <p>Your submission is in progress.</p>
         <p>
-          It can take up to 10 days for us to receive your form. Your
-          confirmation number is {confirmationNumber}.
+          It can take up to 10 days for us to receive your form.{' '}
+          {confirmationNumber &&
+            `Your
+          confirmation number is ${confirmationNumber}.`}
         </p>
         <VaLinkAction
           href="/my-va"
           text="Check the status of your form on My VA"
+          onClick={onCheckVaStatusClick}
         />
       </VaAlert>
       <div className="print-only">
@@ -149,9 +124,18 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div className="screen-only">
-        <h2>Save a copy of your form</h2>
-        <p>If you’d like a copy of your completed form, you can download it.</p>
-        <PdfDownload trackingPrefix={formConfig.trackingPrefix} />
+        {pdfUrl && (
+          <>
+            <h2>Save a copy of your form</h2>
+            <p>
+              If you’d like a copy of your completed form, you can download it.
+            </p>
+            <PdfDownloadLink
+              url={pdfUrl}
+              trackingPrefix={formConfig.trackingPrefix}
+            />
+          </>
+        )}
         <VaAccordion bordered uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
@@ -192,7 +176,9 @@ export const ConfirmationPageView = props => {
               update the status on My VA.
             </p>
             <p>
-              <a href="/my-va">Check the status of your form on My VA</a>
+              <a href="/my-va" onClick={onCheckVaStatusClick}>
+                Check the status of your form on My VA
+              </a>
             </p>
           </VaProcessListItem>
           <VaProcessListItem header="We’ll review your form">
@@ -238,6 +224,7 @@ export const ConfirmationPageView = props => {
 
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string.isRequired,
-  submitDate: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
+  submitDate: PropTypes.object.isRequired,
+  pdfUrl: PropTypes.string,
 };
