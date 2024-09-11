@@ -12,7 +12,7 @@ const responses = {
       features: [{ name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true }],
     },
   },
-  'GET /travel_pay/claims': travelClaims,
+  'GET /travel_pay/v0/claims': travelClaims,
 };
 
 module.exports = delay(responses, 1000);
