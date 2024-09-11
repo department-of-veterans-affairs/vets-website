@@ -12,13 +12,13 @@ export const generateDischargeSummaryContent = record => ({
     header: 'Details',
     items: [
       {
-        title: 'Location',
-        value: record.location,
+        title: 'Date admitted',
+        value: record.admissionDate,
         inline: true,
       },
       {
-        title: 'Date admitted',
-        value: record.admissionDate,
+        title: 'Location',
+        value: record.location,
         inline: true,
       },
       {
@@ -54,7 +54,7 @@ export const generateProgressNoteContent = record => {
       header: 'Details',
       items: [
         {
-          title: 'Date',
+          title: 'Date entered',
           value: record.date,
           inline: true,
         },
@@ -76,7 +76,7 @@ export const generateProgressNoteContent = record => {
       ],
     },
     results: {
-      header: 'Notes',
+      header: 'Note',
       items: [
         {
           items: [
