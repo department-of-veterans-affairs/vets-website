@@ -48,27 +48,11 @@ describe('SmRouteNavigationGuard component', () => {
     screen.unmount();
   });
 
-  it('proceeds with navigating away if Confirm button is clicked', async () => {
-    const confirmNavigationSpy = sinon.spy();
+  it('proceeds with navigating away if Cancel button is clicked', async () => {
+    const cancelChangesSpy = sinon.spy();
     const customProps = {
       ...initialProps,
-      onConfirmNavigation: confirmNavigationSpy,
-    };
-
-    const screen = setup(customProps, Paths.CONTACT_LIST);
-
-    await fireEvent.click(
-      screen.getByTestId('sm-route-navigation-guard-confirm-button'),
-    );
-    expect(confirmNavigationSpy.calledOnce).to.be.true;
-    screen.unmount();
-  });
-
-  it('does not navigate away if Cancel button is clicked', async () => {
-    const confirmNavigationSpy = sinon.spy();
-    const customProps = {
-      ...initialProps,
-      onConfirmNavigation: confirmNavigationSpy,
+      onCancelButtonClick: cancelChangesSpy,
     };
 
     const screen = setup(customProps, Paths.CONTACT_LIST);
@@ -76,7 +60,23 @@ describe('SmRouteNavigationGuard component', () => {
     await fireEvent.click(
       screen.getByTestId('sm-route-navigation-guard-cancel-button'),
     );
-    expect(confirmNavigationSpy.calledOnce).to.be.false;
+    expect(cancelChangesSpy.calledOnce).to.be.true;
+    screen.unmount();
+  });
+
+  it('does not navigate away if Confirm button is clicked', async () => {
+    const saveChangesSpy = sinon.spy();
+    const customProps = {
+      ...initialProps,
+      onConfirmButtonClick: saveChangesSpy,
+    };
+
+    const screen = setup(customProps, Paths.CONTACT_LIST);
+
+    await fireEvent.click(
+      screen.getByTestId('sm-route-navigation-guard-confirm-button'),
+    );
+    expect(saveChangesSpy.calledOnce).to.be.true;
     screen.unmount();
   });
 });
