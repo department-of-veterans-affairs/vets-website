@@ -110,6 +110,7 @@ import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
+import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
 import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
 import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
@@ -570,8 +571,17 @@ const formConfig = {
         general: {
           path: 'insurance-information/general',
           title: 'Other coverage',
+          depends: formData => !formData['view:isInsuranceV2Enabled'],
           uiSchema: general.uiSchema,
           schema: general.schema,
+        },
+        healthInsurancePolicySummary: {
+          ...insurancePolicyPages.healthInsurancePolicySummary,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        healthInsurancePolicyInformation: {
+          ...insurancePolicyPages.healthInsurancePolicyInformation,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
         },
         vaFacilityJson: {
           path: 'insurance-information/va-facility-json',
