@@ -203,7 +203,7 @@ describe('Edit Contact List container', async () => {
 
     expect(checkbox).to.have.attribute('checked', 'false');
 
-    const cancelButton = screen.getByTestId('contact-list-cancel');
+    const cancelButton = screen.getByTestId('contact-list-go-back');
     fireEvent.click(cancelButton);
 
     waitFor(() => {
@@ -212,7 +212,7 @@ describe('Edit Contact List container', async () => {
     screen.unmount();
   });
 
-  it('allows navigating away if unsaved changes on "save and exit" click', async () => {
+  it('saves changes and displays alert on "save" click', async () => {
     const screen = setup();
 
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
@@ -226,16 +226,18 @@ describe('Edit Contact List container', async () => {
 
     expect(checkbox).to.have.attribute('checked', 'false');
 
-    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    const saveButton = screen.getByTestId('contact-list-save');
     fireEvent.click(saveButton);
 
-    waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
-    }, 1000);
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert.getAttribute('status')).to.equal('success');
+      expect(screen.getByText('Contact list changes saved')).to.exist;
+    });
     screen.unmount();
   });
 
-  it('displays error state on first checkbox when "save and exit" is clicked', async () => {
+  it('displays error state on first checkbox when "save" is clicked if zero teams are checked', async () => {
     const screen = setup(initialState);
 
     const selectAllFacility2 = await screen.findByTestId(
@@ -252,7 +254,7 @@ describe('Edit Contact List container', async () => {
 
     await checkVaCheckbox(selectAllFacility1, false);
 
-    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    const saveButton = screen.getByTestId('contact-list-save');
     fireEvent.click(saveButton);
 
     const checkboxInput = await screen.getByTestId(

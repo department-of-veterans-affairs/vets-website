@@ -228,6 +228,7 @@ const EditContactList = () => {
             "
               onClick={e => handleSave(e)}
               data-testid="contact-list-save"
+              data-dd-action-name="Contct List Save Button"
             />
             <button
               type="button"
@@ -240,6 +241,7 @@ const EditContactList = () => {
               vads-u-margin-y--0
               "
               data-testid="contact-list-go-back"
+              data-dd-action-name="Contact List Go Back Button"
               onClick={handleCancel}
             >
               <div className="vads-u-margin-right--0p5">
