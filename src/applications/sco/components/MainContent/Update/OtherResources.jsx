@@ -219,6 +219,11 @@ const OtherResources = () => {
           hrefText="How to use GI Bill benefits"
           pText="Learn how students may use their GI Bill benefits to advance their education and training."
         />
+        <LiSpanAndVaLinkAndPTag
+          href="https://benefits.va.gov/GIBILL/workstudy-site-supervisor-guidance.asp"
+          hrefText="Work study site supervisor guidance"
+          pText="Learn how to administer the VA work study program at your site."
+        />
       </MainContentSubSection>
     </div>
   );
