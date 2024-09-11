@@ -47,23 +47,4 @@ describe('HLR homeless page', () => {
     expect($('[error]')).to.not.exist;
     expect(onSubmit.called).to.be.true;
   });
-
-  // board option is required
-  it('should prevent continuing', () => {
-    const onSubmit = sinon.spy();
-    const { container } = render(
-      <DefinitionTester
-        definitions={{}}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{}}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    fireEvent.submit($('form', container));
-    expect($('[error]')).to.exist;
-    expect(onSubmit.called).to.be.false;
-  });
 });

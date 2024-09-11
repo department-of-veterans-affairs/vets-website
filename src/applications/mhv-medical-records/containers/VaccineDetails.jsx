@@ -22,7 +22,6 @@ import {
 } from '../util/helpers';
 import ItemList from '../components/shared/ItemList';
 import { clearVaccineDetails, getVaccineDetails } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
@@ -36,7 +35,6 @@ import useAlerts from '../hooks/use-alerts';
 import DateSubheading from '../components/shared/DateSubheading';
 import { generateVaccineItem } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const VaccineDetails = props => {
   const { runningUnitTest } = props;
@@ -54,8 +52,6 @@ const VaccineDetails = props => {
   const activeAlert = useAlerts(dispatch);
   const [downloadStarted, setDownloadStarted] = useState(false);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
       if (vaccineId) {
@@ -67,14 +63,6 @@ const VaccineDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vaccines',
-            label: 'vaccines',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVaccineDetails());
       };

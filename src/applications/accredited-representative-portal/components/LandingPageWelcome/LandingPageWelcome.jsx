@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom-v5-compat';
+import { Link } from 'react-router';
 import PropTypes from 'prop-types';
 
 const LandingPageWelcome = ({ firstName = '', children }) => (
