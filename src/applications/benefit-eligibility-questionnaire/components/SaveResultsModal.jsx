@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-const ShareResultsModal = () => {
+const SaveResultsModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const currentUrl = window.location.href;
@@ -18,18 +18,18 @@ const ShareResultsModal = () => {
   return (
     <div>
       <va-button
-        id="share-your-results"
-        message-aria-describedby="Share your results"
-        text="Share your results"
+        id="save-your-results"
+        message-aria-describedby="Save your results"
+        text="Save your results"
         onClick={() => toggleModal(true)}
       />
       <VaModal
-        id="share-results-modal"
+        id="save-results-modal"
         onCloseEvent={() => {
           setShowAlert(false);
           toggleModal(false);
         }}
-        modalTitle="Save, bookmark, or share your results"
+        modalTitle="Save your results"
         initialFocusSelector="#va-modal-title"
         visible={isOpen}
         large
@@ -65,4 +65,4 @@ const ShareResultsModal = () => {
   );
 };
 
-export default ShareResultsModal;
+export default SaveResultsModal;

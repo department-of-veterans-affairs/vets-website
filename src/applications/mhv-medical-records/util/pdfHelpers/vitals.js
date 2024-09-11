@@ -4,6 +4,7 @@ export const generateVitalsIntro = records => {
   return {
     title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
     subject: 'VA Medical Record',
+    preface: `Showing ${records.length} records from newest to oldest`,
   };
 };
 

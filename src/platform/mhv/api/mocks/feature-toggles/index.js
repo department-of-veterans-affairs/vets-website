@@ -4,6 +4,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicationsToVaGovRelease = true,
     mhvMedicationsDisplayRefillContent = true,
     mhvMedicationsDisplayDocumentationContent = true,
+    mhvMedicationsDisplayFilter = true,
 
     // medical records
     mhvTransitionalMedicalRecordsLandingPage = true,
@@ -44,8 +45,16 @@ const generateFeatureToggles = (toggles = {}) => {
           name: 'mhv_medications_display_documentation_content',
           value: mhvMedicationsDisplayDocumentationContent,
         },
+        {
+          name: 'mhv_medications_display_filter',
+          value: mhvMedicationsDisplayFilter,
+        },
 
         // medical records
+        {
+          name: 'mhv_integration_medical_records_to_phase_1',
+          value: true,
+        },
         {
           name: 'mhv_medical_records_kill_external_links',
           value: true,
