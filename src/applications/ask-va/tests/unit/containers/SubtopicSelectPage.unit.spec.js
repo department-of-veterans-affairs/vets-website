@@ -4,10 +4,12 @@ import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { envUrl } from '../../constants';
-import { userData } from '../fixtures/data/mock-form-data';
+import { envUrl } from '../../../constants';
+import { userData } from '../../fixtures/data/mock-form-data';
 
 import SubtopicSelect from '../../components/FormFields/SubtopicSelect';
+
+// TODO: Point to the page and see what breaks. The old components have been deleted in this branch.
 
 describe('<SubtopicSelect /> component', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/topics/1/subtopics`;

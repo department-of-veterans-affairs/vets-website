@@ -1,5 +1,5 @@
 import React from 'react';
-import countries from './config/countries.json';
+import countries from '../config/countries.json';
 
 export const ADDRESS_TYPES = {
   domestic: 'DOMESTIC',

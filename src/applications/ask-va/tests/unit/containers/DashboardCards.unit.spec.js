@@ -5,8 +5,8 @@ import { setupServer } from 'msw/node';
 import React from 'react';
 import { Provider } from 'react-redux';
 
-import { envUrl } from '../../constants';
-import DashboardCards from '../../containers/DashboardCards';
+import { envUrl } from '../../../constants';
+import DashboardCards from '../../../containers/DashboardCards';
 
 describe('<DashboardCards>', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/inquiries`;

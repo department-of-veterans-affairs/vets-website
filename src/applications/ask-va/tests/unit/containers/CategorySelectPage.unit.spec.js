@@ -9,6 +9,8 @@ import { userData } from '../fixtures/data/mock-form-data';
 
 import CategorySelect from '../../components/FormFields/CategorySelect';
 
+// TODO: Point to the page and see what breaks. The old components have been deleted in this branch.
+
 describe('<CategorySelect /> component', () => {
   const apiRequestWithUrl = `${envUrl}/ask_va_api/v0/categories`;
 

@@ -5,9 +5,9 @@ import { Provider } from 'react-redux';
 
 import { $, $$ } from 'platform/forms-system/src/js/utilities/ui';
 
-import IntroductionPage from '../../containers/IntroductionPage';
+import IntroductionPage from '../../../containers/IntroductionPage';
 
-import { getData } from '../fixtures/data/mock-form-data';
+import { getData } from '../../fixtures/data/mock-form-data';
 
 describe('IntroductionPage', () => {
   xit('should render', () => {
