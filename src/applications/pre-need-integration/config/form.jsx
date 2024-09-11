@@ -41,7 +41,10 @@ import * as applicantDemographics2Preparer from './pages/applicantDemographics2P
 // import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
-import { servicePeriodsPages } from './pages/servicePeriodsPages';
+import {
+  servicePeriodsPagesVeteran,
+  servicePeriodsPagesNonVeteran,
+} from './pages/servicePeriodsPages';
 
 import transformForSubmit from './transformForSubmit';
 
@@ -58,11 +61,11 @@ import manifest from '../manifest.json';
 import {
   isVeteran,
   isAuthorizedAgent,
-  transform,
+  // transform,
   // isVeteranAndHasServiceName,
   // isNotVeteranAndHasServiceName,
-  isVeteranAndHasServiceName,
-  isNotVeteranAndHasServiceName,
+  // isVeteranAndHasServiceName,
+  // isNotVeteranAndHasServiceName,
   buriedWSponsorsEligibility,
   relationshipToVetTitle,
   relationshipToVetPreparerTitle,
@@ -444,11 +447,9 @@ const formConfig = {
         },
       },
     },
-    militaryHistory: {
-      title: formData =>
-        isVeteran(formData)
-          ? 'Applicant military history'
-          : 'Sponsor military history',
+    militaryHistoryVeteran: {
+      title: 'Applicant service period(s)',
+      pages: servicePeriodsPagesVeteran,
       // pages: {
       //   militaryDetailsSelf: {
       //     path: 'military-details-self',
@@ -569,7 +570,10 @@ const formConfig = {
       //     schema: sponsorMilitaryNameInformation.schema,
       //   },
       // },
-      pages: servicePeriodsPages,
+    },
+    militaryHistoryNonVeteran: {
+      title: 'Sponsor service period(s)',
+      pages: servicePeriodsPagesNonVeteran,
     },
     burialBenefits: {
       title: 'Burial benefits',
