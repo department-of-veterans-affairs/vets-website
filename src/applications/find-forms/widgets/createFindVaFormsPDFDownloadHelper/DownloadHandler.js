@@ -23,11 +23,13 @@ const DownloadHandler = ({
 }) => {
   const pdfDownloadButton = document.getElementById(clickedId);
   let pdfDownloadParent = null;
+  let isRelatedForm = false;
 
   if (clickedId === 'main-download-button') {
     pdfDownloadParent = document.getElementById('main-download-container');
   } else {
     pdfDownloadParent = document.getElementById(`${clickedId}-parent`);
+    isRelatedForm = true;
   }
 
   if (formPdfIsValid && formPdfUrlIsValid && !networkRequestError) {
@@ -74,7 +76,12 @@ const DownloadHandler = ({
 
     sentryLogger(form, formNumber, downloadUrl, errorMessage);
 
-    const alertBox = <InvalidFormDownload downloadUrl={downloadUrl} />;
+    const alertBox = (
+      <InvalidFormDownload
+        isRelatedForm={isRelatedForm}
+        downloadUrl={downloadUrl}
+      />
+    );
     ReactDOM.render(alertBox, alertDiv);
 
     pdfDownloadParent?.insertBefore(alertDiv, pdfDownloadButton);
