@@ -1,5 +1,3 @@
-/* eslint-disable cypress/unsafe-to-chain-command */
-
 describe('Accessibility', () => {
   /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
