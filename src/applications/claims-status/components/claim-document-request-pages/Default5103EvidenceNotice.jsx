@@ -66,7 +66,8 @@ function Default5103EvidenceNotice({
   };
   const formattedDueDate = buildDateFormatter()(item.suspenseDate);
   const formattedRequestedDate = buildDateFormatter()(item.requestedDate);
-  const isStandard5103Notice = item.displayName === 'Review evidence list';
+  const isStandard5103Notice =
+    item.displayName === 'Review evidence list (5103 notice)';
 
   if (!isAutomated5103Notice(item.displayName) && !isStandard5103Notice) {
     return null;
