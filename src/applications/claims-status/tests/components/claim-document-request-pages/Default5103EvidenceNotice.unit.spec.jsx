@@ -41,7 +41,7 @@ describe('<Default5103EvidenceNotice>', () => {
       />,
     );
     expect($('#default-5103-notice-page', container)).to.exist;
-    getByText('5103 Evidence Notice');
+    getByText('Review evidence list (5103 notice)');
     expect($('.active-va-link', container)).to.have.text(
       'Find this letter in your claim letters',
     );
