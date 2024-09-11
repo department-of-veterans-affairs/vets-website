@@ -8,7 +8,7 @@ on:
 jobs:
   testing-reports-prep:
     name: Testing Reports Prep
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16-cores-latest
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
