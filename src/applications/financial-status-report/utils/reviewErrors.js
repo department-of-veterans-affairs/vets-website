@@ -7,7 +7,7 @@ const _override = (error, fullError) => {
 
   const errorKey = error.includes('selectedDebtsAndCopays')
     ? 'selectedDebtsAndCopays'
-    : error.split('.').slice(-1)[0];
+    : error.split('.').pop();
 
   if (ERROR_MAPPING[errorKey]) {
     return ERROR_MAPPING[errorKey];
@@ -20,7 +20,7 @@ const _override = (error, fullError) => {
     };
   }
 
-  return ERROR_MAPPING[errorKey] || null;
+  return null;
 };
 
 export default {
