@@ -58,10 +58,10 @@ describe('<FilesNeeded>', () => {
           expect(queryByText('December 1, 2024')).to.not.exist;
           expect(
             queryByText(
-              'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+              'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
             ),
           ).to.exist;
-          expect(queryByText('Review evidence list')).to.exist;
+          expect(queryByText('Review evidence list (5103 notice)')).to.exist;
           getByText('Details');
         });
       });
