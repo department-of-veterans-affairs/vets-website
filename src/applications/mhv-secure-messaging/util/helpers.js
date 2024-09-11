@@ -151,10 +151,10 @@ export const decodeHtmlEntities = str => {
 
   return str
     .replace(/&quot;/g, '"') // Replace &quot; with "
+    .replace(/&#x22;/g, '"') // Replace &#x22; with "
     .replace(/&lt;/g, '<') // Replace &lt; with <
     .replace(/&gt;/g, '>') // Replace &gt; with >
-    .replace(/&amp;/g, '&') // Replace &amp; with &
-    .replace(/&#x22;/g, '"'); // Replace &#x22; with "
+    .replace(/&amp;/g, '&'); // Replace &amp; with &
 };
 
 /**
