@@ -1,14 +1,13 @@
 name: Unit Test Stability Review
 
 on:
-  # schedule:
-  #   - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
-  push
+  schedule:
+    - cron: '0 02 * * 1-5' # 10pm EST/2am UTC, weekdays
 
 jobs:
   testing-reports-prep:
     name: Testing Reports Prep
-    runs-on: ubuntu-16-cores-latest
+    runs-on: ubuntu-latest
     continue-on-error: true
     outputs:
       app_list: ${{ env.APPLICATION_LIST }}
@@ -55,7 +54,7 @@ jobs:
 
   fetch-unit-tests-allow-list:
     name: Fetch Unit Test Stability Allow List
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16-cores-latest
     steps:
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -171,7 +170,7 @@ jobs:
 
     strategy:
       fail-fast: false
-      max-parallel: 5
+      max-parallel: 20
       matrix:
         runs:
           [
@@ -180,21 +179,21 @@ jobs:
             3,
             4,
             5,
-            # 6,
-            # 7,
-            # 8,
-            # 9,
-            # 10,
-            # 11,
-            # 12,
-            # 13,
-            # 14,
-            # 15,
-            # 16,
-            # 17,
-            # 18,
-            # 19,
-            # 20,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
           ]
 
     steps:
