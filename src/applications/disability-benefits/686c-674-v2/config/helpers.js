@@ -237,12 +237,23 @@ export const PensionIncomeRemovalQuestionTitle = (
   </p>
 );
 
+export const studentIncomeNote = (
+  <p>
+    <strong>Note:</strong> Don’t report VA benefits as income
+  </p>
+);
+
 export const generateHelpText = (text, className = 'vads-u-color--gray') => {
   return <span className={className}>{text}</span>;
 };
 
+<<<<<<< dependents-71248-remove-deceased
 export const generateTransition = (text, className = 'vads-u-margin-y--6') => {
   return <p className={className}>{text}</p>;
+=======
+export const generateTitle = text => {
+  return <h3 className="vads-u-margin-top--0 vads-u-color--base">{text}</h3>;
+>>>>>>> main
 };
 
 export const marriageEnums = ['Death', 'Divorce', 'Annulment', 'Other'];

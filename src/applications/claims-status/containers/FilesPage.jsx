@@ -26,7 +26,8 @@ const FIRST_GATHERING_EVIDENCE_PHASE = 'GATHERING_OF_EVIDENCE';
 class FilesPage extends React.Component {
   componentDidMount() {
     const { claim } = this.props;
-    setTabDocumentTitle(claim, 'Files');
+    // Only set the document title at mount-time if the claim is already available.
+    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Files');
 
     setTimeout(() => {
       const { lastPage, loading } = this.props;
@@ -40,6 +41,9 @@ class FilesPage extends React.Component {
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
+    // Set the document title when loading completes.
+    //   If loading was successful it will display a title specific to the claim.
+    //   Otherwise it will display a default title of "Files for Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Files');
     }
