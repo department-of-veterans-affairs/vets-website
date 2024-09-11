@@ -1015,7 +1015,7 @@ export function Modals({ hideModal, modals, profile }) {
 
   const renderComparePageModals = () => {
     return (
-      <span>
+      <>
         <VaModal
           onCloseEvent={hideModal}
           visible={shouldDisplayModal('sizeOfInstitution')}
@@ -1036,7 +1036,7 @@ export function Modals({ hideModal, modals, profile }) {
         >
           <CautionFlagsModalContent />
         </VaModal>
-      </span>
+      </>
     );
   };
 

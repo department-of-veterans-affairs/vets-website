@@ -284,7 +284,18 @@ const ProfilePageHeader = ({
         </div>
       </div>
     );
-
+  const learnMoreLabel = (
+    <>
+      <strong>{formatNumber(studentCount)}</strong>{' '}
+      <span>GI Bill students</span>
+    </>
+  );
+  const preferredProvideLearnMore = (
+    <>
+      <va-icon icon="star" size={3} class="vads-u-color--gold" />
+      <strong> Preferred Provider</strong>
+    </>
+  );
   return (
     <div className="vads-u-background-color--gray-lightest profile-card">
       <SchoolClassification
@@ -303,12 +314,7 @@ const ProfilePageHeader = ({
           {preferredProvider && (
             <span className="preferred-provider-text">
               <LearnMoreLabel
-                text={
-                  <>
-                    <va-icon icon="star" size={3} class="vads-u-color--gold" />
-                    <strong> Preferred Provider</strong>
-                  </>
-                }
+                text={preferredProvideLearnMore}
                 onClick={() => {
                   dispatchShowModal('preferredProviders');
                 }}
@@ -346,11 +352,7 @@ const ProfilePageHeader = ({
         {studentCount > 0 && (
           <p>
             <LearnMoreLabel
-              text={
-                <>
-                  <strong>{formatNumber(studentCount)}</strong> GI Bill students
-                </>
-              }
+              text={learnMoreLabel}
               buttonId={createId('GI Bill students profile')}
               onClick={() => {
                 dispatchShowModal('gibillstudents');
@@ -386,6 +388,10 @@ const ProfilePageHeader = ({
 };
 
 ProfilePageHeader.propTypes = {
+  compare: PropTypes.object,
+  dispatchAddCompareInstitution: PropTypes.func,
+  dispatchRemoveCompareInstitution: PropTypes.func,
+  dispatchShowModal: PropTypes.func,
   institution: PropTypes.object,
   onViewWarnings: PropTypes.func,
 };

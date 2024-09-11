@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CalculatorSheetResultRow from './CalculatorSheetResultRow';
 
 export const EstimateYourBenefitsSummarySheet = ({
@@ -138,5 +139,14 @@ export const EstimateYourBenefitsSummarySheet = ({
     </div>
   </div>
 );
+
+EstimateYourBenefitsSummarySheet.propTypes = {
+  expandEybSheet: PropTypes.bool,
+  outputs: PropTypes.object,
+  showEybSheet: PropTypes.bool,
+  toggleEybExpansion: PropTypes.func,
+  type: PropTypes.string,
+  yellowRibbon: PropTypes.bool,
+};
 
 export default EstimateYourBenefitsSummarySheet;
