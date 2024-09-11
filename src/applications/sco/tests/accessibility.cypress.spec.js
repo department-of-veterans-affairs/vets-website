@@ -1,3 +1,5 @@
+/* eslint-disable cypress/unsafe-to-chain-command */
+
 describe('Accessibility', () => {
   /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
@@ -97,7 +99,7 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', '85/15');
-    cy.repeatKey('Tab', 10);
+    cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'About GI Bill benefits');
     cy.repeatKey('Tab', 5);
     // Should be focused on right panel now
