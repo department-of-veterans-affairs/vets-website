@@ -6,6 +6,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PropTypes from 'prop-types';
 import {
   healthServices,
   benefitsServices,
@@ -261,7 +262,6 @@ const SearchControls = props => {
     const disabled = ![
       LocationType.HEALTH,
       LocationType.URGENT_CARE,
-      LocationType.BENEFITS,
       LocationType.CC_PROVIDER,
       LocationType.EMERGENCY_CARE,
     ].includes(facilityType);
@@ -394,6 +394,22 @@ const SearchControls = props => {
       </form>
     </div>
   );
+};
+
+SearchControls.propTypes = {
+  currentQuery: PropTypes.shape({
+    facilityType: PropTypes.string,
+    geolocationInProgress: PropTypes.bool,
+    geocodeError: PropTypes.number,
+    locationChanged: PropTypes.bool,
+    searchString: PropTypes.string,
+    serviceType: PropTypes.string,
+    serviceTypeChanged: PropTypes.bool,
+  }).isRequired,
+  clearGeocodeError: PropTypes.func,
+  clearSearchText: PropTypes.func,
+  geolocateUser: PropTypes.func,
+  onSubmit: PropTypes.func,
 };
 
 export default SearchControls;
