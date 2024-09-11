@@ -2,10 +2,15 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT } from '../utils/constants';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM Single Facility Contact list', () => {
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+    'mhv_secure_messaging_edit_contact_list',
+    true,
+  );
   beforeEach(() => {
-    SecureMessagingSite.login();
+    SecureMessagingSite.login(updatedFeatureToggle);
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
   });

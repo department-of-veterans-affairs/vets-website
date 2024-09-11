@@ -1,0 +1,146 @@
+export const submissionForm = {
+  claimantId: '1000000000000246',
+  loanPayment: 'No',
+  'view:loanPaymentAdditionalInfo': {},
+  seniorRotcCommission: 'Yes',
+  'view:rotcCommissionAdditionalInfo': {},
+  federallySponsoredAcademy: 'Yes',
+  'view:academyCommissionAdditionalInfo': {},
+  activeDutyKicker: 'Yes',
+  'view:activeDutyKickerAdditionalInfo': {},
+  selectedReserveKicker: 'No',
+  'view:post911Notice': {},
+  'view:benefitSelection': {
+    benefitRelinquished: 'CannotRelinquish',
+  },
+  'view:activeDutyNotice': {},
+  benefitEffectiveDate: '2021-02-02',
+  'view:effectiveDateNotes': {},
+  'view:subHeading': {},
+  toursOfDuty: [
+    {
+      dateRange: {
+        from: '2011-08-01',
+        to: '2014-07-30',
+      },
+      exclusionPeriods: [
+        {
+          from: '2011-08-01',
+          to: '2011-09-14',
+        },
+        {
+          from: '2011-11-01',
+          to: '2011-12-14',
+        },
+      ],
+      separationReason: 'Expiration term of service',
+      serviceBranch: 'Navy',
+      serviceCharacter: 'Honorable',
+      trainingPeriods: [
+        {
+          from: '2011-08-01',
+          to: '2011-09-14',
+        },
+        {
+          from: '2011-11-01',
+          to: '2011-12-14',
+        },
+      ],
+    },
+    {
+      dateRange: {
+        from: '2015-04-04',
+        to: '2017-10-12',
+      },
+      separationReason: 'Disability',
+      serviceBranch: 'Navy',
+      serviceCharacter: 'Honorable',
+    },
+  ],
+  'view:serviceHistory': {
+    serviceHistoryIncorrect: true,
+  },
+  incorrectServiceHistoryExplanation: {
+    incorrectServiceHistoryText: 'Service periods are missing.',
+  },
+  'view:contactMethodIntro': {},
+  contactMethod: 'Email',
+  'view:receiveTextMessages': {
+    receiveTextMessages: 'Yes, send me text message notifications',
+  },
+  'view:textMessagesAlert': {},
+  'view:subHeadings': {},
+  'view:mailingAddress': {
+    livesOnMilitaryBase: false,
+    livesOnMilitaryBaseInfo: {},
+    address: {
+      city: 'Austin',
+      country: 'USA',
+      state: 'NY',
+      postalCode: '00662',
+      street: '1493 Martin Luther King Rd',
+      street2: 'Apt 1',
+      addressLine3: null,
+      addressPou: 'CORRESPONDENCE',
+      addressType: 'DOMESTIC',
+      countryName: 'United States',
+      countryCodeFips: 'US',
+      countryCodeIso2: 'US',
+      countryCodeIso3: 'USA',
+      createdAt: '2018-04-21T20:09:50Z',
+      effectiveEndDate: '2018-04-21T20:09:50Z',
+      effectiveStartDate: '2018-04-21T20:09:50Z',
+      id: 123,
+      internationalPostalCode: '54321',
+      province: 'string',
+      sourceDate: '2018-04-21T20:09:50Z',
+      stateCode: 'NY',
+      updatedAt: '2018-04-21T20:09:50Z',
+      zipCode: '97062',
+      zipCodeSuffix: '1234',
+    },
+  },
+  'view:phoneNumbers': {
+    mobilePhoneNumber: {
+      phone: '5035551234',
+      isInternational: false,
+    },
+    phoneNumber: {
+      phone: '5032222222',
+      isInternational: true,
+    },
+  },
+  email: {
+    email: 'myemail@gmail.com',
+    confirmEmail: 'myemail@gmail.com',
+  },
+  'view:userFullName': {
+    userFullName: {
+      first: 'ANDREA',
+      middle: 'L',
+      last: 'MITCHELL',
+      suffix: 'Sr.',
+    },
+  },
+  dateOfBirth: '1989-11-11',
+  'view:reserveKickerAdditionalInfo': {},
+  veteranFullName: {
+    first: 'Andrea',
+    middle: 'L',
+    last: 'Mitchell',
+  },
+  userFullName: {
+    first: 'Andrea',
+    middle: 'L',
+    last: 'Mitchell',
+  },
+  gender: 'F',
+  veteranDateOfBirth: '1989-11-11',
+  veteranSocialSecurityNumber: '111111111',
+  privacyAgreementAccepted: true,
+  bankAccount: {
+    accountType: 'Savings',
+    accountNumber: '123456',
+    routingNumber: '322271627',
+  },
+};

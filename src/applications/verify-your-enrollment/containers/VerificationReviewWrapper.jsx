@@ -18,6 +18,7 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
 import {
   toLocalISOString,
@@ -30,7 +31,6 @@ const VerificationReviewWrapper = ({
   dispatchUpdateToggleEnrollmentSuccess,
   dispatchUpdatePendingVerifications,
   dispatchVerifyEnrollmentAction,
-  verifyEnrollment,
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
@@ -41,7 +41,6 @@ const VerificationReviewWrapper = ({
     [],
   );
   const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
-  const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
   const history = useHistory();
   const dispatch = useDispatch();
@@ -60,6 +59,8 @@ const VerificationReviewWrapper = ({
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
+    const submissionError = new Error('Internal Server Error.');
+
     const currentDateTime = toLocalISOString(new Date());
     // update pendingVerifications to a blank array
     dispatchUpdatePendingVerifications([]);
@@ -73,17 +74,23 @@ const VerificationReviewWrapper = ({
     const awardIds = newVerifiedEnrollments.map(
       enrollment => enrollment.awardId,
     );
-
-    dispatchVerifyEnrollmentAction(awardIds);
+    if (awardIds.length > 0) {
+      dispatchVerifyEnrollmentAction(awardIds);
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    } else {
+      dispatch({
+        type: VERIFY_ENROLLMENT_FAILURE,
+        errors: submissionError.toString(),
+      });
+    }
   };
 
   const handleSubmission = () => {
     if (!isChecked) {
       setShowError(true);
-    } else if (!error && isChecked) {
+    } else if (isChecked) {
       setShowError(false);
       handleVerification();
-      dispatchUpdateToggleEnrollmentSuccess(true);
       history.push(VERIFICATION_RELATIVE_URL);
     }
   };

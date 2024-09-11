@@ -2,6 +2,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
@@ -10,7 +11,7 @@ import {
   exposureStartDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
-  notSureDatesDetails,
+  notSureHazardDetails,
   teSubtitle,
 } from '../../content/toxicExposure';
 
@@ -42,7 +43,11 @@ export const uiSchema = {
         title: exposureEndDateApproximate,
       }),
       'view:notSure': {
-        'ui:title': notSureDatesDetails,
+        'ui:title': notSureHazardDetails,
+        'ui:webComponentField': VaCheckboxField,
+        'ui:options': {
+          classNames: 'vads-u-margin-y--3',
+        },
       },
     },
     'view:additionalExposuresAdditionalInfo': {
