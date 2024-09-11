@@ -30,7 +30,8 @@ const getPhaseFromStatus = latestStatus =>
 class OverviewPage extends React.Component {
   componentDidMount() {
     const { claim } = this.props;
-    setTabDocumentTitle(claim, 'Overview');
+    // Only set the document title at mount-time if the claim is already available.
+    if (claimAvailable(claim)) setTabDocumentTitle(claim, 'Overview');
 
     setTimeout(() => {
       const { lastPage, loading } = this.props;
@@ -44,6 +45,9 @@ class OverviewPage extends React.Component {
     if (!loading && prevProps.loading && !isTab(lastPage)) {
       setUpPage(false);
     }
+    // Set the document title when loading completes.
+    //   If loading was successful it will display a title specific to the claim.
+    //   Otherwise it will display a default title of "Overview of Your Claim".
     if (loading !== prevProps.loading) {
       setTabDocumentTitle(claim, 'Overview');
     }

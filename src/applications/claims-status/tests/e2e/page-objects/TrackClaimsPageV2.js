@@ -609,7 +609,7 @@ class TrackClaimsPageV2 {
     if (is5103Notice) {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        '5103 Evidence Notice',
+        'Review evidence list (5103 notice)',
       );
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(

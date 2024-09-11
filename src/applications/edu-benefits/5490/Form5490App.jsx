@@ -1,6 +1,8 @@
 import React from 'react';
 
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import formConfig from './config/form';
 
 import './sass/5490.scss';
@@ -27,6 +29,13 @@ export default function Form5490Entry({ location, children }) {
     },
     [location.pathname],
   );
+
+  const { TOGGLE_NAMES } = useFeatureToggle();
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
+  });
+
   return (
     <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
       {children}

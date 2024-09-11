@@ -12,6 +12,7 @@ import OptionalStep from './resultsComponents/OptionalStep';
 import StepOne from './resultsComponents/StepOne';
 import StepTwo from './resultsComponents/StepTwo';
 
+
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
 
