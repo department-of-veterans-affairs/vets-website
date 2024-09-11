@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -14,6 +14,7 @@ const SmBreadcrumbs = () => {
   const folderList = useSelector(state => state.sm.folders.folderList);
   const crumb = useSelector(state => state.sm.breadcrumbs.list);
   const crumbsList = useSelector(state => state.sm.breadcrumbs.crumbsList);
+  const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
   const previousPath = useRef(null);
 
   const [locationBasePath, locationChildPath] = useMemo(
@@ -43,6 +44,17 @@ const SmBreadcrumbs = () => {
 
   const backBreadcrumb = pathsWithBackBreadcrumb.includes(
     `/${locationBasePath}/`,
+  );
+
+  const navigateBack = useCallback(
+    () => {
+      if (previousUrl && previousUrl !== Constants.Paths.CONTACT_LIST) {
+        history.push(previousUrl);
+      } else {
+        history.push(Constants.Paths.INBOX);
+      }
+    },
+    [history, previousUrl],
   );
 
   useEffect(
@@ -156,7 +168,7 @@ const SmBreadcrumbs = () => {
                 to="#"
                 onClick={e => {
                   e.preventDefault();
-                  history.goBack();
+                  navigateBack();
                 }}
                 className="vads-u-font-size--md"
               >

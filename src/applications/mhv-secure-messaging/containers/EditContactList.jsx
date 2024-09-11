@@ -21,6 +21,7 @@ import {
 import { updateTriageTeamRecipients } from '../actions/recipients';
 import { addAlert } from '../actions/alerts';
 import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
+import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { focusOnErrorField } from '../util/formHelpers';
 
 const EditContactList = () => {
@@ -35,11 +36,9 @@ const EditContactList = () => {
     setShowBlockedTriageGroupAlert,
   ] = useState(false);
 
-  const draftMessageId = useSelector(
-    state => state.sm?.threadDetails?.drafts[0]?.messageId,
-  );
-
   const navigationError = ErrorMessages.ContactList.SAVE_AND_EXIT;
+
+  const previousUrl = useSelector(state => state.sm.breadcrumbs.previousUrl);
 
   const recipients = useSelector(state => state.sm.recipients);
   const {
@@ -61,17 +60,6 @@ const EditContactList = () => {
     [allTriageTeams],
   );
 
-  const navigateBack = useCallback(
-    () => {
-      if (draftMessageId) {
-        history.push(`/thread/${draftMessageId}`);
-      } else {
-        history.push(Paths.INBOX);
-      }
-    },
-    [draftMessageId, history],
-  );
-
   const updatePreferredTeam = (triageTeamId, selected) => {
     setAllTriageTeams(prevTeams =>
       prevTeams.map(
@@ -86,27 +74,31 @@ const EditContactList = () => {
     );
   };
 
-  const handleSaveAndExit = async (e, forceSave) => {
+  const navigateBack = useCallback(
+    () => {
+      if (previousUrl) {
+        history.push(previousUrl);
+      } else {
+        history.push(Paths.INBOX);
+      }
+    },
+    [history, previousUrl],
+  );
+
+  const handleSave = async e => {
     e.preventDefault();
     if (!isMinimumSelected) {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
     } else {
-      if (forceSave) {
-        await setIsNavigationBlocked(false);
-      }
-
-      if (forceSave || !isNavigationBlocked) {
-        dispatch(updateTriageTeamRecipients(allTriageTeams));
-        dispatch(
-          addAlert(
-            ALERT_TYPE_SUCCESS,
-            null,
-            Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
-          ),
-        );
-      }
-      navigateBack();
+      await dispatch(updateTriageTeamRecipients(allTriageTeams));
+      dispatch(
+        addAlert(
+          ALERT_TYPE_SUCCESS,
+          null,
+          Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+        ),
+      );
     }
   };
 
@@ -158,7 +150,8 @@ const EditContactList = () => {
     <div>
       <SmRouteNavigationGuard
         when={isNavigationBlocked}
-        onConfirmNavigation={handleSaveAndExit}
+        onConfirmButtonClick={handleSave}
+        onCancelButtonClick={handleCancel}
         modalTitle={navigationError?.title}
         confirmButtonText={navigationError?.confirmButtonText}
         cancelButtonText={navigationError?.cancelButtonText}
@@ -216,6 +209,8 @@ const EditContactList = () => {
             return null;
           })}
 
+          <AlertBackgroundBox closeable />
+
           <div
             className="
             vads-u-margin-top--3
@@ -226,20 +221,32 @@ const EditContactList = () => {
           "
           >
             <va-button
-              text="Save and exit"
+              text="Save contact list"
               class="
               vads-u-margin-bottom--1
               small-screen:vads-u-margin-bottom--0
             "
-              onClick={e => handleSaveAndExit(e, true)}
-              data-testid="contact-list-save-and-exit"
+              onClick={e => handleSave(e)}
+              data-testid="contact-list-save"
             />
-            <va-button
-              text="Cancel"
-              secondary
+            <button
+              type="button"
+              className="
+              usa-button-secondary
+              vads-u-display--flex
+              vads-u-flex-direction--row
+              vads-u-justify-content--center
+              vads-u-align-items--center
+              vads-u-margin-y--0
+              "
+              data-testid="contact-list-go-back"
               onClick={handleCancel}
-              data-testid="contact-list-cancel"
-            />
+            >
+              <div className="vads-u-margin-right--0p5">
+                <va-icon icon="navigate_far_before" aria-hidden="true" />
+              </div>
+              <span>Go back</span>
+            </button>
           </div>
           <GetFormHelp />
         </form>
