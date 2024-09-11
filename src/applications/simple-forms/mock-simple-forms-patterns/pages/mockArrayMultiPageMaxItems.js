@@ -7,10 +7,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
-function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
-}
-
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-max',
@@ -68,14 +64,18 @@ const employersMaxItemsPages = arrayBuilderPages(options, pageBuilder => ({
     path: 'employers-max',
     uiSchema: summaryPage.uiSchema,
     schema: summaryPage.schema,
-    depends: includeChapter('arrayMultiPageBuilderVariations'),
+    depends: formData =>
+      formData?.chapterSelect.arrayMultiPageVariations &&
+      formData?.arrayMultiPageVariationsSelect.max,
   }),
   employerMaxItemsNamePage: pageBuilder.itemPage({
     title: 'Employers Max Items - Name',
     path: 'employers-max/:index/name',
     uiSchema: namePage.uiSchema,
     schema: namePage.schema,
-    depends: includeChapter('arrayMultiPageBuilderVariations'),
+    depends: formData =>
+      formData?.chapterSelect.arrayMultiPageVariations &&
+      formData?.arrayMultiPageVariationsSelect.max,
   }),
 }));
 

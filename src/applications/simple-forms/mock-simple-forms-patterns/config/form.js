@@ -25,6 +25,7 @@ import formsPatternMultiple from '../pages/mockFormsPatternMultiple';
 import arraySinglePage from '../pages/mockArraySinglePage';
 import arrayMultiPageAggregateStart from '../pages/mockArrayMultiPageAggregateStart';
 import arrayMultiPageAggregateItem from '../pages/mockArrayMultiPageAggregateItem';
+import arrayMultipageVariationsPage from '../pages/mockArrayMultiPageVariations';
 import employersMaxItemsPages from '../pages/mockArrayMultiPageMaxItems';
 import employersMinItemsPages from '../pages/mockArrayMultiPageMinItems';
 import employersMinMaxItemsPages from '../pages/mockArrayMultiPageMinMaxItems';
@@ -358,8 +359,13 @@ const formConfig = {
     },
     arrayMultiPageVariations: {
       title: 'Array Multi-Page Variations',
-      depends: includeChapter('arrayMultiPageVariations'),
       pages: {
+        arrayMultiPageVariations: {
+          title: 'Array multiple page variations',
+          path: 'array-multiple-page-variations',
+          uiSchema: arrayMultipageVariationsPage.uiSchema,
+          schema: arrayMultipageVariationsPage.schema,
+        },
         ...employersMinMaxItemsSamePages,
         ...employersMinMaxItemsPages,
         ...employersMinItemsPages,

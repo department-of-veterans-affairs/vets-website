@@ -7,10 +7,6 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
 
-function includeChapter(page) {
-  return formData => formData?.chapterSelect[page];
-}
-
 /** @type {ArrayBuilderOptions} */
 const options = {
   arrayPath: 'employers-min-max-same',
@@ -71,14 +67,18 @@ const employersMinMaxItemsSamePages = arrayBuilderPages(
       path: 'employers-min-max-same',
       uiSchema: summaryPage.uiSchema,
       schema: summaryPage.schema,
-      depends: includeChapter('arrayMultiPageBuilderVariations'),
+      depends: formData =>
+        formData?.chapterSelect.arrayMultiPageVariations &&
+        formData?.arrayMultiPageVariationsSelect.minMaxSame,
     }),
     employerMinMaxItemsSameNamePage: pageBuilder.itemPage({
       title: 'Employers Min Max Same - Name',
       path: 'employers-min-max-same/:index/name',
       uiSchema: namePage.uiSchema,
       schema: namePage.schema,
-      depends: includeChapter('arrayMultiPageBuilderVariations'),
+      depends: formData =>
+        formData?.chapterSelect.arrayMultiPageVariations &&
+        formData?.arrayMultiPageVariationsSelect.minMaxSame,
     }),
   }),
 );

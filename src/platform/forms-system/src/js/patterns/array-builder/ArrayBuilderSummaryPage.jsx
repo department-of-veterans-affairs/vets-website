@@ -171,6 +171,11 @@ export default function ArrayBuilderSummaryPage({
 
     useEffect(
       () => {
+        if (!isReviewPage) {
+          // Default to nothing selected everytime we visit the page
+          props.setData({ ...props.data, [hasItemsKey]: null });
+        }
+
         if (
           (uiSchema &&
             schema?.properties &&
