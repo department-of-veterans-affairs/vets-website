@@ -41,7 +41,6 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_22_10216: '22-10216',
   FORM_22_10282: '22-10282',
   FORM_22_1990: '22-1990',
-  FORM_22_1990E: '22-1990E',
   FORM_22_1990EMEB: '22-1990EMEB',
   FORM_22_1990EZ: '22-1990EZ',
   FORM_22_1990S: '22-1990S',
@@ -297,13 +296,6 @@ export const MY_VA_SIP_FORMS = [
     title: 'education benefits (22-1990)',
     description: 'education benefits application (22-1990)',
     trackingPrefix: 'edu-',
-  },
-  {
-    id: VA_FORM_IDS.FORM_22_1990E,
-    benefit: 'education benefits',
-    title: 'education benefits (22-1990E)',
-    description: 'education benefits application (22-1990E)',
-    trackingPrefix: 'edu-1990e-',
   },
   {
     id: VA_FORM_IDS.FORM_22_1990EZ,

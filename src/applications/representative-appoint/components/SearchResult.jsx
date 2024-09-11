@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
 // import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
+import { connect } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { parsePhoneNumber } from '../utilities/helpers';
 
 const SearchResult = ({
@@ -17,7 +19,11 @@ const SearchResult = ({
   email,
   associatedOrgs,
   representativeId,
+  representative,
   query,
+  formData,
+  setFormData,
+  goForward,
 }) => {
   const { contact, extension } = parsePhoneNumber(phone);
 
@@ -35,23 +41,17 @@ const SearchResult = ({
     (stateCode ? ` ${stateCode}` : '') +
     (zipCode ? ` ${zipCode}` : '');
 
-  // pending analytics event
   const recordContactLinkClick = () => {
-    // recordEvent({
-    //   // prettier-ignore
-    //   'event': 'appoint-a-rep-search-results-click',
-    //   'search-query': query?.locationQueryString,
-    //   'search-filters-list': {
-    //     'representative-type': query?.representativeType,
-    //     'representative-name': query?.representativeQueryString,
-    //   },
-    //   'search-selection': 'Find VA Accredited Rep',
-    //   'search-results-id': representativeId,
-    //   'search-results-total-count':
-    //     searchResults?.meta?.pagination?.totalEntries,
-    //   'search-results-total-pages': searchResults?.meta?.pagination?.totalPages,
-    //   'search-result-position': key,
-    // });
+    // pending analytics event
+  };
+
+  const handleSelect = selectedRepResult => {
+    setFormData({
+      ...formData,
+      'view:selectedRepresentative': selectedRepResult,
+    });
+
+    goForward();
   };
 
   return (
@@ -149,6 +149,12 @@ const SearchResult = ({
             </div>
           )}
         </div>
+
+        <VaButton
+          data-testid="representative-search-btn"
+          text="Select"
+          onClick={() => handleSelect(representative)}
+        />
       </div>
     </va-card>
   );
@@ -168,6 +174,14 @@ SearchResult.propTypes = {
   stateCode: PropTypes.string,
   type: PropTypes.string,
   zipCode: PropTypes.string,
+  setFormData: PropTypes.func.isRequired,
 };
 
-export default SearchResult;
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default connect(
+  null,
+  mapDispatchToProps,
+)(SearchResult);
