@@ -643,8 +643,20 @@ export const PolicyOrGroupDescription = (
   </div>
 );
 
+export const PolicyOrGroupTitle = (
+  <>
+    Insurance policy number or group code.&nbsp;
+    <span className="schemaform-required-span vads-u-font-family--sans vads-u-font-size--base vads-u-font-weight--normal">
+      (*Required)
+    </span>
+  </>
+);
+
 export const TricarePolicyDescription = (
-  <va-additional-info trigger="I have TRICARE. What’s my policy number?" uswds>
+  <va-additional-info
+    trigger="I have TRICARE. What’s my policy number?"
+    class="vads-u-margin-y--2"
+  >
     <div>
       <p className="vads-u-margin-top--0">
         You can use your Department of Defense benefits number (DBN) or your
