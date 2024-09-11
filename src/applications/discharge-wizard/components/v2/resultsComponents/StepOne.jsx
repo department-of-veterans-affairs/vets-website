@@ -196,6 +196,11 @@ const StepOne = ({ formResponses }) => {
         target="_blank"
         rel="noopener noreferrer"
       >
+        <va-icon
+          icon="file_download"
+          size={3}
+          className="vads-u-margin-top--0p5 vads-u-padding-right--1"
+        />
         Download Form {form.num} (opens in a new tab)
       </a>
       <AlertMessage
