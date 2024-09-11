@@ -18,7 +18,10 @@ import {
 } from './chapters/report-divorce';
 import {
   deceasedDependentInformation,
+  deceasedDependentAdditionalInformationView,
   deceasedDependentAdditionalInformation,
+  deceasedDependentAdditionalInformationPartTwo,
+  deceasedDependentAdditionalInformationPartThree,
 } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
@@ -626,6 +629,7 @@ export const formConfig = {
         },
       },
     },
+
     deceasedDependents: {
       title: 'Information needed to remove a dependent who has died',
       pages: {
@@ -637,18 +641,47 @@ export const formConfig = {
           uiSchema: deceasedDependentInformation.uiSchema,
           schema: deceasedDependentInformation.schema,
         },
+        dependentAdditionalInformationView: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          title: 'Report the death of a dependent: Additional information',
+          path: '686-report-dependent-death/additional-information',
+          uiSchema: deceasedDependentAdditionalInformationView.uiSchema,
+          schema: deceasedDependentAdditionalInformationView.schema,
+        },
         dependentAdditionalInformation: {
           depends: formData =>
             isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
           title: 'Report the death of a dependent: Additional information',
-          path: '686-report-dependent-death/:index/additional-information',
+          path: '686-report-dependent-death/:index/dependent-information',
           showPagePerItem: true,
           arrayPath: 'deaths',
           uiSchema: deceasedDependentAdditionalInformation.uiSchema,
           schema: deceasedDependentAdditionalInformation.schema,
         },
+        dependentAdditionalInformationPartTwo: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          title: 'Report the death of a dependent: Additional information',
+          path: '686-report-dependent-death/:index/dependent-date-of-death',
+          showPagePerItem: true,
+          arrayPath: 'deaths',
+          uiSchema: deceasedDependentAdditionalInformationPartTwo.uiSchema,
+          schema: deceasedDependentAdditionalInformationPartTwo.schema,
+        },
+        dependentAdditionalInformationPartThree: {
+          depends: formData =>
+            isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+          title: 'Report the death of a dependent: Additional information',
+          path: '686-report-dependent-death/:index/dependent-death-location',
+          showPagePerItem: true,
+          arrayPath: 'deaths',
+          uiSchema: deceasedDependentAdditionalInformationPartThree.uiSchema,
+          schema: deceasedDependentAdditionalInformationPartThree.schema,
+        },
       },
     },
+
     reportChildMarriage: {
       title: 'Remove one or more children who got married',
       pages: {

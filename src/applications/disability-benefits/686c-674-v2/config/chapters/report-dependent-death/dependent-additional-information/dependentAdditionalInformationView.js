@@ -3,7 +3,7 @@ import { generateTransition } from '../../../helpers';
 export const schema = {
   type: 'object',
   properties: {
-    'view:additionalQuestionsMessage': {
+    'view:dependentsAdditionalInfo': {
       type: 'object',
       properties: {},
     },
@@ -11,9 +11,9 @@ export const schema = {
 };
 
 export const uiSchema = {
-  'view:additionalQuestionsMessage': {
+  'view:dependentsAdditionalInfo': {
     'ui:description': generateTransition(
-      'Now we’ll ask you about each of your spouse’s former marriages.',
+      'Now we’re going to ask you some follow-up questions about each of your dependents who have died. We’ll go through them one by one.',
     ),
     'ui:options': {
       hideOnReview: true,
