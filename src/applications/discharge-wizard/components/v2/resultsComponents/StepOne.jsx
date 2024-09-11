@@ -174,9 +174,15 @@ const StepOne = ({ formResponses }) => {
 
   const form = determineFormData(formResponses);
   const header = `Download and fill out DoD Form ${form.num}`;
+  const level = [
+    RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
+    RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
+  ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
+    ? 3
+    : 2;
 
   return (
-    <va-process-list-item header={header}>
+    <va-process-list-item header={header} level={level}>
       <p>Important tips for completing Form {form.num}:</p>
       {formResponses[SHORT_NAME_MAP.REASON] ===
       RESPONSES.REASON_DD215_UPDATE_TO_DD214
@@ -190,14 +196,19 @@ const StepOne = ({ formResponses }) => {
         target="_blank"
         rel="noopener noreferrer"
       >
+        <va-icon
+          icon="file_download"
+          size={3}
+          className="vads-u-margin-top--0p5 vads-u-padding-right--1"
+        />
         Download Form {form.num} (opens in a new tab)
       </a>
       <AlertMessage
         content={
           <>
-            <h4 className="usa-alert-heading">
+            <h2 className="usa-alert-heading">
               Need help preparing your application?
-            </h4>
+            </h2>
             <p>
               The process of preparing a discharge upgrade or correction
               application can be a lot of work and can take a long time.
