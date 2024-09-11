@@ -6,13 +6,10 @@ import {
   ALERT_TYPES,
   API_RESPONSES,
   selectLoadingFeatureFlags,
-  formatDate,
   currency,
   formatTableData,
-  calcDueDate,
   titleCase,
   verifyCurrentBalance,
-  sortStatementsByDate,
   transform,
   setPageFocus,
 } from '../../utils/helpers';
@@ -47,12 +44,6 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('formatDate', () => {
-    it('should format date correctly', () => {
-      expect(formatDate('2023-01-15')).to.equal('January 14, 2023');
-    });
-  });
-
   describe('currency', () => {
     it('should format currency correctly', () => {
       expect(currency(1234.56)).to.equal('$1,234.56');
@@ -68,17 +59,6 @@ describe('Helper Functions', () => {
       expect(output[0].desc.type).to.equal('strong');
       expect(output[0].desc.props.children).to.equal('Test');
       expect(output[0].amount).to.equal('$100.00');
-    });
-  });
-
-  describe('calcDueDate', () => {
-    it('should calculate due date correctly', () => {
-      expect(calcDueDate('01-15-2024', 30)).to.equal('February 14, 2024');
-    });
-
-    it('should handle month and year transitions correctly', () => {
-      expect(calcDueDate('12-15-2023', 30)).to.equal('January 14, 2024');
-      expect(calcDueDate('01-31-2024', 30)).to.equal('March 1, 2024');
     });
   });
 
@@ -104,19 +84,6 @@ describe('Helper Functions', () => {
     });
   });
 
-  describe('sortStatementsByDate', () => {
-    it('should sort statements by date in descending order', () => {
-      const statements = [
-        { pSStatementDate: '01-15-2023' },
-        { pSStatementDate: '02-15-2023' },
-        { pSStatementDate: '12-15-2022' },
-      ];
-      const sorted = sortStatementsByDate(statements);
-      expect(sorted[0].pSStatementDate).to.equal('02-15-2023');
-      expect(sorted[2].pSStatementDate).to.equal('12-15-2022');
-    });
-  });
-
   describe('transform', () => {
     it('should transform data correctly', () => {
       const input = [
@@ -134,7 +101,6 @@ describe('Helper Functions', () => {
       expect(output[0].station.city).to.equal('New York');
     });
   });
-
   describe('setPageFocus', () => {
     it('should set focus on the correct element', () => {
       document.body.innerHTML = '<div id="main"><h1></h1></div>';

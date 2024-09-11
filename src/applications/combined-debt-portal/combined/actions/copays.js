@@ -6,6 +6,10 @@ export const MCP_STATEMENTS_FETCH_INIT = 'MCP_STATEMENTS_FETCH_INIT';
 export const MCP_STATEMENTS_FETCH_SUCCESS = 'MCP_STATEMENTS_FETCH_SUCCESS';
 export const MCP_STATEMENTS_FETCH_FAILURE = 'MCP_STATEMENTS_FETCH_FAILURE';
 
+export const mcpStatementsFetchInit = () => ({
+  type: MCP_STATEMENTS_FETCH_INIT,
+});
+
 const titleCase = str => {
   return str
     .toLowerCase()
@@ -16,9 +20,14 @@ const titleCase = str => {
 
 const transform = data => {
   return data.map(statement => {
+    if (!statement.station) {
+      return statement;
+    }
     const { station } = statement;
-    const facilityName = getMedicalCenterNameByID(station.facilitYNum);
-    const city = titleCase(station.city);
+    const facilityName = station.facilitYNum
+      ? getMedicalCenterNameByID(station.facilitYNum)
+      : null;
+    const city = station.city ? titleCase(station.city) : '';
 
     return {
       ...statement,
