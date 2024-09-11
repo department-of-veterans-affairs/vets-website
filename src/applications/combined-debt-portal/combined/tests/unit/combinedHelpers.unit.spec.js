@@ -73,7 +73,12 @@ describe('Helper Functions', () => {
 
   describe('calcDueDate', () => {
     it('should calculate due date correctly', () => {
-      expect(calcDueDate('01-14-2023', 30)).to.equal('February 14, 2023');
+      expect(calcDueDate('01-15-2024', 30)).to.equal('February 14, 2024');
+    });
+
+    it('should handle month and year transitions correctly', () => {
+      expect(calcDueDate('12-15-2023', 30)).to.equal('January 14, 2024');
+      expect(calcDueDate('01-31-2024', 30)).to.equal('March 1, 2024');
     });
   });
 
