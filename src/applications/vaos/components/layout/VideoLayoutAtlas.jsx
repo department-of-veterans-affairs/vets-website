@@ -97,8 +97,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         >
           <Address address={videoProviderAddress} />
           <div className="vads-u-margin-top--1 vads-u-color--link-default">
-            <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-            <FacilityDirectionsLink location={facility} />
+            <FacilityDirectionsLink location={facility} icon />
           </div>
         </Where>
       )}
