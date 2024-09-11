@@ -94,7 +94,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
-          path: 'veteran-info',
+          path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
             ...titleUI('Name and date of birth'),
@@ -227,7 +227,7 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         page5: {
-          path: 'contact-info',
+          path: 'contact-information',
           title: 'Phone and email address',
           uiSchema: {
             ...titleUI(

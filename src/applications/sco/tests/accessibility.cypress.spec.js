@@ -1,4 +1,5 @@
 describe('Accessibility', () => {
+  /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
     cy.visit('/school-administrators');
     cy.injectAxe();

@@ -40,7 +40,7 @@ export const generateAllergyItem = record => ({
     {
       title: 'Provider notes',
       value: record.notes,
-      inline: !record.notes,
+      inline: true,
     },
   ],
 });
