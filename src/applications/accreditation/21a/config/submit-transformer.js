@@ -65,7 +65,7 @@ const transformForSubmit = (_formConfig, form) => {
   };
 
   const setEmployment = () => {
-    const employmentStatus = Object.keys(form.employmentStatus)[0];
+    const employmentStatus = Object.keys(form.data.employmentStatus)[0];
     transformedData.employmentStatus = employmentStatus;
     transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[employmentStatus];
     if (form.describeEmployment) {
