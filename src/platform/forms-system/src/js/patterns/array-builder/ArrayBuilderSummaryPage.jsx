@@ -86,7 +86,6 @@ export default function ArrayBuilderSummaryPage({
   nounPlural,
   nounSingular,
   required,
-  showSummaryDescription,
   titleHeaderLevel = '3',
 }) {
   /** @type {CustomPageType} */
@@ -399,7 +398,7 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
-          {showSummaryDescription && (
+          {getText('summaryDescription') && (
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
               {getText('summaryDescription')}
             </span>
@@ -425,7 +424,7 @@ export default function ArrayBuilderSummaryPage({
       uiSchema['ui:title'] = (
         <>
           <Title textType="summaryTitle" />
-          {showSummaryDescription && (
+          {getText('summaryDescription') && (
             <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
               {getText('summaryDescription')}
             </span>

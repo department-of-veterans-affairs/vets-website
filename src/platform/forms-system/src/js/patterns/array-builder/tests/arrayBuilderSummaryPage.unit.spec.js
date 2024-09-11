@@ -104,7 +104,6 @@ describe('ArrayBuilderSummaryPage', () => {
     required = () => false,
     maxItems = 5,
     isReviewPage = false,
-    showSummaryDescription = false,
     reviewErrors,
     text,
   }) {
@@ -158,7 +157,6 @@ describe('ArrayBuilderSummaryPage', () => {
       summaryRoute: '/summary',
       introRoute: '/intro',
       reviewRoute: '/review',
-      showSummaryDescription,
       getText,
     });
 
@@ -370,7 +368,6 @@ describe('ArrayBuilderSummaryPage', () => {
       arrayData: [{ name: 'Test' }],
       urlParams: '',
       maxItems: 5,
-      showSummaryDescription: true,
       text: {
         summaryDescription: 'Custom summary description',
         summaryTitle: 'Custom summary review title',

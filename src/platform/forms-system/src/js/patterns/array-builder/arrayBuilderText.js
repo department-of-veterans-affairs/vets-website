@@ -88,7 +88,6 @@ export const DEFAULT_ARRAY_BUILDER_TEXT = {
   deleteYes: props => `Yes, delete this ${props.nounSingular}`,
   reviewAddButtonText: props => `Add another ${props.nounSingular}`,
   summaryTitle: props => `Review your ${props.nounPlural}`,
-  summaryDescription: props => `${props.summaryDescription}`,
   yesNoBlankReviewQuestion: props =>
     `Do you have any ${props.nounPlural} to add?`,
 };
