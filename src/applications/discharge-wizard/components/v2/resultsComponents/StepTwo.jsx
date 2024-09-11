@@ -54,6 +54,11 @@ const renderMedicalRecordInfo = formResponses => {
               target="_blank"
               rel="noopener noreferrer"
             >
+              <va-icon
+                icon="file_download"
+                size={3}
+                className="vads-u-margin-top--0p5 vads-u-padding-right--1"
+              />
               Download VA Form 10-5345 (opens in a new tab)
             </a>
           </li>

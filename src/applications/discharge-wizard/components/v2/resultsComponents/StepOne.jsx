@@ -206,9 +206,9 @@ const StepOne = ({ formResponses }) => {
       <AlertMessage
         content={
           <>
-            <h2 className="usa-alert-heading">
+            <h3 className="usa-alert-heading">
               Need help preparing your application?
-            </h2>
+            </h3>
             <p>
               The process of preparing a discharge upgrade or correction
               application can be a lot of work and can take a long time.
