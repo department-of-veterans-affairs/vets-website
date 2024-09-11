@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import AddressBlock from '../components/AddressBlock';
+import NeedHelp from '../components/NeedHelp';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
@@ -67,13 +68,7 @@ export default function NextStepsPage() {
           accredited representative any time.
         </p>
         <p>ORG CARD GOES HERE</p>
-        <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-          Need help?
-        </h2>
-        <p>
-          You can call us at <va-telephone contact="8006982411" extension="0" />{' '}
-          <va-telephone contact="711" tty />. We're here 24/7.
-        </p>
+        <NeedHelp />
       </div>
     </div>
   );

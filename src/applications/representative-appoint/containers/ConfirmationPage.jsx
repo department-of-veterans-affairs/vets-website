@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import NeedHelp from '../components/NeedHelp';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
@@ -53,13 +54,7 @@ export default function ConfirmationPage({ router }) {
         onVaChange={handlers.onChangeSignedFormCheckbox}
       />
       <va-button continue onClick={handlers.onClickContinueButton} />
-      <h2 className="vads-u-margin-bottom--0 vads-u-padding-bottom--0p5 vads-u-font-size--h3 vads-u-border-bottom--2px vads-u-border-color--primary">
-        Need help?
-      </h2>
-      <p>
-        You can call us at <va-telephone contact="8006982411" extension="0" />{' '}
-        <va-telephone contact="711" tty />. We're here 24/7.
-      </p>
+      <NeedHelp />
     </>
   );
 }
