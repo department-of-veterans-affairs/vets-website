@@ -18,6 +18,10 @@ export const errorMessages = {
     'Please select whether the spouse is employed (select yes or no)',
   'questions.spouseHasBenefits':
     'Please select whether the spouse has benefits (select yes or no)',
+  'questions.hasCreditCardBills':
+    'Please select whether you have credit card bills (select yes or no)',
+  'questions.hasRepayments':
+    'Please select whether you have repayments (select yes or no)',
   'personalData.dependents.dependentAge':
     'Please enter a valid age for each dependent',
   'personalData.veteran.employmentHistory':
