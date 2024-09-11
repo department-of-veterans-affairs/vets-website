@@ -11,6 +11,7 @@ export const mcpStatementsFetchInit = () => ({
 });
 
 const titleCase = str => {
+  if (!str) return '';
   return str
     .toLowerCase()
     .split(' ')
@@ -18,24 +19,29 @@ const titleCase = str => {
     .join(' ');
 };
 
+const getTransformedStation = station => {
+  if (!station) return station;
+
+  const facilityName = station.facilitYNum
+    ? getMedicalCenterNameByID(station.facilitYNum)
+    : null;
+  const city = titleCase(station.city);
+
+  return {
+    ...station,
+    facilityName,
+    city,
+  };
+};
+
 const transform = data => {
   return data.map(statement => {
     if (!statement.station) {
       return statement;
     }
-    const { station } = statement;
-    const facilityName = station.facilitYNum
-      ? getMedicalCenterNameByID(station.facilitYNum)
-      : null;
-    const city = station.city ? titleCase(station.city) : '';
-
     return {
       ...statement,
-      station: {
-        ...station,
-        facilityName,
-        city,
-      },
+      station: getTransformedStation(statement.station),
     };
   });
 };
