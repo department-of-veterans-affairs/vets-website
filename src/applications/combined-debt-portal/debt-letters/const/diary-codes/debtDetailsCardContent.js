@@ -31,7 +31,7 @@ export const getDebtDetailsCardContent = (debt, dateOfLetter, amountDue) => {
         bodyText: (
           <p>
             Please contact us online through{' '}
-            <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />
+            <a href="https://ask.va.gov">Ask VA</a> or call us at <ContactDMC />{' '}
             to verify your military status. We’re here Monday through Friday,
             7:30 a.m. to 7:00 p.m. ET.
           </p>
