@@ -3,6 +3,7 @@ import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platfo
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import sinon from 'sinon';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
@@ -227,6 +228,7 @@ describe('Edit Contact List container', async () => {
     expect(checkbox).to.have.attribute('checked', 'false');
 
     const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest(200, true);
     fireEvent.click(saveButton);
 
     await waitFor(() => {

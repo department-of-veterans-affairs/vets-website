@@ -48,7 +48,7 @@ const SmBreadcrumbs = () => {
 
   const navigateBack = useCallback(
     () => {
-      if (previousUrl && previousUrl !== Constants.Paths.CONTACT_LIST) {
+      if (previousUrl !== Constants.Paths.CONTACT_LIST) {
         history.push(previousUrl);
       } else {
         history.push(Constants.Paths.INBOX);

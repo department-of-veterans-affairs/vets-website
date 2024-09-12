@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -78,5 +78,28 @@ describe('SmRouteNavigationGuard component', () => {
     );
     expect(saveChangesSpy.calledOnce).to.be.true;
     screen.unmount();
+  });
+
+  it('should set window.onbeforeunload if "when" is true', async () => {
+    const customProps = {
+      ...initialProps,
+      when: true,
+    };
+    const screen = setup(customProps, Paths.CONTACT_LIST);
+
+    expect(screen);
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+
+    screen.findByTestId('select-all-Test-Facility-1-teams');
+    fireEvent(window, new Event('beforeunload'));
+
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+
+    expect(window.onbeforeunload()).to.equal('non-empty string');
+
+    addEventListenerSpy.restore();
   });
 });
