@@ -173,7 +173,25 @@ export class ConfirmationPage extends React.Component {
               <va-alert-expandable
                 status="info"
                 trigger="Time-sensitive benefits"
-              />
+              >
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => benefit.isTimeSensitive)
+                      .map(b => (
+                        <li key={b.id}>
+                          <a
+                            href={b.learnMoreURL}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {b.name}
+                          </a>
+                          <p>{b.description}</p>
+                        </li>
+                      ))}
+                </ul>
+              </va-alert-expandable>
             </div>
 
             <div>
@@ -183,14 +201,19 @@ export class ConfirmationPage extends React.Component {
                   message="Loading results..."
                 />
               ) : (
-                this.state &&
-                this.state.benefits.map(benefit => (
-                  <BenefitCard
-                    key={benefit.id}
-                    benefit={benefit}
-                    className="vads-u-margin-bottom--2"
-                  />
-                ))
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => !benefit.isTimeSensitive)
+                      .map(benefit => (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ))}
+                </ul>
               )}
             </div>
 
@@ -199,16 +222,19 @@ export class ConfirmationPage extends React.Component {
                 header="Show benefits that I may not qualify for"
                 id="show"
               >
-                {BENEFITS_LIST.map(
-                  benefit =>
-                    !this.state.benefitIds[benefit.id] && (
-                      <BenefitCard
-                        key={benefit.id}
-                        benefit={benefit}
-                        className="vads-u-margin-bottom--2"
-                      />
-                    ),
-                )}
+                <ul className="benefit-list">
+                  {BENEFITS_LIST.map(
+                    benefit =>
+                      !this.state.benefitIds[benefit.id] && (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ),
+                  )}
+                </ul>
               </va-accordion-item>
             </va-accordion>
           </div>
