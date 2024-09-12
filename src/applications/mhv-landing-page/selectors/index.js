@@ -14,7 +14,7 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled } from './featureToggles';
+import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
@@ -33,6 +33,7 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
+  mrPhase1Enabled,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,

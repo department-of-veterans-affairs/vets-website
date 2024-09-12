@@ -418,6 +418,7 @@ export const decodeBase64Report = data => {
   return null;
 };
 
+<<<<<<< HEAD
 /**
  * @function generateNewRecordsIndicator
  * @description Runs the necessary functions (comparison, reload) using `NewRecordsIndicator` variables and returns the update status message.
@@ -475,4 +476,17 @@ export const generateNewRecordsIndicator = (
   };
 
   return runNewRecordsIndicatorLogic();
+=======
+const generateHash = async data => {
+  const dataBuffer = new TextEncoder().encode(data);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+};
+
+export const radiologyRecordHash = async record => {
+  const { procedureName, radiologist, stationNumber, eventDate } = record;
+  const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
+  return (await generateHash(dataString)).substring(0, 8);
+>>>>>>> origin/main
 };

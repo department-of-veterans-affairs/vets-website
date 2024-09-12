@@ -2,6 +2,7 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
@@ -45,6 +46,10 @@ function makeUiSchema(itemId) {
           }),
           'view:notSure': {
             'ui:title': notSureHazardDetails,
+            'ui:webComponentField': VaCheckboxField,
+            'ui:options': {
+              classNames: 'vads-u-margin-y--3',
+            },
           },
         },
       },
