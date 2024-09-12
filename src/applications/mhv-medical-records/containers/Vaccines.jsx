@@ -110,16 +110,11 @@ const Vaccines = props => {
 
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-<<<<<<< HEAD
-
-    const { title, value, subject, preface } = generateVaccinesIntro(
+    const { title, subject, preface } = generateVaccinesIntro(
+      vaccines,
       RecordsIndicator,
     );
-    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
-=======
-    const { title, subject, preface } = generateVaccinesIntro(vaccines);
     const scaffold = generatePdfScaffold(user, title, subject, preface);
->>>>>>> origin/main
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Vaccines', runningUnitTest);
