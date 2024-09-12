@@ -6,8 +6,8 @@ import sinon from 'sinon';
 import ConfirmationPage from '../../containers/ConfirmationPage';
 
 describe('ConfirmationPage', () => {
-  let container;
   let defaultProps;
+  let container;
 
   beforeEach(() => {
     defaultProps = {
