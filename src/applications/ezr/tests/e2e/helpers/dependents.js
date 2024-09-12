@@ -19,6 +19,10 @@ export const advanceToDependents = () => {
   selectYesNoWebComponent('view:doesMailingMatchHomeAddress', true);
 
   goToNextPage('/veteran-information/contact-information');
+  goToNextPage(
+    '/update-benefits-information-form-10-10ezr/emergency-contacts-summary',
+  );
+  selectYesNoWebComponent('view:hasEmergencyContacts', false);
   goToNextPage('/military-service/toxic-exposure');
   cy.get('[name="root_hasTeraResponse"]').check('N');
 
