@@ -253,7 +253,7 @@ export function CautionaryInformation({ institution, showModal }) {
           })}
         </div>
       </div>
-      <div className="small-screen:vads-u-text-align--right">
+      <div className="mobile-lg:vads-u-text-align--right">
         <a
           href="/education/submit-school-feedback/introduction"
           target="_blank"

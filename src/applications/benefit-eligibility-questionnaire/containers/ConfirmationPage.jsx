@@ -11,9 +11,16 @@ import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
-import ShareResultsModal from '../components/ShareResultsModal';
+import SaveResultsModal from '../components/SaveResultsModal';
 
 export class ConfirmationPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      benefits: [], // Initial state for benefits
+    };
+  }
+
   componentDidMount() {
     scrollToTop('topScrollElement');
     // Update query string based on results.
@@ -25,6 +32,13 @@ export class ConfirmationPage extends React.Component {
         queryParams,
       );
       browserHistory.replace(queryStringObj);
+
+      const benefitsState = this.props.results.data.sort((a, b) => {
+        if (a.name < b.name) return -1;
+        if (a.name > b.name) return 1;
+        return 0;
+      });
+      this.setState({ benefits: benefitsState });
     } else if (
       this.props.location.query &&
       Object.keys(this.props.location.query).length > 0
@@ -35,6 +49,37 @@ export class ConfirmationPage extends React.Component {
       this.props.displayResults(benefitIds);
     }
   }
+
+  sortBenefits = e => {
+    const key = e.target.value || 'alphabetical';
+
+    this.setState(prevState => {
+      const sortedBenefits = prevState.benefits.sort((a, b) => {
+        if (a[key] < b[key]) return -1;
+        if (a[key] > b[key]) return 1;
+        return 0;
+      });
+      return { benefits: sortedBenefits };
+    });
+  };
+
+  filterBenefits = e => {
+    const key = e.target.value;
+
+    if (key === 'All') {
+      this.setState(() => ({
+        benefits: this.props.results.data,
+      }));
+      return;
+    }
+
+    this.setState(() => {
+      const filteredBenefits = this.props.results.data.filter(benefit => {
+        return benefit.category === key;
+      });
+      return { benefits: filteredBenefits };
+    });
+  };
 
   handleClick = e => {
     e.preventDefault();
@@ -64,11 +109,26 @@ export class ConfirmationPage extends React.Component {
           applying for VA bebefits.
         </p>
 
-        <ShareResultsModal />
+        <SaveResultsModal />
+
+        <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container">
           <div id="filters-section-desktop">
             <b>Filters</b>
+            <p>Filter by benefit type</p>
+            <select onChange={this.filterBenefits}>
+              <option value="All">All</option>
+              <option value="Education">Education</option>
+              <option value="Employment">Employment</option>
+            </select>
+            <b>Sort</b>
+            <p>Sort results by</p>
+            <select onChange={this.sortBenefits}>
+              <option value="alphabetical">Alphabetical</option>
+              <option value="goal">Goal</option>
+              <option value="type">Type</option>
+            </select>
           </div>
 
           <div id="filters-section-mobile">
@@ -108,8 +168,8 @@ export class ConfirmationPage extends React.Component {
                   message="Loading results..."
                 />
               ) : (
-                this.props.results &&
-                this.props.results.data.map(benefit => (
+                this.state &&
+                this.state.benefits.map(benefit => (
                   <BenefitCard
                     key={benefit.id}
                     benefit={benefit}
