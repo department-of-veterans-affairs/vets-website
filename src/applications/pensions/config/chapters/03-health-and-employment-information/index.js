@@ -11,12 +11,14 @@ import specialMonthlyPension from './specialMonthlyPension';
 import vaTreatmentHistory from './vaTreatmentHistory';
 import federalTreatmentHistory from './federalTreatmentHistory';
 import currentEmployment from './currentEmployment';
+import { currentEmploymentHistoryPages } from './currentEmploymentHistoryPages';
 import vaMedicalCenters from './vaMedicalCenters';
 import { vaMedicalCentersPages } from './vaMedicalCentersPages';
 import federalMedicalCenters from './federalMedicalCenters';
 import { federalMedicalCentersPages } from './federalMedicalCentersPages';
 import currentEmploymentHistory from './currentEmploymentHistory';
 import previousEmploymentHistory from './previousEmploymentHistory';
+import { previousEmploymentHistoryPages } from './previousEmploymentHistoryPages';
 import additionalEvidence from './additionalEvidence';
 
 export default {
@@ -41,6 +43,8 @@ export default {
     ...federalMedicalCentersPages,
     currentEmployment,
     currentEmploymentHistory,
+    ...currentEmploymentHistoryPages,
     previousEmploymentHistory,
+    ...previousEmploymentHistoryPages,
   },
 };

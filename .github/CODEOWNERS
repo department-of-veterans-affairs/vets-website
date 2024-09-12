@@ -42,6 +42,7 @@ src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-s
 
 src/applications/auth @department-of-veterans-affairs/octo-identity
 src/applications/login @department-of-veterans-affairs/octo-identity
+src/applications/sign-in-changes @department-of-veterans-affairs/octo-identity
 src/applications/terms-of-use @department-of-veterans-affairs/octo-identity
 src/applications/verify @department-of-veterans-affairs/octo-identity
 src/platform/site-wide/ebenefits/ @department-of-veterans-affairs/octo-identity

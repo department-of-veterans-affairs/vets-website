@@ -16,8 +16,8 @@ export const addDisabilitiesInstructions = (
     <h4>Examples of conditions</h4>
     <ul>
       <li>Tinnitus (ringing or hissing in ears)</li>
-      <li>PTSD (post-traumatic stress disorder), combat-related</li>
-      <li>Hearing loss, other than tinnitus</li>
+      <li>PTSD (post-traumatic stress disorder)</li>
+      <li>Hearing loss</li>
       <li>Neck strain (cervical strain)</li>
       <li>Ankylosis in knee, right</li>
       <li>Hypertension (high blood pressure)</li>
