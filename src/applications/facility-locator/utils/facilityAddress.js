@@ -27,7 +27,7 @@ export function buildAddressArray(location, titleCaseText = false) {
 
     return [];
   }
- if (location?.attributes?.address?.physical) {
+  if (location?.attributes?.address?.physical) {
     const {
       address: { physical: address },
     } = location.attributes;
