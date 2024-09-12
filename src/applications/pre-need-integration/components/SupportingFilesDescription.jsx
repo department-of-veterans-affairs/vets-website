@@ -22,8 +22,8 @@ export default function SupportingFilesDescription() {
       Guidelines for uploading a file:
       <ul>
         <li>File types you can upload: .pdf, .jpg, .jpeg, .png</li>
-        <li>Maximum non-PDF file size: 50MB.</li>
-        <li>Maximum PDF file size: 100MB.</li>
+        <li>Maximum non-PDF file size: 50MB</li>
+        <li>Maximum PDF file size: 100MB</li>
       </ul>
     </div>
   );
