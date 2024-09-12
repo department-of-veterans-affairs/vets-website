@@ -7,9 +7,15 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
 const defaultHighlightedIndex = -1;
 // helper function for results string. No `this.` so not in class.
-const getScreenReaderResults = (searchTerm, value, numResults) => {
+const getScreenReaderResults = (
+  searchTerm,
+  value,
+  numResults,
+  selectionMade,
+) => {
   let results = numResults;
-  const isFreeTextDrawn = searchTerm.length && searchTerm !== value;
+  const isFreeTextDrawn =
+    !selectionMade && searchTerm.length && searchTerm !== value;
   if (isFreeTextDrawn) {
     results += 1;
   }
@@ -38,6 +44,7 @@ export class ComboBox extends React.Component {
       ariaLive1: '',
       ariaLive2: '',
       filteredOptions: [],
+      selectionMade: true,
     };
     this.inputRef = React.createRef();
     this.listRef = React.createRef();
@@ -63,6 +70,7 @@ export class ComboBox extends React.Component {
       this.setState({
         value: searchTerm,
         filteredOptions: [],
+        selectionMade: true,
       });
       this.sendFocusToInput(this.inputRef);
     }
@@ -76,6 +84,7 @@ export class ComboBox extends React.Component {
     this.setState({
       searchTerm: newTextValue,
       bump: !bump,
+      selectionMade: false,
     });
     this.props.onChange(newTextValue);
     // send focus back to input after selection in case user wants to append something else
@@ -166,25 +175,35 @@ export class ComboBox extends React.Component {
 
   // Filters list of conditions based on free-text input
   filterOptions = () => {
-    const { searchTerm, value, bump } = this.state;
+    const { searchTerm, value, bump, selectionMade } = this.state;
     const options = this.disabilitiesArr;
     let filtered = fullStringSimilaritySearch(searchTerm, options);
     if (searchTerm.length === 0) {
       filtered = [];
     }
 
-    if (searchTerm === value) {
+    if (selectionMade && searchTerm === value) {
       filtered = [];
     }
 
     let ariaLive1;
     let ariaLive2;
     if (bump) {
-      ariaLive1 = getScreenReaderResults(searchTerm, value, filtered.length);
+      ariaLive1 = getScreenReaderResults(
+        searchTerm,
+        value,
+        filtered.length,
+        selectionMade,
+      );
       ariaLive2 = '';
     } else {
       ariaLive1 = '';
-      ariaLive2 = getScreenReaderResults(searchTerm, value, filtered.length);
+      ariaLive2 = getScreenReaderResults(
+        searchTerm,
+        value,
+        filtered.length,
+        selectionMade,
+      );
     }
     this.setState({
       filteredOptions: filtered,
@@ -241,6 +260,7 @@ export class ComboBox extends React.Component {
       searchTerm: option,
       filteredOptions: [],
       highlightedIndex: defaultHighlightedIndex,
+      selectionMade: true,
     });
     const { onChange } = this.props;
     onChange(option);
@@ -269,9 +289,9 @@ export class ComboBox extends React.Component {
 
   // Creates the dynamic element for free text user entry.
   drawFreeTextOption(option) {
-    const { highlightedIndex, value } = this.state;
+    const { highlightedIndex, value, selectionMade } = this.state;
 
-    if (option === value || option.length < 1) {
+    if ((selectionMade && option === value) || option?.length < 1) {
       return null;
     }
 

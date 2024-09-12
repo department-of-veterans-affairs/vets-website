@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
+// import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import React from 'react';
 import sinon from 'sinon';
 
@@ -105,7 +106,7 @@ describe('ComboBox', () => {
       expect(listboxItems[0]).to.have.class('cc-combobox__option--active');
     });
 
-    it('should select listbox free text item on click', () => {
+    it('should select listbox free text item on click and then listbox empty', () => {
       const searchTerm = 'PT';
       const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
 
@@ -116,9 +117,12 @@ describe('ComboBox', () => {
       fireEvent.click(listboxItems[0]);
 
       expect(input.value).to.eq(searchTerm);
+
+      const listbox = getByRole('listbox');
+      expect(listbox).to.have.length(0);
     });
 
-    it('should select listbox item on click', () => {
+    it('should select listbox item on click and then listbox empty', () => {
       const searchTerm = 'Hear';
       const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
 
@@ -131,6 +135,9 @@ describe('ComboBox', () => {
       const filteredItems = fullStringSimilaritySearch(searchTerm, items);
 
       expect(input.value).to.eq(filteredItems[0]);
+
+      const listbox = getByRole('listbox');
+      expect(listbox).to.have.length(0);
     });
   });
 });
