@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   createId,
   formatCurrency,
@@ -146,3 +147,8 @@ export default function VeteranProgramsAndSupport({
     </div>
   );
 }
+VeteranProgramsAndSupport.propTypes = {
+  constants: PropTypes.object.isRequired,
+  institution: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+};

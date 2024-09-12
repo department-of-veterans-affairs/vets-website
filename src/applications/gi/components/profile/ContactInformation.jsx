@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import React from 'react';
 
+import classNames from 'classnames';
 import { ScoContact } from './ScoContact';
 import LearnMoreLabel from '../LearnMoreLabel';
 import { ariaLabels } from '../../constants';
-import classNames from 'classnames';
 
 export default function ContactInformation({ institution, showModal }) {
   const isOJT = institution.type && institution.type.toLowerCase() === 'ojt';
@@ -77,12 +77,12 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
-            text={'Single point of contact for Veterans'}
+            text="Single point of contact for Veterans"
             onClick={() => {
               showModal('singleContact');
             }}
             ariaLabel={ariaLabels.learnMore.singlePoint}
-            buttonId={'singleContact-button'}
+            buttonId="singleContact-button"
             buttonClassName="small-screen-font"
           />
           :
@@ -144,12 +144,12 @@ export default function ContactInformation({ institution, showModal }) {
       <div>
         <strong>
           <LearnMoreLabel
-            text={'VA Facility Code'}
+            text="VA Facility Code"
             onClick={() => {
               showModal('facilityCode');
             }}
             ariaLabel={ariaLabels.learnMore.facilityCode}
-            buttonId={'facilityCode-button'}
+            buttonId="facilityCode-button"
             buttonClassName="small-screen-font"
           />
           :
@@ -161,12 +161,12 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
-              text={'ED IPEDS code'}
+              text="ED IPEDS code"
               onClick={() => {
                 showModal('ipedsCode');
               }}
               ariaLabel={ariaLabels.learnMore.ipedsCode}
-              buttonId={'ipedsCode-button'}
+              buttonId="ipedsCode-button"
               buttonClassName="small-screen-font"
             />
             :
@@ -179,12 +179,12 @@ export default function ContactInformation({ institution, showModal }) {
         <div>
           <strong>
             <LearnMoreLabel
-              text={'ED OPE code'}
+              text="ED OPE code"
               onClick={() => {
                 showModal('opeCode');
               }}
               ariaLabel={ariaLabels.learnMore.opeCode}
-              buttonId={'opeCode-button'}
+              buttonId="opeCode-button"
               buttonClassName="small-screen-font"
             />
             :
