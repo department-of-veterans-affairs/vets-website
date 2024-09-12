@@ -28,6 +28,11 @@ const DashboardCards = () => {
     return format(parsedDate, 'MMM d, yyyy');
   };
 
+  const formatLongDate = dateString => {
+    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    return format(parsedDate, 'MMMM d, yyyy');
+  };
+
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
     inquiries.some(
@@ -142,8 +147,9 @@ const DashboardCards = () => {
                   <va-link
                     active
                     text="Check details"
-                    label={`Check details for question submitted on 
-                      ${card.attributes.createdOn}`}
+                    label={`Check details for question submitted on ${formatLongDate(
+                      card.attributes.createdOn,
+                    )}`}
                   />
                 </Link>
               </va-card>
