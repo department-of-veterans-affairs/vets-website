@@ -1,3 +1,4 @@
+const { compareDesc } = require('date-fns');
 const { inboxMessages } = require('./inboxMessages');
 const sentMessages = require('./sentMessages.json');
 const draftMessages = require('./draftMessages.json');
@@ -39,9 +40,16 @@ const singleThread = (req, res) => {
   );
   const thread = {
     data: [
-      ...messageDetails.data.filter(
-        msg => msg?.attributes?.threadId === message?.attributes?.threadId,
-      ),
+      ...messageDetails.data
+        .filter(
+          msg => msg?.attributes?.threadId === message?.attributes?.threadId,
+        )
+        .sort((a, b) =>
+          compareDesc(
+            new Date(a?.attributes?.sentDate),
+            new Date(b?.attributes?.sentDate),
+          ),
+        ),
     ],
   };
   if (thread.data.length === 0) {

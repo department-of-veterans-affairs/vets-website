@@ -28,8 +28,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3550437',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3550437',
       },
     },
     {
@@ -58,8 +57,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3550426',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3550426',
       },
     },
     {
@@ -88,8 +86,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549590',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549590',
       },
     },
     {
@@ -118,8 +115,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549585',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549585',
       },
     },
     {
@@ -148,8 +144,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549574',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549574',
       },
     },
     {
@@ -178,8 +173,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3400519',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3400519',
       },
     },
     {
@@ -208,8 +202,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3258313',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3258313',
       },
     },
     {
@@ -238,8 +231,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3258261',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3258261',
       },
     },
     {
@@ -269,8 +261,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3258248',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3258248',
       },
     },
     {
@@ -301,8 +292,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004701',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004701',
       },
     },
     {
@@ -333,8 +323,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004695',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004695',
       },
     },
     {
@@ -365,8 +354,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004688',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004688',
       },
     },
     {
@@ -397,8 +385,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004681',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004681',
       },
     },
     {
@@ -433,13 +420,12 @@ const messageDetails = {
             name: 'UsabilityTestingData.docx',
             attachmentSize: 12394,
             download:
-              'https://staging-api.va.gov/my_health/v1/messaging/messages/3004676/attachments/3004674',
+              'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004676/attachments/3004674',
           },
         ],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004676',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004676',
       },
     },
     {
@@ -470,8 +456,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004667',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004667',
       },
     },
     {
@@ -502,8 +487,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004661',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004661',
       },
     },
     {
@@ -534,8 +518,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004641',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004641',
       },
     },
     {
@@ -564,8 +547,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004632',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004632',
       },
     },
     {
@@ -596,8 +578,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004624',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004624',
       },
     },
     {
@@ -628,8 +609,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004605',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004605',
       },
     },
     {
@@ -660,8 +640,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004593',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004593',
       },
     },
     {
@@ -692,8 +671,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004581',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004581',
       },
     },
     {
@@ -724,8 +702,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004565',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004565',
       },
     },
     {
@@ -756,8 +733,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004551',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004551',
       },
     },
     {
@@ -788,8 +764,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004545',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004545',
       },
     },
     {
@@ -818,8 +793,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3064900',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3064900',
       },
     },
     {
@@ -850,8 +824,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004527',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004527',
       },
     },
     {
@@ -882,8 +855,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004416',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004416',
       },
     },
     {
@@ -912,8 +884,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3033876',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3033876',
       },
     },
     {
@@ -944,8 +915,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004387',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004387',
       },
     },
     {
@@ -976,8 +946,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004379',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004379',
       },
     },
     {
@@ -1012,13 +981,12 @@ const messageDetails = {
             name: 'UsabilityTestingData.docx',
             attachmentSize: 12394,
             download:
-              'https://staging-api.va.gov/my_health/v1/messaging/messages/3004370/attachments/3004368',
+              'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004370/attachments/3004368',
           },
         ],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3004370',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3004370',
       },
     },
     {
@@ -1047,8 +1015,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3885180',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3885180',
       },
     },
     {
@@ -1077,8 +1044,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3623589',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3623589',
       },
     },
     {
@@ -1107,8 +1073,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3550443',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3550443',
       },
     },
     {
@@ -1137,8 +1102,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549581',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549581',
       },
     },
     {
@@ -1167,8 +1131,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3109074',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3109074',
       },
     },
     {
@@ -1197,8 +1160,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3579897',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3579897',
       },
     },
     {
@@ -1227,8 +1189,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3579883',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3579883',
       },
     },
     {
@@ -1257,8 +1218,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/2993398',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/2993398',
       },
     },
     {
@@ -1289,8 +1249,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/2993392',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/2993392',
       },
     },
     {
@@ -1319,8 +1278,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/2991856',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/2991856',
       },
     },
     {
@@ -1349,8 +1307,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/2991843',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/2991843',
       },
     },
     {
@@ -1381,8 +1338,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3813790',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3813790',
       },
     },
     {
@@ -1411,8 +1367,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3805616',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3805616',
       },
     },
     {
@@ -1441,8 +1396,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3805610',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3805610',
       },
     },
     {
@@ -1471,8 +1425,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3805313',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3805313',
       },
     },
     {
@@ -1501,8 +1454,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3805296',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3805296',
       },
     },
     {
@@ -1531,8 +1483,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3619280',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3619280',
       },
     },
     {
@@ -1563,8 +1514,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3580308',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3580308',
       },
     },
     {
@@ -1593,8 +1543,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3580278',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3580278',
       },
     },
     {
@@ -1623,8 +1572,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3579897',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3579897',
       },
     },
     {
@@ -1653,8 +1601,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3579883',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3579883',
       },
     },
     {
@@ -1683,8 +1630,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3550437',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3550437',
       },
     },
     {
@@ -1713,8 +1659,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3550426',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3550426',
       },
     },
     {
@@ -1743,8 +1688,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549590',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549590',
       },
     },
     {
@@ -1773,8 +1717,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549585',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549585',
       },
     },
     {
@@ -1803,8 +1746,7 @@ const messageDetails = {
         attachments: [],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3549574',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3549574',
       },
     },
     {
@@ -1837,13 +1779,12 @@ const messageDetails = {
             name: 'Test_Attachment.docx',
             attachmentSize: 13166,
             download:
-              'https://staging-api.va.gov/my_health/v1/messaging/messages/3397742/attachments/3397740',
+              'http://127.0.0.1:3001/my_health/v1/messaging/messages/3397742/attachments/3397740',
           },
         ],
       },
       links: {
-        self:
-          'https://staging-api.va.gov/my_health/v1/messaging/messages/3397742',
+        self: 'http://127.0.0.1:3001/my_health/v1/messaging/messages/3397742',
       },
     },
   ],

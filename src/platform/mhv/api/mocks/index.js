@@ -80,6 +80,7 @@ const responses = {
   'POST /my_health/v1/messaging/message_drafts': drafts.newDraft,
   'PUT /my_health/v1/messaging/message_drafts/:id': drafts.updateDraft,
   'DELETE /my_health/v1/messaging/messages/:id': drafts.deleteDraft,
+  'POST /my_health/v1/messaging/messages/:id/reply': drafts.sendDraft,
   'POST /my_health/v1/messaging/message_drafts/:replyId/replydraft':
     drafts.saveReply,
   'PUT /my_health/v1/messaging/message_drafts/:replyId/replydraft/:messageId':

@@ -16,7 +16,7 @@ const recipients = {
       id: '2993382',
       type: 'all_triage_teams',
       attributes: {
-        triageTeamId: 2993377,
+        triageTeamId: 3550420,
         name: '** DETROIT: RECORD AMENDMENT ADMIN',
         stationNumber: '989',
         blockedStatus: false,
@@ -29,7 +29,7 @@ const recipients = {
       type: 'all_triage_teams',
       attributes: {
         triageTeamId: 2343333,
-        name: 'AnTran_TGTest',
+        name: 'DETROIT: Dermatology, Bishop, Walter, Md',
         stationNumber: '989',
         blockedStatus: false,
         preferredTeam: true,
