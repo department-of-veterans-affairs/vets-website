@@ -37,6 +37,7 @@ export function showSpouseAddress(formData) {
 }
 
 export function isBetween18And23(childDOB) {
+  if (!childDOB) return false;
   const today = startOfDay(new Date());
   const lowerBound = subYears(today, 23);
   const upperBound = subYears(today, 18);

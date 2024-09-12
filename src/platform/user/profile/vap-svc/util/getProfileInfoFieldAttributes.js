@@ -1,3 +1,4 @@
+import { cloneDeep } from 'lodash';
 import { API_ROUTES, FIELD_TITLES, FIELD_NAMES } from '../constants';
 
 import {
@@ -58,8 +59,8 @@ export const getProfileInfoFieldAttributes = fieldName => {
   if (phoneNumbers.includes(fieldName)) {
     apiRoute = API_ROUTES.TELEPHONES;
     convertCleanDataToPayload = phoneConvertCleanDataToPayload;
-    uiSchema = phoneUiSchema(FIELD_TITLES[fieldName]);
-    formSchema = phoneFormSchema;
+    uiSchema = cloneDeep(phoneUiSchema(FIELD_TITLES[fieldName]));
+    formSchema = cloneDeep(phoneFormSchema);
 
     if (fieldName === FIELD_NAMES.HOME_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.HOME_PHONE];
@@ -71,6 +72,8 @@ export const getProfileInfoFieldAttributes = fieldName => {
 
     if (fieldName === FIELD_NAMES.MOBILE_PHONE) {
       title = FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE];
+      delete uiSchema.extension; // Remove for mobile only
+      delete formSchema.properties.extension;
     }
 
     if (fieldName === FIELD_NAMES.FAX_NUMBER) {

@@ -123,4 +123,43 @@ describe('<ClaimDetailLayout>', () => {
 
     expect(tree.subTree('Notification')).not.to.be.false;
   });
+
+  describe('<ClaimsBreadcrumbs>', () => {
+    it('should render default breadcrumbs for the Your Claims list page while loading', () => {
+      const tree = SkinDeep.shallowRender(<ClaimDetailLayout loading />);
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.be.an('array')
+        .that.is.empty;
+    });
+    it('should render breadcrumbs specific to the claim once loaded', () => {
+      const claim = {
+        attributes: {
+          claimDate: '2024-09-04',
+          claimType: 'Dependency',
+          claimTypeCode: '130PSA',
+        },
+      };
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={claim} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your request to add or remove a dependent',
+          isRouterLink: true,
+        },
+      ]);
+    });
+    it('should render a default breadcrumb if the claim fails to load', () => {
+      const tree = SkinDeep.shallowRender(
+        <ClaimDetailLayout claim={null} currentTab="Status" />,
+      );
+      expect(tree.subTree('ClaimsBreadcrumbs').props.crumbs).to.deep.equal([
+        {
+          href: '../status',
+          label: 'Status of your claim',
+          isRouterLink: true,
+        },
+      ]);
+    });
+  });
 });

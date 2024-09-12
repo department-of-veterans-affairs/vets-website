@@ -6,7 +6,6 @@ import {
   getlabsAndTestsDetails,
 } from '../actions/labsAndTests';
 import EkgDetails from '../components/LabsAndTests/EkgDetails';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import RadiologyDetails from '../components/LabsAndTests/RadiologyDetails';
 import MicroDetails from '../components/LabsAndTests/MicroDetails';
 import PathologyDetails from '../components/LabsAndTests/PathologyDetails';
@@ -18,7 +17,6 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const LabAndTestDetails = () => {
   const dispatch = useDispatch();
@@ -32,18 +30,8 @@ const LabAndTestDetails = () => {
   const { labId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/labs-and-tests',
-            label: 'lab and test results',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearLabsAndTestDetails());
       };

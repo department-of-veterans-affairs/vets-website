@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -28,7 +28,6 @@ import {
   generateProgressNoteContent,
 } from '../../util/pdfHelpers/notes';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { setIsDetails } from '../../actions/isDetails';
 
 const ProgressNoteDetails = props => {
   const { record, runningUnitTest } = props;
@@ -40,18 +39,6 @@ const ProgressNoteDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-
-  useEffect(
-    () => {
-      dispatch(setIsDetails(true));
-      return () => {
-        dispatch(setIsDetails(false));
-      };
-    },
-    [dispatch],
-  );
 
   useEffect(
     () => {

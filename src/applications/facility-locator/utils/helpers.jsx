@@ -7,6 +7,13 @@ export const setFocus = (selector, tabIndexInclude = true) => {
   const el =
     typeof selector === 'string' ? document.querySelector(selector) : selector;
   if (el) {
+    if (
+      el instanceof HTMLElement &&
+      el.className.includes('search-result-title')
+    ) {
+      return;
+    }
+
     if (tabIndexInclude) el.setAttribute('tabIndex', -1);
     el.focus();
   }
