@@ -8,15 +8,6 @@ import NeedHelp from '../components/NeedHelp';
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
-  // Mock data until selected rep and org attributes are added to formData
-  formData.selectedRepName = 'Steven McBob';
-  formData.selectedOrgName = 'Best VSO';
-  formData.address1 = '123 Main Street';
-  formData.address2 = undefined;
-  formData.city = 'Anytown';
-  formData.state = 'VT';
-  formData.zip = '05495';
-
   const repAddress = {
     address1: formData.address1,
     address2: formData.address2,
@@ -26,8 +17,7 @@ export default function NextStepsPage() {
   };
 
   const getRepType = () => {
-    // const repType = formData.repTypeRadio;
-    const repType = 'Attorney';
+    const repType = formData.repTypeRadio;
 
     if (repType === 'Attorney' || repType === 'Claims Agent') {
       return repType.toLowerCase();
