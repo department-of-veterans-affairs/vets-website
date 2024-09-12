@@ -126,16 +126,25 @@ const DashboardCards = () => {
                   </span>
                 </h3>
                 <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                  {`Last Updated: ${formatDate(card.attributes.lastUpdate)}`}
+                  <span className="vads-u-font-weight--bold">
+                    Last updated:
+                  </span>{' '}
+                  {formatDate(card.attributes.lastUpdate)}
                 </p>
                 <p className="vacardCategory multiline-ellipsis-1">
-                  Category: {card.attributes.categoryName}
+                  <span className="vads-u-font-weight--bold">Category:</span>{' '}
+                  {card.attributes.categoryName}
                 </p>
                 <p className="vacardSubmitterQuestion">
                   {card.attributes.submitterQuestion}
                 </p>
                 <Link to={`/user/dashboard-mock/${card.id}`}>
-                  <va-link active text="Check details" />
+                  <va-link
+                    active
+                    text="Check details"
+                    label={`Check details for question submitted on 
+                      ${card.attributes.createdOn}`}
+                  />
                 </Link>
               </va-card>
             </div>
