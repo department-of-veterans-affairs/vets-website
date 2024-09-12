@@ -8,7 +8,7 @@ import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-da
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM Single Facility Contact list', () => {
+describe('SM Multi Facility Contact list', () => {
   const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
     'mhv_secure_messaging_edit_contact_list',
     true,
@@ -24,8 +24,6 @@ describe('SM Single Facility Contact list', () => {
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList(mockMixRecipients);
   });
-
-  // TODO add focus alerts
 
   it('verify empty contact list alerts', () => {
     ContactListPage.selectAllCheckBox();

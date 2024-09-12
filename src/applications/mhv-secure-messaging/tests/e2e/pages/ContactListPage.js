@@ -86,14 +86,16 @@ class ContactListPage {
   };
 
   closeSaveModal = () => {
-    cy.get(`.first-focusable-child`).click();
+    cy.get(`.first-focusable-child`)
+      .should(`be.focused`)
+      .click();
   };
 
   // mock response could be amended in further updates
   clickSaveContactListButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
-      'savedList',
-    );
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
+      status: '200',
+    }).as('savedList');
 
     cy.get(Locators.BUTTONS.CL_SAVE)
       .shadow()
