@@ -125,6 +125,7 @@ export const ChooseDateAndTime = () => {
           startMonth={startMonth}
           showValidation={submitted && !selectedDates?.length}
           showWeekends
+          overrideMaxDays
         />
       </div>
       <FormButtons
