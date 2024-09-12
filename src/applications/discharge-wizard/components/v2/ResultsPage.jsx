@@ -10,6 +10,7 @@ import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderat
 import Warnings from './resultsComponents/Warnings';
 import OptionalStep from './resultsComponents/OptionalStep';
 import StepOne from './resultsComponents/StepOne';
+import StepTwo from './resultsComponents/StepTwo';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
@@ -41,6 +42,7 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
         <section>
           <va-process-list>
             <StepOne formResponses={formResponses} />
+            <StepTwo formResponses={formResponses} />
           </va-process-list>
         </section>
       </>
