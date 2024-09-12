@@ -14,6 +14,7 @@ export const URL = {
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
+  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
 };
 
 export const CategoryEducation =
@@ -282,9 +283,9 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   THEIR_RELATIONSHIP_TO_VET: {
-    TITLE: 'What is their relationship to the veteran?',
+    TITLE: 'What is their relationship to the Veteran?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Please describe their relationship to the veteran',
+    QUESTION_1: 'Please describe their relationship to the Veteran',
   },
   ABOUT_THE_VET: {
     TITLE: 'Tell us about the Veteran',
@@ -330,7 +331,6 @@ export const CHAPTER_3 = {
   WHO_QUES_IS_ABOUT: {
     TITLE: 'Is your question about the Veteran or someone else?',
     PAGE_DESCRIPTION: '',
-    QUESTION_1: 'Select who your question is about:',
   },
   VA_EMPLOYEE: {
     TITLE: 'VA employee',
@@ -477,12 +477,18 @@ export const newQuestionBreadcrumbs = [
   { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
+export const responseSentBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { href: '/response-sent', label: 'Question sent', key: 'responseSent' },
+];
+
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': questionDetailsBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
+  '/response-sent': responseSentBreadcrumbs,
 };
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)

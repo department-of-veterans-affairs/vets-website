@@ -24,14 +24,14 @@ describe(`${appName} -- <AppConfig />`, () => {
     const useRumSpy = sinon.spy(useDatadogRum);
     const initialState = initialStateFn();
 
-    const { findByText } = renderWithStoreAndRouter(
+    const { getByText } = renderWithStoreAndRouter(
       <AppConfig useDatadogRumFn={useRumSpy}>
         <p>child node</p>
       </AppConfig>,
       { initialState },
     );
 
-    findByText('child node');
+    getByText('child node');
     expect(useRumSpy.called).to.be.true;
   });
 

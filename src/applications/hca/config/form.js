@@ -110,8 +110,10 @@ import medicaid from './chapters/insuranceInformation/medicaid';
 import medicare from './chapters/insuranceInformation/medicare';
 import medicarePartAEffectiveDate from './chapters/insuranceInformation/medicarePartAEffectiveDate';
 import general from './chapters/insuranceInformation/general';
+import insurancePolicyPages from './chapters/insuranceInformation/insurancePolicies';
 import vaFacilityJsonPage from './chapters/insuranceInformation/vaFacility_json';
 import vaFacilityApiPage from './chapters/insuranceInformation/vaFacility_api';
+import InsuranceInformationPage from '../components/FormPages/InsuranceInformation';
 
 // declare shared paths for custom form page navigation
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
@@ -558,11 +560,28 @@ const formConfig = {
           uiSchema: medicarePartAEffectiveDate.uiSchema,
           schema: medicarePartAEffectiveDate.schema,
         },
+        insuranceIntro: {
+          path: 'insurance-information/your-health-insurance',
+          title: 'Your health insurance',
+          CustomPage: InsuranceInformationPage,
+          CustomPageReview: null,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
+        },
         general: {
           path: 'insurance-information/general',
           title: 'Other coverage',
+          depends: formData => !formData['view:isInsuranceV2Enabled'],
           uiSchema: general.uiSchema,
           schema: general.schema,
+        },
+        healthInsurancePolicySummary: {
+          ...insurancePolicyPages.healthInsurancePolicySummary,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
+        },
+        healthInsurancePolicyInformation: {
+          ...insurancePolicyPages.healthInsurancePolicyInformation,
+          depends: formData => formData['view:isInsuranceV2Enabled'],
         },
         vaFacilityJson: {
           path: 'insurance-information/va-facility-json',

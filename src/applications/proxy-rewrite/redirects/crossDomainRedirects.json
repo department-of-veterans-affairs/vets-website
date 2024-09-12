@@ -1387,5 +1387,45 @@
     "domain": "www.benefits.va.gov",
     "src": "/vso/",
     "dest": "/resources/va-accredited-representative-faqs/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/portland/",
+    "dest": "/portland-va-regional-benefit-office/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROPORTLAND",
+    "dest": "/portland-va-regional-benefit-office/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/albuquerque/",
+    "dest": "/albuquerque-va-regional-benefit-office/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROALBUQUERQUE",
+    "dest": "/albuquerque-va-regional-benefit-office/"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/roanoke/",
+    "dest": "/roanoke-va-regional-benefit-office"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROROANOKE",
+    "dest": "/roanoke-va-regional-benefit-office"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/togus/",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center"
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROTOGUS/",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center"
   }
 ]
