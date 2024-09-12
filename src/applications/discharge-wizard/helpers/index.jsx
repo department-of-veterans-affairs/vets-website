@@ -404,6 +404,129 @@ export const determineBoardObj = (formResponses, noDRB) => {
   return boardObj;
 };
 
+// Determines address for discharge paperwork
+export const determineVenueAddress = (formResponses, noDRB) => {
+  if (!formResponses) return null;
+
+  const boardData = determineBoardObj(formResponses);
+
+  if (
+    !noDRB &&
+    boardData &&
+    (boardData.abbr === DRB || boardData.abbr === AFDRB)
+  ) {
+    switch (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH]) {
+      case SHORT_NAME_MAP.ARMY:
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency
+            <br />
+            251 18th Street South
+            <br />
+            Suite 385
+            <br />
+            Arlington, VA 22202-3531
+            <br />
+          </p>
+        );
+      case RESPONSES.AIR_FORCE:
+        return (
+          <p className="va-address-block">
+            Air Force Discharge Review Board
+            <br />
+            SAF/MRBP (AFDRB)
+            <br />
+            3351 Celmers Lane
+            <br />
+            Joint Base Andrews, MD 20762-6435
+            <br />
+          </p>
+        );
+      case RESPONSES.COAST_GUARD:
+        return (
+          <p className="va-address-block">
+            Commandant (CG-133)
+            <br />
+            Attn: Office of Military Personnel
+            <br />
+            US Coast Guard Stop 7907
+            <br />
+            2703 Martin Luther King, Jr. Ave., S.E.
+            <br />
+            Washington, DC 20593-7907
+            <br />
+          </p>
+        );
+      default:
+        // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Secretary of the Navy Council of Review Boards
+            <br />
+            ATTN: Naval Discharge Review Board
+            <br />
+            720 Kennon Ave S.E., Suite 309
+            <br />
+            Washington Navy Yard, DC 20374-5023
+            <br />
+          </p>
+        );
+    }
+  } else {
+    switch (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH]) {
+      case RESPONSES.ARMY:
+        return (
+          <p className="va-address-block">
+            Army Review Boards Agency
+            <br />
+            251 18th Street South
+            <br />
+            Suite 385
+            <br />
+            Arlington, VA 22202-3531
+            <br />
+          </p>
+        );
+      case RESPONSES.AIR_FORCE:
+        return (
+          <p className="va-address-block">
+            Air Force Board for Correction of Military Records
+            <br />
+            3351 Celmers Lane
+            <br />
+            Joint Base Andrews, MD 20762-6435
+            <br />
+          </p>
+        );
+      case RESPONSES.COAST_GUARD:
+        return (
+          <p className="va-address-block">
+            DHS Office of the General Counsel
+            <br />
+            Board for Correction of Military Records, Stop 0485
+            <br />
+            2707 Martin Luther King Jr. Ave., SE
+            <br />
+            Washington, DC 20528
+            <br />
+          </p>
+        );
+      default:
+        // Navy or Marines
+        return (
+          <p className="va-address-block">
+            Board for Correction of Naval Records (BCNR)
+            <br />
+            701 S. Courthouse Road, Suite 1001
+            <br />
+            Arlington, VA 22204-2490
+            <br />
+          </p>
+        );
+    }
+  }
+};
+
 // Determines specific form data Veterans will need to fill out based on form responses.
 export const determineFormData = formResponses => {
   const boardData = determineBoardObj(formResponses);

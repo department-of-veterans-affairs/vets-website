@@ -9,7 +9,7 @@ import { BCNR, BCMR, DRB, AFDRB } from '../../../constants';
 import {
   determineBoardObj,
   determineBranchOfService,
-  venueAddress,
+  determineVenueAddress,
 } from '../../../helpers';
 
 const StepThree = ({ formResponses }) => {
@@ -21,7 +21,9 @@ const StepThree = ({ formResponses }) => {
   const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
   const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
   const oldDischarge =
-    new Date().getFullYear() - new Date(dischargeYear, dischargeMonth) > 15;
+    new Date().getFullYear() -
+      new Date(dischargeYear, dischargeMonth).getFullYear() >
+    15;
 
   const boardToSubmit = determineBoardObj(formResponses);
   const branchOfService = determineBranchOfService(
@@ -179,7 +181,7 @@ const StepThree = ({ formResponses }) => {
         and corrections. Based on your answers on the previous page, you need to
         apply to {boardExplanation}
       </p>
-      {boardToSubmit.abbr === 'AFDRB' ? (
+      {boardToSubmit.abbr === AFDRB ? (
         <>
           <p>
             You can submit your completed application form and all supporting
@@ -200,7 +202,7 @@ const StepThree = ({ formResponses }) => {
             If you cannot access the website, you may mail your completed form
             and all supporting documents to the AFDRB to:
           </p>
-          {venueAddress(formResponses)}
+          {determineVenueAddress(formResponses)}
         </>
       ) : (
         <>
@@ -222,7 +224,7 @@ const StepThree = ({ formResponses }) => {
             Mail your completed form and all supporting documents to the{' '}
             {boardToSubmit.abbr} at:
           </p>
-          {venueAddress(formResponses)}
+          {determineVenueAddress(formResponses)}
           {onlineSubmissionMsg}
         </>
       )}
