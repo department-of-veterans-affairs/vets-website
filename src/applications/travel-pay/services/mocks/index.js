@@ -13,6 +13,16 @@ const responses = {
     },
   },
   'GET /travel_pay/v0/claims': travelClaims,
+  'GET /travel_pay/v0/claims/:id': (req, res) => {
+    return res.json({
+      id: req.params.id,
+      claimNumber: 'claimNumber',
+      claimStatus: 'claimStatus',
+      appointmentDateTime: 'appointmentDateTime',
+      facilityName: 'facilityName',
+      createdOn: 'createdOn',
+      modifiedOn: 'modifiedOn',
+    });
+  },
 };
-
 module.exports = delay(responses, 1000);
