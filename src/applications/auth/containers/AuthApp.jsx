@@ -8,6 +8,8 @@ import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
   FORCE_NEEDED,
+  EXTERNAL_APPS,
+  EXTERNAL_REDIRECTS,
 } from 'platform/user/authentication/constants';
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 import { setupProfileSession } from 'platform/user/profile/utilities';
@@ -44,8 +46,10 @@ export default function AuthApp({ location }) {
 
   const dispatch = useDispatch();
 
-  const handleAuthError = error => {
-    const { errorCode: detailedErrorCode } = getAuthError(errorCode);
+  const handleAuthError = (error, codeOverride) => {
+    const { errorCode: detailedErrorCode } = getAuthError(
+      codeOverride || errorCode,
+    );
     generateSentryAuthError({
       error,
       loginType,
@@ -102,7 +106,7 @@ export default function AuthApp({ location }) {
     });
   };
 
-  const handleAuthSuccess = ({
+  const handleAuthSuccess = async ({
     response = {},
     skipToRedirect = false,
   } = {}) => {
@@ -113,9 +117,46 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
+    const {
+      userProfile: { signIn },
+      userProfile,
+    } = authMetrics;
+
+    // MyVAHealth ToU Provisioning
+    if (
+      signIn?.ssoe &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
+    ) {
+      try {
+        const termsResponse = await apiRequest(
+          `/terms_of_use_agreements/update_provisioning`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          },
+        );
+        if (!termsResponse?.provisioned) {
+          handleAuthError(null, 111);
+          return;
+        }
+      } catch (err) {
+        const message = err?.error;
+        if (
+          message === 'Agreement not accepted' ||
+          message === 'Account not Provisioned'
+        ) {
+          handleAuthError(null, 111);
+        } else {
+          handleAuthError(err, 110);
+        }
+        return;
+      }
+    }
+
     authMetrics.run();
     if (!skipToRedirect) {
-      setupProfileSession(authMetrics.userProfile);
+      setupProfileSession(userProfile);
     }
     redirect();
   };
@@ -134,11 +175,11 @@ export default function AuthApp({ location }) {
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
     } else if (!hasError && checkReturnUrl(returnUrl)) {
-      handleAuthSuccess({ skipToRedirect: true });
+      await handleAuthSuccess({ skipToRedirect: true });
     } else {
       try {
         const response = await apiRequest('/user');
-        handleAuthSuccess({ response });
+        await handleAuthSuccess({ response });
       } catch (error) {
         handleAuthError(error);
       }
