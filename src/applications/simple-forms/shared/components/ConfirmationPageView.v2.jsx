@@ -23,7 +23,7 @@ import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { confirmationNumber, submitDate, formConfig } = props;
+  const { confirmationNumber, submitDate, formConfig, pagesFromState } = props;
 
   useEffect(
     () => {
@@ -93,6 +93,7 @@ export const ConfirmationPageView = props => {
           chapters={chapters}
           formData={formData}
           formConfig={formConfig}
+          pagesFromState={pagesFromState}
         />
       </div>
       <div className="screen-only">
@@ -109,6 +110,7 @@ export const ConfirmationPageView = props => {
               chapters={chapters}
               formData={formData}
               formConfig={formConfig}
+              pagesFromState={pagesFromState}
             />
           </VaAccordionItem>
         </VaAccordion>
@@ -186,4 +188,5 @@ ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string.isRequired,
   submitDate: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
+  pagesFromState: PropTypes.object.isRequired,
 };

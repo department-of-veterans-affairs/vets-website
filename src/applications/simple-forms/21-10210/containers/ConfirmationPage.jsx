@@ -38,7 +38,7 @@ export const ConfirmationPage = props => {
       toggleValues(state)[FEATURE_FLAG_NAMES.confirmationPageNew] || false,
   );
   const { formConfig } = props.route;
-  const { submission } = form;
+  const { submission, pages } = form;
   const preparerFullName = getPreparerFullName(form.data);
   const submitDate = submission.timestamp;
   const confirmationNumber = submission.response?.confirmationNumber;
@@ -48,6 +48,7 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
+      pagesFromState={pages}
     />
   ) : (
     <OldConfirmationPageView
