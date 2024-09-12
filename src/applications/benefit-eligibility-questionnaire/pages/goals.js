@@ -2,16 +2,15 @@ export default {
   uiSchema: {
     checkboxGroupGoals: {
       'ui:title': 'What goal(s) do you want to accomplish?',
-      'ui:description':
-        'Check all that aapply. This is a new tool on VA,gov, so some of the options may not be available yet.',
-      buildMyNetwork: {
-        'ui:title': 'Build my network',
+      'ui:description': 'Check all that aapply.',
+      earnDegreeOrCertificate: {
+        'ui:title': 'Earn a degree or certificate',
       },
-      findACivilJob: {
-        'ui:title': 'Find a civil job',
+      findACivilianJob: {
+        'ui:title': 'Find a civilian job',
       },
-      progressInMyMilitaryCareer: {
-        'ui:title': 'Progress in my military career',
+      planForMyTransition: {
+        'ui:title': 'Plan for my transition',
       },
       setACareerPath: {
         'ui:title': 'Set a career path',
@@ -30,9 +29,9 @@ export default {
       checkboxGroupGoals: {
         type: 'object',
         properties: {
-          buildMyNetwork: { type: 'boolean' },
-          findACivilJob: { type: 'boolean' },
-          progressInMyMilitaryCareer: { type: 'boolean' },
+          earnDegreeOrCertificate: { type: 'boolean' },
+          findACivilianJob: { type: 'boolean' },
+          planForMyTransition: { type: 'boolean' },
           setACareerPath: { type: 'boolean' },
           startABusiness: { type: 'boolean' },
           understandMyBenefits: { type: 'boolean' },

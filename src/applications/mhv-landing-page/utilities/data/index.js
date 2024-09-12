@@ -33,33 +33,9 @@ const resolveLandingPageLinks = (
   unreadMessageAriaLabel,
   registered = false,
 ) => {
-  const messagesLinks = [
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[0],
-      ariaLabel: unreadMessageAriaLabel,
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[1],
-    },
-    {
-      ...HEALTH_TOOL_LINKS.MESSAGES[2],
-    },
-  ];
-
-  const medicalRecordsLinks = [
-    {
-      href: mhvUrl(authdWithSSOe, '/download-my-data'),
-      text: 'Download medical record (Blue Button®)',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/labs-tests'),
-      text: 'Lab and test results',
-    },
-    {
-      href: mhvUrl(authdWithSSOe, '/health-history'),
-      text: 'Health history',
-    },
-  ];
+  const messagesLinks = [...HEALTH_TOOL_LINKS.MESSAGES];
+  if (messagesLinks.length > 0)
+    messagesLinks[0].ariaLabel = unreadMessageAriaLabel;
 
   const myVaHealthBenefitsLinks = [
     {
@@ -161,7 +137,9 @@ const resolveLandingPageLinks = (
     {
       title: HEALTH_TOOL_HEADINGS.MEDICAL_RECORDS,
       icon: 'note_add',
-      links: medicalRecordsLinks,
+      introduction:
+        'Get quick, easy access to your medical records. Now you can print or download what you need, when you need it.',
+      links: HEALTH_TOOL_LINKS.MEDICAL_RECORDS,
     },
     {
       title: HEALTH_TOOL_HEADINGS.PAYMENTS,

@@ -10,7 +10,7 @@ const yourLocationOfResidencePage = {
   uiSchema: {
     ...titleUI(CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.TITLE),
     'ui:objectViewField': PageFieldSummary,
-    locationOfResidence: selectUI({
+    yourLocationOfResidence: selectUI({
       title: CHAPTER_3.YOUR_LOCATION_OF_RESIDENCE.QUESTION_1,
       errorMessages: {
         required: 'Please select your location of residence',
@@ -19,9 +19,9 @@ const yourLocationOfResidencePage = {
   },
   schema: {
     type: 'object',
-    required: ['locationOfResidence'],
+    required: ['yourLocationOfResidence'],
     properties: {
-      locationOfResidence: {
+      yourLocationOfResidence: {
         type: 'string',
         enum: states.USA.map(state => state.label),
       },

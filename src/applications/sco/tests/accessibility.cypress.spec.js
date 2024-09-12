@@ -1,6 +1,7 @@
 describe('Accessibility', () => {
+  /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
-    cy.visit('/education/school-administrators/');
+    cy.visit('/school-administrators');
     cy.injectAxe();
     cy.axeCheck();
     // First focusable element in react app

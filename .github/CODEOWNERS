@@ -30,6 +30,14 @@ src/applications/ds-v3-playground @department-of-veterans-affairs/platform-desig
 src/applications/sah @department-of-veterans-affairs/platform-va-product-forms
 src/applications/static-pages/wizard @department-of-veterans-affairs/platform-va-product-forms
 
+# Platform Design System - Header/footer (VA.gov and TeamSites)
+src/platform/site-wide/header @department-of-veterans-affairs/platform-design-system-fe
+src/platform/site-wide/legacy @department-of-veterans-affairs/platform-design-system-fe
+src/platform/site-wide/mega-menu @department-of-veterans-affairs/platform-design-system-fe
+src/platform/site-wide/mobile-menu-button @department-of-veterans-affairs/platform-design-system-fe
+src/platform/site-wide/va-footer @department-of-veterans-affairs/platform-design-system-fe
+src/applications/proxy-rewrite @department-of-veterans-affairs/platform-design-system-fe @department-of-veterans-affairs/vfs-public-websites-frontend
+
 # octo-identity authentication
 
 src/applications/auth @department-of-veterans-affairs/octo-identity
@@ -79,8 +87,6 @@ src/applications/veteran-id-card @department-of-veterans-affairs/benefits-manage
 
 # Benefits Decision Reviews (DSVA Slack: #benefits-decision-reviews)
 src/applications/appeals @department-of-veterans-affairs/benefits-decision-reviews-fe @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/nod-cta @department-of-veterans-affairs/benefits-decision-reviews-fe @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/static-pages/supplemental-claim @department-of-veterans-affairs/benefits-decision-reviews-fe @department-of-veterans-affairs/va-platform-cop-frontend
 
 # Benefits Non-Disability
 src/applications/vre @department-of-veterans-affairs/benefits-non-disability @department-of-veterans-affairs/va-platform-cop-frontend
@@ -116,8 +122,11 @@ src/applications/form-renderer @department-of-veterans-affairs/form-engine
 
 # Public Websites
 
-src/applications/proxy-rewrite @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
-src/platform/site-wide @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/announcements @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/banners @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/drupal-static-data @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/helpers/team-sites @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
+src/platform/site-wide/side-nav @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/platform/landing-pages @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/vfs-facilities-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/find-forms @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/discharge-wizard @department-of-veterans-affairs/vfs-public-websites-frontend @department-of-veterans-affairs/va-platform-cop-frontend

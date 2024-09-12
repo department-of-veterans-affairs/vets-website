@@ -1,13 +1,10 @@
 import merge from 'lodash/merge';
 import fullSchemaHca from 'vets-json-schema/dist/10-10EZ-schema.json';
-
 import CustomYesNoReviewField from '../../../components/FormReview/CustomYesNoReviewField';
 import CustomReviewField from '../../../components/FormReview/CustomReviewField';
 import InsuranceProviderViewField from '../../../components/FormFields/InsuranceProviderViewField';
 import {
   GroupCodeDescription,
-  HealthInsuranceDescription,
-  HealthInsuranceCoverageDescription,
   PolicyNumberDescription,
   PolicyOrDescription,
   PolicyOrGroupDescription,
@@ -22,10 +19,8 @@ const { items: provider } = providers;
 
 export default {
   uiSchema: {
-    'ui:description': HealthInsuranceDescription,
     isCoveredByHealthInsurance: {
       'ui:title': 'Do you have health insurance coverage?',
-      'ui:description': HealthInsuranceCoverageDescription,
       'ui:reviewField': CustomYesNoReviewField,
       'ui:widget': 'yesNo',
     },
