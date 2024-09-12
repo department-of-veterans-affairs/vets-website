@@ -151,7 +151,9 @@ export function includeRegOnlyGuestQuestions(formData) {
  */
 export function showRegOnlyAuthConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return !isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyAuthQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -163,7 +165,9 @@ export function showRegOnlyAuthConfirmation(formData) {
  */
 export function showRegOnlyGuestConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyGuestQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**

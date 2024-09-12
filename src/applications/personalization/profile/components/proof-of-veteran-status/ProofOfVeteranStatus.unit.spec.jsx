@@ -1,7 +1,10 @@
 import React from 'react';
 import { expect } from 'chai';
-import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
+import { fireEvent } from '@testing-library/react';
+import sinon from 'sinon';
 
+import * as generatePdfModule from '~/platform/pdf';
+import { renderWithProfileReducers } from '../../tests/unit-test-helpers';
 import ProofOfVeteranStatus from './ProofOfVeteranStatus';
 
 const eligibleServiceHistoryItem = {
@@ -90,12 +93,13 @@ describe('ProofOfVeteranStatus', () => {
   });
 
   describe('when eligible', () => {
+    const initialState = createBasicInitialState([
+      eligibleServiceHistoryItem,
+      ineligibleServiceHistoryItem,
+      neutralServiceHistoryItem,
+    ]);
+
     it('should render card if service history contains an eligible discharge despite any other discharges', () => {
-      const initialState = createBasicInitialState([
-        eligibleServiceHistoryItem,
-        ineligibleServiceHistoryItem,
-        neutralServiceHistoryItem,
-      ]);
       const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
         initialState,
       });
@@ -105,6 +109,28 @@ describe('ProofOfVeteranStatus', () => {
           /sample proof of veteran status card featuring name, date of birth, disability rating and period of service/,
         ),
       ).to.exist;
+    });
+
+    it('should show error message if pdf generation fails', () => {
+      const generatePdfStub = sinon
+        .stub(generatePdfModule, 'generatePdf')
+        .throws(new Error('Some Error'));
+      const view = renderWithProfileReducers(<ProofOfVeteranStatus />, {
+        initialState,
+      });
+      const link = view.container.querySelector('va-link');
+      const errorMessage =
+        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.";
+
+      expect(link.getAttribute('text')).to.equal(
+        'Download and print your Veteran status card',
+      );
+      expect(view.queryByText(errorMessage)).to.not.exist;
+
+      fireEvent.click(link);
+
+      expect(generatePdfStub.called).to.be.true;
+      expect(view.queryByText(errorMessage)).to.exist;
     });
   });
 
