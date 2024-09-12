@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -112,15 +111,9 @@ const Allergies = props => {
 
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-
-    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
-    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
-
     const { title, value, subject, preface } = generateAllergiesIntro(
       allergies,
-      lastUpdatedIndicator,
+      RecordsIndicator,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
@@ -186,9 +179,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
-        component, which checks for and displays updates to the records. */}
-        {RecordsIndicator}
+        <p>{RecordsIndicator}</p>
 
         <PrintDownload
           list

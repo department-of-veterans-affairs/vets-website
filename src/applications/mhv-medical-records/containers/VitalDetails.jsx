@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { chunk } from 'lodash';
@@ -218,14 +217,9 @@ const VitalDetails = props => {
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
 
-    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
-    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
-
     const { title, subject, preface } = generateVitalsIntro(
       records,
-      lastUpdatedIndicator,
+      RecordsIndicator,
     );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
@@ -272,9 +266,7 @@ Provider notes: ${vital.notes}\n\n`,
           {vitalDisplayName}
         </h1>
 
-        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
-        component, which checks for and displays updates to the records. */}
-        {RecordsIndicator}
+        <p>{RecordsIndicator}</p>
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload

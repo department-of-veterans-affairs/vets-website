@@ -91,9 +91,7 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
-        component, which checks for and displays updates to the records. */}
-        {RecordsIndicator}
+        <p>{RecordsIndicator}</p>
 
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>

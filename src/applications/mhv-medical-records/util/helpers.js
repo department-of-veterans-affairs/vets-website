@@ -1,11 +1,9 @@
 import moment from 'moment-timezone';
-import React from 'react';
 import * as Sentry from '@sentry/browser';
 import { snakeCase } from 'lodash';
 import { generatePdf } from '@department-of-veterans-affairs/platform-pdf/exports';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { format as dateFnsFormat, parseISO, isValid } from 'date-fns';
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import {
   EMPTY_FIELD,
   interpretationMap,
@@ -422,46 +420,59 @@ export const decodeBase64Report = data => {
 
 /**
  * @function generateNewRecordsIndicator
- * @description Generates a JSX element that incorporates the `NewRecordsIndicator` component, which checks for and displays updates to the records.
- * 
+ * @description Runs the necessary functions (comparison, reload) using `NewRecordsIndicator` variables and returns the update status message.
+ *
  * @param {object} refresh - The state related to the refresh process.
  * @param {Array} record - The current list of records.
  * @param {Array} updatedRecordList - The updated list of records to compare against the original.
  * @param {object} refreshExtractTypes - An object that contains the extract types related to the refresh process.
  * @param {function} reloadRecords - The function to trigger the reload of records.
  * @param {function} dispatch - The dispatch function to send actions to the Redux store.
- * 
- * @returns {JSX.Element} - Returns a JSX element containing the `NewRecordsIndicator` component with the appropriate props.
+ *
+ * @returns {string} - Returns a formatted string containing the last successful update message or a failure message.
  */
 export const generateNewRecordsIndicator = (
   refresh,
-  record, 
-  updatedRecordList, 
+  record,
+  updatedRecordList,
   refreshExtractTypes,
-  reloadRecords, 
+  reloadRecords,
   dispatch,
-  ) => {
+) => {
+  // Logic to compare records and reload if new records are found
+  const newRecordsFound =
+    isArrayAndHasItems(record) &&
+    isArrayAndHasItems(updatedRecordList) &&
+    record.length !== updatedRecordList.length;
 
-  return (
-          <>
-            <NewRecordsIndicator
-              refreshState={refresh}
-              extractType={refreshExtractTypes}
-              newRecordsFound={
-                Array.isArray(record) &&
-                Array.isArray(updatedRecordList) &&
-                record.length !== updatedRecordList.length
-              }
-              reloadFunction={() => {
-                const result = dispatch(reloadRecords());
-                console.log("Result of dispatch(reloadRecords()):", result);
-                return result;
-              }}
-            />
+  // Perform the reload function when new records are found
+  const reloadFunction = () => {
+    return dispatch(reloadRecords());
+  };
 
-          </>
-  );
-  
+  // Simulate loading the NewRecordsIndicator logic
+  const runNewRecordsIndicatorLogic = () => {
+    if (newRecordsFound) {
+      reloadFunction();
+    }
+
+    // Logic to get the last successful update message
+    const lastSuccessfulUpdate = refresh.status?.find(
+      status => status.extract === refreshExtractTypes,
+    )?.lastSuccessfulCompleted;
+
+    if (lastSuccessfulUpdate) {
+      // Assuming formatDateAndTime returns an object with `time` and `date` fields
+      const formattedUpdate = formatDateAndTime(lastSuccessfulUpdate);
+
+      // Return the formatted string with time and date
+      return `Last updated at ${formattedUpdate.time} on ${
+        formattedUpdate.date
+      }`;
+    }
+    // Return fallback message if no successful update is found
+    return 'We couldn’t update your records. Check back later for updates. If it still doesn’t work, email us at feedback@example.com.';
+  };
+
+  return runNewRecordsIndicatorLogic();
 };
-
-

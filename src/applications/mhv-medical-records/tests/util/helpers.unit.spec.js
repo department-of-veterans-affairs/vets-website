@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-import React from 'react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
@@ -20,7 +18,6 @@ import {
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
-import NewRecordsIndicator from '../../components/shared/NewRecordsIndicator';
 
 describe('Name formatter', () => {
   it('formats a name with a first, middle, last, and suffix', () => {
@@ -452,72 +449,70 @@ describe('getStatusExtractPhase', () => {
 });
 
 describe('generateNewRecordsIndicator', () => {
-  let dispatchSpy;
-  let reloadRecordsSpy;
-
-  const refresh = { initialFhirLoad: false };
-  const record = [{ id: 1, name: 'Test 1' }];
-  const updatedRecordList = [
-    { id: 1, name: 'Test 1' },
-    { id: 2, name: 'Test 2' },
-  ];
-  const refreshExtractTypes = { CHEM_HEM: 'chem_hem' };
+  let dispatchStub;
+  let reloadRecordsStub;
+  let refresh;
+  let record;
+  let updatedRecordList;
+  let refreshExtractTypes;
 
   beforeEach(() => {
-    dispatchSpy = sinon.spy();
-    reloadRecordsSpy = sinon.spy();
+    // Stubs and mocks
+    dispatchStub = sinon.stub();
+    reloadRecordsStub = sinon.stub().returns('reloaded');
+    refreshExtractTypes = 'someExtractType';
+
+    // Example data for tests
+    refresh = {
+      status: [
+        {
+          extract: refreshExtractTypes,
+          lastSuccessfulCompleted: new Date('2024-09-01T12:00:00Z'), // Use a valid Date object
+        },
+      ],
+    };
+
+    record = [1, 2, 3]; // Example records
+    updatedRecordList = [1, 2, 3, 4]; // Example updated records
   });
 
-  it('should return a JSX element with correct props for NewRecordsIndicator', () => {
-    // Call the function
+  it('should return fallback message when no last successful update is found', () => {
+    // Modify refresh object to simulate no successful update
+    refresh = {
+      status: [],
+    };
+
     const result = generateNewRecordsIndicator(
       refresh,
       record,
       updatedRecordList,
       refreshExtractTypes,
-      reloadRecordsSpy,
-      dispatchSpy,
+      reloadRecordsStub,
+      dispatchStub,
     );
 
-    // Check that the result is a valid JSX element
-    expect(React.isValidElement(result)).to.be.true;
-
-    // Extract the NewRecordsIndicator element
-    const [newRecordsIndicatorElement] = React.Children.toArray(
-      result.props.children,
+    expect(result).to.equal(
+      'We couldn’t update your records. Check back later for updates. If it still doesn’t work, email us at feedback@example.com.',
     );
-
-    // Check the type of element
-    expect(newRecordsIndicatorElement.type).to.equal(NewRecordsIndicator);
-
-    // Check that the props are passed correctly to the NewRecordsIndicator
-    const { props } = newRecordsIndicatorElement;
-    expect(props.refreshState).to.deep.equal(refresh);
-    expect(props.extractType).to.equal(refreshExtractTypes);
-    expect(props.newRecordsFound).to.be.true; // record length is different from updatedRecordList length
   });
 
-  it('should call dispatch and reloadRecords in reloadFunction', () => {
-    // Call the function
+  it('should format the last successful update correctly', () => {
+    // Use a valid Date object
+    refresh.status[0].lastSuccessfulCompleted = new Date(
+      '2024-09-01T12:00:00Z',
+    );
+
     const result = generateNewRecordsIndicator(
       refresh,
       record,
       updatedRecordList,
       refreshExtractTypes,
-      reloadRecordsSpy,
-      dispatchSpy,
+      reloadRecordsStub,
+      dispatchStub,
     );
 
-    // Extract the NewRecordsIndicator element
-    const [newRecordsIndicatorElement] = React.Children.toArray(
-      result.props.children,
+    expect(result).to.equal(
+      'Last updated at 8:00 a.m. ET on September 1, 2024',
     );
-
-    // Simulate the reloadFunction being called
-    newRecordsIndicatorElement.props.reloadFunction();
-
-    // Check that dispatch was called with reloadRecords
-    expect(dispatchSpy.calledOnce).to.be.true;
-    expect(reloadRecordsSpy.calledOnce).to.be.true;
   });
 });

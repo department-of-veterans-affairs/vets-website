@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { renderToStaticMarkup } from 'react-dom/server';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import { Link } from 'react-router-dom';
@@ -114,13 +113,8 @@ const Vaccines = props => {
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
 
-    const RecordsIndicatorString = renderToStaticMarkup(RecordsIndicator);
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(RecordsIndicatorString, 'text/html');
-    const lastUpdatedIndicator = doc.querySelector('va-card').textContent;
-
     const { title, value, subject, preface } = generateVaccinesIntro(
-      lastUpdatedIndicator,
+      RecordsIndicator,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
@@ -179,9 +173,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
-        component, which checks for and displays updates to the records. */}
-        {RecordsIndicator}
+        <p>{RecordsIndicator}</p>
 
         <PrintDownload
           list

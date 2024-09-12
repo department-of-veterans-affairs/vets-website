@@ -87,9 +87,7 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        {/* Generates a JSX element that incorporates the `NewRecordsIndicator` 
-        component, which checks for and displays updates to the records. */}
-        {RecordsIndicator}
+        <p>{RecordsIndicator}</p>
 
         <va-additional-info
           trigger="About the codes in some condition names"
