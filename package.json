@@ -270,6 +270,7 @@
     "@fortawesome/fontawesome-free": "^5.15.4",
     "@mapbox/mapbox-sdk": "~0.13.2",
     "@reduxjs/toolkit": "^2.2.5",
+    "@simplewebauthn/browser": "^10.0.0",
     "blob-polyfill": "^5.0.20210201",
     "cacheable-request": "^4.0.1",
     "camelcase-keys-recursive": "^1.0.0",
