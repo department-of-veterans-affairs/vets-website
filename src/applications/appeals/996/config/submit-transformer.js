@@ -32,7 +32,7 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        homeless: formData.homeless,
+        homeless: formData.homeless || false,
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },

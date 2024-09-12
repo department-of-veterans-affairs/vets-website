@@ -1180,7 +1180,9 @@ describe('Disability benefits helpers: ', () => {
       const displayName = 'Automated 5103 Notice Response';
       const documentRequestPageTitle = setDocumentRequestPageTitle(displayName);
 
-      expect(documentRequestPageTitle).to.equal('5103 Evidence Notice');
+      expect(documentRequestPageTitle).to.equal(
+        'Review evidence list (5103 notice)',
+      );
     });
     it('should display Request for Submit buddy statement(s)', () => {
       const displayName = 'Submit buddy statement(s)';

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import propTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -58,27 +58,24 @@ export default function ValidateDisplay({
     [lastNameError, dobError, setDobError],
   );
 
-  const updateField = useCallback(
-    event => {
-      if (event.target.name.includes('date-of-birth')) {
-        setDob(event.target.value);
-      }
-      if (event.target.name === 'last-name') {
-        setLastName(event.target.value);
-      }
-    },
-    [setLastName, setDob],
-  );
+  const updateFormState = () => {
+    const lastNameValue = document.getElementById('last-name-input').value;
+    const dobValue = document.getElementById('dob-input').value;
+    setLastName(lastNameValue);
+    setDob(dobValue);
+  };
 
   const handleEnter = e => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      updateFormState();
       validateHandler();
     }
   };
 
   const handleFormSubmit = e => {
     e.preventDefault();
+    updateFormState();
     validateHandler();
   };
 
@@ -114,7 +111,7 @@ export default function ValidateDisplay({
           error={lastNameErrorMessage}
           label={t('your-last-name')}
           name="last-name"
-          onInput={updateField}
+          onInput={updateFormState}
           required
           spellCheck="false"
           value={lastName}
@@ -126,8 +123,8 @@ export default function ValidateDisplay({
           <VaMemorableDate
             id="dob-input"
             label={t('date-of-birth')}
-            onDateBlur={updateField}
-            onDateChange={updateField}
+            onDateBlur={updateFormState}
+            onDateChange={updateFormState}
             name="date-of-birth"
             value={dob}
             required

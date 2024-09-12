@@ -43,7 +43,6 @@
 
     // Excluded application paths
     // "src/applications/_mock-form",
-    // "src/applications/accreditation",
     // "src/applications/accredited-representative-portal",
     // "src/applications/appeals",
     // "src/applications/ask-a-question",
