@@ -7,7 +7,7 @@ describe('ezr FeatureToggles selector', () => {
       /* eslint-disable camelcase */
       hca_browser_monitoring_enabled: true,
       ezr_upload_enabled: true,
-      isEmergencyContactsEnabled: true,
+      ezr_emergency_contacts_enabled: true,
       loading: false,
     },
   };
