@@ -4,14 +4,12 @@ import { getVamcSystemNameFromVhaId } from 'platform/site-wide/drupal-static-dat
 import { selectEhrDataByVhaId } from 'platform/site-wide/drupal-static-data/source-files/vamc-ehr/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import _ from 'lodash';
 import FacilityCheckboxGroup from '../components/FacilityCheckboxGroup';
 import GetFormHelp from '../components/GetFormHelp';
 import BlockedTriageGroupAlert from '../components/shared/BlockedTriageGroupAlert';
 import {
-  ALERT_TYPE_SUCCESS,
-  Alerts,
   BlockedTriageAlertStyles,
   ErrorMessages,
   PageTitles,
@@ -19,13 +17,14 @@ import {
   Paths,
 } from '../util/constants';
 import { updateTriageTeamRecipients } from '../actions/recipients';
-import { addAlert } from '../actions/alerts';
 import SmRouteNavigationGuard from '../components/shared/SmRouteNavigationGuard';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import { focusOnErrorField } from '../util/formHelpers';
+import { closeAlert } from '../actions/alerts';
 
 const EditContactList = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const history = useHistory();
   const [allTriageTeams, setAllTriageTeams] = useState([]);
   const [isNavigationBlocked, setIsNavigationBlocked] = useState(false);
@@ -91,14 +90,7 @@ const EditContactList = () => {
       await setCheckboxError(ErrorMessages.ContactList.MINIMUM_SELECTION);
       focusOnErrorField();
     } else {
-      await dispatch(updateTriageTeamRecipients(allTriageTeams));
-      dispatch(
-        addAlert(
-          ALERT_TYPE_SUCCESS,
-          null,
-          Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
-        ),
-      );
+      dispatch(updateTriageTeamRecipients(allTriageTeams));
     }
   };
 
@@ -106,6 +98,17 @@ const EditContactList = () => {
     e.preventDefault();
     navigateBack();
   };
+
+  useEffect(
+    () => {
+      return () => {
+        if (location.pathname) {
+          dispatch(closeAlert());
+        }
+      };
+    },
+    [location.pathname, dispatch],
+  );
 
   useEffect(
     () => {
