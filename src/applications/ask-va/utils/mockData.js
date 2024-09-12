@@ -1580,7 +1580,7 @@ export const mockInquiryData = {
         submitterQuestion:
           'I received approval for a claim for dependency on September 2, 2024. After that I received the increase in the monthly allowance, but I have yet to receive the back pay owed. Any idea on when that will be paid?',
         schoolFacilityCode: '0123',
-        category: 'Disability compensation',
+        categoryName: 'Disability compensation',
         topic: 'Claim status',
         veteranRelationship: 'self',
         reply: {
@@ -1615,9 +1615,9 @@ export const mockInquiryData = {
         createdOn: '8/24/24',
         status: 'Reopened',
         submitterQuestion:
-          "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
+          "How do I go about getting my spouse a VA card, since I'm a Veteran and I already have mine?",
         schoolFacilityCode: '0123',
-        category: 'Veteran ID Card (VIC)',
+        categoryName: 'Veteran ID Card (VIC)',
         topic:
           'Veteran Health Identification Card (VHIC) for health appointments',
         veteranRelationship: 'self',
@@ -1631,7 +1631,7 @@ export const mockInquiryData = {
               enableReply: true,
               attributes: {
                 reply:
-                  "How do I go about getting my wife a VA card, since I'm a Veteran and I already have mine?",
+                  "How do I go about getting my spouse a VA card, since I'm a Veteran and I already have mine?",
                 attachmentNames: [],
               },
             },
@@ -1654,7 +1654,8 @@ export const mockInquiryData = {
               messageType: '722310001: Your reply to VA',
               enableReply: true,
               attributes: {
-                reply: 'Would she be able to get a physical card?',
+                reply:
+                  'Does that mean at some point it will be available for spouses of Veterans?',
                 attachmentNames: [],
               },
             },
@@ -1678,7 +1679,7 @@ export const mockInquiryData = {
         submitterQuestion:
           'How can I view my dependents information? I cannot see them on my end on the VA website. I have three dependents.',
         schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
+        categoryName: 'Sign in and technical issues',
         topic: 'Technical issues on VA.gov',
         veteranRelationship: 'self',
         reply: {
@@ -1727,7 +1728,7 @@ export const mockInquiryData = {
         submitterQuestion:
           'When I click on benefits in the VA app and then check on a current claim status, the app shuts down. I didn’t have this issue a week ago. I can navigate through the entire app with no issues except claim status. Can someone help?',
         schoolFacilityCode: '0123',
-        category: 'Sign in and technical issues',
+        categoryName: 'Sign in and technical issues',
         topic: 'Technical issues on VA.gov',
         veteranRelationship: 'self',
         reply: {
@@ -1760,25 +1761,56 @@ export const mockInquiryData = {
         },
       },
     },
-  ],
-  meta: {
-    meta: {
-      pagination: {
-        currentPage: 1,
-        prevPage: null,
-        nextPage: null,
-        totalPages: 1,
-        totalEntries: 4,
+    {
+      id: '5',
+      type: 'inquiry',
+      attributes: {
+        inquiryNumber: 'A-20230424-300125',
+        attachments: [],
+        correspondences: null,
+        hasAttachments: false,
+        hasBeenSplit: true,
+        levelOfAuthentication: 'Personal',
+        lastUpdate: '5/2/23',
+        createdOn: '4/24/23',
+        status: 'Replied',
+        submitterQuestion:
+          "I'm trying to get my COE for a VA Loan. Could your office assist with this? Thank you.",
+        schoolFacilityCode: '0123',
+        categoryName: 'Housing assistance and home loans',
+        topic: 'Technical issues on VA.gov',
+        veteranRelationship: 'self',
+        reply: {
+          data: [
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e106',
+              modifiedOn: 'Apr. 24, 2023 at 10:22 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Your question',
+              enableReply: true,
+              attributes: {
+                reply:
+                  "I'm trying to get my COE for a VA Loan. Could your office assist with this? Thank you.",
+                attachmentNames: [],
+              },
+            },
+            {
+              id: 'a6c3af1b-ec8c-ee11-8178-001dd804e107',
+              modifiedOn: 'May. 2, 2023 at 11.47 a.m. E.T.',
+              statusReason: 'Completed/Sent',
+              messageType: '722310001: Response from VA',
+              enableReply: true,
+              attributes: {
+                reply:
+                  'Hello. Here are some ways to get a COE: VA Portal: You order a COE using the VA portal if you have access to the LGYHub. Call or text: You can request a COE by calling 988 and pressing 1, or texting 838255. Visit a VA location: You can visit a medical center or regional office. Work with a mortgage originator: You can work with a mortgage originator to get a COE.',
+                attachmentNames: [],
+              },
+            },
+          ],
+        },
       },
     },
-    links: {
-      self: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-      first: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-      prev: null,
-      next: null,
-      last: 'http://localhost:3000/ask_va_api/v0/inquiries?page=1&per_page=10',
-    },
-  },
+  ],
 };
 
 export const mockInquiryDataWithBusiness = {
