@@ -9,6 +9,8 @@ import ResultsSummary from './resultsComponents/ResultsSummary';
 import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderationStatement';
 import Warnings from './resultsComponents/Warnings';
 import OptionalStep from './resultsComponents/OptionalStep';
+import StepOne from './resultsComponents/StepOne';
+import StepTwo from './resultsComponents/StepTwo';
 import StepThree from './resultsComponents/StepThree';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
@@ -33,13 +35,19 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   return (
     <article className="dw-guidance" data-testid="duw-results">
       <h1>{H1}</h1>
-      <div className="medium-8">
+      <>
         <ResultsSummary formResponses={formResponses} />
         <CarefulConsiderationStatement formResponses={formResponses} />
         <Warnings formResponses={formResponses} />
         <OptionalStep formResponses={formResponses} />
-        <StepThree formResponses={formResponses} />
-      </div>
+        <section>
+          <va-process-list>
+            <StepOne formResponses={formResponses} />
+            <StepTwo formResponses={formResponses} />
+            <StepThree formResponses={formResponses} />
+          </va-process-list>
+        </section>
+      </>
     </article>
   );
 };

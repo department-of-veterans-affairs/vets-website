@@ -1090,7 +1090,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
   );
   // Determine which word should follow the tab name.
   // "Files for...", "Status of...", "Details of...", "Overview of..."
-  const joiner = tab === 'Files' ? 'for' : 'of';
+  const tabPrefix = `${tab} ${tab === 'Files' ? 'for' : 'of'}`;
   // Use the following to (somewhat) cut down on repetition in the switch below.
   const addOrRemoveDependentClaimTitle = 'request to add or remove a dependent';
   const baseClaimTitle = isRequestToAddOrRemoveDependent
@@ -1102,13 +1102,18 @@ export const generateClaimTitle = (claim, placement, tab) => {
     case 'detail':
       return `Your ${baseClaimTitle}`;
     case 'breadcrumb':
-      return `${tab} ${joiner} your ${baseClaimTitle}`;
+      if (claimAvailable(claim)) {
+        return `${tabPrefix} your ${baseClaimTitle}`;
+      }
+      // Default message if claim fails to load.
+      return `${tabPrefix} your claim`;
     case 'document':
       if (claimAvailable(claim)) {
         const formattedDate = buildDateFormatter()(claim.attributes.claimDate);
-        return titleCase(`${tab} ${joiner} ${formattedDate} ${baseClaimTitle}`);
+        return titleCase(`${tabPrefix} ${formattedDate} ${baseClaimTitle}`);
       }
-      return `${tab} ${joiner} Your Claim`;
+      // Default message if claim fails to load.
+      return `${tabPrefix} Your Claim`;
     default:
       return isRequestToAddOrRemoveDependent
         ? sentenceCase(addOrRemoveDependentClaimTitle)
@@ -1119,7 +1124,7 @@ export const generateClaimTitle = (claim, placement, tab) => {
 // Use this function to set the Document Request Page Title, Page Tab and Page Breadcrumb Title
 export function setDocumentRequestPageTitle(displayName) {
   return isAutomated5103Notice(displayName)
-    ? '5103 Evidence Notice'
+    ? 'Review evidence list (5103 notice)'
     : `Request for ${displayName}`;
 }
 

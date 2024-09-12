@@ -1,7 +1,6 @@
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import profileContactInfo from 'platform/forms-system/src/js/definitions/profileContactInfo';
-
 import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
@@ -23,6 +22,7 @@ import {
   veteranPersonalInformation,
   veteranContactPhoneEmail,
   veteranContactMailing,
+  veteranContactMailingClaimant,
   veteranIdentification,
   veteranServiceInformation,
   selectAccreditedRepresentative,
@@ -35,7 +35,6 @@ import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
 
 // import { prefillTransformer } from '../prefill-transformer';
-
 // import ClaimantType from '../components/ClaimantType';
 
 const mockData = initialData;
@@ -47,9 +46,11 @@ const formConfigFromService = configService.getFormConfig();
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  customText: {
+    appType: 'form',
+    submitButtonText: 'Continue',
+  },
+  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -103,8 +104,8 @@ const formConfig = {
         },
       },
     },
-    accreditedRepresentative: {
-      title: 'Accredited Representative',
+    accreditedRepresentativeInformation: {
+      title: 'Accredited representative information',
       pages: {
         selectAccreditedRepresentative: {
           title: 'Representative Select',
@@ -236,12 +237,12 @@ const formConfig = {
           schema: veteranPersonalInformation.schema,
           editModeOnReviewPage: true,
         },
-        veteranContactMailing: {
+        veteranContactMailingClaimant: {
           path: 'veteran-contact-mailing',
           title: `Veteran's  mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactMailing.uiSchema,
-          schema: veteranContactMailing.schema,
+          uiSchema: veteranContactMailingClaimant.uiSchema,
+          schema: veteranContactMailingClaimant.schema,
           editModeOnReviewPage: true,
         },
         veteranContactPhoneEmail: {

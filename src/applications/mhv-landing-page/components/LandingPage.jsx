@@ -16,7 +16,12 @@ import HubLinks from './HubLinks';
 import NewsletterSignup from './NewsletterSignup';
 import HelpdeskInfo from './HelpdeskInfo';
 import Alerts from '../containers/Alerts';
-import { isLOA3, isVAPatient, personalizationEnabled } from '../selectors';
+import {
+  isLOA3,
+  isVAPatient,
+  personalizationEnabled,
+  mrPhase1Enabled,
+} from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
@@ -25,6 +30,7 @@ const LandingPage = ({ data = {} }) => {
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
   const showWelcomeMessage = useSelector(personalizationEnabled);
+  const showLearnMore = !useSelector(mrPhase1Enabled) && userRegistered;
 
   return (
     <>
@@ -47,7 +53,7 @@ const LandingPage = ({ data = {} }) => {
           />
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
-            showLearnMore={userRegistered}
+            showLearnMore={showLearnMore}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

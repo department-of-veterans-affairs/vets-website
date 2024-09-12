@@ -81,8 +81,7 @@ export default function CCLayout({ data: appointment }) {
             <>
               <Address address={address} />
               <div className="vads-u-margin-top--1 vads-u-color--link-default">
-                <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-                <FacilityDirectionsLink location={{ address }} />
+                <FacilityDirectionsLink location={{ address }} icon />
               </div>
             </>
           )}
@@ -100,7 +99,9 @@ export default function CCLayout({ data: appointment }) {
             {`${reason && reason !== 'none' ? reason : 'Not available'}`}
           </span>
           <br />
-          <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+          <span className="vaos-u-word-break--break-word">
+            Other details: {`${otherDetails || 'Not available'}`}
+          </span>
         </Section>
         {featureMedReviewInstructions &&
           !isPastAppointment &&

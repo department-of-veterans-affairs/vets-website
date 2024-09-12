@@ -582,7 +582,7 @@ describe('labsAndTestsReducer', () => {
       newState.labsAndTestsList.find(record => record.id === 'pathology')?.type,
     ).to.equal(labTypes.PATHOLOGY);
     expect(
-      newState.labsAndTestsList.find(record => record.id === 'rradiology')
+      newState.labsAndTestsList.find(record => record.id.includes('radiology'))
         ?.type,
     ).to.equal(labTypes.RADIOLOGY);
 
