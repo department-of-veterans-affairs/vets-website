@@ -13,10 +13,10 @@ describe('SM Single Facility Contact list', () => {
     SecureMessagingSite.login(updatedFeatureToggle);
     PatientInboxPage.loadInboxMessages();
     ContactListPage.loadContactList();
+    ContactListPage.selectAllCheckBox();
   });
 
   it('verify empty contact list alerts', () => {
-    ContactListPage.selectAllCheckBox();
     ContactListPage.clickCancelButton();
 
     ContactListPage.verifySaveAlert();
@@ -33,8 +33,15 @@ describe('SM Single Facility Contact list', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
+  it(`user won't see the alert after saving changes`, () => {
+    ContactListPage.selectCheckBox(`ABC`);
+    ContactListPage.clickSaveContactListButton();
+    ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.clickBackToInbox();
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+  });
+
   it('verify single contact selected', () => {
-    ContactListPage.selectAllCheckBox();
     ContactListPage.selectCheckBox(`100`);
 
     ContactListPage.clickCancelButton();
@@ -61,8 +68,7 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`verify few contacts selected`, () => {
-    ContactListPage.selectAllCheckBox();
-    ContactListPage.selectCheckBox(`100`);
+    ContactListPage.selectCheckBox(`200`);
     ContactListPage.selectCheckBox(`Cardio`);
     ContactListPage.selectCheckBox(`TG-7410`);
 
@@ -78,7 +84,7 @@ describe('SM Single Facility Contact list', () => {
       .then(req => {
         const selected = req.updatedTriageTeams.filter(
           el =>
-            el.name.includes(`100`) ||
+            el.name.includes(`200`) ||
             el.name.includes(`Cardio`) ||
             el.name.includes(`TG-7410`),
         );
