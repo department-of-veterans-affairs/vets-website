@@ -46,11 +46,6 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-<<<<<<< HEAD
-import { useIsDetails } from '../hooks/useIsDetails';
-=======
-import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
->>>>>>> origin/main
 import useListRefresh from '../hooks/useListRefresh';
 
 const MAX_PAGE_LIST_LENGTH = 10;
