@@ -160,11 +160,11 @@ export default function App({ children }) {
 
   useEffect(
     () => {
-      if (userLoggedIn) {
+      if (userLoggedIn && travelClaims.length === 0) {
         dispatch(getTravelClaims());
       }
     },
-    [dispatch, userLoggedIn],
+    [dispatch, userLoggedIn, travelClaims],
   );
 
   const CLAIMS_PER_PAGE = 10;
