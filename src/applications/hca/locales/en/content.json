@@ -1,9 +1,8 @@
 {
   "benefits--reg-only-title": "Health care for your service-connected conditions",
   "benefits--reg-only-label" : "What type of health care do you want to apply for?",
-  "benefits--reg-only-full-package-label": "I want to enroll in the full medical benefits package",
+  "benefits--reg-only-full-package-label": "I want to apply to enroll in the full medical benefits package",
   "benefits--reg-only-service-connected-label": "I want to register for care for my service-connected conditions only",
-  "benefits--reg-only-not-sure-label": "I\u2019m not sure",
   "button-back": "Back",
   "household-dependent-info-basic-title": "%s\u2019s basic information",
   "household-dependent-info-addtl-title": "%s\u2019s additional information",
