@@ -32,7 +32,7 @@ export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
-const formConfig = {
+export const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
