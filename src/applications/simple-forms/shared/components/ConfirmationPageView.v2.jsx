@@ -98,7 +98,7 @@ export const ConfirmationPageView = props => {
       <div className="screen-only">
         <h2>Save a copy of your form</h2>
         <p>If you’d like a copy of your completed form, you can download it.</p>
-        <VaAccordion bordered uswds>
+        <VaAccordion bordered open-single uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
