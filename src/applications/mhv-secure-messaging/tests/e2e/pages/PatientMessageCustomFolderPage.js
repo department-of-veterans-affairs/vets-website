@@ -37,16 +37,9 @@ class PatientMessageCustomFolderPage {
       mockFolderWithoutMessages,
     ).as('singleFolderThread');
 
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/0/threads*`,
-      mockFolderWithoutMessages,
-    ).as('inboxFolderWithNoMessage');
-
     cy.contains(folderName).click({ waitForAnimations: true });
     cy.wait('@singleFolder');
     cy.wait('@singleFolderThread');
-    cy.wait('@inboxFolderWithNoMessage');
   };
 
   loadSingleFolderWithMessages = (folderId, folderName) => {
