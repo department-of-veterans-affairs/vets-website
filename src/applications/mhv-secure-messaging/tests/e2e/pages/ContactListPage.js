@@ -114,9 +114,11 @@ class ContactListPage {
   };
 
   verifyEmptyContactListAlert = () => {
-    cy.get(`#checkbox-error-message`)
-      .should(`be.visible`)
-      .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
+    cy.get(`.usa-error-message`).each(el => {
+      cy.wrap(el)
+        .should(`be.visible`)
+        .and(`have.text`, Alerts.CONTACT_LIST.EMPTY);
+    });
 
     cy.get(Locators.CHECKBOX.CL_ALL)
       .first()
