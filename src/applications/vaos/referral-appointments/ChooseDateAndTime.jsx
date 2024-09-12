@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { startOfMonth, format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
 import CalendarWidget from '../components/calendar/CalendarWidget';
 import FormLayout from '../new-appointment/components/FormLayout';
 import { onCalendarChange } from '../new-appointment/redux/actions';
@@ -9,6 +10,7 @@ import { referral } from './temp-data/referral';
 import { getSelectedDate } from '../new-appointment/redux/selectors';
 
 export const ChooseDateAndTime = () => {
+  const history = useHistory();
   const selectedDates = useSelector(state => getSelectedDate(state));
   const dispatch = useDispatch();
   const startMonth = format(startOfMonth(referral.preferredDate), 'yyyy-MM');
@@ -41,14 +43,24 @@ export const ChooseDateAndTime = () => {
     },
     [dispatch],
   );
+  const onSubmit = () => {
+    setSubmitted(true);
+    if (selectedDates) {
+      history.push('/confirm-approved');
+    }
+  };
   return (
     <FormLayout pageTitle={pageTitle}>
       <>
         <div>
           <h1>{pageTitle}</h1>
-          <h2 className="vads-u-font-size--h3">{referral.providerName}</h2>
-          <p className="vads-u-margin--0">{referral.typeOfCare}</p>
-          <h3 className="vads-u-font-size--h4">{referral.orgName}</h3>
+          <p className="vads-u-font-weight--bold vads-u-font-size--lg vads-u-margin--0">
+            {referral.providerName}
+          </p>
+          <p className="vads-u-margin-top--0">{referral.typeOfCare}</p>
+          <p className="vads-u-margin--0 vads-u-font-weight--bold">
+            {referral.orgName}
+          </p>
           <address>
             <p className="vads-u-margin--0">
               {referral.orgAddress.street1} <br />
@@ -130,8 +142,8 @@ export const ChooseDateAndTime = () => {
           />
         </div>
         <FormButtons
-          onBack={() => {}}
-          onSubmit={() => setSubmitted(true)}
+          onBack={() => history.push('/choose-community-care-appointment')}
+          onSubmit={() => onSubmit()}
           // pageChangeInProgress={pageChangeInProgress}
           loadingText="Page change in progress"
         />
