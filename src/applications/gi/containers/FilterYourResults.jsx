@@ -216,6 +216,7 @@ export function FilterYourResults({
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
         optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
+        dataTestId: `school-type-${type}`,
       };
     });
 
