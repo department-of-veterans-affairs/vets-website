@@ -3,13 +3,8 @@ import { vitalTypeDisplayNames } from '../constants';
 export const generateVitalsIntro = (records, lastUpdatedIndicator) => {
   return {
     title: `Vitals: ${vitalTypeDisplayNames[records[0].type]}`,
-<<<<<<< HEAD
-    subject: '',
-    preface: `VA Medical Record\n\n${lastUpdatedIndicator}`,
-=======
-    subject: 'VA Medical Record',
+    subject: `VA Medical Record\n\n${lastUpdatedIndicator}`,
     preface: `Showing ${records.length} records from newest to oldest`,
->>>>>>> origin/main
   };
 };
 
