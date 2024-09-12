@@ -43,97 +43,99 @@ export const ChooseDateAndTime = () => {
   );
   return (
     <FormLayout pageTitle={pageTitle}>
-      <div>
-        <h1>{pageTitle}</h1>
-        <h2 className="vads-u-font-size--h3">{referral.providerName}</h2>
-        <p className="vads-u-margin--0">{referral.typeOfCare}</p>
-        <h3 className="vads-u-font-size--h4">{referral.orgName}</h3>
-        <address>
-          <p className="vads-u-margin--0">
-            {referral.orgAddress.street1} <br />
-            {referral.orgAddress.street2 && (
-              <>
-                {referral.orgAddress.street2}
-                <br />
-              </>
-            )}
-            {referral.orgAddress.street3 && (
-              <>
-                {referral.orgAddress.street3}
-                <br />
-              </>
-            )}
-            {referral.orgAddress.city}, {referral.orgAddress.state},{' '}
-            {referral.orgAddress.zip}
-          </p>
-          <div
-            data-testid="directions-link-wrapper"
-            className="vads-u-display--flex vads-u-color--link-default"
-          >
-            <va-icon
-              className="vads-u-margin-right--0p5 vads-u-color--link-default"
-              icon="directions"
-              size={3}
-            />
-            <a
-              data-testid="directions-link"
-              href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
-                referral.orgAddress,
-              )}`}
-              aria-label={`directions to ${referral.orgName}`}
-              target="_blank"
-              rel="noreferrer"
+      <>
+        <div>
+          <h1>{pageTitle}</h1>
+          <h2 className="vads-u-font-size--h3">{referral.providerName}</h2>
+          <p className="vads-u-margin--0">{referral.typeOfCare}</p>
+          <h3 className="vads-u-font-size--h4">{referral.orgName}</h3>
+          <address>
+            <p className="vads-u-margin--0">
+              {referral.orgAddress.street1} <br />
+              {referral.orgAddress.street2 && (
+                <>
+                  {referral.orgAddress.street2}
+                  <br />
+                </>
+              )}
+              {referral.orgAddress.street3 && (
+                <>
+                  {referral.orgAddress.street3}
+                  <br />
+                </>
+              )}
+              {referral.orgAddress.city}, {referral.orgAddress.state},{' '}
+              {referral.orgAddress.zip}
+            </p>
+            <div
+              data-testid="directions-link-wrapper"
+              className="vads-u-display--flex vads-u-color--link-default"
             >
-              Directions
-            </a>
-          </div>
-        </address>
-        <p>Phone: {referral.orgPhone}</p>
-        <p>
-          {referral.driveTime} ({referral.driveDistance})
-        </p>
-        <p>
-          Please select an available date and time from the calendar below.
-          Appointment times are displayed in {referral.timezone} timezone.
-        </p>
-      </div>
-      <div>
-        <CalendarWidget
-          maxSelections={1}
-          availableSlots={referral.slots}
-          value={[selectedDates]}
-          id="dateTime"
-          timezone={referral.timezone}
-          additionalOptions={{
-            required: true,
-          }}
-          // disabled={loadingSlots}
-          disabledMessage={
-            <va-loading-indicator
-              data-testid="loadingIndicator"
-              set-focus
-              message="Finding appointment availability..."
-            />
-          }
-          onChange={onChange}
-          onNextMonth={null}
-          onPreviousMonth={null}
-          minDate={format(new Date(), 'yyyy-MM-dd')}
-          maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
-          required
-          requiredMessage="Please choose your preferred date and time for your appointment"
-          startMonth={startMonth}
-          showValidation={submitted && !selectedDates?.length}
-          showWeekends
-          overrideMaxDays
+              <va-icon
+                className="vads-u-margin-right--0p5 vads-u-color--link-default"
+                icon="directions"
+                size={3}
+              />
+              <a
+                data-testid="directions-link"
+                href={`https://maps.google.com?addr=Current+Location&daddr=${fullAddress(
+                  referral.orgAddress,
+                )}`}
+                aria-label={`directions to ${referral.orgName}`}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Directions
+              </a>
+            </div>
+          </address>
+          <p>Phone: {referral.orgPhone}</p>
+          <p>
+            {referral.driveTime} ({referral.driveDistance})
+          </p>
+          <p>
+            Please select an available date and time from the calendar below.
+            Appointment times are displayed in {referral.timezone} timezone.
+          </p>
+        </div>
+        <div>
+          <CalendarWidget
+            maxSelections={1}
+            availableSlots={referral.slots}
+            value={[selectedDates]}
+            id="dateTime"
+            timezone={referral.timezone}
+            additionalOptions={{
+              required: true,
+            }}
+            // disabled={loadingSlots}
+            disabledMessage={
+              <va-loading-indicator
+                data-testid="loadingIndicator"
+                set-focus
+                message="Finding appointment availability..."
+              />
+            }
+            onChange={onChange}
+            onNextMonth={null}
+            onPreviousMonth={null}
+            minDate={format(new Date(), 'yyyy-MM-dd')}
+            maxDate={format(latestAvailableSlot, 'yyyy-MM-dd')}
+            required
+            requiredMessage="Please choose your preferred date and time for your appointment"
+            startMonth={startMonth}
+            showValidation={submitted && !selectedDates?.length}
+            showWeekends
+            overrideMaxDays
+          />
+        </div>
+        <FormButtons
+          onBack={() => {}}
+          onSubmit={() => setSubmitted(true)}
+          // pageChangeInProgress={pageChangeInProgress}
+          loadingText="Page change in progress"
         />
-      </div>
-      <FormButtons
-        onBack={() => {}}
-        onSubmit={() => setSubmitted(true)}
-        // pageChangeInProgress={pageChangeInProgress}
-        loadingText="Page change in progress"
-      />
+      </>
     </FormLayout>
   );
 };
