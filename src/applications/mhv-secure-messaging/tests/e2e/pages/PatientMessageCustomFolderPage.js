@@ -232,24 +232,27 @@ class PatientMessageCustomFolderPage {
       .should('be.empty');
   };
 
-  createCustomFolder = folderName => {
-    mockFolders.data.push(createdFolderResponse.data);
+  createCustomFolder = (
+    updatedFoldersResponse,
+    folderName = `folderWithRandomNumber`,
+  ) => {
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get('[name="folder-name"]')
       .shadow()
-      .find('[name="folder-name"]')
+      .find('input')
       .type(folderName);
 
     cy.intercept(
-      'POST',
+      `POST`,
       Paths.SM_API_BASE + Paths.FOLDERS,
       createdFolderResponse,
-    ).as('createFolder');
+    ).as(`createdFolderResponse`);
+
     cy.intercept(
-      'POST',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}?*`,
-      mockFolders,
-    ).as('updatedFoldersList');
+      `GET`,
+      `${Paths.SM_API_BASE + Paths.FOLDERS}*`,
+      updatedFoldersResponse,
+    ).as(`updatedFoldersList`);
 
     cy.get('[text="Create"]')
       .shadow()

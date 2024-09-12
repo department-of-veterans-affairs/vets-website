@@ -29,10 +29,12 @@ class FolderLoadPage {
     });
   };
 
-  loadFolders = () => {
-    cy.intercept('GET', `${Paths.INTERCEPT.MESSAGE_FOLDER}`, mockFolders).as(
-      'foldersResponse',
-    );
+  loadFolders = (foldersResponse = mockFolders) => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDER}`,
+      foldersResponse,
+    ).as('foldersResponse');
     cy.get('[data-testid="folders-inner-nav"]>a').click({ force: true });
   };
 

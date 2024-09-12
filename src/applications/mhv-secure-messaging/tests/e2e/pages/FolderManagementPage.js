@@ -3,6 +3,7 @@ import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
 import mockFolders from '../fixtures/generalResponses/folders.json';
 import { Data, Locators, Alerts, Paths } from '../utils/constants';
+import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 
 class FolderManagementPage {
   currentThread = defaultMockThread;
@@ -170,6 +171,13 @@ class FolderManagementPage {
 
   verifyCreateFolderSuccessMessageHasFocus = () => {
     cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+  };
+
+  verifyCreatedFolderVisible = () => {
+    cy.get(`.folder-link`)
+      .last()
+      .invoke(`attr`, `data-testid`)
+      .should(`eq`, createdFolderResponse.data.attributes.name);
   };
 
   selectFolderFromModal = () => {
