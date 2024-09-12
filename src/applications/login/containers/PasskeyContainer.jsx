@@ -1,15 +1,20 @@
 /* eslint-disable no-console */
 import React, { useState } from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-  // browserSupportsWebAuthn,
-  // platformAuthenticatorIsAvailable,
+  browserSupportsWebAuthn,
+  platformAuthenticatorIsAvailable,
   startRegistration,
   startAuthentication,
 } from '@simplewebauthn/browser';
 
 export default function PasskeysContainer() {
   const [message, setMessage] = useState('');
+  const isLoggedIn = useSelector(
+    state => state?.user?.login?.currentlyLoggedIn,
+  );
+  const canUseWebAuth =
+    browserSupportsWebAuthn() && platformAuthenticatorIsAvailable();
 
   const handleOnClick = async e => {
     e.preventDefault();
@@ -91,22 +96,41 @@ export default function PasskeysContainer() {
   //   return null;
   // }
 
+  if (!canUseWebAuth) {
+    return (
+      <div>
+        <p>We're sorry but it looks like your device cannot use passkeys.</p>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h2>
-        It looks like you are signed in and have passkeys. Click the button
-        below to register your account.
+        {isLoggedIn ? 'Register your passkey' : 'Login with your passkey'}
       </h2>
-      {message}
-      <button type="button" onClick={handleOnClick}>
-        Register your passkey
-      </button>
-      <p>
-        You are not signed in. We cant associate your account based on magic.
-      </p>
-      <button type="button" onClick={handleSignIn}>
-        Sign in with passkeys
-      </button>
+      {isLoggedIn && canUseWebAuth ? (
+        <>
+          <p>
+            It looks like you are signed in and have passkeys. Click the button
+            below to register your account.
+          </p>
+          {message}
+          <button type="button" onClick={handleOnClick}>
+            Register your passkey
+          </button>
+        </>
+      ) : (
+        <>
+          <p>
+            You are not signed in. We cant associate your account based on
+            magic.
+          </p>
+          <button type="button" onClick={handleSignIn}>
+            Sign in with passkeys
+          </button>
+        </>
+      )}
     </div>
   );
 }
