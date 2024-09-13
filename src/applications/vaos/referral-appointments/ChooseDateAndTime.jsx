@@ -57,8 +57,8 @@ export const ChooseDateAndTime = () => {
       .formatToParts()
       .find(({ type }) => type === 'timeZoneName').value;
   };
-  const tzLong = getTzName('long');
-  const tzShort = getTzName('short');
+  const tzLong = getTzName('longGeneric');
+  const tzShort = getTzName('shortGeneric');
   return (
     <FormLayout pageTitle={pageTitle}>
       <>
