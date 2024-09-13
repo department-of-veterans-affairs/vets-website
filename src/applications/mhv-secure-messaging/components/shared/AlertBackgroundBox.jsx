@@ -16,7 +16,7 @@
  * since in this case there are no other content on screen.
  */
 
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -121,8 +121,20 @@ const AlertBackgroundBox = props => {
     }
   }, 60000); // 1 minute
 
-  const alertAriaLabel = `${alertContent}. You are in ${(lastPathName ===
-    'Folders' &&
+  const handleAlertFocus = useCallback(
+    () => {
+      setTimeout(() => {
+        focusElement(
+          props.focus
+            ? alertRef.current.shadowRoot.querySelector('button')
+            : alertRef.current,
+        );
+      }, 500);
+    },
+    [props.focusOnClose],
+  );
+
+  const alertAriaLabel = `You are in ${(lastPathName === 'Folders' &&
     'My Folders') ||
     (foldersViewPage && 'a custom folder view page') ||
     lastPathName}.`;
@@ -136,7 +148,7 @@ const AlertBackgroundBox = props => {
           background-only
           closeable={props.closeable}
           className="vads-u-margin-bottom--1 va-alert"
-          close-btn-aria-label="Close notification"
+          close-btn-aria-label={`${alertContent}. ${alertAriaLabel}. Close notification.`}
           disable-analytics="false"
           full-width="false"
           show-icon={handleShowIcon()}
@@ -144,9 +156,7 @@ const AlertBackgroundBox = props => {
           onCloseEvent={
             closeAlertBox // success, error, warning, info, continue
           }
-          onVa-component-did-load={() => {
-            focusElement(alertRef.current);
-          }}
+          onVa-component-did-load={handleAlertFocus}
         >
           <div>
             <p className="vads-u-margin-y--0" data-testid="alert-text">
@@ -169,6 +179,7 @@ const AlertBackgroundBox = props => {
 AlertBackgroundBox.propTypes = {
   activeAlert: PropTypes.object,
   closeable: PropTypes.bool,
+  focus: PropTypes.bool,
   noIcon: PropTypes.bool,
 };
 
