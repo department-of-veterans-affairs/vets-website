@@ -116,7 +116,7 @@ export default function VeteranProgramsAndSupport({
     <div className="usa-width-one-half medium-6 columns">
       <div className="historical-information table">
         <h3>Historical Information</h3>
-        <va-table class="vads-u-margin-top--0">
+        <va-table table-type="bordered">
           <va-table-row slot="headers">
             <span>Benefit</span>
             <span>Recipients</span>
