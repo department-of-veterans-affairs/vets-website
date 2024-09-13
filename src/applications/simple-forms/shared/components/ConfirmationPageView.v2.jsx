@@ -18,12 +18,31 @@ import {
   getActiveExpandedPages,
 } from '~/platform/forms-system/exportsFile';
 import { PropTypes } from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import GetFormHelp from './GetFormHelp';
 import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
+const PdfDownloadLink = ({ url, trackingPrefix }) => {
+  const onClick = () => {
+    recordEvent({
+      event: `${trackingPrefix}confirmation-pdf-download`,
+    });
+  };
+
+  return (
+    <va-link
+      download
+      filetype="PDF"
+      href={url}
+      onClick={onClick}
+      text="Download a copy of your VA Form"
+    />
+  );
+};
+
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { confirmationNumber, submitDate, formConfig } = props;
+  const { confirmationNumber, submitDate, formConfig, pdfUrl } = props;
 
   useEffect(
     () => {
@@ -64,6 +83,12 @@ export const ConfirmationPageView = props => {
     window.print();
   };
 
+  const onCheckVaStatusClick = () => {
+    recordEvent({
+      event: `${formConfig.trackingPrefix}confirmation-check-status-my-va`,
+    });
+  };
+
   return (
     <div>
       <div className="print-only">
@@ -80,12 +105,15 @@ export const ConfirmationPageView = props => {
         </h2>
         <p>Your submission is in progress.</p>
         <p>
-          It can take up to 10 days for us to receive your form. Your
-          confirmation number is {confirmationNumber}.
+          It can take up to 10 days for us to receive your form.{' '}
+          {confirmationNumber &&
+            `Your
+          confirmation number is ${confirmationNumber}.`}
         </p>
         <VaLinkAction
           href="/my-va"
           text="Check the status of your form on My VA"
+          onClick={onCheckVaStatusClick}
         />
       </VaAlert>
       <div className="print-only">
@@ -96,9 +124,19 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div className="screen-only">
-        <h2>Save a copy of your form</h2>
-        <p>If you’d like a copy of your completed form, you can download it.</p>
-        <VaAccordion bordered uswds>
+        {pdfUrl && (
+          <>
+            <h2>Save a copy of your form</h2>
+            <p>
+              If you’d like a copy of your completed form, you can download it.
+            </p>
+            <PdfDownloadLink
+              url={pdfUrl}
+              trackingPrefix={formConfig.trackingPrefix}
+            />
+          </>
+        )}
+        <VaAccordion bordered open-single uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
@@ -138,7 +176,9 @@ export const ConfirmationPageView = props => {
               update the status on My VA.
             </p>
             <p>
-              <a href="/my-va">Check the status of your form on My VA</a>
+              <a href="/my-va" onClick={onCheckVaStatusClick}>
+                Check the status of your form on My VA
+              </a>
             </p>
           </VaProcessListItem>
           <VaProcessListItem header="We’ll review your form">
@@ -184,6 +224,7 @@ export const ConfirmationPageView = props => {
 
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string.isRequired,
-  submitDate: PropTypes.object.isRequired,
   formConfig: PropTypes.object.isRequired,
+  submitDate: PropTypes.object.isRequired,
+  pdfUrl: PropTypes.string,
 };

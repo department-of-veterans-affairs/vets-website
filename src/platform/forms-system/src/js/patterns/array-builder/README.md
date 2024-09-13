@@ -214,6 +214,7 @@ const options = {
   text: {
     getItemName: item => item.name,
     cardDescription: item => `${formatReviewDate(item?.date)}`,
+    summaryDescription: 'You can add up to 5 items',
   },
 };
 
@@ -366,6 +367,7 @@ const options = {
 | `reviewAddButtonText` |
 | `summaryTitle` |
 | `summaryTitleWithoutItems` |
+| `summaryDescription` |
 | `summaryDescriptionWithoutItems` |
 | `yesNoBlankReviewQuestion` |
 

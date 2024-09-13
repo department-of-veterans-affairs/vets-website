@@ -188,7 +188,9 @@ export const ChapterSectionCollection = ({
       fields.length > 0 && (
         <div key={`chapter_${chapter.name}`}>
           <h3>{chapterTitle}</h3>
-          <ul style={{ listStyle: 'none' }}>{fields}</ul>
+          <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+            {fields}
+          </ul>
         </div>
       )
     );

@@ -69,8 +69,10 @@ function editPhoneNumber(
   phoneNumberInput.value = `${options.areaCode} ${options.phoneNumber}`;
   fireEvent.input(phoneNumberInput, { target: {} });
 
-  extensionInput.value = '';
-  fireEvent.input(extensionInput, { target: {} });
+  if (numberName !== FIELD_TITLES[FIELD_NAMES.MOBILE_PHONE]) {
+    extensionInput.value = '';
+    fireEvent.input(extensionInput, { target: {} });
+  }
 
   // save
   view.getByText('Save', { selector: 'button' }).click();
