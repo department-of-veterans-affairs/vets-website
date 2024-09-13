@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import classNames from 'classnames';
@@ -6,6 +7,7 @@ import { removeCompareInstitution, compareDrawerOpened } from '../actions';
 import RemoveCompareSelectedModal from '../components/RemoveCompareSelectedModal';
 import { isSmallScreen } from '../utils/helpers';
 import { updateUrlParams } from '../selectors/compare';
+import Button from '../components/Button';
 
 export function CompareDrawer({
   compare,
@@ -130,7 +132,7 @@ export function CompareDrawer({
                 {institutions[facilityCode].name}
               </div>
               <div className="vads-u-padding-top--1p5">
-                <button
+                <Button
                   type="button"
                   className="va-button-link learn-more-button"
                   onClick={() => {
@@ -141,7 +143,7 @@ export function CompareDrawer({
                   } from comparison`}
                 >
                   Remove
-                </button>
+                </Button>
               </div>
             </div>
           </li>
@@ -292,7 +294,7 @@ export function CompareDrawer({
                     You can compare 2 to 3 institutions
                   </div>
                   <div className="vads-u-margin-right--2">
-                    <button
+                    <Button
                       type="button"
                       tabIndex={0}
                       className="usa-button vads-u-width--full"
@@ -300,7 +302,7 @@ export function CompareDrawer({
                       onClick={openCompare}
                     >
                       Compare
-                    </button>
+                    </Button>
                   </div>
                 </div>
                 <ol id="compare-list-item" className="compare-list">
@@ -331,6 +333,15 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   dispatchRemoveCompareInstitution: removeCompareInstitution,
   dispatchCompareDrawerOpened: compareDrawerOpened,
+};
+
+CompareDrawer.propTypes = {
+  compare: PropTypes.object.isRequired,
+  dispatchCompareDrawerOpened: PropTypes.func.isRequired,
+  dispatchRemoveCompareInstitution: PropTypes.func.isRequired,
+  displayed: PropTypes.bool.isRequired,
+  preview: PropTypes.object.isRequired,
+  alwaysDisplay: PropTypes.bool,
 };
 
 export default connect(
