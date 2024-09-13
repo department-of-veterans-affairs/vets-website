@@ -153,14 +153,11 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-
     const { userProfile } = authMetrics;
-
     const provisioned = await handleProvisioning(userProfile);
     if (!provisioned) {
       return;
     }
-
     authMetrics.run();
     if (!skipToRedirect) {
       setupProfileSession(userProfile);
