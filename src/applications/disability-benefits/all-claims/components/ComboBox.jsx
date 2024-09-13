@@ -117,6 +117,7 @@ export class ComboBox extends React.Component {
             searchTerm,
             filteredOptions: [],
             highlightedIndex: defaultHighlightedIndex,
+            selectionMade: true,
           });
         }
         break;
@@ -157,6 +158,7 @@ export class ComboBox extends React.Component {
           searchTerm,
           filteredOptions: [],
           highlightedIndex: defaultHighlightedIndex,
+          selectionMade: true,
         });
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
