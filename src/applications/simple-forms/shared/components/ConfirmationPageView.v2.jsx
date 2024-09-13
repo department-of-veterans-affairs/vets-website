@@ -42,12 +42,12 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { 
+  const {
     confirmationNumber,
-    submitDate,
     formConfig,
     pagesFromState,
     pdfUrl,
+    submitDate,
   } = props;
 
   useEffect(
