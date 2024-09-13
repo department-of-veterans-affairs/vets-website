@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
+  VaModal,
   VaPagination,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -16,7 +17,6 @@ import { deriveDefaultModalState } from '../helpers';
 import { getFindFormsAppState } from '../helpers/selectors';
 import { FAF_SORT_OPTIONS } from '../constants';
 import SearchResult from '../components/SearchResult';
-import PdfModal from '../components/PdfModal';
 
 export const MAX_PAGE_LIST_LENGTH = 10;
 const usePreviousProps = value => {
@@ -127,7 +127,7 @@ export const SearchResults = ({
 
   if (error) {
     return (
-      <va-alert status="error">
+      <va-alert status="error" uswds>
         <h3 slot="headline">Something went wrong</h3>
         {error}
       </va-alert>
@@ -222,6 +222,7 @@ export const SearchResults = ({
             setSortByPropertyNameState(formMetaInfo)(value);
           }}
           value={sortByPropertyName}
+          uswds
         >
           {FAF_SORT_OPTIONS.map(opt => (
             <option key={opt} value={opt}>
@@ -235,17 +236,47 @@ export const SearchResults = ({
         {searchResults}
       </ul>
 
-      {/* Download PDF modal */}
+      {/*  */}
       <div className="pdf-alert-modal">
-        <PdfModal
-          isOpen={isOpen}
-          pdfLabel={pdfLabel}
-          pdfUrl={pdfUrl}
-          pdfSelected={pdfSelected}
-          prevFocusedLink={prevFocusedLink}
-          searchResults
-          toggleModalState={toggleModalState}
-        />
+        <VaModal
+          onCloseEvent={() => {
+            toggleModalState(pdfSelected, pdfUrl, pdfLabel, true);
+            document.getElementById(prevFocusedLink).focus();
+          }}
+          modalTitle="Download this PDF and open it in Acrobat Reader"
+          initialFocusSelector="#va-modal-title"
+          visible={isOpen}
+          uswds
+        >
+          <div className="vads-u-display--flex vads-u-flex-direction--column">
+            <p>
+              Download this PDF to your desktop computer or laptop. Then use
+              Adobe Acrobat Reader to open and fill out the form. Don’t try to
+              open the PDF on a mobile device or fill it out in your browser.
+            </p>{' '}
+            <p className="vads-u-margin-top--0">
+              If you want to fill out a paper copy, open the PDF in your browser
+              and print it from there.
+            </p>{' '}
+            <a
+              href="https://get.adobe.com/reader/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Get Acrobat Reader for free from Adobe
+            </a>
+            <a href={pdfUrl} className="vads-u-margin-top--2" download>
+              <va-icon
+                className="vads-u-margin-right--1"
+                icon="file_download"
+                size="3"
+              />
+              <span className="vads-u-text-decoration--underline">
+                Download VA Form {pdfSelected}
+              </span>
+            </a>
+          </div>
+        </VaModal>
       </div>
 
       {/* Pagination Row */}
@@ -257,6 +288,7 @@ export const SearchResults = ({
           page={page}
           pages={totalPages}
           showLastPage
+          uswds
         />
       )}
     </>
