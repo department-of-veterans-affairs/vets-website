@@ -1,5 +1,6 @@
 const set = require('lodash/set');
 const cloneDeep = require('lodash/cloneDeep');
+const { default: maritalStatus } = require('../../../../ezr/config/chapters/householdInformation/maritalStatus');
 /**
  * Loops through the claims array and adds the claims to the user object
  *
@@ -321,6 +322,9 @@ const baseUserResponses = {
           status: 'OK',
           isVeteran: true,
           servedInMilitary: true,
+        },
+        'view:maritalStatus': {
+          maritalStatus: 'Married',
         },
         inProgressForms: [],
         prefillsAvailable: ['21-686C', 'FORM-MOCK-AE-DESIGN-PATTERNS'],

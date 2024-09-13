@@ -17,6 +17,7 @@ const maintenanceWindows = require('./endpoints/maintenance-windows');
 const {
   prefill,
   createSaveInProgressUpdate,
+  createSaveInProgressUpdateEZR,
 } = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
 
 // transaction status that is used for address, email, phone number update flows
@@ -52,10 +53,17 @@ const responses = {
   'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(
-      () => res.json(createSaveInProgressUpdate()),
+      () => res.json(createSaveInProgressUpdateEZR()),
       secondsOfDelay,
     );
   },
+  // 'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
+  //   const secondsOfDelay = 1;
+  //   delaySingleResponse(
+  //     () => res.json(createSaveInProgressUpdate()),
+  //     secondsOfDelay,
+  //   );
+  // },
 
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
