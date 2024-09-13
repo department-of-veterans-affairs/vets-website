@@ -161,6 +161,7 @@ const EditContactList = () => {
       />
 
       <h1>Contact list</h1>
+      <AlertBackgroundBox closeable focus />
       <p
         className={`${
           allFacilities?.length > 1 || showBlockedTriageGroupAlert
@@ -211,8 +212,6 @@ const EditContactList = () => {
             }
             return null;
           })}
-
-          <AlertBackgroundBox closeable />
 
           <div
             className="
