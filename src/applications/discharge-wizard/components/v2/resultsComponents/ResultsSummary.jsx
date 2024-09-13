@@ -22,11 +22,11 @@ const ResultsSummary = ({ formResponses }) => {
     ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
 
   const airForceAFRBAPortal = determineAirForceAFRBAPortal(formResponses);
+
   const formNumber = determineFormData(formResponses).num;
   const dischargeBoard = determineBoardObj(formResponses).name;
   const serviceBranch = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH];
   const isReconsideration = forReconsideration ? ' for reconsideration' : '';
-
   let summary = `Based on your answers, you need to complete Department of Defense (DoD) Form ${formNumber} and send it to the ${dischargeBoard} for the ${serviceBranch}${isReconsideration}.`;
 
   if (airForceAFRBAPortal) {

@@ -416,7 +416,7 @@ export const determineVenueAddress = (formResponses, noDRB) => {
     (boardData.abbr === DRB || boardData.abbr === AFDRB)
   ) {
     switch (formResponses[SHORT_NAME_MAP.SERVICE_BRANCH]) {
-      case SHORT_NAME_MAP.ARMY:
+      case RESPONSES.ARMY:
         return (
           <p className="va-address-block">
             Army Review Boards Agency
@@ -548,3 +548,152 @@ export const determineAirForceAFRBAPortal = formResponses =>
   formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
   determineBoardObj(formResponses).abbr === BCMR &&
   determineFormData(formResponses).num === 149;
+
+// Determines step header level.
+export const stepHeaderLevel = formResponses => {
+  if (
+    [
+      RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
+      RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
+    ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
+  ) {
+    return 3;
+  }
+  return 2;
+};
+
+export const determineIsAirForceAFRBAPortal = formResponses =>
+  formResponses[SHORT_NAME_MAP.SERVICE_BRANCH] === RESPONSES.AIR_FORCE &&
+  determineBoardObj(formResponses).abbr === BCMR &&
+  determineFormData(formResponses).num === 149;
+
+const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
+  if (
+    ![
+      RESPONSES.PREV_APPLICATION_BCMR,
+      RESPONSES.PREV_APPLICATION_BCNR,
+    ].includes(prevAppType)
+  ) {
+    return oldDischarge
+      ? `the ${
+          boardToSubmit.name
+        }. The Board handles all cases from 15 or more years ago.`
+      : 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
+  }
+  return `the ${boardToSubmit.name}. The ${
+    boardToSubmit.abbr
+  } granted your previous upgrade request, so you must apply to them for a new DD214.`;
+};
+
+export const isPreviousApplicationYear = prevAppYear => {
+  return [
+    RESPONSES.PREV_APPLICATION_BEFORE_2011,
+    RESPONSES.PREV_APPLICATION_BEFORE_2014,
+    RESPONSES.PREV_APPLICATION_BEFORE_2017,
+  ].includes(prevAppYear);
+};
+
+const shouldReapplyToBoard = (prevAppType, formResponses) => {
+  return (
+    [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
+      prevAppType,
+    ) &&
+    [
+      RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
+      RESPONSES.FAILURE_TO_EXHAUST_BCNR_YES,
+    ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST])
+  );
+};
+
+const isDocumentaryOrNotSure = prevAppType => {
+  return [
+    RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY,
+    RESPONSES.NOT_SURE,
+  ].includes(prevAppType);
+};
+
+const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
+  const boardName =
+    boardToSubmit.abbr === DRB
+      ? 'Discharge Review Board (DRB)'
+      : 'Air Force Discharge Review Board (AFDRB)';
+  const documentaryMessage =
+    prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
+      ? ` Because your application was rejected by the ${
+          boardToSubmit.abbr
+        } on Documentary Review, you must apply for a Personal Appearance Review.`
+      : '';
+
+  return `the ${boardName} for the ${serviceBranch}. The ${
+    boardToSubmit.abbr
+  } reviews cases up to 15 years after discharge.${documentaryMessage}`;
+};
+
+export const getBoardExplanation = formResponses => {
+  const reason = formResponses[SHORT_NAME_MAP.REASON];
+  const noPrevApp =
+    formResponses[SHORT_NAME_MAP.PREV_APPLICATION] === RESPONSES.NO;
+  const prevAppType = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_TYPE];
+  const prevAppYear = formResponses[SHORT_NAME_MAP.PREV_APPLICATION_YEAR];
+  const dischargeYear = formResponses[SHORT_NAME_MAP.DISCHARGE_YEAR];
+  const dischargeMonth = formResponses[SHORT_NAME_MAP.DISCHARGE_MONTH] || 1;
+  const oldDischarge =
+    new Date().getFullYear() -
+      new Date(dischargeYear, dischargeMonth).getFullYear() >
+    15;
+
+  const boardToSubmit = determineBoardObj(formResponses);
+  const serviceBranch = determineBranchOfService(
+    formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
+  );
+
+  const { abbr, name } = boardToSubmit;
+
+  if (reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214) {
+    return handleDD215Update(boardToSubmit, prevAppType, oldDischarge);
+  }
+
+  if (isPreviousApplicationYear(prevAppYear) && abbr === DRB) {
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. In general, the DRB does not handle appeals for previously denied applications. However, new rules may apply. If the DRB decides the new rules don’t apply, you'll need to appeal to a different Board.`;
+  }
+
+  if (formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST] && abbr === DRB) {
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. The ${name} previously rejected your application for not applying to the DRB first. The DRB reviews cases within 15 years of discharge.`;
+  }
+
+  if (prevAppType === RESPONSES.PREV_APPLICATION_DRB_PERSONAL) {
+    return `the ${abbr} for the ${serviceBranch} to appeal the decision made by the DRB on a Personal Appearance Review.`;
+  }
+
+  if (shouldReapplyToBoard(prevAppType, formResponses)) {
+    return `the ${abbr}. If you’ve applied before, you must re-apply to the ${abbr} for reconsideration.`;
+  }
+
+  if (
+    (noPrevApp ||
+      isDocumentaryOrNotSure(prevAppType) ||
+      isPreviousApplicationYear(prevAppYear)) &&
+    oldDischarge
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. The Board handles cases from 15 or more years ago.`;
+  }
+
+  if (
+    formResponses[SHORT_NAME_MAP.COURT_MARTIAL] === RESPONSES.COURT_MARTIAL_YES
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. This is because your discharge was the result of a general court-martial.`;
+  }
+
+  if (
+    reason === RESPONSES.REASON_TRANSGENDER ||
+    formResponses[SHORT_NAME_MAP.INTENTION] === RESPONSES.INTENTION_YES
+  ) {
+    return `the ${abbr} for the ${serviceBranch}. This is because you want to change information other than your characterization of discharge, re-enlistment code, separation code, and narrative reason for discharge.`;
+  }
+
+  if (abbr === DRB || abbr === AFDRB) {
+    return handleDRBExplanation(boardToSubmit, serviceBranch, prevAppType);
+  }
+
+  return '';
+};
