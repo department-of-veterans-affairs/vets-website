@@ -38,9 +38,10 @@ export default function transformForSubmit(formConfig, form) {
         first: transformedData.veteranFullName?.first,
         last: transformedData.veteranFullName?.last,
       },
-      email: transformedData.veteranEmailAddress,
       phone: transformedData.veteranPhoneNumber,
+      email: transformedData.veteranEmailAddress,
     },
+    supportingDocs: [transformedData.uploadSection],
   };
 
   return JSON.stringify({
