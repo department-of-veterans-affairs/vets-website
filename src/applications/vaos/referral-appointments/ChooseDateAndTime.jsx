@@ -49,6 +49,16 @@ export const ChooseDateAndTime = () => {
       history.push('/confirm-approved');
     }
   };
+  const getTzName = name => {
+    return new Intl.DateTimeFormat('default', {
+      timeZone: referral.timezone,
+      timeZoneName: name,
+    })
+      .formatToParts()
+      .find(({ type }) => type === 'timeZoneName').value;
+  };
+  const tzLong = getTzName('long');
+  const tzShort = getTzName('short');
   return (
     <FormLayout pageTitle={pageTitle}>
       <>
@@ -107,7 +117,7 @@ export const ChooseDateAndTime = () => {
           </p>
           <p>
             Please select an available date and time from the calendar below.
-            Appointment times are displayed in {referral.timezone} timezone.
+            Appointment times are displayed in {`${tzLong} (${tzShort})`}.
           </p>
         </div>
         <div>
