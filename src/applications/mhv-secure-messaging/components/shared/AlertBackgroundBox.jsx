@@ -148,7 +148,7 @@ const AlertBackgroundBox = props => {
           background-only
           closeable={props.closeable}
           className="vads-u-margin-bottom--1 va-alert"
-          close-btn-aria-label={`${alertContent}. ${alertAriaLabel}. Close notification.`}
+          close-btn-aria-label={`${alertContent}. ${alertAriaLabel} Close notification.`}
           disable-analytics="false"
           full-width="false"
           show-icon={handleShowIcon()}
