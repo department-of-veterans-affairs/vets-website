@@ -167,7 +167,9 @@ describe('Edit Contact List container', async () => {
     const selectAll = await screen.findByTestId(
       'select-all-Test-Facility-2-teams',
     );
-    expect(selectAll).to.have.attribute('checked', 'true');
+    await waitFor(() => {
+      expect(selectAll).to.have.attribute('checked', 'true');
+    });
 
     await checkVaCheckbox(selectAll, false);
 
@@ -245,7 +247,9 @@ describe('Edit Contact List container', async () => {
     const selectAllFacility2 = await screen.findByTestId(
       'select-all-Test-Facility-2-teams',
     );
-    expect(selectAllFacility2).to.have.attribute('checked', 'true');
+    await waitFor(() => {
+      expect(selectAllFacility2).to.have.attribute('checked', 'true');
+    });
 
     await checkVaCheckbox(selectAllFacility2, false);
 
