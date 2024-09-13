@@ -269,9 +269,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyAuthConfirmation` executes', () => {
-    const getData = ({ loggedIn = true, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+      selectedPackage = 'regOnly',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      'view:totalDisabilityRating': totalRating,
     });
 
     it('should return `true` when all data values are correct', () => {
@@ -296,9 +303,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyGuestConfirmation` executes', () => {
-    const getData = ({ loggedIn = false, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      selectedPackage = 'regOnly',
+      compensationType = 'lowDisability',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      vaCompensationType: compensationType,
     });
 
     it('should return `true` when all data values are correct', () => {
