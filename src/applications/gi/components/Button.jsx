@@ -10,11 +10,13 @@ const Button = ({
   children,
   type,
   ariaDescribedBy,
+  disabled = false,
 }) => {
   return (
     /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
     <button
       {...type && { type }}
+      disabled={disabled}
       className={className}
       aria-selected={ariaSelected}
       ariaDescribedBy={ariaDescribedBy}
@@ -33,6 +35,7 @@ Button.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   dataTestId: PropTypes.string,
+  disabled: PropTypes.bool,
   role: PropTypes.string,
   type: PropTypes.string,
   onClick: PropTypes.func,

@@ -12,6 +12,7 @@ import { ariaLabels } from '../../constants';
 import Dropdown from '../Dropdown';
 import VARadioButton from '../VARadioButton';
 import LearnMoreLabel from '../LearnMoreLabel';
+import Button from '../Button';
 
 class VetTecEstimateYourBenefitsForm extends React.Component {
   constructor(props) {
@@ -209,7 +210,7 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
         {this.renderApprovedProgramsSelector()}
         {this.renderTuitionFees()}
         {this.renderScholarships()}
-        <button
+        <Button
           type="button"
           id="calculate-button"
           className="vads-u-margin-top--2p5"
@@ -217,16 +218,16 @@ class VetTecEstimateYourBenefitsForm extends React.Component {
           disabled={!this.state.inputUpdated}
         >
           Update benefits
-        </button>
+        </Button>
         <div className="vads-u-padding-bottom--2p5">
-          <button
+          <Button
             type="button"
             className="va-button-link learn-more-button eyb-skip-link"
             aria-label="Skip to your estimated benefits"
             onClick={this.handleEYBSkipLinkOnClick}
           >
             Skip to your estimated benefits
-          </button>
+          </Button>
         </div>
       </div>
     );

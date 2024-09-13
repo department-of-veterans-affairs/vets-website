@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import Button from '../Button';
 
 export const VetTecAdditionalInformation = ({
   institution: { facilityCode },
@@ -11,14 +12,14 @@ export const VetTecAdditionalInformation = ({
         <h3>Institution codes</h3>
         <div aria-live="off">
           <strong>
-            <button
+            <Button
               id="facilityCode-button"
               type="button"
               className="va-button-link learn-more-button"
               onClick={() => showModal('facilityCode')}
             >
               VA facility code:
-            </button>
+            </Button>
             &nbsp;
           </strong>
           {facilityCode || 'N/A'}

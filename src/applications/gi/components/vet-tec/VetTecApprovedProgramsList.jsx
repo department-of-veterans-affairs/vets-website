@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { focusElement } from 'platform/utilities/ui';
 import { formatCurrency, isPresent, createId } from '../../utils/helpers';
+import Button from '../Button';
 
 const DEFAULT_ROWS_VIEWABLE = 5;
 const MINIMUM_ROWS_FOR_PAGING = 10;
@@ -149,13 +150,13 @@ class VetTecApprovedProgramsList extends React.Component {
       if (viewAll) {
         return (
           <div>
-            <button
+            <Button
               type="button"
               className="va-button-link learn-more-button"
               onClick={this.handleViewLessClicked}
             >
               ...View less
-            </button>
+            </Button>
           </div>
         );
       }
@@ -167,7 +168,7 @@ class VetTecApprovedProgramsList extends React.Component {
 
       return (
         <div>
-          <button
+          <Button
             type="button"
             className="va-button-link learn-more-button"
             onClick={this.handleShowMoreClicked}
@@ -178,15 +179,15 @@ class VetTecApprovedProgramsList extends React.Component {
               size={3}
               className="vads-u-padding-left--1"
             />
-          </button>
+          </Button>
           <span className="vads-u-padding--2">|</span>
-          <button
+          <Button
             type="button"
             className="va-button-link learn-more-button"
             onClick={this.handleViewAllClicked}
           >
             View all
-          </button>
+          </Button>
         </div>
       );
     }
