@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 // import environment from 'platform/utilities/environment';
 import TuitionAndHousingEstimates from '../containers/TuitionAndHousingEstimates';
 import FilterYourResults from '../containers/FilterYourResults';
+import Button from './Button';
 // import FilterBeforeResults from '../containers/search/FilterBeforeResults';
 
 export default function MobileFilterControls({ className }) {
@@ -47,15 +49,15 @@ export default function MobileFilterControls({ className }) {
         className,
       )}
     >
-      <button
+      <Button
         className="usa-button-secondary"
         onClick={tuitionAndHousingEstimatesClick}
       >
         Update tuition, housing, and monthly benefit estimates
-      </button>
-      <button className="usa-button-secondary" onClick={filterClick}>
+      </Button>
+      <Button className="usa-button-secondary" onClick={filterClick}>
         Filter your results
-      </button>
+      </Button>
       {tuitionAndHousingOpen && (
         <TuitionAndHousingEstimates
           smallScreen
@@ -68,3 +70,6 @@ export default function MobileFilterControls({ className }) {
     </div>
   );
 }
+MobileFilterControls.propTypes = {
+  className: PropTypes.string,
+};

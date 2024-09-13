@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { createId, isProductionOrTestProdEnv } from '../utils/helpers';
 import ClearFiltersBtn from './ClearFiltersBtn';
+import Button from './Button';
 
 export default function SearchAccordion({
   expanded,
@@ -42,7 +44,7 @@ export default function SearchAccordion({
 
     return (
       <h2 className={headerClasses}>
-        <button
+        <Button
           id={`${id}-button`}
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md"
@@ -52,7 +54,7 @@ export default function SearchAccordion({
           <span className="vads-u-font-family--serif accordion-button-text">
             {button}
           </span>
-        </button>
+        </Button>
       </h2>
     );
   };
@@ -75,7 +77,7 @@ export default function SearchAccordion({
           }
         >
           {' '}
-          <button
+          <Button
             type="button"
             id={buttonId}
             className="update-results-button"
@@ -83,7 +85,7 @@ export default function SearchAccordion({
             aria-describedby={ariaDescribedBy}
           >
             {buttonLabel}
-          </button>
+          </Button>
           {isProductionOrTestProdEnv() && (
             <ClearFiltersBtn
               onClick={dispatchFocusSearch}
@@ -97,3 +99,15 @@ export default function SearchAccordion({
     </div>
   );
 }
+
+SearchAccordion.propTypes = {
+  button: PropTypes.string.isRequired,
+  buttonLabel: PropTypes.string.isRequired,
+  buttonOnClick: PropTypes.func.isRequired,
+  ariaDescribedBy: PropTypes.string,
+  children: PropTypes.node,
+  dispatchFocusSearch: PropTypes.func,
+  expanded: PropTypes.bool,
+  headerClass: PropTypes.string,
+  onClick: PropTypes.func,
+};

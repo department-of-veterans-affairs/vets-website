@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getScrollOptions } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 import NameSearchForm from '../../containers/search/NameSearchForm';
 import LocationSearchForm from '../../containers/search/LocationSearchForm';
 import { TABS } from '../../constants';
+import Button from '../Button';
 
 export default function SearchTabs({ onChange, search, dispatchError }) {
   const { tab } = search;
@@ -45,7 +47,8 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     );
     const testId = label.replaceAll(' ', '-');
     return (
-      <button
+      <Button
+        type="button"
         className={tabClasses}
         aria-selected={activeTab}
         data-testid={testId}
@@ -56,7 +59,7 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
         }}
       >
         {label}
-      </button>
+      </Button>
     );
   };
 
@@ -70,3 +73,8 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
     </div>
   );
 }
+SearchTabs.propTypes = {
+  dispatchError: PropTypes.func.isRequired,
+  search: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+};

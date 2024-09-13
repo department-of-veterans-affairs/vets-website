@@ -1,7 +1,8 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useQueryParams } from '../utils/helpers';
 import moment from 'moment';
+import { useQueryParams } from '../utils/helpers';
+import Button from './Button';
 
 export default function PreviewBanner({ version, toolUrl = '/gids' }) {
   const when = moment(version.createdAt).format(
@@ -25,13 +26,13 @@ export default function PreviewBanner({ version, toolUrl = '/gids' }) {
             This is what the version of this data from {when} will look
             like.&nbsp;
             <span className="actions">
-              <button
+              <Button
                 type="button"
                 className="va-button-link learn-more-button"
                 onClick={onViewLiveVersion}
               >
                 View live version
-              </button>
+              </Button>
               &nbsp;&nbsp;|&nbsp;&nbsp;
               <a href={toolUrl}>Go back to the data tool</a>
             </span>

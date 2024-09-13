@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { focusElement } from 'platform/utilities/ui';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
+import Button from './Button';
 
 export default function LearnMoreLabel({
   ariaLabel,
@@ -55,7 +57,7 @@ export default function LearnMoreLabel({
         })}
       >
         (
-        <button
+        <Button
           id={buttonId}
           aria-label={ariaLabel}
           type="button"
@@ -66,9 +68,19 @@ export default function LearnMoreLabel({
           onClick={onClick}
         >
           Learn more
-        </button>
+        </Button>
         )
       </span>
     </span>
   );
 }
+LearnMoreLabel.propTypes = {
+  ariaLabel: PropTypes.string,
+  bold: PropTypes.bool,
+  buttonClassName: PropTypes.string,
+  buttonId: PropTypes.string,
+  dataTestId: PropTypes.string,
+  labelFor: PropTypes.string,
+  text: PropTypes.string,
+  onClick: PropTypes.func,
+};
