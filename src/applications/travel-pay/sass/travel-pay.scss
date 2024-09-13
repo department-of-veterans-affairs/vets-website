@@ -34,7 +34,8 @@
 h2#pagination-info {
   font-size: 1.06rem;
   font-weight: normal;
-  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: Source Sans Pro Web, "Source Sans Pro", "Helvetica Neue",
+    Helvetica, Arial, sans-serif;
   line-height: 1.5;
 }
 
@@ -52,3 +53,20 @@ h2#pagination-info {
   font-size: 4rem;
   font-weight: 700;
 }
+
+// .claim-details-breadcrumb-wrapper {
+//   display: flex;
+
+//   align-items: center;
+
+//   .back-arrow {
+//     color: var(--vads-color-gray-medium);
+//   }
+
+//   va-breadcrumbs nav {
+//     padding: 0;
+//   }
+//   // nav {
+//   //   padding: 0 !important;
+//   // }
+// }

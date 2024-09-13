@@ -34,7 +34,6 @@ export default function BreadCrumbs() {
     });
   }
 
-  console.log(pathname); // eslint-disable-line no-console
   if (
     pathname.match(
       /^\/[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i,
@@ -45,6 +44,13 @@ export default function BreadCrumbs() {
       label: 'Claim Details',
       isRouterLink: true,
     });
+    // breadcrumbList = [
+    //   {
+    //     href: '/',
+    //     label: 'Back to your travel reimbursement claims',
+    //     isRouterLink: true,
+    //   },
+    // ];
   }
 
   function handleRouteChange({ detail }) {
@@ -54,6 +60,7 @@ export default function BreadCrumbs() {
 
   return (
     <VaBreadcrumbs
+      // homeVeteransAffairs={false}
       breadcrumbList={breadcrumbList}
       label="Breadcrumb"
       uswds
