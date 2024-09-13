@@ -70,11 +70,9 @@ const SmRouteNavigationGuard = ({
 
   const beforeUnloadHandler = useCallback(
     e => {
-      if (when) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = signOutMessage;
-      }
+      e.preventDefault();
+      window.onbeforeunload = () => signOutMessage;
+      e.returnValue = signOutMessage; // Included for legacy support, e.g. Chrome/Edge < 119
     },
     [when, signOutMessage],
   );

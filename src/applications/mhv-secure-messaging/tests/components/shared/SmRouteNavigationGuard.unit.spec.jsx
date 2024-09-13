@@ -92,14 +92,14 @@ describe('SmRouteNavigationGuard component', () => {
     const addEventListenerSpy = sinon.spy(window, 'addEventListener');
 
     screen.findByTestId('select-all-Test-Facility-1-teams');
-    fireEvent(window, new Event('beforeunload'));
 
     await waitFor(() => {
+      fireEvent(window, new Event('beforeunload'));
       expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+      expect(window.onbeforeunload()).to.equal('non-empty string');
     });
 
-    expect(window.onbeforeunload()).to.equal('non-empty string');
-
     addEventListenerSpy.restore();
+    screen.unmount();
   });
 });
