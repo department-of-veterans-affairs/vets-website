@@ -99,7 +99,7 @@ export default function VeteranProgramsAndSupport({
   };
 
   const veteranPrograms = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <h3 className="small-screen-font">Veteran Programs</h3>
       {available.length > 0 ? (
         <div>{available.map(program => programLabel(program))}</div>
@@ -113,7 +113,7 @@ export default function VeteranProgramsAndSupport({
   );
 
   const historicalInformation = (
-    <div className="usa-width-one-half medium-6 columns">
+    <div>
       <div className="historical-information table">
         <h3>Historical Information</h3>
         <va-table table-type="bordered">
@@ -140,7 +140,7 @@ export default function VeteranProgramsAndSupport({
   );
 
   return (
-    <div className="row veteran-programs-and-support">
+    <div className="veteran-programs-and-support vads-u-display--flex vads-u-justify-content--space-between">
       {veteranPrograms}
       {historicalInformation}
     </div>
