@@ -238,7 +238,7 @@ class PatientMessageCustomFolderPage {
 
   createCustomFolder = (
     updatedFoldersResponse,
-    folderName = `folderWithRandomNumber`,
+    folderName = createdFolderResponse.data.attributes.name,
   ) => {
     cy.get(Locators.ALERTS.CREATE_NEW_FOLDER).click();
     cy.get('[name="folder-name"]')
