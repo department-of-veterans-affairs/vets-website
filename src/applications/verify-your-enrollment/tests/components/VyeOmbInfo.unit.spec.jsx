@@ -1,11 +1,11 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import VaOmbInfo from '../../components/VaOmbInfo';
+import VyeOmbInfo from '../../components/VyeOmbInfo';
 
-describe('VaOmbInfo', () => {
+describe('VyeOmbInfo', () => {
   it('should render without crashing', () => {
-    const wrapper = shallow(<VaOmbInfo />);
+    const wrapper = shallow(<VyeOmbInfo />);
     expect(wrapper.exists()).to.be.ok;
     wrapper.unmount();
   });
