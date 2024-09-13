@@ -163,6 +163,7 @@ export class ConfirmationPage extends React.Component {
 
             <p>
               <va-link
+                data-testid="back-link"
                 href="#"
                 onClick={this.handleClick}
                 text="Go back and review your entries"

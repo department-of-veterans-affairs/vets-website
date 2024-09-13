@@ -20,6 +20,7 @@ import { BASE_URL } from '../constants';
 
 const ITFBanner = props => {
   const [messageDismissed, setMessageDismissed] = useState(false);
+  const [reviewInitialFocus, setReviewInitialFocus] = useState(false);
 
   const goHome = () => {
     props.router.push(`${BASE_URL}/introduction`);
@@ -31,9 +32,13 @@ const ITFBanner = props => {
 
   if (messageDismissed) {
     // Showing review page content doesn't re-render the progress bar
-    if (props.router?.location.pathname.endsWith('review-and-submit')) {
+    if (
+      !reviewInitialFocus &&
+      props.router?.location.pathname.endsWith('review-and-submit')
+    ) {
       scrollTo('topScrollElement');
-      // Focus on review & submit page h2 in stepper
+      // Focus on review & submit page h2 in stepper initially
+      setReviewInitialFocus(true);
       waitForRenderThenFocus('va-segmented-progress-bar', document, 250, 'h2');
     }
     return props.children;

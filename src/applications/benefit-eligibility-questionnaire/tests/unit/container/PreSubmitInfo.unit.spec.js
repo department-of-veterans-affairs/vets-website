@@ -4,12 +4,15 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
-import IntroductionPage from '../../../containers/IntroductionPage';
+import PreSubmitInfo from '../../../containers/PreSubmitInfo';
 import formConfig from '../../../config/form';
 
-describe('<IntroductionPage>', () => {
+describe('<PreSubmitInfo>', () => {
   const getData = () => ({
     props: {
+      formData: {
+        privacyAgreementAccepted: false,
+      },
       formConfig,
       route: {
         path: 'introduction',
@@ -17,6 +20,8 @@ describe('<IntroductionPage>', () => {
       router: {
         push: sinon.spy(),
       },
+      setPreSubmit: sinon.mock(),
+      showError: sinon.mock(),
     },
     mockStore: {
       getState: () => ({
@@ -32,34 +37,33 @@ describe('<IntroductionPage>', () => {
   const subject = ({ mockStore, props }) =>
     render(
       <Provider store={mockStore}>
-        <IntroductionPage {...props} />
+        <PreSubmitInfo {...props} />
       </Provider>,
     );
 
-  context('when the page renders', () => {
-    it('should contain the correct page title and introduction', () => {
+  context('when the container renders', () => {
+    it('should contain the privacy agreement', () => {
       const { mockStore, props } = getData();
       const { container } = subject({ mockStore, props });
       const selectors = {
-        title: container.querySelector('[data-testid="form-title"]'),
-        actionLink: container.querySelector('va-link-action'),
+        privacyAgreement: container.querySelector(
+          '[name="privacyAgreementAccepted"]',
+        ),
       };
 
-      expect(selectors.actionLink).to.have.attribute('text', 'Get started');
-      expect(selectors.title).to.contain.text(
-        'Complete the benefit eligibility questionnaire',
-      );
+      expect(selectors.privacyAgreement).to.exist;
     });
 
-    it('should handle get started link', async () => {
+    it('should handle checkbox clicked', async () => {
       const { mockStore, props } = getData();
       const { container } = subject({ mockStore, props });
 
-      const actionLink = container.querySelector('[data-testid="get-started"]');
-      fireEvent.click(actionLink);
+      const selector = container.querySelector('va-privacy-agreement');
+
+      fireEvent.change(selector, { target: { checked: true } });
 
       await waitFor(() => {
-        expect(props.router.push.called).to.be.true;
+        expect(selector.checked).to.be.true;
       });
     });
   });
