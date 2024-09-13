@@ -5,7 +5,6 @@ import mockFolders from '../fixtures/folder-response.json';
 import mockSingleThreadResponse from '../fixtures/customResponse/custom-single-thread-response.json';
 import { Paths, Locators, Data, Assertions } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
-import mockFolderWithoutMessages from '../fixtures/customResponse/folder-no-messages-response.json';
 import customSearchResponse from '../fixtures/customResponse/custom-search-response.json';
 
 class PatientMessageCustomFolderPage {
@@ -25,21 +24,26 @@ class PatientMessageCustomFolderPage {
     cy.wait('@customFoldersList');
   };
 
-  loadSingleFolderWithNoMessages = (folderId, folderName) => {
+  loadCustomFolderWithNoMessages = () => {
     cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}?*`,
+      `GET`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }*`,
       createdFolderResponse,
-    ).as('singleFolder');
-    cy.intercept(
-      'GET',
-      `${Paths.SM_API_BASE + Paths.FOLDERS}/${folderId}/threads?*`,
-      mockFolderWithoutMessages,
-    ).as('singleFolderThread');
+    ).as(`loadedFolderResponse`);
 
-    cy.contains(folderName).click({ waitForAnimations: true });
-    cy.wait('@singleFolder');
-    cy.wait('@singleFolderThread');
+    cy.intercept(
+      `GET`,
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }/threads*`,
+      { data: [] },
+    ).as(`emptyFolderThread`);
+
+    cy.get(
+      `[data-testid = ${createdFolderResponse.data.attributes.name}]>a`,
+    ).click();
   };
 
   loadSingleFolderWithMessages = (folderId, folderName) => {
@@ -255,6 +259,27 @@ class PatientMessageCustomFolderPage {
     ).as(`updatedFoldersList`);
 
     cy.get('[text="Create"]')
+      .shadow()
+      .find('[type="button"]')
+      .click();
+  };
+
+  deleteCustomFolder = () => {
+    cy.intercept(
+      'DELETE',
+      `${Paths.SM_API_BASE}/folders/${
+        createdFolderResponse.data.attributes.folderId
+      }`,
+      {
+        statusCode: 204,
+      },
+    ).as('deletedFolderResponse');
+
+    cy.intercept('GET', `${Paths.SM_API_BASE}/folders*`, mockFolders).as(
+      'updatedFoldersList',
+    );
+
+    cy.get(Locators.FOLDERS.FOLDER_REMOVE)
       .shadow()
       .find('[type="button"]')
       .click();

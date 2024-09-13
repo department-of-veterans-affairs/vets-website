@@ -1,7 +1,6 @@
 import mockCustomResponse from '../fixtures/custom-response.json';
 import defaultMockThread from '../fixtures/thread-response.json';
 import mockMessageResponse from '../fixtures/message-custom-response.json';
-import mockFolders from '../fixtures/generalResponses/folders.json';
 import { Data, Locators, Alerts, Paths } from '../utils/constants';
 import createdFolderResponse from '../fixtures/customResponse/created-folder-response.json';
 
@@ -15,8 +14,8 @@ class FolderManagementPage {
       .find('[type="button"]');
   };
 
-  deleteFolderButton = () => {
-    return cy.get(Locators.BUTTONS.DELETE_FOLDER);
+  clickDeleteFolderButton = () => {
+    cy.get(Locators.BUTTONS.DELETE_FOLDER).click();
   };
 
   editFolderNameButton = () => {
@@ -162,22 +161,19 @@ class FolderManagementPage {
       .and('contain.text', Alerts.OUTAGE);
   };
 
-  verifyCreateFolderSuccessMessage = () => {
-    this.folderConfirmation().should(
-      'contain.text',
-      Data.FOLDER_CREATED_SUCCESSFULLY,
-    );
+  verifyFolderActionMessage = text => {
+    this.folderConfirmation().should('contain.text', text);
   };
 
-  verifyCreateFolderSuccessMessageHasFocus = () => {
+  verifyFolderActionMessageHasFocus = () => {
     cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
   };
 
-  verifyCreatedFolderVisible = () => {
+  verifyFolderInList = assertion => {
     cy.get(`.folder-link`)
       .last()
       .invoke(`attr`, `data-testid`)
-      .should(`eq`, createdFolderResponse.data.attributes.name);
+      .should(`${assertion}`, createdFolderResponse.data.attributes.name);
   };
 
   selectFolderFromModal = () => {
@@ -250,23 +246,6 @@ class FolderManagementPage {
 
   verifyMoveMessageSuccessConfirmationHasFocus = () => {
     cy.get(Locators.ALERTS.CLOSE_NOTIFICATION).should('have.focus');
-  };
-
-  confirmDeleteFolder = folderId => {
-    cy.intercept('DELETE', `${Paths.INTERCEPT.MESSAGE_FOLDERS}/${folderId}`, {
-      statusCode: 204,
-    }).as('deleteFolder');
-
-    cy.intercept(
-      'GET',
-      `${Paths.INTERCEPT.MESSAGE_FOLDERS}?page=1&per_page=999&useCache=false`,
-      mockFolders,
-    ).as('updatedFoldersList');
-
-    cy.get(Locators.FOLDERS.FOLDER_REMOVE)
-      .shadow()
-      .find('[type="button"]')
-      .click();
   };
 }
 
