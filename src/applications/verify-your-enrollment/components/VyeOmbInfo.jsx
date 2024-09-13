@@ -8,7 +8,7 @@ export default function VyeOmbInfo() {
         Minute
       </p>
       <p className="vads-u-margin--0">
-        <span className="vads-u-font-weight--bold">OMB Approved No:</span>{' '}
+        <span className="vads-u-font-weight--bold">OMB Control #</span>{' '}
         2900-0465
       </p>
       <p className="vads-u-margin--0">
