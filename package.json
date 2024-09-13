@@ -253,6 +253,7 @@
   },
   "optionalDependencies": {},
   "engines": {
+    "node": ">=18",
     "yarn": "1.19.1"
   },
   "private": true,
