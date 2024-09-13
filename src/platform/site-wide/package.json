@@ -59,7 +59,7 @@
       "@testing-library/user-event": "*",
       "classnames": "*",
       "node-fetch": "*",
-      "libxmljs2": "*",
+      "libxmljs": "*",
       "append-query": "*",
       "reselect": "*",
       "@department-of-veterans-affairs/formation": "*",
