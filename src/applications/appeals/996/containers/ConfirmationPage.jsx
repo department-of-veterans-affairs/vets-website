@@ -4,7 +4,6 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import { resetStoredSubTask } from '@department-of-veterans-affairs/platform-forms/sub-task';
 
 import ConfirmationDecisionReviews from '../../shared/components/ConfirmationDecisionReviews';
-import GetFormHelp from '../../shared/content/GetFormHelp';
 
 const alertContent = (
   <>
@@ -66,11 +65,6 @@ export const ConfirmationPage = () => {
         don’t request a Higher-Level Review again or another type of decision
         review. Contact us online or call us instead.
       </p>
-      <va-need-help class="vads-u-margin-top--8">
-        <div slot="content">
-          <GetFormHelp />
-        </div>
-      </va-need-help>
     </ConfirmationDecisionReviews>
   );
 };

@@ -15,13 +15,6 @@ const AdditionalSupport = () => {
           select 0. We’ll connect you with a VA call center agent. Tell the
           agent that you want a language interpreter to join the call.
         </p>
-        <p className="help-talk">
-          VA Solid Start also supports newly separated servicemembers. We’ll
-          help you understand what to expect during this critical time starting
-          your civilian life. Call us toll-free at{' '}
-          <va-telephone contact="8008270611" class="hydrated" />, Monday through
-          Friday, 8:00 a.m. to 9:00 p.m. ET.
-        </p>
       </div>
     </div>
   );

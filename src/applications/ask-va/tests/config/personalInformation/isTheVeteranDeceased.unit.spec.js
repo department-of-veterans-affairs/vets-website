@@ -1,7 +1,4 @@
-import {
-  $,
-  $$,
-} from '@department-of-veterans-affairs/platform-forms-system/ui';
+import { $$ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import { DefinitionTester } from '@department-of-veterans-affairs/platform-testing/schemaform-utils';
 import { render } from '@testing-library/react';
 import { expect } from 'chai';
@@ -35,7 +32,9 @@ describe('isTheVeteranDeceasedPage', () => {
     const radioLabels = $$('.form-radio-buttons > label', container);
     const radioLabelList = ['Yes', 'No'];
 
-    expect($('h4', container).textContent).to.eq('Is the Veteran deceased?');
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio.getAttribute('label')).to.equal('Is the Veteran deceased?');
+
     radioLabels.forEach(
       radio =>
         expect(radioLabelList.includes(removeReqFromLabel(radio.textContent)))

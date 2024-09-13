@@ -96,9 +96,9 @@ const Covid19Result = ({ location, index }) => {
 };
 
 Covid19Result.propTypes = {
+  index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,
-  index: PropTypes.number,
 };
 
 export default Covid19Result;

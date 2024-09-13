@@ -8,6 +8,9 @@ import {
   VaAccordion,
   VaAccordionItem,
   VaAlert,
+  VaLinkAction,
+  VaProcessList,
+  VaProcessListItem,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   createPageListByChapter,
@@ -15,20 +18,31 @@ import {
   getActiveExpandedPages,
 } from '~/platform/forms-system/exportsFile';
 import { PropTypes } from 'prop-types';
+import recordEvent from 'platform/monitoring/record-event';
 import GetFormHelp from './GetFormHelp';
 import { ChapterSectionCollection } from './confirmationPageViewHelpers';
 
+const PdfDownloadLink = ({ url, trackingPrefix }) => {
+  const onClick = () => {
+    recordEvent({
+      event: `${trackingPrefix}confirmation-pdf-download`,
+    });
+  };
+
+  return (
+    <va-link
+      download
+      filetype="PDF"
+      href={url}
+      onClick={onClick}
+      text="Download a copy of your VA Form"
+    />
+  );
+};
+
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const {
-    childContent = null,
-    confirmationNumber,
-    content,
-    formConfig,
-    formName = 'VA Form',
-    formType = 'application',
-    submitDate,
-  } = props;
+  const { confirmationNumber, submitDate, formConfig, pdfUrl } = props;
 
   useEffect(
     () => {
@@ -40,14 +54,6 @@ export const ConfirmationPageView = props => {
     },
     [alertRef],
   );
-
-  const { headlineText, nextStepsText } = content;
-  const dateSubmitted = isValid(submitDate)
-    ? format(submitDate, 'MMMM d, yyyy')
-    : null;
-  const dynamicHeadline = `You've submitted your ${formName} ${formType}`;
-  const headline = `${headlineText || dynamicHeadline} ${dateSubmitted &&
-    ` on ${dateSubmitted}`}`;
 
   const form = useSelector(state => state.form);
   const formData = form.data;
@@ -77,6 +83,12 @@ export const ConfirmationPageView = props => {
     window.print();
   };
 
+  const onCheckVaStatusClick = () => {
+    recordEvent({
+      event: `${formConfig.trackingPrefix}confirmation-check-status-my-va`,
+    });
+  };
+
   return (
     <div>
       <div className="print-only">
@@ -87,13 +99,22 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <VaAlert uswds status="success" ref={alertRef}>
-        <h2 slot="headline">{headline}.</h2>
-        {typeof nextStepsText === 'string' ? (
-          <p>{nextStepsText}</p>
-        ) : (
-          nextStepsText
-        )}
-        <p>{`Your confirmation number is ${confirmationNumber}`}</p>
+        <h2 slot="headline">
+          Form submission started on{' '}
+          {isValid(submitDate) && format(submitDate, 'MMMM d, yyyy')}
+        </h2>
+        <p>Your submission is in progress.</p>
+        <p>
+          It can take up to 10 days for us to receive your form.{' '}
+          {confirmationNumber &&
+            `Your
+          confirmation number is ${confirmationNumber}.`}
+        </p>
+        <VaLinkAction
+          href="/my-va"
+          text="Check the status of your form on My VA"
+          onClick={onCheckVaStatusClick}
+        />
       </VaAlert>
       <div className="print-only">
         <ChapterSectionCollection
@@ -103,9 +124,19 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div className="screen-only">
-        <h2>Save a copy of your form</h2>
-        <p>If you’d like a copy of your completed form, you can download it.</p>
-        <VaAccordion bordered uswds>
+        {pdfUrl && (
+          <>
+            <h2>Save a copy of your form</h2>
+            <p>
+              If you’d like a copy of your completed form, you can download it.
+            </p>
+            <PdfDownloadLink
+              url={pdfUrl}
+              trackingPrefix={formConfig.trackingPrefix}
+            />
+          </>
+        )}
+        <VaAccordion bordered open-single uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
@@ -120,7 +151,6 @@ export const ConfirmationPageView = props => {
           </VaAccordionItem>
         </VaAccordion>
       </div>
-      {childContent || null}
       <div className="screen-only">
         <h2 className="vads-u-font-size--h4 vads-u-margin-top--6">
           Print this confirmation page
@@ -133,6 +163,31 @@ export const ConfirmationPageView = props => {
           onClick={onPrintPageClick}
           text="Print this page for your records"
         />
+      </div>
+      <div>
+        <h2>What to expect next</h2>
+        <VaProcessList>
+          <VaProcessListItem
+            header="We’ll confirm that we’ve received your form"
+            active
+          >
+            <p>
+              This can take up to 10 days. When we receive your form, we’ll
+              update the status on My VA.
+            </p>
+            <p>
+              <a href="/my-va" onClick={onCheckVaStatusClick}>
+                Check the status of your form on My VA
+              </a>
+            </p>
+          </VaProcessListItem>
+          <VaProcessListItem header="We’ll review your form">
+            <p>
+              If we need more information after reviewing your form, we’ll
+              contact you.
+            </p>
+          </VaProcessListItem>
+        </VaProcessList>
       </div>
       <div className="vads-u-margin-bottom--6">
         <h2 className="vads-u-font-size--h2 vads-u-font-family--serif">
@@ -168,12 +223,8 @@ export const ConfirmationPageView = props => {
 };
 
 ConfirmationPageView.propTypes = {
-  childContent: PropTypes.shape(),
-  confirmationNumber: PropTypes.string,
-  content: PropTypes.shape(),
-  formConfig: PropTypes.object,
-  formContext: PropTypes.object,
-  formName: PropTypes.string,
-  formType: PropTypes.string,
-  submitDate: PropTypes.object,
+  confirmationNumber: PropTypes.string.isRequired,
+  formConfig: PropTypes.object.isRequired,
+  submitDate: PropTypes.object.isRequired,
+  pdfUrl: PropTypes.string,
 };

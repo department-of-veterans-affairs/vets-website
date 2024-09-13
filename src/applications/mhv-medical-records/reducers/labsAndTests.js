@@ -324,7 +324,7 @@ Impression:${impressionText.replace(/\r\n|\r/g, '\n').replace(/^/gm, '   ')}`;
 
 export const convertMhvRadiologyRecord = record => {
   return {
-    id: `r${record.id}`,
+    id: `r${record.id}-${record.hash}`,
     name: record.procedureName,
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
@@ -416,6 +416,12 @@ export const labsAndTestsReducer = (state = initialState, action) => {
       return {
         ...state,
         labsAndTestsDetails: convertLabsAndTestsRecord(action.response),
+      };
+    }
+    case Actions.LabsAndTests.GET_FROM_LIST: {
+      return {
+        ...state,
+        labsAndTestsDetails: action.response,
       };
     }
     case Actions.LabsAndTests.GET_LIST: {

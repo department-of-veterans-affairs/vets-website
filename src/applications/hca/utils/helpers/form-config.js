@@ -1,5 +1,7 @@
 import { inRange } from 'lodash';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
+import { replaceStrValues } from './general';
+import content from '../../locales/en/content.json';
 
 /**
  * Helper that determines if user is unauthenticated
@@ -149,7 +151,9 @@ export function includeRegOnlyGuestQuestions(formData) {
  */
 export function showRegOnlyAuthConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return !isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyAuthQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -161,7 +165,9 @@ export function showRegOnlyAuthConfirmation(formData) {
  */
 export function showRegOnlyGuestConfirmation(formData) {
   const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
-  return isLoggedOut(formData) && vaBenefitsPackage === 'regOnly';
+  return (
+    includeRegOnlyGuestQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -312,4 +318,28 @@ export function useLighthouseFacilityList(formData) {
  */
 export function useJsonFacilityList(formData) {
   return !useLighthouseFacilityList(formData);
+}
+
+/**
+ * Helper that determines if we should display the hardcoded facility list
+ * @param {Object} testItem (optional) - mocked sample data for unit testing purposes
+ * @returns {Array} - array of override values for the Array Builder options
+ */
+export function insuranceTextOverrides() {
+  return {
+    getItemName: item => item?.insuranceName || '—',
+    cardDescription: item =>
+      replaceStrValues(
+        content['insurance-info--card-description'],
+        item?.insurancePolicyHolderName || '—',
+      ),
+    cancelAddTitle: () => content['insurance-info--array-cancel-add-title'],
+    cancelEditTitle: () => content['insurance-info--array-cancel-edit-title'],
+    cancelEditDescription: () =>
+      content['insurance-info--array-cancel-edit-description'],
+    cancelEditReviewDescription: () =>
+      content['insurance-info--array-cancel-edit-review-description'],
+    cancelAddYes: () => content['insurance-info--array-cancel-add-yes'],
+    cancelEditYes: () => content['insurance-info--array-cancel-edit-yes'],
+  };
 }

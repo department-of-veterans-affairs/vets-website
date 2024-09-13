@@ -96,13 +96,6 @@ describe('HCA-Registration-Only-Authenticated-User', () => {
       cy.axeCheck();
     });
 
-    it('should allow user to advance to the application if `not sure` is selected on the form page', () => {
-      cy.get('[name="root_view:vaBenefitsPackage"]').check('notSure');
-      goToNextPage('/veteran-information/birth-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
     it('should block user from advancing to the application if `reg only` is selected on the form page', () => {
       cy.get('[name="root_view:vaBenefitsPackage"]').check('regOnly');
       goToNextPage('/care-for-service-connected-conditions');
@@ -202,13 +195,6 @@ describe('HCA-Registration-Only-Guest-User', () => {
 
     it('should allow user to continue through the application if `full medical benefits` is selected on the form page', () => {
       cy.get('[name="root_view:vaBenefitsPackage"]').check('fullPackage');
-      goToNextPage('/military-service/service-information');
-      cy.injectAxe();
-      cy.axeCheck();
-    });
-
-    it('should allow user to continue through the application if `not sure` is selected on the form page', () => {
-      cy.get('[name="root_view:vaBenefitsPackage"]').check('notSure');
       goToNextPage('/military-service/service-information');
       cy.injectAxe();
       cy.axeCheck();
