@@ -81,21 +81,23 @@ const IntroductionPage = props => {
         startText="Start the Application"
       />
       <p />
-      <va-omb-info
-        data-testid="va-omb-info"
-        exp-date={ombInfo.expDate}
-        omb-number={ombInfo.ombNumber}
-        res-burden={ombInfo.resBurden}
-      >
-        <p>
-          <strong>The Paperwork Reduction Act</strong> of 1995 requires us to
-          notify you that this information...
-        </p>
-        <p>
-          <strong>Privacy Act information:</strong> VA is asking you to provide
-          the information...
-        </p>
-      </va-omb-info>
+      {ombInfo && (
+        <va-omb-info
+          data-testid="va-omb-info"
+          exp-date={ombInfo.expDate}
+          omb-number={ombInfo.ombNumber}
+          res-burden={ombInfo.resBurden}
+        >
+          <p>
+            <strong>The Paperwork Reduction Act</strong> of 1995 requires us to
+            notify you that this information...
+          </p>
+          <p>
+            <strong>Privacy Act information:</strong> VA is asking you to
+            provide the information...
+          </p>
+        </va-omb-info>
+      )}
     </article>
   );
 };
