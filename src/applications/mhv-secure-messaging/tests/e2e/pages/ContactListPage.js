@@ -62,7 +62,7 @@ class ContactListPage {
       .and(`include.text`, Data.BUTTONS.GO_BACK);
   };
 
-  clickCancelButton = () => {
+  clickGoBackButton = () => {
     cy.get(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
   };
 
