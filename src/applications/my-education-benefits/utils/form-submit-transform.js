@@ -544,6 +544,7 @@ export function createSubmissionForm(submissionForm, formId) {
   }
   return {
     formId,
+    '@type': submissionForm?.chosenBenefit,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
     additionalConsiderations: createAdditionalConsiderations(submissionForm),
