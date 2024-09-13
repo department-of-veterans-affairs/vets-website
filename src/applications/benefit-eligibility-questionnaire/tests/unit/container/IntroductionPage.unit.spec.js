@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -49,6 +49,18 @@ describe('<IntroductionPage>', () => {
       expect(selectors.title).to.contain.text(
         'Complete the benefit eligibility questionnaire',
       );
+    });
+
+    it('should handle get started link', async () => {
+      const { mockStore, props } = getData();
+      const { container } = subject({ mockStore, props });
+
+      const actionLink = container.querySelector('[data-testid="get-started"]');
+      fireEvent.click(actionLink);
+
+      await waitFor(() => {
+        expect(props.router.push.called).to.be.true;
+      });
     });
   });
 });

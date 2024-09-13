@@ -32,24 +32,36 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = []) {
+export function getAppointments(start, end, statuses = [], avs = false) {
   const options = {
     method: 'GET',
   };
+  const includeParams = ['facilities', 'clinics'];
+  if (avs) {
+    includeParams.push('avs');
+  }
   return apiRequestWithUrl(
-    `/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+    `/vaos/v2/appointments?_include=${includeParams
+      .map(String)
+      .join(',')}&start=${start}&end=${end}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id) {
+export function getAppointment(id, avs = false) {
   const options = {
     method: 'GET',
   };
+  const includeParams = ['facilities', 'clinics'];
+  if (avs) {
+    includeParams.push('avs');
+  }
   return apiRequestWithUrl(
-    `/vaos/v2/appointments/${id}?_include=facilities,clinics`,
+    `/vaos/v2/appointments/${id}?_include=${includeParams
+      .map(String)
+      .join(',')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiObject);
 }

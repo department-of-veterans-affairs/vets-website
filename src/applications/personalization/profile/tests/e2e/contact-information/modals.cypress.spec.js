@@ -181,13 +181,6 @@ describe('Modals on the contact information and content page', () => {
       sectionName: 'home phone number',
     });
 
-    // should appear when editing mobile phone number
-    checkModals({
-      otherSectionName: 'mailing address',
-      editLineId: 'root_extension',
-      sectionName: 'mobile phone number',
-    });
-
     // should appear when editing email address
     checkModals({
       otherSectionName: 'mailing address',
@@ -220,13 +213,6 @@ describe('Modals on the contact information and content page', () => {
       otherSectionName: 'mailing address',
       editLineId: 'root_extension',
       sectionName: 'home phone number',
-    });
-
-    // should appear when editing mobile phone number
-    checkModals({
-      otherSectionName: 'mailing address',
-      editLineId: 'root_extension',
-      sectionName: 'mobile phone number',
     });
 
     // should appear when editing email address

@@ -20,7 +20,6 @@ export default {
         labels: {
           fullPackage: content['benefits--reg-only-full-package-label'],
           regOnly: content['benefits--reg-only-service-connected-label'],
-          notSure: content['benefits--reg-only-not-sure-label'],
         },
       },
     },
@@ -33,7 +32,7 @@ export default {
     properties: {
       'view:vaBenefitsPackage': {
         type: 'string',
-        enum: ['fullPackage', 'regOnly', 'notSure'],
+        enum: ['fullPackage', 'regOnly'],
       },
       'view:healthEnrollmentDescription': emptyObjectSchema,
     },
