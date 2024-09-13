@@ -184,7 +184,7 @@ const EditContactList = () => {
           />
         </div>
       )}
-      {allTriageTeams.length > 0 && (
+      {allFacilities.length > 0 && (
         <form className="contactListForm">
           {allFacilities.map(stationNumber => {
             if (!blockedFacilities.includes(stationNumber)) {
