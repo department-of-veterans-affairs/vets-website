@@ -136,7 +136,7 @@ export const ConfirmationPageView = props => {
             />
           </>
         )}
-        <VaAccordion bordered uswds>
+        <VaAccordion bordered open-single uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
