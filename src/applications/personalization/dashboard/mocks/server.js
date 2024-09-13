@@ -27,6 +27,7 @@ const responses = {
       myVaUseExperimental: false,
       veteranOnboardingBetaFlow: false,
       myVaFormSubmissionStatuses: true,
+      veteranOnboardingShowWelcomeMessageToNewUsers: true,
     },
     true,
   ),
