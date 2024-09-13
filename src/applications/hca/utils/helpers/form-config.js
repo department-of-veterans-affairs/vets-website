@@ -316,15 +316,6 @@ export function useLighthouseFacilityList(formData) {
 
 /**
  * Helper that determines if we should display the hardcoded facility list
- * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if viewfield is set to `false`
- */
-export function useJsonFacilityList(formData) {
-  return !useLighthouseFacilityList(formData);
-}
-
-/**
- * Helper that determines if we should display the hardcoded facility list
  * @param {Object} testItem (optional) - mocked sample data for unit testing purposes
  * @returns {Array} - array of override values for the Array Builder options
  */
