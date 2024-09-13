@@ -98,6 +98,42 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
+  const handleProvisioning = async userProfile => {
+    const { signIn } = userProfile;
+    if (
+      signIn?.ssoe &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
+    ) {
+      try {
+        const termsResponse = await apiRequest(
+          `/terms_of_use_agreements/update_provisioning`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          },
+        );
+        if (!termsResponse?.provisioned) {
+          handleAuthError(null, 111);
+          return false;
+        }
+        return true;
+      } catch (err) {
+        const message = err?.error;
+        if (
+          message === 'Agreement not accepted' ||
+          message === 'Account not Provisioned'
+        ) {
+          handleAuthError(null, 111);
+        } else {
+          handleAuthError(err, 110);
+        }
+        return false;
+      }
+    }
+    return true;
+  };
+
   const handleAuthForceNeeded = () => {
     recordEvent({
       event: AUTH_EVENTS.ERROR_FORCE_NEEDED,
@@ -117,41 +153,12 @@ export default function AuthApp({ location }) {
       requestId,
       errorCode,
     );
-    const {
-      userProfile: { signIn },
-      userProfile,
-    } = authMetrics;
 
-    // MyVAHealth ToU Provisioning
-    if (
-      signIn?.ssoe &&
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
-      try {
-        const termsResponse = await apiRequest(
-          `/terms_of_use_agreements/update_provisioning`,
-          {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-          },
-        );
-        if (!termsResponse?.provisioned) {
-          handleAuthError(null, 111);
-          return;
-        }
-      } catch (err) {
-        const message = err?.error;
-        if (
-          message === 'Agreement not accepted' ||
-          message === 'Account not Provisioned'
-        ) {
-          handleAuthError(null, 111);
-        } else {
-          handleAuthError(err, 110);
-        }
-        return;
-      }
+    const { userProfile } = authMetrics;
+
+    const provisioned = await handleProvisioning(userProfile);
+    if (!provisioned) {
+      return;
     }
 
     authMetrics.run();
