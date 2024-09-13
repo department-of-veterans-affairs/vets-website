@@ -1,65 +1,57 @@
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 
 export const errorMessages = {
-  'questions.isMarried':
-    'Please select whether you are married (select yes or no)',
-  'questions.hasDependents': 'Please enter a valid number for dependents',
-  'questions.hasVehicle':
-    'Please select whether you own a vehicle (select yes or no)',
+  'questions.isMarried': "Select whether you're married (select yes or no)",
+  'questions.hasDependents': 'Enter a valid number for dependents',
+  'questions.hasVehicle': 'Select whether you own a vehicle (select yes or no)',
   'questions.hasRealEstate':
-    'Please select whether you own real estate (select yes or no)',
+    'Select whether you own real estate (select yes or no)',
   'questions.hasRecreationalVehicle':
-    'Please select whether you have a recreational vehicle (select yes or no)',
+    'Select whether you have a recreational vehicle (select yes or no)',
   'questions.hasBeenAdjudicatedBankrupt':
-    "Please select whether you've declared bankruptcy (select yes or no)",
+    "Select whether you've declared for bankruptcy (select yes or no)",
   'questions.vetIsEmployed':
-    'Please select whether the veteran is employed (select yes or no)',
+    "Select whether you're employed (select yes or no)",
   'questions.spouseIsEmployed':
-    'Please select whether the spouse is employed (select yes or no)',
+    'Select whether your spouse is employed (select yes or no)',
   'questions.spouseHasBenefits':
-    'Please select whether the spouse has benefits (select yes or no)',
+    'Select whether your spouse has benefits (select yes or no)',
   'questions.hasCreditCardBills':
-    'Please select whether you have credit card bills (select yes or no)',
+    'Select whether you have credit card bills (select yes or no)',
   'questions.hasRepayments':
-    'Please select whether you have repayments (select yes or no)',
+    'Select whether you have repayments (select yes or no)',
   'personalData.dependents.dependentAge':
-    'Please enter a valid age for each dependent',
-  'personalData.veteran.employmentHistory':
-    'Please provide valid employment history',
-  'personalData.spouse.employmentHistory':
-    'Please provide valid employment history',
-  additionalIncome:
-    'Please provide valid additional income for all household members',
-  benefits: 'Please provide valid benefit information',
-  cashOnHand: 'Please enter a valid dollar amount for Cash on hand',
-  cashInBank: 'Please enter a valid dollar amount for Cash in bank',
-  monetaryAssets: 'Please provide valid information for all monetary assets',
+    'Enter a valid age for each dependent',
+  'personalData.veteran.employmentHistory': 'Provide valid employment history',
+  'personalData.spouse.employmentHistory': 'Provide valid employment history',
+  additionalIncome: 'Provide valid additional income',
+  benefits: 'Provide valid benefit information',
+  cashOnHand: 'Enter a valid dollar amount for your cash on hand',
+  cashInBank: 'Enter a valid dollar amount for your cash in bank',
+  monetaryAssets: 'Provide valid information for all your monetary assets',
   realEstateValue:
-    'Please enter a valid dollar amount for your real estate value',
+    'Enter a valid dollar amount for the value of your real estate assets',
   recVehicleAmount:
-    'Please enter a valid dollar amount for your recreational vehicle',
-  otherAssets: 'Please provide valid information for all other assets',
-  expenseRecords: 'Please provide valid expenses for all household members',
-  installmentContracts:
-    'Please provide valid installment contracts for all household members',
-  utilityExpenses:
-    'Please provide valid utility expenses for all household members',
-  otherExpenses:
-    'Please provide valid other expenses for all household members',
+    'Enter a valid dollar amount for your recreational vehicle(s)',
+  otherAssets: 'Provide valid information for all other assets',
+  expenseRecords: 'Provide valid expenses',
+  installmentContracts: 'Provide valid installment contracts',
+  utilityExpenses: 'Provide valid utility expenses',
+  otherExpenses: 'Provide valid other expenses',
   monthlyHousingExpenses:
-    'Please enter a valid dollar amount for your monthly housing expenses',
-  additionalData: 'Please provide valid bankruptcy information',
-  bankruptcyHistory: 'Please provide valid bankruptcy information',
+    'Enter a valid dollar amount for your monthly housing expenses',
+  additionalData: 'Provide valid bankruptcy information',
+  bankruptcyHistory: 'Provide valid bankruptcy information',
   resolutionOption: index =>
-    `Please select a resolution option for the ${numberToWords(
+    `Select a resolution option for the ${numberToWords(
       index + 1,
     )} selected debt`,
   resolutionComment: index =>
-    `Please enter a resolution amount for the ${numberToWords(
+    `Enter a resolution amount for the ${numberToWords(
       index + 1,
     )} selected debt`,
   resolutionWaiverCheck: index =>
-    `Please select whether you agree to the waiver for the ${numberToWords(
+    `Select whether you agree to the waiver for the ${numberToWords(
       index + 1,
     )} selected debt`,
 };
