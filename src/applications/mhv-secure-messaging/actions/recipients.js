@@ -43,18 +43,16 @@ export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
 
 export const updateTriageTeamRecipients = recipients => async dispatch => {
   try {
-    const response = await updatePreferredRecipients(recipients);
+    await updatePreferredRecipients(recipients);
 
-    if (response === 200) {
-      dispatch(getAllTriageTeamRecipients());
-      dispatch(
-        addAlert(
-          ALERT_TYPE_SUCCESS,
-          null,
-          Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
-        ),
-      );
-    }
+    dispatch(getAllTriageTeamRecipients());
+    dispatch(
+      addAlert(
+        ALERT_TYPE_SUCCESS,
+        null,
+        Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+      ),
+    );
   } catch (error) {
     dispatch({
       type: Actions.AllRecipients.UPDATE_PREFERRED_ERROR,
