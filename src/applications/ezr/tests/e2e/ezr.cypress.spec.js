@@ -10,6 +10,8 @@ import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   fillAddressWebComponentPattern,
+  fillTextWebComponent,
+  selectDropdownWebComponent,
   selectYesNoWebComponent,
   goToNextPage,
 } from './helpers';
@@ -19,7 +21,6 @@ const testConfig = createTestConfig(
     dataPrefix: 'data',
     dataSets: ['maximal-test', 'minimal-test'],
     fixtures: { data: path.join(__dirname, 'fixtures/data') },
-
     pageHooks: {
       introduction: ({ afterHook }) => {
         afterHook(() => {
@@ -46,6 +47,100 @@ const testConfig = createTestConfig(
             const fieldName = 'veteranHomeAddress';
             const fieldData = data.veteranHomeAddress;
             fillAddressWebComponentPattern(fieldName, fieldData);
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts-summary': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            cy.get('body').then($body => {
+              if (
+                $body.find(
+                  'va-radio-option[name="root_view:hasEmergencyContacts"]',
+                ).length
+              ) {
+                selectYesNoWebComponent(
+                  'view:hasEmergencyContacts',
+                  data['view:hasEmergencyContacts'],
+                );
+              }
+            });
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts/0/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const contact = data.veteranContacts[0];
+            fillTextWebComponent('fullName_first', contact.fullName.first);
+            fillTextWebComponent('fullName_last', contact.fullName.last);
+            fillTextWebComponent('primaryPhone', contact.primaryPhone);
+            selectDropdownWebComponent('relationship', contact.relationship);
+            selectYesNoWebComponent(
+              'view:hasEmergencyContactAddress',
+              data['view:hasEmergencyContactAddress'],
+            );
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts/0/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const contact = data.veteranContacts[0];
+            selectDropdownWebComponent(
+              'address_country',
+              contact.address.country,
+            );
+            fillTextWebComponent('address_street', contact.address.street);
+            fillTextWebComponent('address_city', contact.address.city);
+            selectDropdownWebComponent('address_state', contact.address.state);
+            fillTextWebComponent(
+              'address_postalCode',
+              contact.address.postalCode,
+            );
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts/1/contact': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const contact = data.veteranContacts[1];
+            fillTextWebComponent('fullName_first', contact.fullName.first);
+            fillTextWebComponent('fullName_last', contact.fullName.last);
+            fillTextWebComponent('primaryPhone', contact.primaryPhone);
+            selectDropdownWebComponent('relationship', contact.relationship);
+            selectYesNoWebComponent(
+              'view:hasEmergencyContactAddress',
+              data['view:hasEmergencyContactAddress'],
+            );
+            cy.injectAxeThenAxeCheck();
+            goToNextPage();
+          });
+        });
+      },
+      'emergency-contacts/1/contact-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.get('@testData').then(data => {
+            const contact = data.veteranContacts[1];
+            selectDropdownWebComponent(
+              'address_country',
+              contact.address.country,
+            );
+            fillTextWebComponent('address_street', contact.address.street);
+            fillTextWebComponent('address_city', contact.address.city);
+            selectDropdownWebComponent('address_state', contact.address.state);
+            fillTextWebComponent(
+              'address_postalCode',
+              contact.address.postalCode,
+            );
             cy.injectAxeThenAxeCheck();
             goToNextPage();
           });

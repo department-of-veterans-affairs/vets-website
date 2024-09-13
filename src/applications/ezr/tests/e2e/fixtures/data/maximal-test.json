@@ -87,6 +87,8 @@
         "otherIncome": 0
       }
     ],
+    "view:hasEmergencyContacts": true,
+    "view:hasEmergencyContactAddress": true,
     "veteranContacts": [
       {
         "fullName": {
@@ -102,7 +104,7 @@
           "street2": "Apt 4B",
           "city": "Springfield",
           "country": "USA",
-          "state": "IL",
+          "state": "FL",
           "postalCode": "62704"
         },
         "relationship": "BROTHER",
