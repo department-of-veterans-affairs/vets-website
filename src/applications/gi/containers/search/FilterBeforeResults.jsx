@@ -38,6 +38,7 @@ import { updateUrlParams } from '../../selectors/search';
 import ClearFiltersBtn from '../../components/ClearFiltersBtn';
 import VaAccordionGi from '../../components/VaAccordionGi';
 import VACheckboxGroupGi from '../../components/VaCheckboxGroupGi';
+import Button from '../../components/Button';
 // import { useFilterBtn } from '../../hooks/useFilterbtn';
 
 const etTecOJTOptions = (employers, vettec, automatedTest = false) => {
@@ -772,7 +773,8 @@ export function FilterBeforeResults({
               id={`update-${createId(title)}-button`}
               className="apply-filter-button vads-u-margin-top--3"
               onClick={closeAndUpdate}
-              text="Apply filter"
+              dataTestId="apply-filters"
+              text="Apply filters"
             />
             <ClearFiltersBtn
               testId="clear-button"

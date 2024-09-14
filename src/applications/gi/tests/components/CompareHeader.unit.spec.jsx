@@ -121,7 +121,7 @@ describe('<CompareHeader>', () => {
     );
 
     wrapper
-      .find('button')
+      .find('Button')
       .at(0)
       .simulate('click');
 

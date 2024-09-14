@@ -48,8 +48,9 @@ export default function SearchAccordion({
           id={`${id}-button`}
           onClick={toggle}
           className="usa-accordion-button vads-u-font-size--md"
-          aria-expanded={isExpanded}
-          aria-controls={id}
+          ariaExpanded={isExpanded}
+          ariaControls={id}
+          dataTestId="update-tuition-housing"
         >
           <span className="vads-u-font-family--serif accordion-button-text">
             {button}
@@ -82,7 +83,7 @@ export default function SearchAccordion({
             id={buttonId}
             className="update-results-button"
             onClick={buttonOnClick}
-            aria-describedby={ariaDescribedBy}
+            ariaDescribedBy={ariaDescribedBy}
           >
             {buttonLabel}
           </Button>
