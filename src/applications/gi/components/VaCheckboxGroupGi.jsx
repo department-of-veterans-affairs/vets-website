@@ -94,7 +94,7 @@ VACheckboxGroupGi.propTypes = {
   ).isRequired,
   onChange: PropTypes.func.isRequired,
   className: PropTypes.string,
-  colNum: PropTypes.number,
+  colNum: PropTypes.string,
   errorMessage: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   labelMargin: PropTypes.string,

@@ -15,5 +15,5 @@ export default function IconWithInfo({ icon, children, present }) {
 IconWithInfo.propTypes = {
   children: PropTypes.node.isRequired,
   icon: PropTypes.string.isRequired,
-  present: PropTypes.bool,
+  present: PropTypes.any,
 };

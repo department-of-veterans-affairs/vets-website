@@ -78,10 +78,10 @@ const Checkbox = ({
 };
 
 Checkbox.propTypes = {
-  ariaLabel: PropTypes.string.isRequired,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  ariaLabel: PropTypes.string,
   checked: PropTypes.bool,
   className: PropTypes.string,
   errorMessage: PropTypes.string,

@@ -81,6 +81,6 @@ LearnMoreLabel.propTypes = {
   buttonId: PropTypes.string,
   dataTestId: PropTypes.string,
   labelFor: PropTypes.string,
-  text: PropTypes.string,
+  text: PropTypes.any,
   onClick: PropTypes.func,
 };

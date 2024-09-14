@@ -24,8 +24,8 @@ export default function CompareCheckbox({
   );
 }
 CompareCheckbox.propTypes = {
-  cityState: PropTypes.string.isRequired,
   compareChecked: PropTypes.bool.isRequired,
   handleCompareUpdate: PropTypes.func.isRequired,
   institution: PropTypes.string.isRequired,
+  cityState: PropTypes.string,
 };
