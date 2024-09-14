@@ -36,6 +36,7 @@ const Button = ({
 };
 
 Button.propTypes = {
+  ariaControls: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
   ariaExpanded: PropTypes.any,
   ariaSelected: PropTypes.bool,
