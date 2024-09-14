@@ -1,12 +1,19 @@
 import React from 'react';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
 import { expect } from 'chai';
 import SupportingDocumentsPage from '../../../../pages/SupportingDocumentsPage';
 import { MissingFileConsentPage } from '../../../../pages/MissingFileConsentPage';
-import { testComponentRender } from '../../../../../shared/tests/pages/pageTests.spec';
+import { REQUIRED_FILES } from '../../../../config/constants';
+import {
+  testComponentRender,
+  getProps,
+} from '../../../../../shared/tests/pages/pageTests.spec';
 import {
   hasReq,
   checkFlags,
 } from '../../../../../shared/components/fileUploads/MissingFileOverview';
+import MissingFileList from '../../../../../shared/components/fileUploads/MissingFileList';
 
 import formConfig from '../../../../config/form';
 import mockData from '../../../e2e/fixtures/data/test-data.json';
@@ -150,3 +157,64 @@ testComponentRender(
     showConsent={false}
   />,
 );
+
+// Test that the `MissingFileList` component generates the right markup
+describe('MissingFileList', () => {
+  const data = {
+    applicants: [
+      {
+        applicantName: { first: 'Bill', last: 'Last' },
+        // two required files
+        missingUploads: [
+          {
+            name: Object.keys(REQUIRED_FILES)[0],
+            path: 'fake/path/to/upload/screen/0',
+            required: true,
+            uploaded: false,
+          },
+          {
+            name: Object.keys(REQUIRED_FILES)[1],
+            path: 'fake/path/to/upload/screen/1',
+            required: true,
+            uploaded: false,
+          },
+        ],
+      },
+    ],
+  };
+  it('should display matching number of <li>s as missing required files', () => {
+    const { mockStore } = getProps();
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        {MissingFileList({
+          data: data.applicants,
+          disableLinks: true,
+          subset: true, // required files
+          listItemShowNamePrefix: false,
+        })}
+      </Provider>,
+    );
+
+    // We should have one list item for every require file in the testdata
+    expect(container.querySelectorAll('li')).to.have.lengthOf(2);
+  });
+
+  it('should display matching number of <a>s as missing required files when links enabled', () => {
+    const { mockStore } = getProps();
+
+    const { container } = render(
+      <Provider store={mockStore}>
+        {MissingFileList({
+          data: data.applicants,
+          disableLinks: false,
+          subset: true, // required files
+          listItemShowNamePrefix: false,
+        })}
+      </Provider>,
+    );
+
+    // We should have one list item for every require file in the testdata
+    expect(container.querySelectorAll('a')).to.have.lengthOf(2);
+  });
+});

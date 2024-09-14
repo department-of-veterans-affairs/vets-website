@@ -3,10 +3,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
 import PageNotFound from '@department-of-veterans-affairs/platform-site-wide/PageNotFound';
-import {
-  reportGeneratedBy,
-  updatePageTitle,
-} from '@department-of-veterans-affairs/mhv/exports';
+import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { getDocumentation } from '../api/rxApi';
 import { getPrescriptionDetails } from '../actions/prescriptions';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
@@ -142,14 +139,14 @@ const PrescriptionDetailsDocumentation = () => {
           text: '. Then select 1.',
         },
       ],
-      headerLeft: userName.first
-        ? `${userName.last}, ${userName.first}`
-        : `${userName.last || ' '}`,
-      headerRight: `Date of birth: ${dateFormat(dob, 'MMMM D, YYYY')}`,
-      footerLeft: reportGeneratedBy,
       footerRight: 'Page %PAGE_NUMBER% of %TOTAL_PAGES%',
-      title: `Information: ${prescription?.prescriptionName}`,
+      title: `Medication information: ${prescription?.prescriptionName}`,
       preface: [
+        {
+          value: `Important: How to use this information`,
+          weight: 'bold',
+          paragraphGap: 0,
+        },
         {
           value: `This is a summary and does NOT have all possible information about this product. This information does not assure that this product is safe, effective, or appropriate for you. This information is not individual medical advice and does not substitute for the advice of your health care professional. Always ask your health care professional for complete information about this product and your specific health needs.`,
         },
@@ -158,9 +155,10 @@ const PrescriptionDetailsDocumentation = () => {
     };
     await generateMedicationsPDF(
       'medications',
-      `medication-information-${prescription.prescriptionName}-${
-        userName.first ? `${userName.first}-${userName.last}` : userName.last
-      }-${dateFormat(Date.now(), 'M-D-YYYY').replace(/\./g, '')}`,
+      `medication-information-${prescription.prescriptionName}-${dateFormat(
+        Date.now(),
+        'M-D-YYYY',
+      ).replace(/\./g, '')}`,
       setup,
     );
   };

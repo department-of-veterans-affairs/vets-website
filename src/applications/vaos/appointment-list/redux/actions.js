@@ -374,6 +374,7 @@ export function fetchPastAppointments(startDate, endDate, selectedIndex) {
       const results = await fetchAppointments({
         startDate,
         endDate,
+        avs: true,
       });
 
       const appointments = results.filter(appt => !appt.hasOwnProperty('meta'));

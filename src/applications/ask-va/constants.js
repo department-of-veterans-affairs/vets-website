@@ -14,6 +14,7 @@ export const URL = {
   GET_HEALTH_FACILITY: `${baseURL}/health_facilities`,
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
+  GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
 };
 
 export const CategoryEducation =
@@ -476,12 +477,18 @@ export const newQuestionBreadcrumbs = [
   { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
+export const responseSentBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { href: '/response-sent', label: 'Question sent', key: 'responseSent' },
+];
+
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': questionDetailsBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
+  '/response-sent': responseSentBreadcrumbs,
 };
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
