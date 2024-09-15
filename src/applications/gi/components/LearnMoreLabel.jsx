@@ -59,7 +59,7 @@ export default function LearnMoreLabel({
         (
         <Button
           id={buttonId}
-          aria-label={ariaLabel}
+          ariaLabel={ariaLabel}
           type="button"
           className={classNames(
             buttonClassName,

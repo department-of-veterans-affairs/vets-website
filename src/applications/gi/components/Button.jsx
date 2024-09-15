@@ -14,6 +14,7 @@ const Button = ({
   id,
   ariaExpanded,
   ariaControls,
+  ariaLabel,
 }) => {
   return (
     /* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */
@@ -22,6 +23,7 @@ const Button = ({
       id={id}
       disabled={disabled}
       className={className}
+      aria-label={ariaLabel}
       aria-selected={ariaSelected}
       aria-describedby={ariaDescribedBy}
       aria-expanded={ariaExpanded}
@@ -39,6 +41,7 @@ Button.propTypes = {
   ariaControls: PropTypes.string,
   ariaDescribedBy: PropTypes.string,
   ariaExpanded: PropTypes.any,
+  ariaLabel: PropTypes.string,
   ariaSelected: PropTypes.bool,
   children: PropTypes.node,
   className: PropTypes.string,
