@@ -50,8 +50,8 @@ export default function SearchTabs({ onChange, search, dispatchError }) {
       <Button
         type="button"
         className={tabClasses}
-        aria-selected={activeTab}
-        data-testid={testId}
+        ariaSelected={activeTab}
+        dataTestId={testId}
         role="tab"
         onClick={() => {
           onChange(tabName);

@@ -52,7 +52,7 @@ function ClearFiltersBtn({
       <Button
         className="clear-filters-btn"
         onClick={clearAllFilters}
-        data-testid={testId}
+        dataTestId={testId}
         onKeyDown={onKeyDown}
       >
         {' '}
