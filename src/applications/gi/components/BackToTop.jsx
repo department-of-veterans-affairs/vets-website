@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
-
+import PropTypes from 'prop-types';
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import classNames from 'classnames';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from 'platform/utilities/ui';
+import Button from './Button';
 
 /**
  * This thing has a hack in it to make sure the when the element is floating at bottom of page it is on the right side
@@ -121,7 +122,7 @@ export default function BackToTop({
           style={backToTopContainerStyle}
         >
           <div className="usa-content">
-            <button
+            <Button
               type="button"
               className="usa-button va-top-button-transition-in"
               onClick={() => {
@@ -140,7 +141,7 @@ export default function BackToTop({
                 <va-icon icon="arrow_upward" aria-hidden="true" role="img" />
               </span>
               <span>Back to top</span>
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -150,3 +151,11 @@ export default function BackToTop({
     </>
   );
 }
+BackToTop.propTypes = {
+  compare: PropTypes.shape({
+    open: PropTypes.bool.isRequired,
+  }).isRequired,
+  parentId: PropTypes.string.isRequired,
+  profilePageHeaderId: PropTypes.string.isRequired,
+  smallScreen: PropTypes.bool.isRequired,
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalculatorSheetResultRow from './CalculatorSheetResultRow';
+import Button from '../Button';
 
 export const EstimateYourBenefitsSummarySheet = ({
   expandEybSheet,
@@ -11,9 +12,9 @@ export const EstimateYourBenefitsSummarySheet = ({
   yellowRibbon,
 }) => (
   <div className="vads-u-padding-bottom--1p5 vads-u-border-top--1px vads-u-border-color--gray-light">
-    <button
-      aria-expanded={expandEybSheet ? 'true' : 'false'}
-      aria-controls={showEybSheet && 'eyb-summary-sheet'}
+    <Button
+      ariaExpanded={expandEybSheet ? 'true' : 'false'}
+      ariaControls={showEybSheet && 'eyb-summary-sheet'}
       className="eyb-button usa-accordion-button vads-u-padding-bottom--0"
       onClick={() => toggleEybExpansion()}
     >
@@ -22,7 +23,7 @@ export const EstimateYourBenefitsSummarySheet = ({
       ) : (
         <h5>Your estimated benefits</h5>
       )}
-    </button>
+    </Button>
     <div className="vads-u-margin-x--2p5">
       {expandEybSheet ? (
         <div>
