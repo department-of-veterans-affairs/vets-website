@@ -168,7 +168,7 @@ TuitionAndHousingEstimates.propTypes = {
   dispatchEligibilityChange: PropTypes.func.isRequired,
   dispatchShowModal: PropTypes.func.isRequired,
   eligibility: PropTypes.object.isRequired,
-  modalClose: PropTypes.func.isRequired,
+  modalClose: PropTypes.func,
   smallScreen: PropTypes.bool,
 };
 
