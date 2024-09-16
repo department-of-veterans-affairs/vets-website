@@ -453,10 +453,12 @@ export const validateDisabilityName = (
     err.addError('This needs to be less than 256 characters');
   }
 
-  if (
+  const missingCondition =
     !fieldData ||
-    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase()
-  ) {
+    fieldData.toLowerCase() === NULL_CONDITION_STRING.toLowerCase() ||
+    (fieldData.length > 0 && fieldData.trim() === '');
+
+  if (missingCondition) {
     err.addError(missingConditionMessage);
   }
 
