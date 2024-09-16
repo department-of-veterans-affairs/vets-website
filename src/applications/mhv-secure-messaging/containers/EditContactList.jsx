@@ -135,9 +135,12 @@ const EditContactList = () => {
 
   useEffect(
     () => {
+      if (isContactListChanged) {
+        dispatch(closeAlert());
+      }
       setIsNavigationBlocked(isContactListChanged);
     },
-    [isContactListChanged],
+    [dispatch, isContactListChanged],
   );
 
   useEffect(
