@@ -1,14 +1,22 @@
 import SelectAccreditedRepresentative from '../../components/SelectAccreditedRepresentative';
 
 export const uiSchema = {
-  'ui:title': SelectAccreditedRepresentative,
-  'ui:options': {
-    forceDivWrapper: true,
-    hideOnReview: true,
+  selectAccreditedRepresentative: {
+    'ui:title': 'Select Accredited Representative',
+    'ui:widget': SelectAccreditedRepresentative,
+    'ui:options': {
+      hideLabelText: true,
+    },
+    'ui:required': () => true,
   },
 };
 
 export const schema = {
   type: 'object',
-  properties: {},
+  properties: {
+    selectAccreditedRepresentative: {
+      type: 'string',
+    },
+  },
+  required: ['view:selectedAccreditedRep'],
 };
