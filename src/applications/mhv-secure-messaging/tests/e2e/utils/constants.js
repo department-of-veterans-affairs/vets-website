@@ -174,7 +174,7 @@ export const Locators = {
     MAIN_CONTENT: '.va-alert',
     PAGE_TITLE: '.page-title',
     EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
-    NOTIFICATION: '[close-btn-aria-label="Close notification"]',
+    NOTIFICATION: '[close-btn-aria-label*="Close notification"]',
     VA_CRISIS_LINE: '[text="Connect with the Veterans Crisis Line"]',
     SAVE_DRAFT: '#messagetext',
     HIGHLIGHTED: '[data-testid="highlighted-text"]',
