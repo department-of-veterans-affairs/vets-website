@@ -1,7 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { setData } from 'platform/forms-system/src/js/actions';
+import {
+  VaRadio,
+  VaRadioOption,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { RESOLUTION_OPTION_TYPES } from '../../constants';
 
 const ResolutionOptions = ({ formContext }) => {
@@ -33,55 +36,18 @@ const ResolutionOptions = ({ formContext }) => {
     );
   };
 
-  const renderWaiverText = useMemo(() => {
-    return (
-      <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
-          Waiver
-        </span>
-        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
-          If we approve your request, we’ll stop collection and waive the debt.
-        </span>
-      </>
-    );
-  }, []);
-
-  const renderCompromiseText = useMemo(() => {
-    return (
-      <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
-          Compromise
-        </span>
-        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
-          If you can’t pay the debt in full or make smaller monthly payments, we
-          can consider a smaller, one-time payment to resolve your debt.
-        </span>
-      </>
-    );
-  }, []);
-
-  const renderMonthlyText = useMemo(() => {
-    return (
-      <>
-        <span className="vads-u-display--block vads-u-font-weight--bold vads-u-margin-left--3 vads-u-padding-left--0p25 vads-u-margin-top--neg2p5">
-          Extended monthly payments
-        </span>
-        <span className="vads-u-display--block vads-u-margin-left--3 vads-u-padding-left--0p25">
-          If we approve your request, you can make smaller monthly payments for
-          up to 5 years with either monthly offsets or a monthly payment plan.
-        </span>
-      </>
-    );
-  }, []);
+  const waiverText = `If we approve your request, we’ll stop collection and waive the debt.`;
+  const monthlyText = `If you can’t pay the debt in full or make smaller monthly payments, we can consider a smaller, one-time payment to resolve your debt.`;
+  const compromiseText = `If we approve your request, you can make smaller monthly payments for up to 5 years with either monthly offsets or a monthly payment plan.`;
 
   const renderResolutionSelectionText = () => {
     switch (currentDebt.resolutionOption) {
-      case 'waiver':
-        return renderWaiverText;
-      case 'monthly':
-        return renderMonthlyText;
-      case 'compromise':
-        return renderCompromiseText;
+      case RESOLUTION_OPTION_TYPES.WAIVER:
+        return waiverText;
+      case RESOLUTION_OPTION_TYPES.MONTHLY:
+        return monthlyText;
+      case RESOLUTION_OPTION_TYPES.COMPROMISE:
+        return compromiseText;
       default:
         return <></>;
     }
@@ -91,6 +57,22 @@ const ResolutionOptions = ({ formContext }) => {
   const resolutionError =
     formContext.submitted && !currentDebt.resolutionOption;
   const resolutionErrorMessage = 'Please select a resolution option';
+
+  const label = 'Select relief option: ';
+  const options = [
+    {
+      value: 'waiver',
+      label: waiverText,
+    },
+    {
+      value: 'monthly',
+      label: monthlyText,
+    },
+    {
+      value: 'compromise',
+      label: compromiseText,
+    },
+  ];
 
   return (
     <div
@@ -112,77 +94,32 @@ const ResolutionOptions = ({ formContext }) => {
       {!isEditing && <>{renderResolutionSelectionText()}</>}
       {isEditing && (
         <div>
-          <input
-            type="radio"
-            checked={
-              currentDebt.resolutionOption === RESOLUTION_OPTION_TYPES.WAIVER
-            }
-            name="resolution-option"
-            id="radio-waiver"
-            value="waiver"
-            className="vads-u-width--auto"
-            onChange={onResolutionChange}
-          />
-          <label
-            htmlFor="radio-waiver"
-            className="vads-u-margin--0 vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
+          <VaRadio
+            className="vads-u-margin-y--2 "
+            label={label}
+            onVaValueChange={onResolutionChange}
           >
-            {renderWaiverText}
-          </label>
-          {currentDebt.debtType !== 'COPAY' && (
-            <div>
-              <input
-                type="radio"
-                checked={
-                  currentDebt.resolutionOption ===
-                  RESOLUTION_OPTION_TYPES.MONTHLY
-                }
+            {options.map((option, index) => (
+              <VaRadioOption
+                key={`${option.value}-${index}`}
+                id={`resolution-option-${index}`}
                 name="resolution-option"
-                id="radio-monthly"
-                value="monthly"
-                className="vads-u-width--auto"
-                onChange={onResolutionChange}
+                label={option.label}
+                value={option.value}
+                checked={currentDebt.resolutionOption === option.value}
+                ariaDescribedby={
+                  currentDebt.resolutionOption === option.value
+                    ? option.value
+                    : null
+                }
+                className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
               />
-              <label
-                htmlFor="radio-monthly"
-                className=" vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
-              >
-                {renderMonthlyText}
-              </label>
-            </div>
-          )}
-          <input
-            type="radio"
-            checked={
-              currentDebt.resolutionOption ===
-              RESOLUTION_OPTION_TYPES.COMPROMISE
-            }
-            name="resolution-option"
-            id="radio-compromise"
-            value="compromise"
-            className="vads-u-width--auto"
-            onChange={onResolutionChange}
-          />
-          <label
-            htmlFor="radio-compromise"
-            className=" vads-u-display--flex vads-u-flex-direction--column vads-u-align-items--left "
-          >
-            {renderCompromiseText}
-          </label>
+            ))}
+          </VaRadio>
         </div>
       )}
     </div>
   );
-};
-
-// pagePerItemIndex is string in form, and populates as number in reivew page edit mode
-ResolutionOptions.propTypes = {
-  formContext: PropTypes.shape({
-    pagePerItemIndex: PropTypes.string.isRequired,
-    submitted: PropTypes.bool,
-    onReviewPage: PropTypes.bool,
-    reviewMode: PropTypes.bool,
-  }),
 };
 
 export default ResolutionOptions;
