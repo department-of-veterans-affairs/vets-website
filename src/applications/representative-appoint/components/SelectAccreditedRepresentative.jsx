@@ -17,12 +17,15 @@ const SelectAccreditedRepresentative = props => {
   const [representatives, setRepresentatives] = useState([]);
 
   const handleChange = e => {
+    setError(null);
     setQuery(e.target.value);
   };
 
   const handleClick = async () => {
     if (!query.trim()) {
-      setError('Search for a representative');
+      setError(
+        'Enter the name of the accredited representative or VSO you’d like to appoint',
+      );
       return;
     }
 
@@ -111,7 +114,7 @@ const SelectAccreditedRepresentative = props => {
         </div>
         <div
           className={`vads-u-margin-top--${
-            error ? '5' : '1'
+            error ? '8' : '1'
           } vads-u-margin-bottom--1`}
         >
           <VaButton
@@ -123,13 +126,17 @@ const SelectAccreditedRepresentative = props => {
       </div>
 
       {searchResults()}
-
-      <p className="vads-u-margin-y--4">
-        <strong>Note:</strong> if you don’t know who you’d like to appoint, you
-        can use our online tool to search for an accredited attorney, claims
-        agent, or VSO representative.
-      </p>
     </div>
+  );
+};
+
+export const AdditionalNote = () => {
+  return (
+    <p className="vads-u-margin-y--4">
+      <strong>Note:</strong> if you don’t know who you’d like to appoint, you
+      can use our online tool to search for an accredited attorney, claims
+      agent, or VSO representative.
+    </p>
   );
 };
 
