@@ -9,6 +9,7 @@ import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
+  sinon.stub(Date, 'getTime');
   const getData = () => ({
     props: {
       formConfig,
@@ -76,7 +77,6 @@ describe('<ConfirmationPage>', () => {
   it('should handle back link', async () => {
     const { mockStore, props } = getData();
     const { container } = subject({ mockStore, props });
-    sinon.stub(Date, 'getTime');
 
     const backLink = container.querySelector('[data-testid="back-link"]');
     fireEvent.click(backLink);
