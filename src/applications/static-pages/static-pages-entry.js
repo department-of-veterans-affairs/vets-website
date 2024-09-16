@@ -176,7 +176,7 @@ createRepresentativeStatus(store, widgetTypes.REPRESENTATIVE_STATUS);
 createFindVaForms(store, widgetTypes.FIND_VA_FORMS);
 createFindVaFormsPDFDownloadHelper(
   store,
-  widgetTypes.FIND_VA_FORMS_DOWNLOAD_MODAL,
+  widgetTypes.FIND_VA_FORMS_INVALID_PDF_ALERT,
 );
 createPost911GiBillStatusWidget(
   store,
