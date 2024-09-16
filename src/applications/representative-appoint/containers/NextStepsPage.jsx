@@ -9,11 +9,12 @@ export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
   const repAddress = {
-    address1: formData.address1,
-    address2: formData.address2,
-    city: formData.city,
-    state: formData.state,
-    zip: formData.zip,
+    address1: formData['view:selectedRepresentative']?.addressLine1,
+    address2: formData['view:selectedRepresentative']?.addressLine2,
+    address3: formData['view:selectedRepresentative']?.addressLine3,
+    city: formData['view:selectedRepresentative']?.city,
+    state: formData['view:selectedRepresentative']?.stateCode,
+    zip: formData['view:selectedRepresentative']?.zipCode,
   };
 
   const getRepType = () => {
@@ -24,6 +25,25 @@ export default function NextStepsPage() {
     }
 
     return 'VSO representative';
+  };
+
+  const getOrgName = () => {
+    const id = formData?.selectedAccreditedOrganizationId;
+    const orgs =
+      formData['view:selectedRepresentative'].attributes.accreditedOrganizations
+        .data;
+    let orgName;
+
+    if (id && orgs) {
+      for (let i = 0; i < orgs.length; i += 1) {
+        if (orgs[i].id === id) {
+          orgName = orgs[i].attributes.name;
+          break;
+        }
+      }
+    }
+
+    return orgName;
   };
 
   return (
@@ -39,8 +59,8 @@ export default function NextStepsPage() {
           form. You can bring your form to them in person or mail it to them.
         </p>
         <AddressBlock
-          repName={formData.selectedRepName}
-          orgName={formData.selectedOrgName}
+          repName={formData['view:selectedRepresentative']?.fullName}
+          orgName={getOrgName()}
           address={repAddress}
         />
         <p>
