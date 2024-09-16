@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import AlertMessage from './AlertMessage';
-import { determineBoardObj, determineFormData } from '../../../helpers';
+import {
+  determineBoardObj,
+  determineFormData,
+  stepHeaderLevel,
+} from '../../../helpers';
 
 import {
   SHORT_NAME_MAP,
@@ -174,12 +178,7 @@ const StepOne = ({ formResponses }) => {
 
   const form = determineFormData(formResponses);
   const header = `Download and fill out DoD Form ${form.num}`;
-  const level = [
-    RESPONSES.PRIOR_SERVICE_PAPERWORK_NO,
-    RESPONSES.PRIOR_SERVICE_PAPERWORK_YES,
-  ].includes(formResponses[SHORT_NAME_MAP.PRIOR_SERVICE])
-    ? 3
-    : 2;
+  const level = stepHeaderLevel(formResponses);
 
   return (
     <va-process-list-item header={header} level={level}>
@@ -206,9 +205,9 @@ const StepOne = ({ formResponses }) => {
       <AlertMessage
         content={
           <>
-            <h2 className="usa-alert-heading">
+            <h3 className="usa-alert-heading">
               Need help preparing your application?
-            </h2>
+            </h3>
             <p>
               The process of preparing a discharge upgrade or correction
               application can be a lot of work and can take a long time.

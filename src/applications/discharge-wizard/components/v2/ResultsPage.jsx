@@ -11,9 +11,15 @@ import Warnings from './resultsComponents/Warnings';
 import OptionalStep from './resultsComponents/OptionalStep';
 import StepOne from './resultsComponents/StepOne';
 import AdditionalInstructions from './resultsComponents/AdditionalInstructions';
+import StepTwo from './resultsComponents/StepTwo';
+import StepThree from './resultsComponents/StepThree';
+import AirForcePortalLink from './resultsComponents/AirForcePortalLink';
+
+import { determineIsAirForceAFRBAPortal } from '../../helpers';
 
 const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   const H1 = 'Your Steps for Upgrading Your Discharge';
+  const airForceAFRBAPortal = determineIsAirForceAFRBAPortal(formResponses);
 
   useEffect(
     () => {
@@ -34,18 +40,24 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
   return (
     <article className="dw-guidance" data-testid="duw-results">
       <h1>{H1}</h1>
-      <>
-        <ResultsSummary formResponses={formResponses} />
-        <CarefulConsiderationStatement formResponses={formResponses} />
-        <Warnings formResponses={formResponses} />
-        <OptionalStep formResponses={formResponses} />
-        <section>
-          <va-process-list>
-            <StepOne formResponses={formResponses} />
-          </va-process-list>
-        </section>
-        <AdditionalInstructions formResponses={formResponses} />
-      </>
+      <ResultsSummary formResponses={formResponses} />
+      {airForceAFRBAPortal ? (
+        <AirForcePortalLink />
+      ) : (
+        <>
+          <CarefulConsiderationStatement formResponses={formResponses} />
+          <Warnings formResponses={formResponses} />
+          <OptionalStep formResponses={formResponses} />
+          <section>
+            <va-process-list>
+              <StepOne formResponses={formResponses} />
+              <StepTwo formResponses={formResponses} />
+              <StepThree formResponses={formResponses} />
+            </va-process-list>
+          </section>
+          <AdditionalInstructions formResponses={formResponses} />
+        </>
+      )}
     </article>
   );
 };

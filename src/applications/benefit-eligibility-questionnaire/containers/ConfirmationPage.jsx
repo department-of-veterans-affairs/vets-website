@@ -12,11 +12,27 @@ import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
+import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
+
+    const hasResults = !!props.results.data;
+    const resultsCount = hasResults ? props.results.data.length : 0;
+    const resultsText = resultsCount === 1 ? 'result' : 'results';
+    const benefitIds = hasResults
+      ? props.results.data.reduce((acc, curr) => {
+          acc[curr.id] = true;
+          return acc;
+        }, {})
+      : {};
+
     this.state = {
+      hasResults,
+      resultsCount,
+      resultsText,
+      benefitIds,
       benefits: [], // Initial state for benefits
     };
   }
@@ -92,9 +108,6 @@ export class ConfirmationPage extends React.Component {
   };
 
   render() {
-    const hasResults = !!this.props.results.data;
-    const resultsCount = hasResults ? this.props.results.data.length : 0;
-    const resultsText = resultsCount === 1 ? 'result' : 'results';
     return (
       <div>
         <p>
@@ -142,8 +155,10 @@ export class ConfirmationPage extends React.Component {
 
           <div id="results-section">
             <b>
-              {hasResults &&
-                `Showing ${resultsCount} ${resultsText}, filtered to show all results, sorted alphabetically`}
+              {this.state.hasResults &&
+                `Showing ${this.state.resultsCount} ${
+                  this.state.resultsText
+                }, filtered to show all results, sorted alphabetically`}
             </b>
 
             <p>
@@ -158,7 +173,25 @@ export class ConfirmationPage extends React.Component {
               <va-alert-expandable
                 status="info"
                 trigger="Time-sensitive benefits"
-              />
+              >
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => benefit.isTimeSensitive)
+                      .map(b => (
+                        <li key={b.id}>
+                          <a
+                            href={b.learnMoreURL}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {b.name}
+                          </a>
+                          <p>{b.description}</p>
+                        </li>
+                      ))}
+                </ul>
+              </va-alert-expandable>
             </div>
 
             <div>
@@ -168,14 +201,19 @@ export class ConfirmationPage extends React.Component {
                   message="Loading results..."
                 />
               ) : (
-                this.state &&
-                this.state.benefits.map(benefit => (
-                  <BenefitCard
-                    key={benefit.id}
-                    benefit={benefit}
-                    className="vads-u-margin-bottom--2"
-                  />
-                ))
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => !benefit.isTimeSensitive)
+                      .map(benefit => (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ))}
+                </ul>
               )}
             </div>
 
@@ -183,7 +221,21 @@ export class ConfirmationPage extends React.Component {
               <va-accordion-item
                 header="Show benefits that I may not qualify for"
                 id="show"
-              />
+              >
+                <ul className="benefit-list">
+                  {BENEFITS_LIST.map(
+                    benefit =>
+                      !this.state.benefitIds[benefit.id] && (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ),
+                  )}
+                </ul>
+              </va-accordion-item>
             </va-accordion>
           </div>
         </div>

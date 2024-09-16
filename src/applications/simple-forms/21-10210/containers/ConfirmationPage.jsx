@@ -48,6 +48,7 @@ export const ConfirmationPage = props => {
       submitDate={submitDate}
       confirmationNumber={confirmationNumber}
       formConfig={formConfig}
+      pdfUrl={submission.response?.pdfUrl}
     />
   ) : (
     <OldConfirmationPageView
