@@ -100,9 +100,7 @@ const formConfig = {
           title: CHAPTER_1.PAGE_1.TITLE,
           CustomPage: CategorySelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: {
-            selectCategory: { 'ui:title': CHAPTER_1.PAGE_1.QUESTION_1 },
-          },
+          uiSchema: selectCategoryPage.uiSchema,
           schema: selectCategoryPage.schema,
           editModeOnReviewPage: false,
         },
@@ -111,9 +109,7 @@ const formConfig = {
           title: CHAPTER_1.PAGE_2.TITLE,
           CustomPage: TopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: {
-            selectTopic: { 'ui:title': CHAPTER_1.PAGE_2.QUESTION_1 },
-          },
+          uiSchema: selectTopicPage.uiSchema,
           schema: selectTopicPage.schema,
           editModeOnReviewPage: false,
         },
@@ -122,9 +118,7 @@ const formConfig = {
           title: CHAPTER_1.PAGE_3.TITLE,
           CustomPage: SubTopicSelectPage,
           CustomPageReview: CustomPageReviewField,
-          uiSchema: {
-            selectTopic: { 'ui:title': CHAPTER_1.PAGE_3.QUESTION_1 },
-          },
+          uiSchema: selectSubtopicPage.uiSchema,
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
           editModeOnReviewPage: false,

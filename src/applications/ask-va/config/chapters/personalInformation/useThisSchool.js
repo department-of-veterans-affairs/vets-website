@@ -1,9 +1,12 @@
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
 import YourSchool from '../../../components/FormFields/YourSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, useThisSchoolOptions } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const useThisSchoolPage = {
   uiSchema: {

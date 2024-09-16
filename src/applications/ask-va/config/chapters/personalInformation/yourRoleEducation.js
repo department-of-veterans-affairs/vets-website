@@ -1,7 +1,10 @@
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FormElementTitle from '../../../components/FormElementTitle';
 import PageFieldSummary from '../../../components/PageFieldSummary';
 import { CHAPTER_3, yourRoleOptionsEducation } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const yourRoleEducationPage = {
   uiSchema: {
