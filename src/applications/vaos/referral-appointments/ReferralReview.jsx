@@ -70,14 +70,17 @@ export default function ReferralReview() {
     );
   }
 
+  const appointmentCountString =
+    patientData?.appointmentCount === 1
+      ? '1 appointment'
+      : `${patientData?.appointmentCount} appointments`;
+
   return (
     <FormLayout pageTitle="Review Approved Referral">
       <div>
         <h1>Referral for {patientData?.typeOfCare}</h1>
         <p data-testid="subtitle">
-          {`Your referring VA facility approved you for ${
-            patientData?.appointmentCount
-          } appointment(s) with a community care provider. You can now schedule your appointment with a community care provider.`}
+          {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>
         <ReferralAppLink linkText="Schedule your appointment" />
         <h2>Details about your referral</h2>
