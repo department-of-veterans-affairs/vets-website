@@ -59,6 +59,10 @@ class GeneralFunctionsPage {
       .replace(`PM`, `p.m.`);
   };
 
+  verifyUrl = endpoint => {
+    cy.url().should(`include`, endpoint);
+  };
+
   verifyPageHeader = text => {
     cy.get(`h1`).should(`have.text`, text);
   };
