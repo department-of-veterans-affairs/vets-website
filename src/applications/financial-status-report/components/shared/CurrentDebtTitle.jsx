@@ -10,11 +10,6 @@ export const CurrentDebtTitle = ({ formContext }) => {
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
   const { deductionCode, benefitType } = currentDebt;
 
-  const showRequiredText =
-    formContext?.pageTitle !== 'Resolution Option' ? null : (
-      <span className="required-text">(*Required)</span>
-    );
-
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
       ? `${currency(currentDebt.pHAmtDue)} copay debt  ${
@@ -35,7 +30,7 @@ export const CurrentDebtTitle = ({ formContext }) => {
       </h3>{' '}
       <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
         Which repayment or relief option would you like for your{' '}
-        <strong>{formattedDebtTitle}</strong>? {showRequiredText}
+        <strong>{formattedDebtTitle}</strong>?
       </p>
     </legend>
   );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -9,18 +9,19 @@ import { RESOLUTION_OPTION_TYPES } from '../../constants';
 
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
+  const selectionError = useState(null);
   const formData = useSelector(state => state.form.data);
   const isEditing = formContext.onReviewPage ? !formContext.reviewMode : true;
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
 
-  const onResolutionChange = ({ target }) => {
+  const onResolutionChange = target => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {
       if (debt.id === currentDebt.id) {
         return {
           ...debt,
-          resolutionOption: target.value,
+          resolutionOption: target.detail.value,
           resolutionWaiverCheck: false,
           resolutionComment: '',
         };
@@ -53,56 +54,42 @@ const ResolutionOptions = ({ formContext }) => {
     }
   };
 
-  // Error message handling
-  const resolutionError =
-    formContext.submitted && !currentDebt.resolutionOption;
-  const resolutionErrorMessage = 'Please select a resolution option';
-
   const label = 'Select relief option: ';
   const options = [
     {
       value: 'waiver',
-      label: waiverText,
+      label: 'Waiver',
+      description: waiverText,
     },
     {
       value: 'monthly',
-      label: monthlyText,
+      label: 'Extended monthly payments',
+      description: monthlyText,
     },
     {
       value: 'compromise',
-      label: compromiseText,
+      label: 'Compromise',
+      description: compromiseText,
     },
   ];
 
   return (
-    <div
-      className={
-        resolutionError
-          ? 'error-line vads-u-margin-y--3 vads-u-padding-left--1 vads-u-margin-left--neg1p5'
-          : 'vads-u-margin-left--2 vads-u-margin-top--4'
-      }
-    >
-      {resolutionError && (
-        <span
-          className="vads-u-font-weight--bold vads-u-color--secondary-dark"
-          role="alert"
-        >
-          <span className="sr-only">Error</span>
-          <p>{resolutionErrorMessage}</p>
-        </span>
-      )}
+    <div>
       {!isEditing && <>{renderResolutionSelectionText()}</>}
       {isEditing && (
         <div>
           <VaRadio
-            className="vads-u-margin-y--2 "
+            className="vads-u-margin-y--2 resolution-option-radio"
             label={label}
             onVaValueChange={onResolutionChange}
+            error={selectionError}
+            required
           >
             {options.map((option, index) => (
               <VaRadioOption
                 key={`${option.value}-${index}`}
                 id={`resolution-option-${index}`}
+                description={option.description}
                 name="resolution-option"
                 label={option.label}
                 value={option.value}
