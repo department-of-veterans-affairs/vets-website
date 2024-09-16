@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MobileAppCallout from '@department-of-veterans-affairs/platform-site-wide/MobileAppCallout';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { generatePdf } from '~/platform/pdf';
+import { focusElement } from '~/platform/utilities/ui';
+import { captureError } from '~/platform/user/profile/vap-svc/util/analytics';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { formatFullName } from '../../../common/helpers';
 import { getServiceBranchDisplayName } from '../../helpers';
@@ -20,6 +22,7 @@ const ProofOfVeteranStatus = ({
   edipi,
   mockUserAgent,
 }) => {
+  const [errors, setErrors] = useState([]);
   const { first, middle, last, suffix } = userFullName;
 
   const userAgent =
@@ -65,8 +68,31 @@ const ProofOfVeteranStatus = ({
     },
   };
 
-  const createPdf = () => {
-    generatePdf('veteranStatus', 'Veteran status card', pdfData, !isMobile);
+  useEffect(
+    () => {
+      if (errors?.length > 0) {
+        focusElement('.vet-status-pdf-download-error');
+      }
+    },
+    [errors],
+  );
+
+  const createPdf = async () => {
+    setErrors(null);
+
+    try {
+      await generatePdf(
+        'veteranStatus',
+        'Veteran status card',
+        pdfData,
+        !isMobile,
+      );
+    } catch (error) {
+      setErrors([
+        "We're sorry. Something went wrong on our end. Please try to download your Veteran status card later.",
+      ]);
+      captureError(error, { eventName: 'vet-status-pdf-download' });
+    }
   };
 
   return (
@@ -97,6 +123,15 @@ const ProofOfVeteranStatus = ({
                 onClick={createPdf}
               />
             </div>
+
+            {errors?.length > 0 ? (
+              <div className="vet-status-pdf-download-error vads-u-padding-y--2">
+                <va-alert status="error" uswds>
+                  {errors[0]}
+                </va-alert>
+              </div>
+            ) : null}
+
             <div className="vads-l-grid-container--full vads-u-padding-y--2">
               <div className="vads-l-row">
                 <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--7 medium-screen:vads-l-col--5 ">

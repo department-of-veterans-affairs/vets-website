@@ -12,12 +12,30 @@ import BenefitCard from '../components/BenefitCard';
 import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
+import { BENEFITS_LIST } from '../constants/benefits';
 
 export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
+
+    const hasResults = !!props.results.data;
+    const resultsCount = hasResults ? props.results.data.length : 0;
+    const resultsText = resultsCount === 1 ? 'result' : 'results';
+    const benefitIds = hasResults
+      ? props.results.data.reduce((acc, curr) => {
+          acc[curr.id] = true;
+          return acc;
+        }, {})
+      : {};
+
     this.state = {
-      benefits: [], // Initial state for benefits
+      hasResults,
+      resultsCount,
+      resultsText,
+      benefitIds,
+      sortValue: 'alphabetical',
+      filterValue: 'All',
+      benefits: [],
     };
   }
 
@@ -38,6 +56,7 @@ export class ConfirmationPage extends React.Component {
         if (a.name > b.name) return 1;
         return 0;
       });
+
       this.setState({ benefits: benefitsState });
     } else if (
       this.props.location.query &&
@@ -53,6 +72,8 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value || 'alphabetical';
 
+    this.setState(() => ({ sortValue: key }));
+
     this.setState(prevState => {
       const sortedBenefits = prevState.benefits.sort((a, b) => {
         if (a[key] < b[key]) return -1;
@@ -66,6 +87,8 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = e => {
     const key = e.target.value;
 
+    this.setState(() => ({ filterValue: key }));
+
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
@@ -75,7 +98,7 @@ export class ConfirmationPage extends React.Component {
 
     this.setState(() => {
       const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category === key;
+        return benefit.category.includes(key);
       });
       return { benefits: filteredBenefits };
     });
@@ -92,9 +115,6 @@ export class ConfirmationPage extends React.Component {
   };
 
   render() {
-    const hasResults = !!this.props.results.data;
-    const resultsCount = hasResults ? this.props.results.data.length : 0;
-    const resultsText = resultsCount === 1 ? 'result' : 'results';
     return (
       <div>
         <p>
@@ -116,11 +136,13 @@ export class ConfirmationPage extends React.Component {
         <div id="results-container">
           <div id="filters-section-desktop">
             <b>Filters</b>
-            <p>Filter by benefit type</p>
+            <p>Filter benefits by</p>
             <select onChange={this.filterBenefits}>
               <option value="All">All</option>
               <option value="Education">Education</option>
               <option value="Employment">Employment</option>
+              <option value="Careers">Careers & Employment</option>
+              <option value="Support">More Support</option>
             </select>
             <b>Sort</b>
             <p>Sort results by</p>
@@ -142,12 +164,19 @@ export class ConfirmationPage extends React.Component {
 
           <div id="results-section">
             <b>
-              {hasResults &&
-                `Showing ${resultsCount} ${resultsText}, filtered to show all results, sorted alphabetically`}
+              {this.state.hasResults &&
+                `Showing ${this.state.resultsCount} ${
+                  this.state.resultsText
+                }, filtered to show ${this.state.filterValue} results, sorted ${
+                  this.state.sortValue === 'alphabetical'
+                    ? this.state.sortValue
+                    : `by ${this.state.sortValue}`
+                }`}
             </b>
 
             <p>
               <va-link
+                data-testid="back-link"
                 href="#"
                 onClick={this.handleClick}
                 text="Go back and review your entries"
@@ -158,7 +187,25 @@ export class ConfirmationPage extends React.Component {
               <va-alert-expandable
                 status="info"
                 trigger="Time-sensitive benefits"
-              />
+              >
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => benefit.isTimeSensitive)
+                      .map(b => (
+                        <li key={b.id}>
+                          <a
+                            href={b.learnMoreURL}
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            {b.name}
+                          </a>
+                          <p>{b.description}</p>
+                        </li>
+                      ))}
+                </ul>
+              </va-alert-expandable>
             </div>
 
             <div>
@@ -168,14 +215,19 @@ export class ConfirmationPage extends React.Component {
                   message="Loading results..."
                 />
               ) : (
-                this.state &&
-                this.state.benefits.map(benefit => (
-                  <BenefitCard
-                    key={benefit.id}
-                    benefit={benefit}
-                    className="vads-u-margin-bottom--2"
-                  />
-                ))
+                <ul className="benefit-list">
+                  {this.state &&
+                    this.state.benefits
+                      .filter(benefit => !benefit.isTimeSensitive)
+                      .map(benefit => (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ))}
+                </ul>
               )}
             </div>
 
@@ -183,7 +235,21 @@ export class ConfirmationPage extends React.Component {
               <va-accordion-item
                 header="Show benefits that I may not qualify for"
                 id="show"
-              />
+              >
+                <ul className="benefit-list">
+                  {BENEFITS_LIST.map(
+                    benefit =>
+                      !this.state.benefitIds[benefit.id] && (
+                        <li key={benefit.id}>
+                          <BenefitCard
+                            benefit={benefit}
+                            className="vads-u-margin-bottom--2"
+                          />
+                        </li>
+                      ),
+                  )}
+                </ul>
+              </va-accordion-item>
             </va-accordion>
           </div>
         </div>

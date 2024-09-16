@@ -2891,10 +2891,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.17":
-  version "11.0.17"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.17.tgz#cdd74d630ada766880a6fb6d7ba22bf561729c2c"
-  integrity sha512-dDU1RTt9GB4C6WOsHhtXa1Ko5v6PImHNImRHlkDmvWpymAONxWe9qZqJmtDxV1YtN/sXwZaDsgi/NPqu1OFD+Q==
+"@department-of-veterans-affairs/formation@11.0.20":
+  version "11.0.20"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.20.tgz#6b34a73d6a4cfaf7b0b29663fdda52b7da18e2c4"
+  integrity sha512-4UANvXdJrHNov05I4uBcFjpyHDYAbW5K9hINjrBHH+pihw1+LPJ+HEMVBKciqKpi7TZ0dinB/YZOiJMHaKOOyA==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -6818,15 +6818,10 @@ caniuse-api@^3.0.0:
     lodash.memoize "^4.1.2"
     lodash.uniq "^4.5.0"
 
-caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001503:
-  version "1.0.30001576"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001576.tgz"
-  integrity sha512-ff5BdakGe2P3SQsMsiqmt1Lc8221NR1VzHj5jXN5vBny9A6fpze94HiVV/n7XRosOlsShJcvMv5mdnpjOGCEgg==
-
-caniuse-lite@^1.0.30001587:
-  version "1.0.30001611"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001611.tgz#4dbe78935b65851c2d2df1868af39f709a93a96e"
-  integrity sha512-19NuN1/3PjA3QI8Eki55N8my4LzfkMCRLgCVfrl/slbSAchQfV0+GwjPrK3rq37As4UCLlM/DHajbKkAqbv92Q==
+caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001260, caniuse-lite@^1.0.30001313, caniuse-lite@^1.0.30001503, caniuse-lite@^1.0.30001587:
+  version "1.0.30001660"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001660.tgz"
+  integrity sha512-GacvNTTuATm26qC74pt+ad1fW15mlQ/zuTzzY1ZoIzECTP8HURDfF43kNxPgf7H1jmelCBQTTbBNxdSXOA7Bqg==
 
 capture-stack-trace@^1.0.0:
   version "1.0.2"
@@ -8823,6 +8818,11 @@ dommatrix@^1.0.3:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/dommatrix/-/dommatrix-1.0.3.tgz#e7c18e8d6f3abdd1fef3dd4aa74c4d2e620a0525"
   integrity sha512-l32Xp/TLgWb8ReqbVJAFIvXmY7go4nTxxlWiAFyhoQw9RKEOHBZNnyGvJWqDVSPmq3Y9HlM4npqF/T6VMOXhww==
+
+dompurify@^3.1.6:
+  version "3.1.6"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.1.6.tgz#43c714a94c6a7b8801850f82e756685300a027e2"
+  integrity sha512-cTOAhc36AalkjtBpfG6O8JimdTMWNXjiePT2xQH/ppBGi/4uIpmj8eKyIkMJErXWARyINV/sB38yf8JCLF5pbQ==
 
 domready@^1.0.8:
   version "1.0.8"
@@ -21251,9 +21251,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#f0268552fb7e06cff706b2e0b4f018e79eb9de6c":
-  version "24.2.4"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#f0268552fb7e06cff706b2e0b4f018e79eb9de6c"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3ab65cdd8c82c1207f6dbb8aa84cb4c659bc9add":
+  version "24.2.6"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3ab65cdd8c82c1207f6dbb8aa84cb4c659bc9add"
   dependencies:
     minimist "^1.2.3"
 
