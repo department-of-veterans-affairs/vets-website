@@ -10,7 +10,7 @@ import NeedHelp from '../components/NeedHelp';
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
-  // formData = {
+  // const formData = {
   //   'view:selectedRepresentative': {
   //     type: 'organization',
   //     fullName: 'Steven McBob',

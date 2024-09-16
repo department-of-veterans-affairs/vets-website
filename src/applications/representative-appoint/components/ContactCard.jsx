@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Address from './Address';
+import Email from './Email';
+import Phone from './Phone';
+import GoogleMapLink from './GoogleMapLink';
 import { parsePhoneNumber } from '../utilities/helpers';
 
 export default function ContactCard({
@@ -12,17 +14,8 @@ export default function ContactCard({
   email,
 }) {
   const { contact, extension } = parsePhoneNumber(phone);
-
   const addressExists =
     address.address1 && address.city && address.state && address.zip;
-
-  const addressString =
-    [address.address1, address.address2, address.address3]
-      .filter(Boolean)
-      .join(' ') +
-    (address.city ? ` ${address.city},` : '') +
-    (address.state ? ` ${address.stateCode}` : '') +
-    (address.zip ? ` ${address.zip}` : '');
 
   const recordContactLinkClick = () => {
     // pending analytics event
@@ -39,45 +32,20 @@ export default function ContactCard({
         </div>
         <div className="representative-contact-section vads-u-margin-top--3">
           {addressExists && (
-            <div className="address-link vads-u-display--flex">
-              <va-icon icon="location_on" size="3" />
-              <a
-                href={`https://maps.google.com?daddr=${addressString}`}
-                tabIndex="0"
-                className="address-anchor vads-u-margin-left--1"
-                onClick={() => recordContactLinkClick()}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`${address} (opens in a new tab)`}
-              >
-                <Address address={address} />
-              </a>
-            </div>
+            <GoogleMapLink
+              address={address}
+              recordClick={recordContactLinkClick}
+            />
           )}
           {contact && (
-            <div className="vads-u-margin-top--1p5 vads-u-display--flex">
-              <va-icon icon="phone" size="3" />
-              <div className="vads-u-margin-left--1">
-                <va-telephone
-                  contact={contact}
-                  extension={extension}
-                  onClick={() => recordContactLinkClick()}
-                  disable-analytics
-                />
-              </div>
-            </div>
+            <Phone
+              contact={contact}
+              extension={extension}
+              recordClick={recordContactLinkClick}
+            />
           )}
           {email && (
-            <div className="vads-u-margin-top--1p5 vads-u-display--flex">
-              <va-icon icon="mail" size="3" />
-              <a
-                href={`mailto:${email}`}
-                onClick={() => recordContactLinkClick()}
-                className="vads-u-margin-left--1"
-              >
-                {email}
-              </a>
-            </div>
+            <Email email={email} recordClick={recordContactLinkClick} />
           )}
         </div>
       </div>
