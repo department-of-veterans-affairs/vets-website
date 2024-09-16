@@ -575,7 +575,10 @@ const Prescriptions = () => {
                     >
                       {showFilterContent ? (
                         <>
-                          <h2 className="vads-u-margin-y--3">
+                          <h2
+                            className="vads-u-margin-y--3"
+                            data-testid="med-list"
+                          >
                             Medications list
                           </h2>
                           <MedicationsListFilter />

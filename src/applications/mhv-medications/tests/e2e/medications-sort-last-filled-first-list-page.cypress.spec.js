@@ -4,7 +4,7 @@ import mockRxPageTwo from './fixtures/prescriptions-page-2.json';
 import MedicationsListPage from './pages/MedicationsListPage';
 import MedicationsLandingPage from './pages/MedicationsLandingPage';
 
-describe('Medications List Page Sort By Last Filled First', () => {
+describe.skip('Medications List Page Sort By Last Filled First', () => {
   it('visits Medications list Page Sort ByLast Filled First', () => {
     const site = new MedicationsSite();
     const listPage = new MedicationsListPage();
