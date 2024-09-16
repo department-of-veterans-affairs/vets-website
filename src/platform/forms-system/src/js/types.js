@@ -425,6 +425,7 @@
  *   reviewAddButtonText?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitle?: (props: ArrayBuilderTextProps) => string,
  *   summaryTitleWithoutItems?: (props: ArrayBuilderTextProps) => string,
+ *   summaryDescription?: (props: ArrayBuilderTextProps) => string,
  *   summaryDescriptionWithoutItems?: (props: ArrayBuilderTextProps) => string,
  *   yesNoBlankReviewQuestion?: (props: ArrayBuilderTextProps) => string,
  * }} ArrayBuilderText

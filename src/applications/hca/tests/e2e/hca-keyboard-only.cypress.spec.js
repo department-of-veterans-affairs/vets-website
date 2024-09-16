@@ -347,6 +347,9 @@ describe('HCA-Keyboard-Only', () => {
       );
       cy.tabToContinueForm();
 
+      // Health insurance info
+      cy.tabToElementAndPressSpace('.usa-button-primary');
+
       // Health insurance coverage
       selectRadioWithKeyboard('isCoveredByHealthInsurance', 'Y');
 

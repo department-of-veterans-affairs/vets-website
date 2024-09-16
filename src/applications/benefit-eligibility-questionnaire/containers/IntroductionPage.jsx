@@ -1,8 +1,12 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/goals');
+  };
   return (
     <article className="schemaform-intro">
       <FormTitle
@@ -21,13 +25,21 @@ const IntroductionPage = () => {
         recommendations.
       </p>
       <va-link-action
-        href="/benefit-eligibility-questionnaire/goals"
+        href="#"
+        onClick={startForm}
         message-aria-describedby="Get started"
         text="Get started"
+        data-testid="get-started"
       />
       <p />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default IntroductionPage;
