@@ -129,7 +129,7 @@ export class ConfirmationPage extends React.Component {
         <div id="results-container">
           <div id="filters-section-desktop">
             <b>Filters</b>
-            <p>Filter by benefit type</p>
+            <p>Filter benefits by</p>
             <select onChange={this.filterBenefits}>
               <option value="All">All</option>
               <option value="Education">Education</option>
@@ -163,6 +163,7 @@ export class ConfirmationPage extends React.Component {
 
             <p>
               <va-link
+                data-testid="back-link"
                 href="#"
                 onClick={this.handleClick}
                 text="Go back and review your entries"

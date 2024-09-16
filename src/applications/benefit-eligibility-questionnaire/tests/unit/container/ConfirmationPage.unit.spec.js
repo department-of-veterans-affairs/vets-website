@@ -1,6 +1,6 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
 
@@ -18,8 +18,10 @@ describe('<ConfirmationPage>', () => {
       router: {
         push: sinon.mock(),
         replace: sinon.mock(),
+        goBack: sinon.mock(),
       },
       displayResults: sinon.mock(),
+      setSubmission: sinon.mock(),
       location: {
         basename: '/benefit-eligibility-questionnaire',
         pathname: '/confirmation',
@@ -67,9 +69,20 @@ describe('<ConfirmationPage>', () => {
   it('should render results page', () => {
     const { mockStore, props } = getData();
     const { container } = subject({ mockStore, props });
-    const selectors = {
-      results: container.querySelector('#results-container'),
-    };
-    expect(selectors.results).to.exist;
+
+    expect(container.querySelector('#results-container')).to.exist;
+  });
+
+  it('should handle back link', async () => {
+    const { mockStore, props } = getData();
+    const { container } = subject({ mockStore, props });
+    sinon.stub(Date, 'getTime');
+
+    const backLink = container.querySelector('[data-testid="back-link"]');
+    fireEvent.click(backLink);
+
+    await waitFor(() => {
+      expect(props.router.goBack.called).to.be.true;
+    });
   });
 });
