@@ -70,6 +70,7 @@
     "mstOption": true,
     "optionIndicator": "revoke",
     "form5103Acknowledged": true,
+    "evidencePrivacyAgreementAccepted": true,
     "privacyAgreementAccepted": true,
     "locations": [
       {
