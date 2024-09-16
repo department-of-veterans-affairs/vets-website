@@ -77,36 +77,19 @@ export function fetchAndUpdateSessionExpiration(url, settings) {
 }
 
 /**
- *
  * @param {string} resource - The URL to fetch. If it starts with a leading "/"
  * it will be appended to the baseUrl. Otherwise it will be used as an absolute
  * URL.
  * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
  * the fetch request. Will be mixed with, and potentially override, the
- * defaultSettings
- * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
- * the initial fetch request.
- * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ * defaultSettings.
+ * @returns {Promise<Response>} A promise that resolves with a response.
  */
-export function apiRequest(resource, optionalSettings, success, error) {
+export function apiRequestWithResponse(resource, optionalSettings) {
   const apiVersion = (optionalSettings && optionalSettings.apiVersion) || 'v0';
   const baseUrl = `${environment.API_URL}/${apiVersion}`;
   const url = resource[0] === '/' ? [baseUrl, resource].join('') : resource;
   const csrfTokenStored = localStorage.getItem('csrfToken');
-
-  if (success) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "success" callback has been deprecated, please use a promise chain instead',
-    );
-  }
-
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.warn(
-      'the "error" callback has been deprecated, please use a promise chain instead',
-    );
-  }
 
   const defaultSettings = {
     method: 'GET',
@@ -130,27 +113,16 @@ export function apiRequest(resource, optionalSettings, success, error) {
       return Promise.reject(err);
     })
     .then(response => {
-      const data = isJson(response)
-        ? response.json()
-        : Promise.resolve(response);
-
       // Get CSRF Token from API header
       const csrfToken = response.headers.get('X-CSRF-Token');
-
       if (csrfToken && csrfToken !== csrfTokenStored) {
         localStorage.setItem('csrfToken', csrfToken);
       }
 
-      if (response.ok || response.status === 304) {
-        return data;
-      }
-
       if (environment.isProduction()) {
-        const { pathname } = window.location;
-
         const shouldRedirectToSessionExpired =
           response.status === 401 &&
-          !pathname.includes('auth/login/callback') &&
+          !window.location.pathname.includes('auth/login/callback') &&
           sessionStorage.getItem('shouldRedirectExpiredSession') === 'true';
 
         if (shouldRedirectToSessionExpired) {
@@ -158,7 +130,47 @@ export function apiRequest(resource, optionalSettings, success, error) {
         }
       }
 
-      return data.then(Promise.reject.bind(Promise));
+      return response;
+    });
+}
+
+/**
+ *
+ * @param {string} resource - The URL to fetch. If it starts with a leading "/"
+ * it will be appended to the baseUrl. Otherwise it will be used as an absolute
+ * URL.
+ * @param {Object} [{}] optionalSettings - Custom settings you want to apply to
+ * the fetch request. Will be mixed with, and potentially override, the
+ * defaultSettings
+ * @param {Function} **(DEPRECATED)** success - Callback to execute after successfully resolving
+ * the initial fetch request.
+ * @param {Function} **(DEPRECATED)** error - Callback to execute if the fetch fails to resolve.
+ */
+export function apiRequest(resource, optionalSettings, success, error) {
+  if (success) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'the "success" callback has been deprecated, please use a promise chain instead',
+    );
+  }
+
+  if (error) {
+    // eslint-disable-next-line no-console
+    console.warn(
+      'the "error" callback has been deprecated, please use a promise chain instead',
+    );
+  }
+
+  return apiRequestWithResponse(resource, optionalSettings)
+    .then(response => {
+      if (response.ok || response.status === 304) {
+        if (isJson(response)) return response.json();
+        return response;
+      }
+
+      // JSON parse errors are masking HTTP errors here, probably for the worse.
+      if (isJson(response)) return response.json().then(v => Promise.reject(v));
+      return Promise.reject(response);
     })
     .then(success)
     .catch(error);

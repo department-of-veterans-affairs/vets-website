@@ -284,8 +284,8 @@ export const ANALYTICS_EVENTS = {
 };
 
 // new /v0/disability_compensation_in_progress_forms/21-526EZ. Not using the
-// platform/forms/helpers/inProgressApi because the mock doesn't include the
-// environment.API_URL
+// platform/forms/save-in-progress/api/inProgressApi because the mock doesn't
+// include the environment.API_URL
 export const MOCK_SIPS_API =
   VA_FORM_IDS_IN_PROGRESS_FORMS_API[VA_FORM_IDS.FORM_21_526EZ];
 

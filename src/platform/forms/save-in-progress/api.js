@@ -1,11 +1,27 @@
 import * as Sentry from '@sentry/browser';
-import { apiRequest } from '../../utilities/api';
-import { inProgressApi } from '../helpers';
-import { VA_FORM_IDS_SKIP_INFLECTION } from '../constants';
+import { apiRequestWithResponse } from '../../utilities/api';
+import {
+  VA_FORM_IDS_SKIP_INFLECTION,
+  VA_FORM_IDS_IN_PROGRESS_FORMS_API,
+} from '../constants';
+import environment from '../../utilities/environment';
+
+export function inProgressApi(formId) {
+  const apiUrl =
+    VA_FORM_IDS_IN_PROGRESS_FORMS_API[formId] || '/v0/in_progress_forms/';
+  return `${environment.API_URL}${apiUrl}${formId}`;
+}
+
+export function formApi(formId, optionalSettings) {
+  const apiUrl = inProgressApi(formId);
+  return apiRequestWithResponse(apiUrl, optionalSettings).then(response => {
+    if (response.ok || response.status === 304) return response.json();
+    return Promise.reject(response);
+  });
+}
 
 export function removeFormApi(formId) {
-  const apiUrl = inProgressApi(formId);
-  return apiRequest(apiUrl, {
+  return formApi(formId, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',
@@ -39,7 +55,6 @@ export function saveFormApi(
     },
     formData,
   });
-  const apiUrl = inProgressApi(formId);
   const saveFormApiHeaders = {
     'X-Key-Inflection': 'camel',
     'Content-Type': 'application/json',
@@ -48,7 +63,7 @@ export function saveFormApi(
     delete saveFormApiHeaders['X-Key-Inflection'];
   }
 
-  return apiRequest(apiUrl, {
+  return formApi(formId, {
     method: 'PUT',
     headers: saveFormApiHeaders,
     body,
