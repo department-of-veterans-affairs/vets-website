@@ -10,7 +10,7 @@ import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressI
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import recordEvent from 'platform/monitoring/record-event';
 import { WIZARD_STATUS_RESTARTING } from 'platform/site-wide/wizard';
-
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 import { itfNotice } from '../content/introductionPage';
 import {
   show526Wizard,
@@ -60,7 +60,7 @@ class IntroductionPage extends React.Component {
     };
 
     const sipProps = {
-      hideUnauthedStartLink: true,
+      hideUnauthedStartLink: !environment.isLocalhost(), // true,
       headingLevel: 2,
       prefillEnabled: formConfig.prefillEnabled,
       formId,
