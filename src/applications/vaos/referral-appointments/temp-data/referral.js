@@ -19,7 +19,7 @@ const getAvailableSlots = (number = 2) => {
 const referral = {
   providerName: 'Dr. Face',
   typeOfCare: 'Dermatology',
-  appointmentCount: 1,
+  appointmentCount: 2,
   orgName: 'New Skin Technologies',
   orgAddress: {
     street1: '111 Lori Ln.',
