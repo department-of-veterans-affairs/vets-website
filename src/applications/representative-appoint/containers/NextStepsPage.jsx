@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
+import getFormSubtitle from '../utilities/helpers';
 import AddressBlock from '../components/AddressBlock';
 import ContactCard from '../components/ContactCard';
 import NeedHelp from '../components/NeedHelp';
@@ -65,7 +66,7 @@ export default function NextStepsPage() {
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
           title="Fill out your form to appoint a VA accredited representative or VSO"
-          subTitle="VA Forms 21-22 and 21-22a"
+          subTitle={getFormSubtitle(formData)}
         />
         <h2 className="vads-u-font-size--h3">Your next steps</h2>
         <p>
