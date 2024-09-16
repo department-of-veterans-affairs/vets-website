@@ -369,7 +369,7 @@ describe('CG <FacilitySearch>', () => {
         expect(goForward.calledOnce).to.be.false;
         expect(selectors().radioList).to.have.attr(
           'error',
-          'Select a medical center or clinic',
+          content['validation-facilities--default-required'],
         );
       });
     });
@@ -575,7 +575,7 @@ describe('CG <FacilitySearch>', () => {
         userEvent.click(selectors().formNavButtons.forward);
         expect(goForward.calledOnce).to.be.false;
         expect(selectors().searchInputError.textContent).to.eq(
-          'ErrorSelect a medical center or clinic',
+          `Error${content['validation-facilities--default-required']}`,
         );
         expect(selectors().searchInputError.parentElement).to.have.class(
           'caregiver-facilities-search-input-error',
