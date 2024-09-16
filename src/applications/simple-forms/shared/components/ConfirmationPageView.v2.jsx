@@ -42,7 +42,13 @@ const PdfDownloadLink = ({ url, trackingPrefix }) => {
 
 export const ConfirmationPageView = props => {
   const alertRef = useRef(null);
-  const { confirmationNumber, submitDate, formConfig, pdfUrl } = props;
+  const {
+    confirmationNumber,
+    formConfig,
+    pagesFromState,
+    pdfUrl,
+    submitDate,
+  } = props;
 
   useEffect(
     () => {
@@ -121,6 +127,7 @@ export const ConfirmationPageView = props => {
           chapters={chapters}
           formData={formData}
           formConfig={formConfig}
+          pagesFromState={pagesFromState}
         />
       </div>
       <div className="screen-only">
@@ -136,7 +143,7 @@ export const ConfirmationPageView = props => {
             />
           </>
         )}
-        <VaAccordion bordered uswds>
+        <VaAccordion bordered open-single uswds>
           <VaAccordionItem
             header="Information you submitted on this form"
             id="info"
@@ -147,6 +154,7 @@ export const ConfirmationPageView = props => {
               chapters={chapters}
               formData={formData}
               formConfig={formConfig}
+              pagesFromState={pagesFromState}
             />
           </VaAccordionItem>
         </VaAccordion>
@@ -225,6 +233,7 @@ export const ConfirmationPageView = props => {
 ConfirmationPageView.propTypes = {
   confirmationNumber: PropTypes.string.isRequired,
   formConfig: PropTypes.object.isRequired,
+  pagesFromState: PropTypes.object.isRequired,
   submitDate: PropTypes.object.isRequired,
   pdfUrl: PropTypes.string,
 };
