@@ -1,7 +1,6 @@
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
-// import { querySelectorWithShadowRoot } from 'platform/utilities/ui/webComponents';
 import React from 'react';
 import sinon from 'sinon';
 
@@ -48,18 +47,18 @@ describe('ComboBox', () => {
 
     it('should render with initial formData', () => {
       props.formData = 'initial value';
-      const { getByRole } = render(<ComboBox {...props} />);
+      const { getByTestId } = render(<ComboBox {...props} />);
 
-      const input = getByRole('combobox');
+      const input = getByTestId('combobox-input');
 
       expect(input.value).to.eq('initial value');
     });
 
     it('should render listbox items when input has a value', () => {
       const searchTerm = 'acl';
-      const { getByRole } = render(<ComboBox {...props} />);
+      const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
-      const input = getByRole('combobox');
+      const input = getByTestId('combobox-input');
       const listbox = getByRole('listbox');
 
       inputVaTextInput(input, searchTerm);
@@ -74,9 +73,9 @@ describe('ComboBox', () => {
       const searchTerm = 'PT';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
 
-      const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
+      const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
 
-      const input = getByRole('combobox');
+      const input = getByTestId('combobox-input');
       inputVaTextInput(input, searchTerm);
 
       const listboxItems = getAllByRole('option');
@@ -96,8 +95,8 @@ describe('ComboBox', () => {
   describe('User interactions', () => {
     it('should highlight listbox item on mouse enter', () => {
       const searchTerm = 'PT';
-      const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
-      const input = getByRole('combobox');
+      const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
+      const input = getByTestId('combobox-input');
       inputVaTextInput(input, searchTerm);
 
       const listboxItems = getAllByRole('option');
@@ -108,9 +107,11 @@ describe('ComboBox', () => {
 
     it('should select listbox free text item on click and then listbox empty', () => {
       const searchTerm = 'PT';
-      const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
+      const { getAllByRole, getByRole, getByTestId } = render(
+        <ComboBox {...props} />,
+      );
 
-      const input = getByRole('combobox');
+      const input = getByTestId('combobox-input');
       inputVaTextInput(input, searchTerm);
 
       const listboxItems = getAllByRole('option');
@@ -124,9 +125,11 @@ describe('ComboBox', () => {
 
     it('should select listbox item on click and then listbox empty', () => {
       const searchTerm = 'Hear';
-      const { getByRole, getAllByRole } = render(<ComboBox {...props} />);
+      const { getByRole, getAllByRole, getByTestId } = render(
+        <ComboBox {...props} />,
+      );
 
-      const input = getByRole('combobox');
+      const input = getByTestId('combobox-input');
       inputVaTextInput(input, searchTerm);
 
       const listboxItems = getAllByRole('option');

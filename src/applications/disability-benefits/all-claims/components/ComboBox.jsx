@@ -346,7 +346,7 @@ export class ComboBox extends React.Component {
           onKeyDown={this.handleKeyPress}
           ref={this.inputRef}
           message-aria-describedby={autocompleteHelperText}
-          role="combobox"
+          data-testid="combobox-input"
         />
         <ul
           className={
