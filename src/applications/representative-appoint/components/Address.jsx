@@ -1,6 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-export default function Address(address) {
+export default function Address({ address }) {
   return (
     <>
       {address.address1}
@@ -22,3 +23,7 @@ export default function Address(address) {
     </>
   );
 }
+
+Address.propTypes = {
+  address: PropTypes.object,
+};
