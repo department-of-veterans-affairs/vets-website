@@ -41,6 +41,7 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
@@ -100,12 +101,8 @@ const Vaccines = props => {
   );
 
   const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    vaccines,
-    updatedRecordList,
+    refresh.status,
     refreshExtractTypes.VPR,
-    reloadRecords,
-    dispatch,
   );
 
   const generateVaccinesPdf = async () => {
@@ -171,7 +168,18 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vaccines) &&
+            Array.isArray(updatedRecordList) &&
+            vaccines.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         <PrintDownload
           list

@@ -14,7 +14,7 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import { generateNewRecordsIndicator } from '../util/helpers';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const HealthConditions = () => {
   const dispatch = useDispatch();
@@ -58,15 +58,6 @@ const HealthConditions = () => {
     [dispatch],
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    conditions,
-    updatedRecordList,
-    refreshExtractTypes.VPR,
-    reloadRecords,
-    dispatch,
-  );
-
   return (
     <>
       <h1 className="vads-u-margin--0" data-testid="health-conditions">
@@ -85,7 +76,18 @@ const HealthConditions = () => {
         listCurrentAsOf={conditionsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(conditions) &&
+            Array.isArray(updatedRecordList) &&
+            conditions.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         <va-additional-info
           trigger="About the codes in some condition names"

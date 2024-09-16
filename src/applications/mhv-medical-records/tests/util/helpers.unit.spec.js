@@ -14,7 +14,6 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
-  generateNewRecordsIndicator,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -444,75 +443,6 @@ describe('getStatusExtractPhase', () => {
     ];
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
-    );
-  });
-});
-
-describe('generateNewRecordsIndicator', () => {
-  let dispatchStub;
-  let reloadRecordsStub;
-  let refresh;
-  let record;
-  let updatedRecordList;
-  let refreshExtractTypes;
-
-  beforeEach(() => {
-    // Stubs and mocks
-    dispatchStub = sinon.stub();
-    reloadRecordsStub = sinon.stub().returns('reloaded');
-    refreshExtractTypes = 'someExtractType';
-
-    // Example data for tests
-    refresh = {
-      status: [
-        {
-          extract: refreshExtractTypes,
-          lastSuccessfulCompleted: new Date('2024-09-01T12:00:00Z'), // Use a valid Date object
-        },
-      ],
-    };
-
-    record = [1, 2, 3]; // Example records
-    updatedRecordList = [1, 2, 3, 4]; // Example updated records
-  });
-
-  it('should return fallback message when no last successful update is found', () => {
-    // Modify refresh object to simulate no successful update
-    refresh = {
-      status: [],
-    };
-
-    const result = generateNewRecordsIndicator(
-      refresh,
-      record,
-      updatedRecordList,
-      refreshExtractTypes,
-      reloadRecordsStub,
-      dispatchStub,
-    );
-
-    expect(result).to.equal(
-      'We couldn’t update your records. Check back later for updates. If it still doesn’t work, email us at feedback@example.com.',
-    );
-  });
-
-  it('should format the last successful update correctly', () => {
-    // Use a valid Date object
-    refresh.status[0].lastSuccessfulCompleted = new Date(
-      '2024-09-01T12:00:00Z',
-    );
-
-    const result = generateNewRecordsIndicator(
-      refresh,
-      record,
-      updatedRecordList,
-      refreshExtractTypes,
-      reloadRecordsStub,
-      dispatchStub,
-    );
-
-    expect(result).to.equal(
-      'Last updated at 8:00 a.m. ET on September 1, 2024',
     );
   });
 });

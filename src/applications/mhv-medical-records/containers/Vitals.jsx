@@ -20,7 +20,7 @@ import useAlerts from '../hooks/use-alerts';
 import NoRecordsMessage from '../components/shared/NoRecordsMessage';
 import PrintHeader from '../components/shared/PrintHeader';
 import useListRefresh from '../hooks/useListRefresh';
-import { generateNewRecordsIndicator } from '../util/helpers';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Vitals = () => {
   const dispatch = useDispatch();
@@ -69,15 +69,6 @@ const Vitals = () => {
     user.userFullName,
     user.dob,
     updatePageTitle,
-  );
-
-  const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    vitals,
-    updatedRecordList,
-    refreshExtractTypes.VPR,
-    reloadRecords,
-    dispatch,
   );
 
   useEffect(
@@ -135,7 +126,18 @@ const Vitals = () => {
     if (cards?.length) {
       return (
         <>
-          <p>{RecordsIndicator}</p>
+          <NewRecordsIndicator
+            refreshState={refresh}
+            extractType={refreshExtractTypes.VPR}
+            newRecordsFound={
+              Array.isArray(vitals) &&
+              Array.isArray(updatedRecordList) &&
+              vitals.length !== updatedRecordList.length
+            }
+            reloadFunction={() => {
+              dispatch(reloadRecords());
+            }}
+          />
 
           <RecordList
             records={cards}

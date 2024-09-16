@@ -46,6 +46,7 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
 const MAX_PAGE_LIST_LENGTH = 10;
@@ -194,12 +195,8 @@ const VitalDetails = props => {
   );
 
   const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    records,
-    updatedRecordList,
+    refresh.status,
     refreshExtractTypes.VPR,
-    reloadRecords,
-    dispatch,
   );
 
   const generateVitalsPdf = async () => {
@@ -254,7 +251,18 @@ Provider notes: ${vital.notes}\n\n`,
           {vitalDisplayName}
         </h1>
 
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vitalsList) &&
+            Array.isArray(updatedRecordList) &&
+            vitalsList.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload

@@ -17,7 +17,7 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import RecordListSection from '../components/shared/RecordListSection';
-import { generateNewRecordsIndicator } from '../util/helpers';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const CareSummariesAndNotes = () => {
   const dispatch = useDispatch();
@@ -65,15 +65,6 @@ const CareSummariesAndNotes = () => {
     [dispatch],
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    careSummariesAndNotes,
-    updatedRecordList,
-    refreshExtractTypes.VPR,
-    reloadRecords,
-    dispatch,
-  );
-
   return (
     <div id="care-summaries-and-notes">
       <h1 data-testid="care-summaries-and-notes" className="page-title">
@@ -93,7 +84,18 @@ const CareSummariesAndNotes = () => {
         listCurrentAsOf={careSummariesAndNotesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(careSummariesAndNotes) &&
+            Array.isArray(updatedRecordList) &&
+            careSummariesAndNotes.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         <RecordList
           records={careSummariesAndNotes}

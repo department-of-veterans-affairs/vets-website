@@ -14,7 +14,7 @@ import {
 import RecordListSection from '../components/shared/RecordListSection';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
-import { generateNewRecordsIndicator } from '../util/helpers';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const LabsAndTests = () => {
   const dispatch = useDispatch();
@@ -60,15 +60,6 @@ const LabsAndTests = () => {
     [dispatch],
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    labsAndTests,
-    updatedRecordList,
-    refreshExtractTypes.CHEM_HEM,
-    reloadRecords,
-    dispatch,
-  );
-
   return (
     <div id="labs-and-tests">
       <h1 className="page-title vads-u-margin-bottom--1">
@@ -89,7 +80,18 @@ const LabsAndTests = () => {
         listCurrentAsOf={labsAndTestsCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.ALLERGY}
+          newRecordsFound={
+            Array.isArray(labsAndTests) &&
+            Array.isArray(updatedRecordList) &&
+            labsAndTests.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>

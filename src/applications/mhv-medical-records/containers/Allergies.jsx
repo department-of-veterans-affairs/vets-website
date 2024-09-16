@@ -39,6 +39,7 @@ import {
   generateAllergiesContent,
 } from '../util/pdfHelpers/allergies';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Allergies = props => {
   const { runningUnitTest } = props;
@@ -99,18 +100,14 @@ const Allergies = props => {
   );
 
   const RecordsIndicator = generateNewRecordsIndicator(
-    refresh,
-    allergies,
-    updatedRecordList,
+    refresh.status,
     refreshExtractTypes.ALLERGY,
-    reloadRecords,
-    dispatch,
   );
 
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
     const { title, value, subject, preface } = generateAllergiesIntro(
-      allergies,
+      refresh.status,
       RecordsIndicator,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
@@ -177,7 +174,18 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
         listCurrentAsOf={allergiesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
-        <p>{RecordsIndicator}</p>
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.ALLERGY}
+          newRecordsFound={
+            Array.isArray(allergies) &&
+            Array.isArray(updatedRecordList) &&
+            allergies.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
 
         <PrintDownload
           list
