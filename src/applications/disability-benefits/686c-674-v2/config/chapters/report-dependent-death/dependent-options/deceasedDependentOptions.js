@@ -1,5 +1,5 @@
 /** @type {ArrayBuilderOptions} */
-const dependentOptions = {
+const deceasedDependentOptions = {
   arrayPath: 'deaths',
   nounSingular: 'dependent',
   nounPlural: 'dependents',
@@ -19,4 +19,4 @@ const dependentOptions = {
   },
 };
 
-export default dependentOptions;
+export default deceasedDependentOptions;

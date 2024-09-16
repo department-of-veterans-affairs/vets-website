@@ -10,7 +10,7 @@ import {
   // arrayBuilderItemSubsequentPageTitleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 // import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
-import dependentOptions from '../dependent-options/dependentOptions';
+import dependentOptions from '../dependent-options/deceasedDependentOptions';
 
 /** @returns {PageSchema} */
 const deceasedDependentSummaryPage = {

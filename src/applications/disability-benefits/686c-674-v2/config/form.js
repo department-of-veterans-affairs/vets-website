@@ -17,16 +17,23 @@ import {
   formerSpouseInformation,
   formerSpouseInformationPartTwo,
 } from './chapters/report-divorce';
-import dependentOptions from './chapters/report-dependent-death/dependent-options/dependentOptions';
-// import deceasedDependentAdditionalInformationIntro from './chapters/report-dependent-death/dependent-additional-information/dependentAdditionalInformationIntro';
 import {
-  deceasedDependentInformation,
-  // deceasedDependentAdditionalInformationIntro,
-  // deceasedDependentAdditionalInformation,
-  // deceasedDependentAdditionalInformationPartTwo,
-  // deceasedDependentAdditionalInformationPartThree,
-  deceasedDependentSummary,
-} from './chapters/report-dependent-death';
+  deceasedDependentOptions,
+  deceasedDependentIntroPage,
+  deceasedDependentSummaryPage,
+  deceasedDependentPersonalInfoPage,
+  deceasedDependentChildStatusPage,
+  deceasedDependentChildTypePage,
+  deceasedDependentDateOfDeathPage,
+} from './chapters/report-dependent-death/deceasedDependentArrayPages';
+//   dependentInformation,
+//   deceasedDependentAdditionalInformationIntro,
+//   deceasedDependentAdditionalInformation,
+//   deceasedDependentAdditionalInformationPartTwo,
+//   deceasedDependentAdditionalInformationPartThree,
+//   deceasedDependentIntro,
+//   deceasedDependentSummary,
+// } from './chapters/report-dependent-death';
 import { reportChildMarriage } from './chapters/report-marriage-of-child';
 import { reportChildStoppedAttendingSchool } from './chapters/report-child-stopped-attending-school';
 import {
@@ -731,49 +738,74 @@ export const formConfig = {
     deceasedDependents: {
       title: 'Information needed to remove a dependent who has died',
       pages: {
-        ...arrayBuilderPages(dependentOptions, pageBuilder => ({
-          // introPage needed for "required" flow
-          dependentAdditionalInformationIntro: pageBuilder.introPage({
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-            title: 'Report the death of a dependent: Additional information',
-            path: '686-report-dependent-death',
-            // uiSchema: deceasedDependentAdditionalInformationIntro.uiSchema,
-            // schema: deceasedDependentAdditionalInformationIntro.schema,
+        ...arrayBuilderPages(
+          deceasedDependentOptions,
+          (pageBuilder, helpers) => ({
+            // introPage needed for "required" flow
+            dependentAdditionalInformationIntro: pageBuilder.introPage({
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death',
+              uiSchema: deceasedDependentIntroPage.uiSchema,
+              schema: deceasedDependentIntroPage.schema,
+            }),
+            dependentAdditionalInformationSummary: pageBuilder.summaryPage({
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death/dependent-summary',
+              uiSchema: deceasedDependentSummaryPage.uiSchema,
+              schema: deceasedDependentSummaryPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            }),
+            dependentAdditionalInformationPartOne: pageBuilder.itemPage({
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death/:index/dependent-information',
+              uiSchema: deceasedDependentPersonalInfoPage.uiSchema,
+              schema: deceasedDependentPersonalInfoPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            }),
+            dependentAdditionalInformationPartTwo: pageBuilder.itemPage({
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death/:index/child-status',
+              uiSchema: deceasedDependentChildStatusPage.uiSchema,
+              schema: deceasedDependentChildStatusPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+              onNavForward: props => {
+                return props.formData.dependentType === 'child'
+                  ? helpers.navForwardKeepUrlParams(props) // go to next page
+                  : helpers.navForwardFinishedItem(props); // return to summary
+              },
+            }),
+            dependentAdditionalInformationPartThree: pageBuilder.itemPage({
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death/:index/child-type',
+              uiSchema: deceasedDependentChildTypePage.uiSchema,
+              schema: deceasedDependentChildTypePage.schema,
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+              // formData?.dependentType === 'child',
+            }),
+            dependentAdditionalInformationPartFour: pageBuilder.itemPage({
+              title: 'Information needed to remove a dependent who has died',
+              path: '686-report-dependent-death/:index/date-of-death',
+              uiSchema: deceasedDependentDateOfDeathPage.uiSchema,
+              schema: deceasedDependentDateOfDeathPage.schema,
+              depends: formData =>
+                isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            }),
+            // dependentAdditionalInformationPartThree: pageBuilder.itemPage({
+            //   title: 'Employer dates',
+            //   path: 'array-multiple-page-builder/:index/dates',
+            //   uiSchema: employersDatesPage.uiSchema,
+            //   schema: employersDatesPage.schema,
+            //   depends: formData =>
+            //     isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
+            // }),
           }),
-          dependentAdditionalInformationSummary: pageBuilder.summaryPage({
-            title: 'Array with multiple page builder summary',
-            path: '686-report-dependent-death/dependent-summary',
-            uiSchema: deceasedDependentSummary.uiSchema,
-            schema: deceasedDependentSummary.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          }),
-          dependentAdditionalInformation: pageBuilder.itemPage({
-            title: 'Employer name and address',
-            path: '686-report-dependent-death/:index/dependent-information',
-            uiSchema: deceasedDependentInformation.uiSchema,
-            schema: deceasedDependentInformation.schema,
-            depends: formData =>
-              isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          }),
-          // dependentAdditionalInformationPartTwo: pageBuilder.itemPage({
-          //   title: 'Employer dates',
-          //   path: 'array-multiple-page-builder/:index/dates',
-          //   uiSchema: employersDatesPage.uiSchema,
-          //   schema: employersDatesPage.schema,
-          //   depends: formData =>
-          //     isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          // }),
-          // dependentAdditionalInformationPartThree: pageBuilder.itemPage({
-          //   title: 'Employer dates',
-          //   path: 'array-multiple-page-builder/:index/dates',
-          //   uiSchema: employersDatesPage.uiSchema,
-          //   schema: employersDatesPage.schema,
-          //   depends: formData =>
-          //     isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
-          // }),
-        })),
+        ),
         // dependentInformation: {
         //   depends: formData =>
         //     isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
