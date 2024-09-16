@@ -3,6 +3,8 @@ import {
   // addressNoMilitaryUI,
   // currentOrPastDateRangeSchema,
   // currentOrPastDateRangeUI,
+  addressUI,
+  addressSchema,
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -197,6 +199,32 @@ export const deceasedDependentDateOfDeathPage = {
     type: 'object',
     properties: {
       dependentDeathDate: currentOrPastDateSchema,
+    },
+  },
+};
+
+export const deceasedDependentLocationOfDeathPage = {
+  uiSchema: {
+    ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
+      // console.log(formData);
+      const { first, last } = formData?.fullName;
+      return formData?.fullName
+        ? `Where did ${first} ${last} die?`
+        : 'Where did the dependent die?';
+    }),
+    dependentDeathLocation: addressUI({
+      labels: {
+        militaryCheckbox: 'This occurred outside of the U.S.',
+      },
+      omit: ['street', 'street2', 'street3', 'country', 'postalCode'],
+    }),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      dependentDeathLocation: addressSchema({
+        omit: ['street', 'street2', 'street3', 'country', 'postalCode'],
+      }),
     },
   },
 };
