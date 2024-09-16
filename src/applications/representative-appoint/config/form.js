@@ -181,7 +181,7 @@ const formConfig = {
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: `Your  mailing address`,
+          title: `Your mailing address`,
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
@@ -214,7 +214,7 @@ const formConfig = {
       },
     },
     veteranInfoForNonVeterans: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       depends: formData => !preparerIsVeteran({ formData }),
       pages: {
         veteranPersonalInformation: {
@@ -226,8 +226,8 @@ const formConfig = {
           editModeOnReviewPage: true,
         },
         veteranContactMailingClaimant: {
-          path: 'veteran-contact-mailing',
-          title: `Veteran's  mailing address`,
+          path: 'veteran-contact-mailing-address',
+          title: `The Veteran's mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,
