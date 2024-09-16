@@ -238,11 +238,7 @@ const FacilitySearch = props => {
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
             >
               {content['form-facilities-search-label']}
-              {searchInputError && (
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              )}
+              <span className="vads-u-color--secondary-dark">(*Required)</span>
             </label>
             {searchInputError && searchError()}
             <VaSearchInput

@@ -95,7 +95,7 @@ describe('CG <FacilitySearch>', () => {
       expect(selectors().radioList).not.to.exist;
       expect(selectors().moreFacilities).not.to.exist;
       expect(queryByText(content['form-facilities-search-label'])).to.exist;
-      expect(queryByText('(*Required)')).not.to.exist;
+      expect(queryByText('(*Required)')).to.exist;
     });
   });
 
