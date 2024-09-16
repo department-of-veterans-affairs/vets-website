@@ -58,17 +58,14 @@ describe('SM Single Facility Contact list', () => {
 
     ContactListPage.selectCheckBox(selectedTeam[0]);
 
-    // verify save alert
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    // verify CL saved banner and selected checkbox
     ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.verifySingleCheckBox(selectedTeam[0], true);
 
-    // verify request body
     cy.wait('@savedList')
       .its('request.body')
       .then(req => {
@@ -96,7 +93,6 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.selectCheckBox(selectedTeamList[1]);
     ContactListPage.selectCheckBox(selectedTeamList[2]);
 
-    // verify save alert
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
@@ -107,7 +103,6 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.verifySingleCheckBox(selectedTeamList[1], true);
     ContactListPage.verifySingleCheckBox(selectedTeamList[2], true);
 
-    // verify request body
     cy.wait('@savedList')
       .its('request.body')
       .then(req => {

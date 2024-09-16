@@ -175,7 +175,6 @@ class ContactListPage {
         ...team,
         attributes: {
           ...team.attributes,
-          // Check if any partial name is found within the team name
           preferredTeam: teamNamesList.some(partial =>
             team.attributes.name.includes(partial),
           ),

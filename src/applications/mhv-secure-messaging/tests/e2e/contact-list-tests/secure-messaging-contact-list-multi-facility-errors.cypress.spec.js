@@ -70,12 +70,10 @@ describe('SM Multi Facility Contact list', () => {
     ContactListPage.selectAllCheckBox();
     ContactListPage.selectCheckBox(selectedTeam[0]);
 
-    // verify save alert
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    // verify CL saved banner and selected checkbox
     ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.verifySingleCheckBox(selectedTeam[0], true);
@@ -107,7 +105,6 @@ describe('SM Multi Facility Contact list', () => {
     ContactListPage.selectCheckBox(selectedTeamList[1]);
     ContactListPage.selectCheckBox(selectedTeamList[2]);
 
-    // verify save alert
     ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
