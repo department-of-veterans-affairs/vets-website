@@ -13,10 +13,12 @@ import contactInfo33 from './chapters/33/contactInfo/contactInfo';
 import mailingAddress33 from './chapters/33/contactInfo/mailingAddress';
 import contactMethod33 from './chapters/33/contactInfo/contactMethod';
 import serviceHistory33 from './chapters/33/serviceHistory/serviceHistory';
-import benefitSelection33 from './chapters/33/benefitSelection/benefitSelection';
+import benefitSelection33 from './chapters/33/benefitSelection/benefitSelectionLegacy';
 import additionalConsiderations33 from './chapters/33/additionalConsiderations/additionalConsiderations';
 import directDeposit33 from './chapters/33/bankAccountInfo/directDeposit';
 import preFilledDirectDeposit33 from './chapters/33/bankAccountInfo/preFilledDirectDeposit';
+
+import benefitSelection from './chapters/benefitSelection';
 
 import ApplicantInformationReviewPage from '../components/ApplicantInformationReviewPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
@@ -82,6 +84,19 @@ const formConfig = {
     field: 'privacyAgreementAccepted',
   },
   chapters: {
+    benefitSelectionChapter: {
+      title: 'Benefit selection',
+      pages: {
+        [formPages.benefitSelection]: {
+          path: 'benefit-selection',
+          title: 'Benefit selection',
+          subTitle: 'You’re applying for education benefits',
+          depends: formData => formData?.meb160630Automation,
+          uiSchema: benefitSelection.uiSchema,
+          schema: benefitSelection.schema,
+        },
+      },
+    },
     applicantInformationChapter: {
       title: 'Your information',
       pages: {
@@ -132,22 +147,29 @@ const formConfig = {
         },
       },
     },
-    benefitSelection: {
-      title: 'Benefit selection',
+    benefitSelectionLegacyChapter: {
+      title: 'Legacy Benefit selection',
       pages: {
-        [formPages.benefitSelection]: {
-          path: 'benefit-selection',
-          title: 'Benefit selection',
+        [formPages.benefitSelectionLegacy]: {
+          path: 'benefit-selection-legacy',
+          title: 'Legacy Benefit selection',
           subTitle: 'You’re applying for the Post-9/11 GI Bill®',
           depends: formData => {
             // If the dgiRudisillHideBenefitsSelectionStep feature flag is turned on, hide the page
             if (formData.dgiRudisillHideBenefitsSelectionStep) {
               return false;
             }
+
+            // If the meb160630Automation feature flag is turned on, hide the page
+            if (formData?.meb160630Automation) {
+              return false;
+            }
+
             // If the showMebEnhancements09 feature flag is turned on, show the page
             if (formData.showMebEnhancements09) {
               return true;
             }
+
             // If the feature flag is not turned on, check the eligibility length
             return Boolean(formData.eligibility?.length);
           },

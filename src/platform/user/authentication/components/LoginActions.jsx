@@ -57,7 +57,7 @@ export default function LoginActions({ externalApplication }) {
               <h2>Other sign-in options</h2>
               <h3 id="mhvH3">
                 My HealtheVet sign-in option
-                <span className="vads-u-display--block vads-u-font-size--base">
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-family--sans">
                   Available through January 31, 2025
                 </span>
               </h3>
@@ -77,8 +77,8 @@ export default function LoginActions({ externalApplication }) {
                 className="vads-u-margin-bottom--0 vads-u-margin-top--3"
               >
                 DS Logon sign-in-option
-                <span className="vads-u-display--block vads-u-font-size--base">
-                  Available through September 25, 2025
+                <span className="vads-u-display--block vads-u-font-size--base vads-u-font-family--sans">
+                  Available through September 30, 2025
                 </span>
               </h3>
               <p>

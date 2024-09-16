@@ -1390,42 +1390,50 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/portland/",
-    "dest": "/portland-va-regional-benefit-office/"
+    "src": "/portland",
+    "dest": "/portland-va-regional-benefit-office/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/ROPORTLAND",
-    "dest": "/portland-va-regional-benefit-office/"
+    "dest": "/portland-va-regional-benefit-office/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/albuquerque/",
-    "dest": "/albuquerque-va-regional-benefit-office/"
+    "src": "/albuquerque",
+    "dest": "/albuquerque-va-regional-benefit-office/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/ROALBUQUERQUE",
-    "dest": "/albuquerque-va-regional-benefit-office/"
+    "dest": "/albuquerque-va-regional-benefit-office/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/roanoke/",
-    "dest": "/roanoke-va-regional-benefit-office"
+    "src": "/roanoke",
+    "dest": "/roanoke-va-regional-benefit-office",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
     "src": "/ROROANOKE",
-    "dest": "/roanoke-va-regional-benefit-office"
+    "dest": "/roanoke-va-regional-benefit-office",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/togus/",
-    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center"
+    "src": "/togus",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
+    "catchAll": true
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/ROTOGUS/",
-    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center"
+    "src": "/ROTOGUS",
+    "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
+    "catchAll": true
   }
 ]

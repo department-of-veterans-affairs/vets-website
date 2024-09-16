@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import PropTypes from 'prop-types';
-
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
@@ -18,23 +17,43 @@ export class ConfirmationPage extends React.Component {
   constructor(props) {
     super(props);
 
-    const hasResults = !!props.results.data;
-    const resultsCount = hasResults ? props.results.data.length : 0;
+    this.state = {
+      hasResults: false,
+      resultsCount: 0,
+      resultsText: 'results',
+      benefitIds: [],
+      sortValue: 'alphabetical',
+      filterValue: 'All',
+      benefits: [], // Initial state for benefits
+    };
+
+    this.applyInitialSort = this.applyInitialSort.bind(this);
+  }
+
+  applyInitialSort() {
+    const hasResults = !!this.props.results.data;
+    const resultsCount = hasResults ? this.props.results.data.length : 0;
     const resultsText = resultsCount === 1 ? 'result' : 'results';
     const benefitIds = hasResults
-      ? props.results.data.reduce((acc, curr) => {
+      ? this.props.results.data.reduce((acc, curr) => {
           acc[curr.id] = true;
           return acc;
         }, {})
       : {};
 
-    this.state = {
+    const benefitsState = this.props.results.data.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+
+    this.setState({
       hasResults,
       resultsCount,
       resultsText,
       benefitIds,
-      benefits: [], // Initial state for benefits
-    };
+      benefits: benefitsState,
+    });
   }
 
   componentDidMount() {
@@ -49,12 +68,7 @@ export class ConfirmationPage extends React.Component {
       );
       browserHistory.replace(queryStringObj);
 
-      const benefitsState = this.props.results.data.sort((a, b) => {
-        if (a.name < b.name) return -1;
-        if (a.name > b.name) return 1;
-        return 0;
-      });
-      this.setState({ benefits: benefitsState });
+      this.applyInitialSort();
     } else if (
       this.props.location.query &&
       Object.keys(this.props.location.query).length > 0
@@ -62,12 +76,31 @@ export class ConfirmationPage extends React.Component {
       // Display results based on query string.
       const { benefits } = this.props.location.query;
       const benefitIds = benefits.split(',');
+
       this.props.displayResults(benefitIds);
+    }
+
+    const now = new Date().getTime();
+
+    this.props.setSubmission('status', false);
+    this.props.setSubmission('hasAttemptedSubmit', false);
+    this.props.setSubmission('timestamp', now);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.results.data &&
+      this.props.results.data.length > 0 &&
+      (!prevProps.results.data || prevProps.results.data.length === 0)
+    ) {
+      this.applyInitialSort();
     }
   }
 
   sortBenefits = e => {
     const key = e.target.value || 'alphabetical';
+
+    this.setState(() => ({ sortValue: key }));
 
     this.setState(prevState => {
       const sortedBenefits = prevState.benefits.sort((a, b) => {
@@ -82,6 +115,8 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = e => {
     const key = e.target.value;
 
+    this.setState(() => ({ filterValue: key }));
+
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
@@ -91,7 +126,7 @@ export class ConfirmationPage extends React.Component {
 
     this.setState(() => {
       const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category === key;
+        return benefit.category.includes(key);
       });
       return { benefits: filteredBenefits };
     });
@@ -99,11 +134,7 @@ export class ConfirmationPage extends React.Component {
 
   handleClick = e => {
     e.preventDefault();
-    const now = new Date().getTime();
 
-    this.props.setSubmission('status', false);
-    this.props.setSubmission('hasAttemptedSubmit', false);
-    this.props.setSubmission('timestamp', now);
     this.props.router.goBack();
   };
 
@@ -134,6 +165,8 @@ export class ConfirmationPage extends React.Component {
               <option value="All">All</option>
               <option value="Education">Education</option>
               <option value="Employment">Employment</option>
+              <option value="Careers">Careers & Employment</option>
+              <option value="Support">More Support</option>
             </select>
             <b>Sort</b>
             <p>Sort results by</p>
@@ -158,7 +191,11 @@ export class ConfirmationPage extends React.Component {
               {this.state.hasResults &&
                 `Showing ${this.state.resultsCount} ${
                   this.state.resultsText
-                }, filtered to show all results, sorted alphabetically`}
+                }, filtered to show ${this.state.filterValue} results, sorted ${
+                  this.state.sortValue === 'alphabetical'
+                    ? this.state.sortValue
+                    : `by ${this.state.sortValue}`
+                }`}
             </b>
 
             <p>
