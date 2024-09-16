@@ -11,9 +11,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.generalQuestion.pages.aboutYourselfGeneral_generalquestion;
+} = formConfig.chapters.aboutMyselfRelationshipFamilyMember.pages.aboutYourselfRelationshipFamilyMember_aboutmyselfrelationshipfamilymember;
 
-describe('aboutYourselfGeneralPage', () => {
+describe('aboutYourselfRelationshipFamilyMemberPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
