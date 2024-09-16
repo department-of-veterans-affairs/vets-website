@@ -51,19 +51,6 @@ export const isProductionOrTestProdEnv = (automatedTest = false) => {
   );
 };
 
-export const isShowCommunityFocusVACheckbox = (automatedTest = false) => {
-  const isTest = global && global?.window && global?.window?.buildType;
-  if (environment.isDev() || isTest || automatedTest) {
-    return false;
-  }
-  return (
-    environment.isLocalhost() ||
-    environment.isStaging() ||
-    isReviewInstance() ||
-    environment.isProduction()
-  );
-};
-
 export const isShowVetTec = (automatedTest = false) => {
   const isTest = global && global?.window && global?.window?.buildType;
   if (isTest || automatedTest) {
