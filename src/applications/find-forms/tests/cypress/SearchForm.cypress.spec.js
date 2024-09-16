@@ -1,30 +1,20 @@
-// Selectors for elements in find-forms
-const SELECTORS = {
-  APP: '[data-e2e-id="find-form-search-form"]',
-  FINDFORM_INPUT_ROOT: 'va-search-input',
-  FINDFORM_INPUT: 'input',
-  FINDFORM_SEARCH: 'button',
-  FINDFORM_ERROR_BODY: '[data-e2e-id="find-form-error-body"]',
-  FINDFORM_REQUIRED: '[data-e2e-id="find-form-required"]',
-  FINDFORM_ERROR_MSG: '[data-e2e-id="find-form-error-message"]',
-};
+import { SELECTORS as s } from './helpers';
 
-// Page object class - Tests are below
 class FindFormComponent {
   loadFindFormComponent = query => {
     // Loads the forms page and checks existence
     if (query || query === ' ') cy.visit(`/find-forms/?q=${query}`);
     else cy.visit(`/find-forms/`);
     cy.injectAxe();
-    cy.get(SELECTORS.APP).should('exist');
+    cy.get(s.APP).should('exist');
   };
 
   inputText = str => {
     // Find input field, clear, and enter the string
     if (str) {
-      cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+      cy.get(s.FINDFORM_INPUT_ROOT)
         .shadow()
-        .find(SELECTORS.FINDFORM_INPUT)
+        .find(s.FINDFORM_INPUT)
         .as('formInput');
       cy.get('@formInput').scrollIntoView();
       cy.get('@formInput').focus();
@@ -35,9 +25,9 @@ class FindFormComponent {
   };
 
   focusSearch = () => {
-    cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+    cy.get(s.FINDFORM_INPUT_ROOT)
       .shadow()
-      .find(SELECTORS.FINDFORM_SEARCH)
+      .find(s.FINDFORM_SEARCH)
       .as('formSearch');
     cy.get('@formSearch').focus();
     cy.get('@formSearch').should('exist');
@@ -45,9 +35,9 @@ class FindFormComponent {
 
   clickSearch = () => {
     // Click search button
-    cy.get(SELECTORS.FINDFORM_INPUT_ROOT)
+    cy.get(s.FINDFORM_INPUT_ROOT)
       .shadow()
-      .find(SELECTORS.FINDFORM_SEARCH)
+      .find(s.FINDFORM_SEARCH)
       .as('formSearch');
     cy.get('@formSearch').click();
     cy.get('@formSearch').should('exist');
@@ -60,23 +50,23 @@ class FindFormComponent {
 
   isErrorDisplayed = () => {
     // Find the error body on the page
-    cy.get(SELECTORS.APP).should('have.class', 'usa-input-error');
+    cy.get(s.APP).should('have.class', 'usa-input-error');
 
     // Find the error message on the page
-    cy.get(SELECTORS.FINDFORM_ERROR_MSG)
+    cy.get(s.FINDFORM_ERROR_MSG)
       .should('exist')
       .should('have.class', 'usa-input-error-message');
 
     // Find the 'required' text for the error
-    cy.get(SELECTORS.FINDFORM_REQUIRED)
+    cy.get(s.FINDFORM_REQUIRED)
       .should('exist')
       .should('contain', '(*Required)');
   };
 
   isErrorNotDisplayed = () => {
-    cy.get(SELECTORS.FINDFORM_ERROR_BODY).should('not.exist');
-    cy.get(SELECTORS.FINDFORM_ERROR_MSG).should('not.exist');
-    cy.get(SELECTORS.FINDFORM_REQUIRED).should('not.exist');
+    cy.get(s.FINDFORM_ERROR_BODY).should('not.exist');
+    cy.get(s.FINDFORM_ERROR_MSG).should('not.exist');
+    cy.get(s.FINDFORM_REQUIRED).should('not.exist');
   };
 }
 
