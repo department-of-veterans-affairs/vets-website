@@ -8,13 +8,26 @@ import NextStepsPage from '../../containers/NextStepsPage';
 
 const getData = ({
   formData = {
-    selectedRepName: 'Steven McBob',
-    selectedOrgName: 'Best VSO',
-    address1: '123 Main Street',
-    address2: '',
-    city: 'Anytown',
-    state: 'VT',
-    zip: '05495',
+    'view:selectedRepresentative': {
+      fullName: 'Steven McBob',
+      addressLine1: '123 Main Street',
+      addressLine2: '',
+      addressLine3: '',
+      city: 'Anytown',
+      stateCode: 'AA',
+      zipCode: '11111',
+      attributes: {
+        accreditedOrganizations: {
+          data: [
+            {
+              id: '1',
+              attributes: { name: 'Best VSO' },
+            },
+          ],
+        },
+      },
+    },
+    selectedAccreditedOrganizationId: '1',
     repTypeRadio: 'Attorney',
   },
 } = {}) => ({
@@ -66,11 +79,11 @@ describe('NextStepsPage', () => {
       '123 Main Street',
     );
     expect($('.va-address-block', container).textContent).to.contain(
-      'Anytown, VT 05495',
+      'Anytown, AA 11111',
     );
   });
 
-  it('should display representative type correctly', () => {
+  it('should display representative type correctly as lowercase', () => {
     const { props, mockStore } = getData();
     const { container } = render(
       <Provider store={mockStore}>
