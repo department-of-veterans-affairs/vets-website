@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import getFormSubtitle from '../utilities/helpers';
+import { getFormSubtitle } from '../utilities/helpers';
 import AddressBlock from '../components/AddressBlock';
 import ContactCard from '../components/ContactCard';
 import NeedHelp from '../components/NeedHelp';
@@ -10,22 +10,50 @@ import NeedHelp from '../components/NeedHelp';
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
+  // formData = {
+  //   'view:selectedRepresentative': {
+  //     type: 'organization',
+  //     fullName: 'Steven McBob',
+  //     name: 'Best VSO',
+  //     addressLine1: '123 Main Street',
+  //     addressLine2: '',
+  //     addressLine3: '',
+  //     city: 'Anytown',
+  //     stateCode: 'AA',
+  //     zipCode: '11111',
+  //     phone: '8022345653',
+  //     email: 'name@example.com',
+  //     attributes: {
+  //       accreditedOrganizations: {
+  //         data: [
+  //           {
+  //             id: '1',
+  //             attributes: { name: 'Best VSO' },
+  //           },
+  //         ],
+  //       },
+  //     },
+  //   },
+  //   selectedAccreditedOrganizationId: '1',
+  //   repTypeRadio: 'Attorney',
+  // };
+
   const isOrg = () =>
     formData['view:selectedRepresentative']?.type === 'organization';
 
   const address = {
     address1: (
-      formData['view:selectedRepresentative'].addressLine1 || ''
+      formData['view:selectedRepresentative']?.addressLine1 || ''
     ).trim(),
     address2: (
-      formData['view:selectedRepresentative'].addressLine2 || ''
+      formData['view:selectedRepresentative']?.addressLine2 || ''
     ).trim(),
     address3: (
-      formData['view:selectedRepresentative'].addressLine3 || ''
+      formData['view:selectedRepresentative']?.addressLine3 || ''
     ).trim(),
-    city: (formData['view:selectedRepresentative'].city || '').trim(),
-    state: (formData['view:selectedRepresentative'].stateCode || '').trim(),
-    zip: (formData['view:selectedRepresentative'].zipCode || '').trim(),
+    city: (formData['view:selectedRepresentative']?.city || '').trim(),
+    state: (formData['view:selectedRepresentative']?.stateCode || '').trim(),
+    zip: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
   };
 
   const getRepType = () => {
@@ -45,8 +73,8 @@ export default function NextStepsPage() {
 
     const id = formData?.selectedAccreditedOrganizationId;
     const orgs =
-      formData['view:selectedRepresentative'].attributes.accreditedOrganizations
-        .data;
+      formData['view:selectedRepresentative']?.attributes
+        .accreditedOrganizations.data;
     let orgName;
 
     if (id && orgs) {
