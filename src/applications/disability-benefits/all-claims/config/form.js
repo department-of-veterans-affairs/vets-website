@@ -181,6 +181,10 @@ const formConfig = {
   footerContent: FormFooter,
   getHelp: GetFormHelp,
   errorText: ErrorText,
+  dev: {
+    collapsibleNavLinks: true,
+    showNavLinks: !window.Cypress,
+  },
   showReviewErrors: true,
   reviewErrors,
   defaultDefinitions: {

@@ -159,10 +159,10 @@ export const Form526Entry = ({
 
   // The router should be doing this, but we're getting lots of Sentry errors
   // See github.com/department-of-veterans-affairs/va.gov-team/issues/29893
-  if (!loggedIn && !isIntroPage(location)) {
-    router.push('/introduction');
-    return wrapWithBreadcrumb(title, showLoading());
-  }
+  // if (!loggedIn && !isIntroPage(location)) {
+  //   router.push('/introduction');
+  //   return wrapWithBreadcrumb(title, showLoading());
+  // }
 
   // showWizard feature flag loads _after_ page has rendered causing the full
   // page content to render, then the wizard to render if this flag is true, so
