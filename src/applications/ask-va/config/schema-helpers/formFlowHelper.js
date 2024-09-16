@@ -323,7 +323,6 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
-    formData.whoIsYourQuestionAbout === 'Someone else' &&
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
     formData.selectCategory === CategoryEducation
@@ -535,7 +534,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
 );
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
-  'yourRole',
+  'yourRoleEducation',
   'searchSchools',
   'aboutYourself',
   'yourContactInformation',

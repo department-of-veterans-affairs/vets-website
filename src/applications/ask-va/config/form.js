@@ -3,7 +3,10 @@ import {
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
+  relationshipOptionsMyself,
+  relationshipOptionsSomeoneElse,
   requiredForSubtopicPage,
+  whoIsYourQuestionAboutLabels,
 } from '../constants';
 import manifest from '../manifest.json';
 
@@ -141,7 +144,8 @@ const formConfig = {
           onNavForward: ({ formData, goPath }) => {
             if (
               formData.selectCategory !== CategoryEducation &&
-              formData.whoIsYourQuestionAbout !== "It's a general question"
+              formData.whoIsYourQuestionAbout !==
+                whoIsYourQuestionAboutLabels.GENERAL
             ) {
               goPath(CHAPTER_3.RELATIONSHIP_TO_VET.PATH);
             } else goPath(`/${flowPaths.general}-1`);
@@ -153,7 +157,8 @@ const formConfig = {
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
           CustomPageReview: CustomPageReviewField,
           depends: form =>
-            form.whoIsYourQuestionAbout !== "It's a general question",
+            form.whoIsYourQuestionAbout !==
+            whoIsYourQuestionAboutLabels.GENERAL,
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
         },
@@ -163,24 +168,28 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Myself' &&
-        formData.relationshipToVeteran === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.MYSELF &&
+        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
       pages: { ...aboutMyselfRelationshipVeteranPages },
     },
     aboutMyselfRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Myself' &&
-        formData.relationshipToVeteran === "I'm a family member of a Veteran",
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.MYSELF &&
+        formData.relationshipToVeteran ===
+          relationshipOptionsMyself.FAMILY_MEMBER,
       pages: { ...aboutMyselfRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran === "I'm the Veteran" &&
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN &&
         formData.selectCategory !== CategoryEducation,
       pages: { ...aboutSomeoneElseRelationshipVeteranPages },
     },
@@ -188,8 +197,10 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran === "I'm a family member of a Veteran" &&
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+        formData.relationshipToVeteran ===
+          relationshipOptionsMyself.FAMILY_MEMBER &&
         formData.selectCategory !== CategoryEducation,
       pages: { ...aboutSomeoneElseRelationshipFamilyMemberPages },
     },
@@ -197,8 +208,9 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Myself' &&
-        formData.relationshipToVeteran === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.MYSELF &&
+        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
       },
@@ -207,8 +219,9 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Myself' &&
-        formData.relationshipToVeteran === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.MYSELF &&
+        formData.relationshipToVeteran === relationshipOptionsMyself.VETERAN,
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
       },
@@ -217,20 +230,18 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran ===
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory !== CategoryEducation,
+        formData.selectCategory !== CategoryEducation &&
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
+        formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK,
       pages: { ...aboutSomeoneElseRelationshipConnectedThroughWorkPages },
     },
     aboutSomeoneElseRelationshipConnectedThroughWorkEducation: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
-        formData.relationshipToVeteran ===
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory === CategoryEducation,
+        formData.selectCategory === CategoryEducation &&
+        formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK,
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -239,9 +250,10 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.whoIsYourQuestionAbout ===
+          whoIsYourQuestionAboutLabels.SOMEONE_ELSE &&
         formData.relationshipToVeteran !==
-          "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
+          relationshipOptionsSomeoneElse.WORK &&
         formData.selectCategory === CategoryEducation,
       pages: {
         ...aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
@@ -251,8 +263,8 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === "It's a general question" ||
-        formData.selectCategory === CategoryEducation,
+        formData.whoIsYourQuestionAbout ===
+        whoIsYourQuestionAboutLabels.GENERAL,
       pages: { ...generalQuestionPages },
     },
     yourQuestionPart2: {
