@@ -10,11 +10,13 @@ import featureToggles from './fixtures/mocks/mock-features.json';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
 import {
   fillAddressWebComponentPattern,
-  fillEmergencyContactPersonalInfo,
-  fillEmergencyContactAddress,
   selectYesNoWebComponent,
   goToNextPage,
 } from './helpers';
+import {
+  fillEmergencyContactAddress,
+  fillEmergencyContactPersonalInfo,
+} from './helpers/emergency-contacts';
 
 const testConfig = createTestConfig(
   {

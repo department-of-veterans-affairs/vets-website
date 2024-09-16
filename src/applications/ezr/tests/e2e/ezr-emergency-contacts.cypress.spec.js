@@ -3,18 +3,17 @@ import mockUser from './fixtures/mocks/mock-user';
 import mockPrefill from './fixtures/mocks/mock-prefill.json';
 import maxTestData from './fixtures/data/maximal-test.json';
 import featureToggles from './fixtures/mocks/mock-features.json';
+import { goToNextPage, selectYesNoWebComponent } from './helpers';
 import {
-  fillTextWebComponent,
-  goToNextPage,
-  selectDropdownWebComponent,
-  selectYesNoWebComponent,
-} from './helpers';
+  fillEmergencyContactAddress,
+  fillEmergencyContactPersonalInfo,
+  advanceToEmergencyContacts,
+} from './helpers/emergency-contacts';
 import { MOCK_ENROLLMENT_RESPONSE } from '../../utils/constants';
-import { advanceToEmergencyContacts } from './helpers/emergency-contacts';
 
 const { data: testData } = maxTestData;
 
-describe('EZR TERA flow', () => {
+describe('EZR Emergency Contacts flow', () => {
   beforeEach(() => {
     cy.login(mockUser);
     cy.intercept('GET', '/v0/feature_toggles*', featureToggles).as(
@@ -43,23 +42,13 @@ describe('EZR TERA flow', () => {
 
     let contact = testData.veteranContacts[0];
     // ec 1 basic info
-    cy.get('[name="root_fullName_first"]').type(contact.fullName.first);
-    cy.get('[name="root_fullName_last"]').type(contact.fullName.last);
-    fillTextWebComponent('primaryPhone', contact.primaryPhone);
-    selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
+    fillEmergencyContactPersonalInfo(contact);
 
     // ec 1 address
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/emergency-contacts/0/contact-address',
     );
-    selectDropdownWebComponent('address_country', contact.address.country);
-    fillTextWebComponent('address_street', contact.address.street);
-    fillTextWebComponent('address_city', contact.address.city);
-    selectDropdownWebComponent('address_state', contact.address.state);
-    fillTextWebComponent('address_postalCode', contact.address.postalCode);
-
-    cy.tabToElementAndPressSpace('.usa-button-primary');
+    fillEmergencyContactAddress(contact);
 
     cy.findByText(/Review your emergency contacts/i).should('exist');
     cy.findByText(`${contact.fullName.first} ${contact.fullName.last}`).should(
@@ -72,23 +61,13 @@ describe('EZR TERA flow', () => {
 
     contact = testData.veteranContacts[1];
     // ec 2 basic info
-    cy.get('[name="root_fullName_first"]').type(contact.fullName.first);
-    cy.get('[name="root_fullName_last"]').type(contact.fullName.last);
-    fillTextWebComponent('primaryPhone', contact.primaryPhone);
-    selectDropdownWebComponent('relationship', contact.relationship);
-    selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
+    fillEmergencyContactPersonalInfo(contact);
 
     // ec 2 address
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/emergency-contacts/1/contact-address',
     );
-    selectDropdownWebComponent('address_country', contact.address.country);
-    fillTextWebComponent('address_street', contact.address.street);
-    fillTextWebComponent('address_city', contact.address.city);
-    selectDropdownWebComponent('address_state', contact.address.state);
-    fillTextWebComponent('address_postalCode', contact.address.postalCode);
-
-    cy.tabToElementAndPressSpace('.usa-button-primary');
+    fillEmergencyContactAddress(contact);
 
     // review page
     cy.get('va-alert').should(

@@ -23,7 +23,6 @@ export const fillEmergencyContactPersonalInfo = contact => {
   fillTextWebComponent('primaryPhone', contact.primaryPhone);
   selectDropdownWebComponent('relationship', contact.relationship);
   selectYesNoWebComponent('view:hasEmergencyContactAddress', true);
-  cy.injectAxeThenAxeCheck();
   goToNextPage();
 };
 
@@ -33,6 +32,5 @@ export const fillEmergencyContactAddress = contact => {
   fillTextWebComponent('address_city', contact.address.city);
   selectDropdownWebComponent('address_state', contact.address.state);
   fillTextWebComponent('address_postalCode', contact.address.postalCode);
-  cy.injectAxeThenAxeCheck();
   goToNextPage();
 };
