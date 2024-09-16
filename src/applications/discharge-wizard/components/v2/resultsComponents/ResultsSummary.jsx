@@ -4,6 +4,7 @@ import {
   determineBoardObj,
   determineAirForceAFRBAPortal,
   determineFormData,
+  determineBranchOfService,
 } from '../../../helpers';
 
 import {
@@ -27,7 +28,9 @@ const ResultsSummary = ({ formResponses }) => {
   const dischargeBoard = determineBoardObj(formResponses).name;
   const serviceBranch = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH];
   const isReconsideration = forReconsideration ? ' for reconsideration' : '';
-  let summary = `Based on your answers, you need to complete Department of Defense (DoD) Form ${formNumber} and send it to the ${dischargeBoard} for the ${serviceBranch}${isReconsideration}.`;
+  let summary = `Based on your answers, you need to complete Department of Defense (DoD) Form ${formNumber} and send it to the ${dischargeBoard} for the ${determineBranchOfService(
+    serviceBranch,
+  )}${isReconsideration}.`;
 
   if (airForceAFRBAPortal) {
     summary =

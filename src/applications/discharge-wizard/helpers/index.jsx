@@ -580,9 +580,16 @@ const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
         }. The Board handles all cases from 15 or more years ago.`
       : 'the Discharge Review Board (DRB). The DRB was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.';
   }
-  return `the ${boardToSubmit.name}. The ${
-    boardToSubmit.abbr
-  } granted your previous upgrade request, so you must apply to them for a new DD214.`;
+  if (
+    [RESPONSES.PREV_APPLICATION_BCMR, RESPONSES.PREV_APPLICATION_BCNR].includes(
+      prevAppType,
+    )
+  ) {
+    return `the ${boardToSubmit.name}. The ${
+      boardToSubmit.abbr
+    } granted your previous upgrade request, so you must apply to them for a new DD214.`;
+  }
+  return '';
 };
 
 export const isPreviousApplicationYear = prevAppYear => {
@@ -617,16 +624,18 @@ const handleDRBExplanation = (boardToSubmit, serviceBranch, prevAppType) => {
     boardToSubmit.abbr === DRB
       ? 'Discharge Review Board (DRB)'
       : 'Air Force Discharge Review Board (AFDRB)';
-  const documentaryMessage =
-    prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
-      ? ` Because your application was rejected by the ${
-          boardToSubmit.abbr
-        } on Documentary Review, you must apply for a Personal Appearance Review.`
-      : '';
 
   return `the ${boardName} for the ${serviceBranch}. The ${
     boardToSubmit.abbr
-  } reviews cases up to 15 years after discharge.${documentaryMessage}`;
+  } is a panel of commissioned officers, or a combination of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the ${
+    boardToSubmit.abbr
+  } is 15 years after your date of discharge; after this time period, you must apply to a different board. ${
+    prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
+      ? `Because your application was rejected by the ${
+          boardToSubmit.abbr
+        } on Documentary Review, you must apply for a Personal Appearance Review.`
+      : ''
+  }`;
 };
 
 export const getBoardExplanation = formResponses => {
@@ -654,11 +663,16 @@ export const getBoardExplanation = formResponses => {
   }
 
   if (isPreviousApplicationYear(prevAppYear) && abbr === DRB) {
-    return `the Discharge Review Board (DRB) for the ${serviceBranch}. In general, the DRB does not handle appeals for previously denied applications. However, new rules may apply. If the DRB decides the new rules don’t apply, you'll need to appeal to a different Board.`;
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. In general, the DRB does not handle appeals for previously denied applications. However, because new rules have recently come out regarding discharges like yours, the Boards may treat your application as a new case. If possible, review the new policies and state in your application how the change in the policy is relevant to your case. If the DRB decides that the new rules don’t apply to your situation, you will likely have to send an appeal to a different Board.`;
   }
 
   if (formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST] && abbr === DRB) {
-    return `the Discharge Review Board (DRB) for the ${serviceBranch}. The ${name} previously rejected your application for not applying to the DRB first. The DRB reviews cases within 15 years of discharge.`;
+    return `the Discharge Review Board (DRB) for the ${serviceBranch}. The ${name} previously rejected your application because you did not apply to the DRB first. For applications like yours, the ${abbr} can review only cases that have already been rejected by the DRB. The DRB is a panel of commissioned officers, or a mix of senior non-commissioned officers (NCOs) and officers. The deadline to apply to the DRB is 15 years after your date of discharge. After this time period, you must apply to a different board. 
+    ${
+      prevAppType === RESPONSES.PREV_APPLICATION_DRB_DOCUMENTARY
+        ? `Because your application was rejected by the ${abbr} on Documentary Review, you must apply for a Personal Appearance Review.`
+        : ''
+    }`;
   }
 
   if (prevAppType === RESPONSES.PREV_APPLICATION_DRB_PERSONAL) {
