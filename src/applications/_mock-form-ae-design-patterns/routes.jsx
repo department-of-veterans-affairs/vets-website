@@ -7,6 +7,7 @@ import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
 import App from './App';
 // import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
+import DevPanel from './dev/client/DevPanel';
 
 const pattern1Routes = [
   {
@@ -81,6 +82,14 @@ const pattern2Routes = [
 const routes = [
   ...pattern1Routes,
   ...pattern2Routes,
+  {
+    path: '/dev',
+    component: props => (
+      <div className="vads-l-grid-container--full">
+        <DevPanel {...props} />
+      </div>
+    ),
+  },
   {
     path: '*',
     component: props => (
