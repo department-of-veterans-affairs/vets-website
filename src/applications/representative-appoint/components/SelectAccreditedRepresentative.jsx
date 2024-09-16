@@ -91,9 +91,7 @@ const SelectAccreditedRepresentative = props => {
   };
 
   return (
-    <div
-    // className={'no-rep-error'}
-    >
+    <div>
       <h3 className="vads-u-margin-y--5 ">
         Select the accredited representative or VSO you’d like to appoint
       </h3>
