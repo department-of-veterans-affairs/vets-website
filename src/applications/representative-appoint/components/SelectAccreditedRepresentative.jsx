@@ -111,7 +111,11 @@ const SelectAccreditedRepresentative = props => {
             required
           />
         </div>
-        <div className="vads-u-margin-top--1">
+        <div
+          className={`vads-u-margin-top--${
+            error ? '5' : '1'
+          } vads-u-margin-bottom--1`}
+        >
           <VaButton
             data-testid="representative-search-btn"
             text="Search"
