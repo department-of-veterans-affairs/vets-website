@@ -15,7 +15,7 @@ const ENVIRONMENTS = require('../../../site/constants/environments');
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
-  { name: 'host', type: String, defaultValue: '127.0.0.1' },
+  { name: 'host', type: String, defaultValue: 'localhost' },
 ];
 
 const options = commandLineArgs(optionDefinitions);
