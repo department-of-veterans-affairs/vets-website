@@ -92,9 +92,10 @@ export const genBBoxFromAddress = (query, expandedRadius = false) => {
             Math.max(featureBox[3], coordinates[1] + searchBoundingRadius),
           ];
         }
-
-        const radius = radiusFromBoundingBox(features);
-
+        const radius = radiusFromBoundingBox(
+          features,
+          query?.facilityType === 'provider',
+        );
         dispatch({
           type: SEARCH_QUERY_UPDATED,
           payload: {
