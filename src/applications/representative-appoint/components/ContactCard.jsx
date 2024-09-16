@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
+import Address from './Address';
 import { parsePhoneNumber } from '../utilities/helpers';
 
 export default function ContactCard({
@@ -52,22 +54,7 @@ export default function ContactCard({
                 rel="noreferrer"
                 aria-label={`${address} (opens in a new tab)`}
               >
-                {address.address1}
-                <br />
-                {address.address2 && (
-                  <>
-                    {address.address2}
-                    <br />
-                    {address.address3 && (
-                      <>
-                        {address.address2}
-                        <br />
-                      </>
-                    )}
-                  </>
-                )}
-                ),
-                {address.city}, {address.stateCode} {address.zipCode}
+                <Address address={address} />
               </a>
             </div>
           )}

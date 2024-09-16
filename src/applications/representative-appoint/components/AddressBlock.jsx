@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Address from './Address';
+
 export default function AddressBlock({ repName, orgName, address }) {
   return (
     <p className="va-address-block">
@@ -13,22 +15,7 @@ export default function AddressBlock({ repName, orgName, address }) {
         </>
       )}
       <br />
-      {address.address1}
-      <br />
-      {address.address2 && (
-        <>
-          {address.address2}
-          <br />
-          {address.address3 && (
-            <>
-              {address.address3}
-              <br />
-            </>
-          )}
-        </>
-      )}
-      {address.city}, {address.state} {address.zip}
-      <br />
+      <Address address={address} />
     </p>
   );
 }
