@@ -19,6 +19,12 @@ export default function AddressBlock({ repName, orgName, address }) {
         <>
           {address.address2}
           <br />
+          {address.address3 && (
+            <>
+              {address.address3}
+              <br />
+            </>
+          )}
         </>
       )}
       {address.city}, {address.state} {address.zip}
