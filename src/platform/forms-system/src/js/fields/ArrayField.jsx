@@ -390,7 +390,7 @@ export default class ArrayField extends React.Component {
               itemIdPrefix,
               definitions,
             );
-            const { showSave } = uiOptions;
+            const { showSave, hideAriaLabelItemIndex } = uiOptions;
             const isLast = items.length === index + 1;
             // if showSave is true, all items show Update except the last item
             const updateText = showSave && isLast ? 'Save' : 'Update';
@@ -404,6 +404,15 @@ export default class ArrayField extends React.Component {
             const notLastOrMultipleRows = showSave || !isLast || multipleRows;
             const useCardStyling = notLastOrMultipleRows;
             const CardOrDiv = useVaCards && useCardStyling ? VaCard : 'div';
+            const editItemAriaLabel = `Edit ${ariaItemName} ${
+              hideAriaLabelItemIndex ? '' : index + 1
+            }`;
+            const removeItemAriaLabel = `Remove ${ariaItemName} ${
+              hideAriaLabelItemIndex ? '' : index + 1
+            }`;
+            const updateItemAriaLabel = `${updateText} ${ariaItemName} ${
+              hideAriaLabelItemIndex ? '' : index + 1
+            }`;
 
             if (isReviewMode ? isEditing : isLast || isEditing) {
               return (
@@ -460,8 +469,7 @@ export default class ArrayField extends React.Component {
                             {(!isLast || showSave) && (
                               <VaButton
                                 className="float-left"
-                                label={`${updateText} ${ariaItemName} ${index +
-                                  1}`}
+                                label={updateItemAriaLabel}
                                 onClick={() => this.handleUpdate(index)}
                                 text={updateText}
                               />
@@ -472,7 +480,7 @@ export default class ArrayField extends React.Component {
                               <VaButton
                                 secondary
                                 className="float-right"
-                                label={`Remove ${ariaItemName} ${index + 1}`}
+                                label={removeItemAriaLabel}
                                 onClick={() =>
                                   this.handleRemove(
                                     index,
@@ -538,7 +546,7 @@ export default class ArrayField extends React.Component {
                   </div>
                   <VaButton
                     secondary
-                    label={`Edit ${ariaItemName} ${index + 1}`}
+                    label={editItemAriaLabel}
                     onClick={() => this.handleEdit(index)}
                     text="Edit"
                   />

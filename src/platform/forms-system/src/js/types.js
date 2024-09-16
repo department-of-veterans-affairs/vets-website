@@ -300,6 +300,7 @@
  * @property {number} [formHeadingLevel] Used with `useFormsPattern`. The header level of the formHeading. useFormsPattern and uswds must be true.
  * @property {boolean} [freeInput] for AutoSuggest widget
  * @property {boolean} [generateIndividualItemHeaders] For array field generation that would use the "new item" logic. Items created before it will now have "item" headers attached to them if there are multiple and it is not the final one in the series.
+ * @property {boolean} [hideAriaLabelItemIndex] For arrays. Removes the index from aria-label for the update/edit/remove buttons - "Edit address 2", "Remove service period 5".
  * @property {boolean} [hideEmptyValueInReview] Field will not be displayed in review page if empty if set to true
  * @property {(formData: any, index: number, fullData: any) => boolean} [hideIf] Conditional logic if the field should be hidden
  * @property {boolean} [hideLabelText] Hide the text above a form field. May be useful for checkbox widgets and some other corner cases.

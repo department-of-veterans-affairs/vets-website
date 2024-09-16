@@ -61,6 +61,7 @@ const platformArrayFieldWithAutocomplete = {
     showSave: true,
     reviewMode: true,
     keepInPageOnReview: false,
+    hideAriaLabelItemIndex: true,
   },
   'ui:validations': [requireDisability],
   items: {
