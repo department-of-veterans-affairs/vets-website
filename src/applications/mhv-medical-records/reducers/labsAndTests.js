@@ -65,90 +65,45 @@ export const distillChemHemNotes = (notes, valueProp) => {
  * @param {Object} record - A FHIR chem/hem Observation object
  * @returns the appropriate frontend object for display
  */
-// export const convertChemHemObservation = record => {
-//   const results = record.contained?.filter(
-//     recordItem => recordItem.resourceType === fhirResourceTypes.OBSERVATION,
-//   );
-
-//   return results?.map(result => {
-//     let finalObservationValue = '';
-//     let standardRange = null;
-//     if (result.valueQuantity) {
-//       const {
-//         observationValue,
-//         observationUnit,
-//       } = getObservationValueWithUnits(result);
-//       const fixedObservationValue =
-//         typeof observationValue === 'number'
-//           ? observationValue.toFixed(1)
-//           : observationValue;
-//       finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
-//       standardRange = isArrayAndHasItems(result.referenceRange)
-//         ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
-//         : null;
-//     }
-//     if (result.valueString) {
-//       finalObservationValue = result.valueString;
-//     }
-//     const interpretation = concatObservationInterpretations(result);
-//     if (finalObservationValue && interpretation) {
-//       finalObservationValue += ` (${interpretation})`;
-//     }
-
-//     return {
-//       name: result?.code?.text || EMPTY_FIELD,
-//       result: finalObservationValue || EMPTY_FIELD,
-//       standardRange: standardRange || EMPTY_FIELD,
-//       status: result.status || EMPTY_FIELD,
-//       labLocation: extractLabLocation(result.performer, record) || EMPTY_FIELD,
-//       labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
-//     };
-//   });
-// };
-
 export const convertChemHemObservation = record => {
-  if (isArrayAndHasItems(record.entry.resource.result)) {
-    const results = record.contained?.filter(
-      recordItem => recordItem.record.entry.resource.result,
-    );
+  const results = record.contained?.filter(
+    recordItem => recordItem.resourceType === fhirResourceTypes.OBSERVATION,
+  );
 
-    return results?.map(result => {
-      let finalObservationValue = '';
-      let standardRange = null;
-      if (result.valueQuantity) {
-        const {
-          observationValue,
-          observationUnit,
-        } = getObservationValueWithUnits(result);
-        const fixedObservationValue =
-          typeof observationValue === 'number'
-            ? observationValue.toFixed(1)
-            : observationValue;
-        finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
-        standardRange = isArrayAndHasItems(result.referenceRange)
-          ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
-          : null;
-      }
-      if (result.valueString) {
-        finalObservationValue = result.valueString;
-      }
-      const interpretation = concatObservationInterpretations(result);
-      if (finalObservationValue && interpretation) {
-        finalObservationValue += ` (${interpretation})`;
-      }
+  return results?.map(result => {
+    let finalObservationValue = '';
+    let standardRange = null;
+    if (result.valueQuantity) {
+      const {
+        observationValue,
+        observationUnit,
+      } = getObservationValueWithUnits(result);
+      const fixedObservationValue =
+        typeof observationValue === 'number'
+          ? observationValue.toFixed(1)
+          : observationValue;
+      finalObservationValue = `${fixedObservationValue} ${observationUnit}`;
+      standardRange = isArrayAndHasItems(result.referenceRange)
+        ? `${result.referenceRange[0].text} ${observationUnit}`.trim()
+        : null;
+    }
+    if (result.valueString) {
+      finalObservationValue = result.valueString;
+    }
+    const interpretation = concatObservationInterpretations(result);
+    if (finalObservationValue && interpretation) {
+      finalObservationValue += ` (${interpretation})`;
+    }
 
-      return {
-        name: result?.code?.text || EMPTY_FIELD,
-        result: finalObservationValue || EMPTY_FIELD,
-        standardRange: standardRange || EMPTY_FIELD,
-        status: result.status || EMPTY_FIELD,
-        labLocation:
-          extractLabLocation(result.performer, record) || EMPTY_FIELD,
-        labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
-      };
-    });
-  }
-  return EMPTY_FIELD;
+    return {
+      name: result?.code?.text || EMPTY_FIELD,
+      result: finalObservationValue || EMPTY_FIELD,
+      standardRange: standardRange || EMPTY_FIELD,
+      status: result.status || EMPTY_FIELD,
+      labLocation: extractLabLocation(result.performer, record) || EMPTY_FIELD,
+      labComments: distillChemHemNotes(result.note, 'text') || EMPTY_FIELD,
+    };
+  });
 };
 
 export const extractPractitioner = (record, serviceRequest) => {

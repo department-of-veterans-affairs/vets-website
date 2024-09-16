@@ -29,7 +29,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
-  generateNewRecordsIndicator,
+  getLastUpdatedText,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -99,7 +99,7 @@ const Allergies = props => {
     updatePageTitle,
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
+  const lastUpdatedText = getLastUpdatedText(
     refresh.status,
     refreshExtractTypes.ALLERGY,
   );
@@ -108,7 +108,7 @@ const Allergies = props => {
     setDownloadStarted(true);
     const { title, value, subject, preface } = generateAllergiesIntro(
       refresh.status,
-      RecordsIndicator,
+      lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };

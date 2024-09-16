@@ -31,7 +31,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
-  generateNewRecordsIndicator,
+  getLastUpdatedText,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -100,7 +100,7 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
+  const lastUpdatedText = getLastUpdatedText(
     refresh.status,
     refreshExtractTypes.VPR,
   );
@@ -109,7 +109,7 @@ const Vaccines = props => {
     setDownloadStarted(true);
     const { title, subject, preface } = generateVaccinesIntro(
       vaccines,
-      RecordsIndicator,
+      lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };

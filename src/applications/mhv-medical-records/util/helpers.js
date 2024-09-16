@@ -431,7 +431,7 @@ export const radiologyRecordHash = async record => {
 };
 
 /**
- * @function generateNewRecordsIndicator
+ * @function getLastUpdatedText
  * @description Generates a string that displays the last successful update for a given extract type.
  * It checks the refresh state status and formats the time and date of the last update.
  *
@@ -440,10 +440,7 @@ export const radiologyRecordHash = async record => {
  *
  * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
  */
-export const generateNewRecordsIndicator = (
-  refreshStateStatus,
-  extractType,
-) => {
+export const getLastUpdatedText = (refreshStateStatus, extractType) => {
   if (refreshStateStatus) {
     const extract = refreshStateStatus.find(
       status => status.extract === extractType,

@@ -14,7 +14,7 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
-  generateNewRecordsIndicator,
+  getLastUpdatedText,
 } from '../../util/helpers';
 
 import { refreshPhases } from '../../util/constants';
@@ -448,14 +448,14 @@ describe('getStatusExtractPhase', () => {
   });
 });
 
-describe('generateNewRecordsIndicator', () => {
+describe('getLastUpdatedText', () => {
   it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
     const refreshStateStatus = [
       { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
     ];
     const extractType = 'type1';
 
-    const result = generateNewRecordsIndicator(refreshStateStatus, extractType);
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
 
     expect(result).to.equal('Last updated at 10:00 AM on 2024-09-15');
   });
@@ -466,13 +466,13 @@ describe('generateNewRecordsIndicator', () => {
     ];
     const extractType = 'type2';
 
-    const result = generateNewRecordsIndicator(refreshStateStatus, extractType);
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
 
     expect(result).to.be.null;
   });
 
   it('should return null when refreshStateStatus is undefined', () => {
-    const result = generateNewRecordsIndicator(undefined, 'type1');
+    const result = getLastUpdatedText(undefined, 'type1');
     expect(result).to.be.null;
   });
 
@@ -482,7 +482,7 @@ describe('generateNewRecordsIndicator', () => {
     ];
     const extractType = 'type1';
 
-    const result = generateNewRecordsIndicator(refreshStateStatus, extractType);
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
 
     expect(result).to.be.null;
   });

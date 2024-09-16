@@ -29,7 +29,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
-  generateNewRecordsIndicator,
+  getLastUpdatedText,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -194,7 +194,7 @@ const VitalDetails = props => {
     [vitalType, vitalsList, dispatch],
   );
 
-  const RecordsIndicator = generateNewRecordsIndicator(
+  const lastUpdatedText = getLastUpdatedText(
     refresh.status,
     refreshExtractTypes.VPR,
   );
@@ -204,7 +204,7 @@ const VitalDetails = props => {
 
     const { title, subject, preface } = generateVitalsIntro(
       records,
-      RecordsIndicator,
+      lastUpdatedText,
     );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
