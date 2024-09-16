@@ -14,7 +14,7 @@ export default function GoogleMapLink({ address, recordClick }) {
 
   return (
     <>
-      <div className="address-link vads-u-display--flex">
+      <div className="vads-u-display--flex">
         <va-icon icon="location_on" size="3" />
         <a
           href={`https://maps.google.com?daddr=${addressString}`}
@@ -33,6 +33,6 @@ export default function GoogleMapLink({ address, recordClick }) {
 }
 
 GoogleMapLink.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.object.isRequired,
   recordClick: PropTypes.func.isRequired,
 };
