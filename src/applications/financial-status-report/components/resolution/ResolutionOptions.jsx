@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
@@ -6,19 +6,37 @@ import {
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { RESOLUTION_OPTION_TYPES } from '../../constants';
+import { setFocus, isNullOrUndefinedOrEmpty } from '../../utils/fileValidation';
 
 const ResolutionOptions = ({ formContext }) => {
   const dispatch = useDispatch();
-  const selectionError = useState(null);
+  const [selectionError, setSelectionError] = useState(null);
   const formData = useSelector(state => state.form.data);
   const isEditing = formContext.onReviewPage ? !formContext.reviewMode : true;
 
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
 
+  const [isResolutionOptionSelected, setIsResolutionOptionSelected] = useState(
+    !isNullOrUndefinedOrEmpty(currentDebt.resolutionOption),
+  );
+
+  useEffect(
+    () => {
+      if (formContext.submitted && !isResolutionOptionSelected) {
+        setSelectionError('Please select a resolution option for this debt');
+        setFocus('VaRadio');
+      } else {
+        setSelectionError(null);
+      }
+    },
+    [formContext.submitted, isResolutionOptionSelected],
+  );
+
   const onResolutionChange = target => {
     const newlySelectedDebtsAndCopays = selectedDebtsAndCopays.map(debt => {
       if (debt.id === currentDebt.id) {
+        setIsResolutionOptionSelected(true);
         return {
           ...debt,
           resolutionOption: target.detail.value,

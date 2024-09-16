@@ -8,7 +8,6 @@ export const CurrentDebtTitle = ({ formContext }) => {
   const formData = useSelector(state => state.form.data);
   const { selectedDebtsAndCopays = [] } = formData;
   const currentDebt = selectedDebtsAndCopays[formContext.pagePerItemIndex];
-  const { deductionCode, benefitType } = currentDebt;
 
   const formattedDebtTitle =
     currentDebt.debtType === 'COPAY'
@@ -23,15 +22,16 @@ export const CurrentDebtTitle = ({ formContext }) => {
     <legend className="schemaform-block-title">
       <h3 className="vads-u-margin--0">
         Debt {parseInt(formContext.pagePerItemIndex, 10) + 1} of{' '}
-        {selectedDebtsAndCopays.length}:{' '}
-        {currentDebt.debtType === 'COPAY'
-          ? `Copay debt for ${currentDebt.station.facilityName}`
-          : deductionCodes[deductionCode] || benefitType}
+        {selectedDebtsAndCopays.length}: {formattedDebtTitle}
       </h3>{' '}
-      <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
-        Which repayment or relief option would you like for your{' '}
-        <strong>{formattedDebtTitle}</strong>?
-      </p>
+      {formContext.pageTitle !== 'Select resolution option' && (
+        <div>
+          <p className="vads-u-margin-bottom--neg1 vads-u-margin-top--3 vads-u-padding-bottom--0p25 vads-u-margin-top--3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base">
+            Which repayment or relief option would you like for your{' '}
+            <strong>{formattedDebtTitle}</strong>?
+          </p>
+        </div>
+      )}
     </legend>
   );
 };
