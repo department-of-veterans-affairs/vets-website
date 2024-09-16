@@ -49,6 +49,7 @@ import { buildPrescriptionsTXT, buildAllergiesTXT } from '../util/txtConfigs';
 import Alert from '../components/shared/Alert';
 import {
   selectAllergiesFlag,
+  selectFilterFlag,
   selectRefillContentFlag,
 } from '../util/selectors';
 import PrescriptionsPrintOnly from './PrescriptionsPrintOnly';
@@ -56,6 +57,7 @@ import { getPrescriptionSortedList } from '../api/rxApi';
 import ApiErrorNotification from '../components/shared/ApiErrorNotification';
 import CernerFacilityAlert from '../components/shared/CernerFacilityAlert';
 import { pageType } from '../util/dataDogConstants';
+import MedicationsListFilter from '../components/MedicationsList/MedicationsListFilter';
 
 const Prescriptions = () => {
   const { search } = useLocation();
@@ -80,6 +82,7 @@ const Prescriptions = () => {
   );
   const showRefillContent = useSelector(selectRefillContentFlag);
   const showAllergiesContent = useSelector(selectAllergiesFlag);
+  const showFilterContent = useSelector(selectFilterFlag);
   const prescriptionId = useSelector(
     state => state.rx.prescriptions?.prescriptionDetails?.prescriptionId,
   );
@@ -526,17 +529,14 @@ const Prescriptions = () => {
                     <va-card background>
                       <div className="vads-u-padding-x--1">
                         <h2 className="vads-u-margin--0 vads-u-font-size--h3">
-                          Refill your prescriptions
+                          Refill prescriptions
                         </h2>
-                        <p className="vads-u-margin-y--3">
-                          Find a list of prescriptions you can refill online.
-                        </p>
                         <Link
                           className="vads-c-action-link--green vads-u-margin--0"
                           to={medicationsUrls.subdirectories.REFILL}
                           data-testid="prescriptions-nav-link-to-refill"
                         >
-                          Refill prescriptions
+                          Start a refill request
                         </Link>
                       </div>
                     </va-card>
@@ -570,22 +570,33 @@ const Prescriptions = () => {
                         isShowingErrorNotification ? '5' : '3'
                       }
                       small-screen:vads-u-margin-top--${
-                        isShowingErrorNotification ? '5' : '4'
+                        isShowingErrorNotification ? '5' : '3'
                       }`}
                     >
-                      <PrintDownload
-                        onDownload={handleFullListDownload}
-                        isSuccess={
-                          pdfTxtGenerateStatus.status ===
-                          PDF_TXT_GENERATE_STATUS.Success
-                        }
-                        list
-                      />
-                      <BeforeYouDownloadDropdown page={pageType.LIST} />
-                      <MedicationsListSort
-                        value={selectedSortOption}
-                        sortRxList={sortRxList}
-                      />
+                      {showFilterContent ? (
+                        <>
+                          <h2 className="vads-u-margin-y--3">
+                            Medications list
+                          </h2>
+                          <MedicationsListFilter />
+                        </>
+                      ) : (
+                        <>
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            list
+                          />
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                          <MedicationsListSort
+                            value={selectedSortOption}
+                            sortRxList={sortRxList}
+                          />
+                        </>
+                      )}
                       <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                       <MedicationsList
                         pagination={pagination}
@@ -594,6 +605,19 @@ const Prescriptions = () => {
                         selectedSortOption={selectedSortOption}
                         updateLoadingStatus={updateLoadingStatus}
                       />
+                      {showFilterContent && (
+                        <>
+                          <BeforeYouDownloadDropdown page={pageType.LIST} />
+                          <PrintDownload
+                            onDownload={handleFullListDownload}
+                            isSuccess={
+                              pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.Success
+                            }
+                            list
+                          />
+                        </>
+                      )}
                     </div>
                   ) : (
                     <></>
