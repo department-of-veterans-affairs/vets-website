@@ -6,15 +6,21 @@ import Address from './Address';
 export default function AddressBlock({ repName, orgName, address }) {
   return (
     <p className="va-address-block">
-      <strong>{repName}</strong>
-      <br />
-      {orgName && (
+      {repName && orgName ? (
         <>
+          <strong>{repName}</strong>
+          <br />
           {orgName}
+          <br />
+          <br />
+        </>
+      ) : (
+        <>
+          <strong>{orgName}</strong>
+          <br />
           <br />
         </>
       )}
-      <br />
       <Address address={address} />
     </p>
   );
