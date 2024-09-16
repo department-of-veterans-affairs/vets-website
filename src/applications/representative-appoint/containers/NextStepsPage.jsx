@@ -3,18 +3,28 @@ import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import AddressBlock from '../components/AddressBlock';
+import ContactCard from '../components/ContactCard';
 import NeedHelp from '../components/NeedHelp';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
-  const repAddress = {
-    address1: formData['view:selectedRepresentative']?.addressLine1,
-    address2: formData['view:selectedRepresentative']?.addressLine2,
-    address3: formData['view:selectedRepresentative']?.addressLine3,
-    city: formData['view:selectedRepresentative']?.city,
-    state: formData['view:selectedRepresentative']?.stateCode,
-    zip: formData['view:selectedRepresentative']?.zipCode,
+  const isOrg = () =>
+    formData['view:selectedRepresentative']?.type === 'organization';
+
+  const address = {
+    address1: (
+      formData['view:selectedRepresentative'].addressLine1 || ''
+    ).trim(),
+    address2: (
+      formData['view:selectedRepresentative'].addressLine2 || ''
+    ).trim(),
+    address3: (
+      formData['view:selectedRepresentative'].addressLine3 || ''
+    ).trim(),
+    city: (formData['view:selectedRepresentative'].city || '').trim(),
+    state: (formData['view:selectedRepresentative'].stateCode || '').trim(),
+    zip: (formData['view:selectedRepresentative'].zipCode || '').trim(),
   };
 
   const getRepType = () => {
@@ -28,6 +38,10 @@ export default function NextStepsPage() {
   };
 
   const getOrgName = () => {
+    if (isOrg()) {
+      return formData['view:selectedRepresentative'].name;
+    }
+
     const id = formData?.selectedAccreditedOrganizationId;
     const orgs =
       formData['view:selectedRepresentative'].attributes.accreditedOrganizations
@@ -61,7 +75,7 @@ export default function NextStepsPage() {
         <AddressBlock
           repName={formData['view:selectedRepresentative']?.fullName}
           orgName={getOrgName()}
-          address={repAddress}
+          address={address}
         />
         <p>
           After your form is signed, you or the accredited {getRepType()} can
@@ -75,7 +89,13 @@ export default function NextStepsPage() {
           We usually process your form within 1 week. You can contact the
           accredited representative any time.
         </p>
-        <p>ORG CARD GOES HERE</p>
+        <ContactCard
+          repName={formData['view:selectedRepresentative']?.fullName}
+          orgName={getOrgName()}
+          address={address}
+          phone={formData['view:selectedRepresentative']?.phone}
+          email={formData['view:selectedRepresentative']?.email}
+        />
         <NeedHelp />
       </div>
     </div>
