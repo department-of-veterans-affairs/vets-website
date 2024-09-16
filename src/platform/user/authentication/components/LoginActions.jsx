@@ -78,7 +78,7 @@ export default function LoginActions({ externalApplication }) {
               >
                 DS Logon sign-in-option
                 <span className="vads-u-display--block vads-u-font-size--base">
-                  Available through September 25, 2025
+                  Available through September 30, 2025
                 </span>
               </h3>
               <p>
