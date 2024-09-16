@@ -105,6 +105,7 @@ export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicare');
   cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
 
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
@@ -202,7 +203,8 @@ export const shortFormSelfDisclosureToSubmit = () => {
   // medicaid page with short form message
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 
-  // general insurance
+  // insurance policies
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 

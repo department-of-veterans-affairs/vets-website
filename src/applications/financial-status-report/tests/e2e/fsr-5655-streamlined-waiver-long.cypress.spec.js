@@ -72,9 +72,11 @@ const testConfig = createTestConfig(
       },
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },

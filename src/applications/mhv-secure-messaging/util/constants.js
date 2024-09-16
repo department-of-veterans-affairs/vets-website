@@ -377,6 +377,8 @@ export const threadSortingOptions = {
   },
 };
 
+export const THREADS_PER_PAGE_DEFAULT = 10;
+
 export const BreadcrumbViews = {
   DESKTOP_VIEW:
     'desktop-view vads-u-margin-left--neg7 vads-u-font-weight--bold vads-u-font-size--md vads-u-padding-y--2',

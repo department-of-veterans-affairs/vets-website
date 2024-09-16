@@ -17,7 +17,7 @@ class ApiInitializer {
 
   initializeClaims = {
     happyPath: () => {
-      cy.intercept('GET', '/travel_pay/claims', claims).as('sm');
+      cy.intercept('GET', '/travel_pay/v0/claims', claims).as('sm');
     },
   };
 }
