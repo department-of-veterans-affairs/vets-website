@@ -73,6 +73,9 @@ const SelectAccreditedRepresentative = props => {
                   phone={representative.attributes.phone}
                   email={representative.attributes.email}
                   representative={representative}
+                  accreditedOrganizations={
+                    representative.attributes?.accreditedOrganizations?.data
+                  }
                   representativeId={representative.id}
                   formData={formData}
                   setFormData={setFormData}
@@ -88,8 +91,10 @@ const SelectAccreditedRepresentative = props => {
   };
 
   return (
-    <>
-      <h3 className="vads-u-margin-y--5">
+    <div
+    // className={'no-rep-error'}
+    >
+      <h3 className="vads-u-margin-y--5 ">
         Select the accredited representative or VSO you’d like to appoint
       </h3>
       <p className="vads-u-margin-bottom--0">
@@ -122,7 +127,7 @@ const SelectAccreditedRepresentative = props => {
         can use our online tool to search for an accredited attorney, claims
         agent, or VSO representative.
       </p>
-    </>
+    </div>
   );
 };
 
