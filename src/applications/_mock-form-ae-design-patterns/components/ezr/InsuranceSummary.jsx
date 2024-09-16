@@ -75,7 +75,9 @@ const InsuranceSummary = props => {
 
       // navigate to policy information or next form page based on form field value
       if (fieldData === true) {
-        goToPath(`/${INSURANCE_PATHS.info}?index=${providers.length}`);
+        console.log('this is true');
+        goForward(data);
+        // goToPath(`/${INSURANCE_PATHS.info}?index=${providers.length}`);
       } else {
         goForward(data);
       }

@@ -229,7 +229,7 @@ const formConfig = {
         dependentInformation: {
           path: DEPENDENT_PATHS.info,
           title: 'Dependent information',
-          // depends: includeDependentInformation,
+          depends: includeDependentInformation,
           CustomPage: DependentInformationPage,
           CustomPageReview: null,
           uiSchema: {},

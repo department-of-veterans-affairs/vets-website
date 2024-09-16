@@ -24,6 +24,14 @@ const prefill = {
         spouseFullName: { first: 'Michelle', last: 'Smith' },
         spouseDateOfBirth: '1990-08-03',
         spouseSocialSecurityNumber: '451906574',
+        'view:reportDependents': true,
+        'view:skipDependentInfo': false,
+        dependents: [
+          {
+            fullName: { first: 'Mia', last: 'Smith' },
+            dependentRelation: 'Daughter',
+          },
+        ],
       },
     },
   },
@@ -111,7 +119,8 @@ const createSaveInProgressUpdateEZR = () => {
         updatedAt: now,
         metadata: {
           version: 0,
-          returnUrl: '1/ezr/household-information/dependents',
+          // returnUrl: '1/ezr/household-information/dependents',
+          returnUrl: '/1/ezr/household-information/spouse-personal-information',
           savedAt: Date.now(),
           submission: {
             status: false,
@@ -129,7 +138,6 @@ const createSaveInProgressUpdateEZR = () => {
     },
   };
 };
-
 
 module.exports = {
   prefill,

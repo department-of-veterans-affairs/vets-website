@@ -25,8 +25,6 @@ const DependentSummary = props => {
     contentAfterButtons,
   } = props;
 
-  console.log(props.data);
-
   const {
     dependents = [],
     [DEPENDENT_VIEW_FIELDS.add]: addDependents = null,
@@ -70,6 +68,7 @@ const DependentSummary = props => {
     },
     onGoForward: () => {
       console.log('Navigating forward. Field data:', fieldData);
+      console.log('Dependents length:', dependents.length);
       if (error) return;
 
       // set error if user hasn't provided a value for the form field
@@ -82,7 +81,8 @@ const DependentSummary = props => {
       // navigate to dependent information or next form page based on form field value
       if (fieldData === true) {
         console.log('this is true');
-        goToPath(`/${DEPENDENT_PATHS.info}?index=${dependents.length}`);
+        // goToPath(`/${DEPENDENT_PATHS.info}?index=${dependents.length}`);
+        goForward(data);
       } else {
         console.log('else');
         goForward(data);
