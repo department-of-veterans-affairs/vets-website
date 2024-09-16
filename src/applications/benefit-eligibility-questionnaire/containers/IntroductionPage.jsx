@@ -29,6 +29,7 @@ const IntroductionPage = ({ router }) => {
         onClick={startForm}
         message-aria-describedby="Get started"
         text="Get started"
+        data-testid="get-started"
       />
       <p />
     </article>
