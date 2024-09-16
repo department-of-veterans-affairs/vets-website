@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
@@ -40,13 +40,6 @@ const SelectAccreditedRepresentative = props => {
     }
   };
 
-  const goForward = () => {
-    const { pageList } = routes[1];
-    const { pathname } = location;
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
-  };
-
   const searchResults = () => {
     if (loading) {
       return <va-loading-indicator message="Loading..." set-focus />;
@@ -76,7 +69,9 @@ const SelectAccreditedRepresentative = props => {
                   representativeId={representative.id}
                   formData={formData}
                   setFormData={setFormData}
-                  goForward={goForward}
+                  router={router}
+                  routes={routes}
+                  location={location}
                 />
               </div>
             );

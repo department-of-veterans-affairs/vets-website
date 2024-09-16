@@ -33,7 +33,9 @@ export class ConfirmationPage extends React.Component {
       resultsCount,
       resultsText,
       benefitIds,
-      benefits: [], // Initial state for benefits
+      sortValue: 'alphabetical',
+      filterValue: 'All',
+      benefits: [],
     };
   }
 
@@ -54,6 +56,7 @@ export class ConfirmationPage extends React.Component {
         if (a.name > b.name) return 1;
         return 0;
       });
+
       this.setState({ benefits: benefitsState });
     } else if (
       this.props.location.query &&
@@ -69,6 +72,8 @@ export class ConfirmationPage extends React.Component {
   sortBenefits = e => {
     const key = e.target.value || 'alphabetical';
 
+    this.setState(() => ({ sortValue: key }));
+
     this.setState(prevState => {
       const sortedBenefits = prevState.benefits.sort((a, b) => {
         if (a[key] < b[key]) return -1;
@@ -82,6 +87,8 @@ export class ConfirmationPage extends React.Component {
   filterBenefits = e => {
     const key = e.target.value;
 
+    this.setState(() => ({ filterValue: key }));
+
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
@@ -91,7 +98,7 @@ export class ConfirmationPage extends React.Component {
 
     this.setState(() => {
       const filteredBenefits = this.props.results.data.filter(benefit => {
-        return benefit.category === key;
+        return benefit.category.includes(key);
       });
       return { benefits: filteredBenefits };
     });
@@ -134,6 +141,8 @@ export class ConfirmationPage extends React.Component {
               <option value="All">All</option>
               <option value="Education">Education</option>
               <option value="Employment">Employment</option>
+              <option value="Careers">Careers & Employment</option>
+              <option value="Support">More Support</option>
             </select>
             <b>Sort</b>
             <p>Sort results by</p>
@@ -158,7 +167,11 @@ export class ConfirmationPage extends React.Component {
               {this.state.hasResults &&
                 `Showing ${this.state.resultsCount} ${
                   this.state.resultsText
-                }, filtered to show all results, sorted alphabetically`}
+                }, filtered to show ${this.state.filterValue} results, sorted ${
+                  this.state.sortValue === 'alphabetical'
+                    ? this.state.sortValue
+                    : `by ${this.state.sortValue}`
+                }`}
             </b>
 
             <p>
