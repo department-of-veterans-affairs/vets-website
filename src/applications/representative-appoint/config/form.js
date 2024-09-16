@@ -152,7 +152,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
-            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
             const isNotVeteran = !preparerIsVeteran({ formData });
             return isLoggedIn && isNotVeteran;
           },
