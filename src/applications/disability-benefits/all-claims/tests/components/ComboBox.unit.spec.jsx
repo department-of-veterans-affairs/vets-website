@@ -1,20 +1,29 @@
-import React from 'react';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
+import React from 'react';
 import sinon from 'sinon';
+
 import { ComboBox } from '../../components/ComboBox';
 import disabilityLabelsRevised from '../../content/disabilityLabelsRevised';
 
 const items = Object.values(disabilityLabelsRevised);
 
+const inputVaTextInput = (selector, value) => {
+  const vaTextInput = selector;
+  vaTextInput.value = value;
+  const event = new CustomEvent('input', {
+    bubbles: true,
+    detail: { value },
+  });
+  vaTextInput.dispatchEvent(event);
+};
+
 describe('ComboBox', () => {
-  let defaultProps = {};
-  const onChangeSpy = sinon.spy();
+  let props = {};
 
   beforeEach(() => {
-    // Reset default props before each test
-    onChangeSpy.reset();
-    defaultProps = {
+    props = {
       formData: '',
       uiSchema: {
         'ui:title': 'Test',
@@ -23,22 +32,115 @@ describe('ComboBox', () => {
         },
       },
       idSchema: { $id: '1' },
+      onChange: sinon.spy(),
     };
   });
 
-  it('should render with a hidden list', () => {
-    const tree = render(<ComboBox {...defaultProps} />);
-    // nothing typed, no items visible
-    expect(tree.getByRole('listbox')).to.have.length(0);
+  describe('Rendering', () => {
+    it('should render listbox with no items by default', () => {
+      const { getByRole } = render(<ComboBox {...props} />);
+
+      const listbox = getByRole('listbox');
+
+      expect(listbox).to.have.length(0);
+    });
+
+    it('should render with initial formData', () => {
+      props.formData = 'initial value';
+      const { getByTestId } = render(<ComboBox {...props} />);
+
+      const input = getByTestId('combobox-input');
+
+      expect(input.value).to.eq('initial value');
+    });
+
+    it('should render listbox items when input has a value', () => {
+      const searchTerm = 'acl';
+      const { getByRole, getByTestId } = render(<ComboBox {...props} />);
+
+      const input = getByTestId('combobox-input');
+      const listbox = getByRole('listbox');
+
+      inputVaTextInput(input, searchTerm);
+
+      const filteredItems = fullStringSimilaritySearch(searchTerm, items);
+      const freeTextAndFilteredItemsLength = filteredItems.length + 1;
+
+      expect(listbox).to.have.length(freeTextAndFilteredItemsLength);
+    });
+
+    it('should render listbox items in alignment with string similarity search', () => {
+      const searchTerm = 'PT';
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+
+      const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
+
+      const input = getByTestId('combobox-input');
+      inputVaTextInput(input, searchTerm);
+
+      const listboxItems = getAllByRole('option');
+
+      listboxItems.forEach((item, index) => {
+        if (index === 0) {
+          expect(item).to.contain.text(
+            `Enter your condition as "${searchTerm}"`,
+          );
+        } else {
+          expect(item).to.contain.text(searchResults[index - 1]);
+        }
+      });
+    });
   });
 
-  // can't find the input element inside web-component shadowDOM
-  // in order to test any other functionality here...
-  // it('should handle keyboard input', async () => {
-  //   const tree = render(<ComboBox {...defaultProps} />);
-  //   expect(tree.getByRole('listbox')).to.have.length(0);
-  //   const input = tree.getByLabelText('Test');
-  //   await userEvent.type(input, 'acl', { skipClick: true });
-  //   expect(tree.getByRole('listbox')).to.have.length(21);
-  // });
+  describe('User interactions', () => {
+    it('should highlight listbox item on mouse enter', () => {
+      const searchTerm = 'PT';
+      const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
+      const input = getByTestId('combobox-input');
+      inputVaTextInput(input, searchTerm);
+
+      const listboxItems = getAllByRole('option');
+      fireEvent.mouseEnter(listboxItems[0]);
+
+      expect(listboxItems[0]).to.have.class('cc-combobox__option--active');
+    });
+
+    it('should select listbox free text item on click and then listbox empty', () => {
+      const searchTerm = 'PT';
+      const { getAllByRole, getByRole, getByTestId } = render(
+        <ComboBox {...props} />,
+      );
+
+      const input = getByTestId('combobox-input');
+      inputVaTextInput(input, searchTerm);
+
+      const listboxItems = getAllByRole('option');
+      fireEvent.click(listboxItems[0]);
+
+      expect(input.value).to.eq(searchTerm);
+
+      const listbox = getByRole('listbox');
+      expect(listbox).to.have.length(0);
+    });
+
+    it('should select listbox item on click and then listbox empty', () => {
+      const searchTerm = 'Hear';
+      const { getByRole, getAllByRole, getByTestId } = render(
+        <ComboBox {...props} />,
+      );
+
+      const input = getByTestId('combobox-input');
+      inputVaTextInput(input, searchTerm);
+
+      const listboxItems = getAllByRole('option');
+      fireEvent.click(listboxItems[1]);
+
+      const filteredItems = fullStringSimilaritySearch(searchTerm, items);
+
+      expect(input.value).to.eq(filteredItems[0]);
+
+      const listbox = getByRole('listbox');
+      expect(listbox).to.have.length(0);
+    });
+  });
 });
