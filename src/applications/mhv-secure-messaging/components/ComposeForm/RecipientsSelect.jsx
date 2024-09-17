@@ -119,8 +119,6 @@ const RecipientsSelect = ({
       </VaSelect>
       {alertDisplayed && (
         <VaAlert
-          role="alert"
-          aria-live="polite"
           ref={alertRef}
           class="vads-u-margin-y--2"
           closeBtnAriaLabel="Close notification"
@@ -132,7 +130,7 @@ const RecipientsSelect = ({
           visible
           data-testid="signature-alert"
         >
-          <p className="vads-u-margin-y--0">
+          <p className="vads-u-margin-y--0" role="alert" aria-live="polite">
             {isSignatureRequired === true
               ? Prompts.Compose.SIGNATURE_REQUIRED
               : Prompts.Compose.SIGNATURE_NOT_REQUIRED}
