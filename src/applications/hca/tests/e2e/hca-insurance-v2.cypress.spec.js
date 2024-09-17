@@ -42,7 +42,7 @@ describe('HCA-Health-Insurance-Information', () => {
 
     cy.get('#root_ssn').type(testData.veteranSocialSecurityNumber);
 
-    goToNextPage('veteran-information/personal-information');
+    goToNextPage('/veteran-information/personal-information');
     goToNextPage('/veteran-information/birth-information');
     goToNextPage('/veteran-information/maiden-name-information');
     goToNextPage('/veteran-information/birth-sex');
@@ -99,8 +99,7 @@ describe('HCA-Health-Insurance-Information', () => {
   it('should successfully advance to facility selection when user does not have health insurance coverage', () => {
     selectYesNoWebComponent('view:hasHealthInsuranceToAdd', false);
     goToNextPage('/insurance-information/va-facility');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 
   it('should successfully fill the policy information when user has health insurance coverage', () => {
@@ -115,7 +114,6 @@ describe('HCA-Health-Insurance-Information', () => {
     selectYesNoWebComponent('view:hasHealthInsuranceToAdd', false);
 
     goToNextPage('/insurance-information/va-facility');
-    cy.injectAxe();
-    cy.axeCheck();
+    cy.injectAxeThenAxeCheck();
   });
 });
