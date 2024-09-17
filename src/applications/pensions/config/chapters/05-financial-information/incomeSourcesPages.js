@@ -35,6 +35,12 @@ const options = {
       item && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
+            Income recipient:{' '}
+            <span className="vads-u-font-weight--bold">
+              {recipientTypeLabels[item.receiver]}
+            </span>
+          </li>
+          <li>
             Income payer:{' '}
             <span className="vads-u-font-weight--bold">{item.payer}</span>
           </li>
@@ -43,10 +49,6 @@ const options = {
             <span className="vads-u-font-weight--bold">
               {formatCurrency(item.amount)}
             </span>
-          </li>
-          <li>
-            Income recipient:{' '}
-            <span className="vads-u-font-weight--bold">{item.payer}</span>
           </li>
         </ul>
       ),
