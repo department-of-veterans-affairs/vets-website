@@ -363,8 +363,8 @@ export const determineBoardObj = (formResponses, noDRB) => {
   const oldDischarge = determineOldDischarge(dischargeMonth, dischargeYear);
 
   const failureToExhaust = [
-    RESPONSES.FAILURE_TO_EXHAUST_1A,
-    RESPONSES.FAILURE_TO_EXHAUST_1B,
+    RESPONSES.FAILURE_TO_EXHAUST_BCMR_YES,
+    RESPONSES.FAILURE_TO_EXHAUST_BCNR_YES,
   ].includes(formResponses[SHORT_NAME_MAP.FAILURE_TO_EXHAUST]);
 
   let boardObj = {
@@ -587,7 +587,7 @@ const handleDD215Update = (boardToSubmit, prevAppType, oldDischarge) => {
   ) {
     return `the ${boardToSubmit.name}. The ${
       boardToSubmit.abbr
-    } granted your previous upgrade request, so you must apply to them for a new DD214.`;
+    } was the Board that granted your previous upgrade request, so you must apply to them for a new DD214.`;
   }
   return '';
 };
@@ -655,7 +655,6 @@ export const getBoardExplanation = formResponses => {
   const serviceBranch = determineBranchOfService(
     formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
   );
-
   const { abbr, name } = boardToSubmit;
 
   if (reason === RESPONSES.REASON_DD215_UPDATE_TO_DD214) {
@@ -676,7 +675,7 @@ export const getBoardExplanation = formResponses => {
   }
 
   if (prevAppType === RESPONSES.PREV_APPLICATION_DRB_PERSONAL) {
-    return `the ${abbr} for the ${serviceBranch} to appeal the decision made by the DRB on a Personal Appearance Review.`;
+    return `the ${abbr} for the ${serviceBranch} to appeal that decision. This is because your application was denied by the Discharge Review Board (DRB) on a Personal Appearance Review.`;
   }
 
   if (shouldReapplyToBoard(prevAppType, formResponses)) {
