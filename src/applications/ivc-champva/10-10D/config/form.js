@@ -119,14 +119,11 @@ import { fileWithMetadataSchema } from '../../shared/components/fileUploads/atta
 import FileFieldWrapped from '../components/FileUploadWrapper';
 
 // Control whether we show the file overview page by calling `hasReq` to
-// determine if any files have not been uploaded
+// determine if any required files have not been uploaded
 function showFileOverviewPage(formData) {
   try {
     return (
-      hasReq(formData.applicants, true, true) ||
-      hasReq(formData.applicants, false, true) ||
-      hasReq(formData, true, true) ||
-      hasReq(formData, false, true)
+      hasReq(formData.applicants, true, true) || hasReq(formData, true, true)
     );
   } catch {
     return false;

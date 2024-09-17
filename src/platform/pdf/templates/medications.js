@@ -156,13 +156,15 @@ const generateResultsMedicationListContent = async (
       }
 
       // If the next item does not fit - move to the next page
-      doc.fontSize(config.text.size);
-      let height = !resultItem.value?.type
-        ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`)
-        : resultItem.value?.options?.height;
-      height = resultItem.inline ? height : height + 24;
-      if (doc.y + height > doc.page.height - doc.page.margins.bottom)
-        await doc.addPage();
+      if (!resultItem.disablePageSplit) {
+        doc.fontSize(config.text.size);
+        let height = !resultItem.value?.type
+          ? doc.heightOfString(`${resultItem.title}: ${resultItem.value}`)
+          : resultItem.value?.options?.height;
+        height = resultItem.inline ? height : height + 24;
+        if (doc.y + height > doc.page.height - doc.page.margins.bottom)
+          await doc.addPage();
+      }
 
       for (const struct of structs) {
         results.add(struct);
