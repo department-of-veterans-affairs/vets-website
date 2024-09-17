@@ -53,7 +53,11 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
           );
         })}
       </div>
-      <va-link-action href="guidance" text="Get my results" />
+      <va-link-action
+        data-testid="duw-guidance"
+        href="guidance"
+        text="Get my results"
+      />
     </div>
   );
 };

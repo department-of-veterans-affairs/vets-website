@@ -82,7 +82,7 @@ describe('Discharge Wizard <FormQuestions />', () => {
       />,
     );
     expect(
-      wrapper.find(<va-link-action href="/guidance" text="Get my results" />),
+      wrapper.find(<va-link-action href="guidance" text="Get my results" />),
     );
 
     wrapper.unmount();

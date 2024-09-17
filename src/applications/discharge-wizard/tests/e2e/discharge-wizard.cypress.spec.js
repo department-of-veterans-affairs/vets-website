@@ -19,7 +19,7 @@ describe('functionality of discharge wizard', () => {
     axeTestPage();
 
     // questions page | fill out form
-    cy.get('.main .vads-c-action-link--green').click();
+    cy.findByTestId('duw-continue').click();
 
     cy.get('va-radio-option[name=1_branchOfService][value="army"]')
       .find('label')
@@ -62,7 +62,7 @@ describe('functionality of discharge wizard', () => {
     // a11y check after all elements are visible
     axeTestPage();
 
-    cy.get('.main .vads-c-action-link--green').click();
+    cy.findByTestId('duw-guidance').click();
 
     // a11y check on results page
     axeTestPage();

@@ -48,7 +48,11 @@ const InstructionsPage = () => {
                     confidential.
                   </p>
                   <p>
-                    <va-link-action href="questions" text="Get started" />
+                    <va-link-action
+                      data-testid="duw-start"
+                      href="questions"
+                      text="Get started"
+                    />
                   </p>
                 </div>
               </div>
