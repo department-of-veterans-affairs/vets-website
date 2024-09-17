@@ -20,7 +20,6 @@ export const getAppData = state => ({
     state.featureToggles.showMeb1990EMaintenanceAlert,
   showMeb1990ER6MaintenanceMessage:
     state.featureToggles.showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements08: state.featureToggles.showMebEnhancements08,
   toeDupContactInfoCall: state.featureToggles.toeDupContactInfoCall,
   toeLightHouseDgiDirectDeposit:
     state?.featureToggles?.toeLightHouseDGIDirectDeposit,

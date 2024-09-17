@@ -1,11 +1,6 @@
 import { cloneDeep } from 'lodash';
 
-import {
-  formFields,
-  SPONSOR_NOT_LISTED_LABEL,
-  SPONSOR_NOT_LISTED_VALUE,
-  SPONSOR_RELATIONSHIP,
-} from './constants';
+import { formFields, SPONSOR_NOT_LISTED_VALUE } from './constants';
 
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
@@ -434,50 +429,21 @@ export function updateSponsorsOnValueChange(
   return _sponsors;
 }
 
-export function mapSponsorsToCheckboxOptions(sponsors, showMebEnhancements08) {
+export function mapSponsorsToCheckboxOptions(sponsors) {
   const options =
     sponsors?.sponsors?.map((sponsor, index) => ({
       label: `Sponsor ${index + 1}: ${sponsor.name}`,
       selected: sponsor.selected,
       value: `sponsor-${sponsor.id}`,
     })) || [];
-  if (!showMebEnhancements08 && sponsors?.someoneNotListed) {
-    options.push({
-      label: SPONSOR_NOT_LISTED_LABEL,
-      selected: sponsors?.someoneNotListed,
-      value: `sponsor-${SPONSOR_NOT_LISTED_VALUE}`,
-    });
-  }
+
   const anySelectedOptions = !!options?.filter(o => o.selected)?.length;
+
   return {
     anySelectedOptions,
     options,
   };
 }
-
-export const applicantIsChildOfSponsor = formData => {
-  const numSelectedSponsors = formData[formFields.selectedSponsors]?.length;
-
-  if (
-    !numSelectedSponsors ||
-    (numSelectedSponsors === 1 && formData.sponsors?.someoneNotListed) ||
-    (numSelectedSponsors > 1 &&
-      formData.firstSponsor === SPONSOR_NOT_LISTED_VALUE)
-  ) {
-    return (
-      formData[formFields.relationshipToServiceMember] ===
-      SPONSOR_RELATIONSHIP.CHILD
-    );
-  }
-
-  const sponsors = formData.sponsors?.sponsors;
-  const sponsor =
-    numSelectedSponsors === 1
-      ? sponsors?.find(s => s.selected)
-      : sponsors?.find(s => s.id === formData.firstSponsor);
-
-  return sponsor?.relationship === SPONSOR_RELATIONSHIP.CHILD;
-};
 
 // utils/caseConverter.js
 export const toSnakeCase = obj => {

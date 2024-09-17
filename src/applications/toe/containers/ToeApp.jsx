@@ -34,7 +34,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements08,
   toeDupContactInfoCall,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
@@ -103,13 +102,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-
       if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
@@ -158,7 +150,6 @@ function ToeApp({
     [
       formData,
       setFormData,
-      showMebEnhancements08,
       toeDupContactInfoCall,
       duplicateEmail,
       duplicatePhone,
@@ -277,7 +268,6 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
