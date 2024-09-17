@@ -78,6 +78,10 @@
   }
 }
 
+.benefit-list {
+  list-style-type: none !important;
+}
+
 @media (max-width: 40.063em) {
   .vads-l-grid-container {
     padding-left: 0;

@@ -842,6 +842,7 @@ export const toSnakeCase = obj => {
 
 // Define all the form pages to help ensure uniqueness across all form chapters
 export const formPages = {
+  benefitSelection: 'benefitSelection',
   applicantInformation: 'applicantInformation',
   contactInformation: {
     contactInformation: 'contactInformation',
@@ -850,7 +851,7 @@ export const formPages = {
     preferredContactMethod: 'preferredContactMethod',
   },
   serviceHistory: 'serviceHistory',
-  benefitSelection: 'benefitSelection',
+  benefitSelectionLegacy: 'benefitSelectionLegacy',
   additionalConsiderations: {
     activeDutyKicker: {
       name: 'active-duty-kicker',

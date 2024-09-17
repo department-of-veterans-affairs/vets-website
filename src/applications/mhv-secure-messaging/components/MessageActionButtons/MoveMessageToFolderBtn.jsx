@@ -5,7 +5,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
@@ -14,6 +14,7 @@ import * as Constants from '../../util/constants';
 import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 import { focusOnErrorField } from '../../util/formHelpers';
+import { getListOfThreads } from '../../actions/threads';
 
 const MoveMessageToFolderBtn = props => {
   const {
@@ -26,6 +27,7 @@ const MoveMessageToFolderBtn = props => {
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
@@ -88,12 +90,19 @@ const MoveMessageToFolderBtn = props => {
         setIsCreateNewModalVisible(true);
       } else if (selectedFolder !== null) {
         dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
-          navigateToFolderByFolderId(
-            activeFolder
-              ? activeFolder.folderId
-              : Constants.DefaultFolders.INBOX.id,
-            history,
+          const redirectToFolderId = activeFolder
+            ? activeFolder.folderId
+            : Constants.DefaultFolders.INBOX.id;
+          dispatch(
+            getListOfThreads(
+              redirectToFolderId,
+              Constants.THREADS_PER_PAGE_DEFAULT,
+              threadSort.page,
+              threadSort.value,
+              true,
+            ),
           );
+          navigateToFolderByFolderId(redirectToFolderId, history);
           dispatch(
             addAlert(
               Constants.ALERT_TYPE_SUCCESS,

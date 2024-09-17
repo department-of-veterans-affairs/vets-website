@@ -28,6 +28,7 @@ const App = props => {
   const {
     isLoadingFeatureFlags,
     isFacilitiesApiEnabled,
+    isInsuranceV2Enabled,
     isRegOnlyEnabled,
     isSigiEnabled,
   } = useSelector(selectFeatureToggles);
@@ -68,6 +69,7 @@ const App = props => {
         'view:isLoggedIn': isLoggedIn,
         'view:isSigiEnabled': isSigiEnabled,
         'view:isRegOnlyEnabled': isRegOnlyEnabled,
+        'view:isInsuranceV2Enabled': isInsuranceV2Enabled,
         'view:isFacilitiesApiEnabled': isFacilitiesApiEnabled,
         'view:totalDisabilityRating': parseInt(totalRating, 10) || 0,
       };
