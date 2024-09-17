@@ -16,7 +16,6 @@ import {
   txtLine,
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   clearVitalDetails,
   getVitalDetails,
@@ -30,6 +29,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  getLastUpdatedText,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -46,7 +46,6 @@ import {
   generateVitalsIntro,
 } from '../util/pdfHelpers/vitals';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
-import { useIsDetails } from '../hooks/useIsDetails';
 import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 import useListRefresh from '../hooks/useListRefresh';
 
@@ -102,8 +101,6 @@ const VitalDetails = props => {
     [dispatch],
   );
 
-  useIsDetails(dispatch);
-
   const updatedRecordType = useMemo(
     () => {
       const typeMap = {
@@ -118,14 +115,6 @@ const VitalDetails = props => {
 
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/vitals',
-            label: 'vitals',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearVitalDetails());
       };
@@ -205,9 +194,18 @@ const VitalDetails = props => {
     [vitalType, vitalsList, dispatch],
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVitalsPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVitalsIntro(records);
+
+    const { title, subject, preface } = generateVitalsIntro(
+      records,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVitalsContent(records) };
     const pdfName = `VA-vital-details-${getNameDateAndTime(user)}`;
@@ -252,6 +250,7 @@ Provider notes: ${vital.notes}\n\n`,
         <h1 className="vads-u-margin-bottom--3 small-screen:vads-u-margin-bottom--4 no-print">
           {vitalDisplayName}
         </h1>
+
         <NewRecordsIndicator
           refreshState={refresh}
           extractType={refreshExtractTypes.VPR}
@@ -264,6 +263,7 @@ Provider notes: ${vital.notes}\n\n`,
             dispatch(reloadRecords());
           }}
         />
+
         {downloadStarted && <DownloadSuccessAlert />}
         <PrintDownload
           downloadPdf={generateVitalsPdf}

@@ -538,7 +538,7 @@ class TrackClaimsPageV2 {
       .first()
       .should(
         'contain',
-        'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+        'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
       );
     cy.get(testId)
       .find('a')
@@ -567,18 +567,17 @@ class TrackClaimsPageV2 {
     if (!isStandard) {
       cy.get('[data-testid="due-date-information"]').should(
         'contain',
-        'You don’t need to do anything on this page. We’ll wait until July 14, 2024, to move your claim to the next step.',
+        "Note: If you don’t submit the evidence waiver, we'll wait for you to add evidence until July 14, 2024. Then we'll continue processing your claim.",
       );
     }
-    cy.get('a.active-va-link').should('contain', 'Go to claim letters');
+    cy.get('a.active-va-link').should(
+      'contain',
+      'Find this letter on the claim letters page',
+    );
     cy.get('a[data-testid="upload-evidence-link"]').should(
       'contain',
-      'Upload your evidence here',
+      'Upload additional evidence',
     );
-    cy.get('va-checkbox')
-      .shadow()
-      .find('label')
-      .should('contain', 'I’m finished adding evidence to support my claim.');
   }
 
   verifyDocRequestBreadcrumbs(previousPageFiles = false, is5103Notice = false) {
@@ -606,7 +605,7 @@ class TrackClaimsPageV2 {
     if (is5103Notice) {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(
         'contain',
-        '5103 Evidence Notice',
+        'Review evidence list (5103 notice)',
       );
     } else {
       cy.get('.usa-breadcrumb__list > li:nth-child(4) a').should(

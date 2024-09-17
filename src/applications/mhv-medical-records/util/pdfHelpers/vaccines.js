@@ -1,11 +1,10 @@
 import { processList } from '../helpers';
 
-export const generateVaccinesIntro = () => {
+export const generateVaccinesIntro = (records, lastUpdatedIndicator) => {
   return {
     title: 'Vaccines',
-    subject: 'VA Medical Record',
-    preface:
-      'This list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records.',
+    preface: `VA Medical Record\n\n${lastUpdatedIndicator}\n\nThis list includes all vaccines (immunizations) in your VA medical records. For a list of your allergies and reactions (including any reactions to vaccines), download your allergy records. \n
+Showing ${records.length} records from newest to oldest`,
   };
 };
 
@@ -24,7 +23,7 @@ export const generateVaccineItem = record => ({
     {
       title: 'Provider notes',
       value: processList(record.notes),
-      inline: !record.notes.length,
+      inline: true,
     },
   ],
 });

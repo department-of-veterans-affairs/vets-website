@@ -44,11 +44,13 @@ const yourContactInformationPage = {
     businessEmail: emailUI('Email address'),
     contactPreference: radioUI({
       title: CHAPTER_3.CONTACT_PREF.QUESTION_2,
-      description: '',
       labels: {
         PHONE: 'Phone call',
         EMAIL: 'Email',
         US_MAIL: 'U.S. mail',
+      },
+      errorMessages: {
+        required: 'Please select your contact preference',
       },
     }),
     preferredName: {
