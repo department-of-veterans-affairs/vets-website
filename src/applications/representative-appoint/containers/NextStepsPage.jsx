@@ -13,22 +13,22 @@ export default function NextStepsPage() {
   // const formData = {
   //   'view:selectedRepresentative': {
   //     type: 'organization',
-  //     fullName: 'Steven McBob',
-  //     name: 'Best VSO',
-  //     addressLine1: '123 Main Street',
-  //     addressLine2: '',
+  //     fullName: 'Brian Daniel',
+  //     name: 'Disabled American Veterans',
+  //     addressLine1: '400 South 18th Street',
+  //     addressLine2: 'Room 119',
   //     addressLine3: '',
-  //     city: 'Anytown',
-  //     stateCode: 'AA',
-  //     zipCode: '11111',
-  //     phone: '8022345653',
-  //     email: 'name@example.com',
+  //     city: 'Newark',
+  //     stateCode: 'NJ',
+  //     zipCode: '07102',
+  //     phone: '7026842997',
+  //     email: 'bdaniel@veterans.nj.gov',
   //     attributes: {
   //       accreditedOrganizations: {
   //         data: [
   //           {
   //             id: '1',
-  //             attributes: { name: 'Best VSO' },
+  //             attributes: { name: 'Disabled American Veterans' },
   //           },
   //         ],
   //       },
