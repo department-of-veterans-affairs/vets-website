@@ -169,7 +169,7 @@ export function CautionaryInformation({ institution, showModal }) {
 
       <div>
         <div className="table">
-          <va-table class="vads-u-margin-bottom--2" table-type="bordered">
+          <va-table class="vads-u-margin-bottom--2">
             <va-table-row slot="headers">
               <span />
               <span>This campus</span>

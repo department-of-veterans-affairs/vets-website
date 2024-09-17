@@ -112,7 +112,10 @@ export function ProfilePage({
   }
 
   return (
-    <ScrollElement name="profilePage" className="profile-page">
+    <ScrollElement
+      name="profilePage"
+      className="profile-page vads-u-padding-top--3"
+    >
       {profile.error ? <ServiceError /> : <div className="row">{content}</div>}
     </ScrollElement>
   );

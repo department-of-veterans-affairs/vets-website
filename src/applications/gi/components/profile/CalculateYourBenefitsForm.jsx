@@ -1030,7 +1030,7 @@ function CalculateYourBenefitsForm({
     }
 
     return (
-      <div className="vads-u-margin-top--3">
+      <div>
         <LearnMoreLabel
           text={radioButtonsLabelText}
           onClick={() => showModal('onlineOnlyDistanceLearning')}
