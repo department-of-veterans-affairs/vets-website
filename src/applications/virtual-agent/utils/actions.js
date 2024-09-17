@@ -7,6 +7,7 @@ import {
   getIsRxSkill,
   getIsTrackingUtterances,
   getRecentUtterances,
+  setEventSkillValue,
   setIsRxSkill,
   setIsTrackingUtterances,
   setRecentUtterances,
@@ -63,13 +64,38 @@ function isEventRxSkill(eventValue) {
   return eventValue === 'RX_Skill';
 }
 
-function handleSkillEvent(action, eventName, isRxSkillState) {
+function handleRxSkillEvent(action, eventName, isRxSkillState) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
     sendWindowEventWithActionPayload('rxSkill', action);
+  }
+}
+
+function handleSkillEntryEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  if (actionEventName === 'Skill_Entry') {
+    setEventSkillValue(eventValue);
+    recordEvent({
+      event: 'api_call',
+      'api-name': 'Skill Entry',
+      topic: eventValue,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleSkillExitEvent(action) {
+  const actionEventName = getEventName(action);
+  if (
+    action.payload.activity.text === 'Returning to the main chatbot...' ||
+    action.payload.activity.text === 'Did that answer your question?' ||
+    actionEventName === 'Skill_Exit'
+  ) {
+    setEventSkillValue(null);
   }
 }
 
@@ -152,8 +178,10 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleSkillEvent(action, 'Skill_Entry', true);
-  handleSkillEvent(action, 'Skill_Exit', false);
+  handleRxSkillEvent(action, 'Skill_Entry', true);
+  handleRxSkillEvent(action, 'Skill_Exit', false);
+  handleSkillEntryEvent(action);
+  handleSkillExitEvent(action);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {

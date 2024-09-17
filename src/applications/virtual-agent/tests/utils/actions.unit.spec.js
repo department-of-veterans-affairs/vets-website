@@ -358,6 +358,165 @@ describe('actions', () => {
 
       expect(setIsRxSkillStub.notCalled).to.be.true;
     });
+    it('should set event skill value and call recordEvent for Skill_Entry action', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Other',
+            from: {
+              role: 'user',
+            },
+            name: 'Skill_Entry',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.calledOnce).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly('some_skill_value')).to.be
+        .true;
+      expect(recordEventStub.calledOnce).to.be.true;
+      expect(
+        recordEventStub.calledWithExactly({
+          event: 'api_call',
+          'api-name': 'Skill Entry',
+          topic: 'some_skill_value',
+          'api-status': 'successful',
+        }),
+      ).to.be.true;
+    });
+    it('should not set event skill value or call recordEvent for non-Skill_Entry action', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Other',
+            from: {
+              role: 'user',
+            },
+            name: 'Other_Action',
+            value: 'some_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.notCalled).to.be.true;
+      expect(recordEventStub.notCalled).to.be.true;
+    });
+    it('should set event skill value to null and not call recordEvent if Skill_Exit event is received', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            from: {
+              role: 'bot',
+            },
+            name: 'Skill_Exit',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.calledOnce).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+      expect(recordEventStub.notCalled).to.be.true;
+    });
+    it('should not set event skill value to null if not a Skill_Exit event', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'event',
+            from: {
+              role: 'bot',
+            },
+            name: 'Other_Action',
+            value: 'some_skill_value',
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+      const recordEventStub = sandbox.stub(RecordEventModule, 'default');
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.notCalled).to.be.true;
+      expect(recordEventStub.notCalled).to.be.true;
+    });
+    it('should set event skill value to null if the bot is returning to the main chatbot', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Returning to the main chatbot...',
+            from: {
+              role: 'bot',
+            },
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.calledOnce).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+    });
+    it('should set event skill value to null if the bot is asking if the user is satisfied', () => {
+      const action = {
+        payload: {
+          activity: {
+            type: 'message',
+            text: 'Did that answer your question?',
+            from: {
+              role: 'bot',
+            },
+          },
+        },
+      };
+
+      const dispatch = sandbox.stub();
+      const setEventSkillValueStub = sandbox.stub(
+        SessionStorageModule,
+        'setEventSkillValue',
+      );
+
+      processIncomingActivity({ action, dispatch })();
+      expect(setEventSkillValueStub.calledOnce).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+    });
     it('should set is rx skill to false and trigger rxSkill event if exiting rx', () => {
       const action = {
         payload: {
