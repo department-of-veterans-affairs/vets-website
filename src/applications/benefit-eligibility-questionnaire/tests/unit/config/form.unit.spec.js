@@ -59,6 +59,30 @@ describe('Questionnaire Form - Title Function', () => {
   });
 });
 
+describe('Questionnaire Form - SubTitle Function', () => {
+  describe('title function', () => {
+    it('should return blank when on the confirmation page', () => {
+      const currentLocation = { pathname: '/confirmation' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal('');
+    });
+
+    it('should return blank when on the review page', () => {
+      const currentLocation = { pathname: '/review-and-submit' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal('');
+    });
+
+    it('should return "Please answer the questions to help us recommend helpful resources and benefits." by default', () => {
+      const currentLocation = { pathname: '/some-other-page' };
+      const title = formConfig.subTitle({ currentLocation });
+      expect(title).to.equal(
+        'Please answer the questions to help us recommend helpful resources and benefits.',
+      );
+    });
+  });
+});
+
 describe('Questionnaire Form - Chapter 1: Goals', () => {
   const { chapters } = formConfig;
   const { chapter1 } = chapters;
