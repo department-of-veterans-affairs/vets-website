@@ -451,43 +451,19 @@ export const toSnakeCase = obj => {
   return result;
 };
 
-// export const applicantIsaMinor = formData => {
-//   // Check if formData or dob is missing
-//   if (!formData || !formData?.dob) {
-//     return true;
-//   }
+export const applicantIsaMinor = formData => {
+  // Check if formData or dob is missing
+  if (!formData || !formData?.dob) {
+    return true;
+  }
 
-//   // Split the date of birth into parts
-//   const dateParts = formData.dob.split('-');
-//   if (!dateParts || dateParts.length !== 3) {
-//     return true;
-//   }
-
-//   // Calculate the birthday and the date 18 years ago
-//   const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
-//   const today18YearsAgo = new Date(
-//     new Date(new Date().setFullYear(new Date().getFullYear() - 18)).setHours(
-//       0,
-//       0,
-//       0,
-//       0,
-//     ),
-//   );
-
-//   // Return true if the applicant is a minor
-//   return birthday.getTime() >= today18YearsAgo.getTime();
-// };
-
-export const applicantIsaMinor = _formData => {
-  // Prefix formData with underscore to silence warnings
-  // Mock the date of birth for testing - Replace this DOB to make the applicant under 18
-  const mockDob = '2010-05-15'; // This DOB will make the applicant a minor
-
-  // Use the mock DOB for testing
-  const dateParts = mockDob.split('-');
+  // Split the date of birth into parts
+  const dateParts = formData.dob.split('-');
   if (!dateParts || dateParts.length !== 3) {
     return true;
   }
+
+  // Calculate the birthday and the date 18 years ago
   const birthday = new Date(dateParts[0], dateParts[1] - 1, dateParts[2]);
   const today18YearsAgo = new Date(
     new Date(new Date().setFullYear(new Date().getFullYear() - 18)).setHours(
@@ -498,5 +474,6 @@ export const applicantIsaMinor = _formData => {
     ),
   );
 
+  // Return true if the applicant is a minor
   return birthday.getTime() >= today18YearsAgo.getTime();
 };
