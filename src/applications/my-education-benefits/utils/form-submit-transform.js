@@ -439,6 +439,10 @@ export function createAdditionalConsiderations(submissionForm) {
         formKey: 'selectedReserveKicker',
         exclusionType: null,
       },
+      additionalContributions: {
+        formKey: 'additionalContributions',
+        exclusionType: null,
+      },
     };
     return Object.entries(mapping).reduce(
       (acc, [key, { formKey, exclusionType }]) => {
@@ -469,6 +473,9 @@ export function createAdditionalConsiderations(submissionForm) {
     ),
     activeDutyDodRepayLoan: setAdditionalConsideration(
       submissionForm.loanPayment,
+    ),
+    additionalContributions: setAdditionalConsideration(
+      submissionForm.additionalContributions,
     ),
   };
 }
