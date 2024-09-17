@@ -9,10 +9,15 @@ const IntroductionPage = ({ router }) => {
   };
   return (
     <article className="schemaform-intro">
-      <FormTitle
-        title="Complete the benefit eligibility questionnaire"
-        subtitle=""
-      />
+      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
+      <p>
+        <b>
+          Please note that this is a recommendation tool, not an eligibility
+          determination tool.
+        </b>{' '}
+        VA determines your eligibility once you apply for a benefit. You’ll need
+        to review the eligibility requirements before applying for VA benefits.
+      </p>
       <p>
         Our recommendation tool can help you find benefits and resources that
         are specific to your goals, needs, and circumstances. This is our first
