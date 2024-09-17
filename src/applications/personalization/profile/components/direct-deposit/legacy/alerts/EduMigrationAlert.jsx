@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom.min';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import { ProfileLink } from '../../../ProfileLink';
 import { useSessionStorage } from '../../../../../common/hooks/useSessionStorage';
@@ -18,10 +17,7 @@ export const EduMigrationAlert = ({ className }) => {
     'dismissedDirectDepositSingleFormAlert',
   );
 
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isAlertToggleEnabled = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleFormAlert,
-  );
+  const isAlertToggleEnabled = false;
 
   if (!isAlertToggleEnabled || (dismissed && includeExtraLinkAndDismiss)) {
     return null;

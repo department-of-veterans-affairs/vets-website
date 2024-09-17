@@ -102,9 +102,6 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
 
-export const selectFeatureMedReviewInstructions = state =>
-  toggleValues(state).vaOnlineSchedulingMedReviewInstructions;
-
 export const selectFeatureOHDirectSchedule = state =>
   toggleValues(state).vaOnlineSchedulingOhDirectSchedule;
 

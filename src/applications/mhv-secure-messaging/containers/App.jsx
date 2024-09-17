@@ -24,8 +24,10 @@ import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
+import useTrackPreviousUrl from '../hooks/use-previous-url';
 
 const App = ({ isPilot }) => {
+  useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb

@@ -10,15 +10,11 @@ import {
 } from '@@profile/actions';
 
 import {
-  cnpDirectDepositInformation,
   selectProfileToggles,
   selectIsBlocked,
   togglesAreLoaded,
 } from '@@profile/selectors';
-import {
-  fetchCNPPaymentInformation as fetchCNPPaymentInformationAction,
-  fetchEDUPaymentInformation as fetchEDUPaymentInformationAction,
-} from '@@profile/actions/paymentInformation';
+
 import { fetchPersonalInformation as fetchPersonalInformationAction } from '~/platform/user/profile/vap-svc/actions/personalInformation';
 import { CSP_IDS } from '~/platform/user/authentication/constants';
 import DowntimeNotification, {
@@ -59,8 +55,6 @@ import { fetchDirectDeposit as fetchDirectDepositAction } from '../actions/direc
 class Profile extends Component {
   componentDidMount() {
     const {
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
       fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
@@ -68,10 +62,8 @@ class Profile extends Component {
       fetchTotalDisabilityRating,
       isLOA3,
       isInMVI,
-      shouldFetchCNPDirectDepositInformation,
       shouldFetchDirectDeposit,
       shouldFetchTotalDisabilityRating,
-      shouldFetchEDUDirectDepositInformation,
       connectDrupalSourceOfTruthCerner,
       togglesLoaded,
     } = this.props;
@@ -81,9 +73,6 @@ class Profile extends Component {
       fetchPersonalInformation();
       fetchMilitaryInformation();
     }
-    if (togglesLoaded && shouldFetchCNPDirectDepositInformation) {
-      fetchCNPPaymentInformation({});
-    }
 
     if (togglesLoaded && shouldFetchDirectDeposit) {
       fetchDirectDeposit();
@@ -92,24 +81,17 @@ class Profile extends Component {
     if (shouldFetchTotalDisabilityRating) {
       fetchTotalDisabilityRating();
     }
-    if (togglesLoaded && shouldFetchEDUDirectDepositInformation) {
-      fetchEDUPaymentInformation();
-    }
   }
 
   componentDidUpdate(prevProps) {
     const {
-      fetchCNPPaymentInformation,
-      fetchEDUPaymentInformation,
       fetchDirectDeposit,
       fetchFullName,
       fetchMilitaryInformation,
       fetchPersonalInformation,
       fetchTotalDisabilityRating,
       isLOA3,
-      shouldFetchCNPDirectDepositInformation,
       shouldFetchDirectDeposit,
-      shouldFetchEDUDirectDepositInformation,
       shouldFetchTotalDisabilityRating,
       isInMVI,
       togglesLoaded,
@@ -128,34 +110,12 @@ class Profile extends Component {
     }
 
     if (
-      (togglesLoaded &&
-        !prevProps.togglesLoaded &&
-        shouldFetchCNPDirectDepositInformation) ||
-      (togglesLoaded &&
-        shouldFetchCNPDirectDepositInformation &&
-        !prevProps.shouldFetchCNPDirectDepositInformation)
-    ) {
-      fetchCNPPaymentInformation({});
-    }
-
-    if (
       (togglesLoaded && !prevProps.togglesLoaded && shouldFetchDirectDeposit) ||
       (togglesLoaded &&
         shouldFetchDirectDeposit &&
         !prevProps.shouldFetchDirectDeposit)
     ) {
       fetchDirectDeposit();
-    }
-
-    if (
-      (togglesLoaded &&
-        !prevProps.togglesLoaded &&
-        shouldFetchEDUDirectDepositInformation) ||
-      (togglesLoaded &&
-        shouldFetchEDUDirectDepositInformation &&
-        !prevProps.shouldFetchEDUDirectDepositInformation)
-    ) {
-      fetchEDUPaymentInformation();
     }
   }
 
@@ -184,12 +144,7 @@ class Profile extends Component {
 
   // content to show after data has loaded
   mainContent = () => {
-    const toggles = this.props.profileToggles;
-
-    const routes = getRoutes({
-      profileShowDirectDepositSingleForm:
-        toggles.profileShowDirectDepositSingleForm,
-    });
+    const routes = getRoutes();
 
     return (
       <BrowserRouter>
@@ -315,23 +270,13 @@ const mapStateToProps = state => {
   const isInMVI = isInMVISelector(state);
   const isEligibleForDD =
     signInServicesEligibleForDD.has(signInService) && isInMVI && is2faEnabled;
-  const shouldFetchCNPDirectDepositInformation =
-    isEligibleForDD &&
-    isLighthouseAvailable &&
-    !profileToggles?.profileShowDirectDepositSingleForm;
-  const shouldFetchEDUDirectDepositInformation =
-    isEligibleForDD && !profileToggles?.profileShowDirectDepositSingleForm;
   const currentlyLoggedIn = isLoggedIn(state);
   const isLOA1 = isLOA1Selector(state);
   const isLOA3 = isLOA3Selector(state);
   const shouldFetchDirectDeposit =
     isEligibleForDD &&
     isLighthouseAvailable &&
-    profileToggles?.profileShowDirectDepositSingleForm &&
-    !(
-      profileToggles?.profileHideDirectDeposit &&
-      !profileToggles?.profileShowDirectDepositSingleFormUAT
-    );
+    !profileToggles?.profileHideDirectDeposit;
 
   // block profile access for deceased, fiduciary flagged, and incompetent veterans
   const isBlocked = selectIsBlocked(state);
@@ -356,9 +301,6 @@ const mapStateToProps = state => {
   // fails:
   const hasLoadedFullName = isLOA1 || !isInMVI || state.vaProfile?.hero;
 
-  const hasLoadedCNPPaymentInformation =
-    !isInMVI || cnpDirectDepositInformation(state);
-
   const hasLoadedDirectDeposit =
     !isInMVI ||
     state.directDeposit?.paymentAccount ||
@@ -375,9 +317,6 @@ const mapStateToProps = state => {
       (shouldFetchTotalDisabilityRating
         ? hasLoadedTotalDisabilityRating
         : true) &&
-      (shouldFetchCNPDirectDepositInformation
-        ? hasLoadedCNPPaymentInformation
-        : true) &&
       (shouldFetchDirectDeposit ? hasLoadedDirectDeposit : true));
 
   const showLoader =
@@ -388,9 +327,7 @@ const mapStateToProps = state => {
     showLoader,
     isInMVI,
     isLOA3,
-    shouldFetchCNPDirectDepositInformation,
     shouldFetchDirectDeposit,
-    shouldFetchEDUDirectDepositInformation,
     shouldFetchTotalDisabilityRating,
     isDowntimeWarningDismissed: state.scheduledDowntime?.dismissedDowntimeWarnings?.includes(
       'profile',
@@ -406,8 +343,6 @@ const mapDispatchToProps = {
   fetchMilitaryInformation: fetchMilitaryInformationAction,
   fetchPersonalInformation: fetchPersonalInformationAction,
   fetchDirectDeposit: fetchDirectDepositAction,
-  fetchCNPPaymentInformation: fetchCNPPaymentInformationAction,
-  fetchEDUPaymentInformation: fetchEDUPaymentInformationAction,
   fetchTotalDisabilityRating: fetchTotalDisabilityRatingAction,
   initializeDowntimeWarnings,
   dismissDowntimeWarning,

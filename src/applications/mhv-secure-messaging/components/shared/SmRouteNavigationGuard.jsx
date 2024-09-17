@@ -6,7 +6,8 @@ import { resetUserSession } from '../../util/helpers';
 
 const SmRouteNavigationGuard = ({
   when,
-  onConfirmNavigation,
+  onConfirmButtonClick,
+  onCancelButtonClick,
   modalTitle,
   modalText,
   confirmButtonText,
@@ -16,20 +17,25 @@ const SmRouteNavigationGuard = ({
   const [modalVisible, updateModalVisible] = useState(false);
 
   const closeModal = () => {
-    setIsBlocking(true); // Keep blocking if the user closes modal
-    updateModalVisible(false);
-  };
-
-  const handleCancel = () => {
-    setIsBlocking(true); // Keep blocking if the user cancels
+    setIsBlocking(true); // Keep blocking navigation if the user closes modal
     updateModalVisible(false);
   };
 
   const handleConfirm = useCallback(
     e => {
-      onConfirmNavigation(e, true); // true will force navigation and saving, and skip modal
+      setIsBlocking(true); // Keep blocking navigation if the user chooses to stay on page
+      onConfirmButtonClick(e);
+      updateModalVisible(false);
     },
-    [onConfirmNavigation],
+    [onConfirmButtonClick],
+  );
+
+  const handleCancel = useCallback(
+    async e => {
+      await setIsBlocking(false); // stop blocking navigation if the user chooses to cancel changes and leave page
+      onCancelButtonClick(e);
+    },
+    [onCancelButtonClick],
   );
 
   const handleBlockedNavigation = useCallback(
@@ -64,11 +70,9 @@ const SmRouteNavigationGuard = ({
 
   const beforeUnloadHandler = useCallback(
     e => {
-      if (when) {
-        e.preventDefault();
-        window.onbeforeunload = () => signOutMessage;
-        e.returnValue = signOutMessage;
-      }
+      e.preventDefault();
+      window.onbeforeunload = () => signOutMessage;
+      e.returnValue = signOutMessage; // Included for legacy support, e.g. Chrome/Edge < 119
     },
     [when, signOutMessage],
   );
@@ -135,7 +139,8 @@ SmRouteNavigationGuard.propTypes = {
   confirmButtonText: PropTypes.string,
   modalText: PropTypes.string,
   modalTitle: PropTypes.string,
-  onConfirmNavigation: PropTypes.func,
+  onCancelButtonClick: PropTypes.func,
+  onConfirmButtonClick: PropTypes.func,
 };
 
 export default SmRouteNavigationGuard;

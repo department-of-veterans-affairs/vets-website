@@ -80,10 +80,6 @@ export const DirectDeposit = () => {
     TOGGLE_NAMES.profileHideDirectDeposit,
   );
 
-  const profileShowDirectDepositSingleFormUAT = useToggleValue(
-    TOGGLE_NAMES.profileShowDirectDepositSingleFormUAT,
-  );
-
   const togglesLoading = useToggleLoadingValue();
 
   if (togglesLoading) {
@@ -94,7 +90,7 @@ export const DirectDeposit = () => {
     );
   }
 
-  if (hideDirectDeposit && !profileShowDirectDepositSingleFormUAT) {
+  if (hideDirectDeposit) {
     return (
       <Wrapper>
         <TemporaryOutage customMessaging />

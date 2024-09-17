@@ -9,7 +9,6 @@ import {
 } from 'platform/testing/unit/schemaform-utils.jsx';
 import formConfig5495 from '../../5495/config/form';
 import formConfig5490 from '../../5490/config/form';
-import formConfig1990n from '../../1990n/config/form';
 import formConfig1995 from '../../1995/config/form';
 import formConfig10203 from '../../10203/config/form';
 
@@ -182,11 +181,6 @@ describe('Edu contactInformationPage', () => {
       formConfig5490.chapters.personalInformation.pages.contactInformation,
       formConfig5490,
       'relative',
-    ));
-  describe('1990n', () =>
-    pageTests(
-      formConfig1990n.chapters.personalInformation.pages.contactInformation,
-      formConfig1990n,
     ));
   describe('1995', () =>
     pageTests(

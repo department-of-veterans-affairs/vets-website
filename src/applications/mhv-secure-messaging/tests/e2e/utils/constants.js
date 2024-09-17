@@ -138,7 +138,8 @@ export const Locators = {
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
-    SAVE_CONTACT_LIST: 'va-modal.hydrated > [text="Save and exit"]',
+    CL_SAVE: `[data-testid="contact-list-save"]`,
+    CL_GO_BACK: '[data-testid="contact-list-go-back"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -173,7 +174,7 @@ export const Locators = {
     MAIN_CONTENT: '.va-alert',
     PAGE_TITLE: '.page-title',
     EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
-    NOTIFICATION: '[close-btn-aria-label="Close notification"]',
+    NOTIFICATION: '[close-btn-aria-label*="Close notification"]',
     VA_CRISIS_LINE: '[text="Connect with the Veterans Crisis Line"]',
     SAVE_DRAFT: '#messagetext',
     HIGHLIGHTED: '[data-testid="highlighted-text"]',
@@ -198,6 +199,8 @@ export const Locators = {
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
+    CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
+    CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -250,7 +253,7 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   CONTACT_LIST: {
-    SAVE: 'Save changes to your contact list?',
+    SAVE: 'Do you want to save your changes to your contact list?',
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
   },
@@ -321,7 +324,8 @@ export const Data = {
     EDIT_DRAFT: `Edit draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
-    SAVE_AND_EXIT: `Save and exit`,
+    SAVE_AND_EXIT: `Save contact list`,
+    GO_BACK: `Go back`,
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
 };
