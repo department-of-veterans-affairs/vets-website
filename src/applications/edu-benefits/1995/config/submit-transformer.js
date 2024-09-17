@@ -19,6 +19,18 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  const tourOfDutyTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    if (form.isActiveDuty) {
+      clonedData.toursOfDuty = form.toursOfDutyIsActiveDutyTrue;
+    } else {
+      clonedData.toursOfDuty = form.toursOfDutyIsActiveDutyFalse;
+    }
+    delete clonedData.toursOfDutyIsActiveDutyTrue;
+    delete clonedData.toursOfDutyIsActiveDutyFalse;
+    return clonedData;
+  };
+
   const fryScholarshipTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     if (clonedData.benefit === 'fryScholarship') {
@@ -56,6 +68,7 @@ export function transform(formConfig, form) {
     newSchoolTransform,
     fryScholarshipTransform,
     contactInfoTransform,
+    tourOfDutyTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
