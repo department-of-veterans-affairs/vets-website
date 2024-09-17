@@ -142,15 +142,20 @@ export class ConfirmationPage extends React.Component {
     return (
       <div>
         <p>
-          Based on your answers, you may be eligible for these benefits and
-          services. Learn more about each benefit. And check your eligibility
-          before you apply.
+          Based on your goals and experiences, we recommend exploring the
+          benefits listed below. You may be eligible for these benefits, but
+          please double-check the eligibility requirements before applying.
+        </p>
+        <p>
+          You can filter and sort the recommended benefits. If you want to copy
+          the link to your personalized results or email the results to
+          yourself, select the "Save you results" button.
         </p>
         <p>
           Please note that this is a recommendation tool, not an eligibility
           determination tool. VA determines your eligibility once you apply for
           a benefit. You'll need to review the eligibility requirements before
-          applying for VA bebefits.
+          applying for VA benefits.
         </p>
 
         <SaveResultsModal />
@@ -161,7 +166,7 @@ export class ConfirmationPage extends React.Component {
           <div id="filters-section-desktop">
             <b>Filters</b>
             <p>Filter benefits by</p>
-            <select onChange={this.filterBenefits}>
+            <select aria-label="Filter Benefits" onChange={this.filterBenefits}>
               <option value="All">All</option>
               <option value="Education">Education</option>
               <option value="Employment">Employment</option>
@@ -170,7 +175,7 @@ export class ConfirmationPage extends React.Component {
             </select>
             <b>Sort</b>
             <p>Sort results by</p>
-            <select onChange={this.sortBenefits}>
+            <select aria-label="Sort Benefits" onChange={this.sortBenefits}>
               <option value="alphabetical">Alphabetical</option>
               <option value="goal">Goal</option>
               <option value="type">Type</option>
