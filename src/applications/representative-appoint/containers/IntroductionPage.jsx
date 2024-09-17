@@ -82,7 +82,8 @@ const IntroductionPage = props => {
               <li>Your date of birth</li>
               <li>Your mailing address and phone number</li>
               <li>
-                Your branch of service (only if you’d like to appoint a VSO)
+                Your branch of service (only if you’d like to appoint an
+                attorney or claims agent)
               </li>
               <li>
                 The name of the organization you’d like to appoint, if you’d

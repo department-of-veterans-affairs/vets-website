@@ -51,10 +51,10 @@ describe('Questionnaire Form - Title Function', () => {
       expect(title).to.equal('Review your entries');
     });
 
-    it('should return "Complete the benefit eligibility questionnaire" by default', () => {
+    it('should return "Benefit and resource recommendation tool" by default', () => {
       const currentLocation = { pathname: '/some-other-page' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Complete the benefit eligibility questionnaire');
+      expect(title).to.equal('Benefit and resource recommendation tool');
     });
   });
 });

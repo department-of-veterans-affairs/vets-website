@@ -92,6 +92,7 @@ const LabsAndTests = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <RecordList records={labsAndTests} type={recordType.LABS_AND_TESTS} />
       </RecordListSection>
     </div>

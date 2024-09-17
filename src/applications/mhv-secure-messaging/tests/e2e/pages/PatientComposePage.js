@@ -452,11 +452,6 @@ class PatientComposePage {
       .should('contain.text', 'Required');
   };
 
-  verifyESCheckBoxRequired = () => {
-    cy.get(`#option-label`).should(`contain.text`, Data.EL_SIGN_CHECK);
-    cy.get(`#option-label>span`).should(`have.text`, `(*Required)`);
-  };
-
   clickElectronicSignatureCheckbox = () => {
     cy.get(`va-checkbox`)
       .shadow()
