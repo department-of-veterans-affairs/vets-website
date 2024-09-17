@@ -11,7 +11,7 @@ import FacilityList from './FacilityList';
 import content from '../../locales/en/content.json';
 
 const FacilitySearch = props => {
-  const { data: formData, goBack, goForward } = props;
+  const { data: formData, goBack, goForward, goToPath } = props;
   const [query, setQuery] = useState('');
   const [submittedQuery, setSubmittedQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -28,6 +28,34 @@ const FacilitySearch = props => {
     return facilities?.length > 0;
   };
 
+  const isReviewPage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('review') === 'true';
+  };
+
+  const isCaregiverFacility = () => {
+    const plannedClinic = formData?.['view:plannedClinic'];
+    return (
+      plannedClinic?.veteranSelected?.id === plannedClinic?.caregiverSupport?.id
+    );
+  };
+
+  const reviewPageGoToPath = () => {
+    if (isCaregiverFacility()) {
+      goToPath('/review-and-submit');
+    } else {
+      goToPath('/veteran-information/va-medical-center/confirm?review=true');
+    }
+  };
+
+  const onGoBack = () => {
+    if (isReviewPage()) {
+      goToPath('/review-and-submit');
+    } else {
+      goBack(formData);
+    }
+  };
+
   const onGoForward = () => {
     const caregiverSupportFacilityId =
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
@@ -39,6 +67,8 @@ const FacilitySearch = props => {
       } else {
         setSearchInputError(content['validation-facilities--default-required']);
       }
+    } else if (isReviewPage()) {
+      reviewPageGoToPath();
     } else {
       goForward(formData);
     }
@@ -226,8 +256,7 @@ const FacilitySearch = props => {
     <div className="progress-box progress-box-schemaform vads-u-padding-x--0">
       <div className="vads-u-margin-y--2 form-panel">
         <h3 className="vads-u-color--gray-dark vads-u-margin-top--0">
-          What VA medical center or clinic does the Veteran get or plan to get
-          their health care?
+          {content['vet-med-center-search-description']}
         </h3>
         <p>
           Where the VA medical center is located may be different from the
@@ -264,7 +293,7 @@ const FacilitySearch = props => {
           applications. Only some facilities process caregiver program
           applications.
         </p>
-        <FormNavButtons goBack={goBack} goForward={onGoForward} />
+        <FormNavButtons goBack={onGoBack} goForward={onGoForward} />
       </div>
     </div>
   );
@@ -274,6 +303,7 @@ FacilitySearch.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
   value: PropTypes.string,
 };
 
