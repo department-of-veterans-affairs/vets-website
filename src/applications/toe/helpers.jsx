@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 
-import { formFields, SPONSOR_NOT_LISTED_VALUE } from './constants';
+import { formFields } from './constants';
 
 import { getSchemaCountryCode } from './utils/form-submit-transform';
 
@@ -370,14 +370,12 @@ export function prefillTransformer(pages, formData, metadata, state) {
 }
 
 export function mapSelectedSponsors(sponsors) {
-  const selectedSponsors = sponsors.sponsors?.flatMap(
-    sponsor => (sponsor.selected ? [sponsor.id] : []),
+  // Map selected sponsors' IDs
+  return (
+    sponsors.sponsors?.flatMap(
+      sponsor => (sponsor.selected ? [sponsor.id] : []),
+    ) || []
   );
-  if (sponsors.someoneNotListed) {
-    selectedSponsors.push(SPONSOR_NOT_LISTED_VALUE);
-  }
-
-  return selectedSponsors;
 }
 
 export function mapFormSponsors(formData, sponsors, fetchedSponsorsComplete) {
@@ -402,20 +400,18 @@ export function updateSponsorsOnValueChange(
 ) {
   const _sponsors = cloneDeep(sponsors);
 
-  if (value === `sponsor-${SPONSOR_NOT_LISTED_VALUE}`) {
-    _sponsors.someoneNotListed = checked;
-  } else {
-    const sponsorIndex = _sponsors.sponsors.findIndex(
-      sponsor => `sponsor-${sponsor.id}` === value,
-    );
-    if (sponsorIndex > -1) {
-      _sponsors.sponsors[sponsorIndex].selected = checked;
-    }
+  // Find the index of the selected sponsor and update its selected status
+  const sponsorIndex = _sponsors.sponsors.findIndex(
+    sponsor => `sponsor-${sponsor.id}` === value,
+  );
+  if (sponsorIndex > -1) {
+    _sponsors.sponsors[sponsorIndex].selected = checked;
   }
 
+  // Update the list of selected sponsors
   _sponsors.selectedSponsors = mapSelectedSponsors(_sponsors);
 
-  // Check to make sure that a previously-selected first sponsor hasn't
+  // Check to make sure that a previously selected first sponsor hasn't
   // been removed from the list of selected sponsors.
   if (
     _sponsors.selectedSponsors.length <= 1 ||

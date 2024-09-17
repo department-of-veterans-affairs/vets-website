@@ -192,45 +192,6 @@ describe('form submit transform', () => {
             ).to.eql('Spouse');
           });
         });
-        describe('sets manual sponsor object if firstSponsorVaId is not SPONSOR_NOT_LISTED', () => {
-          beforeEach(() => {
-            mockSubmissionForm.data.firstSponsor = 'SPONSOR_NOT_LISTED';
-            submissionObject = JSON.parse(
-              transformTOEForm({}, mockSubmissionForm),
-            );
-          });
-          it('sets up firstName', () => {
-            expect(
-              submissionObject.sponsorOptions.manualSponsor.firstName,
-            ).to.eql('Marga');
-          });
-          it('sets up middleName', () => {
-            expect(
-              submissionObject.sponsorOptions.manualSponsor.middleName,
-            ).to.eql('E');
-          });
-          it('sets up lastName', () => {
-            expect(
-              submissionObject.sponsorOptions.manualSponsor.lastName,
-              'Spencer',
-            );
-          });
-          it('sets up suffix', () => {
-            expect(submissionObject.sponsorOptions.manualSponsor.suffix).to.eql(
-              'Jr.',
-            );
-          });
-          it('sets up date of birth', () => {
-            expect(
-              submissionObject.sponsorOptions.manualSponsor.dateOfBirth,
-            ).to.eql('1990-02-03');
-          });
-          it('sets up relationship', () => {
-            expect(
-              submissionObject.sponsorOptions.manualSponsor.relationship,
-            ).to.eql('Spouse');
-          });
-        });
       });
     });
     describe('Creates highSchoolDiplomaInfo', () => {

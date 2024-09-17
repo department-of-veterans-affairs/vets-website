@@ -317,7 +317,6 @@ const getSponsorInformation = form => {
     firstSponsor = form?.data?.firstSponsor;
   }
 
-  // Return the first valid sponsor with no option for IM_NOT_SURE or SPONSOR_NOT_LISTED
   if (firstSponsor) {
     return {
       notSureAboutSponsor: false,
