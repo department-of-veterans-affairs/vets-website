@@ -262,7 +262,7 @@ const ComposeForm = props => {
 
   useEffect(
     () => {
-      if (messageInvalid || isSignatureRequired) {
+      if (messageInvalid) {
         focusOnErrorField();
       }
     },
@@ -371,18 +371,18 @@ const ComposeForm = props => {
       const { messageValid } = checkMessageValidity();
 
       if (type === 'manual') {
-        // if all checks are valid, then save the draft
-        const validSignatureNotRequired = messageValid && !isSignatureRequired;
-        const isSignatureValid =
-          isSignatureRequired && !saveError && messageValid;
-        if (validSignatureNotRequired || isSignatureValid) {
+        await setMessageInvalid(false);
+        // All fields are valid , save the draft
+        if (messageValid) {
+          setSaveError(null);
           setNavigationError(null);
-          setSavedDraft(true);
           setLastFocusableElement(e?.target);
-        } else focusOnErrorField();
-        setUnsavedNavigationError(
-          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-        );
+        } else {
+          setUnsavedNavigationError(
+            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+          );
+          focusOnErrorField();
+        }
 
         let errorType = null;
         if (
@@ -395,12 +395,13 @@ const ComposeForm = props => {
               .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
         } else if (attachments.length > 0) {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-        } else if (isSignatureRequired && electronicSignature !== '') {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
-        } else if (isSignatureRequired && checkboxError !== '') {
+        } else if (
+          messageValid &&
+          isSignatureRequired &&
+          (electronicSignature || checkboxError) !== ''
+        ) {
           errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
         }
-
         if (errorType) {
           setSaveError(errorType);
           if (
@@ -437,9 +438,10 @@ const ComposeForm = props => {
       };
       // saves the draft if all checks are valid or can save draft without signature
       if (
-        (messageValid && !isSignatureRequired) ||
-        (isSignatureRequired && messageValid && saveError !== null)
+        messageValid &&
+        (!isSignatureRequired || (isSignatureRequired && saveError !== null))
       ) {
+        setSaveError(null);
         dispatch(saveDraft(formData, type, draftId));
       }
     },
@@ -715,7 +717,6 @@ const ComposeForm = props => {
                 text={saveError.saveDraft}
                 onClick={() => {
                   saveDraftHandler('manual');
-                  setSaveError(null);
                 }}
               />
             )}
