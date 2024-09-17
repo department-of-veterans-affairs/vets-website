@@ -32,7 +32,7 @@ describe('hca VaBenefitsPackage config', () => {
 
   it('should render correct number of inputs', () => {
     const { selectors } = subject();
-    expect(selectors().inputs.length).to.equal(3);
+    expect(selectors().inputs.length).to.equal(2);
   });
 
   it('should submit empty form', () => {

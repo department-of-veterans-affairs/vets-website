@@ -48,14 +48,37 @@ describe('SignInModal', () => {
     expect(onClose.called).to.be.true;
   });
 
-  it.skip('should append the `oauth` query parameter', () => {
-    const screen = renderInReduxProvider(<SignInModal visible />, {
-      initialState: generateStore(true),
+  it('should record event when modal is opened', () => {
+    const screen = renderInReduxProvider(<SignInModal useSiS />, {
+      initialState: generateStore(),
     });
 
-    const url = new URL(window.location);
-    expect(screen.queryByText('Sign in')).to.not.be.null;
-    expect(url.searchParams.get('next')).to.eql('loginModal');
-    expect(url.searchParams.get('oauth')).to.eql('true');
+    window.dataLayer = [];
+    screen.rerender(<SignInModal visible useSiS />);
+
+    expect(window.dataLayer).to.deep.include({
+      event: 'login-modal-opened-oauth',
+    });
+  });
+
+  it('should record event when modal is closed', () => {
+    const screen = renderInReduxProvider(<SignInModal visible useSiS />, {
+      initialState: generateStore(),
+    });
+
+    window.dataLayer = [];
+    screen.rerender(<SignInModal visible={false} useSiS />);
+
+    expect(window.dataLayer).to.deep.include({
+      event: 'login-modal-closed-oauth',
+    });
+  });
+
+  it('should render the LoginContainer component', () => {
+    const screen = renderInReduxProvider(<SignInModal visible />, {
+      initialState: generateStore(),
+    });
+
+    expect(screen.getByText('Sign in')).to.exist;
   });
 });

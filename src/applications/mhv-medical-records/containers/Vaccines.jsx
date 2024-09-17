@@ -16,7 +16,6 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
 import { getVaccinesList, reloadRecords } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -32,6 +31,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  getLastUpdatedText,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -86,7 +86,6 @@ const Vaccines = props => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
@@ -101,9 +100,17 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro(vaccines);
+    const { title, subject, preface } = generateVaccinesIntro(
+      vaccines,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
@@ -173,6 +180,7 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

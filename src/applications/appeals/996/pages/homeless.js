@@ -6,11 +6,9 @@ import {
 import { showNewHlrContent } from '../utils/helpers';
 import { homelessPageHeader } from '../content/homeless';
 
-import errorMessages from '../../shared/content/errorMessages';
 import {
   homelessTitle,
   homelessRiskTitle,
-  homelessRiskHint,
   homelessLabels,
   homelessReviewField,
 } from '../../shared/content/homeless';
@@ -27,16 +25,11 @@ export default {
         enableAnalytics: true,
         labelHeaderLevel: '3',
         labels: homelessLabels,
-        required: () => true,
-        errorMessages: {
-          required: errorMessages.requiredYesNo,
-        },
         updateUiSchema: formData => {
           const showNew = showNewHlrContent(formData);
           return {
             'ui:title': showNew ? homelessRiskTitle : homelessTitle,
             'ui:options': {
-              hint: showNew ? homelessRiskHint : '',
               labelHeaderLevel: showNew ? '' : '3',
             },
           };

@@ -1,9 +1,4 @@
 {
-  "data": {
-    "id": "123456789",
-    "type": "mockData",
-    "attributes": {
-      "status": "processed"
-    }
-  }
+  "confirmationNumber":"047e841c-28b5-45f5-b2c7-f4ee865c9bb4",
+  "pdfUrl": "https://www.va.gov/"
 }

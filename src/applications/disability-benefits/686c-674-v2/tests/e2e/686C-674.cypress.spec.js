@@ -114,6 +114,17 @@ const testConfig = createTestConfig(
         });
       },
 
+      'report-674/0/student-address': ({ afterHook }) => {
+        afterHook(() => {
+          cy.fillPage();
+          cy.get('select#options[name="root_address_state"]', { timeout: 1000 })
+            .should('be.visible')
+            .should('not.be.disabled');
+          cy.get('select#options[name="root_address_state"]').select('CA');
+          cy.get('.usa-button-primary').click();
+        });
+      },
+
       'add-child/0': ({ afterHook }) => {
         afterHook(() => {
           cy.fillPage();
