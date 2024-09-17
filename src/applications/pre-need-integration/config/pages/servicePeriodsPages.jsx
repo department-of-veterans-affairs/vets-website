@@ -54,6 +54,37 @@ const options = {
 
       return range;
     },
+    cancelAddNo: () => {
+      return 'No, keep this';
+    },
+    deleteTitle: item => {
+      const servicePeriodName = item?.name;
+
+      return `Are you sure want to remove this ${servicePeriodName} service period?`;
+    },
+    deleteDescription: () => {
+      return 'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.';
+    },
+    deleteYes: () => {
+      return 'Yes, remove this';
+    },
+    deleteNo: () => {
+      return 'No, keep this';
+    },
+    cancelEditTitle: item => {
+      const servicePeriodName = item?.name;
+
+      return `Cancel editing ${servicePeriodName} service period?`;
+    },
+    cancelEditDescription: () => {
+      return 'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.';
+    },
+    cancelEditYes: () => {
+      return 'Yes, remove this';
+    },
+    cancelEditNo: () => {
+      return 'No, keep this';
+    },
   },
 };
 
@@ -111,9 +142,9 @@ function servicePeriodInformationPage(isVet) {
         veteran: {
           'ui:order': [
             'serviceBranch',
-            'highestRank',
             'dateRange',
             'dischargeType',
+            'highestRank',
             'nationalGuardState',
           ],
           serviceBranch: autosuggest.uiSchema(
