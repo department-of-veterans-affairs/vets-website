@@ -1,12 +1,12 @@
 import { veteranInformation } from '../../../utilities';
-import VeteranInformationComponent from './VeteranInformationComponent.js';
+import VeteranInformation from './VeteranInformationComponent';
 
 export const schema = {
   ...veteranInformation.properties.veteranInformation,
 };
 
 export const uiSchema = {
-  'ui:description': VeteranInformationComponent,
+  'ui:description': VeteranInformation,
   'ui:options': {
     hideOnReview: true,
   },

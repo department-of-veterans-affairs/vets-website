@@ -84,8 +84,10 @@ export function onNavBackRemoveAddingItem({
       setFormData(newData);
     }
 
-    const path =
-      introRoute && !newArrayData?.length ? introRoute : summaryRoute;
+    let path = introRoute && !newArrayData?.length ? introRoute : summaryRoute;
+    if (urlParams?.review) {
+      path = `${path}?review=true`;
+    }
     goPath(path);
   };
 }

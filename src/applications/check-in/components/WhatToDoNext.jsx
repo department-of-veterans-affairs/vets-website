@@ -44,29 +44,6 @@ const WhatToDoNext = props => {
       ? [actionableAppointments[0]]
       : actionableAppointments;
 
-  const getPreCheckinCardTitle = () => {
-    let title = `${t('review-your-contact-information-for-your')} `;
-    if (actionableAppointments.length > 1) {
-      actionableAppointments.forEach((appointment, index) => {
-        title += t('day-of-week-month-day-time', {
-          date: new Date(appointment.startTime),
-        });
-        if (index === appointments.length - 2) {
-          title += ` ${t('and')} `;
-        }
-        if (index < appointments.length - 2) {
-          title += ', ';
-        }
-      });
-      title += ` ${t('appointments')}`;
-    } else {
-      title = t('review-your-contact-information-for-your-appointment', {
-        date: new Date(appointments[0].startTime),
-      });
-    }
-    return title;
-  };
-
   const showDetailsLink =
     (actionableAppointments.length === 1 && app === APP_NAMES.PRE_CHECK_IN) ||
     app === APP_NAMES.CHECK_IN;
@@ -81,12 +58,12 @@ const WhatToDoNext = props => {
               const cardTitleId = `what-next-card-title-${index}`;
               let cardTitle = t(
                 'its-time-to-check-in-for-your-time-appointment',
-                {
-                  time: new Date(appointment.startTime),
-                },
               );
               if (app === APP_NAMES.PRE_CHECK_IN) {
-                cardTitle = getPreCheckinCardTitle();
+                cardTitle = t(
+                  'review-your-contact-information-for-your-appointment',
+                  { count: actionableAppointments.length },
+                );
               }
               return (
                 <div
@@ -94,7 +71,7 @@ const WhatToDoNext = props => {
                   key={appointment.appointmentIen}
                   data-testid="what-next-card"
                 >
-                  <va-card show-shadow={actionableAppointments.length > 1}>
+                  <va-card show-shadow={appointmentCards.length > 1}>
                     <h3
                       className="vads-u-margin-top--0 vads-u-font-size--h4"
                       data-testid="what-next-card-title"
@@ -102,6 +79,29 @@ const WhatToDoNext = props => {
                     >
                       {cardTitle}
                     </h3>
+                    {actionableAppointments.length > 1 &&
+                    app === APP_NAMES.PRE_CHECK_IN ? (
+                      <ul>
+                        {actionableAppointments.map(actionableAppointment => {
+                          return (
+                            <li
+                              data-testid="appointment-bullet"
+                              key={actionableAppointment.ien}
+                            >
+                              {t('day-of-week-month-day-time', {
+                                date: new Date(actionableAppointment.startTime),
+                              })}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    ) : (
+                      <p data-testid="appointment-bullet">
+                        {t('day-of-week-month-day-time', {
+                          date: new Date(appointment.startTime),
+                        })}
+                      </p>
+                    )}
                     {showDetailsLink && (
                       <p>
                         <a
@@ -126,7 +126,6 @@ const WhatToDoNext = props => {
                     <ActionLink
                       app={app}
                       action={action}
-                      cardTitleId={cardTitleId}
                       startTime={appointment.startTime}
                       appointmentId={getAppointmentId(appointment)}
                     />

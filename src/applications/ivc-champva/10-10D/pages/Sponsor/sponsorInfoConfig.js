@@ -7,7 +7,7 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { sponsorWording } from '../../helpers/wordingCustomization';
+import { sponsorWording } from '../../helpers/utilities';
 
 function descriptionText(formData) {
   // Base: if sponsor

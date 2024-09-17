@@ -12,10 +12,6 @@ describe('Thread List component', () => {
       folders: {},
       threads: [],
     },
-    featureToggles: {
-      // eslint-disable-next-line camelcase
-      mhv_secure_messaging_to_phase_1: false,
-    },
   };
 
   let screen;
@@ -104,14 +100,14 @@ describe('Thread List component', () => {
   it('renders draft text if unsentDraft is true', async () => {
     screen = setup({ ...options, unsentDrafts: true }, testThread);
 
-    const threadItem = await screen.getByText('(Draft)');
+    const threadItem = await screen.getByText('[Draft]');
     expect(threadItem).to.exist;
   });
 
   it('does not render "Draft" text if unsentDraft is false', async () => {
     screen = setup({ ...options, unsentDrafts: false }, testThread);
 
-    const threadItemDraftsText = await screen.queryByText('(Draft)');
+    const threadItemDraftsText = await screen.queryByText('[Draft]');
     expect(threadItemDraftsText).to.not.exist;
   });
 
@@ -119,7 +115,7 @@ describe('Thread List component', () => {
     screen = setup(options, testThread);
 
     const threadItemFormattedDate = await screen.getByText(
-      dateFormat(options.sentDate, 'MMMM D, YYYY [at] h:mm a z'),
+      dateFormat(options.sentDate, 'MMMM D, YYYY'),
     );
     const threadItemUnformattedDate = await screen.queryByText(
       options.sentDate,
@@ -155,22 +151,10 @@ describe('Thread List component', () => {
     expect(recipientName).to.exist;
   });
 
-  it('formats thread list item including triage group name if phase1 is disabled', async () => {
-    screen = setup(options, testThread);
-    const triageGroup = screen.getByTestId('triageGroupName');
-    expect(triageGroup.textContent).to.equal(
-      'SENDERNAMETEST (Team: EXTRA_LONG_CHARACTER_TRIAGE_GROUP_369258@#%_DAYT29)Unread message',
-    );
-  });
-
-  it('formats thread list item without triage group name if phase1 is enabled', async () => {
+  it('formats thread list item without triage group name', async () => {
     screen = setup(
       {
         ...options,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
       },
       testThread,
     );
@@ -179,17 +163,13 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('3 messages, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('3 messages, [Draft]');
   });
 
-  it('displays 1 message if messageCount = 1 and phase1 is enabled', async () => {
+  it('displays 1 message if messageCount = 1', async () => {
     screen = setup(
       {
         ...options,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
       },
       { ...testThread, messageCount: 1 },
     );
@@ -198,18 +178,14 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('1 message, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('1 message, [Draft]');
   });
 
-  it('displays 1 message if messageCount = 1 and phase1 is enabled', async () => {
+  it('displays 1 message if messageCount = 1', async () => {
     screen = setup(
       {
         ...options,
         keyword: 'test',
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
       },
       { ...testThread, messageCount: 1 },
     );
@@ -218,23 +194,19 @@ describe('Thread List component', () => {
     );
     expect(triageGroup).to.not.exist;
     const msgQty = screen.getByTestId('message-count');
-    expect(msgQty.parentNode.textContent).to.equal('1 message, Draft');
+    expect(msgQty.parentNode.textContent).to.equal('1 message, [Draft]');
     expect(screen.getByText('test')).to.have.attribute(
       'class',
       'keyword-highlight',
     );
   });
 
-  it('displays recipient if in sent folder and phase1 enabled', async () => {
+  it('displays recipient if in sent folder', async () => {
     screen = setup(
       {
         ...options,
         path: Paths.SENT,
         unreadMessages: false,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
       },
       { ...testThread, hasAttachment: false },
     );
@@ -246,15 +218,11 @@ describe('Thread List component', () => {
       {
         ...options,
         path: Paths.DRAFTS,
-        featureToggles: {
-          // eslint-disable-next-line camelcase
-          mhv_secure_messaging_to_phase_1: true,
-        },
       },
       { ...testThread, draftDate: '2023-06-15T11:04:18.000Z' },
     );
     const messageInfoRow = screen.getByTestId('message-info-row');
-    expect(messageInfoRow.textContent).to.equal('Draft');
+    expect(messageInfoRow.textContent).to.equal('[Draft]');
     expect(screen.getByText('June 15, 2023')).to.exist;
   });
 });

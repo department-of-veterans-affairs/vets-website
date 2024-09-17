@@ -272,12 +272,7 @@ export function LocationSearchForm({
                       }}
                       className="use-my-location-link vads-u-display--flex vads-u-align-items--center"
                     >
-                      <va-icon
-                        size={3}
-                        icon="near_me"
-                        // className="use-my-location-button"
-                        aria-hidden="true"
-                      />
+                      <va-icon size={3} icon="near_me" aria-hidden="true" />
                       Use my location
                     </button>
                   )}
@@ -319,6 +314,7 @@ export function LocationSearchForm({
               />
               <button
                 type="submit"
+                data-testid="location-search-button"
                 className="usa-button location-search-button vads-u-display--flex vads-u-align-items--center vads-u-font-weight--bold"
               >
                 Search

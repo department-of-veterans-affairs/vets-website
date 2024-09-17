@@ -248,7 +248,7 @@ export function CompareDrawer({
   return (
     <>
       <div className={compareDrawerClasses} ref={drawer} id="compare-drawer">
-        <div className={expandCollapse}>
+        <div className={expandCollapse} data-testid="compare-container">
           {promptingFacilityCode && (
             <RemoveCompareSelectedModal
               name={institutions[promptingFacilityCode].name}
@@ -260,17 +260,14 @@ export function CompareDrawer({
               onCancel={() => setPromptingFacilityCode(null)}
             />
           )}
-          <div
-            className={compareHeaderClasses}
-            role="button"
-            tabIndex={0}
-            onClick={expandOnClick}
-            onKeyDown={expandOnClick}
-          >
+          <div className={compareHeaderClasses}>
+            {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component, react/button-has-type */}
             <button
               aria-expanded={open}
               aria-controls="compare-body"
               className={headerLabelClasses}
+              data-testid={headerLabel}
+              onClick={expandOnClick} // Move the onClick handler here if it's not already
             >
               {headerLabel}
               <va-icon
@@ -283,22 +280,21 @@ export function CompareDrawer({
 
           {open && (
             <div className="compare-body vads-l-grid-container">
-              <div className="small-function-label">
+              <div
+                className="small-function-label"
+                data-testid="2-to-3-institutions"
+              >
                 You can compare 2 to 3 institutions
               </div>
               <div className="vads-l-row vads-u-padding-top--1">
-                <ol id="compare-list-item" className="compare-list">
-                  {loadedCards}
-                  {blanks}
-                </ol>
-
                 <div className="vads-l-col--12 xsmall-screen:vads-l-col--12 small-screen:vads-l-col--3 action-cell compare-button">
                   <div className="large-function-label compare-name">
                     You can compare 2 to 3 institutions
                   </div>
-                  <div>
+                  <div className="vads-u-margin-right--2">
                     <button
                       type="button"
+                      tabIndex={0}
                       className="usa-button vads-u-width--full"
                       disabled={loaded.length < 2}
                       onClick={openCompare}
@@ -307,6 +303,10 @@ export function CompareDrawer({
                     </button>
                   </div>
                 </div>
+                <ol id="compare-list-item" className="compare-list">
+                  {loadedCards}
+                  {blanks}
+                </ol>
               </div>
             </div>
           )}

@@ -28,9 +28,6 @@
         "applicantRelationshipToSponsor": {
           "relationshipToVeteran": "spouse"
         },
-        "applicantSponsorMarriageDetails": {
-          "relationshipToVeteran": "marriageDissolved"
-        },
         "applicantMedicareStatus": {
           "eligibility": "ineligible"
         },

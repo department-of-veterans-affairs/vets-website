@@ -11,7 +11,6 @@ import {
   VaCheckboxGroup,
   VaMemorableDate,
   VaModal,
-  VaNumberInput,
   VaPrivacyAgreement,
   VaRadio,
   VaRadioOption,
@@ -150,7 +149,7 @@ export default function V1V3Page() {
           <h3>Number input component</h3>
           <div className="vads-l-col--12 vads-u-align-items--center vads-u-border-bottom--1px vads-u-border-color--gray-light-alt medium-screen:vads-u-display--flex">
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1">
-              <VaNumberInput
+              <VaTextInput
                 name="v1NumberInput"
                 label="V1 Number Input"
                 hint="This is a hint"
@@ -161,7 +160,7 @@ export default function V1V3Page() {
             </div>
 
             <div className="vads-l-col--12 small-screen:vads-l-col--6 vads-u-margin--1 vads-u-border-color--primary">
-              <VaNumberInput
+              <VaTextInput
                 uswds
                 name="v3NumberInput"
                 label="V3 Number Input"
@@ -717,7 +716,7 @@ export default function V1V3Page() {
                   paddingLeft: '2rem',
                 }}
               >
-                <div className="nav-header nav-header-schemaform">
+                <div className="nav-header">
                   <h2
                     className="vads-u-font-size--h4"
                     id="nav-form-header"

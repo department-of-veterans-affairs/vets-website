@@ -680,7 +680,7 @@ export const show526MaxRating = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <div className="row">
+    <div className="row vads-u-padding-x--1p5">
       <VaBreadcrumbs
         uswds
         breadcrumbList={[
@@ -754,7 +754,7 @@ export const formTitle = title => (
  * @returns {string} markup with h4 tag and consistent styling
  */
 export const formSubtitle = subtitle => (
-  <h4 className="vads-u-font-size--h5 vads-u-margin-top--2">{subtitle}</h4>
+  <h4 className="vads-u-font-size--h5 vads-u-color--gray-dark">{subtitle}</h4>
 );
 
 /**

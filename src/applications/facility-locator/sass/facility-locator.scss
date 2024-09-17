@@ -318,15 +318,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
         }
       }
 
-      .use-my-location-button {
-        width: 18px;
-        height: 18px;
-        background-image: url("/img/location-arrow-solid.svg");
-        background-repeat: no-repeat;
-        background-color: transparent;
-        padding: 0 1.5em 0 0;
-      }
-
       #search-controls-bottom-row {
         @media (min-width: $small-desktop-screen) {
           display: flex;
@@ -465,10 +456,6 @@ $facility-locator-shadow: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 4px 0 $facility-locator-shadow;
   border: solid 4px var(--vads-color-white);
   background-color: var(--vads-color-secondary-dark);
-}
-
-.no-marg-top {
-  margin-top: 0 !important;
 }
 
 .bor-rad {

@@ -43,7 +43,7 @@ const ConfirmationScreenView = ({ name, timestamp }) => {
 
         <h4>{content['confirmation--print-heading']}</h4>
         <p>
-          {content['confirmation--print-text']} <Abbr key="pdf" />.
+          {content['confirmation--print-text']} <Abbr abbrKey="pdf" />.
         </p>
 
         <div className="vads-u-margin-y--2">

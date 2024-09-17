@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDateTime } from '../util/dates';
-import { CLAIMS_STATUSES } from '../util/constants';
 
 export default function TravelClaimCard(props) {
   const {
@@ -14,11 +13,18 @@ export default function TravelClaimCard(props) {
     modifiedOn,
   } = props;
 
-  const [appointmentDate, appointmentTime] = formatDateTime(
-    appointmentDateTime,
-  );
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
+
+  let appointmentDateTitle;
+  if (appointmentDateTime == null) {
+    appointmentDateTitle = 'Appointment information not available';
+  } else {
+    const [appointmentDate, appointmentTime] = formatDateTime(
+      appointmentDateTime,
+    );
+    appointmentDateTitle = `${appointmentDate} at ${appointmentTime} appointment`;
+  }
 
   return (
     <va-card key={id} class="travel-claim-card vads-u-margin-bottom--2">
@@ -26,7 +32,7 @@ export default function TravelClaimCard(props) {
         className="vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-font-size--h3"
         data-testid="travel-claim-details"
       >
-        {`${appointmentDate} at ${appointmentTime} appointment`}
+        {appointmentDateTitle}
       </h3>
       <h4 className="vads-u-margin-bottom--1">Where</h4>
       <p className="vads-u-margin-top--0">{facilityName}</p>
@@ -34,9 +40,7 @@ export default function TravelClaimCard(props) {
       <h4 className="vads-u-margin-bottom--1">Claim Details</h4>
       <ul className="vads-u-margin-top--0">
         <li>
-          <strong>
-            Claim status: {CLAIMS_STATUSES[claimStatus] || claimStatus}
-          </strong>
+          <strong>Claim status: {claimStatus}</strong>
         </li>
         <li>Claim number: {claimNumber}</li>
         <li>

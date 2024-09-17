@@ -2,10 +2,13 @@ import { useLayoutEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { api } from '../api';
 import { makeSelectCurrentContext } from '../selectors';
+import { makeSelectFeatureToggles } from '../utils/selectors/feature-toggles';
 
 import { recievedUpcomingAppointments } from '../actions/universal';
 
 const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
+  const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
+  const { isUpcomingAppointmentsEnabled } = useSelector(selectFeatureToggles);
   const [isComplete, setIsComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isStale, setIsStale] = useState(refreshNeeded);
@@ -23,10 +26,9 @@ const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
   };
 
   const dispatch = useDispatch();
-
   useLayoutEffect(
     () => {
-      if (token && !isComplete && isStale) {
+      if (isUpcomingAppointmentsEnabled && token && !isComplete && isStale) {
         setIsLoading(true);
         api.v2
           .getUpcomingAppointmentsData(token)
@@ -43,7 +45,7 @@ const useGetUpcomingAppointmentsData = ({ refreshNeeded }) => {
           });
       }
     },
-    [token, isComplete, isStale, dispatch],
+    [token, isComplete, isStale, dispatch, isUpcomingAppointmentsEnabled],
   );
 
   return {

@@ -7,6 +7,7 @@ import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring
 
 import { createAnalyticsSlug } from '../utils/analytics';
 import AppointmentListItem from './AppointmentDisplay/AppointmentListItem';
+import ListWrapper from './ListWrapper';
 import { makeSelectApp } from '../selectors';
 import { useFormRouting } from '../hooks/useFormRouting';
 import {
@@ -34,15 +35,13 @@ const AppointmentBlock = props => {
 
   return (
     <div>
-      <h2
-        className="vads-u-margin-top--0 vads-u-font-size--h3"
-        data-testid="appointment-text"
-      >
+      <h2 className="vads-u-margin-top--0" data-testid="appointment-text">
         {t('your-appointments', { count: sortedAppointments.length })}
       </h2>
-      <ul
+      <ListWrapper
+        count={sortedAppointments.length}
         className="vads-u-border-top--1px vads-u-border-color--gray-light vads-u-margin-bottom--4 check-in--appointment-list appointment-list"
-        data-testid="appointment-list"
+        testId="appointment-list"
       >
         {sortedAppointments.map(appointment => {
           return (
@@ -53,10 +52,11 @@ const AppointmentBlock = props => {
               goToDetails={handleDetailClick}
               app={app}
               router={router}
+              count={sortedAppointments.length}
             />
           );
         })}
-      </ul>
+      </ListWrapper>
     </div>
   );
 };

@@ -30,6 +30,7 @@ const BenefitsProfileWrapper = ({ children }) => {
     indicator: applicantChapter,
     pendingDocuments,
     latestAddress,
+    indicator,
   } = useData();
   const applicantName = latestAddress?.veteranName;
   const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
@@ -84,6 +85,7 @@ const BenefitsProfileWrapper = ({ children }) => {
                 updated={updated}
                 remainingBenefits={`${month} Months, ${day} Days`}
                 expirationDate={expirationDate}
+                indicator={indicator}
               />
             )}
             <PayeeInformationWrapper
@@ -100,6 +102,8 @@ const BenefitsProfileWrapper = ({ children }) => {
                     street: `${
                       latestAddress?.address1
                     } ${latestAddress?.address2 ?? ''}`,
+                    street2: `${latestAddress?.address3 ??
+                      ''} ${latestAddress?.address4 ?? ''}`,
                     city: latestAddress?.city,
                     stateCode: latestAddress?.state,
                     zipCode: latestAddress?.zipCode,

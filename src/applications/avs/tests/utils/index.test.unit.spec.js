@@ -151,6 +151,9 @@ describe('avs', () => {
       it('returns false when given null', () => {
         expect(fieldHasValue(null)).to.be.false;
       });
+      it('returns false when given undefined', () => {
+        expect(fieldHasValue(undefined)).to.be.false;
+      });
     });
 
     describe('all arrays empty', () => {

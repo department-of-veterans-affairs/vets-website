@@ -24,6 +24,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       ValidateVeteran.validateVeteranIncorrect();
       ValidateVeteran.attemptToGoToNextPage();
       ValidateVeteran.validateErrorAlert();
+      cy.createScreenshots('Pre-check-in--Errors--inline-validation');
       cy.injectAxeThenAxeCheck();
     });
     it('should redirect to error page after max validate limit reached', () => {
@@ -31,6 +32,7 @@ describe('Check In Experience | Pre-Check-In |', () => {
       ValidateVeteran.validateVeteranIncorrect();
       ValidateVeteran.attemptToGoToNextPage();
       Error.validatePageLoaded('max-validation');
+      cy.createScreenshots('Pre-check-in--Errors--max-validation');
       cy.injectAxeThenAxeCheck();
     });
   });

@@ -343,20 +343,26 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
   };
 
   /** @type {FormConfigPage['onNavForward']} */
-  const navForwardIntro = ({ formData, goPath, goNextPath }) => {
+  const navForwardIntro = ({ formData, goPath, urlParams }) => {
+    let path;
     // required flow:
     // intro -> items -> summary -> items -> summary
     //
     // optional flow:
     // summary -> items -> summary
     if (required(formData) && !formData[arrayPath]?.length) {
-      const path = createArrayBuilderItemAddPath({
+      path = createArrayBuilderItemAddPath({
         path: firstItemPagePath,
         index: 0,
+        isReview: urlParams?.review,
       });
       goPath(path);
     } else {
-      goPath(summaryPath);
+      path = summaryPath;
+      if (urlParams?.review) {
+        path = `${path}?review=true`;
+      }
+      goPath(path);
     }
   };
 
@@ -408,6 +414,7 @@ export function arrayBuilderPages(options, pageBuilderCallback) {
       }),
       scrollAndFocusTarget: 'h3',
       onNavForward: navForwardSummary,
+      onNavBack: onNavBackKeepUrlParams,
       ...pageConfig,
     };
   };

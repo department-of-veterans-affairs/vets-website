@@ -17,6 +17,7 @@ describe('check-in', () => {
         check_in_experience_travel_reimbursement: false,
         check_in_experience_browser_monitoring: false,
         check_in_experience_upcoming_appointments_enabled: true,
+        check_in_experience_medication_review_content: true,
         loading: false,
       },
     };
@@ -33,6 +34,7 @@ describe('check-in', () => {
           isTravelReimbursementEnabled: false,
           isBrowserMonitoringEnabled: false,
           isUpcomingAppointmentsEnabled: true,
+          isMedicationReviewContentEnabled: true,
         });
       });
     });

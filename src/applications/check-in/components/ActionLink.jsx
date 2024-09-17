@@ -5,7 +5,7 @@ import { APP_NAMES } from '../utils/appConstants';
 import { useStorage } from '../hooks/useStorage';
 
 const ActionLink = props => {
-  const { action, appointmentId, app, cardTitleId, startTime } = props;
+  const { action, appointmentId, app, startTime } = props;
   const { t } = useTranslation();
   const { getPreCheckinComplete } = useStorage(app);
 
@@ -15,9 +15,7 @@ const ActionLink = props => {
       : t('check-in-now');
 
   const attrs = {};
-  if (app === APP_NAMES.PRE_CHECK_IN && cardTitleId) {
-    attrs['aria-labelledby'] = cardTitleId;
-  } else if (startTime) {
+  if (app === APP_NAMES.CHECK_IN && startTime) {
     attrs['aria-label'] = t('check-in-now-for-your-date-time-appointment', {
       date: new Date(startTime),
     });
@@ -54,7 +52,6 @@ ActionLink.propTypes = {
   action: PropTypes.func.isRequired,
   app: PropTypes.string.isRequired,
   appointmentId: PropTypes.string.isRequired,
-  cardTitleId: PropTypes.string,
   startTime: PropTypes.string,
 };
 

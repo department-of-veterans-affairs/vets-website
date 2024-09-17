@@ -1,8 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ProfileInfoCard } from '@@profile/components/ProfileInfoCard';
+import {
+  VaAdditionalInfo,
+  VaTelephone,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { CONTACTS } from '@department-of-veterans-affairs/component-library/contacts';
 import Contact from './Contact';
 import Instructions from './Instructions';
+import { CONTACT_TYPE_DESCRIPTIONS, CONTACT_TYPE_UI_NAMES } from './constants';
 
 const Contacts = ({ data }) => {
   const ecs = data.filter(el => el.id.match(/emergency contact/i));
@@ -21,7 +27,11 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-ecs" contactType="emergency contact" />
+    <Instructions
+      testId="phcc-no-ecs"
+      contactType={CONTACT_TYPE_UI_NAMES.EMERGENCY_CONTACT}
+      description={CONTACT_TYPE_DESCRIPTIONS.EMERGENCY_CONTACT}
+    />
   );
 
   const renderNextOfKin = noks?.length ? (
@@ -37,32 +47,32 @@ const Contacts = ({ data }) => {
       ),
     }))
   ) : (
-    <Instructions testId="phcc-no-nok" contactType="next of kin" />
+    <Instructions
+      testId="phcc-no-nok"
+      contactType={CONTACT_TYPE_UI_NAMES.NEXT_OF_KIN}
+      description={CONTACT_TYPE_DESCRIPTIONS.NEXT_OF_KIN}
+    />
   );
 
   return (
     <>
       <div className="vads-u-margin-bottom--3">
-        <va-additional-info
-          className=""
+        <VaAdditionalInfo
           data-testid="phcc-how-to-update"
           trigger="Learn how to update your personal health care contact information"
-          uswds
         >
-          If this information isn’t correct, here’s how to update it:
-          <ul className="vads-u-margin-y--0">
+          <p>If this information isn’t correct, here’s how to update it:</p>
+          <ul>
             <li>Ask a staff member at your next appointment, or</li>
             <li>
-              Call your VA health facility.{' '}
-              <a
-                data-testid="find-locations-additional-info-link"
-                href="/find-locations/"
-              >
-                Find your health facility’s phone number
-              </a>
+              Call the Health Eligibility Center at{' '}
+              <VaTelephone contact={CONTACTS['222_VETS']} /> (
+              <VaTelephone contact={CONTACTS['711']} tty />
+              ). We’re available Monday through Friday, 8:00 a.m. to 8:00 p.m.
+              ET.
             </li>
           </ul>
-        </va-additional-info>
+        </VaAdditionalInfo>
       </div>
 
       <ProfileInfoCard

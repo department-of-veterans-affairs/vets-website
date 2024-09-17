@@ -1,11 +1,8 @@
 import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
-import PreferredFacilityApiDescription from '../../../components/FormDescriptions/PreferrerdFacilityApiDescription';
+import PreferredFacilityApiDescription from '../../../components/FormDescriptions/PreferredFacilityApiDescription';
 import FacilitySearch from '../../../components/FormFields/FacilitySearch';
-import { fullSchema } from '../../../utils/imports';
+import { validatePlannedClinic } from '../../../utils/validation';
 import content from '../../../locales/en/content.json';
-
-const { veteran } = fullSchema.properties;
-const { plannedClinic } = veteran.properties;
 
 const vaMedicalCenterApi = {
   uiSchema: {
@@ -13,18 +10,21 @@ const vaMedicalCenterApi = {
       content['vet-info-title--facility'],
       PreferredFacilityApiDescription,
     ),
-    veteranPlannedClinic: {
-      'ui:widget': FacilitySearch,
+    'view:plannedClinic': {
+      'ui:field': FacilitySearch,
+      'ui:validations': [validatePlannedClinic],
       'ui:options': {
         hideLabelText: true,
       },
-      'ui:required': () => true,
     },
   },
   schema: {
     type: 'object',
     properties: {
-      veteranPlannedClinic: plannedClinic,
+      'view:plannedClinic': {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };

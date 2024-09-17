@@ -29,7 +29,6 @@ describe('VAOS Component: PhoneLayout', () => {
       },
     },
     featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
       vaOnlineSchedulingMedReviewInstructions: true,
     },
   };
@@ -51,10 +50,6 @@ describe('VAOS Component: PhoneLayout', () => {
                 value: '520647363',
               },
             ],
-            name: {
-              family: 'NADEAU',
-              given: ['MARCY'],
-            },
             practiceName: 'Cheyenne VA Medical Center',
           },
         ],
@@ -192,6 +187,14 @@ describe('VAOS Component: PhoneLayout', () => {
           clinicPhone: '500-500-5000',
           clinicPhoneExtension: '1234',
         },
+        practitioners: [
+          {
+            name: {
+              family: 'User',
+              given: ['Test'],
+            },
+          },
+        ],
         videoData: {},
         vaos: {
           isCommunityCare: false,
@@ -232,6 +235,9 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.getByRole('heading', { level: 2, name: /What/i }));
       expect(screen.getByText(/Primary care/i));
 
+      expect(screen.getByRole('heading', { level: 2, name: /Who/i }));
+      expect(screen.getByText(/Test User/i));
+
       expect(
         screen.getByRole('heading', {
           level: 2,
@@ -271,12 +277,17 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
         screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -372,12 +383,17 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
         screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
 
@@ -471,21 +487,10 @@ describe('VAOS Component: PhoneLayout', () => {
       expect(screen.getByText(/Additional information/i));
 
       expect(
-        screen.getByRole('heading', {
-          level: 2,
+        screen.queryByRole('heading', {
           name: /Prepare for your appointment/i,
         }),
-      );
-      expect(
-        screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
-        ),
-      );
-      expect(
-        screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
-        ),
-      ).to.be.ok;
+      ).not.to.exist;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be
         .ok;
@@ -590,12 +595,17 @@ describe('VAOS Component: PhoneLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards, a list of medications, and other things to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
         screen.container.querySelector(
-          'a[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Find a full list of things to bring to your appointment"]',
         ),
       ).to.be.ok;
 

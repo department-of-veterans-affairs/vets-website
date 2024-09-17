@@ -13,7 +13,39 @@ import {
 } from './constants';
 
 /**
+ * @typedef {object} LiItem
+ * @property {string} value
+ */
+
+/**
+ * @typedef {object} Item
+ * @property {string | undefined} title
+ * @property {string | Array<LiItem>} value
+ * @property {boolean | undefined} inline // false by default
+ * @property {boolean | undefined} isRich // false by default; must be set to true if value is an array
+ * @property {boolean | undefined} disablePageSplit // false by default
+ * @property {boolean | undefined} noIndentation // false by default
+ */
+
+/**
+ * @typedef {object} Section
+ * @property {string | undefined} header
+ * @property {Array<Item>} items
+ * @property {string | undefined} headerSize // 'H4' by default
+ */
+
+/**
+ * @typedef {Object} PdfConfigItem
+ * @property {string | undefined} header
+ * @property {boolean | undefined} sectionSeparators // false by default
+ * @property {Object | undefined} sectionSeperatorOptions
+ * @property {Array<Section>} sections
+ */
+
+/**
  * Return Non-VA prescription PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildNonVAPrescriptionPDFList = prescription => {
   return [
@@ -83,6 +115,8 @@ export const buildNonVAPrescriptionPDFList = prescription => {
 
 /**
  * Return prescriptions PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
@@ -181,7 +215,64 @@ export const buildPrescriptionsPDFList = prescriptions => {
 };
 
 /**
+ * Return medication information PDF
+ *
+ * @returns {PdfConfigItem}
+ */
+export const buildMedicationInformationPDF = list => {
+  const listOfHeaders = ['h2', 'h3'];
+  const sections = [
+    ...list
+      .filter(listItem => listOfHeaders.includes(listItem.type))
+      .map(listItem => {
+        const object = { header: '', headerSize: 'H2', items: [] };
+        object.header = listItem.text;
+        const index = list.indexOf(listItem);
+        const nextHeader = list
+          .slice(index + 1)
+          .find(i => listOfHeaders.includes(i.type));
+        const nextIndex = nextHeader ? list.indexOf(nextHeader) : list.length;
+        const subList = list.slice(index + 1, nextIndex);
+        const isEndOfList = i => subList[i + 1]?.type !== 'li';
+        let liArray = [];
+        object.items = subList.flatMap((subItem, i) => {
+          if (subItem.type === 'li') {
+            liArray.push(subItem.text);
+            if (isEndOfList(i)) {
+              return {
+                value: [
+                  {
+                    value: liArray,
+                  },
+                ],
+                isRich: true,
+                disablePageSplit: true,
+              };
+            }
+            return [];
+          }
+          liArray = [];
+          return [
+            {
+              value: subItem.text,
+              noIndentation: true,
+              disablePageSplit: true,
+            },
+          ];
+        });
+        return object;
+      }),
+  ];
+  return {
+    sectionSeparators: false,
+    sections,
+  };
+};
+
+/**
  * Return allergies PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildAllergiesPDFList = allergies => {
   return allergies.map(item => {
@@ -229,6 +320,8 @@ export const buildAllergiesPDFList = allergies => {
 
 /**
  * Return VA prescription PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];

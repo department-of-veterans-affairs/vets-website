@@ -39,17 +39,17 @@ import arrayBuilderPatternChooseFlow from '../pages/mockArrayMultiPageBuilderCho
 
 const chapterSelectInitialData = {
   chapterSelect: {
-    textInput: true,
-    numberInput: true,
-    formsPattern: true,
-    checkbox: true,
-    radio: true,
-    select: true,
-    date: true,
-    miscellaneous: true,
-    arraySinglePage: true,
     arrayMultiPageAggregate: true,
     arrayMultiPageBuilder: true,
+    arraySinglePage: true,
+    checkbox: true,
+    date: true,
+    formsPattern: true,
+    miscellaneous: true,
+    numberInput: true,
+    radio: true,
+    select: true,
+    textInput: true,
   },
 };
 

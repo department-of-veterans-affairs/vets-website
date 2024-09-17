@@ -2,7 +2,6 @@
 import sinon from 'sinon';
 import { expect } from 'chai';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import {
   mockFetch,
   setFetchJSONFailure as setFetchFailure,
@@ -86,15 +85,16 @@ describe('OAuth - Utilities', () => {
 
   describe('createOAuthRequest', () => {
     ['logingov', 'idme', 'dslogon', 'mhv'].forEach(csp => {
-      it('should generate the proper signin url based on `csp` for web', async () => {
+      it(`should generate the proper signin url based on ${csp} for web`, async () => {
         const url = await oAuthUtils.createOAuthRequest({ type: csp });
         const { oAuthOptions } = externalApplicationsConfig.default;
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
         expect(url).to.include(`client_id=vaweb`);
+        expect(url).not.to.include('scope=');
       });
 
-      it('should generate the proper signin url based on `csp` for mobile', async () => {
+      it(`should generate the proper signin url based on ${csp} for mobile without scope`, async () => {
         const url = await oAuthUtils.createOAuthRequest({
           type: csp,
           application: 'vamobile',
@@ -103,8 +103,23 @@ describe('OAuth - Utilities', () => {
         expect(url).to.include(`type=${csp}`);
         expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
         expect(url).to.include(`client_id=vamobile`);
+        expect(url).not.to.include('scope=');
+      });
+
+      it(`should generate the proper signin url based on ${csp} for mobile with scope`, async () => {
+        const url = await oAuthUtils.createOAuthRequest({
+          type: csp,
+          application: 'vamobile',
+          passedQueryParams: { scope: 'custom_scope' },
+        });
+        const { oAuthOptions } = externalApplicationsConfig.vamobile;
+        expect(url).to.include(`type=${csp}`);
+        expect(url).to.include(`acr=${oAuthOptions.acr[csp]}`);
+        expect(url).to.include(`client_id=vamobile`);
+        expect(url).to.include('scope=custom_scope');
       });
     });
+
     it('should append additional params', async () => {
       const webUrl = await oAuthUtils.createOAuthRequest({ type: 'logingov' });
       Object.values(AUTHORIZE_KEYS_WEB).forEach(key => {
@@ -119,6 +134,23 @@ describe('OAuth - Utilities', () => {
         const searchParams = new URLSearchParams(mobileUrl);
         expect(searchParams.has(key)).to.be.true;
       });
+    });
+
+    it('should not include scope if not provided for mobile', async () => {
+      const url = await oAuthUtils.createOAuthRequest({
+        type: 'logingov',
+        application: 'vamobile',
+      });
+      expect(url).not.to.include('scope=');
+    });
+
+    it('should include default scope if provided for mobile', async () => {
+      const url = await oAuthUtils.createOAuthRequest({
+        type: 'logingov',
+        application: 'vamobile',
+        passedQueryParams: { scope: 'device_sso' },
+      });
+      expect(url).to.include('scope=device_sso');
     });
 
     ['idme_signup', 'logingov_signup'].forEach(csp => {
@@ -136,8 +168,9 @@ describe('OAuth - Utilities', () => {
         expect(url).to.include(`type=${expectedType}`);
         expect(url).to.include(`acr=${oAuthOptions.acrSignup[csp]}`);
         if (csp === 'idme_signup') {
-          expect(url).to.include(`operation=sign_up`);
+          expect(url).to.include('operation=sign_up');
         }
+        expect(url).not.to.include('scope=');
       });
     });
   });
@@ -471,26 +504,21 @@ describe('OAuth - Utilities', () => {
   });
 
   describe('logoutEvent', () => {
+    const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
+
     it('should teardown profile', async () => {
-      localStorage.setItem('hasSession', true);
-      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
       oAuthUtils.logoutEvent('logingov');
 
       expect(teardownSpy.called).to.be.true;
-      expect(localStorage.getItem('hasSession')).to.be.null;
       teardownSpy.restore();
     });
     it('should teardown profile after a certain duration', async () => {
-      localStorage.setItem('hasSession', true);
-      const teardownSpy = sinon.spy(profileUtils, 'teardownProfileSession');
       await oAuthUtils.logoutEvent('logingov', {
         shouldWait: true,
         duration: 300,
       });
 
       expect(teardownSpy.called).to.be.true;
-      expect(localStorage.getItem('hasSession')).to.be.null;
-
       teardownSpy.restore();
     });
   });

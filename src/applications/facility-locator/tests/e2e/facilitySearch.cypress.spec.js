@@ -57,13 +57,6 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have.attr', 'disabled');
-  cy.get('#facility-type-dropdown')
-    .shadow()
-    .find('select')
-    .select('VA benefits');
-  cy.get('.service-type-dropdown-container')
-    .find('select')
-    .should('not.have.attr', 'disabled');
 
   // Va facilities don't have services available
   cy.get('#facility-type-dropdown')
@@ -80,6 +73,13 @@ Cypress.Commands.add('verifyOptions', () => {
   cy.get('.service-type-dropdown-container')
     .find('select')
     .should('not.have', 'disabled');
+  cy.get('#facility-type-dropdown')
+    .shadow()
+    .find('select')
+    .select('VA benefits');
+  cy.get('.service-type-dropdown-container') // remember to remove when we allow selection again for VA Benefits
+    .find('select')
+    .should('have.attr', 'disabled');
 
   // CCP care have services available
   cy.get('#facility-type-dropdown')
@@ -161,14 +161,14 @@ describe('Facility VA search', () => {
         cy.injectAxe();
         cy.axeCheck();
 
-        cy.get('.facility-result a').should('exist');
+        cy.get('.facility-result va-link').should('exist');
         cy.intercept(
           'GET',
           '/facilities_api/v2/va/vha_674BY',
           mockFacilitiesSearchResultsV1,
         ).as('fetchFacility');
 
-        cy.findByText(/austin va clinic/i, { selector: 'a' })
+        cy.findByText(/austin va clinic/i, { selector: 'va-link' })
           .first()
           .click({ waitForAnimations: true })
           .then(() => {
@@ -269,7 +269,11 @@ describe('Facility VA search', () => {
       .first()
       .should('exist');
     cy.get('.facility-phone-group').should('exist');
-    cy.findByText(/Get Directions/i).should('exist');
+    cy.get('va-link')
+      .eq(1)
+      .shadow()
+      .get('a')
+      .contains(/Get directions/i);
     cy.get('[alt="Static map"]').should('exist');
     cy.get('#hours-op h3').contains('Hours of operation');
     cy.get('#other-tools').should('not.exist');
@@ -306,7 +310,10 @@ describe('Facility VA search', () => {
       'Results for "Emergency Care", "VA emergency care" near "Alexandria, Virginia"',
     );
     cy.get('#emergency-care-info-note').should('exist');
-    cy.get('.facility-result h3 a').contains('Alexandria Vet Center');
+    cy.get('.facility-result h3 va-link')
+      .shadow()
+      .get('a')
+      .contains('Alexandria Vet Center');
 
     cy.injectAxe();
     cy.axeCheck();

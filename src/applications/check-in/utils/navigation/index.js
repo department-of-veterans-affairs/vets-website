@@ -52,6 +52,7 @@ const URLS = Object.freeze({
   LANDING: '',
   LOADING: 'loading',
   APPOINTMENTS: 'appointments',
+  UPCOMING_APPOINTMENTS: 'upcoming-appointments',
   NEXT_OF_KIN: 'next-of-kin',
   SEE_STAFF: 'see-staff',
   VERIFY: 'verify',
@@ -65,7 +66,9 @@ const URLS = Object.freeze({
   TRAVEL_MILEAGE: 'travel-mileage',
   TRAVEL_REVIEW: 'travel-review',
   APPOINTMENT_DETAILS: 'appointment-details',
+  UPCOMING_APPOINTMENT_DETAILS: 'upcoming-appointment-details',
   ARRIVED: 'arrived',
+  RESOURCES: 'what-to-bring',
 });
 
 export { updateFormPages, URLS };

@@ -57,7 +57,7 @@ export default function AppointmentColumnLayout({
           className={classNames(
             'vaos-appts__column--alignItems',
             'vaos-appts__column-gap--1',
-            'xsmall-screen:vads-u-text-align--center',
+            'mobile:vads-u-text-align--center',
             'small-screen:vads-u-flex-direction--row',
             'medium-screen:vads-u-padding-y--2',
           )}
@@ -146,7 +146,6 @@ export default function AppointmentColumnLayout({
               className={classNames(
                 'vaos-appts__column-gap--3',
                 'small-screen:vads-u-flex-direction--column',
-                'small-desktop-screen:vads-u-flex-direction--row',
               )}
             >
               <AppointmentColumn

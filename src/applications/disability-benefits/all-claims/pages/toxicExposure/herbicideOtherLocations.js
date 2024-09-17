@@ -2,30 +2,33 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   endDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
   herbicidePageTitle,
   notSureDatesDetails,
   startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(herbicidePageTitle),
-  'ui:description': ({ formData }) => {
+  'ui:title': ({ formData }) => {
     const indexAndSelectedCount = getSelectedCount(
       'herbicide',
       formData,
       'otherHerbicideLocations',
     );
-    return dateRangePageDescription(
-      indexAndSelectedCount,
-      indexAndSelectedCount,
-      getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+    return detailsPageBegin(
+      herbicidePageTitle,
+      teSubtitle(
+        indexAndSelectedCount,
+        indexAndSelectedCount,
+        getOtherFieldDescription(formData, 'otherHerbicideLocations'),
+      ),
     );
   },
   toxicExposure: {
@@ -38,6 +41,10 @@ export const uiSchema = {
       }),
       'view:notSure': {
         'ui:title': notSureDatesDetails,
+        'ui:webComponentField': VaCheckboxField,
+        'ui:options': {
+          classNames: 'vads-u-margin-y--3',
+        },
       },
     },
     'view:herbicideAdditionalInfo': {

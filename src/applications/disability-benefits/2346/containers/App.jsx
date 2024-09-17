@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -61,18 +60,21 @@ class App extends Component {
       saved: `Your ${supplyDescription} order has been saved.`,
     };
 
+    const breadcrumbs = [
+      { href: '/', label: 'Home' },
+      { href: '/health-care', label: 'Health care' },
+      {
+        href: '/health-care/order-hearing-aid-batteries-and-accessories',
+        label: `Order ${supplyDescription}`,
+      },
+    ];
+    const bcString = JSON.stringify(breadcrumbs);
+
     return (
       <>
         {!featureToggles.loading && (
           <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
-            <VaBreadcrumbs uswds="false" label="Breadcrumb">
-              <a href="/">Home</a>
-              {/* this will get updated when this route is added */}
-              <a href="/health-care">Health care</a>
-              <a href="/health-care/order-hearing-aid-batteries-and-accessories">
-                Order {supplyDescription}
-              </a>
-            </VaBreadcrumbs>
+            <va-breadcrumbs breadcrumb-list={bcString} label="Breadcrumb" />
           </div>
         )}
         {pending && (

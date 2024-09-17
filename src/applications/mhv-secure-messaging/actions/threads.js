@@ -4,6 +4,34 @@ import * as Constants from '../util/constants';
 import { getThreadList } from '../api/SmApi';
 import { getIsPilotFromState } from '.';
 
+export const setThreadSortOrder = ({
+  value,
+  folderId,
+  page,
+}) => async dispatch => {
+  dispatch({
+    type: Actions.Thread.SET_SORT_ORDER,
+    payload: { value, folderId, page },
+  });
+};
+
+export const setThreadPage = page => async dispatch => {
+  dispatch({
+    type: Actions.Thread.SET_PAGE,
+    payload: page,
+  });
+};
+
+export const resetThreadSortOrder = () => async dispatch => {
+  dispatch({
+    type: Actions.Thread.RESET_SORT_ORDER,
+  });
+};
+
+export const clearListOfThreads = () => async dispatch => {
+  dispatch({ type: Actions.Thread.CLEAR_LIST });
+};
+
 export const getListOfThreads = (
   folderId,
   pageSize,
@@ -16,13 +44,26 @@ export const getListOfThreads = (
   }
   try {
     const isPilot = getIsPilotFromState(getState);
-    const response = await getThreadList({
+    let response = await getThreadList({
       folderId,
       pageSize,
       pageNumber,
       threadSort,
       isPilot,
     });
+    if (response.data.length === 0 && pageNumber > 1) {
+      // in a scenario when the last thread on a page is deleted,
+      // we need to decrement the page number and update thread list
+      const decrementPage = pageNumber - 1;
+      dispatch(setThreadPage(decrementPage));
+      response = await getThreadList({
+        folderId,
+        pageSize,
+        decrementPage,
+        threadSort,
+        isPilot,
+      });
+    }
     dispatch({
       type: Actions.Thread.GET_LIST,
       response,
@@ -56,28 +97,4 @@ export const getListOfThreads = (
       );
     }
   }
-};
-
-export const setThreadSortOrder = (value, folderId, page) => async dispatch => {
-  dispatch({
-    type: Actions.Thread.SET_SORT_ORDER,
-    payload: { value, folderId, page },
-  });
-};
-
-export const setThreadPage = page => async dispatch => {
-  dispatch({
-    type: Actions.Thread.SET_PAGE,
-    payload: page,
-  });
-};
-
-export const resetThreadSortOrder = () => async dispatch => {
-  dispatch({
-    type: Actions.Thread.RESET_SORT_ORDER,
-  });
-};
-
-export const clearListOfThreads = () => async dispatch => {
-  dispatch({ type: Actions.Thread.CLEAR_LIST });
 };

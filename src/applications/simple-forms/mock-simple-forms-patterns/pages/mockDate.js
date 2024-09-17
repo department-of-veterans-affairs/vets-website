@@ -7,6 +7,10 @@ import {
   dateOfBirthUI,
   currentOrPastDateRangeUI,
   currentOrPastDateRangeSchema,
+  currentOrPastMonthYearDateUI,
+  currentOrPastMonthYearDateRangeUI,
+  currentOrPastMonthYearDateSchema,
+  currentOrPastMonthYearDateRangeSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
 /** @type {PageSchema} */
@@ -23,6 +27,20 @@ export default {
       'End date',
       'End date must be after start date',
     ),
+    'view:monthYearDates': {
+      'ui:description': <h4>Month year only</h4>,
+    },
+    dateMonthYear: currentOrPastMonthYearDateUI('Month and year only'),
+    dateMonthYearRange: currentOrPastMonthYearDateRangeUI(
+      {
+        title: 'Start date',
+        hint: 'Start date must be before end date',
+      },
+      {
+        title: 'End date',
+        hint: 'End date must be after start date',
+      },
+    ),
   },
   schema: {
     type: 'object',
@@ -34,7 +52,13 @@ export default {
         properties: {},
       },
       dateRange: currentOrPastDateRangeSchema,
+      'view:monthYearDates': {
+        type: 'object',
+        properties: {},
+      },
+      dateMonthYear: currentOrPastMonthYearDateSchema,
+      dateMonthYearRange: currentOrPastMonthYearDateRangeSchema,
     },
-    required: ['dateWCV3'],
+    required: ['dateWCV3', 'dateMonthYear'],
   },
 };

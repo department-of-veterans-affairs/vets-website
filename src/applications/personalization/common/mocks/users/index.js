@@ -302,7 +302,6 @@ const cernerUser = {
         verified: true,
         signIn: { serviceName: 'idme', accountType: 'N/A' },
         authnContext: 'http://idmanagement.gov/ns/assurance/loa/3',
-        inheritedProofVerified: false,
         claims: {
           ch33_bank_accounts: true,
           communication_preferences: true,

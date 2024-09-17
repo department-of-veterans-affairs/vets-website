@@ -69,7 +69,7 @@ export default class MockAppointmentResponse {
       preferredDates: [
         moment()
           .startOf('day')
-          .format('ddd, MMMM DD, YYYY [in the morning]'),
+          .format('ddd, MMMM D, YYYY [in the morning]'),
       ],
       requestedPeriods:
         requestedPeriods.length > 0 ? requestedPeriods : undefined,
@@ -363,6 +363,19 @@ export default class MockAppointmentResponse {
 
   setStatus(value) {
     this.attributes.status = value;
+    return this;
+  }
+
+  setPreferredModlity(value) {
+    this.attributes.preferredModality = value;
+    return this;
+  }
+
+  setUrl(value = 'test.com') {
+    this.attributes.telehealth = {
+      url: value,
+    };
+
     return this;
   }
 }

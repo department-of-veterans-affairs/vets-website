@@ -16,6 +16,8 @@ export const advanceToHouseholdSection = () => {
 };
 
 export const advanceFromHouseholdToReview = () => {
+  goToNextPage('/military-service/toxic-exposure');
+  cy.get('[name="root_hasTeraResponse"]').check('N');
   goToNextPage('/insurance-information/medicaid-eligibility');
   selectYesNoWebComponent('view:isMedicaidEligible_isMedicaidEligible', false);
 

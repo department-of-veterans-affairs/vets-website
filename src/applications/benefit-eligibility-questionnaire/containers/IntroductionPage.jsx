@@ -1,14 +1,23 @@
 import React from 'react';
-
+import PropTypes from 'prop-types';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/goals');
+  };
   return (
     <article className="schemaform-intro">
-      <FormTitle
-        title="Complete the benefit eligibility questionnaire"
-        subtitle=""
-      />
+      <FormTitle title="Benefit and resource recommendation tool" subtitle="" />
+      <p>
+        <b>
+          Please note that this is a recommendation tool, not an eligibility
+          determination tool.
+        </b>{' '}
+        VA determines your eligibility once you apply for a benefit. You’ll need
+        to review the eligibility requirements before applying for VA benefits.
+      </p>
       <p>
         Our recommendation tool can help you find benefits and resources that
         are specific to your goals, needs, and circumstances. This is our first
@@ -21,13 +30,21 @@ const IntroductionPage = () => {
         recommendations.
       </p>
       <va-link-action
-        href="/benefit-eligibility-questionnaire/goals"
+        href="#"
+        onClick={startForm}
         message-aria-describedby="Get started"
         text="Get started"
+        data-testid="get-started"
       />
       <p />
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default IntroductionPage;

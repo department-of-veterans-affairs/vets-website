@@ -31,7 +31,10 @@ const Index = props => {
     clearCurrentStorage,
     setPreCheckinComplete,
     setCurrentToken,
+    setCompleteTimestamp,
   } = useStorage(APP_NAMES.PRE_CHECK_IN);
+
+  setCompleteTimestamp(window, null);
 
   const [loadMessage] = useState(t('finding-your-appointment-information'));
   const [sessionCallMade, setSessionCallMade] = useState(false);

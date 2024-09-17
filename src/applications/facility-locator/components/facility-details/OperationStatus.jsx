@@ -6,18 +6,18 @@ export default function OperationStatus(props) {
   const { operatingStatus, website, facilityType } = props;
   const visitText = useMemo(
     () => {
-      if (facilityType === FacilityType.VA_CEMETARY) {
+      if (facilityType === FacilityType.VA_CEMETERY) {
         return (
           <p data-testid="visit-text">
             For more information about the cemetery including interment, visit
-            our <a href={website}>cemetery website</a>.
+            our <va-link href={website} text="cemetery website" />.
           </p>
         );
       }
       return (
         <p data-testid="visit-text">
-          Visit the <a href={website}>website</a> to learn more about hours and
-          services.
+          Visit the <va-link href={website} text="website" /> to learn more
+          about hours and services.
         </p>
       );
     },

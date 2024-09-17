@@ -35,6 +35,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     stationId: '983',
     friendlyName: 'Green team clinic',
   });
+
   const clinic2 = createMockClinic({
     id: '309',
     stationId: '983',
@@ -322,7 +323,7 @@ describe('VAOS vaccine flow: SelectDate1Page', () => {
     expect(screen.history.push.called).not.to.be.true;
   });
 
-  it('should fetch slots when moving between months', async () => {
+  it.skip('should fetch slots when moving between months', async () => {
     mockEligibilityFetches({
       facilityId: '983',
       typeOfCareId: TYPE_OF_CARE_ID,

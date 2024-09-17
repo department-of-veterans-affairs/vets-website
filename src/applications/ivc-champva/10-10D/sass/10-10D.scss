@@ -11,3 +11,8 @@
 .upload-button-label.vads-u-display--inline-block {
   margin-top: initial;
 }
+
+va-accordion-item[data-chapter="uploadFiles"] {
+  display: none;
+  visibility: hidden;
+}

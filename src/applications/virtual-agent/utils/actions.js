@@ -12,6 +12,7 @@ import {
   setRecentUtterances,
 } from './sessionStorage';
 import { sendWindowEventWithActionPayload } from './events';
+import submitForm from './submitForm';
 
 const START_CONVERSATION = 'startConversation';
 const EVENT = 'event';
@@ -110,11 +111,16 @@ export const processSendMessageActivity = ({ action }) => () => {
   window.dispatchEvent(outgoingActivityEvent);
 };
 
-export const processIncomingActivity = ({ action, dispatch }) => () => {
+export const processIncomingActivity = ({
+  action,
+  dispatch,
+  isComponentToggleOn,
+}) => () => {
   const isAtBeginningOfConversation = !getIsTrackingUtterances();
   const data = action.payload.activity;
   const isMessageFromBot =
     data.type === 'message' && data.text && data.from.role === 'bot';
+  const isFormPostButton = data.value?.type === 'FormPostButton';
 
   if (isAtBeginningOfConversation) {
     setIsTrackingUtterances(true);
@@ -135,6 +141,10 @@ export const processIncomingActivity = ({ action, dispatch }) => () => {
     } else if (isNewAuthedConversation) {
       resetUtterances(dispatch);
     }
+  }
+
+  if (isComponentToggleOn && isFormPostButton) {
+    submitForm(data.value.url, data.value.body);
   }
 
   const trackingUtterances = getIsTrackingUtterances();
@@ -160,3 +170,21 @@ export const processMicrophoneActivity = ({ action }) => () => {
     });
   }
 };
+
+export function addActivityData(
+  action,
+  { apiSession, csrfToken, apiURL, userFirstName, userUuid },
+) {
+  const updatedAction = action;
+  if (updatedAction.payload?.activity) {
+    updatedAction.payload.activity.value = {
+      ...updatedAction.payload.activity.value,
+      apiSession,
+      csrfToken,
+      apiURL,
+      userFirstName,
+      userUuid,
+    };
+  }
+  return updatedAction;
+}

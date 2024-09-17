@@ -3,10 +3,11 @@ const generateFeatureToggles = (toggles = {}) => {
     checkInExperienceEnabled = true,
     preCheckInEnabled = true,
     checkInExperienceTranslationDisclaimerSpanishEnabled = true,
-    checkInExperienceTranslationDislaimerTagalogEnabled = true,
+    checkInExperienceTranslationDisclaimerTagalogEnabled = true,
     checkInExperienceTravelReimbursement = true,
     checkInExperienceBrowserMonitoring = false,
     checkInExperienceUpcomingAppointmentsEnabled = false,
+    checkInExperienceMedicationReviewContent = true,
   } = toggles;
 
   return {
@@ -27,7 +28,7 @@ const generateFeatureToggles = (toggles = {}) => {
         },
         {
           name: 'check_in_experience_translation_disclaimer_tagalog_enabled',
-          value: checkInExperienceTranslationDislaimerTagalogEnabled,
+          value: checkInExperienceTranslationDisclaimerTagalogEnabled,
         },
         {
           name: 'check_in_experience_travel_reimbursement',
@@ -40,6 +41,10 @@ const generateFeatureToggles = (toggles = {}) => {
         {
           name: 'check_in_experience_upcoming_appointments_enabled',
           value: checkInExperienceUpcomingAppointmentsEnabled,
+        },
+        {
+          name: 'check_in_experience_medication_review_content',
+          value: checkInExperienceMedicationReviewContent,
         },
       ],
     },

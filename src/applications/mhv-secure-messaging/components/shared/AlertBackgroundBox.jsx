@@ -32,9 +32,9 @@ const AlertBackgroundBox = props => {
   const dispatch = useDispatch();
   const alertList = useSelector(state => state.sm.alerts?.alertList);
   const folder = useSelector(state => state.sm.folders?.folder);
-  const [activeAlert, setActiveAlert] = useState(null);
   const [alertContent, setAlertContent] = useState('');
   const alertRef = useRef();
+  const [activeAlert, setActiveAlert] = useState(null);
 
   const {
     Message: { SERVER_ERROR_503 },
@@ -165,6 +165,7 @@ const AlertBackgroundBox = props => {
 };
 
 AlertBackgroundBox.propTypes = {
+  activeAlert: PropTypes.object,
   closeable: PropTypes.bool,
   noIcon: PropTypes.bool,
 };

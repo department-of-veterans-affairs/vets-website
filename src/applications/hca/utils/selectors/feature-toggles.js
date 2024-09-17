@@ -9,7 +9,9 @@ export const selectFeatureToggles = state => {
       toggles[FEATURE_FLAG_NAMES.hcaBrowserMonitoringEnabled],
     isESOverrideEnabled:
       toggles[FEATURE_FLAG_NAMES.hcaEnrollmentStatusOverrideEnabled],
+    isInsuranceV2Enabled: toggles[FEATURE_FLAG_NAMES.hcaInsuranceV2Enabled],
     isFacilitiesApiEnabled: toggles[FEATURE_FLAG_NAMES.hcaUseFacilitiesApi],
+    isRegOnlyEnabled: toggles[FEATURE_FLAG_NAMES.hcaRegOnlyEnabled],
     isSigiEnabled: toggles[FEATURE_FLAG_NAMES.hcaSigiEnabled],
   };
 };

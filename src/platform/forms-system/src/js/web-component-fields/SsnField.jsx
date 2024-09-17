@@ -6,7 +6,7 @@ import vaTextInputFieldMapping from './vaTextInputFieldMapping';
 /**
  * Mask a SSN, but leave the final sequence of digits visible (up to 4)
  */
-function maskSSN(ssnString = '') {
+export function maskSSN(ssnString = '') {
   const strippedSSN = ssnString.replace(/[- ]/g, '');
   const maskedSSN = strippedSSN.replace(/^\d{1,5}/, digit =>
     digit.replace(/\d/g, '●'),
@@ -30,6 +30,7 @@ export default function SsnField(fieldProps) {
   const [val, setVal] = useState(props.value);
   const [displayVal, setDisplayVal] = useState(props.value);
   const vaTextInput = useRef();
+  const className = `${props.class || ''} masked-ssn`;
 
   const handleChange = event => {
     const { value } = event.target;
@@ -55,6 +56,7 @@ export default function SsnField(fieldProps) {
   return (
     <VaTextInput
       {...props}
+      class={className}
       value={displayVal}
       onInput={handleChange}
       onBlur={handleBlur}

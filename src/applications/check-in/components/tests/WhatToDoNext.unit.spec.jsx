@@ -61,9 +61,7 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(getByTestId('what-next-card-title')).to.exist;
-      expect(getByTestId('what-next-card-title')).to.have.text(
-        "It's time to check in for your 2:00 p.m. appointment",
-      );
+      expect(getByTestId('what-next-card-title')).to.include.text('check in');
     });
     it('displays the correct card title for pre check in', () => {
       const initStore = {
@@ -80,11 +78,9 @@ describe('unified check-in experience', () => {
         </CheckInProvider>,
       );
       expect(getByTestId('what-next-card-title')).to.exist;
-      expect(getByTestId('what-next-card-title')).to.have.text(
-        'Review your contact information for your Monday, January 3 2:00 p.m. appointment',
-      );
+      expect(getByTestId('what-next-card-title')).to.include.text('Review');
     });
-    it('displays the correct card title for pre check in with multiple appointments', () => {
+    it('displays appointment bullet points for pre check in with multiple appointments', () => {
       const initStore = {
         app: 'preCheckIn',
       };
@@ -114,15 +110,12 @@ describe('unified check-in experience', () => {
         startTime: '2022-01-03T17:00:00',
         eligibility: 'INELIGIBLE_BAD_STATUS',
       };
-      const { getByTestId } = render(
+      const { getAllByTestId } = render(
         <CheckInProvider store={initStore}>
           <WhatToDoNext router={mockRouter} appointments={initAppointments} />
         </CheckInProvider>,
       );
-      expect(getByTestId('what-next-card-title')).to.exist;
-      expect(getByTestId('what-next-card-title')).to.have.text(
-        'Review your contact information for your Monday, January 3, 2:00 p.m., Monday, January 3, 2:30 p.m., Monday, January 3, 3:00 p.m., Monday, January 3, 4:00 p.m. and Monday, January 3, 5:00 p.m. appointments',
-      );
+      expect(getAllByTestId('appointment-bullet')).to.have.length(5);
     });
     it('check in displays a clickable details link that calls go to details', () => {
       const goToDetailsSpy = sinon.spy();

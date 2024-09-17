@@ -3,14 +3,15 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 import {
+  isVersion1Data,
   getEligibleContestableIssues,
   mayHaveLegacyAppeals,
-  isVersion1Data,
   showNewHlrContent,
   hideNewHlrContent,
   showConferenceContact,
   showConferenceVeteranPage,
   showConferenceRepPages,
+  checkNeedsFormDataUpdate,
   checkNeedsRedirect,
 } from '../../utils/helpers';
 
@@ -202,6 +203,39 @@ describe('showConferenceRepPages', () => {
     expect(test(false, '')).to.be.false;
     expect(test(false, 'me', '')).to.be.false;
     expect(test(false, 'me', 'no')).to.be.false;
+  });
+});
+
+describe('checkNeedsFormDataUpdate', () => {
+  const test = (toggle, contact, choice) => {
+    const formData = {
+      hlrUpdatedContent: toggle,
+      informalConference: contact,
+      informalConferenceChoice: choice,
+    };
+    checkNeedsFormDataUpdate({ formData });
+    return {
+      who: formData.informalConference,
+      yN: formData.informalConferenceChoice,
+    };
+  };
+  it('should not alter the data when toggle is disabled', () => {
+    expect(test(false, '', '')).to.deep.equal({ yN: '', who: '' });
+    expect(test(false, 'rep', '')).to.deep.equal({ yN: '', who: 'rep' });
+    expect(test(false, 'me', '')).to.deep.equal({ yN: '', who: 'me' });
+    expect(test(false, 'no', '')).to.deep.equal({ yN: '', who: 'no' });
+  });
+  it('should not alter the data if already set', () => {
+    expect(test(true, 'me', 'yes')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'rep', 'yes')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test(true, 'me', 'no')).to.deep.equal({ yN: 'no', who: 'me' });
+    expect(test(true, 'rep', 'no')).to.deep.equal({ yN: 'no', who: 'rep' });
+  });
+  it('should alter the data', () => {
+    expect(test(true, 'me')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'me', '')).to.deep.equal({ yN: 'yes', who: 'me' });
+    expect(test(true, 'rep')).to.deep.equal({ yN: 'yes', who: 'rep' });
+    expect(test(true, 'no')).to.deep.equal({ yN: 'no', who: 'no' });
   });
 });
 

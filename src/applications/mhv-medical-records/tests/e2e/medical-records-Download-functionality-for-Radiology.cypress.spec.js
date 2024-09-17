@@ -1,7 +1,6 @@
 import MedicalRecordsSite from './mr_site/MedicalRecordsSite';
 import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import RadiologyDetailsPage from './pages/RadiologyDetailsPage';
-import labsAndTests from '../fixtures/labsAndTests.json';
 
 describe('Medical Records Download Functionality For Radiology', () => {
   it('Visits Medical Records View Labs And Tests Details', () => {
@@ -10,7 +9,7 @@ describe('Medical Records Download Functionality For Radiology', () => {
     // cy.visit('my-health/medical-records/labs-and-tests');
     LabsAndTestsListPage.goToLabsAndTests();
     // Navigate to radiology page
-    LabsAndTestsListPage.clickLabsAndTestsDetailsLink(5, labsAndTests.entry[5]);
+    LabsAndTestsListPage.clickRadiologyDetailsLink(0);
 
     // should display a toggle menu button
     RadiologyDetailsPage.verifyPrintOrDownload();

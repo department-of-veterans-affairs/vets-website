@@ -11,7 +11,6 @@ const find = require('find');
 const remapFormId = {
   [VA_FORM_IDS.FORM_10_10EZ]: '10-10EZ',
   [VA_FORM_IDS.FORM_21_526EZ]: '21-526EZ-ALLCLAIMS',
-  [VA_FORM_IDS.FORM_22_1990S]: 'VRRAP',
 };
 
 // These form IDs have a config/form.js file but the formId is not found in vets-json-schema/dist/schemas
@@ -33,6 +32,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_21_4138,
   VA_FORM_IDS.FORM_21A,
   VA_FORM_IDS.FORM_21P_0847,
+  VA_FORM_IDS.FORM_22_10215,
+  VA_FORM_IDS.FORM_22_10216,
   VA_FORM_IDS.FORM_22_10282,
   VA_FORM_IDS.FORM_40_0247,
   VA_FORM_IDS.FORM_COVID_VACCINE_TRIAL_UPDATE,
@@ -41,6 +42,7 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_MOCK_ALT_HEADER,
   VA_FORM_IDS.FORM_MOCK_APPEALS,
   VA_FORM_IDS.FORM_MOCK_HLR,
+  VA_FORM_IDS.FORM_MOCK_MINIMAL_HEADER,
   VA_FORM_IDS.FORM_MOCK_PATTERNS_V3,
   VA_FORM_IDS.FORM_MOCK_SF_PATTERNS,
   VA_FORM_IDS.FORM_MOCK,
@@ -48,6 +50,8 @@ const missingFromVetsJsonSchema = [
   VA_FORM_IDS.FORM_22_10282,
   VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
   VA_FORM_IDS.FORM_XX_123,
+  VA_FORM_IDS.FORM_1919,
+  VA_FORM_IDS.FORM_22_8794,
 ];
 
 const root = path.join(__dirname, '../../../');
@@ -69,6 +73,7 @@ const formConfigKeys = [
   'formOptions',
   'formSavedPage',
   'getHelp',
+  'hideFormTitle',
   'hideReviewChapters',
   'hideUnauthedStartLink',
   'intentToFileUrl',
@@ -82,6 +87,7 @@ const formConfigKeys = [
   'rootUrl',
   'savedFormMessages',
   'saveInProgress',
+  'scrollAndFocusTarget',
   'showReviewErrors',
   'showSaveLinkAfterButtons',
   'signInHelpList',

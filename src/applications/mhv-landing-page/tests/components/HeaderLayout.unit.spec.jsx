@@ -1,9 +1,11 @@
 import React from 'react';
 import { datadogRum } from '@datadog/browser-rum';
-import { fireEvent, render, waitFor } from '@testing-library/react';
+import { fireEvent, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import { Provider } from 'react-redux';
+
+import { render } from '../unit-spec-helpers';
+
 import HeaderLayout from '../../components/HeaderLayout';
 
 const mockStore = ({ ssoe = false } = {}) => ({
@@ -26,11 +28,9 @@ const mockStore = ({ ssoe = false } = {}) => ({
 describe('MHV Landing Page -- Header Layout', () => {
   describe('Health Tools links', () => {
     it('renders without learn more', async () => {
-      const { queryByTestId, getByText } = render(
-        <Provider store={mockStore()}>
-          <HeaderLayout />
-        </Provider>,
-      );
+      const { queryByTestId, getByText } = render(<HeaderLayout />, {
+        store: mockStore(),
+      });
       await waitFor(() => {
         const result = getByText(/Welcome to the new home for My HealtheVet/);
         expect(result).to.exist;
@@ -40,9 +40,8 @@ describe('MHV Landing Page -- Header Layout', () => {
 
     it('renders with learn more', async () => {
       const { getByTestId, getByText } = render(
-        <Provider store={mockStore()}>
-          <HeaderLayout showLearnMore />
-        </Provider>,
+        <HeaderLayout showLearnMore />,
+        { store: mockStore() },
       );
       await waitFor(() => {
         const result = getByText(/Welcome to the new home for My HealtheVet/);
@@ -52,11 +51,9 @@ describe('MHV Landing Page -- Header Layout', () => {
     });
 
     it('renders the non-ssoe link', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <HeaderLayout showLearnMore />
-        </Provider>,
-      );
+      const { getByTestId } = render(<HeaderLayout showLearnMore />, {
+        store: mockStore(),
+      });
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
@@ -67,7 +64,7 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/home',
+          'https://mhv-syst.myhealth.va.gov/mhv-portal-web/download-my-data',
         );
       });
     });
@@ -76,11 +73,7 @@ describe('MHV Landing Page -- Header Layout', () => {
       const store = mockStore({
         ssoe: true,
       });
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <HeaderLayout showLearnMore />
-        </Provider>,
-      );
+      const { getByTestId } = render(<HeaderLayout showLearnMore />, { store });
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
         expect(goBack1).to.have.attribute(
@@ -91,7 +84,7 @@ describe('MHV Landing Page -- Header Layout', () => {
         const goBack2 = getByTestId('mhv-go-back-2');
         expect(goBack2).to.have.attribute(
           'href',
-          'https://int.eauth.va.gov/mhv-portal-web/eauth',
+          'https://int.eauth.va.gov/mhv-portal-web/eauth?deeplinking=download_my_data',
         );
       });
     });
@@ -99,21 +92,23 @@ describe('MHV Landing Page -- Header Layout', () => {
 
   describe('Go back links', () => {
     it('call datadogRum.addAction on click of go-back links', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <HeaderLayout showLearnMore />
-        </Provider>,
-      );
+      const { getByTestId } = render(<HeaderLayout showLearnMore />, {
+        store: mockStore(),
+      });
 
       const spyDog = sinon.spy(datadogRum, 'addAction');
 
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
+        // Change the link to an anchor, so JSDOM does not complain about navigation
+        goBack1.href = '#dummy-link';
         fireEvent.click(goBack1);
 
         expect(spyDog.called).to.be.true;
 
         const goBack2 = getByTestId('mhv-go-back-2');
+        // Change the link to an anchor, so JSDOM does not complain about navigation
+        goBack2.href = '#dummy-link';
         fireEvent.click(goBack2);
 
         expect(spyDog.calledTwice).to.be.true;
@@ -125,11 +120,9 @@ describe('MHV Landing Page -- Header Layout', () => {
 
   describe('Learn More Alert', () => {
     it('has a datadog action attribute', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore()}>
-          <HeaderLayout showLearnMore />
-        </Provider>,
-      );
+      const { getByTestId } = render(<HeaderLayout showLearnMore />, {
+        store: mockStore(),
+      });
 
       await waitFor(() => {
         const alertComponent = getByTestId('learn-more-alert');

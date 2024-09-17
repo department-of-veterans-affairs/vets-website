@@ -73,6 +73,25 @@ describe('<Dashboard />', () => {
     });
   });
 
+  it('renders the welcome modal for an LOA1 user', async () => {
+    mockFetch();
+    initialState.user.profile.loa.current = 1;
+    initialState.user.profile.loa.highest = 1;
+    initialState.featureToggles = {
+      [Toggler.TOGGLE_NAMES
+        .veteranOnboardingShowWelcomeMessageToNewUsers]: true,
+    };
+
+    const { getByTestId } = renderInReduxProvider(<Dashboard />, {
+      initialState,
+      reducers,
+    });
+
+    await waitFor(() => {
+      expect(getByTestId('welcome-modal')).to.exist;
+    });
+  });
+
   it('renders for an LOA3 user', async () => {
     mockFetch();
 

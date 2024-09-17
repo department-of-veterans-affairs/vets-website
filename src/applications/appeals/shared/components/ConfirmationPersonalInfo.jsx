@@ -66,7 +66,7 @@ const ConfirmationPersonalInfo = ({
           >
             <va-telephone
               contact={getPhoneString(phone)}
-              extension={phone?.phoneNumberExt}
+              extension={phone?.extension}
               not-clickable
             />
           </div>

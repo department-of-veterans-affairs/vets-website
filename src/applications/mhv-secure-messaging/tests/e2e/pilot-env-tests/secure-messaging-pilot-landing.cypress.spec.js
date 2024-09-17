@@ -24,10 +24,7 @@ describe('Secure Messaging Pilot feature flag', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PilotEnvPage.verifyUrl(Paths.UI_MAIN);
-    cy.get(Locators.ACCORDIONS).should(
-      'have.length',
-      mockFeatureToggles.data.features.length,
-    );
+    cy.get(Locators.ACCORDIONS).should('have.length', 5);
   });
 
   it('pilot ON landing page view', () => {
@@ -37,15 +34,16 @@ describe('Secure Messaging Pilot feature flag', () => {
       Paths.UI_PILOT,
     );
 
+    cy.wait('@Recipients')
+      .its('request.url')
+      .should('contain', 'requires_oh=');
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
     PilotEnvPage.verifyUrl(Paths.UI_PILOT);
 
-    cy.get(Locators.ACCORDIONS).should(
-      'have.length',
-      mockPilotFeatureToggles.data.features.length,
-    );
+    cy.get(Locators.ACCORDIONS).should('have.length', 6);
 
     cy.get(Locators.ACCORDIONS)
       .last()

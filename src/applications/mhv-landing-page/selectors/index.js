@@ -1,6 +1,7 @@
 import {
   isAuthenticatedWithSSOe,
   signInServiceEnabled,
+  signInServiceName,
 } from '~/platform/user/authentication/selectors';
 import {
   isLoggedIn,
@@ -13,14 +14,18 @@ import {
 } from '~/platform/user/selectors';
 import { selectDrupalStaticData } from '~/platform/site-wide/drupal-static-data/selectors';
 
-import { personalizationEnabled } from './featureToggles';
+import { personalizationEnabled, mrPhase1Enabled } from './featureToggles';
 import { hasMhvAccount } from './hasMhvAccount';
 import {
   selectGreetingName,
   selectPersonalInformation,
 } from './personalInformation';
+import { showVerifyAndRegisterAlert } from './showVerifyAndRegisterAlert';
+import { hasMhvBasicAccount } from './hasMhvBasicAccount';
 
 export {
+  hasMhvAccount,
+  hasMhvBasicAccount,
   isAuthenticatedWithSSOe,
   isInMPI,
   isLOA1,
@@ -28,11 +33,13 @@ export {
   isLoggedIn,
   isProfileLoading,
   isVAPatient,
+  mrPhase1Enabled,
   personalizationEnabled,
   selectDrupalStaticData,
   selectGreetingName,
   selectPersonalInformation,
   selectProfile,
   signInServiceEnabled,
-  hasMhvAccount,
+  signInServiceName,
+  showVerifyAndRegisterAlert,
 };

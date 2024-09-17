@@ -7,16 +7,28 @@ import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import ReplyForm from '../components/ComposeForm/ReplyForm';
 import MessageThread from '../components/MessageThread/MessageThread';
 import InterstitialPage from './InterstitialPage';
+import { scrollToTop } from '../util/helpers';
 
 const MessageReply = () => {
   const dispatch = useDispatch();
   const { replyId } = useParams();
-  const { drafts, error, messages, threadViewCount } = useSelector(
+  const { drafts, error, messages } = useSelector(
     state => state.sm.threadDetails,
   );
   const replyMessage = messages?.length && messages[0];
   const [acknowledged, setAcknowledged] = useState(false);
-  const recipients = useSelector(state => state.sm);
+  const recipients = useSelector(state => state.sm.recipients);
+  const [isEditing, setIsEditing] = useState(true);
+  const [isSending, setIsSending] = useState(false);
+
+  useEffect(
+    () => {
+      if (isSending === true) {
+        scrollToTop();
+      }
+    },
+    [isSending],
+  );
 
   useEffect(
     () => {
@@ -52,12 +64,16 @@ const MessageReply = () => {
         </va-alert>
       );
     }
+
     return (
       <ReplyForm
-        drafts={drafts}
+        drafts={drafts || []}
         replyMessage={replyMessage}
         recipients={recipients}
         messages={messages}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        setIsSending={setIsSending}
       />
     );
   };
@@ -65,7 +81,7 @@ const MessageReply = () => {
   const thread = () => {
     return (
       <>
-        <MessageThread messageHistory={messages} viewCount={threadViewCount} />
+        <MessageThread messageHistory={messages} />
       </>
     );
   };
@@ -81,9 +97,16 @@ const MessageReply = () => {
         />
       ) : (
         <>
-          <div className="vads-l-grid-container compose-container">
+          <va-loading-indicator
+            message="Sending message..."
+            data-testid="sending-indicator"
+            style={{ display: isSending ? 'block' : 'none' }}
+          />
+          <div
+            className="vads-l-grid-container compose-container"
+            style={{ display: isSending && 'none' }}
+          >
             <AlertBackgroundBox closeable />
-
             {content()}
             {messages?.length && thread()}
           </div>

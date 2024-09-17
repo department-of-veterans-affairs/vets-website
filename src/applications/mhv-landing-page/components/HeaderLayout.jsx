@@ -14,7 +14,8 @@ const HeaderLayout = ({
   showLearnMore = false,
 }) => {
   const ssoe = useSelector(isAuthenticatedWithSSOe);
-  const goBackUrl = mhvUrl(ssoe, 'home');
+  const mhvHomeUrl = mhvUrl(ssoe, 'home');
+  const mhvDownloadUrl = mhvUrl(ssoe, 'download-my-data');
 
   const alertExpandableRef = useRef(null);
 
@@ -22,25 +23,17 @@ const HeaderLayout = ({
 
   useEffect(() => {
     const alertExpandable = alertExpandableRef.current;
-    if (alertExpandable) {
-      try {
-        const style = document.createElement('style');
-        style.innerHTML = `
-          .alert-expandable-trigger {
-            align-items: center !important;
-          }
-          .alert-expandable-icon {
-            vertical-align: middle !important;
-          }
-        `;
-        alertExpandable.shadowRoot.appendChild(style);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error(
-          'Error adding custom styles to alert-expandable component',
-          error,
-        );
-      }
+    if (alertExpandable?.shadowRoot) {
+      const style = document.createElement('style');
+      style.innerHTML = `
+        .alert-expandable-trigger {
+          align-items: center !important;
+        }
+        .alert-expandable-icon {
+          vertical-align: middle !important;
+        }
+      `;
+      alertExpandable.shadowRoot.appendChild(style);
     }
   }, []);
 
@@ -83,62 +76,62 @@ const HeaderLayout = ({
                   )
                 }
                 data-testid="mhv-go-back-1"
-                href={goBackUrl}
+                href={mhvHomeUrl}
               >
                 {goBackLinkText}
               </a>
             </p>
-            {showLearnMore && (
-              <div>
-                <va-alert-expandable
-                  status="info"
-                  ref={alertExpandableRef}
-                  trigger={learnMoreAlertTrigger}
-                  data-dd-action-name={learnMoreAlertTrigger}
-                  data-testid="learn-more-alert"
-                >
-                  <div>
-                    <p>
-                      <strong>What you can do now on VA.gov:</strong>
-                    </p>
-                    <ul className="vads-u-font-family--sans">
-                      <li>
-                        Schedule, cancel, and manage some health appointments
-                      </li>
-                      <li>Send secure messages to your health care team</li>
-                      <li>
-                        Refill your prescriptions and get a list of all your
-                        medications
-                      </li>
-                    </ul>
-                    <p>
-                      <strong>What’s coming soon:</strong>
-                    </p>
-                    <ul className="vads-u-font-family--sans">
-                      <li>Find, print, and download your medical records</li>
-                      <li>Get your lab and test results</li>
-                    </ul>
-                    <p className="vads-u-font-family--sans">
-                      We’re working to bring your medical records to VA.gov. For
-                      now, you can download your records using the previous
-                      version of My HealtheVet.{' '}
-                      <a
-                        onClick={() =>
-                          datadogRum.addAction(
-                            `Click on Landing Page: Learn More - ${goBackLinkText}`,
-                          )
-                        }
-                        data-testid="mhv-go-back-2"
-                        href={goBackUrl}
-                      >
-                        {goBackLinkText}
-                      </a>
-                    </p>
-                  </div>
-                </va-alert-expandable>
-              </div>
-            )}
           </div>
+          {showLearnMore && (
+            <div>
+              <va-alert-expandable
+                status="info"
+                ref={alertExpandableRef}
+                trigger={learnMoreAlertTrigger}
+                data-dd-action-name={learnMoreAlertTrigger}
+                data-testid="learn-more-alert"
+              >
+                <div>
+                  <p>
+                    <strong>What you can do now on VA.gov:</strong>
+                  </p>
+                  <ul>
+                    <li>
+                      Schedule, cancel, and manage some health appointments
+                    </li>
+                    <li>Send secure messages to your health care team</li>
+                    <li>
+                      Refill your prescriptions and get a list of all your
+                      medications
+                    </li>
+                  </ul>
+                  <p>
+                    <strong>What’s coming soon:</strong>
+                  </p>
+                  <ul>
+                    <li>Find, print, and download your medical records</li>
+                    <li>Get your lab and test results</li>
+                  </ul>
+                  <p>
+                    We’re working to bring your medical records to VA.gov. For
+                    now, you can download your records using the previous
+                    version of My HealtheVet.{' '}
+                    <a
+                      onClick={() =>
+                        datadogRum.addAction(
+                          `Click on Landing Page: Learn More - ${goBackLinkText}`,
+                        )
+                      }
+                      data-testid="mhv-go-back-2"
+                      href={mhvDownloadUrl}
+                    >
+                      {goBackLinkText}
+                    </a>
+                  </p>
+                </div>
+              </va-alert-expandable>
+            </div>
+          )}
         </div>
         <div
           className={classnames(

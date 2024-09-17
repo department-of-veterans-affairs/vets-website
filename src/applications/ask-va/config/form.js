@@ -1,7 +1,5 @@
-// TODO: Add Ask-VA form schema when we know the full scope of the form
-// import fullSchema from 'vets-json-schema/dist/XX-230-schema.json';
-
 import {
+  CategoryEducation,
   CHAPTER_1,
   CHAPTER_2,
   CHAPTER_3,
@@ -18,14 +16,14 @@ import selectSubtopicPage from './chapters/categoryAndTopic/selectSubtopic';
 import selectTopicPage from './chapters/categoryAndTopic/selectTopic';
 
 // Your Question
-import questionAboutPage from './chapters/yourQuestion/questionAbout';
+import whoIsYourQuestionAboutPage from './chapters/yourQuestion/whoIsYourQuestionAbout';
 import yourQuestionPage from './chapters/yourQuestion/yourQuestion';
 
 // Your Personal Information - Authenticated
 import YourPersonalInformationAuthenticated from '../components/YourPersonalInformationAuthenticated';
 import {
-  aboutMyselfRelationshipVeteranPages,
   aboutMyselfRelationshipFamilyMemberPages,
+  aboutMyselfRelationshipVeteranPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
   aboutSomeoneElseRelationshipConnectedThroughWorkPages,
   aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
@@ -42,30 +40,24 @@ import relationshipToVeteranPage from './chapters/personalInformation/relationsh
 
 // Review Page
 import Footer from '../components/Footer';
+import CategorySelectPage from '../containers/CategorySelectPage';
 import ReviewPage from '../containers/ReviewPage';
+import SubTopicSelectPage from '../containers/SubTopicSelectPage';
+import TopicSelectPage from '../containers/TopicSelectPage';
 
-// const mockUser = {
-//   first: 'Mark',
-//   last: 'Webb',
-//   dateOfBirth: '1950-10-04',
-//   socialOrServiceNum: {
-//     ssn: '1112223333',
-//     service: null,
-//   },
-// };
-
+import CustomPageReviewField from '../components/CustomPageReviewField';
 import prefillTransformer from './prefill-transformer';
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
+  // TODO: Clear local storage after submit - localStorage.removeItem('askVAFiles')
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'ask-the-va-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  // v3SegmentedProgressBar: true,
   formId: '0873',
   saveInProgress: {
     messages: {
@@ -106,21 +98,36 @@ const formConfig = {
         selectCategory: {
           path: CHAPTER_1.PAGE_1.PATH,
           title: CHAPTER_1.PAGE_1.TITLE,
-          uiSchema: selectCategoryPage.uiSchema,
+          CustomPage: CategorySelectPage,
+          CustomPageReview: CustomPageReviewField,
+          uiSchema: {
+            selectCategory: { 'ui:title': CHAPTER_1.PAGE_1.QUESTION_1 },
+          },
           schema: selectCategoryPage.schema,
+          editModeOnReviewPage: false,
         },
         selectTopic: {
           path: CHAPTER_1.PAGE_2.PATH,
           title: CHAPTER_1.PAGE_2.TITLE,
-          uiSchema: selectTopicPage.uiSchema,
+          CustomPage: TopicSelectPage,
+          CustomPageReview: CustomPageReviewField,
+          uiSchema: {
+            selectTopic: { 'ui:title': CHAPTER_1.PAGE_2.QUESTION_1 },
+          },
           schema: selectTopicPage.schema,
+          editModeOnReviewPage: false,
         },
         selectSubtopic: {
           path: CHAPTER_1.PAGE_3.PATH,
           title: CHAPTER_1.PAGE_3.TITLE,
-          uiSchema: selectSubtopicPage.uiSchema,
+          CustomPage: SubTopicSelectPage,
+          CustomPageReview: CustomPageReviewField,
+          uiSchema: {
+            selectTopic: { 'ui:title': CHAPTER_1.PAGE_3.QUESTION_1 },
+          },
           schema: selectSubtopicPage.schema,
           depends: form => requiredForSubtopicPage.includes(form.selectTopic),
+          editModeOnReviewPage: false,
         },
       },
     },
@@ -129,19 +136,18 @@ const formConfig = {
       hideFormNavProgress: true,
       pages: {
         whoIsYourQuestionAbout: {
+          editModeOnReviewPage: false,
           path: CHAPTER_2.PAGE_1.PATH,
           title: CHAPTER_2.PAGE_1.TITLE,
-          uiSchema: questionAboutPage.uiSchema,
-          schema: questionAboutPage.schema,
+          CustomPageReview: CustomPageReviewField,
+          uiSchema: whoIsYourQuestionAboutPage.uiSchema,
+          schema: whoIsYourQuestionAboutPage.schema,
           // Hidden - EDU Question are always 'General Question'
-          depends: formData =>
-            formData.selectCategory !==
-            'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+          depends: form => form.selectCategory !== CategoryEducation,
           onNavForward: ({ formData, goPath }) => {
             if (
-              formData.selectCategory !==
-                'Education (Ch.30, 33, 35, 1606, etc. & Work Study)' &&
-              formData.questionAbout !== "It's a general question"
+              formData.selectCategory !== CategoryEducation &&
+              formData.whoIsYourQuestionAbout !== "It's a general question"
             ) {
               goPath(CHAPTER_3.RELATIONSHIP_TO_VET.PATH);
             } else goPath(`/${flowPaths.general}-1`);
@@ -151,82 +157,11 @@ const formConfig = {
           editModeOnReviewPage: false,
           path: CHAPTER_3.RELATIONSHIP_TO_VET.PATH,
           title: CHAPTER_3.RELATIONSHIP_TO_VET.TITLE,
+          CustomPageReview: CustomPageReviewField,
+          depends: form =>
+            form.whoIsYourQuestionAbout !== "It's a general question",
           uiSchema: relationshipToVeteranPage.uiSchema,
           schema: relationshipToVeteranPage.schema,
-          // onNavForward: ({ formData, goPath }) => {
-          //   console.log(formData.questionAbout, formData.personalRelationship);
-          //   if (
-          //     formData.questionAbout === 'Myself' &&
-          //     formData.personalRelationship === "I'm the Veteran"
-          //   ) {
-          //     goPath(`/${flowPaths.aboutMyselfRelationshipVeteran}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Myself' &&
-          //     formData.personalRelationship ===
-          //       "I'm a family member of a Veteran"
-          //   ) {
-          //     goPath(`/${flowPaths.aboutMyselfRelationshipFamilyMember}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship === "I'm the Veteran" &&
-          //     formData.selectCategory !==
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(`/${flowPaths.aboutSomeoneElseRelationshipVeteran}-1`);
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm a family member of a Veteran" &&
-          //     formData.selectCategory !==
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${flowPaths.aboutSomeoneElseRelationshipFamilyMember}-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship !==
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducation
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)"
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipConnectedThroughWork
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === 'Someone else' &&
-          //     formData.personalRelationship ===
-          //       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(
-          //       `/${
-          //         flowPaths.aboutSomeoneElseRelationshipConnectedThroughWorkEducation
-          //       }-1`,
-          //     );
-          //   } else if (
-          //     formData.questionAbout === "It's a general question" ||
-          //     formData.selectCategory ===
-          //       'Education (Ch.30, 33, 35, 1606, etc. & Work Study)'
-          //   ) {
-          //     goPath(`/${flowPaths.general}-1`);
-          //   } else {
-          //     goPath('/review-then-submit');
-          //   }
-          // },
         },
       },
     },
@@ -234,44 +169,42 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Myself' &&
-        formData.personalRelationship === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout === 'Myself' &&
+        formData.relationshipToVeteran === "I'm the Veteran",
       pages: { ...aboutMyselfRelationshipVeteranPages },
     },
     aboutMyselfRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Myself' &&
-        formData.personalRelationship === "I'm a family member of a Veteran",
+        formData.whoIsYourQuestionAbout === 'Myself' &&
+        formData.relationshipToVeteran === "I'm a family member of a Veteran",
       pages: { ...aboutMyselfRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Someone else' &&
-        formData.personalRelationship === "I'm the Veteran" &&
-        formData.selectCategory !==
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran === "I'm the Veteran" &&
+        formData.selectCategory !== CategoryEducation,
       pages: { ...aboutSomeoneElseRelationshipVeteranPages },
     },
     aboutSomeoneElseRelationshipFamilyMember: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Someone else' &&
-        formData.personalRelationship === "I'm a family member of a Veteran" &&
-        formData.selectCategory !==
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran === "I'm a family member of a Veteran" &&
+        formData.selectCategory !== CategoryEducation,
       pages: { ...aboutSomeoneElseRelationshipFamilyMemberPages },
     },
     aboutSomeoneElseRelationshipFamilyMemberAboutVeteran: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Myself' &&
-        formData.personalRelationship === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout === 'Myself' &&
+        formData.relationshipToVeteran === "I'm the Veteran",
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutVeteranPages,
       },
@@ -280,8 +213,8 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Myself' &&
-        formData.personalRelationship === "I'm the Veteran",
+        formData.whoIsYourQuestionAbout === 'Myself' &&
+        formData.relationshipToVeteran === "I'm the Veteran",
       pages: {
         ...aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMemberPages,
       },
@@ -290,22 +223,20 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Someone else' &&
-        formData.personalRelationship ===
+        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory !==
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.selectCategory !== CategoryEducation,
       pages: { ...aboutSomeoneElseRelationshipConnectedThroughWorkPages },
     },
     aboutSomeoneElseRelationshipConnectedThroughWorkEducation: {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Someone else' &&
-        formData.personalRelationship ===
+        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran ===
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory ===
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.selectCategory === CategoryEducation,
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -314,11 +245,10 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === 'Someone else' &&
-        formData.personalRelationship !==
+        formData.whoIsYourQuestionAbout === 'Someone else' &&
+        formData.relationshipToVeteran !==
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory ===
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.selectCategory === CategoryEducation,
       pages: {
         ...aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationPages,
       },
@@ -327,9 +257,8 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.questionAbout === "It's a general question" ||
-        formData.selectCategory ===
-          'Education (Ch.30, 33, 35, 1606, etc. & Work Study)',
+        formData.whoIsYourQuestionAbout === "It's a general question" ||
+        formData.selectCategory === CategoryEducation,
       pages: { ...generalQuestionPages },
     },
     yourQuestionPart2: {
@@ -339,6 +268,7 @@ const formConfig = {
         question: {
           path: CHAPTER_2.PAGE_3.PATH,
           title: CHAPTER_2.PAGE_3.TITLE,
+          // CustomPageReview: CustomYourQuestionReviewField,
           uiSchema: yourQuestionPage.uiSchema,
           schema: yourQuestionPage.schema,
           onNavForward: ({ goPath }) => {

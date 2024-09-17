@@ -11,7 +11,7 @@ const childContent = (
       complete forms, but a visual guide to replicate simple patterns setup and
       page structure
     </p>
-    <h2>Form Pages Links</h2>
+    <h2>Form pages links</h2>
     <ul>
       <li>
         <Link to="/name-and-date-of-birth">Name and Date of Birth</Link>
@@ -39,7 +39,7 @@ const childContent = (
         </Link>
       </li>
     </ul>
-    <h2>Form Page Figma Templates Links</h2>
+    <h2>Form page Figma templates links</h2>
     <ul>
       <li>
         <a
@@ -96,7 +96,7 @@ const childContent = (
         </a>
       </li>
     </ul>
-    <h2>Form Page Code Examples</h2>
+    <h2>Form page code examples</h2>
     <ul>
       <li>
         <a
@@ -168,6 +168,18 @@ const childContent = (
           href="https://github.com/department-of-veterans-affairs/vets-website/blob/main/src/applications/simple-forms/mock-simple-forms-patterns-v3/pages/employers.js"
         >
           Multiple responses list & loop (optional) [Employment]
+        </a>
+      </li>
+    </ul>
+    <h2>Other form patterns</h2>
+    <ul>
+      <li>
+        <a
+          target="_blank"
+          rel="noreferrer"
+          href="https://staging.va.gov/mock-form-minimal-header"
+        >
+          Mock form minimal header
         </a>
       </li>
     </ul>
