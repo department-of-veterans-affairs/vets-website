@@ -20,7 +20,7 @@ export default function PasskeysContainer() {
     e.preventDefault();
 
     const registrationResponse = await fetch(
-      'http://localhost:8000/create-registration-options',
+      'http://localhost:3000/v0/webauthn/generate_registration_options',
     );
 
     let registrationData;
@@ -40,7 +40,7 @@ export default function PasskeysContainer() {
 
     try {
       const verificationResp = await fetch(
-        'http://localhost:8000/verify-registration',
+        'http://localhost:3000/v0/webauthn/verify_registration',
         {
           method: 'POST',
           headers: {
@@ -68,19 +68,22 @@ export default function PasskeysContainer() {
     e.preventDefault();
 
     const getAuthOpts = await fetch(
-      'http://localhost:8000/create-auth-options',
+      'http://localhost:3000/v0/webauthn/generate_authentication_options',
     );
     const authOptsData = await getAuthOpts.json();
 
     const attest = await startAuthentication(authOptsData, false);
 
-    const verifyAuth = await fetch('http://localhost:8000/verify-auth', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const verifyAuth = await fetch(
+      'http://localhost:3000/v0/webauthn/verify_authnetication',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(attest),
       },
-      body: JSON.stringify(attest),
-    });
+    );
 
     const verifyJSON = await verifyAuth.json();
     console.log({ verifyJSON });
