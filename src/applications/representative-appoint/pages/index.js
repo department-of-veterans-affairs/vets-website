@@ -14,8 +14,11 @@ import * as claimantContactMailing from './claimant/claimantContactMailing';
 import * as veteranPersonalInformation from './veteran/veteranPersonalInformation';
 import * as veteranContactPhoneEmail from './veteran/veteranContactPhoneEmail';
 import * as veteranContactMailing from './veteran/veteranContactMailing';
+import * as veteranContactMailingClaimant from './veteran/veteranContactMailingClaimant';
 import * as veteranIdentification from './veteran/veteranIdentification';
 import * as veteranServiceInformation from './veteran/veteranServiceInformation';
+import * as selectAccreditedRepresentative from './representative/selectAccreditedRepresentative';
+import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
 
 export {
   authorizeMedical,
@@ -34,6 +37,9 @@ export {
   veteranPersonalInformation,
   veteranContactPhoneEmail,
   veteranContactMailing,
+  veteranContactMailingClaimant,
   veteranIdentification,
   veteranServiceInformation,
+  selectAccreditedRepresentative,
+  selectedAccreditedOrganizationId,
 };

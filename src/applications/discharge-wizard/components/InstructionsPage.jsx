@@ -125,7 +125,7 @@ const InstructionsPage = () => {
                       <p>
                         If your previous upgrade application was denied, you can
                         apply again, but you may have to follow a different
-                        process. Click the <strong>Get Started</strong> button
+                        process. Select the <strong>Get Started</strong> link
                         above. When you’re asked if you’ve applied before,
                         select <strong>Yes</strong>. After you’ve answered all
                         the questions, you’ll see application instructions
@@ -191,8 +191,8 @@ const InstructionsPage = () => {
                       <p>
                         You can also apply to the Department of Defense (DoD) or
                         the Coast Guard for a second DD214 only for that
-                        honorable period of service. Click the{' '}
-                        <strong>Get Started</strong> button above and answer the
+                        honorable period of service. Select the{' '}
+                        <strong>Get Started</strong> link above and answer the
                         questions based on your most recent discharge. When
                         you’re asked if you completed a period of service in
                         which your character of service was honorable or general
@@ -217,8 +217,8 @@ const InstructionsPage = () => {
                         of discharge.
                       </p>
                       <p>
-                        If you have a DD215 and want an updated DD214, click the{' '}
-                        <strong>Get Started</strong> button above. On the next
+                        If you have a DD215 and want an updated DD214, select
+                        the <strong>Get Started</strong> link above. On the next
                         page, select: “I received a discharge upgrade or
                         correction, but my upgrade came in the form of a DD215,
                         and I want an updated DD214.” After you’ve answered all

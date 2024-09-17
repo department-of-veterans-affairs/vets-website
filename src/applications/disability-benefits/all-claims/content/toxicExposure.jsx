@@ -88,16 +88,10 @@ export const goBackLink = 'Edit locations and dates';
 export const goBackLinkExposures = 'Edit exposures and dates';
 export const noDatesEntered = 'No dates entered';
 export const notSureDatesSummary = 'I’m not sure of the dates';
-export const notSureDatesDetails = (
-  <p className="vads-spacing-1">
-    I’m not sure of the dates I served in this location
-  </p>
-);
-export const notSureHazardDetails = (
-  <p className="vads-spacing-1">
-    I’m not sure of the dates I was exposed to this hazard
-  </p>
-);
+export const notSureDatesDetails =
+  'I’m not sure of the dates I served in this location';
+export const notSureHazardDetails =
+  'I’m not sure of the dates I was exposed to this hazard';
 
 /**
  * Generate the Toxic Exposure subtitle, which is used on Review and Submit and on the pages

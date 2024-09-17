@@ -76,7 +76,6 @@ describe('Provider search', () => {
 
   it('finds community dentists', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
@@ -92,16 +91,15 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('BADEA, LUANA');
 
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds community urgent care - Clinic/Center', () => {
     cy.visit('/find-locations');
-    cy.injectAxe();
 
     cy.get('#street-city-state-zip').type('Austin, TX');
     cy.get('#facility-type-dropdown')
@@ -117,10 +115,10 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds community urgent care', () => {
@@ -140,11 +138,10 @@ describe('Provider search', () => {
     );
     cy.get('#other-tools').should('exist');
 
-    cy.injectAxe();
-    cy.axeCheck();
-
     cy.get('.facility-result h3').contains('MinuteClinic');
     cy.get('.va-pagination').should('not.exist');
+    cy.injectAxe();
+    cy.axeCheck();
   });
 
   it('finds In-network community emergency care', () => {

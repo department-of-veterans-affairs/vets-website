@@ -43,13 +43,7 @@ const NavCard = ({
         >
           {text} {isExternal && externalLinkText}
         </span>
-        {!isExternal && (
-          <va-icon
-            class="vads-u-margin-right--neg1 medium-screen:vads-u-margin-right--0"
-            icon="navigate_next"
-            size={4}
-          />
-        )}
+        {!isExternal && <va-icon icon="navigate_next" size={4} />}
       </a>
     </li>
   ));

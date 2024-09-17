@@ -21,10 +21,6 @@ const HEALTH_TOOL_LINKS = freeze({
       href: '/health-care/schedule-view-va-appointments/appointments',
       text: 'Manage upcoming appointments',
     },
-    {
-      href: '/find-locations',
-      text: 'Find VA locations',
-    },
   ]),
   MESSAGES: freeze([
     {
@@ -34,10 +30,6 @@ const HEALTH_TOOL_LINKS = freeze({
     {
       href: '/my-health/secure-messages/new-message/',
       text: 'Start a new message',
-    },
-    {
-      href: '/my-health/secure-messages/folders/',
-      text: 'Manage folders',
     },
   ]),
   MEDICATIONS: freeze([
@@ -53,7 +45,7 @@ const HEALTH_TOOL_LINKS = freeze({
   MEDICAL_RECORDS: freeze([
     {
       href: '/my-health/medical-records/',
-      text: 'Get VA medical records',
+      text: 'Get medical records',
     },
   ]),
   PAYMENTS: freeze([
