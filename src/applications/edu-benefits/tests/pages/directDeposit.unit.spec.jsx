@@ -8,7 +8,6 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig1990n from '../../1990n/config/form';
 import formConfig5490 from '../../5490/config/form';
 
 const pageTests = (page, requiredErrors = 0, inputs = 4) => {
@@ -58,11 +57,6 @@ const pageTests = (page, requiredErrors = 0, inputs = 4) => {
 };
 
 describe('Edu directDepositChangePage', () => {
-  describe('1990n', () =>
-    pageTests(
-      formConfig1990n.chapters.personalInformation.pages.directDeposit,
-      3,
-    ));
   describe('5490', () =>
     pageTests(formConfig5490.chapters.personalInformation.pages.directDeposit));
 });

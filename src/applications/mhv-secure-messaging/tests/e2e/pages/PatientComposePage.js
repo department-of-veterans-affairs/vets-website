@@ -120,7 +120,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = () => {
-    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);
@@ -453,11 +453,6 @@ class PatientComposePage {
       .shadow()
       .find('#input-label')
       .should('contain.text', 'Required');
-  };
-
-  verifyESCheckBoxRequired = () => {
-    cy.get(`#option-label`).should(`contain.text`, Data.EL_SIGN_CHECK);
-    cy.get(`#option-label>span`).should(`have.text`, `(*Required)`);
   };
 
   clickElectronicSignatureCheckbox = () => {

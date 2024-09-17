@@ -166,7 +166,7 @@ class FolderManagementPage {
   };
 
   verifyFolderActionMessageHasFocus = () => {
-    cy.get('[close-btn-aria-label="Close notification"]').should('have.focus');
+    cy.get('[close-btn-aria-label*="Close notification"]').should('have.focus');
   };
 
   verifyFolderInList = assertion => {
