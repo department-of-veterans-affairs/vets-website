@@ -60,7 +60,7 @@ export const resolveParamsWithUrl = ({
   let service;
   let { url } = api;
   let roundRadius;
-  let perPage = 10;
+  const perPage = 10;
   let communityServiceType = false;
   let multiSpecialties = false;
 
@@ -92,7 +92,6 @@ export const resolveParamsWithUrl = ({
       service = serviceType;
       url = api.ccUrl;
       communityServiceType = true;
-      perPage = 15;
       break;
     default:
       facility = locationType;

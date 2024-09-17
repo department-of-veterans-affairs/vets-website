@@ -87,7 +87,6 @@ const FacilitiesMap = props => {
         {
           searchString: location.query.address,
           context: location.query.context,
-          facilityType: location.query.facilityType,
         },
         expandedRadius,
       );
