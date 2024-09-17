@@ -9,8 +9,9 @@ import {
   RELATION_TO_APPLICANT_ID,
 } from './enums';
 
+const transformedData = {};
 
-const setName = (transformedData, fullName) => {
+const setName = fullName => {
   transformedData.firstName = fullName.first;
   transformedData.lastName = fullName.last;
 
@@ -18,14 +19,14 @@ const setName = (transformedData, fullName) => {
   if (fullName?.suffix) transformedData.suffix = fullName.suffix;
 };
 
-const setBirth = (transformedData, placeOfBirth, form) => {
+const setBirth = (placeOfBirth, form) => {
   transformedData.birthdate = form.data.dateOfBirth;
   transformedData.birthCity = placeOfBirth.city;
   transformedData.birthState = placeOfBirth.state;
   transformedData.birthCountry = placeOfBirth.country;
 };
 
-const setHomeAddress = (transformedData, homeAddress) => {
+const setHomeAddress = homeAddress => {
   transformedData.homeAddress = {
     addressType: homeAddress.isMilitary,
     line1: homeAddress.street,
@@ -40,7 +41,7 @@ const setHomeAddress = (transformedData, homeAddress) => {
     transformedData.homeAddress.line2 = homeAddress.street2;
 };
 
-const setContactInfo = (transformedData, form) => {
+const setContactInfo = form => {
   transformedData.homePhone = form.data.phone;
   transformedData.phoneTypeId = PHONE_TYPE_ID[form.data.typeOfPhone];
   transformedData.phoneType = {
@@ -49,7 +50,7 @@ const setContactInfo = (transformedData, form) => {
   transformedData.homeEmail = form.data.email;
 };
 
-const setEmployment = (transformedData, workAddress, form) => {
+const setEmployment = (workAddress, form) => {
   const employmentStatus = Object.keys(form.data.employmentStatus)[0];
   transformedData.employmentStatus = employmentStatus;
   transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[employmentStatus];
@@ -74,7 +75,7 @@ const setEmployment = (transformedData, workAddress, form) => {
   }
 };
 
-const setMilitaryService = (transformedData, militaryServiceExperiences) => {
+const setMilitaryService = militaryServiceExperiences => {
   transformedData.militaryServices = [];
 
   for (let i = 0; i < militaryServiceExperiences.length; i += 1) {
@@ -91,15 +92,14 @@ const setMilitaryService = (transformedData, militaryServiceExperiences) => {
       },
       dischargeTypeId:
         DISCHARGE_TYPE_ID[militaryServiceExperiences[i].characterOfDischarge],
-      serviceBranchId:
-        SERVICE_BRANCH_ID[militaryServiceExperiences[i].branch],
+      serviceBranchId: SERVICE_BRANCH_ID[militaryServiceExperiences[i].branch],
     };
 
     transformedData.militaryServices.push(service);
   }
 };
 
-const setEmploymentHistory = (transformedData, employers) => {
+const setEmploymentHistory = employers => {
   transformedData.employment = [];
 
   for (let i = 0; i < employers.length; i += 1) {
@@ -127,7 +127,7 @@ const setEmploymentHistory = (transformedData, employers) => {
   }
 };
 
-const setEducation = (transformedData, educationalInstitutions) => {
+const setEducation = educationalInstitutions => {
   transformedData.education = [];
 
   for (let i = 0; i < educationalInstitutions.length; i += 1) {
@@ -157,7 +157,7 @@ const setEducation = (transformedData, educationalInstitutions) => {
   }
 };
 
-const setJurisdictions = (transformedData, jurisdictions) => {
+const setJurisdictions = jurisdictions => {
   transformedData.jurisdictions = [];
 
   for (let i = 0; i < jurisdictions.length; i += 1) {
@@ -173,7 +173,7 @@ const setJurisdictions = (transformedData, jurisdictions) => {
   }
 };
 
-const setAgencies = (transformedData, agenciesOrCourts) => {
+const setAgencies = agenciesOrCourts => {
   transformedData.agencies = [];
 
   for (let i = 0; i < agenciesOrCourts.length; i += 1) {
@@ -189,7 +189,7 @@ const setAgencies = (transformedData, agenciesOrCourts) => {
   }
 };
 
-const setCharacterReferences = (transformedData, characterReferences) => {
+const setCharacterReferences = characterReferences => {
   transformedData.characterReferences = [];
 
   for (let i = 0; i < characterReferences.length; i += 1) {
@@ -217,7 +217,7 @@ const setCharacterReferences = (transformedData, characterReferences) => {
   }
 };
 
-const setBackgroundInfo = (transformedData, form) => {
+const setBackgroundInfo = form => {
   transformedData.wasImprisoned = form.data.conviction;
   transformedData.wasMilitaryConviction = form.data.courtMartialed;
   transformedData.isCurrentlyCharged = form.data.underCharges;
@@ -231,13 +231,12 @@ const setBackgroundInfo = (transformedData, form) => {
   transformedData.hasAppliedForAccreditation =
     form.data.appliedForVaAccreditation;
   transformedData.wasAccreditationTerminated = form.data.terminatedByVsorg;
-  transformedData.hasImpairments =
-    form.data.conditionThatAffectsRepresentation;
+  transformedData.hasImpairments = form.data.conditionThatAffectsRepresentation;
   transformedData.hasPhysicalLimitations =
     form.data.conditionThatAffectsExamination;
 };
 
-const transformForSubmit = (_formConfig, form, transformedData = {}) => {
+const transformForSubmit = (_formConfig, form) => {
   const {
     fullName,
     placeOfBirth,
@@ -251,18 +250,18 @@ const transformForSubmit = (_formConfig, form, transformedData = {}) => {
     characterReferences,
   } = form.data;
 
-  setName(transformedData, fullName);
-  setBirth(transformedData, placeOfBirth, form);
-  setHomeAddress(transformedData, homeAddress);
-  setContactInfo(transformedData, form);
-  setEmployment(transformedData, workAddress, form);
-  setMilitaryService(transformedData, militaryServiceExperiences);
-  setEmploymentHistory(transformedData, employers);
-  setEducation(transformedData, educationalInstitutions);
-  setJurisdictions(transformedData, jurisdictions);
-  setAgencies(transformedData, agenciesOrCourts);
-  setCharacterReferences(transformedData, characterReferences);
-  setBackgroundInfo(transformedData, form);
+  setName(fullName);
+  setBirth(placeOfBirth, form);
+  setHomeAddress(homeAddress);
+  setContactInfo(form);
+  setEmployment(workAddress, form);
+  setMilitaryService(militaryServiceExperiences);
+  setEmploymentHistory(employers);
+  setEducation(educationalInstitutions);
+  setJurisdictions(jurisdictions);
+  setAgencies(agenciesOrCourts);
+  setCharacterReferences(characterReferences);
+  setBackgroundInfo(form);
 
   return JSON.stringify({ ...transformedData });
 };
