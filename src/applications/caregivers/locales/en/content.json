@@ -134,7 +134,7 @@
   "validation-address--county-required": "Enter a county",
   "validation-default-required": "Please provide a response",
   "validation-facilities--search-required": "Enter a city, state or postal code",
-  "validation-facialities--default-required": "Select a medical center or clinic",
+  "validation-facilities--default-required": "Select a medical center or clinic",
   "validation-signature-required": "Must certify by checking box",
   "validation-sign-as-rep": "You must sign as representative.",
   "validation-sign-as-rep--vet-name": "Your signature must match previously entered name: %s",

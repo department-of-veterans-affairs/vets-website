@@ -47,7 +47,7 @@ describe('<IntroductionPage>', () => {
 
       expect(selectors.actionLink).to.have.attribute('text', 'Get started');
       expect(selectors.title).to.contain.text(
-        'Complete the benefit eligibility questionnaire',
+        'Benefit and resource recommendation tool',
       );
     });
 

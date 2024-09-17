@@ -96,6 +96,7 @@ const CareSummariesAndNotes = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <RecordList
           records={careSummariesAndNotes}
           type="care summaries and notes"

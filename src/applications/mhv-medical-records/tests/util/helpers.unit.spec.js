@@ -14,7 +14,9 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
+  getLastUpdatedText,
 } from '../../util/helpers';
+
 import { refreshPhases } from '../../util/constants';
 
 describe('Name formatter', () => {
@@ -443,5 +445,45 @@ describe('getStatusExtractPhase', () => {
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
     );
+  });
+});
+
+describe('getLastUpdatedText', () => {
+  it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.equal('Last updated at 10:00 AM on 2024-09-15');
+  });
+
+  it('should return null when no matching extractType is found', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
+    ];
+    const extractType = 'type2';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
+  });
+
+  it('should return null when refreshStateStatus is undefined', () => {
+    const result = getLastUpdatedText(undefined, 'type1');
+    expect(result).to.be.null;
+  });
+
+  it('should return null when no lastSuccessfulCompleted is present', () => {
+    const refreshStateStatus = [
+      { extract: 'type1', lastSuccessfulCompleted: null },
+    ];
+    const extractType = 'type1';
+
+    const result = getLastUpdatedText(refreshStateStatus, extractType);
+
+    expect(result).to.be.null;
   });
 });

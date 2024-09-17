@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import PdfModal from '../../components/PdfModal';
 
 // DownloadPDFModal is state wrapper + modal for PDF guidance upon PDf being valid
-const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
+const DownloadPDFModal = ({ clickedId, formNumber, removeNode, url }) => {
   const [modalState, setModalState] = useState({
     isOpen: true,
     pdfSelected: formNumber,
@@ -32,39 +32,13 @@ const DownloadPDFModal = ({ formNumber, removeNode, url }) => {
         pointerEvents: 'all',
       }}
     >
-      <VaModal
-        onCloseEvent={toggleModalState}
-        modalTitle="Download this PDF and open it in Acrobat Reader"
-        visible={isOpen}
-        uswds
-      >
-        <>
-          <p>
-            Download this PDF to your desktop computer or laptop. Then use Adobe
-            Acrobat Reader to open and fill out the form. Don’t try to open the
-            PDF on a mobile device or fill it out in your browser.
-          </p>{' '}
-          <p>
-            If you just want to fill out a paper copy, open the PDF in your
-            browser and print it from there.
-          </p>{' '}
-          <a
-            href="https://get.adobe.com/reader/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Get Acrobat Reader for free from Adobe
-          </a>
-          <a
-            href={pdfUrl}
-            className="usa-button vads-u-margin-top--2"
-            download
-            role="button"
-          >
-            Download VA Form {pdfSelected}
-          </a>
-        </>
-      </VaModal>
+      <PdfModal
+        isOpen={isOpen}
+        pdfUrl={pdfUrl}
+        pdfSelected={pdfSelected}
+        prevFocusedLink={clickedId}
+        toggleModalState={toggleModalState}
+      />
     </div>
   );
 };
