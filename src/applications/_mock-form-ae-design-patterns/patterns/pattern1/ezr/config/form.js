@@ -24,6 +24,7 @@ import { prefillTransformer } from '../../../../utils/helpers/prefill-transforme
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
+import veteranContactInformation from './chapters/veteranInformation/contactInformation';
 import maritalStatus from './chapters/householdInformation/maritalStatus';
 import spousePersonalInformation from './chapters/householdInformation/spousePersonalInformation';
 import spouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
@@ -172,6 +173,13 @@ const formConfig = {
           depends: hasDifferentHomeAddress,
           uiSchema: veteranHomeAddress.uiSchema,
           schema: veteranHomeAddress.schema,
+        },
+        contactInformation: {
+          path: 'veteran-information/contact-information',
+          title: 'Veteran\u2019s contact information',
+          // initialData: {},
+          uiSchema: veteranContactInformation.uiSchema,
+          schema: veteranContactInformation.schema,
         },
       },
     },
