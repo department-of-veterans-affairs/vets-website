@@ -9,14 +9,12 @@ import { BCMR, DRB } from '../../../constants';
 
 const AdditionalInstructions = ({ formResponses }) => {
   const serviceBranch = formResponses[SHORT_NAME_MAP.SERVICE_BRANCH];
+  const { abbr } = determineBoardObj(formResponses);
 
   return (
     <section>
-      <va-accordion uswds>
-        <va-accordion-item
-          header="What happens after I send in my application?"
-          uswds
-        >
+      <va-accordion>
+        <va-accordion-item header="What happens after I send in my application?">
           <p>
             The Board reviews nearly all applications within 18 months. You can
             continue to submit supporting documentation until the Board has
@@ -51,10 +49,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             .
           </p>
         </va-accordion-item>
-        <va-accordion-item
-          header="Can I get VA benefits without a discharge upgrade?"
-          uswds
-        >
+        <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">
           <p>
             Even with a less than honorable discharge, you may be able to access
             some VA benefits through the Character of Discharge review process.
@@ -188,7 +183,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             </li>
           )}
         {serviceBranch === RESPONSES.ARMY &&
-          determineBoardObj(formResponses).abbr === BCMR && (
+          abbr === BCMR && (
             <li>
               <a
                 target="_blank"
@@ -212,7 +207,7 @@ const AdditionalInstructions = ({ formResponses }) => {
           </li>
         )}
         {serviceBranch === RESPONSES.AIR_FORCE &&
-          determineBoardObj(formResponses).abbr === BCMR && (
+          abbr === BCMR && (
             <li>
               <a
                 target="_blank"
@@ -225,7 +220,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             </li>
           )}
         {serviceBranch === RESPONSES.COAST_GUARD &&
-          determineBoardObj(formResponses).abbr === BCMR && (
+          abbr === BCMR && (
             <li>
               <a
                 target="_blank"
@@ -238,7 +233,7 @@ const AdditionalInstructions = ({ formResponses }) => {
             </li>
           )}
         {serviceBranch === RESPONSES.COAST_GUARD &&
-          determineBoardObj(formResponses).abbr === DRB && (
+          abbr === DRB && (
             <li>
               <a
                 target="_blank"

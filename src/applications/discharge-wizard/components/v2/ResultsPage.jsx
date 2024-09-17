@@ -55,9 +55,9 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
               <StepThree formResponses={formResponses} />
             </va-process-list>
           </section>
-          <AdditionalInstructions formResponses={formResponses} />
         </>
       )}
+      <AdditionalInstructions formResponses={formResponses} />
     </article>
   );
 };
