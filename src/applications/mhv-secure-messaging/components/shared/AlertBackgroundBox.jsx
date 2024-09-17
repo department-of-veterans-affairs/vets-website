@@ -131,7 +131,7 @@ const AlertBackgroundBox = props => {
         );
       }, 500);
     },
-    [props.focusOnClose],
+    [props.focus],
   );
 
   const alertAriaLabel = `You are in ${(lastPathName === 'Folders' &&
