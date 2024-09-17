@@ -2875,19 +2875,19 @@
     react-focus-on "^3.5.1"
     react-transition-group "^1.0.0"
 
-"@department-of-veterans-affairs/css-library@^0.10.1":
-  version "0.10.1"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.10.1.tgz#3ad72c2962f06fc5b7186ce968e6f726e759f5ff"
-  integrity sha512-fEFd635iY+bPJ89hc1xHPKzzZxpNXVCUF6UdUoIQMrSQRdParRVISF7anj/sqEKdFsOTM+toYRJnRN/7BqMRbw==
+"@department-of-veterans-affairs/css-library@^0.11.0":
+  version "0.11.0"
+  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.11.0.tgz#7ffca0910032550e72efef8d934ca070a2028ce0"
+  integrity sha512-mudcu4SVI02oz51q1jW7y4IFW8cOK+gDyswOMBmiatJrtmeuoxq8S6kFUQd77kEN1eRhxkbGLqSnVXxxq+ULkA==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.8.1"
     rimraf "^5.0.5"
 
-"@department-of-veterans-affairs/css-library@^0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@department-of-veterans-affairs/css-library/-/css-library-0.11.0.tgz#7ffca0910032550e72efef8d934ca070a2028ce0"
-  integrity sha512-mudcu4SVI02oz51q1jW7y4IFW8cOK+gDyswOMBmiatJrtmeuoxq8S6kFUQd77kEN1eRhxkbGLqSnVXxxq+ULkA==
+"@department-of-veterans-affairs/css-library@^0.11.1":
+  version "0.11.1"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/css-library/-/css-library-0.11.1.tgz#6f00091e90a3476dc90ff99e80a0d8eca7edae1f"
+  integrity sha512-OAwcKvEE62shIXutqqadAQ1VyE0oADLfybgSzKr4W5d6uUVRR5cu8zUx0aztZSGJj11yUcsgrWxnq3O0MEgZ0A==
   dependencies:
     "@divriots/style-dictionary-to-figma" "^0.4.0"
     "@uswds/uswds" "^3.8.1"
