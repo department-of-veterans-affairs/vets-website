@@ -40,47 +40,47 @@ const ApplicantInformationReviewPage = ({
   const formattedDiplomaDate = formatDiplomaDate(data?.highSchoolDiplomaDate);
 
   return (
-    <>
-      <div className="form-review-panel-page">
-        {/* Title and Button on the Same Line */}
-        <div
-          className="form-review-panel-page-header-row"
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <h4 className="form-review-panel-page-header vads-u-font-size--h5">
-            {title}
-          </h4>
-          {data?.highSchoolDiploma && (
-            <va-button
-              aria-label={`Edit ${title}`}
-              secondary
-              text="Edit"
-              onClick={editPage}
-            />
-          )}
-        </div>
+    <div className="form-review-panel-page">
+      {/* Title and Button on the Same Line */}
+      <div
+        className="form-review-panel-page-header-row"
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}
+      >
+        <h4 className="form-review-panel-page-header vads-u-font-size--h5">
+          {title}
+        </h4>
+        {data?.highSchoolDiploma && (
+          <va-button
+            aria-label={`Edit ${title}`}
+            secondary
+            text="Edit"
+            onClick={editPage}
+          />
+        )}
+      </div>
 
-        <p className="va-address-block">
-          {userFullName.first} {userFullName.middle} {userFullName.last}
-          <br />
-          Date of birth: {formattedDateOfBirth}
-        </p>
+      <p className="va-address-block">
+        {userFullName.first} {userFullName.middle} {userFullName.last}
+        <br />
+        Date of birth: {formattedDateOfBirth}
+      </p>
 
+      <dl className="review">
+        {/* Parent / Guardian Signature */}
         {data?.parentGuardianSponsor && (
-          <dl className="review">
-            <div className="review-row">
-              <dt>Parent / Guardian Signature:</dt>
-              <dd>{data.parentGuardianSponsor}</dd>
-            </div>
-          </dl>
+          <div className="review-row">
+            <dt>Parent / Guardian Signature:</dt>
+            <dd>{data.parentGuardianSponsor}</dd>
+          </div>
         )}
 
+        {/* High School Information */}
         {data?.toeHighSchoolInfoChange && (
-          <dl className="review">
+          <>
             {data?.highSchoolDiploma && (
               <div className="review-row">
                 <dt>
@@ -98,10 +98,10 @@ const ApplicantInformationReviewPage = ({
                 <dd>{formattedDiplomaDate}</dd>
               </div>
             )}
-          </dl>
+          </>
         )}
-      </div>
-    </>
+      </dl>
+    </div>
   );
 };
 
