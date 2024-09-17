@@ -1,13 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import React from 'react';
+import { Provider } from 'react-redux';
 import { envUrl } from '../../../constants';
 import { userData } from '../../fixtures/data/mock-form-data';
 
-import SubtopicSelect from '../../components/FormFields/SubtopicSelect';
+import SubtopicSelect from '../../../containers/SubTopicSelectPage';
 
 // TODO: Point to the page and see what breaks. The old components have been deleted in this branch.
 

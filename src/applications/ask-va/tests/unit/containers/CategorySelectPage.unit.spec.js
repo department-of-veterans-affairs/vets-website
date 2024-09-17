@@ -1,13 +1,13 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { expect } from 'chai';
 import { render, waitFor } from '@testing-library/react';
+import { expect } from 'chai';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { envUrl } from '../../constants';
-import { userData } from '../fixtures/data/mock-form-data';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { envUrl } from '../../../constants';
+import { userData } from '../../fixtures/data/mock-form-data';
 
-import CategorySelect from '../../components/FormFields/CategorySelect';
+import CategorySelect from '../../../containers/CategorySelectPage';
 
 // TODO: Point to the page and see what breaks. The old components have been deleted in this branch.
 

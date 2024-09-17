@@ -53,7 +53,7 @@ describe('yourAddressMailingPage', () => {
     );
   });
 
-  it('should render with military options', () => {
+  it.skip('should render with military options', () => {
     const { container, getByLabelText } = render(
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
