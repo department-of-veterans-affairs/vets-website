@@ -37,6 +37,14 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
     [router, viewedIntroPage],
   );
 
+  useEffect(
+    () => {
+      localStorage.setItem('dw-viewed-results', true);
+      localStorage.setItem('dw-formResponses', JSON.stringify(formResponses));
+    },
+    [formResponses],
+  );
+
   return (
     <article className="dw-guidance" data-testid="duw-results">
       <h1>{H1}</h1>

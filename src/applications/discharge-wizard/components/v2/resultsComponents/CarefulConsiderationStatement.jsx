@@ -151,7 +151,7 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
                     If you want a DD214 for your period of honorable service for
                     other reasons, unrelated to applying for VA benefits, you
                     can request one.{' '}
-                    <Link to="/request-dd214" target="_blank">
+                    <Link to="/request-dd214-v2" target="_blank">
                       Find out how to request a DD214 for your period of
                       honorable service (opens in a new tab)
                     </Link>
