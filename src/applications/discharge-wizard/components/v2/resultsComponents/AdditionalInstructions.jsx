@@ -118,7 +118,7 @@ const AdditionalInstructions = ({ formResponses }) => {
           </ul>
         </va-accordion-item>
       </va-accordion>
-      <h4>Additional Resources</h4>
+      <h2>Additional Resources</h2>
       <hr />
       <ul className="additional-resources">
         <li>
