@@ -50,9 +50,7 @@ const DependentSummary = props => {
    */
   const handlers = {
     onChange: value => {
-      console.log('Updating fieldData to:', value);
       setFieldData(value);
-      console.log('Updated fieldData:', value);
       setFormData({
         ...data,
         [DEPENDENT_VIEW_FIELDS.add]: value,
@@ -67,24 +65,18 @@ const DependentSummary = props => {
       });
     },
     onGoForward: () => {
-      console.log('Navigating forward. Field data:', fieldData);
-      console.log('Dependents length:', dependents.length);
       if (error) return;
 
       // set error if user hasn't provided a value for the form field
       if (fieldData === null) {
-        console.log('this is null');
         hasError(true);
         return;
       }
 
       // navigate to dependent information or next form page based on form field value
       if (fieldData === true) {
-        console.log('this is true');
-        // goToPath(`/${DEPENDENT_PATHS.info}?index=${dependents.length}`);
-        goForward(data);
+        goToPath(`/1/ezr/${DEPENDENT_PATHS.info}?index=${dependents.length}`);
       } else {
-        console.log('else');
         goForward(data);
       }
     },

@@ -12,15 +12,18 @@ import { SHARED_PATHS, VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
 import {
   includeSpousalInformation,
   includeHouseholdInformation,
+  hasDifferentHomeAddress,
   spouseDidNotCohabitateWithVeteran,
   spouseAddressDoesNotMatchVeterans,
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
 } from '../../../../utils/helpers/form-config';
+import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import IntroductionPage from '../../../../shared/components/pages/IntroductionPage1010ezr';
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
+import veteranHomeAddress from './chapters/veteranInformation/homeAddress';
 import maritalStatus from './chapters/householdInformation/maritalStatus';
 import spousePersonalInformation from './chapters/householdInformation/spousePersonalInformation';
 import spouseAdditionalInformation from './chapters/householdInformation/spouseAdditionalInformation';
@@ -43,7 +46,6 @@ import { EditAddress } from '../EditContactInfo';
 import { GetFormHelp } from '../../../../shared/components/GetFormHelp';
 import VeteranProfileInformation from '../VeteranProfileInformation';
 import { MailingAddressInfoPage } from '../MailingAddressInfoPage';
-// import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
 
 export const errorMessages = {
   missingEmail: 'Add an email address to your profile',
@@ -101,16 +103,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillTransformer(pages, formData, metadata) {
-    const transformedData = {
-      veteranSocialSecurityNumber: formData?.data?.attributes?.veteran?.ssn,
-    };
-    return {
-      metadata,
-      formData: transformedData,
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound:
@@ -172,7 +165,14 @@ const formConfig = {
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
-        // taskCompletePage,
+        homeAddress: {
+          path: 'veteran-information/home-address',
+          title: 'Veteran\u2019s home address',
+          // initialData: {},
+          depends: hasDifferentHomeAddress,
+          uiSchema: veteranHomeAddress.uiSchema,
+          schema: veteranHomeAddress.schema,
+        },
       },
     },
     householdInformation: {
