@@ -38,14 +38,32 @@ const ApplicantInformationReviewPage = ({
 }) => {
   const formattedDateOfBirth = formatDateString(dateOfBirth);
   const formattedDiplomaDate = formatDiplomaDate(data?.highSchoolDiplomaDate);
+
   return (
     <>
       <div className="form-review-panel-page">
-        <div className="form-review-panel-page-header-row">
+        {/* Title and Button on the Same Line */}
+        <div
+          className="form-review-panel-page-header-row"
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
           </h4>
+          {data?.highSchoolDiploma && (
+            <va-button
+              aria-label={`Edit ${title}`}
+              secondary
+              text="Edit"
+              onClick={editPage}
+            />
+          )}
         </div>
+
         <p className="va-address-block">
           {userFullName.first} {userFullName.middle} {userFullName.last}
           <br />
@@ -79,15 +97,6 @@ const ApplicantInformationReviewPage = ({
                 </dt>
                 <dd>{formattedDiplomaDate}</dd>
               </div>
-            )}
-
-            {data?.highSchoolDiploma && (
-              <va-button
-                aria-label={`Edit ${title}`}
-                secondary
-                text="Edit"
-                onClick={editPage}
-              />
             )}
           </dl>
         )}
