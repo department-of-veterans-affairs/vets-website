@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 const InstructionsPage = () => {
   return (
@@ -49,9 +48,7 @@ const InstructionsPage = () => {
                     confidential.
                   </p>
                   <p>
-                    <Link className="vads-c-action-link--green" to="questions">
-                      Get started
-                    </Link>
+                    <va-link-action href="questions" text="Get started" />
                   </p>
                 </div>
               </div>

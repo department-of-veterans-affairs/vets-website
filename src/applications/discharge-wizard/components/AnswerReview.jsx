@@ -1,7 +1,6 @@
 // Dependencies.
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import Scroll from 'react-scroll';
 
 // Relative Imports
@@ -54,9 +53,7 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
           );
         })}
       </div>
-      <Link to="/guidance" className="vads-c-action-link--green">
-        Get my results
-      </Link>
+      <va-link-action href="guidance" text="Get my results" />
     </div>
   );
 };
