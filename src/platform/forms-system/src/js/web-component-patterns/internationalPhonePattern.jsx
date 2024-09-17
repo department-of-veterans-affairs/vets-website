@@ -1,4 +1,3 @@
-// TODO: [#89197 Create internationalPhone pattern in form patterns](https://app.zenhub.com/workspaces/accredited-representative-facing-team-65453a97a9cc36069a2ad1d6/issues/gh/department-of-veterans-affairs/va.gov-team/89197)
 import PhoneNumberReviewWidget from 'platform/forms-system/src/js/review/PhoneNumberWidget';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
