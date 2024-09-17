@@ -110,7 +110,6 @@ function CancelButton({ appointment }) {
   const dispatch = useDispatch();
   const { status, vaos } = appointment;
   const { isCancellable, isPastAppointment } = vaos;
-  const isCancelled = APPOINTMENT_STATUS.cancelled === status;
 
   let event = `${GA_PREFIX}-cancel-booked-clicked`;
   if (APPOINTMENT_STATUS.proposed === status)
@@ -131,8 +130,6 @@ function CancelButton({ appointment }) {
       data-testid="cancel-button"
     />
   );
-
-  if (isCancelled) return null;
 
   if (!!isCancellable && !isPastAppointment) return button;
 
