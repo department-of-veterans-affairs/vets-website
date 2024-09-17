@@ -45,36 +45,18 @@ const ApplicantInformationReviewPage = ({
           <h4 className="form-review-panel-page-header vads-u-font-size--h5">
             {title}
           </h4>
-          {!data.showMebEnhancements06 && (
-            <button
-              aria-label={`Edit ${title}`}
-              className="edit-btn primary-outline"
-              onClick={editPage}
-              type="button"
-            >
-              Edit
-            </button>
-          )}
         </div>
-        {data.showMebEnhancements06 ? (
-          <p className="va-address-block">
-            {userFullName.first} {userFullName.middle} {userFullName.last}
-            <br />
-            Date of birth: {formattedDateOfBirth}
-          </p>
-        ) : (
+        <p className="va-address-block">
+          {userFullName.first} {userFullName.middle} {userFullName.last}
+          <br />
+          Date of birth: {formattedDateOfBirth}
+        </p>
+
+        {data?.parentGuardianSponsor && (
           <dl className="review">
             <div className="review-row">
-              <dt>Full Name</dt>
-              <dd>
-                {data['view:userFullName'].userFullName.first}{' '}
-                {data['view:userFullName'].userFullName.middle}{' '}
-                {data['view:userFullName'].userFullName.last}{' '}
-              </dd>
-            </div>
-            <div className="review-row">
-              <dt>Date of birth</dt>
-              <dd>{data.dateOfBirth}</dd>
+              <dt>Parent / Guardian Signature:</dt>
+              <dd>{data.parentGuardianSponsor}</dd>
             </div>
           </dl>
         )}
@@ -100,14 +82,12 @@ const ApplicantInformationReviewPage = ({
             )}
 
             {data?.highSchoolDiploma && (
-              <button
+              <va-button
                 aria-label={`Edit ${title}`}
-                className="edit-btn primary-outline"
+                secondary
+                text="Edit"
                 onClick={editPage}
-                type="button"
-              >
-                Edit
-              </button>
+              />
             )}
           </dl>
         )}
@@ -117,15 +97,15 @@ const ApplicantInformationReviewPage = ({
 };
 
 ApplicantInformationReviewPage.propTypes = {
-  data: PropTypes.object,
-  dateOfBirth: PropTypes.string,
-  editPage: PropTypes.func,
-  title: PropTypes.string,
+  data: PropTypes.object.isRequired,
+  dateOfBirth: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
   userFullName: PropTypes.shape({
-    first: PropTypes.string,
+    first: PropTypes.string.isRequired,
     middle: PropTypes.string,
-    last: PropTypes.string,
-  }),
+    last: PropTypes.string.isRequired,
+  }).isRequired,
+  editPage: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

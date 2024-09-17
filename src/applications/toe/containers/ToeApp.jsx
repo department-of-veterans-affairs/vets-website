@@ -34,7 +34,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements06,
   showMebEnhancements08,
   toeDupContactInfoCall,
   toeHighSchoolInfoChange,
@@ -85,18 +84,6 @@ function ToeApp({
       }
     },
     [formData, setFormData, isLOA3],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
   );
 
   useEffect(
@@ -226,7 +213,7 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange],
+    [formData, setFormData, toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -238,7 +225,7 @@ function ToeApp({
         });
       }
     },
-    [dob],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -278,6 +265,7 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
@@ -289,13 +277,13 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
   showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
   toeDupContactInfoCall: PropTypes.bool,
+  toeHighSchoolInfoChange: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
