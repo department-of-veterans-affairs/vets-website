@@ -148,7 +148,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           You can filter and sort the recommended benefits. If you want to copy
           the link to your personalized results or email the results to
-          yourself, select the "Save you results" button.
+          yourself, select the "Save your results" button.
         </p>
         <p>
           Please note that this is a recommendation tool, not an eligibility
