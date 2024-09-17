@@ -770,7 +770,7 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node --dns-result-order=ipv4first src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=0.0.0.0 &
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
