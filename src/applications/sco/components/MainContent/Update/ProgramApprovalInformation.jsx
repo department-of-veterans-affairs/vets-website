@@ -49,6 +49,11 @@ const ProgramApprovalInformation = () => {
         pText="Find information for schools considering initial or continued participation in the Yellow Ribbon Program."
       />
       <LiSpanAndVaLinkAndPTag
+        href="https://benefits.va.gov/gibill/resources/education_resources/school_certifying_officials/covered-educational-institutions.asp"
+        hrefText="Covered educational institutions"
+        pText="Educational institutions that have enrolled 20 or more individuals using educational assistance under Title 38, United States Code, during the previous calendar year."
+      />
+      <LiSpanAndVaLinkAndPTag
         href="https://nasaa-vetseducation.com/nasaa-contacts/"
         hrefText="State Approving Agency contact information"
         pText="Find out how you can contact your State Approving Agency."

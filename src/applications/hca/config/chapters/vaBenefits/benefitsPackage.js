@@ -29,6 +29,7 @@ export default {
   },
   schema: {
     type: 'object',
+    required: ['view:vaBenefitsPackage'],
     properties: {
       'view:vaBenefitsPackage': {
         type: 'string',

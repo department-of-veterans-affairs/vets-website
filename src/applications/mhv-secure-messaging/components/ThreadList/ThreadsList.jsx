@@ -89,9 +89,9 @@ const ThreadsList = props => {
         )}
 
         {threadList?.length > 0 && (
-          <div className="xsmall-screen:vads-l-grid-container xsmall-screen:vads-u-max-width--10">
-            <div className="xsmall-screen:vads-l-row xsmall-screen:vads-u-max-width--10">
-              <div className="xsmall-screen:vads-u-margin-left--neg2 xsmall-screen:vads-l-col--12 xsmall-screen:vads-u-padding-left--0 xsmall-screen:vads-u-max-width--10">
+          <div className="xsmall-screen:vads-l-grid-container mobile:vads-u-max-width--100">
+            <div className="xsmall-screen:vads-l-row mobile:vads-u-max-width--100">
+              <div className="xsmall-screen:vads-u-margin-left--neg2 xsmall-screen:vads-l-col--12 xsmall-screen:vads-u-padding-left--0 mobile:vads-u-max-width--100">
                 <VaPagination
                   className="sm-pagination"
                   maxPageListLength={MAX_PAGE_LIST_LENGTH}
