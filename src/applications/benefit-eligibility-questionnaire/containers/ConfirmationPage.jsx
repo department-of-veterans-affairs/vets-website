@@ -222,14 +222,31 @@ export class ConfirmationPage extends React.Component {
                       .filter(benefit => benefit.isTimeSensitive)
                       .map(b => (
                         <li key={b.id}>
-                          <a
-                            href={b.learnMoreURL}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {b.name}
-                          </a>
+                          <strong>{b.name}</strong>
                           <p>{b.description}</p>
+                          {b.learnMoreURL ? (
+                            <div>
+                              <a
+                                href={b.learnMoreURL}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Learn more
+                              </a>
+                            </div>
+                          ) : null}
+                          ,
+                          {b.applyNowURL ? (
+                            <div>
+                              <a
+                                href={b.applyNowURL}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Apply now
+                              </a>
+                            </div>
+                          ) : null}
                         </li>
                       ))}
                 </ul>
