@@ -1,8 +1,9 @@
 import SecureMessagingSite from '../sm_site/SecureMessagingSite';
-import PatientInboxPage from '../pages/PatientInboxPage';
 import ContactListPage from '../pages/ContactListPage';
 import { AXE_CONTEXT } from '../utils/constants';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import mockRecipients from '../fixtures/recipients-response.json';
 
 describe('SM Single Facility Contact list', () => {
   const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
@@ -17,14 +18,17 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it('verify empty contact list alerts', () => {
-    ContactListPage.clickCancelButton();
-
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
     ContactListPage.clickBackToInbox();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
+
+    ContactListPage.clickGoBackButton();
+    ContactListPage.clickModalSaveButton();
+    ContactListPage.verifyEmptyContactListAlert();
 
     ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyEmptyContactListAlert();
@@ -38,18 +42,29 @@ describe('SM Single Facility Contact list', () => {
     ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
+    GeneralFunctionsPage.verifyUrl(`inbox`);
     GeneralFunctionsPage.verifyPageHeader(`Inbox`);
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 
   it('verify single contact selected', () => {
-    ContactListPage.selectCheckBox(`100`);
+    const selectedTeam = [`100`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockRecipients,
+      selectedTeam,
+    );
 
-    ContactListPage.clickCancelButton();
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    ContactListPage.clickSaveContactListButton();
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.verifySingleCheckBox(selectedTeam[0], true);
 
     cy.wait('@savedList')
       .its('request.body')
@@ -68,16 +83,25 @@ describe('SM Single Facility Contact list', () => {
   });
 
   it(`verify few contacts selected`, () => {
-    ContactListPage.selectCheckBox(`200`);
-    ContactListPage.selectCheckBox(`Cardio`);
-    ContactListPage.selectCheckBox(`TG-7410`);
+    const selectedTeamList = [`200`, `Cardio`, `TG-7410`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockRecipients,
+      selectedTeamList,
+    );
 
-    ContactListPage.clickCancelButton();
+    ContactListPage.selectCheckBox(selectedTeamList[0]);
+    ContactListPage.selectCheckBox(selectedTeamList[1]);
+    ContactListPage.selectCheckBox(selectedTeamList[2]);
+
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    ContactListPage.clickSaveContactListButton();
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.verifySingleCheckBox(selectedTeamList[0], true);
+    ContactListPage.verifySingleCheckBox(selectedTeamList[1], true);
+    ContactListPage.verifySingleCheckBox(selectedTeamList[2], true);
 
     cy.wait('@savedList')
       .its('request.body')

@@ -27,13 +27,18 @@ describe('SM Multi Facility Contact list', () => {
 
   it('verify empty contact list alerts', () => {
     ContactListPage.selectAllCheckBox();
-    ContactListPage.clickCancelButton();
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
     ContactListPage.clickBackToInbox();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
+
+    // this is a bug
+    ContactListPage.clickGoBackButton();
+    ContactListPage.clickModalSaveButton();
+    ContactListPage.verifyEmptyContactListAlert();
 
     ContactListPage.clickSaveContactListButton();
     ContactListPage.verifyEmptyContactListAlert();
@@ -42,16 +47,36 @@ describe('SM Multi Facility Contact list', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify single contact selected', () => {
-    ContactListPage.selectAllCheckBox();
+  it(`user won't see the alert after saving changes`, () => {
+    ContactListPage.selectCheckBox(`ABC`);
     ContactListPage.selectCheckBox(`100`);
+    ContactListPage.clickSaveContactListButton();
+    ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.clickBackToInbox();
+    GeneralFunctionsPage.verifyUrl(`inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
 
-    ContactListPage.clickCancelButton();
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('verify single contact selected', () => {
+    const selectedTeam = [`100`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockMixRecipients,
+      selectedTeam,
+    );
+
+    ContactListPage.selectAllCheckBox();
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    ContactListPage.clickSaveContactListButton();
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.verifySingleCheckBox(selectedTeam[0], true);
 
     cy.wait('@savedList')
       .its('request.body')
@@ -70,25 +95,32 @@ describe('SM Multi Facility Contact list', () => {
   });
 
   it(`verify few contacts selected`, () => {
+    const selectedTeamList = [`200`, `Cardio`, `TG-7410`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockMixRecipients,
+      selectedTeamList,
+    );
     ContactListPage.selectAllCheckBox();
-    ContactListPage.selectCheckBox(`100`);
-    ContactListPage.selectCheckBox(`Cardio`);
-    ContactListPage.selectCheckBox(`TG-7410`);
+    ContactListPage.selectCheckBox(selectedTeamList[0]);
+    ContactListPage.selectCheckBox(selectedTeamList[1]);
+    ContactListPage.selectCheckBox(selectedTeamList[2]);
 
-    ContactListPage.clickCancelButton();
+    ContactListPage.clickGoBackButton();
     ContactListPage.verifySaveAlert();
     ContactListPage.closeSaveModal();
 
-    ContactListPage.clickSaveContactListButton();
-
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
+    ContactListPage.verifySingleCheckBox(selectedTeamList[0], true);
+    ContactListPage.verifySingleCheckBox(selectedTeamList[1], true);
+    ContactListPage.verifySingleCheckBox(selectedTeamList[2], true);
 
     cy.wait('@savedList')
       .its('request.body')
       .then(req => {
         const selected = req.updatedTriageTeams.filter(
           el =>
-            el.name.includes(`100`) ||
+            el.name.includes(`200`) ||
             el.name.includes(`Cardio`) ||
             el.name.includes(`TG-7410`),
         );

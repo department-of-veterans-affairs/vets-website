@@ -117,10 +117,18 @@ export default function RequestedAppointmentDetailsPage() {
   if (isCC === false && cancelInfo.showCancelModal === false) {
     return <VARequestLayout data={appointment} />;
   }
-  if (
-    cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
-    cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
-  ) {
+
+  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Canceling your appointment..."
+        />
+      </FullWidthLayout>
+    );
+  }
+  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return (
       <PageLayout showNeedHelp isDetailPage>
         <CancelWarningPage
