@@ -23,9 +23,10 @@ function additionalConsiderationsQuestionTitleText(
       'academy-commission': 3,
       'rotc-commission': 4,
       'loan-payment': 5,
+      'additional-contributions': 6,
     };
     pageNumber = pageOrder[pageName] || order;
-    totalPages = 5;
+    totalPages = 6;
   } else {
     pageNumber = isUnsure ? order - 1 : order;
     totalPages = isUnsure ? 3 : 4;
@@ -191,6 +192,14 @@ const additionalConsiderations33 = {
       formFields.loanPayment,
       { includeExclusionWidget: true },
     ),
+  },
+  [formPages.additionalConsiderations.additionalContributions.name]: {
+    ...AdditionalConsiderationTemplate(
+      formPages.additionalConsiderations.additionalContributions,
+      formFields.additionalContributions,
+    ),
+    depends: formData =>
+      formData.benefitSelection === 'chapter30' && formData.meb160630Automation,
   },
 };
 

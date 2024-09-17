@@ -11,6 +11,7 @@ export const formFields = {
   accountType: 'accountType',
   activeDutyKicker: 'activeDutyKicker',
   additionalConsiderationsNote: 'additionalConsiderationsNote',
+  additionalContributions: 'additionalContributions',
   address: 'address',
   bankAccount: 'bankAccount',
   benefitEffectiveDate: 'benefitEffectiveDate',
