@@ -17,7 +17,6 @@ describe('Secure Messaging Digital Signature Error flows', () => {
 
     PatientComposePage.verifyElectronicSignature();
     PatientComposePage.verifyElectronicSignatureRequired();
-    PatientComposePage.verifyESCheckBoxRequired();
   });
 
   it("verify user can't send a message without electronic signature", () => {

@@ -13,7 +13,39 @@ import {
 } from './constants';
 
 /**
+ * @typedef {object} LiItem
+ * @property {string} value
+ */
+
+/**
+ * @typedef {object} Item
+ * @property {string | undefined} title
+ * @property {string | Array<LiItem>} value
+ * @property {boolean | undefined} inline // false by default
+ * @property {boolean | undefined} isRich // false by default; must be set to true if value is an array
+ * @property {boolean | undefined} disablePageSplit // false by default
+ * @property {boolean | undefined} noIndentation // false by default
+ */
+
+/**
+ * @typedef {object} Section
+ * @property {string | undefined} header
+ * @property {Array<Item>} items
+ * @property {string | undefined} headerSize // 'H4' by default
+ */
+
+/**
+ * @typedef {Object} PdfConfigItem
+ * @property {string | undefined} header
+ * @property {boolean | undefined} sectionSeparators // false by default
+ * @property {Object | undefined} sectionSeperatorOptions
+ * @property {Array<Section>} sections
+ */
+
+/**
  * Return Non-VA prescription PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildNonVAPrescriptionPDFList = prescription => {
   return [
@@ -83,6 +115,8 @@ export const buildNonVAPrescriptionPDFList = prescription => {
 
 /**
  * Return prescriptions PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildPrescriptionsPDFList = prescriptions => {
   return prescriptions?.map(rx => {
@@ -182,6 +216,8 @@ export const buildPrescriptionsPDFList = prescriptions => {
 
 /**
  * Return medication information PDF
+ *
+ * @returns {PdfConfigItem}
  */
 export const buildMedicationInformationPDF = list => {
   const listOfHeaders = ['h2', 'h3'];
@@ -210,6 +246,7 @@ export const buildMedicationInformationPDF = list => {
                   },
                 ],
                 isRich: true,
+                disablePageSplit: true,
               };
             }
             return [];
@@ -219,6 +256,7 @@ export const buildMedicationInformationPDF = list => {
             {
               value: subItem.text,
               noIndentation: true,
+              disablePageSplit: true,
             },
           ];
         });
@@ -233,6 +271,8 @@ export const buildMedicationInformationPDF = list => {
 
 /**
  * Return allergies PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildAllergiesPDFList = allergies => {
   return allergies.map(item => {
@@ -280,6 +320,8 @@ export const buildAllergiesPDFList = allergies => {
 
 /**
  * Return VA prescription PDF list
+ *
+ * @returns {Array<PdfConfigItem>}
  */
 export const buildVAPrescriptionPDFList = prescription => {
   const refillHistory = [...(prescription?.rxRfRecords || [])];

@@ -53,12 +53,13 @@ const CareSummariesAndNotesListItem = props => {
       </Link>
 
       {/* print view header */}
-      <h3
+      <p
         className="vads-u-font-size--h5 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </p>
 
       {/* fields */}
       <div data-testid="note-item-date">

@@ -42,6 +42,8 @@ const arrayBuilderOptions = {
         item?.fullName?.suffix ? `, ${item?.fullName?.suffix}` : ''
       }`,
     cardDescription: item => `${item?.phone}, ${item?.email}`,
+    summaryDescription:
+      'You must add at least 3 and no more than 4 character references.',
   },
 };
 
