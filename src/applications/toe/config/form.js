@@ -921,6 +921,7 @@ const formConfig = {
                         }}
                       >
                         <va-button
+                          uswds
                           onClick={() => {}}
                           secondary
                           text="Go back and add a mobile phone number"

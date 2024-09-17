@@ -55,6 +55,7 @@ const ApplicantInformationReviewPage = ({
         </h4>
         {data?.highSchoolDiploma && (
           <va-button
+            uswds
             aria-label={`Edit ${title}`}
             secondary
             text="Edit"

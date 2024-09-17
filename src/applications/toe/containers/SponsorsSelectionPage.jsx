@@ -84,6 +84,7 @@ function SponsorSelectionPage({
           ))}
         </VaCheckboxGroup>
         <va-button
+          uswds
           className="vads-u-margin-y--2"
           type="submit"
           text="Update page"

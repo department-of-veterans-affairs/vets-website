@@ -24,6 +24,7 @@ const SelectedSponsorsReviewPage = ({ data, editPage, title }) => {
           {title}
         </h4>
         <va-button
+          uswds
           aria-label={`Edit ${title}`}
           secondary
           text="Edit"

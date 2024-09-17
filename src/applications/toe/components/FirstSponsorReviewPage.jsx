@@ -33,6 +33,7 @@ const FirstSponsorReviewPage = ({ data, editPage, title }) => {
         </h4>
         {/* Use the new button style */}
         <va-button
+          uswds
           aria-label={`Edit ${title}`}
           secondary
           text="Edit"
