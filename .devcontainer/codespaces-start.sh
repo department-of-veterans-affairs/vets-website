@@ -31,28 +31,19 @@ if [ "$MAKE_APP_PUBLIC" == "YES" ]; then
     fi
 
     # Wait for servers to start
-    sleep 10
+    printf "\n\n##### Waiting 20 seconds for servers to start... #####\n"
+    sleep 20
 
     # Make frontend port public
     printf "\n\n##### Making frontend port public #####\n"
-    gh codespace ports visibility 3001:public
+    gh codespace ports visibility 3001:public -c "$CODESPACE_NAME"
 
     # Make mock API port public
     printf "\n\n##### Making mock API port public #####\n"
-    gh codespace ports visibility 3000:public
-
-    API_URL="https://${CODESPACE_NAME}-3000.app.github.dev"
-    FRONTEND_URL="https://${CODESPACE_NAME}-3001.app.github.dev"
+    gh codespace ports visibility 3000:public -c "$CODESPACE_NAME"
 
     printf "\n\n##### Setup complete. Your servers are running and ports are public. #####\n"
-    printf "Mock API: $API_URL\n"
-    printf "Frontend: $FRONTEND_URL\n"
-    printf "Mock Responses: $MOCK_RESPONSES\n"
-    if [ -n "$ENTRY_APPS" ]; then
-        printf "Entry Apps: $ENTRY_APPS\n"
-    else
-        printf "Entry Apps: Not specified (using default)\n"
-    fi
+    wait
 else
     printf "\n\n##### MAKE_APP_PUBLIC is not set to 'YES'. Servers will not be started. #####\n"
     printf "To make the app public and start the servers, set the MAKE_APP_PUBLIC secret to 'YES' in your Codespace settings.\n"
