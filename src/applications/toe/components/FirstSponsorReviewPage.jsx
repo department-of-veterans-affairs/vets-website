@@ -67,6 +67,8 @@ FirstSponsorReviewPage.propTypes = {
 };
 
 const mapStateToProps = state => ({
+  firstSponsor: state.form?.data?.firstSponsor,
+  sponsors: state.form?.data?.sponsors,
   ...getAppData(state),
 });
 
