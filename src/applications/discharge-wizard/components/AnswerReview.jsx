@@ -8,7 +8,7 @@ import { answerReview, shouldShowQuestion } from '../helpers';
 
 const { Element } = Scroll;
 
-const AnswerReview = ({ formValues, handleScrollTo }) => {
+const AnswerReview = ({ formValues, handleScrollTo, router }) => {
   if (!formValues) {
     return null;
   }
@@ -16,6 +16,11 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
   if (formValues?.questions.slice(-1)[0] !== 'END') {
     return null;
   }
+
+  const getResults = event => {
+    event.preventDefault();
+    router.push('guidance');
+  };
 
   return (
     <div>
@@ -54,8 +59,9 @@ const AnswerReview = ({ formValues, handleScrollTo }) => {
         })}
       </div>
       <va-link-action
+        onClick={getResults}
         data-testid="duw-guidance"
-        href="guidance"
+        href="#"
         text="Get my results"
       />
     </div>
