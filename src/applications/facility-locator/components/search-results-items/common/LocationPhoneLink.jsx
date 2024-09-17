@@ -68,7 +68,7 @@ const LocationPhoneLink = ({
   }
 
   return (
-    <div className="facility-phone-group vads-u-margin-top--2">
+    <div className="facility-phone-group">
       {renderPhoneNumber('Main number', null, phone.main, from, location)}
       {showHealthConnectNumber &&
         renderPhoneNumber(
