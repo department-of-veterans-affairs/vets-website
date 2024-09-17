@@ -235,7 +235,7 @@ export class ConfirmationPage extends React.Component {
                               </a>
                             </div>
                           ) : null}
-                          ,
+
                           {b.applyNowURL ? (
                             <div>
                               <a
