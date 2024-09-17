@@ -259,7 +259,6 @@
   "vaOnlineSchedulingDirect": "va_online_scheduling_direct",
   "vaOnlineSchedulingFacilitiesServiceV2": "va_online_scheduling_facilities_service_v2",
   "vaOnlineSchedulingGA4Migration": "va_online_scheduling_GA4_migration",
-  "vaOnlineSchedulingMedReviewInstructions": "va_online_scheduling_med_review_instructions",
   "vaOnlineSchedulingOhDirectSchedule": "va_online_scheduling_OH_direct_schedule",
   "vaOnlineSchedulingOhRequest": "va_online_scheduling_OH_request",
   "vaOnlineSchedulingPhysicalLocation": "va_online_scheduling_physical_location",
