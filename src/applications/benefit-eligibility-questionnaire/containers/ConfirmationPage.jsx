@@ -8,7 +8,6 @@ import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
-import AdditionalSupport from '../components/AdditionalSupport';
 import GetFormHelp from '../components/GetFormHelp';
 import SaveResultsModal from '../components/SaveResultsModal';
 import { BENEFITS_LIST } from '../constants/benefits';
@@ -282,9 +281,6 @@ export class ConfirmationPage extends React.Component {
             </va-accordion>
           </div>
         </div>
-
-        <AdditionalSupport />
-
         <div className="row vads-u-margin-bottom--2">
           <div className="usa-width-one-whole medium-8 columns">
             <va-need-help>
