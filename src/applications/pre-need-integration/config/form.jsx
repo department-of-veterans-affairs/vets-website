@@ -23,8 +23,8 @@ import * as sponsorDemographics from './pages/sponsorDemographics';
 import * as sponsorDeceased from './pages/sponsorDeceased';
 import * as sponsorDateOfDeath from './pages/sponsorDateOfDeath';
 import * as sponsorRace from './pages/sponsorRace';
-// import * as sponsorMilitaryDetailsSelf from './pages/sponsorMilitaryDetailsSelf';
-// import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsPreparer';
+import * as sponsorMilitaryDetailsSelf from './pages/sponsorMilitaryDetailsSelf';
+import * as sponsorMilitaryDetailsPreparer from './pages/sponsorMilitaryDetailsPreparer';
 import * as applicantRelationshipToVet from './pages/applicantRelationshipToVet';
 import * as veteranApplicantDetails from './pages/veteranApplicantDetails';
 import * as veteranApplicantDetailsPreparer from './pages/veteranApplicantDetailsPreparer';
@@ -37,8 +37,8 @@ import * as preparerContactDetails from './pages/preparerContactDetails';
 import * as applicantDemographics from './pages/applicantDemographics';
 import * as applicantDemographics2 from './pages/applicantDemographics2';
 import * as applicantDemographics2Preparer from './pages/applicantDemographics2Preparer';
-// import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
-// import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
+import * as militaryDetailsSelf from './pages/militaryDetailsSelf';
+import * as militaryDetailsPreparer from './pages/militaryDetailsPreparer';
 import * as currentlyBuriedPersons from './pages/currentlyBuriedPersons';
 import * as burialCemetery from './pages/burialCemetery';
 import {
@@ -444,6 +444,43 @@ const formConfig = {
           depends: formData => !isVeteran(formData),
           uiSchema: sponsorRace.uiSchema,
           schema: sponsorRace.schema,
+        },
+      },
+    },
+    militaryDetails: {
+      title: 'Military details',
+      pages: {
+        militaryDetailsSelf: {
+          path: 'military-details-self',
+          title: 'Military details',
+          depends: formData =>
+            isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: militaryDetailsSelf.uiSchema,
+          schema: militaryDetailsSelf.schema,
+        },
+        militaryDetailsPreparer: {
+          path: 'military-details-preparer',
+          title: 'Military details',
+          depends: formData =>
+            isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: militaryDetailsPreparer.uiSchema,
+          schema: militaryDetailsPreparer.schema,
+        },
+        sponsorMilitaryDetailsSelf: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details',
+          depends: formData =>
+            !isVeteran(formData) && !isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsSelf.uiSchema,
+          schema: sponsorMilitaryDetailsSelf.schema,
+        },
+        sponsorMilitaryDetailsPreparer: {
+          title: "Sponsor's military details",
+          path: 'sponsor-military-details-preparer',
+          depends: formData =>
+            !isVeteran(formData) && isAuthorizedAgent(formData),
+          uiSchema: sponsorMilitaryDetailsPreparer.uiSchema,
+          schema: sponsorMilitaryDetailsPreparer.schema,
         },
       },
     },
