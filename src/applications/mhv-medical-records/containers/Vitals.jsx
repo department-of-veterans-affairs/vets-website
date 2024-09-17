@@ -138,6 +138,7 @@ const Vitals = () => {
               dispatch(reloadRecords());
             }}
           />
+
           <RecordList
             records={cards}
             type={recordType.VITALS}
