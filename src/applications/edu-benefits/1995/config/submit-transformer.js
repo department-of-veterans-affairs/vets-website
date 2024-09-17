@@ -4,7 +4,6 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
-
     delete clonedData.newSchoolName;
     delete clonedData.newSchoolAddress;
 
@@ -16,18 +15,6 @@ export function transform(formConfig, form) {
         address: formData.newSchoolAddress,
       },
     };
-    return clonedData;
-  };
-
-  const tourOfDutyTransform = formData => {
-    const clonedData = _.cloneDeep(formData);
-    if (form.isActiveDuty) {
-      clonedData.toursOfDuty = form.toursOfDutyIsActiveDutyTrue;
-    } else {
-      clonedData.toursOfDuty = form.toursOfDutyIsActiveDutyFalse;
-    }
-    delete clonedData.toursOfDutyIsActiveDutyTrue;
-    delete clonedData.toursOfDutyIsActiveDutyFalse;
     return clonedData;
   };
 
@@ -68,7 +55,6 @@ export function transform(formConfig, form) {
     newSchoolTransform,
     fryScholarshipTransform,
     contactInfoTransform,
-    tourOfDutyTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
 
