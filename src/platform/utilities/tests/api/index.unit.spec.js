@@ -163,7 +163,7 @@ describe('test wrapper', () => {
       checkAndUpdateSSOSessionMock.restore();
     });
 
-    it.skip('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
+    it('calls checkOrSetSessionExpiration and checkAndUpdateSSOSession if the hasSessionSSO flag is set', async () => {
       localStorage.setItem('hasSessionSSO', 'true');
       await fetchAndUpdateSessionExpiration(environment.API_URL, {});
       expect(checkOrSetSessionExpirationMock.callCount).to.equal(1);

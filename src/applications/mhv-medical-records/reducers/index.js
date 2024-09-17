@@ -10,7 +10,7 @@ import { allergyReducer } from './allergies';
 import { sharingReducer } from './sharing';
 import { alertsReducer } from './alerts';
 import { refreshReducer } from './refresh';
-import { isDetailsReducer } from './isDetails';
+import { pageTrackerReducer } from './pageTracker';
 
 const rootReducer = {
   mr: combineReducers({
@@ -24,7 +24,7 @@ const rootReducer = {
     sharing: sharingReducer,
     alerts: alertsReducer,
     refresh: refreshReducer,
-    isDetails: isDetailsReducer,
+    pageTracker: pageTrackerReducer,
   }),
 };
 

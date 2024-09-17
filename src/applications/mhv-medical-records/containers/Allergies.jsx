@@ -14,7 +14,6 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   recordType,
   ALERT_TYPE_ERROR,
@@ -26,7 +25,12 @@ import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  getLastUpdatedText,
+} from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -82,7 +86,6 @@ const Allergies = props => {
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.ALLERGIES_PAGE_TITLE);
     },
@@ -96,10 +99,18 @@ const Allergies = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.ALLERGY,
+  );
+
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateAllergiesIntro(allergies);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const { title, value, subject, preface } = generateAllergiesIntro(
+      refresh.status,
+      lastUpdatedText,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -172,6 +183,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}

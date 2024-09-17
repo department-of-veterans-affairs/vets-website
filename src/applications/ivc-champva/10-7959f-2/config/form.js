@@ -94,7 +94,7 @@ const formConfig = {
       title: 'Personal information',
       pages: {
         page1: {
-          path: 'veteran-info',
+          path: 'veteran-information',
           title: 'Name and date of birth',
           uiSchema: {
             ...titleUI('Name and date of birth'),
@@ -227,15 +227,15 @@ const formConfig = {
       title: 'Contact information',
       pages: {
         page5: {
-          path: 'contact-info',
+          path: 'contact-information',
           title: 'Phone and email address',
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },

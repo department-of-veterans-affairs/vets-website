@@ -6,8 +6,6 @@ export const pageTitle = 'Housing situation'; // new 996
 export const homelessTitle = 'Are you experiencing homelessness?'; // old 996
 export const homelessRiskTitle =
   'Are you experiencing or at risk of homelessness?'; // new 996 label
-export const homelessRiskHint =
-  'We will use this information only to prioritize your request.'; // new 996
 
 export const homelessLabels = {
   Y: 'Yes',
