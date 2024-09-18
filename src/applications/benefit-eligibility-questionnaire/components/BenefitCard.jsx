@@ -13,18 +13,22 @@ const BenefitCard = ({ benefit }) => {
         <p className="vads-u-margin-y--0">{description}</p>
         <div>
           <div className="vads-u-display--inline-block vads-u-margin-right--2">
-            <va-link-action
-              href={learnMoreURL}
-              text="Learn more"
-              type="secondary"
-            />
+            {learnMoreURL && (
+              <va-link-action
+                href={learnMoreURL}
+                text="Learn more"
+                type="secondary"
+              />
+            )}
           </div>
           <div className="vads-u-display--inline-block">
-            <va-link-action
-              href={applyNowURL}
-              text="Apply now"
-              type="secondary"
-            />
+            {applyNowURL && (
+              <va-link-action
+                href={applyNowURL}
+                text="Apply now"
+                type="secondary"
+              />
+            )}
           </div>
         </div>
       </va-card>
