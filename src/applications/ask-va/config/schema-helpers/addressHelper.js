@@ -30,7 +30,7 @@ const canLabels = states.CAN.map(state => state.label);
 const mexStates = states.MEX.map(state => state.value);
 const mexLabels = states.MEX.map(state => state.label);
 
-function isMilitaryCity(city = '') {
+export function isMilitaryCity(city = '') {
   const lowerCity = city.toLowerCase().trim();
 
   return lowerCity === 'apo' || lowerCity === 'fpo' || lowerCity === 'dpo';

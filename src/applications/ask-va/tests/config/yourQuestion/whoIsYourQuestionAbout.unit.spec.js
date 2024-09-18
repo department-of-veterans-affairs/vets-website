@@ -11,9 +11,9 @@ import { getData } from '../../fixtures/data/mock-form-data';
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.aboutSomeoneElseRelationshipFamilyMember.pages.isQuestionAboutVeteranOrSomeoneElse_aboutsomeoneelserelationshipfamilymember;
+} = formConfig.chapters.yourQuestionPart1.pages.whoIsYourQuestionAbout;
 
-describe('whoHasAQuestionPage', () => {
+describe('whoIsYourQuestionAboutPage', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
@@ -29,11 +29,15 @@ describe('whoHasAQuestionPage', () => {
     );
 
     const radioLabels = $$('.form-radio-buttons > label', container);
-    const radioLabelList = ['Veteran', 'Someone else'];
+    const radioLabelList = [
+      'Myself',
+      'Someone else',
+      "It's a general question",
+    ];
 
     const vaRadio = container.querySelector('va-radio');
     expect(vaRadio.getAttribute('label')).to.equal(
-      'Is your question about the Veteran or someone else?',
+      'Who is your question about?',
     );
 
     radioLabels.forEach(
