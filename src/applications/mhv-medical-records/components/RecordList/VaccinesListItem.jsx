@@ -20,12 +20,13 @@ const VaccinesListItem = props => {
       </Link>
 
       {/* print view header */}
-      <h3
+      <span
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </span>
 
       {/* fields */}
       <div>

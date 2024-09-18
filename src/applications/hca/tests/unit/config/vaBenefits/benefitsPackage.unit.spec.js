@@ -9,16 +9,18 @@ import {
   DefinitionTester,
 } from 'platform/testing/unit/schemaform-utils';
 import formConfig from '../../../../config/form';
+import { simulateInputChange } from '../../../helpers';
 
 describe('hca VaBenefitsPackage config', () => {
   const { vaBenefitsPackage } = formConfig.chapters.vaBenefits.pages;
   const { schema, uiSchema } = vaBenefitsPackage;
   const { defaultDefinitions: definitions } = formConfig;
-  const subject = () => {
+  const subject = ({ onSubmit = () => {} }) => {
     const form = ReactTestUtils.renderIntoDocument(
       <DefinitionTester
         schema={schema}
         definitions={definitions}
+        onSubmit={onSubmit}
         uiSchema={uiSchema}
       />,
     );
@@ -31,15 +33,25 @@ describe('hca VaBenefitsPackage config', () => {
   };
 
   it('should render correct number of inputs', () => {
-    const { selectors } = subject();
+    const { selectors } = subject({});
     expect(selectors().inputs.length).to.equal(2);
   });
 
-  it('should submit empty form', () => {
+  it('should not submit empty form', () => {
     const onSubmit = sinon.spy();
-    const { form, selectors } = subject();
+    const { form, selectors } = subject({ onSubmit });
+    submitForm(form);
+    expect(selectors().errors.length).to.equal(1);
+    expect(onSubmit.called).to.be.false;
+  });
+
+  it('should submit with valid data', () => {
+    const onSubmit = sinon.spy();
+    const { form, formDOM, selectors } = subject({ onSubmit });
+    const inputID = '#root_view\\3A vaBenefitsPackage_1';
+    simulateInputChange(formDOM, inputID, 'regOnly');
     submitForm(form);
     expect(selectors().errors.length).to.equal(0);
-    expect(onSubmit.called).to.be.false;
+    expect(onSubmit.called).to.be.true;
   });
 });

@@ -28,9 +28,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
   };
 
   describe('When appointment information is missing', () => {

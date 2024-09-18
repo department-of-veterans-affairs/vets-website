@@ -477,12 +477,18 @@ export const newQuestionBreadcrumbs = [
   { href: '/newQuestion', label: 'New question', key: 'newQuestion' },
 ];
 
+export const responseSentBreadcrumbs = [
+  ...askVABreadcrumbs,
+  { href: '/response-sent', label: 'Question sent', key: 'responseSent' },
+];
+
 export const breadcrumbsDictionary = {
   '/': homeBreadcrumbs,
   '/contact-us': contactUsBreadcrumbs,
   '/introduction': askVABreadcrumbs,
   '/user/dashboard': questionDetailsBreadcrumbs,
   '/newQuestion': newQuestionBreadcrumbs,
+  '/response-sent': responseSentBreadcrumbs,
 };
 
 // Health care label is currently different on local/dev and staging (pulling from CRM updated list)
