@@ -901,12 +901,12 @@ export const formPages = {
         info:
           "This is a Loan Repayment Program, which is a special incentive that certain military branches offer to qualified applicants. Under a Loan Repayment Program, the branch of service will repay part of an applicant's qualifying student loans.",
       },
-      additionalContributions: {
-        name: 'additional-contributions',
-        order: 5,
-        title:
-          'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
-      },
+    },
+    additionalContributions: {
+      name: 'additional-contributions',
+      order: 5,
+      title:
+        'Did you make additional contributions (up to $600) to increase the amount of your monthly benefits',
     },
   },
   directDeposit: 'directDeposit',
