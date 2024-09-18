@@ -27,7 +27,12 @@ const options = {
   nounPlural: 'Income sources',
   required: false,
   isItemIncomplete: item =>
-    !item?.typeOfIncome || !item.receiver || !item.payer || !item.amount, // include all required fields here
+    !item?.typeOfIncome ||
+    !item.receiver ||
+    !item.payer ||
+    !item.amount ||
+    (item.receiver === 'DEPENDENT' && !item.dependentName) ||
+    (item.typeOfIncome === 'OTHER' && !item.otherTypeExplanation), // include all required fields here
   text: {
     summaryTitleWithoutItems: 'Gross monthly income',
     getItemName: item => typeOfIncomeLabels[item.typeOfIncome],
