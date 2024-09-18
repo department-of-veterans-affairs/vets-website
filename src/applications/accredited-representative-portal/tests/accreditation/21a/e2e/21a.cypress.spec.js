@@ -156,45 +156,6 @@ const testConfig = createTestConfig(
       'conviction-details': selectCheckboxGroupHook(
         'convictionDetailsCertification',
       ),
-      'court-martialed-details': selectCheckboxGroupHook(
-        'courtMartialedDetailsCertification',
-      ),
-      'under-charges-details': selectCheckboxGroupHook(
-        'underChargesDetailsCertification',
-      ),
-      'resigned-from-education-details': selectCheckboxGroupHook(
-        'resignedFromEducationDetailsCertification',
-      ),
-      'withdrawn-from-education-details': selectCheckboxGroupHook(
-        'withdrawnFromEducationDetailsCertification',
-      ),
-      'disciplined-for-dishonesty-details': selectCheckboxGroupHook(
-        'disciplinedForDishonestyDetailsCertification',
-      ),
-      'resigned-for-dishonesty-details': selectCheckboxGroupHook(
-        'resignedForDishonestyDetailsCertification',
-      ),
-      'representative-for-agency-details': selectCheckboxGroupHook(
-        'representativeForAgencyDetailsCertification',
-      ),
-      'reprimanded-in-agency-details': selectCheckboxGroupHook(
-        'reprimandedInAgencyDetailsCertification',
-      ),
-      'resigned-from-agency-details': selectCheckboxGroupHook(
-        'resignedFromAgencyDetailsCertification',
-      ),
-      'applied-for-va-accreditation-details': selectCheckboxGroupHook(
-        'appliedForVaAccreditationDetailsCertification',
-      ),
-      'terminated-by-vsorg-details': selectCheckboxGroupHook(
-        'terminatedByVsorgDetailsCertification',
-      ),
-      'condition-that-affects-representation-details': selectCheckboxGroupHook(
-        'conditionThatAffectsRepresentationDetailsCertification',
-      ),
-      'condition-that-affects-examination-details': selectCheckboxGroupHook(
-        'conditionThatAffectsExaminationDetailsCertification',
-      ),
       'character-references/0/address': selectDropdownHook(
         'address_state',
         data => data.characterReferences[0].address.state,
@@ -255,9 +216,6 @@ const testConfig = createTestConfig(
       );
       cy.intercept('GET', '/data/cms/vamc-ehr.json', vamcUser).as('vamcUser');
     },
-
-    // TODO: Remove this skip when the form has a content page in prod
-    skip: Cypress.env('CI'),
   },
   manifest,
   formConfig,

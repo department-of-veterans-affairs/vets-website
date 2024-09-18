@@ -10,7 +10,6 @@ const GetFormHelp = () => (
       />
       .
     </p>
-    <p>If you have technical trouble using this online form, __________.</p>
   </>
 );
 
