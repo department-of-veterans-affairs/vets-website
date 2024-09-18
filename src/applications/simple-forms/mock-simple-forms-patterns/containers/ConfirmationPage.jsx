@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+// import { ConfirmationPageView } from '../../shared/components/ConfirmationPageView.v2';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -17,8 +18,17 @@ export class ConfirmationPage extends React.Component {
     const { submission, /* formId, */ data } = form;
     const submitDate = submission.timestamp;
     const confirmationNumber = submission.response?.confirmationNumber;
-
     const { fullName } = data;
+
+    // for testing new confirmation page
+    // return (
+    //   <ConfirmationPageView
+    //     submitDate={submitDate}
+    //     confirmationNumber={confirmationNumber}
+    //     formConfig={this.props.route.formConfig}
+    //     pagesFromState={form.pages}
+    //   />
+    // );
 
     return (
       <div>
