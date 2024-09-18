@@ -11,10 +11,9 @@ import { selectUserIsLoading } from '../selectors/user';
 import { selectGoToSignIn } from '../selectors/navigation';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
-import Form21a from '../accreditation/21a/containers/Form';
 import { SIGN_IN_URL } from '../constants';
 
-const App = ({ location, children }) => {
+const App = ({ children }) => {
   const goToSignIn = useSelector(selectGoToSignIn);
   if (goToSignIn) window.location.href = SIGN_IN_URL;
 
@@ -63,7 +62,7 @@ const App = ({ location, children }) => {
       {isLoading ? (
         <VaLoadingIndicator message="Loading user information..." />
       ) : (
-        <Form21a location={location}>{children}</Form21a>
+        children
       )}
       <Footer />
     </div>
@@ -72,7 +71,6 @@ const App = ({ location, children }) => {
 
 App.propTypes = {
   children: PropTypes.node.isRequired,
-  location: PropTypes.object.isRequired,
 };
 
 export default App;
