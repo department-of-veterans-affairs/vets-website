@@ -20,6 +20,7 @@ const BenefitSelectionReviewPage = ({ formData, editPage }) => {
     }
     return null;
   };
+
   return (
     <div className="form-review-panel-page">
       <div
@@ -49,11 +50,14 @@ const BenefitSelectionReviewPage = ({ formData, editPage }) => {
     </div>
   );
 };
+
 BenefitSelectionReviewPage.propTypes = {
   editPage: PropTypes.func.isRequired,
   formData: PropTypes.object.isRequired,
 };
+
 const mapStateToProps = state => ({
   formData: state.form?.data || {},
 });
+
 export default connect(mapStateToProps)(BenefitSelectionReviewPage);
