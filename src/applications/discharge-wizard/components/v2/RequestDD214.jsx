@@ -32,7 +32,7 @@ const RequestDD214v2 = ({ router }) => {
       <h1>
         Your Steps for Getting a DD214 for Your Period of Honorable Service
       </h1>
-      <div className="medium-8">
+      <div className="">
         <div className="va-introtext">
           <p>
             To receive a second DD214 reflecting <strong>only</strong> your
@@ -42,44 +42,40 @@ const RequestDD214v2 = ({ router }) => {
             for the {branchOfService}.
           </p>
         </div>
-        <ul className="vertical-list-group more-bottom-cushion numbered">
-          <li className="list-group-item">
-            <div>
-              <h4>
-                Download and fill out{' '}
-                <va-link
-                  href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
-                  text="DoD Form 149"
-                />
-              </h4>
-              <ul>
-                <li>
-                  Pay special attention to item 6, which asks for the reason for
-                  your change. Be clear that you want a DD214 for your period of
-                  honorable service, and include the dates of that period.
-                </li>
-                <li>
-                  Item 8 asks for your date of “discovery” of the injustice. In
-                  this case, it’s the day you “discovered” you were missing an
-                  extra DD214 that you deserved. If this date isn’t in the last
-                  3 years, you’ll need to argue that the Board should hear your
-                  case anyway. This isn’t a strict date, so don’t let the 3-year
-                  rule keep you from applying if you have a strong case. You may
-                  note your recent discovery of new evidence about your
-                  situation, such as the ability to apply for a discharge
-                  upgrade.
-                </li>
-                <li>
-                  Item 10 asks if you’re willing to appear in person before the
-                  Board in Washington, DC. The Board rarely asks Veterans to
-                  appear in person, but saying you’re willing to do so may help
-                  show how serious you are about your case.
-                </li>
-              </ul>
-            </div>
-          </li>
-          <li className="list-group-item">
-            <h4>Mail your completed form</h4>
+        <va-process-list>
+          <va-process-list-item>
+            <h2 className="usa-process-list__heading">
+              Download and fill out{' '}
+              <va-link
+                href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
+                text="DoD Form 149"
+              />
+            </h2>
+            <ul>
+              <li>
+                Pay special attention to item 6, which asks for the reason for
+                your change. Be clear that you want a DD214 for your period of
+                honorable service, and include the dates of that period.
+              </li>
+              <li>
+                Item 8 asks for your date of “discovery” of the injustice. In
+                this case, it’s the day you “discovered” you were missing an
+                extra DD214 that you deserved. If this date isn’t in the last 3
+                years, you’ll need to argue that the Board should hear your case
+                anyway. This isn’t a strict date, so don’t let the 3-year rule
+                keep you from applying if you have a strong case. You may note
+                your recent discovery of new evidence about your situation, such
+                as the ability to apply for a discharge upgrade.
+              </li>
+              <li>
+                Item 10 asks if you’re willing to appear in person before the
+                Board in Washington, DC. The Board rarely asks Veterans to
+                appear in person, but saying you’re willing to do so may help
+                show how serious you are about your case.
+              </li>
+            </ul>
+          </va-process-list-item>
+          <va-process-list-item header="Mail your completed form" level="2">
             <p>
               There are a number of different boards that handle discharge
               upgrades and corrections. Because you want a new DD214, which is
@@ -92,8 +88,8 @@ const RequestDD214v2 = ({ router }) => {
               {abbr} at:
             </p>
             <p>{determineVenueAddress(formResponses, true)}</p>
-          </li>
-        </ul>
+          </va-process-list-item>
+        </va-process-list>
       </div>
     </div>
   );
