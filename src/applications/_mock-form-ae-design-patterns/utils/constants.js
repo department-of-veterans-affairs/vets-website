@@ -3,7 +3,6 @@ import { isOfCollegeAge, hasGrossIncome } from './helpers/household';
 import { replaceStrValues } from './helpers/general';
 import content from '../shared/locales/en/content.json';
 
-
 export const MOCK_FORM_AE_DESIGN_PATTERNS_ROOT_URL =
   '/mock-form-ae-design-patterns';
 
