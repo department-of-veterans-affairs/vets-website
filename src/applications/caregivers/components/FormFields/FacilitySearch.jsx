@@ -33,9 +33,11 @@ const FacilitySearch = props => {
       formData?.['view:plannedClinic']?.caregiverSupport?.id;
     if (!caregiverSupportFacilityId) {
       if (hasFacilities()) {
-        setFacilitiesListError('Select a medical center or clinic');
+        setFacilitiesListError(
+          content['validation-facilities--default-required'],
+        );
       } else {
-        setSearchInputError('Select a medical center or clinic');
+        setSearchInputError(content['validation-facilities--default-required']);
       }
     } else {
       goForward(formData);
@@ -194,7 +196,11 @@ const FacilitySearch = props => {
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
-          <button className="va-button-link" onClick={showMoreFacilities}>
+          <button
+            type="button"
+            className="va-button-link"
+            onClick={showMoreFacilities}
+          >
             Load more facilities
           </button>
         </>
@@ -238,11 +244,7 @@ const FacilitySearch = props => {
               className="vads-u-margin-top--0 vads-u-margin-bottom--1"
             >
               {content['form-facilities-search-label']}
-              {searchInputError && (
-                <span className="vads-u-color--secondary-dark">
-                  (*Required)
-                </span>
-              )}
+              <span className="vads-u-color--secondary-dark">(*Required)</span>
             </label>
             {searchInputError && searchError()}
             <VaSearchInput

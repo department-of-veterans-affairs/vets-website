@@ -10,7 +10,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -32,10 +31,6 @@ export default function CCLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -103,8 +98,7 @@ export default function CCLayout({ data: appointment }) {
             Other details: {`${otherDetails || 'Not available'}`}
           </span>
         </Section>
-        {featureMedReviewInstructions &&
-          !isPastAppointment &&
+        {!isPastAppointment &&
           (APPOINTMENT_STATUS.booked === status ||
             APPOINTMENT_STATUS.cancelled === status) && (
             <Prepare>

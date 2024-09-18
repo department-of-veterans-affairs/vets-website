@@ -1,6 +1,8 @@
 import { Actions } from '../util/actionTypes';
 import { getAllRecipients, updatePreferredRecipients } from '../api/SmApi';
 import { getIsPilotFromState } from '.';
+import { addAlert } from './alerts';
+import { ALERT_TYPE_SUCCESS, Alerts } from '../util/constants';
 
 const isSignatureRequired = recipients => {
   const regex = /.*\s*(Privacy Issue|Privacy Issues|Release of Information Medical Records|Record Amendment)\s*_*\s*Admin/i;
@@ -41,11 +43,16 @@ export const getAllTriageTeamRecipients = () => async (dispatch, getState) => {
 
 export const updateTriageTeamRecipients = recipients => async dispatch => {
   try {
-    const response = await updatePreferredRecipients(recipients);
+    await updatePreferredRecipients(recipients);
 
-    if (response === 200) {
-      dispatch(getAllTriageTeamRecipients());
-    }
+    dispatch(getAllTriageTeamRecipients());
+    dispatch(
+      addAlert(
+        ALERT_TYPE_SUCCESS,
+        null,
+        Alerts.Message.SAVE_CONTACT_LIST_SUCCESS,
+      ),
+    );
   } catch (error) {
     dispatch({
       type: Actions.AllRecipients.UPDATE_PREFERRED_ERROR,

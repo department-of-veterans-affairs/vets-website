@@ -88,6 +88,7 @@ const HealthConditions = () => {
             dispatch(reloadRecords());
           }}
         />
+
         <va-additional-info
           trigger="About the codes in some condition names"
           class="no-print vads-u-margin-bottom--3"

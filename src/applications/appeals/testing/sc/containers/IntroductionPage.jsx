@@ -5,32 +5,36 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
-import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
+// import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
 
 const IntroductionPage = props => {
   useEffect(() => {
     focusElement('h1');
     scrollTo('topContentElement');
+
+    // mock logged in state
+    localStorage.setItem('hasSession', 'true');
+    localStorage.setItem('userFirstName', 'Hector');
   }, []);
 
-  const { route, location } = props;
-  const { formConfig, pageList } = route;
-  const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
+  const { route /* , location */ } = props;
+  const { formConfig /* , pageList */ } = route;
+  // const { formId, prefillEnabled, savedFormMessages, downtime } = formConfig;
 
-  const sipOptions = {
-    downtime,
-    formId,
-    gaStartEventName: 'decision-reviews-va20-0995-start-form',
-    headingLevel: 2,
-    hideUnauthedStartLink: false, // true, // once testing is complete
-    messages: savedFormMessages,
-    pageList,
-    pathname: '/introduction',
-    prefillEnabled,
-    startText: 'Start your Claim',
-    useActionLinks: true,
-  };
+  // const sipOptions = {
+  //   downtime,
+  //   formId,
+  //   gaStartEventName: 'decision-reviews-va20-0995-start-form',
+  //   headingLevel: 2,
+  //   hideUnauthedStartLink: false, // true, // once testing is complete
+  //   messages: savedFormMessages,
+  //   pageList,
+  //   pathname: '/introduction',
+  //   prefillEnabled,
+  //   startText: 'Start your Claim',
+  //   useActionLinks: true,
+  // };
 
   return (
     <div className="schemaform-intro">
@@ -39,7 +43,11 @@ const IntroductionPage = props => {
         If you disagree with our decision on your claim, a Supplemental Claim
         may be an option for you.
       </p>
-      <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
+      {/* <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} /> */}
+      <va-link-action
+        href="/decision-reviews/test-sc/veteran-information"
+        text="Start your claim"
+      />
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
@@ -166,11 +174,18 @@ const IntroductionPage = props => {
         </va-process-list-item>
       </va-process-list>
 
+      <p className="vads-u-margin-top--4">
+        <va-link-action
+          href="/decision-reviews/test-sc/veteran-information"
+          text="Start your claim"
+        />
+      </p>
+      {/*
       <ShowAlertOrSip
         basename={location.basename}
         sipOptions={sipOptions}
         bottom
-      />
+      /> */}
 
       <OmbInfo />
       <p />
