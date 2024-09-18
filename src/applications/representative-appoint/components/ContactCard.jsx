@@ -29,7 +29,7 @@ export default function ContactCard({
           <h3 className="vads-u-font-family--serif vads-u-margin-top--0p5">
             {repName || orgName}
           </h3>
-          {repName && <p style={{ marginTop: 0 }}>{orgName}</p>}
+          {repName && orgName && <p style={{ marginTop: 0 }}>{orgName}</p>}
           <div className="vads-u-margin-top--3">
             {addressExists && (
               <GoogleMapLink
