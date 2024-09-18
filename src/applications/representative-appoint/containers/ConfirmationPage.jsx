@@ -39,7 +39,9 @@ export default function ConfirmationPage({ router }) {
         onClick={handlers.onClickDownloadForm}
         text="Download your form"
       />
-      <p>Then, you’ll need to print and sign your form.</p>
+      <p className="vads-u-margin-top--4">
+        Then, you’ll need to print and sign your form.
+      </p>
       <VaCheckbox
         checked={signedForm}
         className="vads-u-margin-bottom--4"
