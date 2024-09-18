@@ -4,44 +4,32 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-
 import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
+
 import { fetchUser } from '../actions/user';
-import { selectUserIsLoading } from '../selectors/user';
-import { selectGoToSignIn } from '../selectors/navigation';
+import { selectIsUserLoading } from '../selectors/user';
+import { selectShouldGoToSignIn } from '../selectors/navigation';
 import Footer from '../components/common/Footer/Footer';
 import Header from '../components/common/Header/Header';
 import { SIGN_IN_URL } from '../constants';
 
 const App = ({ children }) => {
-  const goToSignIn = useSelector(selectGoToSignIn);
-  if (goToSignIn) window.location.href = SIGN_IN_URL;
-
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectUserIsLoading);
-
-  useEffect(
-    () => {
-      dispatch(fetchUser());
-    },
-    [dispatch],
-  );
-
   const {
-    useToggleValue,
+    TOGGLE_NAMES: { accreditedRepresentativePortalFrontend: appToggleKey },
     useToggleLoadingValue,
-    TOGGLE_NAMES,
+    useToggleValue,
   } = useFeatureToggle();
 
-  const isAppToggleLoading = useToggleLoadingValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
-  const isAppEnabled = useToggleValue(
-    TOGGLE_NAMES.accreditedRepresentativePortalFrontend,
-  );
-
+  const isAppEnabled = useToggleValue(appToggleKey);
   const isProduction = window.Cypress || environment.isProduction();
+  const shouldExitApp = isProduction && !isAppEnabled;
+
+  const isAppToggleLoading = useToggleLoadingValue(appToggleKey);
+  const shouldGoToSignIn = useSelector(selectShouldGoToSignIn);
+  const isUserLoading = useSelector(selectIsUserLoading);
+
+  const dispatch = useDispatch();
+  useEffect(() => dispatch(fetchUser()), [dispatch]);
 
   if (isAppToggleLoading) {
     return (
@@ -51,19 +39,26 @@ const App = ({ children }) => {
     );
   }
 
-  if (isProduction && !isAppEnabled) {
-    document.location.replace('/');
+  if (shouldExitApp) {
+    window.location.replace('/');
     return null;
   }
+
+  if (shouldGoToSignIn) {
+    window.location.assign(SIGN_IN_URL);
+    return null;
+  }
+
+  const content = isUserLoading ? (
+    <VaLoadingIndicator message="Loading user information..." />
+  ) : (
+    children
+  );
 
   return (
     <div className="container">
       <Header />
-      {isLoading ? (
-        <VaLoadingIndicator message="Loading user information..." />
-      ) : (
-        children
-      )}
+      {content}
       <Footer />
     </div>
   );
