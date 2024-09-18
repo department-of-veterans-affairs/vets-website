@@ -28,7 +28,7 @@ function HowToApplyPost911GiBillV2({
       return (
         <p className="vads-u-margin-top--4">
           <strong>Note</strong>: This application is only for these 3 education
-          benefits <br />
+          benefits: <br />
           <strong>Post-9/11 GI Bill®</strong> (Chapter 33) <br />
           <strong>Montgomery GI Bill® Active Duty</strong> (Chapter 30) <br />
           <strong>Montgomery GI Bill® Selective Reserve</strong> (Chapter 1606){' '}
