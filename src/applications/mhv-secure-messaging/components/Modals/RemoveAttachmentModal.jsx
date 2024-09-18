@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Prompts } from '../../util/constants';
 
@@ -12,11 +13,18 @@ const RemoveAttachmentModal = props => {
       data-testid={`remove-attachment-modal${
         props.draftSequence ? `-${props.draftSequence}` : ''
       }`}
-      data-dd-action-name={`Remove Attachment Modal Closed${
+      data-dd-action-name={`Remove Attachment Modal${
         props.draftSequence ? `-${props.draftSequence}` : ''
       }`}
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
-      onCloseEvent={props.onClose}
+      onCloseEvent={() => {
+        props.onClose();
+        datadogRum.addAction(
+          `Remove Attachment Modal Closed${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`,
+        );
+      }}
       visible={props.visible}
       status="warning"
     >

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Prompts } from '../../util/constants';
 
@@ -15,13 +16,22 @@ const DeleteDraftModal = props => {
         unsavedDraft
           ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
           : Prompts.Draft.DELETE_DRAFT_CONFIRM
-      } Modal${draftSequence ? ` ${draftSequence} Closed` : ' Closed'}`}
+      } Modal${draftSequence ? ` ${draftSequence}` : ''}`}
       modalTitle={
         unsavedDraft
           ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
           : Prompts.Draft.DELETE_DRAFT_CONFIRM
       }
-      onCloseEvent={props.onClose}
+      onCloseEvent={() => {
+        props.onClose();
+        datadogRum.addAction(
+          `${
+            unsavedDraft
+              ? Prompts.Draft.DELETE_NEW_DRAFT_TITLE
+              : Prompts.Draft.DELETE_DRAFT_CONFIRM
+          } Modal${draftSequence ? ` ${draftSequence} Closed` : ' Closed'}`,
+        );
+      }}
       visible={props.visible}
       status="warning"
     >

@@ -5,6 +5,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { moveMessageThread } from '../../actions/messages';
@@ -140,9 +141,12 @@ const MoveMessageToFolderBtn = props => {
           id="move-to-modal"
           data-testid="move-to-modal"
           modalTitle="Move conversation"
-          onCloseEvent={closeModal}
+          onCloseEvent={() => {
+            closeModal();
+            datadogRum.addAction('Move Conversation Modal Closed');
+          }}
           visible={isMoveModalVisible}
-          data-dd-action-name="Move Conversation Modal Closed"
+          data-dd-action-name="Move Conversation Modal"
         >
           <p>Any replies to this message will appear in your inbox.</p>
           <VaRadio

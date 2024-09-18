@@ -5,6 +5,7 @@ import {
   VaModal,
   VaSelect,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { datadogRum } from '@datadog/browser-rum';
 import moment from 'moment';
 import { DateRangeOptions, SelectCategories } from '../../util/inputContants';
 import { ErrorMessages } from '../../util/constants';
@@ -72,11 +73,14 @@ const FilterBox = forwardRef((props, ref) => {
         <VaModal
           modalTitle="Invalid search"
           onPrimaryButtonClick={() => setFormError()}
-          onCloseEvent={() => setFormError()}
+          onCloseEvent={() => {
+            setFormError();
+            datadogRum.addAction('Invalid Search Modal Closed');
+          }}
           primaryButtonText="Ok"
           status="error"
           visible
-          data-dd-action-name="Invalid Search Modal Closed"
+          data-dd-action-name="Invalid Search Modal"
         >
           <p>
             Please use at least one of the following search fields or choose a

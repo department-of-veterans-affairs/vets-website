@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -724,10 +725,11 @@ const ComposeForm = props => {
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
+              datadogRum.addAction('Save Error Modal Closed');
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
-            data-dd-action-name="Save Error Modal Closed"
+            data-dd-action-name="Save Error Modal"
             visible
           >
             <p>{saveError.p1}</p>
