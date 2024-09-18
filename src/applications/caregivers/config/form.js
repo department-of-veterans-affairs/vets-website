@@ -28,6 +28,7 @@ import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
 import FacilitySearch from '../components/FormFields/FacilitySearch';
+import FacilityReview from '../components/FormReview/FacilityReview';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -150,7 +151,7 @@ const formConfig = {
           title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
           CustomPage: FacilitySearch,
-          CustomPageReview: null,
+          CustomPageReview: FacilityReview,
           uiSchema: {},
           schema: { type: 'object', properties: {} },
         },
