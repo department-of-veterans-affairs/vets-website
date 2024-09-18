@@ -49,7 +49,7 @@ const MessageThread = props => {
                 ?.querySelector('button').innerText,
             );
           }}
-          data-dd-action-name={`${expanded} Accordion Button`} //   `${e.
+          data-dd-action-name={`${expanded} Accordion Button`}
         >
           {messageHistory.map((m, i) => {
             return (
