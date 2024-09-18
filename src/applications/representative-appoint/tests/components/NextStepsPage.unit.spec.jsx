@@ -9,19 +9,23 @@ import NextStepsPage from '../../containers/NextStepsPage';
 const getData = ({
   formData = {
     'view:selectedRepresentative': {
-      fullName: 'Steven McBob',
-      addressLine1: '123 Main Street',
-      addressLine2: '',
+      type: 'organization',
+      fullName: 'Brian Daniel',
+      name: 'Disabled American Veterans',
+      addressLine1: '400 South 18th Street',
+      addressLine2: 'Room 119',
       addressLine3: '',
-      city: 'Anytown',
-      stateCode: 'AA',
-      zipCode: '11111',
+      city: 'Newark',
+      stateCode: 'NJ',
+      zipCode: '07102',
+      phone: '7026842997',
+      email: 'bdaniel@veterans.nj.gov',
       attributes: {
         accreditedOrganizations: {
           data: [
             {
               id: '1',
-              attributes: { name: 'Best VSO' },
+              attributes: { name: 'Disabled American Veterans' },
             },
           ],
         },
@@ -70,16 +74,16 @@ describe('NextStepsPage', () => {
     );
 
     expect($('.va-address-block', container).textContent).to.contain(
-      'Steven McBob',
+      'Brian Daniel',
     );
     expect($('.va-address-block', container).textContent).to.contain(
-      'Best VSO',
+      'Disabled American Veterans',
     );
     expect($('.va-address-block', container).textContent).to.contain(
-      '123 Main Street',
+      '400 South 18th Street',
     );
     expect($('.va-address-block', container).textContent).to.contain(
-      'Anytown, AA 11111',
+      'Newark, NJ 07102',
     );
   });
 
@@ -92,6 +96,25 @@ describe('NextStepsPage', () => {
     );
 
     expect($('p', container).textContent).to.contain('attorney');
+  });
+
+  it('should render the ContactCard with correct representative info', () => {
+    const { props, mockStore } = getData();
+    const { container } = render(
+      <Provider store={mockStore}>
+        <NextStepsPage {...props} />
+      </Provider>,
+    );
+
+    expect($('.va-contact-card', container).textContent).to.contain(
+      'Brian Daniel',
+    );
+    expect($('.va-contact-card', container).textContent).to.contain(
+      '7026842997',
+    );
+    expect($('.va-contact-card', container).textContent).to.contain(
+      'bdaniel@veterans.nj.gov',
+    );
   });
 
   it('should render the NeedHelp component with phone numbers', () => {
