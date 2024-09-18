@@ -1,6 +1,6 @@
 export default {
   uiSchema: {
-    checkboxGroupGoals: {
+    goals: {
       'ui:title': 'What goal(s) do you want to accomplish?',
       'ui:description': 'Check all that apply.',
       earnDegreeOrCertificate: {
@@ -26,7 +26,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      checkboxGroupGoals: {
+      goals: {
         type: 'object',
         properties: {
           earnDegreeOrCertificate: { type: 'boolean' },
