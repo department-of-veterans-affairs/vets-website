@@ -8,7 +8,6 @@ const express = require('express');
 const fallback = require('express-history-api-fallback');
 const morgan = require('morgan');
 const path = require('path');
-const http = require('http');
 
 const manifestHelpers = require('../../../../config/manifest-helpers');
 const ENVIRONMENTS = require('../../../site/constants/environments');
@@ -16,8 +15,7 @@ const ENVIRONMENTS = require('../../../site/constants/environments');
 const optionDefinitions = [
   { name: 'buildtype', type: String, defaultValue: ENVIRONMENTS.VAGOVDEV },
   { name: 'port', type: Number, defaultValue: +(process.env.WEB_PORT || 3333) },
-  { name: 'host_one', type: String, defaultValue: 'localhost' },
-  { name: 'host_two', type: String, defaultValue: '::' },
+  { name: 'host', type: String, defaultValue: 'localhost' },
 ];
 
 const options = commandLineArgs(optionDefinitions);
@@ -41,21 +39,12 @@ routes.sort((a, b) => b.length - a.length);
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
-const server = http.createServer(app);
-server.listen(options.port, options.host_one, () => {
-  // eslint-disable-next-line no-console
-  console.log(
-    `Test server listening on port ${options.host_one}:${
-      options.port
-    } for type ${options.buildtype}`,
-  );
-});
 
-server.listen(options.port, options.host_two, () => {
+app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(
-    `Test server listening on port ${options.host_two}:${
-      options.port
-    } for type ${options.buildtype}`,
+    `Test server listening on port ${options.host}:${options.port} for type ${
+      options.buildtype
+    }`,
   );
 });
