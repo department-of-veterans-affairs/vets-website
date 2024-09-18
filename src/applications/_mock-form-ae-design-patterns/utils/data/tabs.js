@@ -26,9 +26,9 @@ export const tabsConfig = {
     {
       name: 'Blue',
       path: '/2/task-blue',
-      introPathWithQuery: '/introduction?loggedIn=false',
+      introPathWithQuery: '/introduction?loggedIn=true',
       baseClass: 'vads-u-background-color--primary-darker vads-u-color--white',
-      description: 'Pattern 2 - Blue Task',
+      description: '26-1880 - Blue Task',
     },
     {
       name: 'Red',

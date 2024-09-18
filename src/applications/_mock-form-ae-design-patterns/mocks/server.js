@@ -42,6 +42,7 @@ const {
   requestHistory,
   boot,
 } = require('./script/utils');
+const { generateCoeEligibleResponse } = require('./endpoints/coe/status');
 
 const responses = {
   'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
@@ -64,11 +65,14 @@ const responses = {
         res.json(
           generateFeatureToggles({
             profileUseExperimental: true,
+            coeAccess: true,
           }),
         ),
       secondsOfDelay,
     );
   },
+
+  'GET /v0/coe/status': generateCoeEligibleResponse(),
   'GET /v0/user': (_req, res) => {
     const shouldError = false; // set to true to test error response
     if (shouldError) {

@@ -290,6 +290,7 @@ const baseUserResponses = {
             ratingInfo: true,
             appeals: true,
             medicalCopays: true,
+            coe: true,
           },
           edipi: 3332224445,
         },
