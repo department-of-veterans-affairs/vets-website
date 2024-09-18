@@ -141,11 +141,6 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.selectRadio(h.PREV_APPLICATION_TYPE_INPUT, 2);
       h.clickContinue();
 
-      // FAILURE_TO_EXHAUST
-      h.verifyUrl(ROUTES.FAILURE_TO_EXHAUST);
-      h.selectRadio(h.FAILURE_TO_EXHAUST_INPUT, 1);
-      h.clickContinue();
-
       // PRIOR_SERVICE
       h.verifyUrl(ROUTES.PRIOR_SERVICE);
       h.selectRadio(h.PRIOR_SERVICE_INPUT, 1);
