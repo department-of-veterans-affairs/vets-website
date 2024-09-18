@@ -87,7 +87,7 @@ const summaryPage = {
 const incomeTypePage = {
   uiSchema: {
     ...arrayBuilderItemFirstPageTitleUI({
-      title: 'Income source',
+      title: 'Income source type',
       nounSingular: options.nounSingular,
     }),
     'view:information': {
@@ -121,7 +121,7 @@ const incomeTypePage = {
 /** @returns {PageSchema} */
 const incomeReceiverPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income receiver'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Income source receiver'),
     'view:information': {
       'ui:description': IncomeSourceDescription,
     },
@@ -153,7 +153,7 @@ const incomeReceiverPage = {
 /** @returns {PageSchema} */
 const incomePayerPage = {
   uiSchema: {
-    ...arrayBuilderItemSubsequentPageTitleUI('Income payer'),
+    ...arrayBuilderItemSubsequentPageTitleUI('Income source payer'),
     'view:information': {
       'ui:description': IncomeSourceDescription,
     },
@@ -193,21 +193,21 @@ export const incomeSourcesPages = arrayBuilderPages(options, pageBuilder => ({
     schema: summaryPage.schema,
   }),
   incomeTypePage: pageBuilder.itemPage({
-    title: 'Income type',
+    title: 'Income source type',
     path: 'financial/income-sources/:index/income-type',
     depends: () => showMultiplePageResponse(),
     uiSchema: incomeTypePage.uiSchema,
     schema: incomeTypePage.schema,
   }),
   incomeReceiverPage: pageBuilder.itemPage({
-    title: 'Income receiver',
+    title: 'Income source receiver',
     path: 'financial/income-sources/:index/income-receiver',
     depends: () => showMultiplePageResponse(),
     uiSchema: incomeReceiverPage.uiSchema,
     schema: incomeReceiverPage.schema,
   }),
   incomePayerPage: pageBuilder.itemPage({
-    title: 'Income payer',
+    title: 'Income source payer',
     path: 'financial/income-sources/:index/income-payer',
     depends: () => showMultiplePageResponse(),
     uiSchema: incomePayerPage.uiSchema,
