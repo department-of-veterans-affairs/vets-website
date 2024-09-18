@@ -10,34 +10,6 @@ import NeedHelp from '../components/NeedHelp';
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
 
-  // const formData = {
-  //   'view:selectedRepresentative': {
-  //     type: 'organization',
-  //     fullName: 'Brian Daniel',
-  //     name: 'Disabled American Veterans',
-  //     addressLine1: '400 South 18th Street',
-  //     addressLine2: 'Room 119',
-  //     addressLine3: '',
-  //     city: 'Newark',
-  //     stateCode: 'NJ',
-  //     zipCode: '07102',
-  //     phone: '7026842997',
-  //     email: 'bdaniel@veterans.nj.gov',
-  //     attributes: {
-  //       accreditedOrganizations: {
-  //         data: [
-  //           {
-  //             id: '1',
-  //             attributes: { name: 'Disabled American Veterans' },
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   },
-  //   selectedAccreditedOrganizationId: '1',
-  //   repTypeRadio: 'Attorney',
-  // };
-
   const isOrg = () =>
     formData['view:selectedRepresentative']?.type === 'organization';
 
