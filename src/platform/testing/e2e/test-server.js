@@ -8,7 +8,6 @@ const express = require('express');
 const fallback = require('express-history-api-fallback');
 const morgan = require('morgan');
 const path = require('path');
-const dns = require('dns');
 
 const manifestHelpers = require('../../../../config/manifest-helpers');
 const ENVIRONMENTS = require('../../../site/constants/environments');
@@ -40,7 +39,6 @@ routes.sort((a, b) => b.length - a.length);
 routes.forEach(url => {
   app.use(url, fallback(`${url}/index.html`, { root }));
 });
-dns.setDefaultResultOrder('ipv4first');
 app.listen(options.port, options.host, () => {
   // eslint-disable-next-line no-console
   console.log(
