@@ -300,6 +300,7 @@ const responses = {
     if (req.body.status === 'cancelled') {
       appt.attributes.status = 'cancelled';
       appt.attributes.cancelationReason = { coding: [{ code: 'pat' }] };
+      appt.attributes.cancellable = false;
     }
 
     return res.json({

@@ -13,7 +13,6 @@ import DetailPageLayout, {
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -42,10 +41,6 @@ export default function VideoLayoutAtlas({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   const address = facility?.address;
@@ -130,8 +125,7 @@ export default function VideoLayoutAtlas({ data: appointment }) {
         </Section>
       )}
 
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
