@@ -72,6 +72,18 @@ export default function ReferralReview() {
         <p data-testid="subtitle">
           {`Your referring VA facility approved you for ${appointmentCountString} with a community care provider. You can now schedule your appointment with a community care provider.`}
         </p>
+        <va-additional-info
+          data-testid="help-text"
+          uswds
+          trigger="If you were approved for more than one appointment"
+          class="vads-u-margin-bottom--2"
+        >
+          <p>
+            If you were approved for more than one appointment, schedule your
+            first appointment using this tool. You’ll need to schedule the
+            remaining appointments later with your community care provider.
+          </p>
+        </va-additional-info>
         <ReferralAppLink
           linkText="Schedule your appointment"
           linkPath="/choose-community-care-appointment"
@@ -97,18 +109,6 @@ export default function ReferralReview() {
           <strong>Referral number: </strong>
           {patientData?.referralNumber}
         </p>
-        <va-additional-info
-          data-testid="help-text"
-          uswds
-          trigger="If you were approved for more than one appointment"
-          class="vads-u-margin-bottom--2"
-        >
-          <p>
-            If you were approved for more than one appointment, schedule your
-            first appointment using this tool. You’ll need to schedule the
-            remaining appointments later with your community care provider.
-          </p>
-        </va-additional-info>
         <va-additional-info
           data-testid="help-text"
           uswds
