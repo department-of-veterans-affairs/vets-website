@@ -114,7 +114,11 @@ export const normalizedForm = {
   cmsId: 71160,
   formId: '2121212',
   title: 'Form with Two Steps',
-  ombNumber: '1212-1212',
+  ombInfo: {
+    expDate: '8/29/2025',
+    ombNumber: '1212-1212',
+    resBurden: 30,
+  },
   chapters: [
     {
       id: 158253,
@@ -146,7 +150,11 @@ export const employmentQuestionnaire = {
   cmsId: 10001,
   formId: '21-4140',
   title: 'Employment Questionnaire',
-  ombNumber: '2900-0079',
+  ombInfo: {
+    expDate: '7/31/2024',
+    ombNumber: '2900-0079',
+    resBurden: 5,
+  },
   chapters: [
     {
       id: 20001,
