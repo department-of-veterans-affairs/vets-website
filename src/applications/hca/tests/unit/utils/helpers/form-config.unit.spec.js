@@ -144,8 +144,14 @@ describe('hca form config helpers', () => {
   });
 
   context('when `dischargePapersRequired` executes', () => {
-    const getData = ({ inMvi = true, disabilityRating = 0 }) => ({
-      'view:totalDisabilityRating': disabilityRating,
+    const getData = ({
+      inMvi = true,
+      loggedIn = false,
+      compensation = 'none',
+    }) => ({
+      vaCompensationType: compensation,
+      'view:totalDisabilityRating': 0,
+      'view:isLoggedIn': loggedIn,
       'view:isUserInMvi': inMvi,
     });
 
@@ -160,7 +166,12 @@ describe('hca form config helpers', () => {
     });
 
     it('should return `false` when user is short form eligible', () => {
-      const formData = getData({ disabilityRating: 80 });
+      const formData = getData({ compensation: 'highDisability' });
+      expect(dischargePapersRequired(formData)).to.be.false;
+    });
+
+    it('should return `false` when user is authenticated', () => {
+      const formData = getData({ loggedIn: true });
       expect(dischargePapersRequired(formData)).to.be.false;
     });
   });
