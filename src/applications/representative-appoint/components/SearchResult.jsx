@@ -51,6 +51,12 @@ const SearchResult = ({
     const tempData = {
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
+      // when a new representative is selected, we want to nil out the
+      //   selected organization to prevent weird states. For example,
+      //   we wouldn't want a user to select a representative, an organization,
+      //   go backwards to select an attorney, and then our state variables
+      //   say an attorney was selected with a non-null organization id
+      selectedAccreditedOrganizationId: null,
     };
 
     setFormData({
