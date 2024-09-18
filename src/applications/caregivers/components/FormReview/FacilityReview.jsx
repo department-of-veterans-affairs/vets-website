@@ -19,7 +19,7 @@ const FacilityReview = props => {
           </h4>
           <va-button
             text="Edit"
-            label={content['vet-med-center-edit-label']}
+            label="Edit facility"
             onClick={() =>
               goToPath(
                 '/veteran-information/va-medical-center/locator?review=true',

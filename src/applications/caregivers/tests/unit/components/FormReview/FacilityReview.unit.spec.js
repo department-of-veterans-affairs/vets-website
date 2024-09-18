@@ -27,7 +27,7 @@ describe('CG <FacilityReview>', () => {
       <FacilityReview {...props} />,
     );
     const selectors = () => ({
-      selectedFacilityLabel: queryByText("The Veteran's facility you selected"),
+      selectedFacilityLabel: queryByText('The Veteran’s facility you selected'),
       caregiverFacilityLabel: queryByText(
         'Your assigned caregiver support facility',
       ),

@@ -126,7 +126,6 @@
   "vet-input-label": "Veteran\u2019s",
   "vet-med-center-description": "Select the VA medical center where the Veteran receives or plans to receive care.",
   "vet-med-center-search-description": "What VA medical center or clinic does the Veteran get or plan to get their health care?",
-  "vet-med-center-edit-label": "Edit facility",
   "vet-med-center-state-hint": "Select the state where the VA medical center is located. This may be different from the Veteran\u2019s home address.",
   "validation-address--street-required": "Enter a street address",
   "validation-address--city-required": "Enter a city",
