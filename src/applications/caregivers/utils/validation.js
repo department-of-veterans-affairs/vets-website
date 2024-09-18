@@ -27,6 +27,26 @@ export const validateCaregivers = (errors, _, formData) => {
   }
 };
 
+export const validateCountyInput = (errors, fieldData) => {
+  const disallowList = [
+    'US',
+    'U.S',
+    'U.S.',
+    'USA',
+    'U.SA',
+    'U.S.A',
+    'U.S.A.',
+    'United States',
+    'UnitedStates',
+    'United States of America',
+    'UnitedStatesOfAmerica',
+  ];
+  const regex = new RegExp(`^(?!.*(${disallowList.join('|')})).*$`, 'i');
+  if (!regex.test(fieldData)) {
+    errors.addError(content['validation-address--county-pattern']);
+  }
+};
+
 export const validatePlannedClinic = (errors, _, formData) => {
   /* adding blank error(s) to disable the ability to continue the form when there are validation issues
    * in the the facility search field. The field component handles all validation messaging, we

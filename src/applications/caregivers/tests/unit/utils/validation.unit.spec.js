@@ -3,6 +3,7 @@ import sinon from 'sinon';
 import {
   requireAddressFields,
   validateCaregivers,
+  validateCountyInput,
   validatePlannedClinic,
   validateSsnIsUnique,
 } from '../../../utils/validation';
@@ -80,6 +81,29 @@ describe('CG `validateCaregivers` form validation', () => {
       formData: { 'view:hasSecondaryCaregiverOne': true },
     });
     validateCaregivers(errors, {}, formData);
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('CG `validateCountyInput` form validation', () => {
+  const getData = ({ spy = () => {} }) => ({
+    errors: { addError: spy },
+  });
+  let addErrorSpy;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+  });
+
+  it('should set an error if fieldData contains a restricted string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'United States');
+    expect(errors.addError.called).to.be.true;
+  });
+
+  it('should not set an error if fieldData does not contain a restricted string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'Marion');
     expect(errors.addError.called).to.be.false;
   });
 });
