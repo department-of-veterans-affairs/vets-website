@@ -154,6 +154,7 @@ export const ROUTES = Object.freeze({
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
   REVIEW: 'review',
   RESULT: 'result',
+  DD214: 'request-dd214-v2',
 });
 
 export const questionsToClearMap = Object.freeze({

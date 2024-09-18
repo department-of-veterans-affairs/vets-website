@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
-import localStorage from 'platform/utilities/storage/localStorage';
 import {
   determineBoardObj,
   determineVenueAddress,
@@ -9,20 +9,14 @@ import {
 } from '../../helpers';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 
-const RequestDD214v2 = ({ router }) => {
+const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
   useEffect(() => {
     // Results should have been viewed first.
-    if (!localStorage.getItem('dw-viewed-results')) {
+    if (!viewedIntroPage) {
       router.push('/');
     }
   });
 
-  useEffect(() => {
-    localStorage.removeItem('dw-viewed-results');
-    localStorage.removeItem('dw-formResponses');
-  });
-
-  const formResponses = JSON.parse(localStorage.getItem('dw-formResponses'));
   const { name, abbr } = determineBoardObj(formResponses, true);
   const branchOfService = determineBranchOfService(
     formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
@@ -96,7 +90,16 @@ const RequestDD214v2 = ({ router }) => {
 };
 
 RequestDD214v2.propTypes = {
-  router: PropTypes.object.isRequired,
+  formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
+  viewedIntroPage: PropTypes.bool.isRequired,
 };
 
-export default RequestDD214v2;
+const mapStateToProps = state => ({
+  formResponses: state?.dischargeUpgradeWizard?.duwForm?.form,
+  viewedIntroPage: state?.dischargeUpgradeWizard?.duwForm?.viewedIntroPage,
+});
+
+export default connect(mapStateToProps)(RequestDD214v2);
