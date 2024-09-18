@@ -1,5 +1,5 @@
 import React from 'react';
-import { cleanup, fireEvent } from '@testing-library/react';
+import { cleanup, fireEvent, waitFor } from '@testing-library/react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import sinon from 'sinon';
 import { expect } from 'chai';
@@ -48,27 +48,11 @@ describe('SmRouteNavigationGuard component', () => {
     screen.unmount();
   });
 
-  it('proceeds with navigating away if Confirm button is clicked', async () => {
-    const confirmNavigationSpy = sinon.spy();
+  it('proceeds with navigating away if Cancel button is clicked', async () => {
+    const cancelChangesSpy = sinon.spy();
     const customProps = {
       ...initialProps,
-      onConfirmNavigation: confirmNavigationSpy,
-    };
-
-    const screen = setup(customProps, Paths.CONTACT_LIST);
-
-    await fireEvent.click(
-      screen.getByTestId('sm-route-navigation-guard-confirm-button'),
-    );
-    expect(confirmNavigationSpy.calledOnce).to.be.true;
-    screen.unmount();
-  });
-
-  it('does not navigate away if Cancel button is clicked', async () => {
-    const confirmNavigationSpy = sinon.spy();
-    const customProps = {
-      ...initialProps,
-      onConfirmNavigation: confirmNavigationSpy,
+      onCancelButtonClick: cancelChangesSpy,
     };
 
     const screen = setup(customProps, Paths.CONTACT_LIST);
@@ -76,7 +60,46 @@ describe('SmRouteNavigationGuard component', () => {
     await fireEvent.click(
       screen.getByTestId('sm-route-navigation-guard-cancel-button'),
     );
-    expect(confirmNavigationSpy.calledOnce).to.be.false;
+    expect(cancelChangesSpy.calledOnce).to.be.true;
+    screen.unmount();
+  });
+
+  it('does not navigate away if Confirm button is clicked', async () => {
+    const saveChangesSpy = sinon.spy();
+    const customProps = {
+      ...initialProps,
+      onConfirmButtonClick: saveChangesSpy,
+    };
+
+    const screen = setup(customProps, Paths.CONTACT_LIST);
+
+    await fireEvent.click(
+      screen.getByTestId('sm-route-navigation-guard-confirm-button'),
+    );
+    expect(saveChangesSpy.calledOnce).to.be.true;
+    screen.unmount();
+  });
+
+  it('should set window.onbeforeunload if "when" is true', async () => {
+    const customProps = {
+      ...initialProps,
+      when: true,
+    };
+    const screen = setup(customProps, Paths.CONTACT_LIST);
+
+    expect(screen);
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+
+    screen.findByTestId('select-all-Test-Facility-1-teams');
+
+    await waitFor(() => {
+      fireEvent(window, new Event('beforeunload'));
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+      expect(window.onbeforeunload()).to.equal('non-empty string');
+    });
+
+    addEventListenerSpy.restore();
     screen.unmount();
   });
 });

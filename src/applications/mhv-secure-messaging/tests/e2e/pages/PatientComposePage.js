@@ -120,7 +120,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = () => {
-    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);

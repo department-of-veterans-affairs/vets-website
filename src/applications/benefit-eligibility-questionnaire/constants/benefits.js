@@ -114,7 +114,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'Skillbridge Program',
@@ -327,7 +327,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation',
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
     applyNowURL:
       'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
   },
@@ -356,7 +356,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+    applyNowURL: '',
   },
 ];
