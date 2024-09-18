@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
 import { scrollToTop } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
@@ -15,7 +16,9 @@ export default function TravelClaimDetails() {
   const location = useLocation();
   const { claimDetailsProps = null } = location.state ?? {};
   const [claimDetails, setClaimDetails] = useState(claimDetailsProps);
-  const [isLoading, setIsLoading] = useState(!claimDetailsProps);
+  const [detailsAreLoading, setDetailsAreLoading] = useState(
+    !claimDetailsProps,
+  );
   const [claimsError, setClaimsError] = useState(null);
   const REIMBURSEMENT_URL =
     'https://va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
@@ -24,6 +27,22 @@ export default function TravelClaimDetails() {
     focusElement('h1');
     scrollToTop();
   });
+
+  const {
+    useToggleValue,
+    useToggleLoadingValue,
+    TOGGLE_NAMES,
+  } = useFeatureToggle();
+
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
+  const canViewClaimStatuses = useToggleValue(
+    TOGGLE_NAMES.travelPayPowerSwitch,
+  );
+
+  const featureFlagIsLoading = useToggleLoadingValue();
+
   useEffect(
     () => {
       const fetchClaim = async () => {
@@ -31,7 +50,7 @@ export default function TravelClaimDetails() {
           const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims/${id}`;
           const claimsResponse = await apiRequest(claimsUrl);
           setClaimDetails(claimsResponse);
-          setIsLoading(false);
+          setDetailsAreLoading(false);
         } catch (error) {
           setClaimsError(error);
         }
@@ -44,7 +63,7 @@ export default function TravelClaimDetails() {
     [claimDetails, id],
   );
 
-  if (isLoading) {
+  if (detailsAreLoading || featureFlagIsLoading) {
     return (
       <div className="vads-l-grid-container vads-u-padding-y--3">
         <va-loading-indicator
@@ -54,6 +73,16 @@ export default function TravelClaimDetails() {
         />
       </div>
     );
+  }
+
+  if (!canViewClaimDetails && !canViewClaimStatuses) {
+    window.location.replace('/');
+    return null;
+  }
+
+  if (!canViewClaimDetails) {
+    window.location.replace('/my-health/travel-claim-status');
+    return null;
   }
 
   const {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
@@ -13,6 +14,12 @@ export default function TravelClaimCard(props) {
     facilityName,
     modifiedOn,
   } = props;
+
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+
+  const canViewClaimDetails = useToggleValue(
+    TOGGLE_NAMES.travelPayViewClaimDetails,
+  );
 
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
@@ -50,15 +57,17 @@ export default function TravelClaimCard(props) {
           Updated on {updateDate} at {updateTime}
         </li>
       </ul>
-      <Link
-        to={{
-          pathname: `/${id}`,
-          state: { claimDetailsProps: props },
-        }}
-        className="vads-u-display--flex vads-u-align-items--center"
-      >
-        Travel reimbursement claim details <va-icon icon="chevron_right" />
-      </Link>
+      {canViewClaimDetails && (
+        <Link
+          to={{
+            pathname: `/${id}`,
+            state: { claimDetailsProps: props },
+          }}
+          className="vads-u-display--flex vads-u-align-items--center"
+        >
+          Travel reimbursement claim details <va-icon icon="chevron_right" />
+        </Link>
+      )}
     </va-card>
   );
 }
