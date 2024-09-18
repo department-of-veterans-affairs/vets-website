@@ -422,7 +422,7 @@ export const validateSearchTerm = (
     }
   }
 
-  return !empty;
+  return !empty && !filterKeys.every(key => filters[key] === false);
 };
 
 export const currentTab = () => {
