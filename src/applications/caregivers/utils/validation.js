@@ -29,10 +29,8 @@ export const validateCaregivers = (errors, _, formData) => {
 
 export const validateCountyInput = (errors, fieldData) => {
   const disallowList = [
-    'US',
     'U.S',
     'U.S.',
-    'USA',
     'U.SA',
     'U.S.A',
     'U.S.A.',
