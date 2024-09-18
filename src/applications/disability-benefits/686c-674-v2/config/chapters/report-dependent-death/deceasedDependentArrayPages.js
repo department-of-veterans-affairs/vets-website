@@ -1,10 +1,5 @@
+import format from 'date-fns-tz/format';
 import {
-  // addressNoMilitarySchema,
-  // addressNoMilitaryUI,
-  // currentOrPastDateRangeSchema,
-  // currentOrPastDateRangeUI,
-  addressUI,
-  addressSchema,
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
   arrayBuilderYesNoSchema,
@@ -21,14 +16,16 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   relationshipEnums,
   relationshipLabels,
   childTypeEnums,
   childTypeLabels,
-  // DependentRelationshipH3,
-} from './dependent-additional-information/helpers';
+} from './helpers';
+import { customLocationSchema } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -40,14 +37,23 @@ export const deceasedDependentOptions = {
     !item?.fullName?.first ||
     !item?.fullName?.last ||
     !item?.ssn ||
-    !item?.birthDate,
-  // !item?.dependentType ||
-  // !item?.childStatus ||
-  // !item?.date,
+    !item?.birthDate ||
+    !item?.dependentType ||
+    !item?.dependentDeathLocation?.location?.city ||
+    !item?.dependentDeathDate,
   maxItems: 5,
   text: {
     getItemName: item => `${item.fullName.first} ${item.fullName.last}`,
-    cardDescription: item => `${item?.birthDate} - ${item?.date}`,
+    cardDescription: item => {
+      const birthDate = item?.birthDate
+        ? format(new Date(item.birthDate), 'MM/dd/yyyy')
+        : 'Unknown';
+      const dependentDeathDate = item?.dependentDeathDate
+        ? format(new Date(item.dependentDeathDate), 'MM/dd/yyyy')
+        : 'Unknown';
+
+      return `${birthDate} - ${dependentDeathDate}`;
+    },
   },
 };
 
@@ -69,26 +75,13 @@ export const deceasedDependentIntroPage = {
 /** @returns {PageSchema} */
 export const deceasedDependentSummaryPage = {
   uiSchema: {
-    'view:completedDependent': arrayBuilderYesNoUI(
-      deceasedDependentOptions,
-      // {
-      //   title:
-      //     'Do you have any employment, including self-employment for the last 5 years to report?',
-      //   hint:
-      //     'Include self-employment and military duty (including inactive duty for training).',
-      //   labels: {
-      //     Y: 'Yes, I have employment to report',
-      //     N: 'No, I don’t have employment to report',
-      //   },
-      // },
-      {
-        title: 'Do you have another deceased dependent to report?',
-        labels: {
-          Y: 'Yes, I have another dependent to report',
-          N: 'No, I don’t have another dependent to report',
-        },
+    'view:completedDependent': arrayBuilderYesNoUI(deceasedDependentOptions, {
+      title: 'Do you have another deceased dependent to report?',
+      labels: {
+        Y: 'Yes, I have another dependent to report',
+        N: 'No, I don’t have another dependent to report',
       },
-    ),
+    }),
   },
   schema: {
     type: 'object',
@@ -130,13 +123,11 @@ export const deceasedDependentPersonalInfoPage = {
 export const deceasedDependentChildStatusPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      // console.log(formData);
       const { first, last } = formData?.fullName;
       return formData?.fullName
         ? `Your relationship to ${first} ${last}`
         : 'Your relationship to the deceased dependent';
     }),
-    // 'ui:title': DependentRelationshipH3,
     dependentType: {
       ...radioUI({
         title: 'What was your relationship to the dependent?',
@@ -157,7 +148,6 @@ export const deceasedDependentChildStatusPage = {
 export const deceasedDependentChildTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      // console.log(formData);
       const { first, last } = formData?.fullName;
       return formData?.fullName
         ? `Your relationship to ${first} ${last}`
@@ -169,8 +159,10 @@ export const deceasedDependentChildTypePage = {
         required: formData => formData?.dependentType === 'child',
         labels: childTypeLabels,
       }),
-      // 'ui:required': (formData, index) =>
-      //   formData?.deaths[index]?.dependentType === 'child',
+      // 'ui:required': formData => {
+      //   console.log(formData);
+      //   return formData?.dependentType === 'child';
+      // },
     },
   },
   schema: {
@@ -184,7 +176,6 @@ export const deceasedDependentChildTypePage = {
 export const deceasedDependentDateOfDeathPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      // console.log(formData);
       const { first, last } = formData?.fullName;
       return formData?.fullName
         ? `When did ${first} ${last} die?`
@@ -206,25 +197,46 @@ export const deceasedDependentDateOfDeathPage = {
 export const deceasedDependentLocationOfDeathPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      // console.log(formData);
       const { first, last } = formData?.fullName;
       return formData?.fullName
         ? `Where did ${first} ${last} die?`
         : 'Where did the dependent die?';
     }),
-    dependentDeathLocation: addressUI({
-      labels: {
-        militaryCheckbox: 'This occurred outside of the U.S.',
+    dependentDeathLocation: {
+      outsideUsa: {
+        'ui:title': 'This occurred outside the U.S.',
+        'ui:webComponentField': VaCheckboxField,
       },
-      omit: ['street', 'street2', 'street3', 'country', 'postalCode'],
-    }),
+      location: {
+        city: {
+          'ui:title': 'City',
+          'ui:required': () => true,
+          'ui:autocomplete': 'address-level2',
+          'ui:errorMessages': {
+            required: 'Enter the city where the dependent died',
+          },
+          'ui:webComponentField': VaTextInputField,
+        },
+
+        state: {
+          'ui:title': 'State',
+          'ui:webComponentField': VaSelectField,
+          'ui:required': itemData =>
+            !itemData?.dependentDeathLocation?.outsideUsa,
+          'ui:errorMessages': {
+            required: 'Select a state',
+          },
+          'ui:options': {
+            hideIf: itemData => itemData?.dependentDeathLocation?.outsideUsa,
+          },
+        },
+      },
+    },
   },
   schema: {
     type: 'object',
     properties: {
-      dependentDeathLocation: addressSchema({
-        omit: ['street', 'street2', 'street3', 'country', 'postalCode'],
-      }),
+      dependentDeathLocation: customLocationSchema,
     },
   },
 };
