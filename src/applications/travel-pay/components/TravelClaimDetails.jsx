@@ -6,6 +6,7 @@ import { focusElement } from 'platform/utilities/ui';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
+import { HelpTextContent } from './HelpText';
 import { formatDateTime } from '../util/dates';
 import BreadCrumbs from './Breadcrumbs';
 
@@ -16,12 +17,10 @@ export default function TravelClaimDetails() {
   const [claimDetails, setClaimDetails] = useState(claimDetailsProps);
   const [isLoading, setIsLoading] = useState(!claimDetailsProps);
   const [claimsError, setClaimsError] = useState(null);
-  const BTSSS_PORTAL_URL = 'https://dvagov-btsss.dynamics365portals.us/';
+  const REIMBURSEMENT_URL =
+    'https://va.gov/resources/how-to-set-up-direct-deposit-for-va-travel-pay-reimbursement/';
 
-  console.log(claimDetails); // eslint-disable-line no-console
   useEffect(() => {
-    // window.scrollTo(0, 0);
-    // scrollTo('h1');
     focusElement('h1');
     scrollToTop();
   });
@@ -110,26 +109,13 @@ export default function TravelClaimDetails() {
         </p>
 
         <a
-          href="https://whereDoesThisGo?.com"
+          href={REIMBURSEMENT_URL}
           className="vads-u-display--inline-block vads-u-margin-bottom--4"
         >
           Learn how to set up direct deposit for travel pay reimbursement
         </a>
         <va-need-help>
-          <div slot="content">
-            <p>
-              To manage your travel claims, file a new claim, or learn what your
-              claim status means, go to our{' '}
-              <a className="btsss-portal-link" href={BTSSS_PORTAL_URL}>
-                Beneficiary Travel Self Service System (BTSSS) portal (opens in
-                new tab)
-              </a>
-              .<br />
-              Or call <va-telephone contact="8555747292" /> from 7 a.m. to 7
-              p.m. Monday through Friday. Have your claim number ready to share
-              when you call.
-            </p>
-          </div>
+          <div slot="content">{HelpTextContent}</div>
         </va-need-help>
       </article>
     </>
