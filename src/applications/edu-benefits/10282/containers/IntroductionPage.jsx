@@ -80,7 +80,11 @@ class IntroductionPage extends React.Component {
           startText="Start the Application"
         />
         <p />
-        <va-omb-info resBurden={10} ombNumber="2900-0922" expDate="9/30/2026" />
+        <va-omb-info
+          res-burden={10}
+          omb-number="2900-0922"
+          exp-date="9/30/2026"
+        />
       </article>
     );
   }
