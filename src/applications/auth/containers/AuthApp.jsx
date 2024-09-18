@@ -114,7 +114,7 @@ export default function AuthApp({ location }) {
           },
         );
         if (!termsResponse?.provisioned) {
-          handleAuthError(null, 111);
+          handleAuthError(null, '111');
           return false;
         }
         return true;
@@ -124,9 +124,9 @@ export default function AuthApp({ location }) {
           message === 'Agreement not accepted' ||
           message === 'Account not Provisioned'
         ) {
-          handleAuthError(null, 111);
+          handleAuthError(null, '111');
         } else {
-          handleAuthError(err, 110);
+          handleAuthError(err, '110');
         }
         return false;
       }
@@ -164,8 +164,8 @@ export default function AuthApp({ location }) {
     }
     redirect();
   };
-  // Fetch the user to get the login policy and validate the session.
 
+  // Fetch the user to get the login policy and validate the session.
   const validateSession = async () => {
     if (errorCode && state) {
       await handleTokenRequest({
@@ -178,12 +178,11 @@ export default function AuthApp({ location }) {
 
     if (auth === FORCE_NEEDED) {
       handleAuthForceNeeded();
-    } else if (!hasError && checkReturnUrl(returnUrl)) {
-      await handleAuthSuccess({ skipToRedirect: true });
     } else {
       try {
+        const skipToRedirect = !hasError && checkReturnUrl(returnUrl);
         const response = await apiRequest('/user');
-        await handleAuthSuccess({ response });
+        await handleAuthSuccess({ response, skipToRedirect });
       } catch (error) {
         handleAuthError(error);
       }
