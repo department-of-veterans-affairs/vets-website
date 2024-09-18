@@ -9,10 +9,6 @@ import NeedHelp from '../components/NeedHelp';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
-
-  const isOrg = () =>
-    formData['view:selectedRepresentative']?.type === 'organization';
-
   const address = {
     address1: (
       formData['view:selectedRepresentative']?.addressLine1 || ''
@@ -27,6 +23,8 @@ export default function NextStepsPage() {
     state: (formData['view:selectedRepresentative']?.stateCode || '').trim(),
     zip: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
   };
+  const isOrg =
+    formData['view:selectedRepresentative']?.type === 'organization';
 
   const getRepType = () => {
     const repType = formData.repTypeRadio;
@@ -39,7 +37,7 @@ export default function NextStepsPage() {
   };
 
   const getOrgName = () => {
-    if (isOrg()) {
+    if (isOrg) {
       return formData['view:selectedRepresentative'].name;
     }
 
