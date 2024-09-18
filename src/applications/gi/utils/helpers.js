@@ -410,19 +410,27 @@ export const validateSearchTerm = (
     } else if (error !== null) {
       dispatchError(null);
     }
+    return !empty && !filterKeys.every(key => filters[key] === false);
   }
 
   if (type === 'location') {
     if (empty) {
       dispatchError('Please fill in a city, state, or postal code.');
+    } else if (filterKeys.every(key => filters[key] === false)) {
+      dispatchError('Please select at least one filter.');
     } else if (invalidZipCodePattern.test(searchTerm)) {
       dispatchError('Please enter a valid postal code.');
     } else if (error !== null) {
       dispatchError(null);
     }
+    return (
+      !empty &&
+      !filterKeys.every(key => filters[key] === false) &&
+      !invalidZipCodePattern.test(searchTerm)
+    );
   }
 
-  return !empty && !filterKeys.every(key => filters[key] === false);
+  return !empty;
 };
 
 export const currentTab = () => {
