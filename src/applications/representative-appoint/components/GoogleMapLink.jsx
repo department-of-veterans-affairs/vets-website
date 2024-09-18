@@ -9,7 +9,7 @@ export default function GoogleMapLink({ address, recordClick }) {
       .filter(Boolean)
       .join(' ') +
     (address.city ? ` ${address.city},` : '') +
-    (address.state ? ` ${address.stateCode}` : '') +
+    (address.state ? ` ${address.state}` : '') +
     (address.zip ? ` ${address.zip}` : '');
 
   return (
