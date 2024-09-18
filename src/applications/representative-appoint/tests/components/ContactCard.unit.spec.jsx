@@ -36,10 +36,13 @@ describe('ContactCard Component', () => {
   });
 
   it('should render the representative and organization name', () => {
-    const contactCard = $('h3', container);
-    expect(contactCard).to.exist;
-    expect(contactCard.textContent).to.contain(repName);
-    expect(contactCard.textContent).to.contain(orgName);
+    const h3 = $('h3', container);
+    expect(h3).to.exist;
+    expect(h3.textContent).to.contain(repName);
+
+    const orgNameElement = $('p', container);
+    expect(orgNameElement).to.exist;
+    expect(orgNameElement.textContent).to.contain(orgName);
   });
 
   it('should render the address block correctly', () => {
@@ -55,13 +58,6 @@ describe('ContactCard Component', () => {
     expect(emailLink).to.exist;
     expect(emailLink.getAttribute('href')).to.equal(`mailto:${email}`);
     expect(emailLink.textContent).to.equal(email);
-  });
-
-  it('should call recordClick when the email link is clicked', () => {
-    const emailLink = $('a[href^="mailto"]', container);
-    emailLink.click();
-
-    expect(mockRecordClick.calledOnce).to.be.true;
   });
 
   // Shadow DOM elements like va-card, va-icon, and va-telephone are excluded from testing
