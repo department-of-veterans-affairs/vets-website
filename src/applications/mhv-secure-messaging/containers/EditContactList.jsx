@@ -157,7 +157,10 @@ const EditContactList = () => {
     [isMinimumSelected],
   );
 
-  const goBackButton = () => {
+  const GoBackButton = () => {
+    if (!allTriageTeams) {
+      setIsNavigationBlocked(false);
+    }
     return (
       <button
         type="button"
@@ -227,7 +230,7 @@ const EditContactList = () => {
               ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
             </p>
           </VaAlert>
-          {goBackButton()}
+          <GoBackButton />
         </div>
       ) : (
         <>
@@ -292,7 +295,7 @@ const EditContactList = () => {
                   data-testid="contact-list-save"
                   data-dd-action-name="Contct List Save Button"
                 />
-                {goBackButton()}
+                <GoBackButton />
               </div>
               <GetFormHelp />
             </form>
