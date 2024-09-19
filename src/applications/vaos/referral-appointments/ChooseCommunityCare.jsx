@@ -118,6 +118,7 @@ export default function ChooseCommunityCare() {
                   aria-label={provider.reviewText}
                   text={provider.reviewText}
                   data-testid="review-available-appointments-link"
+                  href="provider-choose-date-and-time"
                 />
               </div>
               <hr />

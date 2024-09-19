@@ -91,7 +91,7 @@ export const domesticViolenceInfo = (
 /**
  * Other housing risks page
  */
-export const OtherHousingRisksTitle = (
+export const OtherHousingRisksTitle = () => (
   <>
     <h3>Other housing risks</h3>
     <p>

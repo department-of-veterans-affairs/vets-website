@@ -13,7 +13,7 @@ export const IntroductionPage = ({ featureTogglesLoaded, route }) => {
     <div className="schemaform-intro">
       <>
         <h1 className="vads-u-margin-bottom--1p5">
-          Apply for VA education benefits
+          Apply for VA education benefits Form 22-1990
         </h1>
         <h2 className="vads-u-font-size--h3 vads-u-font-family--sans vads-u-font-weight--normal vads-u-margin-y--0">
           Equal to VA Form 22-1990 (Application for VA Education Benefits)

@@ -14,20 +14,24 @@ import {
   GET_HELP_REVIEW_REQUEST_URL,
 } from '../constants';
 
+export const NewIntroText = () => (
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <p className="va-introtext">
+        If you disagree with a VA decision on an initial claim or Supplemental
+        Claim, you or your representative can request a Higher-Level Review of
+        the decision. You can’t submit new evidence with a Higher-Level Review.
+      </p>
+    </Toggler.Enabled>
+  </Toggler>
+);
+
 export const IntroText = () => {
   const restartWizard = () => {
     recordEvent({ event: 'howToWizard-start-over' });
   };
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-      <Toggler.Enabled>
-        <p className="va-introtext">
-          If you disagree with a VA decision on an initial claim or Supplemental
-          Claim, you or your representative can request a Higher-Level Review of
-          the decision. You can’t submit new evidence with a Higher-Level
-          Review.
-        </p>
-      </Toggler.Enabled>
       <Toggler.Disabled>
         <h2 className="vads-u-margin-top--2">What’s a Higher-Level Review?</h2>
         <p>
