@@ -50,6 +50,7 @@ const EditContactList = () => {
     blockedFacilities,
     blockedRecipients,
     allRecipients,
+    error,
   } = recipients;
 
   const ehrDataByVhaId = useSelector(selectEhrDataByVhaId);
@@ -206,9 +207,8 @@ const EditContactList = () => {
         Select the teams you want to show in your contact list when you start a
         new message.{' '}
       </p>
-      {!allTriageTeams ? (
+      {error && (
         <div>
-          {' '}
           <VaAlert
             role="alert"
             aria-live="polite"
@@ -232,7 +232,8 @@ const EditContactList = () => {
           </VaAlert>
           <GoBackButton />
         </div>
-      ) : (
+      )}
+      {allTriageTeams?.length > 0 && (
         <>
           {showBlockedTriageGroupAlert && (
             <div
@@ -247,59 +248,57 @@ const EditContactList = () => {
             </div>
           )}
 
-          {allTriageTeams.length > 0 && (
-            <form className="contactListForm">
-              {allFacilities.map(stationNumber => {
-                if (!blockedFacilities.includes(stationNumber)) {
-                  const facilityName = getVamcSystemNameFromVhaId(
-                    ehrDataByVhaId,
-                    stationNumber,
-                  );
+          <form className="contactListForm">
+            {allFacilities.map(stationNumber => {
+              if (!blockedFacilities.includes(stationNumber)) {
+                const facilityName = getVamcSystemNameFromVhaId(
+                  ehrDataByVhaId,
+                  stationNumber,
+                );
 
-                  return (
-                    <FacilityCheckboxGroup
-                      key={stationNumber}
-                      errorMessage={checkboxError}
-                      facilityName={facilityName}
-                      multipleFacilities={allFacilities?.length > 1}
-                      updatePreferredTeam={updatePreferredTeam}
-                      triageTeams={allTriageTeams
-                        .filter(
-                          team =>
-                            team.stationNumber === stationNumber &&
-                            team.blockedStatus === false,
-                        )
-                        .sort((a, b) => a.name.localeCompare(b.name))}
-                    />
-                  );
-                }
-                return null;
-              })}
+                return (
+                  <FacilityCheckboxGroup
+                    key={stationNumber}
+                    errorMessage={checkboxError}
+                    facilityName={facilityName}
+                    multipleFacilities={allFacilities?.length > 1}
+                    updatePreferredTeam={updatePreferredTeam}
+                    triageTeams={allTriageTeams
+                      .filter(
+                        team =>
+                          team.stationNumber === stationNumber &&
+                          team.blockedStatus === false,
+                      )
+                      .sort((a, b) => a.name.localeCompare(b.name))}
+                  />
+                );
+              }
+              return null;
+            })}
 
-              <div
-                className="
-            vads-u-margin-top--3
-            vads-u-display--flex
-            vads-u-flex-direction--column
-            small-screen:vads-u-flex-direction--row
-            small-screen:vads-u-align-content--flex-start
-          "
-              >
-                <va-button
-                  text="Save contact list"
-                  class="
-              vads-u-margin-bottom--1
-              small-screen:vads-u-margin-bottom--0
-            "
-                  onClick={e => handleSave(e)}
-                  data-testid="contact-list-save"
-                  data-dd-action-name="Contct List Save Button"
-                />
-                <GoBackButton />
-              </div>
-              <GetFormHelp />
-            </form>
-          )}
+            <div
+              className="
+                  vads-u-margin-top--3
+                  vads-u-display--flex
+                  vads-u-flex-direction--column
+                  small-screen:vads-u-flex-direction--row
+                  small-screen:vads-u-align-content--flex-start
+                "
+            >
+              <va-button
+                text="Save contact list"
+                class="
+                    vads-u-margin-bottom--1
+                    small-screen:vads-u-margin-bottom--0
+                  "
+                onClick={e => handleSave(e)}
+                data-testid="contact-list-save"
+                data-dd-action-name="Contact List Save Button"
+              />
+              <GoBackButton />
+            </div>
+            <GetFormHelp />
+          </form>
         </>
       )}
     </div>

@@ -373,6 +373,7 @@ describe('Edit Contact List container', async () => {
           allFacilities: [...noAssociationsAtAll.mockAllFacilities],
           blockedFacilities: [...noAssociationsAtAll.mockBlockedFacilities],
           allRecipients: [...noAssociationsAtAll.mockAllRecipients],
+          error: true,
         },
       },
     };
