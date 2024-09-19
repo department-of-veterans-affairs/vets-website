@@ -101,10 +101,6 @@ class ContactListPage {
 
   // mock response could be amended in further updates
   clickSaveContactListButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
-      status: '200',
-    }).as('savedList');
-
     cy.get(Locators.BUTTONS.CL_SAVE)
       .shadow()
       .find(`button`)
@@ -129,7 +125,7 @@ class ContactListPage {
   };
 
   verifyContactListSavedAlert = () => {
-    cy.get(Locators.ALERTS.CONFIRM).should(
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
       `include.text`,
       Alerts.CONTACT_LIST.SAVED,
     );
@@ -181,6 +177,16 @@ class ContactListPage {
         },
       })),
     };
+  };
+
+  verifySaveAPIError = () => {
+    cy.get(Locators.ALERTS.ALERT_TEXT)
+      .should(`be.visible`)
+      .and('contain.text', Alerts.CONTACT_LIST.SAVE_API_ERROR)
+      .parents(`va-alert`)
+      .shadow()
+      .find(`button`)
+      .should(`have.focus`);
   };
 }
 
