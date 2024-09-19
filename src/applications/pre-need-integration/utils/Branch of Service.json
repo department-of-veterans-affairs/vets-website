@@ -1,0 +1,786 @@
+[
+  {
+    "Code__c": "AA",
+    "Begin_Date__c": "6/20/41",
+    "End_Date__c": "9/18/47",
+    "Short_Description__c": "USAAF",
+    "Name": "US ARMY AIR FORCES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AC",
+    "Begin_Date__c": "7/2/26",
+    "End_Date__c": "6/20/41",
+    "Short_Description__c": "USAAC",
+    "Name": "US ARMY AIR CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AD",
+    "Begin_Date__c": "8/1/07",
+    "End_Date__c": "7/18/14",
+    "Short_Description__c": "USA AERODIV",
+    "Name": "US ARMY SIGNAL CORPS AERO DIV",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AF",
+    "Begin_Date__c": "9/18/47",
+    "End_Date__c": "",
+    "Short_Description__c": "USAF",
+    "Name": "US AIR FORCE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AG",
+    "Begin_Date__c": "1776-07-06",
+    "End_Date__c": "",
+    "Short_Description__c": "AIR NAT GUARD",
+    "Name": "US AIR NATIONAL GUARD",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AL",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "",
+    "Short_Description__c": "FOREIGN BOS",
+    "Name": "ALLIED FORCES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AR",
+    "Begin_Date__c": "1775-06-14",
+    "End_Date__c": "",
+    "Short_Description__c": "USA",
+    "Name": "US ARMY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AS",
+    "Begin_Date__c": "5/24/18",
+    "End_Date__c": "7/2/26",
+    "Short_Description__c": "USAAS",
+    "Name": "US ARMY AIR SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AT",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "USAAF (ATC)",
+    "Name": "US ARMY AIR FORCES (ATC)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "AV",
+    "Begin_Date__c": "7/18/14",
+    "End_Date__c": "5/20/18",
+    "Short_Description__c": "USA AVN SEC",
+    "Name": "US ARMY SIGNAL CORPS AVN SEC",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "C2",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "UNITED ATC",
+    "Name": "CIV AIR TRANSPORT CMD (UNITED)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "C3",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "TWA ATC",
+    "Name": "CIV AIR TRANSPORT CMD (TWA)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "C4",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "VULTEE ATC",
+    "Name": "CIV AIR TRANSPORT CMD (VULTEE)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "C5",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "AMERICAN ATC",
+    "Name": "CIV AIR TRANSPRT CMD(AMERICAN)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "C7",
+    "Begin_Date__c": "12/14/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "NORTHWEST ATC",
+    "Name": "CIV AIR TRANSPORT COMMAND (NW)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CA",
+    "Begin_Date__c": "9/16/40",
+    "End_Date__c": "7/25/47",
+    "Short_Description__c": "FOREIGN BOS",
+    "Name": "US CITIZEN WHO SERVED W/ALLIES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CB",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "DEFEND BATAAN",
+    "Name": "US CIV VOLS DEFENSE OF BATAAN",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CC",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "5/8/45",
+    "Short_Description__c": "US CIV AFS",
+    "Name": "US CIV OF AFS WWII",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CD",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "USNTS",
+    "Name": "US NAVY TRANSPORT SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CE",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "",
+    "Short_Description__c": "RCA",
+    "Name": "ROYAL CANADIAN CORPS SIGNAL",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CF",
+    "Begin_Date__c": "4/1/24",
+    "End_Date__c": "12/31/68",
+    "Short_Description__c": "RCAF",
+    "Name": "ROYAL CANADIAN AIR FORCE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CG",
+    "Begin_Date__c": "1/28/15",
+    "End_Date__c": "",
+    "Short_Description__c": "USCG",
+    "Name": "US COAST GUARD",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CI",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "8/15/45",
+    "Short_Description__c": "CIV IFF TECH",
+    "Name": "CIV ID FRIEND/FOE (IFF) TECH",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CM",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "",
+    "Short_Description__c": "ACADEMY BOS",
+    "Name": "CADET OR MIDSHIPMAN",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CO",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "USATS",
+    "Name": "US ARMY TRANSPORT SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CS",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "SIEOSS",
+    "Name": "CIVILIAN W/STRATEGIC SVC (OSS)",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CV",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "CIVILIAN",
+    "Name": "CIVILIAN WAKE ISLAND NAS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "CW",
+    "Begin_Date__c": "8/31/17",
+    "End_Date__c": "1/1/18",
+    "Short_Description__c": "US CIV AFS",
+    "Name": "US CIV OF AFS WWI",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "DT",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "DIETITIAN",
+    "Name": "DIETITIAN WORLD WAR I",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "ES",
+    "Begin_Date__c": "6/21/42",
+    "End_Date__c": "3/31/43",
+    "Short_Description__c": "VOLUNTEER GUARD",
+    "Name": "AMERICAN VOLUNTEER GUARD",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "FC",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "ENGR FLD CLERK",
+    "Name": "ENGINEER FIELD CLERK WWI",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "FF",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "",
+    "Short_Description__c": "FOREIGN FORCES",
+    "Name": "FOREIGN FORCES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "FP",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "CVL FERRY PLT",
+    "Name": "MALE CIVILIAN FERRY PILOT",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "FS",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "8/14/45",
+    "Short_Description__c": "AFS",
+    "Name": "AMERICAN FIELD SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "FT",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "7/18/42",
+    "Short_Description__c": "FLYING TIGERS",
+    "Name": "AMERICAN VOL GRP FLYING TIGERS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "GC",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "8/15/45",
+    "Short_Description__c": "USC&GS",
+    "Name": "US COAST & GEODETIC SURVEY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "GP",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "GUAM CMBT PTRL",
+    "Name": "GUAM COMBAT PATROL",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "GS",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "8/15/45",
+    "Short_Description__c": "USCGS CIV CREW",
+    "Name": "CIV CREW OF/USCGS VESSELS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "GU",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "WAKE ISLAND DEF",
+    "Name": "WAKE ISLAND DEFENDERS-GUAM",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "IR",
+    "Begin_Date__c": "2/28/61",
+    "End_Date__c": "9/18/78",
+    "Short_Description__c": "IRR FORCES LAOS",
+    "Name": "IRREGULAR FORCES LAOS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "KC",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "KESWICK CREW",
+    "Name": "QRTRMASTER CORPS KESWICK CREW",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "MC",
+    "Begin_Date__c": "1775-11-10",
+    "End_Date__c": "",
+    "Short_Description__c": "USMC",
+    "Name": "US MARINE CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "MM",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "USMM",
+    "Name": "US MERCHANT MARINE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "MO",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "OPER MULBERRY",
+    "Name": "MERCHANT SN IN OPER MULBERRY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NA",
+    "Begin_Date__c": "1775-10-13",
+    "End_Date__c": "",
+    "Short_Description__c": "USN",
+    "Name": "US NAVY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NC",
+    "Begin_Date__c": "7/9/18",
+    "End_Date__c": "6/3/20",
+    "Short_Description__c": "ANC",
+    "Name": "ARMY NURSE CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NG",
+    "Begin_Date__c": "1776-07-06",
+    "End_Date__c": "",
+    "Short_Description__c": "ARMY NAT GUARD",
+    "Name": "US ARMY NATIONAL GUARD",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NM",
+    "Begin_Date__c": "1775-06-14",
+    "End_Date__c": "",
+    "Short_Description__c": "CIVILIAN",
+    "Name": "NON-MILITARY CIVILIAN",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NN",
+    "Begin_Date__c": "5/13/08",
+    "End_Date__c": "6/30/42",
+    "Short_Description__c": "NNC",
+    "Name": "NAVY NURSE CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "NO",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "",
+    "Short_Description__c": "NOAA",
+    "Name": "NATIONAL OCEAN/ATMOSPHER ADMIN",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O1",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "CSA",
+    "Name": "CONFEDERATE STATES ARMY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O2",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PACS",
+    "Name": "PROV ARMY CONFEDERATE STATES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O3",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "CSN",
+    "Name": "CONFEDERATE STATES NAVY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O4",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PNCS",
+    "Name": "PROV NAVY CONFEDERATE STATES",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O5",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "CSMC",
+    "Name": "CONFEDERATE STATES MAR CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "O6",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PMCCS",
+    "Name": "PROV MAR CORPS CONFEDERATE ST",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OA",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "AC",
+    "Name": "ARMY CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OB",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "ARTY",
+    "Name": "ARTILLERY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OC",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "BN",
+    "Name": "BATTALION",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OD",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "BTRY",
+    "Name": "BATTERY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OE",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "CAV",
+    "Name": "CAVALRY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OF",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "CS",
+    "Name": "COMMISSARY OF SUBSTANCE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OH",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "DIV HOSP",
+    "Name": "DIVISION HOSPITAL",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OI",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "GEN HOSP",
+    "Name": "GENERAL HOSPITAL",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OJ",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "INF",
+    "Name": "INFANTRY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OK",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "REGT",
+    "Name": "REGIMENT",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OL",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "REGT HOSP",
+    "Name": "REGIMENTAL HOSPITAL",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "ON",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "VET RES COR",
+    "Name": "VETERAN RESERVE CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OP",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "12/31/12",
+    "Short_Description__c": "VOLS",
+    "Name": "VOLUNTEERS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OR",
+    "Begin_Date__c": "1790-01-01",
+    "End_Date__c": "1/14/15",
+    "Short_Description__c": "USRCS",
+    "Name": "US REVENUE CUTTER SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OT",
+    "Begin_Date__c": "1861-04-15",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "USCT",
+    "Name": "US CLD TROOPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OU",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1784-01-14",
+    "Short_Description__c": "CONT LINE",
+    "Name": "CONTINENTAL LINE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OV",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1784-01-14",
+    "Short_Description__c": "CONT NAVY",
+    "Name": "CONTINENTAL NAVY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OW",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1784-01-14",
+    "Short_Description__c": "CONT MARINE",
+    "Name": "CONTINENTAL MARINE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OX",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PROV ARMY",
+    "Name": "PROVISIONAL ARMY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OY",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PROV NAVY",
+    "Name": "PROVISIONAL NAVY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "OZ",
+    "Begin_Date__c": "1775-04-19",
+    "End_Date__c": "1866-08-20",
+    "Short_Description__c": "PROV MAR CORPS",
+    "Name": "PROVISIONAL MARINE REGT",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "PA",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "PCA",
+    "Name": "PHILIPPINE ARMY",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "PG",
+    "Begin_Date__c": "7/26/41",
+    "End_Date__c": "6/30/47",
+    "Short_Description__c": "PHIL GUERILLA",
+    "Name": "PHILIPPINE GUERILLA",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "PH",
+    "Begin_Date__c": "7/29/45",
+    "End_Date__c": "",
+    "Short_Description__c": "USPHS",
+    "Name": "US PUBLIC HEALTH SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "PS",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "10/6/45",
+    "Short_Description__c": "PHIL SCOUTS",
+    "Name": "REGULAR PHILIPPINE SCOUTS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "QC",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "QMC CLERK",
+    "Name": "QUARTERMSTR CORP FEMALE CLERK",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "RA",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "RECON AIDE",
+    "Name": "RECONSTRUCTION AIDE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "RO",
+    "Begin_Date__c": "1775-07-14",
+    "End_Date__c": "",
+    "Short_Description__c": "ROTC",
+    "Name": "ROTC OF ARMY NAVY OR AF",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "RR",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "RUSSIAN RW SC",
+    "Name": "RUSSIAN RAILWAY SERVICE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "SA",
+    "Begin_Date__c": "12/20/19",
+    "End_Date__c": "",
+    "Short_Description__c": "USSF",
+    "Name": "US SPACE FORCE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "SF",
+    "Begin_Date__c": "4/6/17",
+    "End_Date__c": "7/2/21",
+    "Short_Description__c": "SC TEL OPER",
+    "Name": "SIGNAL CORPS TEL OPER",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "SP",
+    "Begin_Date__c": "2/28/61",
+    "End_Date__c": "9/18/78",
+    "Short_Description__c": "SGU LAOS",
+    "Name": "SPECIAL GUERILLA UNIT LAOS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "UT",
+    "Begin_Date__c": "1811-11-01",
+    "End_Date__c": "1813-10-13",
+    "Short_Description__c": "UTAH TERR MIL",
+    "Name": "UTAH TERRITORIAL MILITIA",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "WA",
+    "Begin_Date__c": "5/11/42",
+    "End_Date__c": "8/31/43",
+    "Short_Description__c": "WAAC",
+    "Name": "WOMEN'S ARMY AUX CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "WP",
+    "Begin_Date__c": "12/7/41",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "WASP",
+    "Name": "WOMEN AIR FORCE SERVICE PILOTS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "WR",
+    "Begin_Date__c": "7/30/42",
+    "End_Date__c": "",
+    "Short_Description__c": "WOMENS RESERVE",
+    "Name": "WOMEN'S RESERVE OF NAVY,MC,CG",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "WS",
+    "Begin_Date__c": "9/1/43",
+    "End_Date__c": "12/31/46",
+    "Short_Description__c": "US ARMY",
+    "Name": "WOMEN'S ARMY CORPS",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "XA",
+    "Begin_Date__c": "1775-10-13",
+    "End_Date__c": "",
+    "Short_Description__c": "USN RESERVE",
+    "Name": "US NAVY RESERVE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "XC",
+    "Begin_Date__c": "1775-11-10",
+    "End_Date__c": "",
+    "Short_Description__c": "USMC RESERVE",
+    "Name": "US MARINE CORP RESERVE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "XF",
+    "Begin_Date__c": "9/18/47",
+    "End_Date__c": "",
+    "Short_Description__c": "USAF RESERVE",
+    "Name": "US AIR FORCE RESERVE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "XG",
+    "Begin_Date__c": "1/28/15",
+    "End_Date__c": "",
+    "Short_Description__c": "USCG RESERVE",
+    "Name": "US COAST GUARD RESERVE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  },
+  {
+    "Code__c": "XR",
+    "Begin_Date__c": "1775-06-14",
+    "End_Date__c": "",
+    "Short_Description__c": "USA RESERVE",
+    "Name": "US ARMY RESERVE",
+    "RecordTypeId": "012t0000000H1a7AAC"
+  }
+]
