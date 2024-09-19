@@ -179,7 +179,14 @@ class ContactListPage {
     };
   };
 
-  verifySaveAPIError = () => {
+  verifyLoadAPIAlerts = () => {
+    cy.get(`va-alert`)
+      .find(`h2`)
+      .should(`be.visible`)
+      .and(`have.text`, Alerts.CONTACT_LIST.LOAD_API_ERROR);
+  };
+
+  verifySaveAPIAlert = () => {
     cy.get(Locators.ALERTS.ALERT_TEXT)
       .should(`be.visible`)
       .and('contain.text', Alerts.CONTACT_LIST.SAVE_API_ERROR)

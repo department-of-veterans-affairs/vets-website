@@ -258,6 +258,7 @@ export const Alerts = {
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
     SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
+    LOAD_API_ERROR: `We can’t load your contact list right now`,
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
