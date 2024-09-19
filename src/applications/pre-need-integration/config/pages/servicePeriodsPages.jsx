@@ -19,6 +19,7 @@ import { serviceLabels } from '../../utils/labels';
 // import { serviceRecordsUI } from '../../utils/helpers';
 import { isVeteran } from '../../utils/helpers';
 // const { veteran } = fullSchemaPreNeed.properties.application.properties;
+import HighestRankAutoSuggest from '../../components/HighestRankAutoSuggest';
 
 /** @type {ArrayBuilderOptions} */
 const options = {
@@ -57,8 +58,8 @@ const options = {
     cancelAddNo: () => {
       return 'No, keep this';
     },
-    deleteTitle: item => {
-      const servicePeriodName = item?.name;
+    deleteTitle: props => {
+      const servicePeriodName = props.getItemName(props.itemData);
 
       return `Are you sure want to remove this ${servicePeriodName} service period?`;
     },
@@ -71,8 +72,8 @@ const options = {
     deleteNo: () => {
       return 'No, keep this';
     },
-    cancelEditTitle: item => {
-      const servicePeriodName = item?.name;
+    cancelEditTitle: props => {
+      const servicePeriodName = props.getItemName(props.itemData);
 
       return `Cancel editing ${servicePeriodName} service period?`;
     },
@@ -85,6 +86,9 @@ const options = {
     cancelEditNo: () => {
       return 'No, keep this';
     },
+    summaryTitle: item => {
+      return item?.application?.claimant?.relationshipToVet;
+    }, // == 'veteran' ? 'testvet' : 'testnonvet'},
   },
 };
 
@@ -121,6 +125,25 @@ const summaryPage = {
   },
 };
 
+// function summaryPage(isVet) {
+//   return {
+//     uiSchema: {
+//       'view:hasServicePeriods': arrayBuilderYesNoUI(options),
+//     },
+//     schema: {
+//       type: 'object',
+//       properties: {
+//         'view:hasServicePeriods': arrayBuilderYesNoSchema,
+//       },
+//       required: ['view:hasServicePeriods'],
+//     },
+//   };
+// }
+
+// const summaryPageVeteran = summaryPage(true);
+
+// const summaryPageNonVeteran = summaryPage(false);
+
 /** @returns {PageSchema} */
 function servicePeriodInformationPage(isVet) {
   return {
@@ -143,8 +166,8 @@ function servicePeriodInformationPage(isVet) {
           'ui:order': [
             'serviceBranch',
             'dateRange',
-            'dischargeType',
             'highestRank',
+            'dischargeType',
             'nationalGuardState',
           ],
           serviceBranch: autosuggest.uiSchema(
@@ -181,6 +204,11 @@ function servicePeriodInformationPage(isVet) {
             'ui:title': isVet
               ? 'Highest rank attained'
               : 'Sponsor’s highest rank attained',
+            'ui:field': HighestRankAutoSuggest,
+            'ui:options': {
+              hint:
+                'This field may clear if the branch of service or service start and end dates are updated.',
+            },
           },
           nationalGuardState: {
             'ui:title': 'State (for National Guard Service only)',
