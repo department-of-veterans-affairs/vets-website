@@ -1,6 +1,14 @@
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 
+let arrayMap = {};
+let nextClass = '';
+
+function resetDefaults() {
+  arrayMap = {};
+  nextClass = '';
+}
+
 export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   const onReviewPage = true;
 
@@ -17,6 +25,18 @@ export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   return chapterTitle || '';
 };
 
+const addMarginIfNewIndex = (arrayKey, index) => {
+  if (!arrayMap[arrayKey]) {
+    arrayMap[arrayKey] = new Set();
+  }
+
+  nextClass =
+    // eslint-disable-next-line no-unneeded-ternary
+    index > 0 && !arrayMap[arrayKey].has(index) ? 'vads-u-margin-top--4' : '';
+
+  arrayMap[arrayKey].add(index);
+};
+
 const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
@@ -30,8 +50,11 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
     .replace(/\s+/g, '-')
     .replace(/[^a-z0-9-]/g, '');
 
+  const className = nextClass;
+  nextClass = '';
+
   return (
-    <li key={keyString}>
+    <li key={keyString} className={className}>
       <div className="vads-u-color--gray">
         {label}
         {textDescription && <p>{textDescription}</p>}
@@ -42,7 +65,7 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
   );
 };
 
-const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
+const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
   if (schema.properties[key] === undefined || !uiSchema) return null;
 
@@ -53,9 +76,11 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
     'ui:reviewWidget': ReviewWidget,
   } = uiSchema;
 
-  const label = uiSchema['ui:title'] || schemaFromState?.properties[key].title;
+  const label =
+    uiSchema['ui:title'] || schemaFromState?.properties?.[key].title;
 
-  let refinedData = typeof data === 'object' ? data[key] : data;
+  let refinedData = Array.isArray(data) ? data[index] : data;
+  refinedData = typeof data === 'object' ? data[key] : data;
 
   // long term, make this a switch statement
   if (
@@ -126,77 +151,51 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
         objVal,
         data[objKey],
         schema.properties[key],
-        schemaFromState?.properties[key],
+        schemaFromState?.properties?.[key],
       ),
     );
   }
 
-  if (dataType === 'array' && data) {
-    return data.flatMap(dataPoint =>
-      Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) =>
-        fieldEntries(
-          arrKey,
-          arrVal,
-          dataPoint[arrKey],
-          schema.properties[key].items,
-          schemaFromState?.properties[key].items,
-        ),
-      ),
-    );
-    // let iterator = 0;
-    // return data.flatMap(dataPoint => {
-    //   // if (key.startsWith('view:') || key.startsWith('ui:')) return null;
+  if (dataType === 'array' && data && data.length) {
+    if (index == null) {
+      // single page array data
+      return data.flatMap((_, i) => {
+        return fieldEntries(key, uiSchema, data, schema, schemaFromState, i);
+      });
+    }
 
-    //   iterator += 1;
-
-    //   return (
-    //     <>
-    //       <h3>DataPoint {iterator}</h3>
-    //       {Object.entries(uiSchema.items).flatMap(([arrKey, arrVal]) => {
-    //         return (
-    //           <>
-    //             {fieldEntries(
-    //               arrKey,
-    //               arrVal,
-    //               dataPoint[arrKey],
-    //               schema.properties[key].items,
-    //             )}
-    //           </>
-    //         );
-    //       })}
-    //     </>
-    //   );
-    // });
+    // multi page array data
+    addMarginIfNewIndex(key, index);
+    return Object.entries(uiSchema?.items).flatMap(([arrKey, arrVal]) => {
+      return fieldEntries(
+        arrKey,
+        arrVal,
+        data[index][arrKey],
+        schema.properties[key].items,
+        schemaFromState?.properties?.[key].items?.[index],
+      );
+    });
   }
 
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
 export const buildFields = (chapter, formData, pagesFromState) => {
-  return chapter.expandedPages.flatMap(page =>
-    Object.entries(page.uiSchema).flatMap(([uiSchemaKey, uiSchemaValue]) => {
-      const data = formData[uiSchemaKey];
-      return fieldEntries(
-        uiSchemaKey,
-        uiSchemaValue,
-        data,
-        page.schema,
-        pagesFromState?.[page.pageKey]?.schema,
-      );
-    }),
-  );
-  // return chapter.expandedPages.flatMap(page => {
-  //   if (isReactComponent(page.CustomPageReview)) {
-  //     return page.CustomPageReview;
-  //   }
-
-  //   return Object.entries(page.uiSchema).flatMap(
-  //     ([uiSchemaKey, uiSchemaValue]) => {
-  //       const data = formData[uiSchemaKey];
-  //       return fieldEntries(uiSchemaKey, uiSchemaValue, data, page.schema);
-  //     },
-  //   );
-  // });
+  return chapter.expandedPages.flatMap(page => {
+    return Object.entries(page.uiSchema).flatMap(
+      ([uiSchemaKey, uiSchemaValue]) => {
+        const data = formData[uiSchemaKey];
+        return fieldEntries(
+          uiSchemaKey,
+          uiSchemaValue,
+          data,
+          page.schema,
+          pagesFromState?.[page.pageKey]?.schema,
+          page.index,
+        );
+      },
+    );
+  });
 };
 
 /**
@@ -217,6 +216,7 @@ export const ChapterSectionCollection = ({
   formConfig,
   pagesFromState,
 }) => {
+  resetDefaults();
   return chapters.map(chapter => {
     const chapterTitle = getChapterTitle(
       chapter.formConfig,
