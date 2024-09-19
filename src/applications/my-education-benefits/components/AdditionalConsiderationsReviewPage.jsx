@@ -11,7 +11,7 @@ const AdditionalConsiderationsReviewPage = ({ formData, editPage }) => {
     [formFields.federallySponsoredAcademy]: federallySponsoredAcademy,
     [formFields.seniorRotcCommission]: seniorRotcCommission,
     [formFields.loanPayment]: loanPayment,
-    [formFields.additionalContributions]: additionalContributions,
+    [formFields.sixHundredDollarBuyUp]: sixHundredDollarBuyUp,
   } = formData || {};
 
   const renderReviewRow = (label, value) => {
@@ -68,7 +68,7 @@ const AdditionalConsiderationsReviewPage = ({ formData, editPage }) => {
         )}
         {renderReviewRow(
           'Did you make additional contributions (up to $600) to increase your monthly benefits?',
-          additionalContributions,
+          sixHundredDollarBuyUp,
         )}
       </dl>
     </div>

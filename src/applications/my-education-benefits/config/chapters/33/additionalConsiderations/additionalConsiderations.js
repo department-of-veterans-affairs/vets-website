@@ -7,6 +7,7 @@ function additionalConsiderationsQuestionTitleText(
   order,
   rudisillFlag,
   meb160630Automation,
+  chosenBenefit, // Include chosenBenefit here
   pageName,
 ) {
   let pageNumber;
@@ -23,17 +24,18 @@ function additionalConsiderationsQuestionTitleText(
     pageNumber = pageOrder[pageName] || order;
     totalPages = 5;
   } else {
-    // Handle when meb160630Automation is true (show all 6 questions)
+    // Handle when meb160630Automation is true, but chosenBenefit is NOT chapter30 (still show 5 questions)
     const pageOrder = {
       'active-duty-kicker': 1,
       'reserve-kicker': 2,
       'academy-commission': 3,
       'rotc-commission': 4,
       'loan-payment': 5,
-      'additional-contributions': 6,
+      'additional-contributions': 6, // This question only appears for chapter30
     };
+    // Show 6 questions only if meb160630Automation is enabled AND chosenBenefit is 'chapter30'
     pageNumber = pageOrder[pageName] || order;
-    totalPages = meb160630Automation ? 6 : 5;
+    totalPages = meb160630Automation && chosenBenefit === 'chapter30' ? 6 : 5;
   }
   return `Question ${pageNumber} of ${totalPages}`;
 }
@@ -42,12 +44,14 @@ function additionalConsiderationsQuestionTitle(
   order,
   rudisillFlag,
   meb160630Automation,
+  chosenBenefit,
   pageName,
 ) {
   const titleText = additionalConsiderationsQuestionTitleText(
     order,
     rudisillFlag,
     meb160630Automation,
+    chosenBenefit,
     pageName,
   );
   return (
@@ -103,10 +107,12 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     title: data => {
       const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
       const meb160630Automation = data?.meb160630Automation;
+      const chosenBenefit = data?.formData.chosenBenefit;
       return additionalConsiderationsQuestionTitleText(
         page.order,
         rudisillFlag,
         meb160630Automation,
+        chosenBenefit,
         page.name,
       );
     },
@@ -115,10 +121,12 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
         const rudisillFlag =
           data.formData?.dgiRudisillHideBenefitsSelectionStep;
         const meb160630Automation = data?.formData?.meb160630Automation;
+        const chosenBenefit = data?.formData?.chosenBenefit;
         return additionalConsiderationsQuestionTitle(
           page.order,
           rudisillFlag,
           meb160630Automation,
+          chosenBenefit,
           page.name,
         );
       },
@@ -181,14 +189,13 @@ const additionalConsiderations33 = {
       { includeExclusionWidget: true },
     ),
   },
-  [formPages.additionalConsiderations.additionalContributions.name]: {
+  [formPages.additionalConsiderations.sixHundredDollarBuyUp.name]: {
     ...AdditionalConsiderationTemplate(
-      formPages.additionalConsiderations.additionalContributions,
-      formFields.additionalContributions,
+      formPages.additionalConsiderations.sixHundredDollarBuyUp,
+      formFields.sixHundredDollarBuyUp,
     ),
     depends: formData =>
       formData?.chosenBenefit === 'chapter30' && formData?.meb160630Automation,
   },
 };
-
 export default additionalConsiderations33;
