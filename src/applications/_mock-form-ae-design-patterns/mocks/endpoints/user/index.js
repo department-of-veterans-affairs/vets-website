@@ -324,7 +324,11 @@ const baseUserResponses = {
           servedInMilitary: true,
         },
         inProgressForms: [],
-        prefillsAvailable: ['21-686C', 'FORM-MOCK-AE-DESIGN-PATTERNS'],
+        prefillsAvailable: [
+          '21-686C',
+          'FORM-MOCK-AE-DESIGN-PATTERNS',
+          '26-1880',
+        ],
         vet360ContactInformation: {
           email: {
             createdAt: '2018-04-20T17:24:13.000Z',

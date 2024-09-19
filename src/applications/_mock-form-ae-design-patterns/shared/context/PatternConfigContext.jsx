@@ -8,6 +8,7 @@ import blueFormConfig from '../../patterns/pattern2/TaskBlue/form/config/form';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
+import { useMockedLogin } from '../../hooks/useMockedLogin';
 
 export const getFormConfig = location => {
   if (location.pathname.includes('/1/task-green')) {
@@ -32,6 +33,7 @@ export const getFormConfig = location => {
 export const PatternConfigContext = createContext();
 
 export const PatternConfigProvider = ({ location, children }) => {
+  useMockedLogin(location);
   const formConfig = getFormConfig(location);
 
   const dispatch = useDispatch();
@@ -39,12 +41,12 @@ export const PatternConfigProvider = ({ location, children }) => {
 
   // we need to get the header element to append the tabs to it
   const header = document.getElementById('header-default');
-  return (
+  return formConfig ? (
     <PatternConfigContext.Provider value={formConfig}>
       <Portal target={header}>
         <TaskTabs location={location} formConfig={formConfig} />
       </Portal>
       {children}
     </PatternConfigContext.Provider>
-  );
+  ) : null;
 };

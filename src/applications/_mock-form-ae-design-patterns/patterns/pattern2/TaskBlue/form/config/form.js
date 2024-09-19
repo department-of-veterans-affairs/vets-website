@@ -44,7 +44,7 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: VA_FORM_IDS.FORM_MOCK_AE_DESIGN_PATTERNS,
+  formId: VA_FORM_IDS.FORM_26_1880,
   version: 0,
   prefillEnabled: true,
   footerContent: FormFooter,
