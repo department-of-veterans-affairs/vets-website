@@ -55,15 +55,10 @@ export default function NextStepsPage() {
     const orgs =
       formData['view:selectedRepresentative']?.attributes
         .accreditedOrganizations.data;
-    let orgName = null;
+    let orgName;
 
     if (id && orgs) {
-      for (let i = 0; i < orgs.length; i += 1) {
-        if (orgs[i].id === id) {
-          orgName = orgs[i].attributes.name;
-          break;
-        }
-      }
+      orgName = orgs.find(org => org.id === id);
     }
 
     return orgName;
