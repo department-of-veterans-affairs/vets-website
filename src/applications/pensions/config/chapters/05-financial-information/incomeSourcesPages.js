@@ -46,7 +46,7 @@ const options = {
             </span>
           </li>
           <li>
-            Income payer:{' '}
+            Income provider:{' '}
             <span className="vads-u-font-weight--bold">{item.payer}</span>
           </li>
           <li>
