@@ -151,22 +151,14 @@ const additionalConsiderations33 = {
       formPages.additionalConsiderations.activeDutyKicker,
       formFields.activeDutyKicker,
     ),
-    depends: formData =>
-      formData.dgiRudisillHideBenefitsSelectionStep ||
-      formData?.[formFields.viewBenefitSelection]?.[
-        formFields.benefitRelinquished
-      ] === 'chapter30',
+    depends: formData => formData.dgiRudisillHideBenefitsSelectionStep,
   },
   [formPages.additionalConsiderations.reserveKicker.name]: {
     ...AdditionalConsiderationTemplate(
       formPages.additionalConsiderations.reserveKicker,
       formFields.selectedReserveKicker,
     ),
-    depends: formData =>
-      formData.dgiRudisillHideBenefitsSelectionStep ||
-      formData?.[formFields.viewBenefitSelection]?.[
-        formFields.benefitRelinquished
-      ] === 'Chapter1606',
+    depends: formData => formData.dgiRudisillHideBenefitsSelectionStep,
   },
   [formPages.additionalConsiderations.militaryAcademy.name]: {
     ...AdditionalConsiderationTemplate(
