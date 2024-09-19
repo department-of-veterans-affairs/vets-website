@@ -1,5 +1,5 @@
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-
+import { VA_FORM_IDS } from 'platform/forms/constants';
 import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 
@@ -7,7 +7,7 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { applicantInformationField } from './chapter';
+
 
 const { fullName } = fullSchema10282?.definitions;
 console.log(fullSchema10282, 'fullSchema10282')
@@ -20,7 +20,7 @@ const formConfig = {
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
-  formId: '22-10282',
+  formId: VA_FORM_IDS.FORM_22_10282,
   saveInProgress: {
     messages: {
       inProgress:
@@ -45,7 +45,13 @@ const formConfig = {
     applicantInformationChapter: {
       title: 'Applicant Information',
       pages: {
-        applicantInformation: applicantInformationField,
+        applicantInformation: {
+          path: 'applicant/information',
+          title: 'Applicant information',
+          uiSchema: {
+            veteranFullName: fullNameUI,
+          },
+        },
       },
     },
   },
