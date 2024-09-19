@@ -1,4 +1,5 @@
 // Footer
+// Note: this style block is shared with element(s) in content-build
 .footer {
   color: var(--vads-color-white);
   margin: 0 auto;
@@ -14,6 +15,7 @@
   .va-flex {
     flex-wrap: wrap;
     padding-left: 0.5859375rem;
+
     @include media($medium-screen) {
       flex-wrap: nowrap;
     }
@@ -42,6 +44,7 @@ body.va-pad-promo-banner .footer-inner {
 
 [class^="va-footer-linkgroup"] {
   padding-left: 0;
+
   li {
     list-style: none;
   }
@@ -65,9 +68,11 @@ body.va-pad-promo-banner .footer-inner {
 .va-footer-linkgroup {
   margin: 2em 1em 0 0;
   flex: 0 1 100%;
+
   &:last-child {
     margin-right: 0;
   }
+
   &:first-child {
     margin-top: 2em;
   }
@@ -83,6 +88,7 @@ body.va-pad-promo-banner .footer-inner {
 
   .va-button-link {
     color: var(--vads-color-white) !important;
+
     &:hover {
       color: var(--vads-color-warning) !important;
     }
@@ -107,10 +113,13 @@ body.va-pad-promo-banner .footer-inner {
 
 .va-footer-accordion-content {
   background: transparent;
+
   > .va-footer-links {
     list-style: none;
+
     > li {
       margin-bottom: 0.5em;
+
       > a {
         display: inline-block;
         color: var(--vads-color-white);
@@ -160,6 +169,7 @@ body.va-pad-promo-banner .footer-inner {
     "Arial", sans-serif;
   color: var(--vads-color-white);
   background-color: var(--vads-color-primary-dark);
+
   &:hover {
     background-color: var(--vads-color-primary-dark);
     color: var(--vads-color-white);
@@ -189,10 +199,12 @@ body.va-pad-promo-banner .footer-inner {
 
       a {
         color: var(--vads-color-white);
+
         &:visited {
           color: var(--vads-color-white);
         }
       }
+
       &:not(:last-child):after {
         content: "|";
         padding: 0 0.625rem;
@@ -209,4 +221,3 @@ body.va-pad-promo-banner .footer-inner {
 .va-footer-link-text {
   color: var(--vads-color-white);
 }
-

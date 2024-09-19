@@ -1,45 +1,5 @@
-/* The brightest duo-tone color */
-.darken::before {
-  background-color: var(--vads-color-primary-darker);
-}
-
-/* The darkest duo-tone color */
-.lighten::after {
-  background-color: var(--vads-color-black);
-}
-
-/* Duo-tone effect */
-.duotone {
-  overflow: hidden;
-  position: relative;
-  display: inline-block;
-}
-
-.duotone::before,
-.duotone::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  position: absolute;
-}
-
-.duotone::before {
-  mix-blend-mode: color;
-}
-
-.duotone::after {
-  mix-blend-mode: screen;
-}
-
 @media all and (-ms-high-contrast: none),
 (-ms-high-contrast: active) {
-
-  /* Cheat to restrict to IE10+ CSS styles. */
-  .duotone::before,
-  .duotone::after {
-    width: 0%;
-    height: 0%;
-  }
 
   /* Cheat for IE10+ not handling flex box correctly. */
   .vads-l-row {
@@ -48,18 +8,8 @@
   }
 }
 
-@supports (-ms-ime-align: auto) {
-
-  /* Cheat to restrict to IE Edge CSS styles. */
-  .duotone::before,
-  .duotone::after {
-    width: 0%;
-    height: 0%;
-  }
-}
-
-.usa-accordion>ul li ul.usa-unstyled-list,
-.usa-accordion-bordered>ul li ul.usa-unstyled-list {
+.usa-accordion > ul li ul.usa-unstyled-list,
+.usa-accordion-bordered > ul li ul.usa-unstyled-list {
   list-style: none;
 }
 
@@ -137,12 +87,7 @@
   }
 }
 
-.event-detail-img {
-  width: 100%;
-  height: 28%;
-  object-fit: cover;
-}
-
+// Note: this style block is shared with element(s) in content-build
 .region-grid {
   width: 100%;
   padding-right: initial;
@@ -192,24 +137,13 @@
   }
 }
 
-// to push items at the end of an element wrapped in display: flex to the bottom
-.va-c-margin-top--auto {
-  margin-top: auto;
-}
-
-.va-c-position--relative {
-  position: relative;
-}
-
-.va-c-position--absolute {
-  position: absolute;
-}
-
+// Note: this style block is shared with element(s) in content-build
 .va-c-position-top-right-corner {
   right: 0;
   top: 0;
 }
 
+// Note: this style block is shared with element(s) in content-build
 .expand-image-button {
   background-color: var(--vads-color-primary);
   border-radius: 5px;
@@ -247,37 +181,11 @@
   width: 40px;
 }
 
-
-.bio-paragraph-image {
-  height: 110px;
-  width: 110px;
-}
-
-.bio-image {
-  max-height: 178px;
-}
-
-.person-profile-detail-page-image {
-  max-height: 227px;
-}
-
+// Note: this style block is shared with element(s) in content-build
 .force-small-header {
   font-size: 1em;
   font-family: "Source Sans Pro";
   margin-top: 1em;
-}
-
-.va-facility-page {
-  .va-address-block {
-    margin-left: 0.625rem;
-    border-left: none;
-  }
-}
-
-.facilities_health_service {
-  button.usa-button {
-    margin-bottom: 0;
-  }
 }
 
 .va-l-font-size--12px {
@@ -288,50 +196,4 @@
   position: absolute;
   top: 31px;
   left: 31px;
-}
-
-// OPERATING STATUS
-
-.operating-status-flag {
-  width: 286px;
-  height: 40px;
-  transition: background 0.25s;
-}
-
-.operating-status-flag .os-icon {
-  padding-right: 7px;
-}
-
-a.operating-status-link {
-  color: initial;
-  display: inline-block;
-  font-weight: 700;
-}
-
-.operating-status-flag .os-chevron-right {
-  font-size: 12px;
-}
-
-.operating-status-flag-notice:hover {
-  background: rgba(155, 218, 241, 0.7);
-}
-
-.operating-status-flag-warning:hover {
-  background: rgba(250, 217, 128, 0.7);
-}
-
-.operating-status-flag-error:hover {
-  background: rgba(229, 147, 147, 0.7)
-}
-
-.operating-status-flag-notice:active {
-  background: rgba(155, 218, 241, 1);
-}
-
-.operating-status-flag-warning:active {
-  background: rgba(250, 217, 128, 1);
-}
-
-.operating-status-flag-error:active {
-  background: rgba(229, 147, 147, 1)
 }

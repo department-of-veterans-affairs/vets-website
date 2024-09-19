@@ -59,9 +59,11 @@
   display: unset !important;
 }
 
-@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
-   // IE fix for icon padding
-   //https://stackoverflow.com/questions/11173106/apply-style-only-on-ie
+@media screen and (-ms-high-contrast: active),
+(-ms-high-contrast: none) {
+
+  // IE fix for icon padding
+  //https://stackoverflow.com/questions/11173106/apply-style-only-on-ie
   .alert-icon-base {
     width: 20px !important;
     height: 18px !important;
@@ -79,7 +81,8 @@
   pointer-events: none;
 }
 
-.limited, .warning {
+.limited,
+.warning {
   background-color: var(--vads-color-primary-alt-lightest) !important;
 
   span.status-label:hover {
@@ -92,7 +95,8 @@
 
 }
 
-.closed, .error {
+.closed,
+.error {
   background-color: var(--vads-color-secondary-lightest) !important;
 
   span.status-label:hover {
@@ -105,7 +109,8 @@
 
 }
 
-.notice, .info {
+.notice,
+.info {
   background-color: var(--vads-color-primary-alt-lightest) !important;
 
   span.status-label:hover {
@@ -116,10 +121,3 @@
     background-color: var(--vads-color-primary-alt-light) !important;
   }
 }
-
-.vamc-facility-expandable-alert {
-  display: inline-block;
-  margin-left: 0;
-  margin-right: 0;
-}
-

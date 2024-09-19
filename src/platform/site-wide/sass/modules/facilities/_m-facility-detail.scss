@@ -1,3 +1,4 @@
+// Note: this style block is shared with element(s) in content-build
 .va-c-facility-hours-list {
    list-style-type: none;
    padding: 0;
@@ -5,7 +6,7 @@
    -webkit-columns: 1;
    -moz-columns: 1;
    list-style-position: inside;
- }
+}
 
 .service-hours {
    width: 268px;
@@ -26,41 +27,15 @@
    }
 }
 
+// Note: this style block is shared with element(s) in content-build
 .abbrv-day {
    display: inline-block;
    width: 35px;
    margin-right: 0;
+
    @include media($small-screen + 1) {
       margin-right: 5px;
-    }
-}
-
-.va-c-facility-sidebar {
-   .usa-sidenav-sub_list {
-      a.usa-current {
-         margin-left: 0 !important;
-      }
    }
-
-   a + .usa-sidenav-sub_list, li > .usa-sidenav-sub_list {
-      display: none;
-   }
-
-   a.usa-current + .usa-sidenav-sub_list,
-   .usa-sidenav-sub_list + a.usa-current,
-   li.active-level > .usa-sidenav-sub_list {
-      display: block;
-   }
-
-   &.va-sidebarnav {
-      h4 {
-         width: 100%;
-      }
-   }
-}
-
-.when-where-width {
-   width: 45px;
 }
 
 .va-c-font-size--xs {
