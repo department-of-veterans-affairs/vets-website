@@ -38,6 +38,7 @@
   }
 
   .compare-header {
+    height: 100%;
     position: relative;
     @media (max-width: $small-screen) {
       height: auto;

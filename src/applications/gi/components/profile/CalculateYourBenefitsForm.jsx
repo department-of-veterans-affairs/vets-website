@@ -372,7 +372,7 @@ function CalculateYourBenefitsForm({
 
     return (
       <>
-        <>
+        <div className="vads-u-margin-top--3">
           <LearnMoreLabel
             text={radioButtonsLabelText}
             onClick={() => showModal(modal)}
@@ -387,7 +387,7 @@ function CalculateYourBenefitsForm({
               handleInputChange(null, target, name)
             }
           />
-        </>
+        </div>
         {inputs.inState === 'no' && <>{renderInStateTuition()}</>}
       </>
     );
@@ -1030,7 +1030,7 @@ function CalculateYourBenefitsForm({
     }
 
     return (
-      <div>
+      <div className="vads-u-margin-top--3">
         <LearnMoreLabel
           text={radioButtonsLabelText}
           onClick={() => showModal('onlineOnlyDistanceLearning')}

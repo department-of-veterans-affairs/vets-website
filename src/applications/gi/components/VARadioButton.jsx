@@ -28,7 +28,7 @@ const VARadioButton = ({
     class={
       radioLabel
         ? 'vads-u-margin-y--3'
-        : 'vads-u-margin-top--neg4 vads-u-margin-bottom--1'
+        : 'vads-u-margin-top--neg4 vads-u-margin-bottom--3'
     }
     enable-analytics
     label={radioLabel}

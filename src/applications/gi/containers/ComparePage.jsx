@@ -246,7 +246,7 @@ export function ComparePage({
               onScroll={handleHeaderScrollReact}
               className={classNames('compare-header-row', {
                 'vads-l-row': !smallScreen,
-                'vads-u-padding-bottom--2': !smallScreen,
+                'vads-u-padding-bottom--6': !smallScreen,
               })}
             >
               <CompareHeader
