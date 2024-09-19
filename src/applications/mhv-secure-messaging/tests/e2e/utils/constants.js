@@ -257,6 +257,13 @@ export const Alerts = {
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
   },
+  ATTACHMENT: {
+    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    EMPTY: `Your file is empty. Try attaching a different file.`,
+    FILE_IS_TOO_LARGE_TEXT:
+      'Your file is too large. Try attaching a file smaller than 6MB.',
+    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
+  },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
   PAGE_NOT_FOUND: 'Sorry — we can’t find that page',
@@ -306,9 +313,6 @@ export const Data = {
   EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
-  FILE_IS_TOO_LARGE_TEXT:
-    'Your file is too large. Try attaching a file smaller than 6MB.',
-  ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
