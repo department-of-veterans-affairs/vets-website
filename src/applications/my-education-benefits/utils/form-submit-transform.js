@@ -439,11 +439,14 @@ export function createAdditionalConsiderations(submissionForm) {
         formKey: 'selectedReserveKicker',
         exclusionType: null,
       },
-      sixHundredDollarBuyUp: {
+    };
+    // Only add the sixHundredDollarBuyUp if meb160630Automation is true
+    if (submissionForm.meb160630Automation) {
+      mapping.sixHundredDollarBuyUp = {
         formKey: 'sixHundredDollarBuyUp',
         exclusionType: null,
-      },
-    };
+      };
+    }
     return Object.entries(mapping).reduce(
       (acc, [key, { formKey, exclusionType }]) => {
         const value = submissionForm[formKey];
@@ -458,7 +461,8 @@ export function createAdditionalConsiderations(submissionForm) {
       {},
     );
   }
-  return {
+  // Default object when mebExclusionPeriodEnabled is not true
+  const additionalConsiderations = {
     activeDutyKicker: setAdditionalConsideration(
       submissionForm.activeDutyKicker,
     ),
@@ -474,10 +478,14 @@ export function createAdditionalConsiderations(submissionForm) {
     activeDutyDodRepayLoan: setAdditionalConsideration(
       submissionForm.loanPayment,
     ),
-    sixHundredDollarBuyUp: setAdditionalConsideration(
-      submissionForm.sixHundredDollarBuyUp,
-    ),
   };
+  // Conditionally add sixHundredDollarBuyUp
+  if (submissionForm.meb160630Automation) {
+    additionalConsiderations.sixHundredDollarBuyUp = setAdditionalConsideration(
+      submissionForm.sixHundredDollarBuyUp,
+    );
+  }
+  return additionalConsiderations;
 }
 
 function getTodayDate() {
@@ -538,18 +546,7 @@ export function createDirectDeposit(submissionForm) {
 }
 
 export function createSubmissionForm(submissionForm, formId) {
-  if (submissionForm?.meb160630Automation) {
-    return {
-      formId,
-      '@type': submissionForm?.chosenBenefit,
-      claimant: createMilitaryClaimant(submissionForm),
-      relinquishedBenefit: createRelinquishedBenefit(submissionForm),
-      additionalConsiderations: createAdditionalConsiderations(submissionForm),
-      comments: createComments(submissionForm),
-      directDeposit: createDirectDeposit(submissionForm),
-    };
-  }
-  return {
+  const submissionData = {
     formId,
     claimant: createMilitaryClaimant(submissionForm),
     relinquishedBenefit: createRelinquishedBenefit(submissionForm),
@@ -557,4 +554,9 @@ export function createSubmissionForm(submissionForm, formId) {
     comments: createComments(submissionForm),
     directDeposit: createDirectDeposit(submissionForm),
   };
+  // Conditionally add the @type (chosenBenefit) only if meb160630Automation is true
+  if (submissionForm?.meb160630Automation) {
+    submissionData['@type'] = submissionForm?.chosenBenefit;
+  }
+  return submissionData;
 }
