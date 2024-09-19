@@ -47,7 +47,9 @@ export const MhvSigninCallToAction = ({
   return (
     <div
       // eslint-disable-next-line react/no-danger
-      dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(noAlertContent) }}
+      dangerouslySetInnerHTML={{
+        __html: DOMPurify.sanitize(noAlertContent.innerHTML),
+      }}
     />
   );
 };

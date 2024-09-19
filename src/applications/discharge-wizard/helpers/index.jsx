@@ -688,7 +688,7 @@ export const getBoardExplanation = formResponses => {
       isPreviousApplicationYear(prevAppYear)) &&
     oldDischarge
   ) {
-    return `the ${abbr} for the ${serviceBranch}. The Board handles cases from 15 or more years ago.`;
+    return `the ${abbr} for the ${serviceBranch}. This is because the Board handles all cases from 15 or more years ago.`;
   }
 
   if (

@@ -1,20 +1,17 @@
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 
-const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
+export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   const onReviewPage = true;
 
-  let chapterTitle = chapterFormConfig.title;
+  let chapterTitle = chapterFormConfig.reviewTitle || chapterFormConfig.title;
 
-  if (typeof chapterFormConfig.title === 'function') {
-    chapterTitle = chapterFormConfig.title({
+  if (typeof chapterTitle === 'function') {
+    chapterTitle = chapterTitle({
       formData,
       formConfig,
       onReviewPage,
     });
-  }
-  if (chapterFormConfig.reviewTitle) {
-    chapterTitle = chapterFormConfig.reviewTitle;
   }
 
   return chapterTitle || '';
@@ -56,9 +53,18 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
     'ui:reviewWidget': ReviewWidget,
   } = uiSchema;
 
-  const label = uiSchema['ui:title'] || schemaFromState.properties[key].title;
+  const label = uiSchema['ui:title'] || schemaFromState?.properties[key].title;
 
   let refinedData = typeof data === 'object' ? data[key] : data;
+
+  // long term, make this a switch statement
+  if (
+    uiSchema['ui:widget'] === 'radio' &&
+    uiSchema['ui:options']?.labels?.[refinedData]
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  }
+
   const dataType = schema.properties[key].type;
 
   if (ConfirmationField) {
@@ -113,7 +119,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
         objVal,
         data[objKey],
         schema.properties[key],
-        schemaFromState.properties[key],
+        schemaFromState?.properties[key],
       ),
     );
   }
@@ -126,7 +132,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
           arrVal,
           dataPoint[arrKey],
           schema.properties[key].items,
-          schemaFromState.properties[key].items,
+          schemaFromState?.properties[key].items,
         ),
       ),
     );
@@ -159,7 +165,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
-const buildFields = (chapter, formData, pagesFromState) => {
+export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page =>
     Object.entries(page.uiSchema).flatMap(([uiSchemaKey, uiSchemaValue]) => {
       const data = formData[uiSchemaKey];
@@ -168,7 +174,7 @@ const buildFields = (chapter, formData, pagesFromState) => {
         uiSchemaValue,
         data,
         page.schema,
-        pagesFromState[page.pageKey].schema,
+        pagesFromState?.[page.pageKey]?.schema,
       );
     }),
   );
@@ -186,6 +192,18 @@ const buildFields = (chapter, formData, pagesFromState) => {
   // });
 };
 
+/**
+ * @param {{
+ *   chapters: {
+ *     name: string,
+ *     formConfig: Object,
+ *     expandedPages: Object[]
+ *   }[],
+ *   formData: Object,
+ *   formConfig: Object
+ * }} props
+ * @returns {JSX.Element[]}
+ */
 export const ChapterSectionCollection = ({
   chapters,
   formData,
