@@ -33,18 +33,6 @@ describe('Contact list API errors', () => {
 
     ContactListPage.verifySaveAPIError();
 
-    // cy.get(`va-alert`)
-    //   .shadow()
-    //   .find(`button`)
-    //   .then(el => {
-    //     return new Cypress.Promise(resolve => {
-    //       setTimeout(resolve, 2000);
-    //       cy.wrap(el).click();
-    //     });
-    //   });
-    //
-    // cy.get(Locators.ALERTS.ALERT_TEXT).should(`not.exist`);
-
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
