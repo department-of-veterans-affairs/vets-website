@@ -10,6 +10,7 @@ import IntroductionPage from '../../../../shared/components/pages/IntroductionPa
 import ConfirmationPage from '../../../../shared/components/pages/ConfirmationPage';
 import { VIEW_FIELD_SCHEMA } from '../../../../utils/constants';
 import { taskCompletePage } from '../../../../shared/config/taskCompletePage';
+import { prefillTransformer } from '../../../../utils/helpers/prefill-transformer';
 
 import VeteranProfileInformationTaskYellow from '../VeteranProfileInformationTaskYellow';
 import { MailingAddressInfoPageTaskYellow } from '../MailingAddressInfoPageTaskYellow';
@@ -35,17 +36,7 @@ const formConfig = {
     // },
   },
   version: 0,
-  prefillTransformer(pages, formData, metadata) {
-    const transformedData = {
-      veteranSocialSecurityNumber:
-        formData?.data?.attributes?.veteran?.ssn || null,
-    };
-    return {
-      metadata,
-      formData: transformedData,
-      pages,
-    };
-  },
+  prefillTransformer,
   prefillEnabled: true,
   savedFormMessages: {
     notFound:
