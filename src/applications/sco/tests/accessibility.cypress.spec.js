@@ -40,7 +40,7 @@ describe('Accessibility', () => {
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 8);
+    cy.repeatKey('Tab', 9);
     cy.focused().should(
       'contain.text',
       'State Approving Agency contact information',
@@ -97,9 +97,9 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', '85/15');
-    cy.repeatKey('Tab', 10);
+    cy.repeatKey('Tab', 11);
     cy.focused().should('contain.text', 'About GI Bill benefits');
-    cy.repeatKey('Tab', 5);
+    cy.repeatKey('Tab', 6);
     // Should be focused on right panel now
     cy.focused().should('contain.text', 'Access Enrollment Manager');
     cy.realPress('Tab');
