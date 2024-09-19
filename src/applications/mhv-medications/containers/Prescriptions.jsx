@@ -594,12 +594,12 @@ const Prescriptions = () => {
                             list
                           />
                           <BeforeYouDownloadDropdown page={pageType.LIST} />
-                          <MedicationsListSort
-                            value={selectedSortOption}
-                            sortRxList={sortRxList}
-                          />
                         </>
                       )}
+                      <MedicationsListSort
+                        value={selectedSortOption}
+                        sortRxList={sortRxList}
+                      />
                       <div className="rx-page-total-info vads-u-border-color--gray-lighter" />
                       <MedicationsList
                         pagination={pagination}
