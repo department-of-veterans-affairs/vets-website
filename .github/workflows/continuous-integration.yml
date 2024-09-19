@@ -774,7 +774,7 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: node --dns-result-order=ipv4first script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
@@ -859,7 +859,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node --dns-result-order=ipv4first src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
@@ -868,7 +868,7 @@ jobs:
           path: .
 
       - name: Run Cypress tests
-        run: node script/github-actions/run-cypress-stress-tests.js
+        run: node --dns-result-order=ipv4first script/github-actions/run-cypress-stress-tests.js
         timeout-minutes: 180
         env:
           CYPRESS_CI: true
