@@ -293,6 +293,7 @@ const formConfig = {
           path: 'va-benefits/benefits-package',
           title: 'VA benefits package',
           depends: includeRegOnlyGuestQuestions,
+          CustomPageReview: () => null,
           uiSchema: benefitsPackage.uiSchema,
           schema: benefitsPackage.schema,
         },

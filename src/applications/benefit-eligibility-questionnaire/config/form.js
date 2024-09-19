@@ -33,6 +33,9 @@ export const isOnConfirmationPage = currentLocation => {
 };
 
 export const formConfig = {
+  formOptions: {
+    fullWidth: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -72,7 +75,7 @@ export const formConfig = {
     if (isOnReviewPage(currentLocation)) {
       return 'Review your entries';
     }
-    return 'Complete the benefit eligibility questionnaire';
+    return 'Benefit and resource recommendation tool';
   },
   subTitle: ({ currentLocation }) => {
     if (

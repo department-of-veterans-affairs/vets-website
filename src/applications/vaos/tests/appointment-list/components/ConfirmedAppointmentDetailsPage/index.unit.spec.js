@@ -128,9 +128,10 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
     // Arrange
     const response = new MockAppointmentResponse();
 
-    mockAppointmentApi({ response });
+    mockAppointmentApi({ response, avs: true });
     mockGetUpcomingAppointmentsApi({
       response: [response],
+      avs: true,
     });
     mockGetPendingAppointmentsApi({
       response: [response],
@@ -158,7 +159,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createAtlasResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -182,7 +183,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createAtlasResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -207,7 +208,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -231,7 +232,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createGfeResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -255,7 +256,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createGfeResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -280,7 +281,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -304,7 +305,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: today,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -328,7 +329,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
       const responses = MockAppointmentResponse.createClinicResponses({
         localStartTime: yesterday,
       });
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {
@@ -353,7 +354,7 @@ describe('VAOS Page: ConfirmedAppointmentDetailsPage with VAOS service', () => {
         localStartTime: today,
       });
       responses[0].setStatus(APPOINTMENT_STATUS.cancelled);
-      mockAppointmentApi({ response: responses[0] });
+      mockAppointmentApi({ response: responses[0], avs: true });
 
       // Act
       renderWithStoreAndRouter(<AppointmentList />, {

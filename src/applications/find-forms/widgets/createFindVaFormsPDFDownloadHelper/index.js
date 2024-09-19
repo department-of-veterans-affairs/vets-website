@@ -1,4 +1,6 @@
 import * as Sentry from '@sentry/browser';
+import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
+import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { fetchFormsApi } from '../../api';
 import DownloadHandler from './DownloadHandler';
 
@@ -75,13 +77,18 @@ export async function onDownloadLinkClick(event, reduxStore) {
 }
 
 export default (reduxStore, widgetType) => {
-  const downloadLinks = document.querySelectorAll(
-    `[data-widget-type="${widgetType}"]`,
-  );
+  const showFindFormsModal = state =>
+    toggleValues(state)[FEATURE_FLAG_NAMES.findFormsShowPDFModal];
 
-  for (const downloadLink of [...downloadLinks]) {
-    downloadLink.addEventListener('click', e =>
-      onDownloadLinkClick(e, reduxStore),
+  if (showFindFormsModal) {
+    const downloadLinks = document.querySelectorAll(
+      `[data-widget-type="${widgetType}"]`,
     );
+
+    for (const downloadLink of [...downloadLinks]) {
+      downloadLink.addEventListener('click', e =>
+        onDownloadLinkClick(e, reduxStore),
+      );
+    }
   }
 };

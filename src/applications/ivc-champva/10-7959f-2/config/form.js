@@ -148,10 +148,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Mailing address',
-              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address.",
             ),
             messageAriaDescribedby:
-              "We'll send any important information about your claim to this address. This can be your current home address or a more permanent location.",
+              "We'll send any important information about your claim to this address.",
             veteranAddress: addressUI({
               required: {
                 state: () => true,
@@ -199,11 +199,7 @@ const formConfig = {
           title: 'Current address ',
           depends: formData => formData.sameMailingAddress === false,
           uiSchema: {
-            ...titleUI(
-              `Home address`,
-              `Provide the address where you're living right now`,
-            ),
-            messageAriaDescribedby: `Provide the address where you're living right now.`,
+            ...titleUI(`Home address`),
             physicalAddress: {
               ...addressUI({
                 required: {
@@ -232,10 +228,10 @@ const formConfig = {
           uiSchema: {
             ...titleUI(
               'Phone and email address',
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             ),
             messageAriaDescribedby:
-              'For foreign numbers, add the country code so we can reach you if there are questions about this form.',
+              'Include a country code for foreign phone numbers',
             veteranPhoneNumber: internationalPhoneUI(),
             veteranEmailAddress: emailUI(),
           },

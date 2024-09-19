@@ -8,11 +8,7 @@ import {
 import CCLayout from '../layout/CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
-  };
+  const initialState = {};
 
   describe('When appointment information is missing', () => {
     it('should not display heading and text for empty data', async () => {
