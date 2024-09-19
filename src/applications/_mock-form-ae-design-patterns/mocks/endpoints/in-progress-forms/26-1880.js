@@ -23,6 +23,13 @@ const response = {
           to: '2014-07-21',
         },
       },
+      {
+        serviceBranch: 'Marine Corps',
+        dateRange: {
+          from: '2015-06-27',
+          to: '2018-07-11',
+        },
+      },
     ],
   },
   metadata: {
