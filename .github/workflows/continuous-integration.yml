@@ -669,7 +669,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
-      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      image: public.ecr.aws/cypress-io/cypress/browsers:node-20.17.0-chrome-128.0.6613.137-1-ff-130.0.1-edge-128.0.2739.67-1
       credentials:
         username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
         password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
