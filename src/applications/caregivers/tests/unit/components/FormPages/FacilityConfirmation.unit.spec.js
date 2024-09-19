@@ -13,6 +13,7 @@ describe('CG <FacilityConfirmation>', () => {
 
   const goBack = sinon.spy();
   const goForward = sinon.spy();
+  const goToPath = sinon.spy();
 
   const defaultProps = {
     data: {
@@ -23,6 +24,7 @@ describe('CG <FacilityConfirmation>', () => {
     },
     goBack,
     goForward,
+    goToPath,
   };
 
   const subject = (props = defaultProps) => {
@@ -56,6 +58,7 @@ describe('CG <FacilityConfirmation>', () => {
   afterEach(() => {
     goBack.reset();
     goForward.reset();
+    goToPath.reset();
   });
 
   context('formNavButtons', () => {
@@ -75,6 +78,28 @@ describe('CG <FacilityConfirmation>', () => {
       const { selectors } = subject();
       userEvent.click(selectors().formNavButtons.forward);
       expect(goForward.calledOnce).to.be.true;
+    });
+
+    context('review mode', () => {
+      beforeEach(() => {
+        global.window.location = { search: '?review=true' };
+      });
+
+      it('calls goToPath to facility search on back click', () => {
+        const { selectors } = subject();
+        userEvent.click(selectors().formNavButtons.back);
+        expect(
+          goToPath.calledWith(
+            '/veteran-information/va-medical-center/locator?review=true',
+          ),
+        ).to.be.true;
+      });
+
+      it('calls goToPath callback to review page on forward click', () => {
+        const { selectors } = subject();
+        userEvent.click(selectors().formNavButtons.forward);
+        expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+      });
     });
   });
 

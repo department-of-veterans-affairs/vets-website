@@ -17,7 +17,7 @@ describe('<SaveResultsModal>', () => {
 
   it('copies url when copy button is clicked', async () => {
     const writeText = sinon.mock();
-    sinon.stub(navigator, 'clipboard').returns({ writeText });
+    navigator.clipboard = { writeText };
     sinon.stub(window, 'location').returns({ href: 'test' });
     const { container } = render(<SaveResultsModal />);
     const button = container.querySelector('va-button');
