@@ -103,7 +103,7 @@ const formConfig = {
         },
       },
     },
-    claimant: {
+    claimantInfo: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -165,12 +165,6 @@ const formConfig = {
           schema: claimantContactMailing.schema,
           editModeOnReviewPage: true,
         },
-      },
-    },
-    veteranInfoForVeterans: {
-      title: 'Your Information',
-      depends: formData => preparerIsVeteran({ formData }),
-      pages: {
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -213,7 +207,7 @@ const formConfig = {
         },
       },
     },
-    veteranInfoForNonVeterans: {
+    veteranInfo: {
       title: 'Veteran information',
       depends: formData => !preparerIsVeteran({ formData }),
       pages: {
