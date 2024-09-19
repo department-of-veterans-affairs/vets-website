@@ -25,12 +25,13 @@ export default function NextStepsPage() {
   };
   const isOrg =
     formData['view:selectedRepresentative']?.type === 'organization';
+  const isAttorneyOrClaimsAgent =
+    formData.repTypeRadio === 'Attorney' ||
+    formData.repTypeRadio === 'Claims Agent';
 
   const getRepType = () => {
-    const repType = formData.repTypeRadio;
-
-    if (repType === 'Attorney' || repType === 'Claims Agent') {
-      return repType.toLowerCase();
+    if (isAttorneyOrClaimsAgent) {
+      return formData.repTypeRadio.toLowerCase();
     }
 
     return 'VSO representative';
@@ -41,11 +42,15 @@ export default function NextStepsPage() {
       return formData['view:selectedRepresentative'].name;
     }
 
+    if (isAttorneyOrClaimsAgent) {
+      return null;
+    }
+
     const id = formData?.selectedAccreditedOrganizationId;
     const orgs =
       formData['view:selectedRepresentative']?.attributes
         .accreditedOrganizations.data;
-    let orgName;
+    let orgName = null;
 
     if (id && orgs) {
       for (let i = 0; i < orgs.length; i += 1) {
