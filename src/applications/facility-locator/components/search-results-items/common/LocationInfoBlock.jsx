@@ -10,6 +10,7 @@ const LocationInfoBlock = ({ location }) => {
   const { name, website, operatingStatus } = location.attributes;
   const isProvider = location.type === LocationType.CC_PROVIDER;
   const { distance } = location;
+
   return (
     <div>
       {distance &&
