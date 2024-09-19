@@ -62,5 +62,8 @@ describe('Verify compose message attachments errors', () => {
     PatientComposePage.verifyExpectedAttachmentsCount(4);
 
     cy.get(Locators.ATTACH_FILE_INPUT).should('not.exist');
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
   });
 });
