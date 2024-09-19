@@ -20,29 +20,53 @@ describe('ContactCard Component', () => {
   let container;
   let mockRecordClick;
 
+  const renderComponent = (props = {}) => {
+    const defaultProps = {
+      repName,
+      orgName,
+      address,
+      phone,
+      email,
+      recordClick: mockRecordClick,
+      ...props,
+    };
+
+    return render(<ContactCard {...defaultProps} />).container;
+  };
+
   beforeEach(() => {
     mockRecordClick = sinon.spy();
-    const rendered = render(
-      <ContactCard
-        repName={repName}
-        orgName={orgName}
-        address={address}
-        phone={phone}
-        email={email}
-        recordClick={mockRecordClick}
-      />,
-    );
-    container = rendered.container;
+    container = renderComponent();
   });
 
-  it('should render the representative and organization name', () => {
-    const h3 = $('h3', container);
+  const testHeaderContent = (renderedContainer, expectedName) => {
+    const h3 = $('h3', renderedContainer);
     expect(h3).to.exist;
-    expect(h3.textContent).to.contain(repName);
+    expect(h3.textContent).to.contain(expectedName);
+  };
+
+  it('should render the representative and organization name when both names are given', () => {
+    testHeaderContent(container, repName);
 
     const orgNameElement = $('p', container);
     expect(orgNameElement).to.exist;
     expect(orgNameElement.textContent).to.contain(orgName);
+  });
+
+  it('should only render the representative name when the organization name is not given', () => {
+    const renderedContainer = renderComponent({ orgName: undefined });
+    testHeaderContent(renderedContainer, repName);
+
+    const orgNameElement = $('p', renderedContainer);
+    expect(orgNameElement).not.to.exist;
+  });
+
+  it('should only render the organization name when the representative name is not given', () => {
+    const renderedContainer = renderComponent({ repName: undefined });
+    testHeaderContent(renderedContainer, orgName);
+
+    const orgNameElement = $('p', renderedContainer);
+    expect(orgNameElement).not.to.exist;
   });
 
   it('should render the address block correctly', () => {
