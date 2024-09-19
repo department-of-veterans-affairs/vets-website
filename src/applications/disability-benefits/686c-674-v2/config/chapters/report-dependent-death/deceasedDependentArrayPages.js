@@ -43,7 +43,8 @@ export const deceasedDependentOptions = {
     !item?.dependentDeathDate,
   maxItems: 5,
   text: {
-    getItemName: item => `${item.fullName.first} ${item.fullName.last}`,
+    getItemName: item =>
+      `${item.fullName?.first || ''} ${item.fullName?.last || ''}`,
     cardDescription: item => {
       const birthDate = item?.birthDate
         ? format(new Date(item.birthDate), 'MM/dd/yyyy')
@@ -123,8 +124,10 @@ export const deceasedDependentPersonalInfoPage = {
 export const deceasedDependentChildStatusPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const { first, last } = formData?.fullName;
-      return formData?.fullName
+      const fullName = formData?.fullName || {};
+      const { first = '', last = '' } = fullName;
+
+      return first && last
         ? `Your relationship to ${first} ${last}`
         : 'Your relationship to the deceased dependent';
     }),
@@ -148,21 +151,25 @@ export const deceasedDependentChildStatusPage = {
 export const deceasedDependentChildTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const { first, last } = formData?.fullName;
-      return formData?.fullName
+      const fullName = formData?.fullName || {};
+      const { first = '', last = '' } = fullName;
+
+      return first && last
         ? `Your relationship to ${first} ${last}`
         : 'Your relationship to the deceased dependent';
     }),
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
-        required: formData => formData?.dependentType === 'child',
+        required: formData => {
+          return formData?.dependentType === 'child';
+        },
         labels: childTypeLabels,
       }),
-      // 'ui:required': formData => {
-      //   console.log(formData);
-      //   return formData?.dependentType === 'child';
-      // },
+      // ...(window.location.search.includes('add=true')
+      //   ? { 'ui:required': () => true }
+      //   : {}),
+      // 'ui:required': () => true,
     },
   },
   schema: {
@@ -176,8 +183,10 @@ export const deceasedDependentChildTypePage = {
 export const deceasedDependentDateOfDeathPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const { first, last } = formData?.fullName;
-      return formData?.fullName
+      const fullName = formData?.fullName || {};
+      const { first = '', last = '' } = fullName;
+
+      return first && last
         ? `When did ${first} ${last} die?`
         : 'When did the dependent die?';
     }),
@@ -197,8 +206,10 @@ export const deceasedDependentDateOfDeathPage = {
 export const deceasedDependentLocationOfDeathPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
-      const { first, last } = formData?.fullName;
-      return formData?.fullName
+      const fullName = formData?.fullName || {};
+      const { first = '', last = '' } = fullName;
+
+      return first && last
         ? `Where did ${first} ${last} die?`
         : 'Where did the dependent die?';
     }),
