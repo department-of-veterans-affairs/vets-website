@@ -60,9 +60,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 1');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -85,9 +82,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -113,9 +107,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -144,9 +135,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('Oakland');
     cy.get('select[name="root_stateCode"]')
@@ -177,9 +165,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -210,9 +195,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave apt 45');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -240,9 +222,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')
@@ -276,9 +255,6 @@ describe('Address Validations', () => {
       .first()
       .click();
     cy.get('[id="VYE-mailing-address-button"]').click();
-    cy.get('select[name="root_countryCodeIso3"]')
-      .first()
-      .select('United States');
     cy.get('input[name="root_addressLine1"]').type('322 26th ave');
     cy.get('input[name="root_city"]').type('San Francisco');
     cy.get('select[name="root_stateCode"]')

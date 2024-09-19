@@ -232,11 +232,8 @@ const IntroductionPage = props => {
         </li>
         <li>
           <strong>If you think your life or health is in danger,</strong> call{' '}
-          <va-telephone
-            contact="911"
-            message-aria-describedby="Emergency care contact number"
-          />{' '}
-          or go to the nearest emergency room.
+          <va-telephone contact="911" message-aria-describedby="9 1 1" /> or go
+          to the nearest emergency room.
         </li>
       </ul>
 
@@ -297,11 +294,8 @@ const IntroductionPage = props => {
               <li>
                 <strong>If you think your life or health is in danger,</strong>{' '}
                 call{' '}
-                <va-telephone
-                  contact="911"
-                  message-aria-describedby="Emergency care contact number"
-                />
-                , or go to the nearest emergency room.
+                <va-telephone contact="911" message-aria-describedby="9 1 1" />,
+                or go to the nearest emergency room.
               </li>
             </ul>
           </va-accordion-item>
@@ -356,11 +350,8 @@ const IntroductionPage = props => {
               <li>
                 <strong>If you think your life or health is in danger,</strong>{' '}
                 call{' '}
-                <va-telephone
-                  contact="911"
-                  message-aria-describedby="Emergency care contact number"
-                />
-                , or go to the nearest emergency room.
+                <va-telephone contact="911" message-aria-describedby="9 1 1" />,
+                or go to the nearest emergency room.
               </li>
             </ul>
           </va-accordion-item>

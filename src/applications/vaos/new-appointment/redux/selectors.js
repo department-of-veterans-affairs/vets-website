@@ -400,3 +400,9 @@ export function selectFacilitiesRadioWidget(state) {
 export function selectAppointmentSlotsStatus(state) {
   return getNewAppointment(state).appointmentSlotsStatus;
 }
+
+export function getSelectedDate(state) {
+  return getFormData(state).selectedDates?.length
+    ? getFormData(state).selectedDates[0]
+    : '';
+}

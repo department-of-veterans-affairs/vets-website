@@ -146,3 +146,23 @@ export const parsePhoneNumber = phone => {
   }
   return { contact: null, extension: null };
 };
+
+/**
+ * Setting subtitle based on rep type
+ */
+export const getFormSubtitle = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (entityType === 'organization') {
+    return 'VA Form 21-22';
+  }
+  if (entityType === 'individual') {
+    const { individualType } = entity.attributes;
+    if (individualType === 'representative') {
+      return 'VA Form 21-22';
+    }
+    return 'VA Form 21-22a';
+  }
+  return 'VA Forms 21-22 and 21-22a';
+};

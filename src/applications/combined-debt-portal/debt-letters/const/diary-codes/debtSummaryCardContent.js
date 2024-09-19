@@ -19,7 +19,7 @@ const InfoIcon = () => (
   />
 );
 
-const DebtSummaryMessage = ({ IconComponent, children }) => (
+export const DebtSummaryMessage = ({ IconComponent, children }) => (
   <div className="vads-u-display--flex vads-u-margin-bottom--1p5">
     <IconComponent />
     <p className="vads-u-margin-y--0">{children}</p>
@@ -83,8 +83,8 @@ export const debtSummaryText = (diaryCode, dateOfLetter, balance) => {
     case '109':
       return (
         <DebtSummaryMessage IconComponent={WarningIcon}>
-          Pay your {balance} balance now or request help by {endDateText}
-          to avoid more interest charges.
+          Pay your {balance} balance now or request help by {endDateText}{' '}
+          <strong>to avoid more interest charges.</strong>
         </DebtSummaryMessage>
       );
     case '117':

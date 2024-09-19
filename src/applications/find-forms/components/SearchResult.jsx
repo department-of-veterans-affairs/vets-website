@@ -197,7 +197,6 @@ const SearchResult = ({
           className="va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
-          tabIndex="0"
           onKeyDown={event => {
             if (event === 13) {
               pdfDownloadHandler();

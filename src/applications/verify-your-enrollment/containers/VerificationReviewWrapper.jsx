@@ -18,19 +18,14 @@ import {
   updatePendingVerifications,
   updateVerifications,
   verifyEnrollmentAction,
+  VERIFY_ENROLLMENT_FAILURE,
 } from '../actions';
-import {
-  toLocalISOString,
-  isSameMonth,
-  getDateRangesBetween,
-} from '../helpers';
+import { isSameMonth, getDateRangesBetween } from '../helpers';
 
 const VerificationReviewWrapper = ({
   children,
   dispatchUpdateToggleEnrollmentSuccess,
-  dispatchUpdatePendingVerifications,
   dispatchVerifyEnrollmentAction,
-  verifyEnrollment,
 }) => {
   useScrollToTop();
   const [isChecked, setIsChecked] = useState(false);
@@ -40,9 +35,11 @@ const VerificationReviewWrapper = ({
   const [enrollmentPeriodsToVerify, setEnrollmentPeriodsToVerify] = useState(
     [],
   );
-  const [originalPeriodsToVerify, setOriginalPeriodsToVerify] = useState([]);
-  const { error } = verifyEnrollment;
   const enrollmentData = personalInfo;
+  const awardsIds = enrollmentData?.['vye::UserInfo']?.pendingVerifications.map(
+    user => user.awardId,
+  );
+
   const history = useHistory();
   const dispatch = useDispatch();
   const handleBackClick = () => {
@@ -60,30 +57,25 @@ const VerificationReviewWrapper = ({
   // used with mock data to mock what happens after
   // successfully verifying
   const handleVerification = () => {
-    const currentDateTime = toLocalISOString(new Date());
-    // update pendingVerifications to a blank array
-    dispatchUpdatePendingVerifications([]);
-    const newVerifiedEnrollments = originalPeriodsToVerify.map(period => {
-      return {
-        ...period,
-        transactDate: currentDateTime,
-        paymentDate: null,
-      };
-    });
-    const awardIds = newVerifiedEnrollments.map(
-      enrollment => enrollment.awardId,
-    );
+    const submissionError = new Error('Internal Server Error.');
 
-    dispatchVerifyEnrollmentAction(awardIds);
+    if (awardsIds.length > 0) {
+      dispatchVerifyEnrollmentAction(awardsIds);
+      dispatchUpdateToggleEnrollmentSuccess(true);
+    } else {
+      dispatch({
+        type: VERIFY_ENROLLMENT_FAILURE,
+        errors: submissionError.toString(),
+      });
+    }
   };
 
   const handleSubmission = () => {
     if (!isChecked) {
       setShowError(true);
-    } else if (!error && isChecked) {
+    } else if (isChecked) {
       setShowError(false);
       handleVerification();
-      dispatchUpdateToggleEnrollmentSuccess(true);
       history.push(VERIFICATION_RELATIVE_URL);
     }
   };
@@ -92,7 +84,6 @@ const VerificationReviewWrapper = ({
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
         const { pendingVerifications } = enrollmentData?.['vye::UserInfo'];
-        setOriginalPeriodsToVerify(pendingVerifications);
         const expandedPendingEnrollments = [];
         pendingVerifications.forEach(enrollment => {
           if (!isSameMonth(enrollment.actBegin, enrollment.actEnd)) {

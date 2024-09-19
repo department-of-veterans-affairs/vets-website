@@ -6,10 +6,16 @@ import mockEhrData from '../fixtures/userResponse/vamc-ehr-cerner-mixed.json';
 import mockMixedCernerFacilitiesUser from '../fixtures/userResponse/user-cerner-mixed.json';
 import mockFacilities from '../fixtures/facilityResponse/cerner-facility-mock-data.json';
 import mockMixRecipients from '../fixtures/multi-facilities-recipients-response.json';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
 describe('SM Single Facility Contact list', () => {
+  const updatedFeatureToggle = GeneralFunctionsPage.updateFeatureToggles(
+    'mhv_secure_messaging_edit_contact_list',
+    true,
+  );
   beforeEach(() => {
     SecureMessagingSite.login(
+      updatedFeatureToggle,
       mockEhrData,
       true,
       mockMixedCernerFacilitiesUser,

@@ -21,6 +21,10 @@ class ContactListPage {
       .should(`have.text`, `Need help?`);
   };
 
+  verifySingleCheckBox = (team, value) => {
+    cy.get(`[label*=${team}]`).should('have.prop', `checked`, value);
+  };
+
   verifyAllCheckboxes = value => {
     cy.get(Locators.CHECKBOX.CL_ALL).then(el => {
       expect(el.prop('checked')).to.eq(value);
@@ -51,41 +55,77 @@ class ContactListPage {
   };
 
   verifyButtons = () => {
-    cy.get(`[text="Save and exit"]`)
+    cy.get(Locators.BUTTONS.CL_SAVE)
       .shadow()
       .find(`button`)
       .should(`be.visible`)
       .and(`include.text`, Data.BUTTONS.SAVE_AND_EXIT);
 
-    cy.get(`[text="Cancel"]`)
-      .shadow()
-      .find(`button`)
+    cy.get(Locators.BUTTONS.CL_GO_BACK)
       .should(`be.visible`)
-      .and(`include.text`, `Cancel`);
+      .and(`include.text`, Data.BUTTONS.GO_BACK);
   };
 
-  clickCancelButton = () => {
-    cy.get(Locators.ALERTS.CANCEL).click({ force: true });
+  clickGoBackButton = () => {
+    cy.get(Locators.BUTTONS.CL_GO_BACK).click({ force: true });
   };
 
-  verifySaveAlertHeader = () => {
+  verifySaveAlert = () => {
     cy.get(Locators.ALERTS.HEADER).should(
       `include.text`,
       Alerts.CONTACT_LIST.SAVE,
     );
+
+    cy.get(Locators.ALERTS.CL_SAVE)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, `Save`);
+
+    cy.get(Locators.ALERTS.CL_DELETE_AND_EXIT)
+      .shadow()
+      .find(`button`)
+      .should(`be.visible`)
+      .and(`have.text`, `Delete changes and exit`);
+  };
+
+  clickModalSaveButton = () => {
+    cy.get(`[data-testid="sm-route-navigation-guard-confirm-button"]`).click();
   };
 
   closeSaveModal = () => {
-    cy.get(`.first-focusable-child`).click();
+    cy.get(`.first-focusable-child`)
+      .should(`be.focused`)
+      .click();
   };
 
   // mock response could be amended in further updates
-  clickSaveAndExitButton = () => {
-    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, '200').as(
-      'savedList',
-    );
+  clickSaveContactListButton = () => {
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
+      status: '200',
+    }).as('savedList');
 
-    cy.get(Locators.BUTTONS.SAVE_CONTACT_LIST).click({ force: true });
+    cy.get(Locators.BUTTONS.CL_SAVE)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
+  };
+
+  saveContactList = updatedRecipients => {
+    cy.intercept('POST', Paths.INTERCEPT.SELECTED_RECIPIENTS, {
+      status: '200',
+    }).as('savedList');
+
+    cy.intercept(
+      'GET',
+      `${Paths.SM_API_BASE + Paths.RECIPIENTS}*`,
+      updatedRecipients,
+    ).as('updatedRecipients');
+
+    cy.get(Locators.BUTTONS.CL_SAVE)
+      .shadow()
+      .find(`button`)
+      .click({ force: true });
   };
 
   verifyContactListSavedAlert = () => {
@@ -101,15 +141,46 @@ class ContactListPage {
   };
 
   verifyEmptyContactListAlert = () => {
-    cy.get(`#checkbox-error-message`)
-      .should(`be.visible`)
-      .and(`contain.text`, Alerts.CONTACT_LIST.EMPTY);
+    cy.get(`.usa-error-message`).each(el => {
+      cy.wrap(el)
+        .should(`be.visible`)
+        .and(`have.text`, Alerts.CONTACT_LIST.EMPTY);
+    });
 
     cy.get(Locators.CHECKBOX.CL_ALL)
       .first()
       .should('have.focus');
 
     this.verifyAllCheckboxes(false);
+  };
+
+  verifyContactListLink = () => {
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .should(`be.visible`)
+      .and('have.text', Data.CL_LINK_TEXT);
+
+    cy.get(Locators.DROPDOWN.RECIPIENTS)
+      .find(`a[href*="contact"]`)
+      .click({ force: true });
+
+    cy.contains(`Delete draft`).click({ force: true });
+    cy.url().should(`include`, `${Paths.UI_MAIN}/contact-list`);
+  };
+
+  setPreferredTeams = (initialRecipientsList, teamNamesList) => {
+    return {
+      ...initialRecipientsList,
+      data: initialRecipientsList.data.map(team => ({
+        ...team,
+        attributes: {
+          ...team.attributes,
+          preferredTeam: teamNamesList.some(partial =>
+            team.attributes.name.includes(partial),
+          ),
+        },
+      })),
+    };
   };
 }
 

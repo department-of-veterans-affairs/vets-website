@@ -15,6 +15,7 @@ import CancelConfirmationPage from '../cancel/CancelConfirmationPage';
 import FacilityAddress from '../../../components/FacilityAddress';
 import ClaimExamLayout from '../../../components/layout/ClaimExamLayout';
 import PhoneLayout from '../../../components/layout/PhoneLayout';
+import FullWidthLayout from '../../../components/FullWidthLayout';
 
 export default function DetailsVA({ appointment, facilityData }) {
   const { id } = useParams();
@@ -43,11 +44,18 @@ export default function DetailsVA({ appointment, facilityData }) {
     return <InPersonLayout data={appointment} />;
   }
 
-  if (
-    cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted ||
-    cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading
-  ) {
+  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.notStarted) {
     return <CancelWarningPage {...data} />;
+  }
+  if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.loading) {
+    return (
+      <FullWidthLayout>
+        <va-loading-indicator
+          set-focus
+          message="Canceling your appointment..."
+        />
+      </FullWidthLayout>
+    );
   }
   if (cancelInfo.cancelAppointmentStatus === FETCH_STATUS.succeeded) {
     return (
