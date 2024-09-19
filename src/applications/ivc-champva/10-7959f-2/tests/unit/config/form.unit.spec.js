@@ -1,3 +1,4 @@
+import { expect } from 'chai';
 import mockdata from '../../fixtures/data/test-data.json';
 import { testNumberOfWebComponentFields } from '../../../../shared/tests/pages/pageTests.spec';
 
@@ -65,3 +66,21 @@ testNumberOfWebComponentFields(
   'Applicant payment choice',
   { ...mockdata.data, sendPayment: 'Veteran' },
 );
+
+describe('dependent page logic', () => {
+  it('should be called', () => {
+    let depCount = 0;
+
+    Object.keys(formConfig.chapters).forEach(ch => {
+      Object.keys(formConfig.chapters[`${ch}`].pages).forEach(pg => {
+        const { depends } = formConfig.chapters[`${ch}`].pages[`${pg}`];
+        if (depends) {
+          depends({ data: '' });
+          depCount += 1;
+        }
+      });
+    });
+
+    expect(depCount > 0).to.be.true;
+  });
+});
