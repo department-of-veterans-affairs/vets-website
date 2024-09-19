@@ -289,3 +289,26 @@ export const selectRadioWithKeyboard = (fieldName, value) => {
   cy.findOption(value);
   cy.realPress('Space');
 };
+
+// single field web component fill helpers
+export const fillTextWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-text-input[name="root_${fieldName}"]`)
+      .shadow()
+      .find('input')
+      .type(value);
+  }
+};
+
+export const selectRadioWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(
+      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
+    ).click();
+  }
+};
+
+export const selectYesNoWebComponent = (fieldName, value) => {
+  const selection = value ? 'Y' : 'N';
+  selectRadioWebComponent(fieldName, selection);
+};
