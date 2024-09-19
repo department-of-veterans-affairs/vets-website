@@ -8,6 +8,7 @@ import {
   applicantInformationName,
   applicantInformationCountry,
   veteranDesc,
+  applicantContactInfo,
 } from '../pages';
 
 const { fullName, description } = fullSchema10282?.definitions;
@@ -66,6 +67,12 @@ const formConfig = {
           path: 'applicant-information-2',
           uiSchema: applicantInformationCountry.uiSchema,
           schema: applicantInformationCountry.schema,
+        },
+        contactInfo: {
+          title: 'Applicant Information',
+          path: 'applicant-information-3',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
         },
       },
     },
