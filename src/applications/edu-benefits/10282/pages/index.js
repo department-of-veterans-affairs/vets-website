@@ -1,3 +1,5 @@
-import * as applicantInformation from './applicantInformation';
+import * as applicantInformationName from './applicantInformation/applicantInformationName';
+import * as applicantInformationCountry from './applicantInformation/applicantInformationCountry';
+import * as veteranDesc from './applicantInformation/applicantDescription';
 
-export { applicantInformation };
+export { applicantInformationName, applicantInformationCountry, veteranDesc };

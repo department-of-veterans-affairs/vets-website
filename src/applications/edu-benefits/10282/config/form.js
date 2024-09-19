@@ -4,9 +4,13 @@ import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-import { applicantInformationField } from './chapter';
+import {
+  applicantInformationName,
+  applicantInformationCountry,
+  veteranDesc,
+} from '../pages';
 
-const { fullName } = fullSchema10282?.definitions;
+const { fullName, description } = fullSchema10282?.definitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -36,15 +40,33 @@ const formConfig = {
   },
   title: 'Apply for the IBM SkillsBuild Program',
   subTitle:
-    'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282',
+    'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   defaultDefinitions: {
     fullName,
+    description,
   },
   chapters: {
-    applicantInformationChapter: {
+    personalInformation: {
       title: 'Your personal information',
       pages: {
-        applicantInformation: applicantInformationField(),
+        applicantName: {
+          path: 'applicant-information',
+          title: 'Applicant Information',
+          uiSchema: applicantInformationName.uiSchema,
+          schema: applicantInformationName.schema,
+        },
+        veteranDesc: {
+          path: 'applicant-information-1',
+          title: 'Applicant Information',
+          uiSchema: veteranDesc.uiSchema,
+          schema: veteranDesc.schema,
+        },
+        applicantCountry: {
+          title: 'Applicant Information',
+          path: 'applicant-information-2',
+          uiSchema: applicantInformationCountry.uiSchema,
+          schema: applicantInformationCountry.schema,
+        },
       },
     },
   },
