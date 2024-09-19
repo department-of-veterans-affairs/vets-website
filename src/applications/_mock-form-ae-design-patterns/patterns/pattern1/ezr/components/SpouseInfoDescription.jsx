@@ -1,5 +1,5 @@
 import React from 'react';
-import { LAST_YEAR } from '../../utils/constants';
+import { LAST_YEAR } from '../../../../utils/constants';
 
 const SpouseInfoDescription = (
   <va-additional-info

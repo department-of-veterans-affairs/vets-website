@@ -6,7 +6,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
 
-import MedicareClaimNumberDescription from '../../../../../../components/ezr/MedicareClaimNumberDescription';
+import MedicareClaimNumberDescription from '../../../components/MedicareClaimNumberDescription';
 import content from '../../../../../../shared/locales/en/content.json';
 
 const { medicareClaimNumber } = ezrSchema.properties;

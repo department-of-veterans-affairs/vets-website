@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import content from '../../shared/locales/en/content.json';
+import content from '../../../../shared/locales/en/content.json';
 
 const InsurancePolicyReviewPage = ({ data, editPage }) => {
   const { providers } = data;

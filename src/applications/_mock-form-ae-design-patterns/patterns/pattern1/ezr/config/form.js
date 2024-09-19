@@ -31,17 +31,17 @@ import spouseAdditionalInformation from './chapters/householdInformation/spouseA
 import spouseFinancialSupport from './chapters/householdInformation/spouseFinancialSupport';
 import spouseContactInformation from './chapters/householdInformation/spouseContactInformation';
 import dependentSummary from './chapters/householdInformation/dependentSummary';
-import DependentSummaryPage from '../../../../components/ezr/DependentSummary';
-import DependentInformationPage from '../../../../components/ezr/DependentInformation';
-import DependentsReviewPage from '../../../../components/ezr/DependentsReviewPage';
+import DependentSummaryPage from '../components/DependentSummary';
+import DependentInformationPage from '../components/DependentInformation';
+import DependentsReviewPage from '../components/DependentsReviewPage';
 
 import medicaidEligibility from './chapters/insuranceInformation/medicaid';
 import medicarePartAEnrollment from './chapters/insuranceInformation/medicare';
 import partAEffectiveDate from './chapters/insuranceInformation/partAEffectiveDate';
 import insurancePolicies from './chapters/insuranceInformation/insurancePolicies';
-import InsuranceSummaryPage from '../../../../components/ezr/InsuranceSummary';
-import InsurancePolicyInformationPage from '../../../../components/ezr/InsurancePolicyInformation';
-import InsurancePolicyReviewPage from '../../../../components/ezr/InsurancePolicyReviewPage';
+import InsuranceSummaryPage from '../components/InsuranceSummary';
+import InsurancePolicyInformationPage from '../components/InsurancePolicyInformation';
+import InsurancePolicyReviewPage from '../components/InsurancePolicyReviewPage';
 
 import { EditAddress } from '../EditContactInfo';
 import { GetFormHelp } from '../../../../shared/components/GetFormHelp';

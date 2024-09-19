@@ -8,7 +8,7 @@ import { replaceStrValues } from '../../../../../../utils/helpers/general';
 import { validateCurrency } from '../../../../../../utils/validation';
 import { LAST_YEAR } from '../../../../../../utils/constants';
 import content from '../../../../../../shared/locales/en/content.json';
-import DependentExpensesDescription from '../../../../../../components/ezr/DependentExpensesDescription';
+import DependentExpensesDescription from '../../../components/DependentExpensesDescription';
 
 const {
   dependents: { items: dependent },

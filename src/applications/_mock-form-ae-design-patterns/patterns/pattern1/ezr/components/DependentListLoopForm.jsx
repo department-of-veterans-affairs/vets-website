@@ -6,12 +6,12 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import {
   dependentSchema as schema,
   dependentUISchema as uiSchema,
-} from '../../patterns/pattern1/ezr/definitions/dependent';
+} from '../definitions/dependent';
 import {
   normalizeFullName,
   replaceStrValues,
-} from '../../utils/helpers/general';
-import content from '../../shared/locales/en/content.json';
+} from '../../../../utils/helpers/general';
+import content from '../../../../shared/locales/en/content.json';
 import SaveInProgressWarning from './SaveInProgressWarning';
 
 const DependentListLoopForm = props => {

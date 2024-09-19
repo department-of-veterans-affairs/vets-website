@@ -4,7 +4,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import SpouseInfoDescription from '../../../../../../components/ezr/SpouseInfoDescription';
+import SpouseInfoDescription from '../../../components/SpouseInfoDescription';
 import { replaceStrValues } from '../../../../../../utils/helpers/general';
 import { LAST_YEAR } from '../../../../../../utils/constants';
 import content from '../../../../../../shared/locales/en/content.json';

@@ -9,16 +9,16 @@ import {
   INSURANCE_VIEW_FIELDS,
   SESSION_ITEMS,
   SHARED_PATHS,
-} from '../../utils/constants';
+} from '../../../../utils/constants';
 import {
   getDataToSet,
   getSearchAction,
   getSearchIndex,
   getDefaultState,
-} from '../../utils/helpers/listloop-pattern';
-import { replaceStrValues } from '../../utils/helpers/general';
-import policyInformation from '../../patterns/pattern1/ezr/config/chapters/insuranceInformation/policyInformation';
-import content from '../../shared/locales/en/content.json';
+} from '../../../../utils/helpers/listloop-pattern';
+import { replaceStrValues } from '../../../../utils/helpers/general';
+import policyInformation from '../config/chapters/insuranceInformation/policyInformation';
+import content from '../../../../shared/locales/en/content.json';
 import SaveInProgressWarning from './SaveInProgressWarning';
 
 // declare shared route & schema attrs from the form

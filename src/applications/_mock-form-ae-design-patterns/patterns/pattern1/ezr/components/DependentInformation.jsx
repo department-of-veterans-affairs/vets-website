@@ -10,18 +10,18 @@ import {
   DEPENDENT_SUBPAGES,
   SESSION_ITEMS,
   SHARED_PATHS,
-} from '../../utils/constants';
+} from '../../../../utils/constants';
 import {
   getDataToSet,
   getSearchAction,
   getSearchIndex,
   getDefaultState,
-} from '../../utils/helpers/listloop-pattern';
-import { replaceStrValues } from '../../utils/helpers/general';
-import { getDependentPageList } from '../../utils/helpers/household';
-import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
+} from '../../../../utils/helpers/listloop-pattern';
+import { replaceStrValues } from '../../../../utils/helpers/general';
+import { getDependentPageList } from '../../../../utils/helpers/household';
+import useAfterRenderEffect from '../../../../hooks/useAfterRenderEffect';
 import DependentListLoopForm from './DependentListLoopForm';
-import content from '../../shared/locales/en/content.json';
+import content from '../../../../shared/locales/en/content.json';
 
 // declare shared data & route attrs from the form
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;

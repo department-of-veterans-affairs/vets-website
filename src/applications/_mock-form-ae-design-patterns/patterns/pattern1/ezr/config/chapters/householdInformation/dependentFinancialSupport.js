@@ -3,7 +3,7 @@ import {
   yesNoSchema,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import DependentSupportDescription from '../../../../../../components/ezr/DependentSupportDescription';
+import DependentSupportDescription from '../../../components/DependentSupportDescription';
 import { replaceStrValues } from '../../../../../../utils/helpers/general';
 import { LAST_YEAR } from '../../../../../../utils/constants';
 import content from '../../../../../../shared/locales/en/content.json';

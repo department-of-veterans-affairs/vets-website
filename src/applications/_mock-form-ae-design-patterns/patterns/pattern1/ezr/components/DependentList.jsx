@@ -5,13 +5,13 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import { SESSION_ITEMS, SHARED_PATHS } from '../../utils/constants';
+import { SESSION_ITEMS, SHARED_PATHS } from '../../../../utils/constants';
 import {
   normalizeFullName,
   replaceStrValues,
-} from '../../utils/helpers/general';
-import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import content from '../../shared/locales/en/content.json';
+} from '../../../../utils/helpers/general';
+import useAfterRenderEffect from '../../../../hooks/useAfterRenderEffect';
+import content from '../../../../shared/locales/en/content.json';
 
 // declare shared routes from the form & default states
 const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;

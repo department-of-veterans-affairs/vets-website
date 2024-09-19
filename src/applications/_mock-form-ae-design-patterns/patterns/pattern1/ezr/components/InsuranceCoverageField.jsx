@@ -4,10 +4,10 @@ import classNames from 'classnames';
 
 import { scrollAndFocus } from 'platform/utilities/ui';
 import YesNoWidget from 'platform/forms-system/src/js/widgets/YesNoWidget';
-import { DEPENDENT_VIEW_FIELDS } from '../../utils/constants';
-import content from '../../shared/locales/en/content.json';
+import { INSURANCE_VIEW_FIELDS } from '../../../../utils/constants';
+import content from '../../../../shared/locales/en/content.json';
 
-const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
+const InsuranceCoverageField = ({ defaultValue, error, hasList, onChange }) => {
   const fieldsetRef = useRef(null);
 
   // set focus to this component on form error
@@ -31,15 +31,15 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
     >
       {/** Question title */}
       <legend
-        id={`root_${DEPENDENT_VIEW_FIELDS.add}-label`}
+        id={`root_${INSURANCE_VIEW_FIELDS.add}-label`}
         className={classNames({
           'schemaform-label': true,
           'usa-input-error-label': error,
         })}
       >
         {!hasList
-          ? content['household-dependent-report-question']
-          : content['household-dependent-report-question-addtl']}
+          ? content['insurance-coverage-question']
+          : content['insurance-coverage-question-addtl']}
         <span className="schemaform-required-span">
           {content['validation-required-label']}
         </span>
@@ -49,7 +49,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
       {error ? (
         <span
           role="alert"
-          id={`root_${DEPENDENT_VIEW_FIELDS.add}-message`}
+          id={`root_${INSURANCE_VIEW_FIELDS.add}-message`}
           className="usa-input-error-message"
         >
           <span className="sr-only">{content['validation-error-label']}</span>{' '}
@@ -60,7 +60,7 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
       {/** Radio options */}
       <div className="schemaform-widget-wrapper">
         <YesNoWidget
-          id={`root_${DEPENDENT_VIEW_FIELDS.add}`}
+          id={`root_${INSURANCE_VIEW_FIELDS.add}`}
           value={defaultValue}
           onChange={onChange}
         />
@@ -69,16 +69,16 @@ const DependentDeclaration = ({ defaultValue, error, hasList, onChange }) => {
   );
 };
 
-DependentDeclaration.propTypes = {
+InsuranceCoverageField.propTypes = {
   defaultValue: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]),
   error: PropTypes.bool,
   hasList: PropTypes.bool,
   onChange: PropTypes.func,
 };
 
-DependentDeclaration.defaultProps = {
+InsuranceCoverageField.defaultProps = {
   defaultValue: null,
   error: false,
 };
 
-export default DependentDeclaration;
+export default InsuranceCoverageField;

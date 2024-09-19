@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
+import DependentDeclarationField from './DependentDeclarationField';
+import DependentDescription from './DependentDescription';
+import DependentList from './DependentList';
 import {
-  HealthInsuranceDescription,
-  HealthInsuranceAddtlInfoDescription,
-} from './HealthInsuranceDescriptions';
-import InsuranceCoverageField from './InsuranceCoverageField';
-import InsurancePolicyList from './InsurancePolicyList';
-import { INSURANCE_VIEW_FIELDS, SHARED_PATHS } from '../../utils/constants';
-import content from '../../shared/locales/en/content.json';
+  DEPENDENT_VIEW_FIELDS,
+  SHARED_PATHS,
+} from '../../../../utils/constants';
+import content from '../../../../shared/locales/en/content.json';
 
 // declare shared data & route attrs from the form
-const { insurance: INSURANCE_PATHS } = SHARED_PATHS;
+const { dependents: DEPENDENT_PATHS } = SHARED_PATHS;
 
 // declare default component
-const InsuranceSummary = props => {
+const DependentSummary = props => {
   const {
     data,
     goBack,
@@ -29,9 +29,12 @@ const InsuranceSummary = props => {
   } = props;
 
   const {
-    providers = [],
-    [INSURANCE_VIEW_FIELDS.add]: addProvider = null,
+    dependents = [],
+    [DEPENDENT_VIEW_FIELDS.add]: addDependents = null,
   } = data;
+  const pageTitle = dependents.length
+    ? content['household-dependent-summary-list-title']
+    : content['household-dependent-summary-title'];
   const mode = onReviewPage ? 'update' : 'edit';
 
   /**
@@ -40,28 +43,28 @@ const InsuranceSummary = props => {
    *  - fieldData - data value to use for radio group and continue path
    */
   const [error, hasError] = useState(false);
-  const [fieldData, setFieldData] = useState(addProvider);
+  const [fieldData, setFieldData] = useState(addDependents);
 
   /**
    * declare event handlers
-   *  - onChange - fired when user chooses to add policy or not - sets radio group view field
-   *  - onDelete - fired when user deletes a policy from their list - sets new list of providers
-   *  - onGoForward - first on continue progress button click - go to next form page (if radio is 'No') or go into add policy flow (if radio is 'Yes')
+   *  - onChange - fired when user chooses to report dependent or not - sets radio group view field
+   *  - onDelete - fired when user deletes a dependent from their list - sets new list of dependents
+   *  - onGoForward - first on continue progress button click - go to next form page (if radio is 'No') or go into add dependent flow (if radio is 'Yes')
    */
   const handlers = {
     onChange: value => {
       setFieldData(value);
       setFormData({
         ...data,
-        [INSURANCE_VIEW_FIELDS.add]: value,
-        [INSURANCE_VIEW_FIELDS.skip]: value === false,
+        [DEPENDENT_VIEW_FIELDS.add]: value,
+        [DEPENDENT_VIEW_FIELDS.skip]: value === false,
       });
       hasError(false);
     },
     onDelete: list => {
       setFormData({
         ...data,
-        providers: list,
+        dependents: list,
       });
     },
     onGoForward: () => {
@@ -73,10 +76,9 @@ const InsuranceSummary = props => {
         return;
       }
 
-      // navigate to policy information or next form page based on form field value
+      // navigate to dependent information or next form page based on form field value
       if (fieldData === true) {
-        // goForward(data);
-        goToPath(`/1/ezr/${INSURANCE_PATHS.info}?index=${providers.length}`);
+        goToPath(`/1/ezr/${DEPENDENT_PATHS.info}?index=${dependents.length}`);
       } else {
         goForward(data);
       }
@@ -88,44 +90,33 @@ const InsuranceSummary = props => {
       <fieldset className="vads-u-margin-bottom--2">
         <legend id="root__title" className="schemaform-block-title">
           <h3 className="vads-u-color--gray-dark vads-u-margin-top--0 vads-u-margin-bottom--3">
-            {content['insurance-summary-title']}
+            {pageTitle}
           </h3>
-          <span className="vads-u-margin-bottom--0 vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-            <HealthInsuranceDescription />
-          </span>
         </legend>
 
-        <HealthInsuranceAddtlInfoDescription />
+        {/** Additional Info component for description */}
+        <DependentDescription />
 
-        {/** Policy tile list */}
-        {providers.length > 0 ? (
-          <div data-testid="ezr-policy-list-field">
-            <fieldset className="vads-u-margin-y--2 rjsf-object-field">
-              <legend
-                className="schemaform-block-title schemaform-block-subtitle vads-u-margin-bottom--3"
-                id="root_view:insurancePolicyList__title"
-              >
-                {content['insurance-summary-list-title']}
-              </legend>
-
-              <InsurancePolicyList
-                labelledBy="root_view:insurancePolicyList__title"
-                list={providers}
-                mode={mode}
-                onDelete={handlers.onDelete}
-              />
-            </fieldset>
+        {/** Dependent tile list */}
+        {dependents.length > 0 ? (
+          <div data-testid="ezr-dependent-list-field">
+            <DependentList
+              labelledBy="root__title"
+              list={dependents}
+              mode={mode}
+              onDelete={handlers.onDelete}
+            />
           </div>
         ) : null}
 
         {!onReviewPage ? (
           <>
             {/** Field radio group */}
-            <div data-testid="ezr-policy-declaration-field">
-              <InsuranceCoverageField
+            <div data-testid="ezr-dependent-declaration-field">
+              <DependentDeclarationField
                 defaultValue={fieldData}
                 error={error}
-                hasList={providers.length > 0}
+                hasList={dependents.length > 0}
                 onChange={handlers.onChange}
               />
             </div>
@@ -144,7 +135,7 @@ const InsuranceSummary = props => {
         <va-button
           onClick={updatePage}
           text={content['button-update-page']}
-          label={content['insurance-update-button-aria-label']}
+          label={content['household-dependent-update-button-aria-label']}
           data-testid="ezr-update-button"
           uswds
         />
@@ -153,7 +144,7 @@ const InsuranceSummary = props => {
   );
 };
 
-InsuranceSummary.propTypes = {
+DependentSummary.propTypes = {
   contentAfterButtons: PropTypes.element,
   contentBeforeButtons: PropTypes.element,
   data: PropTypes.object,
@@ -165,4 +156,4 @@ InsuranceSummary.propTypes = {
   onReviewPage: PropTypes.bool,
 };
 
-export default InsuranceSummary;
+export default DependentSummary;

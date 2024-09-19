@@ -5,7 +5,7 @@ import {
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
 import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import MaritalStatusDescription from '../../../../../../components/ezr/MaritalStatusDescription';
+import MaritalStatusDescription from '../../../components/MaritalStatusDescription';
 import content from '../../../../../../shared/locales/en/content.json';
 
 const { maritalStatus } = ezrSchema.properties;

@@ -4,7 +4,7 @@ import {
   yesNoSchema,
   descriptionUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import MedicaidDescription from '../../../../../../components/ezr/MedicaidDescription';
+import MedicaidDescription from '../../../components/MedicaidDescription';
 import content from '../../../../../../shared/locales/en/content.json';
 
 export default {

@@ -2,7 +2,7 @@ import {
   yesNoUI,
   yesNoSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import MedicarePartADescription from '../../../../../../components/ezr/MedicarePartADescription';
+import MedicarePartADescription from '../../../components/MedicarePartADescription';
 import content from '../../../../../../shared/locales/en/content.json';
 
 export default {

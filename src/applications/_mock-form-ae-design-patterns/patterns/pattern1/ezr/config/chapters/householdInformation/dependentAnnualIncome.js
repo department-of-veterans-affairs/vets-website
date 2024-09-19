@@ -1,10 +1,10 @@
 import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
-import { inlineTitleUI } from '../../../../../../components/ezr/TitlePatterns';
+import { inlineTitleUI } from '../../../components/TitlePatterns';
 import {
   GrossIncomeDescription,
   OtherIncomeDescription,
-} from '../../../../../../components/ezr/IncomeDescriptions';
+} from '../../../components/IncomeDescriptions';
 import { replaceStrValues } from '../../../../../../utils/helpers/general';
 import { validateCurrency } from '../../../../../../utils/validation';
 import { LAST_YEAR } from '../../../../../../utils/constants';

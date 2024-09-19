@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { normalizeFullName } from '../../utils/helpers/general';
-import content from '../../shared/locales/en/content.json';
+import { normalizeFullName } from '../../../../utils/helpers/general';
+import content from '../../../../shared/locales/en/content.json';
 
 const DependentsReviewPage = ({ data, editPage }) => {
   const { dependents } = data;

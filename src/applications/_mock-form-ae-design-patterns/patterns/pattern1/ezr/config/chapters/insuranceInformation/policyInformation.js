@@ -9,7 +9,7 @@ import {
   PolicyOrGroupDescription,
   InsurancePolicyOrDescription,
   TricarePolicyDescription,
-} from '../../../../../../components/ezr/InsurancePolicyDescriptions';
+} from '../../../components/InsurancePolicyDescriptions';
 import { validatePolicyNumberGroupCode } from '../../../../../../utils/validation';
 import { VIEW_FIELD_SCHEMA } from '../../../../../../utils/constants';
 import content from '../../../../../../shared/locales/en/content.json';

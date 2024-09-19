@@ -5,11 +5,11 @@ import PropTypes from 'prop-types';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from 'platform/utilities/ui';
 
-import { replaceStrValues } from '../../utils/helpers/general';
-import { SESSION_ITEMS, SHARED_PATHS } from '../../utils/constants';
-import { getInsuranceSrLabel } from '../../utils/helpers/insurance';
-import useAfterRenderEffect from '../../hooks/useAfterRenderEffect';
-import content from '../../shared/locales/en/content.json';
+import { replaceStrValues } from '../../../../utils/helpers/general';
+import { SESSION_ITEMS, SHARED_PATHS } from '../../../../utils/constants';
+import { getInsuranceSrLabel } from '../../../../utils/helpers/insurance';
+import useAfterRenderEffect from '../../../../hooks/useAfterRenderEffect';
+import content from '../../../../shared/locales/en/content.json';
 
 // declare shared routes from the form & default states
 const { insurance: INSURANCE_PATHS } = SHARED_PATHS;

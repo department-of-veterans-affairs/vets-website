@@ -4,7 +4,7 @@ import {
   phoneUI,
   titleUI,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import ContactInfoDescription from '../../../../../../components/ezr/ContactInfoDescription';
+import ContactInfoDescription from '../../../components/ContactInfoDescription';
 import content from '../../../../../../shared/locales/en/content.json';
 
 const { email, homePhone, mobilePhone } = ezrSchema.properties;
