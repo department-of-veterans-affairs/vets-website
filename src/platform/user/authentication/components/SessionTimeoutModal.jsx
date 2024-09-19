@@ -135,7 +135,7 @@ export class SessionTimeoutModal extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     isLoggedIn: isLoggedIn(state),
     authenticatedWithOAuth: isAuthenticatedWithOAuth(state),

@@ -25,10 +25,11 @@ const goalTypes = {
   PROGRESS: 'progressInMyMilitaryCareer',
   PLAN: 'planForMyTransition',
   NETWORK: 'buildMyNetwork',
-  JOBS: 'findACivilJob',
+  JOBS: 'findACivilianJob',
   CAREER_PATH: 'setACareerPath',
   BUSINESS: 'startABusiness',
   UNDERSTAND: 'understandMyBenefits',
+  DEGREE: 'earnDegreeOrCertificate',
 };
 
 // const serviceLengthTypes = {
@@ -80,7 +81,7 @@ const characterOfDischargeTypes = {
 };
 
 export const mappingTypes = {
-  GOALS: 'checkboxGroupGoals',
+  GOALS: 'goals',
   LENGTH_OF_SERVICE: 'militaryServiceTotalTimeServed',
   CURRENTLY_SERVING: 'militaryServiceCurrentlyServing',
   PREVIOUS_SERVICE: 'militaryServiceCompleted',
@@ -100,7 +101,7 @@ export const BENEFITS_LIST = [
       'GI Bill benefits help you pay for college, graduate school, and training programs. Since 1944, the GI Bill has helped qualifying Veterans and their family members get money to cover all or some of the costs for school or training.',
     isTimeSensitive: false,
     mappings: {
-      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND],
+      [mappingTypes.GOALS]: [goalTypes.UNDERSTAND, goalTypes.DEGREE],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
       [mappingTypes.EXPECTED_SEPARATION]: [anyType.ANY],
@@ -114,7 +115,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [giBillTypes.STARTED, giBillTypes.NOT_APPLIED],
     },
     learnMoreURL: 'https://www.va.gov/education/about-gi-bill-benefits/',
-    applyNowURL: '',
+    applyNowURL: 'https://www.va.gov/education/how-to-apply/',
   },
   {
     name: 'Skillbridge Program',
@@ -158,6 +159,7 @@ export const BENEFITS_LIST = [
         goalTypes.PLAN,
         goalTypes.CAREER_PATH,
         goalTypes.UNDERSTAND,
+        goalTypes.DEGREE,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
@@ -306,6 +308,7 @@ export const BENEFITS_LIST = [
         goalTypes.CAREER_PATH,
         goalTypes.BUSINESS,
         goalTypes.UNDERSTAND,
+        goalTypes.DEGREE,
       ],
       [mappingTypes.LENGTH_OF_SERVICE]: [anyType.ANY],
       [mappingTypes.CURRENTLY_SERVING]: [anyType.ANY],
@@ -327,7 +330,7 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation',
+      'https://www.va.gov/careers-employment/vocational-rehabilitation/',
     applyNowURL:
       'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
   },
@@ -356,7 +359,6 @@ export const BENEFITS_LIST = [
       [mappingTypes.GI_BILL]: [anyType.ANY],
     },
     learnMoreURL: 'https://www.va.gov/careers-employment/vetsuccess-on-campus/',
-    applyNowURL:
-      'https://www.va.gov/careers-employment/vocational-rehabilitation/apply-vre-form-28-1900/start',
+    applyNowURL: '',
   },
 ];

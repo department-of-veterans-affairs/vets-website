@@ -1,6 +1,11 @@
 import React from 'react';
 
-const InstructionsPage = () => {
+const InstructionsPage = ({ router }) => {
+  const startForm = event => {
+    event.preventDefault();
+    router.push('questions');
+  };
+
   return (
     <section
       className="dw-instructions"
@@ -50,7 +55,8 @@ const InstructionsPage = () => {
                   <p>
                     <va-link-action
                       data-testid="duw-start"
-                      href="questions"
+                      href="#"
+                      onClick={startForm}
                       text="Get started"
                     />
                   </p>

@@ -3,10 +3,31 @@ import PropTypes from 'prop-types';
 import FormNavButtons from 'platform/forms-system/src/js/components/FormNavButtons';
 
 const FacilityConfirmation = props => {
-  const { data, goBack, goForward } = props;
+  const { data, goBack, goForward, goToPath } = props;
   const selectedFacility = data['view:plannedClinic'].veteranSelected;
   const selectedCaregiverSupportFacility =
     data['view:plannedClinic'].caregiverSupport;
+
+  const isReviewPage = () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('review') === 'true';
+  };
+
+  const onGoForward = () => {
+    if (isReviewPage()) {
+      goToPath('/review-and-submit');
+    } else {
+      goForward(data);
+    }
+  };
+
+  const onGoBack = () => {
+    if (isReviewPage()) {
+      goToPath('/veteran-information/va-medical-center/locator?review=true');
+    } else {
+      goBack();
+    }
+  };
 
   const addressText = facility => {
     return (
@@ -52,7 +73,7 @@ const FacilityConfirmation = props => {
       <p className="va-address-block">
         {addressText(selectedCaregiverSupportFacility)}
       </p>
-      <FormNavButtons goBack={goBack} goForward={goForward} />
+      <FormNavButtons goBack={onGoBack} goForward={onGoForward} />
     </div>
   );
 };
@@ -61,6 +82,7 @@ FacilityConfirmation.propTypes = {
   data: PropTypes.object,
   goBack: PropTypes.func,
   goForward: PropTypes.func,
+  goToPath: PropTypes.func,
 };
 
 export default FacilityConfirmation;
