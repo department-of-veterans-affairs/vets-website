@@ -531,6 +531,17 @@ export function createDirectDeposit(submissionForm) {
 }
 
 export function createSubmissionForm(submissionForm, formId) {
+  if (submissionForm?.meb160630Automation) {
+    return {
+      formId,
+      '@type': submissionForm?.chosenBenefit,
+      claimant: createMilitaryClaimant(submissionForm),
+      relinquishedBenefit: createRelinquishedBenefit(submissionForm),
+      additionalConsiderations: createAdditionalConsiderations(submissionForm),
+      comments: createComments(submissionForm),
+      directDeposit: createDirectDeposit(submissionForm),
+    };
+  }
   return {
     formId,
     claimant: createMilitaryClaimant(submissionForm),

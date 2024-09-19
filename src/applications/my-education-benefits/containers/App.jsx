@@ -50,6 +50,7 @@ export const App = ({
   duplicateEmail,
   duplicatePhone,
   benefitEffectiveDate,
+  meb160630Automation,
 }) => {
   const [fetchedContactInfo, setFetchedContactInfo] = useState(false);
   const [fetchedDirectDeposit, setFetchedDirectDeposit] = useState(false);
@@ -275,6 +276,14 @@ export const App = ({
           mebAutoPopulateRelinquishmentDate,
         });
       }
+
+      if (meb160630Automation !== formData?.meb160630Automation) {
+        setFormData({
+          ...formData,
+          meb160630Automation,
+        });
+      }
+
       if (
         dgiRudisillHideBenefitsSelectionStep !==
         formData.dgiRudisillHideBenefitsSelectionStep
@@ -332,6 +341,7 @@ export const App = ({
       duplicateEmail,
       duplicatePhone,
       mebAutoPopulateRelinquishmentDate,
+      meb160630Automation,
     ],
   );
 
@@ -456,6 +466,7 @@ App.propTypes = {
   showMebEnhancements09: PropTypes.bool,
   showMebServiceHistoryCategorizeDisagreement: PropTypes.bool,
   mebAutoPopulateRelinquishmentDate: PropTypes.bool,
+  meb160630Automation: PropTypes.bool,
 };
 
 const mapStateToProps = state => {

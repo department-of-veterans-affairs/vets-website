@@ -4,11 +4,12 @@ import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 import SaveInProgressIntro from 'platform/forms/save-in-progress/SaveInProgressIntro';
 import repStatusLoader from 'applications/static-pages/representative-status';
-import { useStore } from 'react-redux';
+import { useStore, connect } from 'react-redux';
+import { isLoggedIn } from 'platform/user/selectors';
 import GetFormHelp from '../components/GetFormHelp';
 
 const IntroductionPage = props => {
-  const { route } = props;
+  const { route, loggedIn } = props;
   const { formConfig, pageList } = route;
   const store = useStore();
 
@@ -44,6 +45,21 @@ const IntroductionPage = props => {
           </div>
         </>
       </div>
+      {loggedIn && (
+        <>
+          <p />
+          <SaveInProgressIntro
+            alertTitle="Sign in with a verified account to request help from a VA accredited representative"
+            formConfig={formConfig}
+            headingLevel={2}
+            messages={formConfig.savedFormMessages}
+            prefillEnabled={formConfig.prefillEnabled}
+            pageList={pageList}
+            unauthStartText="Sign in or create an account"
+            startText="Fill out your form to request help"
+          />
+        </>
+      )}
       <h2>Follow these steps to pre-fill your form</h2>
       <div className="vads-u-padding-left--2">
         <va-process-list uswds>
@@ -82,7 +98,8 @@ const IntroductionPage = props => {
               <li>Your date of birth</li>
               <li>Your mailing address and phone number</li>
               <li>
-                Your branch of service (only if you’d like to appoint a VSO)
+                Your branch of service (only if you’d like to appoint an
+                attorney or claims agent)
               </li>
               <li>
                 The name of the organization you’d like to appoint, if you’d
@@ -117,6 +134,8 @@ const IntroductionPage = props => {
         prefillEnabled={formConfig.prefillEnabled}
         pageList={pageList}
         unauthStartText="Sign in or create an account"
+        startText="Fill out your form to request help"
+        verifiedPrefillAlert={<></>}
       />
       <p />
       <va-omb-info
@@ -139,8 +158,15 @@ IntroductionPage.propTypes = {
         appType: PropTypes.string,
       }),
     }),
+    loggedIn: PropTypes.bool,
     pageList: PropTypes.array,
   }),
 };
 
-export default IntroductionPage;
+function mapStateToProps(state) {
+  return {
+    loggedIn: isLoggedIn(state),
+  };
+}
+
+export default connect(mapStateToProps)(IntroductionPage);
