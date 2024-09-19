@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { getRealFacilityId } from '../../utils/appointment';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import {
   AppointmentDate,
   AppointmentTime,
@@ -42,10 +41,6 @@ export default function InPersonLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   if (!appointment) return null;
@@ -118,8 +113,7 @@ export default function InPersonLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
@@ -142,8 +136,7 @@ export default function InPersonLayout({ data: appointment }) {
           Other details: {`${otherDetails || 'Not available'}`}
         </span>
       </Section>
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>

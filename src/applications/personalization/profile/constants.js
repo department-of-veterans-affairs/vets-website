@@ -9,10 +9,6 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
-  profileShowDirectDepositSingleForm: false,
-  profileShowDirectDepositSingleFormUAT: false,
-  profileShowDirectDepositSingleFormAlert: false,
-  profileShowDirectDepositSingleFormEduDowntime: false,
 };
 
 // The values of these constants map to the possible values that come back from

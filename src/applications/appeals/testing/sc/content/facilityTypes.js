@@ -7,7 +7,7 @@ export const facilityTypeChoices = {
   vetCenter: 'A VA Vet center',
   ccp: 'A community care provider that VA paid for',
   vamc: 'A VA medical center (also called a VAMC)',
-  cobc: 'A community-based outpatient clinic (also called a COBC)',
+  cboc: 'A community-based outpatient clinic (also called a CBOC)',
   mtf:
     'A Department of Defense military treatment facility (also called an MTF)',
   nonVa: {

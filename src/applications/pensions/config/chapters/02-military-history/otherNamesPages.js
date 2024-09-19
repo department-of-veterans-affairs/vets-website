@@ -18,7 +18,10 @@ const options = {
   isItemIncomplete: item =>
     !item?.previousFullName?.first || !item.previousFullName?.last, // include all required fields here
   text: {
-    getItemName: item => formatFullName(item.previousFullName),
+    getItemName: item =>
+      item?.previousFullName
+        ? formatFullName(item.previousFullName)
+        : undefined,
     summaryTitleWithoutItems: 'Other Service names',
   },
 };
