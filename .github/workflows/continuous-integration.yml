@@ -780,10 +780,6 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: curl http://127.0.0.1:3001/track-claims
 
-      - name: Check loopback connectivity
-        if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: curl http://[::1]:3001/track-claims
-
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node --dns-result-order=ipv4first script/github-actions/run-cypress-tests.js
