@@ -1,27 +1,29 @@
 import React from 'react';
 import FormElementTitle from '../../../components/FormElementTitle';
-import SelectedSchool from '../../../components/FormFields/SelectedSchool';
+import YourSchool from '../../../components/FormFields/YourSchool';
 import PageFieldSummary from '../../../components/PageFieldSummary';
-import { CHAPTER_3, useThisSchoolOptions } from '../../../constants';
+import { CHAPTER_3, schoolInYourProfileOptions } from '../../../constants';
 import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
-const useThisSchoolPage = {
+const schoolInYourProfilePage = {
   uiSchema: {
     'ui:title': FormElementTitle({ title: CHAPTER_3.USE_THIS_SCHOOL.TITLE }),
-    'ui:description': SelectedSchool,
+    'ui:description': YourSchool,
     'ui:objectViewField': PageFieldSummary,
-    useSchool: radioUI({
+    useSchoolInProfile: radioUI({
       title: <strong>{CHAPTER_3.USE_THIS_SCHOOL.QUESTION_1}</strong>,
-      labels: useThisSchoolOptions,
+      labels: schoolInYourProfileOptions,
     }),
   },
   schema: {
     type: 'object',
-    required: ['useSchool'],
+    required: ['useSchoolInProfile'],
     properties: {
-      useSchool: radioSchema(Object.values(useThisSchoolOptions)),
+      useSchoolInProfile: radioSchema(
+        Object.values(schoolInYourProfileOptions),
+      ),
     },
   },
 };
 
-export default useThisSchoolPage;
+export default schoolInYourProfilePage;
