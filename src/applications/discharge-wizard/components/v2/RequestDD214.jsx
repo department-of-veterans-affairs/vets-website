@@ -8,10 +8,20 @@ import {
   determineBranchOfService,
 } from '../../helpers';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
+import { pageSetup } from '../../utilities/page-setup';
 
 const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
+  const H1 =
+    'Your Steps for Getting a DD214 for Your Period of Honorable Service';
+
+  useEffect(
+    () => {
+      pageSetup(H1);
+    },
+    [H1],
+  );
+
   useEffect(() => {
-    // Results should have been viewed first.
     if (!viewedIntroPage) {
       router.push('/');
     }
@@ -23,9 +33,7 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
   );
   return (
     <div>
-      <h1>
-        Your Steps for Getting a DD214 for Your Period of Honorable Service
-      </h1>
+      <h1>{H1}</h1>
       <div className="">
         <div className="va-introtext">
           <p>
