@@ -322,20 +322,6 @@ const baseUserResponses = {
           isVeteran: true,
           servedInMilitary: true,
         },
-        'view:maritalStatus': {
-          maritalStatus: 'Married',
-        },
-        spouseFullName: { first: 'Michelle', last: 'Smith' },
-        spouseDateOfBirth: '1990-08-03',
-        spouseSocialSecurityNumber: '451906574',
-        'view:reportDependents': true,
-        'view:skipDependentInfo': false,
-        dependents: [
-          {
-            fullName: { first: 'Mia', last: 'Smith' },
-            dependentRelation: 'Daughter',
-          },
-        ],
         inProgressForms: [],
         prefillsAvailable: ['21-686C', 'FORM-MOCK-AE-DESIGN-PATTERNS'],
         vet360ContactInformation: {

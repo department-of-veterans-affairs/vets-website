@@ -37,17 +37,6 @@ const formConfig = {
   },
   version: 0,
   prefillTransformer,
-  // prefillTransformer(pages, formData, metadata) {
-  //   const transformedData = {
-  //     veteranSocialSecurityNumber:
-  //       formData?.data?.attributes?.veteran?.ssn || null,
-  //   };
-  //   return {
-  //     metadata,
-  //     formData: transformedData,
-  //     pages,
-  //   };
-  // },
   prefillEnabled: true,
   savedFormMessages: {
     notFound:
