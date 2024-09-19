@@ -670,8 +670,6 @@ jobs:
       needs.tests-prep.result == 'success'
     container:
       image: public.ecr.aws/cypress-io/cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
-      ports:
-        - 3001:3001
 
     strategy:
       fail-fast: false
@@ -773,6 +771,10 @@ jobs:
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+
+      - name: Wait for server ready
+        run: |
+          until curl -s http://localhost:3001; do echo "Waiting for server..."; sleep 1; done
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
