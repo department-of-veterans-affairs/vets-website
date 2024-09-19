@@ -107,7 +107,7 @@ function AdditionalConsiderationTemplate(page, formField, options = {}) {
     title: data => {
       const rudisillFlag = data?.dgiRudisillHideBenefitsSelectionStep;
       const meb160630Automation = data?.meb160630Automation;
-      const chosenBenefit = data?.formData.chosenBenefit;
+      const chosenBenefit = data?.formData?.chosenBenefit;
       return additionalConsiderationsQuestionTitleText(
         page.order,
         rudisillFlag,
