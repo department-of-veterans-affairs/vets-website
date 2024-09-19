@@ -139,6 +139,10 @@ export const BCNR = 'BCNR';
 export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
+  // v1
+  QUESTIONS: 'questions',
+  GUIDANCE: 'guidance',
+  // v2
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
