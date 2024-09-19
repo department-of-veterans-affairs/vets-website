@@ -55,40 +55,26 @@ const options = {
 
       return range;
     },
-    cancelAddNo: () => {
-      return 'No, keep this';
-    },
+    cancelAddNo: () => 'No, keep this',
     deleteTitle: props => {
       const servicePeriodName = props.getItemName(props.itemData);
 
       return `Are you sure want to remove this ${servicePeriodName} service period?`;
     },
-    deleteDescription: () => {
-      return 'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.';
-    },
-    deleteYes: () => {
-      return 'Yes, remove this';
-    },
-    deleteNo: () => {
-      return 'No, keep this';
-    },
+    deleteDescription: () =>
+      'If you remove this service period, we’ll take you to a screen where you can add another service period. You’ll need to list at least one service period for us to process this form.',
+    deleteYes: () => 'Yes, remove this',
+    deleteNo: () => 'No, keep this',
     cancelEditTitle: props => {
       const servicePeriodName = props.getItemName(props.itemData);
 
       return `Cancel editing ${servicePeriodName} service period?`;
     },
-    cancelEditDescription: () => {
-      return 'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.';
-    },
-    cancelEditYes: () => {
-      return 'Yes, remove this';
-    },
-    cancelEditNo: () => {
-      return 'No, keep this';
-    },
-    summaryTitle: item => {
-      return item?.application?.claimant?.relationshipToVet;
-    }, // == 'veteran' ? 'testvet' : 'testnonvet'},
+    cancelEditDescription: () =>
+      'If you cancel, you’ll lose any changes you made on this screen and you will be returned to the service periods review page.',
+    cancelEditYes: () => 'Yes, remove this',
+    cancelEditNo: () => 'No, keep this',
+    summaryTitle: formData => (isVeteran(formData) ? 'testvet' : 'testnonvet'),
   },
 };
 
