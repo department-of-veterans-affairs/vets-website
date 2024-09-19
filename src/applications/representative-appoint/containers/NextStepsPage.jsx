@@ -9,6 +9,8 @@ import NeedHelp from '../components/NeedHelp';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
+  const repType =
+    formData['view:selectedRepresentative'].attributes?.individualType;
   const address = {
     address1: (
       formData['view:selectedRepresentative']?.addressLine1 || ''
@@ -26,12 +28,15 @@ export default function NextStepsPage() {
   const isOrg =
     formData['view:selectedRepresentative']?.type === 'organization';
   const isAttorneyOrClaimsAgent =
-    formData.repTypeRadio === 'Attorney' ||
-    formData.repTypeRadio === 'Claims Agent';
+    repType === 'attorney' || repType === 'claimsAgent';
 
   const getRepType = () => {
-    if (isAttorneyOrClaimsAgent) {
-      return formData.repTypeRadio.toLowerCase();
+    if (repType === 'attorney') {
+      return 'attorney';
+    }
+
+    if (repType === 'claimsAgent') {
+      return 'claims agent';
     }
 
     return 'VSO representative';
