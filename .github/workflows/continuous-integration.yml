@@ -669,7 +669,7 @@ jobs:
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node-20.17.0-chrome-128.0.6613.137-1-ff-130.0.1-edge-128.0.2739.67-1
+      image: public.ecr.aws/cypress-io/cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
 
     strategy:
       fail-fast: false
