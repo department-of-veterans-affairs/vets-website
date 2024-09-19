@@ -733,6 +733,9 @@ jobs:
         uses: ./.github/workflows/download-artifact
         with:
           name: vagovprod.tar.bz2
+      
+      - name: Install bzip2
+        run: sudo apt-get update && sudo apt-get install -y bzip2
 
       - name: Unpack build
         if: needs.tests-prep.outputs.cypress-tests != '[]'
