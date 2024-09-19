@@ -398,6 +398,11 @@ export default function ArrayBuilderSummaryPage({
               </dl>
             </>
           )}
+          {getText('summaryDescription') && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {getText('summaryDescription')}
+            </span>
+          )}
           <Cards />
           {!isMaxItemsReached && (
             <div className="vads-u-margin-top--2">
@@ -419,6 +424,11 @@ export default function ArrayBuilderSummaryPage({
       uiSchema['ui:title'] = (
         <>
           <Title textType="summaryTitle" />
+          {getText('summaryDescription') && (
+            <span className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-display--block">
+              {getText('summaryDescription')}
+            </span>
+          )}
           {isMaxItemsReached && (
             <MaxItemsAlert>
               {getText('alertMaxItems', updatedItemData)}

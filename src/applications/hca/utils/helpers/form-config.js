@@ -68,11 +68,14 @@ export function notShortFormEligible(formData) {
  * Helper that determines if the form data contains values that require users
  * to upload their military discharge papers
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was not found in the MPI database
+ * @returns {Boolean} - true if the user is unauthenticated and was not found
+ * in the MPI database
  */
 export function dischargePapersRequired(formData) {
   const { 'view:isUserInMvi': isUserInMvi } = formData;
-  return notShortFormEligible(formData) && !isUserInMvi;
+  return (
+    isLoggedOut(formData) && notShortFormEligible(formData) && !isUserInMvi
+  );
 }
 
 /**

@@ -417,7 +417,6 @@ export const decodeBase64Report = data => {
   }
   return null;
 };
-
 const generateHash = async data => {
   const dataBuffer = new TextEncoder().encode(data);
   const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer);
@@ -429,4 +428,36 @@ export const radiologyRecordHash = async record => {
   const { procedureName, radiologist, stationNumber, eventDate } = record;
   const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
   return (await generateHash(dataString)).substring(0, 8);
+};
+
+/**
+ * @function getLastUpdatedText
+ * @description Generates a string that displays the last successful update for a given extract type.
+ * It checks the refresh state status and formats the time and date of the last update.
+ *
+ * @param {Array} refreshStateStatus - The array of refresh state objects containing extract types and their statuses.
+ * @param {string} extractType - The type of extract we want to find in the refresh state (e.g., CHEM_HEM).
+ *
+ * @returns {string|null} - Returns a formatted string with the time and date of the last update, or null if no update is found.
+ */
+export const getLastUpdatedText = (refreshStateStatus, extractType) => {
+  if (refreshStateStatus) {
+    const extract = refreshStateStatus.find(
+      status => status.extract === extractType,
+    );
+
+    if (extract?.lastSuccessfulCompleted) {
+      const lastSuccessfulUpdate = formatDateAndTime(
+        extract.lastSuccessfulCompleted,
+      );
+
+      if (lastSuccessfulUpdate) {
+        return `Last updated at ${lastSuccessfulUpdate.time} on ${
+          lastSuccessfulUpdate.date
+        }`;
+      }
+    }
+  }
+
+  return null;
 };

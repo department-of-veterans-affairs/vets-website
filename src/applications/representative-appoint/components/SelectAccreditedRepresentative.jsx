@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
+
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import {
@@ -17,12 +17,15 @@ const SelectAccreditedRepresentative = props => {
   const [representatives, setRepresentatives] = useState([]);
 
   const handleChange = e => {
+    setError(null);
     setQuery(e.target.value);
   };
 
   const handleClick = async () => {
     if (!query.trim()) {
-      setError('Search for a representative');
+      setError(
+        'Enter the name of the accredited representative or VSO you’d like to appoint',
+      );
       return;
     }
 
@@ -38,13 +41,6 @@ const SelectAccreditedRepresentative = props => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const goForward = () => {
-    const { pageList } = routes[1];
-    const { pathname } = location;
-    const nextPagePath = getNextPagePath(pageList, formData, pathname);
-    router.push(nextPagePath);
   };
 
   const searchResults = () => {
@@ -73,10 +69,15 @@ const SelectAccreditedRepresentative = props => {
                   phone={representative.attributes.phone}
                   email={representative.attributes.email}
                   representative={representative}
+                  accreditedOrganizations={
+                    representative.attributes?.accreditedOrganizations?.data
+                  }
                   representativeId={representative.id}
                   formData={formData}
                   setFormData={setFormData}
-                  goForward={goForward}
+                  router={router}
+                  routes={routes}
+                  location={location}
                 />
               </div>
             );
@@ -88,8 +89,8 @@ const SelectAccreditedRepresentative = props => {
   };
 
   return (
-    <>
-      <h3 className="vads-u-margin-y--5">
+    <div>
+      <h3 className="vads-u-margin-y--5 ">
         Select the accredited representative or VSO you’d like to appoint
       </h3>
       <p className="vads-u-margin-bottom--0">
@@ -106,7 +107,11 @@ const SelectAccreditedRepresentative = props => {
             required
           />
         </div>
-        <div className="vads-u-margin-top--1">
+        <div
+          className={`vads-u-margin-top--${
+            error ? '8' : '1'
+          } vads-u-margin-bottom--1`}
+        >
           <VaButton
             data-testid="representative-search-btn"
             text="Search"
@@ -116,13 +121,17 @@ const SelectAccreditedRepresentative = props => {
       </div>
 
       {searchResults()}
+    </div>
+  );
+};
 
-      <p className="vads-u-margin-y--4">
-        <strong>Note:</strong> if you don’t know who you’d like to appoint, you
-        can use our online tool to search for an accredited attorney, claims
-        agent, or VSO representative.
-      </p>
-    </>
+export const AdditionalNote = () => {
+  return (
+    <p className="vads-u-margin-y--4">
+      <strong>Note:</strong> if you don’t know who you’d like to appoint, you
+      can use our online tool to search for an accredited attorney, claims
+      agent, or VSO representative.
+    </p>
   );
 };
 
