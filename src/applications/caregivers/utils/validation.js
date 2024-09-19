@@ -29,8 +29,10 @@ export const validateCaregivers = (errors, _, formData) => {
 
 export const validateCountyInput = (errors, fieldData) => {
   const disallowList = [
+    'US',
     'U.S',
     'U.S.',
+    'USA',
     'U.SA',
     'U.S.A',
     'U.S.A.',
@@ -39,7 +41,7 @@ export const validateCountyInput = (errors, fieldData) => {
     'United States of America',
     'UnitedStatesOfAmerica',
   ];
-  const regex = new RegExp(`^(?!.*(${disallowList.join('|')})).*$`, 'i');
+  const regex = new RegExp(`^(?!(${disallowList.join('|')})$)`, 'i');
   if (!regex.test(fieldData)) {
     errors.addError(content['validation-address--county-pattern']);
   }

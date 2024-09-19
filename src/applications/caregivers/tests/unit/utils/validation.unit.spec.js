@@ -95,6 +95,12 @@ describe('CG `validateCountyInput` form validation', () => {
     addErrorSpy = sinon.spy();
   });
 
+  it('should set an error if fieldData contains a restricted abbreviated string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'USA');
+    expect(errors.addError.called).to.be.true;
+  });
+
   it('should set an error if fieldData contains a restricted string', () => {
     const { errors } = getData({ spy: addErrorSpy });
     validateCountyInput(errors, 'United States');
@@ -104,6 +110,12 @@ describe('CG `validateCountyInput` form validation', () => {
   it('should not set an error if fieldData does not contain a restricted string', () => {
     const { errors } = getData({ spy: addErrorSpy });
     validateCountyInput(errors, 'Marion');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not set an error if fieldData contains a restricted string within a string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'Tuscolusa');
     expect(errors.addError.called).to.be.false;
   });
 });
