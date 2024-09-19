@@ -5,6 +5,7 @@ import Scroll from 'react-scroll';
 
 // Relative Imports
 import { answerReview, shouldShowQuestion } from '../helpers';
+import { ROUTES } from '../constants';
 
 const { Element } = Scroll;
 
@@ -19,7 +20,7 @@ const AnswerReview = ({ formValues, handleScrollTo, router }) => {
 
   const getResults = event => {
     event.preventDefault();
-    router.push('guidance');
+    router.push(ROUTES.GUIDANCE);
   };
 
   return (

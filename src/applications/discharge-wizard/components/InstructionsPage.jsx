@@ -1,9 +1,10 @@
 import React from 'react';
+import { ROUTES } from '../constants';
 
 const InstructionsPage = ({ router }) => {
   const startForm = event => {
     event.preventDefault();
-    router.push('questions');
+    router.push(ROUTES.QUESTIONS);
   };
 
   return (
