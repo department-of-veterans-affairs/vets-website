@@ -13,7 +13,7 @@ import classNames from 'classnames';
  * @property {string} status the status of the alert ('info', 'success', 'warning' or 'continue')
  * @property {string} icon the name of the icon for the alert
  */
-const CustomAlert = ({
+const CustomIconAlert = ({
   children,
   headline,
   recordEvent,
@@ -55,11 +55,11 @@ const CustomAlert = ({
   );
 };
 
-CustomAlert.defaultProps = {
+CustomIconAlert.defaultProps = {
   recordEvent: recordEventFn,
 };
 
-CustomAlert.propTypes = {
+CustomIconAlert.propTypes = {
   children: PropTypes.any.isRequired,
   headline: PropTypes.string.isRequired,
   icon: PropTypes.string,
@@ -67,4 +67,4 @@ CustomAlert.propTypes = {
   status: PropTypes.oneOf(['info', 'success', 'warning', 'continue']),
 };
 
-export default CustomAlert;
+export default CustomIconAlert;

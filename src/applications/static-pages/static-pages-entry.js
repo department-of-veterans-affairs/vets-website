@@ -100,7 +100,7 @@ import create107959CAccess from './ivc-champva/10-7959c/entry';
 import create107959AAccess from './ivc-champva/10-7959a/entry';
 import create107959F1Access from './ivc-champva/10-7959f-1/entry';
 
-import './mhv-signin-cta/sass/mhv-signin-cta.scss';
+import '~/platform/mhv/alerts/sass/custom-icon-alert.scss';
 import createMhvSigninCallToAction from './mhv-signin-cta/createMhvSigninCTA';
 
 // Set the app name header when using the apiRequest helper

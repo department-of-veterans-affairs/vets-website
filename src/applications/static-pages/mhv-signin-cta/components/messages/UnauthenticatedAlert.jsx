@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { toggleLoginModal } from '@department-of-veterans-affairs/platform-site-wide/actions';
-import CustomAlert from './CustomAlert';
+import CustomIconAlert from '~/platform/mhv/alerts/components/CustomIconAlert';
 
 export const headingPrefix = 'Sign in with a verified account';
 
@@ -23,7 +23,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
 
   return (
     <div data-testid="mhv-unauthenticated-alert">
-      <CustomAlert
+      <CustomIconAlert
         headline={headline}
         icon="lock"
         status="info"
@@ -57,7 +57,7 @@ const UnauthenticatedAlert = ({ recordEvent, serviceDescription }) => {
             />
           </p>
         </div>
-      </CustomAlert>
+      </CustomIconAlert>
     </div>
   );
 };

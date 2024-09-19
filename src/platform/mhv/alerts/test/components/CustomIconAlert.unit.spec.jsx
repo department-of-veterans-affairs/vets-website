@@ -2,7 +2,7 @@ import React from 'react';
 import { render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import sinon from 'sinon';
-import CustomAlert from '../../../components/messages/CustomAlert';
+import CustomIconAlert from '../../components/CustomIconAlert';
 
 describe('Custom Alert component', () => {
   const headline = 'some headline';
@@ -11,9 +11,9 @@ describe('Custom Alert component', () => {
     it('renders info alert with defaults', () => {
       const contentText = 'Some text for content';
       const { getByRole, getByText, getByTestId } = render(
-        <CustomAlert headline={headline}>
+        <CustomIconAlert headline={headline}>
           <p>{contentText}</p>
-        </CustomAlert>,
+        </CustomIconAlert>,
       );
       expect(getByRole('heading', { name: headline })).to.exist;
       expect(getByText(contentText)).to.exist;
@@ -23,7 +23,7 @@ describe('Custom Alert component', () => {
 
     it('renders warning alert', () => {
       const { getByTestId } = render(
-        <CustomAlert headline={headline} status="warning" />,
+        <CustomIconAlert headline={headline} status="warning" />,
       );
       const alertEl = getByTestId('mhv-custom-alert');
       expect(alertEl.className).to.include('mhv-u-reg-alert-warning');
@@ -31,7 +31,7 @@ describe('Custom Alert component', () => {
 
     it('renders success alert', () => {
       const { getByTestId } = render(
-        <CustomAlert headline={headline} status="success" />,
+        <CustomIconAlert headline={headline} status="success" />,
       );
       const alertEl = getByTestId('mhv-custom-alert');
       expect(alertEl.className).to.include('mhv-u-reg-alert-success');
@@ -39,7 +39,7 @@ describe('Custom Alert component', () => {
 
     it('renders continue alert', () => {
       const { getByTestId } = render(
-        <CustomAlert headline={headline} status="continue" />,
+        <CustomIconAlert headline={headline} status="continue" />,
       );
       const alertEl = getByTestId('mhv-custom-alert');
       // Continue uses the same styling as success.
@@ -48,7 +48,7 @@ describe('Custom Alert component', () => {
 
     it('renders info alert', () => {
       const { getByTestId } = render(
-        <CustomAlert headline={headline} status="info" />,
+        <CustomIconAlert headline={headline} status="info" />,
       );
       const alertEl = getByTestId('mhv-custom-alert');
       expect(alertEl.className).to.include('mhv-u-reg-alert-info');
@@ -57,7 +57,7 @@ describe('Custom Alert component', () => {
     it('renders custom icon', () => {
       const iconName = 'lock';
       const { getByTestId } = render(
-        <CustomAlert headline={headline} icon={iconName} />,
+        <CustomIconAlert headline={headline} icon={iconName} />,
       );
       const iconEl = getByTestId('mhv-custom-alert-icon');
       expect(iconEl.getAttribute('icon')).to.eql(iconName);
@@ -74,7 +74,7 @@ describe('Custom Alert component', () => {
     };
     const recordEventSpy = sinon.spy();
     render(
-      <CustomAlert
+      <CustomIconAlert
         headline={headline}
         status={status}
         recordEvent={recordEventSpy}

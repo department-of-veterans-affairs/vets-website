@@ -8,7 +8,7 @@ import {
 } from '@department-of-veterans-affairs/platform-user/authentication/constants';
 import { logoutUrl } from '@department-of-veterans-affairs/platform-user/authentication/utilities';
 import { logoutUrlSiS } from '~/platform/utilities/oauth/utilities';
-import CustomAlert from './CustomAlert';
+import CustomIconAlert from '~/platform/mhv/alerts/components/CustomIconAlert';
 
 export const headingPrefix = 'Verify your identity';
 
@@ -42,7 +42,7 @@ const UnverifiedAlert = ({
   const DefaultAlert = () => {
     return (
       <div data-testid="mhv-unverified-alert">
-        <CustomAlert
+        <CustomIconAlert
           headline={headline}
           icon="lock"
           status="warning"
@@ -68,7 +68,7 @@ const UnverifiedAlert = ({
               </a>
             </p>
           </div>
-        </CustomAlert>
+        </CustomIconAlert>
       </div>
     );
   };
@@ -78,7 +78,7 @@ const UnverifiedAlert = ({
    */
   const MhvAlert = () => {
     return (
-      <CustomAlert headline={headline} icon="lock" status="warning">
+      <CustomIconAlert headline={headline} icon="lock" status="warning">
         <div>
           <p>
             To protect your information and prevent fraud and identity theft, we
@@ -136,7 +136,7 @@ const UnverifiedAlert = ({
             />
           </p>
         </div>
-      </CustomAlert>
+      </CustomIconAlert>
     );
   };
 
