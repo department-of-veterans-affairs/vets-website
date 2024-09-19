@@ -16,14 +16,27 @@ function HowToApplyPost911GiBillV2({
   isLoggedIn,
   savedForms,
   showMebEnhancements09,
+  meb160630Automation,
   route,
   user,
 }) {
   const apiCallsComplete = isClaimantCallComplete && isEligibilityCallComplete;
   const savedForm = savedForms?.find(f => f.form === formId);
 
-  return (
-    <>
+  const renderNote = () => {
+    if (meb160630Automation) {
+      return (
+        <p className="vads-u-margin-top--4">
+          <strong>Note</strong>: This application is only for these 3 education
+          benefits: <br />
+          <strong>Post-9/11 GI Bill®</strong> (Chapter 33) <br />
+          <strong>Montgomery GI Bill® Active Duty</strong> (Chapter 30) <br />
+          <strong>Montgomery GI Bill® Selective Reserve</strong> (Chapter 1606){' '}
+          <br />
+        </p>
+      );
+    }
+    return (
       <p className="vads-u-margin-top--4">
         <strong>Note</strong>: At this time, you can only apply for{' '}
         <strong>Post-9/11 GI Bill®</strong> (Chapter 33) benefits through this
@@ -33,6 +46,12 @@ function HowToApplyPost911GiBillV2({
         </a>
         .
       </p>
+    );
+  };
+
+  return (
+    <>
+      {renderNote()}
 
       {isLoggedIn &&
         !savedForm &&
@@ -63,6 +82,7 @@ HowToApplyPost911GiBillV2.propTypes = {
     }),
   ),
   showMebEnhancements09: PropTypes.bool, // Added new feature flag to propTypes
+  meb160630Automation: PropTypes.bool,
   user: PropTypes.object,
 };
 
@@ -71,6 +91,8 @@ const mapStateToProps = state => ({
   ...getAppData(state),
   showMebEnhancements09:
     state.featureToggles[featureFlagNames.showMebEnhancements09],
+  meb160630Automation:
+    state.featureToggles[featureFlagNames.meb160630Automation],
 });
 
 export default connect(mapStateToProps)(HowToApplyPost911GiBillV2);
