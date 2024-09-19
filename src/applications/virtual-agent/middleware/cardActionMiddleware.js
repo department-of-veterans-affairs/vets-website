@@ -21,7 +21,10 @@ function recordSuggestedAction(
   );
 
   if (isSuggestedAction) {
-    const topic = isRxSkill === 'true' ? 'prescriptions' : eventSkillValue;
+    let topic = isRxSkill === 'true' ? 'prescriptions' : eventSkillValue;
+    if (!topic) {
+      topic = undefined;
+    }
     recordEvent({
       event: 'chatbot-button-click',
       clickText: cardActionValue,

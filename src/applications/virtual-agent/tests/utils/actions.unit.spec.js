@@ -388,7 +388,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'api_call',
-          'api-name': 'Skill Entry',
+          'api-name': 'Chatbot Skill Entry - some_skill_value',
           topic: 'some_skill_value',
           'api-status': 'successful',
         }),
@@ -443,7 +443,7 @@ describe('actions', () => {
 
       processIncomingActivity({ action, dispatch })();
       expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
       expect(recordEventStub.notCalled).to.be.true;
     });
     it('should not set event skill value to null if not a Skill_Exit event', () => {
@@ -492,7 +492,7 @@ describe('actions', () => {
 
       processIncomingActivity({ action, dispatch })();
       expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
     });
     it('should set event skill value to null if the bot is asking if the user is satisfied', () => {
       const action = {
@@ -515,7 +515,7 @@ describe('actions', () => {
 
       processIncomingActivity({ action, dispatch })();
       expect(setEventSkillValueStub.calledOnce).to.be.true;
-      expect(setEventSkillValueStub.calledWithExactly(null)).to.be.true;
+      expect(setEventSkillValueStub.calledWithExactly(undefined)).to.be.true;
     });
     it('should set is rx skill to false and trigger rxSkill event if exiting rx', () => {
       const action = {

@@ -77,11 +77,12 @@ function handleRxSkillEvent(action, eventName, isRxSkillState) {
 function handleSkillEntryEvent(action) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
+  const apiName = `Chatbot Skill Entry - ${eventValue}`;
   if (actionEventName === 'Skill_Entry') {
     setEventSkillValue(eventValue);
     recordEvent({
       event: 'api_call',
-      'api-name': 'Skill Entry',
+      'api-name': apiName,
       topic: eventValue,
       'api-status': 'successful',
     });
@@ -95,7 +96,7 @@ function handleSkillExitEvent(action) {
     action.payload.activity.text === 'Did that answer your question?' ||
     actionEventName === 'Skill_Exit'
   ) {
-    setEventSkillValue(null);
+    setEventSkillValue(undefined);
   }
 }
 

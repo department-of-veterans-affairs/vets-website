@@ -137,7 +137,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          topic: null,
+          topic: undefined,
         });
       });
       it('should not call recordEvent when classList is unknown class in card', () => {
