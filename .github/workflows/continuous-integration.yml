@@ -772,6 +772,18 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node --dns-result-order=ipv4first src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=127.0.0.1 --port=3001 &
 
+      - name: Check localhost connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl http://localhost:3001/track-claims
+
+      - name: Check 127.0.0.1 connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl http://127.0.0.1:3001/track-claims
+
+      - name: Check loopback connectivity
+        if: needs.tests-prep.outputs.cypress-tests != '[]'
+        run: curl http://[::1]:3001/track-claims
+
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node --dns-result-order=ipv4first script/github-actions/run-cypress-tests.js
