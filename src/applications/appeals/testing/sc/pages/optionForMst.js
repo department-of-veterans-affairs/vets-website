@@ -21,7 +21,7 @@ export default {
       required: false,
       updateUiSchema: () => ({
         'ui:options': {
-          labelHeaderLevel: isOnReviewPage ? 4 : 3,
+          labelHeaderLevel: isOnReviewPage() ? 4 : 3,
         },
       }),
     }),
