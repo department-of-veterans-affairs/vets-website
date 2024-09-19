@@ -5,3 +5,10 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
+.input-small {
+    width: 100px;
+  }
+  .full-name{
+    font-size: 14px;
+    color: rgb(0, 0, 0);
+  }

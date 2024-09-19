@@ -1,16 +1,13 @@
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
-import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
-import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
-
 import manifest from '../manifest.json';
 
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
-
+import { applicantInformationField } from './chapter';
 
 const { fullName } = fullSchema10282?.definitions;
-console.log(fullSchema10282, 'fullSchema10282')
+
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -37,21 +34,17 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for 	education benefits.',
   },
-  title: 'Complex Form',
+  title: 'Apply for the IBM SkillsBuild Program',
+  subTitle:
+    'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282',
   defaultDefinitions: {
     fullName,
   },
   chapters: {
     applicantInformationChapter: {
-      title: 'Applicant Information',
+      title: 'Your personal information',
       pages: {
-        applicantInformation: {
-          path: 'applicant/information',
-          title: 'Applicant information',
-          uiSchema: {
-            veteranFullName: fullNameUI,
-          },
-        },
+        applicantInformation: applicantInformationField(),
       },
     },
   },
