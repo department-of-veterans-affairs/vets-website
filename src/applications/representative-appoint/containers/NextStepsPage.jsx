@@ -58,7 +58,12 @@ export default function NextStepsPage() {
     let orgName;
 
     if (id && orgs) {
-      orgName = orgs.find(org => org.id === id);
+      for (let i = 0; i < orgs.length; i += 1) {
+        if (orgs[i].id === id) {
+          orgName = orgs[i].attributes.name;
+          break;
+        }
+      }
     }
 
     return orgName;
