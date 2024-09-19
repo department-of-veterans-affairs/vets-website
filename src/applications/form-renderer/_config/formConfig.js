@@ -138,6 +138,15 @@ export const normalizedForm = {
         includeDateOfBirth: false,
       },
     },
+    {
+      id: 160592,
+      chapterTitle: 'Generated Identification Information',
+      type: 'digital_form_identification_info',
+      pageTitle: 'Identification Information',
+      additionalFields: {
+        includeServiceNumber: false,
+      },
+    },
   ],
 };
 
@@ -163,6 +172,15 @@ export const employmentQuestionnaire = {
       pageTitle: 'Name and Date of Birth',
       additionalFields: {
         includeDateOfBirth: true,
+      },
+    },
+    {
+      id: 160594,
+      chapterTitle: 'Identification information',
+      type: 'digital_form_identification_info',
+      pageTitle: 'Identification Information',
+      additionalFields: {
+        includeServiceNumber: true,
       },
     },
   ],
