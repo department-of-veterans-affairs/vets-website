@@ -16,7 +16,7 @@ export default function AddressBlock({ repName, orgName, address }) {
         </>
       ) : (
         <>
-          <strong>{orgName}</strong>
+          <strong>{repName || orgName}</strong>
           <br />
           <br />
         </>
