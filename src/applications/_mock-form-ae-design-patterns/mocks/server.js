@@ -28,6 +28,8 @@ const {
   generateStatusResponse,
 } = require('./endpoints/status');
 
+const { generateCoeEligibleResponse } = require('./endpoints/coe/status');
+
 // use one of these to provide a generic error response for any endpoint
 const genericErrors = {
   error500: require('./errors/500.json'),
@@ -45,7 +47,6 @@ const {
   requestHistory,
   boot,
 } = require('./script/utils');
-const { generateCoeEligibleResponse } = require('./endpoints/coe/status');
 
 const responses = {
   'GET /v0/feature_toggles': (_req, res) => {

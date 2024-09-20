@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
+import ezrFormConfig from '../../patterns/pattern1/ezr/config/form';
 import blueFormConfig from '../../patterns/pattern2/TaskBlue/form/config/form';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
@@ -21,6 +22,10 @@ export const getFormConfig = location => {
 
   if (location.pathname.includes('/1/task-purple')) {
     return purpleFormConfig;
+  }
+
+  if (location.pathname.includes('/1/ezr')) {
+    return ezrFormConfig;
   }
 
   if (location.pathname.includes('/2/task-blue')) {
