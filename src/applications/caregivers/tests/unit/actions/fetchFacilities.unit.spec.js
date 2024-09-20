@@ -5,8 +5,8 @@ import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
-  mockFacilitiesResponse,
   mockFetchFacilitiesResponse,
+  mockFacilitiesResponse,
 } from '../../mocks/responses';
 
 describe('CG fetchFacilities action', () => {
@@ -32,7 +32,7 @@ describe('CG fetchFacilities action', () => {
 
       const expectedUrl = `${
         environment.API_URL
-      }/v0/health_care_applications/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds[]=${
+      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds[]=${
         facilityIds[0]
       }&facilityIds[]=${facilityIds[1]}`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
@@ -43,7 +43,7 @@ describe('CG fetchFacilities action', () => {
 
       const expectedUrl = `${
         environment.API_URL
-      }/v0/health_care_applications/facilities?type=health`;
+      }/v0/caregivers_assistance_claims/facilities?type=health`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
     });
 
