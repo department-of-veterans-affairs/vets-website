@@ -1,7 +1,30 @@
 import { expect } from 'chai';
 
-import { formatPartialDate } from '../../utils/helpers';
 import { makeField } from 'platform/forms/fields';
+import { formatPartialDate, hasServiceBefore1978 } from '../../utils/helpers';
+
+const generateDataWithTourOfDuty = (
+  fromYear,
+  fromMonth,
+  fromDay,
+  to = '2020-01-01',
+) => ({
+  applicantServed: 'Yes',
+  'view:newService': true,
+  toursOfDuty: [
+    {
+      serviceBranch: 'Army',
+      dateRange: {
+        to,
+        from: {
+          year: makeField(fromYear),
+          month: makeField(fromMonth),
+          day: makeField(fromDay),
+        },
+      },
+    },
+  ],
+});
 
 describe('edu helpers:', () => {
   describe('formatPartialDate', () => {
@@ -88,6 +111,35 @@ describe('edu helpers:', () => {
       };
 
       expect(formatPartialDate(date)).to.equal('1996-12-31');
+    });
+  });
+
+  describe('hasServiceBefore1978', () => {
+    it('returns true for dates before 1978', () => {
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1977', '12', '31')),
+      ).to.be.true;
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1960', '05', '15')),
+      ).to.be.true;
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1900', '01', '01')),
+      ).to.be.true;
+    });
+
+    it('returns false for dates in 1978 or later', () => {
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1978', '01', '01')),
+      ).to.be.true;
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1978', '01', '02')),
+      ).to.be.false;
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('1980', '07', '20')),
+      ).to.be.false;
+      expect(
+        hasServiceBefore1978(generateDataWithTourOfDuty('2000', '12', '31')),
+      ).to.be.false;
     });
   });
 });
