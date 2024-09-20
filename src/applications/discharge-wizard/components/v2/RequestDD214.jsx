@@ -46,14 +46,10 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
           </p>
         </div>
         <va-process-list>
-          <va-process-list-item>
-            <h2 className="usa-process-list__heading">
-              Download and fill out{' '}
-              <va-link
-                href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
-                text="DoD Form 149"
-              />
-            </h2>
+          <va-process-list-item
+            header="Download and fill out DoD Form 149"
+            level="2"
+          >
             <ul>
               <li>
                 Pay special attention to item 6, which asks for the reason for
@@ -77,6 +73,20 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
                 show how serious you are about your case.
               </li>
             </ul>
+            <a
+              className="vads-u-display--block vads-u-margin-bottom--1 step-1-download"
+              download
+              href="https://www.esd.whs.mil/Portals/54/Documents/DD/forms/dd/dd0149.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <va-icon
+                icon="file_download"
+                size={3}
+                className="vads-u-margin-top--0p5 vads-u-padding-right--1"
+              />
+              Download Form 149 (opens in a new tab)
+            </a>
           </va-process-list-item>
           <va-process-list-item header="Mail your completed form" level="2">
             <p>
