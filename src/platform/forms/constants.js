@@ -73,6 +73,7 @@ export const VA_FORM_IDS = Object.freeze({
   FORM_VA_2346A: 'MDOT',
   FORM_XX_123: 'XX-123',
   FORM_MOCK_AE_DESIGN_PATTERNS: 'FORM-MOCK-AE-DESIGN-PATTERNS',
+  FORM_XX0011: 'XX0011',
 });
 
 export const VA_FORM_IDS_SKIP_INFLECTION = Object.freeze([
@@ -153,6 +154,7 @@ export const getAllFormLinks = getAppUrlImpl => {
     [VA_FORM_IDS.FORM_40_10007]: `${tryGetAppUrl('pre-need')}/`,
     [VA_FORM_IDS.FORM_5655]: `${tryGetAppUrl('request-debt-help-form-5655')}/`,
     [VA_FORM_IDS.FORM_VA_2346A]: `${tryGetAppUrl('order-form-2346')}/`,
+    [VA_FORM_IDS.FORM_XX0011]: `${tryGetAppUrl('XX0011')}/`,
   };
 };
 
@@ -462,6 +464,13 @@ export const MY_VA_SIP_FORMS = [
     title: `form upload flow`,
     description: '',
     trackingPrefix: '',
+  },
+  {
+    id: VA_FORM_IDS.FORM_XX0011,
+    benefit: 'benefits',
+    title: 'VA Form App',
+    description: 'benefits',
+    trackingPrefix: 'va-form-ex-',
   },
 ];
 

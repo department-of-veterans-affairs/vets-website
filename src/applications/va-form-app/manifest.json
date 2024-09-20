@@ -1,0 +1,7 @@
+{
+  "appName": "VA Form App",
+  "entryFile": "./app-entry.jsx",
+  "entryName": "va-form-app",
+  "rootUrl": "/va-form-app",
+  "productId": "3b46788c-ec8e-4c0f-99b9-806ac0378513"
+}
