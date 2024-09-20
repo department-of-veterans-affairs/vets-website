@@ -14,7 +14,7 @@ describe('Covid19Result', () => {
     const wrapper = shallow(
       <Covid19Result location={testData.data[0]} query={query} />,
     );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('Covid19PhoneLink').length).to.equal(1);

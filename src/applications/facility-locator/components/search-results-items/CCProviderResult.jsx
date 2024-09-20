@@ -2,9 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import LocationAddress from './common/LocationAddress';
 import LocationDirectionsLink from './common/LocationDirectionsLink';
+import LocationDistance from './common/LocationDistance';
 import LocationPhoneLink from './common/LocationPhoneLink';
 import ProviderServiceDescription from '../ProviderServiceDescription';
-import LocationDistance from './common/LocationDistance';
+import LocationMarker from './common/LocationMarker';
 import ProviderTraining from './common/ProviderTraining';
 
 const CCProviderResult = ({ provider, query }) => {
@@ -13,13 +14,17 @@ const CCProviderResult = ({ provider, query }) => {
   return (
     <div className="facility-result" id={provider.id} key={provider.id}>
       <div>
-        <LocationDistance
-          distance={provider.distance}
-          markerText={provider.markerText}
-        />
+        <LocationMarker markerText={provider.markerText} />
         <span>
           <ProviderServiceDescription provider={provider} query={query} />
-          <h3 className="vads-u-margin-top--0">{name}</h3>
+          <h3 className="vads-u-margin-y--0">{name}</h3>
+          <LocationDistance distance={provider.distance} />
+          <p className="vads-u-margin-left--1">
+            <strong>{provider.distance.toFixed(1)} miles</strong>
+          </p>
+          <p className="vads-u-margin-left--1">
+            <strong>{provider.distance.toFixed(1)} miles</strong>
+          </p>
           {provider.attributes.orgName && (
             <h6>{provider.attributes.orgName}</h6>
           )}

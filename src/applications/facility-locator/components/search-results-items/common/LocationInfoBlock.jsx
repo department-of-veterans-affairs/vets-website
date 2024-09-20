@@ -15,32 +15,37 @@ const LocationInfoBlock = ({ location }) => {
     <div>
       {distance &&
         location.resultItem && (
-          <p>
-            <span className="i-pin-card-map">{location.markerText}</span>
-            <span className="vads-u-margin-left--1">
-              <strong>{distance.toFixed(1)} miles</strong>
-            </span>
-          </p>
+          <p className="i-pin-card-map">{location.markerText}</p>
         )}
       {isProvider ? (
-        <span>
+        <>
           <h2 className="vads-u-margin-top--0">{name}</h2>
           {location.attributes.orgName && (
             <h6>{location.attributes.orgName}</h6>
           )}
-        </span>
+        </>
       ) : (
-        <span>
+        <>
           {isVADomain(website) ? (
-            <h3 className="vads-u-margin-top--0">
-              <va-link href={website} text={name} />
-            </h3>
+            <>
+              <h3 className="vads-u-margin-y--0">
+                <va-link href={website} text={name} />
+              </h3>
+              <p className="vads-u-margin-left--1">
+                <strong>{distance.toFixed(1)} miles</strong>
+              </p>
+            </>
           ) : (
-            <h3 className="vads-u-margin-top--0">
-              <Link to={`facility/${location.id}`}>{name}</Link>
-            </h3>
+            <>
+              <h3 className="vads-u-margin-y--0">
+                <Link to={`facility/${location.id}`}>{name}</Link>
+              </h3>
+              <p className="vads-u-margin-left--1">
+                <strong>{distance.toFixed(1)} miles</strong>
+              </p>
+            </>
           )}
-        </span>
+        </>
       )}
       {operatingStatus &&
         operatingStatus.code !== OperatingStatus.NORMAL && (

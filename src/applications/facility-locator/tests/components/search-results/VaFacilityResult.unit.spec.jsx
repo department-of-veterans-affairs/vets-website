@@ -13,7 +13,7 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[0]} query={query} />,
     );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -31,7 +31,7 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[6]} query={query} />,
     );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -49,7 +49,7 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[7]} query={query} />,
     );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
@@ -67,7 +67,7 @@ describe('VaFacilityResult', () => {
     const wrapper = shallow(
       <VaFacilityResult location={testData.data[8]} query={query} />,
     );
-    expect(wrapper.find('LocationDistance').length).to.equal(1);
+    expect(wrapper.find('LocationMarker').length).to.equal(1);
     expect(wrapper.find('LocationAddress').length).to.equal(1);
     expect(wrapper.find('LocationDirectionsLink').length).to.equal(1);
     expect(wrapper.find('LocationPhoneLink').length).to.equal(1);
