@@ -33,6 +33,7 @@ export { titleCase } from './data/titleCase';
 
 /* date */
 export {
+  dateFieldToDate,
   dateToMoment,
   formatDateLong,
   formatDateParsedZoneLong,

@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import moment from 'moment';
+import { isValid, getDate, getMonth, getYear } from 'date-fns';
 
 import {
   dateToMoment,
@@ -10,6 +11,7 @@ import {
   formatDateParsedZoneLong,
   isValidDateString,
   formatDowntime,
+  dateFieldToDate,
 } from '../date';
 
 describe('Helpers unit tests', () => {
@@ -46,6 +48,42 @@ describe('Helpers unit tests', () => {
       expect(date.year()).to.equal(1901);
       expect(date.month()).to.equal(1);
       expect(date.date()).to.equal(1);
+    });
+  });
+
+  describe('dateFieldToDate', () => {
+    it('should convert date field to date', () => {
+      const date = dateFieldToDate({
+        month: {
+          value: 2,
+        },
+        day: {
+          value: 3,
+        },
+        year: {
+          value: '1901',
+        },
+      });
+
+      expect(isValid(date)).to.be.true;
+      expect(getYear(date)).to.equal(1901);
+      expect(getMonth(date)).to.equal(1);
+      expect(getDate(date)).to.equal(3);
+    });
+    it('should convert partial date to date', () => {
+      const date = dateFieldToDate({
+        month: {
+          value: 2,
+        },
+        year: {
+          value: '1901',
+        },
+      });
+
+      expect(isValid(date)).to.be.true;
+      expect(getYear(date)).to.equal(1901);
+      expect(getMonth(date)).to.equal(1);
+      expect(getDate(date)).to.equal(1);
     });
   });
 

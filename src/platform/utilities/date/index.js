@@ -1,4 +1,21 @@
 import moment from 'moment';
+import { parse } from 'date-fns';
+
+export function dateFieldToDate(dateField) {
+  const year = dateField.year.value;
+  const month = dateField.month.value
+    ? parseInt(dateField.month.value, 10) - 1
+    : 0; // Default to January if month is not provided
+  const day = dateField.day ? dateField.day.value : 1; // Default to the first day of the month if day is not provided
+
+  // Construct a date string in the format 'yyyy-MM-dd'
+  const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(
+    day,
+  ).padStart(2, '0')}`;
+
+  // Parse the date string into a Date object
+  return parse(dateString, 'yyyy-MM-dd', new Date());
+}
 
 export function dateToMoment(dateField) {
   return moment({
