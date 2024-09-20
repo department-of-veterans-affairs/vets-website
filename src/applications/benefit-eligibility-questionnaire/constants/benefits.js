@@ -70,15 +70,27 @@ const giBillTypes = {
   NOT_APPLIED: "I haven't applied for GI Bill benefits",
 };
 
-const characterOfDischargeTypes = {
-  HONORABLE: 'honorable',
-  UNDER_HONORABLE_CONDITIONS_GENERAL: 'underHonorableConditionsGeneral',
-  UNDER_OTHER_THAN_HONORABLE_CONDITIONS: 'underOtherThanHonorableConditions',
-  BAD_CONDUCT: 'badConduct',
-  DISHONORABLE: 'dishonorable',
-  UNCHARACTERIZED: 'uncharacterized',
-  NOT_SURE: 'notSure',
-};
+export const characterOfDischargeTypes = Object.freeze({
+  HONORABLE: 'HONORABLE',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'UNDER_HONORABLE_CONDITIONS_GENERAL',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'UNDER_OTHER_THAN_HONORABLE_CONDITIONS',
+  BAD_CONDUCT: 'BAD_CONDUCT',
+  DISHONORABLE: 'DISHONORABLE',
+  UNCHARACTERIZED: 'UNCHARACTERIZED',
+  NOT_SURE: 'NOT_SURE',
+});
+
+export const characterOfDischargeTypeLabels = Object.freeze({
+  HONORABLE: 'Honorable',
+  UNDER_HONORABLE_CONDITIONS_GENERAL: 'Under Honorable Conditions (General)',
+  UNDER_OTHER_THAN_HONORABLE_CONDITIONS:
+    'Under Other Than Honorable Conditions',
+  BAD_CONDUCT: 'Bad Conduct',
+  DISHONORABLE: 'Dishonorable',
+  UNCHARACTERIZED: 'Uncharacterized',
+  NOT_SURE: "I'm not sure",
+});
 
 export const mappingTypes = {
   GOALS: 'goals',
