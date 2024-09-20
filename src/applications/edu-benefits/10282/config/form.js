@@ -11,7 +11,7 @@ import {
   applicantContactInfo,
 } from '../pages';
 
-const { fullName, description } = fullSchema10282?.definitions;
+const { fullName, usaPhone, email } = fullSchema10282?.definitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -44,7 +44,8 @@ const formConfig = {
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   defaultDefinitions: {
     fullName,
-    description,
+    usaPhone,
+    email,
   },
   chapters: {
     personalInformation: {

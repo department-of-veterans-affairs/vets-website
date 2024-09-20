@@ -1,6 +1,9 @@
 import React from 'react';
 import { VaTextInputField } from 'platform/forms-system/src/js/web-component-fields';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
+import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
+
+const { usaPhone, email } = fullSchema10282.definitions;
 
 const uiTitle = <h3> Phone and Email Address</h3>;
 export const uiSchema = {
@@ -30,18 +33,9 @@ export const schema = {
       type: 'object',
       required: ['email'],
       properties: {
-        email: {
-          type: 'string',
-          format: 'email',
-        },
-        mobilePhone: {
-          type: 'string',
-          pattern: '^[0-9]{10}$',
-        },
-        homePhone: {
-          type: 'string',
-          pattern: '^[0-9]{10}$',
-        },
+        email,
+        mobilePhone: usaPhone,
+        homePhone: usaPhone,
       },
     },
   },
