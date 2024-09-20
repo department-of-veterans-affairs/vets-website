@@ -65,7 +65,7 @@ const responses = {
   'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
     const secondsOfDelay = 1;
     delaySingleResponse(
-      () => res.json(mockFormAeDesignPatterns.response),
+      () => res.json(mockFormAeDesignPatterns.prefill),
       secondsOfDelay,
     );
   },
