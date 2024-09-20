@@ -19,13 +19,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        {environment.isProduction() ? (
-          <h2 className="confirmation-page-title">
-            Your claim has been submitted.
-          </h2>
-        ) : (
-          <h3>Your claim has been submitted.</h3>
-        )}
+        <h3>Your claim has been submitted.</h3>
         <p>
           We’ll let you know by mail or phone if we need more information.
           <br />
