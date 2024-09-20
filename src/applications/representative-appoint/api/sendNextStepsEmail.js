@@ -25,14 +25,11 @@ export default async function sendNextStepsEmail(body) {
     fetch(`${apiUrl}${NEXT_STEPS_EMAIL_API}`, apiSettings)
       .then(res => {
         if (!res.ok) {
-          throw Error(res.statusText);
+          throw new Error(res.statusText);
         }
-
         return res.json();
       })
-      .then(res => {
-        return res;
-      })
-      .then(data => resolve(data), error => reject(error));
+      .then(resolve)
+      .catch(reject);
   });
 }
