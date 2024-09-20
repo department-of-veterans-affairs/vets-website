@@ -19,6 +19,10 @@ export const InformalConferenceDescription = (
         informal conference. If you request an informal conference, we’ll
         conduct only one informal conference for this Higher-Level Review.
       </p>
+      <p>
+        If you request an informal conference, it may take us longer to make a
+        decision on your Higher-Level Review.
+      </p>
       <va-additional-info trigger="What happens during an informal conference">
         <div>
           <p className="vads-u-margin-top--0">
