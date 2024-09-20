@@ -1,12 +1,82 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelp from '../components/NeedHelp';
+import sendNextStepsEmail from '../api/sendNextStepsEmail';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
+  const { data: formData } = useSelector(state => state.form);
+
+  // const formData = {
+  //   'view:selectedRepresentative': {
+  //     type: 'individual', // can be either 'organization', 'individual'
+  //     fullName: 'Brian Daniel', // exists for 'individual'
+  //     // name: 'Disabled American Veterans', // exists for 'organization'
+  //     addressLine1: '400 South 18th Street',
+  //     addressLine2: 'Room 119',
+  //     addressLine3: '',
+  //     city: 'Newark',
+  //     stateCode: 'NJ',
+  //     zipCode: '07102',
+  //     phone: '7026842997',
+  //     email: 'bdaniel@veterans.nj.gov',
+  //     attributes: {
+  //       individualType: 'representative', // can be 'representative', 'attorney' or 'claimsAgent'
+  //       accreditedOrganizations: {
+  //         data: [
+  //           {
+  //             id: '1',
+  //             attributes: { name: 'Disabled American Veterans' },
+  //           },
+  //         ],
+  //       },
+  //     },
+  //   },
+  //   selectedAccreditedOrganizationId: '1',
+  // };
+
+  const selectedEntity = formData['view:selectedRepresentative'];
+
+  const getFormNumber = () => {
+    const entity = formData['view:selectedRepresentative'];
+    const entityType = entity?.type;
+
+    if (entityType === 'organization') {
+      return '21-22';
+    }
+    if (entityType === 'individual') {
+      const { individualType } = entity.attributes;
+      if (individualType === 'representative') {
+        return '21-22';
+      }
+      return '21-22a';
+    }
+    return '21-22 or 21-22a';
+  };
+
+  const representativeType = selectedEntity.type;
+  const representativeName = selectedEntity?.name || selectedEntity?.fullName;
+  const representativeAddress = {
+    address1: selectedEntity.addressLine1,
+    address2: selectedEntity.addressLine2,
+    address3: selectedEntity.addressLine3,
+    city: selectedEntity.city,
+    stateCode: selectedEntity.stateCode,
+    zipCode: selectedEntity.zipCode,
+  };
+  const nextStepsEmailPayload = {
+    emailAddress: formData,
+    firstName: formData,
+    formName: formData,
+    formNumber: getFormNumber(),
+    representativeType,
+    representativeName,
+    representativeAddress,
+  };
 
   const handlers = {
     onClickDownloadForm: e => {
@@ -17,9 +87,15 @@ export default function ConfirmationPage({ router }) {
 
       if (signedFormError) setSignedFormError(false);
     },
-    onClickContinueButton: () => {
+    onClickContinueButton: async () => {
       if (signedForm) {
-        router.push('/next-steps');
+        const response = await sendNextStepsEmail(nextStepsEmailPayload);
+
+        if (response.status === 200) {
+          router.push('/next-steps');
+        } else {
+          // How do we handle the non-200 response?
+        }
       } else {
         setSignedFormError(true);
       }
