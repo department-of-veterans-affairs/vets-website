@@ -21,14 +21,10 @@ function recordSuggestedAction(
   );
 
   if (isSuggestedAction) {
-    let topic = isRxSkill === 'true' ? 'prescriptions' : eventSkillValue;
-    if (!topic) {
-      topic = undefined;
-    }
     recordEvent({
       event: 'chatbot-button-click',
       clickText: cardActionValue,
-      topic,
+      topic: eventSkillValue,
     });
   }
 }
@@ -57,7 +53,7 @@ export const cardActionMiddleware = () => next => card => {
   const cardActionValue = cardAction.value;
   const cardTargetClassList = card?.target?.classList;
   const isRxSkill = getIsRxSkill();
-  const eventSkillValue = getEventSkillValue();
+  const eventSkillValue = getEventSkillValue() ?? undefined;
 
   recordSuggestedAction(
     cardTargetClassList,

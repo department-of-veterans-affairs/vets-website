@@ -94,6 +94,9 @@ describe('cardAction', () => {
         };
 
         sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns('true');
+        sandbox
+          .stub(SessionStorageModule, 'getEventSkillValue')
+          .returns('va_vha_healthassistant_bot');
         const recordEventStub = sandbox.stub(RecordEventModule, 'default');
 
         cardActionMiddleware()(sandbox.stub())(card);
@@ -102,7 +105,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          topic: 'prescriptions',
+          topic: 'va_vha_healthassistant_bot',
         });
       });
       it('should call recordEvent when classList has webchat__suggested-action in card', () => {
