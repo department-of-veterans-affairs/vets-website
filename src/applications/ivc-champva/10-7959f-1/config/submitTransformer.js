@@ -6,8 +6,9 @@ import { concatStreets } from '../../shared/utilities';
 // Take an address object and turn it into a string with line breaks
 function stringifyAddress(addr) {
   return addr
-    ? `${concatStreets(addr, true).streetCombined}${addr.city}, 
-    ${addr.state}\n${addr.postalCode}`
+    ? `${concatStreets(addr, true).streetCombined}${addr.city}, ${
+        addr.state
+      }\n${addr.postalCode}`
     : '';
 }
 
