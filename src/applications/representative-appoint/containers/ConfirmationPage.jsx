@@ -37,7 +37,23 @@ export default function ConfirmationPage({ router }) {
   //     },
   //   },
   //   selectedAccreditedOrganizationId: '1',
+  //   applicantName: {
+  //     first: 'John',
+  //     middle: 'Edmund',
+  //     last: 'Doe',
+  //     suffix: 'Sr.',
+  //   },
+  //   veteranFullName: {
+  //     first: 'John',
+  //     middle: 'Edmund',
+  //     last: 'Doe',
+  //     suffix: 'Sr.',
+  //   },
   // };
+
+  // formName
+  // For 21-22 that'd be Appointment of Veterans Service Organization as Claimant's Representative
+  // For 21-22a that'd be Appointment of Individual As Claimant's Representative
 
   const selectedEntity = formData['view:selectedRepresentative'];
 
@@ -71,7 +87,8 @@ export default function ConfirmationPage({ router }) {
   const nextStepsEmailPayload = {
     emailAddress: formData,
     firstName: formData,
-    formName: formData,
+    formName:
+      "APPOINTMENT OF VETERANS SERVICE ORGANIZATION AS CLAIMANT'S REPRESENTATIVE",
     formNumber: getFormNumber(),
     representativeType,
     representativeName,
