@@ -3,10 +3,12 @@ import { isReactComponent } from '~/platform/utilities/ui';
 
 let arrayMap = {};
 let nextClass = '';
+let reviewEntryKeys = {};
 
 function resetDefaults() {
   arrayMap = {};
   nextClass = '';
+  reviewEntryKeys = {};
 }
 
 export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
@@ -37,6 +39,23 @@ const addMarginIfNewIndex = (arrayKey, index) => {
   arrayMap[arrayKey].add(index);
 };
 
+const generateReviewEntryKey = (key, label, data) => {
+  let keyString = `review-${key}-${label}-${data}`
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+
+  // increment if we find a duplicate
+  if (!Object.prototype.hasOwnProperty.call(reviewEntryKeys, keyString)) {
+    reviewEntryKeys[keyString] = 0;
+  } else {
+    reviewEntryKeys[keyString] += 1;
+    keyString += `-${reviewEntryKeys[keyString]}`;
+  }
+
+  return keyString;
+};
+
 const reviewEntry = (description, key, uiSchema, label, data) => {
   if (!data) return null;
 
@@ -45,10 +64,7 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
     ? uiSchema['ui:description']
     : null;
 
-  const keyString = `review-${key}-${label}-${data}`
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9-]/g, '');
+  const keyString = generateReviewEntryKey(key, label, data);
 
   const className = nextClass;
   nextClass = '';
@@ -117,7 +133,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
 
   if (
     uiSchema['ui:widget'] === 'date' ||
-    ['VaMemorableDate', 'VaDate'].includes(
+    ['VaMemorableDateField', 'VaDateField'].includes(
       uiSchema['ui:webComponentField']?.name,
     )
   ) {
@@ -126,7 +142,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
       {
         year: 'numeric',
         month: 'long',
-        day: 'numeric',
+        ...(!uiSchema?.['ui:options']?.monthYearOnly && { day: 'numeric' }),
       },
     );
     return reviewEntry(description, key, uiSchema, label, confirmData);
