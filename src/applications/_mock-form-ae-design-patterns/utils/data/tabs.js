@@ -3,20 +3,23 @@ export const tabsConfig = {
     {
       name: 'Green Task',
       path: '/1/task-green',
-      baseClass: 'vads-u-background-color--green vads-u-color--white',
       description: '10-10EZR Form - Green',
+      bgColor: '--vads-color-success-dark',
+      textColor: '--vads-color-white',
     },
     {
       name: 'Yellow Task',
       path: '/1/task-yellow',
-      baseClass: 'vads-u-background-color--gold-light vads-u-color--black',
       description: '10-10EZR Form - Yellow',
+      bgColor: '--vads-color-warning',
+      textColor: '--vads-color-black',
     },
     {
       name: 'Purple Task',
       path: '/1/task-purple',
-      baseClass: 'vads-u-background-color--hub-records vads-u-color--white',
       description: '10182 Form - Purple',
+      bgColor: '--vads-color-link-visited',
+      textColor: '--vads-color-white',
     },
   ],
   pattern2: [
