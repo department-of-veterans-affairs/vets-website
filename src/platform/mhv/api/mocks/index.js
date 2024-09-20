@@ -90,7 +90,8 @@ const responses = {
   'POST /my_health/v1/messaging/folders': folders.newFolder,
   'PUT /my_health/v1/messaging/folders/:index': folders.renameFolder,
   'DELETE /my_health/v1/messaging/folders/:index': folders.deleteFolder,
-  'GET /my_health/v1/messaging/allrecipients': recipients.recipients,
+  'GET /my_health/v1/messaging/allrecipients':
+    recipients.recipientsPlainLanguage,
   'GET /my_health/v1/messaging/folders/:index/messages':
     threads.paginatedThreads,
   'GET /my_health/v1/messaging/folders/:index/threads':

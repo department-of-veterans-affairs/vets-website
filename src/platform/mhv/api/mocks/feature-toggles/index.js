@@ -19,7 +19,7 @@ const generateFeatureToggles = (toggles = {}) => {
     mhvMedicalRecordsDisplayVitals = true,
     mhvMedicalRecordsToVaGovRelease = true,
     mhvSecureMessagingEditContactList = true,
-    mhvSecureMessagingTriageGroupPlainLanguage = false,
+    mhvSecureMessagingTriageGroupPlainLanguage = true,
   } = toggles;
 
   return {
