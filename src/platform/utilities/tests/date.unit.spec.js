@@ -3,7 +3,6 @@ import moment from 'moment';
 import { isValid, getDate, getMonth, getYear } from 'date-fns';
 
 import {
-  dateToMoment,
   timeFromNow,
   formatDateShort,
   formatDateParsedZoneShort,
@@ -15,42 +14,6 @@ import {
 } from '../date';
 
 describe('Helpers unit tests', () => {
-  describe('dateToMoment', () => {
-    it('should convert date to moment', () => {
-      const date = dateToMoment({
-        month: {
-          value: 2,
-        },
-        day: {
-          value: 3,
-        },
-        year: {
-          value: '1901',
-        },
-      });
-
-      expect(date.isValid()).to.be.true;
-      expect(date.year()).to.equal(1901);
-      expect(date.month()).to.equal(1);
-      expect(date.date()).to.equal(3);
-    });
-    it('should convert partial date to moment', () => {
-      const date = dateToMoment({
-        month: {
-          value: 2,
-        },
-        year: {
-          value: '1901',
-        },
-      });
-
-      expect(date.isValid()).to.be.true;
-      expect(date.year()).to.equal(1901);
-      expect(date.month()).to.equal(1);
-      expect(date.date()).to.equal(1);
-    });
-  });
-
   describe('dateFieldToDate', () => {
     it('should convert date field to date', () => {
       const date = dateFieldToDate({

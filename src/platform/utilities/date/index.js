@@ -17,14 +17,6 @@ export function dateFieldToDate(dateField) {
   return parse(dateString, 'yyyy-MM-dd', new Date());
 }
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day ? dateField.day.value : null,
-  });
-}
-
 export function formatDateLong(date) {
   return moment(date).format('MMMM D, YYYY');
 }
