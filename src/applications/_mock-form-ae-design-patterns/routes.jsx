@@ -4,10 +4,10 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
-import blueTaskConfig from './patterns/pattern2/TaskBlue/form/config/form';
+import blueTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import App from './App';
-import CoeApp from './patterns/pattern2/TaskBlue/form/containers/App';
+import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
 // import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
 import { PatternConfigProvider } from './shared/context/PatternConfigContext';
@@ -21,7 +21,8 @@ const pattern1Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-green/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-green/introduction?loggedIn=false'),
     },
     childRoutes: createRoutesWithSaveInProgress(greenFormConfig),
   },
@@ -33,7 +34,8 @@ const pattern1Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-yellow/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-yellow/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
   },
@@ -45,7 +47,8 @@ const pattern1Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/task-purple/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/task-purple/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
@@ -57,7 +60,8 @@ const pattern1Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/1/ezr/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/1/ezr/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(ezrFormConfig),
   },
@@ -65,28 +69,17 @@ const pattern1Routes = [
 
 const pattern2Routes = [
   {
-    path: '/2/task-blue',
+    path: '/2/task-red',
     component: props => (
       <PatternConfigProvider {...props}>
         <CoeApp {...props} />
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-blue/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-red/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(blueTaskConfig),
-  },
-  {
-    path: '/2/task-red',
-    component: props => (
-      <PatternConfigProvider {...props}>
-        <App {...props} />
-      </PatternConfigProvider>
-    ),
-    indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-red/introduction'),
-    },
-    childRoutes: createRoutesWithSaveInProgress(yellowFormConfig),
   },
   {
     path: '/2/task-pink',
@@ -96,7 +89,8 @@ const pattern2Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-pink/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-pink/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
@@ -108,7 +102,8 @@ const pattern2Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-orange/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-orange/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },
@@ -120,7 +115,8 @@ const pattern2Routes = [
       </PatternConfigProvider>
     ),
     indexRoute: {
-      onEnter: (nextState, replace) => replace('/2/task-gray/introduction'),
+      onEnter: (nextState, replace) =>
+        replace('/2/task-gray/introduction?loggedIn=true'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
   },

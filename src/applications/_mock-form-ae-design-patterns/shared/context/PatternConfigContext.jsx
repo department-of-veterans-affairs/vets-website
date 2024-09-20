@@ -5,7 +5,7 @@ import greenFormConfig from '../../patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from '../../patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from '../../patterns/pattern1/TaskPurple/config/form';
 import ezrFormConfig from '../../patterns/pattern1/ezr/config/form';
-import blueFormConfig from '../../patterns/pattern2/TaskBlue/form/config/form';
+import redFormConfig from '../../patterns/pattern2/TaskRed/form/config/form';
 import fallbackForm from '../config/fallbackForm';
 import { TaskTabs } from '../components/TaskTabs';
 import { Portal } from '../components/Portal';
@@ -28,8 +28,8 @@ export const getFormConfig = location => {
     return ezrFormConfig;
   }
 
-  if (location.pathname.includes('/2/task-blue')) {
-    return blueFormConfig;
+  if (location.pathname.includes('/2/task-red')) {
+    return redFormConfig;
   }
 
   return fallbackForm;
