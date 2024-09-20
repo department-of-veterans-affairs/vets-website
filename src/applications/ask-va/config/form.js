@@ -233,10 +233,10 @@ const formConfig = {
       title: CHAPTER_3.CHAPTER_TITLE,
       hideFormNavProgress: true,
       depends: formData =>
-        formData.whoIsYourQuestionAbout === 'Someone else' &&
         formData.relationshipToVeteran ===
           "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-        formData.selectCategory === CategoryEducation,
+        formData.selectCategory === CategoryEducation &&
+        formData.selectTopic !== 'VEAP (Ch 32)',
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -258,7 +258,9 @@ const formConfig = {
       hideFormNavProgress: true,
       depends: formData =>
         formData.whoIsYourQuestionAbout === "It's a general question" ||
-        formData.selectCategory === CategoryEducation,
+        (formData.selectCategory === CategoryEducation &&
+          formData.selectTopic === 'VEAP (Ch 32)'),
+      // we will need the VR&E option added to topics
       pages: { ...generalQuestionPages },
     },
     yourQuestionPart2: {
