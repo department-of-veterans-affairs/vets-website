@@ -23,7 +23,7 @@ function recordSuggestedAction(
     recordEvent({
       event: 'chatbot-button-click',
       clickText: cardActionValue,
-      topic: eventSkillValue,
+      skill: eventSkillValue || undefined,
     });
   }
 }
@@ -51,7 +51,7 @@ export const cardActionMiddleware = () => next => card => {
 
   const cardActionValue = cardAction.value;
   const cardTargetClassList = card?.target?.classList;
-  const eventSkillValue = getEventSkillValue() ?? undefined;
+  const eventSkillValue = getEventSkillValue();
 
   recordSuggestedAction(cardTargetClassList, cardActionValue, eventSkillValue);
   recordDecisionLetterDownload(cardAction);

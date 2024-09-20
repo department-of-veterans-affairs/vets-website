@@ -3,8 +3,8 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
+  getEventSkillValue,
   getInAuthExp,
-  getIsRxSkill,
   getIsTrackingUtterances,
   getRecentUtterances,
   setEventSkillValue,
@@ -61,6 +61,7 @@ function getEventValue(action) {
 }
 
 function isEventRxSkill(eventValue) {
+  // TODO: Change 'RX_Skill' to 'va_vha_healthassistant_bot' when proxybot changes are deployed
   return eventValue === 'RX_Skill';
 }
 
@@ -83,7 +84,7 @@ function handleSkillEntryEvent(action) {
     recordEvent({
       event: 'api_call',
       'api-name': apiName,
-      topic: eventValue,
+      skill: eventValue,
       'api-status': 'successful',
     });
   }
@@ -186,16 +187,16 @@ export const processIncomingActivity = ({
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
-  const isRxSkill = getIsRxSkill();
+  const eventSkillValue = getEventSkillValue();
   if (action.payload.dictateState === 3) {
     recordEvent({
       event: 'chatbot-microphone-enable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      skill: eventSkillValue || undefined,
     });
   } else if (action.payload.dictateState === 0) {
     recordEvent({
       event: 'chatbot-microphone-disable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      skill: eventSkillValue || undefined,
     });
   }
 };

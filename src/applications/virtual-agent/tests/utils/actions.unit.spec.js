@@ -389,7 +389,7 @@ describe('actions', () => {
         recordEventStub.calledWithExactly({
           event: 'api_call',
           'api-name': 'Chatbot Skill Entry - some_skill_value',
-          topic: 'some_skill_value',
+          skill: 'some_skill_value',
           'api-status': 'successful',
         }),
       ).to.be.true;
@@ -663,7 +663,9 @@ describe('actions', () => {
       };
 
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
-      sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns(true);
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('prescriptions');
 
       processMicrophoneActivity({ action })();
 
@@ -671,7 +673,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-enable',
-          topic: 'prescriptions',
+          skill: 'prescriptions',
         }),
       ).to.be.true;
     });
@@ -691,7 +693,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-enable',
-          topic: undefined,
+          skill: undefined,
         }),
       ).to.be.true;
     });
@@ -703,7 +705,9 @@ describe('actions', () => {
       };
 
       const recordEventStub = sandbox.stub(RecordEventModule, 'default');
-      sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns(true);
+      sandbox
+        .stub(SessionStorageModule, 'getEventSkillValue')
+        .returns('prescriptions');
 
       processMicrophoneActivity({ action })();
 
@@ -711,7 +715,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-disable',
-          topic: 'prescriptions',
+          skill: 'prescriptions',
         }),
       ).to.be.true;
     });
@@ -731,7 +735,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-disable',
-          topic: undefined,
+          skill: undefined,
         }),
       ).to.be.true;
     });
