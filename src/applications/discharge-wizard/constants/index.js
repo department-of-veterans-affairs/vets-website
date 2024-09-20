@@ -157,7 +157,7 @@ export const ROUTES = Object.freeze({
   PRIOR_SERVICE: 'prior-service',
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
   REVIEW: 'review',
-  RESULT: 'result',
+  RESULTS: 'results',
   DD214: 'request-dd214-v2',
 });
 

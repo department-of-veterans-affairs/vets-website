@@ -93,6 +93,13 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
             <p>{determineVenueAddress(formResponses, true)}</p>
           </va-process-list-item>
         </va-process-list>
+        <va-button
+          back
+          class="vads-u-margin-top--3"
+          data-testid="duw-DD214-back"
+          onClick={() => router.push(ROUTES.RESULTS)}
+          uswds
+        />
       </div>
     </>
   );
