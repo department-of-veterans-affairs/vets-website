@@ -1,4 +1,6 @@
+import React from 'react';
 import format from 'date-fns-tz/format';
+import { capitalize } from 'lodash';
 import {
   titleUI,
   arrayBuilderItemFirstPageTitleUI,
@@ -16,16 +18,17 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+// import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+// import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+// import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   relationshipEnums,
   relationshipLabels,
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import { customLocationSchema } from '../../helpers';
+// import { customLocationSchema } from '../../helpers';
+import CustomLocation from '../../../components/CustomLocation';
 
 /** @type {ArrayBuilderOptions} */
 export const deceasedDependentOptions = {
@@ -41,10 +44,12 @@ export const deceasedDependentOptions = {
     !item?.dependentType ||
     !item?.dependentDeathLocation?.location?.city ||
     !item?.dependentDeathDate,
-  maxItems: 5,
+  maxItems: 7,
   text: {
     getItemName: item =>
-      `${item.fullName?.first || ''} ${item.fullName?.last || ''}`,
+      `${capitalize(item.fullName?.first) || ''} ${capitalize(
+        item.fullName?.last,
+      ) || ''}`,
     cardDescription: item => {
       const birthDate = item?.birthDate
         ? format(new Date(item.birthDate), 'MM/dd/yyyy')
@@ -128,7 +133,7 @@ export const deceasedDependentChildStatusPage = {
       const { first = '', last = '' } = fullName;
 
       return first && last
-        ? `Your relationship to ${first} ${last}`
+        ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
         : 'Your relationship to the deceased dependent';
     }),
     dependentType: {
@@ -155,21 +160,15 @@ export const deceasedDependentChildTypePage = {
       const { first = '', last = '' } = fullName;
 
       return first && last
-        ? `Your relationship to ${first} ${last}`
+        ? `Your relationship to ${capitalize(first)} ${capitalize(last)}`
         : 'Your relationship to the deceased dependent';
     }),
     childStatus: {
       ...checkboxGroupUI({
         title: 'What type of child?',
-        required: formData => {
-          return formData?.dependentType === 'child';
-        },
+        required: () => true,
         labels: childTypeLabels,
       }),
-      // ...(window.location.search.includes('add=true')
-      //   ? { 'ui:required': () => true }
-      //   : {}),
-      // 'ui:required': () => true,
     },
   },
   schema: {
@@ -187,7 +186,7 @@ export const deceasedDependentDateOfDeathPage = {
       const { first = '', last = '' } = fullName;
 
       return first && last
-        ? `When did ${first} ${last} die?`
+        ? `When did ${capitalize(first)} ${capitalize(last)} die?`
         : 'When did the dependent die?';
     }),
     dependentDeathDate: currentOrPastDateUI({
@@ -210,44 +209,50 @@ export const deceasedDependentLocationOfDeathPage = {
       const { first = '', last = '' } = fullName;
 
       return first && last
-        ? `Where did ${first} ${last} die?`
+        ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
         : 'Where did the dependent die?';
     }),
-    dependentDeathLocation: {
-      outsideUsa: {
-        'ui:title': 'This occurred outside the U.S.',
-        'ui:webComponentField': VaCheckboxField,
-      },
-      location: {
-        city: {
-          'ui:title': 'City',
-          'ui:required': () => true,
-          'ui:autocomplete': 'address-level2',
-          'ui:errorMessages': {
-            required: 'Enter the city where the dependent died',
-          },
-          'ui:webComponentField': VaTextInputField,
-        },
+    // dependentDeathLocation: {
+    //   outsideUsa: {
+    //     'ui:title': 'This occurred outside the U.S.',
+    //     'ui:webComponentField': VaCheckboxField,
+    //   },
+    //   location: {
+    //     city: {
+    //       'ui:title': 'City',
+    //       'ui:required': () => true,
+    //       'ui:autocomplete': 'address-level2',
+    //       'ui:errorMessages': {
+    //         required: 'Enter the city where the dependent died',
+    //       },
+    //       'ui:webComponentField': VaTextInputField,
+    //     },
 
-        state: {
-          'ui:title': 'State',
-          'ui:webComponentField': VaSelectField,
-          'ui:required': itemData =>
-            !itemData?.dependentDeathLocation?.outsideUsa,
-          'ui:errorMessages': {
-            required: 'Select a state',
-          },
-          'ui:options': {
-            hideIf: itemData => itemData?.dependentDeathLocation?.outsideUsa,
-          },
-        },
-      },
+    //     state: {
+    //       'ui:title': 'State',
+    //       'ui:webComponentField': VaSelectField,
+    //       'ui:required': itemData =>
+    //         !itemData?.dependentDeathLocation?.outsideUsa,
+    //       'ui:errorMessages': {
+    //         required: 'Select a state',
+    //       },
+    //     },
+    //   },
+    // },
+    dependentDeathLocation: {
+      'ui:description': (
+        <CustomLocation checkboxLabel="This occurred outside the U.S." />
+      ),
     },
   },
   schema: {
     type: 'object',
     properties: {
-      dependentDeathLocation: customLocationSchema,
+      // dependentDeathLocation: customLocationSchema,
+      dependentDeathLocation: {
+        type: 'object',
+        properties: {},
+      },
     },
   },
 };
