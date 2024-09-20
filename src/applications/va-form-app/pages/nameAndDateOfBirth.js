@@ -8,6 +8,8 @@ import {
 
 /** @type {PageSchema} */
 export default {
+  path: 'name-and-date-of-birth',
+  title: 'Name and date of birth',
   uiSchema: {
     ...titleUI('Name and date of birth'),
     fullName: fullNameNoSuffixUI(),

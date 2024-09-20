@@ -1,5 +1,7 @@
 # va-form-app Example
 
+[[va-platform-docs](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-getting-started-with-the-forms-li)]
+
 ```bash
 $ yarn new:app
 yarn run v1.19.1
@@ -101,3 +103,145 @@ Browserslist: caniuse-lite is outdated. Please run:
   Why you should do it regularly: https://github.com/browserslist/browserslist#browsers-data-updating
 Done in 191.53s.
 ```
+
+## Start it
+
+```bash
+$ yarn watch --env entry=static-pages,auth,va-form-app
+$ yarn mock-api --responses src/applications/va-form-app/tests/fixtures/mocks/local-mock-responses.js
+$ open http://localhost:3001/va-form-app
+```
+
+## Form structure and flow
+
+[[va-form](https://design.va.gov/templates/forms/)]
+
+A form within the VA platform consists of the following pages:
+
+```
+Landing Page -> Introduction -> Page #1 .. #n -> Review (then submit form) -> Confirmation
+```
+
+## formConfig
+
+`config/form.js` defines details for submitting the form.
+
+```js
+const formConfig = {
+  rootUrl: manifest.rootUrl,
+  urlPrefix: '/',
+  submitUrl: `${environment.API_URL}/v0/va-form-app`,
+  formId: VA_FORM_IDS.FORM_XX0011,
+};
+```
+
+`config/form.js` defines the content displayed within the form pages.
+
+```js
+const formConfig = {
+  title: TITLE,
+  subTitle: SUBTITLE,
+  getHelp,
+  footerContent,
+}
+```
+
+`config/form.js` defines the components to be displayed for each page of the form, and the form schema.
+
+```js
+import IntroductionPage from '../containers/IntroductionPage';
+import ConfirmationPage from '../containers/ConfirmationPage';
+import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
+
+const formConfig = {
+  introduction: IntroductionPage,
+  confirmation: ConfirmationPage,
+  chapters: {
+    firstChapter: {
+      title: 'Your personal information',
+      pages: {
+        nameAndDateOfBirth: {
+          path: 'name-and-date-of-birth',
+          title: 'Name and date of birth',
+          uiSchema: nameAndDateOfBirth.uiSchema,
+          schema: nameAndDateOfBirth.schema,
+        },
+      }
+    }
+  }
+};
+```
+
+Idea: move `path` and `title` properties/values to default export of `pages/[pageName].js`
+
+Question: How does grouping pages as a chapter change the form flow?
+
+## schema and uiSchema
+
+Add chapters/pages to `formConfig`, add associated page `uiSchema` and form `schema` to `pages/[pageName].js`.
+
+```js
+// src/applications/va-form-app/pages/nameAndDateOfBirth.js
+
+import {
+  dateOfBirthSchema,
+  dateOfBirthUI,
+  fullNameNoSuffixSchema,
+  fullNameNoSuffixUI,
+  titleUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
+
+/** @type {PageSchema} */
+export default {
+  path: 'name-and-date-of-birth',
+  title: 'Name and date of birth',
+  uiSchema: {
+    ...titleUI('Name and date of birth'),
+    fullName: fullNameNoSuffixUI(),
+    dateOfBirth: dateOfBirthUI(),
+  },
+  schema: {
+    type: 'object',
+    properties: {
+      fullName: fullNameNoSuffixSchema,
+      dateOfBirth: dateOfBirthSchema,
+    },
+    required: ['fullName', 'dateOfBirth'],
+  },
+};
+```
+
+[[web-component-patterns](https://depo-platform-documentation.scrollhelp.site/developer-docs/how-to-use-web-component-patterns)]
+
+
+```bash
+$ cd src/platform/forms-system/src/js/web-component-patterns
+$ tree
+.
+├── addressPattern.jsx
+├── arnPattern.jsx
+├── arrayBuilderPatterns.jsx
+├── bankPattern.jsx
+├── checkboxGroupPattern.jsx
+├── datePatterns.jsx
+├── emailPattern.jsx
+├── fileInputPattern.jsx
+├── fullNamePattern.js
+├── index.js
+├── numberPattern.jsx
+├── phonePatterns.jsx
+├── radioPattern.jsx
+├── relationshipToVeteranPattern.jsx
+├── selectPattern.jsx
+├── ssnPattern.jsx
+├── textPatterns.jsx
+├── titlePattern.js
+└── yesNoPattern.jsx
+```
+
+## TODO
+
+Explore
+
+- [Save in progress (sip)](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-set-up-save-in-progress-si)
+- [Form prefill](https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-how-to-work-with-pre-fill)

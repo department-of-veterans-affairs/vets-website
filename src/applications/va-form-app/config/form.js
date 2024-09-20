@@ -1,3 +1,4 @@
+import environment from '~/platform/utilities/environment';
 import footerContent from 'platform/forms/components/FormFooter';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { TITLE, SUBTITLE } from '../constants';
@@ -8,12 +9,12 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import nameAndDateOfBirth from '../pages/nameAndDateOfBirth';
 
 /** @type {FormConfig} */
+// https://depo-platform-documentation.scrollhelp.site/developer-docs/va-forms-library-form-config-options
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
-  submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  submitUrl: `${environment.API_URL}/v0/va-form-app`,
+  // submit: () => Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'va-form-ex-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -42,12 +43,7 @@ const formConfig = {
     personalInformationChapter: {
       title: 'Your personal information',
       pages: {
-        nameAndDateOfBirth: {
-          path: 'name-and-date-of-birth',
-          title: 'Name and date of birth',
-          uiSchema: nameAndDateOfBirth.uiSchema,
-          schema: nameAndDateOfBirth.schema,
-        },
+        nameAndDateOfBirth,
       },
     },
   },
