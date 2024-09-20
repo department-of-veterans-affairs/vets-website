@@ -12,6 +12,7 @@ import { teardownProfileSession } from 'platform/user/profile/utilities';
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
+import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import { useLocalStorage } from './hooks/useLocalStorage';
 import { TaskTabs } from './shared/components/TaskTabs';
 import { Portal } from './shared/components/Portal';
@@ -29,6 +30,10 @@ export const getFormConfig = location => {
 
   if (location.pathname.includes('task-purple')) {
     return purpleFormConfig;
+  }
+
+  if (location.pathname.includes('ezr')) {
+    return ezrFormConfig;
   }
 
   return fallbackForm;

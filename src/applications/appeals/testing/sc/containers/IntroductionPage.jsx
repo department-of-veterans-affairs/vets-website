@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router';
 
 import { focusElement } from 'platform/utilities/ui';
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
@@ -44,10 +45,9 @@ const IntroductionPage = props => {
         may be an option for you.
       </p>
       {/* <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} /> */}
-      <va-link-action
-        href="/decision-reviews/test-sc/veteran-information"
-        text="Start your claim"
-      />
+      <Link to="/veteran-information" className="vads-c-action-link--green">
+        Start your claim
+      </Link>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
@@ -175,10 +175,9 @@ const IntroductionPage = props => {
       </va-process-list>
 
       <p className="vads-u-margin-top--4">
-        <va-link-action
-          href="/decision-reviews/test-sc/veteran-information"
-          text="Start your claim"
-        />
+        <Link to="/veteran-information" className="vads-c-action-link--green">
+          Start your claim
+        </Link>
       </p>
       {/*
       <ShowAlertOrSip
