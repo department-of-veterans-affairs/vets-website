@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import { LocationType, OperatingStatus } from '../../../constants';
 import LocationAddress from './LocationAddress';
-import { isVADomain } from '../../../utils/helpers';
+import LocationDistance from './LocationDistance';
 import LocationOperationStatus from './LocationOperationStatus';
+import { isVADomain } from '../../../utils/helpers';
+import { LocationType, OperatingStatus } from '../../../constants';
 
 const LocationInfoBlock = ({ location }) => {
   const { name, website, operatingStatus } = location.attributes;
@@ -13,10 +14,9 @@ const LocationInfoBlock = ({ location }) => {
 
   return (
     <div>
-      {distance &&
-        location.resultItem && (
-          <p className="i-pin-card-map">{location.markerText}</p>
-        )}
+      {location.resultItem && (
+        <p className="i-pin-card-map">{location.markerText}</p>
+      )}
       {isProvider ? (
         <>
           <h2 className="vads-u-margin-top--0">{name}</h2>
@@ -27,26 +27,17 @@ const LocationInfoBlock = ({ location }) => {
       ) : (
         <>
           {isVADomain(website) ? (
-            <>
-              <h3 className="vads-u-margin-y--0">
-                <va-link href={website} text={name} />
-              </h3>
-              <p className="vads-u-margin-left--1">
-                <strong>{distance.toFixed(1)} miles</strong>
-              </p>
-            </>
+            <h3 className="vads-u-margin-y--0">
+              <va-link href={website} text={name} />
+            </h3>
           ) : (
-            <>
-              <h3 className="vads-u-margin-y--0">
-                <Link to={`facility/${location.id}`}>{name}</Link>
-              </h3>
-              <p className="vads-u-margin-left--1">
-                <strong>{distance.toFixed(1)} miles</strong>
-              </p>
-            </>
+            <h3 className="vads-u-margin-y--0">
+              <Link to={`facility/${location.id}`}>{name}</Link>
+            </h3>
           )}
         </>
       )}
+      <LocationDistance distance={distance} />
       {operatingStatus &&
         operatingStatus.code !== OperatingStatus.NORMAL && (
           <LocationOperationStatus operatingStatus={operatingStatus} />
