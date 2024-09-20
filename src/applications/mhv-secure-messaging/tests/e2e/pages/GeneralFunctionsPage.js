@@ -58,6 +58,14 @@ class GeneralFunctionsPage {
       .replace(`AM`, `a.m.`)
       .replace(`PM`, `p.m.`);
   };
+
+  verifyUrl = endpoint => {
+    cy.url().should(`include`, endpoint);
+  };
+
+  verifyPageHeader = text => {
+    cy.get(`h1`).should(`have.text`, text);
+  };
 }
 
 export default new GeneralFunctionsPage();

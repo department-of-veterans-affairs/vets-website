@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   VaRadio,
@@ -11,11 +11,8 @@ const FacilityList = props => {
   const reviewMode = props?.formContext?.reviewMode || false;
   const submitted = props?.formContext?.submitted || false;
 
-  const [dirty, setDirty] = useState(false);
-
   const handleChange = e => {
     onChange(e.detail.value);
-    setDirty(true);
   };
 
   const showError = () => {
@@ -23,8 +20,8 @@ const FacilityList = props => {
       return error;
     }
 
-    return (submitted || dirty) && !value
-      ? content['validation-facialities--default-required']
+    return submitted && !value
+      ? content['validation-facilities--default-required']
       : null;
   };
 

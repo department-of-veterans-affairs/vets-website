@@ -23,8 +23,8 @@ const WiderThanMobileOfficialGovtWebsite = () => {
             <button
               data-testid="official-govt-website-toggle-wider-than-mobile"
               className="usa-accordion-button usa-banner-button"
-              aria-expanded={isExpanded}
-              aria-controls="gov-banner"
+              aria-expanded={isExpanded ? 'true' : 'false'}
+              aria-controls="gov-banner-content"
               onClick={toggleExpansion}
             >
               <span
@@ -37,9 +37,10 @@ const WiderThanMobileOfficialGovtWebsite = () => {
           </div>
         </div>
         <div
+          id="gov-banner-content"
           data-testid="official-govt-website-content-wider-than-mobile"
           className="usa-banner-content usa-grid usa-accordion-content"
-          aria-hidden={!isExpanded}
+          aria-hidden={isExpanded ? 'false' : 'true'}
         >
           <div className="usa-banner-guidance-gov usa-width-one-half">
             <img

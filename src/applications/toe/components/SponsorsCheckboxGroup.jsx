@@ -22,7 +22,6 @@ function SponsorCheckboxGroup({
   formData,
   loadingMessage = 'Loading your sponsors...',
   setFormData,
-  showMebEnhancements08,
   sponsors,
 }) {
   const [dirty, setDirty] = useState(false);
@@ -51,7 +50,6 @@ function SponsorCheckboxGroup({
 
   const { anySelectedOptions, options } = mapSponsorsToCheckboxOptions(
     sponsors,
-    showMebEnhancements08,
   );
 
   return (
@@ -74,14 +72,13 @@ function SponsorCheckboxGroup({
 }
 
 SponsorCheckboxGroup.propTypes = {
+  setFormData: PropTypes.func.isRequired,
   errorMessage: PropTypes.string,
   fetchedSponsorsComplete: PropTypes.bool,
   firstSponsor: PropTypes.object,
   formContext: PropTypes.object,
   formData: PropTypes.object,
   loadingMessage: PropTypes.string,
-  setFormData: PropTypes.func.isRequired,
-  showMebEnhancements08: PropTypes.bool.isRequired,
   sponsors: PropTypes.object,
 };
 SponsorCheckboxGroup.defaultProps = {
