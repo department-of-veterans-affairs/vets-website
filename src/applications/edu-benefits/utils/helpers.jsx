@@ -1,8 +1,7 @@
 import _ from 'lodash';
-import moment from 'moment';
 
 import { dateFieldToDate } from 'platform/utilities/date';
-import { isBefore, isValid } from 'date-fns';
+import { format, isBefore, isValid, parse } from 'date-fns';
 
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
@@ -40,12 +39,18 @@ export function formatYear(val) {
     return 'XXXX';
   }
 
-  const yearDate = moment(val, 'YYYY');
-  if (!yearDate.isValid()) {
+  // Strip non-digit characters
+  const cleanedVal = val.replace(/\D/g, '');
+
+  // Handle 2 digit years
+  const parseFormat = cleanedVal.length === 2 ? 'yy' : 'yyyy';
+
+  const yearDate = parse(cleanedVal, parseFormat, new Date());
+  if (!isValid(yearDate)) {
     return 'XXXX';
   }
 
-  return yearDate.format('YYYY');
+  return format(yearDate, 'yyyy');
 }
 
 export function formatPartialDate(field) {
