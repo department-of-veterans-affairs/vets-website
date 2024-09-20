@@ -9,6 +9,7 @@ import {
 } from '../../helpers';
 import { SHORT_NAME_MAP } from '../../constants/question-data-map';
 import { pageSetup } from '../../utilities/page-setup';
+import { ROUTES } from '../../constants';
 
 const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
   const H1 =
@@ -23,7 +24,7 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
 
   useEffect(() => {
     if (!viewedIntroPage) {
-      router.push('/');
+      router.push(ROUTES.HOME);
     }
   });
 
@@ -32,9 +33,9 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
     formResponses[SHORT_NAME_MAP.SERVICE_BRANCH],
   );
   return (
-    <div>
+    <>
       <h1>{H1}</h1>
-      <div className="">
+      <div>
         <div className="va-introtext">
           <p>
             To receive a second DD214 reflecting <strong>only</strong> your
@@ -93,7 +94,7 @@ const RequestDD214v2 = ({ router, formResponses, viewedIntroPage }) => {
           </va-process-list-item>
         </va-process-list>
       </div>
-    </div>
+    </>
   );
 };
 
