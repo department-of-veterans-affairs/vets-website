@@ -1,7 +1,11 @@
 import { expect } from 'chai';
 
 import { makeField } from 'platform/forms/fields';
-import { formatPartialDate, hasServiceBefore1978 } from '../../utils/helpers';
+import {
+  formatPartialDate,
+  formatYear,
+  hasServiceBefore1978,
+} from '../../utils/helpers';
 
 const generateDataWithTourOfDuty = (
   fromYear,
@@ -140,6 +144,26 @@ describe('edu helpers:', () => {
       expect(
         hasServiceBefore1978(generateDataWithTourOfDuty('2000', '12', '31')),
       ).to.be.false;
+    });
+  });
+
+  describe('formatYear', () => {
+    it('returns "XXXX" for empty or null input', () => {
+      expect(formatYear('')).to.equal('XXXX');
+      expect(formatYear(null)).to.equal('XXXX');
+      expect(formatYear(undefined)).to.equal('XXXX');
+    });
+
+    it('returns "XXXX" for invalid year input', () => {
+      expect(formatYear('abcd')).to.equal('XXXX');
+      expect(formatYear('----')).to.equal('XXXX');
+    });
+
+    it('returns the formatted year for valid input', () => {
+      expect(formatYear('123')).to.equal('0123');
+      expect(formatYear('2021')).to.equal('2021');
+      expect(formatYear('1999')).to.equal('1999');
+      expect(formatYear('0001')).to.equal('0001');
     });
   });
 });

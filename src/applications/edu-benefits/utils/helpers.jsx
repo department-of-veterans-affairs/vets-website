@@ -35,7 +35,7 @@ function formatDayMonth(val) {
   return val.toString();
 }
 
-function formatYear(val) {
+export function formatYear(val) {
   if (!val || !val.length) {
     return 'XXXX';
   }
