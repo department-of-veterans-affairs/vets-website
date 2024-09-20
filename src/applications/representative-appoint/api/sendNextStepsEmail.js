@@ -3,7 +3,7 @@ import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veteran
 import { NEXT_STEPS_EMAIL_API } from '../constants/api';
 import manifest from '../manifest.json';
 
-export const sendNextStepsEmail = async body => {
+export default async function sendNextStepsEmail(body) {
   const apiSettings = {
     mode: 'cors',
     method: 'POST',
@@ -35,4 +35,4 @@ export const sendNextStepsEmail = async body => {
       })
       .then(data => resolve(data), error => reject(error));
   });
-};
+}
