@@ -1,9 +1,11 @@
 import React from 'react';
+import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
+import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
 
 const yourName = (
   <h3 className="vads-u-margin-top--neg2p5 full-name">Your name</h3>
 );
-export const uiSchema = {
+const uiSchema = {
   veteranFullName: {
     'ui:title': yourName,
     first: {
@@ -28,23 +30,19 @@ export const uiSchema = {
     suffix: {
       'ui:options': {
         classNames: 'hidden',
+        hideOnReviewIfFalse: true,
       },
     },
   },
 };
-export const schema = {
-  type: 'object',
-  required: ['veteranFullName'],
-  properties: {
-    veteranFullName: {
-      type: 'object',
-      required: ['first', 'last'],
-      properties: {
-        first: { type: 'string' },
-        middle: { type: 'string' },
-        last: { type: 'string' },
-        suffix: { type: 'string' },
-      },
-    },
-  },
+const applicantInformationField = () => {
+  return {
+    ...createApplicantInformationPage(fullSchema10282, {
+      isVeteran: true,
+      fields: ['veteranFullName'],
+      required: ['veteranFullName'],
+    }),
+    uiSchema,
+  };
 };
+export { uiSchema, applicantInformationField };

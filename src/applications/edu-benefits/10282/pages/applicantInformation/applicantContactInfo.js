@@ -5,24 +5,24 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 
 const { usaPhone, email } = fullSchema10282.definitions;
 
-const uiTitle = <h3> Phone and Email Address</h3>;
+const uiTitle = <h3 className="vads-u-margin--0"> Phone and Email Address</h3>;
 export const uiSchema = {
-  'ui:title': uiTitle,
   contactInfo: {
+    'ui:title': uiTitle,
     email: {
-      'ui:title': 'Email address?',
+      'ui:title': 'Email address',
       'ui:webComponentField': VaTextInputField,
     },
     mobilePhone: {
-      'ui:title': 'Email address?',
       ...phoneUI('Mobile phone number'),
+      'ui:webComponentField': VaTextInputField,
       'ui:options': {
         classNames: 'vads-u-margin-top--4',
       },
     },
     homePhone: {
-      'ui:title': 'Home phone number',
       ...phoneUI('Home phone number'),
+      'ui:webComponentField': VaTextInputField,
     },
   },
 };

@@ -9,7 +9,10 @@ import {
   applicantInformationCountry,
   veteranDesc,
   applicantContactInfo,
+  applicantState,
+  genderRaceQuestion,
 } from '../pages';
+// import { applicantInformationField } from '../pages/applicantInformation/applicantInName';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
 
@@ -51,29 +54,38 @@ const formConfig = {
     personalInformation: {
       title: 'Your personal information',
       pages: {
-        applicantName: {
-          path: 'applicant-information',
-          title: 'Applicant Information',
-          uiSchema: applicantInformationName.uiSchema,
-          schema: applicantInformationName.schema,
-        },
+        applicantName: applicantInformationName.applicantInformationField(),
         veteranDesc: {
+          title: 'Your personal information',
           path: 'applicant-information-1',
-          title: 'Applicant Information',
           uiSchema: veteranDesc.uiSchema,
           schema: veteranDesc.schema,
         },
-        applicantCountry: {
-          title: 'Applicant Information',
+        contactInfo: {
+          title: 'Your personal information',
           path: 'applicant-information-2',
+          uiSchema: applicantContactInfo.uiSchema,
+          schema: applicantContactInfo.schema,
+        },
+        applicantCountry: {
+          title: 'Your personal information',
+          path: 'applicant-information-3',
           uiSchema: applicantInformationCountry.uiSchema,
           schema: applicantInformationCountry.schema,
         },
-        contactInfo: {
-          title: 'Applicant Information',
-          path: 'applicant-information-3',
-          uiSchema: applicantContactInfo.uiSchema,
-          schema: applicantContactInfo.schema,
+        applicantState: {
+          title: 'Your personal information',
+          path: 'applicant-information-4',
+          uiSchema: applicantState.uiSchema,
+          schema: applicantState.schema,
+          depends: formData => formData.country === 'United States',
+        },
+        genderRaceQuestion: {
+          ...genderRaceQuestion.genderRaceQuestionField(),
+          title: 'Your personal information',
+          path: 'applicant-information-5',
+
+          // depends: formData => formData.country === 'United States',
         },
       },
     },

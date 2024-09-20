@@ -14,10 +14,14 @@ const labels = {
 const uiTitle = (
   <h3 className="vads-u-margin--0">Which of these best describes you?</h3>
 );
+
 export const uiSchema = {
   veteranDesc: {
     'ui:title': uiTitle,
     'ui:widget': 'radio',
+    'ui:errorMessages': {
+      required: 'You must select one of the options',
+    },
     'ui:options': {
       labels,
     },
