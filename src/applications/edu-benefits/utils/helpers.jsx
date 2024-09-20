@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import moment from 'moment';
 
-import { dateToMoment } from 'platform/utilities/date';
+import { dateFieldToDate } from 'platform/utilities/date';
+import { isBefore, isValid } from 'date-fns';
 
 export function getLabel(options, value) {
   const matched = _.find(options, option => option.value === value);
@@ -84,8 +85,8 @@ export function showSomeoneElseServiceQuestion(claimType) {
 
 export function hasServiceBefore1978(data) {
   return data.toursOfDuty.some(tour => {
-    const fromDate = dateToMoment(tour.dateRange.from);
-    return fromDate.isValid() && fromDate.isBefore('1978-01-02');
+    const fromDate = dateFieldToDate(tour.dateRange.from);
+    return isValid(fromDate) && isBefore(fromDate, new Date('1978-01-02'));
   });
 }
 
