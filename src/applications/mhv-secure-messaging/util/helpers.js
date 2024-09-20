@@ -344,6 +344,7 @@ export const formatRecipient = recipient => {
     status: recipient.attributes.blockedStatus
       ? RecipientStatus.BLOCKED
       : RecipientStatus.ALLOWED,
+    ...recipient.attributes,
   };
 };
 
