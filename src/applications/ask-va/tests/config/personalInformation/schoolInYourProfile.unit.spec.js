@@ -9,12 +9,12 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import formConfig from '../../../config/form';
 import { getData } from '../../fixtures/data/mock-form-data';
-import { useThisSchoolOptions } from '../../../constants';
+import { schoolInYourProfileOptions } from '../../../constants';
 
 const {
   schema,
   uiSchema,
-} = formConfig.chapters.aboutSomeoneElseRelationshipConnectedThroughWorkEducation.pages.useThisSchool_aboutsomeoneelserelationshipconnectedthroughworkeducation;
+} = formConfig.chapters.aboutSomeoneElseRelationshipConnectedThroughWorkEducation.pages.schoolInYourProfile_aboutsomeoneelserelationshipconnectedthroughworkeducation;
 
 describe('useThisSchoolPage', () => {
   it('should render', () => {
@@ -32,7 +32,7 @@ describe('useThisSchoolPage', () => {
     );
 
     const radioLabels = $$('.form-radio-buttons', container);
-    const radioLabelList = Object.values(useThisSchoolOptions);
+    const radioLabelList = Object.values(schoolInYourProfileOptions);
 
     expect($('h3', container).textContent).to.eq('Your school facility');
 
