@@ -38,6 +38,7 @@ describe('CG <FacilitySearch>', () => {
   const onChange = sinon.spy();
   const goBack = sinon.spy();
   const goForward = sinon.spy();
+  const goToPath = sinon.spy();
   const dispatch = sinon.spy();
 
   const getData = ({ reviewMode = false, submitted = false, data = {} }) => ({
@@ -47,6 +48,7 @@ describe('CG <FacilitySearch>', () => {
       data,
       goBack,
       goForward,
+      goToPath,
     },
     mockStore: {
       getState: () => ({
@@ -85,6 +87,7 @@ describe('CG <FacilitySearch>', () => {
     goBack.reset();
     goForward.reset();
     dispatch.reset();
+    goToPath.reset();
   });
 
   context('when the component renders on the form page', () => {
@@ -581,6 +584,53 @@ describe('CG <FacilitySearch>', () => {
           'caregiver-facilities-search-input-error',
         );
         expect(getByText('(*Required)')).to.exist;
+      });
+    });
+
+    context('review mode', () => {
+      beforeEach(() => {
+        global.window.location = { search: '?review=true' };
+      });
+
+      it('calls goToPath to review page on back click', () => {
+        const { props, mockStore } = getData({});
+        const { selectors } = subject({ props, mockStore });
+        userEvent.click(selectors().formNavButtons.back);
+        expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+      });
+
+      context('goForward', () => {
+        it('calls goToPath callback to review page on forward click when selected facility has caregiver support', () => {
+          const { props, mockStore } = getData({
+            data: {
+              'view:plannedClinic': {
+                caregiverSupport: { id: 'my id' },
+                veteranSelected: { id: 'my id' },
+              },
+            },
+          });
+          const { selectors } = subject({ props, mockStore });
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(goToPath.calledWith('/review-and-submit')).to.be.true;
+        });
+
+        it('calls goToPath callback to facility confirmation on forward click when selected facility does not have caregiver support', () => {
+          const { props, mockStore } = getData({
+            data: {
+              'view:plannedClinic': {
+                caregiverSupport: { id: 'my id' },
+                veteranSelected: { id: 'other id' },
+              },
+            },
+          });
+          const { selectors } = subject({ props, mockStore });
+          userEvent.click(selectors().formNavButtons.forward);
+          expect(
+            goToPath.calledWith(
+              '/veteran-information/va-medical-center/confirm?review=true',
+            ),
+          ).to.be.true;
+        });
       });
     });
   });

@@ -7,23 +7,23 @@ import { render } from '@testing-library/react';
 import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
-
+import formConfig from '../../../config/form';
 import { getData } from '../../fixtures/data/mock-form-data';
+import { useThisSchoolOptions } from '../../../constants';
 
-// const {
-//   schema,
-//   uiSchema,
-// } = formConfig.chapters.personalInformation.pages.useThisSchool_aboutmyselfrelationshipveteran;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.aboutSomeoneElseRelationshipConnectedThroughWorkEducation.pages.useThisSchool_aboutsomeoneelserelationshipconnectedthroughworkeducation;
 
 describe('useThisSchoolPage', () => {
-  // Skipping since we are not currently using this in form yet
-  it.skip('should render', () => {
+  it('should render', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
-          // schema={schema}
-          // uiSchema={uiSchema}
+          schema={schema}
+          uiSchema={uiSchema}
           data={{}}
           formData={{}}
         />
@@ -31,10 +31,10 @@ describe('useThisSchoolPage', () => {
       </Provider>,
     );
 
-    const radioLabels = $$('.form-radio-buttons > label', container);
-    const radioLabelList = ['Yes', "No, I'll choose a different option"];
+    const radioLabels = $$('.form-radio-buttons', container);
+    const radioLabelList = Object.values(useThisSchoolOptions);
 
-    expect($('h2', container).textContent).to.eq('School information');
+    expect($('h3', container).textContent).to.eq('Your school facility');
 
     radioLabels.forEach(
       radio => expect(radioLabelList.includes(radio.textContent)).to.be.true,
