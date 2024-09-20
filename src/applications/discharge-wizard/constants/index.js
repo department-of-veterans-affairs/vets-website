@@ -161,7 +161,7 @@ export const ROUTES = Object.freeze({
 });
 
 export const questionsToClearMap = Object.freeze({
-  SERVICE_BRANCH: [],
+  SERVICE_BRANCH: [SHORT_NAME_MAP.PREV_APPLICATION_TYPE],
   DISCHARGE_YEAR: [
     SHORT_NAME_MAP.DISCHARGE_MONTH,
     SHORT_NAME_MAP.FAILURE_TO_EXHAUST,
