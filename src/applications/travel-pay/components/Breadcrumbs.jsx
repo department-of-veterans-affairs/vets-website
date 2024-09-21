@@ -8,7 +8,7 @@ export default function BreadCrumbs() {
   const claimIdRegex = /^\/[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i;
   const isDetailsPage = pathname.match(claimIdRegex);
 
-  let breadcrumbList = [
+  const breadcrumbList = [
     {
       href: '/',
       // the `home-veterans-affairs` prop defaults to this
@@ -25,16 +25,6 @@ export default function BreadCrumbs() {
       isRouterLink: true,
     },
   ];
-
-  if (isDetailsPage) {
-    breadcrumbList = [
-      {
-        href: '/my-health/travel-claim-status',
-        label: 'WE HAVE TO GO BACK',
-        isRouterLink: true,
-      },
-    ];
-  }
 
   const handleRouteChange = ({ detail }) => {
     const { href } = detail;
