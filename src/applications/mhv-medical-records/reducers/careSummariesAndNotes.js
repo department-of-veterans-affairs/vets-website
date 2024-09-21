@@ -11,6 +11,7 @@ import {
   extractContainedResource,
   isArrayAndHasItems,
   decodeBase64Report,
+  formatNameFirstToLast,
 } from '../util/helpers';
 
 const initialState = {
@@ -159,6 +160,7 @@ export const convertAdmissionAndDischargeDetails = record => {
   const admissionDate = getAdmissionDate(record, summary);
   const dischargeDate = getDischargeDate(record, summary);
   const dateEntered = record.date ? new Date(record.date) : null;
+  const dischargedBy = extractAuthor(record) || EMPTY_FIELD;
 
   const sortByDate = admissionDate || dischargeDate || dateEntered;
   let sortByField = null;
@@ -178,7 +180,7 @@ export const convertAdmissionAndDischargeDetails = record => {
     dischargeDate: dischargeDate ? formatDateLong(dischargeDate) : EMPTY_FIELD,
     dateEntered: dateEntered ? formatDateLong(dateEntered) : EMPTY_FIELD,
     admittedBy: getAttending(summary) || EMPTY_FIELD,
-    dischargedBy: extractAuthor(record) || EMPTY_FIELD,
+    dischargedBy: formatNameFirstToLast(dischargedBy) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     summary: summary || EMPTY_FIELD,
     sortByDate,
@@ -187,14 +189,17 @@ export const convertAdmissionAndDischargeDetails = record => {
 };
 
 const convertProgressNote = record => {
+  const writtenBy = extractAuthor(record) || EMPTY_FIELD;
+  const signedBy = extractAuthenticator(record) || EMPTY_FIELD;
+
   return {
     id: record.id || null,
     name: getTitle(record) || EMPTY_FIELD,
     type: getType(record),
     date: record.date ? formatDateLong(record.date) : EMPTY_FIELD,
     dateSigned: getDateSigned(record) || EMPTY_FIELD,
-    writtenBy: extractAuthor(record) || EMPTY_FIELD,
-    signedBy: extractAuthenticator(record) || EMPTY_FIELD,
+    writtenBy: formatNameFirstToLast(writtenBy) || EMPTY_FIELD,
+    signedBy: formatNameFirstToLast(signedBy) || EMPTY_FIELD,
     location: extractLocation(record) || EMPTY_FIELD,
     note: getNote(record) || EMPTY_FIELD,
     sortByDate: record.date ? new Date(record.date) : null,

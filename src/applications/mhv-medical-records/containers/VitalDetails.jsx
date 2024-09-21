@@ -10,7 +10,6 @@ import { formatDateLong } from '@department-of-veterans-affairs/platform-utiliti
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
   crisisLineHeader,
   reportGeneratedBy,
   txtLine,
@@ -29,6 +28,7 @@ import {
   macroCase,
   makePdf,
   generateTextFile,
+  formatNameFirstLast,
 } from '../util/helpers';
 import {
   vitalTypeDisplayNames,
@@ -207,7 +207,7 @@ const VitalDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${vitalTypeDisplayNames[records[0].type]}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 ${records

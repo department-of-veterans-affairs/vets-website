@@ -6,10 +6,14 @@ import PropTypes from 'prop-types';
 import {
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import { accessAlertTypes, pageTitles } from '../util/constants';
-import { getNameDateAndTime, makePdf, generateTextFile } from '../util/helpers';
+import {
+  getNameDateAndTime,
+  makePdf,
+  generateTextFile,
+  formatNameFirstLast,
+} from '../util/helpers';
 import { getTxtContent } from '../util/txtHelpers/blueButton';
 import { getBlueButtonReportData } from '../actions/blueButtonReport';
 import { generateBlueButtonData } from '../util/pdfHelpers/blueButton';
@@ -21,7 +25,7 @@ import { clearAlerts } from '../actions/alerts';
 const DownloadRecordsPage = ({ runningUnitTest }) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
-  const name = formatName(user.userFullName);
+  const name = formatNameFirstLast(user.userFullName);
   const dob = formatDateLong(user.dob);
   const [blueButtonRequested, setBlueButtonRequested] = useState(false);
   const [downloadType, setDownloadType] = useState('');

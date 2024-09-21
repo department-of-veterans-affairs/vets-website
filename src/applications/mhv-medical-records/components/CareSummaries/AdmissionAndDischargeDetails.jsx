@@ -11,7 +11,6 @@ import {
   txtLine,
   updatePageTitle,
   generatePdfScaffold,
-  formatName,
 } from '@department-of-veterans-affairs/mhv/exports';
 import PrintHeader from '../shared/PrintHeader';
 import PrintDownload from '../shared/PrintDownload';
@@ -20,6 +19,7 @@ import {
   generateTextFile,
   getNameDateAndTime,
   makePdf,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { pageTitles, dischargeSummarySortFields } from '../../util/constants';
 import DateSubheading from '../shared/DateSubheading';
@@ -71,7 +71,7 @@ const AdmissionAndDischargeDetails = props => {
     const content = `\n
 ${crisisLineHeader}\n\n
 ${record.name}\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Review a summary of your stay at a hospital or other health facility (called an admission and discharge summary).\n

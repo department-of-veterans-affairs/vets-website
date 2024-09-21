@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import {
   generatePdfScaffold,
-  formatName,
   updatePageTitle,
   crisisLineHeader,
   reportGeneratedBy,
@@ -25,7 +24,12 @@ import { getAllergiesList, reloadRecords } from '../actions/allergies';
 import PrintHeader from '../components/shared/PrintHeader';
 import PrintDownload from '../components/shared/PrintDownload';
 import DownloadingRecordsInfo from '../components/shared/DownloadingRecordsInfo';
-import { generateTextFile, getNameDateAndTime, makePdf } from '../util/helpers';
+import {
+  generateTextFile,
+  getNameDateAndTime,
+  makePdf,
+  formatNameFirstLast,
+} from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
 import RecordListSection from '../components/shared/RecordListSection';
@@ -120,7 +124,7 @@ Provider notes: ${item.notes}\n`;
     const content = `
 ${crisisLineHeader}\n\n
 Allergies and reactions\n
-${formatName(user.userFullName)}\n
+${formatNameFirstLast(user.userFullName)}\n
 Date of birth: ${formatDateLong(user.dob)}\n
 ${reportGeneratedBy}\n
 Review allergies, reactions, and side effects in your VA medical

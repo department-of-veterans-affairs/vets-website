@@ -430,3 +430,44 @@ export const radiologyRecordHash = async record => {
   const dataString = `${procedureName}|${radiologist}|${stationNumber}|${eventDate}`;
   return (await generateHash(dataString)).substring(0, 8);
 };
+
+/**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
+  let returnName = '';
+  if (!last) return null;
+
+  let firstName = `${first}`;
+  let lastName = `${last}`;
+
+  if (!first) {
+    return lastName;
+  }
+  if (middle) firstName += ` ${middle}`;
+  if (suffix) lastName += `, ${suffix}`;
+
+  returnName = `${firstName} ${lastName}`;
+
+  return returnName;
+};
+
+/**
+ * @param {Object} nameObject name
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstToLast = name => {
+  try {
+    const parts = name?.split(',');
+    if (parts.length !== 2) {
+      return null;
+    }
+    const [lastname, firstname] = parts;
+    return `${firstname} ${lastname}`;
+  } catch {
+    return null;
+  }
+};

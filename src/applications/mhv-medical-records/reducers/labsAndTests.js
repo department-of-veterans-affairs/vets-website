@@ -9,6 +9,7 @@ import {
   getObservationValueWithUnits,
   isArrayAndHasItems,
   decodeBase64Report,
+  formatNameFirstToLast,
 } from '../util/helpers';
 import {
   loincCodes,
@@ -160,13 +161,14 @@ const convertChemHemRecord = record => {
     isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
   const serviceRequest = extractContainedResource(record, basedOnRef);
   const specimen = extractSpecimen(record);
+  const orderedBy = extractPractitioner(record, serviceRequest);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
     name: extractOrderedTests(record) || 'Chemistry/Hematology',
     category: 'Chemistry and hematology',
-    orderedBy: extractPractitioner(record, serviceRequest) || EMPTY_FIELD,
+    orderedBy: formatNameFirstToLast(orderedBy) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
@@ -208,12 +210,13 @@ const convertMicrobiologyRecord = record => {
   const specimen = extractSpecimen(record);
   const labLocation = extractPerformingLabLocation(record) || EMPTY_FIELD;
   const title = record?.code?.text;
+  const orderedBy = extractOrderedBy(record);
   return {
     id: record.id,
     type: labTypes.MICROBIOLOGY,
     name: title || 'Microbiology',
     labType: title ? 'Microbiology' : null,
-    orderedBy: extractOrderedBy(record) || EMPTY_FIELD,
+    orderedBy: formatNameFirstToLast(orderedBy) || EMPTY_FIELD,
     dateCompleted: record.effectiveDateTime
       ? formatDate(record.effectiveDateTime)
       : EMPTY_FIELD,
@@ -326,14 +329,14 @@ export const convertMhvRadiologyRecord = record => {
     name: record.procedureName,
     type: labTypes.RADIOLOGY,
     reason: record.reasonForStudy || EMPTY_FIELD,
-    orderedBy: record.requestingProvider || EMPTY_FIELD,
+    orderedBy: formatNameFirstToLast(record.requestingProvider) || EMPTY_FIELD,
     clinicalHistory: record?.clinicalHistory?.trim() || EMPTY_FIELD,
     imagingLocation: record.performingLocation,
     date: record.eventDate
       ? dateFormatWithoutTimezone(record.eventDate)
       : EMPTY_FIELD,
     sortDate: record.eventDate,
-    imagingProvider: record.radiologist || EMPTY_FIELD,
+    imagingProvider: formatNameFirstToLast(record.radiologist) || EMPTY_FIELD,
     results: buildRadiologyResults(record),
     images: [],
   };

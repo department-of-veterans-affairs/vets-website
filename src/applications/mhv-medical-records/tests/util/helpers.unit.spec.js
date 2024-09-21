@@ -14,6 +14,8 @@ import {
   dateFormatWithoutTimezone,
   formatDate,
   extractContainedByRecourceType,
+  formatNameFirstToLast,
+  formatNameFirstLast,
 } from '../../util/helpers';
 import { refreshPhases } from '../../util/constants';
 
@@ -443,5 +445,75 @@ describe('getStatusExtractPhase', () => {
     expect(getStatusExtractPhase(now, phrStatus, 'VPR')).to.equal(
       refreshPhases.CURRENT,
     );
+  });
+});
+
+describe('formatNameFirstToLast', () => {
+  it('returns a name formatted with the first name before to the last name and no comma.', () => {
+    const lastFirstName = 'Schmo,Joe';
+    const firstLastName = 'Joe Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns a name formatted with the first name and middle initial before to the last name.', () => {
+    const lastFirstName = 'Schmo,Joe R';
+    const firstLastName = 'Joe R Schmo';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(firstLastName);
+  });
+
+  it('returns null if not formatted correctly.', () => {
+    const lastFirstName = 'Schmo Joe';
+    const updatedName = formatNameFirstToLast(lastFirstName);
+
+    expect(updatedName).to.eq(null);
+  });
+});
+
+describe('formatNameFirstLast', () => {
+  const user1 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+    },
+  };
+
+  const user2 = {
+    userFullName: {
+      first: 'Joe',
+      last: 'Schmo',
+      middle: 'R',
+      suffix: 'Jr',
+    },
+  };
+
+  const user3 = {
+    userFullNameX: {
+      nada: 'Joe',
+      notIt: 'Schmo',
+    },
+  };
+
+  it('returns a name formatted with the first name before to the last name', () => {
+    const lastFirstName = 'Joe Schmo';
+    const updatedName = formatNameFirstLast(user1.userFullName);
+
+    expect(updatedName).to.eq(lastFirstName);
+  });
+
+  it('returns a name formatted with the first name and middle initial and suffix', () => {
+    const firstMiddleLastSuffixName = 'Joe R Schmo, Jr';
+    const updatedName = formatNameFirstLast(user2.userFullName);
+
+    expect(updatedName).to.eq(firstMiddleLastSuffixName);
+  });
+
+  it('returns "null" if there is an invalid input', () => {
+    const updatedName = formatNameFirstLast(user3.userFullNameX);
+
+    expect(updatedName).to.eq(null);
   });
 });
