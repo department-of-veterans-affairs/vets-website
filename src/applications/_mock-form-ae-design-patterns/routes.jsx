@@ -4,7 +4,7 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
-import blueTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
+import redTaskConfig from './patterns/pattern2/TaskRed/form/config/form';
 import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import App from './App';
 import CoeApp from './patterns/pattern2/TaskRed/form/containers/App';
@@ -79,7 +79,7 @@ const pattern2Routes = [
       onEnter: (nextState, replace) =>
         replace('/2/task-red/introduction?loggedIn=true'),
     },
-    childRoutes: createRoutesWithSaveInProgress(blueTaskConfig),
+    childRoutes: createRoutesWithSaveInProgress(redTaskConfig),
   },
   {
     path: '/2/task-pink',
