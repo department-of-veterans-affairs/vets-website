@@ -1,21 +1,39 @@
+import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import createApplicantInformationPage from 'platform/forms/pages/applicantInformation';
+import CustomGroupCheckboxField from '../../components/CustomGroupCheckboxField';
+
+const { ethnicity, orginRace } = fullSchema10282.definitions;
 
 const uiSchema = {
+  'ui:title': (
+    <h3 className="vads-u-margin--0">Your ethnicity, race, or origin</h3>
+  ),
   ethnicity: {
     'ui:title': 'What is your ethnicity?',
     'ui:widget': 'radio',
   },
+  orginRace: {
+    'ui:field': CustomGroupCheckboxField,
+    'ui:title': 'What is your race or origin?',
+    'ui:description': 'select all that you identify with',
+    'ui:options': {
+      labels: orginRace.enum,
+    },
+  },
 };
 
-const applicanteEthnicityAndRaceFiled = () => {
-  return {
-    ...createApplicantInformationPage(fullSchema10282, {
-      isVeteran: true,
-      fields: ['ethnicity'],
-    }),
-    uiSchema,
-  };
+const schema = {
+  type: 'object',
+  properties: {
+    ethnicity,
+    orginRace: {
+      type: 'array',
+      items: {
+        ...orginRace,
+      },
+      uniqueItems: true,
+    },
+  },
 };
 
-export { uiSchema, applicanteEthnicityAndRaceFiled };
+export { uiSchema, schema };

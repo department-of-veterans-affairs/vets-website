@@ -11,7 +11,6 @@ const uiSchema = {
 };
 const schema = {
   type: 'object',
-  required: ['state'],
   properties: {
     raceAndGender,
   },

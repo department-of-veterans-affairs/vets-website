@@ -87,13 +87,14 @@ const formConfig = {
           schema: genderRaceQuestion.schema,
         },
         applicantRaceAndEthnicity: {
-          ...applicantRaceAndEthnicity.applicanteEthnicityAndRaceFiled(),
-          path: 'someth',
           title: 'Your personal information',
+          path: 'applicant-information-6',
+          uiSchema: applicantRaceAndEthnicity.uiSchema,
+          schema: applicantRaceAndEthnicity.schema,
+          depends: formData => formData.raceAndGender === 'Yes',
         },
       },
     },
   },
 };
-
 export default formConfig;
