@@ -104,8 +104,6 @@ export default function TravelClaimDetails() {
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
-        {/* <div className="claim-details-breadcrumb-wrapper"> */}
-        {/* <va-icon className="back-arrow" icon="arrow_back" /> */}
         <BreadCrumbs />
         {claimDetails && (
           <>
