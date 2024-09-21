@@ -4,6 +4,7 @@ import * as veteranDesc from './applicantInformation/applicantDescription';
 import * as applicantContactInfo from './applicantInformation/applicantContactInfo';
 import * as applicantState from './applicantInformation/applicantState';
 import * as genderRaceQuestion from './applicantInformation/genderRaceQuestion';
+import * as applicantRaceAndEthnicity from './applicantInformation/applicantRaceAndEthnicity';
 
 export {
   applicantInformationName,
@@ -12,4 +13,5 @@ export {
   applicantContactInfo,
   applicantState,
   genderRaceQuestion,
+  applicantRaceAndEthnicity,
 };

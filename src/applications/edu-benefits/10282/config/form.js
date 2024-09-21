@@ -11,8 +11,8 @@ import {
   applicantContactInfo,
   applicantState,
   genderRaceQuestion,
+  applicantRaceAndEthnicity,
 } from '../pages';
-// import { applicantInformationField } from '../pages/applicantInformation/applicantInName';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
 
@@ -81,11 +81,15 @@ const formConfig = {
           depends: formData => formData.country === 'United States',
         },
         genderRaceQuestion: {
-          ...genderRaceQuestion.genderRaceQuestionField(),
           title: 'Your personal information',
           path: 'applicant-information-5',
-
-          // depends: formData => formData.country === 'United States',
+          uiSchema: genderRaceQuestion.uiSchema,
+          schema: genderRaceQuestion.schema,
+        },
+        applicantRaceAndEthnicity: {
+          ...applicantRaceAndEthnicity.applicanteEthnicityAndRaceFiled(),
+          path: 'someth',
+          title: 'Your personal information',
         },
       },
     },
