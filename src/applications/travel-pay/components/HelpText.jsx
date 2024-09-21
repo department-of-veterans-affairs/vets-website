@@ -22,7 +22,7 @@ export default function HelpText() {
     <div>
       <p>You can use this tool to check the status of your VA travel claims.</p>
       <h2>How to manage your claims or get more information</h2>
-      {HelpTextContent}
+      <HelpTextContent />
     </div>
   );
 }

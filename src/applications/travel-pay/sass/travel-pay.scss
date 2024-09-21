@@ -54,19 +54,27 @@ h2#pagination-info {
   font-weight: 700;
 }
 
-// .claim-details-breadcrumb-wrapper {
-//   display: flex;
+.claim-details-breadcrumb-wrapper {
+  display: flex;
+  align-items: center;
 
-//   align-items: center;
+  .back-arrow {
+    color: var(--vads-color-gray-medium);
+    padding-right: 2px;
+  }
 
-//   .back-arrow {
-//     color: var(--vads-color-gray-medium);
-//   }
+  //  Matches the padding on the usa-breadcrumbs, ensures
+  //  visual consistency between claims details and other pages
+  .go-back-link,
+  .back-arrow {
+    padding-top: 20px;
+    padding-bottom: 32px;
+  }
 
-//   va-breadcrumbs nav {
-//     padding: 0;
-//   }
-//   // nav {
-//   //   padding: 0 !important;
-//   // }
-// }
+  @media (min-width: 768px) {
+    .go-back-link,
+    .back-arrow {
+      padding-bottom: 48px;
+    }
+  }
+}

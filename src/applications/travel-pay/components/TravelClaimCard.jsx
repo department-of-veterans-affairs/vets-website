@@ -1,11 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 import { formatDateTime } from '../util/dates';
 
 export default function TravelClaimCard(props) {
   const {
+    canViewClaimDetails,
     id,
     createdOn,
     claimStatus,
@@ -14,12 +14,6 @@ export default function TravelClaimCard(props) {
     facilityName,
     modifiedOn,
   } = props;
-
-  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
-
-  const canViewClaimDetails = useToggleValue(
-    TOGGLE_NAMES.travelPayViewClaimDetails,
-  );
 
   const [createDate, createTime] = formatDateTime(createdOn);
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
@@ -74,6 +68,7 @@ export default function TravelClaimCard(props) {
 
 TravelClaimCard.propTypes = {
   appointmentDateTime: PropTypes.string,
+  canViewClaimDetails: PropTypes.bool,
   claimNumber: PropTypes.string,
   claimStatus: PropTypes.string,
   createdOn: PropTypes.string,

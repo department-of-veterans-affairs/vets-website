@@ -9,7 +9,10 @@ const responses = {
   'GET /v0/feature_toggles': {
     data: {
       type: 'feature_toggles',
-      features: [{ name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true }],
+      features: [
+        { name: `${TOGGLE_NAMES.travelPayPowerSwitch}`, value: true },
+        { name: `${TOGGLE_NAMES.travelPayViewClaimDetails}`, value: true },
+      ],
     },
   },
   'GET /travel_pay/v0/claims': travelClaims,
@@ -18,10 +21,10 @@ const responses = {
       id: req.params.id,
       claimNumber: 'claimNumber',
       claimStatus: 'claimStatus',
-      appointmentDateTime: 'appointmentDateTime',
+      appointmentDateTime: '2023-09-24T14:14:20.549Z',
       facilityName: 'facilityName',
-      createdOn: 'createdOn',
-      modifiedOn: 'modifiedOn',
+      createdOn: '2023-09-24T14:14:20.549Z',
+      modifiedOn: '2023-09-26T14:14:20.549Z',
     });
   },
 };

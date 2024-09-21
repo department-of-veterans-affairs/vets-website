@@ -1,14 +1,14 @@
 import React from 'react';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Link } from 'react-router-dom';
 
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
+  const claimIdRegex = /^\/[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i;
+  const isDetailsPage = pathname.match(claimIdRegex);
 
-  const isStatusText = pathname.includes('what-does-my-status-mean');
-
-  const breadcrumbList = [
+  let breadcrumbList = [
     {
       href: '/',
       // the `home-veterans-affairs` prop defaults to this
@@ -26,45 +26,34 @@ export default function BreadCrumbs() {
     },
   ];
 
-  if (isStatusText) {
-    breadcrumbList.push({
-      href: '/what-does-my-status-mean',
-      label: 'Claim Status Meanings',
-      isRouterLink: true,
-    });
+  if (isDetailsPage) {
+    breadcrumbList = [
+      {
+        href: '/my-health/travel-claim-status',
+        label: 'WE HAVE TO GO BACK',
+        isRouterLink: true,
+      },
+    ];
   }
 
-  if (
-    pathname.match(
-      /^\/[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i,
-    )
-  ) {
-    breadcrumbList.push({
-      href: '/claim-details',
-      label: 'Claim Details',
-      isRouterLink: true,
-    });
-    // breadcrumbList = [
-    //   {
-    //     href: '/',
-    //     label: 'Back to your travel reimbursement claims',
-    //     isRouterLink: true,
-    //   },
-    // ];
-  }
-
-  function handleRouteChange({ detail }) {
+  const handleRouteChange = ({ detail }) => {
     const { href } = detail;
     history.push(href);
-  }
+  };
 
-  return (
+  return isDetailsPage ? (
+    <div className="claim-details-breadcrumb-wrapper">
+      {isDetailsPage && <va-icon class="back-arrow" icon="arrow_back" />}
+      <Link className="go-back-link" to="/">
+        Back to your travel reimbursement claims
+      </Link>
+    </div>
+  ) : (
     <VaBreadcrumbs
-      // homeVeteransAffairs={false}
       breadcrumbList={breadcrumbList}
+      className="vads-u-padding-0"
       label="Breadcrumb"
       uswds
-      wrapping
       onRouteChange={handleRouteChange}
     />
   );

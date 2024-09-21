@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { scrollToTop } from 'platform/utilities/ui/scroll';
+import { Element } from 'react-scroll';
+import { scrollTo } from 'platform/utilities/ui/scroll';
 import { focusElement } from 'platform/utilities/ui';
 import { useFeatureToggle } from 'platform/utilities/feature-toggles/useFeatureToggle';
 
@@ -25,7 +26,7 @@ export default function TravelClaimDetails() {
 
   useEffect(() => {
     focusElement('h1');
-    scrollToTop();
+    scrollTo('topScrollElement');
   });
 
   const {
@@ -101,10 +102,7 @@ export default function TravelClaimDetails() {
   const [updateDate, updateTime] = formatDateTime(modifiedOn);
 
   return (
-    <>
-      {/* Q: Is the Mhv nav needed here? */}
-      {/* <MhvSecondaryNav /> */}
-
+    <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         {/* <div className="claim-details-breadcrumb-wrapper"> */}
         {/* <va-icon className="back-arrow" icon="arrow_back" /> */}
@@ -144,9 +142,11 @@ export default function TravelClaimDetails() {
           Learn how to set up direct deposit for travel pay reimbursement
         </a>
         <va-need-help>
-          <div slot="content">{HelpTextContent}</div>
+          <div slot="content">
+            <HelpTextContent />
+          </div>
         </va-need-help>
       </article>
-    </>
+    </Element>
   );
 }
