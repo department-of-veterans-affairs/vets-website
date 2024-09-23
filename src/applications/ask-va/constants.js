@@ -460,7 +460,7 @@ export const CHAPTER_3 = {
   YOUR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of your counselor:',
-    ERROR: "Please select if you've applied for services.",
+    ERROR: 'Please enter the name of your counselor',
   },
   THEIR_VRE_INFORMATION: {
     TITLE:
@@ -470,7 +470,7 @@ export const CHAPTER_3 = {
   THEIR_VRE_COUNSELOR: {
     TITLE: 'Veteran Readiness and Employment counselor',
     DESCRIPTION: 'Name of their counselor:',
-    ERROR: "Please select if they've applied for services.",
+    ERROR: 'Please enter the name of their counselor',
   },
 };
 
