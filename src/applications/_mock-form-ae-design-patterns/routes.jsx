@@ -4,6 +4,7 @@ import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/
 import greenFormConfig from './patterns/pattern1/TaskGreen/config/form';
 import yellowFormConfig from './patterns/pattern1/TaskYellow/config/form';
 import purpleFormConfig from './patterns/pattern1/TaskPurple/config/form';
+import ezrFormConfig from './patterns/pattern1/ezr/config/form';
 import App from './App';
 // import { Pattern2 } from './patterns/pattern2/containers/Pattern2';
 import { LandingPage } from './shared/components/pages/LandingPage';
@@ -32,6 +33,14 @@ const pattern1Routes = [
       onEnter: (nextState, replace) => replace('/1/task-purple/introduction'),
     },
     childRoutes: createRoutesWithSaveInProgress(purpleFormConfig),
+  },
+  {
+    path: '/1/ezr',
+    component: App,
+    indexRoute: {
+      onEnter: (nextState, replace) => replace('/1/ezr/introduction'),
+    },
+    childRoutes: createRoutesWithSaveInProgress(ezrFormConfig),
   },
 ];
 
