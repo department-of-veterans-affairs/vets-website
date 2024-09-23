@@ -351,10 +351,6 @@ export const DOC_TYPES = [
     label: 'Divorce Decree',
   },
   {
-    value: '',
-    label: 'Financial Information',
-  },
-  {
     value: 'L703',
     label: 'Goldmann Perimetry Chart/Field Of Vision Chart',
   },
