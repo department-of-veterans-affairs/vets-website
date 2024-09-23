@@ -29,6 +29,7 @@ import {
   getNameDateAndTime,
   makePdf,
   formatNameFirstLast,
+  getLastUpdatedText,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -98,10 +99,18 @@ const Allergies = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.ALLERGY,
+  );
+
   const generateAllergiesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateAllergiesIntro(allergies);
-    const scaffold = generatePdfScaffold(user, title, subject, preface);
+    const { title, value, subject, preface } = generateAllergiesIntro(
+      refresh.status,
+      lastUpdatedText,
+    );
+    const scaffold = generatePdfScaffold(user, title, value, subject, preface);
     const pdfData = { ...scaffold, ...generateAllergiesContent(allergies) };
     const pdfName = `VA-allergies-list-${getNameDateAndTime(user)}`;
     makePdf(pdfName, pdfData, 'Allergies', runningUnitTest);
@@ -174,6 +183,7 @@ ${allergies.map(entry => generateAllergyListItemTxt(entry)).join('')}`;
             dispatch(reloadRecords());
           }}
         />
+
         <PrintDownload
           list
           downloadPdf={generateAllergiesPdf}

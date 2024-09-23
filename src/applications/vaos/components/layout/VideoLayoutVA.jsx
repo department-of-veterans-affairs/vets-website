@@ -12,7 +12,6 @@ import DetailPageLayout, {
   Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
 import {
   AppointmentDate,
@@ -40,10 +39,6 @@ export default function VideoLayoutVA({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   let heading = 'Video appointment at a VA location';
@@ -129,8 +124,7 @@ export default function VideoLayoutVA({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>

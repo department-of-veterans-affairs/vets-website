@@ -53,5 +53,31 @@ describe('CreateAccountLink', () => {
       await waitFor(() => expect(anchor.href).to.include('state='));
       screen.unmount();
     });
+
+    it(`should record event for ${policy} (SAML)`, async () => {
+      const screen = render(<CreateAccountLink policy={policy} />);
+      const anchor = await screen.findByTestId(policy);
+      anchor.click();
+
+      expect(global.window.dataLayer.length).to.eql(1);
+      expect(global.window.dataLayer[0].event).to.eql(
+        `register-link-clicked-${policy}`,
+      );
+
+      screen.unmount();
+    });
+
+    it(`should record event for ${policy} (OAuth)`, async () => {
+      const screen = render(<CreateAccountLink policy={policy} useOAuth />);
+      const anchor = await screen.findByTestId(policy);
+      anchor.click();
+
+      expect(global.window.dataLayer.length).to.eql(2);
+      expect(global.window.dataLayer[1].event).to.eql(
+        `register-link-clicked-${policy}-oauth`,
+      );
+
+      screen.unmount();
+    });
   });
 });

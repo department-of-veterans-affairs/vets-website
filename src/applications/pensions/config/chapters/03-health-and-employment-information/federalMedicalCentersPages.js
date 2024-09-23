@@ -17,7 +17,7 @@ const options = {
   required: false,
   isItemIncomplete: item => !item?.medicalCenter, // include all required fields here
   text: {
-    getItemName: item => item.medicalCenter,
+    getItemName: item => item?.medicalCenter,
     summaryTitleWithoutItems: 'Treatment from federal medical facilities',
   },
 };

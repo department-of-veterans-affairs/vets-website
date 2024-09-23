@@ -20,9 +20,9 @@ describe('actions', () => {
           );
 
           const expectedResults = BENEFITS_LIST.filter(b =>
-            ['GP9', 'GBD', 'GSR'].includes(b.id),
+            ['GIB', 'FHV', 'SVC', 'VSC'].includes(b.id),
           );
-          expect(dispatch.secondCall.args[0].payload).to.eql(expectedResults);
+          expect(dispatch.secondCall.args[0].payload).to.equal(expectedResults);
         });
     });
   });
@@ -31,7 +31,7 @@ describe('actions', () => {
     it('returns valid response when list of ids is passed', async () => {
       const dispatch = sinon.spy();
       actions
-        .displayResults(['GP9', 'GBD', 'GSR'])(dispatch)
+        .displayResults(['GIB', 'SBP'])(dispatch)
         .then(() => {
           expect(dispatch.firstCall.args[0].type).to.equal(
             'FETCH_RESULTS_STARTED',
@@ -42,9 +42,9 @@ describe('actions', () => {
           );
 
           const expectedResults = BENEFITS_LIST.filter(b =>
-            ['GP9', 'GBD', 'GSR'].includes(b.id),
+            ['GIB', 'SBP'].includes(b.id),
           );
-          expect(dispatch.secondCall.args[0].payload).to.eql(expectedResults);
+          expect(dispatch.secondCall.args[0].payload).to.equal(expectedResults);
         });
     });
   });

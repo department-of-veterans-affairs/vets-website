@@ -1,14 +1,14 @@
 export const mockFormData = {
-  giBillStatus: 'No',
-  disabilityRating: 'No',
+  giBillStatus: "I haven't applied for GI Bill benefits",
+  disabilityRating: "I haven't applied for a disability rating",
   'view:disabilityEligibility': {},
   characterOfDischarge: 'honorable',
-  separation: 'upTo6mo',
-  militaryServiceCompleted: 'No',
+  characterOfDischargeTWO: {},
+  separation: 'over3yr',
   militaryServiceCurrentlyServing: 'No',
   militaryServiceTotalTimeServed: 'More than 3 years',
-  checkboxGroupGoals: {
-    setACareerPath: true,
+  goals: {
+    understandMyBenefits: true,
   },
   privacyAgreementAccepted: true,
 };
