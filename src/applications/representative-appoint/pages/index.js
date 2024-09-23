@@ -18,6 +18,7 @@ import * as veteranIdentification from './veteran/veteranIdentification';
 import * as veteranServiceInformation from './veteran/veteranServiceInformation';
 import * as selectAccreditedRepresentative from './representative/selectAccreditedRepresentative';
 import * as replaceAccreditedRepresentative from './representative/replaceAccreditedRepresentative';
+import * as selectedAccreditedOrganizationId from './representative/selectAccreditedOrganization';
 
 export {
   authorizeMedical,
@@ -40,4 +41,5 @@ export {
   veteranServiceInformation,
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
+  selectedAccreditedOrganizationId,
 };

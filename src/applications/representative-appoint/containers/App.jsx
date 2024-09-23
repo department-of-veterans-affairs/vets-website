@@ -51,7 +51,12 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [loggedIn],
   );
 
-  const content = (
+  // Exclude the 'next-steps' route from being wrapped in RoutedSavableApp
+  const isNextStepsRoute = pathname === '/next-steps';
+
+  const content = isNextStepsRoute ? (
+    <>{children}</> // Directly render children for 'next-steps'
+  ) : (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>

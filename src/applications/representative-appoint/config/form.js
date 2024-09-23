@@ -26,6 +26,7 @@ import {
   veteranServiceInformation,
   selectAccreditedRepresentative,
   replaceAccreditedRepresentative,
+  selectedAccreditedOrganizationId,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -101,6 +102,25 @@ const formConfig = {
           path: 'representative-select',
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
+        },
+        selectAccreditedOrganization: {
+          path: 'representative-organization',
+          title: 'Organization Select',
+          depends: formData =>
+            !!formData['view:selectedRepresentative'] &&
+            formData['view:selectedRepresentative'].attributes
+              ?.individualType === 'representative' &&
+            formData['view:selectedRepresentative'].attributes
+              ?.accreditedOrganizations?.data?.length > 1,
+          uiSchema: selectedAccreditedOrganizationId.uiSchema,
+          schema: {
+            type: 'object',
+            properties: {
+              selectedAccreditedOrganizationId: {
+                type: 'string',
+              },
+            },
+          },
         },
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',

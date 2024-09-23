@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import { parsePhoneNumber } from '../utilities/helpers';
 
 const SearchResult = ({
@@ -23,10 +24,11 @@ const SearchResult = ({
   query,
   formData,
   setFormData,
-  goForward,
+  router,
+  routes,
+  location,
 }) => {
   const { contact, extension } = parsePhoneNumber(phone);
-
   const addressExists = addressLine1 || city || stateCode || zipCode;
 
   const address =
@@ -46,12 +48,27 @@ const SearchResult = ({
   };
 
   const handleSelect = selectedRepResult => {
-    setFormData({
+    const tempData = {
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
+      // when a new representative is selected, we want to nil out the
+      //   selected organization to prevent weird states. For example,
+      //   we wouldn't want a user to select a representative, an organization,
+      //   go backwards to select an attorney, and then our state variables
+      //   say an attorney was selected with a non-null organization id
+      selectedAccreditedOrganizationId: null,
+    };
+
+    setFormData({
+      ...tempData,
     });
 
-    goForward();
+    const { pageList } = routes[1];
+    const { pathname } = location;
+
+    const nextPagePath = getNextPagePath(pageList, tempData, pathname);
+
+    router.push(nextPagePath);
   };
 
   return (
@@ -182,6 +199,9 @@ SearchResult.propTypes = {
   type: PropTypes.string,
   zipCode: PropTypes.string,
   setFormData: PropTypes.func.isRequired,
+  router: PropTypes.object,
+  routes: PropTypes.array,
+  location: PropTypes.object,
 };
 
 const mapDispatchToProps = {
