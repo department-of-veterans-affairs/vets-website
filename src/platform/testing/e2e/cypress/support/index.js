@@ -6,6 +6,8 @@ import '@cypress/code-coverage/support';
 import addContext from 'mochawesome/addContext';
 import './commands';
 
+// eslint-disable-next-line no-console
+fetch('http://localhost:3001', { method: 'GET' }).then(res => console.log(res));
 // workaround for 'AssertionError: Timed out retrying after 4000ms: Invalid string length'
 // https://github.com/testing-library/cypress-testing-library/issues/241
 before(() => {
