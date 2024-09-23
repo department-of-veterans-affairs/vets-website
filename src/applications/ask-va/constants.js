@@ -208,6 +208,14 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
+  YES: `Yes, replace my saved school facility with this facility.
+  This school facility will be saved for future submissions`,
+  NO: `No, don't update my saved facility.
+  This school facility will only be used for this submissions`,
+};
+
+// Do you want to use the school facility in your profile options
+export const schoolInYourProfileOptions = {
   YES: 'Yes',
   NO: "No, I'll choose a different option",
 };
@@ -405,9 +413,13 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
     QUESTION_1: 'Select school or state facility',
   },
+  USE_SCHOOL_IN_PROFILE: {
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want to use the school in your profile?',
+  },
   USE_THIS_SCHOOL: {
-    TITLE: 'School information',
-    QUESTION_1: 'Do you want to use this school?',
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want this to be your saved school facility?',
   },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
@@ -439,6 +451,26 @@ export const CHAPTER_3 = {
     PATH: 'your-va-health-facility',
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  YOUR_VRE_INFORMATION: {
+    TITLE:
+      'Have you ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if you've applied for services.",
+  },
+  YOUR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of your counselor:',
+    ERROR: 'Please enter the name of your counselor',
+  },
+  THEIR_VRE_INFORMATION: {
+    TITLE:
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if they've applied for services.",
+  },
+  THEIR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of their counselor:',
+    ERROR: 'Please enter the name of their counselor',
   },
 };
 

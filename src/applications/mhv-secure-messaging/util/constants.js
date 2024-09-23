@@ -193,6 +193,10 @@ export const Alerts = {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
     THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
   },
+  ContactList: {
+    CANNOT_SAVE:
+      "We're sorry. We couldn't save your changes. Try saving again.",
+  },
 };
 
 export const Errors = {
