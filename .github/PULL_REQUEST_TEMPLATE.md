@@ -1,7 +1,7 @@
 **Note**: Delete the description statements, complete each step. **None are optional**, but can be justified as to why they cannot be completed as written. Provide known gaps to testing that may raise the risk of merging to production.
 
 ## Are you removing, renaming or moving a folder in this PR?
-- [ ] No, I'm not changing any folders (skip to Summary and delete the rest of this section)
+- [ ] No, I'm not changing any folders (skip to TeamSites and delete the rest of this section)
 - [ ] Yes, I'm removing, renaming or moving a folder
 
 If the folder you changed contains a `manifest.json`, search for its `entryName` in the content-build [registry.json](https://github.com/department-of-veterans-affairs/content-build/blob/main/src/applications/registry.json) (the `entryName` there will match).

@@ -452,6 +452,26 @@ export const CHAPTER_3 = {
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
   },
+  YOUR_VRE_INFORMATION: {
+    TITLE:
+      'Have you ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if you've applied for services.",
+  },
+  YOUR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of your counselor:',
+    ERROR: 'Please enter the name of your counselor',
+  },
+  THEIR_VRE_INFORMATION: {
+    TITLE:
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if they've applied for services.",
+  },
+  THEIR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of their counselor:',
+    ERROR: 'Please enter the name of their counselor',
+  },
 };
 
 export const noEditBtn = [
