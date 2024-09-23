@@ -1435,5 +1435,11 @@
     "src": "/ROTOGUS",
     "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/GIBILL/FGIB/VetTecTrainingProviders.asp",
+    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/",
+    "catchAll": true
   }
 ]
