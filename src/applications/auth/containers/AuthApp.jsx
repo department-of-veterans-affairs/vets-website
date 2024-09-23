@@ -69,6 +69,11 @@ export default function AuthApp({ location }) {
     // redirect to my-va if necessary
     const updatedUrl = generateReturnURL(returnUrl);
 
+    // **ADD FEATURE TOGGLE **
+    if (loginType === 'mhv' || loginType === 'myhealthevet') {
+      window.location.replace('/sign-in-changes-reminder');
+    }
+
     // check if usip client
     const postAuthUrl = checkReturnUrl(updatedUrl)
       ? updatedUrl
