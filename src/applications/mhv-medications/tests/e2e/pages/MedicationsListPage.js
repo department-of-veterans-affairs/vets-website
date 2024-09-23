@@ -251,7 +251,7 @@ class MedicationsListPage {
       'Download a text file',
     );
     cy.get('[data-testid="download-txt-button"]').click({
-      waitForAnimations: true,
+      force: true,
     });
   };
 
@@ -676,6 +676,21 @@ class MedicationsListPage {
       'contain',
       'Go to your allergies and reactions',
     );
+  };
+
+  verifyRefillPageLinkTextOnMedicationsListPage = () => {
+    cy.get('[data-testid="prescriptions-nav-link-to-refill"]').should(
+      'contain',
+      'Start a refill request',
+    );
+  };
+
+  verifyMedicationsListHeaderTextOnListPage = () => {
+    cy.get('[data-testid="med-list"]').should('have.text', 'Medications list');
+  };
+
+  verifyFilterAccordionOnMedicationsListPage = () => {
+    cy.get('[data-testid="filter-accordion"]').should('be.visible');
   };
 }
 

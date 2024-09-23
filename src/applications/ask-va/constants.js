@@ -208,6 +208,14 @@ export const stateOrFacilityOptions = {
 
 // Do you want to use this school options
 export const useThisSchoolOptions = {
+  YES: `Yes, replace my saved school facility with this facility.
+  This school facility will be saved for future submissions`,
+  NO: `No, don't update my saved facility.
+  This school facility will only be used for this submissions`,
+};
+
+// Do you want to use the school facility in your profile options
+export const schoolInYourProfileOptions = {
   YES: 'Yes',
   NO: "No, I'll choose a different option",
 };
@@ -405,9 +413,13 @@ export const CHAPTER_3 = {
     PAGE_DESCRIPTION: 'Would you like to choose your school state or facility?',
     QUESTION_1: 'Select school or state facility',
   },
+  USE_SCHOOL_IN_PROFILE: {
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want to use the school in your profile?',
+  },
   USE_THIS_SCHOOL: {
-    TITLE: 'School information',
-    QUESTION_1: 'Do you want to use this school?',
+    TITLE: 'Your school facility',
+    QUESTION_1: 'Do you want this to be your saved school facility?',
   },
   STATE_OF_SCHOOL: {
     TITLE: 'State of school',
