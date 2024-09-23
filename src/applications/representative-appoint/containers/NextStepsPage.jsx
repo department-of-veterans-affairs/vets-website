@@ -12,18 +12,20 @@ export default function NextStepsPage() {
   const repType =
     formData['view:selectedRepresentative'].attributes?.individualType;
   const address = {
-    address1: (
+    addressLine1: (
       formData['view:selectedRepresentative']?.addressLine1 || ''
     ).trim(),
-    address2: (
+    addressLine2: (
       formData['view:selectedRepresentative']?.addressLine2 || ''
     ).trim(),
-    address3: (
+    addressLine3: (
       formData['view:selectedRepresentative']?.addressLine3 || ''
     ).trim(),
     city: (formData['view:selectedRepresentative']?.city || '').trim(),
-    state: (formData['view:selectedRepresentative']?.stateCode || '').trim(),
-    zip: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
+    stateCode: (
+      formData['view:selectedRepresentative']?.stateCode || ''
+    ).trim(),
+    zipCode: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
   };
   const isOrg =
     formData['view:selectedRepresentative']?.type === 'organization';
