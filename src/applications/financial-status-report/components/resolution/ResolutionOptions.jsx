@@ -162,6 +162,10 @@ const ResolutionOptions = ({ formContext }) => {
 
 ResolutionOptions.propTypes = {
   formContext: PropTypes.object,
+  option: PropTypes.object,
+  label: PropTypes.string,
+  formData: PropTypes.object,
+  currentDebt: PropTypes.object,
 };
 
 export default ResolutionOptions;
