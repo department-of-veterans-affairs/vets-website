@@ -5,7 +5,12 @@ import { focusElement } from 'platform/utilities/ui';
 import scrollTo from 'platform/utilities/ui/scrollTo';
 
 import { PageTitle } from '../content/title';
-import { IntroText, ProcessList, OmbBlock } from '../content/introduction';
+import {
+  NewIntroText,
+  IntroText,
+  ProcessList,
+  OmbBlock,
+} from '../content/introduction';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
 
@@ -38,8 +43,8 @@ export const IntroductionPage = props => {
     <div className="schemaform-intro">
       <PageTitle />
 
+      <NewIntroText />
       <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} />
-
       <IntroText />
       <ProcessList />
 

@@ -76,6 +76,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
     mockVAOSAppointmentsFetch({
       start: testDates()
@@ -88,6 +89,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
         .format('YYYY-MM-DD'),
       requests: [response],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     // Act
@@ -128,6 +130,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -212,6 +215,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -257,6 +261,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -297,6 +302,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     const screen = renderWithStoreAndRouter(<PastAppointmentsList />, {
@@ -364,6 +370,7 @@ describe('VAOS Page: PastAppointmentsList V2 api', () => {
       end: testDates().end.format('YYYY-MM-DD'),
       requests: [appointment],
       statuses: ['booked', 'arrived', 'fulfilled', 'cancelled'],
+      avs: true,
     });
 
     const myInitialState = {

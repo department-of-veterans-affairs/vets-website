@@ -21,11 +21,13 @@ import {
   isVAPatient,
   personalizationEnabled,
   mrPhase1Enabled,
+  isAuthenticatedWithSSOe,
 } from '../selectors';
 import manifest from '../manifest.json';
 
 const LandingPage = ({ data = {} }) => {
   const { cards = [], hubs = [] } = data;
+  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const userVerified = useSelector(isLOA3);
   const vaPatient = useSelector(isVAPatient);
   const userRegistered = userVerified && vaPatient;
@@ -54,6 +56,8 @@ const LandingPage = ({ data = {} }) => {
           <HeaderLayout
             showWelcomeMessage={showWelcomeMessage}
             showLearnMore={showLearnMore}
+            ssoe={ssoe}
+            userVerified={userVerified}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

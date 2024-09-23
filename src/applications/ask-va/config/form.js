@@ -241,7 +241,9 @@ const formConfig = {
       hideFormNavProgress: true,
       depends: formData =>
         formData.selectCategory === CategoryEducation &&
-        formData.relationshipToVeteran === relationshipOptionsSomeoneElse.WORK,
+        formData.relationshipToVeteran ===
+          relationshipOptionsSomeoneElse.WORK &&
+        formData.selectTopic !== 'VEAP (Ch 32)',
       pages: {
         ...aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages,
       },
@@ -264,7 +266,9 @@ const formConfig = {
       hideFormNavProgress: true,
       depends: formData =>
         formData.whoIsYourQuestionAbout ===
-        whoIsYourQuestionAboutLabels.GENERAL,
+          whoIsYourQuestionAboutLabels.GENERAL &&
+        formData.selectTopic === 'VEAP (Ch 32)',
+      // we will need the VR&E option added to topics,
       pages: { ...generalQuestionPages },
     },
     yourQuestionPart2: {

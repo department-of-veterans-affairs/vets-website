@@ -4,6 +4,8 @@ import {
   CHAPTER_2,
   CHAPTER_3,
   healthcareCategoryLabels,
+  schoolInYourProfileOptions,
+  yourRoleOptions,
 } from '../../constants';
 
 // Personal Information
@@ -23,6 +25,7 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import relationshipToVeteranPage from '../chapters/personalInformation/relationshipToVeteran';
+import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
@@ -165,6 +168,7 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: searchSchoolsPage.uiSchema,
     schema: searchSchoolsPage.schema,
+    depends: form => form.useSchoolInProfile === schoolInYourProfileOptions.NO,
   },
   schoolStOrResidency: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -175,6 +179,11 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: stateOfSchoolPage.uiSchema,
     schema: stateOfSchoolPage.schema,
+    depends: form =>
+      form.school === 'My facility is not listed' ||
+      form.yourRole === yourRoleOptions.VA_EMPLOYEE ||
+      form.yourRole === yourRoleOptions.WORK_STUDY_SUP ||
+      form.yourRole === yourRoleOptions.OTHER,
   },
   stateOrFacility: {
     title: CHAPTER_3.SCHOOL.TITLE,
@@ -185,6 +194,17 @@ const ch3Pages = {
     title: CHAPTER_3.SCHOOL.TITLE,
     uiSchema: useThisSchoolPage.uiSchema,
     schema: useThisSchoolPage.schema,
+    depends: form =>
+      form.useSchoolInProfile === schoolInYourProfileOptions.NO &&
+      form.school !== 'My facility is not listed',
+  },
+  schoolInYourProfile: {
+    title: CHAPTER_3.SCHOOL.TITLE,
+    uiSchema: schoolInYourProfilePage.uiSchema,
+    schema: schoolInYourProfilePage.schema,
+    depends: form =>
+      form.yourRole === yourRoleOptions.SCO ||
+      form.yourRole === yourRoleOptions.TRAINING_OR_APPRENTICESHIP_SUP,
   },
   yourContactInformation: {
     title: CHAPTER_3.CONTACT_INFORMATION.TITLE,
@@ -323,9 +343,11 @@ const aboutSomeoneElseRelationshipConnectedThroughWorkCondition = formData => {
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducationCondition = formData => {
   return (
+    // Using VEAP (Ch 32) for testing - Will swap it out for VR&E when added to Topics
     formData.relationshipToVeteran ===
       "I'm connected to the Veteran through my work (for example, as a School Certifying Official or fiduciary)" &&
-    formData.selectCategory === CategoryEducation
+    formData.selectCategory === CategoryEducation &&
+    formData.selectTopic !== 'VEAP (Ch 32)'
   );
 };
 
@@ -341,7 +363,8 @@ const aboutSomeoneElseRelationshipVeteranOrFamilyMemberEducationCondition = form
 const generalQuestionCondition = formData => {
   return (
     formData.whoIsYourQuestionAbout === "It's a general question" ||
-    formData.selectCategory === CategoryEducation
+    (formData.selectCategory === CategoryEducation &&
+      formData.selectTopic === 'VEAP (Ch 32)')
   );
 };
 
@@ -535,7 +558,10 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
   'yourRoleEducation',
+  'schoolInYourProfile',
   'searchSchools',
+  'useThisSchool',
+  'stateOfSchool',
   'aboutYourself',
   'yourContactInformation',
 ];
