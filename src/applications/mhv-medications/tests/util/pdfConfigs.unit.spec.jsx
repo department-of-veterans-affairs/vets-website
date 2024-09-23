@@ -84,10 +84,10 @@ describe('Medication Information Config', () => {
     const pdfData = buildMedicationInformationPDF(txt);
     expect(pdfData.sections.length).to.equal(2);
     expect(pdfData.sections[0].header).to.equal('Test');
-    expect(pdfData.sections[0].items[0].value).to.equal(
-      '    * Item 1\n    * Item 2\n\n',
-    );
+    expect(pdfData.sections[0].items[0].value).to.eql([
+      { value: ['Item 1', 'Item 2'] },
+    ]);
     expect(pdfData.sections[1].header).to.equal('Test 2');
-    expect(pdfData.sections[1].items[0].value).to.equal('Paragraph\n\n');
+    expect(pdfData.sections[1].items[0].value).to.equal('Paragraph');
   });
 });

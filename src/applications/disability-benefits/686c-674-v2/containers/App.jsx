@@ -2,10 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { VA_FORM_IDS } from '@department-of-veterans-affairs/platform-forms/constants';
+// import manifest from '../manifest.json';
+import { useBrowserMonitoring } from '~/platform/utilities/real-user-monitoring';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles';
 import formConfig from '../config/form';
 import { DOC_TITLE } from '../config/constants';
 
 function App({ location, children, isLoading, featureToggles, savedForms }) {
+  const { TOGGLE_NAMES } = useFeatureToggle();
+  useBrowserMonitoring({
+    location,
+    toggleName: TOGGLE_NAMES.disablityBenefitsBrowserMonitoringEnabled,
+  });
   // Must match the H1
   document.title = DOC_TITLE;
   // Handle loading

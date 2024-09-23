@@ -12,7 +12,6 @@ import {
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
-  formToggle,
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
@@ -22,9 +21,11 @@ import {
   veteranPersonalInformation,
   veteranContactPhoneEmail,
   veteranContactMailing,
+  veteranContactMailingClaimant,
   veteranIdentification,
   veteranServiceInformation,
   selectAccreditedRepresentative,
+  selectedAccreditedOrganizationId,
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
@@ -92,25 +93,33 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    formToggle: {
-      title: ' ',
-      pages: {
-        repType: {
-          path: 'rep-type',
-          title: ' ',
-          uiSchema: formToggle.uiSchema,
-          schema: formToggle.schema,
-        },
-      },
-    },
-    accreditedRepresentative: {
-      title: 'Accredited Representative',
+    accreditedRepresentativeInformation: {
+      title: 'Accredited representative information',
       pages: {
         selectAccreditedRepresentative: {
           title: 'Representative Select',
           path: 'representative-select',
           uiSchema: selectAccreditedRepresentative.uiSchema,
           schema: selectAccreditedRepresentative.schema,
+        },
+        selectAccreditedOrganization: {
+          path: 'representative-organization',
+          title: 'Organization Select',
+          depends: formData =>
+            !!formData['view:selectedRepresentative'] &&
+            formData['view:selectedRepresentative'].attributes
+              ?.individualType === 'representative' &&
+            formData['view:selectedRepresentative'].attributes
+              ?.accreditedOrganizations?.data?.length > 1,
+          uiSchema: selectedAccreditedOrganizationId.uiSchema,
+          schema: {
+            type: 'object',
+            properties: {
+              selectedAccreditedOrganizationId: {
+                type: 'string',
+              },
+            },
+          },
         },
       },
     },
@@ -163,7 +172,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
-            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
             const isNotVeteran = !preparerIsVeteran({ formData });
             return isLoggedIn && isNotVeteran;
           },
@@ -192,7 +201,7 @@ const formConfig = {
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: `Your  mailing address`,
+          title: `Your mailing address`,
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
@@ -225,7 +234,7 @@ const formConfig = {
       },
     },
     veteranInfoForNonVeterans: {
-      title: 'Veteran Information',
+      title: 'Veteran information',
       depends: formData => !preparerIsVeteran({ formData }),
       pages: {
         veteranPersonalInformation: {
@@ -236,12 +245,12 @@ const formConfig = {
           schema: veteranPersonalInformation.schema,
           editModeOnReviewPage: true,
         },
-        veteranContactMailing: {
-          path: 'veteran-contact-mailing',
-          title: `Veteran's  mailing address`,
+        veteranContactMailingClaimant: {
+          path: 'veteran-contact-mailing-address',
+          title: `The Veteran's mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
-          uiSchema: veteranContactMailing.uiSchema,
-          schema: veteranContactMailing.schema,
+          uiSchema: veteranContactMailingClaimant.uiSchema,
+          schema: veteranContactMailingClaimant.schema,
           editModeOnReviewPage: true,
         },
         veteranContactPhoneEmail: {

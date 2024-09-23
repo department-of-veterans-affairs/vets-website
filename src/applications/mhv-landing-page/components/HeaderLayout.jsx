@@ -1,10 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { datadogRum } from '@datadog/browser-rum';
-import { isAuthenticatedWithSSOe } from '../selectors';
 import WelcomeContainer from '../containers/WelcomeContainer';
 
 const goBackLinkText = 'Go back to the previous version of My HealtheVet';
@@ -12,8 +10,9 @@ const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 const HeaderLayout = ({
   showWelcomeMessage = false,
   showLearnMore = false,
+  showMhvGoBack = false,
+  ssoe = false,
 }) => {
-  const ssoe = useSelector(isAuthenticatedWithSSOe);
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
   const mhvDownloadUrl = mhvUrl(ssoe, 'download-my-data');
 
@@ -66,21 +65,23 @@ const HeaderLayout = ({
               health care needs in the same place where you manage your other VA
               benefits and services—right here on VA.gov.
             </p>
-            <p>
-              If you’re not ready to try the new My HealtheVet, you can use the
-              previous version anytime.{' '}
-              <a
-                onClick={() =>
-                  datadogRum.addAction(
-                    `Click on Landing Page: Intro - ${goBackLinkText}`,
-                  )
-                }
-                data-testid="mhv-go-back-1"
-                href={mhvHomeUrl}
-              >
-                {goBackLinkText}
-              </a>
-            </p>
+            {showMhvGoBack && (
+              <p>
+                If you’re not ready to try the new My HealtheVet, you can use
+                the previous version anytime.{' '}
+                <a
+                  onClick={() =>
+                    datadogRum.addAction(
+                      `Click on Landing Page: Intro - ${goBackLinkText}`,
+                    )
+                  }
+                  data-testid="mhv-go-back-1"
+                  href={mhvHomeUrl}
+                >
+                  {goBackLinkText}
+                </a>
+              </p>
+            )}
           </div>
           {showLearnMore && (
             <div>
@@ -166,7 +167,9 @@ const HeaderLayout = ({
 
 HeaderLayout.propTypes = {
   showLearnMore: PropTypes.bool,
+  showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
+  ssoe: PropTypes.bool,
 };
 
 export default HeaderLayout;

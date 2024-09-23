@@ -28,11 +28,13 @@ import {
   collectMedicareInformation,
   useLighthouseFacilityList,
   useJsonFacilityList,
+  insuranceTextOverrides,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
   HIGH_DISABILITY_MINIMUM,
 } from '../../../../utils/constants';
+import content from '../../../../locales/en/content.json';
 
 describe('hca form config helpers', () => {
   context('when `isLoggedOut` executes', () => {
@@ -142,8 +144,14 @@ describe('hca form config helpers', () => {
   });
 
   context('when `dischargePapersRequired` executes', () => {
-    const getData = ({ inMvi = true, disabilityRating = 0 }) => ({
-      'view:totalDisabilityRating': disabilityRating,
+    const getData = ({
+      inMvi = true,
+      loggedIn = false,
+      compensation = 'none',
+    }) => ({
+      vaCompensationType: compensation,
+      'view:totalDisabilityRating': 0,
+      'view:isLoggedIn': loggedIn,
       'view:isUserInMvi': inMvi,
     });
 
@@ -158,7 +166,12 @@ describe('hca form config helpers', () => {
     });
 
     it('should return `false` when user is short form eligible', () => {
-      const formData = getData({ disabilityRating: 80 });
+      const formData = getData({ compensation: 'highDisability' });
+      expect(dischargePapersRequired(formData)).to.be.false;
+    });
+
+    it('should return `false` when user is authenticated', () => {
+      const formData = getData({ loggedIn: true });
       expect(dischargePapersRequired(formData)).to.be.false;
     });
   });
@@ -267,9 +280,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyAuthConfirmation` executes', () => {
-    const getData = ({ loggedIn = true, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+      selectedPackage = 'regOnly',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      'view:totalDisabilityRating': totalRating,
     });
 
     it('should return `true` when all data values are correct', () => {
@@ -294,9 +314,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyGuestConfirmation` executes', () => {
-    const getData = ({ loggedIn = false, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      selectedPackage = 'regOnly',
+      compensationType = 'lowDisability',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      vaCompensationType: compensationType,
     });
 
     it('should return `true` when all data values are correct', () => {
@@ -624,6 +651,48 @@ describe('hca form config helpers', () => {
     it('should return `true` when viewfield is set to `false`', () => {
       const formData = { 'view:isFacilitiesApiEnabled': false };
       expect(useJsonFacilityList(formData)).to.be.true;
+    });
+  });
+
+  context('when `insuranceTextOverrides` executes', () => {
+    const defaultOutput = {
+      cancelAddTitle: content['insurance-info--array-cancel-add-title'],
+      cancelEditTitle: content['insurance-info--array-cancel-edit-title'],
+      cancelEditDescription:
+        content['insurance-info--array-cancel-edit-description'],
+      cancelEditReviewDescription:
+        content['insurance-info--array-cancel-edit-review-description'],
+      cancelAddYes: content['insurance-info--array-cancel-add-yes'],
+      cancelEditYes: content['insurance-info--array-cancel-edit-yes'],
+    };
+    const executeMethod = ({ item, output }) => {
+      const entries = Object.entries(insuranceTextOverrides());
+      for (const [key, value] of entries) {
+        expect(value(item)).to.deep.eq(output[key]);
+      }
+    };
+
+    it('should return the proper values when item data is present', () => {
+      const item = {
+        insuranceName: 'Cigna',
+        insurancePolicyHolderName: 'Jane Doe',
+      };
+      const expectedOutput = {
+        ...defaultOutput,
+        getItemName: 'Cigna',
+        cardDescription: 'Policyholder: Jane Doe',
+      };
+      executeMethod({ output: expectedOutput, item });
+    });
+
+    it('should return the proper values when item data is omitted', () => {
+      const item = {};
+      const expectedOutput = {
+        ...defaultOutput,
+        getItemName: '—',
+        cardDescription: 'Policyholder: —',
+      };
+      executeMethod({ output: expectedOutput, item });
     });
   });
 });

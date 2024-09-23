@@ -680,7 +680,7 @@ export const show526MaxRating = state =>
 
 export const wrapWithBreadcrumb = (title, component) => (
   <>
-    <div className="row">
+    <div className="row vads-u-padding-x--1p5">
       <VaBreadcrumbs
         uswds
         breadcrumbList={[

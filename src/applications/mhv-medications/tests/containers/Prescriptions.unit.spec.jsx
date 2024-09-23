@@ -313,4 +313,30 @@ describe('Medications Prescriptions container', () => {
       'If you print or download this list, we’ll include a list of your allergies.',
     );
   });
+  it('displays filter accordion if mhv_medications_display_filter feature flag is set to true', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: true,
+      },
+    });
+    expect(await screen.getByTestId('filter-accordion')).to.exist;
+  });
+  it('does not display filter accordion if mhv_medications_display_filter feature flag is set to false', async () => {
+    const screen = setup({
+      ...initialState,
+      breadcrumbs: {
+        list: [],
+      },
+      featureToggles: {
+        // eslint-disable-next-line camelcase
+        mhv_medications_display_filter: false,
+      },
+    });
+    expect(await screen.queryByTestId('filter-accordion')).to.not.exist;
+  });
 });
