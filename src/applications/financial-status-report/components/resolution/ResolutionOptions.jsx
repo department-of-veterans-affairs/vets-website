@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { setData } from 'platform/forms-system/src/js/actions';
 import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { RESOLUTION_OPTION_TYPES } from '../../constants';
+import { RESOLUTION_OPTION_TYPES, DEBT_TYPES } from '../../constants';
 import { setFocus, isNullOrUndefinedOrEmpty } from '../../utils/fileValidation';
 
 const ResolutionOptions = ({ formContext }) => {
@@ -73,7 +74,7 @@ const ResolutionOptions = ({ formContext }) => {
   };
 
   const label = 'Select relief option: ';
-  const options = [
+  const debtOptions = [
     {
       value: 'waiver',
       label: 'Waiver',
@@ -83,6 +84,19 @@ const ResolutionOptions = ({ formContext }) => {
       value: 'monthly',
       label: 'Extended monthly payments',
       description: monthlyText,
+    },
+    {
+      value: 'compromise',
+      label: 'Compromise',
+      description: compromiseText,
+    },
+  ];
+
+  const copayOptions = [
+    {
+      value: 'waiver',
+      label: 'Waiver',
+      description: waiverText,
     },
     {
       value: 'compromise',
@@ -103,28 +117,51 @@ const ResolutionOptions = ({ formContext }) => {
             error={selectionError}
             required
           >
-            {options.map((option, index) => (
-              <VaRadioOption
-                key={`${option.value}-${index}`}
-                id={`resolution-option-${index}`}
-                description={option.description}
-                name="resolution-option"
-                label={option.label}
-                value={option.value}
-                checked={currentDebt.resolutionOption === option.value}
-                ariaDescribedby={
-                  currentDebt.resolutionOption === option.value
-                    ? option.value
-                    : null
-                }
-                className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
-              />
-            ))}
+            {currentDebt.debtType !== DEBT_TYPES.COPAY &&
+              debtOptions.map((option, index) => (
+                <VaRadioOption
+                  key={`${option.value}-${index}`}
+                  id={`resolution-option-${index}`}
+                  description={option.description}
+                  name="resolution-option"
+                  label={option.label}
+                  value={option.value}
+                  checked={currentDebt.resolutionOption === option.value}
+                  ariaDescribedby={
+                    currentDebt.resolutionOption === option.value
+                      ? option.value
+                      : null
+                  }
+                  className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
+                />
+              ))}
+            {currentDebt.debtType === DEBT_TYPES.COPAY &&
+              copayOptions.map((option, index) => (
+                <VaRadioOption
+                  key={`${option.value}-${index}`}
+                  id={`resolution-option-${index}`}
+                  description={option.description}
+                  name="resolution-option"
+                  label={option.label}
+                  value={option.value}
+                  checked={currentDebt.resolutionOption === option.value}
+                  ariaDescribedby={
+                    currentDebt.resolutionOption === option.value
+                      ? option.value
+                      : null
+                  }
+                  className="no-wrap vads-u-margin-y--3 vads-u-margin-left--2 "
+                />
+              ))}
           </VaRadio>
         </div>
       )}
     </div>
   );
+};
+
+ResolutionOptions.propTypes = {
+  formContext: PropTypes.object,
 };
 
 export default ResolutionOptions;
