@@ -240,8 +240,11 @@ export const deceasedDependentLocationOfDeathPage = {
     //   },
     // },
     dependentDeathLocation: {
-      'ui:description': (
-        <CustomLocation checkboxLabel="This occurred outside the U.S." />
+      'ui:webComponentField': props => (
+        <CustomLocation
+          {...props}
+          checkboxLabel="This occurred outside the U.S."
+        />
       ),
     },
   },

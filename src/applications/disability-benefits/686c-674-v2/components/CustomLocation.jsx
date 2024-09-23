@@ -17,7 +17,7 @@ const filteredStates = constants.states.USA.filter(
 const STATE_VALUES = filteredStates.map(state => state.value);
 const STATE_NAMES = filteredStates.map(state => state.label);
 
-export default function CustomLocation({ checkboxLabel }) {
+export default function CustomLocation({ checkboxLabel, onChange }) {
   // const dispatch = useDispatch();
   // const formData = useSelector(state => state.form.data);
 
@@ -25,10 +25,17 @@ export default function CustomLocation({ checkboxLabel }) {
 
   const handleCheckboxChange = event => {
     setInert(event.target.checked);
+    onChange();
   };
+
+  // 1. onChange of any of these should POST current data to /v0/in_progress_forms/686C-674-V2
+  // action: SET_AUTO_SAVE_FORM_STATUS
+  // 2. reset VaSelect to undefined upon going inert
+  // 3. hook up formData props to all
 
   return (
     <>
+      {/* property name: outsideUsa */}
       <VaCheckbox
         id="outside-usa"
         name="outside-usa"
@@ -37,6 +44,7 @@ export default function CustomLocation({ checkboxLabel }) {
         aria-describedby={checkboxLabel}
         uswds
       />
+      {/* property name: location.city */}
       <VaTextInput
         label="City"
         aria-describedby="City"
@@ -45,7 +53,8 @@ export default function CustomLocation({ checkboxLabel }) {
         required
         uswds
       />
-      <VaSelect label="State" inert={inert} required={!inert}>
+      {/* property name: location.state */}
+      <VaSelect label="State" inert={inert} required={!inert} uswds>
         {STATE_NAMES.map((name, index) => (
           <option key={name} value={STATE_VALUES[index]}>
             {name}
