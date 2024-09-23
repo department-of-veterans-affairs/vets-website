@@ -258,6 +258,10 @@ function submitForm() {
     .invoke('attr', 'data-location')
     .should('not.contain', '/review-and-submit');
 
+  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
+    'contain',
+    'Your claim has been submitted.',
+  );
   cy.axeCheck();
 }
 
