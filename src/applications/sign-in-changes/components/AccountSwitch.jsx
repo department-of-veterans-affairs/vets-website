@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { LoginButton } from '~/platform/user/exportsFile';
 import { maskEmail } from '../helpers';
-// import { LoginButton } from '@department-of-veterans-affairs/platform/user/exportsFile';
 
 export default function AccountSwitch({ hasLogingov, userEmail }) {
   const maskedEmail = maskEmail(userEmail);
@@ -18,7 +18,7 @@ export default function AccountSwitch({ hasLogingov, userEmail }) {
       <p>
         <strong>{maskedEmail}</strong>
       </p>
-      {/* <LoginButton csp={hasLogingov ? 'logingov' : 'idme'} /> */}
+      <LoginButton csp={hasLogingov ? 'logingov' : 'idme'} />
     </div>
   );
 }
