@@ -35,11 +35,12 @@ export function formatDateParsedZoneLong(date) {
 }
 
 export function formatDateShort(date) {
-  return moment(date).format('MM/DD/YYYY');
+  return format(new Date(date), 'MM/dd/yyyy');
 }
 
 export function formatDateParsedZoneShort(date) {
-  return moment.parseZone(date).format('MM/DD/YYYY');
+  const localDate = stripTimezoneFromIsoDate(date);
+  return format(parseISO(localDate), 'MM/dd/yyyy');
 }
 
 function formatDiff(diff, desc) {
