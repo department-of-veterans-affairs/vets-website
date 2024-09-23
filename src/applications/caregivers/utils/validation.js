@@ -42,7 +42,7 @@ export const validateCountyInput = (errors, fieldData) => {
     'UnitedStatesOfAmerica',
   ];
   const regex = new RegExp(`^(?!(${disallowList.join('|')})$)`, 'i');
-  if (!regex.test(fieldData)) {
+  if (!regex.test(fieldData.trim())) {
     errors.addError(content['validation-address--county-pattern']);
   }
 };
