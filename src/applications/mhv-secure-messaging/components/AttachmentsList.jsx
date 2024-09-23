@@ -1,10 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { closeAlert } from '../actions/alerts';
 import RemoveAttachmentModal from './Modals/RemoveAttachmentModal';
 import HowToAttachFiles from './HowToAttachFiles';
+import * as Constants from '../util/constants';
 
 const AttachmentsList = props => {
   const {
@@ -18,7 +21,9 @@ const AttachmentsList = props => {
     attachFileSuccess,
     setAttachFileSuccess,
     forPrint,
+    attachmentVirusError,
   } = props;
+  const dispatch = useDispatch();
   const attachmentReference = useRef(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isAttachmentRemoved, setIsAttachmentRemoved] = useState(false);
@@ -50,7 +55,7 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachFileSuccess && attachFileAlertRef.current.shadowRoot) {
+      if (attachFileSuccess && attachFileAlertRef?.current?.shadowRoot) {
         setTimeout(() => {
           setFocusedElement(
             document.querySelector('#close-success-alert-button'),
@@ -122,7 +127,8 @@ const AttachmentsList = props => {
       {editingEnabled && <HowToAttachFiles />}
 
       {attachFileSuccess &&
-        attachments.length > 0 && (
+        attachments.length > 0 &&
+        !attachmentVirusError && (
           <VaAlert
             aria-live="polite"
             aria-label="file successfully attached"
@@ -158,6 +164,22 @@ const AttachmentsList = props => {
             </button>
           </VaAlert>
         )}
+
+      {attachmentVirusError && (
+        <VaAlert
+          data-testid="attachment-virus-alert"
+          aria-live="polite"
+          aria-label={Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
+          background-only
+          className="file-attached-success vads-u-margin-top--2"
+          disable-analytics
+          full-width="false"
+          show-icon
+          status="error"
+        >
+          {Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
+        </VaAlert>
+      )}
 
       <ul className="attachments-list">
         {!!attachments.length &&
@@ -261,6 +283,7 @@ const AttachmentsList = props => {
             setIsAttachmentRemoved(false);
           }}
           onDelete={() => {
+            dispatch(closeAlert());
             setNavigationError();
             setIsModalVisible(false);
             removeAttachment(fileToRemove);

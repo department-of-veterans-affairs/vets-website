@@ -12,6 +12,7 @@ const FileInput = props => {
     setAttachments,
     setAttachFileSuccess,
     draftSequence,
+    attachmentVirusError,
   } = props;
 
   const [error, setError] = useState();
@@ -142,42 +143,45 @@ const FileInput = props => {
         </label>
       )}
 
-      {attachments?.length < Attachments.MAX_FILE_COUNT && (
-        <>
-          {/* Wave plugin addressed this as an issue, label required */}
-          <label
-            htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-            hidden
-          >
-            Attachments input
-          </label>
-          <input
-            ref={fileInputRef}
-            type="file"
-            id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-            name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
-            data-testid={`attach-file-input${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
-            onChange={handleFiles}
-            hidden
-          />
+      {attachments?.length < Attachments.MAX_FILE_COUNT &&
+        !attachmentVirusError && (
+          <>
+            {/* Wave plugin addressed this as an issue, label required */}
+            <label
+              htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              hidden
+            >
+              Attachments input
+            </label>
+            <input
+              ref={fileInputRef}
+              type="file"
+              id={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              name={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
+              data-testid={`attach-file-input${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              onChange={handleFiles}
+              hidden
+            />
 
-          <va-button
-            onClick={useFileInput}
-            secondary
-            text={`${attachText}${draftText}`}
-            class="attach-file-button"
-            data-testid={`attach-file-button${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
-            id={`attach-file-button${draftSequence ? `-${draftSequence}` : ''}`}
-            data-dd-action-name={`Attach File Button${
-              draftSequence ? `-${draftSequence}` : ''
-            }`}
-          />
-        </>
-      )}
+            <va-button
+              onClick={useFileInput}
+              secondary
+              text={`${attachText}${draftText}`}
+              class="attach-file-button"
+              data-testid={`attach-file-button${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              id={`attach-file-button${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+              data-dd-action-name={`Attach File Button${
+                draftSequence ? `-${draftSequence}` : ''
+              }`}
+            />
+          </>
+        )}
     </div>
   );
 };
