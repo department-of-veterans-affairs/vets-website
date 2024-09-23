@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { parse } from 'date-fns';
+import { format, parse, parseISO } from 'date-fns';
 
 export function dateFieldToDate(dateField) {
   const year = dateField.year.value;
@@ -22,11 +22,16 @@ export function dateFieldToDate(dateField) {
 }
 
 export function formatDateLong(date) {
-  return moment(date).format('MMMM D, YYYY');
+  return format(parseISO(date), 'MMMM d, yyyy');
+}
+
+export function stripTimezoneFromIsoDate(date) {
+  return date ? date.replace(/(Z|[-+](\d{4}|\d{2}:\d{2}))$/, '') : date;
 }
 
 export function formatDateParsedZoneLong(date) {
-  return moment.parseZone(date).format('MMMM D, YYYY');
+  const localDate = stripTimezoneFromIsoDate(date);
+  return format(parseISO(localDate), 'MMMM d, yyyy');
 }
 
 export function formatDateShort(date) {

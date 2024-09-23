@@ -11,6 +11,7 @@ import {
   isValidDateString,
   formatDowntime,
   dateFieldToDate,
+  stripTimezoneFromIsoDate,
 } from '../date';
 
 describe('Helpers unit tests', () => {
@@ -231,6 +232,74 @@ describe('Helpers unit tests', () => {
       expect(formatDowntime('2020-11-21T00:35:30-05:00')).to.equal(
         'Nov. 21 at 12:35 a.m. ET',
       );
+    });
+  });
+
+  describe('stripTimezoneFromIsoDate', () => {
+    it('should remove the "Z" timezone designator', () => {
+      const date = '2023-10-05T14:48:00.000Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "+HHMM"', () => {
+      const date = '2023-10-05T14:48:00.000+0200';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "-HHMM"', () => {
+      const date = '2023-10-05T14:48:00.000-0500';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "+HH:MM"', () => {
+      const date = '2023-10-05T14:48:00.000+02:00';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "-HH:MM"', () => {
+      const date = '2023-10-05T14:48:00.000-05:00';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should not alter a date string without a timezone', () => {
+      const date = '2023-10-05T14:48:00.000';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should handle an empty string', () => {
+      const date = '';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('');
+    });
+
+    it('should handle a null value', () => {
+      const date = null;
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal(null);
+    });
+
+    it('should handle an undefined value', () => {
+      const date = undefined;
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal(undefined);
+    });
+
+    it('should handle a date string with milliseconds', () => {
+      const date = '2023-10-05T14:48:00.123Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.123');
+    });
+
+    it('should handle a date string without milliseconds', () => {
+      const date = '2023-10-05T14:48:00Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00');
     });
   });
 });
