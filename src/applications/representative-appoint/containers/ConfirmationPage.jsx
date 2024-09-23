@@ -51,48 +51,44 @@ export default function ConfirmationPage({ router }) {
   //   },
   // };
 
-  // formName
-  // For 21-22 that'd be Appointment of Veterans Service Organization as Claimant's Representative
-  // For 21-22a that'd be Appointment of Individual As Claimant's Representative
-
   const selectedEntity = formData['view:selectedRepresentative'];
-
-  const getFormNumber = () => {
-    const entity = formData['view:selectedRepresentative'];
-    const entityType = entity?.type;
-
-    if (entityType === 'organization') {
-      return '21-22';
-    }
-    if (entityType === 'individual') {
-      const { individualType } = entity.attributes;
-      if (individualType === 'representative') {
-        return '21-22';
-      }
-      return '21-22a';
-    }
-    return '21-22 or 21-22a';
-  };
-
+  const emailAddress = formData.email;
+  const firstName =
+    formData.applicantName?.first || formData.veteranFullName.first;
   const representativeType = selectedEntity.type;
   const representativeName = selectedEntity?.name || selectedEntity?.fullName;
-  const representativeAddress = {
-    address1: selectedEntity.addressLine1,
-    address2: selectedEntity.addressLine2,
-    address3: selectedEntity.addressLine3,
-    city: selectedEntity.city,
-    stateCode: selectedEntity.stateCode,
-    zipCode: selectedEntity.zipCode,
+  const representativeAddress =
+    [
+      (selectedEntity.addressLine1 || '').trim(),
+      (selectedEntity.addressLine2 || '').trim(),
+      (selectedEntity.addressLine3 || '').trim(),
+    ]
+      .filter(Boolean)
+      .join(' ') +
+    (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
+    (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
+    (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '');
+
+  const getFormNumber = () => {
+    const entityType = selectedEntity?.type;
+
+    if (
+      entityType === 'organization' ||
+      (entityType === 'individual' &&
+        selectedEntity.attributes.individualType === 'representative')
+    ) {
+      return '21-22';
+    }
+
+    return '21-22a';
   };
-  const nextStepsEmailPayload = {
-    emailAddress: formData,
-    firstName: formData,
-    formName:
-      "APPOINTMENT OF VETERANS SERVICE ORGANIZATION AS CLAIMANT'S REPRESENTATIVE",
-    formNumber: getFormNumber(),
-    representativeType,
-    representativeName,
-    representativeAddress,
+
+  const getFormName = () => {
+    if (getFormNumber() === '21-22') {
+      return "Appointment of Veterans Service Organization as Claimant's Representative";
+    }
+
+    return "Appointment of Individual As Claimant's Representative";
   };
 
   const handlers = {
@@ -106,7 +102,15 @@ export default function ConfirmationPage({ router }) {
     },
     onClickContinueButton: async () => {
       if (signedForm) {
-        const response = await sendNextStepsEmail(nextStepsEmailPayload);
+        const response = await sendNextStepsEmail({
+          emailAddress,
+          firstName,
+          representativeType,
+          representativeName,
+          representativeAddress,
+          formNumber: getFormNumber(),
+          formName: getFormName(),
+        });
 
         if (response.status === 200) {
           router.push('/next-steps');
