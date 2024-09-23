@@ -1,6 +1,24 @@
 // create an in memory db to store the data for the mock server responses
-const { hasIn } = require('lodash');
+const _ = require('lodash');
+
 const user = require('../endpoints/user');
+
+// sanitize user input
+const sanitize = dirty => {
+  // if input is a number, return it as is
+  if (!Number.isNaN(dirty)) {
+    return dirty;
+  }
+
+  if (typeof dirty !== 'string') {
+    throw new Error('Input must be a string');
+  }
+
+  // remove all html tags
+  const sanitized = dirty.replace(/<[^>]*>/g, '');
+
+  return _.escape(sanitized).trim();
+};
 
 const memDb = {
   user: user.loa3User72,
@@ -24,9 +42,10 @@ const profileHomePhoneUpdateKeys = [
 
 const createAddressUpdateToUser = address => {
   for (const key of potentialAddressUpdateKeys) {
-    if (hasIn(address, key)) {
-      memDb.user.data.attributes.vet360ContactInformation.mailingAddress[key] =
-        address[key];
+    if (_.hasIn(address, key)) {
+      memDb.user.data.attributes.vet360ContactInformation.mailingAddress[
+        key
+      ] = sanitize(address[key]);
     }
   }
 
@@ -35,9 +54,10 @@ const createAddressUpdateToUser = address => {
 
 const createHomePhoneUpdateToUser = mobilePhone => {
   for (const key of profileHomePhoneUpdateKeys) {
-    if (hasIn(mobilePhone, key)) {
-      memDb.user.data.attributes.vet360ContactInformation.homePhone[key] =
-        mobilePhone[key];
+    if (_.hasIn(mobilePhone, key)) {
+      memDb.user.data.attributes.vet360ContactInformation.homePhone[
+        key
+      ] = sanitize(mobilePhone[key]);
     }
   }
 
