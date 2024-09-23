@@ -13,11 +13,11 @@ const uiSchema = {
     'ui:widget': 'radio',
   },
   orginRace: {
+    'ui:reviewField': CustomGroupCheckboxField,
     'ui:field': CustomGroupCheckboxField,
     'ui:title': 'What is your race or origin?',
     'ui:description': 'select all that you identify with',
     'ui:options': {
-      showFieldLabel: true,
       labels: orginRace.enum,
     },
   },

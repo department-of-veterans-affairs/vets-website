@@ -12,6 +12,7 @@ import {
   applicantState,
   genderRaceQuestion,
   applicantRaceAndEthnicity,
+  applicantGender,
 } from '../pages';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
@@ -90,6 +91,13 @@ const formConfig = {
           path: 'applicant-information-6',
           uiSchema: applicantRaceAndEthnicity.uiSchema,
           schema: applicantRaceAndEthnicity.schema,
+          depends: formData => formData.raceAndGender === 'Yes',
+        },
+        applicantGender: {
+          title: 'Your personal information',
+          path: 'applicant-information-7',
+          uiSchema: applicantGender.uiSchema,
+          schema: applicantGender.schema,
           depends: formData => formData.raceAndGender === 'Yes',
         },
       },

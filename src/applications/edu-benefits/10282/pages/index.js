@@ -5,6 +5,7 @@ import * as applicantContactInfo from './applicantInformation/applicantContactIn
 import * as applicantState from './applicantInformation/applicantState';
 import * as genderRaceQuestion from './applicantInformation/genderRaceQuestion';
 import * as applicantRaceAndEthnicity from './applicantInformation/applicantRaceAndEthnicity';
+import * as applicantGender from './applicantInformation/applicantGender';
 
 export {
   applicantInformationName,
@@ -14,4 +15,5 @@ export {
   applicantState,
   genderRaceQuestion,
   applicantRaceAndEthnicity,
+  applicantGender,
 };
