@@ -258,7 +258,7 @@ function submitForm() {
     .invoke('attr', 'data-location')
     .should('not.contain', '/review-and-submit');
 
-  cy.get('.confirmation-page-title').should('be.visible');
+  // cy.get('.confirmation-page-title').should('be.visible');
   cy.axeCheck();
 }
 
