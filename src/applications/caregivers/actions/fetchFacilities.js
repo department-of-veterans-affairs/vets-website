@@ -91,6 +91,7 @@ export const fetchFacilities = async ({
         // Return a new facility object with the updated address
         return {
           ...attributes,
+          id: facility.id,
           address: {
             physical: newPhysicalAddress,
           },

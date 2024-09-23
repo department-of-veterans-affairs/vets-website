@@ -1,3 +1,4 @@
+// Mock caregiver facilities response
 export const mockFacilitiesResponse = {
   data: [
     {
@@ -28,7 +29,6 @@ export const mockFacilitiesResponse = {
           saturday: 'Closed',
           sunday: 'Closed',
         },
-        id: 'vha_757QC',
         lat: 39.996592,
         long: -82.93310921,
         mobile: false,
@@ -60,6 +60,8 @@ export const mockFacilitiesResponse = {
         website:
           'https://www.va.gov/central-ohio-health-care/locations/columbus-va-clinic/',
       },
+      type: 'va_facilities',
+      id: 'vha_757QC',
     },
     {
       attributes: {
@@ -97,7 +99,6 @@ export const mockFacilitiesResponse = {
           saturday: '800AM-400PM',
           sunday: '800AM-400PM',
         },
-        id: 'vha_757',
         lat: 39.98048191,
         long: -82.91230307,
         mobile: false,
@@ -433,6 +434,8 @@ export const mockFacilitiesResponse = {
         website:
           'https://www.va.gov/central-ohio-health-care/locations/chalmers-p-wylie-veterans-outpatient-clinic/',
       },
+      type: 'va_facilities',
+      id: 'vha_757',
     },
   ],
   meta: {
@@ -445,6 +448,7 @@ export const mockFacilitiesResponse = {
   },
 };
 
+// formatted fetchFacilities function responses
 const fetchChildFacilityWithoutCaregiverSupport = {
   access: null,
   activeStatus: null,
