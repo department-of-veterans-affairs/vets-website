@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router';
 import AlertMessage from './AlertMessage';
 import {
   SHORT_NAME_MAP,
   RESPONSES,
 } from '../../../constants/question-data-map';
+import { ROUTES } from '../../../constants';
 
-const CarefulConsiderationStatement = ({ formResponses }) => {
+const CarefulConsiderationStatement = ({ formResponses, router }) => {
   const reasonStatement = () => {
     const reason = formResponses[SHORT_NAME_MAP.REASON];
     const dischargeType = formResponses[SHORT_NAME_MAP.DISCHARGE_TYPE];
@@ -89,6 +89,10 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
   };
 
   const priorServiceStatement = () => {
+    const onDD214LinkClick = () => {
+      router.push(ROUTES.DD214);
+    };
+
     switch (formResponses[SHORT_NAME_MAP.PRIOR_SERVICE]) {
       case RESPONSES.PRIOR_SERVICE_PAPERWORK_YES:
         return (
@@ -151,10 +155,12 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
                     If you want a DD214 for your period of honorable service for
                     other reasons, unrelated to applying for VA benefits, you
                     can request one.{' '}
-                    <Link to="/request-dd214" target="_blank">
-                      Find out how to request a DD214 for your period of
-                      honorable service (opens in a new tab)
-                    </Link>
+                    <va-link
+                      href="#"
+                      text="Find out how to request a DD214 for your period of
+                      honorable service"
+                      onClick={onDD214LinkClick}
+                    />
                   </p>
                 </div>
               </>
@@ -176,6 +182,9 @@ const CarefulConsiderationStatement = ({ formResponses }) => {
 
 CarefulConsiderationStatement.propTypes = {
   formResponses: PropTypes.object.isRequired,
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default CarefulConsiderationStatement;

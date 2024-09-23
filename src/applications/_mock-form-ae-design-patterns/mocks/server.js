@@ -15,17 +15,20 @@ const serviceHistory = require('./endpoints/service-history');
 const maintenanceWindows = require('./endpoints/maintenance-windows');
 
 const {
-  prefill,
-  // prefillMaximal,
-  // createSaveInProgressUpdate,
-  createSaveInProgressUpdateEZR,
-} = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
+  createSaveInProgressUpdate,
+} = require('./endpoints/in-progress-forms/update');
+
+const mockFormAeDesignPatterns = require('./endpoints/in-progress-forms/mock-form-ae-design-patterns');
+
+const prefill261880 = require('./endpoints/in-progress-forms/26-1880');
 
 // transaction status that is used for address, email, phone number update flows
 const {
   getEmptyStatus,
   generateStatusResponse,
 } = require('./endpoints/status');
+
+const { generateCoeEligibleResponse } = require('./endpoints/coe/status');
 
 // use one of these to provide a generic error response for any endpoint
 const genericErrors = {
@@ -46,26 +49,6 @@ const {
 } = require('./script/utils');
 
 const responses = {
-  'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
-    const secondsOfDelay = 1;
-    delaySingleResponse(() => res.json(prefill), secondsOfDelay);
-  },
-
-  'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
-    const secondsOfDelay = 1;
-    delaySingleResponse(
-      () => res.json(createSaveInProgressUpdateEZR()),
-      secondsOfDelay,
-    );
-  },
-  // 'PUT /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
-  //   const secondsOfDelay = 1;
-  //   delaySingleResponse(
-  //     () => res.json(createSaveInProgressUpdate()),
-  //     secondsOfDelay,
-  //   );
-  // },
-
   'GET /v0/feature_toggles': (_req, res) => {
     const secondsOfDelay = 0;
     delaySingleResponse(
@@ -73,11 +56,35 @@ const responses = {
         res.json(
           generateFeatureToggles({
             profileUseExperimental: true,
+            coeAccess: true,
           }),
         ),
       secondsOfDelay,
     );
   },
+
+  'GET /v0/in_progress_forms/FORM-MOCK-AE-DESIGN-PATTERNS': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.json(mockFormAeDesignPatterns.prefill),
+      secondsOfDelay,
+    );
+  },
+
+  'GET /v0/in_progress_forms/26-1880': (_req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(() => res.json(prefill261880.response), secondsOfDelay);
+  },
+
+  'PUT /v0/in_progress_forms/:id': (req, res) => {
+    const secondsOfDelay = 1;
+    delaySingleResponse(
+      () => res.json(createSaveInProgressUpdate(req)),
+      secondsOfDelay,
+    );
+  },
+
+  'GET /v0/coe/status': generateCoeEligibleResponse(),
   'GET /v0/user': (_req, res) => {
     const shouldError = false; // set to true to test error response
     if (shouldError) {

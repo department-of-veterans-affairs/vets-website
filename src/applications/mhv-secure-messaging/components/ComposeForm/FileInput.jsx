@@ -127,7 +127,17 @@ const FileInput = props => {
   );
 
   return (
-    <div className="file-input vads-u-font-weight--bold vads-u-color--secondary-dark">
+    <div
+      className={`
+        file-input
+        vads-u-font-weight--bold
+        vads-u-color--secondary-dark
+        ${
+          error
+            ? 'vads-u-margin-left--neg2 vads-u-border-left--4px vads-u-border-color--secondary-dark vads-u-padding-left--2'
+            : ''
+        }`}
+    >
       {error && (
         <label
           htmlFor={`attachments${draftSequence ? `-${draftSequence}` : ''}`}
