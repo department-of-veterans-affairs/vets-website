@@ -3,11 +3,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }
 
