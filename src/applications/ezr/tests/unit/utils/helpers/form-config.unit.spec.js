@@ -12,6 +12,13 @@ import {
   includeDependentInformation,
   includeInsuranceInformation,
   collectMedicareInformation,
+  canVeteranProvideRadiationCleanupResponse,
+  veteranBornBetween,
+  canVeteranProvideGulfWarResponse,
+  canVeteranProvideCombatOperationsResponse,
+  canVeteranProvideAgentOrangeResponse,
+  includeGulfWarServiceDates,
+  includeAgentOrangeExposureDates,
 } from '../../../../utils/helpers/form-config';
 import {
   DEPENDENT_VIEW_FIELDS,
@@ -278,5 +285,221 @@ describe('ezr form config helpers', () => {
         expect(includeInsuranceInformation(formData)).to.be.true;
       });
     });
+  });
+
+  context('when `includeGulfWarServiceDates` executes', () => {
+    context(
+      'when the `gulfWarService` value is true, `includeTeraInformation` evaluates to true, ' +
+        "and the user's DOB is between 1975 and the present year",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1991-07-16',
+        };
+        it('returns `true`', () => {
+          expect(includeGulfWarServiceDates(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      'when the `gulfWarService` value is false, and/or `includeTeraInformation` evaluates ' +
+        "to false, and/or the user's DOB is not between 1975 and the present year",
+      () => {
+        const formData = {
+          gulfWarService: true,
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1987-10-25',
+        };
+        it('returns `false`', () => {
+          expect(includeGulfWarServiceDates(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `includeAgentOrangeExposureDates` executes', () => {
+    context(
+      'when the `exposedToAgentOrange` value is true, `includeTeraInformation` evaluates to true, ' +
+        "and the user's DOB is between 1947 and 1965",
+      () => {
+        const formData = {
+          exposedToAgentOrange: true,
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1963-05-21',
+        };
+        it('returns `true`', () => {
+          expect(includeAgentOrangeExposureDates(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      'when the `exposedToAgentOrange` value is false, and/or `includeTeraInformation` evaluates ' +
+        "to false, and/or the user's DOB is not between 1947 and 1965",
+      () => {
+        const formData = {
+          exposedToAgentOrange: true,
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1955-02-12',
+        };
+        it('returns `false`', () => {
+          expect(includeAgentOrangeExposureDates(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `veteranBornBetween` executes', () => {
+    context(
+      'when the `veteranDateOfBirth` value is not between the given date range',
+      () => {
+        const formData = {
+          veteranDateOfBirth: '1957-11-18',
+        };
+        it('returns `false`', () => {
+          expect(veteranBornBetween(formData, '1958-01-01', '1959-12-31')).to.be
+            .false;
+        });
+      },
+    );
+
+    context(
+      'when the `veteranDateOfBirth` value is between the given date range',
+      () => {
+        const formData = {
+          veteranDateOfBirth: '1974-11-18',
+        };
+        it('returns `true`', () => {
+          expect(veteranBornBetween(formData, '1968-01-01', '1974-11-18')).to.be
+            .true;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideAgentOrangeResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB is " +
+        'between 1947 and 1965',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1947-01-01',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideAgentOrangeResponse(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is not between 1947 and 1965',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1941-10-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideAgentOrangeResponse(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideRadiationCleanupResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is between 1951 and 1965',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1965-12-31',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideRadiationCleanupResponse(formData)).to.be
+            .true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is not between 1951 and 1965',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1950-11-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideRadiationCleanupResponse(formData)).to.be
+            .false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideGulfWarResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is between 1975 and the present year',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '2004-04-23',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideGulfWarResponse(formData)).to.be.true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's DOB " +
+        'is not between 1975 and the present year',
+      () => {
+        const formData = {
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1974-10-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideGulfWarResponse(formData)).to.be.false;
+        });
+      },
+    );
+  });
+
+  context('when `canVeteranProvideCombatOperationsResponse` executes', () => {
+    context(
+      "when `includeTeraInformation` evaluates to true and the user's DOB " +
+        'is between 1986 and the present year',
+      () => {
+        const formData = {
+          hasTeraResponse: true,
+          veteranDateOfBirth: '1995-07-15',
+        };
+        it('returns `true`', () => {
+          expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
+            .true;
+        });
+      },
+    );
+
+    context(
+      "when `includeTeraInformation` evaluates to false and/or the user's " +
+        'DOB is not between 1986 and the present year',
+      () => {
+        const formData = {
+          hasTeraResponse: false,
+          veteranDateOfBirth: '1987-10-18',
+        };
+        it('returns `false`', () => {
+          expect(canVeteranProvideCombatOperationsResponse(formData)).to.be
+            .false;
+        });
+      },
+    );
   });
 });
