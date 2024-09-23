@@ -144,4 +144,128 @@ describe('isValidDateRange', () => {
     };
     expect(isValidDateRange(fromDate, toDate)).to.be.true;
   });
+  it('validates with missing month and day', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('invalidates with missing month and day', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2008',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.false;
+  });
+  it('validates with missing months', () => {
+    const fromDate = {
+      day: {
+        value: '1',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: '1',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('validates with missing days', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: '3',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: '4',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
 });

@@ -3,10 +3,14 @@ import { parse } from 'date-fns';
 
 export function dateFieldToDate(dateField) {
   const year = dateField.year.value;
-  const month = dateField.month.value
-    ? parseInt(dateField.month.value, 10) - 1
-    : 0; // Default to January if month is not provided
-  const day = dateField.day ? dateField.day.value : 1; // Default to the first day of the month if day is not provided
+  const month =
+    dateField.month?.value && dateField.month?.value !== 'XX' // Accept missing month values.
+      ? parseInt(dateField.month.value, 10) - 1
+      : 0; // Default to January if month is not provided
+  const day =
+    dateField.day?.value && dateField.day?.value !== 'XX' // Accept missing day values.
+      ? dateField.day.value
+      : 1; // Default to the first day of the month if day is not provided
 
   // Construct a date string in the format 'yyyy-MM-dd'
   const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(
