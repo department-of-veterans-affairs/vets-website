@@ -67,7 +67,7 @@ export const fetchFacilities = async ({
 
   return fetchRequest
     .then(response => {
-      if (!response.data.length) {
+      if (!response?.data?.length) {
         return {
           type: 'NO_SEARCH_RESULTS',
           errorMessage: content['error--no-results-found'],

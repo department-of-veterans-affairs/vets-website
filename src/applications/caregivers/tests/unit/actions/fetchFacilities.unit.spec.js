@@ -8,6 +8,7 @@ import {
   mockFetchFacilitiesResponse,
   mockFacilitiesResponse,
 } from '../../mocks/responses';
+import content from '../../../locales/en/content.json';
 
 describe('CG fetchFacilities action', () => {
   const lat = 1;
@@ -51,6 +52,16 @@ describe('CG fetchFacilities action', () => {
       apiRequestStub.resolves(mockFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+    });
+
+    it('returns NO_SEARCH_RESULTS if no data array', async () => {
+      apiRequestStub.resolves({ meta: {} });
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+
+      expect(response).to.deep.eq({
+        type: 'NO_SEARCH_RESULTS',
+        errorMessage: content['error--no-results-found'],
+      });
     });
   });
 
