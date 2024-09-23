@@ -6,7 +6,7 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 import AnswerReview from './AnswerReview';
 import Questions from './questions';
 
-const FormQuestions = ({ formValues, updateFormField }) => {
+const FormQuestions = ({ formValues, updateFormField, router }) => {
   useEffect(
     () => {
       // Helps screen reader read the next question
@@ -96,7 +96,11 @@ const FormQuestions = ({ formValues, updateFormField }) => {
           updateField={updateFormField}
         />
       ))}
-      <AnswerReview formValues={formValues} handleScrollTo={handleScrollTo} />
+      <AnswerReview
+        formValues={formValues}
+        handleScrollTo={handleScrollTo}
+        router={router}
+      />
     </section>
   );
 };
