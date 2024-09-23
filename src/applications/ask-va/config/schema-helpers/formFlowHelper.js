@@ -25,6 +25,7 @@ import isTheVeteranDeceasedPage from '../chapters/personalInformation/isTheVeter
 import moreAboutYourRelationshipToVeteranPage from '../chapters/personalInformation/moreAboutYourRelationshipToVeteran';
 import aboutYourRelationshipToFamilyMemberPage from '../chapters/personalInformation/relationshipToFamilyMember';
 import relationshipToVeteranPage from '../chapters/personalInformation/relationshipToVeteran';
+import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
 import schoolStOrResidencyPage from '../chapters/personalInformation/schoolStOrResidency';
 import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
@@ -40,7 +41,8 @@ import yourMailingAddressPage from '../chapters/personalInformation/yourMailingA
 import yourPostalCodePage from '../chapters/personalInformation/yourPostalCode';
 import yourRolePage from '../chapters/personalInformation/yourRole';
 import yourRoleEducationPage from '../chapters/personalInformation/yourRoleEducation';
-import schoolInYourProfilePage from '../chapters/personalInformation/schoolInYourProfile';
+import yourVRECounselorPage from '../chapters/personalInformation/yourVRECounselor';
+import yourVREInformationPage from '../chapters/personalInformation/yourVREInformation';
 
 export const flowPaths = {
   aboutMyselfRelationshipVeteran: 'about-myself-relationship-veteran',
@@ -286,6 +288,28 @@ const ch3Pages = {
     },
     uiSchema: {}, // UI schema is completely ignored
   },
+  yourVREInformation: {
+    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    uiSchema: yourVREInformationPage.uiSchema,
+    schema: yourVREInformationPage.schema,
+  },
+  yourVRECounselor: {
+    title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
+    uiSchema: yourVRECounselorPage.uiSchema,
+    schema: yourVRECounselorPage.schema,
+    depends: form => form.yourVREInformation === true,
+  },
+  theirVREInformation: {
+    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    uiSchema: yourVREInformationPage.uiSchema,
+    schema: yourVREInformationPage.schema,
+  },
+  theirVRECounselor: {
+    title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
+    uiSchema: yourVRECounselorPage.uiSchema,
+    schema: yourVRECounselorPage.schema,
+    depends: form => form.theirVREInformation === true,
+  },
 };
 
 const aboutMyselfRelationshipVeteranCondition = formData => {
@@ -425,7 +449,8 @@ export const flowPages = (obj, list, path) => {
 const aboutMyselfRelationshipVeteran = [
   'aboutYourself',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -445,7 +470,8 @@ const aboutMyselfRelationshipFamilyMember = [
   'dateOfDeath',
   'aboutYourselfRelationshipFamilyMember',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
@@ -464,7 +490,8 @@ const aboutSomeoneElseRelationshipVeteran = [
   'familyMembersLocationOfResidence',
   'familyMembersPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -493,7 +520,8 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutVeteran = [
   'veteransLocationOfResidence',
   'veteransPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourselfRelationshipFamilyMember',
   'yourContactInformation',
   'yourMailingAddress',
@@ -511,7 +539,8 @@ const aboutSomeoneElseRelationshipFamilyMemberAboutFamilyMember = [
   'familyMembersLocationOfResidence',
   'familyMembersPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutTheVeteran',
   'veteranDeceased',
   'dateOfDeath',
@@ -544,7 +573,8 @@ const aboutSomeoneElseRelationshipConnectedThroughWork = [
   'veteransLocationOfResidence',
   'veteransPostalCode',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'theirVREInformation',
+  'theirVRECounselor',
   'aboutYourself',
   'yourContactInformation',
   'yourMailingAddress',
@@ -574,7 +604,8 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkEducationPages = fl
 const generalQuestion = [
   'aboutYourselfGeneral',
   'yourVAHealthFacility',
-  // Veteran Readiness & Employment Info #986 - not needed for research, needed before handover to CRM
+  'yourVREInformation',
+  'yourVRECounselor',
   'yourContactInformation',
   'yourMailingAddress',
   'addressValidation',
