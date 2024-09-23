@@ -31,6 +31,8 @@ import searchSchoolsPage from '../chapters/personalInformation/searchSchools';
 import stateOfSchoolPage from '../chapters/personalInformation/stateOfSchool';
 import stateOrFacilityPage from '../chapters/personalInformation/stateOrFacility';
 import theirRelationshipToVeteranPage from '../chapters/personalInformation/theirRelationshipToVeteran';
+import theirVRECounselorPage from '../chapters/personalInformation/theirVRECounselor';
+import theirVREInformationPage from '../chapters/personalInformation/theirVREInformation';
 import useThisSchoolPage from '../chapters/personalInformation/useThisSchool';
 import veteransLocationOfResidencePage from '../chapters/personalInformation/veteransLocationOfResidence';
 import veteransPostalCodePage from '../chapters/personalInformation/veteransPostalCode';
@@ -289,7 +291,7 @@ const ch3Pages = {
     uiSchema: {}, // UI schema is completely ignored
   },
   yourVREInformation: {
-    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
+    title: CHAPTER_3.YOUR_VRE_INFORMATION.TITLE,
     uiSchema: yourVREInformationPage.uiSchema,
     schema: yourVREInformationPage.schema,
   },
@@ -300,14 +302,14 @@ const ch3Pages = {
     depends: form => form.yourVREInformation === true,
   },
   theirVREInformation: {
-    title: CHAPTER_3.YOUR_VA_HEALTH_FACILITY.TITLE,
-    uiSchema: yourVREInformationPage.uiSchema,
-    schema: yourVREInformationPage.schema,
+    title: CHAPTER_3.THEIR_VRE_INFORMATION.TITLE,
+    uiSchema: theirVREInformationPage.uiSchema,
+    schema: theirVREInformationPage.schema,
   },
   theirVRECounselor: {
-    title: CHAPTER_3.YOUR_VRE_COUNSELOR.TITLE,
-    uiSchema: yourVRECounselorPage.uiSchema,
-    schema: yourVRECounselorPage.schema,
+    title: CHAPTER_3.THEIR_VRE_COUNSELOR.TITLE,
+    uiSchema: theirVRECounselorPage.uiSchema,
+    schema: theirVRECounselorPage.schema,
     depends: form => form.theirVREInformation === true,
   },
 };
