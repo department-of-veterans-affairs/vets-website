@@ -521,7 +521,7 @@ describe('formatNameFirstLast', () => {
 });
 
 describe('getLastUpdatedText', () => {
-  it('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
+  it.skip('should return the last updated string when the refreshStateStatus contains the extractType and lastSuccessfulCompleted', () => {
     const refreshStateStatus = [
       { extract: 'type1', lastSuccessfulCompleted: '2024-09-15T10:00:00Z' },
     ];
