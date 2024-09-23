@@ -1,6 +1,6 @@
 import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import CustomGroupCheckboxField from '../../components/CustomGroupCheckboxField';
+import CustomGroupCheckboxField from '../../component/CustomGroupCheckboxField';
 
 const { ethnicity, orginRace } = fullSchema10282.definitions;
 
@@ -17,6 +17,7 @@ const uiSchema = {
     'ui:title': 'What is your race or origin?',
     'ui:description': 'select all that you identify with',
     'ui:options': {
+      showFieldLabel: true,
       labels: orginRace.enum,
     },
   },
@@ -29,7 +30,8 @@ const schema = {
     orginRace: {
       type: 'array',
       items: {
-        ...orginRace,
+        type: 'string',
+        enum: orginRace.enum,
       },
       uniqueItems: true,
     },

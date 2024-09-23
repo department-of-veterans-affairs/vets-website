@@ -20,8 +20,7 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
