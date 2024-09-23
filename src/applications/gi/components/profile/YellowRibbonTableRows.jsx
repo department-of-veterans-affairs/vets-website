@@ -84,5 +84,5 @@ function YellowRibbonTableRows({ programs }) {
   );
 }
 
-YellowRibbonTableRows.propTypes = { program: PropTypes.object };
+YellowRibbonTableRows.propTypes = { programs: PropTypes.object };
 export default YellowRibbonTableRows;
