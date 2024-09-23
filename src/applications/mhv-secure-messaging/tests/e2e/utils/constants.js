@@ -270,6 +270,7 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
+  VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
 };
 
 export const Data = {
