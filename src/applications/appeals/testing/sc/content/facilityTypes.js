@@ -23,13 +23,15 @@ export const facilityTypeChoices = {
 
 export const facilityTypeReviewField = ({ formData }) => {
   const selected = Object.entries(formData).filter(([_key, value]) => value);
+
   const list = readableList(
-    selected.map(
-      ([key]) =>
-        key === 'nonVa'
-          ? facilityTypeChoices[key].title
-          : facilityTypeChoices[key],
-    ),
+    selected.map(([key, value]) => {
+      if (key in facilityTypeChoices) {
+        return facilityTypeChoices[key]?.title || facilityTypeChoices[key];
+      }
+      // "Other" value is a string
+      return key === 'other' ? value : 'Unknown facility type choice';
+    }),
   );
 
   return (
