@@ -105,6 +105,6 @@ export const APP_URLS = {
 };
 
 export const LOCATIONS_TO_REMOVE_FORM_HEADER = [
-  'task-green/veteran-information/edit-mailing-address',
+  '/1/task-green/veteran-information/edit-mailing-address',
   '/complete',
 ];
