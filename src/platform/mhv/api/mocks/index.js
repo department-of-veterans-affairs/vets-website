@@ -76,11 +76,7 @@ const responses = {
 
   'GET /my_health/v1/messaging/messages/categories':
     categories.defaultCategories,
-  // 'POST /my_health/v1/messaging/messages': drafts.sendDraft,
-  'POST /my_health/v1/messaging/messages': {
-    status: 400,
-    message: { code: 172, detail: 'Attachment scan failed', source: '' },
-  },
+  'POST /my_health/v1/messaging/messages': drafts.sendDraft,
   'POST /my_health/v1/messaging/message_drafts': drafts.newDraft,
   'PUT /my_health/v1/messaging/message_drafts/:id': drafts.updateDraft,
   'DELETE /my_health/v1/messaging/messages/:id': drafts.deleteDraft,
