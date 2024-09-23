@@ -22,16 +22,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.selectDropdown(
         h.DISCHARGE_YEAR_INPUT,
         SHORT_NAME_MAP.DISCHARGE_YEAR,
-        h.get15YearsPast(),
-      );
-      h.clickContinue();
-
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.selectDropdown(
-        h.DISCHARGE_MONTH_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_MONTH,
-        3,
+        '2024',
       );
       h.clickContinue();
 
@@ -98,16 +89,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.selectDropdown(
         h.DISCHARGE_YEAR_INPUT,
         SHORT_NAME_MAP.DISCHARGE_YEAR,
-        h.get15YearsPast(),
-      );
-      h.clickContinue();
-
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.selectDropdown(
-        h.DISCHARGE_MONTH_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_MONTH,
-        3,
+        '2024',
       );
       h.clickContinue();
 
@@ -182,10 +164,6 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.verifyUrl(ROUTES.REASON);
       h.clickBack();
 
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.clickBack();
-
       // DISCHARGE_YEAR
       h.verifyUrl(ROUTES.DISCHARGE_YEAR);
       h.clickBack();
@@ -216,16 +194,7 @@ xdescribe('Discharge Upgrade Wizard Main Flow', () => {
       h.selectDropdown(
         h.DISCHARGE_YEAR_INPUT,
         SHORT_NAME_MAP.DISCHARGE_YEAR,
-        h.get15YearsPast(),
-      );
-      h.clickContinue();
-
-      // DISCHARGE_MONTH
-      h.verifyUrl(ROUTES.DISCHARGE_MONTH);
-      h.selectDropdown(
-        h.DISCHARGE_MONTH_INPUT,
-        SHORT_NAME_MAP.DISCHARGE_MONTH,
-        3,
+        '2024',
       );
       h.clickContinue();
 
