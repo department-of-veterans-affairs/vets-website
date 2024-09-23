@@ -122,6 +122,27 @@ describe('Helpers unit tests', () => {
     it('should display the date in the short format without padding', () => {
       expect(formatDateLong(nhdvs)).to.equal('March 3, 1865');
     });
+
+    it('should handle various edge cases', () => {
+      const midnight = '1995-11-12T00:00:00.000+0000';
+      const midnightOffsetNegative1 = '1995-11-12T00:00:00.000-1000';
+      const sixAMOffset0 = '1995-11-12T06:00:00.000+0000';
+      const eightAMOffset0 = '1995-11-12T08:00:00.000+0000';
+      const almostMidnightOffset0 = '1995-11-12T23:59:59.999+0000';
+      const almostMidnightOffsetNegative1 = '1995-11-12T23:59:59.999-1000';
+      expect(formatDateLong(midnight)).to.equal('November 12, 1995');
+      expect(formatDateLong(midnightOffsetNegative1)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateLong(sixAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateLong(eightAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateLong(almostMidnightOffset0)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateLong(almostMidnightOffsetNegative1)).to.equal(
+        'November 13, 1995',
+      );
+    });
   });
 
   describe('formatDateParsedZoneLong', () => {
