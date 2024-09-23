@@ -82,23 +82,13 @@ export const getFormSchema = (formData = {}) => {
         enumNames: Object.values(ADDRESS_DATA.states),
         default: formData?.stateCode,
       },
-      province: {
-        type: 'string',
-        pattern: blockURLsRegEx,
-        default: formData?.province,
-      },
       zipCode: {
         type: 'string',
         pattern: '^\\d{5}$',
         default: formData?.zipCode,
       },
-      internationalPostalCode: {
-        type: 'string',
-        pattern: blockURLsRegEx,
-        default: formData?.internationalPostalCode,
-      },
     },
-    required: ['countryCodeIso3', 'addressLine1', 'city'],
+    required: ['addressLine1', 'city'],
   };
 };
 
@@ -125,9 +115,8 @@ export const getUiSchema = () => {
       'ui:title': 'Country',
       'ui:autocomplete': 'country',
       'ui:webComponentField': VaSelectField,
-      'ui:required': () => true,
-      'ui:errorMessages': {
-        required: 'Country is required',
+      'ui:options': {
+        inert: true,
       },
     },
     addressLine1: {
@@ -183,16 +172,6 @@ export const getUiSchema = () => {
       },
       'ui:webComponentField': VaSelectField,
     },
-    province: {
-      'ui:title': 'State/Province/Region',
-      'ui:autocomplete': 'address-level1',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'State/Province/Region is required',
-        pattern: `Please enter a valid state, province, or region`,
-      },
-      'ui:validations': [validateAsciiCharacters],
-    },
     zipCode: {
       'ui:title': 'Zip code',
       'ui:autocomplete': 'postal-code',
@@ -201,16 +180,6 @@ export const getUiSchema = () => {
         required: 'Zip code is required',
         pattern: 'Zip code must be 5 digits',
       },
-    },
-    internationalPostalCode: {
-      'ui:title': 'International postal code',
-      'ui:autocomplete': 'postal-code',
-      'ui:webComponentField': VaTextInputField,
-      'ui:errorMessages': {
-        required: 'Postal code is required',
-        pattern: 'Please enter a valid postal code',
-      },
-      'ui:validations': [validateAsciiCharacters],
     },
   };
 };

@@ -7,7 +7,7 @@ export const mockFormData = {
   separation: 'over3yr',
   militaryServiceCurrentlyServing: 'No',
   militaryServiceTotalTimeServed: 'More than 3 years',
-  checkboxGroupGoals: {
+  goals: {
     understandMyBenefits: true,
   },
   privacyAgreementAccepted: true,

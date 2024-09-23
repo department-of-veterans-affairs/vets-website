@@ -1,0 +1,10 @@
+{
+  "data": {
+    "type": "feature_toggles",
+    "features": [{
+      "name": "coe_access",
+      "value": true
+    }],
+    "loading": false
+  }
+}
