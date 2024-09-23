@@ -5,6 +5,7 @@ import {
   getAllergies,
   getConditions,
   getVitalsList,
+  getMhvRadiologyTests,
 } from '../api/MrApi';
 import { Actions } from '../util/actionTypes';
 import * as Constants from '../util/constants';
@@ -19,6 +20,7 @@ export const getBlueButtonReportData = () => async dispatch => {
       allergies,
       conditions,
       vitals,
+      radiology,
     ] = await Promise.all([
       getLabsAndTests(),
       getNotes(),
@@ -26,10 +28,12 @@ export const getBlueButtonReportData = () => async dispatch => {
       getAllergies(),
       getConditions(),
       getVitalsList(),
+      getMhvRadiologyTests(),
     ]);
     dispatch({
       type: Actions.LabsAndTests.GET_LIST,
-      response: labs,
+      labsAndTestsResponse: labs,
+      radiologyResponse: radiology,
     });
     dispatch({
       type: Actions.CareSummariesAndNotes.GET_LIST,
