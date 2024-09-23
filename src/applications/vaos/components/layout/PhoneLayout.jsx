@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import DetailPageLayout, {
   Section,
   What,
@@ -37,10 +36,6 @@ export default function PhoneLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   const [reason, otherDetails] = comment ? comment?.split(':') : [];
@@ -111,8 +106,7 @@ export default function PhoneLayout({ data: appointment }) {
           Other details: {`${otherDetails || 'Not available'}`}
         </span>
       </Section>
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
