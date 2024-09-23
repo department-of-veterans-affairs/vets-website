@@ -770,7 +770,7 @@ jobs:
 
       - name: Start server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 --host=127.0.0.1 &
+        run: node --openssl-legacy-provider src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
