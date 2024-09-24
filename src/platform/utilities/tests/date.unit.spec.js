@@ -253,6 +253,18 @@ describe('Helpers unit tests', () => {
         'Nov. 21 at 12:35 a.m. ET',
       );
     });
+
+    it('can handle a moment date', () => {
+      expect(formatDowntime(moment('2020-05-24T12:00:30-04:00'))).to.equal(
+        'May 24 at noon ET',
+      );
+    });
+
+    it('can handle a date object', () => {
+      expect(formatDowntime(new Date('2020-05-24T12:00:30-04:00'))).to.equal(
+        'May 24 at noon ET',
+      );
+    });
   });
 
   describe('stripTimezoneFromIsoDate', () => {
