@@ -27,7 +27,6 @@ import {
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-// import { customLocationSchema } from '../../helpers';
 import CustomLocation from '../../../components/CustomLocation';
 
 /** @type {ArrayBuilderOptions} */
@@ -212,46 +211,20 @@ export const deceasedDependentLocationOfDeathPage = {
         ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
         : 'Where did the dependent die?';
     }),
-    // dependentDeathLocation: {
-    //   outsideUsa: {
-    //     'ui:title': 'This occurred outside the U.S.',
-    //     'ui:webComponentField': VaCheckboxField,
-    //   },
-    //   location: {
-    //     city: {
-    //       'ui:title': 'City',
-    //       'ui:required': () => true,
-    //       'ui:autocomplete': 'address-level2',
-    //       'ui:errorMessages': {
-    //         required: 'Enter the city where the dependent died',
-    //       },
-    //       'ui:webComponentField': VaTextInputField,
-    //     },
-
-    //     state: {
-    //       'ui:title': 'State',
-    //       'ui:webComponentField': VaSelectField,
-    //       'ui:required': itemData =>
-    //         !itemData?.dependentDeathLocation?.outsideUsa,
-    //       'ui:errorMessages': {
-    //         required: 'Select a state',
-    //       },
-    //     },
-    //   },
-    // },
     dependentDeathLocation: {
-      'ui:webComponentField': props => (
-        <CustomLocation
-          {...props}
-          checkboxLabel="This occurred outside the U.S."
-        />
-      ),
+      'ui:field': props => {
+        return (
+          <CustomLocation
+            {...props}
+            checkboxLabel="This occurred outside the U.S."
+          />
+        );
+      },
     },
   },
   schema: {
     type: 'object',
     properties: {
-      // dependentDeathLocation: customLocationSchema,
       dependentDeathLocation: {
         type: 'object',
         properties: {},
