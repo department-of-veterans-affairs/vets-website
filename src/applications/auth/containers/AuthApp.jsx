@@ -14,6 +14,7 @@ import {
 import { AUTH_LEVEL, getAuthError } from 'platform/user/authentication/errors';
 import { setupProfileSession } from 'platform/user/profile/utilities';
 import { apiRequest } from 'platform/utilities/api';
+import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { generateReturnURL } from 'platform/user/authentication/utilities';
 import { OAUTH_EVENTS } from 'platform/utilities/oauth/constants';
@@ -98,41 +99,32 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
-  const handleProvisioning = async userProfile => {
-    const { signIn } = userProfile;
-    if (
-      signIn?.ssoe &&
-      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
-    ) {
-      try {
-        const termsResponse = await apiRequest(
-          `/terms_of_use_agreements/update_provisioning`,
-          {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-          },
-        );
-        if (!termsResponse?.provisioned) {
-          handleAuthError(null, '111');
-          return false;
-        }
-        return true;
-      } catch (err) {
-        const message = err?.error;
-        if (
-          message === 'Agreement not accepted' ||
-          message === 'Account not Provisioned'
-        ) {
-          handleAuthError(null, '111');
-        } else {
-          handleAuthError(err, '110');
-        }
-        return false;
+  async function handleProvisioning() {
+    try {
+      const termsResponse = await apiRequest(
+        `/terms_of_use_agreements/update_provisioning`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+        },
+      );
+      if (!termsResponse?.provisioned) {
+        handleAuthError(null, '111');
+      }
+    } catch (err) {
+      const message = err?.error;
+      if (message === 'Agreement not accepted') {
+        window.location = `${
+          environment.BASE_URL
+        }/terms-of-use/myvahealth/?ssoeTarget=${returnUrl}`;
+      } else if (message === 'Account not Provisioned') {
+        handleAuthError(null, '111');
+      } else {
+        handleAuthError(err, '110');
       }
     }
-    return true;
-  };
+  }
 
   const handleAuthForceNeeded = () => {
     recordEvent({
@@ -154,9 +146,11 @@ export default function AuthApp({ location }) {
       errorCode,
     );
     const { userProfile } = authMetrics;
-    const provisioned = await handleProvisioning(userProfile);
-    if (!provisioned) {
-      return;
+    if (
+      userProfile?.signIn?.ssoe &&
+      returnUrl.includes(EXTERNAL_REDIRECTS[EXTERNAL_APPS.MY_VA_HEALTH])
+    ) {
+      await handleProvisioning();
     }
     authMetrics.run();
     if (!skipToRedirect) {
