@@ -52,26 +52,46 @@ describe('Helpers unit tests', () => {
   });
 
   describe('timeFromNow', () => {
-    const today = moment();
+    const today = moment().unix();
     it('should display time in days', () => {
-      expect(timeFromNow(moment(today).add(30, 'days'), today)).to.equal(
-        '30 days',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(30, 'days')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('30 days');
     });
     it('should display time in hours', () => {
-      expect(timeFromNow(moment(today).add(23, 'hours'), today)).to.equal(
-        '23 hours',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(23, 'hours')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('23 hours');
     });
     it('should display time in minutes', () => {
-      expect(timeFromNow(moment(today).add(59, 'minutes'), today)).to.equal(
-        '59 minutes',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(59, 'minutes')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('59 minutes');
     });
     it('should display time in seconds', () => {
-      expect(timeFromNow(moment(today).add(59, 'seconds'), today)).to.equal(
-        '59 seconds',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(59, 'seconds')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('59 seconds');
     });
   });
 
