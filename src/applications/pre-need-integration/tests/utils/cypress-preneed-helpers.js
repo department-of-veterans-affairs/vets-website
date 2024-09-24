@@ -235,7 +235,10 @@ function submitForm() {
     .invoke('attr', 'data-location')
     .should('not.contain', '/review-and-submit');
 
-  cy.get('.confirmation-page-title').should('be.visible');
+  cy.get('.usa-width-two-thirds > :nth-child(4) > :nth-child(1)').should(
+    'contain',
+    'You’ve submitted your application',
+  );
   cy.axeCheck();
 }
 

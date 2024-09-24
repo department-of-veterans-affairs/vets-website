@@ -494,13 +494,20 @@ class MedicationsListPage {
       prescriptions,
     );
     cy.intercept(
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
+      // prescriptions,
+      req => {
+        return Cypress.Promise.delay(500).then(() => req.continue());
+      },
+    ).as('prescriptions');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="loading-indicator"]').should('exist');
+    cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=prescription_name&sort[]=dispensed_date',
       prescriptions,
     );
-
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
   verifyPaginationDisplayedforSortAlphabeticallyByName = (
@@ -523,13 +530,19 @@ class MedicationsListPage {
       prescriptions,
     );
     cy.intercept(
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
+      req => {
+        return Cypress.Promise.delay(500).then(() => req.continue());
+      },
+    ).as('prescriptions');
+    cy.get('[data-testid="sort-button"]').should('be.visible');
+    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
+    cy.get('[data-testid="loading-indicator"]').should('exist');
+    cy.intercept(
       'GET',
       '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=-dispensed_date&sort[]=prescription_name',
       prescriptions,
     );
-
-    cy.get('[data-testid="sort-button"]').should('be.visible');
-    cy.get('[data-testid="sort-button"]').click({ waitForAnimations: true });
   };
 
   verifyPaginationDisplayedforSortLastFilledFirst = (
