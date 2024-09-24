@@ -36,7 +36,10 @@ const PrimaryAddressWithAutofill = props => {
       required: content['validation-address--postalCode-required'],
       pattern: content['validation-address--postalCode-pattern'],
     },
-    county: { required: content['validation-address--county-required'] },
+    county: {
+      required: content['validation-address--county-required'],
+      pattern: content['validation-address--county-pattern'],
+    },
   };
 
   // define our custom input labels
@@ -105,8 +108,8 @@ const PrimaryAddressWithAutofill = props => {
       }
       // validate fields with required pattern matches
       if (schemaProps[field].pattern) {
-        const regex = new RegExp(schemaProps[field].pattern);
-        if (!regex.test(formData[field])) {
+        const regex = new RegExp(schemaProps[field].pattern, 'i');
+        if (!regex.test(formData[field].trim())) {
           return errorMessages[field].pattern;
         }
       }
@@ -215,6 +218,7 @@ const PrimaryAddressWithAutofill = props => {
         label={content['form-address-county-label']}
         className="cg-address-input"
         error={showError('county')}
+        pattern={schemaProps.county.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
         required

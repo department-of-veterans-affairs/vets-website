@@ -3,7 +3,7 @@ import {
   hasPrimaryCaregiver,
   hasSecondaryCaregiverOne,
 } from './helpers/form-config';
-import { REQUIRED_ADDRESS_FIELDS } from './constants';
+import { ADDRESS_REGEX, REQUIRED_ADDRESS_FIELDS } from './constants';
 import content from '../locales/en/content.json';
 
 export const requireAddressFields = (errors, fieldData) => {
@@ -28,20 +28,7 @@ export const validateCaregivers = (errors, _, formData) => {
 };
 
 export const validateCountyInput = (errors, fieldData) => {
-  const disallowList = [
-    'US',
-    'U.S',
-    'U.S.',
-    'USA',
-    'U.SA',
-    'U.S.A',
-    'U.S.A.',
-    'United States',
-    'UnitedStates',
-    'United States of America',
-    'UnitedStatesOfAmerica',
-  ];
-  const regex = new RegExp(`^(?!(${disallowList.join('|')})$)`, 'i');
+  const regex = new RegExp(ADDRESS_REGEX.county(), 'i');
   if (!regex.test(fieldData.trim())) {
     errors.addError(content['validation-address--county-pattern']);
   }
