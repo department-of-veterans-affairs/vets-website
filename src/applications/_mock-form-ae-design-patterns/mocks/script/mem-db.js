@@ -46,9 +46,28 @@ const updateConfig = {
       'zipCode',
     ],
   },
+  residentialAddress: {
+    path: 'data.attributes.vet360ContactInformation.residentialAddress',
+    fields: [
+      'addressLine1',
+      'addressLine2',
+      'addressLine3',
+      'city',
+      'stateCode',
+      'zipCode',
+    ],
+  },
   homePhone: {
     path: 'data.attributes.vet360ContactInformation.homePhone',
     fields: ['areaCode', 'countryCode', 'extension', 'phoneNumber'],
+  },
+  mobilePhone: {
+    path: 'data.attributes.vet360ContactInformation.mobilePhone',
+    fields: ['areaCode', 'countryCode', 'extension', 'phoneNumber'],
+  },
+  email: {
+    path: 'data.attributes.vet360ContactInformation.email',
+    fields: ['emailAddress'],
   },
 };
 
@@ -59,13 +78,10 @@ const createUpdate = type => data => {
   _.set(memDb.user, config.path, updatedTarget);
 };
 
-const createMailingAddressUpdate = createUpdate('mailingAddress');
-const createHomePhoneUpdate = createUpdate('homePhone');
-
 const updateMemDb = (req, resJson) => {
   const key = `${req.method} ${req.url}`;
-
   const body = req?.body || {};
+  const { transactionId } = resJson.data.attributes;
 
   if (key.includes('GET /v0/user')) {
     return memDb.user;
@@ -73,21 +89,25 @@ const updateMemDb = (req, resJson) => {
 
   const updates = {
     'PUT /v0/profile/addresses': {
-      condition:
-        resJson.data.attributes.transactionId ===
-        'mock-update-mailing-address-success-transaction-id',
-      action: () => createMailingAddressUpdate(body),
+      'mock-update-mailing-address-success-transaction-id': () =>
+        createUpdate('mailingAddress')(body),
+      'mock-update-residential-address-success-transaction-id': () =>
+        createUpdate('residentialAddress')(body),
     },
     'PUT /v0/profile/telephones': {
-      condition:
-        resJson.data.attributes.transactionId ===
-        'mock-update-home-phone-success-transaction-id',
-      action: () => createHomePhoneUpdate(body),
+      'mock-update-home-phone-success-transaction-id': () =>
+        createUpdate('homePhone')(body),
+      'mock-update-mobile-phone-success-transaction-id': () =>
+        createUpdate('mobilePhone')(body),
+    },
+    'PUT /v0/profile/email': {
+      'mock-update-email-success-transaction-id': () =>
+        createUpdate('email')(body),
     },
   };
 
-  if (updates[key]?.condition) {
-    updates[key].action();
+  if (updates[key] && updates[key][transactionId]) {
+    updates[key][transactionId]();
   }
 
   return resJson;
