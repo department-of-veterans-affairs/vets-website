@@ -1,4 +1,3 @@
-import moment from 'moment';
 import {
   differenceInDays,
   differenceInHours,
@@ -8,6 +7,9 @@ import {
   parse,
   parseISO,
 } from 'date-fns';
+import { coerceToDate } from '../../mhv/downtime/utils/date';
+
+const { utcToZonedTime } = require('date-fns-tz');
 
 export function dateFieldToDate(dateField) {
   const year = dateField.year.value;
@@ -103,7 +105,7 @@ export function timeFromNow(date, userFromDate = null) {
  * @returns {boolean} If the string is a valid date string
  */
 export function isValidDateString(dateString) {
-  return !isNaN(Date.parse(dateString));
+  return !Number.isNaN(Date.parse(dateString));
 }
 
 const monthIndices = {
@@ -133,28 +135,46 @@ const LONG_FORM_MONTHS = [
  * Formats the given date-time into a string that is intended for use in
  * downtime notifications
  *
- * @param {string} dateTime The date-time as a moment or string in Eastern time
+ * @param {string || object} dateTime The date-time as one of the following:
+ *   * a Date object
+ *   * a moment object
+ *   * an ISO string in Eastern time
  * @returns {string} The formatted date-time string
  */
 export const formatDowntime = dateTime => {
-  const dtMoment = moment.parseZone(dateTime);
-  const dtHour = dtMoment.hour();
-  const dtMinute = dtMoment.minute();
+  let date;
+  const timeZone = 'America/New_York';
 
-  const monthFormat = LONG_FORM_MONTHS.includes(dtMoment.month())
-    ? 'MMMM'
-    : 'MMM';
-
-  let timeFormat;
-
-  if (dtHour === 0 && dtMinute === 0) {
-    timeFormat = '[midnight]';
-  } else if (dtHour === 12 && dtMinute === 0) {
-    timeFormat = '[noon]';
+  if (dateTime instanceof Object) {
+    // We need to convert the moment object to a Date object
+    // until moment is completely deprecated.
+    // TODO: Remove this once moment is completely deprecated.
+    date = coerceToDate(dateTime);
   } else {
-    const amPmFormat = dtHour < 12 ? '[a.m.]' : '[p.m.]';
-    timeFormat = `h:mm ${amPmFormat}`;
+    date = parseISO(dateTime);
   }
 
-  return dtMoment.format(`${monthFormat} D [at] ${timeFormat} [ET]`);
+  // Get the hour in Eastern time using date-fns-tz
+  const easternTimeZoneDate = utcToZonedTime(date, timeZone);
+  const dtMonth = format(easternTimeZoneDate, 'M', { timeZone });
+  const dtHour = format(easternTimeZoneDate, 'H', { timeZone });
+  const dtMinute = format(easternTimeZoneDate, 'm', { timeZone });
+
+  const monthFormat = LONG_FORM_MONTHS.includes(dtMonth - 1) ? 'MMMM' : 'MMM.';
+  let timeFormat;
+
+  if (dtHour === '0' && dtMinute === '0') {
+    timeFormat = "'midnight'";
+  } else if (dtHour === '12' && dtMinute === '0') {
+    timeFormat = "'noon'";
+  } else {
+    const amPmFormat = parseInt(dtHour, 10) < 12 ? 'a.m.' : 'p.m.';
+    timeFormat = `h:mm '${amPmFormat}'`;
+  }
+
+  return format(
+    easternTimeZoneDate,
+    `${monthFormat} d 'at' ${timeFormat} 'ET'`,
+    { timeZone },
+  );
 };
