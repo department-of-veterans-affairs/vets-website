@@ -108,13 +108,15 @@ export default function TravelClaimDetails() {
         {claimDetails && (
           <>
             <h1>Your travel reimbursement claim for {appointmentDate}</h1>
-            <h2>Claim number: {claimNumber}</h2>
-            <h3>Where</h3>
+            <span className="claim-details-claim-number">
+              Claim number: {claimNumber}
+            </span>
+            <h2 className="claim-details-h3">Where</h2>
             <p>
               {appointmentDate} at {appointmentTime} appointment
             </p>
             <p>{facilityName}</p>
-            <h3>Claim status: {claimStatus}</h3>
+            <h2 className="claim-details-h3">Claim status: {claimStatus}</h2>
             <p>
               Submitted on {createDate} at {createTime}
             </p>

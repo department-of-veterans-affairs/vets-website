@@ -78,3 +78,15 @@ h2#pagination-info {
     }
   }
 }
+
+.claim-details-claim-number {
+  // Matches styles for <h2>
+  font-size: 1.875rem;
+  font-weight: 700;
+}
+
+.claim-details-h3 {
+  // Styling <h3>s to match <h2>s
+  font-size: 1.25rem;
+  font-weight: 700;
+}
