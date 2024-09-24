@@ -125,6 +125,9 @@ const formConfig = {
         replaceAccreditedRepresentative: {
           title: 'Representative Replace',
           path: 'representative-replace',
+          depends: formData =>
+            !!formData['view:representativeStatus']?.id &&
+            !!formData['view:selectedRepresentative'],
           uiSchema: replaceAccreditedRepresentative.uiSchema,
           schema: replaceAccreditedRepresentative.schema,
         },

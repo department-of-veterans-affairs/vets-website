@@ -2,11 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
+import ContactCard from './ContactCard';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
 
-  const currentRepresentative = formData['view:representativeStatus'] || null;
+  const currentRepresentative = formData?.['view:representativeStatus'] || {};
+  const selectedRepresentative =
+    formData?.['view:selectedRepresentative'] || {};
+
+  const address = {
+    addressLine1: (selectedRepresentative.addressLine1 || '').trim(),
+    addressLine2: (selectedRepresentative.addressLine2 || '').trim(),
+    addressLine3: (selectedRepresentative.addressLine3 || '').trim(),
+    city: (selectedRepresentative.city || '').trim(),
+    stateCode: (selectedRepresentative.stateCode || '').trim(),
+    zipCode: (selectedRepresentative.zipCode || '').trim(),
+  };
 
   // Grab attorney/claimsAgent/representative for individuals, otherwise 'organization'
   const type =
@@ -38,10 +50,16 @@ const ReplaceAccreditedRepresentative = props => {
         phone={currentRepresentative.phone}
         email={currentRepresentative.email}
       />
-
       <h4 className="vads-u-margin-y--5">
         You’ve selected this new accredited representative:
       </h4>
+      <ContactCard
+        repName={selectedRepresentative.fullName}
+        orgName={selectedRepresentative.name}
+        address={address}
+        phone={selectedRepresentative.phone}
+        email={selectedRepresentative.email}
+      />
     </div>
   );
 };
