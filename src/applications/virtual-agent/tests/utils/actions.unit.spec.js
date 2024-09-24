@@ -307,7 +307,7 @@ describe('actions', () => {
               role: 'user',
             },
             name: 'Skill_Entry',
-            value: 'RX_Skill',
+            value: 'va_vha_healthassistant_bot',
           },
         },
       };
@@ -527,7 +527,7 @@ describe('actions', () => {
               role: 'user',
             },
             name: 'Skill_Exit',
-            value: 'RX_Skill',
+            value: 'va_vha_healthassistant_bot',
           },
         },
       };
