@@ -18,13 +18,13 @@ const responses = {
   'GET /travel_pay/v0/claims': travelClaims,
   'GET /travel_pay/v0/claims/:id': (req, res) => {
     return res.json({
-      id: req.params.id,
-      claimNumber: 'claimNumber',
-      claimStatus: 'claimStatus',
-      appointmentDateTime: '2023-09-24T14:14:20.549Z',
-      facilityName: 'facilityName',
-      createdOn: '2023-09-24T14:14:20.549Z',
-      modifiedOn: '2023-09-26T14:14:20.549Z',
+      id: '20d73591-ff18-4b66-9838-1429ebbf1b6e',
+      claimNumber: 'TC0928098230498',
+      claimStatus: 'Claim Submitted',
+      appointmentDateTime: '2024-05-26T16:40:45.781Z',
+      facilityName: 'Tomah VA Medical Center',
+      createdOn: '2024-05-27T16:40:45.781Z',
+      modifiedOn: '2024-05-31T16:40:45.781Z',
     });
   },
 };
