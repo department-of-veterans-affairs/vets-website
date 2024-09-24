@@ -8,6 +8,7 @@ import scrollTo from 'platform/utilities/ui/scrollTo';
 
 // import ShowAlertOrSip from '../../../shared/components/ShowAlertOrSip';
 import OmbInfo from '../content/OmbInfo';
+import { OtherBenefits } from '../../../shared/content/intro';
 
 const IntroductionPage = props => {
   useEffect(() => {
@@ -45,12 +46,9 @@ const IntroductionPage = props => {
         may be an option for you.
       </p>
       {/* <ShowAlertOrSip basename={location.basename} sipOptions={sipOptions} /> */}
-      <a
-        className="vads-c-action-link--green"
-        href="/decision-reviews/test-sc/veteran-information"
-      >
+      <Link to="/veteran-information" className="vads-c-action-link--green">
         Start your claim
-      </a>
+      </Link>
       <h2 className="vads-u-margin-top--2 vads-u-margin-bottom--0">
         Follow these steps to get started
       </h2>
@@ -191,6 +189,7 @@ const IntroductionPage = props => {
 
       <OmbInfo />
       <p />
+      <OtherBenefits />
     </div>
   );
 };
