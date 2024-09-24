@@ -353,7 +353,7 @@ export function FilterYourResults({
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
         {vetTecCheckbox(

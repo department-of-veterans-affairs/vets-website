@@ -123,9 +123,9 @@ export const ErrorMessages = {
   },
   ContactList: {
     SAVE_AND_EXIT: {
-      title: 'Save changes to your contact list?',
-      confirmButtonText: 'Save and exit',
-      cancelButtonText: 'Continue editing',
+      title: 'Do you want to save your changes to your contact list?',
+      confirmButtonText: 'Save',
+      cancelButtonText: 'Delete changes and exit',
     },
     MINIMUM_SELECTION: 'Select at least one team',
   },
@@ -192,6 +192,10 @@ export const Alerts = {
   Thread: {
     GET_THREAD_ERROR: 'We’re sorry. Something went wrong on our end.',
     THREAD_NOT_FOUND_ERROR: 'This conversation was not found.',
+  },
+  ContactList: {
+    CANNOT_SAVE:
+      "We're sorry. We couldn't save your changes. Try saving again.",
   },
 };
 
