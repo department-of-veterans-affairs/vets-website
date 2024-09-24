@@ -181,10 +181,10 @@ export const ConfirmationPageView = props => {
         />
       </div>
       <div>
-        <h2>What to expect next</h2>
+        <h2>What to expect</h2>
         <VaProcessList>
           <VaProcessListItem
-            header="We’ll confirm that we’ve received your form"
+            header="Now, we’ll confirm that we’ve received your form"
             active
           >
             <p>
@@ -197,7 +197,7 @@ export const ConfirmationPageView = props => {
               </a>
             </p>
           </VaProcessListItem>
-          <VaProcessListItem header="We’ll review your form">
+          <VaProcessListItem pending header="Next, we’ll review your form">
             <p>
               If we need more information after reviewing your form, we’ll
               contact you.

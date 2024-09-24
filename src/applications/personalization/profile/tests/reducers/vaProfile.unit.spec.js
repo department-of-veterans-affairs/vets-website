@@ -14,18 +14,6 @@ describe('vaProfile reducer', () => {
     hero: null,
     personalInformation: null,
     militaryInformation: null,
-    cnpPaymentInformation: null,
-    eduPaymentInformation: null,
-    cnpPaymentInformationUiState: {
-      isEditing: false,
-      isSaving: false,
-      responseError: null,
-    },
-    eduPaymentInformationUiState: {
-      isEditing: false,
-      isSaving: false,
-      responseError: null,
-    },
   };
 
   it('should return the initial state', () => {
@@ -117,30 +105,6 @@ describe('vaProfile reducer', () => {
       },
     };
     expect(vaProfile(initialState, action)).to.deep.equal(expectedState);
-  });
-
-  it('should handle CNP_PAYMENT_INFORMATION_FETCH_FAILED', () => {
-    const cnpPaymentInformation = { error: 'Failed to fetch CNP payment info' };
-    const action = {
-      type: 'CNP_PAYMENT_INFORMATION_FETCH_FAILED',
-      response: cnpPaymentInformation,
-    };
-    expect(vaProfile(initialState, action)).to.deep.equal({
-      ...initialState,
-      cnpPaymentInformation,
-    });
-  });
-
-  it('should handle EDU_PAYMENT_INFORMATION_FETCH_FAILED', () => {
-    const eduPaymentInformation = { error: 'Failed to fetch CNP payment info' };
-    const action = {
-      type: 'EDU_PAYMENT_INFORMATION_FETCH_FAILED',
-      response: eduPaymentInformation,
-    };
-    expect(vaProfile(initialState, action)).to.deep.equal({
-      ...initialState,
-      eduPaymentInformation,
-    });
   });
 
   it('should handle unknown action type', () => {
