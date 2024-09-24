@@ -8,8 +8,7 @@ const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
 
   const currentRepresentative = formData?.['view:representativeStatus'] || {};
-  const selectedRepresentative =
-    formData?.['view:selectedRepresentative'] || {};
+  const selectedRepresentative = formData?.['view:selectedAccreditedRep'] || {};
 
   const address = {
     addressLine1: (selectedRepresentative.addressLine1 || '').trim(),
