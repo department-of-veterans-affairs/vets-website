@@ -83,6 +83,7 @@ const formConfigKeys = [
   'prefillEnabled',
   'prefillTransformer',
   'preSubmitInfo',
+  'reviewEditFocusOnHeaders',
   'reviewErrors',
   'rootUrl',
   'savedFormMessages',
