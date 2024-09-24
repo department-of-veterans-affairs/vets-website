@@ -352,10 +352,12 @@ describe('Compose form component', () => {
   });
 
   it('displays an error on attempt to save a draft with attachments', async () => {
-    const screen = setup(initialState, Paths.COMPOSE, {
+    const customProps = {
+      ...draftMessage,
+      messageValid: true,
       isSignatureRequired: false,
-      messageValid: false,
-    });
+    };
+    const screen = setup(initialState, Paths.COMPOSE, { draft: customProps });
     const file = new File(['(⌐□_□)'], 'test.png', { type: 'image/png' });
     const uploader = screen.getByTestId('attach-file-input');
 
@@ -372,7 +374,6 @@ describe('Compose form component', () => {
       modal = screen.queryByTestId('quit-compose-double-dare');
       expect(modal).to.exist;
     });
-
     expect(modal).to.have.attribute(
       'modal-title',
       "We can't save attachments in a draft message",
@@ -937,46 +938,24 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, tgRecipient);
 
-    await waitFor(() => {
-      selectVaRadio(screen.container, 'COVID');
-      expect(
-        $('va-radio-option[value="COVID"]', screen.container),
-      ).to.have.attribute('checked', 'true');
-    });
-
-    const subjectInput = 'Test Subject';
-    inputVaTextInput(screen.container, subjectInput);
-    await waitFor(() => {
-      expect(screen.getByTestId('message-subject-field')).to.have.value(
-        subjectInput,
-      );
-    });
-
-    const messageBody = 'test body';
-    inputVaTextInput(screen.container, messageBody, 'va-textarea');
-    await waitFor(() => {
-      expect(screen.getByTestId('message-body-field')).to.have.value(
-        messageBody,
-      );
-    });
-
     const checkboxSelector = `va-checkbox[label='${
       ElectronicSignatureBox.CHECKBOX_LABEL
     }']`;
-    const checkbox = screen.container.querySelector(checkboxSelector);
-    checkVaCheckbox(checkbox, false);
 
-    const sendButton = screen.getByTestId('send-button');
-    fireEvent.click(sendButton);
-    // after clicking send, validation checks on Electronic Signature component runs
     await waitFor(() => {
+      const sendButton = screen.getByTestId('send-button');
+      const checkbox = screen.container.querySelector(checkboxSelector);
+      checkVaCheckbox(checkbox, false);
+
+      // after clicking send, validation checks on Electronic Signature component runs
+      fireEvent.click(sendButton);
       expect(checkbox).to.have.attribute(
         'error',
         `${ErrorMessages.ComposeForm.CHECKBOX_REQUIRED}`,
       );
-    });
 
-    checkVaCheckbox(checkbox, true);
-    expect(checkbox).to.have.attribute('error', '');
+      checkVaCheckbox(checkbox, true);
+      expect(checkbox).to.have.attribute('error', '');
+    });
   });
 });

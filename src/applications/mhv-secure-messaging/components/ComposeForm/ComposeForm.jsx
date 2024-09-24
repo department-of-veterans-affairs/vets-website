@@ -322,6 +322,9 @@ const ComposeForm = props => {
   const checkMessageValidity = useCallback(
     () => {
       let messageValid = true;
+      let signatureValid = true;
+      let checkboxValid = true;
+
       if (
         selectedRecipientId === '0' ||
         selectedRecipientId === '' ||
@@ -344,15 +347,15 @@ const ComposeForm = props => {
       }
       if (isSignatureRequired && !electronicSignature) {
         setSignatureError(ErrorMessages.ComposeForm.SIGNATURE_REQUIRED);
-        messageValid = false;
+        signatureValid = false;
       }
       if (isSignatureRequired && !checkboxMarked) {
         setCheckboxError(ErrorMessages.ComposeForm.CHECKBOX_REQUIRED);
-        messageValid = false;
+        checkboxValid = false;
       }
 
       setMessageInvalid(!messageValid);
-      return { messageValid };
+      return { messageValid, signatureValid, checkboxValid };
     },
     [
       selectedRecipientId,
@@ -368,27 +371,23 @@ const ComposeForm = props => {
 
   const saveDraftHandler = useCallback(
     async (type, e) => {
-      const { messageValid } = checkMessageValidity();
+      const {
+        messageValid,
+        signatureValid,
+        checkboxValid,
+      } = checkMessageValidity();
       const validSignatureNotRequired =
         messageValid && !isSignatureRequired && !savedDraft;
-      const isSignatureValid =
-        isSignatureRequired && messageValid && !saveError;
 
       if (type === 'manual') {
-        await setMessageInvalid(false);
-        await setSavedDraft(false);
-        // All fields are valid , save the draft
-        if (validSignatureNotRequired || isSignatureValid) {
-          await setSavedDraft(true);
-          await setSaveError(null);
+        if (validSignatureNotRequired) {
           setNavigationError(null);
+          setSavedDraft(true);
           setLastFocusableElement(e?.target);
-        } else {
-          setUnsavedNavigationError(
-            ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
-          );
-          focusOnErrorField();
-        }
+        } else focusOnErrorField();
+        setUnsavedNavigationError(
+          ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR,
+        );
 
         const getErrorType = () => {
           const hasAttachments = attachments.length > 0;
@@ -396,17 +395,25 @@ const ComposeForm = props => {
             isSignatureRequired && electronicSignature !== '';
           const hasSignatureOrCheckboxError =
             isSignatureRequired &&
-            (electronicSignature || checkboxError) !== '';
+            !messageInvalid &&
+            (!electronicSignature || checkboxError) !== '';
+          const verifyAllFieldsAreValid =
+            (messageValid &&
+              signatureValid &&
+              checkboxValid &&
+              isSignatureRequired) ||
+            (!isSignatureRequired && messageValid);
 
           let errorType = null;
-          if (hasAttachments && hasValidSignature) {
+
+          if (hasAttachments && hasValidSignature && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm
                 .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
-          } else if (hasAttachments && !savedDraft) {
+          } else if (hasAttachments && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-          } else if (messageValid && hasSignatureOrCheckboxError) {
+          } else if (hasSignatureOrCheckboxError && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
           }
@@ -423,8 +430,6 @@ const ComposeForm = props => {
                 cancelButtonText: 'Delete draft',
               });
             }
-          } else {
-            setSaveError(null);
           }
         };
         getErrorType();
@@ -449,13 +454,18 @@ const ComposeForm = props => {
         subject,
         body: messageBody,
       };
-      // saves the draft if all checks are valid or can save draft without signature
-      if ((messageValid && !isSignatureRequired) || isSignatureValid) {
+      if (
+        (messageValid && !isSignatureRequired) ||
+        (isSignatureRequired && messageValid && saveError !== null)
+      ) {
         dispatch(saveDraft(formData, type, draftId));
       }
     },
     [
       checkMessageValidity,
+      isSignatureRequired,
+      savedDraft,
+      saveError,
       draft,
       debouncedRecipient,
       selectedRecipientId,
@@ -466,26 +476,29 @@ const ComposeForm = props => {
       debouncedMessageBody,
       messageBody,
       fieldsString,
-      isSignatureRequired,
-      saveError,
+      messageInvalid,
       setUnsavedNavigationError,
       attachments.length,
       electronicSignature,
       checkboxError,
       dispatch,
-      savedDraft,
     ],
   );
 
   const sendMessageHandler = useCallback(
     async e => {
-      const { messageValid } = checkMessageValidity();
+      const {
+        messageValid,
+        signatureValid,
+        checkboxValid,
+      } = checkMessageValidity();
 
       // TODO add GA event
       await setMessageInvalid(false);
       await setSendMessageFlag(false);
       const validSignatureNotRequired = messageValid && !isSignatureRequired;
-      const isSignatureValid = isSignatureRequired && messageValid;
+      const isSignatureValid =
+        isSignatureRequired && messageValid && signatureValid && checkboxValid;
 
       if (validSignatureNotRequired || isSignatureValid) {
         setSendMessageFlag(true);
@@ -523,6 +536,9 @@ const ComposeForm = props => {
         !isSavedEdits();
 
       const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
+      if (!isEditPopulatedForm() || !isSavedEdits()) {
+        setSavedDraft(false);
+      }
 
       let error = null;
       if (isBlankForm() || savedDraft) {
@@ -727,6 +743,7 @@ const ComposeForm = props => {
                 text={saveError.saveDraft}
                 onClick={() => {
                   saveDraftHandler('manual');
+                  setSaveError(null);
                 }}
               />
             )}
