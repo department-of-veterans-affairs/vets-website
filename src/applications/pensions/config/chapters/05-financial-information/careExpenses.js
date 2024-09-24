@@ -18,9 +18,14 @@ import {
 import currencyUI from 'platform/forms-system/src/js/definitions/currency';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import ListItemView from '../../../components/ListItemView';
-import { recipientTypeLabels } from '../../../labels';
+import {
+  careTypeLabels,
+  careFrequencyLabels,
+  recipientTypeLabels,
+} from '../../../labels';
 import { doesHaveCareExpenses } from './helpers';
 import ArrayDescription from '../../../components/ArrayDescription';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const {
   childName,
@@ -29,16 +34,6 @@ const {
   noCareEndDate,
   paymentAmount,
 } = fullSchemaPensions.definitions.careExpenses.items.properties;
-
-const careOptions = {
-  CARE_FACILITY: 'Care facility',
-  IN_HOME_CARE_PROVIDER: 'In-home care provider',
-};
-
-const frequencyOptions = {
-  ONCE_MONTH: 'Once a month',
-  ONCE_YEAR: 'Once a year',
-};
 
 export const CareExpenseView = ({ formData }) => (
   <ListItemView title={formData.provider} />
@@ -54,7 +49,8 @@ CareExpenseView.propTypes = {
 export default {
   title: 'List of unreimbursed care expenses',
   path: 'financial/care-expenses/add',
-  depends: doesHaveCareExpenses,
+  depends: formData =>
+    !showMultiplePageResponse() && doesHaveCareExpenses(formData),
   uiSchema: {
     ...titleUI(
       'List of unreimbursed care expenses',
@@ -97,7 +93,7 @@ export default {
         },
         careType: radioUI({
           title: 'Choose the type of care:',
-          labels: careOptions,
+          labels: careTypeLabels,
         }),
         ratePerHour: merge(
           {},
@@ -127,7 +123,7 @@ export default {
         },
         paymentFrequency: radioUI({
           title: 'How often are the payments?',
-          labels: frequencyOptions,
+          labels: careFrequencyLabels,
         }),
         paymentAmount: merge({}, currencyUI('How much is each payment?'), {
           'ui:options': {
@@ -156,7 +152,7 @@ export default {
             recipients: radioSchema(Object.keys(recipientTypeLabels)),
             childName,
             provider,
-            careType: radioSchema(Object.keys(careOptions)),
+            careType: radioSchema(Object.keys(careTypeLabels)),
             ratePerHour,
             hoursPerWeek: numberSchema,
             careDateRange: {
@@ -164,7 +160,7 @@ export default {
               required: ['from'],
             },
             noCareEndDate,
-            paymentFrequency: radioSchema(Object.keys(frequencyOptions)),
+            paymentFrequency: radioSchema(Object.keys(careFrequencyLabels)),
             paymentAmount,
           },
         },
