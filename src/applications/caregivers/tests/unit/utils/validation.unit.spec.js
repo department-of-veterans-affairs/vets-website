@@ -95,9 +95,9 @@ describe('CG `validateCountyInput` form validation', () => {
     addErrorSpy = sinon.spy();
   });
 
-  it('should set an error if fieldData contains a restricted abbreviated string', () => {
+  it('should set an error if fieldData contains a restricted string with trailing whitespace', () => {
     const { errors } = getData({ spy: addErrorSpy });
-    validateCountyInput(errors, 'USA');
+    validateCountyInput(errors, 'USA ');
     expect(errors.addError.called).to.be.true;
   });
 

@@ -216,6 +216,7 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.county.$id}
         value={formData.county}
         label={content['form-address-county-label']}
+        hint={content['form-address-county-hint']}
         className="cg-address-input"
         error={showError('county')}
         pattern={schemaProps.county.pattern}
