@@ -1,8 +1,5 @@
 import { expect } from 'chai';
-import _ from 'lodash';
-import formConfig from '../config/form';
 import {
-  transformForSubmit,
   setName,
   setBirth,
   setHomeAddress,
@@ -14,8 +11,8 @@ import {
   setJurisdictions,
   setAgencies,
   setCharacterReferences,
-  setBackgroundInfo
-} from '../submit-transformer';
+  setBackgroundInfo,
+} from '../config/submit-transformer';
 
 describe('setName', () => {
   it('should transform the name', () => {
@@ -31,7 +28,7 @@ describe('setName', () => {
       firstName: 'John',
       lastName: 'Johnson',
       middleName: 'NMN',
-    }
+    };
 
     setName(fullName);
     expect(transformedData).to.eq(expected);
@@ -45,7 +42,7 @@ describe('setBirth', () => {
     const form = {
       data: {
         dateOfBirth: '09211990',
-      }
+      },
     };
 
     const placeOfBirth = {
@@ -84,8 +81,8 @@ describe('setHomeAddress', () => {
         line1: '123 Main St',
         city: 'Los Angeles',
         postalCode: '94101',
-        country: 'USA,'
-      }
+        country: 'USA,',
+      },
     };
 
     setHomeAddress(homeAddress);
@@ -102,14 +99,14 @@ describe('setContactInfo', () => {
         phone: '1231231234',
         typeOfPhone: 'mobile',
         email: 'test@va.gov',
-      }
+      },
     };
 
     const expected = {
       homePhone: '1231231234',
       phoneTypeId: 2,
       phoneType: {
-        name: mobile,
+        name: 'mobile',
       },
       homeEmail: 'test@va.gov',
     };
@@ -134,7 +131,7 @@ describe('setEmployment', () => {
     const form = {
       data: {
         employmentStatus: 'employed',
-      }
+      },
     };
 
     const expected = {
@@ -146,7 +143,7 @@ describe('setEmployment', () => {
         state: 'IL',
         postalCode: '12345',
         country: 'USA',
-      }
+      },
     };
 
     setEmployment(workAddress, form);
@@ -158,24 +155,28 @@ describe('setMilitaryService', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const militaryServices = [{
-      explanationOfDischarge: 'left',
-      branch: 'Army',
-      characterOfDischarge: 'Honorable',
-    }];
+    const militaryServices = [
+      {
+        explanationOfDischarge: 'left',
+        branch: 'Army',
+        characterOfDischarge: 'Honorable',
+      },
+    ];
 
     const expected = {
-      militaryServices: [{
-        dischargeTypeExplanation: 'None',
-        dischargeTypeId: 1,
-        serviceBranchId: 2,
-        serviceBranch: {
-          name: 'Army',
+      militaryServices: [
+        {
+          dischargeTypeExplanation: 'None',
+          dischargeTypeId: 1,
+          serviceBranchId: 2,
+          serviceBranch: {
+            name: 'Army',
+          },
+          dischargeType: {
+            name: 'Honorable',
+          },
         },
-        dischargeType: {
-          name: 'Honorable',
-        }
-      }],
+      ],
     };
 
     setMilitaryService(militaryServices);
@@ -187,38 +188,42 @@ describe('setEmploymentHistory', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const employers = [{
-      phone: '1233213211',
-      extension: '543',
-      positionTitle: 'Engineer',
-      supervisorName: 'Joe Biden',
-      address: {
-        isMilitary: false,
-        line1: '123 Main St',
-        city: 'San Francisco',
-        state: 'CA',
-        postalCode: '94101',
-        country: 'USA',
-      }
-    }];
-
-    const expected = {
-      employment: [{
-        phoneNumber: '1233213211',
-        phoneExtension: '543',
-        phoneTypeId: 1,
+    const employers = [
+      {
+        phone: '1233213211',
+        extension: '543',
         positionTitle: 'Engineer',
         supervisorName: 'Joe Biden',
-        employerAddressId: 1,
-        employerAddress: {
-          addressType: false,
+        address: {
+          isMilitary: false,
           line1: '123 Main St',
           city: 'San Francisco',
           state: 'CA',
           postalCode: '94101',
           country: 'USA',
-        }
-      }]
+        },
+      },
+    ];
+
+    const expected = {
+      employment: [
+        {
+          phoneNumber: '1233213211',
+          phoneExtension: '543',
+          phoneTypeId: 1,
+          positionTitle: 'Engineer',
+          supervisorName: 'Joe Biden',
+          employerAddressId: 1,
+          employerAddress: {
+            addressType: false,
+            line1: '123 Main St',
+            city: 'San Francisco',
+            state: 'CA',
+            postalCode: '94101',
+            country: 'USA',
+          },
+        },
+      ],
     };
 
     setEmploymentHistory(employers);
@@ -230,38 +235,42 @@ describe('setEducation', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const educationalInstitutions = [{
-      degreeReceived: true,
-      major: 'Engineering',
-      degree: 'BS',
-      address: {
-        isMilitary: false,
-        street: '123 Main St',
-        city: 'Chicago',
-        state: 'IL',
-        postalCode: '60610',
-        country: 'USA',
-      }
-    }];
-
-    const expected = {
-      education: [{
-        wasDegreeReceived: true,
+    const educationalInstitutions = [
+      {
+        degreeReceived: true,
         major: 'Engineering',
-        institutionAddressId: 1,
-        degreeTypeId: 1,
-        degreeType: {
-          name: 'BS',
-        },
-        institutionAddress: {
-          addressType: false,
-          line1: '123 Main St',
+        degree: 'BS',
+        address: {
+          isMilitary: false,
+          street: '123 Main St',
           city: 'Chicago',
           state: 'IL',
           postalCode: '60610',
           country: 'USA',
-        }
-      }]
+        },
+      },
+    ];
+
+    const expected = {
+      education: [
+        {
+          wasDegreeReceived: true,
+          major: 'Engineering',
+          institutionAddressId: 1,
+          degreeTypeId: 1,
+          degreeType: {
+            name: 'BS',
+          },
+          institutionAddress: {
+            addressType: false,
+            line1: '123 Main St',
+            city: 'Chicago',
+            state: 'IL',
+            postalCode: '60610',
+            country: 'USA',
+          },
+        },
+      ],
     };
 
     setEducation(educationalInstitutions);
@@ -273,19 +282,23 @@ describe('setJurisdictions', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const jurisdictions = [{
-      jurisdiction: 'CA',
-      admissionDate: '09152010',
-      membershipOrRegistrationNumber: 'abc123'
-    }];
+    const jurisdictions = [
+      {
+        jurisdiction: 'CA',
+        admissionDate: '09152010',
+        membershipOrRegistrationNumber: 'abc123',
+      },
+    ];
 
     const expected = {
-      jurisdictions: [{
-        name: 'CA',
-        admissionDate: '09152010',
-        membershipRegistrationNumber: 'abc123',
-        admittanceTypeId: 1,
-      }]
+      jurisdictions: [
+        {
+          name: 'CA',
+          admissionDate: '09152010',
+          membershipRegistrationNumber: 'abc123',
+          admittanceTypeId: 1,
+        },
+      ],
     };
 
     setJurisdictions(jurisdictions);
@@ -297,19 +310,23 @@ describe('setAgencies', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const agenciesOrCourts = [{
-      name: 'CA',
-      admissionDate: '09152010',
-      membershipOrRegistrationNumber: 'abc123'
-    }];
-
-    const expected = {
-      agencies: [{
+    const agenciesOrCourts = [
+      {
         name: 'CA',
         admissionDate: '09152010',
-        membershipRegistrationNumber: 'abc123',
-        admittanceTypeId: 2,
-      }]
+        membershipOrRegistrationNumber: 'abc123',
+      },
+    ];
+
+    const expected = {
+      agencies: [
+        {
+          name: 'CA',
+          admissionDate: '09152010',
+          membershipRegistrationNumber: 'abc123',
+          admittanceTypeId: 2,
+        },
+      ],
     };
 
     setAgencies(agenciesOrCourts);
@@ -321,42 +338,46 @@ describe('setCharacterReferences', () => {
   it('should transform the name', () => {
     const transformedData = {};
 
-    const characterReferences = [{
-      first: 'John',
-      middle: 'Q',
-      last: 'Public',
-      suffix: 'Sr',
-      street: '123 Main St',
-      street2: 'Apt 1',
-      city: 'Chicago',
-      state: 'IL',
-      postalCode: '60656',
-      country: 'USA',
-      isMilitary: false,
-      phone: '6546787654',
-      email: 'test@va.gov',
-      relationship: 'friend',
-    }];
+    const characterReferences = [
+      {
+        first: 'John',
+        middle: 'Q',
+        last: 'Public',
+        suffix: 'Sr',
+        street: '123 Main St',
+        street2: 'Apt 1',
+        city: 'Chicago',
+        state: 'IL',
+        postalCode: '60656',
+        country: 'USA',
+        isMilitary: false,
+        phone: '6546787654',
+        email: 'test@va.gov',
+        relationship: 'friend',
+      },
+    ];
 
     const expected = {
-      characterReferences: [{
-        firstName: 'John',
-        middleName: 'Q',
-        lastName: 'Public',
-        suffix: 'Sr',
-        addressLine1: '123 Main St',
-        addressLine2: 'Apt 1',
-        addressCity: 'Chicago',
-        addressState: 'IL',
-        addressPostalCode: '60656',
-        addressCountry: 'USA',
-        addressIsMilitary: false,
-        phoneNumber: '6546787654',
-        phoneTypeId: 1,
-        email: 'test@va.gov',
-        relationshipToApplicantTypeId: 1,
-        addressId: 1,
-      }],
+      characterReferences: [
+        {
+          firstName: 'John',
+          middleName: 'Q',
+          lastName: 'Public',
+          suffix: 'Sr',
+          addressLine1: '123 Main St',
+          addressLine2: 'Apt 1',
+          addressCity: 'Chicago',
+          addressState: 'IL',
+          addressPostalCode: '60656',
+          addressCountry: 'USA',
+          addressIsMilitary: false,
+          phoneNumber: '6546787654',
+          phoneTypeId: 1,
+          email: 'test@va.gov',
+          relationshipToApplicantTypeId: 1,
+          addressId: 1,
+        },
+      ],
     };
 
     setCharacterReferences(characterReferences);
@@ -384,7 +405,7 @@ describe('setBackgroundInfo', () => {
         terminatedByVsorg: false,
         conditionThatAffectsRepresentation: false,
         conditionThatAffectsExamination: false,
-      }
+      },
     };
 
     const expected = {
@@ -406,20 +427,5 @@ describe('setBackgroundInfo', () => {
 
     setBackgroundInfo(form);
     expect(transformedData).to.eq(expected);
-  });
-});
-
-describe('transformForSubmit', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
-
-    const fullName = {
-      first: 'John',
-      middle: 'NMN',
-      last: 'Johnson',
-    };
-
-    setName(fullName);
-    expect(transformedData).to.not.be.null;
   });
 });
