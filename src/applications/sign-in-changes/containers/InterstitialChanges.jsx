@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useSelector } from 'react';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { selectProfile } from 'platform/user/selectors';
 import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  // **ADD USESELECTOR**
-  const userEmail = 'testemail@email.com';
-  const userHasLogingov = null;
-  const userHasIdme = null;
+  const userEmail = useSelector(state => selectProfile(state)?.email);
+  const userHasLogingov =
+    useSelector(state => selectProfile(state)?.logingovUuid) !== null;
+  const userHasIdme =
+    useSelector(state => selectProfile(state)?.idmeUuid) !== null;
   const showAccount = userHasLogingov || userHasIdme;
   return (
     <div className="row medium-screen:vads-u-max-width--900px login">
