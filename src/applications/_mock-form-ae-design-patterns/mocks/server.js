@@ -141,11 +141,15 @@ const responses = {
       updateMemDb(req, telephone.homePhoneUpdateReceivedPrefillTaskPurple),
     );
   },
-  'POST /v0/profile/email_addresses': (_req, res) => {
-    return res.status(200).json(emailAddress.transactions.received);
+  'POST /v0/profile/email_addresses': (req, res) => {
+    return res
+      .status(200)
+      .json(updateMemDb(req, emailAddress.transactions.received));
   },
-  'PUT /v0/profile/email_addresses': (_req, res) => {
-    return res.status(200).json(emailAddress.transactions.received);
+  'PUT /v0/profile/email_addresses': (req, res) => {
+    return res
+      .status(200)
+      .json(updateMemDb(req, emailAddress.transactions.received));
   },
   'PUT /v0/profile/addresses': (req, res) => {
     // uncomment to test 401 error
@@ -187,7 +191,7 @@ const responses = {
     );
   },
   'POST /v0/profile/addresses': (req, res) => {
-    return res.json(address.homeAddressUpdateReceived);
+    return res.json(updateMemDb(req, address.homeAddressUpdateReceived));
   },
   'DELETE /v0/profile/addresses': (_req, res) => {
     const secondsOfDelay = 1;

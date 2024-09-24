@@ -1,6 +1,4 @@
-// create an in memory db to store the data for the mock server responses
 const _ = require('lodash');
-
 const user = require('../endpoints/user');
 
 // in memory db
@@ -10,7 +8,6 @@ const memDb = {
 
 // sanitize user input
 const sanitize = dirty => {
-  // if input is a number, return it as is
   if (typeof dirty === 'number' && !Number.isNaN(dirty)) return dirty;
   if (typeof dirty !== 'string') {
     throw new Error('Cannot sanitize, input must be a string');
@@ -33,9 +30,8 @@ const updateFields = (target, source, fields) => {
   );
 };
 
-// the path in the user object to update and the fields to update in that path
 const updateConfig = {
-  mailingAddress: {
+  correspondenceAddress: {
     path: 'data.attributes.vet360ContactInformation.mailingAddress',
     fields: [
       'addressLine1',
@@ -45,8 +41,10 @@ const updateConfig = {
       'stateCode',
       'zipCode',
     ],
+    transactionId: 'mock-update-mailing-address-success-transaction-id',
+    type: 'AsyncTransaction::VAProfile::AddressTransaction',
   },
-  residentialAddress: {
+  'residence/choiceAddress': {
     path: 'data.attributes.vet360ContactInformation.residentialAddress',
     fields: [
       'addressLine1',
@@ -56,18 +54,26 @@ const updateConfig = {
       'stateCode',
       'zipCode',
     ],
+    transactionId: 'mock-update-residential-address-success-transaction-id',
+    type: 'AsyncTransaction::VAProfile::AddressTransaction',
   },
   homePhone: {
     path: 'data.attributes.vet360ContactInformation.homePhone',
-    fields: ['areaCode', 'countryCode', 'extension', 'phoneNumber'],
+    fields: ['areaCode', 'countryCode', 'phoneNumber', 'phoneType'],
+    transactionId: 'mock-update-home-phone-success-transaction-id',
+    type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
   },
   mobilePhone: {
     path: 'data.attributes.vet360ContactInformation.mobilePhone',
-    fields: ['areaCode', 'countryCode', 'extension', 'phoneNumber'],
+    fields: ['areaCode', 'countryCode', 'phoneNumber', 'phoneType'],
+    transactionId: 'mock-update-mobile-phone-success-transaction-id',
+    type: 'AsyncTransaction::VAProfile::TelephoneTransaction',
   },
   email: {
     path: 'data.attributes.vet360ContactInformation.email',
     fields: ['emailAddress'],
+    transactionId: 'mock-update-email-success-transaction-id',
+    type: 'AsyncTransaction::VAProfile::EmailTransaction',
   },
 };
 
@@ -76,41 +82,59 @@ const createUpdate = type => data => {
   const target = _.get(memDb.user, config.path);
   const updatedTarget = updateFields(target, data, config.fields);
   _.set(memDb.user, config.path, updatedTarget);
+  return { transactionId: config.transactionId, type: config.type };
 };
 
-const updateMemDb = (req, resJson) => {
+const generateResponse = (transactionId, type) => ({
+  data: {
+    id: '',
+    type: `async_transaction_va_profile_${type.toLowerCase()}_transactions`,
+    attributes: {
+      transactionId,
+      transactionStatus: 'RECEIVED',
+      type,
+      metadata: [],
+    },
+  },
+});
+
+const updateMemDb = (req, res) => {
   const key = `${req.method} ${req.url}`;
-  const body = req?.body || {};
-  const { transactionId } = resJson.data.attributes;
+  const body = req.body || {};
+
+  if (key === 'PUT /v0/profile/telephones') {
+    const phoneType = body.phoneType.toLowerCase();
+    if (phoneType === 'home' || phoneType === 'mobile') {
+      const updateType = `${phoneType}Phone`;
+      const { transactionId, type } = createUpdate(updateType)(body);
+      return generateResponse(transactionId, type);
+    }
+    throw new Error('Invalid phone type sent to PUT telephones');
+  }
+
+  if (key === 'PUT /v0/profile/addresses') {
+    const addressType = body.addressPou?.toLowerCase();
+    if (
+      addressType === 'correspondence' ||
+      addressType === 'residence/choice'
+    ) {
+      const updateType = `${addressType}Address`;
+      const { transactionId, type } = createUpdate(updateType)(body);
+      return generateResponse(transactionId, type);
+    }
+    throw new Error('Invalid address type sent to PUT addresses');
+  }
+
+  if (key === 'PUT /v0/profile/email_addresses') {
+    const { transactionId, type } = createUpdate('email')(body);
+    return generateResponse(transactionId, type);
+  }
 
   if (key.includes('GET /v0/user')) {
     return memDb.user;
   }
 
-  const updates = {
-    'PUT /v0/profile/addresses': {
-      'mock-update-mailing-address-success-transaction-id': () =>
-        createUpdate('mailingAddress')(body),
-      'mock-update-residential-address-success-transaction-id': () =>
-        createUpdate('residentialAddress')(body),
-    },
-    'PUT /v0/profile/telephones': {
-      'mock-update-home-phone-success-transaction-id': () =>
-        createUpdate('homePhone')(body),
-      'mock-update-mobile-phone-success-transaction-id': () =>
-        createUpdate('mobilePhone')(body),
-    },
-    'PUT /v0/profile/email': {
-      'mock-update-email-success-transaction-id': () =>
-        createUpdate('email')(body),
-    },
-  };
-
-  if (updates[key] && updates[key][transactionId]) {
-    updates[key][transactionId]();
-  }
-
-  return resJson;
+  return res;
 };
 
 module.exports = {
