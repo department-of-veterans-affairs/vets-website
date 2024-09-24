@@ -27,7 +27,7 @@ describe('Verify attachment with virus alert', () => {
   });
 
   it('verify alert exist and attach button disappears', () => {
-    cy.get(`[data-testid="attachment-virus-alert"]`)
+    cy.get(Locators.ALERTS.ATTCH_VIRUS)
       .should(`be.visible`)
       .and(`have.text`, Alerts.VIRUS_ATTCH);
 

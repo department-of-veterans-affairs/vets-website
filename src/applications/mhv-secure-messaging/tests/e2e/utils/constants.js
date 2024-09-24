@@ -202,6 +202,7 @@ export const Locators = {
     CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
+    ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
