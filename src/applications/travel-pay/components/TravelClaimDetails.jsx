@@ -112,15 +112,15 @@ export default function TravelClaimDetails() {
               Claim number: {claimNumber}
             </span>
             <h2 className="claim-details-h3">Where</h2>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               {appointmentDate} at {appointmentTime} appointment
             </p>
-            <p>{facilityName}</p>
+            <p className="vads-u-margin-y--0">{facilityName}</p>
             <h2 className="claim-details-h3">Claim status: {claimStatus}</h2>
-            <p>
+            <p className="vads-u-margin-bottom--0">
               Submitted on {createDate} at {createTime}
             </p>
-            <p>
+            <p className="vads-u-margin-y--0">
               Updated on on {updateDate} at {updateTime}
             </p>
           </>
