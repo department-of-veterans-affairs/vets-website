@@ -115,6 +115,8 @@ const formConfig = {
                     if (!isValidName(field)) {
                       if (field.length === 0) {
                         errors.addError('Please enter your first name');
+                      } else if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
                       } else if (field[0] === ' ' || field[0] === "'") {
                         errors.addError(
                           'First character must be a letter with no leading space.',
@@ -137,6 +139,8 @@ const formConfig = {
                         errors.addError(
                           'First character must be a letter with no leading space.',
                         );
+                      } else if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
                       } else {
                         errors.addError(
                           'Please enter a valid entry. Acceptable entries are letters, spaces and apostrophes.',
@@ -153,6 +157,8 @@ const formConfig = {
                     if (!isValidLastName(field)) {
                       if (field.length === 0) {
                         errors.addError('Please enter your last name');
+                      } else if (field.length > 20) {
+                        errors.addError('Must be 20 characters or less');
                       } else if (
                         field[0] === ' ' ||
                         field[0] === "'" ||
@@ -208,7 +214,7 @@ const formConfig = {
               'ui:description': (
                 <>
                   <div>
-                    <h3>Choose the benefit you’d like to apply for</h3>
+                    <h3>Choose the benefit you’d like to apply for:</h3>
                     <p>
                       <strong>Note:</strong> If you are eligible for both the
                       Fry Scholarship and Survivors’ and Dependents’ Educational
@@ -293,7 +299,7 @@ const formConfig = {
                       <li>
                         <va-icon
                           size={4}
-                          icon="null"
+                          icon="attach_money"
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
@@ -309,27 +315,20 @@ const formConfig = {
                       Learn more about DEA education benefit
                     </a>
                   </div>
-                  <div>
-                    <br />
-                    <va-additional-info trigger="Which benefit should I choose?">
-                      <p>
-                        For each benefit, you should consider the amount you can
-                        receive, how payments are made, and when they expire.
-                      </p>
-                    </va-additional-info>
-                  </div>
                 </>
               ),
             },
-            chosenBenefit: {
-              'ui:title': (
+            'view:benefitInfo': {
+              'ui:description': (
                 <>
                   <span className="fry-dea-labels_label--main vads-u-padding-left--1">
                     Which education benefit would you like to apply for?
                   </span>
+                  <br />
+                  <br />
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
                     <va-icon
-                      size={4}
+                      size={3}
                       icon="info"
                       className="vads-u-margin-right--1"
                       aria-hidden="true"
@@ -341,8 +340,12 @@ const formConfig = {
                     You’ll need to apply separately and use one program at a
                     time.
                   </span>
+                  <br />
                 </>
               ),
+            },
+            chosenBenefit: {
+              'ui:title': 'Select one benefit',
               'ui:errorMessages': {
                 required: 'Please select an education benefit',
               },
@@ -377,6 +380,10 @@ const formConfig = {
                 properties: {},
               },
               'view:dea': {
+                type: 'object',
+                properties: {},
+              },
+              'view:benefitInfo': {
                 type: 'object',
                 properties: {},
               },
