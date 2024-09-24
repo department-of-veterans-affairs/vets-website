@@ -238,7 +238,7 @@ const formConfig = {
                       <li>
                         <va-icon
                           size={4}
-                          icon="null"
+                          icon="school"
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}
@@ -256,7 +256,7 @@ const formConfig = {
                       <li>
                         <va-icon
                           size={4}
-                          icon="null"
+                          icon="local_library"
                           className="fry-dea-benefit-selection-icon"
                           aria-hidden="true"
                         />{' '}

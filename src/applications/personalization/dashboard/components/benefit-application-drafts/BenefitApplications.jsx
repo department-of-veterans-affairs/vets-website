@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { fetchEDUPaymentInformation as fetchEDUPaymentInformationAction } from '@@profile/actions/paymentInformation';
 import PropTypes from 'prop-types';
 import { VA_FORM_IDS } from '~/platform/forms/constants';
 import { isVAPatient, isLOA3, selectProfile } from '~/platform/user/selectors';
@@ -79,7 +78,6 @@ BenefitApplications.propTypes = {
 
 const mapDispatchToProps = {
   getFormStatuses: fetchFormStatuses,
-  getDD4EDUStatus: fetchEDUPaymentInformationAction,
   getESREnrollmentStatus: getEnrollmentStatusAction,
 };
 

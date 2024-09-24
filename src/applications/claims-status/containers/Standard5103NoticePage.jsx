@@ -15,7 +15,7 @@ const filesPath = '../files';
 const statusPath = '../status';
 
 export function Standard5103NoticePage({ claim, loading }) {
-  setDocumentTitle('5103 Evidence Notice');
+  setDocumentTitle('Review your evidence list (5103 notice)');
 
   const claimType = getClaimType(claim).toLowerCase();
 
@@ -43,7 +43,7 @@ export function Standard5103NoticePage({ claim, loading }) {
     previousPageBreadcrumb,
     {
       href: '../5103-evidence-notice',
-      label: '5103 Evidence Notice',
+      label: 'Review evidence list (5103 notice)',
       isRouterLink: true,
     },
   ];

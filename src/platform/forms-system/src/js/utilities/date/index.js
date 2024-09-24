@@ -131,14 +131,6 @@ function formatDiff(diff, desc) {
   return `${diff} ${desc}${diff === 1 ? '' : 's'}`;
 }
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day ? dateField.day.value : null,
-  });
-}
-
 /**
  * timeFromNow returns the number of days, hours, or minutes until
  * the provided date occurs. It’s meant to be less fuzzy than moment’s

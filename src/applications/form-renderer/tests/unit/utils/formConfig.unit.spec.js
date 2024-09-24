@@ -1,15 +1,42 @@
 /* eslint-disable prefer-destructuring */
 
+import React from 'react';
+import PropTypes from 'prop-types';
 import { expect } from 'chai';
+import sinon from 'sinon';
+import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
+import { render } from '@testing-library/react';
 import { normalizedForm } from '../../../_config/formConfig';
 import { createFormConfig } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
 describe('createFormConfig', () => {
   let formConfig;
+  let stub;
 
   beforeEach(() => {
+    const FakeComponent = ({ ombInfo }) => (
+      <div>
+        <p data-testid="exp-date">expDate: {ombInfo.expDate}</p>
+        <p data-testid="omb-number">ombNumber: {ombInfo.ombNumber}</p>
+        <p data-testid="res-burden">resBurden: {ombInfo.resBurden}</p>
+      </div>
+    );
+
+    FakeComponent.propTypes = {
+      ombInfo: PropTypes.shape({
+        expDate: PropTypes.string,
+        ombNumber: PropTypes.number,
+        resBurden: PropTypes.string,
+      }),
+    };
+    stub = sinon.stub(IntroductionPage, 'default').callsFake(FakeComponent);
+
     formConfig = createFormConfig(normalizedForm);
+  });
+
+  afterEach(() => {
+    stub.restore();
   });
 
   it('returns a properly formatted Form Config object', () => {
@@ -32,6 +59,20 @@ describe('createFormConfig', () => {
     expect(page.title).to.eq('Name and Date of Birth');
     expect(page.schema).not.to.eq(undefined);
     expect(page.uiSchema['ui:title']).not.to.eq(undefined);
+  });
+
+  it('sends ombInfo to the Introduction Page', () => {
+    const screen = render(formConfig.introduction());
+
+    expect(screen.getByTestId('exp-date')).to.have.text(
+      `expDate: ${normalizedForm.ombInfo.expDate}`,
+    );
+    expect(screen.getByTestId('omb-number')).to.have.text(
+      `ombNumber: ${normalizedForm.ombInfo.ombNumber}`,
+    );
+    expect(screen.getByTestId('res-burden')).to.have.text(
+      `resBurden: ${normalizedForm.ombInfo.resBurden}`,
+    );
   });
 
   context('with Name and Date of Birth pattern', () => {

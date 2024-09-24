@@ -4,6 +4,7 @@ import {
 } from 'platform/forms-system/src/js/web-component-patterns';
 import fullSchemaPensions from 'vets-json-schema/dist/21P-527EZ-schema.json';
 import { isUnder65 } from './helpers';
+import { showMultiplePageResponse } from '../../../helpers';
 
 const { currentEmployment } = fullSchemaPensions.properties;
 
@@ -11,7 +12,7 @@ const { currentEmployment } = fullSchemaPensions.properties;
 export default {
   title: 'Current employment',
   path: 'employment/current',
-  depends: isUnder65,
+  depends: formData => !showMultiplePageResponse() && isUnder65(formData),
   uiSchema: {
     ...titleUI('Current employment'),
     currentEmployment: yesNoUI({
