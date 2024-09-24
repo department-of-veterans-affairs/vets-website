@@ -91,6 +91,8 @@ export const newFolder = folderName => async dispatch => {
       type: Actions.Folder.CREATE,
       response,
     });
+    dispatch(getFolders());
+
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
