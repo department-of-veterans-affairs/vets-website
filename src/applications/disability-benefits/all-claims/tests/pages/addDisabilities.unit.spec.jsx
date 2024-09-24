@@ -1,169 +1,163 @@
-import React from 'react';
+import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
-import { render } from '@testing-library/react';
-import sinon from 'sinon';
-import { DefinitionTester } from 'platform/testing/unit/schemaform-utils.jsx';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import set from 'platform/utilities/data/set';
-import { mount } from 'enzyme';
+import React from 'react';
+import sinon from 'sinon';
+
 import formConfig from '../../config/form';
 import { updateFormData } from '../../pages/addDisabilities';
 
-describe('showRevisedNewDisabilitiesPage', () => {
-  it('should show new combobox container', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilities;
-    const onSubmit = sinon.spy();
-    const screen = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:claimType': {
-            'view:claimingNew': true,
-            'view:claimingIncrease': true,
-          },
-          newDisabilities: ['test condition'],
-          // no rated disability selected
-          ratedDisabilities: [{}, {}],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    const labelStr = 'Enter your condition';
-    expect(screen.getByText(labelStr)).to.exist;
+const {
+  schema,
+  uiSchema,
+} = formConfig.chapters.disabilities.pages.addDisabilities;
+
+const createScreen = (
+  claimingNew = true,
+  claimingIncrease = false,
+  condition = null,
+) => {
+  const onSubmit = sinon.spy();
+
+  return render(
+    <DefinitionTester
+      definitions={formConfig.defaultDefinitions}
+      schema={schema}
+      uiSchema={uiSchema}
+      data={{
+        'view:claimType': {
+          'view:claimingNew': claimingNew,
+          'view:claimingIncrease': claimingIncrease,
+        },
+        newDisabilities: condition,
+        ratedDisabilities: [{}, {}],
+      }}
+      formData={{}}
+      onSubmit={onSubmit}
+    />,
+  );
+};
+
+describe('Add Disabilities Page', () => {
+  describe('User is claiming a new condition but not claiming an increase', () => {
+    it('should render heading and directions', () => {
+      const { getByRole, getByText } = createScreen();
+
+      const heading = getByRole('heading', {
+        name: 'Tell us the new conditions you want to claim',
+      });
+      const directions = getByText(
+        'Enter the name of your condition. Then, select your condition from the list of possible matches.',
+      );
+
+      expect(heading).to.be.visible;
+      expect(directions).to.be.visible;
+    });
+
+    it('should render "if conditions aren\'t listed" subheading and details', () => {
+      const { getByRole, getByText } = createScreen();
+
+      const notListedSubHeading = getByRole('heading', {
+        name: 'If your conditions aren’t listed',
+      });
+      const notListedDetails = getByText(
+        'You can claim a condition that isn’t listed. Enter your condition, diagnosis, or short description of your symptoms.',
+      );
+
+      expect(notListedSubHeading).to.be.visible;
+      expect(notListedDetails).to.be.visible;
+    });
+
+    it('should render examples subheading and list', () => {
+      const { getByRole, getByText } = createScreen();
+
+      const examplesSubHeading = getByRole('heading', {
+        name: 'Examples of conditions',
+      });
+      const examples = getByRole('list').children;
+      const example = getByText('Tinnitus (ringing or hissing in ears)');
+
+      expect(examplesSubHeading).to.be.visible;
+      expect(examples.length).to.eq(7);
+      expect(example).to.be.visible;
+    });
+
+    it('should render "Your new conditions" subheading and array field', () => {
+      const { getByRole } = createScreen();
+
+      const newConditionsSubHeading = getByRole('heading', {
+        name: 'Your new conditions',
+      });
+
+      expect(newConditionsSubHeading).to.be.visible;
+    });
+
+    it('should render ComboBox', () => {
+      const { getByRole, getByText, getByTestId } = createScreen();
+
+      const label = getByText('Enter your condition');
+      const required = label.querySelector('span');
+      const input = getByTestId('combobox-input');
+      const listbox = getByRole('listbox');
+
+      expect(label).to.be.visible;
+      expect(required).to.have.text('(*Required)');
+      expect(input).to.be.visible;
+      expect(listbox).to.be.visible;
+      expect(listbox).to.have.length(0);
+    });
+
+    it('should display error if no new conditions are added', () => {
+      const { getByText } = createScreen();
+
+      const submitBtn = getByText('Submit');
+      fireEvent.click(submitBtn);
+
+      const alertHeading = getByText('Enter a condition to submit your claim');
+      const alertText = getByText(
+        'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
+      );
+
+      expect(alertHeading).to.exist;
+      expect(alertText).to.exist;
+    });
+
+    it('should submit when form is completed', () => {
+      const { getByText, queryByRole } = createScreen(true, false, [
+        {
+          cause: 'NEW',
+          condition: 'asthma',
+          'view:descriptionInfo': {},
+        },
+      ]);
+
+      const submitBtn = getByText('Submit');
+      fireEvent.click(submitBtn);
+
+      const inputError = queryByRole('alert');
+
+      expect(inputError).not.to.exist;
+    });
   });
 
-  it('should render updated content', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilities;
-    const onSubmit = sinon.spy();
-    const screen = render(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:claimType': {
-            'view:claimingNew': true,
-            'view:claimingIncrease': true,
-          },
-          newDisabilities: ['test condition'],
-          // no rated disability selected
-          ratedDisabilities: [{}, {}],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    const title = 'Tell us the new conditions you want to claim';
-    const exampleConditions = 'Examples of conditions';
-    const conditionInstructions = 'If your conditions aren’t listed';
-    const listItem = 'Tinnitus (ringing or hissing in ears)';
-    expect(screen.getByText(title)).to.exist;
-    expect(screen.getByText(exampleConditions)).to.exist;
-    expect(screen.getByText(conditionInstructions)).to.exist;
-    expect(screen.getByText(listItem)).to.exist;
-  });
+  describe('User is claiming a new condition AND claiming an increase', () => {
+    it('should display helpful error if no new conditions are added', () => {
+      const { getByText } = createScreen(true, true, null);
 
-  it('should display newOnlyAlertRevised if no new conditions are added', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilities;
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:claimType': {
-            'view:claimingNew': true,
-            'view:claimingIncrease': false,
-          },
-          newDisabilities: [],
-          // no rated disability selected
-          ratedDisabilities: [{}, {}],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    const error = form.find('va-alert');
-    expect(error.length).to.equal(1);
-    expect(error.text()).to.contain('Enter a condition to submit your claim');
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
+      const submitBtn = getByText('Submit');
+      fireEvent.click(submitBtn);
 
-  it('should display increaseAndNewAlertRevised if no new conditions or increase disabilities are added', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilities;
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          'view:claimType': {
-            'view:claimingNew': true,
-            'view:claimingIncrease': true,
-          },
-          newDisabilities: [],
-          // no rated disability selected
-          ratedDisabilities: [{}, {}],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-    form.find('form').simulate('submit');
-    const error = form.find('va-alert');
-    expect(error.length).to.equal(1);
-    expect(error.text()).to.contain(
-      'We can’t process your claim without a disability or new condition selected',
-    );
-    expect(onSubmit.called).to.be.false;
-    form.unmount();
-  });
+      const alertHeading = getByText('We need you to add a condition');
+      const alertText = getByText(
+        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+      );
+      const disabilityLink = getByText('Choose a rated disability');
 
-  it('should submit when form is completed', () => {
-    const {
-      schema,
-      uiSchema,
-    } = formConfig.chapters.disabilities.pages.addDisabilities;
-    const onSubmit = sinon.spy();
-    const form = mount(
-      <DefinitionTester
-        definitions={formConfig.defaultDefinitions}
-        schema={schema}
-        uiSchema={uiSchema}
-        data={{
-          newDisabilities: [
-            {
-              condition: 'Test',
-            },
-          ],
-        }}
-        formData={{}}
-        onSubmit={onSubmit}
-      />,
-    );
-
-    form.find('form').simulate('submit');
-    expect(form.find('.usa-input-error-message').length).to.equal(0);
-    expect(onSubmit.called).to.be.true;
-    form.unmount();
+      expect(alertHeading).to.exist;
+      expect(alertText).to.exist;
+      expect(disabilityLink).to.exist;
+    });
   });
 
   describe('updateFormData', () => {
