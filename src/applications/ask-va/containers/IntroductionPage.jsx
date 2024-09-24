@@ -19,7 +19,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { toggleLoginModal as toggleLoginModalAction } from '~/platform/site-wide/user-nav/actions';
 import { envUrl } from '../constants';
-import { inProgressOrReopenedIcon, newIcon, successIcon } from '../helpers';
+import {
+  inProgressOrReopenedIcon,
+  newIcon,
+  successIcon,
+} from '../utils/helpers';
 import DashboardCards from './DashboardCards';
 import DashboardCardsMock from './DashboardCardsMock';
 
