@@ -23,7 +23,7 @@ function recordSuggestedAction(
     recordEvent({
       event: 'chatbot-button-click',
       clickText: cardActionValue,
-      skill: eventSkillValue || undefined,
+      topic: eventSkillValue || undefined,
     });
   }
 }

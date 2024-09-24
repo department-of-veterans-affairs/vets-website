@@ -44,7 +44,7 @@ describe('markdownRenderer', () => {
         link: 'http://example.com/',
         linkText: 'Chatbot Link',
         time: now,
-        skill: 'prescriptions',
+        topic: 'prescriptions',
       });
     });
     it('should call recordEvent when a non-chatbot link is clicked', () => {

@@ -84,7 +84,7 @@ function handleSkillEntryEvent(action) {
     recordEvent({
       event: 'api_call',
       'api-name': apiName,
-      skill: eventValue,
+      topic: eventValue,
       'api-status': 'successful',
     });
   }
@@ -191,12 +191,12 @@ export const processMicrophoneActivity = ({ action }) => () => {
   if (action.payload.dictateState === 3) {
     recordEvent({
       event: 'chatbot-microphone-enable',
-      skill: eventSkillValue || undefined,
+      topic: eventSkillValue || undefined,
     });
   } else if (action.payload.dictateState === 0) {
     recordEvent({
       event: 'chatbot-microphone-disable',
-      skill: eventSkillValue || undefined,
+      topic: eventSkillValue || undefined,
     });
   }
 };

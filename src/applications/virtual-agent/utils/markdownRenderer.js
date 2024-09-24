@@ -16,12 +16,12 @@ const markdownRenderer = MarkdownIt({
 
 function recordChatbotLinkClicks(origin) {
   if (origin.id && origin.id === 'chatbotLink') {
-    const skill = getEventSkillValue();
+    const topic = getEventSkillValue();
     recordEvent({
       event: 'chatbot-resource-link-click',
       link: origin.href,
       linkText: origin.text,
-      skill,
+      topic,
       time: new Date(),
     });
   }

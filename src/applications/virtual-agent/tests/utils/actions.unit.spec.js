@@ -389,7 +389,7 @@ describe('actions', () => {
         recordEventStub.calledWithExactly({
           event: 'api_call',
           'api-name': 'Chatbot Skill Entry - some_skill_value',
-          skill: 'some_skill_value',
+          topic: 'some_skill_value',
           'api-status': 'successful',
         }),
       ).to.be.true;
@@ -673,7 +673,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-enable',
-          skill: 'prescriptions',
+          topic: 'prescriptions',
         }),
       ).to.be.true;
     });
@@ -693,7 +693,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-enable',
-          skill: undefined,
+          topic: undefined,
         }),
       ).to.be.true;
     });
@@ -715,7 +715,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-disable',
-          skill: 'prescriptions',
+          topic: 'prescriptions',
         }),
       ).to.be.true;
     });
@@ -735,7 +735,7 @@ describe('actions', () => {
       expect(
         recordEventStub.calledWithExactly({
           event: 'chatbot-microphone-disable',
-          skill: undefined,
+          topic: undefined,
         }),
       ).to.be.true;
     });

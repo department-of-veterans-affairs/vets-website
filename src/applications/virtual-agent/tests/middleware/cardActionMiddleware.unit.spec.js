@@ -105,7 +105,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          skill: 'va_vha_healthassistant_bot',
+          topic: 'va_vha_healthassistant_bot',
         });
       });
       it('should call recordEvent when classList has webchat__suggested-action in card', () => {
@@ -140,7 +140,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          skill: undefined,
+          topic: undefined,
         });
       });
       it('should not call recordEvent when classList is unknown class in card', () => {
@@ -176,7 +176,7 @@ describe('cardAction', () => {
         expect(recordEventStub.firstCall.args[0]).to.deep.equal({
           event: 'chatbot-button-click',
           clickText: card.cardAction.value,
-          skill: 'ratings',
+          topic: 'ratings',
         });
       });
       describe('When there are unexpected values', () => {
