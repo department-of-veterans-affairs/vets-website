@@ -633,43 +633,46 @@ jobs:
         run: yarn generate-app-list
         working-directory: qa-standards-dashboard-data
 
-  # fetch-ecr-credentials:
-  #   name: Fetch ECR Credentials
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 10
-  #   needs: [build] 
+  fetch-ecr-credentials:
+    name: Fetch ECR Credentials
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [build] 
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
-  #     - name: Configure AWS Credentials
-  #       uses: ./.github/workflows/configure-aws-credentials
-  #       with:
-  #         aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-  #         aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-  #         aws_region: us-gov-west-1
+      - name: Configure AWS Credentials
+        uses: ./.github/workflows/configure-aws-credentials
+        with:
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: us-gov-west-1
 
-  #     - name: Login to Amazon ECR
-  #       id: login-ecr
-  #       uses: aws-actions/amazon-ecr-login@v2    
-  #       with:
-  #         mask-password: false
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2    
+        with:
+          mask-password: false
 
-  #   outputs:
-  #     ecr_user: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
-  #     ecr_password: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+    outputs:
+      ecr_user: ${{ steps.login-ecr.outputs.docker_username_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
+      ecr_password: ${{ steps.login-ecr.outputs.docker_password_008577686731_dkr_ecr_us_gov_west_1_amazonaws_com }}
       
   cypress-tests:
     name: Cypress E2E Tests
     runs-on: ubuntu-16-cores-latest
     timeout-minutes: 60
-    needs: [build, tests-prep]
+    needs: [build, tests-prep, fetch-ecr-credentials]
     if: |
       needs.build.result == 'success' &&
       needs.tests-prep.result == 'success'
     container:
-      image: public.ecr.aws/cypress-io/cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
+      image: 008577686731.dkr.ecr.us-gov-west-1.amazonaws.com/dsva/cypress-io/cypress/browsers:node16.16.0-chrome107-ff107-edge
+      credentials:
+        username: ${{ needs.fetch-ecr-credentials.outputs.ecr_user }}
+        password: ${{ needs.fetch-ecr-credentials.outputs.ecr_password }}
 
     strategy:
       fail-fast: false
