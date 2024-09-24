@@ -61,8 +61,7 @@ function getEventValue(action) {
 }
 
 function isEventRxSkill(eventValue) {
-  // TODO: Change 'RX_Skill' to 'va_vha_healthassistant_bot' when proxybot changes are deployed
-  return eventValue === 'RX_Skill';
+  return eventValue === 'va_vha_healthassistant_bot';
 }
 
 function handleRxSkillEvent(action, eventName, isRxSkillState) {
