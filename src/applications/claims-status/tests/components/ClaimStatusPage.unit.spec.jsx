@@ -8,7 +8,7 @@ import { createStore } from 'redux';
 import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
 import { ClaimStatusPage } from '../../containers/ClaimStatusPage';
-import { renderWithRouter } from '../utils';
+import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const params = { id: 1 };
 
@@ -34,7 +34,6 @@ describe('<ClaimStatusPage>', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimStatusPage {...props} params={params} />,
     );
-    expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
   });
@@ -43,12 +42,93 @@ describe('<ClaimStatusPage>', () => {
     const { container, getByText } = renderWithRouter(
       <ClaimStatusPage {...props} claim={null} params={params} />,
     );
-    expect(document.title).to.equal('Status Of Your Claim | Veterans Affairs');
     expect($('.claim-status', container)).to.not.exist;
     getByText('Claim status is unavailable');
   });
 
   context('cstUseClaimDetailsV2 feature flag enabled', () => {
+    describe('document.title', () => {
+      // Minimum data needed for these test cases.
+      const claim = {
+        attributes: {
+          claimDate: '2024-09-04',
+          claimType: 'Compensation',
+          claimPhaseDates: {
+            previousPhases: {},
+          },
+          trackedItems: [],
+        },
+      };
+      it('should not update document title at mount-time if claim is not available', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
+      it('should update document title with claim details at mount-time if claim is already loaded', () => {
+        renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={claim} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with claim details after mount once the claim has loaded', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={claim} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of September 4, 2024 Compensation Claim | Veterans Affairs',
+        );
+      });
+      it('should update document title with a default message after mount once the claim fails to load', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} claim={null} params={params} />
+          </Provider>,
+        );
+        expect(document.title).to.equal(
+          'Status of Your Claim | Veterans Affairs',
+        );
+      });
+      it('should not update document title after mount if the loading status has not changed', () => {
+        const { rerender } = renderWithRouter(
+          <Provider store={getStore()}>
+            <ClaimStatusPage {...props} loading params={params} />
+          </Provider>,
+        );
+        rerenderWithRouter(
+          rerender,
+          <Provider store={getStore()}>
+            <ClaimStatusPage
+              {...props}
+              loading
+              message={{ title: 'Test', body: 'Body' }}
+              params={params}
+            />
+          </Provider>,
+        );
+        expect(document.title).to.equal('');
+      });
+    });
     context('should render status page without a timeline', () => {
       context(
         'shows ClaimStatusHeader, WhatWereDoing, WhatYouNeedToDo and RecentActivity sections',
@@ -103,7 +183,7 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
             expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;
@@ -159,7 +239,7 @@ describe('<ClaimStatusPage>', () => {
 
             expect(statusPage).to.exist;
             expect(document.title).to.equal(
-              'Status Of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
+              'Status of January 1, 2023 Disability Compensation Claim | Veterans Affairs',
             );
             expect($('va-process-list', container)).not.to.exist;
             expect($('.claim-status-header-container', container)).to.exist;

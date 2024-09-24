@@ -94,9 +94,6 @@ export const selectFeatureBookingExclusion = state =>
 export const selectFeatureDatadogRum = state =>
   toggleValues(state).vaOnlineSchedulingDatadogRum;
 
-export const selectFeatureAppointmentDetailsRedesign = state =>
-  toggleValues(state).vaOnlineSchedulingAppointmentDetailsRedesign;
-
 export const selectFeatureCCDirectScheduling = state =>
   toggleValues(state).vaOnlineSchedulingCCDirectScheduling;
 
@@ -104,9 +101,6 @@ export const selectFilterData = state => toggleValues(state).vaOnlineFilterData;
 
 export const selectFeatureRecentLocationsFilter = state =>
   toggleValues(state).vaOnlineSchedulingRecentLocationsFilter;
-
-export const selectFeatureMedReviewInstructions = state =>
-  toggleValues(state).vaOnlineSchedulingMedReviewInstructions;
 
 export const selectFeatureOHDirectSchedule = state =>
   toggleValues(state).vaOnlineSchedulingOhDirectSchedule;

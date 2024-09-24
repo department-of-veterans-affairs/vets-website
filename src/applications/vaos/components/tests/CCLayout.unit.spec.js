@@ -8,12 +8,7 @@ import {
 import CCLayout from '../layout/CCLayout';
 
 describe('VAOS Component: CCLayout', () => {
-  const initialState = {
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
-  };
+  const initialState = {};
 
   describe('When appointment information is missing', () => {
     it('should not display heading and text for empty data', async () => {
@@ -175,7 +170,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -423,7 +418,7 @@ describe('VAOS Component: CCLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(

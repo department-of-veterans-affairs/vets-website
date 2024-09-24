@@ -1,6 +1,7 @@
 describe('Accessibility', () => {
+  /* eslint-disable cypress/unsafe-to-chain-command */
   it('Traverses content via keyboard', () => {
-    cy.visit('/education/school-administrators/');
+    cy.visit('/school-administrators');
     cy.injectAxe();
     cy.axeCheck();
     // First focusable element in react app
@@ -33,20 +34,20 @@ describe('Accessibility', () => {
     );
 
     cy.repeatKey('Tab', 2);
-    cy.focused().should('contain.text', 'Training Requirements');
+    cy.focused().should('contain.text', 'Training requirements');
     cy.repeatKey('Tab', 4);
     cy.focused().should('contain.text', 'GovDelivery Message Archive');
     // Tab to 'Program approval information' links
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'WEAMS Institution Search');
-    cy.repeatKey('Tab', 8);
+    cy.repeatKey('Tab', 9);
     cy.focused().should(
       'contain.text',
-      'State Approving Agency Contact Information',
+      'State Approving Agency contact information',
     );
     // Tab to 'Upload files to VA' section
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Education File Upload Portal');
+    cy.focused().should('contain.text', 'Education File upload portal');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Expand all +');
     cy.realPress('Enter');
@@ -72,13 +73,13 @@ describe('Accessibility', () => {
     cy.realPress('Enter');
     cy.focused().should('contain.text', 'Collapse all -');
     cy.realPress('Tab');
-    cy.focused().should('contain.text', 'Enrollment Manager');
+    cy.focused().should('contain.text', 'Enrollment manager');
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Launch VA Education Platform Portal');
     cy.repeatKey('Tab', 8);
     cy.focused().should(
       'contain.text',
-      'VA Paper Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
+      'VA Paper-Based Forms to Enrollment Manager Crosswalk (PPTX, 124 pages)',
     );
     cy.realPress('Tab');
     cy.focused().should('contain.text', 'Payment and debt');
@@ -96,9 +97,9 @@ describe('Accessibility', () => {
     cy.focused().should('contain.text', 'How to apply for VR&E');
     cy.repeatKey('Tab', 2);
     cy.focused().should('contain.text', '85/15');
-    cy.repeatKey('Tab', 10);
-    cy.focused().should('contain.text', 'About GI Bill Benefits');
-    cy.repeatKey('Tab', 5);
+    cy.repeatKey('Tab', 11);
+    cy.focused().should('contain.text', 'About GI Bill benefits');
+    cy.repeatKey('Tab', 6);
     // Should be focused on right panel now
     cy.focused().should('contain.text', 'Access Enrollment Manager');
     cy.realPress('Tab');

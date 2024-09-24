@@ -1,4 +1,4 @@
-import content from '../../locales/en/content.json';
+import content from '../../shared/locales/en/content.json';
 
 /**
  * Helper that returns a descriptive screenreader-compatible label for the

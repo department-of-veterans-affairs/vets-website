@@ -1,26 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect, useSelector } from 'react-redux';
+import { connect } from 'react-redux';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { isLoggedIn } from 'platform/user/selectors';
 import { setData } from 'platform/forms-system/src/js/actions';
 import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
-
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
-function App({ location, children, formData, setFormData, loggedIn }) {
-  const subTitle = useSelector(() => {
-    switch (formData.repTypeRadio) {
-      case 'Veterans Service Organization (VSO)':
-        return 'VA Form 21-22';
-      case 'Attorney':
-      case 'Claims Agent':
-        return 'VA Form 21-22a';
-      default:
-        return 'VA Forms 21-22 and 21-22a';
-    }
-  });
+import { getFormSubtitle } from '../utilities/helpers';
+
+function App({ loggedIn, location, children, formData, setFormData }) {
+  const subTitle = getFormSubtitle(formData);
+
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
 
@@ -42,11 +34,15 @@ function App({ location, children, formData, setFormData, loggedIn }) {
         ...defaultViewFields,
       });
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [loggedIn],
   );
 
-  const content = (
+  // Exclude the 'next-steps' route from being wrapped in RoutedSavableApp
+  const isNextStepsRoute = pathname === '/next-steps';
+
+  const content = isNextStepsRoute ? (
+    <>{children}</> // Directly render children for 'next-steps'
+  ) : (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
@@ -59,26 +55,25 @@ function App({ location, children, formData, setFormData, loggedIn }) {
   );
 }
 
+const mapStateToProps = state => ({
+  profile: state.user.profile,
+  formData: state.form?.data || {},
+  loggedIn: isLoggedIn(state),
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
 App.propTypes = {
-  children: PropTypes.object,
-  formData: PropTypes.shape({}),
-  location: PropTypes.shape({
-    pathname: PropTypes.string,
-  }),
   loggedIn: PropTypes.bool,
+  location: PropTypes.object,
+  children: PropTypes.node,
+  formData: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
-function mapStateToProps(state) {
-  return {
-    form: state.form,
-    flow: state.flow,
-    formData: state.form?.data || {},
-    setFormData: setData,
-    loggedIn: isLoggedIn(state),
-  };
-}
 export default connect(
   mapStateToProps,
-  null,
+  mapDispatchToProps,
 )(App);

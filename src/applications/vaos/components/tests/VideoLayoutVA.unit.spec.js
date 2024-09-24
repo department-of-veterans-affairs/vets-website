@@ -28,10 +28,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
   };
 
   describe('When appointment information is missing', () => {
@@ -415,7 +411,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
           ),
         );
         expect(
@@ -558,7 +554,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
           ),
         );
         expect(
@@ -837,7 +833,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider./i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(

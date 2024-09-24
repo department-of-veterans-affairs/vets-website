@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { VaButtonPair } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import {
+  focusElement,
+  waitForRenderThenFocus,
+  scrollTo,
+} from '@department-of-veterans-affairs/platform-utilities/ui';
 
 import {
   itfMessage,
@@ -16,6 +20,7 @@ import { BASE_URL } from '../constants';
 
 const ITFBanner = props => {
   const [messageDismissed, setMessageDismissed] = useState(false);
+  const [reviewInitialFocus, setReviewInitialFocus] = useState(false);
 
   const goHome = () => {
     props.router.push(`${BASE_URL}/introduction`);
@@ -26,6 +31,16 @@ const ITFBanner = props => {
   };
 
   if (messageDismissed) {
+    // Showing review page content doesn't re-render the progress bar
+    if (
+      !reviewInitialFocus &&
+      props.router?.location.pathname.endsWith('review-and-submit')
+    ) {
+      scrollTo('topScrollElement');
+      // Focus on review & submit page h2 in stepper initially
+      setReviewInitialFocus(true);
+      waitForRenderThenFocus('va-segmented-progress-bar', document, 250, 'h2');
+    }
     return props.children;
   }
 
@@ -59,6 +74,7 @@ const ITFBanner = props => {
   }
 
   setTimeout(() => {
+    scrollTo('topContentElement');
     focusElement('.itf-wrapper h2');
   }, 100);
 
@@ -87,6 +103,9 @@ ITFBanner.propTypes = {
   previousITF: PropTypes.object,
   router: PropTypes.shape({
     push: PropTypes.func,
+    location: PropTypes.shape({
+      pathname: PropTypes.string,
+    }),
   }),
 };
 

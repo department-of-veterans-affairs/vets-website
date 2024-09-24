@@ -7,7 +7,6 @@ import {
   selectConfirmedAppointmentData,
   selectIsAtlasVideo,
 } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
@@ -45,10 +44,6 @@ export default function VideoLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
@@ -114,15 +109,14 @@ export default function VideoLayout({ data: appointment }) {
         </Section>
       )}
 
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
             <ul className="vads-u-margin-top--0">
               <li>
-                Bring your insurance cards and a list of your medications and
-                other information to share with your provider.
+                Bring your insurance cards. And bring a list of your medications
+                and other information to share with your provider.
                 <br />
                 <va-link
                   text="Find a full list of things to bring to your appointment"

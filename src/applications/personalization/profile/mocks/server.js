@@ -92,7 +92,7 @@ const responses = {
         res.json(
           generateFeatureToggles({
             authExpVbaDowntimeMessage: false,
-            profileHideDirectDeposit: true,
+            profileHideDirectDeposit: false,
             profileShowCredentialRetirementMessaging: true,
             profileShowPaymentsNotificationSetting: true,
             profileShowNewBenefitOverpaymentDebtNotificationSetting: false,
@@ -102,11 +102,7 @@ const responses = {
             profileShowMhvNotificationSettingsNewSecureMessaging: true,
             profileShowMhvNotificationSettingsMedicalImages: true,
             profileShowQuickSubmitNotificationSetting: false,
-            profileUseExperimental: true,
-            profileShowDirectDepositSingleForm: true,
-            profileShowDirectDepositSingleFormUAT: false,
-            profileShowDirectDepositSingleFormAlert: true,
-            profileShowDirectDepositSingleFormEduDowntime: true,
+            profileUseExperimental: false,
             profileShowPrivacyPolicy: true,
             veteranOnboardingContactInfoFlow: true,
           }),
@@ -123,7 +119,7 @@ const responses = {
     }
     // return res.status(403).json(genericErrors.error500);
     // example user data cases
-    // return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
+    return res.json(user.loa3User72); // default user LOA3 w/id.me (success)
     // return res.json(user.dsLogonUser); // user with dslogon signIn.serviceName
     // return res.json(user.mvhUser); // user with mhv signIn.serviceName
     // return res.json(user.loa1User); // LOA1 user w/id.me
@@ -134,7 +130,7 @@ const responses = {
     // return res.json(user.loa3UserWithNoFacilities); // user without facilities and not a vaPatient
     // return res.json(user.externalServiceError); // external service error
     // return res.json(user.loa3UserWithoutLighthouseServiceAvailable); // user without lighthouse service available / no icn or participant id
-    return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
+    // return res.json(user.loa3UserWithNoMobilePhone); // user with no mobile phone number
     // return res.json(user.loa3UserWithNoEmail); // user with no email address
     // return res.json(user.loa3UserWithNoEmailOrMobilePhone); // user without email or mobile phone
     // return res.json(user.loa3UserWithNoHomeAddress); // home address is null
@@ -183,8 +179,13 @@ const responses = {
     // return res.status(200).json(mockDisabilityCompensations.updates.success);
   },
   'GET /v0/profile/direct_deposits': (_req, res) => {
+    const secondsOfDelay = 2;
+    delaySingleResponse(
+      () => res.status(200).json(directDeposits.base),
+      secondsOfDelay,
+    );
     // this endpoint is used for the single form version of the direct deposit page
-    return res.status(200).json(directDeposits.base);
+
     // return res.status(500).json(genericErrors.error500);
     // return res.status(400).json(directDeposits.updates.errors.unspecified);
     // user with no dd data but is eligible

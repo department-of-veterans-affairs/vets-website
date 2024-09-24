@@ -83,16 +83,18 @@ import fullSchema from './form-0995-schema.json';
 import { focusEvidence } from '../utils/focus';
 import { hasHousingRisk, hasOtherHousingRisk } from '../utils/livingSituation';
 
-import maximalData from '../tests/fixtures/data/maximal-test.json';
+import maximalData from '../tests/fixtures/data/prototype-test.json';
 
 import submissionError from '../../../shared/content/submissionError';
-import NeedHelp from '../../../shared/content/NeedHelp';
+
+import GetFormHelp from '../../../shared/content/GetFormHelp';
 import { CONTESTABLE_ISSUES_PATH } from '../../../shared/constants';
 import {
   focusAlertH3,
   focusRadioH3,
   focusH3,
   focusOnAlert,
+  focusIssue,
 } from '../../../shared/utils/focus';
 import {
   mayHaveLegacyAppeals,
@@ -231,6 +233,7 @@ const formConfig = {
           uiSchema: contestableIssues.uiSchema,
           schema: contestableIssues.schema,
           appStateSelector,
+          scrollAndFocusTarget: focusIssue,
           onContinue: focusOnAlert,
         },
         addIssue: {
@@ -373,7 +376,7 @@ const formConfig = {
     },
   },
   footerContent: FormFooter,
-  getHelp: NeedHelp,
+  getHelp: GetFormHelp,
 };
 
 export default formConfig;

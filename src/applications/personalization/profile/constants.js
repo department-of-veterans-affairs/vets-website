@@ -9,10 +9,6 @@ export const PROFILE_TOGGLES = {
   profileShowQuickSubmitNotificationSetting: false,
   profileShowEmailNotificationSettings: false,
   profileShowProofOfVeteranStatus: false,
-  profileShowDirectDepositSingleForm: false,
-  profileShowDirectDepositSingleFormUAT: false,
-  profileShowDirectDepositSingleFormAlert: false,
-  profileShowDirectDepositSingleFormEduDowntime: false,
 };
 
 // The values of these constants map to the possible values that come back from
@@ -205,4 +201,10 @@ export const ACCOUNT_TYPES_OPTIONS = {
 export const DIRECT_DEPOSIT_ALERT_SETTINGS = {
   FADE_SPEED: window.Cypress ? 1 : 500,
   TIMEOUT: window.Cypress ? 500 : 6000,
+};
+
+// end dates for each credential type
+export const CREDENTIAL_DEADLINES = {
+  'My HealtheVet': 'January 31, 2025',
+  'DS Logon': 'September 30, 2025',
 };

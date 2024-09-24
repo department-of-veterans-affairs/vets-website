@@ -1,116 +1,173 @@
-import { VaSelect } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import {
+  VaPagination,
+  VaSelect,
+} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
-import { format, parse } from 'date-fns';
-import moment from 'moment';
+import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { compareAsc, compareDesc, format, parse } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
-import { envUrl } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import { URL, envUrl } from '../constants';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
   const [inquiries, setInquiries] = useState([]);
-  const [, setOriginalInquries] = useState([]);
   const [lastUpdatedFilter, setLastUpdatedFilter] = useState('newestToOldest');
   const [statusFilter, setStatusFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
   const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
     return format(parsedDate, 'MMM d, yyyy');
   };
 
-  const DASHBOARD_DATA = `${envUrl}/ask_va_api/v0/inquiries?user_mock_data=true`;
+  const formatLongDate = dateString => {
+    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
+    return format(parsedDate, 'MMMM d, yyyy');
+  };
+
   const hasBusinessLevelAuth =
     inquiries.length > 0 &&
-    inquiries.some(card => card.levelOfAuthentication === 'Business');
+    inquiries.some(
+      card => card.attributes.levelOfAuthentication === 'Business',
+    );
 
-  const getData = async () => {
-    const response = await apiRequest(DASHBOARD_DATA)
+  const getApiData = url => {
+    setLoading(true);
+    return apiRequest(url)
       .then(res => {
-        // Using mock data until BE is ready with new fields and pagination
-        setOriginalInquries(res);
+        setInquiries(res.data);
+        const uniqueCategories = [
+          ...new Set(res.data.map(item => item.attributes.categoryName)),
+        ];
+        setCategories(uniqueCategories);
         setLoading(false);
-        return mockInquiryData;
       })
       .catch(() => {
+        setLoading(false);
         hasError(true);
       });
-
-    const data = [];
-    if (response) {
-      for (const inquiry of response.data) {
-        data.push({
-          ...inquiry.attributes,
-          id: inquiry.id,
-        });
-      }
-    }
-
-    setInquiries(data);
-
-    const uniqueCategories = [...new Set(data.map(item => item.category))];
-    setCategories(uniqueCategories);
   };
 
   useEffect(() => {
-    getData();
+    focusElement('.schemaform-title > h1');
+    getApiData(`${envUrl}${URL.GET_INQUIRIES}`);
   }, []);
 
-  const filterAndSortInquiries = category => {
+  const filterAndSortInquiries = loa => {
     return inquiries
       .filter(
-        card => categoryFilter === 'All' || card.category === categoryFilter,
+        card =>
+          categoryFilter === 'All' ||
+          card.attributes.categoryName === categoryFilter,
       )
-      .filter(card => statusFilter === 'All' || card.status === statusFilter)
       .filter(
-        card => category === 'All' || card.levelOfAuthentication === category,
+        card =>
+          statusFilter === 'All' || card.attributes.status === statusFilter,
+      )
+      .filter(
+        card => loa === 'All' || card.attributes.levelOfAuthentication === loa,
       )
       .sort((a, b) => {
+        const dateA = parse(a.attributes.lastUpdate, 'MM/dd/yy', new Date());
+        const dateB = parse(b.attributes.lastUpdate, 'MM/dd/yy', new Date());
         if (lastUpdatedFilter === 'newestToOldest') {
-          return (
-            moment(b.lastUpdate, 'MM/DD/YY') - moment(a.lastUpdate, 'MM/DD/YY')
-          );
+          return compareDesc(dateA, dateB);
         }
-        return (
-          moment(a.lastUpdate, 'MM/DD/YY') - moment(b.lastUpdate, 'MM/DD/YY')
-        );
+        return compareAsc(dateA, dateB);
       });
   };
 
+  const handlePageChange = newPage => {
+    setCurrentPage(newPage);
+  };
+
+  const handleTabChange = () => {
+    setCurrentPage(1);
+  };
+
   const inquiriesGridView = category => {
-    const sortedInquiries = filterAndSortInquiries(category);
+    const filteredInquiries = filterAndSortInquiries(category);
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentInquiries = filteredInquiries.slice(
+      indexOfFirstItem,
+      indexOfLastItem,
+    );
+    const totalPages = Math.ceil(filteredInquiries.length / itemsPerPage);
+
+    if (filteredInquiries.length === 0) {
+      return (
+        <va-alert
+          close-btn-aria-label="Close notification"
+          slim
+          status="info"
+          visible
+        >
+          <p className="vads-u-margin-y--0">No questions match your filter</p>
+        </va-alert>
+      );
+    }
 
     return (
-      <div className="dashboard-cards-grid">
-        {sortedInquiries.map(card => (
-          <div className="" key={card.inquiryNumber}>
-            <va-card className="vacard">
-              <div>
-                <span className="usa-label">{card.status}</span>
-              </div>
-              <h3 className="vads-u-margin-y--0 vads-u-font-size--h4 vads-u-padding-top--1p5">
-                {`Submitted on ${formatDate(card.createdOn)}`}
-              </h3>
-              <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
-                {`Last Updated: ${formatDate(card.lastUpdate)}`}
-              </p>
-              <p className="vads-u-margin--0">Category: {card.category}</p>
-              <hr className="vads-u-margin-y--1p5 vads-u-background-color--gray-lightest" />
-              <p className="vads-u-margin-y--1p5 multiline-ellipsis-3">
-                {card.submitterQuestion}
-              </p>
-              <Link to={`/user/dashboard/${card.id}`}>
-                <va-link active text="Check details" />
-              </Link>
-            </va-card>
-          </div>
-        ))}
-      </div>
+      <>
+        <div className="dashboard-cards-grid">
+          {currentInquiries.map(card => (
+            <div key={card.id}>
+              <va-card class="vacard">
+                <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+                  <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
+                    {card.attributes.status}
+                  </span>
+                  <span className="vads-u-display--block vads-u-font-size--h4 vads-u-margin-top--1p5">
+                    {`Submitted on ${formatDate(card.attributes.createdOn)}`}
+                  </span>
+                </h3>
+                <p className="vads-u-margin--0 vads-u-padding-bottom--1p5">
+                  <span className="vads-u-font-weight--bold">
+                    Last updated:
+                  </span>{' '}
+                  {formatDate(card.attributes.lastUpdate)}
+                </p>
+                <p className="vacardCategory multiline-ellipsis-1">
+                  <span className="vads-u-font-weight--bold">Category:</span>{' '}
+                  {card.attributes.categoryName}
+                </p>
+                <p className="vacardSubmitterQuestion">
+                  {card.attributes.submitterQuestion}
+                </p>
+                <Link to={`/user/dashboard-mock/${card.id}`}>
+                  <va-link
+                    active
+                    text="Check details"
+                    label={`Check details for question submitted on ${formatLongDate(
+                      card.attributes.createdOn,
+                    )}`}
+                  />
+                </Link>
+              </va-card>
+            </div>
+          ))}
+        </div>
+
+        {totalPages > 1 && (
+          <VaPagination
+            page={currentPage}
+            pages={totalPages}
+            maxPageListLength={5}
+            showLastPage
+            onPageSelect={e => handlePageChange(e.detail.page)}
+            className="vads-u-border-top--0 vads-u-padding-top--0 vads-u-padding-bottom--5"
+          />
+        )}
+      </>
     );
   };
 
@@ -133,14 +190,13 @@ const DashboardCards = () => {
 
   return (
     <div className="vads-u-width--full">
-      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--3">
+      <h2 className="vads-u-margin-top--5 vads-u-margin-bottom--0">
         Your questions
       </h2>
       {inquiries.length > 0 ? (
-        <div className="vads-u-margin-bottom--2">
-          {/* Filters and Buttons  */}
-          <div className="vads-u-display--flex vads-u-flex-direction--row vads-u-align-items--flex-end vads-u-margin-bottom--3">
-            <div className="vads-u-flex--1">
+        <>
+          <div className="vacardSelectFilters">
+            <div className="vads-u-flex--1 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Last updated"
@@ -152,7 +208,7 @@ const DashboardCards = () => {
                 <option value="oldestToNewest">Oldest to newest</option>
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by category"
@@ -168,7 +224,7 @@ const DashboardCards = () => {
                 ))}
               </VaSelect>
             </div>
-            <div className="vads-u-flex--1 vads-u-margin-left--2">
+            <div className="vads-u-flex--1 vads-u-margin-left--2 vads-u-width--full">
               <VaSelect
                 hint={null}
                 label="Filter by status"
@@ -177,29 +233,25 @@ const DashboardCards = () => {
                 onVaSelect={event => setStatusFilter(event.target.value)}
               >
                 <option value="All">All</option>
-                <option value="New">New</option>
                 <option value="In Progress">In Progress</option>
+                <option value="Replied">Replied</option>
                 <option value="Reopened">Reopened</option>
-                <option value="Resolved">Archived</option>
               </VaSelect>
             </div>
           </div>
-          {/* Inquiries Views */}
           {hasBusinessLevelAuth ? (
-            <div className="columns small-12 vads-u-border--1px vads-u-border-style--solid vads-u-border-color--gray-lightest vads-u-padding--0 vads-u-margin--0 vads-u-border-top--0px">
-              <Tabs>
-                <TabList>
-                  <Tab className="small-6 tab">Business</Tab>
-                  <Tab className="small-6 tab">Personal</Tab>
-                </TabList>
-                <TabPanel>{inquiriesGridView('Business')}</TabPanel>
-                <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
-              </Tabs>
-            </div>
+            <Tabs onSelect={handleTabChange}>
+              <TabList>
+                <Tab className="small-6 tab">Business</Tab>
+                <Tab className="small-6 tab">Personal</Tab>
+              </TabList>
+              <TabPanel>{inquiriesGridView('Business')}</TabPanel>
+              <TabPanel>{inquiriesGridView('Personal')}</TabPanel>
+            </Tabs>
           ) : (
             inquiriesGridView('Personal')
           )}
-        </div>
+        </>
       ) : (
         <div className="vads-u-margin-bottom--5">
           <va-alert

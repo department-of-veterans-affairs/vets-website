@@ -216,6 +216,7 @@ export function FilterYourResults({
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
         optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
+        dataTestId: `school-type-${type}`,
       };
     });
 
@@ -352,7 +353,7 @@ export function FilterYourResults({
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
         {vetTecCheckbox(

@@ -56,7 +56,7 @@ function transformApplicants(applicants) {
         .filter(el => el), // Drop any undefineds/nulls
     };
     transformedApp = adjustYearString(transformedApp);
-    transformedApp.applicantAddress.streetCombined = concatStreets(
+    transformedApp.applicantAddress = concatStreets(
       transformedApp.applicantAddress,
     );
     applicantsPostTransform.push(transformedApp);
@@ -121,12 +121,12 @@ export default function transformForSubmit(formConfig, form) {
   );
 
   if (transformedData.sponsorAddress)
-    transformedData.sponsorAddress.streetCombined = concatStreets(
+    transformedData.sponsorAddress = concatStreets(
       transformedData.sponsorAddress,
     );
 
   if (transformedData.certifierAddress)
-    transformedData.certifierAddress.streetCombined = concatStreets(
+    transformedData.certifierAddress = concatStreets(
       transformedData.certifierAddress,
     );
 

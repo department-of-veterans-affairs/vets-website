@@ -3,10 +3,10 @@ import React from 'react';
 const CHARACTER_OF_DISCHARGE = {
   honorable: 'Honorable',
   underHonorableConditionsGeneral: 'Under Honorable Conditions (General)',
-  underHonorableConditions: 'Under Honorable Conditions',
+  underOtherThanHonorableConditions: 'Under Other Than Honorable Conditions',
+  badConduct: 'Bad Conduct',
   dishonorable: 'Dishonorable',
   uncharacterized: 'Uncharacterized',
-  badConduct: 'Bad Conduct',
   notSure: "I'm not sure",
 };
 
@@ -16,7 +16,10 @@ export default {
       'ui:title': (
         <>
           <p>
-            <b>What was your character of discharge?</b>
+            <b>
+              What is the highest character of discharge you have received or
+              expect to receive?
+            </b>
             <span className="schemaform-required-span">(*Required)</span>
           </p>
         </>
@@ -24,8 +27,8 @@ export default {
       'ui:description': (
         <>
           <p>
-            If you served multiple titles with different characters of
-            discharge, please select the "highest" of your discharge statuses.
+            If you served multiple times with different characters of discharge,
+            please select the "highest" of your discharge statuses.
           </p>
           <p>
             If you feel your character of discharge is unjust, you can apply for
@@ -47,9 +50,14 @@ export default {
       'ui:description': (
         <>
           <p>
-            <a href="https://www.va.gov/discharge-upgrade-instructions">
+            <a
+              target="_blank"
+              href="https://www.va.gov/discharge-upgrade-instructions"
+              rel="noreferrer"
+            >
               Learn more about the discharge upgrade process.
-            </a>
+            </a>{' '}
+            (opens in a new tab)
             <br />
             Not sure about this question? Call us at{' '}
             <va-telephone contact="8006982411" /> (

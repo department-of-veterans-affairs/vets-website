@@ -5,27 +5,39 @@ import { pageTitle } from '../utils/helpers';
 export default {
   uiSchema: {
     disabilityRating: {
-      'ui:title': pageTitle(
-        'Have you applied for and received a disability rating from VA?',
-        'We’re asking because receivimg a service-connected disability rating from VA may make you eligible for additional benefits. Receiving these benefits won’t take away from other Veterans in need.',
-      ),
+      'ui:title': pageTitle('Do you have a VA disability rating?'),
       'ui:widget': 'radio',
       'ui:options': {
         widgetProps: {
-          YES: { disabilityRating: 'Yes' },
-          NO: { disabilityRating: 'No' },
+          appliedAndReceived: {
+            disabilityRating: "I've applied and received a disability rating",
+          },
+          submitted: {
+            disabilityRating:
+              "I've submitted but haven't received a rating yet",
+          },
+          started: {
+            disabilityRating:
+              "I've started the process but haven't submitted yet",
+          },
+          notApplied: {
+            disabilityRating: "I haven't applied for a disability rating",
+          },
         },
       },
     },
     'view:disabilityEligibility': {
       'ui:description': (
-        <a
-          href="https://www.va.gov/disability/eligibility"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Learn more about disability ratings.
-        </a>
+        <div>
+          <a
+            href="https://www.va.gov/disability/eligibility"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Learn more about disability ratings.
+          </a>{' '}
+          <span> (opens in a new tab)</span>
+        </div>
       ),
     },
   },
@@ -34,7 +46,12 @@ export default {
     properties: {
       disabilityRating: {
         type: 'string',
-        enum: ['Yes', 'No'],
+        enum: [
+          "I've applied and received a disability rating",
+          "I've submitted but haven't received a rating yet",
+          "I've started the process but haven't submitted yet",
+          "I haven't applied for a disability rating",
+        ],
       },
       'view:disabilityEligibility': {
         type: 'object',

@@ -28,18 +28,12 @@ describe('VAOS Component: VideoLayout', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
   };
 
   describe('When appointment information is missing', () => {
     const nullInitialState = {
       appointments: {},
-      featureToggles: {
-        vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      },
+      featureToggles: {},
     };
     it('should not display heading and text for empty data', async () => {
       // Arrange
@@ -309,7 +303,7 @@ describe('VAOS Component: VideoLayout', () => {
       );
       expect(
         screen.getByText(
-          /Bring your insurance cards and a list of your medications and other information to share with your provider/i,
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
         ),
       );
       expect(
@@ -602,7 +596,7 @@ describe('VAOS Component: VideoLayout', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards and a list of your medications and other information to share with your provider/i,
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
           ),
         );
         expect(
@@ -765,7 +759,7 @@ describe('VAOS Component: VideoLayout', () => {
         );
         expect(
           screen.getByText(
-            /Bring your insurance cards and a list of your medications and other information to share with your provider/i,
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
           ),
         );
         expect(

@@ -28,10 +28,6 @@ describe('VAOS Component: ClaimExamLayout', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-      vaOnlineSchedulingMedReviewInstructions: true,
-    },
   };
 
   describe('When appointment information is missing', () => {

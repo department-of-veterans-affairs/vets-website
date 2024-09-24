@@ -12,7 +12,7 @@ import {
   fetchDirectDeposit,
   fetchDuplicateContactInfo,
 } from '../actions';
-import { mapFormSponsors } from '../helpers';
+import { mapFormSponsors, prefillTransformer } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
@@ -34,9 +34,6 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
   toeDupContactInfoCall,
   toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
@@ -90,30 +87,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
-  );
-
-  useEffect(
-    () => {
       if (
         showMeb1990ER6MaintenanceMessage !==
         formData.showMeb1990ER6MaintenanceMessage
@@ -129,13 +102,6 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
-        setFormData({
-          ...formData,
-          showMebEnhancements08,
-        });
-      }
-
       if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
@@ -184,7 +150,6 @@ function ToeApp({
     [
       formData,
       setFormData,
-      showMebEnhancements08,
       toeDupContactInfoCall,
       duplicateEmail,
       duplicatePhone,
@@ -239,7 +204,7 @@ function ToeApp({
         });
       }
     },
-    [toeHighSchoolInfoChange],
+    [formData, setFormData, toeHighSchoolInfoChange],
   );
 
   useEffect(
@@ -251,7 +216,7 @@ function ToeApp({
         });
       }
     },
-    [dob],
+    [dob, formData, setFormData],
   );
   return (
     <>
@@ -291,6 +256,7 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
   duplicateEmail: PropTypes.array,
   duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
@@ -302,14 +268,12 @@ ToeApp.propTypes = {
   location: PropTypes.object,
   setFormData: PropTypes.func,
   showMeb1990ER6MaintenanceMessage: PropTypes.bool,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
-  showMebEnhancements08: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
   toeDupContactInfoCall: PropTypes.bool,
+  toeHighSchoolInfoChange: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
@@ -321,7 +285,7 @@ const mapStateToProps = state => {
       state?.user?.profile?.dob ||
       state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
     formData: state.form?.data || {},
-    claimant: state.data?.formData?.data?.attributes?.claimant,
+    claimant: prefillTransformer(null, null, null, state)?.formData,
     fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
     sponsors: state.form?.data?.sponsors,
     sponsorsInitial: state?.data?.sponsors,
