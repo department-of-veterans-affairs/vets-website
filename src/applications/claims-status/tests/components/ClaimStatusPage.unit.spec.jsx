@@ -466,7 +466,7 @@ describe('<ClaimStatusPage>', () => {
   });
 
   context('DDL feature flag is enabled', () => {
-    const claim = {
+    const closedClaim = {
       id: '1',
       type: 'claim',
       attributes: {
@@ -495,13 +495,42 @@ describe('<ClaimStatusPage>', () => {
       },
     };
 
+    const openClaim = {
+      id: '1',
+      type: 'claim',
+      attributes: {
+        claimDate: '2023-01-01',
+        claimPhaseDates: {
+          currentPhaseBack: false,
+          phaseChangeDate: '2023-12-12',
+          latestPhaseType: 'GATHERING_OF_EVIDENCE',
+          previousPhases: {
+            phase7CompleteDate: '2023-12-12',
+          },
+        },
+        closeDate: null,
+        documentsNeeded: true,
+        decisionLetterSent: true,
+        status: 'GATHERING_OF_EVIDENCE',
+        supportingDocuments: [],
+        trackedItems: [
+          {
+            id: 1,
+            displayName: 'Test',
+            description: 'Test',
+            status: 'NEEDED_FROM_YOU',
+          },
+        ],
+      },
+    };
+
     const store = createStore(() => ({}));
 
-    it('should render a link to the claim letters page when using Lighthouse', () => {
+    it('should render a link to the claim letters page when claim is closed and desicion letter has been sent', () => {
       const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage
-            claim={claim}
+            claim={closedClaim}
             showClaimLettersLink
             params={params}
             clearNotification={() => {}}
@@ -510,6 +539,21 @@ describe('<ClaimStatusPage>', () => {
       );
 
       screen.getByText('Get your claim letters');
+    });
+
+    it('should render a link to the claim letters page when claim is open and desicion letter has been sent', () => {
+      const screen = renderWithRouter(
+        <Provider store={store}>
+          <ClaimStatusPage
+            claim={openClaim}
+            showClaimLettersLink
+            params={params}
+            clearNotification={() => {}}
+          />
+        </Provider>,
+      );
+
+      screen.getByText('You have a decision letter for part of this claim');
     });
   });
 });

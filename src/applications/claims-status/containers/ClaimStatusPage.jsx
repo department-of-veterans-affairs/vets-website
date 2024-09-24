@@ -11,6 +11,7 @@ import RecentActivity from '../components/claim-status-tab/RecentActivity';
 import NextSteps from '../components/claim-status-tab/NextSteps';
 import Payments from '../components/claim-status-tab/Payments';
 import ClosedClaimAlert from '../components/claim-status-tab/ClosedClaimAlert';
+import OpenClaimDecisionLetterAlert from '../components/claim-status-tab/OpenClaimDecisionLetterAlert';
 
 import { showClaimLettersFeature } from '../selectors';
 import {
@@ -75,6 +76,7 @@ class ClaimStatusPage extends React.Component {
         <ClaimStatusHeader claim={claim} />
         {isOpen ? (
           <>
+            {decisionLetterSent ? <OpenClaimDecisionLetterAlert /> : <></>}
             <WhatYouNeedToDo claim={claim} useLighthouse />
             <WhatWeAreDoing
               claimPhaseType={claimPhaseType}
