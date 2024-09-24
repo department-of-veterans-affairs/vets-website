@@ -266,7 +266,7 @@ const ComposeForm = props => {
         focusOnErrorField();
       }
     },
-    [isSignatureRequired, messageInvalid],
+    [messageInvalid],
   );
 
   useEffect(
@@ -369,12 +369,18 @@ const ComposeForm = props => {
   const saveDraftHandler = useCallback(
     async (type, e) => {
       const { messageValid } = checkMessageValidity();
+      const validSignatureNotRequired =
+        messageValid && !isSignatureRequired && !savedDraft;
+      const isSignatureValid =
+        isSignatureRequired && messageValid && !saveError;
 
       if (type === 'manual') {
         await setMessageInvalid(false);
+        await setSavedDraft(false);
         // All fields are valid , save the draft
-        if (messageValid) {
-          setSaveError(null);
+        if (validSignatureNotRequired || isSignatureValid) {
+          await setSavedDraft(true);
+          await setSaveError(null);
           setNavigationError(null);
           setLastFocusableElement(e?.target);
         } else {
@@ -384,37 +390,44 @@ const ComposeForm = props => {
           focusOnErrorField();
         }
 
-        let errorType = null;
-        if (
-          attachments.length > 0 &&
-          isSignatureRequired &&
-          electronicSignature !== ''
-        ) {
-          errorType =
-            ErrorMessages.ComposeForm
-              .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
-        } else if (attachments.length > 0) {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-        } else if (
-          messageValid &&
-          isSignatureRequired &&
-          (electronicSignature || checkboxError) !== ''
-        ) {
-          errorType = ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
-        }
-        if (errorType) {
-          setSaveError(errorType);
-          if (
-            errorType.title !==
-            ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
-          ) {
-            setNavigationError({
-              ...errorType,
-              confirmButtonText: 'Continue editing',
-              cancelButtonText: 'Delete draft',
-            });
+        const getErrorType = () => {
+          const hasAttachments = attachments.length > 0;
+          const hasValidSignature =
+            isSignatureRequired && electronicSignature !== '';
+          const hasSignatureOrCheckboxError =
+            isSignatureRequired &&
+            (electronicSignature || checkboxError) !== '';
+
+          let errorType = null;
+          if (hasAttachments && hasValidSignature) {
+            errorType =
+              ErrorMessages.ComposeForm
+                .UNABLE_TO_SAVE_DRAFT_SIGNATURE_OR_ATTACHMENTS;
+          } else if (hasAttachments && !savedDraft) {
+            errorType =
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
+          } else if (messageValid && hasSignatureOrCheckboxError) {
+            errorType =
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
           }
-        }
+
+          if (errorType) {
+            setSaveError(errorType);
+            if (
+              errorType.title !==
+              ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE.title
+            ) {
+              setNavigationError({
+                ...errorType,
+                confirmButtonText: 'Continue editing',
+                cancelButtonText: 'Delete draft',
+              });
+            }
+          } else {
+            setSaveError(null);
+          }
+        };
+        getErrorType();
       }
 
       const draftId = draft && draft.messageId;
@@ -437,11 +450,7 @@ const ComposeForm = props => {
         body: messageBody,
       };
       // saves the draft if all checks are valid or can save draft without signature
-      if (
-        messageValid &&
-        (!isSignatureRequired || (isSignatureRequired && saveError !== null))
-      ) {
-        setSaveError(null);
+      if ((messageValid && !isSignatureRequired) || isSignatureValid) {
         dispatch(saveDraft(formData, type, draftId));
       }
     },
@@ -464,6 +473,7 @@ const ComposeForm = props => {
       electronicSignature,
       checkboxError,
       dispatch,
+      savedDraft,
     ],
   );
 
@@ -514,9 +524,6 @@ const ComposeForm = props => {
 
       const unsavedDraft = isEditPopulatedForm() && !deleteButtonClicked;
 
-      if (!isEditPopulatedForm() || !isSavedEdits()) {
-        setSavedDraft(false);
-      }
       let error = null;
       if (isBlankForm() || savedDraft) {
         error = null;
@@ -707,7 +714,10 @@ const ComposeForm = props => {
             {saveError?.editDraft && (
               <va-button
                 text={saveError.editDraft}
-                onClick={() => setSaveError(null)}
+                onClick={() => {
+                  setSavedDraft(false);
+                  setSaveError(null);
+                }}
               />
             )}
             {saveError?.saveDraft && (
