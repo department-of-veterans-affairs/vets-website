@@ -86,6 +86,27 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
     return dispatch(fetchDebtLettersVBMSFailure());
   }
 };
+
+const validateHistory = debts => {
+  debts.foreach(debt => {
+    const errors = [];
+    const history = debt?.debtHistory;
+    history?.foreach(h => {
+      if (!h.date) {
+        errors.push(`Missing date; letterCode: ${h?.letterCode}`);
+      }
+    });
+
+    Sentry.withScope(scope => {
+      scope.setExtra('deductionCode', debt?.deductionCode);
+      scope.setExtra('diaryCode', debt?.diaryCode);
+      scope.setExtra('error list', errors);
+      Sentry.captureMessage(
+        `LTR - Debt Letters - Debt object validation failed`,
+      );
+    });
+  });
+};
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -115,6 +136,8 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     const filteredResponse = response.debts
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
       .filter(debt => debt.currentAr > 0);
+
+    validateHistory(filteredResponse);
 
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
