@@ -143,12 +143,24 @@ export default function prefillTransformer(pages, formData, metadata) {
     return newData;
   };
 
+  const prefillSyncModern0781Flow = data => {
+    const newData = _.omit(['syncModern0781Flow™'], data);
+    const { syncModern0781Flow } = data;
+
+    if (syncModern0781Flow) {
+      newData.syncModern0781Flow = syncModern0781Flow;
+    }
+
+    return newData;
+  };
+
   const transformations = [
     prefillRatedDisabilities,
     prefillContactInformation,
     prefillServiceInformation,
     prefillBankInformation,
     prefillStartedFormVersion,
+    prefillSyncModern0781Flow,
   ];
 
   const applyTransformations = (data = {}, transformer) => transformer(data);
