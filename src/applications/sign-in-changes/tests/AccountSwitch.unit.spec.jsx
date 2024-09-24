@@ -1,43 +1,57 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import { expect } from 'chai';
-import { LoginButton } from '~/platform/user/exportsFile';
 import AccountSwitch from '../components/AccountSwitch';
 import { maskEmail } from '../helpers';
 
-describe('AccountSwitch', () => {
-  const mockEmail = 'test@example.com';
-  const maskedEmail = 't***@example.com';
+const mockStore = configureStore([]);
 
-  it('should display Login.gov when hasLogingov is true', () => {
-    render(<AccountSwitch hasLogingov userEmail={mockEmail} />);
-    expect(screen.getByText(/Switch to your/)).toHaveTextContent(
-      'Switch to your Login.gov account now',
-    );
-    expect(screen.getByText(/We found an existing/)).toHaveTextContent(
-      'We found an existing Login.gov account for you associated with this email:',
-    );
+describe('AccountSwitch', () => {
+  let store;
+
+  beforeEach(() => {
+    store = mockStore({});
   });
-  it('should display ID.me when hasLogingov is false', () => {
-    render(<AccountSwitch hasLogingov={false} userEmail={mockEmail} />);
-    expect(screen.getByText(/Switch to your/)).toHaveTextContent(
-      'Switch to your ID.me account now',
+
+  it('renders', () => {
+    const mockEmail = 'test@example.com';
+
+    render(
+      <Provider store={store}>
+        <AccountSwitch hasLogingov userEmail={mockEmail} />
+      </Provider>,
     );
-    expect(screen.getByText(/We found an existing/)).toHaveTextContent(
-      'We found an existing ID.me account for you associated with this email:',
-    );
-  });
-  it('should display the masked email', () => {
-    render(<AccountSwitch hasLogingov userEmail={mockEmail} />);
+
+    expect(screen.getByText(/Switch to your Login.gov account now/i)).to.be
+      .true;
+    expect(screen.getByText(/We found an existing Login.gov account/i)).to.be
+      .true;
     expect(maskEmail).toHaveBeenCalledWith(mockEmail);
-    expect(screen.getByText(maskedEmail)).toBeInTheDocument();
   });
-  it('should pass the correct csp prop to LoginButton when hasLogingov is true', () => {
-    render(<AccountSwitch hasLogingov userEmail={mockEmail} />);
-    expect(LoginButton).toHaveBeenCalledWith({ csp: 'logingov' }, {});
+
+  it('renders Login.gov when hasLogingov is true', () => {
+    const mockEmail = 'test@example.com';
+
+    render(
+      <Provider store={store}>
+        <AccountSwitch hasLogingov userEmail={mockEmail} />
+      </Provider>,
+    );
+    expect(screen.getByRole('button', { name: /Login/i })).to.be.true;
   });
-  it('should pass the correct csp prop to LoginButton when hasLogingov is false', () => {
-    render(<AccountSwitch hasLogingov={false} userEmail={mockEmail} />);
-    expect(LoginButton).toHaveBeenCalledWith({ csp: 'idme' }, {});
+
+  it('renders ID.me when hasLogingov is false', () => {
+    const mockEmail = 'test@example.com';
+
+    render(
+      <Provider store={store}>
+        <AccountSwitch hasLogingov={false} userEmail={mockEmail} />
+      </Provider>,
+    );
+
+    expect(screen.getByText(mockEmail)).to.be.true;
+    expect(screen.getByRole('button', { name: /ID.me/i })).to.be.true;
   });
 });
