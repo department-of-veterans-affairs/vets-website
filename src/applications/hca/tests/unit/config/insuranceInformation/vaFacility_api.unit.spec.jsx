@@ -15,7 +15,7 @@ describe('hca VaFacilityLighthouse config', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.insuranceInformation.pages.vaFacilityJson;
+  } = formConfig.chapters.insuranceInformation.pages.vaFacilityLighthouse;
   const { defaultDefinitions: definitions } = formConfig;
 
   it('should render', () => {
