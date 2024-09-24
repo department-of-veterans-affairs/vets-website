@@ -299,11 +299,31 @@ function mapStateToProps(state) {
   const stemClaims = stemAutomatedDecision ? claimsV2Root.stemClaims : [];
 
   // TO-DO: Implement with reselect to save cycles
-  const sortedList = [
+  const closedClaims = [
     ...claimsV2Root.appeals,
     ...claimsV2Root.claims,
     ...stemClaims,
-  ].sort(sortByLastUpdated);
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status === 'COMPLETE' ||
+        claim.attributes.claimType === 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const inProgressClaims = [
+    ...claimsV2Root.appeals,
+    ...claimsV2Root.claims,
+    ...stemClaims,
+  ]
+    .filter(
+      claim =>
+        claim.attributes.status !== 'COMPLETE' &&
+        claim.attributes.claimType !== 'STEM',
+    )
+    .sort(sortByLastUpdated);
+
+  const sortedList = [...inProgressClaims, ...closedClaims];
 
   return {
     appealsAvailable: claimsV2Root.v2Availability,
