@@ -183,6 +183,9 @@ const cypressConfig = {
       },
     ],
   },
+  hosts: {
+    localhost: '127.0.0.1',
+  },
   e2e: {
     setupNodeEvents(on, config) {
       return require('../src/platform/testing/e2e/cypress/plugins/index')(
