@@ -33,9 +33,9 @@ describe('CG fetchFacilities action', () => {
 
       const expectedUrl = `${
         environment.API_URL
-      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds[]=${
+      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds=${
         facilityIds[0]
-      }&facilityIds[]=${facilityIds[1]}`;
+      },${facilityIds[1]}`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
     });
 
@@ -45,6 +45,15 @@ describe('CG fetchFacilities action', () => {
       const expectedUrl = `${
         environment.API_URL
       }/v0/caregivers_assistance_claims/facilities?type=health`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('formats facility ids correctly when only one facility id', async () => {
+      await fetchFacilities({ facilityIds: ['1'] });
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/caregivers_assistance_claims/facilities?type=health&facilityIds=1`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
     });
 
