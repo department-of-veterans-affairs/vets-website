@@ -7,11 +7,11 @@ import ContactCard from '../../components/ContactCard';
 
 describe('ContactCard Component', () => {
   const address = {
-    address1: '400 South 18th Street',
-    address2: 'Room 119',
+    addressLine1: '400 South 18th Street',
+    addressLine2: 'Room 119',
     city: 'Newark',
-    state: 'NJ',
-    zip: '07102',
+    stateCode: 'NJ',
+    zipCode: '07102',
   };
   const repName = 'Brian Daniel';
   const orgName = 'Disabled American Veterans';

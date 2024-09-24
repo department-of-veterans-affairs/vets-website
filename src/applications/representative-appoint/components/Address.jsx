@@ -4,21 +4,21 @@ import PropTypes from 'prop-types';
 export default function Address({ address }) {
   return (
     <>
-      {address.address1}
+      {address.addressLine1}
       <br />
-      {address.address2 && (
+      {address.addressLine2 && (
         <>
-          {address.address2}
+          {address.addressLine2}
           <br />
-          {address.address3 && (
+          {address.addressLine3 && (
             <>
-              {address.address3}
+              {address.addressLine3}
               <br />
             </>
           )}
         </>
       )}
-      {address.city}, {address.state} {address.zip}
+      {address.city}, {address.stateCode} {address.zipCode}
       <br />
     </>
   );
