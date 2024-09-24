@@ -32,6 +32,7 @@ describe('Verify attachment with virus alert', () => {
       .and(`have.text`, Alerts.VIRUS_ATTCH);
 
     cy.get(Locators.ATTACH_FILE_INPUT).should(`not.exist`);
+    // cy.get(Locators.BUTTONS.REMOVE_ATTACHMENT).should('be.focused');
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
