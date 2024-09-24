@@ -20,7 +20,7 @@ const setName = fullName => {
 };
 
 const setBirth = (placeOfBirth, form) => {
-  transformedData.birthdate = form.data.dateOfBirth;
+  transformedData.birthDate = form.data.dateOfBirth;
   transformedData.birthCity = placeOfBirth.city;
   transformedData.birthState = placeOfBirth.state;
   transformedData.birthCountry = placeOfBirth.country;
@@ -54,8 +54,8 @@ const setEmployment = (workAddress, form) => {
   const employmentStatus = Object.keys(form.data.employmentStatus)[0];
   transformedData.employmentStatus = employmentStatus;
   transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[employmentStatus];
-  if (form.describeEmployment) {
-    transformedData.employmentStatusExplanation = form.describeEmployment;
+  if (form.data.describeEmployment) {
+    transformedData.employmentStatusExplanation = form.data.describeEmployment;
   }
 
   if (employmentStatus === 'employed') {
@@ -82,8 +82,6 @@ const setMilitaryService = militaryServiceExperiences => {
     const service = {
       dischargeTypeExplanation:
         militaryServiceExperiences[i].explanationOfDischarge,
-      entryDate: militaryServiceExperiences[i].dateRange,
-      dischargeDate: militaryServiceExperiences[i].dateRange,
       serviceBranch: {
         name: militaryServiceExperiences[i].branch,
       },
