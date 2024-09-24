@@ -98,6 +98,17 @@ const AttachmentsList = props => {
     }
   };
 
+  const handleRemoveAllAttachments = () => {
+    setAttachments([]);
+    dispatch(closeAlert()).then(() =>
+      setFocusedElement(
+        document
+          .querySelector('.attach-file-button')
+          .shadowRoot.querySelector('button'),
+      ),
+    );
+  };
+
   const handleSuccessAlertClose = () => {
     setAttachFileSuccess(false);
     if (attachments.length > 0) {
@@ -165,21 +176,47 @@ const AttachmentsList = props => {
           </VaAlert>
         )}
 
-      {attachmentVirusError && (
-        <VaAlert
-          data-testid="attachment-virus-alert"
-          aria-live="polite"
-          aria-label={Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
-          background-only
-          className="file-attached-success vads-u-margin-top--2"
-          disable-analytics
-          full-width="false"
-          show-icon
-          status="error"
-        >
-          {Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
-        </VaAlert>
-      )}
+      {attachmentVirusError &&
+        (attachments.length > 1 ? (
+          <VaAlert
+            data-testid="attachment-virus-alert"
+            aria-live="polite"
+            aria-label={Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            background-only
+            className="file-attached-success vads-u-margin-top--2"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="error"
+          >
+            <p className="vads-u-margin--0">
+              One or more of the files you attached has a virus. You’ll need to
+              remove it to send your message.
+            </p>
+            <button
+              className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
+              onClick={() => {
+                handleRemoveAllAttachments();
+              }}
+            >
+              Remove all attachments
+            </button>
+          </VaAlert>
+        ) : (
+          <VaAlert
+            data-testid="attachment-virus-alert"
+            aria-live="polite"
+            aria-label={Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
+            background-only
+            className="file-attached-success vads-u-margin-top--2"
+            disable-analytics
+            full-width="false"
+            show-icon
+            status="error"
+          >
+            {Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL}
+          </VaAlert>
+        ))}
 
       <ul className="attachments-list">
         {!!attachments.length &&
@@ -283,7 +320,9 @@ const AttachmentsList = props => {
             setIsAttachmentRemoved(false);
           }}
           onDelete={() => {
-            dispatch(closeAlert());
+            if (attachments.length === 1) {
+              dispatch(closeAlert());
+            }
             setNavigationError();
             setIsModalVisible(false);
             removeAttachment(fileToRemove);
