@@ -30,6 +30,10 @@ const EnrollmentVerificationPageWrapper = ({ children }) => {
   const toggleEnrollmentSuccess = useSelector(getToggleEnrollmentSuccess);
   const enrollmentData = personalInfo;
   const [expandedEnrollmentData, setExpandedEnrollmentData] = useState({});
+  useEffect(() => {
+    document.title =
+      'Montgomery GI Bill enrollment verification | Veterans Affairs';
+  }, []);
 
   useEffect(
     () => {

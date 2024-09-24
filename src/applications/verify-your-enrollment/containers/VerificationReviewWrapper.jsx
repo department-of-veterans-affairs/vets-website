@@ -79,7 +79,9 @@ const VerificationReviewWrapper = ({
       history.push(VERIFICATION_RELATIVE_URL);
     }
   };
-
+  useEffect(() => {
+    document.title = 'Verify your enrollment | Veterans Affairs';
+  }, []);
   useEffect(
     () => {
       if (enrollmentData?.['vye::UserInfo']?.pendingVerifications) {
