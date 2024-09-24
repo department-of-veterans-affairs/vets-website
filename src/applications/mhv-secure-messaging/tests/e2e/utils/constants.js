@@ -148,6 +148,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    CRUMBS_BACK: '.sm-breadcrumb-list-item',
   },
   ALERTS: {
     HEADER: `#heading`,

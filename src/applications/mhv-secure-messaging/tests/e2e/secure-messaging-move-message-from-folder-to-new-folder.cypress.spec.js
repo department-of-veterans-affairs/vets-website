@@ -1,5 +1,7 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
+import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
+// import FolderManagementPage from './pages/FolderManagementPage';
 import mockFoldersResponse from './fixtures/folder-response.json';
 import mockThread from './fixtures/messages-response.json';
 import createdFolderResponse from './fixtures/customResponse/created-folder-response.json';
@@ -14,41 +16,26 @@ describe('Secure Messaging Move Message tests', () => {
     const updatedFolders = {
       ...mockFoldersResponse,
       data: [...mockFoldersResponse.data, createdFolderResponse.data],
-      meta: {
-        ...mockFoldersResponse.meta,
-        pagination: {
-          ...mockFoldersResponse.meta.pagination,
-          totalEntries: 7,
-        },
-      },
     };
 
     const updatedFolderWithThread = {
       ...createdFolderResponse,
       data: {
         ...createdFolderResponse.data,
-        attributes: {
-          ...createdFolderResponse.data.attributes,
-          count: 1,
-        },
       },
     };
-
-    cy.log(JSON.stringify(updatedFolders));
 
     cy.intercept(
       `POST`,
       Paths.SM_API_BASE + Paths.FOLDERS,
       createdFolderResponse,
-    ).as(`createdFolderResponse`);
-    cy.intercept(
-      `GET`,
-      `${Paths.SM_API_BASE}/folders?page=1&per_page=999&useCache=false`,
-      updatedFolders,
-    ).as(`updatedFoldersList`);
+    ).as(`createdFolder`);
+    cy.intercept(`GET`, `${Paths.SM_API_BASE}/folders*`, updatedFolders).as(
+      `updatedFoldersList`,
+    );
     cy.intercept(
       `PATCH`,
-      `/my_health/v1/messaging/threads/7176615/move?folder_id=${
+      `${Paths.SM_API_BASE}/threads/7176615/move?folder_id=${
         createdFolderResponse.data.attributes.folderId
       }`,
       { statusCode: 204 },
@@ -57,28 +44,39 @@ describe('Secure Messaging Move Message tests', () => {
     cy.get(Locators.BUTTONS.MOVE_BUTTON_TEXT).click({ force: true });
     cy.contains(`Create new folder`).click();
     cy.get(Locators.BUTTONS.TEXT_CONFIRM).click();
-    cy.get(`#inputField`).type(`folderWithRandomNumber`, { force: true });
-    cy.get(`[data-testid="create-folder-button"]`).click();
-
-    cy.log(JSON.stringify(updatedFolderWithThread));
+    cy.get(`#inputField`).type(createdFolderResponse.data.attributes.name, {
+      force: true,
+    });
+    cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
 
     cy.intercept(
       `GET`,
-      `/my_health/v1/messaging/folders/${
+      `${Paths.SM_API_BASE}/folders/${
         createdFolderResponse.data.attributes.folderId
-      }?useCache=false`,
+      }*`,
       updatedFolderWithThread,
     ).as(`updatedFolder`);
     cy.intercept(
       `GET`,
-      `/my_health/v1/messaging/folders/${
+      `${Paths.SM_API_BASE}/folders/${
         createdFolderResponse.data.attributes.folderId
-      }/threads?pageSize=10&pageNumber=1&sortField=SENT_DATE&sortOrder=DESC`,
+      }/threads*`,
       mockThread,
     ).as(`updatedThread`);
 
-    // cy.wait(2000)
-    cy.get(`.sm-breadcrumb-list-item`).click();
+    // cy.wait(2000);
+
+    cy.get(Locators.LINKS.CRUMBS_BACK).click();
+
+    // focus assertion could not be executed due to successful alert stay on page  for 2000 ms
+
+    GeneralFunctionsPage.verifyUrl(
+      createdFolderResponse.data.attributes.folderId,
+    );
+
+    GeneralFunctionsPage.verifyPageHeader(
+      createdFolderResponse.data.attributes.name,
+    );
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
