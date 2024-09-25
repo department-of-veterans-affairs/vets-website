@@ -14,7 +14,7 @@ const IntroductionPage = () => {
   return (
     <article className="schemaform-intro vads-u-padding-bottom--3 small-screen:vads-u-padding-bottom--6">
       <FormTitle title="Apply for the IBM SkillsBuild program" />
-      <p className="vads-u-margin-top--0">
+      <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
       </p>
       <p>
@@ -22,12 +22,12 @@ const IntroductionPage = () => {
         you develop skills to start or advance your career in technology.
       </p>
 
-      <h2 className="vads-u-font-size--h3 vad-u-margin-top--0">
-        What you need to know before you fill out this form
+      <h2 className="vads-u-margin-y--3 small-screen:vads-u-margin-y--4">
+        What to know before you fill out this form
       </h2>
       <ul className="intro-ul">
         <li>
-          You maybe be eligible for this program if you’re a Veteran, a service
+          You may be eligible for this program if you’re a Veteran, a service
           member, or a family member or caregiver of a Veteran.
         </li>
         <li>
@@ -41,7 +41,7 @@ const IntroductionPage = () => {
         </li>
       </ul>
 
-      <div className="vads-u-margin-top--2 small-screen:vads-u-margin-top--3 vads-u-margin-bottom--2 small-screen:vads-u-margin-bottom--3">
+      <div className="vads-u-margin-y--2 small-screen:vads-u-margin-y--3">
         <va-link-action
           href="/education/apply-for-education-benefits/10282/information"
           text="Start your application"
