@@ -425,8 +425,8 @@ class PatientComposePage {
       .should('be.visible');
   };
 
-  verifyDraftSaveButtonOnFocus = () => {
-    cy.get(Locators.BUTTONS.SAVE_DRAFT)
+  verifyAlertFocusFocus = () => {
+    cy.get(`.first-focusable-child`)
       .should('exist')
       .and('be.focused');
   };
