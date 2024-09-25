@@ -25,8 +25,6 @@ describe('Check confirmation message after save draft', () => {
     PatientComposePage.verifyAlertFocusFocus();
     cy.get(Locators.BUTTONS.ALERT_CLOSE).click();
 
-    cy.get('.sm-breadcrumb-list-item')
-      .find('a')
-      .click();
+    cy.get(Locators.BACK_TO).click();
   });
 });
