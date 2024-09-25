@@ -32,20 +32,34 @@ export function dateFieldToDate(dateField) {
   return parse(dateString, 'yyyy-MM-dd', new Date());
 }
 
+/**
+ * Handle dates in the following formats:
+ *  * Date objects
+ *  * ISO 8601 date strings
+ *  * Unix timestamps (with ms)
+ * @param {Date|string} date - The date to parse
+ * @returns {Date} The parsed date
+ */
 export function parseStringOrDate(date) {
   if (date instanceof Date) {
     return date;
   }
 
   if (typeof date === 'string') {
-    const dateObject = parseISO(date);
+    let dateObject;
+    // Check if string is a Unix timestamp
+    if (/^\d{13}$/.test(date)) {
+      dateObject = new Date(parseInt(date, 10));
+    } else {
+      dateObject = parseISO(date);
+    }
     if (isValid(dateObject) === true) {
       return dateObject;
     }
   }
 
   throw new Error(
-    `Could not parse date string: ${date}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+    `Could not parse date string: ${date}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
   );
 }
 
