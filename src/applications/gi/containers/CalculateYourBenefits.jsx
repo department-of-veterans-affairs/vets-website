@@ -107,7 +107,7 @@ export function CalculateYourBenefits({
 
   const summarySheetClassNames = classNames(
     'vads-u-display--block',
-    'small-screen:vads-u-display--none',
+    'mobile-lg:vads-u-display--none',
     'eyb-sheet',
     {
       open: showEybSheet,

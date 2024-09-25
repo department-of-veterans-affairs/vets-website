@@ -204,11 +204,15 @@ SearchResult.propTypes = {
   location: PropTypes.object,
 };
 
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
+
 const mapDispatchToProps = {
   setFormData: setData,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SearchResult);
