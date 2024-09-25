@@ -6,13 +6,31 @@ const memDb = {
   user: user.loa3User72,
 };
 
+const removeScriptTags = dirty => {
+  return dirty.replace(
+    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g,
+    '',
+  );
+};
+
+const removeHtmlTags = dirty => {
+  return dirty.replace(/<[^>]*>/g, '');
+};
+
+const removeHTMLComments = dirty => {
+  return dirty.replace(/<!--|--!?>/g, '');
+};
+
 // sanitize user input
 const sanitize = dirty => {
   if (typeof dirty === 'number' && !Number.isNaN(dirty)) return dirty;
   if (typeof dirty !== 'string') {
     throw new Error('Cannot sanitize, input must be a string');
   }
-  return _.escape(dirty.replace(/<[^>]*>/g, '')).trim();
+
+  return _.escape(
+    removeHTMLComments(removeHtmlTags(removeScriptTags(dirty))),
+  ).trim();
 };
 
 const updateFields = (target, source, fields) => {
