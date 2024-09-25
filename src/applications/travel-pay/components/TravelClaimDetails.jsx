@@ -9,8 +9,8 @@ import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/a
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 import { HelpTextContent } from './HelpText';
-import { formatDateTime } from '../util/dates';
 import BreadCrumbs from './Breadcrumbs';
+import ClaimDetailsContent from './ClaimDetailsContent';
 
 export default function TravelClaimDetails() {
   const { id } = useParams();
@@ -50,10 +50,16 @@ export default function TravelClaimDetails() {
         try {
           const claimsUrl = `${environment.API_URL}/travel_pay/v0/claims/${id}`;
           const claimsResponse = await apiRequest(claimsUrl);
+
+          if (claimsResponse.errors) {
+            throw new Error(claimsResponse);
+          }
+
           setClaimDetails(claimsResponse);
           setDetailsAreLoading(false);
         } catch (error) {
           setClaimsError(error);
+          setDetailsAreLoading(false);
         }
       };
 
@@ -76,7 +82,9 @@ export default function TravelClaimDetails() {
     );
   }
 
-  if (!canViewClaimDetails && !canViewClaimStatuses) {
+  // Implicitly assumes that if a user can't view claim statuses,
+  // they also can't view claim details
+  if (!canViewClaimStatuses) {
     window.location.replace('/');
     return null;
   }
@@ -86,48 +94,12 @@ export default function TravelClaimDetails() {
     return null;
   }
 
-  const {
-    createdOn,
-    claimStatus,
-    claimNumber,
-    appointmentDateTime,
-    facilityName,
-    modifiedOn,
-  } = claimDetails || {};
-
-  const [appointmentDate, appointmentTime] = formatDateTime(
-    appointmentDateTime,
-  );
-  const [createDate, createTime] = formatDateTime(createdOn);
-  const [updateDate, updateTime] = formatDateTime(modifiedOn);
-
   return (
     <Element name="topScrollElement">
       <article className="usa-grid-full vads-u-padding-bottom--0">
         <BreadCrumbs />
-        {claimDetails && (
-          <>
-            <h1>Your travel reimbursement claim for {appointmentDate}</h1>
-            <span className="claim-details-claim-number">
-              Claim number: {claimNumber}
-            </span>
-            <h2 className="claim-details-h3">Where</h2>
-            <p className="vads-u-margin-bottom--0">
-              {appointmentDate} at {appointmentTime} appointment
-            </p>
-            <p className="vads-u-margin-y--0">{facilityName}</p>
-            <h2 className="claim-details-h3">Claim status: {claimStatus}</h2>
-            <p className="vads-u-margin-bottom--0">
-              Submitted on {createDate} at {createTime}
-            </p>
-            <p className="vads-u-margin-y--0">
-              Updated on on {updateDate} at {updateTime}
-            </p>
-          </>
-        )}
-
         {claimsError && <h1>There was an error loading the claim details.</h1>}
-
+        {claimDetails && <ClaimDetailsContent {...claimDetails} />}
         <hr />
 
         <p>
