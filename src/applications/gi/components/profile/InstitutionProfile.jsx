@@ -23,6 +23,7 @@ import Academics from './Academics';
 import VeteranProgramsAndSupport from './VeteranProgramsAndSupport';
 import BackToTop from '../BackToTop';
 import CautionaryInformationLearMore from '../CautionaryInformationLearMore';
+import YellowRibbonTable from './YellowRibbonTable';
 
 export default function InstitutionProfile({
   institution,
@@ -149,6 +150,12 @@ export default function InstitutionProfile({
             label="Contact information"
             jumpToId="contact-information"
           />
+          {institution.yr === true && (
+            <JumpLink
+              label="Yellow Ribbon Program information"
+              jumpToId="yellow-ribbon-program-information"
+            />
+          )}
         </div>
       </div>
       {showSchoolContentBasedOnType(type) &&
@@ -163,6 +170,31 @@ export default function InstitutionProfile({
             />
           </ProfileSection>
         )}
+
+      {institution.yr === true && (
+        <ProfileSection
+          label="Yellow ribbon program information"
+          id="yellow-ribbon-program-information"
+        >
+          <p>
+            The Yellow Ribbon Program can help you pay for out-of-state, private
+            school, or graduate school tuition that the Post-9/11 GI Bill
+            doesn't cover. Schools that choose to participate in the Yellow
+            Ribbon program will contribute a certain amount toward the extra
+            tutition. VA will match the participating school's contribution, up
+            to the total cost of the tuition and fees.
+          </p>
+          <va-link
+            href="/education/about-gi-bill-benefits/post-9-11/yellow-ribbon-program/"
+            text="Find out if you qualify for the Yellow Ribbon Program"
+          />
+          <YellowRibbonTable
+            programs={institution.yellowRibbonPrograms}
+            smallScreen={smallScreen}
+          />
+        </ProfileSection>
+      )}
+
       {type === 'FOREIGN' && (
         <p>
           Limited programs are approved at foreign schools, please contact
