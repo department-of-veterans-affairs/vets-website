@@ -650,9 +650,7 @@ const FacilitiesMap = props => {
     <>
       <div>
         <div className="title-section">
-          <h1 className="vads-u-margin-top--3 vads-u-font-size--xl desktop:vads-u-font-size--2xl">
-            Find VA locations
-          </h1>
+          <h1>Find VA locations</h1>
         </div>
         <div className="facility-introtext">
           <p>
