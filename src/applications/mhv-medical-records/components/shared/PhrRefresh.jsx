@@ -30,11 +30,10 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
    */
   const updateEndPollingDate = useCallback(
     () => {
-      let lastPhrRefreshDate = +localStorage.getItem('lastPhrRefreshDate');
-      if (!lastPhrRefreshDate) {
-        lastPhrRefreshDate = new Date().getTime();
-      }
+      const lastPhrRefreshDate =
+        +localStorage.getItem('lastPhrRefreshDate') || new Date().getTime();
       const updatedEndPollingDate = lastPhrRefreshDate + POLL_DURATION;
+
       if (updatedEndPollingDate !== endPollingDate?.getTime()) {
         setEndPollingDate(new Date(updatedEndPollingDate));
       }
@@ -84,24 +83,19 @@ const PhrRefresh = ({ statusPollBeginDate }) => {
       // change when the action is run.
       const updatedEndPollingDate = updateEndPollingDate();
       if (
-        updatedEndPollingDate &&
         refresh.status &&
-        refresh.phase !== refreshPhases.CURRENT
+        refresh.phase !== refreshPhases.CURRENT &&
+        new Date() <= updatedEndPollingDate
       ) {
-        if (new Date() <= updatedEndPollingDate) {
-          timeoutId = setTimeout(() => {
-            dispatch(fetchRefreshStatus());
-          }, STATUS_POLL_INTERVAL);
-        } else {
-          dispatch({ type: Actions.Refresh.TIMED_OUT });
-        }
+        timeoutId = setTimeout(() => {
+          dispatch(fetchRefreshStatus());
+        }, STATUS_POLL_INTERVAL);
       }
-      return () => {
-        // Clear the timeout if the component unmounts.
-        if (timeoutId) {
-          clearTimeout(timeoutId);
-        }
-      };
+      if (new Date() > updatedEndPollingDate) {
+        dispatch({ type: Actions.Refresh.TIMED_OUT });
+      }
+      // Clear the timeout if the component unmounts.
+      return () => timeoutId && clearTimeout(timeoutId);
     },
     [refresh.status, refresh.phase, dispatch, updateEndPollingDate],
   );
