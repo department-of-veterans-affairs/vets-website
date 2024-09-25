@@ -10,8 +10,12 @@ import { OTHER_HOUSING_RISK_MAX } from '../constants';
 
 export default {
   uiSchema: {
-    'view:otherHousingRisk': {
-      'ui:description': OtherHousingRisksTitle,
+    otherHousingRiskTitle: {
+      'ui:title': OtherHousingRisksTitle,
+      'ui:options': {
+        forceDivWrapper: true,
+        showFieldLabel: false,
+      },
     },
     otherHousingRisks: textareaUI({
       title: otherHousingRisksLabel,
@@ -28,7 +32,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      'view:otherHousingRisk': {
+      otherHousingRiskTitle: {
         type: 'object',
         properties: {},
       },

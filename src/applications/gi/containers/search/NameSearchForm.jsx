@@ -129,7 +129,7 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
-    }
+    } else inputRef.current.focus();
     onApplyFilterClick();
   };
   const onKeyEnter = event => {

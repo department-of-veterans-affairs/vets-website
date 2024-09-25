@@ -150,6 +150,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12340',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -180,6 +181,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12341',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -210,6 +212,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12342',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -240,6 +243,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12343',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -275,6 +279,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12344',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -305,6 +310,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12345',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -335,6 +341,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12346',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -370,6 +377,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12347',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -470,7 +478,28 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12340',
+          },
+          {
+            reference: '#12341',
+          },
+          {
+            reference: '#12342',
+          },
+          {
+            reference: '#12343',
+          },
+          {
+            reference: '#12344',
+          },
+          {
+            reference: '#12345',
+          },
+          {
+            reference: '#12346',
+          },
+          {
+            reference: '#12347',
           },
         ],
       },
@@ -614,6 +643,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12350',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -644,6 +674,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12351',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -674,6 +705,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12352',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -704,6 +736,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12353',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -734,6 +767,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12354',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -769,6 +803,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12355',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -799,6 +834,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12356',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -834,6 +870,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12357',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -934,7 +971,28 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12350',
+          },
+          {
+            reference: '#12351',
+          },
+          {
+            reference: '#12352',
+          },
+          {
+            reference: '#12353',
+          },
+          {
+            reference: '#12354',
+          },
+          {
+            reference: '#12355',
+          },
+          {
+            reference: '#12356',
+          },
+          {
+            reference: '#12357',
           },
         ],
       },
@@ -1036,7 +1094,7 @@ const all = {
         contained: [
           {
             resourceType: 'Observation',
-            id: 'ex-MHV-labTest-5',
+            id: '12360',
             meta: {
               profile: [
                 'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest',
@@ -1077,7 +1135,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
-            id: 'ex-MHV-labTest-6',
+            id: '12361',
             meta: {
               profile: [
                 'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest',
@@ -1118,7 +1176,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
-            id: 'ex-MHV-labTest-7',
+            id: '12362',
             meta: {
               profile: [
                 'https://department-of-veterans-affairs.github.io/mhv-fhir-phr-mapping/StructureDefinition/VA.MHV.PHR.labTest',
@@ -1287,13 +1345,13 @@ const all = {
         ],
         result: [
           {
-            reference: '#ex-MHV-labTest-5',
+            reference: '#12360',
           },
           {
-            reference: '#ex-MHV-labTest-6',
+            reference: '#12361',
           },
           {
-            reference: '#ex-MHV-labTest-7',
+            reference: '#12362',
           },
         ],
         presentedForm: [
@@ -1469,6 +1527,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12370',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1494,6 +1553,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12371',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1529,6 +1589,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12372',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1554,6 +1615,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12373',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1579,6 +1641,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12374',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1604,6 +1667,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12375',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1639,6 +1703,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12376',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1668,6 +1733,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12377',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1702,6 +1768,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12378',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -1737,6 +1804,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12379',
             status: 'Final',
             code: {
               text: 'ANION GAP',
@@ -1823,7 +1891,34 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12370',
+          },
+          {
+            reference: '#12371',
+          },
+          {
+            reference: '#12372',
+          },
+          {
+            reference: '#12373',
+          },
+          {
+            reference: '#12374',
+          },
+          {
+            reference: '#12375',
+          },
+          {
+            reference: '#12376',
+          },
+          {
+            reference: '#12377',
+          },
+          {
+            reference: '#12378',
+          },
+          {
+            reference: '#12379',
           },
         ],
       },
@@ -2190,6 +2285,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12380',
             status: 'Final',
             code: {
               text: 'COVID-19 CEPHEID',
@@ -2289,7 +2385,7 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12380',
           },
         ],
       },
@@ -2431,6 +2527,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12390',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2461,6 +2558,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12391',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2491,6 +2589,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12392',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2521,6 +2620,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12393',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2556,6 +2656,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12394',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2586,6 +2687,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12395',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2621,6 +2723,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12396',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2656,6 +2759,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12397',
             basedOn: [
               {
                 reference: '#ex-MHV-chOrder-1a',
@@ -2751,7 +2855,28 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12390',
+          },
+          {
+            reference: '#12391',
+          },
+          {
+            reference: '#12392',
+          },
+          {
+            reference: '#12393',
+          },
+          {
+            reference: '#12394',
+          },
+          {
+            reference: '#12395',
+          },
+          {
+            reference: '#12396',
+          },
+          {
+            reference: '#12397',
           },
         ],
       },
@@ -2920,6 +3045,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12400',
             status: 'Final',
             code: {
               text: 'COVID-19 CEPHEID',
@@ -3009,7 +3135,7 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12400',
           },
         ],
       },
@@ -3180,6 +3306,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12410',
             status: 'Final',
             code: {
               text: 'URINE KETONES',
@@ -3196,6 +3323,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12411',
             status: 'Final',
             code: {
               text: 'APPEARANCE',
@@ -3222,6 +3350,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12412',
             status: 'Final',
             code: {
               text: 'COLOR',
@@ -3238,6 +3367,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12413',
             status: 'Final',
             code: {
               text: 'SPECIFIC GRAVITY',
@@ -3254,6 +3384,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12414',
             status: 'Final',
             code: {
               text: 'UROBILINOGEN',
@@ -3270,6 +3401,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12415',
             status: 'Final',
             code: {
               text: 'URINE BLOOD',
@@ -3296,6 +3428,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12416',
             status: 'Final',
             code: {
               text: 'URINE BILIRUBIN',
@@ -3317,6 +3450,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12417',
             status: 'Final',
             code: {
               text: 'URINE GLUCOSE',
@@ -3343,6 +3477,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12418',
             status: 'Final',
             code: {
               text: 'URINE PROTEIN',
@@ -3369,6 +3504,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12419',
             status: 'Final',
             code: {
               text: 'URINE pH',
@@ -3395,6 +3531,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12420',
             status: 'Final',
             code: {
               text: 'URINE WBC',
@@ -3421,6 +3558,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12421',
             status: 'Final',
             code: {
               text: 'URINE RBC',
@@ -3447,6 +3585,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12422',
             status: 'Final',
             code: {
               text: 'URINE NITRITE',
@@ -3473,6 +3612,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12423',
             status: 'Final',
             code: {
               text: 'LEUKOESTERASE',
@@ -3559,7 +3699,46 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12410',
+          },
+          {
+            reference: '#12411',
+          },
+          {
+            reference: '#12412',
+          },
+          {
+            reference: '#12413',
+          },
+          {
+            reference: '#12414',
+          },
+          {
+            reference: '#12415',
+          },
+          {
+            reference: '#12416',
+          },
+          {
+            reference: '#12417',
+          },
+          {
+            reference: '#12418',
+          },
+          {
+            reference: '#12419',
+          },
+          {
+            reference: '#12420',
+          },
+          {
+            reference: '#12421',
+          },
+          {
+            reference: '#12422',
+          },
+          {
+            reference: '#12423',
           },
         ],
       },
@@ -3730,6 +3909,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12430',
             code: {
               text: 'HEMOGLOBIN A1C',
             },
@@ -3824,7 +4004,7 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12430',
           },
         ],
       },
@@ -3995,6 +4175,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12440',
             code: {
               text: 'CHOLESTEROL',
             },
@@ -4022,6 +4203,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12441',
             code: {
               text: 'TRYGLYCERIDES',
             },
@@ -4049,6 +4231,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12442',
             code: {
               text: 'HDL CHOLESTEROL',
             },
@@ -4075,6 +4258,7 @@ const all = {
           },
           {
             resourceType: 'Observation',
+            id: '12443',
             code: {
               text: 'LDL-CHOL CALC',
             },
@@ -4168,7 +4352,16 @@ const all = {
         ],
         result: [
           {
-            reference: '#ChemistryResult-1.1',
+            reference: '#12440',
+          },
+          {
+            reference: '#12441',
+          },
+          {
+            reference: '#12442',
+          },
+          {
+            reference: '#12443',
           },
         ],
       },

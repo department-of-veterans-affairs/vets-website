@@ -45,7 +45,7 @@ export const branchOptions = Object.freeze([
   'Coast Guard',
   'Marine Corps',
   'Navy',
-  'NOAAA',
+  'NOAA',
   'Space Force',
   'USPHS',
 ]);

@@ -4,7 +4,6 @@ import { transformForSubmit } from 'platform/forms-system/src/js/helpers';
 export function transform(formConfig, form) {
   const newSchoolTransform = formData => {
     let clonedData = _.cloneDeep(formData);
-
     delete clonedData.newSchoolName;
     delete clonedData.newSchoolAddress;
 

@@ -10,7 +10,8 @@ import formConfig from '../../../config/form';
 import { BENEFITS_LIST } from '../../../constants/benefits';
 
 describe('<ConfirmationPage>', () => {
-  const getData = () => ({
+  sinon.stub(Date, 'getTime');
+  const getData = resultsData => ({
     props: {
       formConfig,
       route: {
@@ -50,7 +51,7 @@ describe('<ConfirmationPage>', () => {
           },
         },
         results: {
-          data: [BENEFITS_LIST[0]],
+          data: resultsData,
           error: null,
           isError: false,
           isLoading: false,
@@ -68,7 +69,17 @@ describe('<ConfirmationPage>', () => {
     );
 
   it('should render results page', () => {
-    const { mockStore, props } = getData();
+    const { mockStore, props } = getData([BENEFITS_LIST[0]]);
+    const { container } = subject({ mockStore, props });
+
+    const ulQualified = container.querySelectorAll('ul.benefit-list');
+    expect(container.querySelector('#results-container')).to.exist;
+    expect(ulQualified[1].querySelectorAll('li')).to.have.lengthOf(1);
+  });
+
+  it('should render results page when query string is provided', () => {
+    const { mockStore, props } = getData([]);
+    props.location.query.benefits = 'SVC,FHV';
     const { container } = subject({ mockStore, props });
 
     expect(container.querySelector('#results-container')).to.exist;
@@ -77,7 +88,6 @@ describe('<ConfirmationPage>', () => {
   it('should handle back link', async () => {
     const { mockStore, props } = getData();
     const { container } = subject({ mockStore, props });
-    sinon.stub(Date, 'getTime');
 
     const backLink = container.querySelector('[data-testid="back-link"]');
     fireEvent.click(backLink);
