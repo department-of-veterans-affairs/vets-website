@@ -23,7 +23,7 @@ export default function ContactInformation({ institution, showModal }) {
     institution.physicalAddress1 && (
       <div className="vads-l-row vads-u-margin-top--2p5 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
+          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Physical address
           </h3>
         </div>
@@ -51,7 +51,7 @@ export default function ContactInformation({ institution, showModal }) {
     institution.address1 && (
       <div className="vads-l-row vads-u-margin-top--0 vads-u-margin-bottom--4">
         <div className="vads-l-col--12 medium-screen:vads-l-col--3">
-          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
+          <h3 className="small-screen:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
             Mailing address
           </h3>
         </div>

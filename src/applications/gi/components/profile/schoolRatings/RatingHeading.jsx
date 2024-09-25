@@ -14,7 +14,7 @@ export const RatingHeading = ({ ratingCount, displayStars, ratingAverage }) => {
         </div>
 
         <div className="vads-l-row">
-          <div className="vads-l-col vads-u-font-weight--bold mobile-lg:vads-u-font-size--base vads-u-font-family--serif small-screen-font">
+          <div className="vads-l-col vads-u-font-weight--bold small-screen:vads-u-font-size--base vads-u-font-family--serif small-screen-font">
             {ratingCount} veterans rated this institution
           </div>
         </div>
