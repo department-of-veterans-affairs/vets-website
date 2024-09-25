@@ -1,3 +1,5 @@
+import * as Sentry from '@sentry/browser';
+
 import environment from 'platform/utilities/environment';
 import { fetchAndUpdateSessionExpiration as fetch } from '@department-of-veterans-affairs/platform-utilities/api';
 import { NEXT_STEPS_EMAIL_API } from '../constants/api';
@@ -13,7 +15,7 @@ export default async function sendNextStepsEmail(body) {
       'Content-Type': 'application/json',
       'Source-App-Name': manifest.entryName,
     },
-    body,
+    body: JSON.stringify(body),
   };
 
   const apiUrl =
@@ -21,15 +23,25 @@ export default async function sendNextStepsEmail(body) {
       ? `https://staging-api.va.gov`
       : `${environment.API_URL}`;
 
-  return new Promise((resolve, reject) => {
-    fetch(`${apiUrl}${NEXT_STEPS_EMAIL_API}`, apiSettings)
-      .then(res => {
-        if (!res.ok) {
-          throw new Error(res.statusText);
-        }
-        return res.json();
-      })
-      .then(resolve)
-      .catch(reject);
-  });
+  try {
+    const response = await fetch(
+      `${apiUrl}${NEXT_STEPS_EMAIL_API}`,
+      apiSettings,
+    );
+
+    if (!response.ok) {
+      const errorBody = await response.json();
+
+      const errorMessage = `Error on API request to ${apiUrl}${NEXT_STEPS_EMAIL_API}: ${
+        response.statusText
+      }. ${errorBody.error || 'Unknown error'}`;
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    Sentry.captureException(new Error(`API request failed: ${error.message}`));
+
+    throw error;
+  }
 }

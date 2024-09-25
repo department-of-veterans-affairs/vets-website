@@ -10,7 +10,6 @@ export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
-
   // const formData = {
   //   'view:selectedRepresentative': {
   //     type: 'individual', // can be either 'organization', 'individual'
@@ -50,12 +49,10 @@ export default function ConfirmationPage({ router }) {
   //     suffix: 'Sr.',
   //   },
   // };
-
   const selectedEntity = formData['view:selectedRepresentative'];
   const emailAddress = formData.email;
   const firstName =
     formData.applicantName?.first || formData.veteranFullName.first;
-  const representativeType = selectedEntity.type;
   const representativeName = selectedEntity?.name || selectedEntity?.fullName;
   const representativeAddress =
     [
@@ -68,6 +65,24 @@ export default function ConfirmationPage({ router }) {
     (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
     (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
     (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '');
+
+  const getRepType = () => {
+    if (selectedEntity?.type === 'organization') {
+      return 'Organization';
+    }
+
+    const repType = selectedEntity.attributes?.individualType;
+
+    if (repType === 'attorney') {
+      return 'Attorney';
+    }
+
+    if (repType === 'claimsAgent') {
+      return 'Claims Agent';
+    }
+
+    return 'VSO Representative';
+  };
 
   const getFormNumber = () => {
     const entityType = selectedEntity?.type;
@@ -102,21 +117,21 @@ export default function ConfirmationPage({ router }) {
     },
     onClickContinueButton: async () => {
       if (signedForm) {
-        const response = await sendNextStepsEmail({
-          emailAddress,
-          firstName,
-          representativeType,
-          representativeName,
-          representativeAddress,
-          formNumber: getFormNumber(),
-          formName: getFormName(),
-        });
-
-        if (response.status === 200) {
-          router.push('/next-steps');
-        } else {
-          // How do we handle the non-200 response?
+        try {
+          await sendNextStepsEmail({
+            emailAddress,
+            firstName,
+            representativeType: getRepType(),
+            representativeName,
+            representativeAddress,
+            formNumber: getFormNumber(),
+            formName: getFormName(),
+          });
+        } catch (error) {
+          // Should we set an error state to display a message in the UI?
         }
+
+        router.push('/next-steps');
       } else {
         setSignedFormError(true);
       }
