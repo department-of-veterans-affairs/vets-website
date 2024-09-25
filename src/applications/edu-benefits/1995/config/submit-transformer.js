@@ -18,6 +18,14 @@ export function transform(formConfig, form) {
     return clonedData;
   };
 
+  const benefitAppliedForTransform = formData => {
+    const clonedData = _.cloneDeep(formData);
+    if (formData.changeAnotherBenefit !== 'Yes') {
+      clonedData.benefitAppliedFor = '';
+    }
+    return clonedData;
+  };
+
   const fryScholarshipTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     if (clonedData.benefit === 'fryScholarship') {
@@ -54,6 +62,7 @@ export function transform(formConfig, form) {
   const transformedData = [
     newSchoolTransform,
     fryScholarshipTransform,
+    benefitAppliedForTransform,
     contactInfoTransform,
     usFormTransform, // This needs to be last function call in array
   ].reduce((formData, transformer) => transformer(formData), form.data);
