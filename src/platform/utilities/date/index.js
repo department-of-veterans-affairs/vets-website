@@ -63,6 +63,12 @@ export function parseStringOrDate(date) {
   );
 }
 
+/**
+ * Formats a date object, ISO 8601 date string, or Unix timestamp as January 1, 2020
+ *
+ * @param {Date|string|number} date
+ * @returns string
+ */
 export function formatDateLong(date) {
   const parsedDate = parseStringOrDate(date);
   return format(parsedDate, 'MMMM d, yyyy');
@@ -77,6 +83,12 @@ export function formatDateParsedZoneLong(date) {
   return format(parseISO(localDate), 'MMMM d, yyyy');
 }
 
+/**
+ * Formats a date object, ISO 8601 date string, or Unix timestamp as 01/01/2020
+ *
+ * @param {Date|string|number} date
+ * @returns string
+ */
 export function formatDateShort(date) {
   const parsedDate = parseStringOrDate(date);
   return format(parsedDate, 'MM/dd/yyyy');
