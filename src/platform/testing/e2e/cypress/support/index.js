@@ -100,8 +100,3 @@ Cypress.on('test:after:run', test => {
     );
   }
 });
-
-fetch('http://localhost:3001', { method: 'GET' }).then(res => {
-  // eslint-disable-next-line no-console
-  console.log('RES ~~~~~ ', res);
-});
