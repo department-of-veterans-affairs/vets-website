@@ -1,6 +1,9 @@
+import {
+  radioSchema,
+  radioUI,
+} from 'platform/forms-system/src/js/web-component-patterns';
 import FormElementTitle from '../../../components/FormElementTitle';
 import { CHAPTER_2, reasonOptions } from '../../../constants';
-import { radioSchema, radioUI } from '../../schema-helpers/radioHelper';
 
 const reasonContactPage = {
   uiSchema: {
