@@ -93,19 +93,22 @@ const validateHistory = debts => {
     const history = debt?.debtHistory;
     history?.forEach(h => {
       if (!h.date) {
-        errors.push(`Missing date; letterCode: ${h?.letterCode}`);
+        errors.push(
+          `Missing date; letterCode: ${h?.letterCode}; deductionCode: ${
+            debt?.deductionCode
+          }; diaryCode: ${debt?.diaryCode}`,
+        );
       }
     });
+  });
 
-    Sentry.withScope(scope => {
-      scope.setLevel('info');
-      scope.setExtra('deductionCode', debt?.deductionCode);
-      scope.setExtra('diaryCode', debt?.diaryCode);
-      scope.setExtra('error list', errors);
-      Sentry.captureMessage(
-        `LTR - Debt Letters - Debt object validation failed`,
-      );
-    });
+  if (errors.length === 0) return;
+  Sentry.withScope(scope => {
+    scope.setLevel('info');
+    scope.setExtra('Error list', errors);
+    Sentry.captureMessage(
+      `LTR - Debt Letters - Debt object date validation failed`,
+    );
   });
 };
 
