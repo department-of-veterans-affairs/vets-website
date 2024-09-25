@@ -6,6 +6,7 @@ import homeAcreageMoreThanTwo from './homeAcreageMoreThanTwo';
 import landMarketable from './landMarketable';
 import receivesIncome from './receivesIncome';
 import incomeSources from './incomeSources';
+import { incomeSourcesPages } from './incomeSourcesPages';
 import hasCareExpenses from './hasCareExpenses';
 import careExpenses from './careExpenses';
 import hasMedicalExpenses from './hasMedicalExpenses';
@@ -28,6 +29,7 @@ export default {
     landMarketable,
     receivesIncome,
     incomeSources,
+    ...incomeSourcesPages,
     hasCareExpenses,
     careExpenses,
     hasMedicalExpenses,
