@@ -3,15 +3,16 @@ import moment from 'moment';
 import { isValid, getDate, getMonth, getYear } from 'date-fns';
 
 import {
-  timeFromNow,
-  formatDateShort,
-  formatDateParsedZoneShort,
+  dateFieldToDate,
   formatDateLong,
   formatDateParsedZoneLong,
-  isValidDateString,
+  formatDateParsedZoneShort,
+  formatDateShort,
   formatDowntime,
-  dateFieldToDate,
+  isValidDateString,
+  parseStringOrDate,
   stripTimezoneFromIsoDate,
+  timeFromNow,
 } from '../date';
 
 describe('Helpers unit tests', () => {
@@ -263,6 +264,57 @@ describe('Helpers unit tests', () => {
     it('can handle a date object', () => {
       expect(formatDowntime(new Date('2020-05-24T12:00:30-04:00'))).to.equal(
         'May 24 at noon ET',
+      );
+    });
+  });
+
+  describe('parseStringOrDate', () => {
+    it('should return a Date object when given a valid ISO 8601 date string', () => {
+      const dateString = '2023-10-05T14:48:00.000Z';
+      const result = parseStringOrDate(dateString);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result.toISOString()).to.equal(dateString);
+    });
+
+    it('should return the same Date object when given a Date object', () => {
+      const dateObject = new Date(2023, 9, 5, 14, 48, 0, 0); // October is month 9 (zero-based)
+      const result = parseStringOrDate(dateObject);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result).to.equal(dateObject);
+    });
+
+    it('should throw an error when given an invalid date string', () => {
+      const invalidDateString = 'invalid-date';
+      expect(() => parseStringOrDate(invalidDateString)).to.throw(
+        `Could not parse date string: ${invalidDateString}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a date in an invalid format', () => {
+      const nonDateString = 'Sun Jun 11 2012 00:00:00 GMT-0700 (PDT)';
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a non-date string', () => {
+      const nonDateString = 'not-a-date';
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given null', () => {
+      const nonDateString = null;
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a non-date string', () => {
+      const nonDateString = undefined;
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object or ISO 8601 date string.`,
       );
     });
   });

@@ -3,6 +3,7 @@ import {
   differenceInHours,
   differenceInMinutes,
   differenceInSeconds,
+  isValid,
   format,
   parse,
   parseISO,
@@ -31,8 +32,26 @@ export function dateFieldToDate(dateField) {
   return parse(dateString, 'yyyy-MM-dd', new Date());
 }
 
+export function parseStringOrDate(date) {
+  if (date instanceof Date) {
+    return date;
+  }
+
+  if (typeof date === 'string') {
+    const dateObject = parseISO(date);
+    if (isValid(dateObject) === true) {
+      return dateObject;
+    }
+  }
+
+  throw new Error(
+    `Could not parse date string: ${date}. Please ensure that you provide a Date object or ISO 8601 date string.`,
+  );
+}
+
 export function formatDateLong(date) {
-  return format(parseISO(date), 'MMMM d, yyyy');
+  const parsedDate = parseStringOrDate(date);
+  return format(parsedDate, 'MMMM d, yyyy');
 }
 
 export function stripTimezoneFromIsoDate(date) {
