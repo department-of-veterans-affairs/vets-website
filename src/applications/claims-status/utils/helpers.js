@@ -12,6 +12,7 @@ import {
   DATE_FORMATS,
   disabilityCompensationClaimTypeCodes,
   addOrRemoveDependentClaimTypeCodes,
+  standard5103Item,
 } from '../constants';
 
 // Adding !! so that we convert this to a boolean
@@ -1066,8 +1067,25 @@ export const buildDateFormatter = (formatString = DATE_FORMATS.LONG_DATE) => {
   };
 };
 
+// Covers two cases:
+//   1. Standard 5103s we get back from the API (only occurs when they're closed).
+//   2. Standard 5103s that we're mocking within our application logic.
+export const isStandard5103Notice = itemDisplayName => {
+  return (
+    itemDisplayName === '5103 Notice Response' ||
+    itemDisplayName === standard5103Item.displayName
+  );
+};
+
 export const isAutomated5103Notice = itemDisplayName => {
   return itemDisplayName === 'Automated 5103 Notice Response';
+};
+
+export const is5103Notice = itemDisplayName => {
+  return (
+    isAutomated5103Notice(itemDisplayName) ||
+    isStandard5103Notice(itemDisplayName)
+  );
 };
 
 // Capitalizes the first letter in a given string
