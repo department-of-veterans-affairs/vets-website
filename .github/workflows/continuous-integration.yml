@@ -783,7 +783,10 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: |
+          curl http://localhost:3001
+          curl --head http://localhost:3001
+          node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
