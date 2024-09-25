@@ -40,13 +40,21 @@ const goalTypes = {
 //   OVER_3_YEARS: 'over3yr',
 // };
 
-const separationTypes = {
-  UP_TO_6MO: 'upTo6mo',
-  UP_TO_1YR: 'upTo1yr',
-  UP_TO_2YRS: 'upTo2yr',
-  UP_TO_3YRS: 'upTo3yr',
-  OVER_3YRS: 'over3yr',
-};
+export const separationTypes = Object.freeze({
+  UP_TO_6MO: 'UP_TO_6MO',
+  UP_TO_1YR: 'UP_TO_1YR',
+  UP_TO_2YRS: 'UP_TO_2YRS',
+  UP_TO_3YRS: 'UP_TO_3YRS',
+  OVER_3YRS: 'OVER_3YRS',
+});
+
+export const separationTypeLabels = Object.freeze({
+  UP_TO_6MO: 'Within the past 6 months',
+  UP_TO_1YR: 'More than 6 months ago but less than 1 year ago',
+  UP_TO_2YRS: 'More than 1 year ago but less than 2 years ago',
+  UP_TO_3YRS: 'More than 2 years ago but less than 3 years ago',
+  OVER_3YRS: 'More than 3 years ago',
+});
 
 const expectedSparationTypes = {
   WITHIN_3MO: 'Within the next 3 months',

@@ -4,7 +4,7 @@ import { expect } from 'chai';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import disabilityRatingConfig from '../../../pages/disabilityRating';
 
-describe('Disability Rating Form', () => {
+describe('Disability Rating Form Page', () => {
   let wrapper;
 
   const setupForm = () =>
