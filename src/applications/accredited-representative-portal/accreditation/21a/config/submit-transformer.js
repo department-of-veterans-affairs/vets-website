@@ -28,7 +28,7 @@ const setBirth = (placeOfBirth, form) => {
 
 const setHomeAddress = homeAddress => {
   transformedData.homeAddress = {
-    addressType: homeAddress.isMilitary,
+    addressType: homeAddress?.isMilitary,
     line1: homeAddress.street,
     city: homeAddress.city,
     postalCode: homeAddress.postalCode,
@@ -60,18 +60,18 @@ const setEmployment = (workAddress, form) => {
 
   if (employmentStatus === 'employed') {
     transformedData.businessAddress = {
-      addressType: workAddress.isMilitary,
-      line1: workAddress.street,
-      city: workAddress.city,
-      state: workAddress.state,
-      postalCode: workAddress.postalCode,
-      country: workAddress.country,
+      addressType: workAddress?.isMilitary,
+      line1: workAddress?.street,
+      city: workAddress?.city,
+      state: workAddress?.state,
+      postalCode: workAddress?.postalCode,
+      country: workAddress?.country,
     };
 
     transformedData.businessAddressId = ADDRESS_TYPE_ID.business;
 
-    if (workAddress.street2)
-      transformedData.businessAddress.line2 = workAddress.street2;
+    if (workAddress?.street2)
+      transformedData.businessAddress.line2 = workAddress?.street2;
   }
 };
 
@@ -108,7 +108,7 @@ const setEmploymentHistory = employers => {
       positionTitle: employers[i].positionTitle,
       supervisorName: employers[i].supervisorName,
       employerAddress: {
-        addressType: employers[i].address.isMilitary,
+        addressType: employers[i].address?.isMilitary,
         line1: employers[i].address.street,
         city: employers[i].address.city,
         state: employers[i].address.state,
@@ -136,7 +136,7 @@ const setEducation = educationalInstitutions => {
         name: educationalInstitutions[i].degree,
       },
       institutionAddress: {
-        addressType: educationalInstitutions[i].address.isMilitary,
+        addressType: educationalInstitutions[i].address?.isMilitary,
         line1: educationalInstitutions[i].address.street,
         city: educationalInstitutions[i].address.city,
         state: educationalInstitutions[i].address.state,
@@ -202,7 +202,7 @@ const setCharacterReferences = characterReferences => {
       addressState: characterReferences[i].address.state,
       addressPostalCode: characterReferences[i].address.postalCode,
       addressCountry: characterReferences[i].address.country,
-      addressIsMilitary: characterReferences[i].address.isMilitary,
+      addressIsMilitary: characterReferences[i].address?.isMilitary,
       phoneNumber: characterReferences[i].phone,
       phoneTypeId: PHONE_TYPE_ID.Home,
       email: characterReferences[i].email,
