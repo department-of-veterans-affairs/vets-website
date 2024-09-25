@@ -15,7 +15,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
 import { RESPONSE_PAGE } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import { mockInquiryDataBusinessAndPersonal } from '../utils/mockData';
 
 const attachmentBox = fileName => (
   <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
@@ -64,7 +64,7 @@ const ResponseInboxPage = ({ router }) => {
   };
 
   const getInquiryData = async () => {
-    const inquiryMock = mockInquiryData.data.find(
+    const inquiryMock = mockInquiryDataBusinessAndPersonal.data.find(
       inquiry => inquiry.id === inquiryId,
     );
     setInquiryData(inquiryMock);

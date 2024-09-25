@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import { ServerErrorAlert } from '../config/helpers';
-import { mockInquiryData } from '../utils/mockData';
+import { mockInquiryDataBusinessAndPersonal } from '../utils/mockData';
 
 const DashboardCards = () => {
   const [error, hasError] = useState(false);
@@ -40,7 +40,7 @@ const DashboardCards = () => {
 
   const getApiData = () => {
     setLoading(true);
-    const res = mockInquiryData;
+    const res = mockInquiryDataBusinessAndPersonal;
     setInquiries(res.data);
     const uniqueCategories = [
       ...new Set(res.data.map(item => item.attributes.categoryName)),
