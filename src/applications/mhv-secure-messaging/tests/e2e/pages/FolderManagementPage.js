@@ -215,6 +215,8 @@ class FolderManagementPage {
       force: true,
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
+    cy.wait(`@createdFolder`);
+    cy.wait(`@updatedFoldersList`);
   };
 
   backToCreatedFolder = threadData => {
@@ -236,6 +238,8 @@ class FolderManagementPage {
     // cy.wait(2000);
 
     cy.get(Locators.LINKS.CRUMBS_BACK).click();
+    cy.wait(`@updatedFolder`);
+    cy.wait(`@updatedThread`);
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
