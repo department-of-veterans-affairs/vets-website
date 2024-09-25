@@ -68,6 +68,7 @@ beforeEach(() => {
   cy.intercept('GET', '/v0/maintenance_windows', {
     data: [],
   });
+  cy.request('http://localhost:3001');
 });
 
 // Assign the video path to the context property for failed tests
@@ -100,3 +101,5 @@ Cypress.on('test:after:run', test => {
     );
   }
 });
+
+fetch('http://localhost:3001', { method: 'GET' });
