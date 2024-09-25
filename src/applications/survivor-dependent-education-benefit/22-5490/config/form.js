@@ -408,59 +408,23 @@ const formConfig = {
                 <>
                   <h3>Review your personal information</h3>
                   <p>
-                    We have this personal information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
+                    We have this personal information on file for you. Any
+                    updates you make will change the information for your
+                    education benefits only. If you want to update your personal
+                    information for other VA benefits, update your information
+                    on your <a href="/profile/personal-information">profile</a>.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to make changes to your
-                    personal information for other VA benefits, update your
-                    information on your profile.
-                  </p>
-                  <p>
-                    <a href="/profile/personal-information">
-                      Go to your profile
+                    <strong>Note:</strong> If you want to request that we change
+                    your name or date of birth, you will need to send additional
+                    information. Learn more on how to change your legal name{' '}
+                    <a href="/resources/how-to-change-your-legal-name-on-file-with-va/?_ga=2.13947071.963379013.1690376239-159354255.1663160782">
+                      on file with VA.
                     </a>
                   </p>
                 </>
               ),
             },
-            // 'view:personalInformation': {
-            //   'ui:description': (formData) => {
-            //     console.log(formData, 'formData in personal information')
-            //     const fullName = () => {
-            //       const firstName = formData?.fullName?.first;
-            //       const middleName = formData?.fullName?.middle;
-            //       const lastName = formData?.fullName?.last;
-            //       console.log(firstName)
-            //       console.log(lastName)
-            //       console.log(formData?.dateOfBirth, "formData?.dateOfBirth")
-            //       if (firstName && lastName) {
-            //         return `${firstName} ${middleName} ${lastName}`;
-            //       } else {
-            //         return "Not available";
-            //       }
-            //     };
-
-            //     return (
-            //       <div>
-            //         <div className="usa-alert background-color-only personal-info-header">
-            //           <h5>Your Personal Information</h5>
-            //         </div>
-            //         <div className="personal-info-border personal-info-text">
-            //           <div>
-            //             <h6>{fullName()}</h6>
-            //             <p>
-            //               <strong>Date of birth:</strong>{' '}
-            //               {formData?.dateOfBirth ? formatReadableDate(formData?.dateOfBirth) : "Not available"}
-            //             </p>
-            //           </div>
-            //         </div>
-            //       </div>
-            //     );
-            //   }
-            // },
             'view:personalInformation': {
               'ui:description': <PersonalInformation />,
             },
@@ -515,10 +479,19 @@ const formConfig = {
       title: 'Additional considerations',
       pages: {
         marriageInformation: {
-          title: 'Additional considerations',
-          subTitle: 'Marriage Information',
+          title: 'Marriage information',
           path: 'marriage-information',
+          depends: formData => {
+            return formData.relationShipToMember === 'spouse';
+          },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage information</h3>
+                </>
+              ),
+            },
             marriageStatus: {
               'ui:title':
                 "What's the status of your marriage with your chosen Veteran or service member?",
@@ -538,6 +511,10 @@ const formConfig = {
             type: 'object',
             required: ['marriageStatus'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               marriageStatus: {
                 type: 'string',
                 enum: ['married', 'divorced', 'anulled', 'widowed'],
@@ -548,6 +525,9 @@ const formConfig = {
         marriageDate: {
           path: 'marriage-date',
           title: 'Marriage Date',
+          depends: formData => {
+            return formData.relationShipToMember === 'spouse';
+          },
           uiSchema: {
             marriageDate: {
               ...currentOrPastDateUI(
@@ -567,7 +547,10 @@ const formConfig = {
           path: 'remarriage-information',
           title: 'Remarriage Information',
           depends: formData => {
-            return formData.marriageStatus !== 'married';
+            return (
+              formData.marriageStatus !== 'married' &&
+              formData.relationShipToMember === 'spouse'
+            );
           },
           uiSchema: {
             remarriageStatus: {
@@ -596,7 +579,10 @@ const formConfig = {
           path: 'remarriage-date',
           title: 'Remarriage Date',
           depends: formData => {
-            return formData.marriageStatus !== 'married';
+            return (
+              formData.marriageStatus !== 'married' &&
+              formData.relationShipToMember === 'spouse'
+            );
           },
           uiSchema: {
             remarriageDate: {
@@ -615,6 +601,13 @@ const formConfig = {
           path: 'outstanding-felony',
           title: 'Outstanding Felony',
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Outstanding felony</h3>
+                </>
+              ),
+            },
             felonyOrWarrant: {
               'ui:title':
                 'Do you or your chosen Veteran or service member have an outstanding felony or warrant?',
@@ -631,6 +624,10 @@ const formConfig = {
             type: 'object',
             required: ['felonyOrWarrant'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               felonyOrWarrant: {
                 type: 'string',
                 enum: ['yes', 'no'],
