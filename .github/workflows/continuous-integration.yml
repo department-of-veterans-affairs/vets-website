@@ -777,10 +777,14 @@ jobs:
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node script/github-actions/run-cypress-tests.js
+        run: |
+          apt-get update & apt-get install -y lsof
+          lsof -i :3001
+          node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
         env:
           CYPRESS_CI: true
+          CYPRESS_baseUrl: "http://0.0.0.0:3001"
           STEP: ${{ matrix.ci_node_index }}
           APP_URLS: ${{ needs.tests-prep.outputs.app_urls }}
           NUM_CONTAINERS: ${{ needs.tests-prep.outputs.num_containers }}
