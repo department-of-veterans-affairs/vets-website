@@ -229,6 +229,17 @@ export const sendReply = (
       e.errors[0].code === Constants.Errors.Code.TG_NOT_ASSOCIATED
     ) {
       dispatch(addAlert(Constants.ALERT_TYPE_ERROR, '', e.errors[0].detail));
+    } else if (
+      e.errors &&
+      e.errors[0].code === Constants.Errors.Code.ATTACHMENT_SCAN_FAIL
+    ) {
+      dispatch(
+        addAlert(
+          Constants.ALERT_TYPE_ERROR,
+          '',
+          Constants.Alerts.Message.ATTACHMENT_SCAN_FAIL,
+        ),
+      );
     } else {
       dispatch(
         addAlert(
