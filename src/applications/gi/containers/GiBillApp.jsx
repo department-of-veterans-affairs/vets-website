@@ -83,7 +83,7 @@ export function GiBillApp({
       <div>
         <div>
           {preview.display && <PreviewBanner version={preview.version} />}
-          <div className="large-screen:vads-u-padding-left--0 vads-u-padding-left--2">
+          <div className="desktop-lg:vads-u-padding-left--0 vads-u-padding-left--2">
             <GiBillBreadcrumbs />
           </div>
           {constants.inProgress && (

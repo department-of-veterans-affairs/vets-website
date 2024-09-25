@@ -20,7 +20,7 @@ const questions = [
 ];
 
 const NotInPilotAlert = () => (
-  <div className="vads-u-margin-y--5 vads-l-grid-container large-screen:vads-u-padding-x--0">
+  <div className="vads-u-margin-y--5 vads-l-grid-container desktop-lg:vads-u-padding-x--0">
     <div className="vads-l-row">
       <va-alert
         class="arp-full-width-alert"

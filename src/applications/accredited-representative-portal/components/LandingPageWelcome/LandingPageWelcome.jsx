@@ -10,7 +10,7 @@ const LandingPageWelcome = ({ firstName = '', children }) => (
           <div
             className="vads-u-padding-left--2 vads-u-padding-right--3 vads-u-padding-top--5
       vads-u-padding-bottom--3
-      small-desktop-screen:vads-u-padding-bottom--8"
+      desktop:vads-u-padding-bottom--8"
           >
             <h1
               data-testid="landing-page-heading"

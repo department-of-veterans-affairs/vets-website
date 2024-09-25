@@ -20,7 +20,7 @@ export default function App({ location, children }) {
   const bcString = JSON.stringify(breadcrumbs);
 
   return (
-    <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
+    <div className="vads-l-grid-container desktop-lg:vads-u-padding-x--0">
       <va-breadcrumbs breadcrumb-list={bcString} />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         <DowntimeNotification
