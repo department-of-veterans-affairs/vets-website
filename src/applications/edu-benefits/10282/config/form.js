@@ -1,3 +1,4 @@
+import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
@@ -13,6 +14,7 @@ import {
   genderRaceQuestion,
   applicantRaceAndEthnicity,
   applicantGender,
+  highestLevelOfEducation,
 } from '../pages';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
@@ -99,6 +101,38 @@ const formConfig = {
           uiSchema: applicantGender.uiSchema,
           schema: applicantGender.schema,
           depends: formData => formData.raceAndGender === 'Yes',
+        },
+      },
+    },
+    educationAndEmploymentHistory: {
+      title: ' Your education and employment history',
+      pages: {
+        highestLevelOfEducation: {
+          title: 'Your education and employment history',
+          path: 'applicant-information-8',
+          uiSchema: highestLevelOfEducation.uiSchema,
+          schema: highestLevelOfEducation.schema,
+        },
+        currentlyEmployed: {
+          title: 'Your education and employment history',
+          path: 'applicant-information-9',
+          uiSchema: {
+            currentlyEmployed: {
+              'ui:title': (
+                <h3 className="vads-u-margin--0">Are you currently employed</h3>
+              ),
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              currentlyEmployed: {
+                ...fullSchema10282.properties.currentlyEmployed,
+                default: '',
+              },
+            },
+          },
         },
       },
     },

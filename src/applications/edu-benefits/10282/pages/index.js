@@ -6,6 +6,7 @@ import * as applicantState from './applicantInformation/applicantState';
 import * as genderRaceQuestion from './applicantInformation/genderRaceQuestion';
 import * as applicantRaceAndEthnicity from './applicantInformation/applicantRaceAndEthnicity';
 import * as applicantGender from './applicantInformation/applicantGender';
+import * as highestLevelOfEducation from './educationAndEmploymentHistory/highestLevelOfEducation';
 
 export {
   applicantInformationName,
@@ -16,4 +17,5 @@ export {
   genderRaceQuestion,
   applicantRaceAndEthnicity,
   applicantGender,
+  highestLevelOfEducation,
 };

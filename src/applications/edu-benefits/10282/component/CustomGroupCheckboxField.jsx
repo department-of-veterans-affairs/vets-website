@@ -10,7 +10,7 @@ const CustomGroupCheckboxField = ({
 }) => {
   const sanitizedFormData = Array.isArray(formData) ? formData : [];
 
-  const labels = uiSchema['ui:options'].labels || [];
+  const labels = uiSchema['ui:options']?.labels || [];
 
   const handleChange = event => {
     const { value, checked } = event.target;
@@ -25,7 +25,7 @@ const CustomGroupCheckboxField = ({
   };
 
   return (
-    <div className="vads-u-margin-top--2">
+    <div className="vads-u-margin-top--neg5">
       <VaCheckboxGroup error={null}>
         {labels.map((label, index) => (
           <va-checkbox
@@ -34,8 +34,8 @@ const CustomGroupCheckboxField = ({
             id={`${idSchema?.$id || ''}_${index}`}
             label={label}
             value={label}
-            checked={sanitizedFormData?.includes(label)}
-            vaChange={handleChange}
+            checked={sanitizedFormData.includes(label)}
+            onVaChange={handleChange}
           />
         ))}
       </VaCheckboxGroup>
@@ -44,10 +44,22 @@ const CustomGroupCheckboxField = ({
 };
 
 CustomGroupCheckboxField.propTypes = {
-  idSchema: PropTypes.object.isRequired,
-  formData: PropTypes.array,
-  uiSchema: PropTypes.object,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  formData: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
+  idSchema: PropTypes.shape({
+    $id: PropTypes.string,
+  }),
+  uiSchema: PropTypes.shape({
+    'ui:options': PropTypes.shape({
+      labels: PropTypes.arrayOf(PropTypes.string),
+    }),
+  }),
+};
+
+CustomGroupCheckboxField.defaultProps = {
+  formData: [],
+  idSchema: {},
+  uiSchema: { 'ui:options': { labels: [] } },
 };
 
 export default CustomGroupCheckboxField;

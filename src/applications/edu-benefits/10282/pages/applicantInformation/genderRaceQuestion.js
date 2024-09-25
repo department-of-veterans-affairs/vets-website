@@ -12,7 +12,10 @@ const uiSchema = {
 const schema = {
   type: 'object',
   properties: {
-    raceAndGender,
+    raceAndGender: {
+      ...raceAndGender,
+      default: '',
+    },
   },
 };
 

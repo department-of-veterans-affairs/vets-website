@@ -12,6 +12,9 @@ export const uiSchema = {
     email: {
       'ui:title': 'Email address',
       'ui:webComponentField': VaTextInputField,
+      'ui:errorMessages': {
+        required: 'Please enter your email address',
+      },
     },
     mobilePhone: {
       ...phoneUI('Mobile phone number'),

@@ -2,8 +2,7 @@ import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import CustomGroupCheckboxField from '../../component/CustomGroupCheckboxField';
 
-const { ethnicity, orginRace } = fullSchema10282.definitions;
-
+const { ethnicity, orginRace } = fullSchema10282.properties;
 const uiSchema = {
   'ui:title': (
     <h3 className="vads-u-margin--0">Your ethnicity, race, or origin</h3>
@@ -13,12 +12,20 @@ const uiSchema = {
     'ui:widget': 'radio',
   },
   orginRace: {
-    'ui:reviewField': CustomGroupCheckboxField,
-    'ui:field': CustomGroupCheckboxField,
     'ui:title': 'What is your race or origin?',
-    'ui:description': 'select all that you identify with',
+    'ui:description': (
+      <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
+        select all that you identify with
+      </p>
+    ),
+    'ui:widget': CustomGroupCheckboxField,
+    'ui:field': CustomGroupCheckboxField,
     'ui:options': {
+      showFieldLabel: true,
       labels: orginRace.enum,
+      keepInPageOnReview: true,
+      viewField: CustomGroupCheckboxField,
+      expandUnderCondition: 'Yes',
     },
   },
 };
