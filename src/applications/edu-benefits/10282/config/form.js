@@ -15,6 +15,7 @@ import {
   applicantRaceAndEthnicity,
   applicantGender,
   highestLevelOfEducation,
+  currentAnnualSalary,
 } from '../pages';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
@@ -129,6 +130,35 @@ const formConfig = {
             properties: {
               currentlyEmployed: {
                 ...fullSchema10282.properties.currentlyEmployed,
+                default: '',
+              },
+            },
+          },
+        },
+        currentAnnualSalary: {
+          title: 'Your education and employment history',
+          path: 'applicant-information-10',
+          uiSchema: currentAnnualSalary.uiSchema,
+          schema: currentAnnualSalary.schema,
+        },
+        isWorkingInTechIndustry: {
+          title: 'Your education and employment history',
+          path: 'applicant-information-11',
+          uiSchema: {
+            isWorkingInTechIndustry: {
+              'ui:title': (
+                <h3 className="vads-u-margin--0">
+                  Do you currently work in the technology industry?
+                </h3>
+              ),
+              'ui:widget': 'radio',
+            },
+          },
+          schema: {
+            type: 'object',
+            properties: {
+              isWorkingInTechIndustry: {
+                ...fullSchema10282.properties.isWorkingInTechIndustry,
                 default: '',
               },
             },
