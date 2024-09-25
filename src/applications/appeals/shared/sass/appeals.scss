@@ -7,8 +7,12 @@
   text-transform: capitalize;
 }
 
+.review-row > dt {
+  min-width: 40%;
+}
 .review-row > dd {
   word-break: break-word;
+  min-width: 20%;
 }
 .word-break-all {
   word-break: break-all;

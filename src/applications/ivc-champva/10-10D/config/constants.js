@@ -31,7 +31,12 @@ export const REQUIRED_FILES = {
   applicantMedicarePartDCard: 'Medicare Card (Part D)',
   applicantMedicareIneligibleProof: 'Proof of Medicare Ineligibility',
   applicantOhiCard: 'Other Health Insurance Cards',
-  applicantOtherInsuranceCertification: 'VA Form 10-7959C',
+  applicantOtherInsuranceCertification: {
+    name:
+      'Completed and signed CHAMPVA Other Health Insurance (OHI) Certification ',
+    linkText: 'Get VA Form 10-7959c to download (opens in a new tab)',
+    href: 'https://www.va.gov/find-forms/about-form-10-7959c/',
+  },
 };
 
 /* Similar to the above, this provides a mapping of file keynames

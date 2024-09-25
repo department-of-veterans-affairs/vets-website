@@ -3,7 +3,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { Link } from 'react-router';
 
 // Relative imports
 import FormQuestions from '../../components/FormQuestions';
@@ -83,11 +82,7 @@ describe('Discharge Wizard <FormQuestions />', () => {
       />,
     );
     expect(
-      wrapper.find(
-        <Link to="/guidance" className="usa-button-primary va-button">
-          Get my results »
-        </Link>,
-      ),
+      wrapper.find(<va-link-action href="guidance" text="Get my results" />),
     );
 
     wrapper.unmount();

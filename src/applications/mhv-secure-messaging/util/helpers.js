@@ -391,6 +391,12 @@ export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
 };
 
+export const scrollTo = (element, behavior = 'smooth') => {
+  if (element) {
+    element.scrollIntoView({ behavior });
+  }
+};
+
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 };

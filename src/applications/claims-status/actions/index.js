@@ -7,7 +7,11 @@ import environment from '@department-of-veterans-affairs/platform-utilities/envi
 import localStorage from 'platform/utilities/storage/localStorage';
 
 import { getErrorStatus, UNKNOWN_STATUS } from '../utils/appeals-v2-helpers';
-import { makeAuthRequest, roundToNearest } from '../utils/helpers';
+import {
+  makeAuthRequest,
+  roundToNearest,
+  buildDateFormatter,
+} from '../utils/helpers';
 import { mockApi } from '../tests/e2e/fixtures/mocks/mock-api';
 import manifest from '../manifest.json';
 import { canUseMocks } from '../constants';
@@ -583,6 +587,8 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
           multiple: false,
           callbacks: {
             onAllComplete: () => {
+              const now = new Date(Date.now());
+              const uploadDate = buildDateFormatter()(now.toISOString());
               if (!hasError) {
                 recordEvent({
                   event: 'claims-upload-success',
@@ -592,21 +598,12 @@ export function submitFilesLighthouse(claimId, trackedItem, files) {
                 });
                 dispatch(
                   setNotification({
-                    title: 'We have your evidence',
+                    title: `We received your file upload on ${uploadDate}`,
                     body: (
                       <span>
-                        Thank you for sending us{' '}
-                        {trackedItem
-                          ? trackedItem.displayName
-                          : 'additional evidence'}
-                        . We will associate it with your record in a matter of
-                        days. If the submitted evidence impacts the status of
-                        your claim, then you will see that change within 30 days
-                        of submission.
-                        <br />
-                        Note: It may take a few minutes for your uploaded file
-                        to show here. If you don’t see your file, please try
-                        refreshing the page.
+                        If your uploaded file doesn’t appear in the Documents
+                        Filed section on this page, please try refreshing the
+                        page.
                       </span>
                     ),
                   }),

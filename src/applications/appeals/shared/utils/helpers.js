@@ -32,3 +32,6 @@ export const isOutsideForm = pathname => {
   const currentPath = (pathname || '').replace(trailingSlashRegex, '');
   return outsidePaths.some(path => currentPath.endsWith(path));
 };
+
+export const isOnReviewPage = () =>
+  window.location.pathname.endsWith('/review-and-submit');
