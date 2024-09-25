@@ -14,7 +14,7 @@ const removeScriptTags = dirty => {
 };
 
 const removeHtmlTags = dirty => {
-  return dirty.replace(/<[^>]*>/g, '');
+  return dirty.replace(/<|>/g, '');
 };
 
 const removeHTMLComments = dirty => {
