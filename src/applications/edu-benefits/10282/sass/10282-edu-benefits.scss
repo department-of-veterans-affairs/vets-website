@@ -13,3 +13,9 @@
 .intro-ul {
   list-style-type: disc;
 }
+
+@media (max-width: $small-screen) {
+  va-need-help {
+    padding: 0 0.5rem;
+  }
+}
