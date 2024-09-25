@@ -13,7 +13,7 @@ import {
 import { genderLabels } from 'platform/static-data/labels';
 import {
   validateSsnIsUnique,
-  requireAddressFields,
+  validateAddressFields,
   validateCountyInput,
 } from '../utils/validation';
 import { setAddressCountry } from '../utils/helpers/schema';
@@ -56,7 +56,7 @@ export const addressUI = props => {
 
 export const addressWithAutofillUI = () => ({
   'ui:field': AddressWithAutofill,
-  'ui:validations': [requireAddressFields],
+  'ui:validations': [validateAddressFields],
   'ui:options': {
     hideTextLabel: true,
   },
