@@ -45,7 +45,7 @@ const ContactInfoDescription = ({ formData }) => {
 /** @type {PageSchema} */
 export default {
   uiSchema: {
-    ...titleUI('Contact information'),
+    'ui:title': titleUI('Contact information'),
     'ui:description': ContactInfoDescription,
     'ui:required': () => true, // don't allow progressing without all contact info
     'ui:options': {
