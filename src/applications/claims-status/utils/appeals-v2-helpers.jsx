@@ -2066,6 +2066,10 @@ export function sortByLastUpdated(item1, item2) {
   return 0;
 }
 
+// export function sortByInProgress(item1, item2) {
+
+// }
+
 export function getVisibleRows(list, currentPage) {
   const currentIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   if (!list.length) {

@@ -1,14 +1,11 @@
 import React from 'react';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import environment from 'platform/utilities/environment';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }
 
@@ -19,13 +16,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        {environment.isProduction() ? (
-          <h2 className="confirmation-page-title">
-            Your claim has been submitted.
-          </h2>
-        ) : (
-          <h3>Your claim has been submitted.</h3>
-        )}
+        <h3>Your claim has been submitted.</h3>
         <p>
           We’ll let you know by mail or phone if we need more information.
           <br />

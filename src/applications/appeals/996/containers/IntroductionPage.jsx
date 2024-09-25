@@ -10,6 +10,7 @@ import {
   IntroText,
   ProcessList,
   OmbBlock,
+  OtherBenefits,
 } from '../content/introduction';
 
 import ShowAlertOrSip from '../../shared/components/ShowAlertOrSip';
@@ -55,6 +56,7 @@ export const IntroductionPage = props => {
       />
 
       <OmbBlock />
+      <OtherBenefits />
     </div>
   );
 };

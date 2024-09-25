@@ -6,7 +6,6 @@ const InstructionsPage = ({ router }) => {
     event.preventDefault();
     router.push(ROUTES.QUESTIONS);
   };
-
   return (
     <section
       className="dw-instructions"
