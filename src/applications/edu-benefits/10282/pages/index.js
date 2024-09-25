@@ -8,6 +8,7 @@ import * as applicantRaceAndEthnicity from './applicantInformation/applicantRace
 import * as applicantGender from './applicantInformation/applicantGender';
 import * as highestLevelOfEducation from './educationAndEmploymentHistory/highestLevelOfEducation';
 import * as currentAnnualSalary from './educationAndEmploymentHistory/currentAnnualSalary';
+import * as techIndustryFocusArea from './educationAndEmploymentHistory/techIndustryFocusArea';
 
 export {
   applicantInformationName,
@@ -20,4 +21,5 @@ export {
   applicantGender,
   highestLevelOfEducation,
   currentAnnualSalary,
+  techIndustryFocusArea,
 };

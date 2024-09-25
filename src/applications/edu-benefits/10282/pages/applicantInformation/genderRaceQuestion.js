@@ -14,7 +14,6 @@ const schema = {
   properties: {
     raceAndGender: {
       ...raceAndGender,
-      default: '',
     },
   },
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
-import CustomGroupCheckboxField from '../../component/CustomGroupCheckboxField';
+import CustomGroupCheckboxField from '../../components/CustomGroupCheckboxField';
 
 const { ethnicity, orginRace } = fullSchema10282.properties;
 const uiSchema = {

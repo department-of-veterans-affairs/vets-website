@@ -2,7 +2,6 @@ import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import manifest from '../manifest.json';
-
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
@@ -16,7 +15,11 @@ import {
   applicantGender,
   highestLevelOfEducation,
   currentAnnualSalary,
+  techIndustryFocusArea,
 } from '../pages';
+import StatementOfTruth from '../components/ StatementOfTruth';
+// import submitForm from './submitForm';
+import { transform } from './submit-transformer';
 
 const { fullName, usaPhone, email } = fullSchema10282?.definitions;
 
@@ -24,7 +27,11 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
-
+  submit: async formData => {
+    return new Promise(resolve => {
+      resolve({ status: 201, data: formData });
+    });
+  },
   trackingPrefix: 'edu-10282-',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
@@ -40,6 +47,10 @@ const formConfig = {
   },
   version: 0,
   prefillEnabled: true,
+  preSubmitInfo: {
+    required: true,
+    CustomComponent: StatementOfTruth,
+  },
   savedFormMessages: {
     notFound: 'Please start over to apply for 	education benefits.',
     noAuth:
@@ -53,6 +64,7 @@ const formConfig = {
     usaPhone,
     email,
   },
+  transformForSubmit: transform,
   chapters: {
     personalInformation: {
       title: 'Your personal information',
@@ -81,7 +93,9 @@ const formConfig = {
           path: 'applicant-information-4',
           uiSchema: applicantState.uiSchema,
           schema: applicantState.schema,
-          depends: formData => formData.country === 'United States',
+          depends: formData => {
+            return formData.country === 'United States';
+          },
         },
         genderRaceQuestion: {
           title: 'Your personal information',
@@ -130,7 +144,6 @@ const formConfig = {
             properties: {
               currentlyEmployed: {
                 ...fullSchema10282.properties.currentlyEmployed,
-                default: '',
               },
             },
           },
@@ -159,10 +172,15 @@ const formConfig = {
             properties: {
               isWorkingInTechIndustry: {
                 ...fullSchema10282.properties.isWorkingInTechIndustry,
-                default: '',
               },
             },
           },
+        },
+        techIndustryFocusArea: {
+          title: 'Your education and employment history',
+          path: 'applicant-information-12',
+          uiSchema: techIndustryFocusArea.uiSchema,
+          schema: techIndustryFocusArea.schema,
         },
       },
     },

@@ -7,7 +7,6 @@ const uiSchema = {
   highestLevelOfEducation: {
     'ui:title': (
       <h3 className="vads-u-margin--0">
-        {' '}
         What’s the highest level of education you have completed?
       </h3>
     ),
@@ -20,10 +19,17 @@ const uiSchema = {
       'ui:title': ' ',
     },
     otherEducation: {
-      'ui:title': "Enter the highest level of education you've completed.",
+      'ui:title': (
+        <p className="vads-u-margin--0">
+          Enter the highest level of education you’ve completed.
+        </p>
+      ),
       'ui:options': {
-        expandUnder: 'level',
-        expandUnderCondition: 'Something else',
+        // expandUnder: 'level',
+        hideIf: formData =>
+          formData.highestLevelOfEducation.level !== 'Something else',
+        classNames:
+          'schemaform-field-template vads-u-margin-left--4 vads-u-margin-top--neg3 form-expanding-group-open',
       },
     },
   },

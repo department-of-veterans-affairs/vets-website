@@ -11,31 +11,31 @@ const CustomGroupCheckboxField = ({
   const sanitizedFormData = Array.isArray(formData) ? formData : [];
 
   const labels = uiSchema['ui:options']?.labels || [];
-
   const handleChange = event => {
-    const { value, checked } = event.target;
+    const { name, checked } = event.target;
     let newFormData;
 
     if (checked) {
-      newFormData = [...new Set([...sanitizedFormData, value])];
+      newFormData = [...new Set([...sanitizedFormData, name])];
     } else {
-      newFormData = sanitizedFormData.filter(item => item !== value);
+      newFormData = sanitizedFormData.filter(item => item !== name);
     }
     onChange(newFormData);
   };
 
   return (
     <div className="vads-u-margin-top--neg5">
-      <VaCheckboxGroup error={null}>
+      <VaCheckboxGroup error={null} onVaChange={handleChange}>
         {labels.map((label, index) => (
           <va-checkbox
             key={`${label}-${index}`}
             data-index={index}
             id={`${idSchema?.$id || ''}_${index}`}
             label={label}
-            value={label}
+            value={labels[index]}
+            name={label}
             checked={sanitizedFormData.includes(label)}
-            onVaChange={handleChange}
+            vaChange={handleChange}
           />
         ))}
       </VaCheckboxGroup>
