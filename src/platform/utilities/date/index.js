@@ -45,7 +45,7 @@ export function parseStringOrDate(date) {
     return date;
   }
 
-  if (typeof date === 'string') {
+  if (typeof date === 'string' || typeof date === 'number') {
     let dateObject;
     // Check if string is a Unix timestamp
     if (/^\d{13}$/.test(date)) {
@@ -78,7 +78,8 @@ export function formatDateParsedZoneLong(date) {
 }
 
 export function formatDateShort(date) {
-  return format(new Date(date), 'MM/dd/yyyy');
+  const parsedDate = parseStringOrDate(date);
+  return format(parsedDate, 'MM/dd/yyyy');
 }
 
 export function formatDateParsedZoneShort(date) {

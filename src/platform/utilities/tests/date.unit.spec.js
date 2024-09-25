@@ -97,10 +97,20 @@ describe('Helpers unit tests', () => {
   });
 
   describe('formatDateShort', () => {
-    const noon = '1995-11-12T12:00:00.000+0000';
+    const noonString = '1995-11-12T12:00:00.000+0000';
+    const noonDate = new Date(1995, 10, 12, 0, 0, 0, 0);
+    const midnight = 1599112800000;
 
-    it('should display the date in the short format', () => {
-      expect(formatDateShort(noon)).to.equal('11/12/1995');
+    it('should handle ISO strings', () => {
+      expect(formatDateShort(noonString)).to.equal('11/12/1995');
+    });
+
+    it('should handle date objects', () => {
+      expect(formatDateShort(noonDate)).to.equal('11/12/1995');
+    });
+
+    it('should handle unix timestamps with ms', () => {
+      expect(formatDateShort(midnight)).to.equal('09/03/2020');
     });
   });
 
@@ -279,6 +289,14 @@ describe('Helpers unit tests', () => {
     it('should return a Date object when given a valid unix timestamp with ms', () => {
       const dateObject = new Date(2022, 0, 19, 19, 9, 46, 0); // January is month 0 (zero-based)
       const dateString = '1642619386000';
+      const result = parseStringOrDate(dateString);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result.toISOString()).to.equal(dateObject.toISOString());
+    });
+
+    it('should return a Date object when given a valid unix timestamp with ms as a number', () => {
+      const dateObject = new Date(2022, 0, 19, 19, 9, 46, 0); // January is month 0 (zero-based)
+      const dateString = 1642619386000;
       const result = parseStringOrDate(dateString);
       expect(result).to.be.an.instanceof(Date);
       expect(result.toISOString()).to.equal(dateObject.toISOString());
