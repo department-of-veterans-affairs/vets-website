@@ -21,7 +21,7 @@ export function transform(formConfig, form) {
   const benefitAppliedForTransform = formData => {
     const clonedData = _.cloneDeep(formData);
     if (formData.changeAnotherBenefit !== 'Yes') {
-      clonedData.benefitAppliedFor = '';
+      clonedData.benefitAppliedFor = undefined;
     }
     return clonedData;
   };
