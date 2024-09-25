@@ -89,8 +89,10 @@ describe('Add Disabilities Page', () => {
       const newConditionsSubHeading = getByRole('heading', {
         name: 'Your new conditions',
       });
+      const arrayField = getByRole('group');
 
       expect(newConditionsSubHeading).to.be.visible;
+      expect(arrayField).to.be.visible;
     });
 
     it('should render ComboBox', () => {
@@ -108,23 +110,27 @@ describe('Add Disabilities Page', () => {
       expect(listbox).to.have.length(0);
     });
 
-    it('should display error if no new conditions are added', () => {
+    it('should display error message on item and alert on page if no new conditions are added', () => {
       const { getByText } = createScreen();
 
       const submitBtn = getByText('Submit');
       fireEvent.click(submitBtn);
 
+      const errorMessage = getByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
       const alertHeading = getByText('Enter a condition to submit your claim');
       const alertText = getByText(
         'You’ll need to enter a condition, diagnosis, or short description of your symptoms to submit your claim.',
       );
 
-      expect(alertHeading).to.exist;
-      expect(alertText).to.exist;
+      expect(errorMessage).to.be.visible;
+      expect(alertHeading).to.be.visible;
+      expect(alertText).to.be.visible;
     });
 
     it('should submit when form is completed', () => {
-      const { getByText, queryByRole } = createScreen(true, false, [
+      const { getByText, queryByText } = createScreen(true, false, [
         {
           cause: 'NEW',
           condition: 'asthma',
@@ -135,9 +141,15 @@ describe('Add Disabilities Page', () => {
       const submitBtn = getByText('Submit');
       fireEvent.click(submitBtn);
 
-      const inputError = queryByRole('alert');
+      const errorMessage = queryByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
+      const alertHeading = queryByText(
+        'Enter a condition to submit your claim',
+      );
 
-      expect(inputError).not.to.exist;
+      expect(errorMessage).not.to.exist;
+      expect(alertHeading).not.to.exist;
     });
   });
 
