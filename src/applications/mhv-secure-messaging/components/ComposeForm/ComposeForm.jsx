@@ -398,7 +398,7 @@ const ComposeForm = props => {
               signatureValid &&
               checkboxValid &&
               isSignatureRequired) ||
-            (!isSignatureRequired && messageValid);
+            (!isSignatureRequired && messageValid && validSignatureNotRequired);
 
           let errorType = null;
 
@@ -409,7 +409,7 @@ const ComposeForm = props => {
           } else if (hasAttachments && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT;
-          } else if (verifyAllFieldsAreValid) {
+          } else if (!validSignatureNotRequired && verifyAllFieldsAreValid) {
             errorType =
               ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_SIGNATURE;
           }
