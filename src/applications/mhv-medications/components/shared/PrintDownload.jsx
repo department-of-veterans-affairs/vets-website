@@ -4,7 +4,7 @@ import { DOWNLOAD_FORMAT, PRINT_FORMAT } from '../../util/constants';
 import { dataDogActionNames, pageType } from '../../util/dataDogConstants';
 
 const PrintDownload = props => {
-  const { onDownload, isSuccess, list, onPrint, onText } = props;
+  const { onDownload, isSuccess, list, onPrint, onText, isLoading } = props;
   const [isError, setIsError] = useState(false);
 
   const [menuOpen, setMenuOpen] = useState(false);
@@ -74,6 +74,13 @@ const PrintDownload = props => {
 
   return (
     <>
+      {isLoading && (
+        <va-loading-indicator
+          message="Loading..."
+          setFocus
+          data-testid="print-download-loading-indicator"
+        />
+      )}
       {isSuccess && (
         <div
           className="vads-u-margin-bottom--3"
