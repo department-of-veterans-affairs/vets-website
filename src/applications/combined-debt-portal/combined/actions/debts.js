@@ -88,16 +88,17 @@ export const fetchDebtLettersVBMS = () => async dispatch => {
 };
 
 const validateHistory = debts => {
-  debts.foreach(debt => {
-    const errors = [];
+  const errors = [];
+  debts.forEach(debt => {
     const history = debt?.debtHistory;
-    history?.foreach(h => {
+    history?.forEach(h => {
       if (!h.date) {
         errors.push(`Missing date; letterCode: ${h?.letterCode}`);
       }
     });
 
     Sentry.withScope(scope => {
+      scope.setLevel('info');
       scope.setExtra('deductionCode', debt?.deductionCode);
       scope.setExtra('diaryCode', debt?.diaryCode);
       scope.setExtra('error list', errors);
@@ -107,6 +108,7 @@ const validateHistory = debts => {
     });
   });
 };
+
 export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
   dispatch(fetchDebtsInitiated());
   try {
@@ -137,8 +139,6 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
       .filter(res => approvedDeductionCodes.includes(res.deductionCode))
       .filter(debt => debt.currentAr > 0);
 
-    validateHistory(filteredResponse);
-
     recordEvent({
       event: 'bam-get-veteran-dmc-info-successful',
       'veteran-has-dependent-debt': hasDependentDebts,
@@ -154,6 +154,9 @@ export const fetchDebtLetters = async (dispatch, debtLettersActive) => {
     if (!hasDependentDebts && debtLettersActive) {
       dispatch(fetchDebtLettersVBMS());
     }
+
+    validateHistory(filteredResponse);
+
     return dispatch(
       fetchDebtLettersSuccess(filteredResponse, hasDependentDebts),
     );
