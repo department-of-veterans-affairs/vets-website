@@ -10,6 +10,8 @@ import configService from '../utilities/configService';
 
 import { getFormSubtitle } from '../utilities/helpers';
 
+import fetchRepStatus from '../api/fetchRepStatus';
+
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
 
@@ -24,6 +26,18 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [subTitle],
   );
 
+  useEffect(() => {
+    const fetchAndSetRepStatus = async () => {
+      const repStatus = await fetchRepStatus();
+      setFormData(prevData => ({
+        ...prevData,
+        'view:representativeStatus': repStatus,
+      }));
+    };
+
+    fetchAndSetRepStatus();
+  }, []);
+
   useEffect(
     () => {
       const defaultViewFields = {
@@ -37,12 +51,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [loggedIn],
   );
 
-  // Exclude the 'next-steps' route from being wrapped in RoutedSavableApp
-  const isNextStepsRoute = pathname === '/next-steps';
-
-  const content = isNextStepsRoute ? (
-    <>{children}</> // Directly render children for 'next-steps'
-  ) : (
+  const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
