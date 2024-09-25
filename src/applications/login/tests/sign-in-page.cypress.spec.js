@@ -9,7 +9,7 @@ describe('Unified Sign-in Page', () => {
       });
     });
 
-    it(`should display proper modal when `, () => {
+    it(`display correct sign-in content`, () => {
       cy.visit('/sign-in/?oauth=false');
       cy.get('body').should('be.visible');
       cy.get('#mhvH3').should('be.visible');
@@ -28,7 +28,7 @@ describe('Unified Sign-in Page', () => {
       });
     });
 
-    it(`should display proper modal when `, () => {
+    it(`display correct sign-in content`, () => {
       cy.visit('/sign-in/?oauth=false');
       cy.get('body').should('be.visible');
       cy.get('.vads-c-action-link--blue').should('have.length', 2);
