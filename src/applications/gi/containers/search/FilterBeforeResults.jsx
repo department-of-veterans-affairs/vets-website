@@ -19,7 +19,7 @@ import {
   createId,
   specializedMissionDefinitions,
   sortedSpecializedMissionDefinitions,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
   isShowCommunityFocusVACheckbox,
 } from '../../utils/helpers';
@@ -571,7 +571,13 @@ export function FilterBeforeResults({
 
   const closeAndUpdate = () => {
     if (
-      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameVal,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       recordEvent({
         event: 'gibct-form-change',

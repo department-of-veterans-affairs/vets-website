@@ -392,7 +392,7 @@ export const sortedSpecializedMissionDefinitions = () => {
   );
 };
 
-export const validateSearchTerm = (
+export const validateSearchTermSubmit = (
   searchTerm,
   dispatchError,
   error,

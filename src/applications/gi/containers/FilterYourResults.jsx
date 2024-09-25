@@ -14,7 +14,7 @@ import {
   sortOptionsByStateName,
   addAllOption,
   createId,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
@@ -208,7 +208,13 @@ export function FilterYourResults({
 
   const updateResults = () => {
     if (
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameValue,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       updateInstitutionFilters('search', true);
       updateUrlParams(history, search.tab, search.query, filters, version);
