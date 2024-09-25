@@ -21,10 +21,11 @@ export const focusEvidence = (_index, root) => {
 
 export const focusH3AfterAlert = ({ name, onReviewPage } = {}) => {
   if (name && onReviewPage) {
-    // name, editing (alert only visible in edit mode), reviewEditFocusOnHeaders
-    const editing = true; // alert only visible in edit mode
-    const reviewEditFocusOnHeaders = true; // from form/config.js setting
-    focusReview(name, editing, reviewEditFocusOnHeaders);
+    focusReview(
+      name, // name of scroll element
+      true, // review accordion in edit mode
+      true, // reviewEditFocusOnHeaders setting from form/config.js
+    );
   } else {
     scrollTo('topContentElement');
     focusElement('h3#header');
