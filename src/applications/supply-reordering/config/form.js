@@ -109,19 +109,19 @@ const formConfig = {
   submit: () =>
     Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'supply-reordering',
-  introduction: IntroductionPage,
-  confirmation: ConfirmationPage,
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   title: TITLE,
   subtitle: SUBTITLE,
   defaultDefinitions: {},
   getHomeData: fetchSupplyData,
+  introduction: IntroductionPage,
   chapters: {
     // personalInformationChapter,
     // selectSuppliesChapter,
     contactInformationChapter,
   },
+  confirmation: ConfirmationPage,
   footerContent,
   ...sipConfig,
 };
