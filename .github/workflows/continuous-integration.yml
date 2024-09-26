@@ -802,7 +802,7 @@ jobs:
 
       - name: Show test server output
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: echo ${{ steps.start-server.outputs.* }}
+        run: echo ${{ steps.start-server.outputs[*] }}
 
       - name: Archive test videos
         if: ${{ needs.tests-prep.outputs.cypress-tests != '[]' && failure() }}
