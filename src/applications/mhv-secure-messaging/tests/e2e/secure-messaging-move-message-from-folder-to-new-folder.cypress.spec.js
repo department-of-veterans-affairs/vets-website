@@ -20,17 +20,16 @@ describe('Secure Messaging Move Message tests', () => {
 
     FolderManagementPage.selectFolderFromModal(`newFolder`);
     FolderManagementPage.moveMessageToNewFolder(updatedFoldersList);
-    FolderManagementPage.backToCreatedFolder(mockThread);
 
-    // focus assertion could not be executed due to successful alert stay on page for 2000 ms
+    FolderManagementPage.backToCreatedFolder(mockThread);
 
     GeneralFunctionsPage.verifyUrl(
       createdFolderResponse.data.attributes.folderId,
     );
 
-    GeneralFunctionsPage.verifyPageHeader(
-      createdFolderResponse.data.attributes.name,
-    );
+    cy.get(`h1`)
+      .should('be.focused')
+      .and(`have.text`, createdFolderResponse.data.attributes.name);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

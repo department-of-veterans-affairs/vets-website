@@ -215,8 +215,6 @@ class FolderManagementPage {
       force: true,
     });
     cy.get(Locators.BUTTONS.CREATE_FOLDER).click();
-    cy.wait(`@createdFolder`);
-    cy.wait(`@updatedFoldersList`);
   };
 
   backToCreatedFolder = threadData => {
@@ -235,11 +233,12 @@ class FolderManagementPage {
       threadData,
     ).as(`updatedThread`);
 
-    // cy.wait(2000);
-
-    cy.get(Locators.LINKS.CRUMBS_BACK).click();
-    cy.wait(`@updatedFolder`);
-    cy.wait(`@updatedThread`);
+    cy.get(Locators.LINKS.CRUMBS_BACK).then(btn => {
+      return new Cypress.Promise(resolve => {
+        setTimeout(resolve, 2000);
+        cy.wrap(btn).click();
+      });
+    });
   };
 
   verifyMoveMessageSuccessConfirmationMessage = () => {
