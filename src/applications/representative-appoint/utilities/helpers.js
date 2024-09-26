@@ -166,3 +166,113 @@ export const getFormSubtitle = formData => {
   }
   return 'VA Forms 21-22 and 21-22a';
 };
+
+export const getEntityAddressAsObject = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  return {
+    address1: (entity?.addressLine1 || '').trim(),
+    address2: (entity?.addressLine2 || '').trim(),
+    address3: (entity?.addressLine3 || '').trim(),
+    city: (entity?.city || '').trim(),
+    state: (entity?.stateCode || '').trim(),
+    zip: (entity?.zipCode || '').trim(),
+  };
+};
+
+export const getEntityAddressAsString = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  return (
+    [
+      (entity.addressLine1 || '').trim(),
+      (entity.addressLine2 || '').trim(),
+      (entity.addressLine3 || '').trim(),
+    ]
+      .filter(Boolean)
+      .join(' ') +
+    (entity.city ? ` ${entity.city},` : '') +
+    (entity.stateCode ? ` ${entity.stateCode}` : '') +
+    (entity.zipCode ? ` ${entity.zipCode}` : '')
+  );
+};
+
+export const getRepType = formData => {
+  const entity = formData['view:selectedRepresentative'];
+
+  if (entity?.type === 'organization') {
+    return 'Organization';
+  }
+
+  const repType = entity.attributes?.individualType;
+
+  if (repType === 'attorney') {
+    return 'Attorney';
+  }
+
+  if (repType === 'claimsAgent') {
+    return 'Claims Agent';
+  }
+
+  return 'VSO Representative';
+};
+
+export const getFormNumber = formData => {
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
+
+  if (
+    entityType === 'organization' ||
+    (entityType === 'individual' &&
+      entity.attributes.individualType === 'representative')
+  ) {
+    return '21-22';
+  }
+
+  return '21-22a';
+};
+
+export const getFormName = formData => {
+  if (getFormNumber(formData) === '21-22') {
+    return "Appointment of Veterans Service Organization as Claimant's Representative";
+  }
+
+  return "Appointment of Individual As Claimant's Representative";
+};
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
+const isAttorneyOrClaimsAgent = formData => {
+  const repType =
+    formData['view:selectedRepresentative'].attributes?.individualType;
+
+  return repType === 'attorney' || repType === 'claimsAgent';
+};
+
+export const getOrgName = formData => {
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative'].name;
+  }
+
+  if (isAttorneyOrClaimsAgent(formData)) {
+    return null;
+  }
+
+  const id = formData?.selectedAccreditedOrganizationId;
+  const orgs =
+    formData['view:selectedRepresentative']?.attributes.accreditedOrganizations
+      .data;
+  let orgName;
+
+  if (id && orgs) {
+    for (let i = 0; i < orgs.length; i += 1) {
+      if (orgs[i].id === id) {
+        orgName = orgs[i].attributes.name;
+        break;
+      }
+    }
+  }
+
+  return orgName;
+};
