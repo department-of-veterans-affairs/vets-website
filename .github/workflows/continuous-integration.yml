@@ -694,10 +694,6 @@ jobs:
       # requires the cypress-tests job to run was not satisfied. This update forces
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
-      
-      - name: Disable IPv6
-        run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
-
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
@@ -849,9 +845,6 @@ jobs:
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
 
     steps:
-      - name: Disable IPv6
-        run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
-          
       - name: Checkout vets-website
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
