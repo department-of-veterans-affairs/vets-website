@@ -10,70 +10,10 @@ import {
   getOrgName,
   getRepType,
   getEntityAddressAsObject,
-} from '../utilities';
+} from '../utilities/helpers';
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
-  
-  // const repType =
-  //   formData['view:selectedRepresentative'].attributes?.individualType;
-  // const address = {
-  //   address1: (
-  //     formData['view:selectedRepresentative']?.addressLine1 || ''
-  //   ).trim(),
-  //   address2: (
-  //     formData['view:selectedRepresentative']?.addressLine2 || ''
-  //   ).trim(),
-  //   address3: (
-  //     formData['view:selectedRepresentative']?.addressLine3 || ''
-  //   ).trim(),
-  //   city: (formData['view:selectedRepresentative']?.city || '').trim(),
-  //   state: (formData['view:selectedRepresentative']?.stateCode || '').trim(),
-  //   zip: (formData['view:selectedRepresentative']?.zipCode || '').trim(),
-  // };
-  // const isOrg =
-  //   formData['view:selectedRepresentative']?.type === 'organization';
-  // const isAttorneyOrClaimsAgent =
-  //   repType === 'attorney' || repType === 'claimsAgent';
-
-  // const getRepType = () => {
-  //   if (repType === 'attorney') {
-  //     return 'attorney';
-  //   }
-
-  //   if (repType === 'claimsAgent') {
-  //     return 'claims agent';
-  //   }
-
-  //   return 'VSO representative';
-  // };
-
-  // const getOrgName = () => {
-  //   if (isOrg) {
-  //     return formData['view:selectedRepresentative'].name;
-  //   }
-
-  //   if (isAttorneyOrClaimsAgent) {
-  //     return null;
-  //   }
-
-  //   const id = formData?.selectedAccreditedOrganizationId;
-  //   const orgs =
-  //     formData['view:selectedRepresentative']?.attributes
-  //       .accreditedOrganizations.data;
-  //   let orgName;
-
-  //   if (id && orgs) {
-  //     for (let i = 0; i < orgs.length; i += 1) {
-  //       if (orgs[i].id === id) {
-  //         orgName = orgs[i].attributes.name;
-  //         break;
-  //       }
-  //     }
-  //   }
-
-  //   return orgName;
-  // };
 
   return (
     <div className="row">

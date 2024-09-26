@@ -10,107 +10,17 @@ import {
   getRepType,
   getFormNumber,
   getFormName,
-} from '../utilities';
+} from '../utilities/helpers';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
   const [signedFormError, setSignedFormError] = useState(false);
   const { data: formData } = useSelector(state => state.form);
-  // const formData = {
-  //   'view:selectedRepresentative': {
-  //     type: 'individual', // can be either 'organization', 'individual'
-  //     fullName: 'Brian Daniel', // exists for 'individual'
-  //     // name: 'Disabled American Veterans', // exists for 'organization'
-  //     addressLine1: '400 South 18th Street',
-  //     addressLine2: 'Room 119',
-  //     addressLine3: '',
-  //     city: 'Newark',
-  //     stateCode: 'NJ',
-  //     zipCode: '07102',
-  //     phone: '7026842997',
-  //     email: 'bdaniel@veterans.nj.gov',
-  //     attributes: {
-  //       individualType: 'representative', // can be 'representative', 'attorney' or 'claimsAgent'
-  //       accreditedOrganizations: {
-  //         data: [
-  //           {
-  //             id: '1',
-  //             attributes: { name: 'Disabled American Veterans' },
-  //           },
-  //         ],
-  //       },
-  //     },
-  //   },
-  //   selectedAccreditedOrganizationId: '1',
-  //   applicantName: {
-  //     first: 'John',
-  //     middle: 'Edmund',
-  //     last: 'Doe',
-  //     suffix: 'Sr.',
-  //   },
-  //   veteranFullName: {
-  //     first: 'John',
-  //     middle: 'Edmund',
-  //     last: 'Doe',
-  //     suffix: 'Sr.',
-  //   },
-  // };
   const selectedEntity = formData['view:selectedRepresentative'];
   const emailAddress = formData.email;
   const firstName =
     formData.applicantName?.first || formData.veteranFullName.first;
   const representativeName = selectedEntity?.name || selectedEntity?.fullName;
-  // const representativeAddress =
-  //   [
-  //     (selectedEntity.addressLine1 || '').trim(),
-  //     (selectedEntity.addressLine2 || '').trim(),
-  //     (selectedEntity.addressLine3 || '').trim(),
-  //   ]
-  //     .filter(Boolean)
-  //     .join(' ') +
-  //   (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
-  //   (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
-  //   (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '');
-
-  // const getRepType = () => {
-  //   if (selectedEntity?.type === 'organization') {
-  //     return 'Organization';
-  //   }
-
-  //   const repType = selectedEntity.attributes?.individualType;
-
-  //   if (repType === 'attorney') {
-  //     return 'Attorney';
-  //   }
-
-  //   if (repType === 'claimsAgent') {
-  //     return 'Claims Agent';
-  //   }
-
-  //   return 'VSO Representative';
-  // };
-
-  // const getFormNumber = () => {
-  //   const entityType = selectedEntity?.type;
-
-  //   if (
-  //     entityType === 'organization' ||
-  //     (entityType === 'individual' &&
-  //       selectedEntity.attributes.individualType === 'representative')
-  //   ) {
-  //     return '21-22';
-  //   }
-
-  //   return '21-22a';
-  // };
-
-  // const getFormName = () => {
-  //   if (getFormNumber() === '21-22') {
-  //     return "Appointment of Veterans Service Organization as Claimant's Representative";
-  //   }
-
-  //   return "Appointment of Individual As Claimant's Representative";
-  // };
 
   const handlers = {
     onClickDownloadForm: e => {
