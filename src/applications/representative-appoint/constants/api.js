@@ -3,3 +3,6 @@ export const REPRESENTATIVES_API =
 
 export const NEXT_STEPS_EMAIL_API =
   '/representation_management/v0/next_steps_email';
+
+export const REPRESENTATIVE_STATUS_API =
+  '/representation_management/v0/power_of_attorney';

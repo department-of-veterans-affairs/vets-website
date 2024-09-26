@@ -14,6 +14,7 @@ import {
 
 export default function NextStepsPage() {
   const { data: formData } = useSelector(state => state.form);
+  
   // const repType =
   //   formData['view:selectedRepresentative'].attributes?.individualType;
   // const address = {
@@ -78,7 +79,7 @@ export default function NextStepsPage() {
     <div className="row">
       <div className="usa-width-two-thirds medium-8 columns">
         <FormTitle
-          title="Fill out your form to appoint a VA accredited representative or VSO"
+          title="Request help from a VA accredited representative or VSO"
           subTitle={getFormSubtitle(formData)}
         />
         <h2 className="vads-u-font-size--h3">Your next steps</h2>

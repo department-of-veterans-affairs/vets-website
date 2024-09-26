@@ -5,7 +5,9 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
-import { parsePhoneNumber } from '../utilities';
+import { parsePhoneNumber } from '../utilities/helpers';
+import fetchRepStatus from '../api/fetchRepStatus';
+
 
 const SearchResult = ({
   representativeName,
@@ -47,10 +49,20 @@ const SearchResult = ({
     // pending analytics event
   };
 
-  const handleSelect = selectedRepResult => {
+  const handleSelect = async selectedRepResult => {
+    let repStatus;
+
+    try {
+      const res = await fetchRepStatus();
+      repStatus = res.data;
+    } catch {
+      repStatus = null;
+    }
+
     const tempData = {
       ...formData,
       'view:selectedRepresentative': selectedRepResult,
+      'view:representativeStatus': repStatus,
       // when a new representative is selected, we want to nil out the
       //   selected organization to prevent weird states. For example,
       //   we wouldn't want a user to select a representative, an organization,
@@ -185,30 +197,40 @@ const SearchResult = ({
 };
 
 SearchResult.propTypes = {
+  accreditedOrganizations: PropTypes.array,
   addressLine1: PropTypes.string,
   addressLine2: PropTypes.string,
   addressLine3: PropTypes.string,
-  accreditedOrganizations: PropTypes.array,
   city: PropTypes.string,
   distance: PropTypes.string,
   email: PropTypes.string,
-  representativeName: PropTypes.string,
+  formData: PropTypes.object.isRequired,
+  location: PropTypes.object,
   phone: PropTypes.string,
+  query: PropTypes.shape({
+    context: PropTypes.shape({
+      location: PropTypes.string,
+    }),
+  }),
+  representative: PropTypes.object,
   representativeId: PropTypes.string,
-  stateCode: PropTypes.string,
-  type: PropTypes.string,
-  zipCode: PropTypes.string,
-  setFormData: PropTypes.func.isRequired,
+  representativeName: PropTypes.string,
   router: PropTypes.object,
   routes: PropTypes.array,
-  location: PropTypes.object,
+  setFormData: PropTypes.func.isRequired,
+  stateCode: PropTypes.string,
+  zipCode: PropTypes.string,
 };
+
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
 
 const mapDispatchToProps = {
   setFormData: setData,
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(SearchResult);

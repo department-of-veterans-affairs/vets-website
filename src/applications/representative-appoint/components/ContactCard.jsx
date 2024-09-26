@@ -15,7 +15,10 @@ export default function ContactCard({
 }) {
   const { contact, extension } = parsePhoneNumber(phone);
   const addressExists =
-    address.address1 && address.city && address.state && address.zip;
+    address.addressLine1 &&
+    address.city &&
+    address.stateCode &&
+    address.zipCode;
 
   const recordContactLinkClick = () => {
     // pending analytics event
