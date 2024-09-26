@@ -6,7 +6,7 @@ import { VaCheckbox } from '@department-of-veterans-affairs/component-library/di
 import NeedHelp from '../components/NeedHelp';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
 import {
-  getRepresentativeAddressAsString,
+  getEntityAddressAsString,
   getRepType,
   getFormNumber,
   getFormName,
@@ -129,7 +129,7 @@ export default function ConfirmationPage({ router }) {
             firstName,
             representativeType: getRepType(formData),
             representativeName,
-            representativeAddress: getRepresentativeAddressAsString(formData),
+            representativeAddress: getEntityAddressAsString(formData),
             formNumber: getFormNumber(formData),
             formName: getFormName(formData),
           });

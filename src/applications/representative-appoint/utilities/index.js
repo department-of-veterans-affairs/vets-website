@@ -173,44 +173,44 @@ export const getFormSubtitle = formData => {
   return 'VA Forms 21-22 and 21-22a';
 };
 
-export const getRepresentativeAddressAsObject = formData => {
-  const selectedEntity = formData['view:selectedRepresentative'];
+export const getEntityAddressAsObject = formData => {
+  const entity = formData['view:selectedRepresentative'];
 
   return {
-    address1: (selectedEntity?.addressLine1 || '').trim(),
-    address2: (selectedEntity?.addressLine2 || '').trim(),
-    address3: (selectedEntity?.addressLine3 || '').trim(),
-    city: (selectedEntity?.city || '').trim(),
-    state: (selectedEntity?.stateCode || '').trim(),
-    zip: (selectedEntity?.zipCode || '').trim(),
+    address1: (entity?.addressLine1 || '').trim(),
+    address2: (entity?.addressLine2 || '').trim(),
+    address3: (entity?.addressLine3 || '').trim(),
+    city: (entity?.city || '').trim(),
+    state: (entity?.stateCode || '').trim(),
+    zip: (entity?.zipCode || '').trim(),
   };
 };
 
-export const getRepresentativeAddressAsString = formData => {
-  const selectedEntity = formData['view:selectedRepresentative'];
+export const getEntityAddressAsString = formData => {
+  const entity = formData['view:selectedRepresentative'];
 
   return (
     [
-      (selectedEntity.addressLine1 || '').trim(),
-      (selectedEntity.addressLine2 || '').trim(),
-      (selectedEntity.addressLine3 || '').trim(),
+      (entity.addressLine1 || '').trim(),
+      (entity.addressLine2 || '').trim(),
+      (entity.addressLine3 || '').trim(),
     ]
       .filter(Boolean)
       .join(' ') +
-    (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
-    (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
-    (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '')
+    (entity.city ? ` ${entity.city},` : '') +
+    (entity.stateCode ? ` ${entity.stateCode}` : '') +
+    (entity.zipCode ? ` ${entity.zipCode}` : '')
   );
 };
 
 export const getRepType = formData => {
-  const selectedEntity = formData['view:selectedRepresentative'];
+  const entity = formData['view:selectedRepresentative'];
 
-  if (selectedEntity?.type === 'organization') {
+  if (entity?.type === 'organization') {
     return 'Organization';
   }
 
-  const repType = selectedEntity.attributes?.individualType;
+  const repType = entity.attributes?.individualType;
 
   if (repType === 'attorney') {
     return 'Attorney';
@@ -224,13 +224,13 @@ export const getRepType = formData => {
 };
 
 export const getFormNumber = formData => {
-  const selectedEntity = formData['view:selectedRepresentative'];
-  const entityType = selectedEntity?.type;
+  const entity = formData['view:selectedRepresentative'];
+  const entityType = entity?.type;
 
   if (
     entityType === 'organization' ||
     (entityType === 'individual' &&
-      selectedEntity.attributes.individualType === 'representative')
+      entity.attributes.individualType === 'representative')
   ) {
     return '21-22';
   }

@@ -9,7 +9,7 @@ import {
   getFormSubtitle,
   getOrgName,
   getRepType,
-  getRepresentativeAddressAsObject,
+  getEntityAddressAsObject,
 } from '../utilities';
 
 export default function NextStepsPage() {
@@ -90,7 +90,7 @@ export default function NextStepsPage() {
         <AddressBlock
           repName={formData['view:selectedRepresentative']?.fullName}
           orgName={getOrgName(formData)}
-          address={getRepresentativeAddressAsObject(formData)}
+          address={getEntityAddressAsObject(formData)}
         />
         <p>
           After your form is signed, you or the accredited {getRepType()} can
@@ -107,7 +107,7 @@ export default function NextStepsPage() {
         <ContactCard
           repName={formData['view:selectedRepresentative']?.fullName}
           orgName={getOrgName(formData)}
-          address={getRepresentativeAddressAsObject(formData)}
+          address={getEntityAddressAsObject(formData)}
           phone={formData['view:selectedRepresentative']?.phone}
           email={formData['view:selectedRepresentative']?.email}
         />
