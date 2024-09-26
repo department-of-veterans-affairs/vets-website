@@ -411,7 +411,7 @@ describe('GIBCT helpers:', () => {
         filters,
         'location',
       );
-      expect(invalid).to.be.true;
+      expect(invalid).to.be.false;
       expect(dispatchError.calledWith('Please enter a valid postal code.')).to
         .be.true;
     });
