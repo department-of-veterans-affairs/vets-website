@@ -43,6 +43,7 @@
         "attachmentId": "",
         "isEncrypted": false
       }
-    ]
+    ],
+    "statementOfTruthSignature": "First middle last"
   }
 }
