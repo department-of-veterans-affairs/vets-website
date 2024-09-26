@@ -52,7 +52,7 @@ const backgroundInformationDetails = ({
         },
         required: true,
         labels: {
-          CERTIFIED:
+          certified:
             'I certify I have provided all information I wish to provide relevant to this question. I understand it is my responsibility to establish that I am of good character and reputation, qualified to render valuable assistance to claimants, and otherwise competent to advise and assist claimants in the preparation, presentation, and prosecution of their claim(s) before VA, and that failure to provide the requisite information may result in denial of my application.',
         },
       }),
@@ -62,7 +62,7 @@ const backgroundInformationDetails = ({
       properties: {
         [explanationKey]: textareaSchema,
         [documentsKey]: fileInputSchema,
-        [certificationKey]: checkboxGroupSchema(['CERTIFIED']),
+        [certificationKey]: checkboxGroupSchema(['certified']),
       },
       required: [explanationKey, certificationKey],
     },
