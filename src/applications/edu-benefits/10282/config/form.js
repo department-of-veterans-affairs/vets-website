@@ -28,8 +28,9 @@ const formConfig = {
   urlPrefix: '/',
   // submitUrl: '/v0/api',
   submit: async formData => {
-    return new Promise(resolve => {
-      resolve({ status: 201, data: formData });
+    return new Promise((resolve, reject) => {
+      resolve({ status: 201, error: formData });
+      //reject(new Error('Somthing went wrong'));
     });
   },
   trackingPrefix: 'edu-10282-',
