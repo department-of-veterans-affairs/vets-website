@@ -1,12 +1,16 @@
 import { fireEvent, render } from '@testing-library/react';
 import { expect } from 'chai';
+import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
 import set from 'platform/utilities/data/set';
 import React from 'react';
 import sinon from 'sinon';
 
 import formConfig from '../../config/form';
+import disabilityLabelsRevised from '../../content/disabilityLabelsRevised';
 import { updateFormData } from '../../pages/addDisabilities';
+
+const items = Object.values(disabilityLabelsRevised);
 
 const {
   schema,
@@ -39,9 +43,40 @@ const createScreen = (
   );
 };
 
+const simulateInputChange = (selector, value) => {
+  const vaTextInput = selector;
+  vaTextInput.value = value;
+
+  const event = new Event('input', {
+    bubbles: true, // Ensure the event bubbles up through the DOM
+  });
+
+  vaTextInput.dispatchEvent(event);
+};
+
+const addACondition = (
+  getAllByRole,
+  getByTestId,
+  getByText,
+  searchTerm,
+  searchResult,
+) => {
+  const input = getByTestId('combobox-input');
+  simulateInputChange(input, searchTerm);
+
+  const listboxItems = getAllByRole('option');
+  const freeTextItem = listboxItems.find(
+    item => item.textContent === searchResult,
+  );
+  fireEvent.click(freeTextItem);
+
+  const saveButton = getByText('Save');
+  fireEvent.click(saveButton);
+};
+
 describe('Add Disabilities Page', () => {
-  describe('User is claiming a new condition but not claiming an increase', () => {
-    it('should render heading and directions', () => {
+  describe('Default Rendering', () => {
+    it('should render page heading and directions', () => {
       const { getByRole, getByText } = createScreen();
 
       const heading = getByRole('heading', {
@@ -55,7 +90,7 @@ describe('Add Disabilities Page', () => {
       expect(directions).to.be.visible;
     });
 
-    it('should render "if conditions aren\'t listed" subheading and details', () => {
+    it('should render "If conditions aren\'t listed" subheading and details', () => {
       const { getByRole, getByText } = createScreen();
 
       const notListedSubHeading = getByRole('heading', {
@@ -76,41 +111,65 @@ describe('Add Disabilities Page', () => {
         name: 'Examples of conditions',
       });
       const examples = getByRole('list').children;
-      const example = getByText('Tinnitus (ringing or hissing in ears)');
+      const example1 = getByText('Tinnitus (ringing or hissing in ears)');
+      const example2 = getByText('PTSD (post-traumatic stress disorder)');
+      const example3 = getByText('Hearing loss');
+      const example4 = getByText('Neck strain (cervical strain)');
+      const example5 = getByText('Ankylosis in knee, right');
+      const example6 = getByText('Hypertension (high blood pressure)');
+      const example7 = getByText('Migraines (headaches)');
 
       expect(examplesSubHeading).to.be.visible;
       expect(examples.length).to.eq(7);
-      expect(example).to.be.visible;
+      expect(example1).to.be.visible;
+      expect(example2).to.be.visible;
+      expect(example3).to.be.visible;
+      expect(example4).to.be.visible;
+      expect(example5).to.be.visible;
+      expect(example6).to.be.visible;
+      expect(example7).to.be.visible;
     });
 
-    it('should render "Your new conditions" subheading and array field', () => {
-      const { getByRole } = createScreen();
+    it('should render "Your new conditions" subheading, ComboBox, save button, and add another condition button', () => {
+      const { getByRole, getByTestId, getByText } = createScreen();
 
       const newConditionsSubHeading = getByRole('heading', {
         name: 'Your new conditions',
       });
-      const arrayField = getByRole('group');
+      const input = getByTestId('combobox-input');
+      const saveButton = getByText('Save');
+      const addAnotherConditionButton = getByText('Add another condition');
 
       expect(newConditionsSubHeading).to.be.visible;
-      expect(arrayField).to.be.visible;
+      expect(input).to.be.visible;
+      expect(saveButton).to.be.visible;
+      expect(addAnotherConditionButton).to.be.visible;
     });
 
-    it('should render ComboBox', () => {
+    it('should render ComboBox label with required, input, and listbox', () => {
       const { getByRole, getByText, getByTestId } = createScreen();
 
       const label = getByText('Enter your condition');
-      const required = label.querySelector('span');
+      const required = label.querySelector('span').textContent;
       const input = getByTestId('combobox-input');
       const listbox = getByRole('listbox');
 
       expect(label).to.be.visible;
-      expect(required).to.have.text('(*Required)');
+      expect(required).to.eq('(*Required)');
       expect(input).to.be.visible;
       expect(listbox).to.be.visible;
       expect(listbox).to.have.length(0);
     });
 
-    it('should display error message on item and alert on page if no new conditions are added', () => {
+    it('should render with no saved conditions by default', () => {
+      const { queryByText } = createScreen();
+
+      const savedConditionEditButton = queryByText('Edit');
+
+      expect(savedConditionEditButton).to.not.exist;
+    });
+
+    it('should render error message on item and alert on page if no new conditions are added', () => {
       const { getByText } = createScreen();
 
       const submitBtn = getByText('Submit');
@@ -127,6 +186,197 @@ describe('Add Disabilities Page', () => {
       expect(errorMessage).to.be.visible;
       expect(alertHeading).to.be.visible;
       expect(alertText).to.be.visible;
+    });
+  });
+
+  describe('Updating State', () => {
+    it('should render with saved condition when there is initial formData', () => {
+      const { getByText } = createScreen(true, false, [
+        {
+          condition: 'asthma',
+        },
+      ]);
+
+      const savedCondition = getByText('asthma');
+      const savedConditionEditButton = getByText('Edit');
+
+      expect(savedCondition).to.be.visible;
+      expect(savedConditionEditButton).to.be.visible;
+    });
+
+    it('should be able to add value to ComboBox input ', () => {
+      const searchTerm = 'Typed value';
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+      const freeTextAndFilteredItemsCount = searchResults.length + 1;
+      const { getByRole, getByTestId } = createScreen();
+
+      const input = getByTestId('combobox-input');
+      simulateInputChange(input, searchTerm);
+      const listbox = getByRole('listbox');
+
+      expect(listbox).to.have.length(freeTextAndFilteredItemsCount);
+
+      fireEvent.click(document);
+
+      expect(listbox).to.have.length(0);
+      expect(input.value).to.eq(searchTerm);
+    });
+
+    it('should render ComboBox listbox items in alignment with string similarity search', () => {
+      const searchTerm = 'ACL';
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+      const { getAllByRole, getByTestId } = createScreen();
+
+      const input = getByTestId('combobox-input');
+      simulateInputChange(input, searchTerm);
+      const listboxItems = getAllByRole('option');
+
+      listboxItems.forEach((item, index) => {
+        if (index === 0) {
+          expect(item.textContent).to.eq(
+            `Enter your condition as "${searchTerm}"`,
+          );
+        } else {
+          const searchResult = searchResults[index - 1];
+          expect(item.textContent).to.eq(searchResult);
+        }
+      });
+    });
+  });
+
+  describe('Mouse Interactions', () => {
+    it('should be able to add a free-text condition', () => {
+      const searchTerm = 'Tinnitus';
+      const {
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByTestId,
+      } = createScreen();
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        `Enter your condition as "${searchTerm}"`,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchTerm);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+
+      const input = queryByTestId('combobox-input');
+      expect(input).to.not.exist;
+    });
+
+    it('should be able to select a condition', () => {
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const { getAllByRole, getByTestId, getByText } = createScreen();
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchResult);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+    });
+
+    it('should be able to edit a condition', () => {
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const newSearchTerm = 'Neck strain';
+      const newSearchResult = 'neck strain (cervical strain)';
+      const { getAllByRole, getByTestId, getByText } = createScreen();
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchResult);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+
+      fireEvent.click(savedConditionEditButton);
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        newSearchTerm,
+        newSearchResult,
+      );
+      const newCondition = getByText(newSearchResult);
+
+      expect(newCondition).to.be.visible;
+    });
+
+    it('should be able to select two conditions then remove one', () => {
+      const searchTerm1 = 'Tinn';
+      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchTerm2 = 'Hear';
+      const searchResult2 = 'hearing loss';
+      const {
+        getAllByRole,
+        getAllByText,
+        getByTestId,
+        getByText,
+        queryByText,
+      } = createScreen();
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm1,
+        searchResult1,
+      );
+
+      const savedConditionEditButton1 = getByText('Edit');
+      const savedCondition1 = getByText(searchResult1);
+
+      const addAnotherConditionButton = getByText('Add another condition');
+      fireEvent.click(addAnotherConditionButton);
+
+      addACondition(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm2,
+        searchResult2,
+      );
+
+      const savedConditionEditButton2 = getAllByText('Edit')[1];
+      let savedCondition2 = getByText(searchResult2);
+
+      expect(savedConditionEditButton1).to.be.visible;
+      expect(savedCondition1).to.be.visible;
+      expect(savedConditionEditButton2).to.be.visible;
+      expect(savedCondition2).to.be.visible;
+
+      fireEvent.click(savedConditionEditButton2);
+      const removeButton = getByText('Remove');
+      fireEvent.click(removeButton);
+
+      savedCondition2 = queryByText(searchResult2);
+
+      expect(savedCondition2).not.to.exist;
     });
 
     it('should submit when form is completed', () => {
@@ -152,6 +402,10 @@ describe('Add Disabilities Page', () => {
       expect(alertHeading).not.to.exist;
     });
   });
+
+  describe('Keyboard Interactions', () => {});
+
+  describe('Accessibility', () => {});
 
   describe('User is claiming a new condition AND claiming an increase', () => {
     it('should display helpful error if no new conditions are added', () => {
