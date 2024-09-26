@@ -49,7 +49,7 @@ const mockRedux = ({
   };
 };
 
-describe('ArrayBuilderItemPage', () => {
+describe('ArrayBuilderFirstItemPage', () => {
   let getArrayUrlSearchParamsStub;
   let getIndexStub;
 
@@ -81,6 +81,7 @@ describe('ArrayBuilderItemPage', () => {
     urlParams = '',
     arrayData = [],
     title = 'Name and address of employer',
+    lowerCase = true,
     required = () => false,
   }) {
     const setFormData = sinon.spy();
@@ -102,6 +103,7 @@ describe('ArrayBuilderItemPage', () => {
         ...arrayBuilderItemFirstPageTitleUI({
           title,
           nounSingular: 'employer',
+          lowerCase,
         }),
         name: {
           'ui:title': 'Name of employer',
@@ -172,6 +174,20 @@ describe('ArrayBuilderItemPage', () => {
     });
 
     expect(getByText('Edit name and address of employer')).to.exist;
+    expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
+      .exist;
+  });
+
+  it('should display correctly with edit query parameter is not lowercased', () => {
+    const { getText, container, getByText } = setupArrayBuilderItemPage({
+      title: 'John Doe employer information',
+      lowerCase: false,
+      index: 0,
+      urlParams: '?edit=true',
+      arrayData: [{ name: 'Test' }],
+    });
+
+    expect(getByText('Edit John Doe employer information')).to.exist;
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
