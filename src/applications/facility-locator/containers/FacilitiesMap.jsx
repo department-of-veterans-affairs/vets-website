@@ -652,7 +652,6 @@ const FacilitiesMap = props => {
         <div className="title-section">
           <h1>Find VA locations</h1>
         </div>
-
         <div className="facility-introtext">
           <p>
             Find a VA location or in-network community care provider. For
