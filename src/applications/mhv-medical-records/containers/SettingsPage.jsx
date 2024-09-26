@@ -115,6 +115,19 @@ const SettingsPage = () => {
     }
     return (
       <>
+        <va-alert
+          background-only
+          class="vads-u-margin-bottom--4"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          status="success"
+          visible={showSuccessAlert}
+        >
+          <p className="vads-u-margin-y--0">
+            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+          </p>
+        </va-alert>
         <va-card background className="vads-u-padding--3">
           <h3 className="vads-u-margin-top--0">
             Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
@@ -196,19 +209,6 @@ const SettingsPage = () => {
 
   return (
     <div className="settings vads-u-margin-bottom--5">
-      <va-alert
-        background-only
-        class="vads-u-margin-bottom--4"
-        close-btn-aria-label="Close notification"
-        disable-analytics="false"
-        full-width="false"
-        status="success"
-        visible={showSuccessAlert}
-      >
-        <p className="vads-u-margin-y--0">
-          You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
-        </p>
-      </va-alert>
       <section>
         <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">
