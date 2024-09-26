@@ -25,7 +25,8 @@ const NavItemRow = ({ depth, item, trackEvents }) => {
     return (
       <h2
         className={classNames(
-          'va-sidenav-item-label, vads-u-font-family--sans',
+          'va-sidenav-item-label',
+          'vads-u-font-family--sans',
           {
             'va-sidenav-item-label-bold': isFirstLevel,
           },

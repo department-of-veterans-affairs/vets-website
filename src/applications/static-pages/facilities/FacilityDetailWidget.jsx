@@ -30,8 +30,8 @@ export function FacilityDetailWidget({ loading, error, facility }) {
   });
 
   return (
-    <div key={facility.id} className="vads-c-facility-detail">
-      <section className="vads-facility-detail">
+    <div key={facility.id}>
+      <section>
         <h3 className="vads-u-font-size--lg vads-u-margin-top--0 vads-u-line-height--1 vads-u-margin-bottom--1">
           Address
         </h3>

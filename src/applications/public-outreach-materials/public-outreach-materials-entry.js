@@ -1,5 +1,4 @@
 import 'platform/polyfills';
-import './sass/public-outreach-materials.scss';
 
 import createCommonStore from 'platform/startup/store';
 import startSitewideComponents from 'platform/site-wide';

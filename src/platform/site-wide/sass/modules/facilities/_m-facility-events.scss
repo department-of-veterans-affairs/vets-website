@@ -1,17 +1,15 @@
 .va-c-event-info {
   display: flex;
   flex-wrap: wrap;
+
   > dt {
     width: 45px;
   }
+
   > dd {
     width: 75%;
   }
 
-}
-
-.va-c-social-icon {
-  color: var(--vads-color-link);
 }
 
 .va-c-range-error-message {
@@ -28,7 +26,10 @@
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
         margin-right: 0;
-      };
+      }
+
+      ;
+
       &:last-child {
         margin-top: 0;
         border-top-left-radius: 0;

@@ -2,17 +2,6 @@ $medium-phone-screen: 375px;
 
 /* OVERRIDE */
 .merger {
-
-  // Begin new-grid override
-  // Overrides some default properties with a
-  // class name that makes it more clear we remove
-  // it when the work is complete.
-  .va-sidebarnav.new-grid {
-    width: 100% !important;
-  }
-
-  // End new-grid override
-
   .login {
     .container {
       width: 100%;
@@ -83,6 +72,7 @@ $medium-phone-screen: 375px;
     }
   }
 
+  // Note: this style block is shared with element(s) in content-build
   .menu-rule,
   #menu-rule {
     border-bottom: 1px solid var(--vads-color-white);
@@ -200,6 +190,7 @@ $medium-phone-screen: 375px;
       flex-direction: column;
     }
 
+    // Note: this style block is shared with element(s) in content-build
     .menu-rule,
     #menu-rule {
       border-bottom: 0;
@@ -270,20 +261,12 @@ $medium-phone-screen: 375px;
       }
     }
 
-    #homepage-benefits,
-    #homepage-news,
     .va-h-ruled--stars,
     .va-nav-breadcrumbs,
     article,
     #hub-rail {
       padding-left: 0.5em;
       padding-right: 0.5em;
-    }
-
-    .va-nav-breadcrumbs.new-grid,
-    article.new-grid {
-      padding-left: 0;
-      padding-right: 0;
     }
 
     .va-nav-breadcrumbs {
@@ -354,12 +337,6 @@ $medium-phone-screen: 375px;
       padding-left: 1em;
       padding-right: 1em;
     }
-
-    .va-nav-breadcrumbs.new-grid,
-    article.new-grid {
-      padding-left: 0;
-      padding-right: 0;
-    }
   }
 
   va-accordion,
@@ -418,29 +395,8 @@ $medium-phone-screen: 375px;
     }
   }
 
-  .hub-links-container {
-    flex: 1;
-  }
-
   .white {
     color: var(--vads-color-white);
-  }
-
-  .sidenav-previous-page {
-    font-size: 15px;
-    padding-bottom: 12px;
-
-    @media (min-width: $xsmall-screen) and (max-width: $medium-screen) {
-      margin-left: 15px;
-    }
-
-    a {
-      &::before {
-        content: " \2039 ";
-        display: inline-block;
-        padding: 0 0.35em 0 0;
-      }
-    }
   }
 
   // These next two rules override some styles in user-nav.scss, should be moved there
@@ -480,14 +436,6 @@ $medium-phone-screen: 375px;
   }
 }
 
-// There are styles in our sidebar styles that set a small
-// amount of padding on the grid for detail pages, which we
-// are overriding for WBC with no padding
-.va-l-detail-page > .usa-grid-full {
-  padding-right: inherit;
-  padding-left: inherit;
-}
-
 .flex-container {
   display: flex;
 }
@@ -496,39 +444,9 @@ $medium-phone-screen: 375px;
   margin-left: 0;
 }
 
-.circular-profile-image {
-  border-radius: 50%;
-  position: relative;
-}
-
-.usa-grid > :last-child,
-.usa-grid-full > :last-child {
-  &.half-em-bottom-margin {
-    margin-bottom: 0.5em;
-  }
-}
-
-.inline-table-helper {
-  display: inline-table;
-}
-
 .usa-accordion > ul li ul,
 .usa-accordion-bordered > ul li ul {
   list-style: square;
-}
-
-.no-left-button-right-radius-treatment {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.no-right-button-left-radius-treatment {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.no-p-bottom-margin p {
-  margin-bottom: 0;
 }
 
 .operating-status-title {
@@ -542,12 +460,6 @@ $medium-phone-screen: 375px;
 
 ._acs._acsbadge--default {
   background-color: var(--vads-color-black) !important;
-}
-
-.media-list-images {
-  @media (min-width: $small-screen) {
-    max-width: 50%;
-  }
 }
 
 .events {
@@ -603,36 +515,50 @@ div[data-widget-type="events"] {
   color: var(--vads-color-white) !important;
 }
 
-.header-menu > ul, ul#header-nav-items{
-  .header-menu-item-button{
-    &.vads-u-background-color--gray-lightest{
+.header-menu > ul,
+ul#header-nav-items {
+  .header-menu-item-button {
+    &.vads-u-background-color--gray-lightest {
       background-color: var(--vads-color-base-lightest);
       color: var(--vads-color-primary);
     }
-    &.vads-u-background-color--primary-dark{
+
+    &.vads-u-background-color--primary-dark {
       background-color: var(--vads-color-primary-dark);
       color: var(--vads-color-white);
     }
   }
-  a{
-    &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+
+  a {
+
+    &.vads-u-color--white,
+    &.vads-u-color--white:hover,
+    &.vads-u-color--white:visited {
       color: var(--vads-color-white);
     }
-    &.vads-u-color--link-default, &.vads-u-color--link-default:hover, &.vads-u-color--link-default:visited{
+
+    &.vads-u-color--link-default,
+    &.vads-u-color--link-default:hover,
+    &.vads-u-color--link-default:visited {
       color: var(--vads-color-link);
     }
-   }
+  }
 }
 
 /* Fix to mobile menu color issue */
-.header-menu-button.vads-u-background-color--gray-lightest{
+.header-menu-button.vads-u-background-color--gray-lightest {
   background-color: var(--vads-color-base-lightest);
   color: var(--vads-color-primary);
 }
+
 /* Fix to 'contact us' color issue */
-.hidden-header a{
-  &.vads-u-color--white, &.vads-u-color--white:hover, &.vads-u-color--white:visited{
+.hidden-header a {
+
+  &.vads-u-color--white,
+  &.vads-u-color--white:hover,
+  &.vads-u-color--white:visited {
     color: var(--vads-color-white);
   }
 }
+
 /* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/

@@ -37,7 +37,7 @@ function VetCenterInfoSection(props) {
             }`}
             status={opStatusConfig.statusType}
             trigger={opStatusConfig.statusLabel}
-            class="vads-u-margin-y--0 vamc-facility-expandable-alert"
+            class="vads-u-display--inline-block vads-u-margin--0"
             style={{ maxWidth: '303px' }}
           >
             <div>

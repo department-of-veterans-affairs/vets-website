@@ -73,7 +73,9 @@
     display: none !important;
   }
 
-  p, li, a {
+  p,
+  li,
+  a {
     font-family: $font-stack !important;
   }
 
@@ -759,7 +761,7 @@
       background-color: transparent;
       color: #000;
     }
-  
+
     &:active {
       background-color: transparent;
       color: #162e51;
@@ -858,6 +860,7 @@
     }
   }
 
+  // Note: this style block is shared with element(s) in content-build
   .va-notice--banner {
     margin: 0;
     background: #f0f0f0;
@@ -1143,7 +1146,8 @@
     .mm-marketing-container .mm-marketing-text {
       padding: 20px;
 
-      p, a {
+      p,
+      a {
         font-family: $font-stack;
       }
     }
@@ -2171,6 +2175,7 @@
   }
 
   @media (min-width: 320px) and (max-width: 767px) {
+
     .menu-rule,
     #menu-rule {
       border-bottom: 0;
@@ -2293,13 +2298,15 @@
     color: #fff
   }
 
-  a, p, span {
+  a,
+  p,
+  span {
     font-size: 16px;
-   }
+  }
 
-   .usa-banner-button-text {
+  .usa-banner-button-text {
     font-size: 12px;
-   }
+  }
 
   @media (min-width: 1008px) {
 
@@ -2692,7 +2699,7 @@
     * {
       color: #fff;
     }
-    
+
     background-color: #b50909;
     display: block;
     border-radius: 0;
@@ -2754,7 +2761,7 @@
     line-height: 1;
     text-align: center;
     text-decoration: none;
-    
+
     @media screen and (min-width: 768px) {
       width: 78px;
       padding: .625rem .35rem;
@@ -2764,7 +2771,8 @@
   }
 }
 
-.ts-footer-container a, #signin-signup-modal a {
+.ts-footer-container a,
+#signin-signup-modal a {
   text-decoration: underline;
 }
 
@@ -2797,9 +2805,12 @@
 .merger.modal-open {
   margin-right: 0 !important;
 }
+
 /* DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
 /* Fix for team sites, important is necessary because of button */
- div.ts-header-container button.vcl-modal-open, div.ts-footer-container button.va-button-link{
+div.ts-header-container button.vcl-modal-open,
+div.ts-footer-container button.va-button-link {
   color: #fff !important;
 }
+
 /* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
