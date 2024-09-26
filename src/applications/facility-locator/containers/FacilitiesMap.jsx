@@ -650,46 +650,7 @@ const FacilitiesMap = props => {
     <>
       <div>
         <div className="title-section">
-          <h2 className="vads-u-color--white vads-u-margin-top--3 vads-u-font-size--xl desktop:vads-u-font-size--2xl">
-            Manage power of attorney requests
-          </h2>
-
-          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
-            Mailing address
-          </h3>
-
-          <div className="vads-l-col vads-u-font-weight--bold mobile-lg:vads-u-font-size--base vads-u-font-family--serif small-screen-font">
-            3 veterans rated this institution
-          </div>
-
-          <div className="mobile-lg:vads-u-font-size--h3 vads-u-padding-bottom--1p5 vads-u-font-weight--bold vads-u-font-family--serif small-screen-font">
-            About ratings
-          </div>
-
-          <span className="mobile-lg:vads-u-font-size--h4 vads-u-font-weight--bold small-screen-font">
-            How ratings are collected
-          </span>
-
-          <h2
-            id="our-patient-satisfaction-scores"
-            className="vads-u-margin-top--4 vads-u-font-size--lg mobile-lg:vads-u-font-size--xl"
-          >
-            Veteran satisfaction with appointment wait times at this location
-          </h2>
-
-          <h2 className="vads-u-font-size--h4 mobile-lg:vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-font-weight--bold vads-u-text-align--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif">
-            January 1, 2021
-          </h2>
-
-          <h3 className="mobile-lg:vads-u-font-size--h4 contact-heading vads-u-font-family--sans vads-u-margin--0 small-screen-font">
-            Physical address
-          </h3>
-
-          <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
-            <button>hello world 1</button>
-            <button>hello world 2</button>
-            <button>hello world 3</button>
-          </div>
+          <h1>Find VA locations</h1>
         </div>
 
         <div className="facility-introtext">
