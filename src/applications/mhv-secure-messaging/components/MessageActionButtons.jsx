@@ -31,7 +31,7 @@ const MessageActionButtons = props => {
   };
 
   return (
-    <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+    <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
       {!hideReplyButton && (
         <div className="vads-u-flex--3 xsmall-screen:vads-u-margin-right--1 reply-button-container">
           <ReplyButton

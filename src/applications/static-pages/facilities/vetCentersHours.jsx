@@ -35,19 +35,18 @@ const VetCenterHours = props => {
           </div>
         </div>
       );
-    } else {
-      return (
-        <div className="row">
-          <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
-            {arrayOfWeekdays[item.day]}:
-          </div>
-          <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
-            {formatHours(item.starthours)} - {formatHours(item.endhours)}{' '}
-            {item.comment}
-          </div>
-        </div>
-      );
     }
+    return (
+      <div className="row">
+        <div className="small-1 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          {arrayOfWeekdays[item.day]}:
+        </div>
+        <div className="small-9 columns vads-u-padding-x--0 vads-u-padding-right--0">
+          {formatHours(item.starthours)} - {formatHours(item.endhours)}{' '}
+          {item.comment}
+        </div>
+      </div>
+    );
   };
 
   const buildHoursSection = hours => {
@@ -67,7 +66,7 @@ const VetCenterHours = props => {
   return (
     <div id={props.vetCenterHoursId}>
       <h4 className={hoursH4Style}>Hours</h4>
-      <div className="vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
+      <div className="vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row vads-u-margin-bottom--0">
         {buildHoursSection(props.hours)}
       </div>
     </div>

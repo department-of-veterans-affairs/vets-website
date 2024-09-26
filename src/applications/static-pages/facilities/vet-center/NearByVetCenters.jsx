@@ -145,7 +145,7 @@ const NearByVetCenters = props => {
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row facility
+        mobile-lg:vads-u-flex-direction--row facility
       vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         key={vetCenter.id || vetCenter.fieldFacilityLocatorApiId}
       >

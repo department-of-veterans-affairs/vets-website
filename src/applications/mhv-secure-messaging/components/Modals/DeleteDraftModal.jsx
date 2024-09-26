@@ -25,7 +25,7 @@ const DeleteDraftModal = props => {
           ? Prompts.Draft.DELETE_NEW_DRAFT_CONTENT
           : Prompts.Draft.DELETE_DRAFT_CONFIRM_NOTE}
       </p>
-      <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+      <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
         <va-button
           id="delete-draft"
           data-testid="confirm-delete-draft"
