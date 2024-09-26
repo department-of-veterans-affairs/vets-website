@@ -6,7 +6,6 @@ import get from 'platform/utilities/data/get';
 import fullSchemaPreNeed from 'vets-json-schema/dist/40-10007-schema.json';
 
 import environment from 'platform/utilities/environment';
-import preSubmitInfo from 'platform/forms/preSubmitInfo';
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import { useSelector } from 'react-redux';
 import { fileUploadUi } from '../utils/upload';
@@ -42,6 +41,7 @@ import ErrorText from '../components/ErrorText';
 import SubmissionError from '../components/SubmissionError';
 import phoneUI from '../components/Phone';
 import preparerPhoneUI from '../components/PreparerPhone';
+import FormFetch from '../components/FormFetch';
 
 import manifest from '../manifest.json';
 
@@ -152,9 +152,15 @@ const formConfig = {
   },
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
+  preSubmitInfo: {
+    statementOfTruth: {
+      fullNamePath: 'application.claimant.name',
+      checkboxLabel:
+        'I confirm that the information above is correct and true to the best of my knowledge and belief',
+    },
+  },
   title: 'Apply for pre-need eligibility determination',
   subTitle: 'Form 40-10007',
-  preSubmitInfo,
   footerContent: ({ currentLocation }) => (
     <Footer formConfig={formConfig} currentLocation={currentLocation} />
   ),
@@ -174,11 +180,28 @@ const formConfig = {
     centralMailVaFile,
   },
   chapters: {
+    testChapter: {
+      title: 'Cemetery Review',
+      pages: {
+        test: {
+          path: 'test',
+          uiSchema: {
+            'ui:title': '3rd party signature',
+            'ui:description': <FormFetch />, // Render FormFetch component
+          },
+          schema: {
+            type: 'object',
+            properties: {},
+          },
+        },
+      },
+    },
     applicantInformation: {
       title: 'Applicant information',
       pages: {
         applicantRelationshipToVet: {
           path: 'applicant-relationship-to-vet',
+
           uiSchema: applicantRelationshipToVet.uiSchema,
           schema: applicantRelationshipToVet.schema,
         },
