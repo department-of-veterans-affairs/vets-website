@@ -1,24 +1,10 @@
 const _ = require('lodash');
+
 const user = require('../endpoints/user');
 
 // in memory db
 const memDb = {
   user: user.loa3User72,
-};
-
-const removeScriptTags = dirty => {
-  return dirty.replace(
-    /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/g,
-    '',
-  );
-};
-
-const removeHtmlTags = dirty => {
-  return dirty.replace(/<|>/g, '');
-};
-
-const removeHTMLComments = dirty => {
-  return dirty.replace(/<!--|--!?>/g, '');
 };
 
 // sanitize user input
@@ -28,9 +14,7 @@ const sanitize = dirty => {
     throw new Error('Cannot sanitize, input must be a string');
   }
 
-  return _.escape(
-    removeHTMLComments(removeHtmlTags(removeScriptTags(dirty))),
-  ).trim();
+  return _.escape(dirty).trim();
 };
 
 const updateFields = (target, source, fields) => {
