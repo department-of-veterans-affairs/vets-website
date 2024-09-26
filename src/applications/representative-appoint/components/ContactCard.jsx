@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Email from './Email';
 import Phone from './Phone';
 import GoogleMapLink from './GoogleMapLink';
-import parsePhoneNumber from '../utilities/parsePhoneNumber';
+import { parsePhoneNumber } from '../utilities';
 
 export default function ContactCard({
   repName,

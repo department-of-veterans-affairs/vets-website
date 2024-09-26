@@ -7,7 +7,7 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities/helpers';
+import { preparerIsVeteran } from '../../utilities';
 
 export const uiSchema = {
   ...titleUI(

@@ -4,7 +4,7 @@ import {
   radioUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { authorizationNote } from '../../content/authorizeMedical';
-import { representativeTypeMap } from '../../utilities/helpers';
+import { representativeTypeMap } from '../../utilities';
 
 /** @type {UISchemaOptions} */
 

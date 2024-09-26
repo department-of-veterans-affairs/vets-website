@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import { genderLabels } from 'platform/static-data/labels';
-import { srSubstitute, formatDate } from '../utilities/helpers';
+import { srSubstitute, formatDate } from '../utilities';
 import { editNote } from '../content/common';
 
 function VeteranDetails({ profile }) {

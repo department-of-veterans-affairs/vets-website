@@ -11,7 +11,7 @@ import {
   descriptionSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities/helpers';
+import { preparerIsVeteran } from '../../utilities';
 
 /** @type {PageSchema} */
 

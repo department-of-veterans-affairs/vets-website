@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-import { getFormSubtitle } from '../utilities/helpers';
+import { getFormSubtitle } from '../utilities';
 import AddressBlock from '../components/AddressBlock';
 import ContactCard from '../components/ContactCard';
 import NeedHelp from '../components/NeedHelp';

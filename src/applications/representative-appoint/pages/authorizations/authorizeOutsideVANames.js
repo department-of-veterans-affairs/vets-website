@@ -3,7 +3,7 @@ import {
   textSchema,
   textUI,
 } from '~/platform/forms-system/src/js/web-component-patterns';
-import { representativeTypeMap } from '../../utilities/helpers';
+import { representativeTypeMap } from '../../utilities';
 
 export const uiSchema = {
   'ui:description': ({ formData }) => {

@@ -3,7 +3,7 @@ import { checkboxGroupUI } from 'platform/forms-system/src/js/web-component-patt
 import {
   checkboxGroupSchemaWithReviewLabels,
   representativeTypeMap,
-} from '../../utilities/helpers';
+} from '../../utilities';
 
 export const uiSchema = {
   'ui:description': ({ formData }) => {

@@ -8,7 +8,7 @@ import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
-import { getFormSubtitle } from '../utilities/helpers';
+import { getFormSubtitle } from '../utilities';
 
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
