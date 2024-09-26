@@ -13,7 +13,7 @@ const OtherVADebts = ({ module, subHeading }) => {
         Your VA {`${module === APP_TYPES.DEBT ? `debt` : 'copay bills'}`}
       </h2>
       <p>
-        Our records show you have
+        Our records show you have{' '}
         {module === APP_TYPES.DEBT && (
           <span data-testid="other-va-debt-body">
             VA benefit debt. You can{' '}
