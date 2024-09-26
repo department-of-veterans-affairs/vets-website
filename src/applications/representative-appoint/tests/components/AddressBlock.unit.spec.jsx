@@ -6,12 +6,12 @@ import AddressBlock from '../../components/AddressBlock';
 
 describe('AddressBlock Component', () => {
   const address = {
-    address1: '123 Main Street',
-    address2: 'Suite 4B',
-    address3: '',
+    addressLine1: '123 Main Street',
+    addressLine2: 'Suite 4B',
+    addressLine3: '',
     city: 'Anytown',
-    state: 'AA',
-    zip: '11111',
+    stateCode: 'AA',
+    zipCode: '11111',
   };
   const repName = 'Steven McBob';
   const orgName = 'Best VSO';
