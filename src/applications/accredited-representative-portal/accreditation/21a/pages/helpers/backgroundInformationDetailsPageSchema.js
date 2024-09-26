@@ -54,7 +54,7 @@ const backgroundInformationDetails = ({
          */
         warnings: {
           'ui:field': 'BasicArrayField',
-          'ui:title': 'Conviction document upload warnings',
+          'ui:title': 'Document upload warnings',
         },
       },
       [certificationKey]: checkboxGroupUI({
