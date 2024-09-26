@@ -38,8 +38,12 @@ import directDeposit from '../pages/directDeposit';
 
 import { prefillTransformer } from '../helpers';
 import { transform5490Form } from '../utils/form-submit-transform';
+import { validateHomePhone, validateMobilePhone } from '../utils/validations';
 import CustomEmailField from '../components/CustomEmailField';
 import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
+import YesNoReviewField from '../components/YesNoReviewField';
+import PhoneViewField from '../components/PhoneViewField';
+import PhoneReviewField from '../components/PhoneReviewField';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -49,6 +53,65 @@ function isValidName(str) {
 
 function isValidLastName(str) {
   return str && /^[A-Za-z][A-Za-z '-]*$/.test(str);
+}
+
+function titleCase(str) {
+  return str[0].toUpperCase() + str.slice(1).toLowerCase();
+}
+
+function phoneUISchema(category) {
+  const schema = {
+    'ui:options': {
+      hideLabelText: true,
+      showFieldLabel: false,
+      viewComponent: PhoneViewField,
+    },
+    'ui:objectViewField': PhoneReviewField,
+    phone: {
+      ...phoneUI(`${titleCase(category)} phone number`),
+      'ui:validations': [
+        category === 'mobile' ? validateMobilePhone : validateHomePhone,
+      ],
+    },
+    isInternational: {
+      'ui:title': `This ${category} phone number is international`,
+      'ui:reviewField': YesNoReviewField,
+      'ui:options': {
+        hideIf: formData => {
+          if (category === 'mobile') {
+            if (!formData?.mobilePhone?.phone) {
+              return true;
+            }
+          } else if (!formData?.homePhone?.phone) {
+            return true;
+          }
+          return false;
+        },
+      },
+    },
+  };
+
+  // use custom component if mobile phone
+  if (category === 'mobile') {
+    schema.phone['ui:widget'] = CustomPhoneNumberField;
+  }
+
+  return schema;
+}
+
+function phoneSchema() {
+  return {
+    type: 'object',
+    properties: {
+      phone: {
+        ...usaPhone,
+        pattern: '^\\d[-]?\\d(?:[0-9-]*\\d)?$',
+      },
+      isInternational: {
+        type: 'boolean',
+      },
+    },
+  };
 }
 
 const formConfig = {
@@ -638,12 +701,19 @@ const formConfig = {
       },
     },
     contactInformationChapter: {
-      title: 'Contact Information',
+      title: 'Contact information',
       pages: {
         contactInformation: {
           path: 'contact-information',
           title: 'Review your phone numbers and email address',
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Review your phone number and email address</h3>
+                </>
+              ),
+            },
             'view:EmailAndphoneNumbers': {
               'ui:description': (
                 <>
@@ -655,24 +725,25 @@ const formConfig = {
                     <li>Tell you important information about your benefits</li>
                   </ul>
                   <p>
-                    We have this contact information on file for you. If you
-                    notice any errors, please correct them now. Any updates you
-                    make will change the information for your education benefits
-                    only.
+                    This is the contact information we have on file for you. If
+                    you notice any errors, please correct them now. Any updates
+                    you make here will be used for your education benefits only.
                   </p>
                   <p>
                     <strong>Note:</strong> If you want to make changes to your
                     contact information for other VA benefits, update your
                     information on your profile.
                   </p>
+                  <p>
+                    <a href="https://www.va.gov/resources/managing-your-vagov-profile/">
+                      Go to your profile
+                    </a>
+                  </p>
                 </>
               ),
             },
-            mobilePhone: {
-              ...phoneUI('Mobile phone number'),
-              'ui:widget': CustomPhoneNumberField,
-            },
-            homePhone: phoneUI('Home phone number'),
+            mobilePhone: phoneUISchema('mobile'),
+            homePhone: phoneUISchema('home'),
             email: {
               ...emailUI('Email address'),
               'ui:widget': CustomEmailField,
@@ -688,12 +759,16 @@ const formConfig = {
             type: 'object',
             required: ['email', 'confirmEmail'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               'view:EmailAndphoneNumbers': {
                 type: 'object',
                 properties: {},
               },
-              mobilePhone: usaPhone,
-              homePhone: usaPhone,
+              mobilePhone: phoneSchema(),
+              homePhone: phoneSchema(),
               email: {
                 type: 'string',
                 format: 'email',
