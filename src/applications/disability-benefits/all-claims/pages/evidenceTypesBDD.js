@@ -50,12 +50,13 @@ export const uiSchema = {
       'ui:webComponentField': VaCheckboxField,
       'ui:title': bddShaOtherEvidence,
     },
-    'view:evidenceTypeHelp': {
-      'ui:title': ' ',
-      'ui:description': evidenceTypeHelp,
-      'ui:options': {
-        forceDivWrapper: true,
-      },
+  },
+  'view:evidenceTypeHelp': {
+    'ui:title': ' ',
+    'ui:description': evidenceTypeHelp,
+    'ui:options': {
+      expandUnder: 'view:hasEvidence',
+      forceDivWrapper: true,
     },
   },
   'view:evidenceSubmitLater': {
@@ -77,11 +78,11 @@ export const schema = {
       properties: {
         'view:hasPrivateMedicalRecords': { type: 'boolean' },
         'view:hasOtherEvidence': { type: 'boolean' },
-        'view:evidenceTypeHelp': {
-          type: 'object',
-          properties: {},
-        },
       },
+    },
+    'view:evidenceTypeHelp': {
+      type: 'object',
+      properties: {},
     },
     'view:evidenceSubmitLater': {
       type: 'object',
