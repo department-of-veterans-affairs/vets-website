@@ -298,7 +298,7 @@ export const Data = {
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
-  SECURE_MSG_SENT_SUCCESSFULLY: 'Secure message was successfully sent',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',

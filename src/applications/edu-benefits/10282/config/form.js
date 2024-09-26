@@ -10,6 +10,7 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import * as address from 'platform/forms-system/src/js/definitions/address';
+import FormFooter from 'platform/forms/components/FormFooter';
 import fullSchema from '../22-10282-schema.json';
 
 // import fullSchema from 'vets-json-schema/dist/22-10282-schema.json';
@@ -26,6 +27,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 // pages
 import directDeposit from '../pages/directDeposit';
 import serviceHistory from '../pages/serviceHistory';
+import FormHelp from '../components/FormHelp';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
@@ -54,6 +56,8 @@ const formConfig = {
       'Please sign in again to continue your application for 	education benefits.',
   },
   title: 'Complex Form',
+  footerContent: FormFooter,
+  getHelp: FormHelp,
   defaultDefinitions: {
     fullName,
     ssn,
