@@ -35,16 +35,25 @@ export function withAlertOrDescription({ description, nounSingular }) {
 }
 
 /**
- * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present
+ * Looks for URL param 'edit' and returns a title with 'Edit' prepended if it is present.
+ * Optionally allows control over whether the title should be lowercased.
+ *
+ * @param {string | function} title - The title or a function that returns a title.
+ * @param {boolean} [lowerCase=true] - Whether to lower case the first character of the title when 'edit' is present.
+ * @returns {function} - A function that returns the modified or original title.
  */
-export const withEditTitle = title => {
+export const withEditTitle = (title, lowerCase = true) => {
   return props => {
     const search = getArrayUrlSearchParams();
     const isEdit = search.get('edit');
     const titleStr = typeof title === 'function' ? title(props) : title;
-    return isEdit
-      ? `Edit ${titleStr.charAt(0).toLowerCase() + titleStr.slice(1)}`
-      : titleStr;
+    if (isEdit) {
+      const modifiedTitle = lowerCase
+        ? titleStr.charAt(0).toLowerCase() + titleStr.slice(1)
+        : titleStr;
+      return `Edit ${modifiedTitle}`;
+    }
+    return titleStr;
   };
 };
 
@@ -69,6 +78,7 @@ export const withEditTitle = title => {
  * @param {{
  *   title: string,
  *   nounSingular: string,
+ *   lowerCase?: boolean,
  * }} options
  * @returns {UISchemaOptions}
  */
@@ -76,9 +86,10 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   title,
   description,
   nounSingular,
+  lowerCase = true,
 }) => {
   return titleUI(
-    withEditTitle(title),
+    withEditTitle(title, lowerCase),
     withAlertOrDescription({ description, nounSingular }),
   );
 };
@@ -100,14 +111,20 @@ export const arrayBuilderItemFirstPageTitleUI = ({
             equal to your income. This won’t affect your application or benefits.
           </AdditionalInfo>
       </p>))
+    ...arrayBuilderItemSubsequentPageTitleUI('Sallie Mae', undefined, false)
  * ```
  * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [title] 'ui:title'
  * @param {string | JSX.Element | ({ formData, formContext }) => string | JSX.Element} [description] 'ui:description'
+ * @param {boolean} [lowerCase=true] - Whether to lower case the first character of the title when 'edit' is present
  *
  * @returns {UISchemaOptions}
  */
-export const arrayBuilderItemSubsequentPageTitleUI = (title, description) => {
-  return titleUI(withEditTitle(title), description);
+export const arrayBuilderItemSubsequentPageTitleUI = (
+  title,
+  description,
+  lowerCase = true,
+) => {
+  return titleUI(withEditTitle(title, lowerCase), description);
 };
 
 /**
