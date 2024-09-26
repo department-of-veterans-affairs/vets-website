@@ -773,15 +773,17 @@ jobs:
       - name: Start server
         id: start-server
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=127.0.0.1 --port=3001 > $GITHUB_OUTPUT 2>&1 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 --port=3001 > $GITHUB_OUTPUT 2>&1 &
 
       - name: Inspect hosts file
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: grep -i localhost /etc/hosts
+        continue-on-error: true
 
       - name: Check localhost connectivity
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: curl --verbose http://127.0.0.1:3001/track-claims
+        continue-on-error: true
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
@@ -797,6 +799,7 @@ jobs:
       - name: Re-check localhost connectivity
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: curl --verbose http://127.0.0.1:3001/track-claims
+        continue-on-error: true
 
       - name: Show test server output
         if: needs.tests-prep.outputs.cypress-tests != '[]'
