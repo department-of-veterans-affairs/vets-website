@@ -19,6 +19,8 @@ import selectSupplies from '../pages/selectSupplies';
 import EditEmail from '../pages/EditEmail';
 import EditAddress from '../pages/EditAddress';
 
+import GetHelp from '../components/GetHelp';
+
 import { fetchSupplyData } from '../helpers/api';
 import prefillTransformer from './prefill-transformer';
 
@@ -122,6 +124,7 @@ const formConfig = {
     contactInformationChapter,
   },
   confirmation: ConfirmationPage,
+  getHelp: GetHelp,
   footerContent,
   ...sipConfig,
 };

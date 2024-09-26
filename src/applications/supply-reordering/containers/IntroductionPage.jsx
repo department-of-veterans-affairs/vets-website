@@ -32,22 +32,6 @@ class IntroductionPage extends React.Component {
             filling it out.
           </div>
         </SaveInProgressIntro>
-        <h2>Need help?</h2>
-        <p>
-          If you have trouble using your supplies,{' '}
-          <a href="/find-locations/?facilityType=health&serviceType-allVAhealthservices">
-            find the phone number for your local VA health facility
-          </a>
-          .
-        </p>
-        <p>
-          If you have questions about your supplies, call our VA Denver
-          Logistics Center at{' '}
-          <va-telephone contact="3032736200" tty>
-            303-273-6200
-          </va-telephone>
-          . We're here Monday through Friday, 8:15 a.m. to 5:00 p.m. ET.
-        </p>
       </article>
     );
   }
