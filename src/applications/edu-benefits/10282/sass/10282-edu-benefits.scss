@@ -15,8 +15,9 @@
 }
 
 @media (max-width: $small-screen) {
-  va-need-help {
-    padding: 0 0.5rem;
+
+  .container{
+    padding-inline: .5rem;
   }
 }
 

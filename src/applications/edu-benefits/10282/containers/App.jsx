@@ -6,12 +6,12 @@ import Breadcrumbs from '../components/Breadcrumbs';
 
 export default function App({ location, children }) {
   return (
-    <>
+    <div className="container">
       <Breadcrumbs />
       <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
         {children}
       </RoutedSavableApp>
-    </>
+    </div>
   );
 }
 

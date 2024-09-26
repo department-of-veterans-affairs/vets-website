@@ -28,7 +28,7 @@ export class ConfirmationPage extends React.Component {
             You've submitted your application for the IBM SkillsBuild Program
           </h2>
           <p className="vads-u-margin-y--0">
-            after we've reviewed your application, we'll email you a decision
+            After we've reviewed your application, we'll email you a decision.
           </p>
         </va-alert>
         <div className="inset">
@@ -53,7 +53,7 @@ export class ConfirmationPage extends React.Component {
             </p>
           ) : null}
           <p>
-            <strong>confirmation for your records </strong>
+            <strong>Confirmation for your records </strong>
             <br />
             <span>
               You can print this confirmation page for your records. You can
