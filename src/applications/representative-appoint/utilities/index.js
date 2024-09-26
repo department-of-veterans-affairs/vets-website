@@ -15,6 +15,7 @@ export const representativeTypeMap = {
 
 export const checkboxGroupSchemaWithReviewLabels = keys => {
   const schema = checkboxGroupSchema(keys);
+
   keys.forEach(key => {
     schema.properties[key] = {
       ...schema.properties[key],
@@ -22,11 +23,13 @@ export const checkboxGroupSchemaWithReviewLabels = keys => {
       enumNames: ['Selected', 'Not selected'],
     };
   });
+
   return schema;
 };
 
 export const deviewifyFields = formData => {
   const newFormData = {};
+
   Object.keys(formData).forEach(key => {
     const nonViewKey = /^view:/.test(key) ? key.replace('view:', '') : key;
     // Recurse if necessary
@@ -35,6 +38,7 @@ export const deviewifyFields = formData => {
         ? deviewifyFields(formData[key])
         : formData[key];
   });
+
   return newFormData;
 };
 
@@ -42,6 +46,7 @@ export const preparerIsVeteran = ({ formData } = {}) => {
   if (formData) {
     return formData['view:applicantIsVeteran'] === 'Yes';
   }
+
   return false;
 };
 
@@ -49,37 +54,32 @@ export const isLoggedIn = ({ formData } = {}) => {
   if (formData) {
     return formData['view:isLoggedIn'];
   }
+
   return false;
 };
 
-export const hasVeteranPrefill = ({ formData } = {}) => {
-  return (
-    !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth) &&
-    !isEmpty(formData?.['view:veteranPrefillStore']?.veteranSsnLastFour) &&
-    !isEmpty(
-      formData?.['view:veteranPrefillStore']?.veteranVaFileNumberLastFour,
-    )
-  );
-};
+export const hasVeteranPrefill = ({ formData } = {}) =>
+  !isEmpty(formData?.['view:veteranPrefillStore']?.fullName) &&
+  !isEmpty(formData?.['view:veteranPrefillStore']?.dateOfBirth) &&
+  !isEmpty(formData?.['view:veteranPrefillStore']?.veteranSsnLastFour) &&
+  !isEmpty(formData?.['view:veteranPrefillStore']?.veteranVaFileNumberLastFour);
 
 export const preparerIsVeteranAndHasPrefill = ({ formData }) => {
   if (environment.isLocalhost()) {
     return true;
   }
+
   return preparerIsVeteran({ formData }) && hasVeteranPrefill({ formData });
 };
 
 export const initializeFormDataWithClaimantInformationAndPrefill = (
   applicantIsVeteran,
   veteranPrefillStore,
-) => {
-  return {
-    ...createInitialState(formConfig).data,
-    'view:applicantIsVeteran': applicantIsVeteran,
-    'view:veteranPrefillStore': veteranPrefillStore,
-  };
-};
+) => ({
+  ...createInitialState(formConfig).data,
+  'view:applicantIsVeteran': applicantIsVeteran,
+  'view:veteranPrefillStore': veteranPrefillStore,
+});
 
 /**
  * Show one thing, have a screen reader say another.
@@ -97,6 +97,7 @@ export const srSubstitute = (srIgnored, substitutionText) => (
 
 export const formatDate = (date, format = DATE_FORMAT) => {
   const m = moment(date);
+
   return date && m.isValid() ? m.format(format) : 'Unknown';
 };
 
@@ -118,6 +119,7 @@ export const parsePhoneNumber = phone => {
   if (!phone) {
     return { contact: null, extension: null };
   }
+
   let sanitizedNumber = phone
     .replace(/[()\s]/g, '') // remove parentheses
     .replace(/(?<=.)([+.*])/g, '-'); // replace .*+ symbols being used as dashes
@@ -144,6 +146,7 @@ export const parsePhoneNumber = phone => {
   if (isValidContactNumberRegex.test(contact)) {
     return { contact, extension };
   }
+
   return { contact: null, extension: null };
 };
 
@@ -157,12 +160,125 @@ export const getFormSubtitle = formData => {
   if (entityType === 'organization') {
     return 'VA Form 21-22';
   }
+
   if (entityType === 'individual') {
     const { individualType } = entity.attributes;
     if (individualType === 'representative') {
       return 'VA Form 21-22';
     }
+
     return 'VA Form 21-22a';
   }
+
   return 'VA Forms 21-22 and 21-22a';
+};
+
+export const getRepresentativeAddressAsObject = formData => {
+  const selectedEntity = formData['view:selectedRepresentative'];
+
+  return {
+    address1: (selectedEntity?.addressLine1 || '').trim(),
+    address2: (selectedEntity?.addressLine2 || '').trim(),
+    address3: (selectedEntity?.addressLine3 || '').trim(),
+    city: (selectedEntity?.city || '').trim(),
+    state: (selectedEntity?.stateCode || '').trim(),
+    zip: (selectedEntity?.zipCode || '').trim(),
+  };
+};
+
+export const getRepresentativeAddressAsString = formData => {
+  const selectedEntity = formData['view:selectedRepresentative'];
+
+  return (
+    [
+      (selectedEntity.addressLine1 || '').trim(),
+      (selectedEntity.addressLine2 || '').trim(),
+      (selectedEntity.addressLine3 || '').trim(),
+    ]
+      .filter(Boolean)
+      .join(' ') +
+    (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
+    (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
+    (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '')
+  );
+};
+
+export const getRepType = formData => {
+  const selectedEntity = formData['view:selectedRepresentative'];
+
+  if (selectedEntity?.type === 'organization') {
+    return 'Organization';
+  }
+
+  const repType = selectedEntity.attributes?.individualType;
+
+  if (repType === 'attorney') {
+    return 'Attorney';
+  }
+
+  if (repType === 'claimsAgent') {
+    return 'Claims Agent';
+  }
+
+  return 'VSO Representative';
+};
+
+export const getFormNumber = formData => {
+  const selectedEntity = formData['view:selectedRepresentative'];
+  const entityType = selectedEntity?.type;
+
+  if (
+    entityType === 'organization' ||
+    (entityType === 'individual' &&
+      selectedEntity.attributes.individualType === 'representative')
+  ) {
+    return '21-22';
+  }
+
+  return '21-22a';
+};
+
+export const getFormName = formData => {
+  if (getFormNumber(formData) === '21-22') {
+    return "Appointment of Veterans Service Organization as Claimant's Representative";
+  }
+
+  return "Appointment of Individual As Claimant's Representative";
+};
+
+const isOrg = formData =>
+  formData['view:selectedRepresentative']?.type === 'organization';
+
+const isAttorneyOrClaimsAgent = formData => {
+  const repType =
+    formData['view:selectedRepresentative'].attributes?.individualType;
+
+  return repType === 'attorney' || repType === 'claimsAgent';
+};
+
+export const getOrgName = formData => {
+  if (isOrg(formData)) {
+    return formData['view:selectedRepresentative'].name;
+  }
+
+  if (isAttorneyOrClaimsAgent(formData)) {
+    return null;
+  }
+
+  const id = formData?.selectedAccreditedOrganizationId;
+  const orgs =
+    formData['view:selectedRepresentative']?.attributes.accreditedOrganizations
+      .data;
+  let orgName;
+
+  if (id && orgs) {
+    for (let i = 0; i < orgs.length; i += 1) {
+      if (orgs[i].id === id) {
+        orgName = orgs[i].attributes.name;
+        break;
+      }
+    }
+  }
+
+  return orgName;
 };

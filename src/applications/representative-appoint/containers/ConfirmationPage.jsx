@@ -5,6 +5,12 @@ import PropTypes from 'prop-types';
 import { VaCheckbox } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import NeedHelp from '../components/NeedHelp';
 import sendNextStepsEmail from '../api/sendNextStepsEmail';
+import {
+  getRepresentativeAddressAsString,
+  getRepType,
+  getFormNumber,
+  getFormName,
+} from '../utilities';
 
 export default function ConfirmationPage({ router }) {
   const [signedForm, setSignedForm] = useState(false);
@@ -54,57 +60,57 @@ export default function ConfirmationPage({ router }) {
   const firstName =
     formData.applicantName?.first || formData.veteranFullName.first;
   const representativeName = selectedEntity?.name || selectedEntity?.fullName;
-  const representativeAddress =
-    [
-      (selectedEntity.addressLine1 || '').trim(),
-      (selectedEntity.addressLine2 || '').trim(),
-      (selectedEntity.addressLine3 || '').trim(),
-    ]
-      .filter(Boolean)
-      .join(' ') +
-    (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
-    (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
-    (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '');
+  // const representativeAddress =
+  //   [
+  //     (selectedEntity.addressLine1 || '').trim(),
+  //     (selectedEntity.addressLine2 || '').trim(),
+  //     (selectedEntity.addressLine3 || '').trim(),
+  //   ]
+  //     .filter(Boolean)
+  //     .join(' ') +
+  //   (selectedEntity.city ? ` ${selectedEntity.city},` : '') +
+  //   (selectedEntity.stateCode ? ` ${selectedEntity.stateCode}` : '') +
+  //   (selectedEntity.zipCode ? ` ${selectedEntity.zipCode}` : '');
 
-  const getRepType = () => {
-    if (selectedEntity?.type === 'organization') {
-      return 'Organization';
-    }
+  // const getRepType = () => {
+  //   if (selectedEntity?.type === 'organization') {
+  //     return 'Organization';
+  //   }
 
-    const repType = selectedEntity.attributes?.individualType;
+  //   const repType = selectedEntity.attributes?.individualType;
 
-    if (repType === 'attorney') {
-      return 'Attorney';
-    }
+  //   if (repType === 'attorney') {
+  //     return 'Attorney';
+  //   }
 
-    if (repType === 'claimsAgent') {
-      return 'Claims Agent';
-    }
+  //   if (repType === 'claimsAgent') {
+  //     return 'Claims Agent';
+  //   }
 
-    return 'VSO Representative';
-  };
+  //   return 'VSO Representative';
+  // };
 
-  const getFormNumber = () => {
-    const entityType = selectedEntity?.type;
+  // const getFormNumber = () => {
+  //   const entityType = selectedEntity?.type;
 
-    if (
-      entityType === 'organization' ||
-      (entityType === 'individual' &&
-        selectedEntity.attributes.individualType === 'representative')
-    ) {
-      return '21-22';
-    }
+  //   if (
+  //     entityType === 'organization' ||
+  //     (entityType === 'individual' &&
+  //       selectedEntity.attributes.individualType === 'representative')
+  //   ) {
+  //     return '21-22';
+  //   }
 
-    return '21-22a';
-  };
+  //   return '21-22a';
+  // };
 
-  const getFormName = () => {
-    if (getFormNumber() === '21-22') {
-      return "Appointment of Veterans Service Organization as Claimant's Representative";
-    }
+  // const getFormName = () => {
+  //   if (getFormNumber() === '21-22') {
+  //     return "Appointment of Veterans Service Organization as Claimant's Representative";
+  //   }
 
-    return "Appointment of Individual As Claimant's Representative";
-  };
+  //   return "Appointment of Individual As Claimant's Representative";
+  // };
 
   const handlers = {
     onClickDownloadForm: e => {
@@ -121,11 +127,11 @@ export default function ConfirmationPage({ router }) {
           await sendNextStepsEmail({
             emailAddress,
             firstName,
-            representativeType: getRepType(),
+            representativeType: getRepType(formData),
             representativeName,
-            representativeAddress,
-            formNumber: getFormNumber(),
-            formName: getFormName(),
+            representativeAddress: getRepresentativeAddressAsString(formData),
+            formNumber: getFormNumber(formData),
+            formName: getFormName(formData),
           });
         } catch (error) {
           // Should we set an error state to display a message in the UI?
