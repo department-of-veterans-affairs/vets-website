@@ -76,7 +76,7 @@ class ClaimStatusPage extends React.Component {
         <ClaimStatusHeader claim={claim} />
         {isOpen ? (
           <>
-            {decisionLetterSent ? <OpenClaimDecisionLetterAlert /> : <></>}
+            {decisionLetterSent && <OpenClaimDecisionLetterAlert />}
             <WhatYouNeedToDo claim={claim} useLighthouse />
             <WhatWeAreDoing
               claimPhaseType={claimPhaseType}

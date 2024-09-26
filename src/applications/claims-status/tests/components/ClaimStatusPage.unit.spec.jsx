@@ -526,7 +526,7 @@ describe('<ClaimStatusPage>', () => {
 
     const store = createStore(() => ({}));
 
-    it('should render a link to the claim letters page when claim is closed and desicion letter has been sent', () => {
+    it('should render a link to the claim letters page when claim is closed and decision letter has been sent', () => {
       const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage
@@ -541,7 +541,7 @@ describe('<ClaimStatusPage>', () => {
       screen.getByText('Get your claim letters');
     });
 
-    it('should render a link to the claim letters page when claim is open and desicion letter has been sent', () => {
+    it('should render a link to the claim letters page when claim is open and decision letter has been sent', () => {
       const screen = renderWithRouter(
         <Provider store={store}>
           <ClaimStatusPage

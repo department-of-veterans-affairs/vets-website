@@ -15,8 +15,8 @@ export default function OpenClaimDecisionLetterAlert() {
         letters related to your claims.
       </p>
       <p className="vads-u-margin-y--0">
-        We’ll also send you a copy of your decision letter by mail. It within 10
-        days after the date we closed your claim, but it may take take longer.
+        We’ll also send you a copy of your decision letter by mail. It should
+        arrive within 10 days, but it may take take longer.
       </p>
       <div className="link-action-container">
         <Link className="vads-c-action-link--blue" to="/your-claim-letters">
