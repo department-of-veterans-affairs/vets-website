@@ -25,9 +25,6 @@ jobs:
         buildtype: [vagovdev, vagovstaging, vagovprod]
 
     steps:
-      - name: Disable IPv6
-        run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
-
       - name: Checkout
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
         with:
@@ -699,6 +696,8 @@ jobs:
       # Previously, the above conditional was included in the job's if statement.
       
           
+      - name: Disable IPv6
+        run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
 
       - name: Checkout vets-website
         if: needs.tests-prep.outputs.cypress-tests != '[]'
