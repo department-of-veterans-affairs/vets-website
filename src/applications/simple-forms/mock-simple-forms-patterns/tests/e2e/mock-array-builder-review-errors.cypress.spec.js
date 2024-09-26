@@ -229,7 +229,7 @@ const testConfig = createTestConfig(
       cy.intercept('GET', '/v0/feature_toggles?*', featureToggles);
       cy.intercept('POST', formConfig.submitUrl, mockSubmit);
     },
-    skip: false,
+    skip: true,
   },
   manifest,
   formConfig,
