@@ -565,7 +565,7 @@ export function FilterBeforeResults({
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
+      employers: true,
       vettec: false,
       preferredProvider: false,
       country: 'ALL',

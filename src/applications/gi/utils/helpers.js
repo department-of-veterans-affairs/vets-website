@@ -397,24 +397,13 @@ export const validateSearchTerm = (searchTerm, dispatchError, error, type) => {
   const empty = searchTerm.trim() === '';
   const invalidZipCodePattern = /^\d{6,}$/;
 
-  // if (type === 'name') {
-  // if (empty) {
-  //   dispatchError('Please fill in a school, employer, or training provider.');
-  // } else
   if (
     type === 'name' &&
     error === ERROR_MESSAGES.searchByNameInputEmpty &&
     !empty
   ) {
     dispatchError(null);
-  }
-  // }
-  else if (type === 'location') {
-    // if (empty) {
-    //   dispatchError('Please fill in a city, state, or postal code.');
-    // } else if (invalidZipCodePattern.test(searchTerm)) {
-    //   dispatchError('Please enter a valid postal code.');
-    // } else
+  } else if (type === 'location') {
     if (error === ERROR_MESSAGES.searchbyLocationInputEmpty && !empty) {
       dispatchError(null);
     } else if (
