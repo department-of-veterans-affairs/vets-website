@@ -38,6 +38,27 @@ const formatMissingIdentifiers = missingIdentifiers => {
   return readableList(readableIdentifiers);
 };
 
+const okMessageToDisplayText = missingIdentifiers => {
+  if (!missingIdentifiers) return '';
+
+  const messages = {
+    birlsId: "It's ok if you don't know your BIRLS ID.",
+    edipi: "It's ok if you don't know your EDIPI ID.",
+  };
+
+  const missingMessages = Object.keys(messages)
+    .filter(key => missingIdentifiers.includes(key))
+    .map(key => messages[key]);
+
+  if (missingMessages.length === 2) {
+    return "It's ok if you don't know your BIRLS ID or EDIPI ID.";
+  }
+  if (missingMessages.length === 0) {
+    return '';
+  }
+  return missingMessages[0];
+};
+
 const Alert = ({ children, title }) => (
   <div className="vads-l-grid-container vads-u-padding-left--0 vads-u-padding-bottom--5">
     <div className="usa-content">
@@ -58,6 +79,7 @@ const displayContent = (title, form526RequiredIdentifers) => {
   const missingIdentifiers = filterMissingIdentifiers(
     form526RequiredIdentifers,
   );
+  const itsOkDisplayMessage = okMessageToDisplayText(missingIdentifiers);
 
   recordEvent({
     event: 'visible-alert-box',
@@ -85,9 +107,9 @@ const displayContent = (title, form526RequiredIdentifers) => {
         before you can {titleLowerCase(title)}. Call us at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact={CONTACTS['711']} tty />) to update your
-        information. We’re here Monday through Friday from 8:00 a.m. to 9:00
-        p.m. ET. Tell the representative that you want to add this missing
-        information to your file.
+        information. {itsOkDisplayMessage} We’re here 24/7. Tell the
+        representative that you want to add this missing information to your
+        file.
       </p>
     </>
   );
