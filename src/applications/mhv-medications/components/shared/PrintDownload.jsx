@@ -217,4 +217,5 @@ PrintDownload.propTypes = {
   onDownload: PropTypes.any,
   onPrint: PropTypes.func,
   onText: PropTypes.func,
+  isLoading: PropTypes.bool,
 };
