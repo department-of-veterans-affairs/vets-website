@@ -7,7 +7,7 @@ import {
   titleSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
 
-import { preparerIsVeteran } from '../../utilities';
+import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const blankSchema = { type: 'object', properties: {} };
 

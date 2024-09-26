@@ -5,7 +5,7 @@ import {
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import PropTypes from 'prop-types';
 import { authorizationNote } from '../../content/authorizeMedical';
-import { representativeTypeMap } from '../../utilities';
+import { representativeTypeMap } from '../../utilities/helpers';
 
 export const uiSchema = {
   'ui:description': ({ formData }) => {

@@ -8,7 +8,6 @@ import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
 import { parsePhoneNumber } from '../utilities/helpers';
 import fetchRepStatus from '../api/fetchRepStatus';
 
-
 const SearchResult = ({
   representativeName,
   addressLine1,

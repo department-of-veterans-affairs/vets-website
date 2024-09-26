@@ -5,7 +5,7 @@ import {
   titleSchema,
 } from '~/platform/forms-system/src/js/web-component-patterns';
 import { branchOptions } from '../../constants/options';
-import { preparerIsVeteran } from '../../utilities';
+import { preparerIsVeteran } from '../../utilities/helpers';
 
 export const uiSchema = {
   ...titleUI(

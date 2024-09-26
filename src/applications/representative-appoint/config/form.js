@@ -30,7 +30,7 @@ import {
 } from '../pages';
 
 import { prefillTransformer } from '../prefill-transformer';
-import { preparerIsVeteran } from '../utilities';
+import { preparerIsVeteran } from '../utilities/helpers';
 
 import initialData from '../tests/fixtures/data/test-data.json';
 import ClaimantType from '../components/ClaimantType';
