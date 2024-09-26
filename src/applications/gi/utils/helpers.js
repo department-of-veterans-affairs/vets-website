@@ -15,6 +15,7 @@ import {
   SMALL_SCREEN_WIDTH,
   PREVIOUS_URL_PUSHED_TO_HISTORY,
   filterKeys,
+  ERROR_MESSAGES,
 } from '../constants';
 
 /**
@@ -392,6 +393,38 @@ export const sortedSpecializedMissionDefinitions = () => {
   );
 };
 
+export const validateSearchTerm = (searchTerm, dispatchError, error, type) => {
+  const empty = searchTerm.trim() === '';
+  const invalidZipCodePattern = /^\d{6,}$/;
+
+  // if (type === 'name') {
+  // if (empty) {
+  //   dispatchError('Please fill in a school, employer, or training provider.');
+  // } else
+  if (
+    type === 'name' &&
+    error === ERROR_MESSAGES.searchByNameInputEmpty &&
+    !empty
+  ) {
+    dispatchError(null);
+  }
+  // }
+  else if (type === 'location') {
+    // if (empty) {
+    //   dispatchError('Please fill in a city, state, or postal code.');
+    // } else if (invalidZipCodePattern.test(searchTerm)) {
+    //   dispatchError('Please enter a valid postal code.');
+    // } else
+    if (error === ERROR_MESSAGES.searchbyLocationInputEmpty && !empty) {
+      dispatchError(null);
+    } else if (
+      error === ERROR_MESSAGES.invalidZipCode &&
+      !invalidZipCodePattern.test(searchTerm)
+    )
+      dispatchError(null);
+  }
+};
+
 export const validateSearchTermSubmit = (
   searchTerm,
   dispatchError,
@@ -404,9 +437,9 @@ export const validateSearchTermSubmit = (
 
   if (type === 'name') {
     if (empty) {
-      dispatchError('Please fill in a school, employer, or training provider.');
+      dispatchError(ERROR_MESSAGES.searchByNameInputEmpty);
     } else if (filterKeys.every(key => filters[key] === false)) {
-      dispatchError('Please select at least one filter.');
+      dispatchError(ERROR_MESSAGES.checkBoxFilterEmpty);
     } else if (error !== null) {
       dispatchError(null);
     }
@@ -415,11 +448,11 @@ export const validateSearchTermSubmit = (
 
   if (type === 'location') {
     if (empty) {
-      dispatchError('Please fill in a city, state, or postal code.');
-    } else if (filterKeys.every(key => filters[key] === false)) {
-      dispatchError('Please select at least one filter.');
+      dispatchError(ERROR_MESSAGES.searchbyLocationInputEmpty);
     } else if (invalidZipCodePattern.test(searchTerm)) {
-      dispatchError('Please enter a valid postal code.');
+      dispatchError(ERROR_MESSAGES.invalidZipCode);
+    } else if (filterKeys.every(key => filters[key] === false)) {
+      dispatchError(ERROR_MESSAGES.checkBoxFilterEmpty);
     } else if (error !== null) {
       dispatchError(null);
     }
@@ -431,6 +464,14 @@ export const validateSearchTermSubmit = (
   }
 
   return !empty;
+};
+
+export const isEmptyCheckboxFilters = filters => {
+  let isEmpty = true;
+
+  if (!filterKeys.every(key => filters[key] === false)) isEmpty = false;
+
+  return isEmpty;
 };
 
 export const currentTab = () => {

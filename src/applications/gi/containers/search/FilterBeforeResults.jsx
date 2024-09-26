@@ -22,12 +22,14 @@ import {
   validateSearchTermSubmit,
   isShowVetTec,
   isShowCommunityFocusVACheckbox,
+  isEmptyCheckboxFilters,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
@@ -343,6 +345,33 @@ export function FilterBeforeResults({
     specialMissionPBI,
     specialMissionTRIBAL,
   } = filters;
+
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;

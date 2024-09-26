@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { WAIT_INTERVAL, KEY_CODES } from '../../constants';
 import {
   handleScrollOnInputFocus,
-  validateSearchTermSubmit,
+  validateSearchTerm,
 } from '../../utils/helpers';
 import { setError } from '../../actions';
 
@@ -24,7 +24,7 @@ export function KeywordSearch({
   required,
   suggestions,
   version,
-  filters,
+  // filters,
   dispatchError,
   errorReducer,
   type,
@@ -94,9 +94,8 @@ export function KeywordSearch({
       if (value !== '') {
         debouncedFetchSuggestion(value);
       }
-      if (validateSearchTermSubmit) {
-        validateSearchTermSubmit(value, dispatchError, error, filters, type);
-      }
+      // validateSearchTerm(value, dispatchError, error, filters, type);
+      validateSearchTerm(value, dispatchError, error, type);
     }
   };
 
@@ -230,7 +229,7 @@ KeywordSearch.propTypes = {
   required: PropTypes.any,
   suggestions: PropTypes.array,
   type: PropTypes.string,
-  validateSearchTermSubmit: PropTypes.func,
+  validateSearchTerm: PropTypes.func,
   version: PropTypes.string,
   onFetchAutocompleteSuggestions: PropTypes.func,
   onPressEnter: PropTypes.func,
