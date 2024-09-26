@@ -19,21 +19,21 @@ export const uiSchema = {
       expandUnder: 'view:hasEvidence',
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
+    'ui:validations': [
+      {
+        validator: validateIfHasEvidence,
+        options: { wrappedValidator: validateBooleanGroup },
+      },
+    ],
+    'ui:errorMessages': {
+      atLeastOne: 'Please select at least one type of supporting evidence',
+    },
     'view:selectableEvidenceTypes': {
       'ui:title':
         'What type of evidence do you want us to review as part of your claim?',
       'ui:webComponentField': VaCheckboxGroupField,
       'ui:options': { showFieldLabel: true },
-      'ui:validations': [
-        {
-          validator: validateIfHasEvidence,
-          options: { wrappedValidator: validateBooleanGroup },
-        },
-      ],
-      'ui:errorMessages': {
-        atLeastOne: 'Please select at least one type of supporting evidence',
-      },
-      'ui:required': formData => get('view:hasEvidence', formData, false),
+      // 'ui:required': formData => get('view:hasEvidence', formData, false),
       'view:hasVaMedicalRecords': { 'ui:title': 'VA medical records' },
       'view:hasPrivateMedicalRecords': {
         'ui:title': 'Private medical records',
