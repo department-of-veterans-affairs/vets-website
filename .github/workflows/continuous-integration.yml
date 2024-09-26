@@ -784,7 +784,6 @@ jobs:
         if: needs.tests-prep.outputs.cypress-tests != '[]'
         run: node script/github-actions/run-cypress-tests.js
         timeout-minutes: 120
-        continue-on-error: true
         env:
           CYPRESS_CI: true
           STEP: ${{ matrix.ci_node_index }}
