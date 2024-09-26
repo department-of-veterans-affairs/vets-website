@@ -8,7 +8,7 @@ class ApiInitializer {
           type: 'feature_toggles',
           features: [
             { name: 'travel_pay_power_switch', value: true },
-            { name: 'travelPayPowerSwitch', value: true },
+            { name: 'travel_pay_view_claim_details', value: true },
           ],
         },
       }).as('featureToggles');

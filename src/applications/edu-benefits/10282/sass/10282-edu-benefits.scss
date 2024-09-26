@@ -5,10 +5,18 @@
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-modal";
 @import "~@department-of-veterans-affairs/formation/sass/modules/m-omb-info";
 @import "../../../../platform/forms/sass/m-form-confirmation";
-.input-small {
-    width: 100px;
+
+.schemaform-intro .schemaform-title {
+  margin-bottom: 1rem;
+}
+
+.intro-ul {
+  list-style-type: disc;
+}
+
+@media (max-width: $small-screen) {
+  va-need-help {
+    padding: 0 0.5rem;
   }
-  .full-name{
-    font-size: 14px;
-    color: rgb(0, 0, 0);
-  }
+}
+

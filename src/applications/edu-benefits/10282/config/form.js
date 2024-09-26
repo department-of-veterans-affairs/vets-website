@@ -1,8 +1,9 @@
 import React from 'react';
 import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 import { VA_FORM_IDS } from 'platform/forms/constants';
+import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import FormFooter from 'platform/forms/components/FormFooter';
 import manifest from '../manifest.json';
-import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import {
   applicantInformationName,
@@ -20,8 +21,10 @@ import {
 import StatementOfTruth from '../components/ StatementOfTruth';
 // import submitForm from './submitForm';
 import { transform } from './submit-transformer';
+import FormHelp from '../components/FormHelp';
+import IntroductionPage from '../containers/IntroductionPage';
 
-const { fullName, usaPhone, email } = fullSchema10282?.definitions;
+const { fullName, email, usaPhone } = commonDefinitions;
 
 const formConfig = {
   rootUrl: manifest.rootUrl,
@@ -56,9 +59,12 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for 	education benefits.',
   },
+
   title: 'Apply for the IBM SkillsBuild Program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
+  footerContent: FormFooter,
+  getHelp: FormHelp,
   defaultDefinitions: {
     fullName,
     usaPhone,
