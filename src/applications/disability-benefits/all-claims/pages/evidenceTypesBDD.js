@@ -27,31 +27,28 @@ export const uiSchema = {
       N: 'No, I will submit more information later',
     },
   }),
-  'view:hasEvidenceFollowUp': {
+  'view:selectableEvidenceTypes': {
     'ui:options': {
       expandUnder: 'view:hasEvidence',
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
-    'view:selectableEvidenceTypes': {
-      'ui:title': evidenceTypeTitle,
-      'ui:validations': [
-        {
-          validator: validateIfHasEvidence,
-          options: { wrappedValidator: validateBooleanGroup },
-        },
-      ],
-      'ui:errorMessages': {
-        atLeastOne: evidenceTypeError,
+    'ui:title': evidenceTypeTitle,
+    'ui:validations': [
+      {
+        validator: validateIfHasEvidence,
+        options: { wrappedValidator: validateBooleanGroup },
       },
-      'ui:required': formData => get('view:hasEvidence', formData, false),
-      'view:hasPrivateMedicalRecords': {
-        'ui:webComponentField': VaCheckboxField,
-        'ui:title': privateMedicalRecords,
-      },
-      'view:hasOtherEvidence': {
-        'ui:webComponentField': VaCheckboxField,
-        'ui:title': bddShaOtherEvidence,
-      },
+    ],
+    'ui:errorMessages': {
+      atLeastOne: evidenceTypeError,
+    },
+    'view:hasPrivateMedicalRecords': {
+      'ui:webComponentField': VaCheckboxField,
+      'ui:title': privateMedicalRecords,
+    },
+    'view:hasOtherEvidence': {
+      'ui:webComponentField': VaCheckboxField,
+      'ui:title': bddShaOtherEvidence,
     },
     'view:evidenceTypeHelp': {
       'ui:title': ' ',
@@ -75,16 +72,11 @@ export const schema = {
   required: ['view:hasEvidence'],
   properties: {
     'view:hasEvidence': yesNoSchema,
-    'view:hasEvidenceFollowUp': {
+    'view:selectableEvidenceTypes': {
       type: 'object',
       properties: {
-        'view:selectableEvidenceTypes': {
-          type: 'object',
-          properties: {
-            'view:hasPrivateMedicalRecords': { type: 'boolean' },
-            'view:hasOtherEvidence': { type: 'boolean' },
-          },
-        },
+        'view:hasPrivateMedicalRecords': { type: 'boolean' },
+        'view:hasOtherEvidence': { type: 'boolean' },
         'view:evidenceTypeHelp': {
           type: 'object',
           properties: {},
