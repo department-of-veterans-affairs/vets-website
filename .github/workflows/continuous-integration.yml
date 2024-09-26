@@ -695,7 +695,6 @@ jobs:
       # the job to always run, and skips each step if no tests are selected.
       # Previously, the above conditional was included in the job's if statement.
       
-          
       - name: Disable IPv6
         run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
 
@@ -850,6 +849,9 @@ jobs:
       CI_NODE_INDEX: ${{ needs.tests-prep.outputs.ci_node_index }}
 
     steps:
+      - name: Disable IPv6
+        run: echo "DISABLE_IPV6=1" >> $GITHUB_ENV
+          
       - name: Checkout vets-website
         uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
 
@@ -882,7 +884,7 @@ jobs:
             node_modules
 
       - name: Start server
-        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --port=3001 &
+        run: node src/platform/testing/e2e/test-server.js --buildtype=vagovprod --host=0.0.0.0 --port=3001 &
 
       - name: Download Tests to verify
         uses: ./.github/workflows/download-artifact
