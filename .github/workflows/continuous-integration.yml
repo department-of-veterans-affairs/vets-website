@@ -781,7 +781,7 @@ jobs:
 
       - name: Check localhost connectivity
         if: needs.tests-prep.outputs.cypress-tests != '[]'
-        run: curl --verbose http://--host=127.0.0.1:3001/track-claims
+        run: curl --verbose http://127.0.0.1:3001/track-claims
 
       - name: Run Cypress tests
         if: needs.tests-prep.outputs.cypress-tests != '[]'
