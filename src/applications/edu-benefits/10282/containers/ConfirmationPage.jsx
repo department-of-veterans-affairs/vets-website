@@ -60,6 +60,7 @@ export class ConfirmationPage extends React.Component {
               also download your completed application as a PDF.
             </span>
           </p>
+          {/* eslint-disable-next-line @department-of-veterans-affairs/prefer-button-component */}
           <button
             type="button"
             className="usa-button screen-only"
