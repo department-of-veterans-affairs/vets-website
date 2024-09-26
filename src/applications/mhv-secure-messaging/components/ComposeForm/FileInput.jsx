@@ -12,7 +12,7 @@ const FileInput = props => {
     setAttachments,
     setAttachFileSuccess,
     draftSequence,
-    attachmentVirusError,
+    attachmentScanError,
   } = props;
 
   const [error, setError] = useState();
@@ -144,7 +144,7 @@ const FileInput = props => {
       )}
 
       {attachments?.length < Attachments.MAX_FILE_COUNT &&
-        !attachmentVirusError && (
+        !attachmentScanError && (
           <>
             {/* Wave plugin addressed this as an issue, label required */}
             <label

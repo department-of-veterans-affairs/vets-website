@@ -114,7 +114,7 @@ const ComposeForm = props => {
   );
   const alertsList = useSelector(state => state.sm.alerts.alertList);
 
-  const attachmentVirusError = useMemo(
+  const attachmentScanError = useMemo(
     () =>
       alertsList.filter(
         alert =>
@@ -895,14 +895,14 @@ const ComposeForm = props => {
                     setAttachFileSuccess={setAttachFileSuccess}
                     setNavigationError={setNavigationError}
                     editingEnabled
-                    attachmentVirusError={attachmentVirusError}
+                    attachmentScanError={attachmentScanError}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
-                    attachmentVirusError={attachmentVirusError}
+                    attachmentScanError={attachmentScanError}
                   />
                 </section>
               ))}

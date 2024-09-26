@@ -80,7 +80,7 @@ const ReplyDraftItem = props => {
   const [draftId, setDraftId] = useState(null);
 
   const alertsList = useSelector(state => state.sm.alerts.alertList);
-  const attachmentVirusError = useMemo(
+  const attachmentScanError = useMemo(
     () =>
       alertsList?.filter(
         alert =>
@@ -538,7 +538,7 @@ const ReplyDraftItem = props => {
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
-                attachmentVirusError={attachmentVirusError}
+                attachmentScanError={attachmentScanError}
               />
 
               <FileInput
@@ -546,7 +546,7 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
-                attachmentVirusError={attachmentVirusError}
+                attachmentScanError={attachmentScanError}
               />
             </section>
           )}

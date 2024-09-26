@@ -65,7 +65,7 @@ describe('Attachments List component', () => {
             'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
         },
       ],
-      attachmentVirusError: false,
+      attachmentScanError: false,
       editingEnabled: false,
     };
     const screen = renderWithStoreAndRouter(
@@ -204,7 +204,7 @@ describe('Attachments List component', () => {
             'http://127.0.0.1:3000/my_health/v1/messaging/messages/2664846/attachments/2664842',
         },
       ],
-      attachmentVirusError: false,
+      attachmentScanError: false,
     };
     const screen = setup(initialState, Paths.COMPOSE, customProps);
 
