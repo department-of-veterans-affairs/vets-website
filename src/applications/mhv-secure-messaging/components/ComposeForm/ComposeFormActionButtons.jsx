@@ -54,7 +54,7 @@ const ComposeFormActionButtons = ({
             vads-u-margin-top--0
             vads-u-padding-x--0p5
             vads-u-width--full
-            xsmall-screen:vads-u-flex--1
+            mobile:vads-u-flex--1
             xsmall-screen:vads-u-margin-bottom--0
             xsmall-screen:vads-u-margin-right--1
           `}

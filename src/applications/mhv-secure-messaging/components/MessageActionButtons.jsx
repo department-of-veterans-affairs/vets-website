@@ -62,7 +62,7 @@ const MessageActionButtons = props => {
         </div>
       )}
 
-      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column xsmall-screen:vads-u-flex-direction--row ">
+      <div className="vads-u-display--flex vads-u-flex--1 vads-u-flex-direction--column mobile:vads-u-flex-direction--row ">
         <PrintBtn
           key="print"
           handlePrint={handlePrint}
