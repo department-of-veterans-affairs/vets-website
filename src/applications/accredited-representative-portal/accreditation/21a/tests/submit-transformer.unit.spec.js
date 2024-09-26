@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import {
   setName,
   setBirth,
@@ -14,9 +15,18 @@ import {
   setBackgroundInfo,
 } from '../config/submit-transformer';
 
+let transformedData = {};
+
+
+// const transformedData = {};
+
 describe('setName', () => {
+  beforeEach(() => {
+    transformedData = {};
+  });
+
   it('should transform the name', () => {
-    const transformedData = {};
+    // const transformedData = {};
 
     const fullName = {
       first: 'John',
@@ -31,13 +41,14 @@ describe('setName', () => {
     };
 
     setName(fullName);
+    console.log(transformedData);
     expect(transformedData).to.eq(expected);
   });
 });
 
 describe('setBirth', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the birth data', () => {
+    // const transformedData = {};
 
     const form = {
       data: {
@@ -64,8 +75,8 @@ describe('setBirth', () => {
 });
 
 describe('setHomeAddress', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the home address', () => {
+    // const transformedData = {};
 
     const homeAddress = {
       isMilitary: false,
@@ -91,8 +102,8 @@ describe('setHomeAddress', () => {
 });
 
 describe('setContactInfo', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the contact info', () => {
+    // const transformedData = {};
 
     const form = {
       data: {
@@ -117,8 +128,8 @@ describe('setContactInfo', () => {
 });
 
 describe('setEmployment', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the employment', () => {
+    // const transformedData = {};
 
     const workAddress = {
       isMilitary: false,
@@ -152,8 +163,8 @@ describe('setEmployment', () => {
 });
 
 describe('setMilitaryService', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the military service', () => {
+    // const transformedData = {};
 
     const militaryServices = [
       {
@@ -185,8 +196,8 @@ describe('setMilitaryService', () => {
 });
 
 describe('setEmploymentHistory', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the employment history', () => {
+    // const transformedData = {};
 
     const employers = [
       {
@@ -232,8 +243,8 @@ describe('setEmploymentHistory', () => {
 });
 
 describe('setEducation', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the education', () => {
+    // const transformedData = {};
 
     const educationalInstitutions = [
       {
@@ -279,8 +290,8 @@ describe('setEducation', () => {
 });
 
 describe('setJurisdictions', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the jurisdictions', () => {
+    // const transformedData = {};
 
     const jurisdictions = [
       {
@@ -307,8 +318,8 @@ describe('setJurisdictions', () => {
 });
 
 describe('setAgencies', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the agencies', () => {
+    // const transformedData = {};
 
     const agenciesOrCourts = [
       {
@@ -335,8 +346,8 @@ describe('setAgencies', () => {
 });
 
 describe('setCharacterReferences', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the character references', () => {
+    // const transformedData = {};
 
     const characterReferences = [
       {
@@ -386,8 +397,8 @@ describe('setCharacterReferences', () => {
 });
 
 describe('setBackgroundInfo', () => {
-  it('should transform the name', () => {
-    const transformedData = {};
+  it('should transform the background info', () => {
+    // const transformedData = {};
 
     const form = {
       data: {

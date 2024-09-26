@@ -9,9 +9,9 @@ import {
   RELATION_TO_APPLICANT_ID,
 } from './enums';
 
-const transformedData = {};
+import { transformedData } from './constants';
 
-const setName = fullName => {
+export const setName = fullName => {
   transformedData.firstName = fullName.first;
   transformedData.lastName = fullName.last;
 
@@ -19,14 +19,14 @@ const setName = fullName => {
   if (fullName?.suffix) transformedData.suffix = fullName.suffix;
 };
 
-const setBirth = (placeOfBirth, form) => {
+export const setBirth = (placeOfBirth, form) => {
   transformedData.birthDate = form.data.dateOfBirth;
   transformedData.birthCity = placeOfBirth.city;
   transformedData.birthState = placeOfBirth.state;
   transformedData.birthCountry = placeOfBirth.country;
 };
 
-const setHomeAddress = homeAddress => {
+export const setHomeAddress = homeAddress => {
   transformedData.homeAddress = {
     addressType: homeAddress?.isMilitary,
     line1: homeAddress.street,
@@ -41,7 +41,7 @@ const setHomeAddress = homeAddress => {
     transformedData.homeAddress.line2 = homeAddress.street2;
 };
 
-const setContactInfo = form => {
+export const setContactInfo = form => {
   transformedData.homePhone = form.data.phone;
   transformedData.phoneTypeId = PHONE_TYPE_ID[form.data.typeOfPhone];
   transformedData.phoneType = {
@@ -50,7 +50,7 @@ const setContactInfo = form => {
   transformedData.homeEmail = form.data.email;
 };
 
-const setEmployment = (workAddress, form) => {
+export const setEmployment = (workAddress, form) => {
   const employmentStatus = Object.keys(form.data.employmentStatus)[0];
   transformedData.employmentStatus = employmentStatus;
   transformedData.employmentStatusId = EMPLOYMENT_STATUS_ID[employmentStatus];
@@ -75,7 +75,7 @@ const setEmployment = (workAddress, form) => {
   }
 };
 
-const setMilitaryService = militaryServiceExperiences => {
+export const setMilitaryService = militaryServiceExperiences => {
   transformedData.militaryServices = [];
 
   for (let i = 0; i < militaryServiceExperiences.length; i += 1) {
@@ -97,7 +97,7 @@ const setMilitaryService = militaryServiceExperiences => {
   }
 };
 
-const setEmploymentHistory = employers => {
+export const setEmploymentHistory = employers => {
   transformedData.employment = [];
 
   for (let i = 0; i < employers.length; i += 1) {
@@ -125,7 +125,7 @@ const setEmploymentHistory = employers => {
   }
 };
 
-const setEducation = educationalInstitutions => {
+export const setEducation = educationalInstitutions => {
   transformedData.education = [];
 
   for (let i = 0; i < educationalInstitutions.length; i += 1) {
@@ -155,7 +155,7 @@ const setEducation = educationalInstitutions => {
   }
 };
 
-const setJurisdictions = jurisdictions => {
+export const setJurisdictions = jurisdictions => {
   transformedData.jurisdictions = [];
 
   for (let i = 0; i < jurisdictions.length; i += 1) {
@@ -171,7 +171,7 @@ const setJurisdictions = jurisdictions => {
   }
 };
 
-const setAgencies = agenciesOrCourts => {
+export const setAgencies = agenciesOrCourts => {
   transformedData.agencies = [];
 
   for (let i = 0; i < agenciesOrCourts.length; i += 1) {
@@ -187,7 +187,7 @@ const setAgencies = agenciesOrCourts => {
   }
 };
 
-const setCharacterReferences = characterReferences => {
+export const setCharacterReferences = characterReferences => {
   transformedData.characterReferences = [];
 
   for (let i = 0; i < characterReferences.length; i += 1) {
@@ -215,7 +215,7 @@ const setCharacterReferences = characterReferences => {
   }
 };
 
-const setBackgroundInfo = form => {
+export const setBackgroundInfo = form => {
   transformedData.wasImprisoned = form.data.conviction;
   transformedData.wasMilitaryConviction = form.data.courtMartialed;
   transformedData.isCurrentlyCharged = form.data.underCharges;
