@@ -42,7 +42,6 @@ export const uiSchema = {
   },
   'view:evidenceTypeHelp': {
     'ui:options': {
-      showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
     },
     'ui:title': ' ',
