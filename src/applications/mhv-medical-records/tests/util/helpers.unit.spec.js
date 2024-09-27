@@ -467,11 +467,11 @@ describe('formatNameFirstToLast', () => {
     expect(updatedName).to.eq(firstLastName);
   });
 
-  it('returns null if not formatted correctly.', () => {
+  it('returns original name if not formatted correctly.', () => {
     const lastFirstName = 'Schmo Joe';
     const updatedName = formatNameFirstToLast(lastFirstName);
 
-    expect(updatedName).to.eq(null);
+    expect(updatedName).to.eq(lastFirstName);
   });
 });
 
