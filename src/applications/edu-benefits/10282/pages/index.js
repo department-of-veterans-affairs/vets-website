@@ -1,5 +1,5 @@
-import * as applicantInformationName from './applicantInformation/applicantInName';
-import * as applicantInformationCountry from './applicantInformation/applicantInCountry';
+import * as applicantInformationName from './applicantInformation/applicantName';
+import * as applicantInformationCountry from './applicantInformation/applicantCountry';
 import * as veteranDesc from './applicantInformation/applicantDescription';
 import * as applicantContactInfo from './applicantInformation/applicantContactInfo';
 import * as applicantState from './applicantInformation/applicantState';
