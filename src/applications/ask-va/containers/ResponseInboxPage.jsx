@@ -10,11 +10,11 @@ import { focusElement } from '@department-of-veterans-affairs/platform-utilities
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, withRouter } from 'react-router';
 import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
-import { baseURL, envUrl, RESPONSE_PAGE, URL } from '../constants';
+import { envUrl, RESPONSE_PAGE, URL } from '../constants';
 import { formatDate } from '../utils/helpers';
 
 const attachmentBox = fileName => (
@@ -35,12 +35,11 @@ const emptyMessage = message => (
 );
 const getReplySubHeader = messageType => messageType.split(':')[1].trim();
 
-const ResponseInboxPage = () => {
+const ResponseInboxPage = ({ router }) => {
   const [error, setError] = useState(false);
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
   const [loading, setLoading] = useState(true);
   const [inquiryData, setInquiryData] = useState([]);
-
   const getLastSegment = () => {
     const pathArray = window.location.pathname.split('/');
     return pathArray[pathArray.length - 1];
@@ -61,6 +60,7 @@ const ResponseInboxPage = () => {
     return apiRequest(url, options)
       .then(() => {
         setLoading(false);
+        router.push('/response-sent');
       })
       .catch(() => {
         setLoading(false);
@@ -74,9 +74,7 @@ const ResponseInboxPage = () => {
 
   const handleSubmit = () => {
     if (sendReply.reply) {
-      postApiData(
-        `${envUrl}${baseURL}/inquiries/${inquiryId}${URL.SEND_REPLY}`,
-      );
+      postApiData(`${envUrl}${URL.GET_INQUIRIES}${inquiryId}${URL.SEND_REPLY}`);
     }
   };
 
@@ -96,7 +94,7 @@ const ResponseInboxPage = () => {
 
   useEffect(
     () => {
-      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRY}/${inquiryId}`);
+      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRIES}/${inquiryId}`);
     },
     [inquiryId],
   );
@@ -292,6 +290,7 @@ const ResponseInboxPage = () => {
 };
 
 ResponseInboxPage.propTypes = {
+  router: PropTypes.object.isRequired,
   loggedIn: PropTypes.bool,
   params: PropTypes.object,
 };
@@ -302,4 +301,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(ResponseInboxPage);
+export default connect(mapStateToProps)(withRouter(ResponseInboxPage));
