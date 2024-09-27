@@ -20,6 +20,7 @@ const CalendarNavigation = ({
           onClick={prevOnClick}
           disabled={prevDisabled}
           type="button"
+          aria-label="Previous"
         >
           <span
             className={classNames(
@@ -42,7 +43,7 @@ const CalendarNavigation = ({
       <span role="cell">
         <h2
           id={`h2-${momentMonth.format('YYYY-MM')}`}
-          className="vads-u-font-size--h4 small-screen:vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-font-weight--bold vads-u-text-align--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
+          className="vads-u-font-size--h4 mobile-lg:vads-u-font-size--h3 vads-u-margin-top--0p5 vads-u-font-weight--bold vads-u-text-align--center vads-u-align-items--center vads-u-margin-bottom--0 vads-u-display--block vads-u-font-family--serif"
         >
           {momentMonth.format('MMMM YYYY')}
         </h2>
@@ -54,6 +55,7 @@ const CalendarNavigation = ({
           onClick={nextOnClick}
           disabled={nextDisabled}
           type="button"
+          aria-label="Next"
         >
           <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-right--1">
             Next
