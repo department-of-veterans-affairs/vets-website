@@ -56,6 +56,22 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
   const label = uiSchema['ui:title'] || schemaFromState?.properties[key].title;
 
   let refinedData = typeof data === 'object' ? data[key] : data;
+
+  // long term, make this a switch statement
+  if (
+    uiSchema['ui:widget'] === 'radio' &&
+    uiSchema['ui:options']?.labels?.[refinedData]
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  }
+
+  if (
+    uiSchema['ui:widget'] === 'yesNo' &&
+    uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  }
+
   const dataType = schema.properties[key].type;
 
   if (ConfirmationField) {

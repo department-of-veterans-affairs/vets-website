@@ -1,10 +1,9 @@
 import * as Sentry from '@sentry/browser';
-import moment from 'moment';
 import recordEvent from 'platform/monitoring/record-event';
 import localStorage from 'platform/utilities/storage/localStorage';
 import { displayFileSize } from 'platform/utilities/ui/index';
 import { FILE_UPLOAD_NETWORK_ERROR_MESSAGE } from 'platform/forms-system/src/js/constants';
-import { timeFromNow } from './utilities/date';
+import { timeFromNow } from '../../../utilities/date';
 import { transformForSubmit } from './helpers';
 
 export const SET_EDIT_MODE = 'SET_EDIT_MODE';
@@ -321,8 +320,8 @@ export function uploadFile(
         }
         if (req.status === 429) {
           errorMessage = `You’ve reached the limit for the number of submissions we can accept at this time. Please try again in ${timeFromNow(
-            moment.unix(
-              parseInt(req.getResponseHeader('x-ratelimit-reset'), 10),
+            new Date(
+              parseInt(req.getResponseHeader('x-ratelimit-reset'), 10) * 1000,
             ),
           )}.`;
         }

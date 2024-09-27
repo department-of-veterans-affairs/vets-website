@@ -61,10 +61,10 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
-  location: PropTypes.object,
   children: PropTypes.node,
   formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
