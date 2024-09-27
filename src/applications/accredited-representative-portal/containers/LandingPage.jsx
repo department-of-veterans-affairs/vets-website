@@ -3,13 +3,13 @@ import { useSelector } from 'react-redux';
 
 import { VaLoadingIndicator } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 
-import { selectUserProfile, selectUserIsLoading } from '../selectors/user';
+import { selectUserProfile, selectIsUserLoading } from '../selectors/user';
 import { SIGN_IN_URL } from '../constants';
 import LandingPageWelcome from '../components/LandingPageWelcome/LandingPageWelcome';
 
 const LandingPage = () => {
   const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectUserIsLoading);
+  const isLoading = useSelector(selectIsUserLoading);
 
   if (isLoading) {
     return (
