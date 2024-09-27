@@ -636,3 +636,8 @@ div[data-widget-type="events"] {
   }
 }
 /* ^^^ DO NOT REMOVE w/o DS REVIEW: solves !important conflict*/
+
+/* Re-add va-flex class*/
+.va-flex {
+  display: flex;
+}
