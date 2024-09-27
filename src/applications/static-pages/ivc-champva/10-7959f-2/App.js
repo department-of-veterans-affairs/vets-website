@@ -14,14 +14,14 @@ const App = ({ formEnabled }) => {
     return (
       <>
         <p>
-          You can register online, by mail, or by fax. You’ll need your Social
+          You can file a claim online, by mail, or by fax. You’ll need your
           Security number or your VA claim number (also called VA file number).
           In most cases, your claim number and Social Security number are the
           same.
         </p>
         <p>
           <strong>Note</strong>: You don’t need to be enrolled in VA health care
-          to register for the Foreign Medical Program.
+          to file a claim for the Foreign Medical Program.
         </p>
         <h3>
           <strong>Option 1: Online</strong>
@@ -30,10 +30,10 @@ const App = ({ formEnabled }) => {
           className="vads-c-action-link--green"
           href="/health-care/foreign-medical-program/claim-form-10-7959f-2"
         >
-          Register for the Foreign Medical Program
+          File a claim for the Foreign Medical Program
         </a>
         <h3>Option 2: By mail</h3>
-        <p>Fill out an FMP Registration Form (VA Form 10-7959f-2).</p>
+        <p>Fill out an FMP Claim Form (VA Form 10-7959f-2).</p>
         <a href="https://www.va.gov/find-forms/about-form-10-7959f-2/">
           Get VA Form 10-7959f-2 to download
         </a>
@@ -49,7 +49,7 @@ const App = ({ formEnabled }) => {
           <br />
         </p>
         <h3>Option 3: By fax</h3>
-        <p>Fill out an FMP Registration Form (VA Form 10-7959f-2).</p>
+        <p>Fill out an FMP Claim Form (VA Form 10-7959f-2).</p>
         <a href="https://www.va.gov/find-forms/about-form-10-7959f-2/">
           Get VA Form 10-7959f-2 to download
         </a>
@@ -63,14 +63,13 @@ const App = ({ formEnabled }) => {
   return (
     <>
       <p>
-        Fill out an FMP Registration Form (VA Form 10-7959f-2). You’ll need your
-        Social Security number or your VA claim number (also called VA file
-        number). In most cases, your claim number and Social Security number are
-        the same.
+        Fill out an FMP Claim Form (VA Form 10-7959f-2). You’ll need your
+        Security number or your VA claim number (also called VA file number). In
+        most cases, your claim number and Social Security number are the same.
       </p>
       <p>
         <strong>Note</strong>: You don’t need to be enrolled in VA health care
-        to register for the Foreign Medical Program.
+        to file a claim for for the Foreign Medical Program.
       </p>
       <a
         className="vads-c-action-link--green"
@@ -113,7 +112,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = store => ({
-  formEnabled: toggleValues(store)[FEATURE_FLAG_NAMES.form107959F2],
+  formEnabled: toggleValues(store)[FEATURE_FLAG_NAMES.form107959f2],
 });
 
 export default connect(mapStateToProps)(App);
