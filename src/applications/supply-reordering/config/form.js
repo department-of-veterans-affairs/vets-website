@@ -16,7 +16,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import contactInformation from '../pages/contactInformation';
 import selectSupplies from '../pages/selectSupplies';
 
-import EditEmail from '../pages/EditEmail';
+// import EditEmail from '../pages/EditEmail';
 import EditAddress from '../pages/EditAddress';
 
 import GetHelp from '../components/GetHelp';
@@ -41,7 +41,7 @@ const contactInformationChapter = {
       path: 'edit-email-address',
       // CustomPage: EditEmail,
       // CustomPageReview: EditEmail,
-      // depends: () => false, // accessed from contact info page
+      // depends: () => false,
       // uiSchema: {},
       // schema: blankSchema,
       uiSchema: emailUI(),
@@ -53,7 +53,7 @@ const contactInformationChapter = {
       path: 'edit-mailing-address',
       CustomPage: EditAddress,
       CustomPageReview: EditAddress,
-      depends: () => false, // accessed from contact info page
+      depends: () => false,
       uiSchema: {},
       schema: blankSchema,
     },
@@ -71,18 +71,6 @@ const selectSuppliesChapter = {
     },
   },
 };
-
-// const personalInformationChapter = {
-//   title: 'Personal information',
-//   pages: {
-//     nameAndDateOfBirth: {
-//       path: 'personal-information',
-//       title: 'Personal information',
-//       uiSchema: nameAndDateOfBirth.uiSchema,
-//       schema: nameAndDateOfBirth.schema,
-//     },
-//   },
-// };
 
 const sipConfig = {
   prefillEnabled: true,
@@ -108,18 +96,17 @@ const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   submitUrl: `${environment.API_URL}/v0/mdot/supplies`,
-  submit: () =>
-    Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
+  // submit: () =>
+  //   Promise.resolve({ attributes: { confirmationNumber: '123123123' } }),
   trackingPrefix: 'supply-reordering',
   formId: VA_FORM_IDS.FORM_VA_2346A,
   version: 0,
   title: TITLE,
   subtitle: SUBTITLE,
-  defaultDefinitions: {},
+  // defaultDefinitions: {},
   getHomeData: fetchSupplyData,
   introduction: IntroductionPage,
   chapters: {
-    // personalInformationChapter,
     // selectSuppliesChapter,
     contactInformationChapter,
   },
