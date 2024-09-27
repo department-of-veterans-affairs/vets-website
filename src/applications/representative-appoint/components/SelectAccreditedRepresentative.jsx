@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
-import {
-  VaButton,
-  VaTextInput,
-} from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { fetchRepresentatives } from '../api/fetchRepresentatives';
 import SearchResult from './SearchResult';
 
@@ -16,12 +13,12 @@ const SelectAccreditedRepresentative = props => {
   const [error, setError] = useState(null);
   const [representatives, setRepresentatives] = useState([]);
 
-  const handleChange = e => {
+  const onInputChange = e => {
     setError(null);
     setQuery(e.target.value);
   };
 
-  const handleClick = async () => {
+  const onSubmit = async () => {
     if (!query.trim()) {
       setError(
         'Enter the name of the accredited representative or VSO you’d like to appoint',
@@ -99,12 +96,15 @@ const SelectAccreditedRepresentative = props => {
       </p>
       <div className="vads-u-display--flex vads-u-margin-bottom--3">
         <div className="vads-u-margin-right--2 vads-u-flex--1">
-          <VaTextInput
+          <va-text-input
             id="representative_search"
             name="representative_search"
             error={error}
-            onInput={handleChange}
+            onInput={onInputChange}
             required
+            onKeyPress={e => {
+              if (e.key === 'Enter') onSubmit();
+            }}
           />
         </div>
         <div
@@ -115,7 +115,7 @@ const SelectAccreditedRepresentative = props => {
           <VaButton
             data-testid="representative-search-btn"
             text="Search"
-            onClick={handleClick}
+            onClick={onSubmit}
           />
         </div>
       </div>
@@ -128,7 +128,7 @@ const SelectAccreditedRepresentative = props => {
 export const AdditionalNote = () => {
   return (
     <p className="vads-u-margin-y--4">
-      <strong>Note:</strong> if you don’t know who you’d like to appoint, you
+      <strong>Note:</strong> If you don’t know who you’d like to appoint, you
       can use our online tool to search for an accredited attorney, claims
       agent, or VSO representative.
     </p>
