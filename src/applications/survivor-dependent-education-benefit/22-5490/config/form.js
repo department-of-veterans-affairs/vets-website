@@ -5,6 +5,7 @@ import currentOrPastDateUI from 'platform/forms-system/src/js/definitions/curren
 // In a real app this would not be imported directly; instead the schema you
 // imported above would import and use these common definitions:
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import constants from 'vets-json-schema/dist/constants.json';
 
 // Example of an imported schema:
 // In a real app this would be imported from `vets-json-schema`:
@@ -14,11 +15,10 @@ import fullNameUI from 'platform/forms-system/src/js/definitions/fullName';
 import ssnUI from 'platform/forms-system/src/js/definitions/ssn';
 import phoneUI from 'platform/forms-system/src/js/definitions/phone';
 import emailUI from 'platform/forms-system/src/js/definitions/email';
-import {
-  addressSchema,
-  addressUI,
-} from 'platform/forms-system/src/js/web-component-patterns';
-// import fullSchema from '../22-5490-schema.json';
+import * as address from 'platform/forms-system/src/js/definitions/address';
+import get from 'platform/utilities/data/get';
+
+import fullSchema from '../22-5490-schema.json';
 
 import manifest from '../manifest.json';
 import PersonalInformation from '../components/PersonalInformation';
@@ -26,10 +26,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import FormFooter from '../components/FormFooter';
-
-// const { } = fullSchema.properties;
-
-// const { } = fullSchema.definitions;
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -44,8 +40,14 @@ import CustomPhoneNumberField from '../components/CustomPhoneNumberField';
 import YesNoReviewField from '../components/YesNoReviewField';
 import PhoneViewField from '../components/PhoneViewField';
 import PhoneReviewField from '../components/PhoneReviewField';
+import MailingAddressViewField from '../components/MailingAddressViewField';
+import LearnMoreAboutMilitaryBaseTooltip from '../components/LearnMoreAboutMilitaryBaseTooltip';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
+
+function isOnlyWhitespace(str) {
+  return str && !str.trim().length;
+}
 
 function isValidName(str) {
   return str && /^[A-Za-z][A-Za-z ']*$/.test(str);
@@ -816,24 +818,175 @@ const formConfig = {
               ),
             },
             mailingAddressInput: {
-              ...addressUI({
-                labels: {
-                  militaryCheckbox:
-                    'I live on a United States military base outside of the U.S.',
+              'ui:description': (
+                <>
+                  <h4 className="form-review-panel-page-header vads-u-font-size--h5 meb-review-page-only">
+                    Mailing address
+                  </h4>
+                  <p className="meb-review-page-only">
+                    If you’d like to update your mailing address, please edit
+                    the form fields below.
+                  </p>
+                </>
+              ),
+              livesOnMilitaryBase: {
+                'ui:title': (
+                  <span id="LiveOnMilitaryBaseTooltip">
+                    I live on a United States military base outside of the
+                    country
+                  </span>
+                ),
+                'ui:reviewField': YesNoReviewField,
+              },
+              livesOnMilitaryBaseInfo: {
+                'ui:description': LearnMoreAboutMilitaryBaseTooltip(),
+              },
+              address: {
+                ...address.uiSchema('', false, null, true),
+                country: {
+                  'ui:title': 'Country',
+                  'ui:required': formData =>
+                    !formData?.mailingAddressInput?.livesOnMilitaryBase,
+                  'ui:disabled': formData =>
+                    formData?.mailingAddressInput?.livesOnMilitaryBase,
+                  'ui:options': {
+                    updateSchema: (formData, schema, uiSchema) => {
+                      const countryUI = uiSchema;
+                      const addressFormData = get(
+                        ['mailingAddressInput', 'address'],
+                        formData,
+                      );
+                      const livesOnMilitaryBase = get(
+                        ['mailingAddressInput', 'livesOnMilitaryBase'],
+                        formData,
+                      );
+                      if (livesOnMilitaryBase) {
+                        countryUI['ui:disabled'] = true;
+                        const USA = {
+                          value: 'USA',
+                          label: 'United States',
+                        };
+                        addressFormData.country = USA.value;
+                        return {
+                          enum: [USA.value],
+                          enumNames: [USA.label],
+                          default: USA.value,
+                        };
+                      }
+
+                      countryUI['ui:disabled'] = false;
+
+                      return {
+                        type: 'string',
+                        enum: constants.countries.map(country => country.value),
+                        enumNames: constants.countries.map(
+                          country => country.label,
+                        ),
+                      };
+                    },
+                  },
                 },
-                omit: ['street3'],
-              }),
+                street: {
+                  'ui:title': 'Street address',
+                  'ui:errorMessages': {
+                    required: 'Please enter your full street address',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError(
+                          'Please enter your full street address',
+                        );
+                      }
+                    },
+                  ],
+                },
+                city: {
+                  'ui:errorMessages': {
+                    required: 'Please enter a valid city',
+                  },
+                  'ui:validations': [
+                    (errors, field) => {
+                      if (isOnlyWhitespace(field)) {
+                        errors.addError('Please enter a valid city');
+                      }
+                    },
+                  ],
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (formData?.mailingAddressInput?.livesOnMilitaryBase) {
+                        return {
+                          type: 'string',
+                          title: 'APO/FPO',
+                          enum: ['APO', 'FPO'],
+                        };
+                      }
+
+                      return {
+                        type: 'string',
+                        title: 'City',
+                      };
+                    },
+                  },
+                },
+                state: {
+                  'ui:required': formData =>
+                    formData?.mailingAddressInput?.livesOnMilitaryBase ||
+                    formData?.mailingAddressInput?.address?.country === 'USA',
+                },
+                postalCode: {
+                  'ui:errorMessages': {
+                    required: 'Zip code must be 5 digits',
+                  },
+                  'ui:options': {
+                    replaceSchema: formData => {
+                      if (
+                        formData?.mailingAddressInput?.address?.country !==
+                        'USA'
+                      ) {
+                        return {
+                          title: 'Postal Code',
+                          type: 'string',
+                        };
+                      }
+
+                      return {
+                        title: 'Zip code',
+                        type: 'string',
+                      };
+                    },
+                  },
+                },
+              },
+              'ui:options': {
+                hideLabelText: true,
+                showFieldLabel: false,
+                viewComponent: MailingAddressViewField,
+              },
             },
           },
           schema: {
             type: 'object',
-            required: [],
             properties: {
               'view:subHeadings': {
                 type: 'object',
                 properties: {},
               },
-              mailingAddressInput: addressSchema({ omit: ['street3'] }),
+              mailingAddressInput: {
+                type: 'object',
+                properties: {
+                  livesOnMilitaryBase: {
+                    type: 'boolean',
+                  },
+                  livesOnMilitaryBaseInfo: {
+                    type: 'object',
+                    properties: {},
+                  },
+                  address: {
+                    ...address.schema(fullSchema, true),
+                  },
+                },
+              },
             },
           },
         },
