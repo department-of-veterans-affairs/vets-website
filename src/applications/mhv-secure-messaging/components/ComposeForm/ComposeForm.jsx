@@ -38,6 +38,7 @@ import {
   BlockedTriageAlertStyles,
   FormLabels,
   downtimeNotificationParams,
+  Alerts,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -116,6 +117,17 @@ const ComposeForm = props => {
   const debouncedRecipient = useDebounce(
     selectedRecipient,
     draftAutoSaveTimeout,
+  );
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
   );
 
   const localStorageValues = useMemo(() => {
@@ -895,12 +907,14 @@ const ComposeForm = props => {
                     setAttachFileSuccess={setAttachFileSuccess}
                     setNavigationError={setNavigationError}
                     editingEnabled
+                    attachmentScanError={attachmentScanError}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
+                    attachmentScanError={attachmentScanError}
                   />
                 </section>
               ))}

@@ -37,7 +37,7 @@ const options = {
     summaryTitleWithoutItems: 'Gross monthly income',
     getItemName: item => typeOfIncomeLabels[item.typeOfIncome],
     cardDescription: item =>
-      item && (
+      item?.amount && (
         <ul className="u-list-no-bullets vads-u-padding-left--0 vads-u-font-weight--normal">
           <li>
             Income recipient:{' '}
