@@ -54,7 +54,7 @@ class PatientComposePage {
 
   verifySendMessageConfirmationMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
+      'include.text',
       Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };

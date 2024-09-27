@@ -145,4 +145,28 @@ describe('transform', () => {
 
     expect(transformedResult).to.deep.equal(result);
   });
+  it('should pass a default socOptIn false boolean value if undefined', () => {
+    const data = { data: {} };
+    const transformedResult = JSON.parse(transform(formConfig, data));
+    expect(transformedResult).to.deep.equal({
+      data: {
+        attributes: {
+          benefitType: 'compensation',
+          informalConference: false,
+          socOptIn: false,
+          veteran: {
+            address: {
+              zipCode5: '00000',
+            },
+            email: '',
+            homeless: false,
+            phone: {},
+            timezone: 'America/Chicago',
+          },
+        },
+        type: 'higherLevelReview',
+      },
+      included: [],
+    });
+  });
 });
