@@ -6,7 +6,6 @@ import {
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -15,6 +14,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
 import { RESPONSE_PAGE } from '../constants';
+import { formatDate } from '../utils/helpers';
 import { mockInquiryDataBusinessAndPersonal } from '../utils/mockData';
 
 const attachmentBox = fileName => (
@@ -46,11 +46,6 @@ const ResponseInboxPage = ({ router }) => {
     return pathArray[pathArray.length - 1];
   };
   const inquiryId = getLastSegment();
-
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
 
   const handlers = {
     onInput: event => {

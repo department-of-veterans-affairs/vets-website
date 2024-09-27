@@ -7,7 +7,6 @@ import {
 import { isLoggedIn } from '@department-of-veterans-affairs/platform-user/selectors';
 import { apiRequest } from '@department-of-veterans-affairs/platform-utilities/api';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
-import { format, parse } from 'date-fns';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
@@ -16,7 +15,7 @@ import BreadCrumbs from '../components/BreadCrumbs';
 import NeedHelpFooter from '../components/NeedHelpFooter';
 import { ServerErrorAlert } from '../config/helpers';
 import { baseURL, envUrl, RESPONSE_PAGE, URL } from '../constants';
-import { mockInquiryData } from '../utils/mockData';
+import { formatDate } from '../utils/helpers';
 
 const attachmentBox = fileName => (
   <div className="attachment-box vads-u-display--flex vads-u-justify-content--space-between vads-u-background-color--gray-light-alt">
@@ -37,9 +36,9 @@ const emptyMessage = message => (
 const getReplySubHeader = messageType => messageType.split(':')[1].trim();
 
 const ResponseInboxPage = () => {
-  const [error, hasError] = useState(false);
+  const [error, setError] = useState(false);
   const [sendReply, setSendReply] = useState({ reply: '', attachments: [] });
-  const [loading, isLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [inquiryData, setInquiryData] = useState([]);
 
   const getLastSegment = () => {
@@ -47,11 +46,6 @@ const ResponseInboxPage = () => {
     return pathArray[pathArray.length - 1];
   };
   const inquiryId = getLastSegment();
-
-  const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
-    return format(parsedDate, 'MMM d, yyyy');
-  };
 
   const options = {
     body: JSON.stringify(sendReply),
@@ -62,48 +56,50 @@ const ResponseInboxPage = () => {
   };
 
   const postApiData = url => {
-    isLoading(true);
+    setLoading(true);
+
     return apiRequest(url, options)
       .then(() => {
-        isLoading(false);
+        setLoading(false);
       })
       .catch(() => {
-        isLoading(false);
-        hasError(true);
+        setLoading(false);
+        setError(true);
       });
   };
 
-  const handlers = {
-    onInput: event => {
-      setSendReply({ ...sendReply, reply: event.target.value });
-    },
-
-    onSubmit: () => {
-      if (sendReply.reply) {
-        // Using a temporary test id provided by BE, will be replaced once inquiry endpoint is complete
-        const temporaryTestInquiryId = 'A-20230305-306178';
-        postApiData(
-          `${envUrl}${baseURL}/inquiries/${temporaryTestInquiryId}${
-            URL.SEND_REPLY
-          }`,
-        );
-      }
-    },
+  const handleInputChange = event => {
+    setSendReply({ ...sendReply, reply: event.target.value });
   };
 
-  const getInquiryData = async () => {
-    // using Mock data till static data is updated
-    const inquiryMock = mockInquiryData.data.find(
-      inquiry => inquiry.id === inquiryId,
-    );
-    setInquiryData(inquiryMock);
-    hasError(false);
-    isLoading(false);
+  const handleSubmit = () => {
+    if (sendReply.reply) {
+      postApiData(
+        `${envUrl}${baseURL}/inquiries/${inquiryId}${URL.SEND_REPLY}`,
+      );
+    }
   };
 
-  useEffect(() => {
-    getInquiryData();
-  }, []);
+  const getApiData = url => {
+    setLoading(true);
+
+    return apiRequest(url)
+      .then(res => {
+        setInquiryData(res.data);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        setError(true);
+      });
+  };
+
+  useEffect(
+    () => {
+      if (inquiryId) getApiData(`${envUrl}${URL.GET_INQUIRY}/${inquiryId}`);
+    },
+    [inquiryId],
+  );
 
   useEffect(
     () => {
@@ -112,7 +108,14 @@ const ResponseInboxPage = () => {
     [loading],
   );
 
-  // render loading indicator while we fetch
+  if (error) {
+    return (
+      <va-alert status="info" className="vads-u-margin-y--4">
+        <ServerErrorAlert />
+      </va-alert>
+    );
+  }
+
   if (loading) {
     return (
       <va-loading-indicator label="Loading" message="Loading..." set-focus />
@@ -234,13 +237,13 @@ const ResponseInboxPage = () => {
         )}
 
         <h2 className="vads-u-margin-bottom--0">{RESPONSE_PAGE.SEND_REPLY}</h2>
-        <form className="vads-u-margin-bottom--5" onSubmit={handlers.onSubmit}>
+        <form className="vads-u-margin-bottom--5" onSubmit={handleSubmit}>
           <fieldset>
             <va-textarea
               class="resize-y"
               label={RESPONSE_PAGE.YOUR_MESSAGE}
               name="reply message"
-              onInput={handlers.onInput}
+              onInput={handleInputChange}
               value={sendReply.reply}
               required
             />
@@ -264,7 +267,7 @@ const ResponseInboxPage = () => {
             />
 
             <VaButton
-              onClick={handlers.onSubmit}
+              onClick={handleSubmit}
               primary
               className="vads-u-margin-top--2"
               text={RESPONSE_PAGE.SUBMIT_MESSAGE}
