@@ -1,15 +1,13 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "modules/m-overrides";
-@import "~@uswds/uswds/packages/usa-layout-grid";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
 @import "~@department-of-veterans-affairs/formation/sass/layout/flex-grid";
+@import "~uswds/src/stylesheets/core/grid";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
 
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
-@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-button";
