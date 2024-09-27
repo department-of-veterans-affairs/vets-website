@@ -26,6 +26,10 @@ export function dependentNameRequired(formData, index) {
   return get(['incomeSources', index, 'receiver'], formData) === 'DEPENDENT';
 }
 
+export function childNameRequired(formData, index) {
+  return get(['careExpenses', index, 'recipients'], formData) === 'DEPENDENT';
+}
+
 export function IncomeSourceDescription() {
   return (
     <>
