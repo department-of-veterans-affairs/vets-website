@@ -48,9 +48,14 @@ describe('SM Multi Facility Contact list', () => {
   });
 
   it(`user won't see the alert after saving changes`, () => {
-    ContactListPage.selectCheckBox(`ABC`);
-    ContactListPage.selectCheckBox(`100`);
-    ContactListPage.clickSaveContactListButton();
+    const selectedTeam = [`100`, `ABC`];
+    const updatedRecipientsList = ContactListPage.setPreferredTeams(
+      mockMixRecipients,
+      selectedTeam,
+    );
+    ContactListPage.selectCheckBox(selectedTeam[0]);
+    ContactListPage.selectCheckBox(selectedTeam[1]);
+    ContactListPage.saveContactList(updatedRecipientsList);
     ContactListPage.verifyContactListSavedAlert();
     ContactListPage.clickBackToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);

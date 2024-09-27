@@ -53,7 +53,7 @@ const expectedSparationTypes = {
   FROM_3_TO_6_MO: 'More than 3 months but less than 6 months',
   FROM_6MO_TO_1YR: 'More than 6 months but less than 1 year',
   OVER_1YR: 'More than 1 year from now',
-  OVER_3YRS_AGO: 'More than 3 years ago',
+  OVER_3YRS_AGO: 'More than 3 years from now',
 };
 
 const disabilityTypes = {

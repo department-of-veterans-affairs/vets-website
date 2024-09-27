@@ -1,13 +1,14 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
-import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
+import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
 const Covid19Result = ({ location, index }) => {
@@ -37,10 +38,7 @@ const Covid19Result = ({ location, index }) => {
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
-        <LocationDistance
-          distance={location.distance}
-          markerText={location.markerText}
-        />
+        <LocationMarker markerText={location.markerText} />
         <span
           onClick={clickHandler}
           onKeyDown={clickHandler}
@@ -48,15 +46,16 @@ const Covid19Result = ({ location, index }) => {
           tabIndex={0}
         >
           {isVADomain(website) ? (
-            <h3 className="vads-u-margin-top--0">
+            <h3 className="vads-u-margin-y--0">
               <va-link href={website} text={name} />
             </h3>
           ) : (
-            <h3 className="vads-u-margin-top--0">
+            <h3 className="vads-u-margin-y--0">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}
         </span>
+        <LocationDistance distance={location.distance} />
         {operatingStatus &&
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
