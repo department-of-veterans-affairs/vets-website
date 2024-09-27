@@ -161,6 +161,8 @@ export const Alerts = {
     SERVER_ERROR_503:
       'We’re sorry. We couldn’t load this page. Try again later.',
     SAVE_CONTACT_LIST_SUCCESS: 'Contact list changes saved',
+    ATTACHMENT_SCAN_FAIL:
+      'The file you attached has a virus. Remove the file to send your message.',
   },
 
   Folder: {
@@ -205,6 +207,7 @@ export const Errors = {
     BLOCKED_USER2: 'SM151',
     TG_NOT_ASSOCIATED: 'SM129',
     SERVICE_OUTAGE: '503',
+    ATTACHMENT_SCAN_FAIL: 'SM172',
   },
 };
 
