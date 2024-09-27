@@ -27,7 +27,8 @@ import vetIdentityInfoPage from './chapters/veteran/identityInformation';
 import vetHomeAddressPage from './chapters/veteran/homeAddress';
 import vetContactInfoPage from './chapters/veteran/contactInformation';
 import vetMedicalCenterJsonPage from './chapters/veteran/vaMedicalCenter_json';
-import vetMedicalCenterApiPage from './chapters/veteran/vaMedicalCenter_api';
+import FacilitySearch from '../components/FormFields/FacilitySearch';
+import FacilityReview from '../components/FormReview/FacilityReview';
 
 // primary pages
 import hasPrimaryPage from './chapters/primary/hasPrimary';
@@ -149,8 +150,10 @@ const formConfig = {
           path: 'veteran-information/va-medical-center/locator',
           title: content['vet-info-title--facility'],
           depends: formData => formData['view:useFacilitiesAPI'],
-          uiSchema: vetMedicalCenterApiPage.uiSchema,
-          schema: vetMedicalCenterApiPage.schema,
+          CustomPage: FacilitySearch,
+          CustomPageReview: FacilityReview,
+          uiSchema: {},
+          schema: { type: 'object', properties: {} },
         },
         vetMedicalCenterConfirmation: {
           path: 'veteran-information/va-medical-center/confirm',

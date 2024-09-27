@@ -30,7 +30,6 @@ import {
   SchoolAttendanceAlert,
 } from '../../../components/FormAlerts';
 import { childRelationshipLabels } from '../../../labels';
-import { isBetween18And23 } from './helpers';
 import {
   DependentSeriouslyDisabledDescription,
   formatFullName,
@@ -64,7 +63,8 @@ const options = {
         !item.personWhoLivesWithChild.last)) ||
     (!item.childInHousehold && !item.monthlyPayment), // include all required fields here
   text: {
-    getItemName: item => formatFullName(item.fullName),
+    getItemName: item =>
+      item.fullName ? formatFullName(item.fullName) : undefined,
     summaryTitleWithoutItems: 'Dependent children',
   },
 };
@@ -203,6 +203,7 @@ const attendingSchoolPage = {
       'ui:options': {
         expandUnder: 'attendingCollege',
       },
+      'ui:required': () => true,
     },
   },
   schema: {
@@ -211,7 +212,6 @@ const attendingSchoolPage = {
       attendingCollege: yesNoSchema,
       'view:schoolWarning': { type: 'object', properties: {} },
     },
-    required: ['attendingCollege'],
   },
 };
 
@@ -327,6 +327,7 @@ const addressPage = {
         'ui:options': {
           classNames: 'schemaform-currency-input-v3',
         },
+        'ui:required': () => true,
       },
     ),
   },
@@ -337,7 +338,6 @@ const addressPage = {
       personWhoLivesWithChild: fullNameSchema,
       monthlyPayment: { type: 'number' },
     },
-    required: ['childAddress', 'monthlyPayment'],
   },
 };
 
@@ -382,11 +382,7 @@ export const dependentChildrenPages = arrayBuilderPages(
     dependentChildAttendingSchoolPage: pageBuilder.itemPage({
       title: 'Dependent children',
       path: 'household/dependents/:index/school',
-      depends: (formData, index) =>
-        showMultiplePageResponse() &&
-        isBetween18And23(
-          get(['dependents', index, 'childDateOfBirth'], formData),
-        ),
+      depends: () => showMultiplePageResponse(),
       uiSchema: attendingSchoolPage.uiSchema,
       schema: attendingSchoolPage.schema,
     }),
@@ -410,8 +406,8 @@ export const dependentChildrenPages = arrayBuilderPages(
       depends: () => showMultiplePageResponse(),
       onNavForward: props => {
         return props.formData.childInHousehold
-          ? helpers.navForwardFinishedItem(props) // go to next page
-          : helpers.navForwardKeepUrlParams(props); // return to summary
+          ? helpers.navForwardFinishedItem(props) // return to summary
+          : helpers.navForwardKeepUrlParams(props); // go to next page
       },
       uiSchema: inHouseholdPage.uiSchema,
       schema: inHouseholdPage.schema,

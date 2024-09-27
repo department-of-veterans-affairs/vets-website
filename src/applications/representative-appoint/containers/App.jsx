@@ -8,18 +8,10 @@ import { wrapWithBreadcrumb } from '../components/Breadcrumbs';
 import formConfig from '../config/form';
 import configService from '../utilities/configService';
 
+import { getFormSubtitle } from '../utilities/helpers';
+
 function App({ loggedIn, location, children, formData, setFormData }) {
-  let subTitle;
-  if (formData.repTypeRadio === 'Veterans Service Organization (VSO)') {
-    subTitle = 'VA Form 21-22';
-  } else if (
-    formData.repTypeRadio === 'Attorney' ||
-    formData.repTypeRadio === 'Claims Agent'
-  ) {
-    subTitle = 'VA Form 21-22a';
-  } else {
-    subTitle = 'VA Forms 21-22 and 21-22a';
-  }
+  const subTitle = getFormSubtitle(formData);
 
   const { pathname } = location || {};
   const [updatedFormConfig, setUpdatedFormConfig] = useState({ ...formConfig });
@@ -59,6 +51,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
 }
 
 const mapStateToProps = state => ({
+  profile: state.user.profile,
   formData: state.form?.data || {},
   loggedIn: isLoggedIn(state),
 });
@@ -68,10 +61,10 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
-  location: PropTypes.object,
   children: PropTypes.node,
   formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 

@@ -3,11 +3,9 @@ import moment from 'moment';
 import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
-import { focusElement } from 'platform/utilities/ui';
 
 class ConfirmationPage extends React.Component {
   componentDidMount() {
-    focusElement('.confirmation-page-title');
     scrollToTop('topScrollElement');
   }
 
@@ -18,9 +16,7 @@ class ConfirmationPage extends React.Component {
 
     return (
       <div>
-        <h3 className="confirmation-page-title">
-          You’ve submitted your application
-        </h3>
+        <h3>You’ve submitted your application</h3>
         <p>
           You’ll receive a confirmation email shortly. We’ll let you know by
           mail or phone if we need more details.

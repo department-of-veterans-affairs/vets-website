@@ -6,12 +6,16 @@ import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import SubmitHelper from '../components/SubmitHelper';
 import formConfig from '../config/form';
 
-export default function App({ location, children }) {
-  const breadcrumb = location.pathname.split('/')[1];
+const capitalizeFirstLetter = string => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};
 
-  const capitalizeFirstLetter = string => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+export default function App({ location, children }) {
+  const path = location.pathname.split('/')[1];
+  const breadcrumb =
+    path === 'confirmation'
+      ? 'Your benefits and resources'
+      : capitalizeFirstLetter(path);
 
   return (
     <div className="vads-l-grid-container large-screen:vads-u-padding-x--0">
@@ -23,10 +27,10 @@ export default function App({ location, children }) {
           },
           {
             href: '/benefit-eligibility-questionnaire',
-            label: 'Complete the benefit eligibility questionnaire',
+            label: 'Benefit and resource recommendation tool',
           },
           {
-            href: `/benefit-eligibility-questionnaire/${breadcrumb}`,
+            href: `/benefit-eligibility-questionnaire/${path}`,
             label: capitalizeFirstLetter(breadcrumb),
           },
         ]}

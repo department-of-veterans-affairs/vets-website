@@ -14,9 +14,8 @@ const UploadFileToVa = () => {
           pText="Upload forms and other accepted documents supporting compliance actions, designating or removing certifying officials, and more."
         />
       </MainContentSubDiv>
-      <va-accordion open uswds>
+      <va-accordion uswds>
         <va-accordion-item
-          open
           uswds
           level="3"
           header="Forms library and other accepted documents"

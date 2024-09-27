@@ -5,7 +5,6 @@ import {
   getCareSummaryAndNotesDetails,
   clearCareSummariesDetails,
 } from '../actions/careSummariesAndNotes';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import AdmissionAndDischargeDetails from '../components/CareSummaries/AdmissionAndDischargeDetails';
 import ProgressNoteDetails from '../components/CareSummaries/ProgressNoteDetails';
 import {
@@ -15,7 +14,6 @@ import {
 } from '../util/constants';
 import useAlerts from '../hooks/use-alerts';
 import AccessTroubleAlertBox from '../components/shared/AccessTroubleAlertBox';
-import { useIsDetails } from '../hooks/useIsDetails';
 
 const CareSummariesDetails = () => {
   const dispatch = useDispatch();
@@ -28,18 +26,8 @@ const CareSummariesDetails = () => {
   const { summaryId } = useParams();
   const activeAlert = useAlerts(dispatch);
 
-  useIsDetails(dispatch);
-
   useEffect(
     () => {
-      dispatch(
-        setBreadcrumbs([
-          {
-            url: '/summaries-and-notes',
-            label: 'Care summaries and notes',
-          },
-        ]),
-      );
       return () => {
         dispatch(clearCareSummariesDetails());
       };

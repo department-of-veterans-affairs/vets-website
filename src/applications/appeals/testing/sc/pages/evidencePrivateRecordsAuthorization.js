@@ -1,6 +1,6 @@
 export default {
   uiSchema: {
-    privacyAgreementAccepted: {},
+    evidencePrivacyAgreementAccepted: {},
   },
   schema: {
     type: 'object',

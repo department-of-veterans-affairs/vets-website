@@ -243,7 +243,7 @@ describe('<WhatYouNeedToDo>', () => {
       expect(queryByText(nothingNeededText)).not.to.exist;
       expect($('va-alert', container)).to.exist;
       expect(getByTestId('standard-5103-notice-alert')).to.exist;
-      getByText('Review evidence list');
+      getByText('Review evidence list (5103 notice)');
       expect(queryByText('Automated 5103 Notice Response')).to.be.null;
     });
 
@@ -328,7 +328,7 @@ describe('<WhatYouNeedToDo>', () => {
           expect($('va-alert', container)).to.exist;
           expect(getByTestId(`item-${claim.attributes.trackedItems[0].id}`)).to
             .exist;
-          getByText('Review evidence list');
+          getByText('Review evidence list (5103 notice)');
           expect(queryByTestId('standard-5103-notice-alert')).to.not.exist;
           expect(queryByText('5103 Evidence Notice')).to.be.null;
         });

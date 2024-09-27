@@ -30,8 +30,8 @@ function ClearFiltersBtn({
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: true,
-      vettec: true,
+      employers: false,
+      vettec: false,
       preferredProvider: false,
       country: 'ALL',
       state: 'ALL',
@@ -68,6 +68,7 @@ function ClearFiltersBtn({
               ? 'clear-filters-button mobile-clear-filter-button'
               : 'clear-filters-button'
           }
+          data-testid={testId}
         >
           {children}
         </button>

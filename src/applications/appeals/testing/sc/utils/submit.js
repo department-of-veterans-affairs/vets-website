@@ -282,7 +282,10 @@ export const hasDuplicateFacility = (list, currentFacility) => {
  * 4142/4142a (July 2021)
  */
 export const getForm4142 = formData => {
-  const { privacyAgreementAccepted = true, limitedConsent = '' } = formData;
+  const {
+    evidencePrivacyAgreementAccepted = true,
+    limitedConsent = '',
+  } = formData;
   const providerFacility = (formData?.providerFacility || []).reduce(
     (list, facility) => {
       if (!hasDuplicateFacility(list, facility)) {
@@ -303,7 +306,7 @@ export const getForm4142 = formData => {
   );
   return formData[EVIDENCE_PRIVATE]
     ? {
-        privacyAgreementAccepted,
+        privacyAgreementAccepted: evidencePrivacyAgreementAccepted,
         limitedConsent,
         providerFacility,
       }

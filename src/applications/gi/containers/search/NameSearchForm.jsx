@@ -129,7 +129,7 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
-    }
+    } else inputRef.current.focus();
     onApplyFilterClick();
   };
   const onKeyEnter = event => {
@@ -179,6 +179,7 @@ export function NameSearchForm({
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
               onKeyPress={onKeyEnter}
+              data-testid="search-btn"
             >
               <va-icon
                 size={3}

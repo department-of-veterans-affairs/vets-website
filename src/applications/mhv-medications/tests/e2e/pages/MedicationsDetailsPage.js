@@ -157,6 +157,10 @@ class MedicationsDetailsPage {
     });
   };
 
+  verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage = () => {
+    cy.get('[data-testid="print-records-button"]').should('have.focus');
+  };
+
   clickPrintThisPageButtonOnDetailsPage = () => {
     cy.get('[data-testid="download-print-button"]').should('exist');
     cy.get('[data-testid="download-print-button"]').click({
@@ -175,6 +179,10 @@ class MedicationsDetailsPage {
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  verifyLoadingSpinnerForDownloadOnDetailsPage = () => {
+    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
   };
 
   verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage = () => {
@@ -414,7 +422,7 @@ class MedicationsDetailsPage {
   verifyMedicationInformationTitle = rxName => {
     cy.get('[data-testid="medication-information"]').should(
       'contain',
-      `Information: ${rxName}`,
+      `Medication information: ${rxName}`,
     );
   };
 
