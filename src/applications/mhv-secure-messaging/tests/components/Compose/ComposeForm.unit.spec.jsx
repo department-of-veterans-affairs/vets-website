@@ -938,9 +938,9 @@ describe('Compose form component', () => {
     ).id;
     selectVaSelect(screen.container, tgRecipient);
 
-    const checkboxSelector = `va-checkbox[label='${
+    const checkboxSelector = `va-checkbox[label="${
       ElectronicSignatureBox.CHECKBOX_LABEL
-    }']`;
+    }"]`;
 
     await waitFor(() => {
       const sendButton = screen.getByTestId('send-button');
