@@ -5,7 +5,9 @@ const { gender } = fullSchema10282.properties;
 
 const uiSchema = {
   'ui:title': (
-    <h3 className="vads-u-margin--0">How would you describe your gender?</h3>
+    <h3 className="vads-u-margin--0 vads-u-color--base">
+      How would you describe your gender?
+    </h3>
   ),
   gender: {
     'ui:title': (

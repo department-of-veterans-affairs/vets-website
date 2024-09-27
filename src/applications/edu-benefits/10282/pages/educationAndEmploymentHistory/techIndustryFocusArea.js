@@ -4,7 +4,7 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 const uiSchema = {
   techIndustryFocusArea: {
     'ui:title': (
-      <h3 className="vads-u-margin--0">
+      <h3 className="vads-u-margin--0 vads-u-color--base">
         What’s your main area of focus in the technology industry?
       </h3>
     ),

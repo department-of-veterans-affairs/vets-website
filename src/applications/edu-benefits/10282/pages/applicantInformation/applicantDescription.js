@@ -9,10 +9,12 @@ const labels = {
   activeDuty: "I'm an active duty service member",
   nationalGuard: "I'm a member of the National Guard",
   reservist: "I'm a Reservist",
-  reserve: "I'm a member of the Individual ready reserve",
+  reserve: "I'm a member of the Individual Ready Reserve",
 };
 const uiTitle = (
-  <h3 className="vads-u-margin--0">Which of these best describes you?</h3>
+  <h3 className="vads-u-margin--0 vads-u-color--base">
+    Which of these best describes you?
+  </h3>
 );
 
 export const uiSchema = {

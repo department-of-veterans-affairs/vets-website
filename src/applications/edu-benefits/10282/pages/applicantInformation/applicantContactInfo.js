@@ -5,7 +5,12 @@ import fullSchema10282 from 'vets-json-schema/dist/22-10282-schema.json';
 
 const { usaPhone, email } = fullSchema10282.definitions;
 
-const uiTitle = <h3 className="vads-u-margin--0"> Phone and Email Address</h3>;
+const uiTitle = (
+  <h3 className="vads-u-margin--0 vads-u-color--base">
+    {' '}
+    Phone and email address
+  </h3>
+);
 export const uiSchema = {
   contactInfo: {
     'ui:title': uiTitle,
