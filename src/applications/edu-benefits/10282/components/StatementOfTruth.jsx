@@ -57,8 +57,8 @@ export default function StatementOfTruth(signatureProps) {
 
   return (
     <div className="vads-u-margin-top--3">
-      <section className="box vads-u-background-color--gray-lightest vads-u-padding-bottom--6 vads-u-padding-x--3 vads-u-padding-top--1px vads-u-margin-bottom--7">
-        <h3>Statement of truth</h3>
+      <section className="box vads-u-background-color--gray-lightest vads-u-padding--3">
+        <h3 className="vads-u-margin-top--0">Statement of truth</h3>
         {content}
         <FormSignature
           {...signatureProps}

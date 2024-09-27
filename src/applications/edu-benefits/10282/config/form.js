@@ -18,7 +18,7 @@ import {
   currentAnnualSalary,
   techIndustryFocusArea,
 } from '../pages';
-import StatementOfTruth from '../components/ StatementOfTruth';
+import StatementOfTruth from '../components/StatementOfTruth';
 // import submitForm from './submitForm';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
