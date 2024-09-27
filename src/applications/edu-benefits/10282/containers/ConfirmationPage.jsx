@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+import FormHelp from '../components/FormHelp';
 
 export class ConfirmationPage extends React.Component {
   componentDidMount() {
@@ -80,14 +81,19 @@ export class ConfirmationPage extends React.Component {
           <h2>What to expect next</h2>
           <p>
             If you're accepted into the SkillsBuild program, you'll receive an
-            email from souser@us.ibm.com with your login informatia. If you
-            don't receive an email, check your spam folder. You'll also receive
-            an email from SkillUp Online, SkillsBuild's training provider, with
-            more resources and support for your training. SkillUp Online will
-            help you choose a learning format for your training. You can choose
-            between independent learning (also known as self-paced learning), or
-            cohort learning (which includes scheduled online classes).
+            email from <a href="mailto:souser@us.ibm.com">souser@us.ibm.com</a>{' '}
+            with your login informatia. If you don't receive an email, check
+            your spam folder.
           </p>
+          <p>
+            You'll also receive an email from SkillUp Online, SkillsBuild's
+            training provider, with more resources and support for your
+            training. SkillUp Online will help you choose a learning format for
+            your training. You can choose between independent learning (also
+            known as self-paced learning), or cohort learning (which includes
+            scheduled online classes).
+          </p>
+          <FormHelp tag="va-need-help" />
         </div>
       </div>
     );

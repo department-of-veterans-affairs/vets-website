@@ -15,7 +15,7 @@ const uiSchema = {
     'ui:title': 'What is your race or origin?',
     'ui:description': (
       <p className="vads-u-margin-top--0  vads-u-color--gray-medium">
-        select all that you identify with
+        Select all that you identify with
       </p>
     ),
     'ui:widget': CustomGroupCheckboxField,

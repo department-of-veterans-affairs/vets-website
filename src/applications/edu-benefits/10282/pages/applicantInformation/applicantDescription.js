@@ -2,10 +2,10 @@ import React from 'react';
 
 const labels = {
   veteran: "I'm a Veteran",
-  veteranSpouse: "I'm a Veteran's Spouse",
-  veteranChild: "I'm a Veteran's Child",
+  veteranSpouse: "I'm a Veteran's spouse",
+  veteranChild: "I'm a Veteran's child",
   veteranCaregiver:
-    "I'm a Veteran's Caregiver (who isn't their spouse or child)",
+    "I'm a Veteran's caregiver (who isn't their spouse or child)",
   activeDuty: "I'm an active duty service member",
   nationalGuard: "I'm a member of the National Guard",
   reservist: "I'm a Reservist",

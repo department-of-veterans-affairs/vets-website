@@ -64,7 +64,7 @@ const formConfig = {
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
-  getHelp: FormHelp,
+  getHelp: () => <FormHelp tag={React.Fragment} />,
   defaultDefinitions: {
     fullName,
     usaPhone,
@@ -140,7 +140,9 @@ const formConfig = {
           uiSchema: {
             currentlyEmployed: {
               'ui:title': (
-                <h3 className="vads-u-margin--0">Are you currently employed</h3>
+                <h3 className="vads-u-margin--0">
+                  Are you currently employed?
+                </h3>
               ),
               'ui:widget': 'radio',
             },
