@@ -338,11 +338,6 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
-    // cy.intercept(
-    //   'GET',
-    //   Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-    //   mockSignature,
-    // ).as('signature');
     cy.intercept(
       'GET',
       Paths.SM_API_EXTENDED + Paths.CATEGORIES,
