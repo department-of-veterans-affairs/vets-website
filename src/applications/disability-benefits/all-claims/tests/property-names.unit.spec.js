@@ -56,7 +56,6 @@ describe('Root property names', () => {
     const duplicatedProperties = {};
     const duplicatedPropertiesToIgnore = [
       'view:hasEvidence',
-      'view:hasEvidenceFollowUp',
       'view:newDisabilityErrors',
     ];
 
