@@ -17,11 +17,7 @@ const uiSchema = {
       },
     },
     middle: {
-      'ui:title': 'Middle initial',
-      'ui:options': {
-        maxLength: 1,
-        widgetClassNames: 'input-small',
-      },
+      'ui:title': 'Middle name',
     },
     last: {
       'ui:title': 'Last name',

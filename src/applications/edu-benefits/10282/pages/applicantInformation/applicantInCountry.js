@@ -11,6 +11,7 @@ export const uiSchema = {
     </h3>
   ),
   country: {
+    'ui:title': 'Country',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
     },

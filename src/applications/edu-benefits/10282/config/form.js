@@ -130,13 +130,13 @@ const formConfig = {
       pages: {
         highestLevelOfEducation: {
           title: 'Your education and employment history',
-          path: 'applicant-information-8',
+          path: 'education-employment-history-1',
           uiSchema: highestLevelOfEducation.uiSchema,
           schema: highestLevelOfEducation.schema,
         },
         currentlyEmployed: {
           title: 'Your education and employment history',
-          path: 'applicant-information-9',
+          path: 'education-employment-history-2',
           uiSchema: {
             currentlyEmployed: {
               'ui:title': (
@@ -158,13 +158,13 @@ const formConfig = {
         },
         currentAnnualSalary: {
           title: 'Your education and employment history',
-          path: 'applicant-information-10',
+          path: 'education-employment-history-3',
           uiSchema: currentAnnualSalary.uiSchema,
           schema: currentAnnualSalary.schema,
         },
         isWorkingInTechIndustry: {
           title: 'Your education and employment history',
-          path: 'applicant-information-11',
+          path: 'education-employment-history-4',
           uiSchema: {
             isWorkingInTechIndustry: {
               'ui:title': (
@@ -186,7 +186,7 @@ const formConfig = {
         },
         techIndustryFocusArea: {
           title: 'Your education and employment history',
-          path: 'applicant-information-12',
+          path: 'education-employment-history-5',
           uiSchema: techIndustryFocusArea.uiSchema,
           schema: techIndustryFocusArea.schema,
         },
