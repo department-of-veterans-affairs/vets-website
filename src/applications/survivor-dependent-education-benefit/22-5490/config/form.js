@@ -594,6 +594,13 @@ const formConfig = {
             return formData.relationShipToMember === 'spouse';
           },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Marriage Date</h3>
+                </>
+              ),
+            },
             marriageDate: {
               ...currentOrPastDateUI(
                 'When did you get married to your chosen Veteran or service member?',
@@ -604,6 +611,10 @@ const formConfig = {
             type: 'object',
             required: ['marriageDate'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               marriageDate: date,
             },
           },
@@ -618,6 +629,13 @@ const formConfig = {
             );
           },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage</h3>
+                </>
+              ),
+            },
             remarriageStatus: {
               'ui:title': 'Have you been remarried since your divorce?',
               'ui:widget': 'radio',
@@ -633,6 +651,10 @@ const formConfig = {
             type: 'object',
             required: ['remarriageStatus'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               remarriageStatus: {
                 type: 'string',
                 enum: ['yes', 'no'],
@@ -650,6 +672,13 @@ const formConfig = {
             );
           },
           uiSchema: {
+            'view:subHeadings': {
+              'ui:description': (
+                <>
+                  <h3>Remarriage Date</h3>
+                </>
+              ),
+            },
             remarriageDate: {
               ...currentOrPastDateUI('When did you get remarried?'),
             },
@@ -658,6 +687,10 @@ const formConfig = {
             type: 'object',
             required: ['remarriageDate'],
             properties: {
+              'view:subHeadings': {
+                type: 'object',
+                properties: {},
+              },
               remarriageDate: date,
             },
           },
