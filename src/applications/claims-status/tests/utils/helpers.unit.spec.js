@@ -42,6 +42,7 @@ import {
   getTrackedItemDateFromStatus,
   sentenceCase,
   generateClaimTitle,
+  isStandard5103Notice,
 } from '../../utils/helpers';
 
 import {
@@ -1396,6 +1397,31 @@ describe('Disability benefits helpers: ', () => {
         expect(date).to.equal(item.requestedDate);
       });
     });
+  });
+
+  describe('isStandard5103Notice', () => {
+    context('when display name is not a standard 5103 notice', () => {
+      it('should return false', () => {
+        const displayName = 'Test';
+        expect(isStandard5103Notice(displayName)).to.be.false;
+      });
+    });
+    context('when display name is a standard 5103 notice from the API', () => {
+      it('should return true', () => {
+        const displayName = '5103 Notice Response';
+        expect(isStandard5103Notice(displayName)).to.be.true;
+      });
+    });
+    // See comment above the standard5103Item in constants.js
+    context(
+      'when display name is a standard 5103 notice mocked by the application',
+      () => {
+        it('should return true', () => {
+          const displayName = 'Review evidence list (5103 notice)';
+          expect(isStandard5103Notice(displayName)).to.be.true;
+        });
+      },
+    );
   });
 
   describe('isAutomated5103Notice', () => {

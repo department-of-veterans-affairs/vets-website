@@ -18,7 +18,7 @@ const formatQueryParams = ({
   const formatFacilityIdParams = () => {
     let facilityIdParams = '';
     if (facilityIds.length > 0) {
-      facilityIdParams = facilityIds.map(id => `facilityIds[]=${id}`).join('&');
+      facilityIdParams = `facilityIds=${facilityIds.join(',')}`;
     }
 
     return facilityIdParams;
@@ -51,7 +51,7 @@ export const fetchFacilities = async ({
 }) => {
   const baseUrl = `${
     environment.API_URL
-  }/v0/health_care_applications/facilities?type=health`;
+  }/v0/caregivers_assistance_claims/facilities?type=health`;
 
   const queryParams = formatQueryParams({
     lat,
@@ -67,8 +67,15 @@ export const fetchFacilities = async ({
 
   return fetchRequest
     .then(response => {
-      return response.map(facility => {
-        const { physical } = facility?.address;
+      if (!response?.data?.length) {
+        return {
+          type: 'NO_SEARCH_RESULTS',
+          errorMessage: content['error--no-results-found'],
+        };
+      }
+      const facilities = response.data.map(facility => {
+        const attributes = facility?.attributes;
+        const { physical } = attributes?.address;
 
         // Create a new address object without modifying the original facility
         const newPhysicalAddress = {
@@ -83,12 +90,18 @@ export const fetchFacilities = async ({
 
         // Return a new facility object with the updated address
         return {
-          ...facility,
+          ...attributes,
+          id: facility.id,
           address: {
             physical: newPhysicalAddress,
           },
         };
       });
+
+      return {
+        facilities,
+        meta: response.meta,
+      };
     })
     .catch(error => {
       Sentry.withScope(scope => {
