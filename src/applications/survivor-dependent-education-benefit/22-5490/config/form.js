@@ -930,6 +930,10 @@ const formConfig = {
                         errors.addError(
                           'Please enter your full street address',
                         );
+                      } else if (field?.length < 3) {
+                        errors.addError('minimum of 3 characters');
+                      } else if (field?.length > 40) {
+                        errors.addError('maximum of 40 characters');
                       }
                     },
                   ],
