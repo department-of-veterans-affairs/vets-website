@@ -5,7 +5,7 @@ import { createTestConfig } from 'platform/testing/e2e/cypress/support/form-test
 import user from './fixtures/mocks/user.json';
 import inProgressForm from './fixtures/mocks/in-progress-form.json';
 
-import formConfig from '../../../../accreditation/21a/config/form';
+import formConfig from '../../config/form';
 import manifest from '../../../../manifest.json';
 import {
   selectCheckboxGroupWebComponent,
