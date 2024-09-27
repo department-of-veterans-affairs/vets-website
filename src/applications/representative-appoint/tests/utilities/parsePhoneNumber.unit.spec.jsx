@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { parsePhoneNumber } from '../../utilities/helpers';
+import { parsePhoneNumber } from '../../utilities/parsePhoneNumber';
 
 describe('parsePhoneNumber', () => {
   it('should parse a valid US phone number', () => {
