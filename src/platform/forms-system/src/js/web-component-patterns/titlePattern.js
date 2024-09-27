@@ -11,7 +11,7 @@ export const Title = ({
 }) => {
   const CustomHeader = `h${headerLevel}`;
   const style = headerStyleLevel
-    ? ` mobile-lg:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
+    ? ` small-screen:vads-u-font-size--h${headerStyleLevel} vads-u-font-size--h${Number(
         headerStyleLevel,
       ) + 1}`
     : '';
