@@ -589,7 +589,7 @@ export const aboutSomeoneElseRelationshipConnectedThroughWorkPages = flowPages(
 );
 
 const aboutSomeoneElseRelationshipConnectedThroughWorkEducation = [
-  'yourRole',
+  'yourRoleEducation',
   'schoolInYourProfile',
   'searchSchools',
   'useThisSchool',

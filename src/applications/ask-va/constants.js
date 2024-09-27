@@ -8,6 +8,7 @@ export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `topics?user_mock_data=true`,
+  // TODO update
   GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
@@ -15,6 +16,7 @@ export const URL = {
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
   GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  // GET_INQUIRIES: `${baseURL}/inquiries`,
 };
 
 export const CategoryEducation =
@@ -405,8 +407,7 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   YOUR_ROLE: {
-    TITLE: 'Your role',
-    QUESTION_1: 'Select your role:',
+    TITLE: 'What is your role?',
   },
   STATE_OR_FACILITY: {
     TITLE: 'School information',

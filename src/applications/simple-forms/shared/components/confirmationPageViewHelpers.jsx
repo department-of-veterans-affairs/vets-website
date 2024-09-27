@@ -65,6 +65,13 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
     refinedData = uiSchema['ui:options'].labels[refinedData];
   }
 
+  if (
+    uiSchema['ui:widget'] === 'yesNo' &&
+    uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  }
+
   const dataType = schema.properties[key].type;
 
   if (ConfirmationField) {

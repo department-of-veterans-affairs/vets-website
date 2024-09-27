@@ -47,7 +47,7 @@ export function FacilityDetailWidget({ loading, error, facility }) {
             <h3 className="vads-u-margin-top--2p5 vads-u-margin-bottom--1">
               Clinical hours
             </h3>
-            <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row vads-u-margin-bottom--0">
+            <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row vads-u-margin-bottom--0">
               <ul className="vads-u-flex--1 va-c-facility-hours-list vads-u-margin-top--0 vads-u-margin-bottom--1 small-screen:vads-u-margin-bottom--0 vads-u-margin-right--3">
                 {clinicalHours.slice(0, CLINICAL_HOURS_COLUMN_MODIFIER)}
               </ul>
