@@ -7,8 +7,9 @@ import { separationTypes, separationTypeLabels } from '../constants/benefits';
 export default {
   uiSchema: {
     separation: radioUI({
-      title:
-        'How long ago did you separate or retire from service? If you served during multiple periods, please choose the answer that corresponds to your most recent separation.',
+      title: 'How long ago did you separate or retire from service?',
+      hint:
+        'If you served during multiple periods, please choose the answer that corresponds to your most recent separation.',
       labels: separationTypeLabels,
       required: () => false,
     }),
