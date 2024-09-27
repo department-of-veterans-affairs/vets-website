@@ -199,6 +199,10 @@ class MedicationsListPage {
     });
   };
 
+  verifyFocusOnPrintDownloadDropDownButton = () => {
+    cy.get('[data-testid="print-records-button"]').should('have.focus');
+  };
+
   verifyPrintMedicationsListEnabledOnListPage = () => {
     cy.get('[data-testid="print-records-button"] > span').should(
       'contain',
@@ -238,6 +242,10 @@ class MedicationsListPage {
     cy.get('[data-testid="download-pdf-button"]').click({
       waitForAnimations: true,
     });
+  };
+
+  verifyLoadingSpinnerForDownloadOnListPage = () => {
+    cy.get('[data-testid="print-download-loading-indicator"]').should('exist');
   };
 
   clickDownloadListAsTxtButtonOnListPage = () => {

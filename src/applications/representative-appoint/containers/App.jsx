@@ -10,8 +10,6 @@ import configService from '../utilities/configService';
 
 import { getFormSubtitle } from '../utilities/helpers';
 
-import fetchRepStatus from '../api/fetchRepStatus';
-
 function App({ loggedIn, location, children, formData, setFormData }) {
   const subTitle = getFormSubtitle(formData);
 
@@ -25,18 +23,6 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     },
     [subTitle],
   );
-
-  useEffect(() => {
-    const fetchAndSetRepStatus = async () => {
-      const repStatus = await fetchRepStatus();
-      setFormData(prevData => ({
-        ...prevData,
-        'view:representativeStatus': repStatus,
-      }));
-    };
-
-    fetchAndSetRepStatus();
-  }, []);
 
   useEffect(
     () => {
@@ -75,10 +61,10 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
-  location: PropTypes.object,
   children: PropTypes.node,
   formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 
