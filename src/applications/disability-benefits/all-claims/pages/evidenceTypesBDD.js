@@ -1,5 +1,5 @@
+import VaCheckboxGroupField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxGroupField';
 import { validateBooleanGroup } from '@department-of-veterans-affairs/platform-forms-system/validation';
-import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import _ from 'platform/utilities/data';
 import {
   yesNoUI,
@@ -8,13 +8,7 @@ import {
 import get from '@department-of-veterans-affairs/platform-forms-system/get';
 import { validateIfHasEvidence } from '../validations';
 
-import {
-  evidenceTypeTitle,
-  privateMedicalRecords,
-  evidenceTypeError,
-  evidenceTypeHelp,
-  bddShaOtherEvidence,
-} from '../content/evidenceTypesBDD';
+import { evidenceTypeHelp } from '../content/evidenceTypesBDD';
 
 import { BddEvidenceSubmitLater } from '../content/bddEvidenceSubmitLater';
 
@@ -28,11 +22,17 @@ export const uiSchema = {
     },
   }),
   'view:selectableEvidenceTypes': {
+    // Displaying atLeastOne validation errors requires using a VaCheckboxGroupField,
+    // which for some reason won't render if export title text from evidenceTypesBDD.jsx.
+    // Thus, titles are written out here.
+    'ui:title':
+      'What type of evidence do you want to submit as part of your claim',
+    'ui:webComponentField': VaCheckboxGroupField,
     'ui:options': {
+      showFieldLabel: true,
       expandUnder: 'view:hasEvidence',
     },
     'ui:required': formData => get('view:hasEvidence', formData, false),
-    'ui:title': evidenceTypeTitle,
     'ui:validations': [
       {
         validator: validateIfHasEvidence,
@@ -40,15 +40,14 @@ export const uiSchema = {
       },
     ],
     'ui:errorMessages': {
-      atLeastOne: evidenceTypeError,
+      atLeastOne: 'Please select at least one type of supporting evidence',
     },
     'view:hasPrivateMedicalRecords': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': privateMedicalRecords,
+      'ui:title': 'Private medical records',
     },
     'view:hasOtherEvidence': {
-      'ui:webComponentField': VaCheckboxField,
-      'ui:title': bddShaOtherEvidence,
+      'ui:title':
+        'Required Separation Health Assessment - Part A Self-Assessment or other documents like your DD Form 214, supporting (lay) statements, or other evidence',
     },
   },
   'view:evidenceTypeHelp': {
@@ -56,7 +55,6 @@ export const uiSchema = {
     'ui:description': evidenceTypeHelp,
     'ui:options': {
       expandUnder: 'view:hasEvidence',
-      forceDivWrapper: true,
     },
   },
   'view:evidenceSubmitLater': {
