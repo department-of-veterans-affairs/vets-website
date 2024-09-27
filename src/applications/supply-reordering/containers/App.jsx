@@ -14,7 +14,7 @@ const App = ({ children, location }) => (
 
 App.propTypes = {
   children: PropTypes.node,
-  location: PropTypes.string,
+  location: PropTypes.object,
 };
 
 export default App;

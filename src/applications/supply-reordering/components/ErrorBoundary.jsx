@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
+import { focusElement } from 'platform/utilities/ui';
 
 class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -13,6 +15,10 @@ class ErrorBoundary extends React.Component {
     return { hasError: true };
   }
 
+  componentDidMount() {
+    focusElement('h1');
+  }
+
   componentDidCatch(error) {
     console.error(error); // eslint-disable-line no-console
   }
@@ -22,12 +28,12 @@ class ErrorBoundary extends React.Component {
     const { hasError } = this.state;
     const ErrorMessage = () => (
       <div className="vads-l-grid-container main-content vads-u-padding-y--1p5">
-        <va-alert status="error" uswds>
+        <VaAlert status="error" uswds>
           <h1>We can’t access supply reordering right now</h1>
           <p>
             We’re sorry. Something went wrong in our system. Refresh this page.
           </p>
-        </va-alert>
+        </VaAlert>
       </div>
     );
 
