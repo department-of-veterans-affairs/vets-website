@@ -462,12 +462,12 @@ export const formatNameFirstToLast = name => {
   try {
     const parts = name?.split(',');
     if (parts.length !== 2) {
-      return null;
+      return name;
     }
     const [lastname, firstname] = parts;
     return `${firstname} ${lastname}`;
   } catch {
-    return null;
+    return name;
   }
 };
 
