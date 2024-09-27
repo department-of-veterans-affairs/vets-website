@@ -1,4 +1,5 @@
 import { fireEvent, render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
@@ -54,7 +55,7 @@ const simulateInputChange = (selector, value) => {
   vaTextInput.dispatchEvent(event);
 };
 
-const addACondition = (
+const addAConditionWithMouse = (
   getAllByRole,
   getByTestId,
   getByText,
@@ -69,6 +70,33 @@ const addACondition = (
     item => item.textContent === searchResult,
   );
   fireEvent.click(freeTextItem);
+
+  const saveButton = getByText('Save');
+  fireEvent.click(saveButton);
+};
+
+const addAConditionWithKeyboard = (
+  getAllByRole,
+  getByTestId,
+  getByText,
+  searchTerm,
+  searchResult,
+) => {
+  const input = getByTestId('combobox-input');
+  simulateInputChange(input, searchTerm);
+
+  fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+  const listboxItems = getAllByRole('option');
+
+  for (const item of listboxItems) {
+    if (item.textContent !== searchResult) {
+      fireEvent.keyDown(item, { key: 'ArrowDown' });
+    } else if (item.textContent === searchResult) {
+      fireEvent.keyDown(input, { key: 'Enter' });
+      break;
+    }
+  }
 
   const saveButton = getByText('Save');
   fireEvent.click(saveButton);
@@ -172,8 +200,8 @@ describe('Add Disabilities Page', () => {
     it('should render error message on item and alert on page if no new conditions are added', () => {
       const { getByText } = createScreen();
 
-      const submitBtn = getByText('Submit');
-      fireEvent.click(submitBtn);
+      const submitButton = getByText('Submit');
+      fireEvent.click(submitButton);
 
       const errorMessage = getByText(
         'Enter a condition, diagnosis, or short description of your symptoms',
@@ -254,7 +282,7 @@ describe('Add Disabilities Page', () => {
         queryByTestId,
       } = createScreen();
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -277,7 +305,7 @@ describe('Add Disabilities Page', () => {
       const searchResult = 'tinnitus (ringing or hissing in ears)';
       const { getAllByRole, getByTestId, getByText } = createScreen();
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -299,7 +327,7 @@ describe('Add Disabilities Page', () => {
       const newSearchResult = 'neck strain (cervical strain)';
       const { getAllByRole, getByTestId, getByText } = createScreen();
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -315,7 +343,7 @@ describe('Add Disabilities Page', () => {
 
       fireEvent.click(savedConditionEditButton);
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -340,7 +368,7 @@ describe('Add Disabilities Page', () => {
         queryByText,
       } = createScreen();
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -354,7 +382,7 @@ describe('Add Disabilities Page', () => {
       const addAnotherConditionButton = getByText('Add another condition');
       fireEvent.click(addAnotherConditionButton);
 
-      addACondition(
+      addAConditionWithMouse(
         getAllByRole,
         getByTestId,
         getByText,
@@ -388,8 +416,8 @@ describe('Add Disabilities Page', () => {
         },
       ]);
 
-      const submitBtn = getByText('Submit');
-      fireEvent.click(submitBtn);
+      const submitButton = getByText('Submit');
+      fireEvent.click(submitButton);
 
       const errorMessage = queryByText(
         'Enter a condition, diagnosis, or short description of your symptoms',
@@ -403,7 +431,164 @@ describe('Add Disabilities Page', () => {
     });
   });
 
-  describe('Keyboard Interactions', () => {});
+  describe('Keyboard Interactions', () => {
+    it('should be able to add a free-text condition', () => {
+      const searchTerm = 'Tinnitus';
+      const {
+        getAllByRole,
+        getByTestId,
+        getByText,
+        queryByTestId,
+      } = createScreen();
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        `Enter your condition as "${searchTerm}"`,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchTerm);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+
+      const input = queryByTestId('combobox-input');
+      expect(input).to.not.exist;
+    });
+
+    it('should be able to select a condition', () => {
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const { getAllByRole, getByTestId, getByText } = createScreen();
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchResult);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+    });
+
+    it('should be able to edit a condition', () => {
+      const searchTerm = 'Tinn';
+      const searchResult = 'tinnitus (ringing or hissing in ears)';
+      const newSearchTerm = 'Neck strain';
+      const newSearchResult = 'neck strain (cervical strain)';
+      const { getAllByRole, getByTestId, getByText } = createScreen();
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm,
+        searchResult,
+      );
+
+      const savedConditionEditButton = getByText('Edit');
+      const savedCondition = getByText(searchResult);
+
+      expect(savedConditionEditButton).to.be.visible;
+      expect(savedCondition).to.be.visible;
+
+      userEvent.type(savedConditionEditButton, '{enter}');
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        newSearchTerm,
+        newSearchResult,
+      );
+      const newCondition = getByText(newSearchResult);
+
+      expect(newCondition).to.be.visible;
+    });
+
+    it('should be able to select two conditions then remove one', () => {
+      const searchTerm1 = 'Tinn';
+      const searchResult1 = 'tinnitus (ringing or hissing in ears)';
+      const searchTerm2 = 'Hear';
+      const searchResult2 = 'hearing loss';
+      const {
+        getAllByRole,
+        getAllByText,
+        getByTestId,
+        getByText,
+        queryByText,
+      } = createScreen();
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm1,
+        searchResult1,
+      );
+
+      const savedConditionEditButton1 = getByText('Edit');
+      const savedCondition1 = getByText(searchResult1);
+
+      const addAnotherConditionButton = getByText('Add another condition');
+      userEvent.type(addAnotherConditionButton, '{enter}');
+
+      addAConditionWithKeyboard(
+        getAllByRole,
+        getByTestId,
+        getByText,
+        searchTerm2,
+        searchResult2,
+      );
+
+      const savedConditionEditButton2 = getAllByText('Edit')[1];
+      let savedCondition2 = getByText(searchResult2);
+
+      expect(savedConditionEditButton1).to.be.visible;
+      expect(savedCondition1).to.be.visible;
+      expect(savedConditionEditButton2).to.be.visible;
+      expect(savedCondition2).to.be.visible;
+
+      userEvent.type(savedConditionEditButton2, '{enter}');
+      const removeButton = getByText('Remove');
+      userEvent.type(removeButton, '{enter}');
+
+      savedCondition2 = queryByText(searchResult2);
+
+      expect(savedCondition2).not.to.exist;
+    });
+
+    it('should submit when form is completed', () => {
+      const { getByText, queryByText } = createScreen(true, false, [
+        {
+          cause: 'NEW',
+          condition: 'asthma',
+          'view:descriptionInfo': {},
+        },
+      ]);
+
+      const submitButton = getByText('Submit');
+      userEvent.type(submitButton, '{enter}');
+
+      const errorMessage = queryByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
+      const alertHeading = queryByText(
+        'Enter a condition to submit your claim',
+      );
+
+      expect(errorMessage).not.to.exist;
+      expect(alertHeading).not.to.exist;
+    });
+  });
 
   describe('Accessibility', () => {});
 
@@ -411,8 +596,8 @@ describe('Add Disabilities Page', () => {
     it('should display helpful error if no new conditions are added', () => {
       const { getByText } = createScreen(true, true, null);
 
-      const submitBtn = getByText('Submit');
-      fireEvent.click(submitBtn);
+      const submitButton = getByText('Submit');
+      fireEvent.click(submitButton);
 
       const alertHeading = getByText('We need you to add a condition');
       const alertText = getByText(
