@@ -19,7 +19,7 @@ export default {
         title: 'When do you expect to separate or retire from the service?',
         labels: expectedSeparationLabels,
         required: () => false,
-        hideIf: formData => formData.militaryServiceCurrentlyServing !== 'Yes',
+        hideIf: formData => formData.militaryServiceCurrentlyServing !== true,
       }),
     },
   },
