@@ -10,7 +10,7 @@ const DebtCardsList = () => {
   return (
     <ul
       className="vads-u-margin-top--3 no-bullets vads-u-padding-x--0"
-      data-testid="debt-list"
+      data-testid="current-va-debt-list"
     >
       {debts.map((debt, index) => (
         <DebtSummaryCard key={`${index}-${debt.compositeDebtId}`} debt={debt} />
