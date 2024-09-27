@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-
+import { connect } from 'react-redux';
+import { setData } from '~/platform/forms-system/src/js/actions';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
@@ -11,7 +12,8 @@ const SelectAccreditedRepresentative = props => {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [representatives, setRepresentatives] = useState([]);
+  const representativeResults =
+    formData?.['view:representativeSearchResults'] || null;
 
   const onInputChange = e => {
     setError(null);
@@ -28,11 +30,13 @@ const SelectAccreditedRepresentative = props => {
 
     setLoading(true);
     setError(null);
-    setRepresentatives(null);
 
     try {
-      const representativeResults = await fetchRepresentatives({ query });
-      setRepresentatives(representativeResults);
+      const res = await fetchRepresentatives({ query });
+      setFormData({
+        ...formData,
+        'view:representativeSearchResults': res,
+      });
     } catch (err) {
       setError(err.errorMessage);
     } finally {
@@ -44,10 +48,10 @@ const SelectAccreditedRepresentative = props => {
     if (loading) {
       return <va-loading-indicator message="Loading..." set-focus />;
     }
-    if (representatives?.length) {
+    if (representativeResults?.length) {
       return (
         <>
-          {representatives.map((rep, index) => {
+          {representativeResults.map((rep, index) => {
             const representative = rep.data;
             return (
               <div key={index} className="vads-u-margin-y--4">
@@ -119,7 +123,6 @@ const SelectAccreditedRepresentative = props => {
           />
         </div>
       </div>
-
       {searchResults()}
     </div>
   );
@@ -139,4 +142,17 @@ SelectAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
 };
 
-export default withRouter(SelectAccreditedRepresentative);
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
+
+const mapDispatchToProps = {
+  setFormData: setData,
+};
+
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(SelectAccreditedRepresentative),
+);
