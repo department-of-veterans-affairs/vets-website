@@ -82,6 +82,7 @@ describe('ArrayBuilderFirstItemPage', () => {
     arrayData = [],
     title = 'Name and address of employer',
     lowerCase = true,
+    hasMultipleItemPages = true,
     required = () => false,
   }) {
     const setFormData = sinon.spy();
@@ -104,6 +105,7 @@ describe('ArrayBuilderFirstItemPage', () => {
           title,
           nounSingular: 'employer',
           lowerCase,
+          hasMultipleItemPages,
         }),
         name: {
           'ui:title': 'Name of employer',
@@ -130,7 +132,7 @@ describe('ArrayBuilderFirstItemPage', () => {
       required,
     });
 
-    const { container, getByText } = render(
+    const { container, queryByText } = render(
       <Provider store={mockStore}>
         <CustomPage
           schema={itemPage.schema}
@@ -149,37 +151,37 @@ describe('ArrayBuilderFirstItemPage', () => {
       </Provider>,
     );
 
-    return { setFormData, goToPath, getText, container, getByText };
+    return { setFormData, goToPath, getText, container, queryByText };
   }
 
   it('should display correctly with add query parameter', () => {
-    const { getText, container, getByText } = setupArrayBuilderItemPage({
+    const { getText, container, queryByText } = setupArrayBuilderItemPage({
       title: 'Name and address of employer',
       index: 0,
       urlParams: '?add=true',
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(getByText('Name and address of employer')).to.exist;
+    expect(queryByText('Name and address of employer')).to.exist;
     expect(container.querySelector('va-button[text="cancelAddButtonText"]')).to
       .exist;
   });
 
   it('should display correctly with edit query parameter', () => {
-    const { getText, container, getByText } = setupArrayBuilderItemPage({
+    const { getText, container, queryByText } = setupArrayBuilderItemPage({
       title: 'Name and address of employer',
       index: 0,
       urlParams: '?edit=true',
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(getByText('Edit name and address of employer')).to.exist;
+    expect(queryByText('Edit name and address of employer')).to.exist;
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
 
   it('should display correctly with edit query parameter is not lowercased', () => {
-    const { getText, container, getByText } = setupArrayBuilderItemPage({
+    const { getText, container, queryByText } = setupArrayBuilderItemPage({
       title: 'John Doe employer information',
       lowerCase: false,
       index: 0,
@@ -187,13 +189,49 @@ describe('ArrayBuilderFirstItemPage', () => {
       arrayData: [{ name: 'Test' }],
     });
 
-    expect(getByText('Edit John Doe employer information')).to.exist;
+    expect(queryByText('Edit John Doe employer information')).to.exist;
+    expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
+      .exist;
+  });
+
+  it('should display correctly when hasMultipleItemPages is true', () => {
+    const { container, queryByText } = setupArrayBuilderItemPage({
+      title: 'Multiple page employer',
+      index: 0,
+      urlParams: '?edit=true',
+      arrayData: [{ name: 'Employer One' }],
+      hasMultipleItemPages: true,
+    });
+
+    expect(
+      queryByText(
+        'We’ll take you through each of the sections of this employer for you to review and edit',
+      ),
+    ).to.exist;
+    expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
+      .exist;
+  });
+
+  it('should display correctly when hasMultipleItemPages is false', () => {
+    const { container, queryByText } = setupArrayBuilderItemPage({
+      title: 'Single page employer',
+      index: 0,
+      urlParams: '?edit=true',
+      arrayData: [{ name: 'Employer One' }],
+      hasMultipleItemPages: false,
+    });
+
+    expect(
+      queryByText(
+        'We’ll take you through each of the sections of this employer for you to review and edit',
+      ),
+    ).to.not.exist;
     expect(container.querySelector('va-button[text="cancelEditButtonText"]')).to
       .exist;
   });
 
   it('should navigate away if not edit or add', () => {
-    const { goToPath, container, getByText } = setupArrayBuilderItemPage({
+    const { goToPath, container, queryByText } = setupArrayBuilderItemPage({
       title: 'Name and address of employer',
       index: 0,
       urlParams: '',
