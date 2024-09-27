@@ -334,7 +334,6 @@ const Prescriptions = () => {
         pdfData(rxList, allergiesList),
       ).then(() => {
         setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-        updateLoadingStatus(false, '');
       });
     },
     [userName, pdfData, setPdfTxtGenerateStatus],
@@ -349,7 +348,6 @@ const Prescriptions = () => {
         }-${dateFormat(Date.now(), 'M-D-YYYY_hmmssa').replace(/\./g, '')}`,
       );
       setPdfTxtGenerateStatus({ status: PDF_TXT_GENERATE_STATUS.Success });
-      updateLoadingStatus(false, '');
     },
     [userName, txtData, setPdfTxtGenerateStatus],
   );
@@ -447,12 +445,13 @@ const Prescriptions = () => {
     const isTxtOrPdf =
       format === DOWNLOAD_FORMAT.PDF || format === DOWNLOAD_FORMAT.TXT;
     if (
-      isTxtOrPdf ||
-      !allergies ||
-      (format === PRINT_FORMAT.PRINT_FULL_LIST && !prescriptionsFullList.length)
+      (isTxtOrPdf ||
+        !allergies ||
+        (format === PRINT_FORMAT.PRINT_FULL_LIST &&
+          !prescriptionsFullList.length)) &&
+      !prescriptionsFullList.length
     ) {
-      if (!prescriptionsFullList.length) setIsRetrievingFullList(true);
-      updateLoadingStatus(true, 'Loading...');
+      setIsRetrievingFullList(true);
     }
     setPdfTxtGenerateStatus({
       status: PDF_TXT_GENERATE_STATUS.InProgress,
@@ -587,6 +586,11 @@ const Prescriptions = () => {
                             pdfTxtGenerateStatus.status ===
                             PDF_TXT_GENERATE_STATUS.Success
                           }
+                          isLoading={
+                            !allergiesError &&
+                            pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.InProgress
+                          }
                           list
                         />
                         <BeforeYouDownloadDropdown page={pageType.LIST} />
@@ -622,6 +626,11 @@ const Prescriptions = () => {
                           isSuccess={
                             pdfTxtGenerateStatus.status ===
                             PDF_TXT_GENERATE_STATUS.Success
+                          }
+                          isLoading={
+                            !allergiesError &&
+                            pdfTxtGenerateStatus.status ===
+                              PDF_TXT_GENERATE_STATUS.InProgress
                           }
                           list
                         />

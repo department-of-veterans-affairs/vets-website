@@ -115,7 +115,7 @@
     ],
     "conviction": true,
     "convictionDetailsExplanation": "Conviction explanation",
-    "convictionDetailsCertification": ["CERTIFIED"],
+    "convictionDetailsCertification": ["certified"],
     "courtMartialed": false,
     "underCharges": false,
     "resignedFromEducation": false,
