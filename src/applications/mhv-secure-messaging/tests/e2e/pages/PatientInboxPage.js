@@ -338,13 +338,18 @@ class PatientInboxPage {
   };
 
   navigateToComposePage = (checkFocusOnVcl = false) => {
+    // cy.intercept(
+    //   'GET',
+    //   Paths.SM_API_EXTENDED + Paths.SIGNATURE,
+    //   mockSignature,
+    // ).as('signature');
     cy.intercept(
       'GET',
-      Paths.SM_API_EXTENDED + Paths.SIGNATURE,
-      mockSignature,
-    ).as('signature');
+      Paths.SM_API_EXTENDED + Paths.CATEGORIES,
+      mockCategories,
+    ).as('categories');
     cy.get(Locators.LINKS.CREATE_NEW_MESSAGE).click({ force: true });
-    cy.wait('@signature');
+    // cy.wait('@signature');
     if (checkFocusOnVcl) {
       PatientInterstitialPage.CheckFocusOnVcl();
     }
