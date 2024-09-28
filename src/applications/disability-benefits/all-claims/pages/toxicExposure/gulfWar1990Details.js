@@ -20,8 +20,8 @@ import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
       day: must be 2 digits, ranging from 01 - 31
 */
 const dateSchema = {
-  type: 'string',
   pattern: '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
+  type: 'string',
 };
 
 /**
