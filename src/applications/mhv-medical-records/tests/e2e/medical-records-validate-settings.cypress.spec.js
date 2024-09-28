@@ -44,11 +44,11 @@ describe('Medical Records validate settings page', () => {
     cy.get('va-card')
       .find('h3')
       .contains('Your sharing setting: Opted out');
-    cy.get('va-alert').contains('You’ve opted out of sharing');
-    // cy.get('div.settings')
-    //   .children()
-    //   .first()
-    //   .contains('You’ve opted out of sharing');
+    // cy.get('va-alert').contains('You’ve opted out of sharing');
+    cy.get('div.settings')
+      .children()
+      .first()
+      .contains('You’ve opted out of sharing');
 
     cy.intercept(
       'POST',
