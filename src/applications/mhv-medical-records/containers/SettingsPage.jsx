@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
@@ -22,6 +22,7 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showSharingModal, setShowSharingModal] = useState(false);
+  const buttonRef = useRef(null);
 
   useEffect(
     () => {
@@ -43,6 +44,10 @@ const SettingsPage = () => {
     dispatch(clearSharingStatus()).then(() => {
       dispatch(updateSharingStatus(!currentOptInStatus)).then(() => {
         setShowSuccessAlert(true);
+        // Focus the button after opt-in, when it turns to "Opt out"
+        if (!currentOptInStatus && buttonRef.current) {
+          setTimeout(() => focusElement('button', {}, buttonRef.current));
+        }
       });
     });
   };
@@ -123,6 +128,7 @@ const SettingsPage = () => {
           full-width="false"
           status="success"
           visible={showSuccessAlert}
+          aria-live="polite"
         >
           <p className="vads-u-margin-y--0">
             You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
@@ -146,9 +152,13 @@ const SettingsPage = () => {
             </p>
           )}
           <va-button
+            ref={buttonRef}
             data-testid="open-opt-in-out-modal-button"
             text={isSharing ? 'Opt out' : 'Opt back in'}
-            onClick={() => setShowSharingModal(true)}
+            onClick={() => {
+              setShowSharingModal(true);
+              // If you want to focus an element, you can call it here or handle it elsewhere
+            }}
           />
         </va-card>
       </>
