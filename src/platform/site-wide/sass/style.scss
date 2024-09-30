@@ -1,12 +1,18 @@
 $formation-image-path: "~@department-of-veterans-affairs/formation/assets/img";
 @import "modules/m-overrides";
 @import "~@department-of-veterans-affairs/formation/sass/shared-variables";
+//~~~~~~~ Needed for now because we haven't transferred grid classes yet
 @import "~@department-of-veterans-affairs/formation/sass/layout/flex-grid";
 @import "~uswds/src/stylesheets/core/grid";
+//~~~~~~
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/mixins";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/core";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/shame";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/utilities";
+//~~~~~~ Different from the above utilities stylesheet which is up to date uswds v3 styles.
+// This stylesheet contains old formation holdovers that were ported to css-library.
+@import "~@department-of-veterans-affairs/css-library/dist/stylesheets/base/utils";
+//~~~~~~
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/uswds-typography";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-alert";
 @import "~@department-of-veterans-affairs/css-library/dist/stylesheets/modules/m-breadcrumbs";
