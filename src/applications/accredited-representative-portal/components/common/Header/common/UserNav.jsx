@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { SIGN_IN_URL, SIGN_OUT_URL } from '../../../../constants';
 import {
   selectUserProfile,
-  selectUserIsLoading,
+  selectIsUserLoading,
 } from '../../../../selectors/user';
 
 const generateUniqueId = () =>
@@ -15,7 +15,7 @@ const generateUniqueId = () =>
 
 const UserNav = ({ isMobile }) => {
   const profile = useSelector(selectUserProfile);
-  const isLoading = useSelector(selectUserIsLoading);
+  const isLoading = useSelector(selectIsUserLoading);
   const uniqueId = useRef(generateUniqueId());
 
   const [isDropdownOpen, setDropdownOpen] = useState(false);

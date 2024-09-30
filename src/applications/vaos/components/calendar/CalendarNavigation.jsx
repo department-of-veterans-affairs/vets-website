@@ -34,7 +34,7 @@ const CalendarNavigation = ({
           >
             <va-icon icon="navigate_before" size="3" aria-hidden="true" />
           </span>
-          <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-left--1">
+          <span className="vads-u-display--none mobile-lg:vads-u-display--inline vads-u-padding-left--1">
             Previous
           </span>
         </button>
@@ -57,7 +57,7 @@ const CalendarNavigation = ({
           type="button"
           aria-label="Next"
         >
-          <span className="vads-u-display--none small-screen:vads-u-display--inline vads-u-padding-right--1">
+          <span className="vads-u-display--none mobile-lg:vads-u-display--inline vads-u-padding-right--1">
             Next
           </span>
           <span
