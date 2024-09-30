@@ -10,7 +10,6 @@ import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 
 import {
-  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
@@ -150,12 +149,23 @@ export function FilterYourResults({
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
+
     updateInstitutionFilters(
       'excludedSchoolTypes',
       checked
         ? newExcluded.concat(name)
         : newExcluded.filter(type => type !== name),
     );
+
+    dispatchFilterChange({
+      ...filters,
+      excludedSchoolTypes: checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+      schools: checked
+        ? true
+        : newExcluded.filter(type => type !== name).length !== 0,
+    });
   };
 
   const handleVetTecChange = e => {
@@ -197,12 +207,12 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (isProductionOrTestProdEnv()) {
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    if (
+      validateSearchTerm(nameValue, dispatchError, error, filters, searchType)
+    ) {
+      updateInstitutionFilters('search', true);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
-    updateInstitutionFilters('search', true);
-
-    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {
@@ -353,7 +363,7 @@ export function FilterYourResults({
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
         {vetTecCheckbox(
