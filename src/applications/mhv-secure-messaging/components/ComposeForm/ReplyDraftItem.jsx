@@ -22,7 +22,11 @@ import FileInput from './FileInput';
 import DraftSavedInfo from './DraftSavedInfo';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
 import MessageThreadBody from '../MessageThread/MessageThreadBody';
-import { ErrorMessages, draftAutoSaveTimeout } from '../../util/constants';
+import {
+  ErrorMessages,
+  draftAutoSaveTimeout,
+  Alerts,
+} from '../../util/constants';
 import useDebounce from '../../hooks/use-debounce';
 import { saveReplyDraft } from '../../actions/draftDetails';
 import RouteLeavingGuard from '../shared/RouteLeavingGuard';
@@ -74,6 +78,17 @@ const ReplyDraftItem = props => {
   const [saveError, setSaveError] = useState(null);
   const [focusToTextarea, setFocusToTextarea] = useState(false);
   const [draftId, setDraftId] = useState(null);
+
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList?.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
+  );
 
   const localStorageValues = useMemo(() => {
     return {
@@ -520,6 +535,7 @@ const ReplyDraftItem = props => {
                 attachFileSuccess={attachFileSuccess}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
 
               <FileInput
@@ -527,6 +543,7 @@ const ReplyDraftItem = props => {
                 setAttachments={setAttachments}
                 setAttachFileSuccess={setAttachFileSuccess}
                 draftSequence={draftSequence}
+                attachmentScanError={attachmentScanError}
               />
             </section>
           )}
