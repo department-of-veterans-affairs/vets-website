@@ -126,7 +126,7 @@ const ManageFolderButtons = props => {
             vads-u-display--flex
             vads-u-flex-direction--column
             mobile-lg:vads-u-flex-direction--row
-            small-screen:vads-u-align-content--flex-start
+            mobile-lg:vads-u-align-content--flex-start
           "
         >
           {/* TODO add GA event for both buttons */}
