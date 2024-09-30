@@ -4,6 +4,7 @@ import appendQuery from 'append-query';
 
 import recordEvent from 'platform/monitoring/record-event';
 import { toggleLoginModal } from 'platform/site-wide/user-nav/actions';
+import { useFeatureToggle } from '~/platform/utilities/feature-toggles/useFeatureToggle';
 import {
   AUTH_EVENTS,
   AUTHN_SETTINGS,
@@ -62,6 +63,9 @@ export default function AuthApp({ location }) {
     setHasError(true);
   };
 
+  const { useToggleValue, TOGGLE_NAMES } = useFeatureToggle();
+  const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
+
   const redirect = () => {
     // remove from session storage
     sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
@@ -69,8 +73,10 @@ export default function AuthApp({ location }) {
     // redirect to my-va if necessary
     const updatedUrl = generateReturnURL(returnUrl);
 
-    // **ADD FEATURE TOGGLE **
-    if (loginType === 'mhv' || loginType === 'myhealthevet') {
+    if (
+      isInterstital &&
+      (loginType === 'mhv' || loginType === 'myhealthevet')
+    ) {
       window.location.replace('/sign-in-changes-reminder');
     }
 

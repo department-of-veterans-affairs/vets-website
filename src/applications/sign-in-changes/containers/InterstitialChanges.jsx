@@ -13,8 +13,8 @@ export default function InterstitialChanges() {
   // const userHasIdme =
   //   useSelector(state => selectProfile(state)?.idmeUuid) !== null;
   const userEmail = 'testuser@test.com';
-  const userHasLogingov = 'dfskljflkd';
-  const userHasIdme = 'kjlkjlkjfgl';
+  const userHasLogingov = null;
+  const userHasIdme = null;
   const showAccount = userHasLogingov || userHasIdme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
   return (
@@ -35,7 +35,7 @@ export default function InterstitialChanges() {
       ) : (
         <CreateAccount />
       )}
-      <h2>Or continue using your old account</h2>
+      <h2 className="vads-u-margin-y--0">Or continue using your old account</h2>
       <p className="vads-u-font-size--base">
         You’ll can use you <strong>MyHealtheVet.gov</strong> account to sign in
         until <strong>January 31, 2025</strong>.
