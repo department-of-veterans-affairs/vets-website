@@ -230,17 +230,11 @@ export const setUnsavedNavigationError = (
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-        confirmButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
-        cancelButtonText:
-          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
       });
       break;
     case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
       setNavigationError({
         ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-        confirmButtonText: 'Continue editing',
-        cancelButtonText: 'Delete draft',
       });
       break;
     default:

@@ -152,15 +152,6 @@ const ReplyDraftItem = props => {
     if (e.target.value) setBodyError('');
   };
 
-  // Send message navigation error with attachments message
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
-
   useEffect(
     () => {
       if (draft) {
@@ -259,25 +250,40 @@ const ReplyDraftItem = props => {
     [checkMessageValidity, setLastFocusableElement],
   );
 
-  // Before Save
+  // Navigation error effect
   useEffect(
     () => {
       const draftBody = draft && draft.body;
-      if (
-        messageBody === draftBody ||
-        (messageBody === '' && draftBody === undefined)
-      ) {
+      const blankDraft = messageBody === '' && draftBody === undefined;
+      const savedEdits = messageBody === draftBody;
+      if (savedEdits || blankDraft) {
         setNavigationError(null);
-      } else if (messageBody !== draftBody) {
-        // Stimulates unable to save navigation error modal on reply drafts after messagebody changes
+      }
+      if (!savedEdits && blankDraft && attachments.length > 0) {
         setNavigationError({
           ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
-          confirmButtonText: 'Continue editing',
-          cancelButtonText: 'Delete draft',
+        });
+      }
+      if (
+        (!savedEdits && !blankDraft && attachments.length > 0) ||
+        (savedEdits && attachments.length > 0)
+      ) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        });
+      }
+      if (!draft && !savedEdits && !blankDraft && attachments.length === 0) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT,
+        });
+      }
+      if (draft && draftBody !== messageBody && attachments.length === 0) {
+        setNavigationError({
+          ...ErrorMessages.ComposeForm.CONT_SAVING_DRAFT_CHANGES,
         });
       }
     },
-    [draft, messageBody],
+    [attachments.length, draft, messageBody],
   );
 
   useEffect(
@@ -398,15 +404,6 @@ const ReplyDraftItem = props => {
     },
     [draft, formPopulated],
   );
-
-  // Send message navigation error with attachments message
-  if (!sendMessageFlag && !navigationError && attachments.length) {
-    setNavigationError({
-      ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
-      confirmButtonText: 'Continue editing',
-      cancelButtonText: 'OK',
-    });
-  }
 
   useEffect(
     () => {
