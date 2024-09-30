@@ -1,21 +1,24 @@
 import { expect } from 'chai';
 import moment from 'moment';
+import { isValid, getDate, getMonth, getYear } from 'date-fns';
 
 import {
-  dateToMoment,
-  timeFromNow,
-  formatDateShort,
-  formatDateParsedZoneShort,
+  dateFieldToDate,
   formatDateLong,
   formatDateParsedZoneLong,
-  isValidDateString,
+  formatDateParsedZoneShort,
+  formatDateShort,
   formatDowntime,
+  isValidDateString,
+  parseStringOrDate,
+  stripTimezoneFromIsoDate,
+  timeFromNow,
 } from '../date';
 
 describe('Helpers unit tests', () => {
-  describe('dateToMoment', () => {
-    it('should convert date to moment', () => {
-      const date = dateToMoment({
+  describe('dateFieldToDate', () => {
+    it('should convert date field to date', () => {
+      const date = dateFieldToDate({
         month: {
           value: 2,
         },
@@ -27,13 +30,13 @@ describe('Helpers unit tests', () => {
         },
       });
 
-      expect(date.isValid()).to.be.true;
-      expect(date.year()).to.equal(1901);
-      expect(date.month()).to.equal(1);
-      expect(date.date()).to.equal(3);
+      expect(isValid(date)).to.be.true;
+      expect(getYear(date)).to.equal(1901);
+      expect(getMonth(date)).to.equal(1);
+      expect(getDate(date)).to.equal(3);
     });
-    it('should convert partial date to moment', () => {
-      const date = dateToMoment({
+    it('should convert partial date to date', () => {
+      const date = dateFieldToDate({
         month: {
           value: 2,
         },
@@ -42,42 +45,72 @@ describe('Helpers unit tests', () => {
         },
       });
 
-      expect(date.isValid()).to.be.true;
-      expect(date.year()).to.equal(1901);
-      expect(date.month()).to.equal(1);
-      expect(date.date()).to.equal(1);
+      expect(isValid(date)).to.be.true;
+      expect(getYear(date)).to.equal(1901);
+      expect(getMonth(date)).to.equal(1);
+      expect(getDate(date)).to.equal(1);
     });
   });
 
   describe('timeFromNow', () => {
-    const today = moment();
+    const today = moment().unix();
     it('should display time in days', () => {
-      expect(timeFromNow(moment(today).add(30, 'days'), today)).to.equal(
-        '30 days',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(30, 'days')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('30 days');
     });
     it('should display time in hours', () => {
-      expect(timeFromNow(moment(today).add(23, 'hours'), today)).to.equal(
-        '23 hours',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(23, 'hours')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('23 hours');
     });
     it('should display time in minutes', () => {
-      expect(timeFromNow(moment(today).add(59, 'minutes'), today)).to.equal(
-        '59 minutes',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(59, 'minutes')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('59 minutes');
     });
     it('should display time in seconds', () => {
-      expect(timeFromNow(moment(today).add(59, 'seconds'), today)).to.equal(
-        '59 seconds',
-      );
+      expect(
+        timeFromNow(
+          moment(today)
+            .add(59, 'seconds')
+            .toDate(),
+          today,
+        ),
+      ).to.equal('59 seconds');
     });
   });
 
   describe('formatDateShort', () => {
-    const noon = '1995-11-12T12:00:00.000+0000';
+    const noonString = '1995-11-12T12:00:00.000+0000';
+    const noonDate = new Date(1995, 10, 12, 0, 0, 0, 0);
+    const midnight = 1599112800000;
 
-    it('should display the date in the short format', () => {
-      expect(formatDateShort(noon)).to.equal('11/12/1995');
+    it('should handle ISO strings', () => {
+      expect(formatDateShort(noonString)).to.equal('11/12/1995');
+    });
+
+    it('should handle date objects', () => {
+      expect(formatDateShort(noonDate)).to.equal('11/12/1995');
+    });
+
+    it('should handle unix timestamps with ms', () => {
+      expect(formatDateShort(midnight)).to.equal('09/03/2020');
     });
   });
 
@@ -120,6 +153,27 @@ describe('Helpers unit tests', () => {
 
     it('should display the date in the short format without padding', () => {
       expect(formatDateLong(nhdvs)).to.equal('March 3, 1865');
+    });
+
+    it('should handle various edge cases', () => {
+      const midnight = '1995-11-12T00:00:00.000+0000';
+      const midnightOffsetNegative1 = '1995-11-12T00:00:00.000-1000';
+      const sixAMOffset0 = '1995-11-12T06:00:00.000+0000';
+      const eightAMOffset0 = '1995-11-12T08:00:00.000+0000';
+      const almostMidnightOffset0 = '1995-11-12T23:59:59.999+0000';
+      const almostMidnightOffsetNegative1 = '1995-11-12T23:59:59.999-1000';
+      expect(formatDateLong(midnight)).to.equal('November 12, 1995');
+      expect(formatDateLong(midnightOffsetNegative1)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateLong(sixAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateLong(eightAMOffset0)).to.equal('November 12, 1995');
+      expect(formatDateLong(almostMidnightOffset0)).to.equal(
+        'November 12, 1995',
+      );
+      expect(formatDateLong(almostMidnightOffsetNegative1)).to.equal(
+        'November 13, 1995',
+      );
     });
   });
 
@@ -209,6 +263,153 @@ describe('Helpers unit tests', () => {
       expect(formatDowntime('2020-11-21T00:35:30-05:00')).to.equal(
         'Nov. 21 at 12:35 a.m. ET',
       );
+    });
+
+    it('can handle a moment date', () => {
+      expect(formatDowntime(moment('2020-05-24T12:00:30-04:00'))).to.equal(
+        'May 24 at noon ET',
+      );
+    });
+
+    it('can handle a date object', () => {
+      expect(formatDowntime(new Date('2020-05-24T12:00:30-04:00'))).to.equal(
+        'May 24 at noon ET',
+      );
+    });
+  });
+
+  describe('parseStringOrDate', () => {
+    it('should return a Date object when given a valid ISO 8601 date string', () => {
+      const dateString = '2023-10-05T14:48:00.000Z';
+      const result = parseStringOrDate(dateString);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result.toISOString()).to.equal(dateString);
+    });
+
+    it('should return a Date object when given a valid unix timestamp with ms', () => {
+      const dateObject = new Date(2022, 0, 19, 19, 9, 46, 0); // January is month 0 (zero-based)
+      const dateString = '1642619386000';
+      const result = parseStringOrDate(dateString);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result.toISOString()).to.equal(dateObject.toISOString());
+    });
+
+    it('should return a Date object when given a valid unix timestamp with ms as a number', () => {
+      const dateObject = new Date(2022, 0, 19, 19, 9, 46, 0); // January is month 0 (zero-based)
+      const dateString = 1642619386000;
+      const result = parseStringOrDate(dateString);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result.toISOString()).to.equal(dateObject.toISOString());
+    });
+
+    it('should return the same Date object when given a Date object', () => {
+      const dateObject = new Date(2023, 9, 5, 14, 48, 0, 0); // October is month 9 (zero-based)
+      const result = parseStringOrDate(dateObject);
+      expect(result).to.be.an.instanceof(Date);
+      expect(result).to.equal(dateObject);
+    });
+
+    it('should throw an error when given an invalid date string', () => {
+      const invalidDateString = 'invalid-date';
+      expect(() => parseStringOrDate(invalidDateString)).to.throw(
+        `Could not parse date string: ${invalidDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a date in an invalid format', () => {
+      const nonDateString = 'Sun Jun 11 2012 00:00:00 GMT-0700 (PDT)';
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a non-date string', () => {
+      const nonDateString = 'not-a-date';
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given null', () => {
+      const nonDateString = null;
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+      );
+    });
+
+    it('should throw an error when given a non-date string', () => {
+      const nonDateString = undefined;
+      expect(() => parseStringOrDate(nonDateString)).to.throw(
+        `Could not parse date string: ${nonDateString}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+      );
+    });
+  });
+
+  describe('stripTimezoneFromIsoDate', () => {
+    it('should remove the "Z" timezone designator', () => {
+      const date = '2023-10-05T14:48:00.000Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "+HHMM"', () => {
+      const date = '2023-10-05T14:48:00.000+0200';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "-HHMM"', () => {
+      const date = '2023-10-05T14:48:00.000-0500';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "+HH:MM"', () => {
+      const date = '2023-10-05T14:48:00.000+02:00';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should remove the timezone offset in the format "-HH:MM"', () => {
+      const date = '2023-10-05T14:48:00.000-05:00';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should not alter a date string without a timezone', () => {
+      const date = '2023-10-05T14:48:00.000';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.000');
+    });
+
+    it('should handle an empty string', () => {
+      const date = '';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('');
+    });
+
+    it('should handle a null value', () => {
+      const date = null;
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal(null);
+    });
+
+    it('should handle an undefined value', () => {
+      const date = undefined;
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal(undefined);
+    });
+
+    it('should handle a date string with milliseconds', () => {
+      const date = '2023-10-05T14:48:00.123Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00.123');
+    });
+
+    it('should handle a date string without milliseconds', () => {
+      const date = '2023-10-05T14:48:00Z';
+      const result = stripTimezoneFromIsoDate(date);
+      expect(result).to.equal('2023-10-05T14:48:00');
     });
   });
 });

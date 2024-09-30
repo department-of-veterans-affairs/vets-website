@@ -128,7 +128,7 @@ const ManageFolderButtons = props => {
           className="            
             vads-u-display--flex
             vads-u-flex-direction--column
-            small-screen:vads-u-flex-direction--row
+            mobile-lg:vads-u-flex-direction--row
             small-screen:vads-u-align-content--flex-start
           "
         >

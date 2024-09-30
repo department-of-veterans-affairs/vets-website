@@ -285,12 +285,12 @@ const isPortrait = () => {
   return window.matchMedia('(orientation: portrait)').matches;
 };
 
-export const isSmallScreenLogic = () =>
-  matchMedia('(max-width: 480px)').matches;
+export const isSmallScreenLogic = (maxWidth = 480) =>
+  matchMedia(`(max-width: ${maxWidth}px)`).matches;
 
-export const isSmallScreen = () => {
+export const isSmallScreen = (maxWidth = 480) => {
   const portrait = isPortrait();
-  const smallScreen = isSmallScreenLogic();
+  const smallScreen = isSmallScreenLogic(maxWidth);
   const browserZoomLevel = Math.round(window.devicePixelRatio * 100);
   return (smallScreen && portrait) || (smallScreen && browserZoomLevel <= 150);
 };
@@ -410,16 +410,24 @@ export const validateSearchTerm = (
     } else if (error !== null) {
       dispatchError(null);
     }
+    return !empty && !filterKeys.every(key => filters[key] === false);
   }
 
   if (type === 'location') {
     if (empty) {
       dispatchError('Please fill in a city, state, or postal code.');
+    } else if (filterKeys.every(key => filters[key] === false)) {
+      dispatchError('Please select at least one filter.');
     } else if (invalidZipCodePattern.test(searchTerm)) {
       dispatchError('Please enter a valid postal code.');
     } else if (error !== null) {
       dispatchError(null);
     }
+    return (
+      !empty &&
+      !filterKeys.every(key => filters[key] === false) &&
+      !invalidZipCodePattern.test(searchTerm)
+    );
   }
 
   return !empty;
