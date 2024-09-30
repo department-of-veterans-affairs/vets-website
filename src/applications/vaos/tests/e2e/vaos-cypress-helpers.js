@@ -51,7 +51,7 @@ export function mockCCProvidersApi({
   cy.intercept(
     {
       method: 'GET',
-      pathname: '/facilities_api/v1/ccp/provider',
+      pathname: '/facilities_api/v2/ccp/provider',
     },
     req => {
       if (responseCode !== 200) {
@@ -65,7 +65,7 @@ export function mockCCProvidersApi({
 
       req.reply({ data });
     },
-  ).as('v1:get:provider');
+  ).as('v2:get:provider');
 }
 
 /**

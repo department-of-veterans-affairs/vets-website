@@ -8,7 +8,9 @@ const Denied = ({ origin, referenceNumber, requestDate, testUrl = '' }) => (
   <va-alert status="info" class="vads-u-margin-bottom--2">
     <h2 slot="headline">We denied your request for a COE</h2>
     <div>
-      <p>You requested a COE on: {formatDateLong(requestDate)}</p>
+      <p>
+        You requested a COE on: {requestDate && formatDateLong(requestDate)}
+      </p>
       <p>
         We reviewed your request. You don’t qualify for a COE.
         {origin === 'form' && (

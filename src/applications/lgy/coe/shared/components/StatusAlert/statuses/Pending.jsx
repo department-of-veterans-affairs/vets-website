@@ -38,7 +38,9 @@ const Pending = ({ referenceNumber, requestDate, origin, status, testUrl }) => {
       <h2 slot="headline" className="vads-u-font-size--h3">
         {headline}
       </h2>
-      <p>You requested a COE on: {formatDateLong(requestDate)}</p>
+      <p>
+        You requested a COE on: {requestDate && formatDateLong(requestDate)}
+      </p>
       <p>
         {body}
         {origin === 'form' && (

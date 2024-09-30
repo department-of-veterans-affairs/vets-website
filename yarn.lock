@@ -2900,10 +2900,10 @@
   dependencies:
     jsx-ast-utils "^3.3.3"
 
-"@department-of-veterans-affairs/formation@11.0.22":
-  version "11.0.22"
-  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.22.tgz#45750b38bdbcb752047db579a3d7aa205410a99d"
-  integrity sha512-e3Qp4I7jHpWm7pZLOssCJn7fNXkFXOzQtwEnNwFynstoqeu+T+NTrgJP7IFoD3Hfpj//i3IA/WRpz2KkV5vhXw==
+"@department-of-veterans-affairs/formation@11.0.23":
+  version "11.0.23"
+  resolved "https://registry.npmjs.org/@department-of-veterans-affairs/formation/-/formation-11.0.23.tgz#9c14e75d1fb4d5927f12ba70753d1d5050d7efeb"
+  integrity sha512-PtoIZ0zOYhX9Hh1cn1jjAju3TChYmE8NVfXVgySd3IBRlyISkV5PkNBkqMajscaXRi6AJQ4Tvg2eufer3raS/g==
   dependencies:
     "@fortawesome/fontawesome-free" "^5.15.4"
     domready "^1.0.8"
@@ -21260,9 +21260,9 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#3ab65cdd8c82c1207f6dbb8aa84cb4c659bc9add":
-  version "24.2.6"
-  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#3ab65cdd8c82c1207f6dbb8aa84cb4c659bc9add"
+"vets-json-schema@https://github.com/department-of-veterans-affairs/vets-json-schema.git#778143dfa278f18e257d0ec6634171d881e3bcac":
+  version "24.3.1"
+  resolved "https://github.com/department-of-veterans-affairs/vets-json-schema.git#778143dfa278f18e257d0ec6634171d881e3bcac"
   dependencies:
     minimist "^1.2.3"
 
