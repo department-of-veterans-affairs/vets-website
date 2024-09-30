@@ -406,6 +406,7 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
       year: must be 4 digits and start with 19 or 20, e.g. 1990 or 2000
       month: must be 2 digits, ranging from 01 - 12
       day: must be 2 digits, ranging from 01 - 31
+   Note: X's are being removed to avoid submission failures   
 */
 export const toxicExposureDate = {
   pattern: '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
