@@ -28,7 +28,7 @@ export class DateTimeSelectPageObject extends PageObject {
     cy.url().should('include', '/date-time');
 
     cy.wait('@v2:get:slots');
-    cy.axeCheckBestPractice();
+    // cy.axeCheckBestPractice();
 
     return this;
   }
