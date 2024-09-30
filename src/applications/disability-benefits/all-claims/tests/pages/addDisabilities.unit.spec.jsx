@@ -49,7 +49,7 @@ const simulateInputChange = (selector, value) => {
   vaTextInput.value = value;
 
   const event = new Event('input', {
-    bubbles: true, // Ensure the event bubbles up through the DOM
+    bubbles: true,
   });
 
   vaTextInput.dispatchEvent(event);
@@ -174,6 +174,14 @@ describe('Add Disabilities Page', () => {
       expect(addAnotherConditionButton).to.be.visible;
     });
 
+    it('should render with no saved conditions by default', () => {
+      const { queryByText } = createScreen();
+
+      const savedConditionEditButton = queryByText('Edit');
+
+      expect(savedConditionEditButton).to.not.exist;
+    });
+
     it('should render ComboBox label with required, input, and listbox', () => {
       const { getByRole, getByText, getByTestId } = createScreen();
 
@@ -187,14 +195,6 @@ describe('Add Disabilities Page', () => {
       expect(input).to.be.visible;
       expect(listbox).to.be.visible;
       expect(listbox).to.have.length(0);
-    });
-
-    it('should render with no saved conditions by default', () => {
-      const { queryByText } = createScreen();
-
-      const savedConditionEditButton = queryByText('Edit');
-
-      expect(savedConditionEditButton).to.not.exist;
     });
 
     it('should render error message on item and alert on page if no new conditions are added', () => {
@@ -247,7 +247,7 @@ describe('Add Disabilities Page', () => {
       fireEvent.click(document);
 
       expect(listbox).to.have.length(0);
-      expect(input.value).to.eq(searchTerm);
+      expect(input).to.have.value(searchTerm);
     });
 
     it('should render ComboBox listbox items in alignment with string similarity search', () => {
@@ -590,9 +590,55 @@ describe('Add Disabilities Page', () => {
     });
   });
 
-  describe('Accessibility', () => {});
+  describe('Accessibility', () => {
+    it('should provide screen reader feedback when autocomplete results are available', () => {
+      const searchTerm = 'asthma';
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+      const resultsCount = searchResults.length + 1;
+      const { getByTestId, getByText } = createScreen();
+
+      const input = getByTestId('combobox-input');
+      simulateInputChange(input, searchTerm);
+
+      const screenReaderMessage = getByText(
+        `${resultsCount} results available.`,
+      );
+      expect(screenReaderMessage).to.have.attribute('role', 'alert');
+    });
+
+    it('should announce errors to screen readers when a required field is not filled', () => {
+      const { getByTestId, getByText } = createScreen();
+
+      const input = getByTestId('combobox-input');
+      const submitButton = getByText('Submit');
+      simulateInputChange(input, '');
+      fireEvent.click(submitButton);
+
+      const errorMessage = getByText(
+        'Enter a condition, diagnosis, or short description of your symptoms',
+      );
+      expect(errorMessage).to.have.attribute('role', 'alert');
+    });
+  });
 
   describe('User is claiming a new condition AND claiming an increase', () => {
+    it('should display alert on page if no conditions exist', () => {
+      const { getByText } = createScreen(true, true, null);
+
+      const submitButton = getByText('Submit');
+      fireEvent.click(submitButton);
+
+      const alertHeading = getByText('We need you to add a condition');
+      const alertText = getByText(
+        'You’ll need to add a new condition or choose a rated disability to claim. We can’t process your claim without a disability or new condition selected. Please add a new condition or choose a rated disability for increased compensation.',
+      );
+      const disabilityLink = getByText('Choose a rated disability');
+
+      expect(alertHeading).to.exist;
+      expect(alertText).to.exist;
+      expect(disabilityLink).to.exist;
+    });
+
     it('should display helpful error if no new conditions are added', () => {
       const { getByText } = createScreen(true, true, null);
 
@@ -611,9 +657,8 @@ describe('Add Disabilities Page', () => {
     });
   });
 
-  describe('updateFormData', () => {
-    // It's a function just to make sure we're not mutating it anywhere along the way
-    const oldData = () => ({
+  describe('Update Form Data', () => {
+    const generateInitialData = () => ({
       newDisabilities: [{ condition: 'Something with-hyphens and ALLCAPS' }],
       vaTreatmentFacilities: [
         {
@@ -627,37 +672,51 @@ describe('Add Disabilities Page', () => {
       },
     });
 
-    describe('should return unmodified newData', () => {
-      it("if oldData.newDisabilities doesn't exist", () => {
-        const newData = { newDisabilities: ['foo'] };
-        expect(updateFormData({}, newData)).to.deep.equal(newData);
-      });
-      it("if newData.newDisabilities doesn't exist", () => {
-        const newData = {};
-        expect(updateFormData(oldData(), newData)).to.deep.equal(newData);
-      });
-      it('if no disabilities changed', () => {
-        const old = oldData();
-        expect(updateFormData(old, old)).to.deep.equal(old);
-      });
+    it("if newDisabilities in initialData doesn't exist", () => {
+      const initialData = {};
+      const newData = { newDisabilities: ['asthma'] };
+
+      expect(updateFormData(initialData, newData)).to.eql(newData);
     });
 
-    it('should not modify oldData', () => {
-      const old = oldData();
+    it("if newDisabilities in newData doesn't exist", () => {
+      const initialData = generateInitialData();
+      const newData = {};
+
+      expect(updateFormData(initialData, newData)).to.eql(newData);
+    });
+
+    it('if no disabilities changed', () => {
+      const initialData = generateInitialData();
+
+      expect(updateFormData(initialData, initialData)).to.eql(initialData);
+    });
+
+    it('should not modify initialData', () => {
+      const initialData = generateInitialData();
+
       updateFormData(
-        old,
-        set('newDisabilities[1]', { condition: 'Something else' }, oldData()),
+        initialData,
+        set(
+          'newDisabilities[1]',
+          { condition: 'Something else' },
+          generateInitialData(),
+        ),
       );
-      expect(old).to.deep.equal(oldData());
+
+      expect(initialData).to.eql(generateInitialData());
     });
 
     it('should change the property name in treatedDisabilityNames and powDisabilities when a disability name is changed', () => {
+      const initialData = generateInitialData();
+
       const newData = set(
         'newDisabilities[0].condition',
         'Foo-with EXTRAz',
-        oldData(),
+        generateInitialData(),
       );
-      const result = updateFormData(oldData(), newData);
+      const result = updateFormData(initialData, newData);
+
       expect(
         result.vaTreatmentFacilities[0].treatedDisabilityNames.foowithextraz,
       ).to.be.true;
@@ -665,8 +724,11 @@ describe('Add Disabilities Page', () => {
     });
 
     it('should remove a deleted disability from treatedDisabilityNames and powDisabilities', () => {
-      const newData = Object.assign(oldData(), { newDisabilities: [] });
-      const result = updateFormData(oldData(), newData);
+      const newData = Object.assign(generateInitialData(), {
+        newDisabilities: [],
+      });
+      const result = updateFormData(generateInitialData(), newData);
+
       expect(result.vaTreatmentFacilities[0].treatedDisabilityNames).to.be
         .empty;
       expect(result['view:isPow'].powDisabilities).to.be.empty;
