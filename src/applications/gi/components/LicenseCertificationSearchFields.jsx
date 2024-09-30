@@ -24,6 +24,7 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="Category Type"
+          selectClassName="lc-dropdown-filter"
         />
       </div>
       <div className="row">
@@ -36,6 +37,7 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="Country"
+          selectClassName="lc-dropdown-filter"
         />
       </div>
       <div className="row">
@@ -48,6 +50,7 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="State"
+          selectClassName="lc-dropdown-filter"
         />
       </div>
     </>
