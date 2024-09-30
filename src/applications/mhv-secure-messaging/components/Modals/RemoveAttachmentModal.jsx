@@ -28,7 +28,7 @@ const RemoveAttachmentModal = props => {
         className="remove-attachment-modal-buttons
         vads-u-display--flex
         vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row"
+        mobile-lg:vads-u-flex-direction--row"
       >
         <va-button
           data-testid={`confirm-remove-attachment-button${
@@ -44,7 +44,7 @@ const RemoveAttachmentModal = props => {
           }`}
         />
         <va-button
-          class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+          class="vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
           data-testid={`cancel-remove-attachment-button${
             props.draftSequence ? `-${props.draftSequence}` : ''
           }`}

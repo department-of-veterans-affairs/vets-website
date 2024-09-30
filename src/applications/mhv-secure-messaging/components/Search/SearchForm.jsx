@@ -298,7 +298,7 @@ const SearchForm = props => {
             />
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
             text="Filter"
             primary
@@ -314,7 +314,7 @@ const SearchForm = props => {
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
             />
           ) : (
@@ -322,7 +322,7 @@ const SearchForm = props => {
               <va-button
                 text="Clear Filters"
                 secondary
-                class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+                class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
               />
             )

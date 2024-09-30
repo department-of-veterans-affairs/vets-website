@@ -184,7 +184,7 @@ const MoveMessageToFolderBtn = props => {
               move-folder-modal-buttons
               vads-u-display--flex
               vads-u-flex-direction--column
-              small-screen:vads-u-flex-direction--row
+              mobile-lg:vads-u-flex-direction--row
               "
           >
             <va-button
@@ -193,7 +193,7 @@ const MoveMessageToFolderBtn = props => {
               data-dd-action-name="Confirm Move to Button"
             />
             <va-button
-              class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               secondary
               text="Cancel"
               onClick={closeModal}
@@ -219,7 +219,7 @@ const MoveMessageToFolderBtn = props => {
         <button
           id="move-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
+          className="usa-button-secondary mobile-lg:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={openModal}
         >
           <div className="vads-u-margin-right--0p5">

@@ -1,14 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withRouter } from 'react-router';
+import { connect } from 'react-redux';
 import CurrentAccreditedRepresentative from './CurrentAccreditedRepresentative';
 import ContactCard from './ContactCard';
 
 const ReplaceAccreditedRepresentative = props => {
   const { formData } = props;
 
-  const currentRepresentative = formData?.['view:representativeStatus'] || {};
-  const selectedRepresentative = formData?.['view:selectedAccreditedRep'] || {};
+  const currentRepresentative =
+    formData?.['view:representativeStatus']?.attributes || {};
+  const selectedRepresentative =
+    formData?.['view:selectedRepresentative']?.attributes || {};
 
   const address = {
     addressLine1: (selectedRepresentative.addressLine1 || '').trim(),
@@ -67,4 +69,11 @@ ReplaceAccreditedRepresentative.propTypes = {
   fetchRepresentatives: PropTypes.func,
 };
 
-export default withRouter(ReplaceAccreditedRepresentative);
+const mapStateToProps = state => ({
+  formData: state.form?.data || {},
+});
+
+export default connect(
+  mapStateToProps,
+  null,
+)(ReplaceAccreditedRepresentative);
