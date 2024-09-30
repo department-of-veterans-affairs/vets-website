@@ -202,19 +202,19 @@ const AttachmentsList = props => {
             show-icon
             status="error"
           >
-            <p className="vads-u-margin--0">
+            <p className="vads-u-margin--0 vads-u-margin-bottom--1">
               One or more of the files you attached has a virus. You’ll need to
               remove it to send your message.
             </p>
-            <button
+            <va-button
+              text="Remove all attachments"
+              secondary
               className="usa-button-secondary vads-u-margin-bottom--0 vads-u-margin-right--0"
               data-testid="remove-all-attachments-button"
               onClick={() => {
                 handleRemoveAllAttachments();
               }}
-            >
-              Remove all attachments
-            </button>
+            />
           </VaAlert>
         ) : (
           <VaAlert
