@@ -75,7 +75,11 @@ const formConfig = {
     personalInformation: {
       title: 'Your personal information',
       pages: {
-        applicantName: applicantInformationName.applicantInformationField(),
+        applicantName: {
+          title: 'Your personal information',
+          path: 'applicant/information',
+          ...applicantInformationName.applicantInformationField(),
+        },
         veteranDesc: {
           title: 'Your personal information',
           path: 'applicant-information-1',
