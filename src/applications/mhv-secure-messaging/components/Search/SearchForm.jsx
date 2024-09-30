@@ -298,7 +298,7 @@ const SearchForm = props => {
             />
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
           <va-button
             text="Filter"
             primary
