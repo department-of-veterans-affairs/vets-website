@@ -45,12 +45,13 @@ class GeneralFunctionsPage {
     };
   };
 
-  getDateFormat = () => {
-    const date = new Date();
+  getDateFormat = (date = new Date()) => {
     const options = {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
     };
 
     const formatter = new Intl.DateTimeFormat('en-US', options);
@@ -76,10 +77,10 @@ class GeneralFunctionsPage {
 
     cy.contains(`Start:`)
       .parent(`p`)
-      .should(`contain.text`, this.getDateFormat(startDate));
+      .should(`include.text`, `Start: ${this.getDateFormat(startDate)}`);
     cy.contains(`End:`)
       .parent(`p`)
-      .should(`contain.text`, this.getDateFormat(endDate));
+      .should(`include.text`, `End: ${this.getDateFormat(endDate)}`);
   };
 }
 

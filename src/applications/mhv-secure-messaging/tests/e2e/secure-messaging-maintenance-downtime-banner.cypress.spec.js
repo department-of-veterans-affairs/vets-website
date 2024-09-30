@@ -4,24 +4,20 @@ import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
 import { AXE_CONTEXT, Alerts, Paths } from './utils/constants';
 
 describe('SM Maintenance Banner', () => {
-  const currentDate = new Date();
-  const upcomingDate = new Date(currentDate);
-  upcomingDate.setHours(upcomingDate.getHours() + 1);
-  const endDate = new Date(currentDate);
-  endDate.setHours(endDate.getHours() + 5);
+  describe('Active Maintenance Banner', () => {
+    const currentDate = new Date();
+    const endDate = new Date(currentDate);
+    endDate.setHours(endDate.getHours() + 5);
 
-  const activeMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
-    currentDate,
-    endDate,
-  );
+    const activeMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
+      currentDate,
+      endDate,
+    );
 
-  const upcomingMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
-    upcomingDate,
-    endDate,
-  );
+    it('verify inbox active maintenance', () => {
+      cy.log(GeneralFunctionsPage.getDateFormat(currentDate));
+      cy.log(GeneralFunctionsPage.getDateFormat(endDate));
 
-  describe('Inbox Maintenance Banner', () => {
-    it('verify active maintenance', () => {
       cy.intercept(
         `GET`,
         Paths.INTERCEPT.MAINTENANCE_WINDOWS,
@@ -40,7 +36,38 @@ describe('SM Maintenance Banner', () => {
       // axeCheck() verification could not be added due to page content absence
     });
 
-    it('verify upcoming maintenance', () => {
+    it(`verify compose active maintenance`, () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        activeMaintenanceData,
+      ).as(`maintenance_windows`);
+
+      SecureMessagingSite.login();
+      cy.visit(`/my-health/secure-messages/new-message/`);
+
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        currentDate,
+        endDate,
+        Alerts.MAINTENANCE.ACTIVE,
+      );
+
+      // axeCheck() verification could not be added due to page content absence
+    });
+  });
+
+  describe('Upcoming Maintenance Banner', () => {
+    const upcomingDate = new Date();
+    upcomingDate.setHours(upcomingDate.getHours() + 1);
+    const endDate = new Date(upcomingDate);
+    endDate.setHours(endDate.getHours() + 5);
+
+    const upcomingMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
+      upcomingDate,
+      endDate,
+    );
+
+    it('verify inbox upcoming maintenance', () => {
       cy.intercept(
         `GET`,
         Paths.INTERCEPT.MAINTENANCE_WINDOWS,
@@ -59,29 +86,8 @@ describe('SM Maintenance Banner', () => {
       cy.injectAxe();
       cy.axeCheck(AXE_CONTEXT);
     });
-  });
 
-  describe('Compose Maintenance Banner', () => {
-    it(`verify active maintenance`, () => {
-      cy.intercept(
-        `GET`,
-        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
-        activeMaintenanceData,
-      ).as(`maintenance_windows`);
-
-      SecureMessagingSite.login();
-      cy.visit(`/my-health/secure-messages/new-message/`);
-
-      GeneralFunctionsPage.verifyMaintenanceBanner(
-        currentDate,
-        endDate,
-        Alerts.MAINTENANCE.ACTIVE,
-      );
-
-      // axeCheck() verification could not be added due to page content absence
-    });
-
-    it(`verify upcoming maintenance`, () => {
+    it(`verify compose upcoming maintenance`, () => {
       cy.intercept(
         `GET`,
         Paths.INTERCEPT.MAINTENANCE_WINDOWS,
