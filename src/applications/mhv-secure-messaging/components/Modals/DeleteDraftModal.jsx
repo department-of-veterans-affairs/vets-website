@@ -44,7 +44,6 @@ const DeleteDraftModal = props => {
         <va-button
           id="delete-draft"
           data-testid="confirm-delete-draft"
-
           data-dd-action-name={`Confirm Delete Draft Button ${
             draftSequence ? ` ${draftSequence}` : ''
           }`}
