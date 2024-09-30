@@ -201,7 +201,7 @@ const responses = {
     });
   },
   'GET /v1/facilities/va': facilityData,
-  'GET /facilities_api/v1/ccp/provider': ccProviders,
+  'GET /facilities_api/v2/ccp/provider': ccProviders,
   'GET /v1/facilities/ccp/:id': (req, res) => {
     const provider = ccProviders.data.find(p => p.id === req.params.id);
     return res.json({
