@@ -1,7 +1,4 @@
-import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   dateRangeAdditionalInfo,
@@ -15,7 +12,11 @@ import {
   startDateApproximate,
   teSubtitle,
 } from '../../content/toxicExposure';
-import { HERBICIDE_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import {
+  HERBICIDE_LOCATIONS,
+  TE_URL_PREFIX,
+  toxicExposureDate,
+} from '../../constants';
 
 /**
  * Make the uiSchema for each herbicide details page
@@ -76,8 +77,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: currentOrPastDateSchema,
-                  endDate: currentOrPastDateSchema,
+                  startDate: toxicExposureDate,
+                  endDate: toxicExposureDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

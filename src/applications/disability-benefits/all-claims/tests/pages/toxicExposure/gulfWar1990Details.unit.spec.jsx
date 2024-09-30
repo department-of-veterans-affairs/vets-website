@@ -110,7 +110,10 @@ describe('gulfWar1990Details', () => {
       });
     });
 
-  // more things to test but would be heavy to test for every TE details page and location/hazard
+  /* more things to test but would be heavy to test for every TE details page and 
+  location/hazard. since all the TE pages are similarly setup, we'll test edge 
+  cases here. all pages should test for submission with no dates and with both dates.
+  */
   it(`should submit with start date only`, () => {
     const data = JSON.parse(JSON.stringify(formData));
     data.toxicExposure.gulfWar1990Details = {

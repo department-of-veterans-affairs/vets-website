@@ -1,21 +1,22 @@
-import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
+  dateRangeAdditionalInfo,
+  detailsPageBegin,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  dateRangeAdditionalInfo,
-  startDateApproximate,
   gulfWar2001PageTitle,
-  showCheckboxLoopDetailsPage,
-  teSubtitle,
   notSureDatesDetails,
-  detailsPageBegin,
+  showCheckboxLoopDetailsPage,
+  startDateApproximate,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { GULF_WAR_2001_LOCATIONS, TE_URL_PREFIX } from '../../constants';
+import {
+  GULF_WAR_2001_LOCATIONS,
+  TE_URL_PREFIX,
+  toxicExposureDate,
+} from '../../constants';
 
 /**
  * Make the uiSchema for each gulf war 2001 details page
@@ -76,8 +77,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: currentOrPastDateSchema,
-                  endDate: currentOrPastDateSchema,
+                  startDate: toxicExposureDate,
+                  endDate: toxicExposureDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

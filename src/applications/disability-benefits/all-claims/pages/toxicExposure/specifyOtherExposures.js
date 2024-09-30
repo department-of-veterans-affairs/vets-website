@@ -1,7 +1,4 @@
-import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
@@ -14,6 +11,7 @@ import {
   notSureHazardDetails,
   teSubtitle,
 } from '../../content/toxicExposure';
+import { toxicExposureDate } from '../../constants';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => {
@@ -65,8 +63,8 @@ export const schema = {
         specifyOtherExposures: {
           type: 'object',
           properties: {
-            startDate: currentOrPastDateSchema,
-            endDate: currentOrPastDateSchema,
+            startDate: toxicExposureDate,
+            endDate: toxicExposureDate,
             'view:notSure': {
               type: 'boolean',
             },

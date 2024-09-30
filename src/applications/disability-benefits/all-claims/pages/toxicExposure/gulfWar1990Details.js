@@ -1,28 +1,22 @@
 import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
+  dateRangeAdditionalInfo,
+  detailsPageBegin,
   endDateApproximate,
   getKeyIndex,
   getSelectedCount,
-  dateRangeAdditionalInfo,
   gulfWar1990PageTitle,
+  notSureDatesDetails,
   showCheckboxLoopDetailsPage,
   startDateApproximate,
   teSubtitle,
-  notSureDatesDetails,
-  detailsPageBegin,
 } from '../../content/toxicExposure';
-import { GULF_WAR_1990_LOCATIONS, TE_URL_PREFIX } from '../../constants';
-
-/* Date must be in the format of YYYY-MM-DD with the following
-      year: must be 4 digits and start with 19 or 20, e.g. 1990 or 2000
-      month: must be 2 digits, ranging from 01 - 12
-      day: must be 2 digits, ranging from 01 - 31
-*/
-const dateSchema = {
-  pattern: '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
-  type: 'string',
-};
+import {
+  GULF_WAR_1990_LOCATIONS,
+  TE_URL_PREFIX,
+  toxicExposureDate,
+} from '../../constants';
 
 /**
  * Make the uiSchema for each gulf war 1990 details page
@@ -83,8 +77,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: dateSchema,
-                  endDate: dateSchema,
+                  startDate: toxicExposureDate,
+                  endDate: toxicExposureDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

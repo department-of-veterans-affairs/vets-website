@@ -1,7 +1,4 @@
-import {
-  currentOrPastDateUI,
-  currentOrPastDateSchema,
-} from 'platform/forms-system/src/js/web-component-patterns';
+import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
@@ -15,7 +12,11 @@ import {
   showCheckboxLoopDetailsPage,
   teSubtitle,
 } from '../../content/toxicExposure';
-import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
+import {
+  ADDITIONAL_EXPOSURES,
+  TE_URL_PREFIX,
+  toxicExposureDate,
+} from '../../constants';
 
 /**
  * Make the uiSchema for each additional exposures details page
@@ -78,8 +79,8 @@ function makeSchema(itemId) {
               [itemId]: {
                 type: 'object',
                 properties: {
-                  startDate: currentOrPastDateSchema,
-                  endDate: currentOrPastDateSchema,
+                  startDate: toxicExposureDate,
+                  endDate: toxicExposureDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

@@ -401,3 +401,13 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
 });
+
+/* Toxic exposure date must be in the format of YYYY-MM-DD with the following
+      year: must be 4 digits and start with 19 or 20, e.g. 1990 or 2000
+      month: must be 2 digits, ranging from 01 - 12
+      day: must be 2 digits, ranging from 01 - 31
+*/
+export const toxicExposureDate = {
+  pattern: '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$',
+  type: 'string',
+};
