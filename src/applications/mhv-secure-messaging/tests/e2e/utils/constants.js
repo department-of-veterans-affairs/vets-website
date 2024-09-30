@@ -364,3 +364,24 @@ export const Assertions = {
   EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
 };
+
+export const Arrays = {
+  FilterDateRange: [
+    'ANY',
+    'LAST 3 MONTHS',
+    'LAST 6 MONTHS',
+    'LAST 12 MONTHS',
+    'CUSTOM',
+  ],
+
+  Categories: [
+    'OTHER',
+    'COVID',
+    'APPOINTMENT',
+    'MEDICATION',
+    'TEST_RESULT',
+    'EDUCATION',
+    'GENERAL',
+    'TEST',
+  ],
+};
