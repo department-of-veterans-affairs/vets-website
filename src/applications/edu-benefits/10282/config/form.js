@@ -60,7 +60,7 @@ const formConfig = {
       'Please sign in again to continue your application for 	education benefits.',
   },
 
-  title: 'Apply for the IBM SkillsBuild Program',
+  title: 'Apply for the IBM SkillsBuild program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
