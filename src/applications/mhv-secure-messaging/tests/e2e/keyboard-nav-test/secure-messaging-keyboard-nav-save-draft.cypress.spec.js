@@ -2,7 +2,7 @@ import SecureMessagingSite from '../sm_site/SecureMessagingSite';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import requestBody from '../fixtures/message-compose-request-body.json';
-import { AXE_CONTEXT } from '../utils/constants';
+import { AXE_CONTEXT, Locators } from '../utils/constants';
 
 describe('Check confirmation message after save draft', () => {
   it('Check confirmation message after save draft', () => {
@@ -23,8 +23,12 @@ describe('Check confirmation message after save draft', () => {
     cy.axeCheck(AXE_CONTEXT);
 
     PatientComposePage.verifyDraftSaveButtonOnFocus();
+    PatientComposePage.verifyAlertFocusFocus();
+    cy.get(Locators.BUTTONS.ALERT_CLOSE).click();
+
     cy.get('.sm-breadcrumb-list-item')
       .find('a')
       .click();
+    cy.get(Locators.BACK_TO).click();
   });
 });
