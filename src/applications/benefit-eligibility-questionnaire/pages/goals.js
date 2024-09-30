@@ -1,7 +1,7 @@
 export default {
   uiSchema: {
     goals: {
-      'ui:title': 'What goal(s) do you want to accomplish?',
+      'ui:title': 'What goals do you want to accomplish?',
       'ui:description': 'Check all that apply.',
       earnDegreeOrCertificate: {
         'ui:title': 'Earn a degree or certificate',

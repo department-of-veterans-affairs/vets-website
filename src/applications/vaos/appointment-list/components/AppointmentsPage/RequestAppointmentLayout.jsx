@@ -53,7 +53,7 @@ export default function RequestAppointmentLayout({ appointment }) {
   return (
     <ListItem appointment={appointment} borderBottom status="pending">
       <AppointmentFlexGrid idClickable={idClickable} link={link}>
-        <AppointmentRow className="vads-u-margin-x--1p5 xsmall-screen:vads-u-flex-direction--row">
+        <AppointmentRow className="vads-u-margin-x--1p5 mobile:vads-u-flex-direction--row">
           <AppointmentColumn
             className={classNames(
               'vads-u-border-color--gray-medium',
@@ -64,9 +64,9 @@ export default function RequestAppointmentLayout({ appointment }) {
             )}
             size="1"
           >
-            <AppointmentRow className="vaos-appts__column-gap--3 small-screen:vads-u-flex-direction--row">
+            <AppointmentRow className="vaos-appts__column-gap--3 mobile-lg:vads-u-flex-direction--row">
               <AppointmentColumn size="1" className="vads-u-flex--4">
-                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table xsmall-screen:vads-u-flex-direction--column small-screen:vads-u-flex-direction--row">
+                <AppointmentRow className="vaos-appts__column-gap--3 vaos-appts__display--table mobile:vads-u-flex-direction--column mobile-lg:vads-u-flex-direction--row">
                   <AppointmentColumn
                     padding="0"
                     size="1"

@@ -30,17 +30,17 @@ export function formatVAFileNumber(n) {
 }
 
 export function formatMonthDayFields(field) {
-  let displayValue;
-  if (field) {
-    if (field.days === 1) {
-      displayValue = `${field.months} months, ${field.days} day`;
-    } else {
-      displayValue = `${field.months} months, ${field.days} days`;
-    }
-  } else {
-    displayValue = 'unavailable';
+  if (!field || field.months == null || field.days == null) {
+    return 'unavailable';
   }
-  return displayValue;
+
+  const { months, days } = field;
+
+  const monthString = `${months} ${months === 1 ? 'month' : 'months'}`;
+
+  const dayString = `${days} ${days === 1 ? 'day' : 'days'}`;
+
+  return `${monthString}, ${dayString}`;
 }
 
 export const enrollmentHistoryExplanation = {
