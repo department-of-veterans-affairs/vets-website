@@ -8,7 +8,7 @@ function LicenseCertificationSearchFields() {
   return (
     <>
       <div className="row">
-        <va-text-input label="License/Certification Name" width="2xl" />
+        <va-text-input label="License/Certification Name" />
       </div>
       <div className="row">
         <Dropdown
@@ -24,7 +24,6 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="Category Type"
-          selectClassName="lc-search-field"
         />
       </div>
       <div className="row">
@@ -37,7 +36,6 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="Country"
-          selectClassName="lc-search-field"
         />
       </div>
       <div className="row">
@@ -50,7 +48,6 @@ function LicenseCertificationSearchFields() {
           value=""
           onChange={handleChange}
           alt="State"
-          selectClassName="lc-search-field"
         />
       </div>
     </>
