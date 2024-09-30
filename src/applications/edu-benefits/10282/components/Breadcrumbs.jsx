@@ -3,7 +3,7 @@ import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/re
 
 const Breadcrumbs = () => (
   <div className="row">
-    <div className="vads-u-margin-left--2 small-screen:vads-u-margin-left--1">
+    <div className="vads-u-margin-left--2 mobile-lg:vads-u-margin-left--1">
       <VaBreadcrumbs
         label="Breadcrumbs"
         breadcrumbList={[

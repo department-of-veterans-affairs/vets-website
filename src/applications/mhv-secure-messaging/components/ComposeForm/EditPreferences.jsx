@@ -23,7 +23,7 @@ const EditPreferences = () => {
         data-testid="edit-preferences-button"
         data-dd-action-name="Edit Preferences Button"
         label="Edit preferences"
-        className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full small-screen:vads-u-width--auto"
+        className="edit-preferences-button vads-u-flex--1  vads-u-margin-top--2 vads-u-margin-bottom--0 vads-u-background-color--transparent hydrated vads-u-width--full mobile-lg:vads-u-width--auto"
         onClick={() => setEditListModal(true)}
         type="button"
       >

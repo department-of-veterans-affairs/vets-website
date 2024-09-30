@@ -317,7 +317,7 @@ const SearchForm = props => {
             <va-button
               text="Clear Filters"
               secondary
-              class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               onClick={handleFilterClear}
               dd-action-name="Clear Filters Button"
             />
@@ -326,7 +326,7 @@ const SearchForm = props => {
               <va-button
                 text="Clear Filters"
                 secondary
-                class="clear-filter-button vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+                class="clear-filter-button vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
                 onClick={handleFilterClear}
                 dd-action-name="Clear Filters Button"
               />

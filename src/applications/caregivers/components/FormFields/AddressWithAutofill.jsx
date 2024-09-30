@@ -14,14 +14,7 @@ import { replaceStrValues } from '../../utils/helpers';
 import content from '../../locales/en/content.json';
 
 const PrimaryAddressWithAutofill = props => {
-  const {
-    errorSchema,
-    formContext,
-    formData,
-    idSchema,
-    onChange,
-    schema,
-  } = props;
+  const { formContext, formData, idSchema, onChange, schema } = props;
   const { reviewMode, submitted } = formContext;
   const { properties: schemaProps } = schema;
   const { veteranAddress } = useSelector(state => state.form.data);
@@ -36,7 +29,10 @@ const PrimaryAddressWithAutofill = props => {
       required: content['validation-address--postalCode-required'],
       pattern: content['validation-address--postalCode-pattern'],
     },
-    county: { required: content['validation-address--county-required'] },
+    county: {
+      required: content['validation-address--county-required'],
+      pattern: content['validation-address--county-pattern'],
+    },
   };
 
   // define our custom input labels
@@ -78,10 +74,9 @@ const PrimaryAddressWithAutofill = props => {
       // uncheck autofill since we have modified the input value
       if (formData['view:autofill']) formData['view:autofill'] = false;
       // send updated date to the form
-      addDirtyField(fieldName);
       onChange(formData);
     },
-    [addDirtyField, formData, onChange],
+    [formData, onChange],
   );
 
   // define our non-checkbox input blur event
@@ -93,20 +88,18 @@ const PrimaryAddressWithAutofill = props => {
     [addDirtyField],
   );
 
-  // check field for validation errors
+  // check for validation errors if field is dirty or form has been submitted
   const showError = field => {
-    const errorList = errorSchema[field].__errors;
     const fieldIsDirty = dirtyFields.includes(field);
-    // validate only if field is dirty or form has been submitted
-    if ((submitted || fieldIsDirty) && errorList.length) {
+    if (submitted || fieldIsDirty) {
       // validate required fields
       if (REQUIRED_ADDRESS_FIELDS.includes(field) && !formData[field]) {
         return errorMessages[field].required;
       }
       // validate fields with required pattern matches
       if (schemaProps[field].pattern) {
-        const regex = new RegExp(schemaProps[field].pattern);
-        if (!regex.test(formData[field])) {
+        const regex = new RegExp(schemaProps[field].pattern, 'i');
+        if (!regex.test(formData[field].trim())) {
           return errorMessages[field].pattern;
         }
       }
@@ -120,16 +113,14 @@ const PrimaryAddressWithAutofill = props => {
       inputLabel={inputLabelMap[props.name]}
     />
   ) : (
-    <fieldset className="cg-address-with-autofill vads-u-margin-y--2">
-      <legend className="vads-u-font-family--sans vads-u-font-weight--normal vads-u-font-size--base vads-u-line-height--4 vads-u-display--block">
-        <p>{content['caregiver-address-description--vet-home']}</p>
-        <p className="va-address-block vads-u-margin-left--0">
-          {veteranAddress.street} {veteranAddress.street2}
-          <br />
-          {veteranAddress.city}, {veteranAddress.state}{' '}
-          {veteranAddress.postalCode}
-        </p>
-      </legend>
+    <div className="cg-address-with-autofill">
+      <p>{content['caregiver-address-description--vet-home']}</p>
+      <p className="va-address-block vads-u-margin-left--0 vads-u-margin-bottom--4">
+        {veteranAddress.street} {veteranAddress.street2}
+        <br />
+        {veteranAddress.city}, {veteranAddress.state}{' '}
+        {veteranAddress.postalCode}
+      </p>
 
       <VaCheckbox
         id="root_caregiverAddress_autofill"
@@ -213,15 +204,17 @@ const PrimaryAddressWithAutofill = props => {
         name={idSchema.county.$id}
         value={formData.county}
         label={content['form-address-county-label']}
+        hint={content['form-address-county-hint']}
         className="cg-address-input"
         error={showError('county')}
+        pattern={schemaProps.county.pattern}
         onInput={handleChange}
         onBlur={handleBlur}
         required
       >
         <CaregiverCountyDescription />
       </VaTextInput>
-    </fieldset>
+    </div>
   );
 };
 
