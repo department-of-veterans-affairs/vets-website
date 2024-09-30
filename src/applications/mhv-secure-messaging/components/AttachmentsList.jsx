@@ -68,11 +68,12 @@ const AttachmentsList = props => {
 
   useEffect(
     () => {
-      if (attachFileSuccess && attachFileAlertRef?.current?.shadowRoot) {
+      const alertButton = attachFileAlertRef?.current?.shadowRoot.querySelector(
+        '#close-success-alert-button',
+      );
+      if (attachFileSuccess && alertButton) {
         setTimeout(() => {
-          setFocusedElement(
-            document.querySelector('#close-success-alert-button'),
-          );
+          setFocusedElement(alertButton);
         }, 300);
       }
     },
