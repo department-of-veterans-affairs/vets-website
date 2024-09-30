@@ -1,4 +1,5 @@
 import mockToggles from '../fixtures/toggles-response.json';
+import { Locators } from '../utils/constants';
 
 class GeneralFunctionsPage {
   updatedThreadDates = data => {
@@ -65,6 +66,20 @@ class GeneralFunctionsPage {
 
   verifyPageHeader = text => {
     cy.get(`h1`).should(`have.text`, text);
+  };
+
+  verifyMaintenanceBanner = (startDate, endDate, text) => {
+    cy.get(Locators.ALERTS.VA_ALERT)
+      .find(`h2`)
+      .should(`be.visible`)
+      .and(`have.text`, text);
+
+    cy.contains(`Start:`)
+      .parent(`p`)
+      .should(`contain.text`, this.getDateFormat(startDate));
+    cy.contains(`End:`)
+      .parent(`p`)
+      .should(`contain.text`, this.getDateFormat(endDate));
   };
 }
 

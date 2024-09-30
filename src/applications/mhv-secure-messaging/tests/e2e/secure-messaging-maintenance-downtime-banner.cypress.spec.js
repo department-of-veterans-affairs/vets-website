@@ -1,9 +1,9 @@
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
 import PatientInboxPage from './pages/PatientInboxPage';
 import GeneralFunctionsPage from './pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Alerts, Paths, Locators } from './utils/constants';
+import { AXE_CONTEXT, Alerts, Paths } from './utils/constants';
 
-describe('SM Inbox Maintenance Banner', () => {
+describe('SM Maintenance Banner', () => {
   const currentDate = new Date();
   const upcomingDate = new Date(currentDate);
   upcomingDate.setHours(upcomingDate.getHours() + 1);
@@ -20,124 +20,86 @@ describe('SM Inbox Maintenance Banner', () => {
     endDate,
   );
 
-  it('verify active maintenance', () => {
-    cy.intercept(
-      `GET`,
-      Paths.INTERCEPT.MAINTENANCE_WINDOWS,
-      activeMaintenanceData,
-    ).as(`maintenance_windows`);
+  describe('Inbox Maintenance Banner', () => {
+    it('verify active maintenance', () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        activeMaintenanceData,
+      ).as(`maintenance_windows`);
 
-    SecureMessagingSite.login();
-    cy.visit(Paths.UI_MAIN + Paths.INBOX);
+      SecureMessagingSite.login();
+      cy.visit(Paths.UI_MAIN + Paths.INBOX);
 
-    cy.get(Locators.ALERTS.VA_ALERT)
-      .find(`h2`)
-      .should(`be.visible`)
-      .and(`have.text`, Alerts.MAINTENANCE.ACTIVE);
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        currentDate,
+        endDate,
+        Alerts.MAINTENANCE.ACTIVE,
+      );
 
-    cy.contains(`Start:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(currentDate));
-    cy.contains(`End:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(endDate));
+      // axeCheck() verification could not be added due to page content absence
+    });
 
-    // axeCheck() verification could not be added due to page content absence
+    it('verify upcoming maintenance', () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        upcomingMaintenanceData,
+      ).as(`maintenance_windows`);
+
+      SecureMessagingSite.login();
+      PatientInboxPage.loadInboxMessages();
+
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        upcomingDate,
+        endDate,
+        Alerts.MAINTENANCE.UPCOMING,
+      );
+
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
   });
 
-  it('verify upcoming maintenance', () => {
-    cy.intercept(
-      `GET`,
-      Paths.INTERCEPT.MAINTENANCE_WINDOWS,
-      upcomingMaintenanceData,
-    ).as(`maintenance_windows`);
+  describe('Compose Maintenance Banner', () => {
+    it(`verify active maintenance`, () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        activeMaintenanceData,
+      ).as(`maintenance_windows`);
 
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
+      SecureMessagingSite.login();
+      cy.visit(`/my-health/secure-messages/new-message/`);
 
-    cy.get(Locators.ALERTS.VA_ALERT)
-      .find(`h2`)
-      .should(`be.visible`)
-      .and(`have.text`, Alerts.MAINTENANCE.UPCOMING);
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        currentDate,
+        endDate,
+        Alerts.MAINTENANCE.ACTIVE,
+      );
 
-    cy.contains(`Start:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(upcomingDate));
-    cy.contains(`End:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(endDate));
+      // axeCheck() verification could not be added due to page content absence
+    });
 
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-});
+    it(`verify upcoming maintenance`, () => {
+      cy.intercept(
+        `GET`,
+        Paths.INTERCEPT.MAINTENANCE_WINDOWS,
+        upcomingMaintenanceData,
+      ).as(`maintenance_windows`);
 
-describe('SM Compose Maintenance Banner', () => {
-  const currentDate = new Date();
-  const upcomingDate = new Date(currentDate);
-  upcomingDate.setHours(upcomingDate.getHours() + 1);
-  const endDate = new Date(currentDate);
-  endDate.setHours(endDate.getHours() + 5);
+      SecureMessagingSite.login();
+      PatientInboxPage.loadInboxMessages();
+      PatientInboxPage.navigateToComposePage();
 
-  const activeMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
-    currentDate,
-    endDate,
-  );
+      GeneralFunctionsPage.verifyMaintenanceBanner(
+        upcomingDate,
+        endDate,
+        Alerts.MAINTENANCE.UPCOMING,
+      );
 
-  const upcomingMaintenanceData = PatientInboxPage.maintenanceWindowResponse(
-    upcomingDate,
-    endDate,
-  );
-
-  it(`verify active maintenance`, () => {
-    cy.intercept(
-      `GET`,
-      Paths.INTERCEPT.MAINTENANCE_WINDOWS,
-      activeMaintenanceData,
-    ).as(`maintenance_windows`);
-
-    SecureMessagingSite.login();
-    cy.visit(`/my-health/secure-messages/new-message/`);
-
-    cy.get(Locators.ALERTS.VA_ALERT)
-      .find(`h2`)
-      .should(`be.visible`)
-      .and(`have.text`, Alerts.MAINTENANCE.ACTIVE);
-
-    cy.contains(`Start:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(currentDate));
-    cy.contains(`End:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(endDate));
-
-    // axeCheck() verification could not be added due to page content absence
-  });
-
-  it(`verify upcoming maintenance`, () => {
-    cy.intercept(
-      `GET`,
-      Paths.INTERCEPT.MAINTENANCE_WINDOWS,
-      upcomingMaintenanceData,
-    ).as(`maintenance_windows`);
-
-    SecureMessagingSite.login();
-    PatientInboxPage.loadInboxMessages();
-    PatientInboxPage.navigateToComposePage();
-
-    cy.get(Locators.ALERTS.VA_ALERT)
-      .find(`h2`)
-      .should(`be.visible`)
-      .and(`have.text`, Alerts.MAINTENANCE.UPCOMING);
-
-    cy.contains(`Start:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(upcomingDate));
-    cy.contains(`End:`)
-      .parent(`p`)
-      .should(`contain.text`, GeneralFunctionsPage.getDateFormat(endDate));
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+      cy.injectAxe();
+      cy.axeCheck(AXE_CONTEXT);
+    });
   });
 });
