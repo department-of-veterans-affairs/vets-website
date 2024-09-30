@@ -2,9 +2,12 @@ import React from 'react';
 import { renderWithStoreAndRouter } from '@department-of-veterans-affairs/platform-testing/react-testing-library-helpers';
 import { expect } from 'chai';
 import { cleanup, fireEvent, waitFor } from '@testing-library/react';
+import sinon from 'sinon';
+import { mockApiRequest } from '@department-of-veterans-affairs/platform-testing/helpers';
 import noBlockedRecipients from '../fixtures/json-triage-mocks/triage-teams-mock.json';
 import oneBlockedRecipient from '../fixtures/json-triage-mocks/triage-teams-one-blocked-mock.json';
 import oneBlockedFacility from '../fixtures/json-triage-mocks/triage-teams-facility-blocked-mock.json';
+import noAssociationsAtAll from '../fixtures/json-triage-mocks/triage-teams-no-associations-at-all-mock.json';
 import drupalStaticData from '../fixtures/json-triage-mocks/drupal-data-mock.json';
 import reducer from '../../reducers';
 import EditContactList from '../../containers/EditContactList';
@@ -165,7 +168,9 @@ describe('Edit Contact List container', async () => {
     const selectAll = await screen.findByTestId(
       'select-all-Test-Facility-2-teams',
     );
-    expect(selectAll).to.have.attribute('checked', 'true');
+    await waitFor(() => {
+      expect(selectAll).to.have.attribute('checked', 'true');
+    });
 
     await checkVaCheckbox(selectAll, false);
 
@@ -202,7 +207,7 @@ describe('Edit Contact List container', async () => {
 
     expect(checkbox).to.have.attribute('checked', 'false');
 
-    const cancelButton = screen.getByTestId('contact-list-cancel');
+    const cancelButton = screen.getByTestId('contact-list-go-back');
     fireEvent.click(cancelButton);
 
     waitFor(() => {
@@ -211,7 +216,7 @@ describe('Edit Contact List container', async () => {
     screen.unmount();
   });
 
-  it('allows navigating away if unsaved changes on "save and exit" click', async () => {
+  it('saves changes and displays alert on "save" click', async () => {
     const screen = setup();
 
     const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
@@ -225,22 +230,27 @@ describe('Edit Contact List container', async () => {
 
     expect(checkbox).to.have.attribute('checked', 'false');
 
-    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest(200, true);
     fireEvent.click(saveButton);
 
-    waitFor(() => {
-      expect(screen.history.location.pathname).to.equal(Paths.INBOX);
-    }, 1000);
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert.getAttribute('status')).to.equal('success');
+      expect(screen.getByText('Contact list changes saved')).to.exist;
+    });
     screen.unmount();
   });
 
-  it('displays error state on first checkbox when "save and exit" is clicked', async () => {
+  it('displays error state on first checkbox when "save" is clicked if zero teams are checked', async () => {
     const screen = setup(initialState);
 
     const selectAllFacility2 = await screen.findByTestId(
       'select-all-Test-Facility-2-teams',
     );
-    expect(selectAllFacility2).to.have.attribute('checked', 'true');
+    await waitFor(() => {
+      expect(selectAllFacility2).to.have.attribute('checked', 'true');
+    });
 
     await checkVaCheckbox(selectAllFacility2, false);
 
@@ -251,7 +261,7 @@ describe('Edit Contact List container', async () => {
 
     await checkVaCheckbox(selectAllFacility1, false);
 
-    const saveButton = screen.getByTestId('contact-list-save-and-exit');
+    const saveButton = screen.getByTestId('contact-list-save');
     fireEvent.click(saveButton);
 
     const checkboxInput = await screen.getByTestId(
@@ -262,5 +272,119 @@ describe('Edit Contact List container', async () => {
     expect(checkboxInputError).to.equal(
       ErrorMessages.ContactList.MINIMUM_SELECTION,
     );
+  });
+
+  it('adds eventListener if path is /contact-list', async () => {
+    const screen = setup();
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+  });
+
+  it('removes eventListener if contact list changes are reverted', async () => {
+    const screen = setup();
+
+    const addEventListenerSpy = sinon.spy(window, 'addEventListener');
+    const removeEventListenerSpy = sinon.spy(window, 'removeEventListener');
+    expect(addEventListenerSpy.calledWith('beforeunload')).to.be.false;
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    await waitFor(() => {
+      expect(addEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+
+    checkVaCheckbox(checkbox, true);
+
+    await waitFor(() => {
+      expect(removeEventListenerSpy.calledWith('beforeunload')).to.be.true;
+    });
+  });
+
+  it('error alert displayed if "save" clicked and an error is returned', async () => {
+    const errorResponse = {
+      errors: [
+        {
+          title: 'Service unavailable',
+          detail: 'Backend Service Outage',
+          code: '403',
+          status: '403',
+        },
+      ],
+    };
+
+    const screen = setup();
+
+    const guardModal = screen.getByTestId('sm-route-navigation-guard-modal');
+    expect(guardModal).to.have.attribute('visible', 'false');
+
+    const checkbox = await screen.findByTestId(
+      'contact-list-select-team-1013155',
+    );
+
+    checkVaCheckbox(checkbox, false);
+
+    expect(checkbox).to.have.attribute('checked', 'false');
+
+    const saveButton = screen.getByTestId('contact-list-save');
+    mockApiRequest({ ...errorResponse, status: 403 }, false);
+    fireEvent.click(saveButton);
+
+    await waitFor(() => {
+      const alert = document.querySelector('va-alert');
+      expect(alert.getAttribute('status')).to.equal('error');
+      expect(
+        screen.getByText(
+          "We're sorry. We couldn't save your changes. Try saving again.",
+        ),
+      ).to.exist;
+    });
+
+    screen.unmount();
+  });
+
+  it('"No teams" alert displayed if there are no triage teams loaded', async () => {
+    const customState = {
+      drupalStaticData,
+      sm: {
+        recipients: {
+          allowedRecipients: [...noAssociationsAtAll.mockAllowedRecipients],
+          blockedRecipients: [...noAssociationsAtAll.mockBlockedRecipients],
+          associatedTriageGroupsQty:
+            noAssociationsAtAll.associatedTriageGroupsQty,
+          associatedBlockedTriageGroupsQty:
+            noAssociationsAtAll.associatedBlockedTriageGroupsQty,
+          noAssociations: noAssociationsAtAll.noAssociations,
+          allTriageGroupsBlocked: noAssociationsAtAll.allTriageGroupsBlocked,
+          allFacilities: [...noAssociationsAtAll.mockAllFacilities],
+          blockedFacilities: [...noAssociationsAtAll.mockBlockedFacilities],
+          allRecipients: [...noAssociationsAtAll.mockAllRecipients],
+          error: true,
+        },
+      },
+    };
+    const screen = setup(customState);
+
+    const noTeamsAlert = screen.getByTestId('contact-list-empty-alert');
+    expect(noTeamsAlert).to.have.attribute('status', 'error');
+
+    expect(screen.getByText('We can’t load your contact list right now')).to
+      .exist;
+
+    screen.unmount();
   });
 });

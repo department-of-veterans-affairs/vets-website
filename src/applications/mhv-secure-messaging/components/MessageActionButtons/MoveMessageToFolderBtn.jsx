@@ -5,7 +5,7 @@ import {
   VaRadio,
   VaRadioOption,
 } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { moveMessageThread } from '../../actions/messages';
 import { getFolders, newFolder } from '../../actions/folders';
@@ -14,6 +14,7 @@ import * as Constants from '../../util/constants';
 import { addAlert } from '../../actions/alerts';
 import CreateFolderModal from '../Modals/CreateFolderModal';
 import { focusOnErrorField } from '../../util/formHelpers';
+import { getListOfThreads } from '../../actions/threads';
 
 const MoveMessageToFolderBtn = props => {
   const {
@@ -26,6 +27,7 @@ const MoveMessageToFolderBtn = props => {
   } = props;
   const dispatch = useDispatch();
   const history = useHistory();
+  const threadSort = useSelector(state => state.sm.threads.threadSort);
   const [selectedFolder, setSelectedFolder] = useState(null);
   const [isMoveModalVisible, setIsMoveModalVisible] = useState(false);
   const [folderInputError, setFolderInputError] = useState(null);
@@ -78,12 +80,19 @@ const MoveMessageToFolderBtn = props => {
         setIsCreateNewModalVisible(true);
       } else if (selectedFolder !== null) {
         dispatch(moveMessageThread(threadId, selectedFolder)).then(() => {
-          navigateToFolderByFolderId(
-            activeFolder
-              ? activeFolder.folderId
-              : Constants.DefaultFolders.INBOX.id,
-            history,
+          const redirectToFolderId = activeFolder
+            ? activeFolder.folderId
+            : Constants.DefaultFolders.INBOX.id;
+          dispatch(
+            getListOfThreads(
+              redirectToFolderId,
+              Constants.THREADS_PER_PAGE_DEFAULT,
+              threadSort.page,
+              threadSort.value,
+              true,
+            ),
           );
+          navigateToFolderByFolderId(redirectToFolderId, history);
           dispatch(
             addAlert(
               Constants.ALERT_TYPE_SUCCESS,
@@ -175,7 +184,7 @@ const MoveMessageToFolderBtn = props => {
               move-folder-modal-buttons
               vads-u-display--flex
               vads-u-flex-direction--column
-              small-screen:vads-u-flex-direction--row
+              mobile-lg:vads-u-flex-direction--row
               "
           >
             <va-button
@@ -184,7 +193,7 @@ const MoveMessageToFolderBtn = props => {
               data-dd-action-name="Confirm Move to Button"
             />
             <va-button
-              class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+              class="vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
               secondary
               text="Cancel"
               onClick={closeModal}
@@ -210,7 +219,7 @@ const MoveMessageToFolderBtn = props => {
         <button
           id="move-button"
           type="button"
-          className="usa-button-secondary small-screen:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
+          className="usa-button-secondary mobile-lg:vads-u-flex--3 vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center vads-u-padding-x--2 message-action-button"
           onClick={openModal}
         >
           <div className="vads-u-margin-right--0p5">

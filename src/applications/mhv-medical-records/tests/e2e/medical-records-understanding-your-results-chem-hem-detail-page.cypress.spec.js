@@ -33,9 +33,7 @@ describe('Medical Records Understanding Your Results Detail Page', () => {
       'If you have any questions, send a message to the care team that ordered this test',
     );
     // verify compose a message on the My Healthvet website
-    ChemHemDetailsPage.verifyComposeMessageLink(
-      'Compose a message on the My HealtheVet website',
-    );
+    ChemHemDetailsPage.verifyComposeMessageLink('Start a new message');
 
     cy.injectAxe();
     cy.axeCheck('main');

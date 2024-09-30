@@ -4,7 +4,6 @@
 .thread-list-draft {
   color: var(--vads-color-secondary-darkest);
   font-weight: 700;
-
 }
 
 .reply-draft-label {
@@ -18,7 +17,7 @@
   //   }
 
   .unread-column {
-    max-width: 15px;
+    max-width: 15px !important;
     padding-top: 10px;
   }
 

@@ -52,6 +52,7 @@ const CheckboxGroup = ({
             )}-${index}-label`}
           />
           <label
+            data-testid={`${dataTestId}-${index}`}
             className={`gi-checkbox-label ${checkBoxLabelMargin}`}
             id={`${createId(name)}-${index}-label`}
             name={`${name}-label`}

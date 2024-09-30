@@ -78,7 +78,8 @@ $anchor-font-size: 1.25rem; // == 20px
 // Copied and adapted from va-link
 .mhv-c-navlink {
   font-size: $anchor-font-size;
-  display: inline-block;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
   font-weight: 700;
   text-decoration: none;
@@ -105,13 +106,6 @@ $anchor-font-size: 1.25rem; // == 20px
 
 .visibility\:hidden {
   visibility: hidden;
-}
-
-@media (max-width: var(--medium-screen)) {
-  .mhv-c-navlink {
-    display: flex;
-    justify-content: space-between;
-  }
 }
 
 // Match the va-alert styling.

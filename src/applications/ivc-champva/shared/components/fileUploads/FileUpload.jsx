@@ -33,12 +33,7 @@ export function FileFieldCustom(props) {
   }
 
   function uploadsMissing(data) {
-    return (
-      hasReq(data.applicants, true, true) ||
-      hasReq(data.applicants, false, true) ||
-      hasReq(data, true, true) ||
-      hasReq(data, false, true)
-    );
+    return hasReq(data.applicants, true, true) || hasReq(data, true, true);
   }
 
   function customSet(data) {

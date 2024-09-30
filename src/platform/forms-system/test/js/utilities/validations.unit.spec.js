@@ -3,6 +3,7 @@ import { expect } from 'chai';
 import {
   getValidationErrors,
   isValidCurrentOrPastMonthYear,
+  isValidDateRange,
 } from '../../../src/js/utilities/validations';
 
 describe('getValidationErrors', () => {
@@ -46,5 +47,225 @@ describe('validations', () => {
     expect(isValidCurrentOrPastMonthYear(todaysMonth, todaysYear)).to.be.true;
     expect(isValidCurrentOrPastMonthYear(todaysMonth + 1, todaysYear)).to.be
       .false;
+  });
+});
+
+describe('isValidDateRange', () => {
+  it('validates if to date is after from date', () => {
+    const fromDate = {
+      day: {
+        value: '3',
+        dirty: true,
+      },
+      month: {
+        value: '3',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: '3',
+        dirty: true,
+      },
+      month: {
+        value: '4',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('does not validate to date is before from date', () => {
+    const fromDate = {
+      day: {
+        value: '3',
+        dirty: true,
+      },
+      month: {
+        value: '3',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: '3',
+        dirty: true,
+      },
+      month: {
+        value: '4',
+        dirty: true,
+      },
+      year: {
+        value: '2005',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.false;
+  });
+  it('does validate with partial dates', () => {
+    const fromDate = {
+      day: {
+        value: '3',
+        dirty: true,
+      },
+      month: {
+        value: '3',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: '',
+        dirty: true,
+      },
+      month: {
+        value: '',
+        dirty: true,
+      },
+      year: {
+        value: '',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('validates with missing month and day', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('invalidates with missing month and day', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2008',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.false;
+  });
+  it('validates with missing months', () => {
+    const fromDate = {
+      day: {
+        value: '1',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: '1',
+        dirty: true,
+      },
+      month: {
+        value: 'XX',
+        dirty: true,
+      },
+      year: {
+        value: '2007',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
+  });
+  it('validates with missing days', () => {
+    const fromDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: '3',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    const toDate = {
+      day: {
+        value: 'XX',
+        dirty: true,
+      },
+      month: {
+        value: '4',
+        dirty: true,
+      },
+      year: {
+        value: '2006',
+        dirty: true,
+      },
+    };
+    expect(isValidDateRange(fromDate, toDate)).to.be.true;
   });
 });

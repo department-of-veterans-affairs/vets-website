@@ -349,10 +349,13 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
   &::part(button) {
     &::after,
     &::before {
-      font-family: "Font Awesome 5 Free"; /* Adjust based on your Font Awesome version */
-      font-weight: 900; /* Use 900 for solid icons */
-      font-size: 1rem;
+      width: 1rem;
+      height: 1rem;
       vertical-align: bottom;
+      display: inline-block;
+      background-color: currentColor;
+      mask-position: 0;
+      mask-size: contain;
     }
   }
 }
@@ -360,8 +363,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Back"] {
   &::part(button) {
     &::before {
-      content: "\f100";
-      margin-right: 8px;
+      content: "";
+      -webkit-mask-image: url("/img/navigate_far_before.svg#icon");
+      mask-image: url("/img/navigate_far_before.svg#icon")t;
     }
   }
 }
@@ -370,8 +374,9 @@ $chapters: veteranInformationChapter, householdIncomeChapter,
 .va-button-override va-button[text="Continue to review page"] {
   &::part(button) {
     &::after {
-      content: "\f101";
-      margin-left: 8px;
+      content: "";
+      -webkit-mask-image: url("/img/navigate_far_next.svg#icon");
+      mask-image: url("/img/navigate_far_next.svg#icon")t;
     }
   }
 }
@@ -381,3 +386,32 @@ va-checkbox {
     max-width: fit-content;
   }
 }
+
+// debt selection for VaCheckboxGroup, we want to bold the label hidden in the shadow dom text for the
+//  va-checkbox label and make the checkbox-description text grey
+.debt-selection-checkbox-group {
+  va-checkbox {
+    &::part(checkbox) {
+      max-width: fit-content;
+    }
+    &::part(label) {
+      font-weight: bold;
+    }
+    &::part(description) {
+      color: var(--vads-color-gray);
+      font-weight: normal;
+    }
+  }
+}
+
+.resolution-option-radio {
+  .usa-radio__label {
+    font-weight: bold;
+    max-width: fit-content;
+  }
+  .usa-radio__label-description {
+      font-weight: normal;
+      text-wrap: wrap;
+  }
+}
+

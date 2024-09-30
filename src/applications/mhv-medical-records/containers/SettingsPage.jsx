@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { updatePageTitle } from '@department-of-veterans-affairs/mhv/exports';
 import { mhvUrl } from '~/platform/site-wide/mhv/utilities';
 import { isAuthenticatedWithSSOe } from '~/platform/user/authentication/selectors';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
 import {
   fetchSharingStatus,
   updateSharingStatus,
@@ -23,10 +22,10 @@ const SettingsPage = () => {
 
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [showSharingModal, setShowSharingModal] = useState(false);
+  const buttonRef = useRef(null);
 
   useEffect(
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'medical records' }]));
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.SETTINGS_PAGE_TITLE);
     },
@@ -45,6 +44,10 @@ const SettingsPage = () => {
     dispatch(clearSharingStatus()).then(() => {
       dispatch(updateSharingStatus(!currentOptInStatus)).then(() => {
         setShowSuccessAlert(true);
+        // Focus the button after opt-in, when it turns to "Opt out"
+        if (!currentOptInStatus && buttonRef.current) {
+          setTimeout(() => focusElement('button', {}, buttonRef.current));
+        }
       });
     });
   };
@@ -117,6 +120,20 @@ const SettingsPage = () => {
     }
     return (
       <>
+        <va-alert
+          background-only
+          class="vads-u-margin-bottom--4"
+          close-btn-aria-label="Close notification"
+          disable-analytics="false"
+          full-width="false"
+          status="success"
+          visible={showSuccessAlert}
+          aria-live="polite"
+        >
+          <p className="vads-u-margin-y--0">
+            You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
+          </p>
+        </va-alert>
         <va-card background className="vads-u-padding--3">
           <h3 className="vads-u-margin-top--0">
             Your sharing setting: {isSharing ? 'Opted in' : 'Opted out'}
@@ -135,9 +152,13 @@ const SettingsPage = () => {
             </p>
           )}
           <va-button
+            ref={buttonRef}
             data-testid="open-opt-in-out-modal-button"
             text={isSharing ? 'Opt out' : 'Opt back in'}
-            onClick={() => setShowSharingModal(true)}
+            onClick={() => {
+              setShowSharingModal(true);
+              // If you want to focus an element, you can call it here or handle it elsewhere
+            }}
           />
         </va-card>
       </>
@@ -198,19 +219,6 @@ const SettingsPage = () => {
 
   return (
     <div className="settings vads-u-margin-bottom--5">
-      <va-alert
-        background-only
-        class="vads-u-margin-bottom--4"
-        close-btn-aria-label="Close notification"
-        disable-analytics="false"
-        full-width="false"
-        status="success"
-        visible={showSuccessAlert}
-      >
-        <p className="vads-u-margin-y--0">
-          You’ve opted {isSharing ? 'back in to' : 'out of'} sharing
-        </p>
-      </va-alert>
       <section>
         <h1>Medical records settings</h1>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--0 vads-u-font-family--serif medium-screen:vads-u-font-size--lg">

@@ -17,7 +17,7 @@ import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function NameSearchForm({
@@ -121,7 +121,7 @@ export function NameSearchForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
+    if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',
@@ -129,7 +129,7 @@ export function NameSearchForm({
       });
       dispatchShowFiltersBeforeResult();
       doSearch(name);
-    }
+    } else inputRef.current.focus();
     onApplyFilterClick();
   };
   const onKeyEnter = event => {
@@ -179,6 +179,7 @@ export function NameSearchForm({
               className="usa-button vads-u-margin--0 vads-u-width--full find-form-button medium-screen:vads-u-width--auto name-search-button vads-u-display--flex vads-u-align-items--center"
               type="submit"
               onKeyPress={onKeyEnter}
+              data-testid="search-btn"
             >
               <va-icon
                 size={3}

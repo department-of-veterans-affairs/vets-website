@@ -235,7 +235,7 @@ const EvidenceSummary = ({
         />
         <UploadContent list={otherEvidence} {...props} />
 
-        {content.addMoreLink}
+        {content.addMoreLink()}
 
         <div className="form-nav-buttons vads-u-margin-top--4">
           {onReviewPage && (

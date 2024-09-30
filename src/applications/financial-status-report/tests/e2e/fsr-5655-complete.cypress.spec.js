@@ -94,12 +94,16 @@ const testConfig = createTestConfig(
       // ============================================================
       'all-available-debts': ({ afterHook }) => {
         afterHook(() => {
-          cy.get(`input[name="request-help-with-debt"]`)
-            .first()
-            .check();
-          cy.get(`input[name="request-help-with-copay"]`)
-            .first()
-            .check();
+          cy.get(`[data-testid="debt-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
+          cy.get(`[data-testid="copay-selection-checkbox"]`)
+            .eq(0)
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
@@ -702,7 +706,7 @@ const testConfig = createTestConfig(
       // ==============================================================
       'resolution-option/0': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="monthly"]').click();
+          cy.get('va-radio-option[value="monthly"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
@@ -718,13 +722,17 @@ const testConfig = createTestConfig(
       },
       'resolution-option/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type="radio"][value="waiver"]').click();
+          cy.get('va-radio-option[value="waiver"]').click();
           cy.get('.usa-button-primary').click();
         });
       },
       'resolution-waiver-agreement/1': ({ afterHook }) => {
         afterHook(() => {
-          cy.get('[type=checkbox]').check();
+          cy.get('va-checkbox')
+            .first()
+            .shadow()
+            .find('input[type=checkbox]')
+            .check({ force: true });
           cy.get('.usa-button-primary').click();
         });
       },
