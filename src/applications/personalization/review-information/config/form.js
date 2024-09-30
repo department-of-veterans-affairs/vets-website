@@ -21,7 +21,7 @@ const formConfig = {
     showNavLinks: true,
     collapsibleNavLinks: true,
   },
-  formId: VA_FORM_IDS.FORM_00_0000,
+  formId: VA_FORM_IDS.FORM_WELCOME_VA_SETUP_REVIEW_INFORMATION,
   saveInProgress: {
     // messages: {
     //   inProgress: 'Your welcome va setup review information form application (00-0000) is in progress.',
