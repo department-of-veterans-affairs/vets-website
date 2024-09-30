@@ -13,12 +13,12 @@ import {
   parseResponse,
 } from '../../../utils/helpers/file-attachments';
 import { hideUploadWarningAlert } from '../../../utils/helpers/form-config';
-import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
 import SupportingDocumentDescription from '../../../components/FormDescriptions/SupportingDocumentDescription';
+import CheckUploadWarning from '../../../components/FormAlerts/CheckUploadWarning';
 import { emptySchema } from '../../../definitions/sharedSchema';
 import content from '../../../locales/en/content.json';
 
-const uploadPoaDocument = {
+const documentUpload = {
   uiSchema: {
     ...titleUI(
       content['sign-as-rep-title--upload'],
@@ -26,7 +26,7 @@ const uploadPoaDocument = {
     ),
     ...descriptionUI(SupportingDocumentDescription),
     'view:uploadSuccessAlert': {
-      'ui:description': CheckUploadWarning,
+      ...descriptionUI(CheckUploadWarning),
       'ui:options': {
         hideIf: hideUploadWarningAlert,
       },
@@ -73,4 +73,4 @@ const uploadPoaDocument = {
   },
 };
 
-export default uploadPoaDocument;
+export default documentUpload;

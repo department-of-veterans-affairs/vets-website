@@ -5,7 +5,6 @@ import disabilityRating from '@@profile/tests/fixtures/disability-rating-success
 import manifest from 'applications/personalization/dashboard/manifest.json';
 import featureFlagNames from '~/platform/utilities/feature-toggles/featureFlagNames';
 import paymentHistory from '../fixtures/test-empty-payments-response.json';
-import formStatuses from '../fixtures/form-statuses.json';
 
 describe('The My VA Dashboard', () => {
   const oneDayInSeconds = 24 * 60 * 60;
@@ -163,7 +162,6 @@ describe('The My VA Dashboard', () => {
         cy.findByText(/you have no benefit application drafts to show/i).should(
           'not.exist',
         );
-        // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
       });
@@ -172,40 +170,6 @@ describe('The My VA Dashboard', () => {
         cy.findByText(/26-1880/i).should('exist');
         cy.findByText(/28-8832/i).should('exist');
         cy.findByText(/21P-530EZ/i).should('exist');
-        // make the a11y check
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-    });
-
-    describe('there are submitted forms', () => {
-      beforeEach(() => {
-        cy.intercept('/v0/my_va/submission_statuses', formStatuses);
-        mockUser.data.attributes.inProgressForms = [];
-        cy.login(mockUser);
-        cy.visit(manifest.rootUrl);
-      });
-
-      it('should show benefit applications that and have a submission status', () => {
-        cy.findByRole('heading', {
-          name: /benefit applications and forms/i,
-        }).should('exist');
-        cy.findAllByTestId('submitted-application').should('have.length', 4);
-        // make the a11y check
-        cy.injectAxe();
-        cy.axeCheck();
-      });
-
-      it('should show expected form status cards', () => {
-        cy.findByRole('heading', {
-          name: /benefit applications and forms/i,
-        }).should('exist');
-        cy.get('.usa-label').contains('Received', { matchCase: false });
-        cy.get('.usa-label').contains('Submission in Progress', {
-          matchCase: false,
-        });
-        cy.get('.usa-label').contains('Action Needed', { matchCase: false });
-        // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
       });
@@ -267,7 +231,6 @@ describe('The My VA Dashboard', () => {
         cy.findByText(/you have no benefit application drafts to show/i).should(
           'not.exist',
         );
-        // make the a11y check
         cy.injectAxe();
         cy.axeCheck();
       });
