@@ -85,6 +85,33 @@ export const sanitizeCernerParams = path => {
   return `${updatedPath}?authenticated=true`;
 };
 
+export const sanitizeOracleHealth = ({ application }) => {
+  const {
+    externalRedirectUrl,
+    alternateRedirectUrl,
+  } = externalApplicationsConfig[application];
+  const startingURL = new URL(window.location);
+
+  const [_nestedPath, _nestedTo] = decodeURIComponent(
+    startingURL.searchParams.get('to'),
+  ).split('?');
+  const updatedStartingURL = _nestedTo?.includes(alternateRedirectUrl)
+    ? alternateRedirectUrl
+    : externalRedirectUrl;
+  sessionStorage.setItem(
+    'ohl',
+    _nestedTo?.includes(alternateRedirectUrl) ? 'sandbox' : 'staging',
+  );
+
+  // eslint-disable-next-line sonarjs/prefer-immediate-return
+  const coolURL = sanitizeUrl(
+    `${updatedStartingURL}`,
+    sanitizeCernerParams(_nestedPath),
+  );
+
+  return coolURL;
+};
+
 export const generateReturnURL = returnUrl => {
   return [
     ``, // create account links don't have a authReturnUrl
@@ -123,7 +150,7 @@ export const createExternalApplicationUrl = () => {
       );
       break;
     case EXTERNAL_APPS.MY_VA_HEALTH:
-      URL = sanitizeUrl(`${externalRedirectUrl}`, sanitizeCernerParams(to));
+      URL = sanitizeOracleHealth({ application });
       break;
     case EXTERNAL_APPS.ARP:
       URL = sanitizeUrl(`${externalRedirectUrl}`);

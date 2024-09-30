@@ -5,6 +5,7 @@ import environment from '../../utilities/environment';
 import {
   eauthEnvironmentPrefixes,
   cernerEnvPrefixes,
+  oracleHealthEnvPrefixes,
 } from '../../utilities/sso/constants';
 
 export const API_VERSION = 'v1';
@@ -85,6 +86,7 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
+  MY_VA_HEALTH2: 'myvahealth',
   EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
@@ -109,6 +111,9 @@ export const eAuthURL = `https://${
 export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
     cernerEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
+  [EXTERNAL_APPS.MY_VA_HEALTH2]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
   }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
