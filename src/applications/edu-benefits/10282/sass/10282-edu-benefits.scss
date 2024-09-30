@@ -15,7 +15,21 @@
 }
 
 @media (max-width: $small-screen) {
-  va-need-help {
-    padding: 0 0.5rem;
+
+  .form-22-10282-container{
+    padding-inline: .5rem;
   }
+  .form-22-10282-container .schemaform-buttons,
+  .form-22-10282-container .form-progress-buttons{
+    display: flex;
+    flex-direction: column !important;
+    div{
+      width: 100%;
+    }
+    div:first-of-type {
+       order: 2;
+     }
+  }
+
 }
+
