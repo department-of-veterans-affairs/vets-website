@@ -59,7 +59,7 @@ export default class BasicFacilityListWidget extends React.Component {
             <FacilityAddress facility={facility} />
             <FacilityPhone facility={facility} />
           </section>
-          <section className="region-grid vads-u-order--first small-screen:vads-u-order--initial vads-u-margin-bottom--2">
+          <section className="region-grid vads-u-order--first mobile-lg:vads-u-order--initial vads-u-margin-bottom--2">
             <a
               href={this.props.facilities[facility.id].entityUrl.path}
               aria-label={this.props.facilities[facility.id].nickname}
