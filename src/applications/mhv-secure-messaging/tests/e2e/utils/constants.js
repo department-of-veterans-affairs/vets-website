@@ -149,6 +149,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {
     HEADER: `#heading`,
