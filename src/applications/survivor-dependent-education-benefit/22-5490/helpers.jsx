@@ -176,14 +176,17 @@ export function prefillTransformer(pages, formData, metadata, state) {
       isInternational: homePhoneIsInternational,
     },
     mailingAddressInput: {
-      street: address?.addressLine1,
-      street2: address?.addressLine2 || undefined,
-      city: address?.city,
-      state: address?.stateCode || address?.province,
-      postalCode: address?.zipcode || address?.internationalPostalCode,
-      country: getSchemaCountryCode(
-        address?.countryCodeIso3 || address?.countryCode,
-      ),
+      address: {
+        street: address?.addressLine1,
+        street2: address?.addressLine2 || undefined,
+        city: address?.city,
+        state: address?.stateCode || address?.province,
+        postalCode: address?.zipcode || address?.internationalPostalCode,
+        country: getSchemaCountryCode(
+          address?.countryCodeIso3 || address?.countryCode,
+        ),
+      },
+      livesOnMilitaryBase: address?.addressType === 'MILITARY_OVERSEAS',
     },
     notificationMethod: claimant?.notificationMethod || formData?.contactMethod,
     declineDirectDeposit: formData?.declineDirectDeposit,

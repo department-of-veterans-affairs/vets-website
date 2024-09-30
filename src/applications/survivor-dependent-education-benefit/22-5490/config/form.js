@@ -26,6 +26,7 @@ import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
 import DuplicateContactInfoModal from '../components/DuplicateContactInfoModal';
 import FormFooter from '../components/FormFooter';
+import EmailReviewField from '../components/EmailReviewField';
 
 // pages
 import directDeposit from '../pages/directDeposit';
@@ -782,9 +783,14 @@ const formConfig = {
             email: {
               ...emailUI('Email address'),
               'ui:widget': CustomEmailField,
+              'ui:reviewField': EmailReviewField,
             },
             confirmEmail: {
               ...emailUI('Confirm email address'),
+              'ui:options': {
+                ...emailUI()['ui:options'],
+                hideOnReview: true,
+              },
             },
             'view:confirmDuplicateData': {
               'ui:description': DuplicateContactInfoModal,
