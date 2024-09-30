@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
-import { parsePhoneNumber } from '../utilities/helpers';
+import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
 import fetchRepStatus from '../api/fetchRepStatus';
 
 const SearchResult = ({
@@ -83,7 +83,7 @@ const SearchResult = ({
   };
 
   return (
-    <va-card class="representative-result-card vads-u-padding--4">
+    <va-card class="vads-u-padding--4">
       <div className="representative-result-card-content">
         <div className="representative-info-heading">
           {distance && (
@@ -111,20 +111,19 @@ const SearchResult = ({
         {accreditedOrganizations?.length > 1 && (
           <div className="associated-organizations-info vads-u-margin-top--1p5">
             <va-additional-info
-              trigger="See associated organizations"
+              trigger="Check Veterans Service Organizations"
               disable-border
               uswds
+              class="appoint-additional-info"
             >
-              {accreditedOrganizations?.map((org, index) => {
-                return (
-                  <>
-                    <p>{org.attributes.name}</p>
-                    {index < accreditedOrganizations.length - 1 ? (
-                      <br style={{ lineHeight: '0.625rem' }} />
-                    ) : null}
-                  </>
-                );
-              })}
+              <p>
+                This VSO representative is accredited with these organizations:
+              </p>
+              <ul className="appoint-ul">
+                {accreditedOrganizations?.map((org, index) => {
+                  return <li key={index}>{org.attributes.name}</li>;
+                })}
+              </ul>
             </va-additional-info>
           </div>
         )}
