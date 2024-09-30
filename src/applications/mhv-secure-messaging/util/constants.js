@@ -199,6 +199,9 @@ export const Alerts = {
     CANNOT_SAVE:
       "We're sorry. We couldn't save your changes. Try saving again.",
   },
+  Headers: {
+    HIDE_ALERT: 'HIDE_ALERT',
+  },
 };
 
 export const Errors = {
