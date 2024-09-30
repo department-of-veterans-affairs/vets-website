@@ -56,19 +56,33 @@ const expectedSparationTypes = {
   OVER_3YRS_AGO: 'More than 3 years from now',
 };
 
-const disabilityTypes = {
+export const disabilityTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const disabilityTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received a disability rating",
   SUBMITTED: "I've submitted but haven't received a rating yet",
   STARTED: "I've started the process but haven't submitted yet",
   NOT_APPLIED: "I haven't applied for a disability rating",
-};
+});
 
-const giBillTypes = {
+export const giBillTypes = Object.freeze({
+  APPLIED_AND_RECEIVED: 'APPLIED_AND_RECEIVED',
+  SUBMITTED: 'SUBMITTED',
+  STARTED: 'STARTED',
+  NOT_APPLIED: 'NOT_APPLIED',
+});
+
+export const giBillTypeLabels = Object.freeze({
   APPLIED_AND_RECEIVED: "I've applied and received GI Bill benefits",
   SUBMITTED: "I've submitted but haven't received a decision yet",
   STARTED: "I've started the process but haven't submitted yet",
   NOT_APPLIED: "I haven't applied for GI Bill benefits",
-};
+});
 
 const characterOfDischargeTypes = {
   HONORABLE: 'honorable',

@@ -1438,12 +1438,6 @@
   },
   {
     "domain": "www.benefits.va.gov",
-    "src": "/GIBILL/FGIB/VetTecTrainingProviders.asp",
-    "dest": "/education/about-gi-bill-benefits/how-to-use-benefits/vettec-high-tech-program/",
-    "catchAll": true
-  },
-  {
-    "domain": "www.benefits.va.gov",
     "src": "/anchorage",
     "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
     "catchAll": true
