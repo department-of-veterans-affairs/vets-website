@@ -7,13 +7,14 @@ export default function AccountSwitch({ hasLogingov, userEmail }) {
   const maskedEmail = maskEmail(userEmail);
   return (
     <div>
-      <h2>
-        Switch to your <strong>{hasLogingov ? 'Login.gov' : 'ID.me'}</strong>{' '}
+      <h2 className="vads-u-margin-y--0">
+        Start using your <strong>{hasLogingov ? 'Login.gov' : 'ID.me'}</strong>{' '}
         account now
       </h2>
       <p>
-        We found an existing {hasLogingov ? 'Login.gov' : 'ID.me'} account for
-        you associated with this email:
+        We found an existing{' '}
+        <strong>{hasLogingov ? 'Login.gov' : 'ID.me'}</strong> account for you
+        associated with this email:
       </p>
       <p>
         <strong>{maskedEmail}</strong>
