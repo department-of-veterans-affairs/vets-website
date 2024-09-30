@@ -11,6 +11,22 @@ const getSelectionMessage = searchTerm => {
   return searchTerm.trim() === '' ? '' : `${searchTerm} is selected.`;
 };
 
+const calculateResults = (searchTerm, value, numResults, selectionMade) => {
+  let results = numResults;
+  // Free text drawn
+  if (!selectionMade && searchTerm.length && searchTerm !== value) {
+    results += 1;
+  }
+  return results;
+};
+
+const formatResultsMessage = results => {
+  if (results === 1) {
+    return '1 result available.';
+  }
+  return `${results} results available.`;
+};
+
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (
   searchTerm,
@@ -18,22 +34,19 @@ const getScreenReaderResults = (
   numResults,
   selectionMade,
 ) => {
-  let results = numResults;
-  const isFreeTextDrawn =
-    !selectionMade && searchTerm.length && searchTerm !== value;
-  if (isFreeTextDrawn) {
-    results += 1;
-  }
-  if (selectionMade && searchTerm) {
-    return getSelectionMessage(searchTerm);
-  }
   if (searchTerm.trim() === '') {
     return 'Input is empty. Please enter a condition.';
   }
-  if (results === 1) {
-    return '1 result available.';
+  if (selectionMade) {
+    return getSelectionMessage(searchTerm);
   }
-  return `${results} results available.`;
+  const results = calculateResults(
+    searchTerm,
+    value,
+    numResults,
+    selectionMade,
+  );
+  return formatResultsMessage(results);
 };
 
 // This is a combobox component that is used in the revisedAddDisabilities page.
@@ -107,32 +120,17 @@ export class ComboBox extends React.Component {
     this.setState({ highlightedIndex: optionIndex });
   }
 
-  sendFocusToInput = ref => {
-    const { shadowRoot } = ref.current;
-    const input = shadowRoot.querySelector('input');
-    input.focus();
-  };
-
   // Keyboard handling for combobox list options
   handleKeyPress = e => {
     const { highlightedIndex, searchTerm } = this.state;
     const list = this.listRef.current;
     let index = highlightedIndex;
-    const itemSelectedMessage = getSelectionMessage(searchTerm);
 
     switch (e.key) {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
       case 'Tab':
         if (list.children.length) {
-          this.setState({
-            value: searchTerm,
-            searchTerm,
-            filteredOptions: [],
-            highlightedIndex: defaultHighlightedIndex,
-            selectionMade: true,
-            ariaLive1: itemSelectedMessage,
-            ariaLive2: '',
-          });
+          this.setSelectedState(searchTerm);
         }
         break;
       // Up and Down arrow keys should navigate to the respective next item in the list.
@@ -167,15 +165,7 @@ export class ComboBox extends React.Component {
         break;
       // On Escape, user input should remain as-is, list should collapse. Focus on text input.
       case 'Escape':
-        this.setState({
-          value: searchTerm,
-          searchTerm,
-          filteredOptions: [],
-          highlightedIndex: defaultHighlightedIndex,
-          selectionMade: true,
-          ariaLive1: itemSelectedMessage,
-          ariaLive2: '',
-        });
+        this.setSelectedState(searchTerm);
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
         break;
@@ -249,6 +239,25 @@ export class ComboBox extends React.Component {
     }
   };
 
+  setSelectedState(option) {
+    const itemSelectedMessage = getSelectionMessage(option);
+    this.setState({
+      value: option,
+      searchTerm: option,
+      filteredOptions: [],
+      highlightedIndex: defaultHighlightedIndex,
+      selectionMade: true,
+      ariaLive1: itemSelectedMessage,
+      ariaLive2: '',
+    });
+  }
+
+  sendFocusToInput = ref => {
+    const { shadowRoot } = ref.current;
+    const input = shadowRoot.querySelector('input');
+    input.focus();
+  };
+
   // Helpers for arrow key navigation
   decrementIndex = index => {
     if (index > 0) {
@@ -273,22 +282,11 @@ export class ComboBox extends React.Component {
 
   // Click handler for a list item
   selectOption(option) {
-    this.setState({
-      value: option,
-      searchTerm: option,
-      filteredOptions: [],
-      highlightedIndex: defaultHighlightedIndex,
-      selectionMade: true,
-    });
+    this.setSelectedState(option);
     const { onChange } = this.props;
-    const itemSelectedMessage = getSelectionMessage(option);
     onChange(option);
     // Send focus to input element for additional user input.
     this.sendFocusToInput(this.inputRef);
-    this.setState({
-      ariaLive1: itemSelectedMessage,
-      ariaLive2: '',
-    });
   }
 
   // Keyboard handler for a list item. Need to check index against list for selection via keyboard
