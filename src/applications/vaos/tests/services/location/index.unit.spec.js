@@ -13,7 +13,7 @@ import {
   getLocationsByTypeOfCareAndSiteIds,
 } from '../../../services/location';
 import facilityDetails from '../../../services/mocks/v2/facilities.json';
-import ccProviders from '../../../services/mocks/var/cc_providers.json';
+import ccProviders from '../../../services/mocks/v2/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 import { mockFacilitiesFetch } from '../../mocks/fetch';
 import { createMockFacility } from '../../mocks/data';
