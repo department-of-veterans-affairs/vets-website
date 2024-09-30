@@ -17,7 +17,7 @@ const Breadcrumbs = () => (
           },
           {
             href: '/education/apply-for-education-benefits/10282/',
-            label: 'Apply for the IBM SkillsBuild program',
+            label: 'About VA Form 22-10282',
           },
         ]}
       />
