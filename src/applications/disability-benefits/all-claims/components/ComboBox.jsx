@@ -6,6 +6,11 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
 const defaultHighlightedIndex = -1;
+
+const getSelectionMessage = searchTerm => {
+  return searchTerm.trim() === '' ? '' : `${searchTerm} is selected.`;
+};
+
 // helper function for results string. No `this.` so not in class.
 const getScreenReaderResults = (
   searchTerm,
@@ -18,6 +23,12 @@ const getScreenReaderResults = (
     !selectionMade && searchTerm.length && searchTerm !== value;
   if (isFreeTextDrawn) {
     results += 1;
+  }
+  if (selectionMade && searchTerm) {
+    return getSelectionMessage(searchTerm);
+  }
+  if (searchTerm.trim() === '') {
+    return 'Input is empty. Please enter a condition.';
   }
   if (results === 1) {
     return '1 result available.';
@@ -107,6 +118,7 @@ export class ComboBox extends React.Component {
     const { highlightedIndex, searchTerm } = this.state;
     const list = this.listRef.current;
     let index = highlightedIndex;
+    const itemSelectedMessage = getSelectionMessage(searchTerm);
 
     switch (e.key) {
       // On Tab, user input should remain as-is, list should close, focus goes to save button.
@@ -118,6 +130,8 @@ export class ComboBox extends React.Component {
             filteredOptions: [],
             highlightedIndex: defaultHighlightedIndex,
             selectionMade: true,
+            ariaLive1: itemSelectedMessage,
+            ariaLive2: '',
           });
         }
         break;
@@ -159,6 +173,8 @@ export class ComboBox extends React.Component {
           filteredOptions: [],
           highlightedIndex: defaultHighlightedIndex,
           selectionMade: true,
+          ariaLive1: itemSelectedMessage,
+          ariaLive2: '',
         });
         this.sendFocusToInput(this.inputRef);
         e.preventDefault();
@@ -265,9 +281,14 @@ export class ComboBox extends React.Component {
       selectionMade: true,
     });
     const { onChange } = this.props;
+    const itemSelectedMessage = getSelectionMessage(option);
     onChange(option);
     // Send focus to input element for additional user input.
     this.sendFocusToInput(this.inputRef);
+    this.setState({
+      ariaLive1: itemSelectedMessage,
+      ariaLive2: '',
+    });
   }
 
   // Keyboard handler for a list item. Need to check index against list for selection via keyboard
@@ -327,7 +348,10 @@ export class ComboBox extends React.Component {
 
   render() {
     const { searchTerm, ariaLive1, ariaLive2, filteredOptions } = this.state;
-    const autocompleteHelperText = `
+    const autocompleteHelperText =
+      searchTerm?.length > 0
+        ? null
+        : `
       When autocomplete results are available use up and down arrows to
       review and enter to select. Touch device users, explore by touch or
       with swipe gestures.
@@ -357,6 +381,7 @@ export class ComboBox extends React.Component {
           style={{ maxHeight: COMBOBOX_LIST_MAX_HEIGHT }}
           role="listbox"
           ref={this.listRef}
+          aria-hidden={filteredOptions.length === 0}
           aria-label="List of matching conditions"
           id="combobox-list"
           aria-activedescendant={
@@ -420,11 +445,6 @@ export class ComboBox extends React.Component {
         >
           {ariaLive2}
         </div>
-        <span className="vads-u-visibility--screen-reader">
-          When autocomplete results are available use up and down arrows to
-          review and enter to select. Touch device users, explore by touch or
-          with swipe gestures.
-        </span>
       </div>
     );
   }
