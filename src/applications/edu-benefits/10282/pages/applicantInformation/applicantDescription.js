@@ -26,6 +26,7 @@ export const uiSchema = {
     },
     'ui:options': {
       labels,
+      hideOnReview: true,
     },
   },
 };

@@ -23,6 +23,7 @@ import StatementOfTruth from '../components/StatementOfTruth';
 import { transform } from './submit-transformer';
 import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
+import CustomPageReview from '../components/CustomPageReview';
 
 const { fullName, email, usaPhone } = commonDefinitions;
 
@@ -79,6 +80,9 @@ const formConfig = {
           title: 'Your personal information',
           path: 'applicant/information',
           ...applicantInformationName.applicantInformationField(),
+          CustomPageReview: formData => (
+            <CustomPageReview formData={formData} />
+          ),
         },
         veteranDesc: {
           title: 'Your personal information',
