@@ -1,15 +1,21 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ router }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
+
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/applicant/information');
+  };
 
   return (
     <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
@@ -43,7 +49,8 @@ const IntroductionPage = () => {
 
       <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         <va-link-action
-          href="/education/apply-for-education-benefits/10282/applicant/information"
+          href="#"
+          onClick={startForm}
           text="Start your application"
         />
       </div>
@@ -57,6 +64,12 @@ const IntroductionPage = () => {
       </div>
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default IntroductionPage;

@@ -27,7 +27,7 @@ import { TABS } from '../../constants';
 import { INITIAL_STATE } from '../../reducers/search';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function LocationSearchForm({
@@ -84,18 +84,6 @@ export function LocationSearchForm({
     [search.loadFromUrl],
   );
 
-  // const validateSearchTerm = searchTerm => {
-  //   const invalidZipCodePattern = /^\d{6,}$/;
-
-  //   if (searchTerm.trim() === '') {
-  //     setError('Please fill in a city, state, or postal code.');
-  //   } else if (invalidZipCodePattern.test(searchTerm)) {
-  //     setError('Please enter a valid postal code.');
-  //   } else if (error !== null) {
-  //     setError(null);
-  //   }
-  // };
-
   const onResetSearchClick = () => {
     inputRef.current.focus();
   };
@@ -103,7 +91,13 @@ export function LocationSearchForm({
     if (event) {
       event.preventDefault();
       if (
-        validateSearchTerm(location, dispatchError, error, filters, 'location')
+        validateSearchTermSubmit(
+          location,
+          dispatchError,
+          error,
+          filters,
+          'location',
+        )
       ) {
         let paramLocation = location;
         dispatchMapChanged({ changed: false, distance: null });
@@ -280,7 +274,6 @@ export function LocationSearchForm({
               onSelection={selected => setAutocompleteSelection(selected)}
               onUpdateAutocompleteSearchTerm={onUpdateAutocompleteSearchTerm}
               suggestions={[...autocomplete.locationSuggestions]}
-              // validateSearchTerm={validateSearchTerm}
               version={version}
             />
           </div>
