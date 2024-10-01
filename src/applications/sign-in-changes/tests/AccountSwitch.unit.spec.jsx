@@ -11,6 +11,7 @@ const generateStore = dispatch => ({
   subscribe: sinon.stub(),
   dispatch,
 });
+
 const oldLocation = global.window.location;
 describe('AccountSwitch', () => {
   let store;
@@ -30,6 +31,7 @@ describe('AccountSwitch', () => {
   after(() => {
     global.window.location = oldLocation;
   });
+
   it('renders the component and calls maskEmail with the correct email', () => {
     const mockEmail = 'test@example.com';
     render(
@@ -43,6 +45,7 @@ describe('AccountSwitch', () => {
     expect(screen.getByText('tes***@example.com')).to.be.in.the.document;
     expect(maskEmailStub.calledWith(mockEmail)).to.be.true;
   });
+
   it('renders Login.gov when hasLogingov is true', () => {
     const mockEmail = 'test@example.com';
     render(
@@ -55,6 +58,7 @@ describe('AccountSwitch', () => {
     });
     expect(loginGovButton).to.not.be.null;
   });
+
   it('renders ID.me when hasLogingov is false', () => {
     const mockEmail = 'test@example.com';
     render(

@@ -18,7 +18,7 @@ export default function InterstitialChanges() {
   const showAccount = userHasLogingov || userHasIdme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
   return (
-    <div className="row medium-screen:vads-u-max-width--900px login vads-u-margin-y--6">
+    <div className="row medium-screen:vads-u-max-width--900px login vads-u-margin-y--6 vads-u-margin-x--2">
       <h1
         id="signin-changes-title"
         className="vads-u-margin-top--2 medium-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-bottom--2"
