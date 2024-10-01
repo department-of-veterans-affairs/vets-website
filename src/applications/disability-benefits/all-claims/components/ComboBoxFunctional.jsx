@@ -6,7 +6,7 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 
 const COMBOBOX_LIST_MAX_HEIGHT = '440px';
 const defaultHighlightedIndex = -1;
-// helper function for results string. No `this.` so not in class.
+
 const getScreenReaderResults = (
   searchTerm,
   value,
@@ -14,8 +14,7 @@ const getScreenReaderResults = (
   selectionMade,
 ) => {
   let results = numResults;
-  const isFreeTextDrawn =
-    !selectionMade && searchTerm.length && searchTerm !== value;
+  const isFreeTextDrawn = !selectionMade && searchTerm?.length;
   if (isFreeTextDrawn) {
     results += 1;
   }
@@ -25,7 +24,7 @@ const getScreenReaderResults = (
   return `${results} results available.`;
 };
 
-// This is a combobox component that is used in the revisedAddDisabilities page.
+// This is a combobox component that is used in the addDisabilities page.
 // Originally, the addDisabilities page used the AutosuggestField component from the platform-forms-system package.
 // A new component was created to make suggestions to the veteran more understandable when selecting a new condition to claim.
 // Search functions for use with this component are located in:
@@ -57,7 +56,9 @@ const ComboBox = props => {
   // Handler for closing the list when a user clicks outside of it
   const handleClickOutsideList = e => {
     if (listRef.current && !listRef.current.contains(e.target)) {
-      setValue(searchTerm);
+      if (searchTerm) {
+        setValue(searchTerm);
+      }
       setFilteredOptions([]);
       setSelectionMade(true);
       sendFocusToInput(inputRef);
@@ -74,13 +75,12 @@ const ComboBox = props => {
   // Filters list of conditions based on free-text input
   const filterOptions = () => {
     const options = disabilitiesArr;
-    let filtered = fullStringSimilaritySearch(searchTerm, options);
-    if (searchTerm.length === 0) {
-      filtered = [];
-    }
+    let filtered;
 
-    if (selectionMade && searchTerm === value) {
+    if (searchTerm?.length === 0 || (selectionMade && searchTerm === value)) {
       filtered = [];
+    } else {
+      filtered = fullStringSimilaritySearch(searchTerm, options);
     }
 
     let aria1;
@@ -267,7 +267,7 @@ const ComboBox = props => {
 
   // Creates the dynamic element for free text user entry.
   const drawFreeTextOption = option => {
-    if ((selectionMade && option === value) || option?.length < 1) {
+    if (selectionMade || !option?.length) {
       return null;
     }
 
