@@ -767,9 +767,9 @@ const formConfig = {
                     you make here will be used for your education benefits only.
                   </p>
                   <p>
-                    <strong>Note:</strong> If you want to make changes to your
-                    contact information for other VA benefits, update your
-                    information on your profile.
+                    <strong>Note:</strong> If you want to update your contact
+                    information for other VA benefits, you can do that from your
+                    profile.
                   </p>
                   <p>
                     <a href="https://www.va.gov/resources/managing-your-vagov-profile/">
