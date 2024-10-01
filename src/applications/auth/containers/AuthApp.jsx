@@ -67,18 +67,18 @@ export default function AuthApp({ location }) {
   const isInterstital = useToggleValue(TOGGLE_NAMES.mhvInterstitialEnabled);
 
   const redirect = () => {
-    // remove from session storage
-    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
-
-    // redirect to my-va if necessary
-    const updatedUrl = generateReturnURL(returnUrl);
-
     if (
       isInterstital &&
       (loginType === 'mhv' || loginType === 'myhealthevet')
     ) {
       window.location.replace('/sign-in-changes-reminder');
     }
+
+    // remove from session storage
+    sessionStorage.removeItem(AUTHN_SETTINGS.RETURN_URL);
+
+    // redirect to my-va if necessary
+    const updatedUrl = generateReturnURL(returnUrl);
 
     // check if usip client
     const postAuthUrl = checkReturnUrl(updatedUrl)
