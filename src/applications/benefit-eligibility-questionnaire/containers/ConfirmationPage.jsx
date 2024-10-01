@@ -169,7 +169,7 @@ export class ConfirmationPage extends React.Component {
             </span>
             <VaSelect
               aria-label="Filter Benefits"
-              label="Filter benefits by"
+              label="Filter by benefit type"
               name="filter-benefits"
               value={this.state.filterValue}
               onVaSelect={this.filterBenefits}
