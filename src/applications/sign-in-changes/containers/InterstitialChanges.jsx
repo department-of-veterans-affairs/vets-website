@@ -1,20 +1,17 @@
 import React from 'react';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { VaLink } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
-// import { selectProfile } from 'platform/user/selectors';
+import { selectProfile } from 'platform/user/selectors';
 import { AUTHN_SETTINGS } from '@department-of-veterans-affairs/platform-user/exports';
 import CreateAccount from '../components/CreateAccount';
 import AccountSwitch from '../components/AccountSwitch';
 
 export default function InterstitialChanges() {
-  // const userEmail = useSelector(state => selectProfile(state)?.email);
-  // const userHasLogingov =
-  //   useSelector(state => selectProfile(state)?.logingovUuid) !== null;
-  // const userHasIdme =
-  //   useSelector(state => selectProfile(state)?.idmeUuid) !== null;
-  const userEmail = 'testuser@test.com';
-  const userHasLogingov = null;
-  const userHasIdme = null;
+  const userEmail = useSelector(state => selectProfile(state)?.email);
+  const userHasLogingov =
+    useSelector(state => selectProfile(state)?.logingovUuid) !== null;
+  const userHasIdme =
+    useSelector(state => selectProfile(state)?.idmeUuid) !== null;
   const showAccount = userHasLogingov || userHasIdme;
   const returnUrl = sessionStorage.getItem(AUTHN_SETTINGS.RETURN_URL);
   return (
