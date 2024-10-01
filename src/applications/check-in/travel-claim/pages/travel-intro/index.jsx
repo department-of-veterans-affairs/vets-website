@@ -40,9 +40,19 @@ const TravelIntro = props => {
         testID="travel-intro-page"
         classNames="travel-page"
       >
-        <p className="vads-u-margin-bottom--0">
-          {t('you-can-use-this-tool-file-claim')}
-        </p>
+        <p>{t('you-can-only-use-this-tool-to-file-claims-for-todays')}</p>
+        <p>{t('youll-need-to-use-a-different-option-to-file')}</p>
+        <ul>
+          <li>{t('claims-for-past-va-appointments')}</li>
+          <li>{t('claims-for-community-care-appointments')}</li>
+          <li>{t('claims-for-other-expenses')}</li>
+        </ul>
+        <ExternalLink
+          href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+          hrefLang="en"
+        >
+          {t('learn-how-to-file-other-types-of-claims')}
+        </ExternalLink>
         <va-process-list uswds>
           <va-process-list-item>
             <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
@@ -76,17 +86,6 @@ const TravelIntro = props => {
             >
               {t('file-mileage-only-claim')}
             </a>
-            <p>
-              {t('if-claiming-other-expenses-file-online-or-mail-or-in-person')}
-            </p>
-            <ExternalLink
-              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
-              eventId="learn-how-to-file-claims-for-other-expenses--link-clicked"
-              hrefLang="en"
-              eventPrefix="nav"
-            >
-              {t('learn-how-file-claims-other-expenses')}
-            </ExternalLink>
           </va-process-list-item>
         </va-process-list>
         <va-alert class="vads-u-margin-bottom--1" uswds status="info" show-icon>
