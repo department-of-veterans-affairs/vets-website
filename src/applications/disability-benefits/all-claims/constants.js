@@ -83,14 +83,12 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
-  hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
+  hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
+    'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
-  hasAdditionalDocuments:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
+  hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
 export const DISABILITY_526_V2_ROOT_URL =

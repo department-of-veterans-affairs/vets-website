@@ -5,8 +5,8 @@ import { useLocation, useHistory, Link } from 'react-router-dom';
 export default function BreadCrumbs() {
   const { pathname } = useLocation();
   const history = useHistory();
-  const claimIdRegex = /^\/[\da-f]{8}-[\da-f]{4}-4[\da-f]{3}-[89ab][\da-f]{3}-[\da-f]{12}$/i;
-  const isDetailsPage = pathname.match(claimIdRegex);
+  const uuidPathRegex = /^\/[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[89abcd][\da-f]{3}-[\da-f]{12}$/i;
+  const isDetailsPage = pathname.match(uuidPathRegex);
 
   const breadcrumbList = [
     {

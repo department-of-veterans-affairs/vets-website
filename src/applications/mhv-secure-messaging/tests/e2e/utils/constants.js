@@ -128,6 +128,7 @@ export const Locators = {
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
+    REMOVE_ALL_ATTCH: `[data-testid="attachment-virus-alert"]>button`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
@@ -148,6 +149,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -202,6 +204,7 @@ export const Locators = {
     CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
+    ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -277,6 +280,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
+  VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
+  VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
 };
 
 export const Data = {
@@ -358,4 +363,25 @@ export const Assertions = {
   ARIA_EXPANDED: 'aria-expanded',
   EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
+};
+
+export const Arrays = {
+  FilterDateRange: [
+    'ANY',
+    'LAST 3 MONTHS',
+    'LAST 6 MONTHS',
+    'LAST 12 MONTHS',
+    'CUSTOM',
+  ],
+
+  Categories: [
+    'OTHER',
+    'COVID',
+    'APPOINTMENT',
+    'MEDICATION',
+    'TEST_RESULT',
+    'EDUCATION',
+    'GENERAL',
+    'TEST',
+  ],
 };

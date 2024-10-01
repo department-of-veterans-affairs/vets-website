@@ -118,7 +118,7 @@ const TravelPage = ({
             </va-alert>
           </div>
         )}
-        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+        <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch mobile-lg:vads-u-flex-direction--row">
           <va-button
             uswds
             big
