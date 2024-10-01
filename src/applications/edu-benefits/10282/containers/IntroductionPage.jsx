@@ -2,9 +2,10 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
-
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
+
+import OmbInfo from '../components/OmbInfo';
 
 const IntroductionPage = ({ router }) => {
   useEffect(() => {
@@ -55,13 +56,7 @@ const IntroductionPage = ({ router }) => {
         />
       </div>
 
-      <div className="intro-omb-info">
-        <va-omb-info
-          res-burden={10}
-          omb-number="2900-0922"
-          exp-date="9/30/2026"
-        />
-      </div>
+      <OmbInfo />
     </article>
   );
 };
