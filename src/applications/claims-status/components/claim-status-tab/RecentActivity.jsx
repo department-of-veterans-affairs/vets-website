@@ -10,7 +10,7 @@ import {
   buildDateFormatter,
   getPhaseItemText,
   getTrackedItemDateFromStatus,
-  isAutomated5103Notice,
+  is5103Notice,
   isDisabilityCompensationClaim,
 } from '../../utils/helpers';
 
@@ -27,17 +27,10 @@ export default function RecentActivity({ claim }) {
     cstClaimPhasesEnabled &&
     isDisabilityCompensationClaim(claim.attributes.claimTypeCode);
 
-  const is5103Notice = item => {
-    return (
-      isAutomated5103Notice(item.displayName) ||
-      item.displayName === 'Review evidence list'
-    );
-  };
-
   const getTrackedItemDescription = item => {
     const displayName =
-      is5103Notice(item) && cst5103UpdateEnabled
-        ? '5103 Evidence Notice'
+      cst5103UpdateEnabled && is5103Notice(item.displayName)
+        ? 'List of evidence we may need (5103 notice)'
         : item.displayName;
     switch (item.status) {
       case 'NEEDED_FROM_YOU':
