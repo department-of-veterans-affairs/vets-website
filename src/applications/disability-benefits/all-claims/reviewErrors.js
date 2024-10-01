@@ -1,151 +1,5 @@
 import numberToWords from 'platform/forms-system/src/js/utilities/data/numberToWords';
 
-// mapping of toxic exposure error key to page
-const teErrorToPage = {
-  'toxicExposure.gulfWar1990Details.afghanistan.startDate':
-    'gulf-war-1990-location-afghanistan',
-  'toxicExposure.gulfWar1990Details.afghanistan.endDate':
-    'gulf-war-1990-location-afghanistan',
-  'toxicExposure.gulfWar1990Details.bahrain.startDate':
-    'gulf-war-1990-location-bahrain',
-  'toxicExposure.gulfWar1990Details.bahrain.endDate':
-    'gulf-war-1990-location-bahrain',
-  'toxicExposure.gulfWar1990Details.egypt.startDate':
-    'gulf-war-1990-location-egypt',
-  'toxicExposure.gulfWar1990Details.egypt.endDate':
-    'gulf-war-1990-location-egypt',
-  'toxicExposure.gulfWar1990Details.iraq.startDate':
-    'gulf-war-1990-location-iraq',
-  'toxicExposure.gulfWar1990Details.iraq.endDate':
-    'gulf-war-1990-location-iraq',
-  'toxicExposure.gulfWar1990Details.israel.startDate':
-    'gulf-war-1990-location-israel',
-  'toxicExposure.gulfWar1990Details.israel.endDate':
-    'gulf-war-1990-location-israel',
-  'toxicExposure.gulfWar1990Details.jordan.startDate':
-    'gulf-war-1990-location-jordan',
-  'toxicExposure.gulfWar1990Details.jordan.endDate':
-    'gulf-war-1990-location-jordan',
-  'toxicExposure.gulfWar1990Details.kuwait.startDate':
-    'gulf-war-1990-location-kuwait',
-  'toxicExposure.gulfWar1990Details.kuwait.endDate':
-    'gulf-war-1990-location-kuwait',
-  'toxicExposure.gulfWar1990Details.neutralzone.startDate':
-    'gulf-war-1990-location-neutralzone',
-  'toxicExposure.gulfWar1990Details.neutralzone.endDate':
-    'gulf-war-1990-location-neutralzone',
-  'toxicExposure.gulfWar1990Details.oman.startDate':
-    'gulf-war-1990-location-oman',
-  'toxicExposure.gulfWar1990Details.oman.endDate':
-    'gulf-war-1990-location-oman',
-  'toxicExposure.gulfWar1990Details.qatar.startDate':
-    'gulf-war-1990-location-qatar',
-  'toxicExposure.gulfWar1990Details.qatar.endDate':
-    'gulf-war-1990-location-qatar',
-  'toxicExposure.gulfWar1990Details.saudiarabia.startDate':
-    'gulf-war-1990-location-saudiarabia',
-  'toxicExposure.gulfWar1990Details.saudiarabia.endDate':
-    'gulf-war-1990-location-saudiarabia',
-  'toxicExposure.gulfWar1990Details.somalia.startDate':
-    'gulf-war-1990-location-somalia',
-  'toxicExposure.gulfWar1990Details.somalia.endDate':
-    'gulf-war-1990-location-somalia',
-  'toxicExposure.gulfWar1990Details.syria.startDate':
-    'gulf-war-1990-location-syria',
-  'toxicExposure.gulfWar1990Details.syria.endDate':
-    'gulf-war-1990-location-syria',
-  'toxicExposure.gulfWar1990Details.uae.startDate':
-    'gulf-war-1990-location-uae',
-  'toxicExposure.gulfWar1990Details.uae.endDate': 'gulf-war-1990-location-uae',
-  'toxicExposure.gulfWar1990Details.turkey.startDate':
-    'gulf-war-1990-location-turkey',
-  'toxicExposure.gulfWar1990Details.turkey.endDate':
-    'gulf-war-1990-location-turkey',
-  'toxicExposure.gulfWar1990Details.waters.startDate':
-    'gulf-war-1990-location-waters',
-  'toxicExposure.gulfWar1990Details.waters.endDate':
-    'gulf-war-1990-location-waters',
-  'toxicExposure.gulfWar1990Details.airspace.startDate':
-    'gulf-war-1990-location-airspace',
-  'toxicExposure.gulfWar1990Details.airspace.endDate':
-    'gulf-war-1990-location-airspace',
-  'toxicExposure.gulfWar2001Details.djibouti.startDate':
-    'gulf-war-2001-location-djibouti',
-  'toxicExposure.gulfWar2001Details.djibouti.endDate':
-    'gulf-war-2001-location-djibouti',
-  'toxicExposure.gulfWar2001Details.lebanon.startDate':
-    'gulf-war-2001-location-lebanon',
-  'toxicExposure.gulfWar2001Details.lebanon.endDate':
-    'gulf-war-2001-location-lebanon',
-  'toxicExposure.gulfWar2001Details.uzbekistan.startDate':
-    'gulf-war-2001-location-uzbekistan',
-  'toxicExposure.gulfWar2001Details.uzbekistan.endDate':
-    'gulf-war-2001-location-uzbekistan',
-  'toxicExposure.gulfWar2001Details.yemen.startDate':
-    'gulf-war-2001-location-yemen',
-  'toxicExposure.gulfWar2001Details.yemen.endDate':
-    'gulf-war-2001-location-yemen',
-  'toxicExposure.gulfWar2001Details.airspace.startDate':
-    'gulf-war-2001-location-airspace',
-  'toxicExposure.gulfWar2001Details.airspace.endDate':
-    'gulf-war-2001-location-airspace',
-  'toxicExposure.herbicideDetails.cambodia.startDate':
-    'herbicide-location-cambodia',
-  'toxicExposure.herbicideDetails.cambodia.endDate':
-    'herbicide-location-cambodia',
-  'toxicExposure.herbicideDetails.guam.startDate': 'herbicide-location-guam',
-  'toxicExposure.herbicideDetails.guam.endDate': 'herbicide-location-guam',
-  'toxicExposure.herbicideDetails.koreandemilitarizedzone.startDate':
-    'herbicide-location-koreandemilitarizedzone',
-  'toxicExposure.herbicideDetails.koreandemilitarizedzone.endDate':
-    'herbicide-location-koreandemilitarizedzone',
-  'toxicExposure.herbicideDetails.johnston.startDate':
-    'herbicide-location-johnston',
-  'toxicExposure.herbicideDetails.johnston.endDate':
-    'herbicide-location-johnston',
-  'toxicExposure.herbicideDetails.laos.startDate': 'herbicide-location-laos',
-  'toxicExposure.herbicideDetails.laos.endDate': 'herbicide-location-laos',
-  'toxicExposure.herbicideDetails.c123.startDate': 'herbicide-location-c123',
-  'toxicExposure.herbicideDetails.c123.endDate': 'herbicide-location-c123',
-  'toxicExposure.herbicideDetails.thailand.startDate':
-    'herbicide-location-thailand',
-  'toxicExposure.herbicideDetails.thailand.endDate':
-    'herbicide-location-thailand',
-  'toxicExposure.herbicideDetails.vietnam.startDate':
-    'herbicide-location-vietnam',
-  'toxicExposure.herbicideDetails.vietnam.endDate':
-    'herbicide-location-vietnam',
-  'toxicExposure.otherExposuresDetails.asbestos.startDate':
-    'additional-exposure-asbestos',
-  'toxicExposure.otherExposuresDetails.asbestos.endDate':
-    'additional-exposure-asbestos',
-  'toxicExposure.otherExposuresDetails.chemical.startDate':
-    'additional-exposure-chemical',
-  'toxicExposure.otherExposuresDetails.chemical.endDate':
-    'additional-exposure-chemical',
-  'toxicExposure.otherExposuresDetails.water.startDate':
-    'additional-exposure-water',
-  'toxicExposure.otherExposuresDetails.water.endDate':
-    'additional-exposure-water',
-  'toxicExposure.otherExposuresDetails.mos.startDate':
-    'additional-exposure-mos',
-  'toxicExposure.otherExposuresDetails.mos.endDate': 'additional-exposure-mos',
-  'toxicExposure.otherExposuresDetails.mustardgas.startDate':
-    'additional-exposure-mustardgas',
-  'toxicExposure.otherExposuresDetails.mustardgas.endDate':
-    'additional-exposure-mustardgas',
-  'toxicExposure.otherExposuresDetails.radiation.startDate':
-    'additional-exposure-radiation',
-  'toxicExposure.otherExposuresDetails.radiation.endDate':
-    'additional-exposure-radiation',
-  'toxicExposure.otherHerbicideLocations.description': 'herbicideLocations',
-  'toxicExposure.otherHerbicideLocations.startDate': 'herbicide-location-other',
-  'toxicExposure.otherHerbicideLocations.endDate': 'herbicide-location-other',
-  'toxicExposure.specifyOtherExposures.description': 'additional-exposures',
-  'toxicExposure.specifyOtherExposures.startDate': 'additional-exposure-other',
-  'toxicExposure.specifyOtherExposures.endDate': 'additional-exposure-other',
-};
-
 // Link text for review & submit page errors
 // key = "name" from `form.formErrors.errors`
 // see src/platform/forms-system/docs/reviewErrors.md
@@ -330,11 +184,56 @@ export default {
   'toxicExposure.specifyOtherExposures.endDate':
     'Exposure end date for other toxic exposures',
   _override: error => {
-    if (Object.keys(teErrorToPage).includes(error)) {
-      return {
-        chapterKey: 'disabilities',
-        pageKey: teErrorToPage[error],
-      };
+    if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
+      const errorParts = error.split('.');
+      if (error.startsWith('toxicExposure.gulfWar1990Details')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `gulf-war-1990-location-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.gulfWar2001Details')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `gulf-war-2001-location-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.herbicideDetails')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `herbicide-location-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.otherExposureDetails')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `additional-exposure-${errorParts[2]}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.otherHerbicideLocations')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `herbicide-location-other}`,
+        };
+      }
+      if (error.startsWith('toxicExposure.specifyOtherExposures')) {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `additional-exposure-other`,
+        };
+      }
+      if (error === 'toxicExposure.otherHerbicideLocations.description') {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `herbidideLocations`,
+        };
+      }
+      if (error === 'toxicExposure.specifyOtherExposures.description') {
+        return {
+          chapterKey: 'disabilities',
+          pageKey: `additional-exposures`,
+        };
+      }
     }
 
     // always return null for non-matches

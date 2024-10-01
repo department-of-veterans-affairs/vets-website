@@ -1,3 +1,4 @@
+import full526EZSchema from 'vets-json-schema/dist/21-526EZ-ALLCLAIMS-schema.json';
 import { currentOrPastDateUI } from 'platform/forms-system/src/js/web-component-patterns';
 import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
@@ -12,11 +13,7 @@ import {
   showCheckboxLoopDetailsPage,
   teSubtitle,
 } from '../../content/toxicExposure';
-import {
-  ADDITIONAL_EXPOSURES,
-  TE_URL_PREFIX,
-  toxicExposureDateSchema,
-} from '../../constants';
+import { ADDITIONAL_EXPOSURES, TE_URL_PREFIX } from '../../constants';
 
 /**
  * Make the uiSchema for each additional exposures details page
@@ -79,8 +76,8 @@ function makeSchema(itemId) {
               [itemId]: {
                 type: 'object',
                 properties: {
-                  startDate: toxicExposureDateSchema,
-                  endDate: toxicExposureDateSchema,
+                  startDate: full526EZSchema.definitions.minimumYearDate,
+                  endDate: full526EZSchema.definitions.minimumYearDate,
                   'view:notSure': {
                     type: 'boolean',
                   },

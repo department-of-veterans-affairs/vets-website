@@ -401,8 +401,3 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   none: 'None of these',
   notsure: 'I’m not sure if I have been exposed to these hazards',
 });
-
-export const toxicExposureDateSchema = {
-  pattern: fullSchema.definitions.nullableMinimumYearDate.pattern,
-  type: 'string',
-};
