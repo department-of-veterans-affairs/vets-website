@@ -4,7 +4,7 @@ import {
   setFetchJSONResponse,
 } from '@department-of-veterans-affairs/platform-testing/helpers';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
-import { getCommunityCareFacilities } from '..';
+import { getCommunityCareFacilities } from '../../../services/vaos/index';
 import { calculateBoundingBox } from '../../../utils/address';
 
 describe('VAOS Services: CC facilities API', () => {
@@ -48,7 +48,7 @@ describe('VAOS Services: CC facilities API', () => {
       global.fetch,
       `${
         environment.API_URL
-      }/facilities_api/v1/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${10}&page=${1}&${bboxQuery}&${specialtiesQuery}&trim=true`,
+      }/facilities_api/v2/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${10}&page=${1}&${bboxQuery}&${specialtiesQuery}&trim=true`,
     );
   });
 });
