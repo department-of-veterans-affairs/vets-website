@@ -110,16 +110,49 @@ describe('Letters helpers: ', () => {
 
     it('should only be defined if value is valid', () => {
       ['monthlyAwardAmount', 'serviceConnectedPercentage'].forEach(option => {
-        expect(getBenefitOptionText(option, 0, true)).not.to.be.undefined;
-        expect(getBenefitOptionText(option, 20, true)).not.to.be.undefined;
-        expect(getBenefitOptionText(option, undefined, true)).to.be.undefined;
-        expect(getBenefitOptionText(option, null, true)).to.be.undefined;
+        expect(
+          getBenefitOptionText(
+            option,
+            0,
+            true,
+            '1965-01-01T05:00:00.000+00:00',
+          ),
+        ).not.to.be.undefined;
+        expect(
+          getBenefitOptionText(
+            option,
+            20,
+            true,
+            '1965-01-01T05:00:00.000+00:00',
+          ),
+        ).not.to.be.undefined;
+        expect(
+          getBenefitOptionText(
+            option,
+            undefined,
+            true,
+            '1965-01-01T05:00:00.000+00:00',
+          ),
+        ).to.be.undefined;
+        expect(
+          getBenefitOptionText(
+            option,
+            null,
+            true,
+            '1965-01-01T05:00:00.000+00:00',
+          ),
+        ).to.be.undefined;
       });
     });
 
     it('should include the awardEffectiveDate in the text for monthlyAward', () => {
       const tree = SkinDeep.shallowRender(
-        getBenefitOptionText('monthlyAwardAmount', 20, true),
+        getBenefitOptionText(
+          'monthlyAwardAmount',
+          20,
+          true,
+          '1965-01-01T05:00:00.000+00:00',
+        ),
       );
       expect(tree.text()).to.contain('The effective date');
     });
@@ -127,9 +160,10 @@ describe('Letters helpers: ', () => {
 
   describe('resetDisallowedAddressFields', () => {
     it('should clear state and zipCode for international addresses', () => {
-      const internationalAddress = Object.assign({}, address, {
+      const internationalAddress = {
+        ...address,
         type: ADDRESS_TYPES_ALTERNATE.international,
-      });
+      };
       const resetAddress = resetDisallowedAddressFields(internationalAddress);
 
       expect(resetAddress.state).to.equal('');
