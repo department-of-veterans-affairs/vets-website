@@ -4,7 +4,7 @@ import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utiliti
 import React from 'react';
 import sinon from 'sinon';
 
-import { ComboBox } from '../../components/ComboBox';
+import ComboBox from '../../components/ComboBoxFunctional';
 import disabilityLabelsRevised from '../../content/disabilityLabelsRevised';
 
 const items = Object.values(disabilityLabelsRevised);
