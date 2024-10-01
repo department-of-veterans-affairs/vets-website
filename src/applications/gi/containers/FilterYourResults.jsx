@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -14,14 +14,16 @@ import {
   sortOptionsByStateName,
   addAllOption,
   createId,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
+  isEmptyCheckboxFilters,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
@@ -82,6 +84,7 @@ export function FilterYourResults({
   const { version } = preview;
   const { error } = errorReducer;
   const {
+    schools,
     expanded,
     excludedSchoolTypes,
     excludeCautionFlags,
@@ -104,6 +107,33 @@ export function FilterYourResults({
     specialMissionPBI,
     specialMissionTRIBAL,
   } = filters;
+
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -208,7 +238,13 @@ export function FilterYourResults({
 
   const updateResults = () => {
     if (
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameValue,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       updateInstitutionFilters('search', true);
       updateUrlParams(history, search.tab, search.query, filters, version);
