@@ -9,7 +9,11 @@ import {
 /**
  * Looks for URL param 'add' and 'removedAllWarn' and returns a warning alert if both are present
  */
-export function withAlertOrDescription({ description, nounSingular }) {
+export function withAlertOrDescription({
+  description,
+  nounSingular,
+  hasMultipleItemPages,
+}) {
   return () => {
     const search = getArrayUrlSearchParams();
     const isAdd = search.get('add');
@@ -28,9 +32,10 @@ export function withAlertOrDescription({ description, nounSingular }) {
         </>
       );
     }
-    return isEdit
-      ? `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`
-      : description || '';
+    if (isEdit && hasMultipleItemPages) {
+      return `We’ll take you through each of the sections of this ${nounSingular} for you to review and edit`;
+    }
+    return description || '';
   };
 }
 
@@ -87,10 +92,11 @@ export const arrayBuilderItemFirstPageTitleUI = ({
   description,
   nounSingular,
   lowerCase = true,
+  hasMultipleItemPages = true,
 }) => {
   return titleUI(
     withEditTitle(title, lowerCase),
-    withAlertOrDescription({ description, nounSingular }),
+    withAlertOrDescription({ description, nounSingular, hasMultipleItemPages }),
   );
 };
 
