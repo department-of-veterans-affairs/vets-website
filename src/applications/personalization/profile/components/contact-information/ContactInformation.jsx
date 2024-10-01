@@ -134,8 +134,8 @@ const ContactInformation = () => {
       />
       <Headline>Contact information</Headline>
       <DowntimeNotification
-        render={handleDowntimeForSection('personal and contact')}
-        dependencies={[externalServices.mvi, externalServices.vaProfile]}
+        render={handleDowntimeForSection('contact')}
+        dependencies={[externalServices.VAPRO_CONTACT_INFO]}
       >
         <ContactInformationContent
           hasVAPServiceError={hasVAPServiceError}

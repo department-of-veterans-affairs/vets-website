@@ -158,7 +158,7 @@ export const DirectDeposit = () => {
         <DowntimeNotification
           appTitle="direct deposit"
           render={handleDowntimeForSection('direct deposit')}
-          dependencies={[externalServices.vaProfile]}
+          dependencies={[externalServices.LIGHTHOUSE_DIRECT_DEPOSIT]}
         >
           <ProfileInfoCard
             title="Bank account information"

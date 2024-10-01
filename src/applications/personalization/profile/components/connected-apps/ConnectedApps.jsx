@@ -10,10 +10,14 @@ import {
 } from '@@profile/components/connected-apps/actions';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import DowntimeNotification, {
+  externalServices,
+} from '~/platform/monitoring/DowntimeNotification';
 import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
+import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 export class ConnectedApps extends Component {
   constructor(...args) {
@@ -84,133 +88,140 @@ export class ConnectedApps extends Component {
     return (
       <div className="va-connected-apps">
         <Headline>Connected apps</Headline>
-        {showHasConnectedApps && (
-          <p className="va-introtext vads-u-font-size--md">
-            Your VA.gov profile is connected to the third-party (non-VA) apps
-            listed below. If you want to stop sharing information with an app,
-            you can disconnect it from your profile at any time.
-          </p>
-        )}
 
-        {showHasNoConnectedApps && (
-          <>
+        <DowntimeNotification
+          render={handleDowntimeForSection('connected applications')}
+          dependencies={[externalServices.UNKNOWN]}
+        >
+          {showHasConnectedApps && (
             <p className="va-introtext vads-u-font-size--md">
-              Connected apps are third-party (non-VA) applications or websites
-              that can share certain information from your VA.gov profile, with
-              your permission. For example, you can connect information from
-              your VA health record to an app that helps you track your health.
+              Your VA.gov profile is connected to the third-party (non-VA) apps
+              listed below. If you want to stop sharing information with an app,
+              you can disconnect it from your profile at any time.
             </p>
+          )}
 
-            <p className="va-introtext vads-u-font-size--md">
-              We offer this feature for your convenience. It’s always your
-              choice whether to connect, or stay connected, to a third-party
-              app.
-            </p>
-
-            <p className="va-introtext vads-u-font-size--md">
-              You don’t have any third-party apps connected to your profile. Go
-              to the app directory to find out what apps are available to
-              connect to your profile.
-            </p>
-          </>
-        )}
-
-        {showHasServerError && <LoadFail />}
-
-        {deletedApps.map(app => (
-          <AppDeletedAlert
-            title={app?.attributes?.title}
-            privacyUrl={app?.attributes?.privacyUrl}
-            key={app.id}
-          />
-        ))}
-
-        {showHasNoConnectedApps && (
-          <a
-            className="vads-u-margin-bottom--3"
-            href="/resources/find-apps-you-can-use"
-            onClick={this.connectedAppsEvent}
-          >
-            Go to app directory
-          </a>
-        )}
-
-        {loading && (
-          <va-loading-indicator
-            setFocus
-            message="Loading your connected apps..."
-            data-testid="connected-apps-loading-indicator"
-          />
-        )}
-        {!isEmpty(disconnectErrorApps) &&
-          disconnectErrorApps.map(app => (
+          {showHasNoConnectedApps && (
             <>
-              <va-alert
-                status="error"
-                background-only
-                key={`${app.attributes?.title}`}
-                uswds
-              >
-                <div>
-                  <p
-                    className="vads-u-margin-y--0"
-                    role="alert"
-                    aria-live="polite"
-                  >
-                    We’re sorry. We can’t disconnect {app.attributes?.title}{' '}
-                    from your VA.gov profile right now. We’re working to fix
-                    this problem. Please check back later.
-                  </p>
-                </div>
-              </va-alert>
+              <p className="va-introtext vads-u-font-size--md">
+                Connected apps are third-party (non-VA) applications or websites
+                that can share certain information from your VA.gov profile,
+                with your permission. For example, you can connect information
+                from your VA health record to an app that helps you track your
+                health.
+              </p>
+
+              <p className="va-introtext vads-u-font-size--md">
+                We offer this feature for your convenience. It’s always your
+                choice whether to connect, or stay connected, to a third-party
+                app.
+              </p>
+
+              <p className="va-introtext vads-u-font-size--md">
+                You don’t have any third-party apps connected to your profile.
+                Go to the app directory to find out what apps are available to
+                connect to your profile.
+              </p>
             </>
+          )}
+
+          {showHasServerError && <LoadFail />}
+
+          {deletedApps.map(app => (
+            <AppDeletedAlert
+              title={app?.attributes?.title}
+              privacyUrl={app?.attributes?.privacyUrl}
+              key={app.id}
+            />
           ))}
 
-        {activeApps.map(app => (
-          <ConnectedApp
-            key={app.id}
-            confirmDelete={this.confirmDelete}
-            {...app}
-          />
-        ))}
-
-        {!isEmpty(activeApps) && (
-          <div className="vads-u-margin-y--3 available-connected-apps">
-            <va-additional-info
-              disable-border
-              trigger="What other third-party apps can I connect to my profile?"
-              uswds
-            >
-              To find out what other third-party apps are available to connect
-              to your profile,{' '}
-              <a
-                href="/resources/find-apps-you-can-use"
-                onClick={this.connectedAppsEvent}
-              >
-                go to the app directory
-              </a>
-            </va-additional-info>
-          </div>
-        )}
-
-        <va-summary-box uswds class="vads-u-margin-top--2">
-          <h2
-            slot="headline"
-            className="vads-u-margin-top--0 vads-u-font-size--lg"
-          >
-            Have more questions about connected apps?
-          </h2>
-          <p>
+          {showHasNoConnectedApps && (
             <a
-              className="vads-u-color--primary-alt-darkest"
-              onClick={this.faqEvent}
-              href="/resources/connected-apps-faqs/"
+              className="vads-u-margin-bottom--3"
+              href="/resources/find-apps-you-can-use"
+              onClick={this.connectedAppsEvent}
             >
-              Go to FAQs about connecting third-party apps to your VA.gov
-              profile
+              Go to app directory
             </a>
-          </p>
-        </va-summary-box>
+          )}
+
+          {loading && (
+            <va-loading-indicator
+              setFocus
+              message="Loading your connected apps..."
+              data-testid="connected-apps-loading-indicator"
+            />
+          )}
+          {!isEmpty(disconnectErrorApps) &&
+            disconnectErrorApps.map(app => (
+              <>
+                <va-alert
+                  status="error"
+                  background-only
+                  key={`${app.attributes?.title}`}
+                  uswds
+                >
+                  <div>
+                    <p
+                      className="vads-u-margin-y--0"
+                      role="alert"
+                      aria-live="polite"
+                    >
+                      We’re sorry. We can’t disconnect {app.attributes?.title}{' '}
+                      from your VA.gov profile right now. We’re working to fix
+                      this problem. Please check back later.
+                    </p>
+                  </div>
+                </va-alert>
+              </>
+            ))}
+
+          {activeApps.map(app => (
+            <ConnectedApp
+              key={app.id}
+              confirmDelete={this.confirmDelete}
+              {...app}
+            />
+          ))}
+
+          {!isEmpty(activeApps) && (
+            <div className="vads-u-margin-y--3 available-connected-apps">
+              <va-additional-info
+                disable-border
+                trigger="What other third-party apps can I connect to my profile?"
+                uswds
+              >
+                To find out what other third-party apps are available to connect
+                to your profile,{' '}
+                <a
+                  href="/resources/find-apps-you-can-use"
+                  onClick={this.connectedAppsEvent}
+                >
+                  go to the app directory
+                </a>
+              </va-additional-info>
+            </div>
+          )}
+
+          <va-summary-box uswds class="vads-u-margin-top--2">
+            <h2
+              slot="headline"
+              className="vads-u-margin-top--0 vads-u-font-size--lg"
+            >
+              Have more questions about connected apps?
+            </h2>
+            <p>
+              <a
+                className="vads-u-color--primary-alt-darkest"
+                onClick={this.faqEvent}
+                href="/resources/connected-apps-faqs/"
+              >
+                Go to FAQs about connecting third-party apps to your VA.gov
+                profile
+              </a>
+            </p>
+          </va-summary-box>
+        </DowntimeNotification>
       </div>
     );
   }

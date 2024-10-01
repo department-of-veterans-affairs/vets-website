@@ -216,7 +216,7 @@ const MilitaryInformation = ({ militaryInformation, veteranStatus }) => {
       <DowntimeNotification
         appTitle="Military Information"
         render={handleDowntimeForSection('military service')}
-        dependencies={[externalServices.vaProfile]}
+        dependencies={[externalServices.VAPRO_MILITARY_INFO]}
       >
         <MilitaryInformationContent
           militaryInformation={militaryInformation}

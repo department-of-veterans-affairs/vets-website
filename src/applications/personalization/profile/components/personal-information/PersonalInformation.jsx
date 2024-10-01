@@ -109,8 +109,8 @@ const PersonalInformation = () => {
       <Headline>Personal information</Headline>
 
       <DowntimeNotification
-        render={handleDowntimeForSection('personal and contact')}
-        dependencies={[externalServices.mvi, externalServices.vaProfile]}
+        render={handleDowntimeForSection('personal')}
+        dependencies={[externalServices.VAPRO_PERSONAL_INFO]}
       >
         <PersonalInformationContent
           hasPersonalInformationServiceError={
