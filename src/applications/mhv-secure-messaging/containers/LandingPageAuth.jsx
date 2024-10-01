@@ -34,6 +34,7 @@ import WelcomeMessage from '../components/Dashboard/WelcomeMessage';
 import FrequentlyAskedQuestions from '../components/FrequentlyAskedQuestions';
 import AlertBackgroundBox from '../components/shared/AlertBackgroundBox';
 import CernerTransitioningFacilityAlert from '../components/Alerts/CernerTransitioningFacilityAlert';
+import { scrollIfFocusedAndNotInView } from '../util/helpers';
 
 const LandingPageAuth = () => {
   const dispatch = useDispatch();
@@ -58,6 +59,12 @@ const LandingPageAuth = () => {
   useEffect(() => {
     focusElement(document.querySelector('h1'));
     updatePageTitle(PageTitles.DEFAULT_PAGE_TITLE_TAG);
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      scrollIfFocusedAndNotInView(50);
+    }, 100);
   }, []);
 
   return (
