@@ -22,9 +22,13 @@ describe('Check confirmation message after save draft', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
+    PatientComposePage.verifyDraftSaveButtonOnFocus();
     PatientComposePage.verifyAlertFocusFocus();
     cy.get(Locators.BUTTONS.ALERT_CLOSE).click();
 
+    cy.get('.sm-breadcrumb-list-item')
+      .find('a')
+      .click();
     cy.get(Locators.BACK_TO).click();
   });
 });
