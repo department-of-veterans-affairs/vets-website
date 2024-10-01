@@ -402,10 +402,7 @@ export const ADDITIONAL_EXPOSURES = Object.freeze({
   notsure: 'I’m not sure if I have been exposed to these hazards',
 });
 
-/* todo: remove this and use vets-json-schema
-*/
-export const toxicExposureDate = {
-  pattern:
-    '^(?:19|20)[0-9][0-9]-(0[1-9]|1[0-2]|XX)-(0[1-9]|[1-2][0-9]|3[0-1]|XX)$',
+export const toxicExposureDateSchema = {
+  pattern: fullSchema.definitions.nullableMinimumYearDate.pattern,
   type: 'string',
 };

@@ -11,7 +11,7 @@ import {
   notSureHazardDetails,
   teSubtitle,
 } from '../../content/toxicExposure';
-import { toxicExposureDate } from '../../constants';
+import { toxicExposureDateSchema } from '../../constants';
 
 export const uiSchema = {
   'ui:title': ({ formData }) => {
@@ -63,8 +63,8 @@ export const schema = {
         specifyOtherExposures: {
           type: 'object',
           properties: {
-            startDate: toxicExposureDate,
-            endDate: toxicExposureDate,
+            startDate: toxicExposureDateSchema,
+            endDate: toxicExposureDateSchema,
             'view:notSure': {
               type: 'boolean',
             },

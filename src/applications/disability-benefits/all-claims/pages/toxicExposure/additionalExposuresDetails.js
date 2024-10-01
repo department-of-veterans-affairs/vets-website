@@ -15,7 +15,7 @@ import {
 import {
   ADDITIONAL_EXPOSURES,
   TE_URL_PREFIX,
-  toxicExposureDate,
+  toxicExposureDateSchema,
 } from '../../constants';
 
 /**
@@ -79,8 +79,8 @@ function makeSchema(itemId) {
               [itemId]: {
                 type: 'object',
                 properties: {
-                  startDate: toxicExposureDate,
-                  endDate: toxicExposureDate,
+                  startDate: toxicExposureDateSchema,
+                  endDate: toxicExposureDateSchema,
                   'view:notSure': {
                     type: 'boolean',
                   },

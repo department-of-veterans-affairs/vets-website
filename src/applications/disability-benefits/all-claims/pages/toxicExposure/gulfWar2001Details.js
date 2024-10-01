@@ -15,7 +15,7 @@ import {
 import {
   GULF_WAR_2001_LOCATIONS,
   TE_URL_PREFIX,
-  toxicExposureDate,
+  toxicExposureDateSchema,
 } from '../../constants';
 
 /**
@@ -77,8 +77,8 @@ function makeSchema(locationId) {
               [locationId]: {
                 type: 'object',
                 properties: {
-                  startDate: toxicExposureDate,
-                  endDate: toxicExposureDate,
+                  startDate: toxicExposureDateSchema,
+                  endDate: toxicExposureDateSchema,
                   'view:notSure': {
                     type: 'boolean',
                   },
