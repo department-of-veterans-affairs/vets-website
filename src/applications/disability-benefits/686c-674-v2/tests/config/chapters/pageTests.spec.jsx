@@ -15,6 +15,12 @@ const getProps = () => {
   return {
     mockStore: {
       getState: () => ({
+        vaFileNumber: {
+          hasVaFileNumber: {
+            VALIDVAFILENUMBER: true,
+          },
+          isLoading: false,
+        },
         user: {
           profile: {
             loading: false,

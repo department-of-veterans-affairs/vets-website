@@ -1,210 +1,405 @@
-import {
-  testNumberOfErrorsOnSubmit,
-  testNumberOfErrorsOnSubmitForWebComponents,
-  testNumberOfFields,
-  testNumberOfWebComponentFields,
-} from '../pageTests.spec';
+import { render } from '@testing-library/react';
+import { Provider } from 'react-redux';
+import { expect } from 'chai';
+import React from 'react';
+import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
+import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
+import { $$ } from 'platform/forms-system/src/js/utilities/ui';
+import { deceasedDependentOptions } from '../../../../config/chapters/report-dependent-death/deceasedDependentArrayPages';
 import formConfig from '../../../../config/form';
 
-const {
-  schema,
-  uiSchema,
-} = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartOne;
+const defaultStore = createCommonStore();
 
-const pageTitle = 'Dependent who has died';
+// Array options
 
-// Test array functionality in e2e.
-// Just test initial fields here
+describe('deceasedDependentOptions', () => {
+  it('should have the correct base properties', () => {
+    expect(deceasedDependentOptions.arrayPath).to.equal('deaths');
+    expect(deceasedDependentOptions.nounSingular).to.equal('dependent');
+    expect(deceasedDependentOptions.nounPlural).to.equal('dependents');
+    expect(deceasedDependentOptions.required).to.be.true;
+    expect(deceasedDependentOptions.maxItems).to.equal(7);
+  });
 
-const expectedNumberOfWebComponentFields = 5;
-testNumberOfWebComponentFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentFields,
-  pageTitle,
-);
+  describe('isItemIncomplete', () => {
+    it('should return true if any required fields are missing', () => {
+      const incompleteItem = {
+        fullName: { first: 'John' },
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentType: 'spouse',
+        dependentDeathLocation: {
+          location: { city: 'Some City' },
+        },
+        dependentDeathDate: '1991-01-19',
+      };
+      expect(deceasedDependentOptions.isItemIncomplete(incompleteItem)).to.be
+        .true;
+    });
 
-// should be 4, but if multiple arrays are on the page
-// the first array becomes optional. This is a bug,
-// but also a rare use case.
-const expectedNumberOfWebComponentErrors = 2;
-testNumberOfErrorsOnSubmitForWebComponents(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfWebComponentErrors,
-  pageTitle,
-);
+    it('should return false if all required fields are present', () => {
+      const completeItem = {
+        fullName: { first: 'John', last: 'Doe' },
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentType: 'spouse',
+        dependentDeathLocation: {
+          location: { city: 'Some City' },
+        },
+        dependentDeathDate: '1991-01-19',
+      };
+      expect(deceasedDependentOptions.isItemIncomplete(completeItem)).to.be
+        .false;
+    });
+  });
 
-const expectedNumberOfFields = 0;
-testNumberOfFields(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfFields,
-  pageTitle,
-);
+  describe('text.getItemName', () => {
+    it('should return the full name of the item', () => {
+      const item = {
+        fullName: { first: 'John', last: 'Doe' },
+      };
+      expect(deceasedDependentOptions.text.getItemName(item)).to.equal(
+        'John Doe',
+      );
+    });
 
-const expectedNumberOfErrors = 0;
-testNumberOfErrorsOnSubmit(
-  formConfig,
-  schema,
-  uiSchema,
-  expectedNumberOfErrors,
-  pageTitle,
-);
+    it('should return an empty string if first or last name is missing', () => {
+      const incompleteItem = { fullName: { first: 'John' } };
+      expect(
+        deceasedDependentOptions.text.getItemName(incompleteItem),
+      ).to.equal('John ');
 
-// import { render, screen } from '@testing-library/react';
-// import { Provider } from 'react-redux';
-// import { expect } from 'chai';
-// import React from 'react';
-// import createCommonStore from '@department-of-veterans-affairs/platform-startup/store';
-// import { DefinitionTester } from 'platform/testing/unit/schemaform-utils';
-// import { $$ } from 'platform/forms-system/src/js/utilities/ui';
-// import formConfig from '../../../../config/form';
-// import {
-//   testNumberOfErrorsOnSubmitForWebComponents,
-//   testNumberOfFieldsByType,
-//   testNumberOfWebComponentFields,
-//   testSubmitsWithoutErrors,
-// } from '../pageTests.spec';
+      const missingBoth = { fullName: {} };
+      expect(deceasedDependentOptions.text.getItemName(missingBoth)).to.equal(
+        ' ',
+      );
+    });
+  });
 
-// const defaultStore = createCommonStore();
+  describe('text.cardDescription', () => {
+    it('should return formatted birth and death dates', () => {
+      const item = {
+        birthDate: '1991-02-19',
+        dependentDeathDate: '1991-01-19',
+      };
+      expect(deceasedDependentOptions.text.cardDescription(item)).to.equal(
+        '02/19/1991 - 01/19/1991',
+      );
+    });
 
-// const formData = (outsideUsa = false, state = 'CA') => {
-//   return {
-//     'view:selectable686Options': {
-//       reportDeath: true,
-//     },
-//     deaths: [
-//       {
-//         dependentDeathDate: '1991-01-19',
-//         dependentType: 'spouse',
-//         fullName: {
-//           first: 'John',
-//           last: 'Doe',
-//         },
-//         ssn: '333445555',
-//         birthDate: '1991-02-19',
-//         dependentDeathLocation: {
-//           outsideUsa,
-//           location: {
-//             city: 'Some city',
-//             state,
-//           },
-//         },
-//       },
-//       {
-//         dependentDeathDate: '2000-12-14',
-//         dependentType: 'spouse',
-//         fullName: {
-//           first: 'Jane',
-//           last: 'Doe',
-//         },
-//         ssn: '333445555',
-//         birthDate: '1991-02-19',
-//         dependentDeathLocation: {
-//           outsideUsa,
-//           location: {
-//             city: 'Some city',
-//             state,
-//           },
-//         },
-//         childStatus: {
-//           childUnder18: true,
-//           adopted: true,
-//         },
-//       },
-//     ],
-//   };
-// };
+    it('should return "Unknown" if birth or death date is missing', () => {
+      const missingBirthDate = { dependentDeathDate: '1991-01-19' };
+      expect(
+        deceasedDependentOptions.text.cardDescription(missingBirthDate),
+      ).to.equal('Unknown - 01/19/1991');
 
-// describe('686 report death: Introduction page', () => {
-//   const {
-//     schema,
-//     uiSchema,
-//   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationIntro;
+      const missingDeathDate = { birthDate: '1991-02-19' };
+      expect(
+        deceasedDependentOptions.text.cardDescription(missingDeathDate),
+      ).to.equal('02/19/1991 - Unknown');
 
-//   it('should render', () => {
-//     const { container } = render(
-//       <Provider store={defaultStore}>
-//         <DefinitionTester
-//           schema={schema}
-//           definitions={formConfig.defaultDefinitions}
-//           uiSchema={uiSchema}
-//           data={formData}
-//         />
-//       </Provider>,
-//     );
+      const missingBoth = {};
+      expect(
+        deceasedDependentOptions.text.cardDescription(missingBoth),
+      ).to.equal('Unknown - Unknown');
+    });
+  });
+});
 
-//     expect($$('h3', container).length).to.equal(1);
-//     expect($$('span', container).length).to.equal(1);
-//   });
-// });
+// Array pages
 
-// describe('686 report death: Summary page', () => {
-//   const {
-//     schema,
-//     uiSchema,
-//   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationSummary;
+const formData = (outsideUsa = false, state = 'CA') => {
+  return {
+    'view:selectable686Options': {
+      reportDeath: true,
+    },
+    deaths: [
+      {
+        dependentDeathDate: '1991-01-19',
+        dependentType: 'spouse',
+        fullName: {
+          first: 'John',
+          last: 'Doe',
+        },
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentDeathLocation: {
+          outsideUsa,
+          location: {
+            city: 'Some city',
+            state,
+          },
+        },
+      },
+      {
+        dependentDeathDate: '2000-12-14',
+        dependentType: 'spouse',
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentDeathLocation: {
+          outsideUsa,
+          location: {
+            city: 'Some city',
+            state,
+          },
+        },
+        childStatus: {
+          childUnder18: true,
+          adopted: true,
+        },
+      },
+    ],
+  };
+};
 
-//   it('should render', () => {
-//     const { container } = render(
-//       <Provider store={defaultStore}>
-//         <DefinitionTester
-//           schema={schema}
-//           definitions={formConfig.defaultDefinitions}
-//           uiSchema={uiSchema}
-//           data={formData}
-//         />
-//       </Provider>,
-//     );
+const arrayPath = 'deaths';
 
-//     // screen.debug();
+describe('686 report death: Introduction page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationIntro;
 
-//     expect($$('va-radio', container).length).to.equal(1);
-//     expect($$('va-radio-option', container).length).to.equal(2);
-//     // expect($$('va-card', container).length).to.equal(2); //TODO: This doesn't render?
-//   });
-// });
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData}
+        />
+      </Provider>,
+    );
 
-// describe('686 report death: Dependent information Part 1', () => {
-//   const {
-//     schema,
-//     uiSchema,
-//   } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartOne;
+    expect($$('h3', container).length).to.equal(1);
+    expect($$('span', container).length).to.equal(1);
+  });
+});
 
-//   const arrayPath = 'deaths';
+describe('686 report death: Summary page', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationSummary;
 
-//   //   const pageTitle = 'Dependent who has died';
+  it('should render', () => {
+    const { container } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+        />
+      </Provider>,
+    );
 
-//   //   const expectedNumberOfWebComponentFields = 5;
-//   //   testNumberOfWebComponentFields(
-//   //     formConfig,
-//   //     schema,
-//   //     uiSchema,
-//   //     expectedNumberOfWebComponentFields,
-//   //     pageTitle,
-//   //   );
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(2);
+  });
+});
 
-//   it.only('should render', () => {
-//     const { container } = render(
-//       <Provider store={defaultStore}>
-//         <DefinitionTester
-//           schema={schema}
-//           definitions={formConfig.defaultDefinitions}
-//           uiSchema={uiSchema}
-//           data={formData}
-//           arrayPath={arrayPath}
-//           pagePerItemIndex={0}
-//         />
-//       </Provider>,
-//     );
+describe('686 report death: Dependent information', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartOne;
 
-//     screen.debug();
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
 
-//     expect($$('va-radio', container).length).to.equal(1);
-//     expect($$('va-radio-option', container).length).to.equal(2);
-//   });
-// });
+    expect(queryByText(/Dependent who has died/i)).to.not.be.null;
+    expect($$('va-text-input', container).length).to.equal(4);
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('686 report death: Dependent Type', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartTwo;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to John Doe/i)).to.not.be.null;
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to the deceased dependent/i)).to.not
+      .be.null;
+    expect($$('va-radio', container).length).to.equal(1);
+    expect($$('va-radio-option', container).length).to.equal(3);
+  });
+});
+
+describe('686 report death: Child Type', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartThree;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to John Doe/i)).to.not.be.null;
+    expect($$('va-checkbox-group', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(5);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Your relationship to the deceased dependent/i)).to.not
+      .be.null;
+    expect($$('va-checkbox-group', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(5);
+  });
+});
+
+describe('686 report death: Date of Death', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFour;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/When did John Doe die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/When did the dependent die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});
+
+describe('686 report death: Location of Death', () => {
+  const {
+    schema,
+    uiSchema,
+  } = formConfig.chapters.deceasedDependents.pages.dependentAdditionalInformationPartFive;
+
+  it('should render', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={0}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did John Doe die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+
+  it('should render alternate title if fullName is empty', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={1}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did the dependent die?/i)).to.not.be.null;
+    expect($$('va-memorable-date', container).length).to.equal(1);
+  });
+});

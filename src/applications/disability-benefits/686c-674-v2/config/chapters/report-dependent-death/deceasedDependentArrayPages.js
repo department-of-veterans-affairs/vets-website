@@ -1,5 +1,5 @@
-import React from 'react';
-import format from 'date-fns-tz/format';
+// import React from 'react';
+import { format, parseISO } from 'date-fns';
 import { capitalize } from 'lodash';
 import {
   titleUI,
@@ -18,16 +18,17 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
-// import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
-// import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
-// import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
+import VaTextInputField from 'platform/forms-system/src/js/web-component-fields/VaTextInputField';
+import VaSelectField from 'platform/forms-system/src/js/web-component-fields/VaSelectField';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   relationshipEnums,
   relationshipLabels,
   childTypeEnums,
   childTypeLabels,
 } from './helpers';
-import CustomLocation from '../../../components/CustomLocation';
+// import CustomLocation from '../../../components/CustomLocation';
+import { customLocationSchema } from '../../helpers';
 // import { customLocationSchema } from '../../helpers';
 
 /** @type {ArrayBuilderOptions} */
@@ -52,10 +53,10 @@ export const deceasedDependentOptions = {
       ) || ''}`,
     cardDescription: item => {
       const birthDate = item?.birthDate
-        ? format(new Date(item.birthDate), 'MM/dd/yyyy')
+        ? format(parseISO(item.birthDate), 'MM/dd/yyyy')
         : 'Unknown';
       const dependentDeathDate = item?.dependentDeathDate
-        ? format(new Date(item.dependentDeathDate), 'MM/dd/yyyy')
+        ? format(parseISO(item.dependentDeathDate), 'MM/dd/yyyy')
         : 'Unknown';
 
       return `${birthDate} - ${dependentDeathDate}`;
@@ -126,7 +127,7 @@ export const deceasedDependentPersonalInfoPage = {
 };
 
 /** @returns {PageSchema} */
-export const deceasedDependentChildStatusPage = {
+export const deceasedDependentTypePage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
       const fullName = formData?.fullName || {};
@@ -202,6 +203,121 @@ export const deceasedDependentDateOfDeathPage = {
   },
 };
 
+// export const deceasedDependentLocationOfDeathPage = {
+//   uiSchema: {
+//     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
+//       const fullName = formData?.fullName || {};
+//       const { first = '', last = '' } = fullName;
+
+//       return first && last
+//         ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
+//         : 'Where did the dependent die?';
+//     }),
+//     // dependentDeathLocation: {
+//     //   // outsideUsa: {
+//     //   //   'ui:title': 'This occurred outside the U.S.',
+//     //   //   'ui:webComponentField': VaCheckboxField,
+//     //   // },
+//     //   // location: {
+//     //   //   city: {
+//     //   //     'ui:title': 'Enter a city',
+//     //   //     'ui:webComponentField': VaTextInputField,
+//     //   //     'ui:required': () => true,
+//     //   //     'ui:errorMessages': {
+//     //   //       required: 'Enter a city',
+//     //   //     },
+//     //   //     // 'ui:validations': [
+//     //   //     //   (errors, fields) => {
+//     //   //     //     console.log('city - uivalidations', { errors, fields });
+//     //   //     //     return errors;
+//     //   //     //   },
+//     //   //     // ],
+//     //   //   },
+//     //   //   state: {
+//     //   //     'ui:title': 'Select a state',
+//     //   //     'ui:webComponentField': CustomSelect,
+//     //   //     'ui:errorMessages': {
+//     //   //       required: 'Enter a state',
+//     //   //     },
+//     //   //     // 'ui:required': (formData, index) => {
+//     //   //     //   console.log(formData);
+//     //   //     //   return (
+//     //   //     //     !formData?.dependentDeathLocation?.outsideUsa ||
+//     //   //     //     !formData?.deaths[index]?.dependentDeathLocation?.outsideUsa
+//     //   //     //   );
+//     //   //     // },
+//     //   //     // 'ui:validations': [
+//     //   //     //   (errors, fields) => {
+//     //   //     //     console.log('state - uivalidations', { errors, fields });
+//     //   //     //     return errors;
+//     //   //     //   },
+//     //   //     // ],
+//     //   //   },
+//     //   // },
+//     //   'ui:field': props => <CustomLocation {...props} />,
+//     //   'ui:validations': [
+//     //     (errors, ...args) => {
+//     //       console.log(errors, ...args)
+//     //       return null;
+//     //     },
+//     //   ],
+//     // },
+//     dependentDeathLocation: {
+//       'ui:field': props => <CustomLocation {...props} />,
+//       'ui:validations': [
+//         (errors, fieldData, _formData, _schema, _uiSchema) => {
+//           console.log(errors);
+//           const city = fieldData?.location?.city ?? '';
+//           const state = fieldData?.location?.state ?? '';
+//           const outsideUsa = fieldData?.outsideUsa;
+
+//           if (city.trim() === '') {
+//             errors?.location?.city?.addError('City is required');
+//           }
+
+//           if (!outsideUsa && state.trim() === '') {
+//             errors?.location?.state?.addError(
+//               'State is required when the event did not occur outside the U.S.',
+//             );
+//           }
+//         },
+//       ],
+//       location: {
+//         city: {
+//           'ui:required': () => true,
+//         },
+//         state: {
+//           'ui:required': () => true,
+//         },
+//       },
+//     },
+//   },
+//   schema: {
+//     type: 'object',
+//     properties: {
+//       dependentDeathLocation: {
+//         type: 'object',
+//         properties: {},
+//       },
+//       // dependentDeathLocation: {
+//       //   type: 'object',
+//       //   properties: {
+//       //     outsideUsa: { type: 'boolean' },
+//       //     location: {
+//       //       // required: ['city', 'state'],
+//       //       type: 'object',
+//       //       properties: {
+//       //         city: { type: 'string' },
+//       //         state: { type: 'string' },
+//       //       },
+//       //     },
+//       //   },
+//       // },
+//       // dependentDeathLocation: customLocationSchema,
+//     },
+//   },
+// };
+
 export const deceasedDependentLocationOfDeathPage = {
   uiSchema: {
     ...arrayBuilderItemSubsequentPageTitleUI(({ formData }) => {
@@ -212,106 +328,162 @@ export const deceasedDependentLocationOfDeathPage = {
         ? `Where did ${capitalize(first)} ${capitalize(last)} die?`
         : 'Where did the dependent die?';
     }),
-    // dependentDeathLocation: {
-    //   // outsideUsa: {
-    //   //   'ui:title': 'This occurred outside the U.S.',
-    //   //   'ui:webComponentField': VaCheckboxField,
-    //   // },
-    //   // location: {
-    //   //   city: {
-    //   //     'ui:title': 'Enter a city',
-    //   //     'ui:webComponentField': VaTextInputField,
-    //   //     'ui:required': () => true,
-    //   //     'ui:errorMessages': {
-    //   //       required: 'Enter a city',
-    //   //     },
-    //   //     // 'ui:validations': [
-    //   //     //   (errors, fields) => {
-    //   //     //     console.log('city - uivalidations', { errors, fields });
-    //   //     //     return errors;
-    //   //     //   },
-    //   //     // ],
-    //   //   },
-    //   //   state: {
-    //   //     'ui:title': 'Select a state',
-    //   //     'ui:webComponentField': CustomSelect,
-    //   //     'ui:errorMessages': {
-    //   //       required: 'Enter a state',
-    //   //     },
-    //   //     // 'ui:required': (formData, index) => {
-    //   //     //   console.log(formData);
-    //   //     //   return (
-    //   //     //     !formData?.dependentDeathLocation?.outsideUsa ||
-    //   //     //     !formData?.deaths[index]?.dependentDeathLocation?.outsideUsa
-    //   //     //   );
-    //   //     // },
-    //   //     // 'ui:validations': [
-    //   //     //   (errors, fields) => {
-    //   //     //     console.log('state - uivalidations', { errors, fields });
-    //   //     //     return errors;
-    //   //     //   },
-    //   //     // ],
-    //   //   },
-    //   // },
-    //   'ui:field': props => <CustomLocation {...props} />,
-    //   'ui:validations': [
-    //     (errors, ...args) => {
-    //       console.log(errors, ...args)
-    //       return null;
-    //     },
-    //   ],
-    // },
     dependentDeathLocation: {
-      'ui:field': props => <CustomLocation {...props} />,
-      'ui:validations': [
-        (errors, fieldData, _formData, _schema, _uiSchema) => {
-          const city = fieldData?.location?.city ?? '';
-          const state = fieldData?.location?.state ?? '';
-          const outsideUsa = fieldData?.outsideUsa;
-
-          if (city.trim() === '') {
-            errors?.location?.city?.addError('City is required');
-          }
-
-          if (!outsideUsa && state.trim() === '') {
-            errors?.location?.state?.addError(
-              'State is required when the event did not occur outside the U.S.',
-            );
-          }
-        },
-      ],
+      outsideUsa: {
+        'ui:title': 'This occurred outside the U.S.',
+        'ui:webComponentField': VaCheckboxField,
+      },
       location: {
         city: {
+          'ui:title': 'Enter a city',
+          'ui:webComponentField': VaTextInputField,
           'ui:required': () => true,
+          'ui:errorMessages': {
+            required: 'Enter a city',
+          },
+          // 'ui:validations': [
+          //   (errors, fields) => {
+          //     console.log('city - uivalidations', { errors, fields });
+          //     return errors;
+          //   },
+          // ],
         },
         state: {
-          'ui:required': () => true,
+          'ui:title': 'Select a state',
+          'ui:webComponentField': VaSelectField,
+          'ui:errorMessages': {
+            required: 'Enter a state',
+          },
+          'ui:required': (formData, index) => {
+            const isEditMode = formData?.dependentDeathLocation?.outsideUsa;
+            const isAddMode =
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa;
+
+            return !isAddMode && !isEditMode;
+          },
+          'ui:options': {
+            // NOTE: using formData inside of an array only pulls
+            // the array item data and not the entire form.
+            // because of this, index will always be null so don't use it
+            hideIf: (formData, index) =>
+              formData?.dependentDeathLocation?.outsideUsa ||
+              formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
+          },
+          // 'ui:options': {
+          //   updateSchema: (formData, _schema, _uiSchema, index) => {
+          //     console.log(formData);
+          //     console.log(
+          //       formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa,
+          //     );
+          //     console.log(formData?.dependentDeathLocation?.outsideUsa);
+
+          //     const isEditMode =
+          //       formData?.dependentDeathLocation?.outsideUsa || undefined;
+          //     const isAddMode =
+          //       formData?.deaths?.[index]?.dependentDeathLocation?.outsideUsa ||
+          //       undefined;
+
+          //     const stateUI = _uiSchema;
+
+          //     // const {
+          //     //   first,
+          //     //   last,
+          //     // } = formData?.spouseInformation?.spouseLegalName;
+          //     // const nameTitleUI = _uiSchema;
+
+          //     if (isAddMode || isEditMode) {
+          //       stateUI['ui:options'].inert = true;
+          //     }
+
+          //     if (!isAddMode || !isEditMode) {
+          //       stateUI['ui:options'].inert = false;
+          //     }
+
+          //     return _schema;
+          //   },
+          // },
+          // 'ui:required': (formData, index) => {
+          //   console.log(formData);
+          //   return (
+          //     !formData?.dependentDeathLocation?.outsideUsa ||
+          //     !formData?.deaths[index]?.dependentDeathLocation?.outsideUsa
+          //   );
+          // },
+          // 'ui:validations': [
+          //   (errors, fields) => {
+          //     console.log('state - uivalidations', { errors, fields });
+          //     return errors;
+          //   },
+          // ],
         },
       },
+      // 'ui:validations': [
+      //   (errors, ...args) => {
+      //     console.log(errors, ...args)
+      //     return null;
+      //   },
+      // ],
     },
   },
+  // schema: {
+  //   type: 'object',
+  //   properties: {
+  //     dependentDeathLocation: {
+  //       type: 'object',
+  //       properties: {
+  //         outsideUsa: {
+  //           type: 'boolean',
+  //         },
+  //         location: {
+  //           type: 'object',
+  //           properties: {
+  //             city: {
+  //               type: 'string',
+  //             },
+  //             state: {
+  //               type: 'string',
+  //             },
+  //           },
+  //         },
+  //       },
+  //       required: ['outsideUsa', 'location'], // location is required overall
+
+  //       oneOf: [
+  //         {
+  //           properties: {
+  //             outsideUsa: {
+  //               const: false,
+  //             },
+  //           },
+  //           required: ['location'], // Ensure location is required if outsideUsa is false
+  //           // Specify which properties are required within location
+  //           additionalProperties: {
+  //             location: {
+  //               required: ['city', 'state'], // city and state required if outsideUsa is false
+  //             },
+  //           },
+  //         },
+  //         {
+  //           properties: {
+  //             outsideUsa: {
+  //               const: true,
+  //             },
+  //           },
+  //           required: ['location'], // Ensure location is required if outsideUsa is true
+  //           additionalProperties: {
+  //             location: {
+  //               required: ['city'], // Only city required if outsideUsa is true
+  //             },
+  //           },
+  //         },
+  //       ],
+  //     },
+  //   },
+  // },
   schema: {
     type: 'object',
     properties: {
-      dependentDeathLocation: {
-        type: 'object',
-        properties: {},
-      },
-      // dependentDeathLocation: {
-      //   type: 'object',
-      //   properties: {
-      //     outsideUsa: { type: 'boolean' },
-      //     location: {
-      //       // required: ['city', 'state'],
-      //       type: 'object',
-      //       properties: {
-      //         city: { type: 'string' },
-      //         state: { type: 'string' },
-      //       },
-      //     },
-      //   },
-      // },
-      // dependentDeathLocation: customLocationSchema,
+      dependentDeathLocation: customLocationSchema,
     },
   },
 };

@@ -24,7 +24,7 @@ import {
   deceasedDependentIntroPage,
   deceasedDependentSummaryPage,
   deceasedDependentPersonalInfoPage,
-  deceasedDependentChildStatusPage,
+  deceasedDependentTypePage,
   deceasedDependentChildTypePage,
   deceasedDependentDateOfDeathPage,
   deceasedDependentLocationOfDeathPage,
@@ -761,8 +761,8 @@ export const formConfig = {
           dependentAdditionalInformationPartTwo: pageBuilder.itemPage({
             title: 'Information needed to remove a dependent who has died',
             path: '686-report-dependent-death/:index/child-status',
-            uiSchema: deceasedDependentChildStatusPage.uiSchema,
-            schema: deceasedDependentChildStatusPage.schema,
+            uiSchema: deceasedDependentTypePage.uiSchema,
+            schema: deceasedDependentTypePage.schema,
             depends: formData =>
               isChapterFieldRequired(formData, TASK_KEYS.reportDeath),
             onNavForward: ({
