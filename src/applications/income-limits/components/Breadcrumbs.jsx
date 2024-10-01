@@ -14,7 +14,7 @@ const Breadcrumbs = () => {
         },
         {
           href: '/health-care',
-          label: 'VA Health Care',
+          label: 'VA Health care',
         },
         {
           href: '/health-care/income-limits',
