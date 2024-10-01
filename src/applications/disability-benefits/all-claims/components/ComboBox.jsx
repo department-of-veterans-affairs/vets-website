@@ -91,11 +91,7 @@ export class ComboBox extends React.Component {
   handleClickOutsideList = e => {
     if (this.listRef.current && !this.listRef.current.contains(e.target)) {
       const { searchTerm } = this.state;
-      this.setState({
-        value: searchTerm,
-        filteredOptions: [],
-        selectionMade: true,
-      });
+      this.setSelectedState(searchTerm);
       this.sendFocusToInput(this.inputRef);
     }
   };
