@@ -108,6 +108,7 @@ export class ConfirmationPage extends React.Component {
         if (a[key] > b[key]) return 1;
         return 0;
       });
+
       return { benefits: sortedBenefits };
     });
   };
@@ -128,7 +129,10 @@ export class ConfirmationPage extends React.Component {
       const filteredBenefits = this.props.results.data.filter(benefit => {
         return benefit.category.includes(key);
       });
-      return { benefits: filteredBenefits };
+      return {
+        benefits: filteredBenefits,
+        resultsCount: filteredBenefits.length,
+      };
     });
   };
 
@@ -169,7 +173,7 @@ export class ConfirmationPage extends React.Component {
             </span>
             <VaSelect
               aria-label="Filter Benefits"
-              label="Filter benefits by"
+              label="Filter by benefit type"
               name="filter-benefits"
               value={this.state.filterValue}
               onVaSelect={this.filterBenefits}
