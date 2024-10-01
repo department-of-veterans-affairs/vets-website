@@ -1,10 +1,11 @@
 import { mapValues } from 'lodash';
-import moment from 'moment';
+import { format } from 'date-fns';
 
 import OtherTextField from '../../components/OtherTextField';
 import TextWidget from '../../../../../forms-system/src/js/widgets/TextWidget';
 import { NOT_SET_TEXT } from '../../constants';
 import DeselectableObjectField from '../../components/DeselectableObjectField';
+import { parseStringOrDate } from '../../../../../utilities/date';
 
 export const notListedKeySuffix = 'NotListedText';
 
@@ -188,4 +189,5 @@ export const formatMultiSelectAndText = (data, fieldName) => {
   return null;
 };
 
-export const renderDOB = dob => (dob ? moment(dob).format('LL') : NOT_SET_TEXT);
+export const renderDOB = dob =>
+  dob ? format(parseStringOrDate, 'LL') : NOT_SET_TEXT;
