@@ -99,7 +99,9 @@ const FormApp = props => {
     );
   }
   const wrapperClass =
-    notProd && fullWidth ? '' : 'usa-width-two-thirds medium-8 columns';
+    notProd && fullWidth
+      ? ''
+      : 'usa-width-two-thirds medium-8 columns print-full-width';
 
   return (
     <div className="form-app">
