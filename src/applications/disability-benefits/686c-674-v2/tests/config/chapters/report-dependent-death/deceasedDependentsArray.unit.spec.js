@@ -108,14 +108,14 @@ describe('deceasedDependentOptions', () => {
 
 // Array pages
 
-const formData = (outsideUsa = false, state = 'CA') => {
+const formData = (state = 'CA') => {
   return {
     'view:selectable686Options': {
       reportDeath: true,
     },
     deaths: [
       {
-        dependentDeathDate: '1991-01-19',
+        dependentDeathDate: '2023-04-17',
         dependentType: 'spouse',
         fullName: {
           first: 'John',
@@ -124,7 +124,7 @@ const formData = (outsideUsa = false, state = 'CA') => {
         ssn: '333445555',
         birthDate: '1991-02-19',
         dependentDeathLocation: {
-          outsideUsa,
+          outsideUsa: false,
           location: {
             city: 'Some city',
             state,
@@ -137,10 +137,26 @@ const formData = (outsideUsa = false, state = 'CA') => {
         ssn: '333445555',
         birthDate: '1991-02-19',
         dependentDeathLocation: {
-          outsideUsa,
+          outsideUsa: false,
           location: {
             city: 'Some city',
             state,
+          },
+        },
+      },
+      {
+        dependentDeathDate: '2012-10-31',
+        dependentType: 'child',
+        ssn: '333445555',
+        birthDate: '2010-02-19',
+        fullName: {
+          first: 'Tom',
+          last: 'Riddle',
+        },
+        dependentDeathLocation: {
+          outsideUsa: true,
+          location: {
+            city: 'Some city',
           },
         },
         childStatus: {
@@ -382,7 +398,9 @@ describe('686 report death: Location of Death', () => {
     );
 
     expect(queryByText(/Where did John Doe die?/i)).to.not.be.null;
-    expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(1);
   });
 
   it('should render alternate title if fullName is empty', () => {
@@ -400,6 +418,27 @@ describe('686 report death: Location of Death', () => {
     );
 
     expect(queryByText(/Where did the dependent die?/i)).to.not.be.null;
-    expect($$('va-memorable-date', container).length).to.equal(1);
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
+    expect($$('va-select', container).length).to.equal(1);
+  });
+
+  it('should render w/ hidden State selector', () => {
+    const { container, queryByText } = render(
+      <Provider store={defaultStore}>
+        <DefinitionTester
+          schema={schema}
+          definitions={formConfig.defaultDefinitions}
+          uiSchema={uiSchema}
+          data={formData()}
+          arrayPath={arrayPath}
+          pagePerItemIndex={2}
+        />
+      </Provider>,
+    );
+
+    expect(queryByText(/Where did Tom Riddle die?/i)).to.not.be.null;
+    expect($$('va-checkbox', container).length).to.equal(1);
+    expect($$('va-text-input', container).length).to.equal(1);
   });
 });
