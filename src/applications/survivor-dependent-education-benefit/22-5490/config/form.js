@@ -793,6 +793,18 @@ const formConfig = {
                 hideOnReview: true,
               },
             },
+            'ui:validations': [
+              (errors, field) => {
+                if (
+                  field?.email?.toLowerCase() !==
+                  field?.confirmEmail?.toLowerCase()
+                ) {
+                  errors.confirmEmail?.addError(
+                    'Sorry, your emails must match',
+                  );
+                }
+              },
+            ],
             'view:confirmDuplicateData': {
               'ui:description': DuplicateContactInfoModal,
             },
