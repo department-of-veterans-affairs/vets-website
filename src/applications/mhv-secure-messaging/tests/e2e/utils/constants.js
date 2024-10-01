@@ -204,6 +204,7 @@ export const Locators = {
     CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
+    DELETE_DRAFT: `[data-dd-action-name="Confirm Navigation Leaving Button"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -281,6 +282,7 @@ export const Alerts = {
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
   VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
   VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
+  SAVE_DRAFT: `Do you want to save your draft message?`,
 };
 
 export const Data = {
@@ -332,7 +334,9 @@ export const Data = {
   ],
   EL_SIGN_CHECK: `I certify that the above is correct and true to the best of my knowledge and belief.`,
   BUTTONS: {
+    SAVE_DRAFT: `Save draft`,
     EDIT_DRAFT: `Edit draft`,
+    SAVE_DRAFT_WO_ATTCH: `Save draft without attachments`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save contact list`,

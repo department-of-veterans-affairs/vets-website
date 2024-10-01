@@ -13,7 +13,7 @@ describe('Secure Messaging Compose Errors Keyboard Nav', () => {
   });
   afterEach(() => {
     FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
+    PatientComposePage.clickDeleteDraftModalButton();
   });
 
   it('focus on error message for no provider', () => {

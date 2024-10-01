@@ -30,7 +30,7 @@ describe('Secure Messaging Draft Save with Attachments', () => {
       {},
     ).as('draftSave');
 
-    PatientComposePage.saveDraftButton().click();
+    PatientComposePage.clickSaveDraftBtn();
     PatientMessageDraftsPage.verifySaveWithAttachmentAlert();
 
     // verify modal elements

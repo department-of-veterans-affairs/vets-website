@@ -3,7 +3,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Data, Alerts } from '../utils/constants';
 
 describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
   beforeEach(() => {
@@ -11,8 +11,9 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientInboxPage.loadInboxMessages();
   });
 
-  it('navigate away with no changes', () => {
+  it('navigate away with no data', () => {
     PatientInboxPage.navigateToComposePage();
+
     FolderLoadPage.backToInbox();
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
@@ -20,39 +21,52 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('navigate away with some changes', () => {
+  it('navigate away with no data with attachment', () => {
     PatientInboxPage.navigateToComposePage();
-    PatientComposePage.selectRecipient();
-    PatientComposePage.selectCategory();
+    PatientComposePage.attachMessageFromFile();
+
     FolderLoadPage.backToInbox();
 
-    cy.get(`[status="warning"]`)
-      .find(`h2`)
-      .should('be.visible')
-      .and(`have.text`, `We can't save this message yet`);
-    cy.get(`[status="warning"]`)
-      .find(`[text='Edit draft']`)
-      .shadow()
-      .find(`button`)
-      .should('be.visible')
-      .and(`have.text`, `Edit draft`);
-    cy.get(`[status="warning"]`)
-      .find(`[text='Delete draft']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .should('be.visible')
-      .and(`have.text`, `Delete draft`);
+    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
-    cy.get(`[status="warning"]`)
-      .find(`[text='Delete draft']`)
-      .shadow()
-      .find(`.last-focusable-child`)
-      .click();
+    PatientComposePage.clickDeleteDraftModalButton();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });
-  it('navigate away with no changes` To Inbox', () => {
+
+  it('navigate away with some data', () => {
+    PatientInboxPage.navigateToComposePage();
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory();
+
+    FolderLoadPage.backToInbox();
+
+    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+
+    PatientComposePage.clickDeleteDraftModalButton();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with some data and attachment', () => {
+    PatientInboxPage.navigateToComposePage();
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory();
+    PatientComposePage.attachMessageFromFile();
+
+    FolderLoadPage.backToInbox();
+
+    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+
+    PatientComposePage.clickDeleteDraftModalButton();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with all data', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
@@ -60,13 +74,35 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.enterDataToMessageBody();
 
     FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnContinueEditingButton();
-    PatientComposePage.verifyComposePageValuesRetainedAfterContinueEditing();
+
+    PatientComposePage.verifyCantSaveYetAlert(
+      Alerts.SAVE_DRAFT,
+      Data.BUTTONS.SAVE_DRAFT,
+    );
+
+    PatientComposePage.clickDeleteDraftModalButton();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with all data and attachment', () => {
+    PatientInboxPage.navigateToComposePage();
+    PatientComposePage.selectRecipient();
+    PatientComposePage.selectCategory();
+    PatientComposePage.enterDataToMessageSubject();
+    PatientComposePage.enterDataToMessageBody();
+    PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToInbox();
-    PatientComposePage.clickOnDeleteDraftButton();
-    PatientComposePage.verifyExpectedPageOpened('Inbox');
-    cy.get(Locators.ALERTS.CREATE_NEW_MESSAGE).should('be.visible');
+
+    PatientComposePage.verifyCantSaveYetAlert(
+      Alerts.SAVE_ATTCH,
+      Data.BUTTONS.EDIT_DRAFT,
+      Data.BUTTONS.SAVE_DRAFT_WO_ATTCH,
+    );
+    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
+
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

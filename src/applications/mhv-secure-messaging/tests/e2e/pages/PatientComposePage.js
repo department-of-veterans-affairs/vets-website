@@ -180,8 +180,12 @@ class PatientComposePage {
     });
   };
 
-  saveDraftButton = () => {
-    return cy.get(Locators.BUTTONS.SAVE_DRAFT);
+  clickSaveDraftBtn = () => {
+    cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
+  };
+
+  clickSaveDraftWithoutAttachmentBtn = () => {
+    cy.contains(`without`).click({ force: true });
   };
 
   saveDraft = draftMessage => {
@@ -263,9 +267,9 @@ class PatientComposePage {
       .click({ force: true });
   };
 
-  attachMessageFromFile = filename => {
-    const filepath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${filename}`;
-    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filepath, {
+  attachMessageFromFile = (fileName = Data.TEST_IMAGE) => {
+    const filePath = `src/applications/mhv-secure-messaging/tests/e2e/fixtures/mock-attachments/${fileName}`;
+    cy.get(Locators.ATTACH_FILE_INPUT).selectFile(filePath, {
       force: true,
     });
   };
@@ -307,8 +311,8 @@ class PatientComposePage {
       .should('have.focus');
   };
 
-  clickOnDeleteDraftButton = () => {
-    cy.get(Locators.BUTTONS.CONTINUE_EDITING)
+  clickDeleteDraftModalButton = () => {
+    cy.get(Locators.ALERTS.DELETE_DRAFT)
       .parent()
       .find('va-button[text="Delete draft"]')
       .click();
@@ -504,6 +508,29 @@ class PatientComposePage {
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
     cy.get('[visible=""] > [secondary=""]').click({ force: true });
+  };
+
+  verifyCantSaveYetAlert = (
+    alertText,
+    firstBtnText = `Edit draft`,
+    secondBtnText = `Delete draft`,
+  ) => {
+    cy.get(`[status="warning"]`)
+      .find(`h2`)
+      .should('be.visible')
+      .and(`have.text`, alertText);
+    cy.get(`[status="warning"]`)
+      .find(`[text='${firstBtnText}']`)
+      .shadow()
+      .find(`button`)
+      .should('be.visible')
+      .and(`have.text`, firstBtnText);
+    cy.get(`[status="warning"]`)
+      .find(`[text='${secondBtnText}']`)
+      .shadow()
+      .find(`.last-focusable-child`)
+      .should('be.visible')
+      .and(`have.text`, secondBtnText);
   };
 }
 
