@@ -1,5 +1,4 @@
 import React from 'react';
-
 import LicenseCertificationSearchFields from '../components/LicenseCertificationSearchFields';
 
 function LicenseCertificationSearch() {
