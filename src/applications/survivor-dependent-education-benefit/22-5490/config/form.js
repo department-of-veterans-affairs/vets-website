@@ -567,7 +567,7 @@ const formConfig = {
                   married: 'Married',
                   divorced: 'Divorced (or divorce in progress)',
                   anulled:
-                    'Marriage was annulled (or an annullment in progress',
+                    'Marriage was annulled (or an annullment in progress)',
                   widowed: 'Widowed',
                 },
               },
@@ -669,7 +669,8 @@ const formConfig = {
           depends: formData => {
             return (
               formData.marriageStatus !== 'married' &&
-              formData.relationShipToMember === 'spouse'
+              formData.relationShipToMember === 'spouse' &&
+              formData.remarriageStatus === 'yes'
             );
           },
           uiSchema: {
