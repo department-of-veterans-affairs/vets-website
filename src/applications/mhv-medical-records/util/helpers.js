@@ -431,6 +431,47 @@ export const radiologyRecordHash = async record => {
 };
 
 /**
+ * @param {Object} nameObject {first, middle, last, suffix}
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
+  let returnName = '';
+  if (!last) return null;
+
+  let firstName = `${first}`;
+  let lastName = `${last}`;
+
+  if (!first) {
+    return lastName;
+  }
+  if (middle) firstName += ` ${middle}`;
+  if (suffix) lastName += `, ${suffix}`;
+
+  returnName = `${firstName} ${lastName}`;
+
+  return returnName;
+};
+
+/**
+ * @param {Object} nameObject name
+ * @returns {String} formatted timestamp
+ */
+
+export const formatNameFirstToLast = name => {
+  try {
+    const parts = name?.split(',');
+    if (parts.length !== 2) {
+      return name;
+    }
+    const [lastname, firstname] = parts;
+    return `${firstname} ${lastname}`;
+  } catch {
+    return name;
+  }
+};
+
+/**
  * @function getLastUpdatedText
  * @description Generates a string that displays the last successful update for a given extract type.
  * It checks the refresh state status and formats the time and date of the last update.

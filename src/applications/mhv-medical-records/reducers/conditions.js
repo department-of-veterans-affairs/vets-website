@@ -1,7 +1,11 @@
 import { formatDateLong } from '@department-of-veterans-affairs/platform-utilities/exports';
 import { Actions } from '../util/actionTypes';
 import { EMPTY_FIELD, loadStates } from '../util/constants';
-import { isArrayAndHasItems, extractContainedResource } from '../util/helpers';
+import {
+  isArrayAndHasItems,
+  extractContainedResource,
+  formatNameFirstToLast,
+} from '../util/helpers';
 
 const initialState = {
   /**
@@ -81,13 +85,14 @@ export const extractProviderNote = condition => {
 };
 
 export const convertCondition = condition => {
+  const provider = extractProvider(condition);
   return {
     id: condition?.id,
     date: condition?.recordedDate
       ? formatDateLong(condition.recordedDate)
       : EMPTY_FIELD,
     name: condition?.code?.text || EMPTY_FIELD,
-    provider: extractProvider(condition),
+    provider: formatNameFirstToLast(provider),
     facility: extractLocation(condition),
     comments: extractProviderNote(condition),
   };
