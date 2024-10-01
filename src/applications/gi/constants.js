@@ -425,3 +425,11 @@ export const yellowRibbonColumns = {
     key: 'contributionAmount',
   },
 };
+
+export const ERROR_MESSAGES = {
+  searchByNameInputEmpty:
+    'Please fill in a school, employer, or training provider.',
+  searchbyLocationInputEmpty: 'Please fill in a city, state, or postal code.',
+  invalidZipCode: 'Please enter a valid postal code.',
+  checkBoxFilterEmpty: 'Please select at least one filter.',
+};

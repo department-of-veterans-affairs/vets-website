@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { getProps } from '../../../../shared/tests/pages/pageTests.spec';
-import mockData from '../../fixtures/data/test-data.json';
+import mockData from '../../e2e/fixtures/data/test-data.json';
 import { UploadDocuments } from '../../../components/UploadDocuments';
 import { PaymentReviewScreen } from '../../../components/PaymentSelection';
 
