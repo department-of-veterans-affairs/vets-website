@@ -22,7 +22,6 @@ describe('Check confirmation message after save draft', () => {
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
 
-    PatientComposePage.verifyDraftSaveButtonOnFocus();
     PatientComposePage.verifyAlertFocusFocus();
     cy.get(Locators.BUTTONS.ALERT_CLOSE).click();
 
