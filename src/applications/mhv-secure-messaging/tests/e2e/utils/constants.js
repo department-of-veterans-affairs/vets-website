@@ -150,6 +150,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -368,4 +369,25 @@ export const Assertions = {
   ARIA_EXPANDED: 'aria-expanded',
   EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
+};
+
+export const Arrays = {
+  FilterDateRange: [
+    'ANY',
+    'LAST 3 MONTHS',
+    'LAST 6 MONTHS',
+    'LAST 12 MONTHS',
+    'CUSTOM',
+  ],
+
+  Categories: [
+    'OTHER',
+    'COVID',
+    'APPOINTMENT',
+    'MEDICATION',
+    'TEST_RESULT',
+    'EDUCATION',
+    'GENERAL',
+    'TEST',
+  ],
 };
