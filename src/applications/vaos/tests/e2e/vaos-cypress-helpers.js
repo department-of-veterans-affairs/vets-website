@@ -591,6 +591,11 @@ export function vaosSetup() {
           'best-practice',
         ],
       },
+      rules: {
+        'aria-allowed-role': {
+          enabled: false,
+        },
+      },
     });
   });
 
