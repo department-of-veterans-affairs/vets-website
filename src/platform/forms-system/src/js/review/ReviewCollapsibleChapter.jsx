@@ -36,47 +36,49 @@ class ReviewCollapsibleChapter extends React.Component {
     this.handleEdit = this.handleEdit.bind(this);
   }
 
-  handleEdit(key, editing, index = null) {
-    if (editing || !this.hasValidationError(key, index)) {
-      this.props.onEdit(key, editing, index);
-      const name = fixSelector(key);
+  // handleEdit(key, editing, index = null, path) {
+  handleEdit(path) {
+    this.goToPath(`/1/ezr/${path}`);
+    // if (editing || !this.hasValidationError(key, index)) {
+    //   this.props.onEdit(key, editing, index, path);
+    //   const name = fixSelector(key);
 
-      // Wait for edit view to render
-      setTimeout(() => {
-        const scrollElement = document.querySelector(
-          `[name="${name}${SCROLL_ELEMENT_SUFFIX}"]`,
-        );
+    //   // Wait for edit view to render
+    //   setTimeout(() => {
+    //     const scrollElement = document.querySelector(
+    //       `[name="${name}${SCROLL_ELEMENT_SUFFIX}"]`,
+    //     );
 
-        if (scrollElement && scrollElement?.nextElementSibling) {
-          const [target] = getFocusableElements(
-            scrollElement.nextElementSibling,
-            {
-              returnWebComponent: true,
-              focusableWebComponents: focusableWebComponentList,
-            },
-          );
+    //     if (scrollElement && scrollElement?.nextElementSibling) {
+    //       const [target] = getFocusableElements(
+    //         scrollElement.nextElementSibling,
+    //         {
+    //           returnWebComponent: true,
+    //           focusableWebComponents: focusableWebComponentList,
+    //         },
+    //       );
 
-          if (target) {
-            let selector = target.tagName;
-            // File upload pages may only show a delete va-button (form 10182)
-            const shadowSelector = selector.startsWith('VA-')
-              ? [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(',')
-              : null;
+    //       if (target) {
+    //         let selector = target.tagName;
+    //         // File upload pages may only show a delete va-button (form 10182)
+    //         const shadowSelector = selector.startsWith('VA-')
+    //           ? [...FOCUSABLE_ELEMENTS, ...focusableWebComponentList].join(',')
+    //           : null;
 
-            // Sets focus on the first focusable error or element
-            if (target.id) {
-              // id may include a colon, e.g. #root_view:foo
-              selector = `#${target.id}`;
-            } else if (target.className) {
-              selector = `${target.tagName}.${target.className
-                .split(' ')
-                .join('.')}`;
-            }
-            focusOnChange(name, fixSelector(selector), shadowSelector);
-          }
-        }
-      }, 100);
-    }
+    //         // Sets focus on the first focusable error or element
+    //         if (target.id) {
+    //           // id may include a colon, e.g. #root_view:foo
+    //           selector = `#${target.id}`;
+    //         } else if (target.className) {
+    //           selector = `${target.tagName}.${target.className
+    //             .split(' ')
+    //             .join('.')}`;
+    //         }
+    //         focusOnChange(name, fixSelector(selector), shadowSelector);
+    //       }
+    //     }
+    //   }, 100);
+    // }
   }
 
   onChange(formData, path = null, index = null) {
@@ -278,7 +280,10 @@ class ReviewCollapsibleChapter extends React.Component {
           )}
           pagePerItemIndex={page.index}
           onBlur={this.props.onBlur}
-          onEdit={() => this.handleEdit(page.pageKey, !editing, page.index)}
+          // onEdit={() =>
+          //   this.handleEdit(page.pageKey, !editing, page.index, page.path)
+          // }
+          onEdit={() => this.handleEdit(page.path)}
           onSubmit={({ formData }) =>
             this.handleSubmit(
               formData,
@@ -432,6 +437,7 @@ class ReviewCollapsibleChapter extends React.Component {
       expandedPages,
       form,
       pageKeys,
+      // pagePaths,
       viewedPages,
     } = props;
     const ChapterDescription = chapterFormConfig.reviewDescription;
@@ -441,6 +447,7 @@ class ReviewCollapsibleChapter extends React.Component {
           <ChapterDescription
             viewedPages={viewedPages}
             pageKeys={pageKeys}
+            // pagePaths={pagePaths}
             formData={form.data}
             t
             push

@@ -698,6 +698,18 @@ export function getPageKeys(pages, formData) {
   });
 }
 
+export function getPagePaths(pages, formData) {
+  const expandedPageList = getActiveExpandedPages(pages, formData);
+
+  return expandedPageList.map(page => {
+    let { path } = page; // Extract the path instead of pageKey
+    if (typeof page.index !== 'undefined') {
+      path += page.index; // Append index if it exists
+    }
+    return path; // Return the modified path
+  });
+}
+
 /**
  * getActiveChapters returns the list of chapter keys with active pages
  *

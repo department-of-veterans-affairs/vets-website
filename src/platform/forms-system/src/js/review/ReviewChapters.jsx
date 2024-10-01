@@ -10,6 +10,7 @@ import {
   getActiveExpandedPages,
   getActiveChapters,
   getPageKeys,
+  getPagePaths,
 } from '../helpers';
 import { getReviewPageOpenChapters, getViewedPages } from '../state/selectors';
 import {
@@ -44,7 +45,7 @@ class ReviewChapters extends React.Component {
     }
   };
 
-  handleEdit = (pageKey, editing, index = null) => {
+  handleEdit = (pageKey, editing, index = null, chapterPath) => {
     const fullPageKey = `${pageKey}${index === null ? '' : index}`;
     if (editing) {
       this.props.setViewedPages([fullPageKey]);
@@ -84,9 +85,10 @@ class ReviewChapters extends React.Component {
             reviewErrors={formConfig?.reviewErrors}
             formContext={formContext}
             key={chapter.name}
-            onEdit={this.handleEdit}
+            // onEdit={this.handleEdit}
             open={chapter.open}
             pageKeys={chapter.pageKeys}
+            pagePaths={chapter.pagePaths}
             pageList={pageList}
             setData={(...args) => this.handleSetData(...args)}
             hasUnviewedPages={chapter.hasUnviewedPages}
@@ -118,6 +120,7 @@ export function mapStateToProps(state, ownProps) {
     const chapterFormConfig = formConfig.chapters[chapterName];
     const open = openChapters[chapterName] || false;
     const pageKeys = getPageKeys(pages, formData);
+    const pagePaths = getPagePaths(pages, formData);
 
     const hasErrors = form.formErrors?.errors?.some(err =>
       pageKeys.includes(err.pageKey),
@@ -136,6 +139,7 @@ export function mapStateToProps(state, ownProps) {
       name: chapterName,
       open,
       pageKeys,
+      pagePaths,
       hasUnviewedPages,
     };
   });
