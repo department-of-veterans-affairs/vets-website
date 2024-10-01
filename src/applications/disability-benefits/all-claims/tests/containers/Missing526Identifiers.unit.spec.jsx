@@ -98,4 +98,70 @@ describe('Form 526 Missing Identifiers Error Message', () => {
       );
     });
   });
+
+  describe('birlsId Missing', () => {
+    const props = {
+      title: 'File for disability compensation',
+      form526RequiredIdentifers: {
+        participantId: true,
+        birlsId: false,
+        ssn: true,
+        birthDate: true,
+        edipi: true,
+      },
+    };
+
+    it('returns the missing birlsId OK message', () => {
+      const tree = render(<Missing526Identifiers {...props} />);
+      const messageParagraph = tree.container.querySelector('p');
+
+      expect(messageParagraph.textContent).match(
+        /It's ok if you don't know your BIRLS ID./,
+      );
+    });
+  });
+
+  describe('edipi Missing', () => {
+    const props = {
+      title: 'File for disability compensation',
+      form526RequiredIdentifers: {
+        participantId: true,
+        birlsId: true,
+        ssn: true,
+        birthDate: true,
+        edipi: false,
+      },
+    };
+
+    it('returns the missing edipi OK message', () => {
+      const tree = render(<Missing526Identifiers {...props} />);
+      const messageParagraph = tree.container.querySelector('p');
+
+      expect(messageParagraph.textContent).match(
+        /It's ok if you don't know your EDIPI ID./,
+      );
+    });
+  });
+
+  describe('edipi and birlsId Missing', () => {
+    const props = {
+      title: 'File for disability compensation',
+      form526RequiredIdentifers: {
+        participantId: true,
+        birlsId: false,
+        ssn: true,
+        birthDate: true,
+        edipi: false,
+      },
+    };
+
+    it('returns the missing edipi and birls OK message', () => {
+      const tree = render(<Missing526Identifiers {...props} />);
+      const messageParagraph = tree.container.querySelector('p');
+
+      expect(messageParagraph.textContent).match(
+        /It's ok if you don't know your BIRLS ID or EDIPI ID./,
+      );
+    });
+  });
 });
