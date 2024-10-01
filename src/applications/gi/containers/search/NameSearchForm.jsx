@@ -17,7 +17,7 @@ import { FILTERS_SCHOOL_TYPE_EXCLUDE_FLIP } from '../../selectors/filters';
 import FilterBeforeResults from './FilterBeforeResults';
 import {
   isProductionOrTestProdEnv,
-  validateSearchTerm,
+  validateSearchTermSubmit,
 } from '../../utils/helpers';
 
 export function NameSearchForm({
@@ -121,7 +121,7 @@ export function NameSearchForm({
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (validateSearchTerm(name, dispatchError, error, filters, 'name')) {
+    if (validateSearchTermSubmit(name, dispatchError, error, filters, 'name')) {
       recordEvent({
         event: 'gibct-form-change',
         'gibct-form-field': 'nameSearch',

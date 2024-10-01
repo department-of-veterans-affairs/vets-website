@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -727,10 +728,11 @@ const ComposeForm = props => {
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
+              datadogRum.addAction('Save Error Modal Closed');
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
-            data-dd-action-name="Save Error Modal Closed"
+            data-dd-action-name="Save Error Modal"
             visible
           >
             <p>{saveError.p1}</p>
@@ -742,6 +744,7 @@ const ComposeForm = props => {
                   setSavedDraft(false);
                   setSaveError(null);
                 }}
+                data-dd-action-name={`${saveError.editDraft} Button`}
               />
             )}
             {saveError?.saveDraft && (
@@ -749,6 +752,7 @@ const ComposeForm = props => {
                 secondary
                 class="vads-u-margin-y--1p5"
                 text={saveError.saveDraft}
+                data-dd-action-name={`${saveError.saveDraft} Button`}
                 onClick={() => {
                   saveDraftHandler('manual');
                   setSaveError(null);
@@ -842,7 +846,7 @@ const ComposeForm = props => {
                 value={subject}
                 error={subjectError}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Subject Input Field"
+                data-dd-action-name="Subject (Required) Input Field"
                 maxlength="50"
                 uswds
                 charcount
@@ -873,7 +877,7 @@ const ComposeForm = props => {
                   );
                 }}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Body Textbox"
+                data-dd-action-name="Message (Required) Textbox"
               />
             )}
           </div>
