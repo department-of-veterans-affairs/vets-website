@@ -1,12 +1,12 @@
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientMessageDetailsPage from './pages/PatientMessageDetailsPage';
-import mockMessages from './fixtures/messages-response.json';
-import PatientInboxPage from './pages/PatientInboxPage';
-import PatientInterstitialPage from './pages/PatientInterstitialPage';
-import PatientReplyPage from './pages/PatientReplyPage';
-import FolderLoadPage from './pages/FolderLoadPage';
-import { AXE_CONTEXT, Data } from './utils/constants';
-import PatientComposePage from './pages/PatientComposePage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
+import mockMessages from '../fixtures/messages-response.json';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import PatientInterstitialPage from '../pages/PatientInterstitialPage';
+import PatientReplyPage from '../pages/PatientReplyPage';
+import FolderLoadPage from '../pages/FolderLoadPage';
+import { AXE_CONTEXT, Data } from '../utils/constants';
+import PatientComposePage from '../pages/PatientComposePage';
 
 describe('Secure Messaging Reply', () => {
   it('Navigate Away From `Reply to message` To Inbox', () => {
