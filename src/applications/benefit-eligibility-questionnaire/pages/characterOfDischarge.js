@@ -55,7 +55,7 @@ export default {
               href="https://www.va.gov/discharge-upgrade-instructions"
               rel="noreferrer"
             >
-              Learn more about the discharge upgrade process.
+              Learn more about the discharge upgrade process
             </a>{' '}
             (opens in a new tab)
             <br />
