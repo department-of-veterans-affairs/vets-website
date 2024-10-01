@@ -59,7 +59,7 @@ class SettingsPage extends BaseListPage {
       postOptInResponse,
     ).as('postOptIn');
 
-    cy.get('[data-testid="open-opt-in-out-modal-button"]').click(); // is this the right selector?
+    cy.get('[data-testid="open-opt-in-out-modal-button"]').click();
     cy.get('button:contains("Yes, opt in")').click();
     cy.wait('@postOptIn');
   };
