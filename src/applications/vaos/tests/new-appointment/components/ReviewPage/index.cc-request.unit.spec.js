@@ -200,7 +200,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should record GA tracking events', async () => {
-    const tomorrow = new Date(Date.now() + 86400000);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({
       ...defaultState,
       newAppointment: {
@@ -245,7 +246,8 @@ describe('VAOS Page: ReviewPage CC request with VAOS service', () => {
   });
 
   it('should show error message on failure', async () => {
-    const tomorrow = new Date(Date.now() + 86400000);
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
     store = createTestStore({
       ...defaultState,
       newAppointment: {
