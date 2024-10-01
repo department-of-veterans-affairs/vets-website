@@ -625,7 +625,7 @@ const formConfig = {
           title: 'Remarriage Information',
           depends: formData => {
             return (
-              formData.marriageStatus !== 'married' &&
+              formData.marriageStatus === 'divorced' &&
               formData.relationShipToMember === 'spouse'
             );
           },
@@ -668,7 +668,7 @@ const formConfig = {
           title: 'Remarriage Date',
           depends: formData => {
             return (
-              formData.marriageStatus !== 'married' &&
+              formData.marriageStatus === 'divorced' &&
               formData.relationShipToMember === 'spouse' &&
               formData.remarriageStatus === 'yes'
             );
