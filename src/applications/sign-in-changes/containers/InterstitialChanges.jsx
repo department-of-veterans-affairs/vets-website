@@ -37,7 +37,7 @@ export default function InterstitialChanges() {
         until <strong>January 31, 2025</strong>.
       </p>
       <VaLink
-        text="Continue with your MyHealtheVet account for now"
+        text="Continue with your My HealtheVet account for now"
         href={returnUrl}
       />
     </div>
