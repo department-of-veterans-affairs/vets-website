@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
-const AutoCompleteWrapper = props => (
-  <AutoComplete
-    availableResults={props.uiSchema['ui:options'].disabilityLabels}
-    label={props.uiSchema['ui:title']}
-    formData={props.formData}
-    onChange={props.onChange}
-  />
-);
-
-const AutoComplete = ({ formData, label, availableResults, onChange }) => {
+const AutoComplete = ({ availableResults, formData, label, onChange }) => {
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -55,16 +47,8 @@ const AutoComplete = ({ formData, label, availableResults, onChange }) => {
     } else if (e.key === 'Escape') {
       setIsOpen(false);
     } else if (e.key === 'Tab') {
-      selectItem(results[activeIndex]);
+      onChange(value);
     }
-  };
-
-  const handleItemClick = item => {
-    selectItem(item);
-  };
-
-  const handleBlur = () => {
-    setTimeout(() => setIsOpen(false));
   };
 
   return (
@@ -76,7 +60,7 @@ const AutoComplete = ({ formData, label, availableResults, onChange }) => {
         value={value}
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
-        onBlur={handleBlur}
+        onBlur={() => setTimeout(() => setIsOpen(false), 100)}
         aria-expanded={isOpen}
         aria-controls="autocomplete-list"
         role="combobox"
@@ -90,19 +74,15 @@ const AutoComplete = ({ formData, label, availableResults, onChange }) => {
             className={`cc-combobox__list ${
               isOpen ? 'cc-combobox__list--open' : ''
             }`}
-            style={{ maxHeight: 440, overflowY: 'auto' }}
           >
             {results.map((item, index) => (
               <li
                 key={item}
-                onClick={() => handleItemClick(item)}
-                onKeyDown={event => {
-                  if (event.key === 'Enter') selectItem(item);
-                }}
+                onClick={() => selectItem(item)}
+                onKeyDown={handleKeyDown}
                 className={`cc-combobox__option ${
                   activeIndex === index ? 'cc-combobox__option--active' : ''
-                }`}
-                style={{ cursor: 'pointer' }}
+                } ${index === 0 ? 'cc-combobox__option--free' : ''}`}
                 onMouseEnter={() => setActiveIndex(index)}
                 role="option"
                 aria-selected={activeIndex === index}
@@ -115,6 +95,29 @@ const AutoComplete = ({ formData, label, availableResults, onChange }) => {
         )}
     </div>
   );
+};
+
+AutoComplete.propTypes = {
+  availableResults: PropTypes.array,
+  formData: PropTypes.string,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+const AutoCompleteWrapper = props => (
+  <AutoComplete
+    availableResults={props.uiSchema['ui:options'].disabilityLabels}
+    label={props.uiSchema['ui:title']}
+    formData={props.formData}
+    onChange={props.onChange}
+  />
+);
+
+AutoCompleteWrapper.propTypes = {
+  formData: PropTypes.string,
+  idSchema: PropTypes.object,
+  uiSchema: PropTypes.object,
+  onChange: PropTypes.func,
 };
 
 export default AutoCompleteWrapper;
