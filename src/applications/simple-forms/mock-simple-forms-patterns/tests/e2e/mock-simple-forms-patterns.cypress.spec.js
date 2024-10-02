@@ -12,7 +12,6 @@ import {
 
 import formConfig from '../../config/form';
 import manifest from '../../manifest.json';
-
 import pagePaths from './pagePaths';
 
 const testConfig = createTestConfig(

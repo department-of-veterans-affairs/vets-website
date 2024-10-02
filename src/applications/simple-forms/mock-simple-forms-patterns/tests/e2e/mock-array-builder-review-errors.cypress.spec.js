@@ -24,6 +24,7 @@ const stateMachine = stateSequence();
 
 function goNextState() {
   const state = stateMachine.next();
+
   if (!state.done) {
     cy.log(`
 **********
