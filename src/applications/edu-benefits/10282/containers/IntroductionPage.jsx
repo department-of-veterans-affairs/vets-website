@@ -1,18 +1,24 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import FormTitle from 'platform/forms-system/src/js/components/FormTitle';
 
 import scrollToTop from 'platform/utilities/ui/scrollToTop';
 import { focusElement } from 'platform/utilities/ui';
 
-const IntroductionPage = () => {
+const IntroductionPage = ({ router }) => {
   useEffect(() => {
     focusElement('.schemaform-title > h1');
     scrollToTop();
   }, []);
 
+  const startForm = event => {
+    event.preventDefault();
+    router.push('/applicant/information');
+  };
+
   return (
-    <article className="schemaform-intro vads-u-padding-bottom--3 small-screen:vads-u-padding-bottom--6">
+    <article className="schemaform-intro vads-u-padding-bottom--3 mobile-lg:vads-u-padding-bottom--6">
       <FormTitle title="Apply for the IBM SkillsBuild program" />
       <p className="vads-u-margin-top--0 vads-u-margin-bottom--4">
         IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)
@@ -22,7 +28,7 @@ const IntroductionPage = () => {
         you develop skills to start or advance your career in technology.
       </p>
 
-      <h2 className="vads-u-margin-y--3 small-screen:vads-u-margin-y--4">
+      <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         What to know before you fill out this form
       </h2>
       <ul className="intro-ul">
@@ -41,9 +47,10 @@ const IntroductionPage = () => {
         </li>
       </ul>
 
-      <div className="vads-u-margin-y--2 small-screen:vads-u-margin-y--3">
+      <div className="vads-u-margin-y--2 mobile-lg:vads-u-margin-y--3">
         <va-link-action
-          href="/education/apply-for-education-benefits/10282/information"
+          href="#"
+          onClick={startForm}
           text="Start your application"
         />
       </div>
@@ -57,6 +64,12 @@ const IntroductionPage = () => {
       </div>
     </article>
   );
+};
+
+IntroductionPage.propTypes = {
+  router: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default IntroductionPage;
