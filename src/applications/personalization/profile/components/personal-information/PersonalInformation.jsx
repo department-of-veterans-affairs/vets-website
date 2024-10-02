@@ -12,7 +12,6 @@ import { focusElement } from '~/platform/utilities/ui';
 
 import Headline from '../ProfileSectionHeadline';
 import PersonalInformationContent from './PersonalInformationContent';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 // drops the leading `edit` from the hash and looks for that element
 const getScrollTarget = hash => {
@@ -109,7 +108,7 @@ const PersonalInformation = () => {
       <Headline>Personal information</Headline>
 
       <DowntimeNotification
-        render={handleDowntimeForSection('personal')}
+        appTitle="personal information page"
         dependencies={[externalServices.VAPRO_PERSONAL_INFO]}
       >
         <PersonalInformationContent

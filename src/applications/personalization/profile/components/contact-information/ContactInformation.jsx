@@ -12,7 +12,6 @@ import DowntimeNotification, {
 import { hasVAPServiceConnectionError } from '~/platform/user/selectors';
 import { focusElement } from '~/platform/utilities/ui';
 
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 
 import ContactInformationContent from './ContactInformationContent';
@@ -134,7 +133,7 @@ const ContactInformation = () => {
       />
       <Headline>Contact information</Headline>
       <DowntimeNotification
-        render={handleDowntimeForSection('contact')}
+        appTitle="contact information page"
         dependencies={[externalServices.VAPRO_CONTACT_INFO]}
       >
         <ContactInformationContent

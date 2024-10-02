@@ -12,7 +12,6 @@ import Contacts from './Contacts';
 import Loading from './Loading';
 import LoadFail from '../alerts/LoadFail';
 import NonVAPatientMessage from './NonVAPatientMessage';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 const PAGE_TITLE = 'Personal Health Care Contacts | Veterans Affairs';
 
@@ -45,8 +44,7 @@ const PersonalHealthCareContacts = ({
         Personal health care contacts
       </h1>
       <DowntimeNotification
-        appTitle="direct deposit"
-        render={handleDowntimeForSection('personal health care contacts')}
+        appTitle="personal health care contacts page"
         dependencies={[externalServices.VAPRO_HEALTH_CARE_CONTACTS]}
       >
         {vaPatient ? (

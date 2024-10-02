@@ -17,7 +17,6 @@ import LoadFail from '../alerts/LoadFail';
 import Headline from '../ProfileSectionHeadline';
 import { AppDeletedAlert } from './AppDeletedAlert';
 import { ConnectedApp } from './ConnectedApp';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 export class ConnectedApps extends Component {
   constructor(...args) {
@@ -90,7 +89,7 @@ export class ConnectedApps extends Component {
         <Headline>Connected apps</Headline>
 
         <DowntimeNotification
-          render={handleDowntimeForSection('connected applications')}
+          appTitle="connected applications page"
           dependencies={[externalServices.UNKNOWN]}
         >
           {showHasConnectedApps && (

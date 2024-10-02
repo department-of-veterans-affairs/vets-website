@@ -36,7 +36,6 @@ import MissingContactInfoAlert from './MissingContactInfoAlert';
 import NotificationGroup from './NotificationGroup';
 import { FieldHasBeenUpdated as FieldHasBeenUpdatedAlert } from '../alerts/FieldHasBeenUpdated';
 import { MissingContactInfoExpandable } from './MissingContactInfoExpandable';
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 
 const NotificationSettings = ({
   emailAddress,
@@ -127,7 +126,7 @@ const NotificationSettings = ({
       <Headline>{PROFILE_PATH_NAMES.NOTIFICATION_SETTINGS}</Headline>
 
       <DowntimeNotification
-        render={handleDowntimeForSection('notification settings')}
+        appTitle="notification settings page"
         dependencies={[externalServices.VAPRO_NOTIFICATION_SETTINGS]}
       >
         {shouldShowLoadingIndicator && (

@@ -4,7 +4,6 @@ import DowntimeNotification, {
 } from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
-import { handleDowntimeForSection } from '../alerts/DowntimeBanner';
 import Headline from '../ProfileSectionHeadline';
 
 import AccountSecurityContent from './AccountSecurityContent';
@@ -25,7 +24,7 @@ class AccountSecurity extends Component {
       <>
         <Headline>Account security</Headline>
         <DowntimeNotification
-          render={handleDowntimeForSection('account security')}
+          appTitle="account security page"
           dependencies={[externalServices.UNKNOWN]}
         >
           <AccountSecurityContent />
