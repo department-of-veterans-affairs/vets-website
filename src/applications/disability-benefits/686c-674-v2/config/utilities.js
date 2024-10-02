@@ -1,6 +1,6 @@
 import fullSchema from 'vets-json-schema/dist/686C-674-schema.json';
 import _ from 'platform/utilities/data';
-import cloneDeep from 'platform/utilities/data/cloneDeep';
+import cloneDeep from 'lodash/cloneDeep';
 import { validateWhiteSpace } from 'platform/forms/validations';
 import {
   filterInactivePageData,
