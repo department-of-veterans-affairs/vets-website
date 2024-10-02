@@ -27,7 +27,7 @@ const Draft = ({
         </h3>
         <p
           id={formId}
-          className="vads-u-text-transform--uppercase vads-u-margin-bottom--2"
+          className="vads-u-text-transform--uppercase vads-u-margin-top--0p5 vads-u-margin-bottom--2"
         >
           {/* TODO: rethink our helpers for presentable form ID */}
           VA {presentableFormId.replace(/\bFORM\b/, 'Form')}
