@@ -10,7 +10,7 @@ import formConfig from '../../../../config/form';
 
 const defaultStore = createCommonStore();
 
-// Array options
+// deaths array options
 
 describe('deceasedDependentOptions', () => {
   it('should have the correct base properties', () => {
@@ -50,6 +50,39 @@ describe('deceasedDependentOptions', () => {
       };
       expect(deceasedDependentOptions.isItemIncomplete(completeItem)).to.be
         .false;
+    });
+
+    it('should return true if state is missing and outsideUsa is false', () => {
+      const incompleteItem = {
+        fullName: { first: 'John', last: 'Doe' },
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentType: 'spouse',
+        dependentDeathLocation: {
+          location: { city: 'Some City' },
+          outsideUsa: false,
+        },
+        dependentDeathDate: '1991-01-19',
+      };
+      expect(deceasedDependentOptions.isItemIncomplete(incompleteItem)).to.be
+        .true;
+    });
+
+    it('should return false if state is missing but outsideUsa is true', () => {
+      const completeItemWithoutState = {
+        fullName: { first: 'John', last: 'Doe' },
+        ssn: '333445555',
+        birthDate: '1991-02-19',
+        dependentType: 'spouse',
+        dependentDeathLocation: {
+          location: { city: 'Some City' },
+          outsideUsa: true,
+        },
+        dependentDeathDate: '1991-01-19',
+      };
+      expect(
+        deceasedDependentOptions.isItemIncomplete(completeItemWithoutState),
+      ).to.be.false;
     });
   });
 
@@ -106,7 +139,7 @@ describe('deceasedDependentOptions', () => {
   });
 });
 
-// Array pages
+// deaths array pages
 
 const formData = (state = 'CA') => {
   return {
