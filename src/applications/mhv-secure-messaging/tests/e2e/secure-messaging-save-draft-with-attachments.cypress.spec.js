@@ -4,7 +4,7 @@ import PatientComposePage from './pages/PatientComposePage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import mockDraftMessages from './fixtures/drafts-response.json';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import mockThreadResponse from './fixtures/single-draft-response.json';
+import mockThreadResponse from './fixtures/draftsResponse/single-draft-response.json';
 import { AXE_CONTEXT, Data, Locators, Alerts } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {

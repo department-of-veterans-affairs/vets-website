@@ -85,10 +85,7 @@ class PatientComposePage {
   };
 
   getMessageBodyField = () => {
-    return cy
-      .get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[name="compose-message-body"]');
+    return cy.get(Locators.MESSAGE_BODY);
   };
 
   getElectronicSignatureField = () => {
@@ -306,10 +303,7 @@ class PatientComposePage {
   };
 
   clickDeleteDraftModalButton = () => {
-    cy.get(Locators.ALERTS.DELETE_DRAFT)
-      .parent()
-      .find('va-button[text="Delete draft"]')
-      .click();
+    cy.get(Locators.ALERTS.DELETE_DRAFT).click();
   };
 
   clickOnContinueEditingButton = () => {

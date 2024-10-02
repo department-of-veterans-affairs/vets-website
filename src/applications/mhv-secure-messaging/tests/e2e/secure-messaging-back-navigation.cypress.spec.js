@@ -5,7 +5,7 @@ import requestBody from './fixtures/message-compose-request-body.json';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import { AXE_CONTEXT, Locators, Paths } from './utils/constants';
 import mockDraftResponse from './fixtures/message-draft-response.json';
-import mockThreadResponse from './fixtures/single-draft-response.json';
+import mockThreadResponse from './fixtures/draftsResponse/single-draft-response.json';
 import { Alerts, DefaultFolders } from '../../util/constants';
 
 describe('SM back navigation', () => {

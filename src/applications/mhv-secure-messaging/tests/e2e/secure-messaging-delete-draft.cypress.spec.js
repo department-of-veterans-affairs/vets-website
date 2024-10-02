@@ -4,7 +4,7 @@ import PatientInboxPage from './pages/PatientInboxPage';
 import PatientInterstitialPage from './pages/PatientInterstitialPage';
 import PatientMessageDraftsPage from './pages/PatientMessageDraftsPage';
 import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import mockThreadResponse from './fixtures/single-draft-response.json';
+import mockThreadResponse from './fixtures/draftsResponse/single-draft-response.json';
 import { AXE_CONTEXT } from './utils/constants';
 
 describe('Secure Messaging Delete Draft', () => {

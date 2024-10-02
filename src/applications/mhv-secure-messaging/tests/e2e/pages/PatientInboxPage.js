@@ -204,10 +204,10 @@ class PatientInboxPage {
     return mockMessages.data.at(this.newMessageIndex);
   };
 
-  getNewMessageDetails = () => {
+  getNewMessageDetails = (message = mockMessageDetails) => {
     const date = new Date();
     date.setDate(date.getDate() - 1);
-    const newMessage = mockMessageDetails;
+    const newMessage = message;
     newMessage.data.attributes.sentDate = date.toISOString();
     return newMessage;
   };

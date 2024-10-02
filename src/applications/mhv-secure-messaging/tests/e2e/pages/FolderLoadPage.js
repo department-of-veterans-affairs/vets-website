@@ -101,7 +101,7 @@ class FolderLoadPage {
     });
   };
 
-  backToInbox = () => {
+  backToParentFolder = () => {
     cy.get(Locators.BACK_TO).click({ force: true });
   };
 

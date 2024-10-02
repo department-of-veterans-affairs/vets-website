@@ -6,8 +6,9 @@ import PatientInterstitialPage from '../pages/PatientInterstitialPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import { Alerts, AXE_CONTEXT, Data } from '../utils/constants';
 import PatientComposePage from '../pages/PatientComposePage';
+import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
 
-describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
+describe('SM NAVIGATE AWAY FROM UNSAVED REPLY DRAFT', () => {
   beforeEach(() => {
     SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
@@ -20,7 +21,10 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
   });
 
   it('navigate away with no data', () => {
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
+
+    GeneralFunctionsPage.verifyUrl(`inbox`);
+    GeneralFunctionsPage.verifyPageHeader(`Inbox`);
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
@@ -29,7 +33,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
   it('navigate away with no data and attachment', () => {
     PatientComposePage.attachMessageFromFile();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
@@ -42,7 +46,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
   it('navigate away with required data', () => {
     PatientComposePage.enterDataToMessageBody();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_DRAFT,
@@ -59,7 +63,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.enterDataToMessageBody();
     PatientComposePage.attachMessageFromFile();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_ATTCH,

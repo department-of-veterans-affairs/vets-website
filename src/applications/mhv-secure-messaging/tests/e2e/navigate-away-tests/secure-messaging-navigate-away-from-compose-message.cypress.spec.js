@@ -14,7 +14,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
   it('navigate away with no data', () => {
     PatientInboxPage.navigateToComposePage();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
     GeneralFunctionsPage.verifyUrl(`inbox`);
 
     cy.injectAxe();
@@ -25,7 +25,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.attachMessageFromFile();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
@@ -40,7 +40,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.selectRecipient();
     PatientComposePage.selectCategory();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
@@ -56,7 +56,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.selectCategory();
     PatientComposePage.attachMessageFromFile();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
@@ -73,7 +73,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.enterDataToMessageSubject();
     PatientComposePage.enterDataToMessageBody();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_DRAFT,
@@ -94,7 +94,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
     PatientComposePage.enterDataToMessageBody();
     PatientComposePage.attachMessageFromFile();
 
-    FolderLoadPage.backToInbox();
+    FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_ATTCH,

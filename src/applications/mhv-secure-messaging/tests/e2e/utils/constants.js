@@ -283,6 +283,7 @@ export const Alerts = {
   VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
   VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
   SAVE_DRAFT: `Do you want to save your draft message?`,
+  SAVE_CHANGES: 'Do you want to save your changes to this draft?',
 };
 
 export const Data = {
@@ -341,6 +342,8 @@ export const Data = {
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
     SAVE_AND_EXIT: `Save contact list`,
     GO_BACK: `Go back`,
+    SAVE_CHANGES: 'Save changes',
+    DELETE_CHANGES: 'Delete changes',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
 };

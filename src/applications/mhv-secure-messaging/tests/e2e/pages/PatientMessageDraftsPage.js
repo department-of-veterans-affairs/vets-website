@@ -1,7 +1,7 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
-import mockSingleDraft from '../fixtures/single-draft-response.json';
+import mockSingleDraft from '../fixtures/draftsResponse/single-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
@@ -9,7 +9,9 @@ import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
-import mockDraftsRespone from '../fixtures/draftsResponse/drafts-messages-response.json';
+import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
+import mockReplyDraftResponse from '../fixtures/draftPageResponses/single-reply-draft-response.json';
+import mockSavedDraftResponse from '../fixtures/draftPageResponses/single-saved-draft-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
@@ -30,6 +32,8 @@ class PatientMessageDraftsPage {
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
       messagesResponse,
     ).as('draftsResponse');
+    FolderLoadPage.loadFolders();
+    cy.get('[data-testid="Drafts"]>a').click({ force: true });
   };
 
   loadDraftMessages = (
@@ -37,14 +41,8 @@ class PatientMessageDraftsPage {
     detailedMessage = mockDraftResponse,
   ) => {
     this.mockDraftMessages = draftMessages;
-    cy.log(
-      `draft messages before set Draft Test Message Details = ${JSON.stringify(
-        this.mockDraftMessages,
-      )}`,
-    );
     this.setDraftTestMessageDetails(detailedMessage);
 
-    cy.log(`draft messages  = ${JSON.stringify(this.mockDraftMessages)}`);
     cy.intercept(
       'GET',
       `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
@@ -65,8 +63,9 @@ class PatientMessageDraftsPage {
   setDraftTestMessageDetails = mockMessage => {
     if (this.mockDraftMessages.data.length > 0) {
       cy.log(`draftMessages size ${this.mockDraftMessages.data.length}`);
-      this.mockDraftMessages.data.at(0).attributes.sentDate =
-        mockMessage.data.attributes.sentDate;
+      this.mockDraftMessages.data.at(
+        0,
+      ).attributes.sentDate = new Date().toISOString();
       this.mockDraftMessages.data.at(0).attributes.messageId =
         mockMessage.data.attributes.messageId;
       this.mockDraftMessages.data.at(0).attributes.subject =
@@ -172,26 +171,35 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleDraft = (singleDraftThread = mockSingleDraft, singleDraft) => {
+  loadSingleDraft = (singleDraftThread = mockSavedDraftResponse) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        mockMessages.data[0].attributes.messageId
+        mockDraftsRespone.data[0].attributes.messageId
       }/thread*`,
       singleDraftThread,
     ).as('full-thread');
 
+    cy.contains(mockDraftsRespone.data[0].attributes.subject).click({
+      waitForAnimations: true,
+    });
+  };
+
+  loadSingleReplyDraft = (singleReplyDraftThread = mockReplyDraftResponse) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${
-        singleDraftThread.data[0].attributes.messageId
-      }`,
-      singleDraft,
-    ).as('fist-message-in-thread');
+        mockDraftsRespone.data[0].attributes.messageId
+      }/thread*`,
+      singleReplyDraftThread,
+    ).as('full-thread');
 
-    cy.contains(mockMessages.data[0].attributes.subject).click({
+    cy.contains(mockDraftsRespone.data[0].attributes.subject).click({
       waitForAnimations: true,
     });
+    cy.get(`[subheader]`)
+      .eq(0)
+      .click();
   };
 
   loadMultiDraftThread = (mockResponse = mockMultiDraftsResponse) => {
