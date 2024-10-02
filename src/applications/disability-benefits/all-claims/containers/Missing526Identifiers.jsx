@@ -5,6 +5,14 @@ import { CONTACTS } from '@department-of-veterans-affairs/component-library/cont
 import recordEvent from 'platform/monitoring/record-event';
 import readableList from 'platform/forms-system/src/js/utilities/data/readableList';
 
+const READABLE_IDENTIFIER_MAPPING = {
+  participantId: 'Participant ID',
+  birlsId: 'BIRLS ID',
+  ssn: 'Social Security Number',
+  birthDate: 'Date of Birth',
+  edipi: 'EDIPI',
+};
+
 // Downcases the first char in the capitalized form title passed to this component
 // This is needed because we reference it within a sentence
 const titleLowerCase = (title = '') => {
@@ -23,14 +31,6 @@ const filterMissingIdentifiers = form526RequiredIdentifers => {
 };
 
 const formatMissingIdentifiers = missingIdentifiers => {
-  const READABLE_IDENTIFIER_MAPPING = {
-    participantId: 'Participant ID',
-    birlsId: 'BIRLS ID',
-    ssn: 'Social Security Number',
-    birthDate: 'Date of Birth',
-    edipi: 'EDIPI',
-  };
-
   const readableIdentifiers = missingIdentifiers.map(
     idName => READABLE_IDENTIFIER_MAPPING[idName],
   );
@@ -41,22 +41,17 @@ const formatMissingIdentifiers = missingIdentifiers => {
 const okMessageToDisplayText = missingIdentifiers => {
   if (!missingIdentifiers) return '';
 
-  const messages = {
-    birlsId: "It's ok if you don't know your BIRLS ID.",
-    edipi: "It's ok if you don't know your EDIPI ID.",
-  };
+  const OK_IF_NOT_KNOWN = ['participantId', 'birlsId', 'edipi'];
 
-  const missingMessages = Object.keys(messages)
-    .filter(key => missingIdentifiers.includes(key))
-    .map(key => messages[key]);
+  const readableIdentifiers = missingIdentifiers
+    .filter(id => OK_IF_NOT_KNOWN.includes(id))
+    .map(idName => READABLE_IDENTIFIER_MAPPING[idName]);
+  if (readableIdentifiers.length === 0) return '';
 
-  if (missingMessages.length === 2) {
-    return "It's ok if you don't know your BIRLS ID or EDIPI ID.";
-  }
-  if (missingMessages.length === 0) {
-    return '';
-  }
-  return missingMessages[0];
+  return ` It's ok if you don't know your ${readableList(
+    readableIdentifiers,
+    'or',
+  )}.`;
 };
 
 const Alert = ({ children, title }) => (
@@ -107,9 +102,9 @@ const displayContent = (title, form526RequiredIdentifers) => {
         before you can {titleLowerCase(title)}. Call us at{' '}
         <va-telephone contact={CONTACTS.HELP_DESK} /> (
         <va-telephone contact={CONTACTS['711']} tty />) to update your
-        information. {itsOkDisplayMessage} We’re here 24/7. Tell the
-        representative that you want to add this missing information to your
-        file.
+        information. We’re here 24/7.
+        {itsOkDisplayMessage} Tell the representative that you want to add this
+        missing information to your file.
       </p>
     </>
   );
