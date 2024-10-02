@@ -248,7 +248,7 @@ class YourClaimsPageV2 extends React.Component {
             <ClaimLetterSection />
             <FeaturesWarning />
             <h2 id="what-if-i-dont-see-my-appeal">
-              What if I don’t see my appeal?
+              What if I can't find my claim or decision review?
             </h2>
             <p>
               If you submitted a Notice of Disagreement for an appeal within the
