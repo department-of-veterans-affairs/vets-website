@@ -1,7 +1,7 @@
 import mockDraftFolderMetaResponse from '../fixtures/folder-drafts-metadata.json';
 import mockDraftMessagesResponse from '../fixtures/drafts-response.json';
 import mockDraftResponse from '../fixtures/message-draft-response.json';
-import defaultMockThread from '../fixtures/single-draft-response.json';
+import mockSingleDraft from '../fixtures/single-draft-response.json';
 import { AXE_CONTEXT, Locators, Paths } from '../utils/constants';
 import sentSearchResponse from '../fixtures/sentResponse/sent-search-response.json';
 import mockSortedMessages from '../fixtures/draftsResponse/sorted-drafts-messages-response.json';
@@ -9,13 +9,28 @@ import { Alerts } from '../../../util/constants';
 import mockMultiDraftsResponse from '../fixtures/draftsResponse/multi-draft-response.json';
 import mockMessages from '../fixtures/messages-response.json';
 import FolderLoadPage from './FolderLoadPage';
+import mockDraftsRespone from '../fixtures/draftsResponse/drafts-messages-response.json';
 
 class PatientMessageDraftsPage {
   mockDraftMessages = mockDraftMessagesResponse;
 
   mockDetailedMessage = mockDraftResponse;
 
-  currentThread = defaultMockThread;
+  currentThread = mockSingleDraft;
+
+  loadDrafts = (messagesResponse = mockDraftsRespone) => {
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2*`,
+      mockDraftFolderMetaResponse,
+    ).as('draftsFolderMetaResponse');
+
+    cy.intercept(
+      'GET',
+      `${Paths.INTERCEPT.MESSAGE_FOLDERS}/-2/threads**`,
+      messagesResponse,
+    ).as('draftsResponse');
+  };
 
   loadDraftMessages = (
     draftMessages = mockDraftMessagesResponse,
@@ -66,7 +81,7 @@ class PatientMessageDraftsPage {
 
   loadMessageDetails = (
     mockParentMessageDetails,
-    mockThread = defaultMockThread,
+    mockThread = mockSingleDraft,
     previousMessageIndex = 1,
     mockPreviousMessageDetails = mockDraftResponse,
   ) => {
@@ -157,7 +172,7 @@ class PatientMessageDraftsPage {
     cy.wait('@full-thread');
   };
 
-  loadSingleDraft = (singleDraftThread, singleDraft) => {
+  loadSingleDraft = (singleDraftThread = mockSingleDraft, singleDraft) => {
     cy.intercept(
       'GET',
       `${Paths.SM_API_EXTENDED}/${

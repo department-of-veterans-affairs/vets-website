@@ -27,7 +27,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
 
     FolderLoadPage.backToInbox();
 
-    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+    PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
     PatientComposePage.clickDeleteDraftModalButton();
 
@@ -42,7 +42,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
 
     FolderLoadPage.backToInbox();
 
-    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+    PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
     PatientComposePage.clickDeleteDraftModalButton();
 
@@ -58,7 +58,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
 
     FolderLoadPage.backToInbox();
 
-    PatientComposePage.verifyCantSaveYetAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+    PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
 
     PatientComposePage.clickDeleteDraftModalButton();
 
@@ -75,7 +75,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
 
     FolderLoadPage.backToInbox();
 
-    PatientComposePage.verifyCantSaveYetAlert(
+    PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_DRAFT,
       Data.BUTTONS.SAVE_DRAFT,
     );
@@ -96,7 +96,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
 
     FolderLoadPage.backToInbox();
 
-    PatientComposePage.verifyCantSaveYetAlert(
+    PatientComposePage.verifyCantSaveAlert(
       Alerts.SAVE_ATTCH,
       Data.BUTTONS.EDIT_DRAFT,
       Data.BUTTONS.SAVE_DRAFT_WO_ATTCH,

@@ -96,17 +96,11 @@ class PatientComposePage {
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('[name="message-subject"]')
-      .type(text, { force: true });
+    cy.get(Locators.MESSAGE_SUBJECT).type(text, { force: true });
   };
 
   enterDataToMessageBody = (text = this.messageBodyText) => {
-    cy.get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[name="compose-message-body"]')
-      .type(text, { force: true });
+    cy.get(Locators.MESSAGE_BODY).type(text, { force: true });
   };
 
   verifyFocusOnMessageAttachment = () => {
@@ -507,10 +501,9 @@ class PatientComposePage {
 
   backToInbox = () => {
     cy.get(Locators.BACK_TO).click();
-    cy.get('[visible=""] > [secondary=""]').click({ force: true });
   };
 
-  verifyCantSaveYetAlert = (
+  verifyCantSaveAlert = (
     alertText,
     firstBtnText = `Edit draft`,
     secondBtnText = `Delete draft`,
