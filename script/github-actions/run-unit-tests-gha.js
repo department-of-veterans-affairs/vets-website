@@ -111,7 +111,7 @@ if (testsToVerify === null) {
         : `--recursive ${glob.sync(updatedPath)}`;
       const command = `LOG_LEVEL=${options[
         'log-level'
-      ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+      ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
         /,/g,
         ' ',
       )} `;
@@ -153,7 +153,7 @@ if (testsToVerify === null) {
       if (testsToRun !== '') {
         const command = `LOG_LEVEL=${options[
           'log-level'
-        ].toLowerCase()} ${testRunner} --max-old-space-size=8192 --config ${configFile} ${testsToRun.replace(
+        ].toLowerCase()} ${testRunner} --max-old-space-size=32768 --config ${configFile} ${testsToRun.replace(
           /,/g,
           ' ',
         )} `;
