@@ -95,12 +95,15 @@ describe('Review Page', () => {
   });
 
   it('should show the correct number of edit links', () => {
-    const { getAllByTestId, unmount } = render(
+    const { container, unmount } = render(
       <Provider store={mockStoreStandard}>
         <ReviewPage {...propsStandard} />
       </Provider>,
     );
-    const editLinks = getAllByTestId('duw-edit-link');
+
+    const editLinks = container.querySelectorAll(
+      "[data-testid*='duw-edit-link']",
+    );
     expect(editLinks).to.have.lengthOf(4);
     unmount();
   });

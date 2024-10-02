@@ -59,7 +59,7 @@ describe('Character of Discharge Form', () => {
 
   it('should render the correct link in the description for characterOfDischargeTWO', () => {
     const link = $('a', container);
-    const linkText = 'Learn more about the discharge upgrade process.';
+    const linkText = 'Learn more about the discharge upgrade process';
     const href = 'https://www.va.gov/discharge-upgrade-instructions';
 
     expect(link).to.exist;
