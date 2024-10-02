@@ -36,7 +36,7 @@ describe('EZR TERA flow', () => {
 
     advanceToEmergencyContacts();
 
-    selectYesNoWebComponent('view:hasEmergencyContacts', true);
+    selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
     goToNextPage(
       '/update-benefits-information-form-10-10ezr/emergency-contacts/0/contact',
     );
@@ -67,7 +67,7 @@ describe('EZR TERA flow', () => {
     );
     cy.findByText(contact.primaryPhone).should('exist');
 
-    selectYesNoWebComponent('view:hasEmergencyContacts', true);
+    selectYesNoWebComponent('view:isEmergencyContactsEnabled', true);
     cy.tabToElementAndPressSpace('.usa-button-primary');
 
     contact = testData.veteranContacts[1];

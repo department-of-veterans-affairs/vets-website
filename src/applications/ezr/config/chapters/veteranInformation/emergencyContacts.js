@@ -1,18 +1,4 @@
-import merge from 'lodash/merge';
-import ezrSchema from 'vets-json-schema/dist/10-10EZR-schema.json';
 import { arrayBuilderPages } from '~/platform/forms-system/src/js/patterns/array-builder';
-import {
-  arrayBuilderYesNoSchema,
-  arrayBuilderYesNoUI,
-  addressUI,
-  addressSchema,
-  fullNameUI,
-  phoneUI,
-  selectUI,
-  titleUI,
-  yesNoUI,
-  yesNoSchema,
-} from '~/platform/forms-system/src/js/web-component-patterns';
 import {
   getItemName,
   getCardDescription,
@@ -21,14 +7,17 @@ import {
   getDeleteDescription,
 } from '../../../utils/helpers/emergencyContactUtils';
 import content from '../../../locales/en/content.json';
-import { isEmergencyContactsEnabled } from '../../../utils/helpers/form-config';
+// import {} from '../../../utils/helpers/form-config';
+import {
+  emergencyContactsPage,
+  emergencyContactsAddressPage,
+  summaryPage,
+} from '../../../definitions/emergencyContacts';
 
-const {
-  veteranContacts: { items: contact },
-} = ezrSchema.properties;
-
-const { fullName, primaryPhone, relationship, address } = contact.properties;
-
+/**
+ * Declare attributes for array builder pattern
+ * @type {ArrayBuilderOptions}
+ */
 const arrayBuilderOptions = {
   arrayPath: 'veteranContacts',
   nounSingular: 'emergency contact',
@@ -47,109 +36,33 @@ const arrayBuilderOptions = {
     deleteYes: getDeleteYes,
     deleteDescription: getDeleteDescription,
   },
-  depends: isEmergencyContactsEnabled,
 };
 
-const emergencyContactsPage = {
-  uiSchema: {
-    ...titleUI(
-      content['emergency-contact-title'],
-      content['emergency-contact-description'],
-    ),
-    fullName: fullNameUI(title => `Emergency contact's ${title}`, {
-      first: {
-        'ui:errorMessages': {
-          required: 'Please enter a first name',
-        },
-      },
-      last: {
-        'ui:errorMessages': {
-          required: 'Please enter a last name',
-        },
-      },
-    }),
+// build schemas based on declared options
+const summaryPageSchemas = summaryPage(arrayBuilderOptions);
+const emergencyContactsPageSchemas = emergencyContactsPage(arrayBuilderOptions);
+const emergencyContactsAddressPageSchemas = emergencyContactsAddressPage(
+  arrayBuilderOptions,
+);
 
-    primaryPhone: {
-      ...phoneUI(content['emergency-contact-phone']),
-      'ui:errorMessages': {
-        required: content['phone-number-error-message'],
-        pattern: content['phone-number-error-message'],
-      },
-    },
-    relationship: selectUI({
-      title: content['emergency-contact-relationship'],
-      errorMessages: {
-        required: content['emergency-contact-relationship-error-message'],
-      },
-    }),
-    'view:hasEmergencyContactAddress': yesNoUI(
-      content['emergency-contact-address-label'],
-    ),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      fullName,
-      primaryPhone,
-      relationship,
-      'view:hasEmergencyContactAddress': yesNoSchema,
-    },
-    required: [
-      'fullName',
-      'primaryPhone',
-      'relationship',
-      'view:hasEmergencyContactAddress',
-    ],
-  },
-};
-
-const emergencyContactsAddressPage = {
-  uiSchema: {
-    ...titleUI(content['emergency-contact-address-title'], ' '),
-    address: addressUI(),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      address: merge({}, addressSchema(), {
-        properties: address.properties,
-      }),
-    },
-    required: ['address'],
-  },
-};
-
-const summaryPage = {
-  uiSchema: {
-    'view:hasEmergencyContacts': arrayBuilderYesNoUI(arrayBuilderOptions, {
-      title: content['emergency-contact-add-contacts-label'],
-      labelHeaderLevel: 'p',
-      hint: ' ',
-    }),
-  },
-  schema: {
-    type: 'object',
-    properties: {
-      'view:hasEmergencyContacts': arrayBuilderYesNoSchema,
-    },
-    required: ['view:hasEmergencyContacts'],
-  },
-};
-
+/**
+ * build list of pages to populate in the form config
+ * @returns {ArrayBuilderPages}
+ */
 const emergencyContactPages = arrayBuilderPages(
   arrayBuilderOptions,
   (pageBuilder, helpers) => ({
     emergencyContactsSummary: pageBuilder.summaryPage({
       title: content['emergency-contact-summary-title'],
       path: 'emergency-contacts-summary',
-      uiSchema: summaryPage.uiSchema,
-      schema: summaryPage.schema,
+      uiSchema: summaryPageSchemas.uiSchema,
+      schema: summaryPageSchemas.schema,
     }),
     emergencyContactsPage: pageBuilder.itemPage({
       title: content['emergency-contact-title'],
       path: 'emergency-contacts/:index/contact',
-      uiSchema: emergencyContactsPage.uiSchema,
-      schema: emergencyContactsPage.schema,
+      uiSchema: emergencyContactsPageSchemas.uiSchema,
+      schema: emergencyContactsPageSchemas.schema,
       onNavForward: props => {
         return props.formData['view:hasEmergencyContactAddress']
           ? helpers.navForwardKeepUrlParams(props) // go to next page
@@ -159,8 +72,8 @@ const emergencyContactPages = arrayBuilderPages(
     emergencyContactsAddressPage: pageBuilder.itemPage({
       title: content['emergency-contact-address-title'],
       path: 'emergency-contacts/:index/contact-address',
-      uiSchema: emergencyContactsAddressPage.uiSchema,
-      schema: emergencyContactsAddressPage.schema,
+      uiSchema: emergencyContactsAddressPageSchemas.uiSchema,
+      schema: emergencyContactsAddressPageSchemas.schema,
     }),
   }),
 );

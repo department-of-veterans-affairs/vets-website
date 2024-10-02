@@ -22,7 +22,7 @@ export const advanceToDependents = () => {
   goToNextPage(
     '/update-benefits-information-form-10-10ezr/emergency-contacts-summary',
   );
-  selectYesNoWebComponent('view:hasEmergencyContacts', false);
+  selectYesNoWebComponent('view:isEmergencyContactsEnabled', false);
   goToNextPage('/military-service/toxic-exposure');
   cy.get('[name="root_hasTeraResponse"]').check('N');
 
