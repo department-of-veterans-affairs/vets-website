@@ -99,7 +99,7 @@ export default {
   'toxicExposure.gulfWar1990Details.airspace.startDate':
     'Service start date for the airspace above Gulf War locations on or after August 2, 1990',
   'toxicExposure.gulfWar1990Details.airspace.endDate':
-    'Service end date for Gulf War locations on or after August 2, 1990',
+    'Service end date for the airspace above Gulf War locations on or after August 2, 1990',
   'toxicExposure.gulfWar2001Details.djibouti.startDate':
     'Service start date for Djibouti',
   'toxicExposure.gulfWar2001Details.djibouti.endDate':
@@ -140,9 +140,9 @@ export default {
     'Service start date for Laos',
   'toxicExposure.herbicideDetails.laos.endDate': 'Service end date for Laos',
   'toxicExposure.herbicideDetails.c123.startDate':
-    'Service start date for Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+    'Service start date for somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
   'toxicExposure.herbicideDetails.c123.endDate':
-    'Service end date for Somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
+    'Service end date for somewhere you had contact with C-123 airplanes while serving in the Air Force or the Air Force Reserves',
   'toxicExposure.herbicideDetails.thailand.startDate':
     'Service start date for a U.S. or Royal Thai military base in Thailand',
   'toxicExposure.herbicideDetails.thailand.endDate':
@@ -151,6 +151,10 @@ export default {
     'Service start date for Vietnam or the waters in or off of Vietnam',
   'toxicExposure.herbicideDetails.vietnam.endDate':
     'Service end date for Vietnam or the waters in or off of Vietnam',
+  'toxicExposure.otherHerbicideLocations.startDate':
+    'Exposure start date for other Agent Orange locations',
+  'toxicExposure.otherHerbicideLocations.endDate':
+    'Exposure end date for other Agent Orange locations ',
   'toxicExposure.otherHerbicideLocations.description':
     'Agent Orange other locations',
   'toxicExposure.otherExposuresDetails.asbestos.startDate':
@@ -205,7 +209,7 @@ export default {
             pageKey: `herbicide-location-${errorParts[2]}`,
           };
         }
-        if (error.startsWith('toxicExposure.otherExposureDetails')) {
+        if (error.startsWith('toxicExposure.otherExposuresDetails')) {
           return {
             chapterKey: 'disabilities',
             pageKey: `additional-exposure-${errorParts[2]}`,
