@@ -1,6 +1,6 @@
 import FEATURE_FLAG_NAMES from 'platform/utilities/feature-toggles/featureFlagNames';
 import { toggleValues } from 'platform/site-wide/feature-toggles/selectors';
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import moment from 'moment';
 import React from 'react';
@@ -33,8 +33,17 @@ export const showPaymentHistory = state =>
 export const selectLoadingFeatureFlags = state =>
   state?.featureToggles?.loading;
 
+/**
+ * Helper function to consisently format date strings
+ *
+ * @param {string} date - date string or date type
+ * @returns formatted date string; example:
+ * - January 1, 2021
+ */
 export const formatDate = date => {
-  return format(new Date(date), 'MMMM d, yyyy');
+  const newDate =
+    typeof date === 'string' ? new Date(date.replace(/-/g, '/')) : date;
+  return isValid(newDate) ? format(new Date(newDate), 'MMMM d, y') : '';
 };
 
 export const currency = amount => {

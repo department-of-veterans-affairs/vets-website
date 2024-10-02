@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import moment from 'moment';
 import last from 'lodash/last';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { head } from 'lodash';
@@ -13,6 +12,7 @@ import {
   setPageFocus,
   debtLettersShowLettersVBMS,
   showPaymentHistory,
+  formatDate,
 } from '../../combined/utils/helpers';
 import { getCurrentDebt, currency } from '../utils/page';
 import {
@@ -117,7 +117,7 @@ const DebtDetails = () => {
           <p className="va-introtext">
             Updated on
             <span className="vads-u-margin-left--0p5">
-              {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
+              {formatDate(dateUpdated)}
             </span>
             . Payments after this date will not be reflected here.
           </p>
