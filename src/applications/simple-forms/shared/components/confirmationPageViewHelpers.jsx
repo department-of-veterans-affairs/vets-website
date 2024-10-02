@@ -134,7 +134,7 @@ const fieldEntries = (key, uiSchema, data, schema, schemaFromState, index) => {
   if (
     uiSchema['ui:widget'] === 'date' ||
     ['VaMemorableDateField', 'VaDateField'].includes(
-      uiSchema['ui:webComponentField']?.name,
+      uiSchema['ui:webComponentField']?.identifier,
     )
   ) {
     const confirmData = new Date(`${refinedData}T00:00:00`).toLocaleDateString(
