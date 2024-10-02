@@ -253,7 +253,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
 
 /* addDisabilities combo-box styles */
 .cc-combobox {
-  position: relative
+  position: relative;
 }
 .cc-combobox__list {
   position: absolute;
@@ -264,17 +264,14 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
   margin: 0;
   overflow-y: auto;
   z-index: 100;
-  max-height: 384px;
-
-  &--open {
-    border: 1px solid var(--vads-color-black);
-  }
+  max-height: 24rem;
+  border: 1px solid var(--vads-color-black);
 }
 .cc-combobox__option {
   display: block;
   padding: units(1);
   margin: 0;
-  cursor: "pointer";
+  cursor: pointer;
 
   &--active {
     background-color: var(--vads-color-primary);
@@ -282,8 +279,7 @@ article[data-location="supporting-evidence/evidence-types-bdd"] {
     color: var(--vads-color-white);
   }
 
-  // dynamic option inserted at beginning, for free text input
-  &--free {
+  &:first-child {
     border-bottom: 1px solid var(--vads-color-gray-warm-light);
   }
 }

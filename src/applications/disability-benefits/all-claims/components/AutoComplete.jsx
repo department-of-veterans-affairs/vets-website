@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
@@ -8,51 +8,74 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
+  const debouncedSearch = useMemo(
+    () => {
+      let timeout;
+      return inputValue => {
+        clearTimeout(timeout);
+        return new Promise(resolve => {
+          timeout = setTimeout(() => {
+            resolve(fullStringSimilaritySearch(inputValue, availableResults));
+          }, 200);
+        });
+      };
+    },
+    [availableResults],
+  );
+
+  const closeDropdown = () => {
+    setIsOpen(false);
+    setResults([]);
+  };
+
   const selectItem = item => {
     const selection =
       item === `Enter your condition as "${value}"` ? value : item;
     setValue(selection);
     onChange(selection);
-    setIsOpen(false);
-    setResults([]);
+    closeDropdown();
   };
 
-  const handleInputChange = event => {
+  const handleInputChange = async event => {
     const inputValue = event.target.value;
 
     setValue(inputValue);
     onChange(inputValue);
 
     if (inputValue) {
-      const searchResults = fullStringSimilaritySearch(
-        inputValue,
-        availableResults,
-      );
+      const searchResults = await debouncedSearch(inputValue);
       setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
       setIsOpen(true);
     } else {
-      setResults([]);
-      setIsOpen(false);
+      closeDropdown();
     }
     setActiveIndex(0);
   };
 
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
+      e.preventDefault();
       setActiveIndex(prevIndex => Math.min(prevIndex + 1, results.length - 1));
     } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
       setActiveIndex(prevIndex => Math.max(prevIndex - 1, 0));
     } else if (e.key === 'Enter' && results.length) {
       selectItem(results[activeIndex]);
     } else if (e.key === 'Escape') {
-      setIsOpen(false);
+      closeDropdown();
     } else if (e.key === 'Tab') {
       onChange(value);
     }
   };
 
   return (
-    <div className="cc-combobox">
+    <div
+      className="cc-combobox"
+      role="combobox"
+      aria-expanded={isOpen}
+      aria-controls="autocomplete-list"
+      aria-autocomplete="list"
+    >
       <va-text-input
         label={label}
         required
@@ -60,20 +83,14 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
         value={value}
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
-        onBlur={() => setTimeout(() => setIsOpen(false), 100)}
-        aria-expanded={isOpen}
-        aria-controls="autocomplete-list"
-        role="combobox"
-        aria-autocomplete="list"
+        onBlur={() => setTimeout(closeDropdown, 100)}
       />
       {isOpen &&
         results.length > 0 && (
           <ul
             id="autocomplete-list"
             role="listbox"
-            className={`cc-combobox__list ${
-              isOpen ? 'cc-combobox__list--open' : ''
-            }`}
+            className="cc-combobox__list"
           >
             {results.map((item, index) => (
               <li
@@ -82,7 +99,7 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
                 onKeyDown={handleKeyDown}
                 className={`cc-combobox__option ${
                   activeIndex === index ? 'cc-combobox__option--active' : ''
-                } ${index === 0 ? 'cc-combobox__option--free' : ''}`}
+                }`}
                 onMouseEnter={() => setActiveIndex(index)}
                 role="option"
                 aria-selected={activeIndex === index}
