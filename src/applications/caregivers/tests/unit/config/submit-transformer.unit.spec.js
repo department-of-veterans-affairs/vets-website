@@ -267,7 +267,8 @@ describe('CG `submitTransformer` method', () => {
 
   context('view:useFacilitiesAPI is turned on', () => {
     it('sets plannedClinic from view:plannedClinic', () => {
-      const veteranSelectedPlannedClinic = mockFetchFacilitiesResponse[0];
+      const { facilities } = mockFetchFacilitiesResponse;
+      const veteranSelectedPlannedClinic = facilities[0];
       const plannedClinicId = veteranSelectedPlannedClinic.id.split('_').pop();
 
       const requiredOnlyFormData = {
