@@ -94,7 +94,7 @@ const ContactAccreditedRepresentative = props => {
         </va-alert>
       </div>
       {attributes && (
-        <va-card class="vads-u-padding--4">
+        <va-card class="vads-u-padding-left--2 vads-u-padding-top--1">
           <div className="vads-u-margin-top--1p5 vads-u-display--flex">
             {!isOrg && <va-icon icon="account_circle" size="4" />}
             <div className="vads-u-margin-left--1">
