@@ -393,6 +393,7 @@ class ReviewCollapsibleChapter extends React.Component {
               updatePage={() =>
                 this.handleEdit(page.pageKey, false, page.index)
               }
+              recalculateErrors={this.hasValidationError}
               pagePerItemIndex={page.index}
               schema={pageSchema}
               uiSchema={pageUiSchema}
@@ -418,6 +419,7 @@ class ReviewCollapsibleChapter extends React.Component {
             data={props.form.data}
             pagePerItemIndex={page.index}
             goToPath={this.goToPath}
+            recalculateErrors={this.hasValidationError}
           />
         </div>
       </React.Fragment>
@@ -473,16 +475,15 @@ class ReviewCollapsibleChapter extends React.Component {
         />
         <va-accordion-item
           data-chapter={this.props.chapterKey}
-          header={chapterTitle}
-          level={3}
           subHeader={this.props.hasUnviewedPages ? subHeader : ''}
           data-unviewed-pages={this.props.hasUnviewedPages}
           open={this.props.open}
           bordered
           uswds
         >
+          <h3 slot="headline">{chapterTitle}</h3>
           {this.props.hasUnviewedPages && (
-            <va-icon icon="error" class="vads-u-color--secondary" />
+            <va-icon slot="icon" icon="error" class="vads-u-color--secondary" />
           )}
           {this.getChapterContent(this.props)}
         </va-accordion-item>

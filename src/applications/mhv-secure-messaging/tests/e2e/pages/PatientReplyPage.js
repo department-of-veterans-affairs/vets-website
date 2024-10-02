@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { dateFormat } from '../../../util/helpers';
 import mockMessage from '../fixtures/message-response.json';
-import { Locators, Paths } from '../utils/constants';
+import { Locators, Paths, Data } from '../utils/constants';
 
 class PatientReplyPage {
   clickSendReplyMessageButton = messageId => {
@@ -46,7 +46,6 @@ class PatientReplyPage {
       cy.log(JSON.stringify(xhr.response.body));
     });
 
-    // cy.log("request boydy = "+JSON.stringify(cy.get('@replyDraftMessage').its('request.body')));
     cy.get('@replyDraftMessage')
       .its('request.body')
       .then(message => {
@@ -57,8 +56,6 @@ class PatientReplyPage {
         expect(message.category).to.eq(replyMessage.data.attributes.category);
         expect(message.subject).to.eq(replyMessage.data.attributes.subject);
         expect(message.body).to.contain(replyMessageBody);
-        // data-testid="Save-Draft-Button"
-        // Your message was saved on February 17, 2023 at 12:21 p.m. CST.
       });
   };
 
@@ -109,9 +106,9 @@ class PatientReplyPage {
   };
 
   verifySendMessageConfirmationMessageText = () => {
-    cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
-      'Secure message was successfully sent.',
+    cy.get(Locators.ALERTS.GEN_ALERT).should(
+      'include.text',
+      Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
 
@@ -123,7 +120,7 @@ class PatientReplyPage {
     cy.log(`messageIndex = ${messageIndex}`);
     if (messageIndex === 0) {
       cy.log('message index = 0');
-      cy.get(Locators.MES_DATE)
+      cy.get(Locators.MSG_DATE)
         .eq(messageIndex)
         .should(
           'have.text',
@@ -133,7 +130,7 @@ class PatientReplyPage {
           )}`,
         );
     } else {
-      cy.get(Locators.MES_DATE)
+      cy.get(Locators.MSG_DATE)
         .eq(messageIndex)
         .should(
           'have.text',

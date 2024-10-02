@@ -210,6 +210,44 @@ export const updateMessageInThread = (thread, response) => {
   });
 };
 
+export const updateDrafts = draft => {
+  if (Array.isArray(draft)) {
+    return draft;
+  }
+  if (typeof draft === 'object') {
+    return [draft[0]];
+  }
+  return [draft[0]];
+};
+
+// navigation helper
+export const setUnsavedNavigationError = (
+  typeOfError,
+  setNavigationError,
+  ErrorMessages,
+) => {
+  switch (typeOfError) {
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_DRAFT_ATTACHMENT_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT,
+        confirmButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.editDraft,
+        cancelButtonText:
+          ErrorMessages.ComposeForm.UNABLE_TO_SAVE_DRAFT_ATTACHMENT.saveDraft,
+      });
+      break;
+    case ErrorMessages.Navigation.UNABLE_TO_SAVE_ERROR:
+      setNavigationError({
+        ...ErrorMessages.ComposeForm.UNABLE_TO_SAVE,
+        confirmButtonText: 'Continue editing',
+        cancelButtonText: 'Delete draft',
+      });
+      break;
+    default:
+      setNavigationError(null);
+  }
+};
+
 export const getSize = num => {
   if (num > 999999) {
     return `${(num / 1000000).toFixed(1)} MB`;
@@ -295,6 +333,7 @@ export const updateTriageGroupRecipientStatus = (recipients, tempRecipient) => {
 export const formatRecipient = recipient => {
   return {
     id: recipient.attributes.triageTeamId,
+    triageTeamId: recipient.attributes.triageTeamId,
     name: recipient.attributes.name,
     stationNumber: recipient.attributes.stationNumber,
     blockedStatus: recipient.attributes.blockedStatus,
@@ -311,13 +350,18 @@ export const formatRecipient = recipient => {
 export const findBlockedFacilities = recipients => {
   const blockedFacilities = new Set();
   const allowedFacilities = new Set();
+  const facilityList = new Set();
   const fullyBlockedFacilities = [];
 
   recipients.forEach(recipient => {
-    if (recipient.attributes.blockedStatus === true) {
-      blockedFacilities.add(recipient.attributes.stationNumber);
+    const { stationNumber, blockedStatus } = recipient.attributes;
+
+    facilityList.add(recipient.attributes.stationNumber);
+
+    if (blockedStatus === true) {
+      blockedFacilities.add(stationNumber);
     } else {
-      allowedFacilities.add(recipient.attributes.stationNumber);
+      allowedFacilities.add(stationNumber);
     }
   });
 
@@ -327,9 +371,48 @@ export const findBlockedFacilities = recipients => {
     }
   });
 
-  return fullyBlockedFacilities;
+  const allFacilities = [...facilityList];
+
+  return { fullyBlockedFacilities, allFacilities };
 };
 
 export const sortTriageList = list => {
   return list?.sort((a, b) => a.name?.localeCompare(b.name)) || [];
+};
+
+export const scrollTo = (element, behavior = 'smooth') => {
+  if (element) {
+    element.scrollIntoView({ behavior });
+  }
+};
+
+export const scrollToTop = () => {
+  window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+};
+
+export const scrollIfFocusedAndNotInView = (offset = 0) => {
+  const element = document.activeElement; // Get the currently focused element
+
+  if (element) {
+    const rect = element.getBoundingClientRect();
+
+    // Check if the element is out of the viewport
+    const inViewport =
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    if (!inViewport) {
+      // Calculate the position to scroll to, with an offset from the top
+      const scrollY = window.scrollY + rect.top - offset;
+
+      // Scroll to the element with the offset
+      window.scrollTo({
+        top: scrollY,
+        behavior: 'smooth', // Optional smooth scroll
+      });
+    }
+  }
 };

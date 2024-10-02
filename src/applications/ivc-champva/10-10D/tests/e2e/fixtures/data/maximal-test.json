@@ -80,7 +80,7 @@
             "uploaded": false
           },
           {
-            "name": "applicantMarriageCert",
+            "name": "applicantRemarriageCert",
             "path": "applicant-marriage-file/:index",
             "required": false,
             "uploaded": false

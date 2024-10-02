@@ -92,7 +92,7 @@ export const focusCancelButton = root => {
 
 export const focusRadioH3 = () => {
   scrollTo('topContentElement');
-  const radio = $('va-radio');
+  const radio = $('va-radio, va-checkbox-group');
   if (radio) {
     // va-radio content doesn't immediately render
     waitForRenderThenFocus('h3', radio.shadowRoot);
@@ -104,13 +104,11 @@ export const focusRadioH3 = () => {
 // Temporary focus function for HLR homlessness question (page header is
 // dynamic); once 100% released, change homeless form config to use
 // `scrollAndFocusTarget: focusH3`
-export const focusHomelessHeader = () => {
+export const focusToggledHeader = () => {
   scrollTo('topContentElement');
-  if (sessionStorage.getItem('hlrUpdated') === 'false') {
-    const radio = $('va-radio');
-    if (radio) {
-      waitForRenderThenFocus('h3', radio.shadowRoot);
-    }
+  const radio = $('va-radio');
+  if (sessionStorage.getItem('hlrUpdated') === 'false' && radio) {
+    waitForRenderThenFocus('h3', radio.shadowRoot);
   } else {
     waitForRenderThenFocus('#main h3');
   }
@@ -118,14 +116,14 @@ export const focusHomelessHeader = () => {
 
 export const focusH3 = () => {
   scrollTo('topContentElement');
-  focusByOrder(['#main h3', defaultFocusSelector]);
+  focusElement('#main h3');
 };
 
 export const focusAlertH3 = () => {
   scrollTo('topContentElement');
   // va-alert header is not in the shadow DOM, but still the content doesn't
   // immediately render
-  waitForRenderThenFocus('h3');
+  waitForRenderThenFocus('#main h3');
 };
 
 // Used for onContinue callback on the contestable issues page

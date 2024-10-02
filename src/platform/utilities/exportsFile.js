@@ -33,7 +33,7 @@ export { titleCase } from './data/titleCase';
 
 /* date */
 export {
-  dateToMoment,
+  dateFieldToDate,
   formatDateLong,
   formatDateParsedZoneLong,
   formatDateShort,
@@ -49,7 +49,6 @@ export {
   replaceWithStagingDomain,
   replaceDomainsInData,
 } from './environment/stagingDomains';
-export { default as isVATeamSiteSubdomain } from './environment/va-subdomain';
 
 /* feature-toggles */
 export {

@@ -2,33 +2,38 @@ import {
   currentOrPastDateUI,
   currentOrPastDateSchema,
 } from 'platform/forms-system/src/js/web-component-patterns';
+import VaCheckboxField from 'platform/forms-system/src/js/web-component-fields/VaCheckboxField';
 import {
   additionalExposuresPageTitle,
   dateRangeAdditionalInfo,
-  dateRangePageDescription,
+  detailsPageBegin,
   exposureEndDateApproximate,
   exposureStartDateApproximate,
   getOtherFieldDescription,
   getSelectedCount,
-  notSureDatesDetails,
+  notSureHazardDetails,
+  teSubtitle,
 } from '../../content/toxicExposure';
-import { formTitle } from '../../utils';
 
 export const uiSchema = {
-  'ui:title': formTitle(additionalExposuresPageTitle),
-  'ui:description': ({ formData }) => {
+  'ui:title': ({ formData }) => {
     const indexAndSelectedCount = getSelectedCount(
       'otherExposures',
       formData,
       'specifyOtherExposures',
     );
-    return dateRangePageDescription(
-      indexAndSelectedCount,
-      indexAndSelectedCount,
-      getOtherFieldDescription(formData, 'specifyOtherExposures'),
-      'Hazard',
+    return detailsPageBegin(
+      additionalExposuresPageTitle,
+      teSubtitle(
+        indexAndSelectedCount,
+        indexAndSelectedCount,
+        getOtherFieldDescription(formData, 'specifyOtherExposures'),
+        'Hazard',
+      ),
+      'hazards',
     );
   },
+
   toxicExposure: {
     specifyOtherExposures: {
       startDate: currentOrPastDateUI({
@@ -38,7 +43,11 @@ export const uiSchema = {
         title: exposureEndDateApproximate,
       }),
       'view:notSure': {
-        'ui:title': notSureDatesDetails,
+        'ui:title': notSureHazardDetails,
+        'ui:webComponentField': VaCheckboxField,
+        'ui:options': {
+          classNames: 'vads-u-margin-y--3',
+        },
       },
     },
     'view:additionalExposuresAdditionalInfo': {

@@ -7,16 +7,20 @@ import {
 } from '@department-of-veterans-affairs/mhv/exports';
 import { selectProfile } from '../selectors';
 
-const AppConfig = ({ children }) => {
+const AppConfig = ({
+  children,
+  setDatadogRumUserFn = setDatadogRumUser,
+  useDatadogRumFn = useDatadogRum,
+}) => {
   const profile = useSelector(selectProfile);
 
-  useDatadogRum({
+  useDatadogRumFn({
     applicationId: '1f81f762-c3fc-48c1-89d5-09d9236e340d',
     clientToken: 'pub3e48a5b97661792510e69581b3b272d1',
     site: 'ddog-gov.com',
     service: 'mhv-on-va.gov',
     sessionSampleRate: 100,
-    sessionReplaySampleRate: 10,
+    sessionReplaySampleRate: 1,
     trackUserInteractions: true,
     trackResources: true,
     trackLongTasks: true,
@@ -28,10 +32,10 @@ const AppConfig = ({ children }) => {
     () => {
       const id = profile?.accountUuid;
       if (id) {
-        setDatadogRumUser({ id });
+        setDatadogRumUserFn({ id });
       }
     },
-    [profile],
+    [profile, setDatadogRumUserFn],
   );
 
   return <>{children}</>;
@@ -39,6 +43,8 @@ const AppConfig = ({ children }) => {
 
 AppConfig.propTypes = {
   children: PropTypes.node,
+  setDatadogRumUserFn: PropTypes.func,
+  useDatadogRumFn: PropTypes.func,
 };
 
 export default AppConfig;

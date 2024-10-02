@@ -28,9 +28,6 @@ describe('VAOS Component: VideoLayoutVA', () => {
         },
       },
     },
-    featureToggles: {
-      vaOnlineSchedulingAppointmentDetailsRedesign: true,
-    },
   };
 
   describe('When appointment information is missing', () => {
@@ -188,7 +185,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(
         screen.getByRole('heading', {
           level: 1,
-          name: /Video appointment at VA location/i,
+          name: /Video appointment at a VA location/i,
         }),
       );
 
@@ -341,7 +338,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: /Video appointment at VA location/i,
+            name: /Video appointment at a VA location/i,
           }),
         );
 
@@ -405,6 +402,28 @@ describe('VAOS Component: VideoLayoutVA', () => {
             'va-button[text="Cancel appointment"]',
           ),
         ).not.to.exist;
+
+        expect(
+          screen.getByRole('heading', {
+            level: 2,
+            name: /Prepare for your appointment/i,
+          }),
+        );
+        expect(
+          screen.getByText(
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          ),
+        );
+        expect(
+          screen.container.querySelector(
+            'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          ),
+        ).to.be.ok;
+        expect(
+          screen.container.querySelector(
+            'va-link[text="Find a full list of things to bring to your appointment"]',
+          ),
+        ).to.be.ok;
       });
     });
 
@@ -464,7 +483,7 @@ describe('VAOS Component: VideoLayoutVA', () => {
         expect(
           screen.getByRole('heading', {
             level: 1,
-            name: /Video appointment at VA location/i,
+            name: /Video appointment at a VA location/i,
           }),
         );
 
@@ -526,6 +545,28 @@ describe('VAOS Component: VideoLayoutVA', () => {
             'va-button[text="Cancel appointment"]',
           ),
         ).not.to.exist;
+
+        expect(
+          screen.getByRole('heading', {
+            level: 2,
+            name: /Prepare for your appointment/i,
+          }),
+        );
+        expect(
+          screen.getByText(
+            /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+          ),
+        );
+        expect(
+          screen.container.querySelector(
+            'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+          ),
+        ).to.be.ok;
+        expect(
+          screen.container.querySelector(
+            'va-link[text="Find a full list of things to bring to your appointment"]',
+          ),
+        ).to.be.ok;
       });
     });
   });
@@ -652,6 +693,12 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(
         screen.container.querySelector('va-button[text="Cancel appointment"]'),
       ).not.to.exist;
+
+      expect(
+        screen.queryByRole('heading', {
+          name: /Prepare for your appointment/i,
+        }),
+      ).not.to.exist;
     });
   });
 
@@ -776,6 +823,28 @@ describe('VAOS Component: VideoLayoutVA', () => {
       expect(screen.getByText(/Phone:/i));
       expect(
         screen.container.querySelector('va-telephone[contact="500-500-5000"]'),
+      ).to.be.ok;
+
+      expect(
+        screen.getByRole('heading', {
+          level: 2,
+          name: /Prepare for your appointment/i,
+        }),
+      );
+      expect(
+        screen.getByText(
+          /Bring your insurance cards. And bring a list of your medications and other information to share with your provider./i,
+        ),
+      );
+      expect(
+        screen.container.querySelector(
+          'va-link[href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"]',
+        ),
+      ).to.be.ok;
+      expect(
+        screen.container.querySelector(
+          'va-link[text="Find a full list of things to bring to your appointment"]',
+        ),
       ).to.be.ok;
 
       expect(screen.container.querySelector('va-button[text="Print"]')).to.be

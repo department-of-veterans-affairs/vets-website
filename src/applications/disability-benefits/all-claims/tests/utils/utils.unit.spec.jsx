@@ -184,10 +184,8 @@ describe('526 helpers', () => {
   describe('hasotherEvidence', () => {
     it('should return false if additional evidence type is not selected', () => {
       const formData = {
-        'view:hasEvidenceFollowUp': {
-          'view:selectableEvidenceTypes': {
-            // 'view:hasOtherEvidence': no data
-          },
+        'view:selectableEvidenceTypes': {
+          // 'view:hasOtherEvidence': no data
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(false);
@@ -195,10 +193,8 @@ describe('526 helpers', () => {
 
     it('should return true if additional evidence type is selected', () => {
       const formData = {
-        'view:hasEvidenceFollowUp': {
-          'view:selectableEvidenceTypes': {
-            'view:hasOtherEvidence': true,
-          },
+        'view:selectableEvidenceTypes': {
+          'view:hasOtherEvidence': true,
         },
       };
       expect(hasOtherEvidence(formData)).to.equal(true);

@@ -39,7 +39,6 @@ import {
   EMERGENCY_CARE_SERVICES,
   LocationType,
   MapboxInit,
-  MARKER_LETTERS,
   MAX_SEARCH_AREA,
 } from '../constants';
 import { distBetween } from '../utils/facilityDistance';
@@ -87,6 +86,7 @@ const FacilitiesMap = props => {
         {
           searchString: location.query.address,
           context: location.query.context,
+          facilityType: location.query.facilityType,
         },
         expandedRadius,
       );
@@ -126,13 +126,12 @@ const FacilitiesMap = props => {
 
   const renderMarkers = locations => {
     if (locations.length === 0) return;
-    const markersLetters = MARKER_LETTERS.values();
 
     const locationBounds = new mapboxgl.LngLatBounds();
 
-    locations.forEach(loc => {
+    locations.forEach((loc, index) => {
       const attrs = {
-        letter: markersLetters.next().value,
+        letter: index + 1,
       };
       locationBounds.extend(
         new mapboxgl.LngLat(loc.attributes.long, loc.attributes.lat),
@@ -250,6 +249,7 @@ const FacilitiesMap = props => {
       props.mapMoved(calculateSearchArea());
       recordPanEvent(map.getCenter(), props.currentQuery);
     });
+
     map.on('zoomend', e => {
       // Only trigger mapMoved and speakZoom for manual events,
       // e.g. zoom in/out button click, mouse wheel, etc.

@@ -17,7 +17,7 @@ const SignatureCheckbox = props => {
     submission,
     isRepresentative,
   } = props;
-  const [hasError, setError] = useState(false);
+  const [error, setError] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
   const hasSubmittedForm = !!submission.status;
   const normalizedFullName = normalizeFullName(fullName, true);
@@ -32,11 +32,10 @@ const SignatureCheckbox = props => {
     : undefined;
 
   const handleCheck = event => {
-    setIsChecked(
-      event.target.shadowRoot.querySelector('#checkbox-element').checked,
-    );
+    const value = event.target.checked;
+    setIsChecked(value);
     recordEvent({
-      'caregivers-poa-certification-checkbox-checked': event.target.value,
+      'caregivers-poa-certification-checkbox-checked': value,
       fullName,
       label,
       isRepresentative,
@@ -45,8 +44,12 @@ const SignatureCheckbox = props => {
 
   useEffect(
     () => {
-      const error = isChecked === true || hasSubmittedForm ? false : showError;
-      setError(error);
+      const hasError =
+        isChecked === true || hasSubmittedForm ? false : showError;
+      const message = hasError
+        ? content['validation-signature-required']
+        : null;
+      setError(message);
     },
     [showError, isChecked, hasSubmittedForm],
   );
@@ -81,7 +84,7 @@ const SignatureCheckbox = props => {
         required={isRequired}
         onVaChange={handleCheck}
         class="signature-checkbox"
-        error={hasError ? content['validation-signature-required'] : undefined}
+        error={error}
         label={content['signature-checkbox-label']}
       />
     </fieldset>

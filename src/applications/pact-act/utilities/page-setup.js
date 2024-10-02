@@ -32,11 +32,11 @@ export const applyFocus = (parentId, headerHasFocused, setHeaderHasFocused) => {
         header?.focus();
         setHeaderHasFocused(true);
       }
-    }, 500);
+    }, 150);
   }
 };
+
 export const pageSetup = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
   waitForRenderThenFocus('h1');
-  document.title = 'Learn how the PACT Act may affect you | Veterans Affairs';
 };

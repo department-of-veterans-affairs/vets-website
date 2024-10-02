@@ -9,6 +9,7 @@ import DetailPageLayout, {
   When,
   Who,
   ClinicOrFacilityPhone,
+  Prepare,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import { selectConfirmedAppointmentData } from '../../appointment-list/redux/selectors';
@@ -40,7 +41,7 @@ export default function VideoLayoutVA({ data: appointment }) {
     shallowEqual,
   );
 
-  let heading = 'Video appointment at VA location';
+  let heading = 'Video appointment at a VA location';
   const facilityId = locationId;
   if (isPastAppointment) heading = 'Past video appointment at VA location';
   else if (APPOINTMENT_STATUS.cancelled === status)
@@ -109,8 +110,7 @@ export default function VideoLayoutVA({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />{' '}
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
@@ -124,6 +124,22 @@ export default function VideoLayoutVA({ data: appointment }) {
           facilityPhone={facilityPhone}
         />
       </Section>
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              Bring your insurance cards. And bring a list of your medications
+              and other information to share with your provider.
+            </p>
+            <p className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <va-link
+                text="Find a full list of things to bring to your appointment"
+                href="https://www.va.gov/resources/what-should-i-bring-to-my-health-care-appointments/"
+              />
+            </p>
+          </Prepare>
+        )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">

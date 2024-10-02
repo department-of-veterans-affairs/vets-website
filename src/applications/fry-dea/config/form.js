@@ -476,10 +476,9 @@ const formConfig = {
                     Which education benefit would you like to apply for?
                   </span>
                   <span className="fry-dea-labels_label--secondary fry-dea-input-message fry-dea-review-view-hidden vads-u-background-color--primary-alt-lightest vads-u-padding--1 vads-u-margin-top--1">
-                    <i
-                      className="fas fa-info-circle vads-u-margin-right--1"
-                      aria-hidden="true"
-                    />{' '}
+                    <span className="vads-u-margin-right--1">
+                      <va-icon icon="info" size={3} />
+                    </span>{' '}
                     <span className="sr-only">information</span> If you’re the
                     child of a veteran or service member who died in the line of
                     duty before August 1, 2011 you can use both Fry Scholarship

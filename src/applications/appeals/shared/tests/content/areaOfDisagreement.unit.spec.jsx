@@ -82,46 +82,70 @@ describe('issueTitle', () => {
 });
 
 describe('AreaOfDisagreementReviewField', () => {
-  it('should render AreaOfDisagreementReviewField', () => {
-    const title = 'Your evaluation of my condition';
-    const { container } = render(
-      <AreaOfDisagreementReviewField>
-        {React.createElement(
-          'div',
-          {
-            id: 'foo',
-            name: 'evaluation',
-            formData: {},
-          },
-          'Bar',
-        )}
-      </AreaOfDisagreementReviewField>,
+  const defaultEditButton = ({ label }) => (
+    <va-button text="edit" label={label} />
+  );
+  const setup = (
+    issue,
+    decisionDate,
+    serviceConnection = false,
+    effectiveDate = false,
+    evaluation = false,
+    otherEntry = false,
+  ) => {
+    const formData = {
+      issue,
+      decisionDate,
+      disagreementOptions: { serviceConnection, effectiveDate, evaluation },
+      otherEntry,
+    };
+    return render(
+      <div>
+        <AreaOfDisagreementReviewField
+          formData={formData}
+          defaultEditButton={defaultEditButton}
+        />
+      </div>,
     );
-    expect($('dt', container).textContent).to.equal(title);
-    expect($('dd', container).textContent).to.equal('Bar');
-    expect(
-      $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
-    ).to.equal(0);
+  };
+
+  it('should not render AreaOfDisagreementReviewField when issue name is missing', () => {
+    const { container } = setup('', '2020-01-01', true);
+
+    expect($('h4', container)).to.not.exist;
+    expect(container.innerHTML).to.eq('<div></div>');
+  });
+  it('should render AreaOfDisagreementReviewField with service connection only', () => {
+    const { container } = setup('Headaches', '2020-01-01', true);
+
+    expect($('h4', container).textContent).to.equal(
+      'Disagreement with Headaches decision on January 1, 2020',
+    );
+
+    expect($('dt', container).textContent).to.equal('What you disagree with');
+    expect($('dd', container).textContent).to.equal('the service connection');
   });
 
-  it('should render AreaOfDisagreementReviewField with hidden Datadog class', () => {
-    const title = 'Something else';
-    const { container } = render(
-      <AreaOfDisagreementReviewField>
-        {React.createElement(
-          'div',
-          {
-            id: 'foo',
-            name: 'otherEntry',
-            formData: {},
-          },
-          'Bar',
-        )}
-      </AreaOfDisagreementReviewField>,
+  it('should render AreaOfDisagreementReviewField with everything selected & hidden Datadog class', () => {
+    const { container } = setup(
+      'Tinnitus',
+      '2023-03-03',
+      true,
+      true,
+      true,
+      'Lorem ipsum lorem ipsum lorem ipsu',
     );
-    expect($('dt', container).textContent).to.equal(title);
+
+    expect($('h4', container).textContent).to.equal(
+      'Disagreement with Tinnitus decision on March 3, 2023',
+    );
+
+    expect($('dt', container).textContent).to.equal('What you disagree with');
+    expect($('dd', container).textContent).to.equal(
+      'the service connection, the effective date of award, your evaluation of my condition, and Lorem ipsum lorem ipsum lorem ipsu',
+    );
     expect(
-      $('dd.dd-privacy-hidden[data-dd-action-name]', container).textContent,
-    ).to.equal('Bar');
+      $$('dd.dd-privacy-hidden[data-dd-action-name]', container).length,
+    ).to.equal(1);
   });
 });

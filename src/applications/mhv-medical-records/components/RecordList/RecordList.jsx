@@ -21,13 +21,11 @@ const RecordList = props => {
   const paramPage = getParamValue(location.search, 'page');
   const [currentRecords, setCurrentRecords] = useState([]);
   const [currentPage, setCurrentPage] = useState(paramPage);
-  const [setInitialPage] = useState(false);
   const paginatedRecords = useRef([]);
 
   const onPageChange = page => {
     const newURL = `${history.location.pathname}?page=${page}`;
     history.push(newURL);
-    setInitialPage(false);
     setCurrentRecords(paginatedRecords.current[page - 1]);
     setCurrentPage(page);
   };

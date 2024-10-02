@@ -15,8 +15,7 @@ import {
   usePrintTitle,
 } from '@department-of-veterans-affairs/mhv/exports';
 import RecordList from '../components/RecordList/RecordList';
-import { getVaccinesList } from '../actions/vaccines';
-import { setBreadcrumbs } from '../actions/breadcrumbs';
+import { getVaccinesList, reloadRecords } from '../actions/vaccines';
 import PrintHeader from '../components/shared/PrintHeader';
 import {
   recordType,
@@ -32,6 +31,7 @@ import {
   getNameDateAndTime,
   makePdf,
   processList,
+  getLastUpdatedText,
 } from '../util/helpers';
 import useAlerts from '../hooks/use-alerts';
 import useListRefresh from '../hooks/useListRefresh';
@@ -41,10 +41,12 @@ import {
   generateVaccinesContent,
 } from '../util/pdfHelpers/vaccines';
 import DownloadSuccessAlert from '../components/shared/DownloadSuccessAlert';
+import NewRecordsIndicator from '../components/shared/NewRecordsIndicator';
 
 const Vaccines = props => {
   const { runningUnitTest } = props;
   const dispatch = useDispatch();
+  const updatedRecordList = useSelector(state => state.mr.vaccines.updatedList);
   const listState = useSelector(state => state.mr.vaccines.listState);
   const vaccines = useSelector(state => state.mr.vaccines.vaccinesList);
   const user = useSelector(state => state.user.profile);
@@ -71,8 +73,19 @@ const Vaccines = props => {
   });
 
   useEffect(
+    /**
+     * @returns a callback to automatically load any new records when unmounting this component
+     */
     () => {
-      dispatch(setBreadcrumbs([{ url: '/', label: 'Medical records' }]));
+      return () => {
+        dispatch(reloadRecords());
+      };
+    },
+    [dispatch],
+  );
+
+  useEffect(
+    () => {
       focusElement(document.querySelector('h1'));
       updatePageTitle(pageTitles.VACCINES_PAGE_TITLE);
     },
@@ -87,9 +100,17 @@ const Vaccines = props => {
     updatePageTitle,
   );
 
+  const lastUpdatedText = getLastUpdatedText(
+    refresh.status,
+    refreshExtractTypes.VPR,
+  );
+
   const generateVaccinesPdf = async () => {
     setDownloadStarted(true);
-    const { title, subject, preface } = generateVaccinesIntro();
+    const { title, subject, preface } = generateVaccinesIntro(
+      vaccines,
+      lastUpdatedText,
+    );
     const scaffold = generatePdfScaffold(user, title, subject, preface);
     const pdfData = { ...scaffold, ...generateVaccinesContent(vaccines) };
     const pdfName = `VA-vaccines-list-${getNameDateAndTime(user)}`;
@@ -103,8 +124,7 @@ ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
 Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n
-Provider notes: ${processList(item.notes)}\n`;
+Reaction: ${processList(item.reactions)}\n`;
   };
 
   const generateVaccinesTxt = async () => {
@@ -132,10 +152,12 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
       <p className="vads-u-margin-bottom--4">
         For a list of your allergies and reactions (including any reactions to
         vaccines), go to your allergy records.{' '}
+      </p>
+      <div className="vads-u-margin-bottom--4">
         <Link to="/allergies" className="no-print">
           Go to your allergy records
         </Link>
-      </p>
+      </div>
       {downloadStarted && <DownloadSuccessAlert />}
       <RecordListSection
         accessAlert={activeAlert && activeAlert.type === ALERT_TYPE_ERROR}
@@ -145,6 +167,19 @@ ${vaccines.map(entry => generateVaccineListItemTxt(entry)).join('')}`;
         listCurrentAsOf={vaccinesCurrentAsOf}
         initialFhirLoad={refresh.initialFhirLoad}
       >
+        <NewRecordsIndicator
+          refreshState={refresh}
+          extractType={refreshExtractTypes.VPR}
+          newRecordsFound={
+            Array.isArray(vaccines) &&
+            Array.isArray(updatedRecordList) &&
+            vaccines.length !== updatedRecordList.length
+          }
+          reloadFunction={() => {
+            dispatch(reloadRecords());
+          }}
+        />
+
         <PrintDownload
           list
           downloadPdf={generateVaccinesPdf}

@@ -631,7 +631,9 @@ describe('<RecentActivity>', () => {
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
               getByText('Request for you');
-              getByText('We opened a request for "5103 Evidence Notice"');
+              getByText(
+                'We opened a request for "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -682,7 +684,9 @@ describe('<RecentActivity>', () => {
               getByText('Your claim moved into Step 2: Initial review');
               getByText('Your claim moved into Step 3: Evidence gathering');
               getByText('Your claim moved into Step 4: Evidence review');
-              getByText('We closed a request for "5103 Evidence Notice"');
+              getByText(
+                'We closed a request for "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
@@ -981,13 +985,15 @@ describe('<RecentActivity>', () => {
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
               getByText('Request for you');
-              getByText('We opened a request for "5103 Evidence Notice"');
+              getByText(
+                'We opened a request for "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
         );
         context(
-          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          'when cst5103UpdateEnabled disabled and has an Automated 5103 Notice Response item',
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(
@@ -1034,13 +1040,15 @@ describe('<RecentActivity>', () => {
               getByText(
                 'Your claim moved into Step 3: Evidence gathering, review, and decision',
               );
-              getByText('We closed a request for "5103 Evidence Notice"');
+              getByText(
+                'We closed a request for "List of evidence we may need (5103 notice)"',
+              );
               expect($('va-pagination', container)).not.to.exist;
             });
           },
         );
         context(
-          'when cst5103UpdateEnabled and has an Automated 5103 Notice Response item',
+          'when cst5103UpdateEnabled disabled and has an Automated 5103 Notice Response item',
           () => {
             it('should render list', () => {
               const { container, getByText } = renderWithRouter(

@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router';
-import LocationDirectionsLink from './common/LocationDirectionsLink';
 import { isVADomain } from '../../utils/helpers';
 import { recordResultClickEvents } from '../../utils/analytics';
 import { OperatingStatus } from '../../constants';
 import LocationAddress from './common/LocationAddress';
-import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationDirectionsLink from './common/LocationDirectionsLink';
 import LocationDistance from './common/LocationDistance';
+import LocationOperationStatus from './common/LocationOperationStatus';
+import LocationMarker from './common/LocationMarker';
 import CovidPhoneLink from './common/Covid19PhoneLink';
 
 const Covid19Result = ({ location, index }) => {
@@ -23,33 +24,38 @@ const Covid19Result = ({ location, index }) => {
     detailedServices?.[0]?.appointmentPhones?.[0] || null;
   const infoURL = detailedServices?.[0]?.path || null;
 
+  const clickHandler = useCallback(
+    event => {
+      // Keyboard events fire their onKeyDown event and the onClick event
+      // This prevents the duplicate event from logging
+      if (event?.key !== 'Enter') {
+        recordResultClickEvents(location, index);
+      }
+    },
+    [index, location],
+  );
+
   return (
     <div className="facility-result" id={location.id} key={location.id}>
       <>
-        <LocationDistance
-          distance={location.distance}
-          markerText={location.markerText}
-        />
+        <LocationMarker markerText={location.markerText} />
         <span
-          onClick={() => {
-            recordResultClickEvents(location, index);
-          }}
-          onKeyPress={() => {
-            recordResultClickEvents(location, index);
-          }}
+          onClick={clickHandler}
+          onKeyDown={clickHandler}
           role="link"
           tabIndex={0}
         >
           {isVADomain(website) ? (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
-              <a href={website}>{name}</a>
+            <h3 className="vads-u-margin-y--0">
+              <va-link href={website} text={name} />
             </h3>
           ) : (
-            <h3 className="vads-u-font-size--h5 no-marg-top">
+            <h3 className="vads-u-margin-y--0">
               <Link to={`facility/${location.id}`}>{name}</Link>
             </h3>
           )}
         </span>
+        <LocationDistance distance={location.distance} />
         {operatingStatus &&
           operatingStatus.code !== OperatingStatus.NORMAL && (
             <LocationOperationStatus operatingStatus={operatingStatus} />
@@ -89,9 +95,9 @@ const Covid19Result = ({ location, index }) => {
 };
 
 Covid19Result.propTypes = {
+  index: PropTypes.number,
   location: PropTypes.object,
   query: PropTypes.object,
-  index: PropTypes.number,
 };
 
 export default Covid19Result;

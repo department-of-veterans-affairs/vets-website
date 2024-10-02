@@ -36,7 +36,7 @@ describe('ConfirmationPersonalInfo', () => {
       countryCode: '6',
       areaCode: '555',
       phoneNumber: '8001111',
-      phoneNumberExt: '2',
+      extension: '2345',
     },
     email: 'user@example.com',
   });
@@ -65,7 +65,7 @@ describe('ConfirmationPersonalInfo', () => {
       '●●●–●●–8765V A file number ending with 8 7 6 5',
       'October 28, 2001',
       'Yes',
-      '<va-telephone contact="5558001111" extension="2" not-clickable="true"></va-telephone>',
+      '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
       'user@example.com',
       '123 Main StNew York, NY 30012',
     ]);
@@ -95,7 +95,7 @@ describe('ConfirmationPersonalInfo', () => {
       '●●●–●●–8765V A file number ending with 8 7 6 5',
       'October 28, 2001',
       'No',
-      '<va-telephone contact="5558001111" extension="2" not-clickable="true"></va-telephone>',
+      '<va-telephone contact="5558001111" extension="2345" not-clickable="true"></va-telephone>',
       'user@example.com',
       '123 Main StParis, Ile-de-France, France 75000',
     ]);
@@ -108,18 +108,11 @@ describe('ConfirmationPersonalInfo', () => {
     expect($$('ul[role="list"]', container).length).to.eq(1);
 
     const items = $$('.dd-privacy-hidden[data-dd-action-name]', container);
-    expect(items.length).to.eq(6);
+    expect(items.length).to.eq(5);
     expect(
       items.map(
-        (item, index) => item[index === 4 ? 'innerHTML' : 'textContent'],
+        (item, index) => item[index === 3 ? 'innerHTML' : 'textContent'],
       ),
-    ).to.deep.equal([
-      '●●●–●●–V A file number ending with ',
-      '',
-      'Not selected',
-      '',
-      '',
-      ',  ',
-    ]);
+    ).to.deep.equal(['', 'Not selected', '', '', ',  ']);
   });
 });

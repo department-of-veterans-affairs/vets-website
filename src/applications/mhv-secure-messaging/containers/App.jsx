@@ -24,19 +24,17 @@ import { getAllTriageTeamRecipients } from '../actions/recipients';
 import manifest from '../manifest.json';
 import { Actions } from '../util/actionTypes';
 import { downtimeNotificationParams } from '../util/constants';
+import useTrackPreviousUrl from '../hooks/use-previous-url';
 
 const App = ({ isPilot }) => {
+  useTrackPreviousUrl();
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const userServices = user.profile.services; // mhv_messaging_policy.rb defines if messaging service is avaialble when a user is in Premium status upon structuring user services from the user profile in services.rb
-  const { featureTogglesLoading, appEnabled } = useSelector(
+  const { featureTogglesLoading } = useSelector(
     state => {
       return {
         featureTogglesLoading: state.featureToggles.loading,
-        appEnabled:
-          state.featureToggles[
-            FEATURE_FLAG_NAMES.mhvSecureMessagingToVaGovRelease
-          ],
       };
     },
     state => state.featureToggles,
@@ -135,12 +133,6 @@ const App = ({ isPilot }) => {
     );
   }
 
-  /* if the user is not whitelisted or feature flag is disabled, redirect to the SM info page */
-  if (!appEnabled) {
-    window.location.replace('/health-care/secure-messaging');
-    return <></>;
-  }
-
   // Feature flag maintains whitelist for cerner integration pilot environment.
   // If the user lands on /my-health/secure-messages-pilot and is not whitelisted,
   // redirect to the SM main experience landing page
@@ -153,10 +145,11 @@ const App = ({ isPilot }) => {
     <RequiredLoginView
       user={user}
       serviceRequired={[backendServices.MESSAGING]}
+      verify
     >
       {user.login.currentlyLoggedIn &&
       !userServices.includes(backendServices.MESSAGING) ? (
-        window.location.replace('/health-care/secure-messaging')
+        window.location.replace('/my-health')
       ) : (
         <>
           <MhvSecondaryNav />

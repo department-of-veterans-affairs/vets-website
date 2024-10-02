@@ -42,7 +42,9 @@ const Results1Page1 = ({ formResponses, router, viewedIntroPage }) => {
         “presumptive conditions.”
       </p>
       <h2>Exposures related to where you served</h2>
-      <ul>{getDynamicContent(formResponses)}</ul>
+      {getDynamicContent(formResponses)?.length && (
+        <ul>{getDynamicContent(formResponses)}</ul>
+      )}
       <h2>What this means for you</h2>
       <p>
         If you have a presumptive condition, you don’t need to prove that your

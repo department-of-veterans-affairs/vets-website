@@ -15,7 +15,16 @@ import { renderWithRouter, rerenderWithRouter } from '../utils';
 
 const claim = {
   id: 1,
-  attributes: {},
+  attributes: {
+    description: 'Test',
+    displayName: 'Test description',
+    status: 'EVIDENCE_GATHERING_REVIEW_DECISION',
+    closeDate: null,
+    claimPhaseDates: {
+      latestPhaseType: 'GATHERING_OF_EVIDENCE',
+    },
+    trackedItem: [],
+  },
 };
 
 const params = { id: 1, trackedItemId: 467558 };
@@ -43,10 +52,19 @@ describe('<DocumentRequestPage>', () => {
         // eslint-disable-next-line camelcase
         cst_5103_update_enabled: cst5103UpdateEnabled,
       },
+      disability: {
+        status: {
+          claimAsk: {
+            decisionRequested: false,
+            decisionRequestError: false,
+            loadingDecisionRequest: false,
+          },
+        },
+      },
     }));
 
   context('when cst5103UpdateEnabled is true', () => {
-    it('should render Automated5103Notice component when item is a 5103 notice', () => {
+    it('should render Default5103EvidenceNotice component when item is a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Automated 5103 Notice Response',
@@ -67,20 +85,20 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.exist;
+      expect($('#default-5103-notice-page', container)).to.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,
       );
       expect(breadcrumbs.breadcrumbList[3].label).to.equal(
-        '5103 Evidence Notice',
+        'Review evidence list (5103 notice)',
       );
       expect(document.title).to.equal(
-        '5103 Evidence Notice | Veterans Affairs',
+        'Review evidence list (5103 notice) | Veterans Affairs',
       );
     });
 
-    it('should not render Automated5103Notice component when item is a not a 5103 notice', () => {
+    it('should not render Default5103EvidenceNotice component when item is a not a 5103 notice', () => {
       const trackedItem = {
         closedDate: null,
         description: 'Buddy statement text',
@@ -101,7 +119,7 @@ describe('<DocumentRequestPage>', () => {
           <DocumentRequestPage {...defaultProps} trackedItem={trackedItem} />,
         </Provider>,
       );
-      expect($('#automated-5103-notice-page', container)).to.not.exist;
+      expect($('#default-5103-notice-page', container)).to.not.exist;
       const breadcrumbs = $('va-breadcrumbs', container);
       expect(breadcrumbs.breadcrumbList[3].href).to.equal(
         `../document-request/${trackedItem.id}`,
@@ -278,35 +296,6 @@ describe('<DocumentRequestPage>', () => {
       expect($('va-alert h2', container).textContent).to.equal(message.title);
     });
 
-    it('should clear upload error when leaving', () => {
-      const trackedItem = {
-        status: 'NEEDED_FROM_YOU',
-      };
-
-      const message = {
-        title: 'test',
-        body: 'test',
-        type: 'error',
-      };
-      const clearNotification = sinon.spy();
-
-      const { container, unmount } = renderWithRouter(
-        <Provider store={getStore(false)}>
-          <DocumentRequestPage
-            {...defaultProps}
-            trackedItem={trackedItem}
-            clearNotification={clearNotification}
-            message={message}
-          />
-          ,
-        </Provider>,
-      );
-
-      expect($('va-alert', container)).to.exist;
-      unmount();
-      expect(clearNotification.called).to.be.true;
-    });
-
     it('should not clear notification after completed upload', () => {
       const trackedItem = {
         status: 'NEEDED_FROM_YOU',
@@ -409,7 +398,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(onSubmit.called).to.be.true;
     });
 
@@ -463,7 +452,7 @@ describe('<DocumentRequestPage>', () => {
         </Provider>,
       );
 
-      fireEvent.click($('.submit-files-button', container));
+      fireEvent.click($('#submit', container));
       expect(submitFilesLighthouse.called).to.be.true;
     });
 

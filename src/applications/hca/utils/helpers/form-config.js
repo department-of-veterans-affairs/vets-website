@@ -1,4 +1,7 @@
+import { inRange } from 'lodash';
 import { DEPENDENT_VIEW_FIELDS, HIGH_DISABILITY_MINIMUM } from '../constants';
+import { replaceStrValues } from './general';
+import content from '../../locales/en/content.json';
 
 /**
  * Helper that determines if user is unauthenticated
@@ -31,6 +34,16 @@ export function hasHighCompensation(formData) {
 }
 
 /**
+ * Helper that determines if the Veteran has low-disability compensation from VA
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if `vaCompensationType` is set to 'lowDisability'
+ */
+export function hasLowCompensation(formData) {
+  const { vaCompensationType } = formData;
+  return vaCompensationType === 'lowDisability';
+}
+
+/**
  * Helper that determines if the Veteran has no compensation from VA
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if `vaCompensationType` is set to 'none'
@@ -55,11 +68,14 @@ export function notShortFormEligible(formData) {
  * Helper that determines if the form data contains values that require users
  * to upload their military discharge papers
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the user was not found in the MPI database
+ * @returns {Boolean} - true if the user is unauthenticated and was not found
+ * in the MPI database
  */
 export function dischargePapersRequired(formData) {
   const { 'view:isUserInMvi': isUserInMvi } = formData;
-  return notShortFormEligible(formData) && !isUserInMvi;
+  return (
+    isLoggedOut(formData) && notShortFormEligible(formData) && !isUserInMvi
+  );
 }
 
 /**
@@ -74,9 +90,18 @@ export function isMissingVeteranDob(formData) {
 }
 
 /**
- * Helper that determines if the form data is missing the Veteran's birth sex
+ * Helper that determines if the feature flag status for the registration-only question
  * @param {Object} formData - the current data object passed from the form
- * @returns {Boolean} - true if the viewfield is empty
+ * @returns {Boolean} - true if the form data is `true`
+ */
+export function isRegOnlyEnabled(formData) {
+  return formData['view:isRegOnlyEnabled'];
+}
+
+/**
+ * Helper that determines if the feature flag status for the gender identity question
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the form data is `true`
  */
 export function isSigiEnabled(formData) {
   return formData['view:isSigiEnabled'];
@@ -89,6 +114,63 @@ export function isSigiEnabled(formData) {
  */
 export function hasDifferentHomeAddress(formData) {
   return !formData['view:doesMailingMatchHomeAddress'];
+}
+
+/**
+ * Helper that determines if the registration-only questions should be show to authenticated users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged in, feature flag is active & total disability
+ * rating is 10-40%
+ */
+export function includeRegOnlyAuthQuestions(formData) {
+  const { 'view:totalDisabilityRating': totalRating } = formData;
+  return (
+    !isLoggedOut(formData) &&
+    isRegOnlyEnabled(formData) &&
+    inRange(totalRating, 10, 40)
+  );
+}
+
+/**
+ * Helper that determines if the registration-only questions should be show to guest users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged out, feature flag is active & VA
+ * compensation is set to `lowDisability`
+ */
+export function includeRegOnlyGuestQuestions(formData) {
+  return (
+    isLoggedOut(formData) &&
+    isRegOnlyEnabled(formData) &&
+    hasLowCompensation(formData)
+  );
+}
+
+/**
+ * Helper that determines if the registration-only alert should be shown to
+ * authenticated users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged in and users selected the
+ * `regOnly` package
+ */
+export function showRegOnlyAuthConfirmation(formData) {
+  const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
+  return (
+    includeRegOnlyAuthQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
+}
+
+/**
+ * Helper that determines if the registration-only alert should be shown to
+ * guest users
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if the user is logged out and users selected the
+ * `regOnly` package
+ */
+export function showRegOnlyGuestConfirmation(formData) {
+  const { 'view:vaBenefitsPackage': vaBenefitsPackage } = formData;
+  return (
+    includeRegOnlyGuestQuestions(formData) && vaBenefitsPackage === 'regOnly'
+  );
 }
 
 /**
@@ -239,4 +321,28 @@ export function useLighthouseFacilityList(formData) {
  */
 export function useJsonFacilityList(formData) {
   return !useLighthouseFacilityList(formData);
+}
+
+/**
+ * Helper that determines if we should display the hardcoded facility list
+ * @param {Object} testItem (optional) - mocked sample data for unit testing purposes
+ * @returns {Array} - array of override values for the Array Builder options
+ */
+export function insuranceTextOverrides() {
+  return {
+    getItemName: item => item?.insuranceName || '—',
+    cardDescription: item =>
+      replaceStrValues(
+        content['insurance-info--card-description'],
+        item?.insurancePolicyHolderName || '—',
+      ),
+    cancelAddTitle: () => content['insurance-info--array-cancel-add-title'],
+    cancelEditTitle: () => content['insurance-info--array-cancel-edit-title'],
+    cancelEditDescription: () =>
+      content['insurance-info--array-cancel-edit-description'],
+    cancelEditReviewDescription: () =>
+      content['insurance-info--array-cancel-edit-review-description'],
+    cancelAddYes: () => content['insurance-info--array-cancel-add-yes'],
+    cancelEditYes: () => content['insurance-info--array-cancel-edit-yes'],
+  };
 }

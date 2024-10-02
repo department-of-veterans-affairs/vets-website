@@ -53,9 +53,6 @@ const App = ({
   const showUpdatedExpensePages = useToggleValue(
     TOGGLE_NAMES.financialStatusReportExpensesUpdate,
   );
-  const serverSideTransform = useToggleValue(
-    TOGGLE_NAMES.fsrServerSideTransform,
-  );
 
   // Set the document title based on the current page
   useDocumentTitle(location);
@@ -159,9 +156,6 @@ const App = ({
         'view:streamlinedWaiverAssetUpdate': true,
         'view:reviewPageNavigationToggle': showReviewPageNavigationFeature,
         'view:showUpdatedExpensePages': showUpdatedExpensePages,
-        flippers: {
-          serverSideTransform,
-        },
       });
     },
     // Do not add formData to the dependency array, as it will cause an infinite loop. Linter warning will go away when feature flag is deprecated.
@@ -171,7 +165,6 @@ const App = ({
       setFormData,
       showReviewPageNavigationFeature,
       showUpdatedExpensePages,
-      serverSideTransform,
     ],
   );
 

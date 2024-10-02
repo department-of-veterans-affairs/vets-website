@@ -1,9 +1,7 @@
-import phrTestOneItem from '../tests/fixtures/phrRefreshGuiTestOneItem.json';
-import phrTestTwoItems from '../tests/fixtures/phrRefreshGuiTestTwoItems.json';
+import { refreshExtractTypes } from './constants';
 
-// This is a file for manually testing/demoing the PHR Refresh GUI flow.
-
-const scenario = 5;
+const scenario = 4;
+const extractType = refreshExtractTypes.VPR;
 // 1 = Refresh times out with stale data (FAILED)
 // 2 = Refresh already happened (GRAY BAR)
 // 3 = Refresh in progress, no new records (GREEN BAR)
@@ -29,7 +27,7 @@ const mockStatusResponse = (retrieved, requested, completed, successful) => {
     lastRefreshDate: null,
     facilityExtractStatusList: [
       {
-        extract: 'VPR',
+        extract: extractType,
         lastRequested: minutesAgo(now, requested),
         lastCompleted: minutesAgo(now, completed),
         lastSuccessfulCompleted: minutesAgo(now, successful),
@@ -69,18 +67,22 @@ export const mockGetRefreshStatus = () => {
   }
 };
 
-export const mockGetNotes = () => {
+export const mockGetData = (response, isMhvData) => {
+  let oneRecord;
+  if (isMhvData) oneRecord = [response[0]];
+  else oneRecord = { entry: [response.entry[0]] };
+
   switch (scenario) {
     case 4:
       if (trueElapsed(2)) {
-        return phrTestTwoItems;
+        return response;
       }
-      return phrTestOneItem;
+      return oneRecord;
     case 1:
     case 2:
     case 3:
     case 5:
     default:
-      return phrTestOneItem;
+      return oneRecord;
   }
 };

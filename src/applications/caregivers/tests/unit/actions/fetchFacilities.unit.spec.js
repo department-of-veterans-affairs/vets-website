@@ -1,55 +1,104 @@
 import { expect } from 'chai';
-import { mockApiRequest } from 'platform/testing/unit/helpers';
+import * as api from 'platform/utilities/api';
+import * as Sentry from '@sentry/browser';
+import sinon from 'sinon';
+import environment from 'platform/utilities/environment';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
-  mockLightHouseFacilitiesResponse,
-  mockLightHouseFacilitiesResponseWithTransformedAddresses,
+  mockFetchFacilitiesResponse,
+  mockFacilitiesResponse,
 } from '../../mocks/responses';
+import content from '../../../locales/en/content.json';
 
 describe('CG fetchFacilities action', () => {
-  const mockCoordinates = [1, 2, 3, 4];
+  const lat = 1;
+  const long = 2;
+  const perPage = 5;
+  const page = 1;
+  const radius = 500;
+  const facilityIds = ['12', '34'];
+  let apiRequestStub;
 
-  context('when the `mapBoxResponse` param is an error', () => {
-    it('should return the mapBox error', async () => {
-      const errorMessage = 'Something went wrong. Some bad error.';
-      const response = await fetchFacilities({
-        type: 'SEARCH_FAILED',
-        errorMessage,
+  beforeEach(() => {
+    apiRequestStub = sinon.stub(api, 'apiRequest').resolves([]);
+  });
+
+  afterEach(() => {
+    apiRequestStub.restore();
+  });
+
+  context('success', () => {
+    it('calls correct url when all params are passed', async () => {
+      await fetchFacilities({ long, lat, perPage, radius, page, facilityIds });
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds=${
+        facilityIds[0]
+      },${facilityIds[1]}`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('calls url without params when no params are passed', async () => {
+      await fetchFacilities({});
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/caregivers_assistance_claims/facilities?type=health`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('formats facility ids correctly when only one facility id', async () => {
+      await fetchFacilities({ facilityIds: ['1'] });
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/caregivers_assistance_claims/facilities?type=health&facilityIds=1`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('formats facility addresses', async () => {
+      apiRequestStub.resolves(mockFacilitiesResponse);
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+      expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+    });
+
+    it('returns NO_SEARCH_RESULTS if no data array', async () => {
+      apiRequestStub.resolves({ meta: {} });
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+
+      expect(response).to.deep.eq({
+        type: 'NO_SEARCH_RESULTS',
+        errorMessage: content['error--no-results-found'],
       });
-      expect(response).to.eq(errorMessage);
     });
   });
 
-  context('when the request succeeds', () => {
-    const { data } = mockLightHouseFacilitiesResponseWithTransformedAddresses;
+  context('failure', () => {
+    let sentrySpy;
 
-    it('should return facility results when request is omitted', async () => {
-      mockApiRequest(mockLightHouseFacilitiesResponse);
-      const response = await fetchFacilities(mockCoordinates);
-      expect(response).to.deep.eq(data);
+    beforeEach(() => {
+      sentrySpy = sinon.spy(Sentry, 'captureMessage');
     });
 
-    it('should return facility results when request is passed', async () => {
-      const response = await fetchFacilities(
-        mockCoordinates,
-        Promise.resolve(mockLightHouseFacilitiesResponse),
-      );
-      expect(response).to.deep.eq(data);
+    afterEach(() => {
+      sentrySpy.restore();
     });
-  });
 
-  context('when the request fails', () => {
-    it('should return an error object', async () => {
-      const mockErrors = {
-        errors: [{ title: 'Some bad error' }, { detail: 'Another bad error' }],
-      };
-      const response = await fetchFacilities(
-        mockCoordinates,
-        Promise.reject(mockErrors),
+    it('should log to sentry and return an error object', async () => {
+      const errorResponse = { bad: 'some error' };
+      apiRequestStub.rejects(errorResponse);
+
+      const response = await fetchFacilities({ long, lat });
+      expect(response).to.eql({
+        type: 'SEARCH_FAILED',
+        errorMessage: 'There was an error fetching the health care facilities.',
+      });
+
+      expect(sentrySpy.called).to.be.true;
+      expect(sentrySpy.firstCall.args[0]).to.equal(
+        'Error fetching Lighthouse VA facilities',
       );
-      expect(response).to.be.a('object');
-      expect(response.errorMessage[0]).to.eq(mockErrors.errors[0].title);
-      expect(response.errorMessage[1]).to.eq(mockErrors.errors[1].detail);
     });
   });
 });

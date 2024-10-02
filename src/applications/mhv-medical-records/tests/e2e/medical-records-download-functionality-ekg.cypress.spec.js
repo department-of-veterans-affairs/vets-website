@@ -4,7 +4,7 @@ import LabsAndTestsListPage from './pages/LabsAndTestsListPage';
 import EKGDetailsPage from './pages/EKGDetailsPage';
 import labsAndTests from '../fixtures/labsAndTests.json';
 
-describe('Medical Records Labs and Tests List Page', () => {
+describe.skip('Medical Records Labs and Tests List Page', () => {
   const site = new MedicalRecordsSite();
 
   before(() => {

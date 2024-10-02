@@ -130,7 +130,6 @@ const SearchResult = ({
 
   const {
     attributes: {
-      firstIssuedOn,
       formName,
       formType,
       formToolUrl,
@@ -148,7 +147,6 @@ const SearchResult = ({
     ? replaceWithStagingDomain(formToolUrl)
     : formToolUrl;
   const pdfLabel = url.toLowerCase().includes('.pdf') ? '(PDF)' : '';
-  const lastRevision = deriveLatestIssue(firstIssuedOn, lastRevisionOn);
 
   const relatedTo = deriveRelatedTo({
     vaFormAdministration,
@@ -161,13 +159,6 @@ const SearchResult = ({
 
   const pdfDownloadHandler = () => {
     setPrevFocusedLink(`pdf-link-${id}`);
-
-    recordEvent({
-      event: 'int-modal-click',
-      'modal-status': 'opened',
-      'modal-title': 'Download this PDF and open it in Acrobat Reader',
-    });
-
     toggleModalState(formName, url, pdfLabel);
   };
 
@@ -176,32 +167,27 @@ const SearchResult = ({
       <FormTitle
         id={id}
         formUrl={regulateURL(formDetailsUrl)}
-        lang={language}
         title={title}
         recordGAEvent={recordGAEvent}
         formName={formName}
       />
       <div className="vads-u-margin-y--1 vsa-from-last-updated">
-        <span className="vads-u-font-weight--bold">Form last updated:</span>{' '}
-        {lastRevision}
+        <span className="vads-u-font-weight--bold">Form revision date:</span>{' '}
+        {moment(lastRevisionOn)?.format(FORM_MOMENT_PRESENTATION_DATE_FORMAT) ||
+          'N/A'}
       </div>
 
       {relatedTo}
       {relativeFormToolUrl ? (
         <div className="vads-u-margin-bottom--2p5">
-          <va-link
-            className="vads-c-action-link--green"
-            disable-analytics
+          <va-link-action
             href={relativeFormToolUrl}
-            lang={language}
-            onClick={() =>
-              recordGAEvent(`Go to online tool`, relativeFormToolUrl, 'cta')
-            }
             text={deriveLanguageTranslation(
               language,
               'goToOnlineTool',
               formName,
             )}
+            type="secondary"
           />
         </div>
       ) : null}
@@ -210,7 +196,6 @@ const SearchResult = ({
           className="va-button-link"
           data-testid={`pdf-link-${id}`}
           id={`pdf-link-${id}`}
-          tabIndex="0"
           onKeyDown={event => {
             if (event === 13) {
               pdfDownloadHandler();

@@ -14,6 +14,8 @@ import DetailPageLayout, {
   Where,
   Section,
   ClinicOrFacilityPhone,
+  Prepare,
+  Who,
 } from './DetailPageLayout';
 import { APPOINTMENT_STATUS } from '../../utils/constants';
 import FacilityDirectionsLink from '../FacilityDirectionsLink';
@@ -32,6 +34,7 @@ export default function ClaimExamLayout({ data: appointment }) {
     facilityPhone,
     locationId,
     isPastAppointment,
+    practitionerName,
     startDate,
     status,
     typeOfCareName,
@@ -50,16 +53,6 @@ export default function ClaimExamLayout({ data: appointment }) {
 
   return (
     <DetailPageLayout heading={heading} data={appointment}>
-      {APPOINTMENT_STATUS.booked === status &&
-        !isPastAppointment && (
-          <Section heading="How to prepare for this exam">
-            <span>
-              This appointment is for disability rating purposes only. It
-              doesn’t include treatment. If you have medical evidence to support
-              your claim, bring copies to this appointment.
-            </span>
-          </Section>
-        )}
       <When>
         <AppointmentDate date={startDate} />
         <br />
@@ -76,6 +69,7 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
       </When>
       <What>{typeOfCareName}</What>
+      <Who>{practitionerName}</Who>
       <Where
         heading={
           APPOINTMENT_STATUS.booked === status && !isPastAppointment
@@ -119,8 +113,7 @@ export default function ClaimExamLayout({ data: appointment }) {
             <br />
             <Address address={facility?.address} />
             <div className="vads-u-margin-top--1 vads-u-color--link-default">
-              <va-icon icon="directions" size="3" srtext="Directions icon" />
-              <FacilityDirectionsLink location={facility} />
+              <FacilityDirectionsLink location={facility} icon />
             </div>
             <br />
             <span>Clinic: {clinicName || 'Not available'}</span> <br />
@@ -160,6 +153,27 @@ export default function ClaimExamLayout({ data: appointment }) {
           )}
         </Section>
       )}
+
+      {!isPastAppointment &&
+        (APPOINTMENT_STATUS.booked === status ||
+          APPOINTMENT_STATUS.cancelled === status) && (
+          <Prepare>
+            <ul className="vads-u-margin-top--0 vads-u-margin-bottom--0">
+              <li>You don't need to bring anything to your exam.</li>
+              <li>
+                If you have any new non-VA medical records (like records from a
+                recent surgery or illness), be sure to submit them before your
+                appointment.
+              </li>
+            </ul>
+            <a
+              target="_self"
+              href="https://www.va.gov/disability/va-claim-exam/"
+            >
+              Learn more about claim exam appointments
+            </a>
+          </Prepare>
+        )}
       {APPOINTMENT_STATUS.booked === status &&
         !isPastAppointment && (
           <Section heading="Need to make changes?">

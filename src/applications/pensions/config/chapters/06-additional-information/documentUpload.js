@@ -3,6 +3,12 @@ import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import environment from 'platform/utilities/environment';
 import fileUploadUI from 'platform/forms-system/src/js/definitions/file';
 import { files } from '../../definitions';
+import { showUploadDocuments } from '../../../helpers';
+
+// TODO: Remove this page when pension_document_upload_update flipper is removed
+const path = !showUploadDocuments()
+  ? 'additional-information/document-upload'
+  : 'temporarily-hidden-document-upload';
 
 const Description = (
   <div className="vads-u-color--gray-dark">
@@ -68,7 +74,8 @@ const UploadMessage = (
 
 export default {
   title: 'Document upload',
-  path: 'additional-information/document-upload',
+  path,
+  depends: () => !showUploadDocuments(),
   uiSchema: {
     ...titleUI('Submit your supporting documents'),
     'ui:description': Description,

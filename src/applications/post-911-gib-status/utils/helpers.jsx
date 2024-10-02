@@ -30,17 +30,17 @@ export function formatVAFileNumber(n) {
 }
 
 export function formatMonthDayFields(field) {
-  let displayValue;
-  if (field) {
-    if (field.days === 1) {
-      displayValue = `${field.months} months, ${field.days} day`;
-    } else {
-      displayValue = `${field.months} months, ${field.days} days`;
-    }
-  } else {
-    displayValue = 'unavailable';
+  if (!field || field.months == null || field.days == null) {
+    return 'unavailable';
   }
-  return displayValue;
+
+  const { months, days } = field;
+
+  const monthString = `${months} ${months === 1 ? 'month' : 'months'}`;
+
+  const dayString = `${days} ${days === 1 ? 'day' : 'days'}`;
+
+  return `${monthString}, ${dayString}`;
 }
 
 export const enrollmentHistoryExplanation = {
@@ -179,9 +179,11 @@ export const backendErrorMessage = (
       <va-telephone tty contact="711" />
       ).
     </p>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
-      Go back to VA.gov
-    </Link>
+    <va-link-action
+      href="/"
+      message-aria-describedby="Return to VA homepage"
+      text="Go back to VA.gov"
+    />
   </div>
 );
 
@@ -202,9 +204,11 @@ export const serviceDowntimeErrorMessage = (
       <va-telephone tty contact="711" />
       ).
     </p>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
-      Go back to VA.gov
-    </Link>
+    <va-link-action
+      href="/"
+      message-aria-describedby="Return to VA homepage"
+      text="Go back to VA.gov"
+    />
   </div>
 );
 
@@ -268,8 +272,11 @@ export const authenticationErrorMessage = (
         ).
       </p>
     </div>
-    <Link className="vads-c-action-link--green" to="/" hrefLang="en">
-      Go back to VA.gov
-    </Link>
+
+    <va-link-action
+      href="/"
+      message-aria-describedby="Return to VA homepage"
+      text="Go back to VA.gov"
+    />
   </div>
 );

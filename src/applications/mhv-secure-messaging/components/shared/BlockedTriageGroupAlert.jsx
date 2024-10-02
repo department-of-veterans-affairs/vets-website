@@ -138,7 +138,8 @@ const BlockedTriageGroupAlert = props => {
     >
       <div className="vads-u-padding-left--4 vads-u-padding-bottom--1">
         <p className="vads-u-margin-bottom--1p5">{alertInfoText}</p>
-        {parentComponent === ParentComponent.COMPOSE_FORM &&
+        {(parentComponent === ParentComponent.COMPOSE_FORM ||
+          parentComponent === ParentComponent.CONTACT_LIST) &&
           !allTriageGroupsBlocked &&
           blockedTriageList?.length > 1 && (
             <ul>

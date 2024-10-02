@@ -12,9 +12,7 @@ const ErrorTest = () => {
   );
   return (
     <div className="vads-l-grid-container vads-u-padding-y--5 ">
-      <button type="button" onClick={throwError}>
-        {value.item.thing.display}
-      </button>
+      <va-button text={value.item.thing.display} onClick={throwError} />
     </div>
   );
 };

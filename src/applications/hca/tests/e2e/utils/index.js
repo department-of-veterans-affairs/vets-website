@@ -105,6 +105,7 @@ export const advanceFromHouseholdToReview = () => {
   goToNextPage('/insurance-information/medicare');
   cy.get('[name="root_isEnrolledMedicarePartA"]').check('N');
 
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
@@ -179,14 +180,6 @@ export const fillSpousalBasicInformation = () => {
   cy.get('#root_dateOfMarriageYear').type(maritalYear);
 };
 
-export const shortFormAdditionalHelpAssertion = () => {
-  cy.get('va-alert-expandable')
-    .shadow()
-    .findByText(/you’re filling out a shortened application!/i)
-    .first()
-    .should('exist');
-};
-
 export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/va-benefits/basic-information');
   cy.get('[name="root_vaCompensationType"]').check('highDisability');
@@ -208,22 +201,18 @@ export const shortFormSelfDisclosureToSubmit = () => {
   goToNextPage('/insurance-information/medicaid');
 
   // medicaid page with short form message
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isMedicaidEligible"]').check('N');
 
-  // general insurance
+  // insurance policies
+  goToNextPage('/insurance-information/your-health-insurance');
   goToNextPage('/insurance-information/general');
-  shortFormAdditionalHelpAssertion();
   cy.get('[name="root_isCoveredByHealthInsurance"]').check('N');
 
   // va facility
   goToNextPage('/insurance-information/va-facility');
-  shortFormAdditionalHelpAssertion();
-
   cy.get('[name="root_view:preferredFacility_view:facilityState"]').select(
     testData['view:preferredFacility']['view:facilityState'],
   );
-
   cy.get('[name="root_view:preferredFacility_vaMedicalFacility"]').select(
     testData['view:preferredFacility'].vaMedicalFacility,
   );
@@ -299,4 +288,27 @@ export const selectRadioWithKeyboard = (fieldName, value) => {
   cy.tabToElement(`[name="root_${fieldName}"]`);
   cy.findOption(value);
   cy.realPress('Space');
+};
+
+// single field web component fill helpers
+export const fillTextWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(`va-text-input[name="root_${fieldName}"]`)
+      .shadow()
+      .find('input')
+      .type(value);
+  }
+};
+
+export const selectRadioWebComponent = (fieldName, value) => {
+  if (typeof value !== 'undefined') {
+    cy.get(
+      `va-radio-option[name="root_${fieldName}"][value="${value}"]`,
+    ).click();
+  }
+};
+
+export const selectYesNoWebComponent = (fieldName, value) => {
+  const selection = value ? 'Y' : 'N';
+  selectRadioWebComponent(fieldName, selection);
 };

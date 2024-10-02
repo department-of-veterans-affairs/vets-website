@@ -218,8 +218,8 @@ export function applicantInsurancePrescriptionSchema(isPrimary) {
   };
 }
 
-export function applicantInsuranceEOBSchema(isPrimary) {
-  const keyname = isPrimary ? 'applicantPrimaryEOB' : 'applicantSecondaryEOB';
+export function applicantInsuranceEobSchema(isPrimary) {
+  const keyname = isPrimary ? 'applicantPrimaryEob' : 'applicantSecondaryEob';
   const provider = isPrimary
     ? 'applicantPrimaryProvider'
     : 'applicantSecondaryProvider';
@@ -455,10 +455,6 @@ export function applicantInsuranceCardSchema(isPrimary) {
             <>
               You’ll need to submit a copy of the front and back of this health
               insurance card.
-              <br />
-              <br />
-              You can also upload any other supporting documents you may have
-              for this health insurance.
               <br />
               <br />
               If you don’t have a copy to upload now, you can send it by mail or

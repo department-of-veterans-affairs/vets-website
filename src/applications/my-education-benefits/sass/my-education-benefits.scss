@@ -254,18 +254,6 @@ va-accordion-item .service-history-details {
 .meb-alert--warning {
 	border-left-color: var(--vads-color-warning);
 }
-.meb-alert > i {
-	font-family: "Font Awesome 5 Free";
-	font-style: normal;
-	font-weight: 900;
-}
-.meb-alert--warning > i::before {
-	content: "";
-}
-.meb-alert--warning > i::before {
-	display: flex;
-	margin-right: 1rem;
-}
 .meb-list-label {
 	margin-top: 1.125rem;
 }
@@ -491,3 +479,11 @@ label.schemaform-label[for=root_phoneNumber_isInternational] {
 .no-margin {
 	margin-top: 0px;
 }
+
+.my-education-benefits-list {
+	list-style-type: none;
+}
+
+.my-education-benefit-selection-icon {
+    min-width: 28px;
+  }

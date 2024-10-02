@@ -30,7 +30,6 @@ coverage
 yalc.lock
 /test-results.xml
 package-lock.json
-src/applications/proxy-rewrite/tests/__image_snapshots__/__diff_output__/
 temp
 dump.rdb
 
@@ -45,6 +44,7 @@ all-links.csv
 .tern-port
 *.iml
 .ignore
+.tool-versions
 
 # Track shared IDE config
 !.vscode/extensions.json

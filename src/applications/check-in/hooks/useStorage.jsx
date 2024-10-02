@@ -72,14 +72,28 @@ const useStorage = (app, local = false) => {
 
   const setCheckinComplete = useCallback(
     (window, value) => {
-      setKey(window, STORAGE_KEYS.CHECK_IN_COMPLETE, value);
+      setKey(window, STORAGE_KEYS.COMPLETE, value);
     },
     [STORAGE_KEYS, setKey],
   );
 
   const getCheckinComplete = useCallback(
     window => {
-      return getKey(window, STORAGE_KEYS.CHECK_IN_COMPLETE);
+      return getKey(window, STORAGE_KEYS.COMPLETE);
+    },
+    [STORAGE_KEYS, getKey],
+  );
+
+  const setCompleteTimestamp = useCallback(
+    (window, value) => {
+      setKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP, value);
+    },
+    [STORAGE_KEYS, setKey],
+  );
+
+  const getCompleteTimestamp = useCallback(
+    window => {
+      return getKey(window, STORAGE_KEYS.COMPLETE_TIMESTAMP);
     },
     [STORAGE_KEYS, getKey],
   );
@@ -165,6 +179,8 @@ const useStorage = (app, local = false) => {
     getPreCheckinComplete,
     setCheckinComplete,
     getCheckinComplete,
+    setCompleteTimestamp,
+    getCompleteTimestamp,
     setShouldSendDemographicsFlags,
     getShouldSendDemographicsFlags,
     setShouldSendTravelPayClaim,

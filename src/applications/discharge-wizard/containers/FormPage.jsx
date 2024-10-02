@@ -7,14 +7,15 @@ import React from 'react';
 import { updateField } from '../actions';
 import FormQuestions from '../components/FormQuestions';
 
-export const FormPage = ({ formValues, updateFormField }) => {
+export const FormPage = ({ formValues, updateFormField, router }) => {
   return (
     <div>
-      <h1>How to Apply for a Discharge Upgrade</h1>
+      <h1>How to apply for a discharge upgrade</h1>
       <div className="medium-8">
         <FormQuestions
           formValues={formValues}
           updateFormField={updateFormField}
+          router={router}
         />
       </div>
     </div>

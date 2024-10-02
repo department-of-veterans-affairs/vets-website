@@ -5,7 +5,7 @@ import LandingPage from '../pages/LandingPage';
 describe(`${appName} -- MHV Secondary Nav enabled`, () => {
   describe('registered user', () => {
     it('renders', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       LandingPage.visit();
       LandingPage.secondaryNavRendered();
       cy.injectAxeThenAxeCheck();
@@ -14,7 +14,7 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
 
   describe('unverified user', () => {
     it('does not render', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       LandingPage.visit({ verified: false, registered: false });
       LandingPage.secondaryNav().should('not.exist');
       cy.injectAxeThenAxeCheck();
@@ -23,7 +23,7 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
 
   describe('unregistered user', () => {
     it('does not render', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       LandingPage.visit({ registered: false });
       LandingPage.secondaryNav().should('not.exist');
       cy.injectAxeThenAxeCheck();
@@ -32,19 +32,10 @@ describe(`${appName} -- MHV Secondary Nav enabled`, () => {
 
   describe('user without MHV account', () => {
     it('renders', () => {
-      ApiInitializer.initializeFeatureToggle.withAllFeatures();
+      ApiInitializer.initializeFeatureToggle.withCurrentFeatures();
       LandingPage.visit({ mhvAccountState: false });
       LandingPage.secondaryNavRendered();
       cy.injectAxeThenAxeCheck();
     });
-  });
-});
-
-describe(`${appName} -- MHV Secondary Nav disabled`, () => {
-  it('does not render', () => {
-    ApiInitializer.initializeFeatureToggle.withAllFeaturesDisabled();
-    LandingPage.visit();
-    LandingPage.secondaryNav().should('not.exist');
-    cy.injectAxeThenAxeCheck();
   });
 });

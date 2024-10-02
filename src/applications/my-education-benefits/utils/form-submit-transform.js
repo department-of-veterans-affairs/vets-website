@@ -317,7 +317,7 @@ export function createContactInfo(submissionForm) {
     addressType: getAddressType(submissionForm[formFields.viewMailingAddress]),
     city: address?.city,
     countryCode: getLTSCountryCode(address?.country),
-    emailAddress: submissionForm.email.email,
+    emailAddress: submissionForm?.email?.email?.toLowerCase(),
     homePhoneNumber: phoneNumbers?.phoneNumber.phone,
     mobilePhoneNumber: phoneNumbers?.mobilePhoneNumber.phone,
     stateCode: address?.state,
@@ -375,7 +375,6 @@ export function createRelinquishedBenefit(submissionForm) {
   if (!submissionForm || !submissionForm[formFields.viewBenefitSelection]) {
     return {};
   }
-
   const benefitRelinquished =
     submissionForm[formFields.viewBenefitSelection][
       (formFields?.benefitRelinquished)
@@ -392,18 +391,10 @@ export function createRelinquishedBenefit(submissionForm) {
       effRelinquishDate: submissionForm[formFields.benefitEffectiveDate],
     };
   }
-  if (submissionForm?.showMebEnhancements09) {
-    return submissionForm?.showMebDgi42Features
-      ? {
-          relinquishedBenefit: 'NotEligible',
-        }
-      : {};
-  }
-  return submissionForm?.showMebDgi42Features
-    ? {
-        relinquishedBenefit: 'CannotRelinquish',
-      }
-    : {};
+  // Default case when no benefit is relinquished
+  return {
+    relinquishedBenefit: 'NotEligible',
+  };
 }
 
 function setAdditionalConsideration(consideration) {
@@ -540,6 +531,17 @@ export function createDirectDeposit(submissionForm) {
 }
 
 export function createSubmissionForm(submissionForm, formId) {
+  if (submissionForm?.meb160630Automation) {
+    return {
+      formId,
+      '@type': submissionForm?.chosenBenefit,
+      claimant: createMilitaryClaimant(submissionForm),
+      relinquishedBenefit: createRelinquishedBenefit(submissionForm),
+      additionalConsiderations: createAdditionalConsiderations(submissionForm),
+      comments: createComments(submissionForm),
+      directDeposit: createDirectDeposit(submissionForm),
+    };
+  }
   return {
     formId,
     claimant: createMilitaryClaimant(submissionForm),

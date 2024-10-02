@@ -17,6 +17,10 @@ describe('Date formatting interpolators', () => {
       day: 'Tuesday',
       monthDay: 'March 12',
       dayOfWeek: 'Tuesday',
+      dayOfWeekAbbr: 'Tue',
+      monthAndYear: 'March 2024',
+      dayOfMonth: '12',
+      date: 'Tue, March 12th',
       dayWithTime: 'March 12, 2024, 10:38 a.m.',
     },
     es: {
@@ -27,6 +31,10 @@ describe('Date formatting interpolators', () => {
       day: 'martes',
       monthDay: 'marzo 12',
       dayOfWeek: 'martes',
+      dayOfWeekAbbr: 'mar',
+      monthAndYear: 'marzo 2024',
+      dayOfMonth: '12',
+      date: 'mar, marzo 12º',
       dayWithTime: 'marzo 12, 2024, 10:38 a.m.',
     },
   };

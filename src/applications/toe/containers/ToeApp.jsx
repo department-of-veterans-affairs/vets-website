@@ -5,17 +5,25 @@ import PropTypes from 'prop-types';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/web-components/react-bindings';
 import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
 import { setData } from 'platform/forms-system/src/js/actions';
-
 import formConfig from '../config/form';
-import { fetchPersonalInformation, fetchDirectDeposit } from '../actions';
-import { mapFormSponsors } from '../helpers';
+
+import {
+  fetchPersonalInformation,
+  fetchDirectDeposit,
+  fetchDuplicateContactInfo,
+} from '../actions';
+import { mapFormSponsors, prefillTransformer } from '../helpers';
 import { SPONSORS_TYPE } from '../constants';
 import { getAppData } from '../selectors';
 
 function ToeApp({
   children,
+  dob,
+  duplicateEmail,
+  duplicatePhone,
   formData,
   getDirectDeposit,
+  getDuplicateContactInfo,
   getPersonalInformation,
   isLOA3,
   isLoggedIn,
@@ -26,9 +34,8 @@ function ToeApp({
   sponsorsSavedState,
   user,
   showMeb1990ER6MaintenanceMessage,
-  showMebEnhancements,
-  showMebEnhancements06,
-  showMebEnhancements08,
+  toeDupContactInfoCall,
+  toeHighSchoolInfoChange,
   toeLightHouseDgiDirectDeposit,
 }) {
   const [fetchedUserInfo, setFetchedUserInfo] = useState(false);
@@ -71,35 +78,11 @@ function ToeApp({
       if (isLOA3 !== formData.isLOA3) {
         setFormData({
           ...formData,
-          isLOA3, // ES6 Syntax
+          isLOA3,
         });
       }
     },
     [formData, setFormData, isLOA3],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements !== formData.showMebEnhancements) {
-        setFormData({
-          ...formData,
-          showMebEnhancements,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements],
-  );
-
-  useEffect(
-    () => {
-      if (showMebEnhancements06 !== formData.showMebEnhancements06) {
-        setFormData({
-          ...formData,
-          showMebEnhancements06,
-        });
-      }
-    },
-    [formData, setFormData, showMebEnhancements06],
   );
 
   useEffect(
@@ -119,30 +102,75 @@ function ToeApp({
 
   useEffect(
     () => {
-      if (showMebEnhancements08 !== formData.showMebEnhancements08) {
+      if (toeDupContactInfoCall !== formData.toeDupContactInfoCall) {
         setFormData({
           ...formData,
-          showMebEnhancements08,
+          toeDupContactInfoCall,
         });
       }
-      if (
-        toeLightHouseDgiDirectDeposit !==
-        formData?.toeLightHouseDgiDirectDeposit
-      ) {
-        setLighthouseFlag(true);
 
+      if (
+        formData['view:phoneNumbers']?.mobilePhoneNumber?.phone &&
+        formData?.email?.email &&
+        !formData?.duplicateEmail &&
+        !formData?.duplicatePhone &&
+        formData?.toeDupContactInfoCall
+      ) {
+        getDuplicateContactInfo(
+          [{ value: formData?.email?.email, dupe: '' }],
+          [
+            {
+              value: formData['view:phoneNumbers']?.mobilePhoneNumber?.phone,
+              dupe: '',
+            },
+          ],
+        );
+      }
+
+      if (
+        duplicateEmail?.length > 0 &&
+        duplicateEmail !== formData?.duplicateEmail
+      ) {
         setFormData({
           ...formData,
-          toeLightHouseDgiDirectDeposit,
+          duplicateEmail,
+        });
+      }
+
+      if (
+        duplicatePhone?.length > 0 &&
+        duplicatePhone !== formData?.duplicatePhone
+      ) {
+        setFormData({
+          ...formData,
+          duplicatePhone,
         });
       }
     },
     [
       formData,
       setFormData,
-      showMebEnhancements08,
-      toeLightHouseDgiDirectDeposit,
+      toeDupContactInfoCall,
+      duplicateEmail,
+      duplicatePhone,
+      getDuplicateContactInfo,
     ],
+  );
+
+  useEffect(
+    () => {
+      if (
+        toeLightHouseDgiDirectDeposit !==
+        formData?.toeLightHouseDgiDirectDeposit
+      ) {
+        setLighthouseFlag(true);
+        setFormData({
+          ...formData,
+          toeLightHouseDgiDirectDeposit,
+        });
+      }
+    },
+    [formData, setFormData, toeLightHouseDgiDirectDeposit],
   );
 
   useEffect(
@@ -163,9 +191,33 @@ function ToeApp({
       getDirectDeposit,
       user?.login?.currentlyLoggedIn,
       lightHouseFlag,
+      formData?.toeLightHouseDgiDirectDeposit,
     ],
   );
 
+  useEffect(
+    () => {
+      if (toeHighSchoolInfoChange !== formData.toeHighSchoolInfoChange) {
+        setFormData({
+          ...formData,
+          toeHighSchoolInfoChange,
+        });
+      }
+    },
+    [formData, setFormData, toeHighSchoolInfoChange],
+  );
+
+  useEffect(
+    () => {
+      if (dob !== formData?.dob) {
+        setFormData({
+          ...formData,
+          dob,
+        });
+      }
+    },
+    [dob, formData, setFormData],
+  );
   return (
     <>
       <div className="row">
@@ -204,38 +256,49 @@ function ToeApp({
 
 ToeApp.propTypes = {
   children: PropTypes.object,
+  dob: PropTypes.string,
+  duplicateEmail: PropTypes.array,
+  duplicatePhone: PropTypes.array,
   formData: PropTypes.object,
   getDirectDeposit: PropTypes.func,
+  getDuplicateContactInfo: PropTypes.func,
   getPersonalInformation: PropTypes.func,
   isLOA3: PropTypes.bool,
   isLoggedIn: PropTypes.bool,
   location: PropTypes.object,
   setFormData: PropTypes.func,
-  showMebEnhancements: PropTypes.bool,
-  showMebEnhancements06: PropTypes.bool,
+  showMeb1990ER6MaintenanceMessage: PropTypes.bool,
   showUpdatedFryDeaApp: PropTypes.bool,
   sponsors: SPONSORS_TYPE,
   sponsorsInitial: SPONSORS_TYPE,
   sponsorsSavedState: SPONSORS_TYPE,
+  toeDupContactInfoCall: PropTypes.bool,
+  toeHighSchoolInfoChange: PropTypes.bool,
   toeLightHouseDgiDirectDeposit: PropTypes.bool,
   user: PropTypes.object,
 };
 
-const mapStateToProps = state => ({
-  ...getAppData(state),
-  formData: state.form?.data || {},
-  claimant: state.data?.formData?.data?.attributes?.claimant,
-  fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
-  sponsors: state.form?.data?.sponsors,
-  sponsorsInitial: state?.data?.sponsors,
-  sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
-  user: state.user,
-});
+const mapStateToProps = state => {
+  return {
+    ...getAppData(state),
+    dob:
+      state?.user?.profile?.dob ||
+      state?.data?.formData?.data?.attributes?.claimant?.dateOfBirth,
+    formData: state.form?.data || {},
+    claimant: prefillTransformer(null, null, null, state)?.formData,
+    fetchedSponsorsComplete: state.data?.fetchedSponsorsComplete,
+    sponsors: state.form?.data?.sponsors,
+    sponsorsInitial: state?.data?.sponsors,
+    sponsorsSavedState: state.form?.loadedData?.formData?.sponsors,
+    user: state.user,
+  };
+};
 
 const mapDispatchToProps = {
   getDirectDeposit: fetchDirectDeposit,
   getPersonalInformation: fetchPersonalInformation,
   setFormData: setData,
+  getDuplicateContactInfo: fetchDuplicateContactInfo,
 };
 
 export default connect(

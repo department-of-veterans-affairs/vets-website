@@ -44,15 +44,14 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
-    expect(facilityTable.prop('class')).to.equal('school-locations');
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(2);
 
     const headerRow = tableRows.at(0);
-    const headerLabels = headerRow.find('span');
+    const headerLabels = headerRow.find('th');
 
     ['School name', 'Location', 'Estimated housing'].forEach(
       (column, index) => {
@@ -61,15 +60,19 @@ describe('<SchoolLocations>', () => {
     );
 
     const dataRow = tableRows.at(1);
-    expect(dataRow.prop('class')).to.equal('main-row');
-
-    const dataLabels = dataRow.find('span');
+    const dataLabels = dataRow.find('td');
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     wrapper.unmount();
@@ -112,21 +115,27 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(2);
 
     const dataRow = tableRows.at(1);
-    const dataLabels = dataRow.find('span');
+    const dataLabels = dataRow.find('td');
 
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     wrapper.unmount();
@@ -196,32 +205,44 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(4);
 
     let dataRow = tableRows.at(1);
-    let dataLabels = dataRow.find('span');
+    let dataLabels = dataRow.find('td');
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     dataRow = tableRows.at(2);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
     ['MAIN BRANCH FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
-        expect(dataLabels.at(index).text()).equal(column);
+        const currentDataLabels = dataLabels.at(index);
+        if (currentDataLabels.text() !== '') {
+          expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
+        }
       },
     );
 
     dataRow = tableRows.at(3);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
     [
       'BRANCH EXTENSION FACILITY',
       'Test 2, OH 12345',
@@ -282,31 +303,237 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(3);
 
     let dataRow = tableRows.at(1);
-    let dataLabels = dataRow.find('span');
+    let dataLabels = dataRow.find('td');
 
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
       '$100per month/mo',
     ].forEach((column, index) => {
-      expect(dataLabels.at(index).text()).equal(column);
+      const currentDataLabels = dataLabels.at(index);
+      if (currentDataLabels.text() !== '') {
+        expect(dataLabels.at(index).text()).equal(column);
+      } else {
+        const vaLink = currentDataLabels.find('va-link');
+        expect(vaLink.length).to.equal(1);
+      }
     });
 
     dataRow = tableRows.at(2);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
 
     ['MAIN EXTENSION FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
-        expect(dataLabels.at(index).text()).equal(column);
+        const currentDataLabels = dataLabels.at(index);
+        if (currentDataLabels.text() !== '') {
+          expect(dataLabels.at(index).text()).equal(column);
+        } else {
+          const vaLink = currentDataLabels.find('va-link');
+          expect(vaLink.length).to.equal(1);
+        }
       },
     );
+
+    wrapper.unmount();
+  });
+
+  it('should render show next and view all buttons', () => {
+    const testState = {
+      ...defaultState,
+      profile: {
+        ...defaultState.profile,
+        attributes: {
+          facilityMap: {
+            main: {
+              institution: {
+                institution: 'MAIN FACILITY',
+                type: 'FOR PROFIT',
+                facilityCode: '100',
+                physicalCity: 'Test',
+                physicalState: 'TN',
+                physicalCountry: 'USA',
+                physicalZip: '12345',
+                country: 'USA',
+                dodBah: '100',
+              },
+              extensions: [
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY',
+                  physicalCity: 'Test 1',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 2',
+                  physicalCity: 'Test 2',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 3',
+                  physicalCity: 'Test 3',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 4',
+                  physicalCity: 'Test 4',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 5',
+                  physicalCity: 'Test 5',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 6',
+                  physicalCity: 'Test 6',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 7',
+                  physicalCity: 'Test 7',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 8',
+                  physicalCity: 'Test 8',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 9',
+                  physicalCity: 'Test 9',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+                {
+                  type: 'FOR PROFIT',
+                  facilityCode: '100',
+                  institution: 'MAIN EXTENSION FACILITY 10',
+                  physicalCity: 'Test 10',
+                  physicalState: 'KY',
+                  physicalCountry: 'USA',
+                  physicalZip: '12345',
+                  country: 'USA',
+                  dodBah: '150',
+                },
+              ],
+              branches: [
+                {
+                  institution: {
+                    type: 'FOR PROFIT',
+                    facilityCode: '101',
+                    institution: 'MAIN BRANCH FACILITY',
+                    physicalCity: 'Test 1',
+                    physicalState: 'KY',
+                    physicalCountry: 'USA',
+                    physicalZip: '12345',
+                    country: 'USA',
+                    dodBah: '150',
+                  },
+                  extensions: [
+                    {
+                      type: 'FOR PROFIT',
+                      facilityCode: '102',
+                      institution: 'BRANCH EXTENSION FACILITY',
+                      physicalCity: 'Test 2',
+                      physicalState: 'OH',
+                      physicalCountry: 'USA',
+                      physicalZip: '12345',
+                      country: 'USA',
+                      dodBah: '200',
+                    },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      },
+    };
+
+    const wrapper = shallow(
+      <SchoolLocations
+        institution={testState.profile.attributes}
+        facilityMap={testState.profile.attributes.facilityMap}
+        calculator={testState.calculator}
+        eligibility={testState.eligibility}
+        constants={testState.constants}
+      />,
+    );
+
+    const facilityTable = wrapper.find('table.sl-table');
+    expect(facilityTable).to.have.lengthOf(1);
+
+    const tableRows = wrapper.find('tr');
+    expect(tableRows).to.have.lengthOf(11);
+
+    const buttons = wrapper.find('button');
+    expect(buttons).to.have.lengthOf(2);
+
+    const viewAllButton = buttons.at(1);
+    expect(viewAllButton.text()).to.equal('View all');
+    viewAllButton.simulate('click');
+
+    const newTableRows = wrapper.find('tr');
+    expect(newTableRows).to.have.lengthOf(14);
 
     wrapper.unmount();
   });

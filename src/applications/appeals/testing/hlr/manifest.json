@@ -2,6 +2,6 @@
   "appName": "HLR testing",
   "entryFile": "./form-entry.jsx",
   "entryName": "hlr-testing",
-  "rootUrl": "/decision-reviews/testing/hlr",
+  "rootUrl": "/decision-reviews/test-hlr",
   "productId": "32de6df6-8818-4fc8-b179-5d05ccb2db19"
 }

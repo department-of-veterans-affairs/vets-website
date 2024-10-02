@@ -19,7 +19,9 @@ import { showNewHlrContent } from '../utils/helpers';
 export function transform(formConfig, form) {
   // https://dev-developer.va.gov/explore/appeals/docs/decision_reviews?version=current
   const mainTransform = formData => {
-    const informalConference = formData.informalConference !== 'no';
+    const informalConference = showNewHlrContent(formData)
+      ? formData.informalConferenceChoice === 'yes'
+      : ['me', 'rep'].includes(formData.informalConference);
     const attributes = {
       // This value may empty if the user restarts the form; see
       // va.gov-team/issues/13814
@@ -30,13 +32,13 @@ export function transform(formConfig, form) {
       veteran: {
         timezone: getTimeZone(),
         address: getAddress(formData),
-        homeless: formData.homeless,
+        homeless: formData.homeless || false,
         phone: getPhone(formData),
         email: formData.veteran?.email || '',
       },
-      // Newer HLR gives no choice; defaulting to true until new Lighthouse API
-      // is ready
-      socOptIn: showNewHlrContent(formData) || formData.socOptIn,
+      // HLR v2.5 gives no choice; default to true (when feature toggle enabled)
+      // Lighthouse v2 & v2.5 has this value as required
+      socOptIn: showNewHlrContent(formData) || formData.socOptIn || false,
     };
 
     const included = addAreaOfDisagreement(

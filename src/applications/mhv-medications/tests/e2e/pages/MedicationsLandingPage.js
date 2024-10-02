@@ -1,5 +1,6 @@
 import { medicationsUrls } from '../../../util/constants';
 import emptyPrescriptionsList from '../fixtures/empty-prescriptions-list.json';
+import prescriptions from '../fixtures/prescriptions.json';
 
 class MedicationsLandingPage {
   clickExpandAllAccordionButton = () => {
@@ -44,6 +45,11 @@ class MedicationsLandingPage {
 
   clickExpandAccordionsOnMedicationsLandingPage = () => {
     // cy.expandAccordions();
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      prescriptions,
+    ).as('medicationsList');
     cy.get('[data-testid="more-ways-to-manage"]')
       .shadow()
       .find('[aria-label="Expand all accordions"]')
@@ -109,6 +115,13 @@ class MedicationsLandingPage {
     cy.get('[data-testid="cerner-facilities-alert"]').should(
       'contain',
       'Make sure you’re in the right health portal',
+    );
+  };
+
+  verifyGoToYourAllergiesAndReactionsLinkOnAboutMedicationsPage = () => {
+    cy.get('[data-testid="allergies-reactions-link"]').should(
+      'contain',
+      'Go to your allergies and reactions',
     );
   };
 }

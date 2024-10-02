@@ -63,6 +63,7 @@ const NextOfKin = props => {
       />
       <NextOfKinDisplay
         header={header}
+        eyebrow={t('review-your-information')}
         subtitle={subtitle}
         nextOfKin={nextOfKin}
         yesAction={yesClick}

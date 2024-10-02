@@ -18,7 +18,7 @@ import additionalInformation from './chapters/06-additional-information';
 
 const formConfig = {
   formId: VA_FORM_IDS.FORM_21P_527EZ,
-  version: 9,
+  version: 10,
   migrations,
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -26,6 +26,9 @@ const formConfig = {
   trackingPrefix: 'pensions-527EZ-',
   v3SegmentedProgressBar: true,
   prefillEnabled: true,
+  dev: {
+    disableWindowUnloadInCI: true,
+  },
   downtime: {
     dependencies: [externalServices.icmhs],
   },

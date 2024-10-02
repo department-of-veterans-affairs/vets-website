@@ -1,4 +1,4 @@
-import React, { useMemo, useLayoutEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
@@ -6,15 +6,12 @@ import PropTypes from 'prop-types';
 import { recordEvent } from '@department-of-veterans-affairs/platform-monitoring/exports';
 
 import { createAnalyticsSlug } from '../../../utils/analytics';
-import { useStorage } from '../../../hooks/useStorage';
-import { useFormRouting } from '../../../hooks/useFormRouting';
 import { makeSelectApp, makeSelectCurrentContext } from '../../../selectors';
 import { makeSelectFeatureToggles } from '../../../utils/selectors/feature-toggles';
 
 import DemographicItem from '../../DemographicItem';
 import Wrapper from '../../layout/Wrapper';
 import { toCamelCase } from '../../../utils/formatters';
-import { URLS } from '../../../utils/navigation';
 import TravelWarningAlert from '../../TravelWarningAlert';
 import { APP_NAMES } from '../../../utils/appConstants';
 
@@ -30,7 +27,6 @@ const ConfirmablePage = ({
   noAction,
   withBackButton = false,
   pageType,
-  router,
 }) => {
   const { t } = useTranslation();
 
@@ -40,13 +36,6 @@ const ConfirmablePage = ({
   const { setECheckinStartedCalled } = useSelector(selectCurrentContext);
   const selectFeatureToggles = useMemo(makeSelectFeatureToggles, []);
   const { isTravelReimbursementEnabled } = useSelector(selectFeatureToggles);
-  const { jumpToPage } = useFormRouting(router);
-  const { getCheckinComplete } = useStorage(app);
-  useLayoutEffect(() => {
-    if (getCheckinComplete(window)) {
-      jumpToPage(URLS.DETAILS);
-    }
-  });
 
   const onYesClick = () => {
     recordEvent({
@@ -119,7 +108,7 @@ const ConfirmablePage = ({
         </ul>
       </div>
       {additionalInfo}
-      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch small-screen:vads-u-flex-direction--row">
+      <div className="vads-u-display--flex vads-u-flex-direction--column vads-u-align-itmes--stretch mobile-lg:vads-u-flex-direction--row">
         <va-button
           uswds
           big

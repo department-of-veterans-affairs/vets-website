@@ -1,3 +1,5 @@
+import mockToggles from '../fixtures/toggles-response.json';
+
 class GeneralFunctionsPage {
   updatedThreadDates = data => {
     const currentDate = new Date();
@@ -24,6 +26,45 @@ class GeneralFunctionsPage {
         };
       }),
     };
+  };
+
+  updateFeatureToggles = (name, value) => {
+    return {
+      ...mockToggles,
+      data: {
+        ...mockToggles.data,
+        features: [
+          ...mockToggles.data.features,
+          {
+            name,
+            value,
+          },
+        ],
+      },
+    };
+  };
+
+  getDateFormat = () => {
+    const date = new Date();
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+
+    const formatter = new Intl.DateTimeFormat('en-US', options);
+    return formatter
+      .format(date)
+      .replace(`AM`, `a.m.`)
+      .replace(`PM`, `p.m.`);
+  };
+
+  verifyUrl = endpoint => {
+    cy.url().should(`include`, endpoint);
+  };
+
+  verifyPageHeader = text => {
+    cy.get(`h1`).should(`have.text`, text);
   };
 }
 

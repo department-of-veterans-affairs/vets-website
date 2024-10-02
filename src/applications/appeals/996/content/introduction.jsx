@@ -12,7 +12,21 @@ import {
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
+  HEALTH_BENEFITS_URL,
+  MST_INFO,
 } from '../constants';
+
+export const NewIntroText = () => (
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <p className="va-introtext">
+        If you disagree with a VA decision on an initial claim or Supplemental
+        Claim, you or your representative can request a Higher-Level Review of
+        the decision. You can’t submit new evidence with a Higher-Level Review.
+      </p>
+    </Toggler.Enabled>
+  </Toggler>
+);
 
 export const IntroText = () => {
   const restartWizard = () => {
@@ -20,14 +34,6 @@ export const IntroText = () => {
   };
   return (
     <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
-      <Toggler.Enabled>
-        <p className="va-introtext">
-          If you disagree with a VA decision on an initial claim or Supplemental
-          Claim, you or your representative can request a Higher-Level Review of
-          the decision. You can’t submit new evidence with a Higher-Level
-          Review.
-        </p>
-      </Toggler.Enabled>
       <Toggler.Disabled>
         <h2 className="vads-u-margin-top--2">What’s a Higher-Level Review?</h2>
         <p>
@@ -88,8 +94,8 @@ export const ProcessList = () => (
             <li>
               <strong>Submit a written statement.</strong> If you choose this
               option, you must mail us your statement or submit it in person,
-              together with your completed VA Form 21-0996. We can’t accept
-              written statements if you complete the online form at this time.
+              together with your completed VA Form 20-0996. At this time, we
+              can’t accept written statements if you complete the online form.
             </li>
           </ul>
           <p>
@@ -126,8 +132,7 @@ export const ProcessList = () => (
           <va-additional-info trigger="What happens after you submit your request?">
             <div>
               You don’t need to do anything unless we send you a letter asking
-              for more information. If we schedule any exams for you, be sure
-              not to miss them.
+              for more information.
             </div>
           </va-additional-info>
         </va-process-list-item>
@@ -195,4 +200,34 @@ export const OmbBlock = () => (
       </Toggler.Disabled>
     </Toggler>
   </div>
+);
+
+export const OtherBenefits = () => (
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <h2>Other VA health care benefits and services</h2>
+      <p>
+        <strong>If you qualify for VA health care</strong>, you’ll receive
+        coverage for the services you need to help you get—and stay—healthy.
+      </p>
+      <p>
+        <a href={HEALTH_BENEFITS_URL} target="_blank" rel="noreferrer">
+          Learn more about Veterans Health Administration (VHA) health care
+          services (opens in a new tab)
+        </a>
+      </p>
+      <p>
+        <strong>If you experienced military sexual trauma (MST)</strong>, we
+        provide free treatment for any physical or mental health conditions
+        related to your experiences. You don’t need to have reported the MST at
+        the time or have other proof that the MST occurred to get care.
+      </p>
+      <p>
+        <a href={MST_INFO} target="_blank" rel="noreferrer">
+          Learn more about MST-related benefits and services (opens in a new
+          tab)
+        </a>
+      </p>
+    </Toggler.Enabled>
+  </Toggler>
 );

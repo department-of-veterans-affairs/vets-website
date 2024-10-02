@@ -28,9 +28,9 @@ const PendingDocuments = ({ loading, pendingDocuments }) => {
 
   return (
     <div id="vye-pending-documents">
-      <p className="vads-u-font-size--h2 vads-u-font-family--serif vads-u-font-weight--bold">
+      <h2 className="vads-u-margin-y--4 vads-u-font-family--serif">
         {PENDING_DOCUMENTS_TITLE}
-      </p>
+      </h2>
       {/* {PENDING_DOCUMENTS_STATEMENT} */}
       <div
         className="vads-u-border-color--gray-lighter
