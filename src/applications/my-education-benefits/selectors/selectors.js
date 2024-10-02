@@ -55,4 +55,7 @@ export const getAppData = state => ({
   dgiRudisillHideBenefitsSelectionStep: !!toggleValues(state)[
     FEATURE_FLAG_NAMES.dgiRudisillHideBenefitsSelectionStep
   ],
+  meb160630Automation: !!toggleValues(state)[
+    FEATURE_FLAG_NAMES.meb160630Automation
+  ],
 });

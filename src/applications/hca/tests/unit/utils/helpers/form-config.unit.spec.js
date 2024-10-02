@@ -144,8 +144,14 @@ describe('hca form config helpers', () => {
   });
 
   context('when `dischargePapersRequired` executes', () => {
-    const getData = ({ inMvi = true, disabilityRating = 0 }) => ({
-      'view:totalDisabilityRating': disabilityRating,
+    const getData = ({
+      inMvi = true,
+      loggedIn = false,
+      compensation = 'none',
+    }) => ({
+      vaCompensationType: compensation,
+      'view:totalDisabilityRating': 0,
+      'view:isLoggedIn': loggedIn,
       'view:isUserInMvi': inMvi,
     });
 
@@ -160,7 +166,12 @@ describe('hca form config helpers', () => {
     });
 
     it('should return `false` when user is short form eligible', () => {
-      const formData = getData({ disabilityRating: 80 });
+      const formData = getData({ compensation: 'highDisability' });
+      expect(dischargePapersRequired(formData)).to.be.false;
+    });
+
+    it('should return `false` when user is authenticated', () => {
+      const formData = getData({ loggedIn: true });
       expect(dischargePapersRequired(formData)).to.be.false;
     });
   });
@@ -269,9 +280,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyAuthConfirmation` executes', () => {
-    const getData = ({ loggedIn = true, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = true,
+      totalRating = 30,
+      selectedPackage = 'regOnly',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      'view:totalDisabilityRating': totalRating,
     });
 
     it('should return `true` when all data values are correct', () => {
@@ -296,9 +314,16 @@ describe('hca form config helpers', () => {
   });
 
   context('when `showRegOnlyGuestConfirmation` executes', () => {
-    const getData = ({ loggedIn = false, selectedPackage = 'regOnly' }) => ({
+    const getData = ({
+      enabled = true,
+      loggedIn = false,
+      selectedPackage = 'regOnly',
+      compensationType = 'lowDisability',
+    }) => ({
       'view:isLoggedIn': loggedIn,
+      'view:isRegOnlyEnabled': enabled,
       'view:vaBenefitsPackage': selectedPackage,
+      vaCompensationType: compensationType,
     });
 
     it('should return `true` when all data values are correct', () => {

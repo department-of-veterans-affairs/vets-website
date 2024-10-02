@@ -17,3 +17,8 @@ export const focusEvidence = (_index, root) => {
     }
   });
 };
+
+export const focusH3AfterAlert = () => {
+  scrollTo('topContentElement');
+  focusElement('h3#header');
+};

@@ -1,20 +1,17 @@
 import React from 'react';
 import { isReactComponent } from '~/platform/utilities/ui';
 
-const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
+export const getChapterTitle = (chapterFormConfig, formData, formConfig) => {
   const onReviewPage = true;
 
-  let chapterTitle = chapterFormConfig.title;
+  let chapterTitle = chapterFormConfig.reviewTitle || chapterFormConfig.title;
 
-  if (typeof chapterFormConfig.title === 'function') {
-    chapterTitle = chapterFormConfig.title({
+  if (typeof chapterTitle === 'function') {
+    chapterTitle = chapterTitle({
       formData,
       formConfig,
       onReviewPage,
     });
-  }
-  if (chapterFormConfig.reviewTitle) {
-    chapterTitle = chapterFormConfig.reviewTitle;
   }
 
   return chapterTitle || '';
@@ -45,7 +42,7 @@ const reviewEntry = (description, key, uiSchema, label, data) => {
   );
 };
 
-const fieldEntries = (key, uiSchema, data, schema) => {
+const fieldEntries = (key, uiSchema, data, schema, schemaFromState) => {
   if (key.startsWith('view:') || key.startsWith('ui:')) return null;
   if (schema.properties[key] === undefined || !uiSchema) return null;
 
@@ -54,10 +51,27 @@ const fieldEntries = (key, uiSchema, data, schema) => {
     'ui:description': description,
     'ui:reviewField': ReviewField,
     'ui:reviewWidget': ReviewWidget,
-    'ui:title': label,
   } = uiSchema;
 
+  const label = uiSchema['ui:title'] || schemaFromState?.properties[key].title;
+
   let refinedData = typeof data === 'object' ? data[key] : data;
+
+  // long term, make this a switch statement
+  if (
+    uiSchema['ui:widget'] === 'radio' &&
+    uiSchema['ui:options']?.labels?.[refinedData]
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData];
+  }
+
+  if (
+    uiSchema['ui:widget'] === 'yesNo' &&
+    uiSchema['ui:options']?.labels?.[refinedData ? 'Y' : 'N']
+  ) {
+    refinedData = uiSchema['ui:options'].labels[refinedData ? 'Y' : 'N'];
+  }
+
   const dataType = schema.properties[key].type;
 
   if (ConfirmationField) {
@@ -107,7 +121,13 @@ const fieldEntries = (key, uiSchema, data, schema) => {
 
   if (dataType === 'object') {
     return Object.entries(uiSchema).flatMap(([objKey, objVal]) =>
-      fieldEntries(objKey, objVal, data[objKey], schema.properties[key]),
+      fieldEntries(
+        objKey,
+        objVal,
+        data[objKey],
+        schema.properties[key],
+        schemaFromState?.properties[key],
+      ),
     );
   }
 
@@ -119,6 +139,7 @@ const fieldEntries = (key, uiSchema, data, schema) => {
           arrVal,
           dataPoint[arrKey],
           schema.properties[key].items,
+          schemaFromState?.properties[key].items,
         ),
       ),
     );
@@ -151,11 +172,17 @@ const fieldEntries = (key, uiSchema, data, schema) => {
   return reviewEntry(description, key, uiSchema, label, refinedData);
 };
 
-const buildFields = (chapter, formData) => {
+export const buildFields = (chapter, formData, pagesFromState) => {
   return chapter.expandedPages.flatMap(page =>
     Object.entries(page.uiSchema).flatMap(([uiSchemaKey, uiSchemaValue]) => {
       const data = formData[uiSchemaKey];
-      return fieldEntries(uiSchemaKey, uiSchemaValue, data, page.schema);
+      return fieldEntries(
+        uiSchemaKey,
+        uiSchemaValue,
+        data,
+        page.schema,
+        pagesFromState?.[page.pageKey]?.schema,
+      );
     }),
   );
   // return chapter.expandedPages.flatMap(page => {
@@ -172,10 +199,23 @@ const buildFields = (chapter, formData) => {
   // });
 };
 
+/**
+ * @param {{
+ *   chapters: {
+ *     name: string,
+ *     formConfig: Object,
+ *     expandedPages: Object[]
+ *   }[],
+ *   formData: Object,
+ *   formConfig: Object
+ * }} props
+ * @returns {JSX.Element[]}
+ */
 export const ChapterSectionCollection = ({
   chapters,
   formData,
   formConfig,
+  pagesFromState,
 }) => {
   return chapters.map(chapter => {
     const chapterTitle = getChapterTitle(
@@ -183,12 +223,16 @@ export const ChapterSectionCollection = ({
       formData,
       formConfig,
     );
-    const fields = buildFields(chapter, formData).filter(item => item != null);
+    const fields = buildFields(chapter, formData, pagesFromState).filter(
+      item => item != null,
+    );
     return (
       fields.length > 0 && (
         <div key={`chapter_${chapter.name}`}>
           <h3>{chapterTitle}</h3>
-          <ul style={{ listStyle: 'none' }}>{fields}</ul>
+          <ul className="vads-u-padding--0" style={{ listStyle: 'none' }}>
+            {fields}
+          </ul>
         </div>
       )
     );

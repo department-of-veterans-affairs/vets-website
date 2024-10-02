@@ -26,7 +26,7 @@ export const DebtNotificationAlert = ({
     <DashboardWidgetWrapper>
       <div
         data-testid="dashboard-notification-alert"
-        className="vads-u-display--flex vads-u-flex-direction--column large-screen:vads-u-flex--1 vads-u-margin-top--2p5"
+        className="vads-u-display--flex vads-u-flex-direction--column desktop-lg:vads-u-flex--1 vads-u-margin-top--2p5"
       >
         <VaAlert
           status="warning"

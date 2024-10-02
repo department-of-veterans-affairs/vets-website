@@ -1,3 +1,4 @@
+import React from 'react';
 import environment from '@department-of-veterans-affairs/platform-utilities/environment';
 
 export const ITEMS_PER_PAGE = 10;
@@ -124,11 +125,22 @@ export const addOrRemoveDependentClaimTypeCodes = [
   '130SCHEBNREJ',
 ];
 
-// The Standard 5103 Notice Response doesnt come through as a tracked item from our API until it is closed so we need to make a
+// The Standard 5103 Notice Response doesn't come through as a tracked item from our API until it is closed so we need to make a
 // mocked item with information.
 export const standard5103Item = {
-  displayName: 'Review evidence list',
+  displayName: 'Review evidence list (5103 notice)',
   type: '5103 Notice Response',
-  description:
-    'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+  description: (
+    <>
+      <p>
+        We sent you a “List of evidence we may need (5103 notice)” letter. This
+        letter lets you know if submitting additional evidence will help decide
+        your claim.
+      </p>
+      <p>
+        You can also let us know that you’re done submitting additional
+        evidence, for now.
+      </p>
+    </>
+  ),
 };

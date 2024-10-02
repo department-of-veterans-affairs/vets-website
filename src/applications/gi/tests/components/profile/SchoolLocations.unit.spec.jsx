@@ -44,15 +44,14 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
-    expect(facilityTable.prop('class')).to.equal('school-locations');
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(2);
 
     const headerRow = tableRows.at(0);
-    const headerLabels = headerRow.find('span');
+    const headerLabels = headerRow.find('th');
 
     ['School name', 'Location', 'Estimated housing'].forEach(
       (column, index) => {
@@ -61,9 +60,7 @@ describe('<SchoolLocations>', () => {
     );
 
     const dataRow = tableRows.at(1);
-    expect(dataRow.prop('class')).to.equal('main-row');
-
-    const dataLabels = dataRow.find('span');
+    const dataLabels = dataRow.find('td');
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
@@ -118,14 +115,14 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(2);
 
     const dataRow = tableRows.at(1);
-    const dataLabels = dataRow.find('span');
+    const dataLabels = dataRow.find('td');
 
     [
       'MAIN FACILITY (Main Campus)',
@@ -208,14 +205,14 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(4);
 
     let dataRow = tableRows.at(1);
-    let dataLabels = dataRow.find('span');
+    let dataLabels = dataRow.find('td');
     [
       'MAIN FACILITY (Main Campus)',
       'Test, TN 12345',
@@ -231,7 +228,7 @@ describe('<SchoolLocations>', () => {
     });
 
     dataRow = tableRows.at(2);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
     ['MAIN BRANCH FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
         const currentDataLabels = dataLabels.at(index);
@@ -245,7 +242,7 @@ describe('<SchoolLocations>', () => {
     );
 
     dataRow = tableRows.at(3);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
     [
       'BRANCH EXTENSION FACILITY',
       'Test 2, OH 12345',
@@ -306,14 +303,14 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(3);
 
     let dataRow = tableRows.at(1);
-    let dataLabels = dataRow.find('span');
+    let dataLabels = dataRow.find('td');
 
     [
       'MAIN FACILITY (Main Campus)',
@@ -330,7 +327,7 @@ describe('<SchoolLocations>', () => {
     });
 
     dataRow = tableRows.at(2);
-    dataLabels = dataRow.find('span');
+    dataLabels = dataRow.find('td');
 
     ['MAIN EXTENSION FACILITY', 'Test 1, KY 12345', '$150per month/mo'].forEach(
       (column, index) => {
@@ -522,10 +519,10 @@ describe('<SchoolLocations>', () => {
       />,
     );
 
-    const facilityTable = wrapper.find('va-table');
+    const facilityTable = wrapper.find('table.sl-table');
     expect(facilityTable).to.have.lengthOf(1);
 
-    const tableRows = wrapper.find('va-table-row');
+    const tableRows = wrapper.find('tr');
     expect(tableRows).to.have.lengthOf(11);
 
     const buttons = wrapper.find('button');
@@ -535,7 +532,7 @@ describe('<SchoolLocations>', () => {
     expect(viewAllButton.text()).to.equal('View all');
     viewAllButton.simulate('click');
 
-    const newTableRows = wrapper.find('va-table-row');
+    const newTableRows = wrapper.find('tr');
     expect(newTableRows).to.have.lengthOf(14);
 
     wrapper.unmount();
