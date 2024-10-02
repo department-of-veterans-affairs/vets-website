@@ -37,7 +37,9 @@ const InProgressContent = () => (
 
 const ActionNeededContent = ({ lastSavedDate }) => (
   <>
-    <p className="vads-u-margin-y--0">Submission failed on: {lastSavedDate}</p>
+    <p className="vads-u-margin-top--0">
+      Submission failed on: {lastSavedDate}
+    </p>
     <va-alert
       slim="true"
       status="error"
