@@ -438,6 +438,26 @@ class MedicationsRefillPage {
   verifyShippedRxInformationOnRenewSectionRefillsPage = shippedDate => {
     cy.get('[data-testid="shipped-date"]').should('contain', shippedDate);
   };
+
+  clickMedicationsListPageLinkOnRefillSuccessAlertOnRefillsPage = () => {
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?page=1&per_page=20&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date',
+      medicationsList,
+    ).as('medicationsList');
+    cy.intercept(
+      'GET',
+      '/my_health/v1/prescriptions?&sort[]=disp_status&sort[]=prescription_name&sort[]=dispensed_date&include_image=true',
+      medicationsList,
+    );
+    cy.intercept('GET', '/my_health/v1/medical_records/allergies', allergies);
+    cy.get('[data-testid="back-to-medications-page-link"]').should(
+      'be.visible',
+    );
+    cy.get('[data-testid="back-to-medications-page-link"]').click({
+      waitForAnimations: true,
+    });
+  };
 }
 
 export default MedicationsRefillPage;
