@@ -1,5 +1,3 @@
-import { processList } from '../helpers';
-
 export const generateVaccinesIntro = (records, lastUpdatedIndicator) => {
   return {
     title: 'Vaccines',
@@ -18,11 +16,6 @@ export const generateVaccineItem = record => ({
     {
       title: 'Location',
       value: record.location,
-      inline: true,
-    },
-    {
-      title: 'Provider notes',
-      value: processList(record.notes),
       inline: true,
     },
   ],

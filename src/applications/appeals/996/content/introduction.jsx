@@ -12,6 +12,8 @@ import {
   SUPPLEMENTAL_CLAIM_URL,
   FACILITY_LOCATOR_URL,
   GET_HELP_REVIEW_REQUEST_URL,
+  HEALTH_BENEFITS_URL,
+  MST_INFO,
 } from '../constants';
 
 export const NewIntroText = () => (
@@ -198,4 +200,34 @@ export const OmbBlock = () => (
       </Toggler.Disabled>
     </Toggler>
   </div>
+);
+
+export const OtherBenefits = () => (
+  <Toggler toggleName={Toggler.TOGGLE_NAMES.hlrUpdatedContent}>
+    <Toggler.Enabled>
+      <h2>Other VA health care benefits and services</h2>
+      <p>
+        <strong>If you qualify for VA health care</strong>, you’ll receive
+        coverage for the services you need to help you get—and stay—healthy.
+      </p>
+      <p>
+        <a href={HEALTH_BENEFITS_URL} target="_blank" rel="noreferrer">
+          Learn more about Veterans Health Administration (VHA) health care
+          services (opens in a new tab)
+        </a>
+      </p>
+      <p>
+        <strong>If you experienced military sexual trauma (MST)</strong>, we
+        provide free treatment for any physical or mental health conditions
+        related to your experiences. You don’t need to have reported the MST at
+        the time or have other proof that the MST occurred to get care.
+      </p>
+      <p>
+        <a href={MST_INFO} target="_blank" rel="noreferrer">
+          Learn more about MST-related benefits and services (opens in a new
+          tab)
+        </a>
+      </p>
+    </Toggler.Enabled>
+  </Toggler>
 );

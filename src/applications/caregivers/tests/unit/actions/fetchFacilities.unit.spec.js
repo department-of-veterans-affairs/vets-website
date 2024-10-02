@@ -5,9 +5,10 @@ import sinon from 'sinon';
 import environment from 'platform/utilities/environment';
 import { fetchFacilities } from '../../../actions/fetchFacilities';
 import {
-  mockFacilitiesResponse,
   mockFetchFacilitiesResponse,
+  mockFacilitiesResponse,
 } from '../../mocks/responses';
+import content from '../../../locales/en/content.json';
 
 describe('CG fetchFacilities action', () => {
   const lat = 1;
@@ -32,9 +33,9 @@ describe('CG fetchFacilities action', () => {
 
       const expectedUrl = `${
         environment.API_URL
-      }/v0/health_care_applications/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds[]=${
+      }/v0/caregivers_assistance_claims/facilities?type=health&lat=${lat}&long=${long}&radius=${radius}&page=${page}&per_page=${perPage}&facilityIds=${
         facilityIds[0]
-      }&facilityIds[]=${facilityIds[1]}`;
+      },${facilityIds[1]}`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
     });
 
@@ -43,7 +44,16 @@ describe('CG fetchFacilities action', () => {
 
       const expectedUrl = `${
         environment.API_URL
-      }/v0/health_care_applications/facilities?type=health`;
+      }/v0/caregivers_assistance_claims/facilities?type=health`;
+      sinon.assert.calledWith(apiRequestStub, expectedUrl);
+    });
+
+    it('formats facility ids correctly when only one facility id', async () => {
+      await fetchFacilities({ facilityIds: ['1'] });
+
+      const expectedUrl = `${
+        environment.API_URL
+      }/v0/caregivers_assistance_claims/facilities?type=health&facilityIds=1`;
       sinon.assert.calledWith(apiRequestStub, expectedUrl);
     });
 
@@ -51,6 +61,16 @@ describe('CG fetchFacilities action', () => {
       apiRequestStub.resolves(mockFacilitiesResponse);
       const response = await fetchFacilities({ long, lat, perPage, radius });
       expect(response).to.deep.eq(mockFetchFacilitiesResponse);
+    });
+
+    it('returns NO_SEARCH_RESULTS if no data array', async () => {
+      apiRequestStub.resolves({ meta: {} });
+      const response = await fetchFacilities({ long, lat, perPage, radius });
+
+      expect(response).to.deep.eq({
+        type: 'NO_SEARCH_RESULTS',
+        errorMessage: content['error--no-results-found'],
+      });
     });
   });
 

@@ -1,14 +1,15 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import {
-  requireAddressFields,
+  validateAddressFields,
   validateCaregivers,
+  validateCountyInput,
   validatePlannedClinic,
   validateSsnIsUnique,
 } from '../../../utils/validation';
 import { REQUIRED_ADDRESS_FIELDS } from '../../../utils/constants';
 
-describe('CG `requireAddressFields` form validation', () => {
+describe('CG `validateAddressFields` form validation', () => {
   const requiredField = REQUIRED_ADDRESS_FIELDS[0];
   const getData = ({ spy = () => {}, fieldData = {} }) => ({
     errors: {
@@ -26,9 +27,18 @@ describe('CG `requireAddressFields` form validation', () => {
     addErrorSpy = sinon.spy();
   });
 
-  it('should set an error when the data is invalid', () => {
+  it('should set an error when required data is missing', () => {
     const { errors, fieldData } = getData({ spy: addErrorSpy });
-    requireAddressFields(errors, fieldData);
+    validateAddressFields(errors, fieldData);
+    expect(errors[requiredField].addError.called).to.be.true;
+  });
+
+  it('should set an error when pattern data is invalid', () => {
+    const { errors, fieldData } = getData({
+      spy: addErrorSpy,
+      fieldData: { county: ' usa ' },
+    });
+    validateAddressFields(errors, fieldData);
     expect(errors[requiredField].addError.called).to.be.true;
   });
 
@@ -43,7 +53,7 @@ describe('CG `requireAddressFields` form validation', () => {
         county: 'Marion',
       },
     });
-    requireAddressFields(errors, fieldData);
+    validateAddressFields(errors, fieldData);
     expect(errors[requiredField].addError.called).to.be.false;
   });
 });
@@ -80,6 +90,41 @@ describe('CG `validateCaregivers` form validation', () => {
       formData: { 'view:hasSecondaryCaregiverOne': true },
     });
     validateCaregivers(errors, {}, formData);
+    expect(errors.addError.called).to.be.false;
+  });
+});
+
+describe('CG `validateCountyInput` form validation', () => {
+  const getData = ({ spy = () => {} }) => ({
+    errors: { addError: spy },
+  });
+  let addErrorSpy;
+
+  beforeEach(() => {
+    addErrorSpy = sinon.spy();
+  });
+
+  it('should set an error if fieldData contains a restricted string with trailing whitespace', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'USA ');
+    expect(errors.addError.called).to.be.true;
+  });
+
+  it('should set an error if fieldData contains a restricted string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'United States');
+    expect(errors.addError.called).to.be.true;
+  });
+
+  it('should not set an error if fieldData does not contain a restricted string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'Marion');
+    expect(errors.addError.called).to.be.false;
+  });
+
+  it('should not set an error if fieldData contains a restricted string within a string', () => {
+    const { errors } = getData({ spy: addErrorSpy });
+    validateCountyInput(errors, 'Tuscolusa');
     expect(errors.addError.called).to.be.false;
   });
 });

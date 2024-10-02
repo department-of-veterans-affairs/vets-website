@@ -19,15 +19,17 @@ import {
   createId,
   specializedMissionDefinitions,
   sortedSpecializedMissionDefinitions,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
   isShowCommunityFocusVACheckbox,
+  isEmptyCheckboxFilters,
 } from '../../utils/helpers';
 import { showModal, filterChange, setError } from '../../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../../constants';
 import CheckboxGroup from '../../components/CheckboxGroup';
 import { updateUrlParams } from '../../selectors/search';
@@ -344,6 +346,33 @@ export function FilterBeforeResults({
     specialMissionTRIBAL,
   } = filters;
 
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
+
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
 
@@ -536,7 +565,7 @@ export function FilterBeforeResults({
       accredited: false,
       studentVeteran: false,
       yellowRibbonScholarship: false,
-      employers: false,
+      employers: true,
       vettec: false,
       preferredProvider: false,
       country: 'ALL',
@@ -571,7 +600,13 @@ export function FilterBeforeResults({
 
   const closeAndUpdate = () => {
     if (
-      validateSearchTerm(nameVal, dispatchError, error, filters, searchType)
+      validateSearchTermSubmit(
+        nameVal,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
     ) {
       recordEvent({
         event: 'gibct-form-change',

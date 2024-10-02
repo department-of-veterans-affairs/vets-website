@@ -8,6 +8,7 @@ export const URL = {
   GET_CATEGORIES: `${baseURL}/categories?user_mock_data=true`,
   GET_CATEGORIESTOPICS: `${baseURL}/categories`,
   GET_TOPICS: `topics?user_mock_data=true`,
+  // TODO update
   GET_SUBTOPICS: `${baseURL}/topics`,
   ADDRESS_VALIDATION: `${baseURL}/address_validation`,
   UPLOAD_ATTACHMENT: `${baseURL}/upload_attachment`,
@@ -15,6 +16,7 @@ export const URL = {
   GET_SCHOOL: `${baseURL}/education_facilities/`,
   SEND_REPLY: `/reply/new`,
   GET_INQUIRIES: `${baseURL}/inquiries?user_mock_data=true`,
+  // GET_INQUIRIES: `${baseURL}/inquiries`,
 };
 
 export const CategoryEducation =
@@ -405,8 +407,7 @@ export const CHAPTER_3 = {
     QUESTION_1: '',
   },
   YOUR_ROLE: {
-    TITLE: 'Your role',
-    QUESTION_1: 'Select your role:',
+    TITLE: 'What is your role?',
   },
   STATE_OR_FACILITY: {
     TITLE: 'School information',
@@ -451,6 +452,26 @@ export const CHAPTER_3 = {
     PATH: 'your-va-health-facility',
     TITLE: 'Your VA health facility',
     DESCRIPTION: 'Search by city, postal code, or use your current location.',
+  },
+  YOUR_VRE_INFORMATION: {
+    TITLE:
+      'Have you ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if you've applied for services.",
+  },
+  YOUR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of your counselor:',
+    ERROR: 'Please enter the name of your counselor',
+  },
+  THEIR_VRE_INFORMATION: {
+    TITLE:
+      'Have they ever applied for Veteran Readiness and Employment benefits and services?',
+    ERROR: "Please select if they've applied for services.",
+  },
+  THEIR_VRE_COUNSELOR: {
+    TITLE: 'Veteran Readiness and Employment counselor',
+    DESCRIPTION: 'Name of their counselor:',
+    ERROR: 'Please enter the name of their counselor',
   },
 };
 

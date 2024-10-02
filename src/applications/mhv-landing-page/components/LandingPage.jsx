@@ -57,7 +57,7 @@ const LandingPage = ({ data = {} }) => {
             showWelcomeMessage={showWelcomeMessage}
             showLearnMore={showLearnMore}
             ssoe={ssoe}
-            userVerified={userVerified}
+            showMhvGoBack={userRegistered}
           />
           <Alerts />
           {userRegistered && <CardLayout data={cards} />}

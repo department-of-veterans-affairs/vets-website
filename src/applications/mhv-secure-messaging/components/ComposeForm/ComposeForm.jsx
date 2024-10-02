@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
+import { datadogRum } from '@datadog/browser-rum';
 import FileInput from './FileInput';
 import CategoryInput from './CategoryInput';
 import AttachmentsList from '../AttachmentsList';
@@ -32,6 +33,7 @@ import {
   RecipientStatus,
   BlockedTriageAlertStyles,
   FormLabels,
+  Alerts,
 } from '../../util/constants';
 import EmergencyNote from '../EmergencyNote';
 import ComposeFormActionButtons from './ComposeFormActionButtons';
@@ -110,6 +112,17 @@ const ComposeForm = props => {
   const debouncedRecipient = useDebounce(
     selectedRecipient,
     draftAutoSaveTimeout,
+  );
+  const alertsList = useSelector(state => state.sm.alerts.alertList);
+
+  const attachmentScanError = useMemo(
+    () =>
+      alertsList.filter(
+        alert =>
+          alert.content === Alerts.Message.ATTACHMENT_SCAN_FAIL &&
+          alert.isActive,
+      ).length > 0,
+    [alertsList],
   );
 
   const localStorageValues = useMemo(() => {
@@ -724,10 +737,11 @@ const ComposeForm = props => {
             onCloseEvent={() => {
               setSaveError(null);
               focusElement(lastFocusableElement);
+              datadogRum.addAction('Save Error Modal Closed');
             }}
             status="warning"
             data-testid="quit-compose-double-dare"
-            data-dd-action-name="Save Error Modal Closed"
+            data-dd-action-name="Save Error Modal"
             visible
           >
             <p>{saveError.p1}</p>
@@ -735,6 +749,7 @@ const ComposeForm = props => {
             {saveError?.editDraft && (
               <va-button
                 text={saveError.editDraft}
+                data-dd-action-name={`${saveError.editDraft} Button`}
                 onClick={() => setSaveError(null)}
               />
             )}
@@ -743,6 +758,7 @@ const ComposeForm = props => {
                 secondary
                 class="vads-u-margin-y--1p5"
                 text={saveError.saveDraft}
+                data-dd-action-name={`${saveError.saveDraft} Button`}
                 onClick={() => {
                   saveDraftHandler('manual');
                   setSaveError(null);
@@ -836,7 +852,7 @@ const ComposeForm = props => {
                 value={subject}
                 error={subjectError}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Subject Input Field"
+                data-dd-action-name="Subject (Required) Input Field"
                 maxlength="50"
                 uswds
                 charcount
@@ -867,7 +883,7 @@ const ComposeForm = props => {
                   );
                 }}
                 data-dd-privacy="mask"
-                data-dd-action-name="Compose Message Body Textbox"
+                data-dd-action-name="Message (Required) Textbox"
               />
             )}
           </div>
@@ -883,12 +899,14 @@ const ComposeForm = props => {
                     setAttachFileSuccess={setAttachFileSuccess}
                     setNavigationError={setNavigationError}
                     editingEnabled
+                    attachmentScanError={attachmentScanError}
                   />
 
                   <FileInput
                     attachments={attachments}
                     setAttachments={setAttachments}
                     setAttachFileSuccess={setAttachFileSuccess}
+                    attachmentScanError={attachmentScanError}
                   />
                 </section>
               ))}

@@ -25,7 +25,11 @@ const VARadioButton = ({
   onVaValueChange,
 }) => (
   <VaRadio
-    class="vads-u-margin-y--4"
+    class={
+      radioLabel
+        ? 'vads-u-margin-y--3'
+        : 'vads-u-margin-top--neg4 vads-u-margin-bottom--3'
+    }
     enable-analytics
     label={radioLabel}
     onVaValueChange={target => {
@@ -36,7 +40,6 @@ const VARadioButton = ({
     {options.map(({ value, label }) => (
       <VaRadioOption
         key={value}
-        class="vads-u-margin-y--3"
         name={name}
         label={label}
         id={`${name}_${value}`}

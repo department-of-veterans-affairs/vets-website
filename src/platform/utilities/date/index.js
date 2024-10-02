@@ -1,27 +1,102 @@
-import moment from 'moment';
+import {
+  differenceInDays,
+  differenceInHours,
+  differenceInMinutes,
+  differenceInSeconds,
+  isValid,
+  format,
+  parse,
+  parseISO,
+} from 'date-fns';
+import { coerceToDate } from '../../mhv/downtime/utils/date';
 
-export function dateToMoment(dateField) {
-  return moment({
-    year: dateField.year.value,
-    month: dateField.month.value ? parseInt(dateField.month.value, 10) - 1 : '',
-    day: dateField.day ? dateField.day.value : null,
-  });
+const { utcToZonedTime } = require('date-fns-tz');
+
+export function dateFieldToDate(dateField) {
+  const year = dateField.year.value;
+  const month =
+    dateField.month?.value && dateField.month?.value !== 'XX' // Accept missing month values.
+      ? parseInt(dateField.month.value, 10) - 1
+      : 0; // Default to January if month is not provided
+  const day =
+    dateField.day?.value && dateField.day?.value !== 'XX' // Accept missing day values.
+      ? dateField.day.value
+      : 1; // Default to the first day of the month if day is not provided
+
+  // Construct a date string in the format 'yyyy-MM-dd'
+  const dateString = `${year}-${String(month + 1).padStart(2, '0')}-${String(
+    day,
+  ).padStart(2, '0')}`;
+
+  // Parse the date string into a Date object
+  return parse(dateString, 'yyyy-MM-dd', new Date());
 }
 
+/**
+ * Handle dates in the following formats:
+ *  * Date objects
+ *  * ISO 8601 date strings
+ *  * Unix timestamps (with ms)
+ * @param {Date|string} date - The date to parse
+ * @returns {Date} The parsed date
+ */
+export function parseStringOrDate(date) {
+  if (date instanceof Date) {
+    return date;
+  }
+
+  if (typeof date === 'string' || typeof date === 'number') {
+    let dateObject;
+    // Check if string is a Unix timestamp
+    if (/^\d{13}$/.test(date)) {
+      dateObject = new Date(parseInt(date, 10));
+    } else {
+      dateObject = parseISO(date);
+    }
+    if (isValid(dateObject) === true) {
+      return dateObject;
+    }
+  }
+
+  throw new Error(
+    `Could not parse date string: ${date}. Please ensure that you provide a Date object, Unix timestamp with milliseconds, or ISO 8601 date string.`,
+  );
+}
+
+/**
+ * Formats a date object, ISO 8601 date string, or Unix timestamp as January 1, 2020
+ *
+ * @param {Date|string|number} date
+ * @returns string
+ */
 export function formatDateLong(date) {
-  return moment(date).format('MMMM D, YYYY');
+  const parsedDate = parseStringOrDate(date);
+  return format(parsedDate, 'MMMM d, yyyy');
+}
+
+export function stripTimezoneFromIsoDate(date) {
+  return date ? date.replace(/(Z|[-+](\d{4}|\d{2}:\d{2}))$/, '') : date;
 }
 
 export function formatDateParsedZoneLong(date) {
-  return moment.parseZone(date).format('MMMM D, YYYY');
+  const localDate = stripTimezoneFromIsoDate(date);
+  return format(parseISO(localDate), 'MMMM d, yyyy');
 }
 
+/**
+ * Formats a date object, ISO 8601 date string, or Unix timestamp as 01/01/2020
+ *
+ * @param {Date|string|number} date
+ * @returns string
+ */
 export function formatDateShort(date) {
-  return moment(date).format('MM/DD/YYYY');
+  const parsedDate = parseStringOrDate(date);
+  return format(parsedDate, 'MM/dd/yyyy');
 }
 
 export function formatDateParsedZoneShort(date) {
-  return moment.parseZone(date).format('MM/DD/YYYY');
+  const localDate = stripTimezoneFromIsoDate(date);
+  return format(parseISO(localDate), 'MM/dd/yyyy');
 }
 
 function formatDiff(diff, desc) {
@@ -33,33 +108,33 @@ function formatDiff(diff, desc) {
  * the provided date occurs. It’s meant to be less fuzzy than moment’s
  * timeFromNow so it can be used for expiration dates
  *
- * @param date {Moment Date} The future date to check against
- * @param userFromDate {Moment Date} The earlier date in the range. Defaults to today.
+ * @param date {Date} The future date to check against
+ * @param userFromDate {Date} The earlier date in the range. Defaults to today.
  * @returns {string} The string description of how long until date occurs
  */
 export function timeFromNow(date, userFromDate = null) {
   // Not using defaulting because we want today to be when this function
   // is called, not when the file is parsed and run
-  const fromDate = userFromDate || moment();
-  const dayDiff = date.diff(fromDate, 'days');
+  const fromDate = userFromDate || new Date();
+  const dayDiff = differenceInDays(date, fromDate);
 
   if (dayDiff >= 1) {
     return formatDiff(dayDiff, 'day');
   }
 
-  const hourDiff = date.diff(fromDate, 'hours');
+  const hourDiff = differenceInHours(date, fromDate);
 
   if (hourDiff >= 1) {
     return formatDiff(hourDiff, 'hour');
   }
 
-  const minuteDiff = date.diff(fromDate, 'minutes');
+  const minuteDiff = differenceInMinutes(date, fromDate);
 
   if (minuteDiff >= 1) {
     return formatDiff(minuteDiff, 'minute');
   }
 
-  const secondDiff = date.diff(fromDate, 'seconds');
+  const secondDiff = differenceInSeconds(date, fromDate);
 
   if (secondDiff >= 1) {
     return formatDiff(secondDiff, 'second');
@@ -76,7 +151,7 @@ export function timeFromNow(date, userFromDate = null) {
  * @returns {boolean} If the string is a valid date string
  */
 export function isValidDateString(dateString) {
-  return !isNaN(Date.parse(dateString));
+  return !Number.isNaN(Date.parse(dateString));
 }
 
 const monthIndices = {
@@ -106,28 +181,46 @@ const LONG_FORM_MONTHS = [
  * Formats the given date-time into a string that is intended for use in
  * downtime notifications
  *
- * @param {string} dateTime The date-time as a moment or string in Eastern time
+ * @param {string || object} dateTime The date-time as one of the following:
+ *   * a Date object
+ *   * a moment object
+ *   * an ISO string in Eastern time
  * @returns {string} The formatted date-time string
  */
 export const formatDowntime = dateTime => {
-  const dtMoment = moment.parseZone(dateTime);
-  const dtHour = dtMoment.hour();
-  const dtMinute = dtMoment.minute();
+  let date;
+  const timeZone = 'America/New_York';
 
-  const monthFormat = LONG_FORM_MONTHS.includes(dtMoment.month())
-    ? 'MMMM'
-    : 'MMM';
-
-  let timeFormat;
-
-  if (dtHour === 0 && dtMinute === 0) {
-    timeFormat = '[midnight]';
-  } else if (dtHour === 12 && dtMinute === 0) {
-    timeFormat = '[noon]';
+  if (dateTime instanceof Object) {
+    // We need to convert the moment object to a Date object
+    // until moment is completely deprecated.
+    // TODO: Remove this once moment is completely deprecated.
+    date = coerceToDate(dateTime);
   } else {
-    const amPmFormat = dtHour < 12 ? '[a.m.]' : '[p.m.]';
-    timeFormat = `h:mm ${amPmFormat}`;
+    date = parseISO(dateTime);
   }
 
-  return dtMoment.format(`${monthFormat} D [at] ${timeFormat} [ET]`);
+  // Get the hour in Eastern time using date-fns-tz
+  const easternTimeZoneDate = utcToZonedTime(date, timeZone);
+  const dtMonth = format(easternTimeZoneDate, 'M', { timeZone });
+  const dtHour = format(easternTimeZoneDate, 'H', { timeZone });
+  const dtMinute = format(easternTimeZoneDate, 'm', { timeZone });
+
+  const monthFormat = LONG_FORM_MONTHS.includes(dtMonth - 1) ? 'MMMM' : 'MMM.';
+  let timeFormat;
+
+  if (dtHour === '0' && dtMinute === '0') {
+    timeFormat = "'midnight'";
+  } else if (dtHour === '12' && dtMinute === '0') {
+    timeFormat = "'noon'";
+  } else {
+    const amPmFormat = parseInt(dtHour, 10) < 12 ? 'a.m.' : 'p.m.';
+    timeFormat = `h:mm '${amPmFormat}'`;
+  }
+
+  return format(
+    easternTimeZoneDate,
+    `${monthFormat} d 'at' ${timeFormat} 'ET'`,
+    { timeZone },
+  );
 };

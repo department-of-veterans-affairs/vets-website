@@ -30,7 +30,7 @@ describe('MHV Landing Page -- Header Layout', () => {
 
     it('renders the non-ssoe link', async () => {
       const { getByTestId } = render(
-        <HeaderLayout showLearnMore userVerified />,
+        <HeaderLayout showLearnMore showMhvGoBack />,
       );
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
@@ -49,7 +49,7 @@ describe('MHV Landing Page -- Header Layout', () => {
 
     it('renders the ssoe link', async () => {
       const { getByTestId } = render(
-        <HeaderLayout showLearnMore ssoe userVerified />,
+        <HeaderLayout showLearnMore ssoe showMhvGoBack />,
       );
       await waitFor(() => {
         const goBack1 = getByTestId('mhv-go-back-1');
@@ -77,7 +77,7 @@ describe('MHV Landing Page -- Header Layout', () => {
   describe('Go back links', () => {
     it('call datadogRum.addAction on click of go-back links', async () => {
       const { getByTestId } = render(
-        <HeaderLayout showLearnMore userVerified />,
+        <HeaderLayout showLearnMore showMhvGoBack />,
       );
 
       const spyDog = sinon.spy(datadogRum, 'addAction');

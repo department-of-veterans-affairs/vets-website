@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { datadogRum } from '@datadog/browser-rum';
 import { VaModal } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { Prompts } from '../../util/constants';
 
@@ -12,11 +13,18 @@ const RemoveAttachmentModal = props => {
       data-testid={`remove-attachment-modal${
         props.draftSequence ? `-${props.draftSequence}` : ''
       }`}
-      data-dd-action-name={`Remove Attachment Modal Closed${
+      data-dd-action-name={`Remove Attachment Modal${
         props.draftSequence ? `-${props.draftSequence}` : ''
       }`}
       modalTitle={Prompts.Attachment.REMOVE_ATTACHMENT_TITLE}
-      onCloseEvent={props.onClose}
+      onCloseEvent={() => {
+        props.onClose();
+        datadogRum.addAction(
+          `Remove Attachment Modal Closed${
+            props.draftSequence ? `-${props.draftSequence}` : ''
+          }`,
+        );
+      }}
       visible={props.visible}
       status="warning"
     >
@@ -28,7 +36,7 @@ const RemoveAttachmentModal = props => {
         className="remove-attachment-modal-buttons
         vads-u-display--flex
         vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row"
+        mobile-lg:vads-u-flex-direction--row"
       >
         <va-button
           data-testid={`confirm-remove-attachment-button${
@@ -44,7 +52,7 @@ const RemoveAttachmentModal = props => {
           }`}
         />
         <va-button
-          class="vads-u-margin-top--1 small-screen:vads-u-margin-top--0"
+          class="vads-u-margin-top--1 mobile-lg:vads-u-margin-top--0"
           data-testid={`cancel-remove-attachment-button${
             props.draftSequence ? `-${props.draftSequence}` : ''
           }`}

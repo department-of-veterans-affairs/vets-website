@@ -58,7 +58,7 @@ const SaveResultsModal = () => {
           full-width
           visible={showAlert}
         >
-          <p>URL has been copied to your clipboard.</p>
+          <p>Link copied</p>
         </va-alert>
       </VaModal>
     </div>

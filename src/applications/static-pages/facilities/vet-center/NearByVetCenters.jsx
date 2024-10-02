@@ -145,7 +145,7 @@ const NearByVetCenters = props => {
     return (
       <div
         className="region-list usa-width-one-whole vads-u-display--flex vads-u-flex-direction--column
-        small-screen:vads-u-flex-direction--row facility
+        mobile-lg:vads-u-flex-direction--row facility
       vads-u-margin-bottom--4 medium-screen:vads-u-margin-bottom--5"
         key={vetCenter.id || vetCenter.fieldFacilityLocatorApiId}
       >
@@ -158,7 +158,7 @@ const NearByVetCenters = props => {
 
         {vetCenter.fieldMedia && (
           <section
-            className="region-grid usa-width-one-half vads-u-order--first small-screen:vads-u-order--initial
+            className="region-grid usa-width-one-half vads-u-order--first mobile-lg:vads-u-order--initial
         vads-u-margin-bottom--2"
           >
             <VetCenterImageSection vetCenter={vetCenter} />

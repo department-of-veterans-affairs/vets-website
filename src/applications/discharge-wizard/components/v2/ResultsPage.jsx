@@ -10,6 +10,7 @@ import CarefulConsiderationStatement from './resultsComponents/CarefulConsiderat
 import Warnings from './resultsComponents/Warnings';
 import OptionalStep from './resultsComponents/OptionalStep';
 import StepOne from './resultsComponents/StepOne';
+import AdditionalInstructions from './resultsComponents/AdditionalInstructions';
 import StepTwo from './resultsComponents/StepTwo';
 import StepThree from './resultsComponents/StepThree';
 import AirForcePortalLink from './resultsComponents/AirForcePortalLink';
@@ -44,7 +45,10 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
         <AirForcePortalLink />
       ) : (
         <>
-          <CarefulConsiderationStatement formResponses={formResponses} />
+          <CarefulConsiderationStatement
+            formResponses={formResponses}
+            router={router}
+          />
           <Warnings formResponses={formResponses} />
           <OptionalStep formResponses={formResponses} />
           <section>
@@ -56,6 +60,14 @@ const ResultsPage = ({ formResponses, router, viewedIntroPage }) => {
           </section>
         </>
       )}
+      <va-button
+        back
+        class="vads-u-margin-top--3"
+        data-testid="duw-results-back"
+        onClick={() => router.push(ROUTES.REVIEW)}
+        uswds
+      />
+      <AdditionalInstructions formResponses={formResponses} />
     </article>
   );
 };

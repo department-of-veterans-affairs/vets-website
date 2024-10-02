@@ -84,10 +84,8 @@ describe('evidenceTypes', () => {
         uiSchema={uiSchema}
         data={{
           'view:hasEvidence': true,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasPrivateMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasPrivateMedicalRecords': true,
           },
         }}
         formData={{}}

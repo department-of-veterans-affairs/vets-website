@@ -71,19 +71,6 @@ describe('verify attach file button behaviour', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it('verify already attached file error', () => {
-    PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
-    PatientComposePage.attachMessageFromFile(Data.SAMPLE_PDF);
-
-    cy.get(Locators.ALERTS.ERROR_MESSAGE).should(
-      'have.text',
-      Data.ALREADY_ATTACHED_FILE,
-    );
-
-    cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
-  });
-
   it('verify attach file button disappears', () => {
     const fileList = [
       Data.SAMPLE_XLS,

@@ -95,6 +95,7 @@ const ThreadListItem = props => {
           className="message-subject-link vads-u-margin-y--0 vads-u-line-height--4 vads-u-font-size--lg"
           to={`${Paths.MESSAGE_THREAD}${messageId}/`}
           data-dd-privacy="mask"
+          data-dd-action-name="Link to Message Subject Details"
         >
           <span
             id={`message-link${

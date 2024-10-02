@@ -37,18 +37,19 @@ const MissingApplicationHelp = () => (
           21-10210)
         </li>
         <li>
-          Request priority processing for an existing claim (VA Form 20-10207)
-        </li>
-        <li>
           Authorize VA to release your information to a third-party source (VA
           Form 21-0845)
         </li>
-        <li>Sign VA claim forms as an alternate signer (VA Form 21-0972)</li>
         <li>Submit an intent to file (VA Form 21-0966)</li>
+        <li>
+          Request priority processing for an existing claim (VA Form 20-10207)
+        </li>
+        <li>Request personal records (VA Form 20-10206)</li>
         <li>
           Request to be a substitute claimant for a deceased claimant (VA Form
           21P-0847)
         </li>
+        <li>Sign VA claim forms as an alternate signer (VA Form 21-0972)</li>
       </ul>
       <p>
         If you have questions about your applications or forms, call us at{' '}

@@ -7,6 +7,7 @@ import conditions from '../tests/fixtures/conditions.json';
 import vaccines from '../tests/fixtures/vaccines.json';
 import allergies from '../tests/fixtures/allergies.json';
 import { radiologyRecordHash } from '../util/helpers';
+import radiology from '../tests/fixtures/radiologyRecordsMhv.json';
 
 const apiBasePath = `${environment.API_URL}/my_health/v1`;
 
@@ -161,6 +162,7 @@ export const postSharingUpdateStatus = (optIn = false) => {
 export const getDataForBlueButton = () => {
   return new Promise(resolve => {
     const data = {
+      radiology,
       labsAndTests,
       careSummariesAndNotes: notes,
       vaccines,

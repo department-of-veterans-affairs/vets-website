@@ -378,7 +378,7 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('send-button'));
-      expect(screen.getByText('Secure message was successfully sent.'));
+      expect(screen.getByText('Message sent.'));
       const alert = document.querySelector('va-alert');
       expect(alert)
         .to.have.attribute('status')
@@ -442,8 +442,7 @@ describe('Thread Details container', () => {
     await waitFor(() => {
       fireEvent.click(screen.getByTestId('send-button'));
     });
-    expect(await screen.findByText('Secure message was successfully sent.')).to
-      .exist;
+    expect(await screen.findByText('Message sent.')).to.exist;
     expect(document.querySelector('va-alert'))
       .to.have.attribute('status')
       .to.equal('success');
@@ -523,7 +522,7 @@ describe('Thread Details container', () => {
     mockApiRequest({ method: 'POST', data: {}, status: 200 });
     fireEvent.click(screen.getByTestId('send-button'));
     await waitFor(() => {
-      expect(screen.getByText('Secure message was successfully sent.'));
+      expect(screen.getByText('Message sent.'));
     });
     await waitFor(() => {
       expect(screen.history.location.pathname).to.equal(

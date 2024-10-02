@@ -33,5 +33,5 @@ export const schema = {
       type: 'string',
     },
   },
-  required: ['view:selectedAccreditedRep'],
+  required: ['view:selectedRepresentative'],
 };

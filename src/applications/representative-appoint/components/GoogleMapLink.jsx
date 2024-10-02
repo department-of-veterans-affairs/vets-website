@@ -5,12 +5,12 @@ import Address from './Address';
 
 export default function GoogleMapLink({ address, recordClick }) {
   const addressString =
-    [address.address1, address.address2, address.address3]
+    [address.addressLine1, address.addressLine2, address.addressLine3]
       .filter(Boolean)
       .join(' ') +
     (address.city ? ` ${address.city},` : '') +
-    (address.state ? ` ${address.state}` : '') +
-    (address.zip ? ` ${address.zip}` : '');
+    (address.stateCode ? ` ${address.stateCode}` : '') +
+    (address.zipCode ? ` ${address.zipCode}` : '');
 
   return (
     <>

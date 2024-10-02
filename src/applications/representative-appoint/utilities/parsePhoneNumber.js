@@ -1,4 +1,12 @@
-export default function parsePhoneNumber(phone) {
+/**
+ * Parses a phone number string for use with the Telephone component.
+ * @param phone {String} "raw" phone number. The first 10 digits are treated as the "main" number.
+ * Any remaining digits are treated as the extension.
+ * Non-digits preceding the extension are ignored.
+ * @returns {ParsedPhoneNumber}
+ */
+
+export const parsePhoneNumber = phone => {
   if (!phone) {
     return { contact: null, extension: null };
   }
@@ -28,6 +36,5 @@ export default function parsePhoneNumber(phone) {
   if (isValidContactNumberRegex.test(contact)) {
     return { contact, extension };
   }
-
   return { contact: null, extension: null };
-}
+};

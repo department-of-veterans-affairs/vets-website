@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "title": "Fill out your form to appoint a VA accredited representative or VSO (21-22)",
+  "title": "Request help from a VA accredited representative or VSO",
   "type": "object",
   "additionalProperties": false,
   "definitions": {

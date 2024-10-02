@@ -70,6 +70,15 @@
     "mstOption": true,
     "optionIndicator": "revoke",
     "form5103Acknowledged": true,
+    "facilityTypes": {
+      "vetCenter": true,
+      "ccp": true,
+      "vamc": true,
+      "cboc": true,
+      "mtf": true,
+      "nonVa": true,
+      "other": "Other facility"
+    },
     "evidencePrivacyAgreementAccepted": true,
     "privacyAgreementAccepted": true,
     "locations": [

@@ -232,6 +232,18 @@ const ProfilePageHeader = ({
                 {website}
               </a>
             </IconWithInfo>
+            <IconWithInfo icon="school" present>
+              <LearnMoreLabel
+                text="Yellow Ribbon Program"
+                onClick={() => {
+                  dispatchShowModal('yribbon');
+                }}
+                buttonClassName="small-screen-font"
+                buttonId="yellow-ribbon-additional-info-learn-more"
+              />
+              : &nbsp;
+              {institution.yr ? 'Yes' : 'No'}
+            </IconWithInfo>
           </div>
         )}
       </div>

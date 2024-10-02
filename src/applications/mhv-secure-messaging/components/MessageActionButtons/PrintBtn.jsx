@@ -19,7 +19,7 @@ const PrintBtn = props => {
         ref={printButtonRef}
         id="print-button"
         type="button"
-        className={`usa-button-secondary small-screen:${
+        className={`usa-button-secondary mobile-lg:${
           activeFolder?.folderId !== DefaultFolders.SENT.id
             ? 'vads-u-flex--3'
             : 'vads-l-row--3'
@@ -27,6 +27,7 @@ const PrintBtn = props => {
         onClick={() => {
           handleConfirmPrint();
         }}
+        data-dd-action-name="Print Button"
       >
         <div className="vads-u-margin-right--0p5">
           <va-icon icon="print" aria-hidden="true" />

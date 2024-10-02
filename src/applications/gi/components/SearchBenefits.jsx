@@ -101,7 +101,7 @@ const SearchBenefits = ({
   };
 
   return (
-    <div>
+    <div className="vads-u-margin-bottom--3">
       {!toggleValue && (
         <div>
           <Dropdown

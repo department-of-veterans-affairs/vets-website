@@ -1435,5 +1435,65 @@
     "src": "/ROTOGUS",
     "dest": "/togus-va-regional-benefit-office-at-togus-va-medical-center/",
     "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/anchorage",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROANCHORAGE",
+    "dest": "/anchorage-va-regional-benefit-office-at-colonel-mary-louise-rasmuson-campus-of-the-alaska-va-healthcare-system/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/honolulu",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHONOLULU",
+    "dest": "/honolulu-va-regional-benefit-office-at-spark-m-matsunaga-department-of-veterans-affairs-medical-center/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/huntington",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROHUNTINGTON",
+    "dest": "/huntington-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/losangeles",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROLOSANGELES",
+    "dest": "/los-angeles-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/oakland",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
+  },
+  {
+    "domain": "www.benefits.va.gov",
+    "src": "/ROOAKLAND",
+    "dest": "/oakland-va-regional-benefit-office/",
+    "catchAll": true
   }
 ]

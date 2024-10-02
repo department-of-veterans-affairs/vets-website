@@ -214,8 +214,11 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
-          .null;
+        expect(
+          queryByText(
+            'Open request: Check claim to see if action is needed from you or VA.',
+          ),
+        ).to.be.null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 8: Initial review');
       });
@@ -240,7 +243,9 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText(
+          'Open request: Check claim to see if action is needed from you or VA.',
+        );
         getByText('Step 2 of 8: Initial review');
       });
       it('should not show any flags when closed', () => {
@@ -489,8 +494,11 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
-          .null;
+        expect(
+          queryByText(
+            'Open request: Check claim to see if action is needed from you or VA.',
+          ),
+        ).to.be.null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
       });
@@ -515,7 +523,9 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText(
+          'Open request: Check claim to see if action is needed from you or VA.',
+        );
         getByText('Step 2 of 5: Initial review');
       });
       it('should not show any flags when closed', () => {
@@ -764,8 +774,11 @@ describe('<ClaimsListItem>', () => {
           </Provider>,
         );
         expect(queryByText('We sent you a development letter')).to.be.null;
-        expect(queryByText('An item in the claim needs your attention')).to.be
-          .null;
+        expect(
+          queryByText(
+            'Open request: Check claim to see if action is needed from you or VA.',
+          ),
+        ).to.be.null;
         expect(getByText('You have a decision letter ready')).to.exist;
         getByText('Step 2 of 5: Initial review');
       });
@@ -790,7 +803,9 @@ describe('<ClaimsListItem>', () => {
             <ClaimsListItem claim={claim} />
           </Provider>,
         );
-        getByText('An item in the claim needs your attention');
+        getByText(
+          'Open request: Check claim to see if action is needed from you or VA.',
+        );
         getByText('Step 2 of 5: Initial review');
       });
       it('should not show any flags when closed', () => {

@@ -24,7 +24,6 @@ export function KeywordSearch({
   required,
   suggestions,
   version,
-  filters,
   dispatchError,
   errorReducer,
   type,
@@ -94,9 +93,7 @@ export function KeywordSearch({
       if (value !== '') {
         debouncedFetchSuggestion(value);
       }
-      if (validateSearchTerm) {
-        validateSearchTerm(value, dispatchError, error, filters, type);
-      }
+      validateSearchTerm(value, dispatchError, error, type);
     }
   };
 

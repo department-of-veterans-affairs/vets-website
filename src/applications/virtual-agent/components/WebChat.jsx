@@ -9,7 +9,6 @@ import { useFeatureToggle } from 'platform/utilities/feature-toggles';
 // Hooks
 import useBotPonyFill from '../hooks/useBotPonyfill';
 import useDirectLine from '../hooks/useDirectline';
-import useRecordRxSession from '../hooks/useRecordRxSession';
 import useRxSkillEventListener from '../hooks/useRxSkillEventListener';
 import useSetSendBoxMessage from '../hooks/useSetSendBoxMessage';
 import useWebChatStore from '../hooks/useWebChatStore';
@@ -113,7 +112,6 @@ const WebChat = ({
   useBotPonyFill(setBotPonyfill, environment);
   useRxSkillEventListener(setIsRXSkill);
   useSetSendBoxMessage(isRXSkill);
-  useRecordRxSession(isRXSkill);
 
   const directLine = useDirectLine(createDirectLine, token, isLoggedIn);
 

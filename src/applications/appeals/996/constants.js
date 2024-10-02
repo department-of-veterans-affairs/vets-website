@@ -26,8 +26,8 @@ export const GET_HELP_REVIEW_REQUEST_URL =
 export const GET_HELP_REP_OR_VSO_URL =
   '/get-help-from-accredited-representative';
 export const HEALTH_BENEFITS_URL = '/health-care/about-va-health-benefits';
-export const MST_COORD_URL =
-  'https://www.mentalhealth.va.gov/msthome/vha-mst-coordinators.asp';
+export const MST_INFO =
+  '/health-care/health-needs-conditions/military-sexual-trauma/';
 export const PROFILE_URL = '/profile';
 
 // Header of the "Submit your request by mail for any type of benefit claim"

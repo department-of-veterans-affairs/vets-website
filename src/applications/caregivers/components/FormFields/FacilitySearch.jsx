@@ -19,13 +19,20 @@ const FacilitySearch = props => {
   const [searchInputError, setSearchInputError] = useState(null);
   const [facilitiesListError, setFacilitiesListError] = useState(null);
   const [facilities, setFacilities] = useState([]);
-  const [pages, setPages] = useState(1);
+  const [pagination, setPagination] = useState({
+    currentPage: 0,
+    totalEntries: 0,
+  });
   const dispatch = useDispatch();
   const [coordinates, setCoordinates] = useState({ lat: '', long: '' });
   const radius = 500;
 
   const hasFacilities = () => {
     return facilities?.length > 0;
+  };
+
+  const hasMoreFacilities = () => {
+    return facilities?.length < pagination.totalEntries;
   };
 
   const isReviewPage = () => {
@@ -101,7 +108,7 @@ const FacilitySearch = props => {
           return null;
         }
 
-        return parentFacilityResponse[0];
+        return parentFacilityResponse.facilities[0];
       };
 
       const setSelectedFacilities = async facilityId => {
@@ -178,10 +185,10 @@ const FacilitySearch = props => {
       return;
     }
 
-    setFacilities(facilitiesResponse);
+    setFacilities(facilitiesResponse.facilities);
+    setPagination(facilitiesResponse.meta.pagination);
     setSubmittedQuery(query);
     setLoading(false);
-    setPages(1);
     focusElement('#caregiver_facility_results');
   };
 
@@ -190,7 +197,7 @@ const FacilitySearch = props => {
     setLoadingMoreFacilities(true);
     const facilitiesResponse = await fetchFacilities({
       ...coordinates,
-      page: pages + 1,
+      page: pagination.currentPage + 1,
       radius,
       perPage: 5,
     });
@@ -201,10 +208,10 @@ const FacilitySearch = props => {
       return;
     }
 
-    setFacilities([...facilities, ...facilitiesResponse]);
+    setFacilities([...facilities, ...facilitiesResponse.facilities]);
+    setPagination(facilitiesResponse.meta.pagination);
     setSubmittedQuery(query);
     setLoadingMoreFacilities(false);
-    setPages(pages + 1);
   };
 
   const loader = () => {
@@ -226,13 +233,15 @@ const FacilitySearch = props => {
         <>
           <FacilityList {...facilityListProps} />
           {loadingMoreFacilities && loader()}
-          <button
-            type="button"
-            className="va-button-link"
-            onClick={showMoreFacilities}
-          >
-            Load more facilities
-          </button>
+          {hasMoreFacilities() && (
+            <button
+              type="button"
+              className="va-button-link"
+              onClick={showMoreFacilities}
+            >
+              Load more facilities
+            </button>
+          )}
         </>
       );
     }

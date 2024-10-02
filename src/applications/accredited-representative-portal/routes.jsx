@@ -1,27 +1,37 @@
-import App from './containers/App';
-import LandingPage from './containers/LandingPage';
-import POARequestsPage from './containers/POARequestsPage';
-import SignedInLayoutWrapper from './containers/SignedInLayoutWrapper';
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const routes = [
-  {
-    component: App,
-    childRoutes: [
-      {
-        path: '/',
-        component: LandingPage,
-      },
-      {
-        component: SignedInLayoutWrapper,
-        childRoutes: [
-          {
-            path: '/poa-requests',
-            component: POARequestsPage,
-          },
-        ],
-      },
-    ],
+import RoutedSavableApp from 'platform/forms/save-in-progress/RoutedSavableApp';
+import { createRoutesWithSaveInProgress } from 'platform/forms/save-in-progress/helpers';
+
+import App from './containers/App';
+import formConfig from './accreditation/21a/config/form';
+
+const form21aRoutes = {
+  path: formConfig.urlPrefix,
+  childRoutes: createRoutesWithSaveInProgress(formConfig),
+  indexRoute: {
+    onEnter: (_, replace) => replace(`${formConfig.urlPrefix}introduction`),
   },
-];
+  component: ({ location, children }) => (
+    <RoutedSavableApp formConfig={formConfig} currentLocation={location}>
+      {children}
+    </RoutedSavableApp>
+  ),
+};
+
+const routes = {
+  path: '/',
+  component: App,
+  indexRoute: {
+    onEnter: (_, replace) => replace(`${form21aRoutes.path}introduction`),
+  },
+  childRoutes: [form21aRoutes],
+};
+
+form21aRoutes.component.propTypes = {
+  children: PropTypes.node.isRequired,
+  location: PropTypes.object.isRequired,
+};
 
 export default routes;

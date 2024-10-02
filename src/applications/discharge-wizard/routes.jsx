@@ -21,6 +21,7 @@ import PriorService from './components/v2/questions/PriorService';
 import FailureToExhaust from './components/v2/questions/FailureToExhaust';
 import ReviewPage from './components/v2/ReviewPage';
 import ResultsPage from './components/v2/ResultsPage';
+import RequestDD214v2 from './components/v2/RequestDD214';
 
 const envChildRoutes = environment.isProduction()
   ? [
@@ -49,6 +50,7 @@ const envChildRoutes = environment.isProduction()
       { path: 'failure-to-exhaust', component: FailureToExhaust },
       { path: 'review', component: ReviewPage },
       { path: 'results', component: ResultsPage },
+      { path: 'request-dd214-v2', component: RequestDD214v2 },
     ];
 const routes = {
   path: '/',

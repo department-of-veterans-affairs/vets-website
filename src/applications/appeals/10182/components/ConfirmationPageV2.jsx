@@ -58,7 +58,7 @@ export const ConfirmationPageV2 = () => {
         <p>
           You submitted the request on {submitDate}. It can take a few days for
           the Board to receive your request. We’ll send you a confirmation
-          letter, once we’ve read your request.
+          letter, once we’ve processed your request.
         </p>
       </va-alert>
 

@@ -23,7 +23,6 @@ import * as SelectUserFirstNameModule from '../../selectors/selectUserFirstName'
 // Hooks
 import * as UseBotPonyfillModule from '../../hooks/useBotPonyfill';
 import * as UseDirectLineModule from '../../hooks/useDirectline';
-import * as UseRecordRxSessionModule from '../../hooks/useRecordRxSession';
 import * as UseRxSkillEventListenerModule from '../../hooks/useRxSkillEventListener';
 import * as UseSetSendBoxMessageModule from '../../hooks/useSetSendBoxMessage';
 import * as UseWebChatStoreModule from '../../hooks/useWebChatStore';
@@ -107,10 +106,6 @@ describe('WebChat', () => {
         UseSetSendBoxMessageModule,
         'default',
       );
-      const useRecordRxSessionStub = sandbox.stub(
-        UseRecordRxSessionModule,
-        'default',
-      );
       const useDirectlineStub = sandbox.stub(UseDirectLineModule, 'default');
 
       render(
@@ -131,7 +126,6 @@ describe('WebChat', () => {
       expect(useBotPonyFillStub.calledOnce).to.be.true;
       expect(rxSkillEventListenerStub.calledOnce).to.be.true;
       expect(useSetSendBoxMessageStub.calledOnce).to.be.true;
-      expect(useRecordRxSessionStub.calledOnce).to.be.true;
       expect(useDirectlineStub.calledOnce).to.be.true;
     });
     it('should call rx skill effects a second time when rxSkill event is triggered', async () => {
@@ -150,10 +144,6 @@ describe('WebChat', () => {
       );
       const useSetSendBoxMessageStub = sandbox.stub(
         UseSetSendBoxMessageModule,
-        'default',
-      );
-      const useRecordRxSessionStub = sandbox.stub(
-        UseRecordRxSessionModule,
         'default',
       );
 
@@ -177,7 +167,6 @@ describe('WebChat', () => {
 
       expect(rxSkillEventListenerStub.calledOnce).to.be.true;
       expect(useSetSendBoxMessageStub.calledOnce).to.be.true;
-      expect(useRecordRxSessionStub.calledOnce).to.be.true;
     });
     it('should render without webSpeechPonyfillFactory when not in rx skill', () => {
       const reactWebChatStub = sandbox.stub().returns(<div />);
@@ -196,7 +185,6 @@ describe('WebChat', () => {
       sandbox.stub(UseBotPonyfillModule, 'default');
       sandbox.stub(UseRxSkillEventListenerModule, 'default');
       sandbox.stub(UseSetSendBoxMessageModule, 'default');
-      sandbox.stub(UseRecordRxSessionModule, 'default');
       sandbox.stub(UseDirectLineModule, 'default');
 
       render(
@@ -237,7 +225,6 @@ describe('WebChat', () => {
       sandbox.stub(ClearBotSessionStorageEventListenerModule, 'default');
       sandbox.stub(signOutEventListenerModule, 'default');
       sandbox.stub(UseSetSendBoxMessageModule, 'default');
-      sandbox.stub(UseRecordRxSessionModule, 'default');
       sandbox.stub(UseDirectLineModule, 'default');
       sandbox.stub(SessionStorageModule, 'getIsRxSkill').returns('true');
 

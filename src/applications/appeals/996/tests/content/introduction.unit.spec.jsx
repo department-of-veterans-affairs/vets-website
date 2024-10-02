@@ -8,11 +8,11 @@ import {
   $$,
 } from '@department-of-veterans-affairs/platform-forms-system/ui';
 
-import { IntroText } from '../../content/introduction';
+import { NewIntroText, IntroText } from '../../content/introduction';
 
 import { mockStore } from '../../../shared/tests/test-helpers';
 
-describe('RepresentativeReviewWidget', () => {
+describe('Intro content', () => {
   it('should render new content', () => {
     const store = mockStore({
       toggles: {
@@ -23,6 +23,7 @@ describe('RepresentativeReviewWidget', () => {
     });
     const { container } = render(
       <Provider store={store}>
+        <NewIntroText />
         <IntroText />
       </Provider>,
     );
@@ -34,6 +35,7 @@ describe('RepresentativeReviewWidget', () => {
   it('should render', () => {
     const { container } = render(
       <Provider store={mockStore()}>
+        <NewIntroText />
         <IntroText />
       </Provider>,
     );
@@ -46,6 +48,7 @@ describe('RepresentativeReviewWidget', () => {
     global.window.dataLayer = [];
     const { container } = render(
       <Provider store={mockStore()}>
+        <NewIntroText />
         <IntroText />
       </Provider>,
     );

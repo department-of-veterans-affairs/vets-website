@@ -62,11 +62,6 @@ export const BOUNDING_RADIUS = 0.75;
 export const EXPANDED_BOUNDING_RADIUS = 1.4;
 
 /**
- *Defines the marker letter list
- */
-export const MARKER_LETTERS = new Set('ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split(''));
-
-/**
  * Enum for operating status.
  */
 export const OperatingStatus = {

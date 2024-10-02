@@ -37,12 +37,7 @@ function App({ loggedIn, location, children, formData, setFormData }) {
     [loggedIn],
   );
 
-  // Exclude the 'next-steps' route from being wrapped in RoutedSavableApp
-  const isNextStepsRoute = pathname === '/next-steps';
-
-  const content = isNextStepsRoute ? (
-    <>{children}</> // Directly render children for 'next-steps'
-  ) : (
+  const content = (
     <RoutedSavableApp formConfig={updatedFormConfig} currentLocation={location}>
       {children}
     </RoutedSavableApp>
@@ -66,10 +61,10 @@ const mapDispatchToProps = {
 };
 
 App.propTypes = {
-  loggedIn: PropTypes.bool,
-  location: PropTypes.object,
   children: PropTypes.node,
   formData: PropTypes.object,
+  loggedIn: PropTypes.bool,
+  location: PropTypes.object,
   setFormData: PropTypes.func,
 };
 

@@ -54,7 +54,7 @@ class PatientComposePage {
 
   verifySendMessageConfirmationMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
+      'include.text',
       Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
@@ -242,6 +242,10 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
       .should('be.visible');
+
+    cy.get(`.attachments-section`)
+      .find(`.file-input`)
+      .should(`have.css`, `border-left-width`, `4px`);
   };
 
   closeAttachmentErrorModal = () => {

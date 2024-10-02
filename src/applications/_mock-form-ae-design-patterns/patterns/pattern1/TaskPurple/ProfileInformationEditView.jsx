@@ -331,7 +331,7 @@ export class ProfileInformationEditView extends Component {
                 analyticsSectionName={analyticsSectionName}
                 isLoading={isLoading}
               >
-                <div className="vads-u-display--block small-screen:vads-u-display--flex">
+                <div className="vads-u-display--block mobile-lg:vads-u-display--flex">
                   <LoadingButton
                     data-action="save-edit"
                     data-testid="save-edit-button"

@@ -85,50 +85,43 @@ const disabilitiesList = (
         another benefit type, you’ll need to fill out VA Form 20-0996 and submit
         it by mail or in person.
         <p>
-          <va-link
-            external
-            href="/find-forms/about-form-20-0996"
-            text="Get VA Form 20-0996 to download"
-          />
+          <a href="/find-forms/about-form-20-0996" target="_blank">
+            Get VA Form 20-0996 to download (opens in a new tab)
+          </a>
         </p>
       </li>
       <li>
         You and another surviving dependent of the Veteran are claiming a
         benefit that only one person can claim (also called a contested claim).
         You’ll need to{' '}
-        <va-link
-          external
-          href="/decision-reviews/board-appeal"
-          text="appeal to the Board of Veterans’ Appeals"
-        />
+        <a href="/decision-reviews/board-appeal" target="_blank">
+          appeal to the Board of Veterans’ Appeals (opens in a new tab)
+        </a>
         .
         <p>
-          <va-link
-            external
-            href="/decision-reviews/contested-claims"
-            text="Learn more about contested claims"
-          />
+          <a href="/decision-reviews/contested-claims" target="_blank">
+            Learn more about contested claims (opens in a new tab)
+          </a>
         </p>
       </li>
       <li>
         You already have a Higher-Level Review decision on the issue. If you
         disagree with a Higher-Level Review decision, you can file a{' '}
-        <va-link
-          external
-          href="/decision-reviews/supplemental-claim"
-          text="Supplemental Claim"
-        />{' '}
+        <a href="/decision-reviews/supplemental-claim" target="_blank">
+          Supplemental Claim (opens in a new tab)
+        </a>{' '}
         and submit new evidence, or request a Board Appeal.
         <p>
           To learn more about decision review options, visit our decision
           reviews and appeals information page.
         </p>
         <p>
-          <va-link
-            external
+          <a
             href="/resources/choosing-a-decision-review-option"
-            text="Learn more about decision review options"
-          />
+            target="_blank"
+          >
+            Learn more about decision review options (opens in a new tab)
+          </a>
         </p>
       </li>
     </ul>
@@ -140,11 +133,9 @@ const disabilitiesList = (
       claim.
     </p>
     <p className="vads-u-margin-bottom--0">
-      <va-link
-        external
-        href="/get-help-from-accredited-representative"
-        text="Get help from an accredited representative"
-      />
+      <a href="/get-help-from-accredited-representative" target="_blank">
+        Get help from an accredited representative (opens in a new tab)
+      </a>
     </p>
   </div>
 );

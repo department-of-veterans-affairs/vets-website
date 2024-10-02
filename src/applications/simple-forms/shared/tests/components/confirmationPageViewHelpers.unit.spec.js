@@ -365,18 +365,18 @@ describe('confirmation page view helpers', () => {
     expect(title).to.equal('Review function title');
   });
 
-  // it('should show radio fields correctly', () => {
-  //   const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
-  //   const fields = chapter.buildConfirmationFields();
-  //   const { getByText } = render(fields);
-  //   expect(getByText('Widget radio')).to.exist;
-  //   expect(getByText('Widget radio option 1')).to.exist;
-  //   expect(getByText('Web component radio')).to.exist;
-  //   expect(getByText('Web component radio option 1')).to.exist;
+  it('should show radio fields correctly', () => {
+    const chapter = new MockChapter(mockChapterRadio, mockChapterRadioData);
+    const fields = chapter.buildConfirmationFields();
+    const { getByText } = render(fields);
+    expect(getByText('Widget radio')).to.exist;
+    expect(getByText('Widget radio option 1')).to.exist;
+    expect(getByText('Web component radio')).to.exist;
+    expect(getByText('Web component radio option 1')).to.exist;
 
-  //   expect(getByText('Web component yes/no')).to.exist;
-  //   expect(getByText('Yes')).to.exist;
-  // });
+    expect(getByText('Web component yes/no')).to.exist;
+    expect(getByText('Yes')).to.exist;
+  });
 
   it('should show text fields correctly', () => {
     const chapter = new MockChapter(mockChapterText, mockChapterTextData);

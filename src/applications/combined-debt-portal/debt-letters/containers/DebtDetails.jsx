@@ -119,7 +119,7 @@ const DebtDetails = () => {
             <span className="vads-u-margin-left--0p5">
               {moment(dateUpdated, 'MM-DD-YYYY').format('MMMM D, YYYY')}
             </span>
-            . Payments after this date will not be reflected here.
+            .
           </p>
         )}
         <DebtDetailsCard debt={currentDebt} />
@@ -143,7 +143,7 @@ const DebtDetails = () => {
             <h2 id="debtDetailsHeader" className="vads-u-margin-y--2">
               Debt details
             </h2>
-            <div className="small-screen:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
+            <div className="mobile-lg:vads-u-display--flex small-screen:vads-u-justify-content--space-between medium-screen:vads-u-max-width--90">
               <div>
                 <h3 className="vads-u-margin-y--0">
                   <span className="vads-u-display--block vads-u-font-size--base vads-u-font-weight--normal">

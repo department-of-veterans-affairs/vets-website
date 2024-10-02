@@ -49,7 +49,7 @@ const ResponseInboxPage = () => {
   const inquiryId = getLastSegment();
 
   const formatDate = dateString => {
-    const parsedDate = parse(dateString, 'MM/dd/yy', new Date());
+    const parsedDate = parse(dateString, 'MM/dd/yyyy h:mm:ss a', new Date());
     return format(parsedDate, 'MMM d, yyyy');
   };
 

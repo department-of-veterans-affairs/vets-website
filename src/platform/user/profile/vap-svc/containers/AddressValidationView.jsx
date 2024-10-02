@@ -295,7 +295,7 @@ class AddressValidationView extends React.Component {
             </div>
           )}
 
-          <div className="vads-u-display--flex small-screen:vads-u-display--block vads-u-flex-direction--column">
+          <div className="vads-u-display--flex mobile-lg:vads-u-display--block vads-u-flex-direction--column">
             {!isLoading && (
               <va-button
                 primary

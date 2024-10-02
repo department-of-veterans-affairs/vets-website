@@ -57,7 +57,12 @@ const HomePage = ({ router, setIntroPageViewed }) => {
           The information you enter on the next page is completely confidential.
         </p>
         <p>
-          <va-link-action href="#" onClick={startForm} text="Get started" />
+          <va-link-action
+            data-testid="duw-start-form"
+            href="#"
+            onClick={startForm}
+            text="Get started"
+          />
         </p>
         <va-accordion>
           <va-accordion-item header="Can I get VA benefits without a discharge upgrade?">

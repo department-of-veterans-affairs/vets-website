@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { tabsConfig } from '../../../utils/data/tabs';
 import { handleEditPageDisplayTweaks } from '../../../App';
+import { getStylesForTab } from '../../../utils/helpers/tabs';
 
 const defaultRootUrl = '/mock-form-ae-design-patterns';
 
@@ -36,9 +37,8 @@ export const LandingPage = ({ rootUrl = defaultRootUrl, location }) => {
             <div className="vads-l-col">
               <button
                 className={`vads-u-width--full ${tab.baseClass}`}
-                onClick={() =>
-                  handleClick(rootUrl, tab.path + tab.introPathWithQuery)
-                }
+                onClick={() => handleClick(rootUrl, tab.path)}
+                style={getStylesForTab(tab)}
               >
                 {tab.name}
               </button>

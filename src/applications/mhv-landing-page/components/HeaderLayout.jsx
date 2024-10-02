@@ -10,8 +10,8 @@ const goBackLinkText = 'Go back to the previous version of My HealtheVet';
 const HeaderLayout = ({
   showWelcomeMessage = false,
   showLearnMore = false,
+  showMhvGoBack = false,
   ssoe = false,
-  userVerified = false,
 }) => {
   const mhvHomeUrl = mhvUrl(ssoe, 'home');
   const mhvDownloadUrl = mhvUrl(ssoe, 'download-my-data');
@@ -65,7 +65,7 @@ const HeaderLayout = ({
               health care needs in the same place where you manage your other VA
               benefits and services—right here on VA.gov.
             </p>
-            {userVerified && (
+            {showMhvGoBack && (
               <p>
                 If you’re not ready to try the new My HealtheVet, you can use
                 the previous version anytime.{' '}
@@ -167,9 +167,9 @@ const HeaderLayout = ({
 
 HeaderLayout.propTypes = {
   showLearnMore: PropTypes.bool,
+  showMhvGoBack: PropTypes.bool,
   showWelcomeMessage: PropTypes.bool,
   ssoe: PropTypes.bool,
-  userVerified: PropTypes.bool,
 };
 
 export default HeaderLayout;

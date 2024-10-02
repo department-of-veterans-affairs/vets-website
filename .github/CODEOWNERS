@@ -176,13 +176,14 @@ src/applications/check-in @department-of-veterans-affairs/patient-check-in @depa
 
 # GOVCIO Team
 
-src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/yellow-ribbon @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/school-resources @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/sco @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/gi-sandbox @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/edu-benefits @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/verify-your-enrollment @department-of-veterans-affairs/govcio-vye-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
+src/applications/post-911-gib-status @department-of-veterans-affairs/govcio-vfep-codereviewers @department-of-veterans-affairs/va-platform-cop-frontend
 
 # CTO Health Products
 
@@ -260,7 +261,6 @@ src/applications/ask-va @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/e-folders @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/messages @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/mock-sip-form @department-of-veterans-affairs/va-platform-cop-frontend
-src/applications/post-911-gib-status @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/third-party-app-directory @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/analytics @department-of-veterans-affairs/va-platform-cop-frontend
 src/applications/static-pages/ask-va @department-of-veterans-affairs/va-platform-cop-frontend

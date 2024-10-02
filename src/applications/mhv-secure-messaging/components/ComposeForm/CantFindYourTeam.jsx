@@ -24,6 +24,7 @@ const CantFindYourTeam = () => {
       <VaAdditionalInfo
         trigger="If you can't find your team"
         className="vads-u-margin-top--2"
+        data-dd-action-name="If You Can't Find Your Team Dropdown"
       >
         <section className="cant-fnd-your-team">
           <p>
@@ -42,14 +43,22 @@ const CantFindYourTeam = () => {
           </p>
           {mhvSecureMessagingEditContactList ? (
             <p>
-              <Link to={Paths.CONTACT_LIST}>
+              <Link
+                to={Paths.CONTACT_LIST}
+                data-dd-action-name="Show more teams in your contact list link"
+              >
                 Show more teams in your contact list
               </Link>
             </p>
           ) : (
             <>
               <p>
-                <a href={prefLink} target="_blank" rel="noreferrer">
+                <a
+                  href={prefLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-dd-action-name="Edit your message preferences link"
+                >
                   Edit your message preferences on the previous version of
                   secure messaging (opens in new tab)
                 </a>
@@ -59,7 +68,12 @@ const CantFindYourTeam = () => {
                 list, contact your VA health facility.
               </p>
               <p>
-                <a href="/find-locations/">Find your VA health facility</a>
+                <a
+                  href="/find-locations/"
+                  data-dd-action-name="Find your VA health facility link"
+                >
+                  Find your VA health facility
+                </a>
               </p>
             </>
           )}

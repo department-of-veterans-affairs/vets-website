@@ -124,8 +124,7 @@ ${txtLine}\n\n
 ${item.name}\n
 Date received: ${item.date}\n
 Location: ${item.location}\n
-Reaction: ${processList(item.reactions)}\n
-Provider notes: ${processList(item.notes)}\n`;
+Reaction: ${processList(item.reactions)}\n`;
   };
 
   const generateVaccinesTxt = async () => {

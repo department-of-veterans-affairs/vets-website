@@ -15,6 +15,7 @@ describe('Medications Details Page Download', () => {
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.clickPrintOrDownloadThisListDropDown();
+    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationsDetailsAsTxtOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
     listPage.verifyDownloadTextFileHeadless('Safari', 'Mhvtp', 'Mhvtp, Safari');

@@ -16,8 +16,10 @@ describe('Medications Details Page Download', () => {
     listPage.clickGotoMedicationsLink();
     detailsPage.clickMedicationHistoryAndDetailsLink(mockPrescriptionDetails);
     listPage.clickPrintOrDownloadThisListDropDown();
+    detailsPage.verifyFocusOnPrintOrDownloadDropdownButtonOnDetailsPage();
     detailsPage.verifyDownloadMedicationsDetailsAsPDFButtonOnDetailsPage();
     detailsPage.clickDownloadMedicationDetailsAsPdfOnDetailsPage();
+    detailsPage.verifyLoadingSpinnerForDownloadOnDetailsPage();
     listPage.verifyDownloadCompleteSuccessMessageBanner();
     site.verifyDownloadedPdfFile(
       'VA-medications-list-Safari-Mhvtp',

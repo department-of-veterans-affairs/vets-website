@@ -84,13 +84,11 @@
     ],
     "view:vaMedicalRecordsIntro": {},
     "view:hasEvidence": true,
-    "view:hasEvidenceFollowUp": {
-      "view:selectableEvidenceTypes": {
-        "view:hasPrivateMedicalRecords": true,
-        "view:hasOtherEvidence": true
-      },
-      "view:evidenceTypeHelp": {}
+    "view:selectableEvidenceTypes": {
+      "view:hasPrivateMedicalRecords": true,
+      "view:hasOtherEvidence": true
     },
+    "view:evidenceTypeHelp": {},
     "view:uploadServiceTreatmentRecordsQualifier": {
       "view:hasServiceTreatmentRecordsToUpload": true
     },

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { VA_FORM_IDS } from 'platform/forms/constants';
 import environment from 'platform/utilities/environment';
 import FormFooter from 'platform/forms/components/FormFooter';
@@ -55,7 +56,7 @@ import FacilityConfirmation from '../components/FormPages/FacilityConfirmation';
 
 // sign as representative
 import signAsRepresentativeYesNo from './chapters/signAsRepresentative/signAsRepresentativeYesNo';
-import uploadPOADocument from './chapters/signAsRepresentative/uploadPOADocument';
+import documentUpload from './chapters/signAsRepresentative/documentUpload';
 
 const {
   address,
@@ -314,8 +315,8 @@ const formConfig = {
           title: content['sign-as-rep-title--upload'],
           depends: formData => formData.signAsRepresentativeYesNo === 'yes',
           editModeOnReviewPage: false,
-          uiSchema: uploadPOADocument.uiSchema,
-          schema: uploadPOADocument.schema,
+          uiSchema: documentUpload.uiSchema,
+          schema: documentUpload.schema,
         },
       },
     },

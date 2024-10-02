@@ -4,12 +4,11 @@
         "type": "categories",
         "attributes": {
             "messageCategoryType": [
-                "GENERAL",
                 "OTHER",
                 "COVID",
-                "APPOINTMENT",
-                "MEDICATION",
-                "TEST",
+                "APPOINTMENTS",
+                "MEDICATIONS",
+                "TEST_RESULTS",
                 "EDUCATION"
             ]
         }

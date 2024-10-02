@@ -28,10 +28,9 @@ const DebtSummaryCard = ({ debt }) => {
         class="vads-u-padding--3 vads-u-margin-bottom--3"
         data-testid="debt-summary-item"
       >
-        {/* TODO: Once transaction data is live, need to change h3 to h2 */}
-        <h3 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
+        <h2 className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h3">
           {debtCardHeading}
-        </h3>
+        </h2>
         <p className="vads-u-margin-top--0 vads-u-margin-bottom--1p5 vads-u-font-size--h4 vads-u-font-family--serif">
           <span className="vads-u-font-weight--normal">Current balance: </span>
           <strong>{debtCardTotal} </strong>

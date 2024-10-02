@@ -516,7 +516,7 @@ export function mockCCProviderFetch(
   if (vaError) {
     setFetchJSONFailure(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude
@@ -527,7 +527,7 @@ export function mockCCProviderFetch(
   } else {
     setFetchJSONResponse(
       global.fetch.withArgs(
-        `${environment.API_URL}/facilities_api/v1/ccp/provider?latitude=${
+        `${environment.API_URL}/facilities_api/v2/ccp/provider?latitude=${
           address.latitude
         }&longitude=${
           address.longitude

@@ -8,32 +8,14 @@ const DebtCardsList = () => {
   );
 
   return (
-    <>
-      {/* TODO: Once transaction data is live, we need to remove this h2 and paragrpah. */}
-      <h2
-        id="currentDebts"
-        className="vads-u-margin-top--4 vads-u-margin-bottom--2"
-        data-testid="current-va-debt-list"
-      >
-        Current debts
-      </h2>
-      <p>
-        Any payments you may have made to your current debts will not be
-        reflected here until our systems are updated with your next monthly
-        statement.
-      </p>
-      <ul
-        className="vads-u-margin-top--3 no-bullets vads-u-padding-x--0"
-        data-testid="debt-list"
-      >
-        {debts.map((debt, index) => (
-          <DebtSummaryCard
-            key={`${index}-${debt.compositeDebtId}`}
-            debt={debt}
-          />
-        ))}
-      </ul>
-    </>
+    <ul
+      className="vads-u-margin-top--3 no-bullets vads-u-padding-x--0"
+      data-testid="current-va-debt-list"
+    >
+      {debts.map((debt, index) => (
+        <DebtSummaryCard key={`${index}-${debt.compositeDebtId}`} debt={debt} />
+      ))}
+    </ul>
   );
 };
 

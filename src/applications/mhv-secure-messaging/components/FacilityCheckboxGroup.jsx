@@ -50,7 +50,7 @@ const FacilityCheckboxGroup = props => {
           }
         />
         <div
-          className="vads-u-margin-left--2 small-screen:vads-u-margin-left--3"
+          className="vads-u-margin-left--2 mobile-lg:vads-u-margin-left--3"
           data-testid={`${facilityName?.replace(/ /g, '-')}-teams`}
         >
           {triageTeams.map(team => {

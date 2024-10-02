@@ -7,6 +7,7 @@ const HowToAttachFiles = () => {
       trigger="What to know about attaching files"
       disable-analytics={false}
       disable-border={false}
+      data-dd-action-name="What to know about attaching files Expandable Info"
     >
       <section className="how-to-attach-files">
         <ul className="vads-u-margin-y--0">

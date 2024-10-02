@@ -181,7 +181,8 @@ export const benefitsLabelsUpdate = {
   ),
   chapter35: (
     <p>
-      Survivors' and Dependents’ Education Assistance (DEA, Chapter 35 )<br />
+      Survivors' and Dependents’ Education Assistance (DEA, Chapter 35)
+      <br />
       <a
         aria-label="Learn more about Survivors’ and Dependents’ Educational Assistance"
         href="/education/survivor-dependent-benefits/dependents-education-assistance/"

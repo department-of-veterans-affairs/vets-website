@@ -168,7 +168,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
               onVaValueChange={onValueChange}
               uswds
             >
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block vads-u-margin-right--2 small-screen:vads-u-margin-top--1 medium-screen:vads-u-margin-top--0">
                 <va-radio-option
                   onChange={event => {
                     setGlobalSearch(!event.target.checked);
@@ -182,7 +182,7 @@ function SearchBar({ onInputChange, previousValue, setSearchData, userInput }) {
                   uswds
                 />
               </div>
-              <div className="medium-screen:vads-u-display--inline-block small-screen:vads-u-display--block">
+              <div className="medium-screen:vads-u-display--inline-block mobile-lg:vads-u-display--block">
                 <va-radio-option
                   onChange={event => setGlobalSearch(event.target.checked)}
                   checked={isGlobalSearch}

@@ -43,6 +43,19 @@ const backgroundInformationDetails = ({
           name: `${path}-file-input`,
           fileUploadUrl: url,
         }),
+        /**
+         * File upload warnings are modeled as form data that can be modified by
+         * the user. When specified as a fully-fledged `ArrayField`, the final
+         * review page emits an axe error about the input field to create a new
+         * warning. To make warnings function more like readonly UX state and
+         * also prevent this axe error while working within the form schema
+         * concept that file uploading is built on, setting the field kind to
+         * `BasicArrayField` accomplishes both of these things.
+         */
+        warnings: {
+          'ui:field': 'BasicArrayField',
+          'ui:title': 'Document upload warnings',
+        },
       },
       [certificationKey]: checkboxGroupUI({
         title: 'Certification',
@@ -52,7 +65,7 @@ const backgroundInformationDetails = ({
         },
         required: true,
         labels: {
-          CERTIFIED:
+          certified:
             'I certify I have provided all information I wish to provide relevant to this question. I understand it is my responsibility to establish that I am of good character and reputation, qualified to render valuable assistance to claimants, and otherwise competent to advise and assist claimants in the preparation, presentation, and prosecution of their claim(s) before VA, and that failure to provide the requisite information may result in denial of my application.',
         },
       }),
@@ -62,7 +75,7 @@ const backgroundInformationDetails = ({
       properties: {
         [explanationKey]: textareaSchema,
         [documentsKey]: fileInputSchema,
-        [certificationKey]: checkboxGroupSchema(['CERTIFIED']),
+        [certificationKey]: checkboxGroupSchema(['certified']),
       },
       required: [explanationKey, certificationKey],
     },

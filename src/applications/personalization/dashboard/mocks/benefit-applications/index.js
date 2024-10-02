@@ -33,6 +33,14 @@ const createApplications = (updatedDaysAgo = 1) => {
         },
       },
     ],
+    errors: [
+      // {
+      //   status: 429,
+      //   source: 'Lighthouse - Benefits Intake API',
+      //   title: 'Form Submission Status: Too Many Requests',
+      //   detail: 'API rate limit exceeded',
+      // },
+    ],
   };
 };
 

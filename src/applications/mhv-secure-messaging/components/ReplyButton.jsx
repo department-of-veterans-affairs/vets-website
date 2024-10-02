@@ -9,6 +9,7 @@ const ReplyButton = props => {
         className="usa-button vads-u-width--full reply-button-in-body vads-u-display--flex vads-u-flex-direction--row vads-u-justify-content--center vads-u-align-items--center"
         data-testid="reply-button-body"
         onClick={props.onReply}
+        data-dd-action-name="Reply Button"
       >
         <div className="vads-u-margin-right--0p5">
           <va-icon icon="undo" aria-hidden="true" />

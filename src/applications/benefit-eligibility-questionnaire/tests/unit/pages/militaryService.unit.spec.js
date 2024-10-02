@@ -68,7 +68,7 @@ describe('Military Service Form', () => {
       'More than 3 months but less than 6 months',
       'More than 6 months but less than 1 year',
       'More than 1 year from now',
-      'More than 3 years ago',
+      'More than 3 years from now',
     ];
 
     options.forEach(option => {

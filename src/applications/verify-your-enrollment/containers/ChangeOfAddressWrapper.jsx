@@ -51,6 +51,10 @@ const ChangeOfAddressWrapper = ({ mailingAddress, loading, applicantName }) => {
   const scrollToTopOfForm = () => {
     scrollToElement('Contact information');
   };
+  useEffect(() => {
+    document.title =
+      'Your Montgomery GI Bill benefits information | Veterans Affairs';
+  }, []);
 
   // This Effcet to defalut setNewAddress to mailingAddress
   useEffect(

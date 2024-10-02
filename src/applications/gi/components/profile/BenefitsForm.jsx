@@ -129,7 +129,7 @@ const BenefitsForm = ({
     */
     const toggleCumulativeDropDown = () => giBillChapter !== '33b';
     return (
-      <div>
+      <div className="vads-u-margin-bottom--3">
         <Dropdown
           label={renderLearnMoreLabel({
             text: 'Which GI Bill benefit do you want to use?',

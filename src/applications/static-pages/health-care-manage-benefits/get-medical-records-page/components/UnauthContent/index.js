@@ -139,7 +139,7 @@ const UnauthContent = () => (
         </a>
         <br />
         <br />
-        <a href="https://www.tricare.mil/resources/medicalrecords">
+        <a href="https://tricare.mil/PatientResources/MedicalRecords">
           Learn how to get DoD Health Records on the TRICARE website
         </a>
       </va-accordion-item>
