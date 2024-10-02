@@ -69,7 +69,7 @@ export class ConfirmationPage extends React.Component {
         </div>
         <h2>What to expect next</h2>
         <p>
-          We'll review your registration form. This can take up to 60 days. If
+          We'll review your registration form. This can take up to 90 days. If
           you're eligible for this program, we'll send you a benefits
           authorization letter. This letter will list your service-connected
           conditions that we'll cover.
