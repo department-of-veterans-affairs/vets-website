@@ -32,10 +32,10 @@ const IntroductionPage = ({ router }) => {
       <h2 className="vads-u-margin-y--3 mobile-lg:vads-u-margin-y--4">
         What to know before you fill out this form
       </h2>
-      <ul className="intro-ul">
+      <ul>
         <li>
-          You may be eligible for this program if you’re a Veteran, a service
-          member, or a family member or caregiver of a Veteran.
+          You may be eligible for this program if you’re a Veteran; service
+          member; or the spouse, child, or caregiver of a Veteran.
         </li>
         <li>
           After you submit your form, you can print the confirmation page for
