@@ -3,12 +3,12 @@ import PatientMessageDetailsPage from '../pages/PatientMessageDetailsPage';
 import mockMessages from '../fixtures/messages-response.json';
 import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientInterstitialPage from '../pages/PatientInterstitialPage';
-import PatientReplyPage from '../pages/PatientReplyPage';
 import FolderLoadPage from '../pages/FolderLoadPage';
-import { AXE_CONTEXT, Data } from '../utils/constants';
+import { Alerts, AXE_CONTEXT, Data } from '../utils/constants';
+import PatientComposePage from '../pages/PatientComposePage';
 
-describe('Secure Messaging navigate away from unsaved draft', () => {
-  it(' Check navigation away from unsaved draft', () => {
+describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
+  beforeEach(() => {
     SecureMessagingSite.login();
     const testMessage = PatientInboxPage.getNewMessageDetails();
     PatientInboxPage.loadInboxMessages(mockMessages, testMessage);
@@ -17,12 +17,57 @@ describe('Secure Messaging navigate away from unsaved draft', () => {
     PatientInterstitialPage.getContinueButton().click({
       waitForAnimations: true,
     });
-    PatientReplyPage.getMessageBodyField().type(Data.TEST_MESSAGE_BODY, {
-      force: true,
-    });
+  });
+
+  it('navigate away with no data', () => {
+    FolderLoadPage.backToInbox();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with no data and attachment', () => {
+    PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToInbox();
-    PatientReplyPage.verifyModalMessageDisplayAndButtonsCantSaveDraft();
+
+    PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
+
+    PatientComposePage.clickDeleteDraftModalButton();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with required data', () => {
+    PatientComposePage.enterDataToMessageBody();
+
+    FolderLoadPage.backToInbox();
+
+    PatientComposePage.verifyCantSaveAlert(
+      Alerts.SAVE_DRAFT,
+      Data.BUTTONS.SAVE_DRAFT,
+    );
+
+    PatientComposePage.clickDeleteDraftModalButton();
+
+    cy.injectAxe();
+    cy.axeCheck(AXE_CONTEXT);
+  });
+
+  it('navigate away with required data and attachment', () => {
+    PatientComposePage.enterDataToMessageBody();
+    PatientComposePage.attachMessageFromFile();
+
+    FolderLoadPage.backToInbox();
+
+    PatientComposePage.verifyCantSaveAlert(
+      Alerts.SAVE_ATTCH,
+      Data.BUTTONS.EDIT_DRAFT,
+      Data.BUTTONS.SAVE_DRAFT_WO_ATTCH,
+    );
+
+    PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
 
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);

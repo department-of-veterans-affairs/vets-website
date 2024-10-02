@@ -1,8 +1,8 @@
-import PatientInboxPage from './pages/PatientInboxPage';
-import SecureMessagingSite from './sm_site/SecureMessagingSite';
-import PatientComposePage from './pages/PatientComposePage';
-import FolderLoadPage from './pages/FolderLoadPage';
-import { AXE_CONTEXT } from './utils/constants';
+import PatientInboxPage from '../pages/PatientInboxPage';
+import SecureMessagingSite from '../sm_site/SecureMessagingSite';
+import PatientComposePage from '../pages/PatientComposePage';
+import FolderLoadPage from '../pages/FolderLoadPage';
+import { AXE_CONTEXT } from '../utils/constants';
 
 describe('Secure Messaging Verify Compose Data When Cancel Navigate Away', () => {
   // const composePage = new PatientComposePage();
