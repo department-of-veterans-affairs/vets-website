@@ -293,25 +293,24 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.length(0);
     });
 
-    // TODO: Throwing error "An error was thrown inside one of your components, but React doesn't know what it was"
-    // it.only('should select item using Enter and make listbox empty', () => {
-    //   const searchTerm = 'k';
-    //   const searchResults = fullStringSimilaritySearch(searchTerm, items);
-    //   const { getByRole, getByTestId } = render(<ComboBox {...props} />);
+    it('should select item using Enter and make listbox empty', () => {
+      const searchTerm = 'k';
+      const searchResults = fullStringSimilaritySearch(searchTerm, items);
+      const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
-    //   const input = getByTestId('combobox-input');
-    //   simulateInputChange(input, searchTerm);
-    //   const listbox = getByRole('listbox');
+      const input = getByTestId('combobox-input');
+      simulateInputChange(input, searchTerm);
+      const listbox = getByRole('listbox');
 
-    //   expect(listbox).to.have.length(21);
+      expect(listbox).to.have.length(21);
 
-    //   fireEvent.keyDown(input, { key: 'ArrowDown' });
-    //   fireEvent.keyDown(input, { key: 'ArrowDown' });
-    //   fireEvent.keyDown(input, { key: 'Enter' });
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+      fireEvent.keyDown(input, { key: 'Enter' });
 
-    //   expect(input).to.have.value(searchResults[0]);
-    //   expect(listbox).to.have.length(0);
-    // });
+      expect(input).to.have.value(searchResults[0]);
+      expect(listbox).to.have.length(0);
+    });
 
     it('should close the list and retain input on Tab', () => {
       const searchTerm = 'l';

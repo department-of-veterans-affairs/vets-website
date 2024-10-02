@@ -288,7 +288,7 @@ export class ComboBox extends React.Component {
   // Keyboard handler for a list item. Need to check index against list for selection via keyboard
   selectOptionWithKeyboard(e, index, list, searchTerm) {
     if (index > 0) {
-      this.selectOption(list.children[index].innerText);
+      this.selectOption(list.children[index].textContent);
     } else if (index === 0) {
       this.selectOption(searchTerm);
     }

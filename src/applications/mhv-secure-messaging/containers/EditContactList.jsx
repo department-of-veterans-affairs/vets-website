@@ -282,14 +282,14 @@ const EditContactList = () => {
                   vads-u-display--flex
                   vads-u-flex-direction--column
                   mobile-lg:vads-u-flex-direction--row
-                  small-screen:vads-u-align-content--flex-start
+                  mobile-lg:vads-u-align-content--flex-start
                 "
             >
               <va-button
                 text="Save contact list"
                 class="
                     vads-u-margin-bottom--1
-                    small-screen:vads-u-margin-bottom--0
+                    mobile-lg:vads-u-margin-bottom--0
                   "
                 onClick={e => handleSave(e)}
                 data-testid="contact-list-save"
