@@ -65,18 +65,15 @@ const AuthProfileInformation = ({ user }) => {
 
       <p>
         <strong>Note:</strong> If you need to update your personal information,
-        call our Health Eligibility Center at{' '}
-        <va-telephone contact={CONTACTS['222_VETS']} /> (
+        call our VA benefits hotline at{' '}
+        <va-telephone contact={CONTACTS.VA_BENEFITS} /> (
         <va-telephone contact={CONTACTS[711]} tty />
-        ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m.{' '}
+        ). We’re here Monday through Friday, 8:00 a.m. to 9:00 p.m.{' '}
         <dfn>
           <abbr title="Eastern Time">ET</abbr>
         </dfn>
-        .
-      </p>
-      <p>
-        Or you can call your VA medical center to get help changing your name on
-        file with VA. Ask for the eligibility department.{' '}
+        . Or you can call your VA medical center to get help changing your name
+        on file with VA. Ask for the eligibility department.{' '}
         <va-link
           href={APP_URLS.facilities}
           text="Find a VA medical center near you"
