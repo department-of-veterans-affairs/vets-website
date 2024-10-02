@@ -18,7 +18,7 @@ const SchoolCategoryRating = ({ titleObj, questionsObj }) => {
   };
 
   return (
-    <div className="medium-screen:vads-l-col--6 small-screen:vads-l-col--12 xsmall-screen:vads-l-col--12">
+    <div className="medium-screen:vads-l-col--6 mobile-lg:vads-l-col--12 mobile:vads-l-col--12">
       <div className="vads-u-padding-left--0">
         <RatingsAccordion
           title={heading}
