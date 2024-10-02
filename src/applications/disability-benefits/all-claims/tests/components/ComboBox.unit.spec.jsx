@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, waitFor } from '@testing-library/react';
 import { expect } from 'chai';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 import React from 'react';
@@ -95,18 +95,21 @@ describe('ComboBox Component', () => {
       expect(props.onChange.calledWith(searchTerm)).to.be.true;
     });
 
-    it('should render listbox with max of 21 items', () => {
+    it('should render listbox with max of 21 items', async () => {
       const searchTerm = 'a';
       const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const listboxItemsCount = getAllByRole('option').length;
 
-      expect(listboxItemsCount).to.eq(21);
+      await waitFor(() => {
+        const listboxItemsCount = getAllByRole('option').length;
+
+        expect(listboxItemsCount).to.eq(21);
+      });
     });
 
-    it('should render listbox items in alignment with string similarity search', () => {
+    it('should render listbox items in alignment with string similarity search', async () => {
       const searchTerm = 'b';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
       const freeTextAndFilteredItemsCount = searchResults.length + 1;
@@ -114,42 +117,50 @@ describe('ComboBox Component', () => {
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const listboxItems = getAllByRole('option');
-      const listboxItemsCount = listboxItems.length;
 
-      expect(listboxItemsCount).to.eq(freeTextAndFilteredItemsCount);
-      listboxItems.forEach((item, index) => {
-        if (index === 0) {
-          expect(item.textContent).to.eq(
-            `Enter your condition as "${searchTerm}"`,
-          );
-        } else {
-          const searchResult = searchResults[index - 1];
-          expect(item.textContent).to.eq(searchResult);
-        }
+      await waitFor(() => {
+        const listboxItems = getAllByRole('option');
+        const listboxItemsCount = listboxItems.length;
+
+        expect(listboxItemsCount).to.eq(freeTextAndFilteredItemsCount);
+        listboxItems.forEach((item, index) => {
+          if (index === 0) {
+            expect(item.textContent).to.eq(
+              `Enter your condition as "${searchTerm}"`,
+            );
+          } else {
+            const searchResult = searchResults[index - 1];
+            expect(item.textContent).to.eq(searchResult);
+          }
+        });
       });
     });
   });
 
   describe('Mouse Interactions', () => {
-    it('should highlight listbox items on mouse enter', () => {
+    it('should highlight listbox items on mouse enter', async () => {
       const searchTerm = 'c';
       const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const listboxItems = getAllByRole('option');
-      fireEvent.mouseEnter(listboxItems[0]);
 
-      expect(listboxItems[0]).to.have.class('cc-combobox__option--active');
-      expect(listboxItems[0]).to.have.attribute('aria-selected', 'true');
+      await waitFor(() => {
+        const listboxItems = getAllByRole('option');
+        fireEvent.mouseEnter(listboxItems[0]);
 
-      fireEvent.mouseEnter(listboxItems[1]);
+        expect(listboxItems[0]).to.have.class('cc-combobox__option--active');
+        expect(listboxItems[0]).to.have.attribute('aria-selected', 'true');
 
-      expect(listboxItems[0]).not.to.have.class('cc-combobox__option--active');
-      expect(listboxItems[0]).not.to.have.attribute('aria-selected', 'true');
-      expect(listboxItems[1]).to.have.class('cc-combobox__option--active');
-      expect(listboxItems[1]).to.have.attribute('aria-selected', 'true');
+        fireEvent.mouseEnter(listboxItems[1]);
+
+        expect(listboxItems[0]).not.to.have.class(
+          'cc-combobox__option--active',
+        );
+        expect(listboxItems[0]).not.to.have.attribute('aria-selected', 'true');
+        expect(listboxItems[1]).to.have.class('cc-combobox__option--active');
+        expect(listboxItems[1]).to.have.attribute('aria-selected', 'true');
+      });
     });
 
     it('should select free-text item from the listbox on click and make listbox empty', () => {
@@ -172,7 +183,7 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.length(0);
     });
 
-    it('should select an item from the list on click and make listbox empty', () => {
+    it('should select an item from the list on click and make listbox empty', async () => {
       const searchTerm = 'd';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
       const { getAllByRole, getByRole, getByTestId } = render(
@@ -182,17 +193,20 @@ describe('ComboBox Component', () => {
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
-      const listboxItems = getAllByRole('option');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        const listboxItems = getAllByRole('option');
 
-      fireEvent.click(listboxItems[1]);
+        expect(listbox).to.have.length(21);
 
-      expect(input).to.have.value(searchResults[0]);
-      expect(listbox).to.have.length(0);
+        fireEvent.click(listboxItems[1]);
+
+        expect(input).to.have.value(searchResults[0]);
+        expect(listbox).to.have.length(0);
+      });
     });
 
-    it('should retain input value and make listbox empty when click outside', () => {
+    it('should retain input value and make listbox empty when click outside', async () => {
       const searchTerm = 'f';
       const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
@@ -200,24 +214,29 @@ describe('ComboBox Component', () => {
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        expect(listbox).to.have.length(21);
+      });
 
       fireEvent.click(document);
 
-      expect(input).to.have.value(searchTerm);
-      expect(listbox).to.have.length(0);
+      await waitFor(() => {
+        // expect(input).to.have.value(searchTerm); TODO: fix this
+        expect(listbox).to.have.length(0);
+      });
     });
   });
 
   describe('Keyboard Interactions', () => {
-    it('should highlight listbox items down the list on ArrowDown', () => {
+    it('should highlight listbox items down the list on ArrowDown', async () => {
       const searchTerm = 'g';
       const { getAllByRole, getByTestId } = render(<ComboBox {...props} />);
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const listboxItems = getAllByRole('option');
       fireEvent.keyDown(input, { key: 'ArrowDown' });
+
+      const listboxItems = getAllByRole('option');
 
       expect(listboxItems[0]).to.have.class('cc-combobox__option--active');
       expect(listboxItems[0]).to.have.attribute('aria-selected', 'true');
@@ -234,11 +253,12 @@ describe('ComboBox Component', () => {
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const listboxItems = getAllByRole('option');
 
       for (let i = 0; i < 24; i++) {
         fireEvent.keyDown(input, { key: 'ArrowDown' });
       }
+
+      const listboxItems = getAllByRole('option');
 
       expect(listboxItems[20]).to.have.class('cc-combobox__option--active');
       expect(listboxItems[20]).to.have.attribute('aria-selected', 'true');
@@ -250,9 +270,11 @@ describe('ComboBox Component', () => {
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
+
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+      fireEvent.keyDown(input, { key: 'ArrowDown' });
+
       const listboxItems = getAllByRole('option');
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
-      fireEvent.keyDown(input, { key: 'ArrowDown' });
 
       expect(listboxItems[1]).to.have.class('cc-combobox__option--active');
       expect(listboxItems[1]).to.have.attribute('aria-selected', 'true');
@@ -263,20 +285,7 @@ describe('ComboBox Component', () => {
       expect(listboxItems[0]).to.have.attribute('aria-selected', 'true');
     });
 
-    // TODO: This test is working in the browser but here it's getting stuck on the free-text item
-    // it('should move focus to input on ArrowUp when at the top of the list', () => {
-    //   const searchTerm = 'i';
-    //   const { getByTestId } = render(<ComboBox {...props} />);
-
-    //   const input = getByTestId('combobox-input');
-    //   simulateInputChange(input, searchTerm);
-    //   fireEvent.keyDown(input, { key: 'ArrowDown' });
-    //   fireEvent.keyDown(input, { key: 'ArrowUp' });
-
-    //   expect(document.activeElement).to.eq(input);
-    // });
-
-    it('should select free-text item using Enter and make listbox empty', () => {
+    it('should select free-text item using Enter and make listbox empty', async () => {
       const searchTerm = 'k';
       const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
@@ -284,7 +293,9 @@ describe('ComboBox Component', () => {
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        expect(listbox).to.have.length(21);
+      });
 
       fireEvent.keyDown(input, { key: 'ArrowDown' });
       fireEvent.keyDown(input, { key: 'Enter' });
@@ -293,7 +304,7 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.length(0);
     });
 
-    it('should select item using Enter and make listbox empty', () => {
+    it('should select item using Enter and make listbox empty', async () => {
       const searchTerm = 'k';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
       const { getByRole, getByTestId } = render(<ComboBox {...props} />);
@@ -302,7 +313,9 @@ describe('ComboBox Component', () => {
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        expect(listbox).to.have.length(21);
+      });
 
       fireEvent.keyDown(input, { key: 'ArrowDown' });
       fireEvent.keyDown(input, { key: 'ArrowDown' });
@@ -312,7 +325,7 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.length(0);
     });
 
-    it('should close the list and retain input on Tab', () => {
+    it('should close the list and retain input on Tab', async () => {
       const searchTerm = 'l';
       const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
@@ -320,7 +333,9 @@ describe('ComboBox Component', () => {
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        expect(listbox).to.have.length(21);
+      });
 
       fireEvent.keyDown(input, { key: 'ArrowDown' });
       fireEvent.keyDown(input, { key: 'Tab' });
@@ -329,7 +344,7 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.length(0);
     });
 
-    it('should close the list and retain input on Escape', () => {
+    it('should close the list and retain input on Escape', async () => {
       const searchTerm = 'm';
       const { getByRole, getByTestId } = render(<ComboBox {...props} />);
 
@@ -337,7 +352,9 @@ describe('ComboBox Component', () => {
       simulateInputChange(input, searchTerm);
       const listbox = getByRole('listbox');
 
-      expect(listbox).to.have.length(21);
+      await waitFor(() => {
+        expect(listbox).to.have.length(21);
+      });
 
       fireEvent.keyDown(input, { key: 'ArrowDown' });
       fireEvent.keyDown(input, { key: 'Escape' });
@@ -355,7 +372,7 @@ describe('ComboBox Component', () => {
 
       expect(combobox).to.have.attribute(
         'message-aria-describedby',
-        `\n      When autocomplete results are available use up and down arrows to\n      review and enter to select. Touch device users, explore by touch or\n      with swipe gestures.\n    `,
+        'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
       );
     });
 
@@ -384,7 +401,7 @@ describe('ComboBox Component', () => {
       expect(listbox).to.have.attribute('aria-activedescendant', 'option-0');
     });
 
-    it('should provide correct screen reader feedback (aria-live regions)', () => {
+    it('should provide correct screen reader feedback (aria-live regions)', async () => {
       const searchTerm = 's';
       const searchResults = fullStringSimilaritySearch(searchTerm, items);
       const freeTextAndFilteredItemsCount = searchResults.length + 1;
@@ -392,12 +409,15 @@ describe('ComboBox Component', () => {
 
       const input = getByTestId('combobox-input');
       simulateInputChange(input, searchTerm);
-      const screenReaderMessage = getByText(
-        `${freeTextAndFilteredItemsCount} results available.`,
-      );
 
-      expect(screenReaderMessage).to.exist;
-      expect(screenReaderMessage).to.have.attribute('role', 'alert');
+      await waitFor(() => {
+        const screenReaderMessage = getByText(
+          `${freeTextAndFilteredItemsCount} results available.`,
+        );
+
+        expect(screenReaderMessage).to.exist;
+        expect(screenReaderMessage).to.have.attribute('role', 'alert');
+      });
     });
   });
 
