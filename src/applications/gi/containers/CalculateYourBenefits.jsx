@@ -100,8 +100,8 @@ export function CalculateYourBenefits({
   const spacerClassNames = classNames(
     'medium-1',
     'columns',
-    'small-screen:vads-u-margin-right--neg1',
-    'small-screen:vads-u-margin--0',
+    'mobile-lg:vads-u-margin-right--neg1',
+    'mobile-lg:vads-u-margin--0',
     'vads-u-margin-top--1',
   );
 

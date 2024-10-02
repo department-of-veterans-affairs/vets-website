@@ -100,7 +100,7 @@ export function GiBillApp({
           )}
           {!showDisclaimer && <div style={{ height: '12px' }}>&nbsp;</div>}
           {showDisclaimer && (
-            <div className="row vads-u-padding--1p5 small-screen:vads-u-padding--0">
+            <div className="row vads-u-padding--1p5 mobile-lg:vads-u-padding--0">
               <>
                 <AboutThisTool />
                 <Disclaimer />
