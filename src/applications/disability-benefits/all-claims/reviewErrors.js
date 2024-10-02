@@ -184,48 +184,50 @@ export default {
   'toxicExposure.specifyOtherExposures.endDate':
     'Exposure end date for other toxic exposures',
   _override: error => {
-    if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
-      const errorParts = error.split('.');
-      if (error.startsWith('toxicExposure.gulfWar1990Details')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `gulf-war-1990-location-${errorParts[2]}`,
-        };
-      }
-      if (error.startsWith('toxicExposure.gulfWar2001Details')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `gulf-war-2001-location-${errorParts[2]}`,
-        };
-      }
-      if (error.startsWith('toxicExposure.herbicideDetails')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `herbicide-location-${errorParts[2]}`,
-        };
-      }
-      if (error.startsWith('toxicExposure.otherExposureDetails')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `additional-exposure-${errorParts[2]}`,
-        };
-      }
-      if (error.startsWith('toxicExposure.otherHerbicideLocations')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `herbicide-location-other}`,
-        };
-      }
-      if (error.startsWith('toxicExposure.specifyOtherExposures')) {
-        return {
-          chapterKey: 'disabilities',
-          pageKey: `additional-exposure-other`,
-        };
+    if (typeof error === 'string') {
+      if (error?.endsWith('startDate') || error?.endsWith('endDate')) {
+        const errorParts = error.split('.');
+        if (error.startsWith('toxicExposure.gulfWar1990Details')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `gulf-war-1990-location-${errorParts[2]}`,
+          };
+        }
+        if (error.startsWith('toxicExposure.gulfWar2001Details')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `gulf-war-2001-location-${errorParts[2]}`,
+          };
+        }
+        if (error.startsWith('toxicExposure.herbicideDetails')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `herbicide-location-${errorParts[2]}`,
+          };
+        }
+        if (error.startsWith('toxicExposure.otherExposureDetails')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `additional-exposure-${errorParts[2]}`,
+          };
+        }
+        if (error.startsWith('toxicExposure.otherHerbicideLocations')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `herbicide-location-other`,
+          };
+        }
+        if (error.startsWith('toxicExposure.specifyOtherExposures')) {
+          return {
+            chapterKey: 'disabilities',
+            pageKey: `additional-exposure-other`,
+          };
+        }
       }
       if (error === 'toxicExposure.otherHerbicideLocations.description') {
         return {
           chapterKey: 'disabilities',
-          pageKey: `herbidideLocations`,
+          pageKey: `herbicideLocations`,
         };
       }
       if (error === 'toxicExposure.specifyOtherExposures.description') {
