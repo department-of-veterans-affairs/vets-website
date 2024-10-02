@@ -1,17 +1,18 @@
 // src/applications/edu-benefits/10282/components/CustomPageReview.js
 import React, { useState } from 'react';
 
-const CustomPageReview = ({ formData, onEdit }) => {
+const CustomPageReview = ({ formData, editPage }) => {
   const [isEditing, setIsEditing] = useState(false);
-  console.log(formData, 'formData')
-  const [editedData, setEditedData] = useState(formData);
-
+  console.log(formData, 'formData');
+  const { data } = formData;
+  const [editedData, setEditedData] = useState(data);
+  console.log(editedData?.veteranFullName.first);
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
-    onEdit(editedData); // Call the onEdit function to save changes
+    // editPage(editedData); // Call the onEdit function to save changes
     setIsEditing(false);
   };
 
@@ -30,7 +31,7 @@ const CustomPageReview = ({ formData, onEdit }) => {
             <input
               type="text"
               name="firstName"
-              value={editedData?.firstName || ''}
+              value={editedData?.veteranFullName.first || ''}
               onChange={handleChange}
             />
           </div>
@@ -39,7 +40,7 @@ const CustomPageReview = ({ formData, onEdit }) => {
             <input
               type="text"
               name="middleInitial"
-              value={editedData?.middleInitial || ''}
+              value={editedData?.veteranFullName.middle || ''}
               onChange={handleChange}
             />
           </div>
@@ -48,7 +49,7 @@ const CustomPageReview = ({ formData, onEdit }) => {
             <input
               type="text"
               name="lastName"
-              value={editedData?.lastName || ''}
+              value={editedData?.veteranFullName.last || ''}
               onChange={handleChange}
             />
           </div>
@@ -102,14 +103,16 @@ const CustomPageReview = ({ formData, onEdit }) => {
       ) : (
         <div>
           <div>
-            <strong>First name:</strong> {formData?.veteranFullName?.first || 'No response'}
+            <strong>First name:</strong>{' '}
+            {data?.veteranFullName?.first || ''}
           </div>
           <div>
             <strong>Middle initial:</strong>{' '}
-            {formData?.middleInitial || 'No response'}
+            {data?.veteranFullName?.middle || ''}
           </div>
           <div>
-            <strong>Last name:</strong> {formData?.lastName || 'No response'}
+            <strong>Last name:</strong>{' '}
+            {data?.veteranFullName?.first || ''}
           </div>
           <div>
             <strong>Which one best describes you?</strong>{' '}
