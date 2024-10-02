@@ -1,5 +1,6 @@
-describe.skip('ConfirmationPage', () => {
+describe('ConfirmationPage', () => {
   beforeEach(() => {
+    cy.intercept('/v0/feature_toggles?*', { statusCode: 200 });
     cy.visit(
       '/get-help-from-accredited-representative/appoint-rep/confirmation',
     );
