@@ -193,7 +193,7 @@ const cypressConfig = {
         config,
       );
     },
-    baseUrl: 'http://localhost:3002',
+    baseUrl: 'http://localhost:3001',
     specPattern: 'src/**/tests/**/*.cypress.spec.js?(x)',
     supportFile: 'src/platform/testing/e2e/cypress/support/index.js',
     includeShadowDom: true,
