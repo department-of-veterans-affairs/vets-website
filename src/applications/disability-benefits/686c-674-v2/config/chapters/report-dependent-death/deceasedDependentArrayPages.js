@@ -69,7 +69,7 @@ export const deceasedDependentIntroPage = {
     ...titleUI({
       title: 'Dependents who have died',
       description:
-        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent. You may add up to 5 dependents.',
+        'In the next few questions, we’ll ask you about your dependents who have died. You must add at least one dependent. You may add up to 7 dependents.',
     }),
   },
   schema: {
