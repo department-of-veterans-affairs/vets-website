@@ -50,7 +50,7 @@ describe('reviewErrors', () => {
 
     it('builds error for other exposure details', () => {
       const res = reviewErrors._override(
-        'toxicExposure.otherExposureDetails.mos.startDate',
+        'toxicExposure.otherExposuresDetails.mos.startDate',
       );
 
       expect(typeof res).to.equal('object');
