@@ -53,41 +53,43 @@ const TravelIntro = props => {
         >
           {t('learn-how-to-file-other-types-of-claims')}
         </ExternalLink>
-        <va-process-list uswds>
-          <va-process-list-item>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-              {t('check-your-eligibility')}
-            </h2>
-            <p className="vads-u-margin-top--0">
-              {t('if-youre-eligible-for-travel-reimbursement-you-can-file')}
-            </p>
-            <ExternalLink
-              href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
-              eventId="travel-reimbursement-eligibility--link-clicked"
-              hrefLang="en"
-              eventPrefix="nav"
-            >
-              {t('travel-reimbursement-eligibility')}
-            </ExternalLink>
-          </va-process-list-item>
-          <va-process-list-item>
-            <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
-              {t('file-your-claim')}
-            </h2>
-            <p className="vads-u-margin-top--0">
-              {t('if-youre-claiming-mileage-file-online-now')}
-            </p>
-            <a
-              data-testid="file-claim-link"
-              className="vads-c-action-link--green"
-              href="#file-travel-claim"
-              onKeyDown={fileClaimClick}
-              onClick={fileClaimClick}
-            >
-              {t('file-mileage-only-claim')}
-            </a>
-          </va-process-list-item>
-        </va-process-list>
+        <div className="vads-u-margin-top--2">
+          <va-process-list uswds>
+            <va-process-list-item>
+              <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+                {t('check-your-eligibility')}
+              </h2>
+              <p className="vads-u-margin-top--0">
+                {t('if-youre-eligible-for-travel-reimbursement-you-can-file')}
+              </p>
+              <ExternalLink
+                href="https://www.va.gov/health-care/get-reimbursed-for-travel-pay/"
+                eventId="travel-reimbursement-eligibility--link-clicked"
+                hrefLang="en"
+                eventPrefix="nav"
+              >
+                {t('travel-reimbursement-eligibility')}
+              </ExternalLink>
+            </va-process-list-item>
+            <va-process-list-item>
+              <h2 className="vads-u-font-size--h3 vads-u-margin-bottom--0">
+                {t('file-your-claim')}
+              </h2>
+              <p className="vads-u-margin-top--0">
+                {t('if-youre-claiming-mileage-file-online-now')}
+              </p>
+              <a
+                data-testid="file-claim-link"
+                className="vads-c-action-link--green"
+                href="#file-travel-claim"
+                onKeyDown={fileClaimClick}
+                onClick={fileClaimClick}
+              >
+                {t('file-mileage-only-claim')}
+              </a>
+            </va-process-list-item>
+          </va-process-list>
+        </div>
         <va-alert class="vads-u-margin-bottom--1" uswds status="info" show-icon>
           <h2 className="vads-u-font-size--h3 vads-u-margin-top--0">
             {t('set-up-direct-deposit')}
