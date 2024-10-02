@@ -45,12 +45,11 @@ const ComboBox = props => {
   const [selectionMade, setSelectionMade] = useState(true);
   const inputRef = useRef(null);
   const listRef = useRef(null);
-  const prevValue = useRef(value);
 
   const sendFocusToInput = ref => {
     const { shadowRoot } = ref.current;
-    const input = shadowRoot.querySelector('input');
-    input.focus();
+    const input = shadowRoot?.querySelector('input');
+    input?.focus();
   };
 
   // Handler for closing the list when a user clicks outside of it
@@ -111,12 +110,6 @@ const ComboBox = props => {
   useEffect(
     () => {
       filterOptions();
-
-      if (prevValue.current !== '' && value === '') {
-        setSearchTerm('');
-      }
-
-      prevValue.current = value;
     },
     [searchTerm, value],
   );
@@ -299,11 +292,8 @@ const ComboBox = props => {
     );
   };
 
-  const autocompleteHelperText = `
-    When autocomplete results are available use up and down arrows to
-    review and enter to select. Touch device users, explore by touch or
-    with swipe gestures.
-  `;
+  const autocompleteHelperText =
+    'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.';
 
   return (
     <div className="cc-combobox">
