@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { fullStringSimilaritySearch } from 'platform/forms-system/src/js/utilities/addDisabilitiesStringSearch';
 
@@ -7,6 +7,8 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
   const [results, setResults] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const resultsRef = useRef([]);
 
   const debouncedSearch = useMemo(
     () => {
@@ -38,7 +40,6 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
 
   const handleInputChange = async event => {
     const inputValue = event.target.value;
-
     setValue(inputValue);
     onChange(inputValue);
 
@@ -49,16 +50,35 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
     } else {
       closeDropdown();
     }
+
     setActiveIndex(0);
+  };
+
+  const scrollIntoView = index => {
+    const activeItem = resultsRef.current[index];
+    if (activeItem) {
+      activeItem.scrollIntoView({
+        block: 'nearest',
+        behavior: 'smooth',
+      });
+    }
+  };
+
+  const navigateList = (e, direction) => {
+    e.preventDefault();
+    const newIndex =
+      direction === 'down'
+        ? Math.min(activeIndex + 1, results.length - 1)
+        : Math.max(activeIndex - 1, 0);
+    setActiveIndex(newIndex);
+    scrollIntoView(newIndex);
   };
 
   const handleKeyDown = e => {
     if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      setActiveIndex(prevIndex => Math.min(prevIndex + 1, results.length - 1));
+      navigateList(e, 'down');
     } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      setActiveIndex(prevIndex => Math.max(prevIndex - 1, 0));
+      navigateList(e, 'up');
     } else if (e.key === 'Enter' && results.length) {
       selectItem(results[activeIndex]);
     } else if (e.key === 'Escape') {
@@ -70,7 +90,7 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
 
   return (
     <div
-      className="cc-combobox"
+      className="cc-autocomplete"
       role="combobox"
       aria-expanded={isOpen}
       aria-controls="autocomplete-list"
@@ -84,21 +104,25 @@ const AutoComplete = ({ availableResults, formData, label, onChange }) => {
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
         onBlur={() => setTimeout(closeDropdown, 100)}
+        data-testid="autocomplete-input"
       />
       {isOpen &&
         results.length > 0 && (
           <ul
             id="autocomplete-list"
             role="listbox"
-            className="cc-combobox__list"
+            className="cc-autocomplete__list"
           >
             {results.map((item, index) => (
               <li
                 key={item}
+                ref={el => {
+                  resultsRef.current[index] = el;
+                }}
                 onClick={() => selectItem(item)}
                 onKeyDown={handleKeyDown}
-                className={`cc-combobox__option ${
-                  activeIndex === index ? 'cc-combobox__option--active' : ''
+                className={`cc-autocomplete__option ${
+                  activeIndex === index ? 'cc-autocomplete__option--active' : ''
                 }`}
                 onMouseEnter={() => setActiveIndex(index)}
                 role="option"

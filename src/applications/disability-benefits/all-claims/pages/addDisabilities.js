@@ -40,7 +40,7 @@ export const uiSchema = {
       itemName: 'Condition',
       itemAriaLabel: data => data.condition,
       includeRequiredLabelInTitle: true,
-      classNames: 'cc-combobox-container',
+      classNames: 'cc-autocomplete-container',
     },
     useNewFocus: true,
     // Ideally, this would show the validation on the array itself (or the name
@@ -51,7 +51,6 @@ export const uiSchema = {
         'ui:reviewField': ({ children }) => children,
         'ui:options': {
           debounceRate: 200,
-          // options for the combobox dropdown
           disabilityLabels: Object.values(disabilityLabelsRevised),
         },
         'ui:validations': [validateDisabilityName, limitNewDisabilities],
