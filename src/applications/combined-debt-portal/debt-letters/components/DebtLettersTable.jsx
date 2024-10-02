@@ -96,14 +96,12 @@ const DebtLettersTable = ({
           <h5 className="vads-u-margin-top--2p5">
             {`Older letters (${debtLinks.length - 2})`}
           </h5>
-          <button
-            type="button"
-            className="debt-older-letters usa-button-secondary"
-            aria-expanded={showOlder}
+          <va-button
+            className="debt-older-letters"
             onClick={() => toggleShowOlderLetters(!showOlder)}
-          >
-            {`${showOlder ? 'Hide' : 'Show'} older letters`}
-          </button>
+            secondary
+            text={`${showOlder ? 'Hide' : 'Show'} older letters`}
+          />
         </>
       ) : null}
 
