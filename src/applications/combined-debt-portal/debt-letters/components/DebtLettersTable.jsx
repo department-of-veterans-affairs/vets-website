@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import environment from 'platform/utilities/environment';
 import recordEvent from 'platform/monitoring/record-event';
 import PropTypes from 'prop-types';
+import { VaButton } from '@department-of-veterans-affairs/web-components/react-bindings';
 import {
   DependentDebt,
   ErrorAlert,
@@ -89,14 +90,12 @@ const DebtLettersTable = ({
           <h5 className="vads-u-margin-top--2p5">
             {`Older letters (${debtLinks.length - 2})`}
           </h5>
-          <button
-            type="button"
-            className="debt-older-letters usa-button-secondary"
-            aria-expanded={showOlder}
+          <VaButton
+            className="debt-older-letters"
             onClick={() => toggleShowOlderLetters(!showOlder)}
-          >
-            {`${showOlder ? 'Hide' : 'Show'} older letters`}
-          </button>
+            secondary
+            text={`${showOlder ? 'Hide' : 'Show'} older letters`}
+          />
         </>
       ) : null}
 
