@@ -29,7 +29,7 @@ const Welcome = ({ loading, name }) => (
     <div className="vads-u-font-size--md medium-screen:vads-u-font-size--lg vads-u-display--flex vads-u-align-items--center">
       <span
         className={classnames(
-          'vads-u-color--primary-darker',
+          'vads-u-color--primary-dark',
           'vads-u-padding-left--4',
           'vads-u-padding-right--0p5',
         )}

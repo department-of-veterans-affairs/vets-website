@@ -32,24 +32,36 @@ export function putAppointment(id, appointment) {
   }).then(parseApiObject);
 }
 
-export function getAppointments(start, end, statuses = []) {
+export function getAppointments(start, end, statuses = [], avs = false) {
   const options = {
     method: 'GET',
   };
+  const includeParams = ['facilities', 'clinics'];
+  if (avs) {
+    includeParams.push('avs');
+  }
   return apiRequestWithUrl(
-    `/vaos/v2/appointments?_include=facilities,clinics&start=${start}&end=${end}&${statuses
+    `/vaos/v2/appointments?_include=${includeParams
+      .map(String)
+      .join(',')}&start=${start}&end=${end}&${statuses
       .map(status => `statuses[]=${status}`)
       .join('&')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiListWithErrors);
 }
 
-export function getAppointment(id) {
+export function getAppointment(id, avs = false) {
   const options = {
     method: 'GET',
   };
+  const includeParams = ['facilities', 'clinics'];
+  if (avs) {
+    includeParams.push('avs');
+  }
   return apiRequestWithUrl(
-    `/vaos/v2/appointments/${id}?_include=facilities,clinics`,
+    `/vaos/v2/appointments/${id}?_include=${includeParams
+      .map(String)
+      .join(',')}`,
     { ...options, ...acheronHeader },
   ).then(parseApiObject);
 }
@@ -114,4 +126,21 @@ export function getCommunityCareV2(typeOfCare) {
   return apiRequestWithUrl(
     `/vaos/v2/community_care/eligibility/${typeOfCare}`,
   ).then(parseApiObject);
+}
+
+export async function getCommunityCareFacilities({
+  latitude,
+  longitude,
+  radius,
+  bbox,
+  specialties,
+  page = 1,
+  perPage = 10,
+}) {
+  const bboxQuery = bbox.map(c => `bbox[]=${c}`).join('&');
+  const specialtiesQuery = specialties.map(s => `specialties[]=${s}`).join('&');
+
+  return apiRequestWithUrl(
+    `/facilities_api/v2/ccp/provider?latitude=${latitude}&longitude=${longitude}&radius=${radius}&per_page=${perPage}&page=${page}&${bboxQuery}&${specialtiesQuery}&trim=true`,
+  ).then(parseApiList);
 }

@@ -4,7 +4,6 @@ import { fireEvent } from '@testing-library/dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 
-import { $ } from '@department-of-veterans-affairs/platform-forms-system/ui';
 import FilesNeeded from '../../../components/claim-files-tab/FilesNeeded';
 import { renderWithRouter } from '../../utils';
 
@@ -34,6 +33,7 @@ describe('<FilesNeeded>', () => {
           <FilesNeeded item={item} />
         </Provider>,
       );
+
       getByText('December 1, 2024', { exact: false });
       getByText(item.displayName);
       getByText(item.description);
@@ -47,6 +47,7 @@ describe('<FilesNeeded>', () => {
         description: 'Test description',
         suspenseDate: '2024-12-01',
       };
+
       context('when evidenceWaiverSubmitted5103 is false', () => {
         it('should render va-alert with item data and hide DueDate', () => {
           const { queryByText, getByText } = renderWithRouter(
@@ -58,27 +59,16 @@ describe('<FilesNeeded>', () => {
           expect(queryByText('December 1, 2024')).to.not.exist;
           expect(
             queryByText(
-              'Review a list of evidence we may need to decide your claim (called a 5103 notice).',
+              'We sent you a “List of evidence we may need (5103 notice)” letter. This letter lets you know if submitting additional evidence will help decide your claim.',
             ),
           ).to.exist;
-          expect(queryByText('Review evidence list')).to.exist;
+          expect(queryByText('Review evidence list (5103 notice)')).to.exist;
           getByText('Details');
-        });
-      });
-
-      context('when evidenceWaiverSubmitted5103 is true', () => {
-        it('should not render va-alert', () => {
-          const { container } = renderWithRouter(
-            <Provider store={getStore()}>
-              <FilesNeeded item={item5103} evidenceWaiverSubmitted5103 />
-            </Provider>,
-          );
-
-          expect($('va-alert', container)).to.not.exist;
         });
       });
     });
   });
+
   context('when user navigates to page from the files tab', () => {
     it('clicking details link should set session storage', () => {
       const { getByRole } = renderWithRouter(

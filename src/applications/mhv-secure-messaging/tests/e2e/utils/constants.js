@@ -128,6 +128,7 @@ export const Locators = {
     SORT: '[data-testid="sort-button"]',
     ATTACH_FILE: '[data-testid="attach-file-button"]',
     REMOVE_ATTACHMENT: '[data-testid="remove-attachment-button"]',
+    REMOVE_ALL_ATTCH: `[data-testid="attachment-virus-alert"]>button`,
     CONFIRM_REMOVE_ATTACHMENT:
       '[data-testid="confirm-remove-attachment-button"]',
     CONTINUE_EDITING: 'va-button[text="Continue editing"]',
@@ -138,7 +139,8 @@ export const Locators = {
     DELETE_CANCEL: '#delete-cancel',
     DELETE_CONFIRM: '#delete-draft',
     EDIT_DRAFTS: '[data-testid="edit-draft-button-body-text"]',
-    SAVE_CONTACT_LIST: 'va-modal.hydrated > [text="Save and exit"]',
+    CL_SAVE: `[data-testid="contact-list-save"]`,
+    CL_GO_BACK: '[data-testid="contact-list-go-back"]',
   },
   LINKS: {
     GO_TO_INBOX: '[data-testid="inbox-link"]',
@@ -147,6 +149,7 @@ export const Locators = {
     CRUMB: 'ol[role="list"] > li',
     CRUMB_LIST: '[data-testid="sm-breadcrumbs"]',
     BACK_TO_DRAFTS: '.sm-breadcrumb-list-item>a',
+    OLD_VERSION: `.welcome-message > p > a`,
   },
   ALERTS: {
     HEADER: `#heading`,
@@ -173,7 +176,7 @@ export const Locators = {
     MAIN_CONTENT: '.va-alert',
     PAGE_TITLE: '.page-title',
     EXPANDABLE_TITLE: '[class="alert-expandable-title"]',
-    NOTIFICATION: '[close-btn-aria-label="Close notification"]',
+    NOTIFICATION: '[close-btn-aria-label*="Close notification"]',
     VA_CRISIS_LINE: '[text="Connect with the Veterans Crisis Line"]',
     SAVE_DRAFT: '#messagetext',
     HIGHLIGHTED: '[data-testid="highlighted-text"]',
@@ -193,11 +196,15 @@ export const Locators = {
     ERROR_MESSAGE: '[data-testid="file-input-error-message"]',
     ERROR_MODAL: '[data-testid="attach-file-error-modal"]',
     VA_ALERT_WARNING: 'va-alert[status="warning"]',
-    CONFIRM: '[data-testid="alert-text"]',
+    GEN_ALERT: '[data-testid="alert-text"]',
     CANCEL: '[text="Cancel"]',
     EXPIRED_MESSAGE: '[data-testid="expired-alert-message"]',
     ES_ALERT: '[data-testid="quit-compose-double-dare"]',
     SAVE_ALERT: `[data-test-id="save-alert-message"]`,
+    CL_SAVE: `[data-testid="sm-route-navigation-guard-confirm-button"]`,
+    CL_DELETE_AND_EXIT: `[data-testid="sm-route-navigation-guard-cancel-button"]`,
+    ALERT_TEXT: `[data-testid="alert-text"]`,
+    ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
   },
   FIELDS: {
     RECIPIENT: '#select',
@@ -250,9 +257,18 @@ export const Alerts = {
     LINK: 'Find your VA health facility',
   },
   CONTACT_LIST: {
-    SAVE: 'Save changes to your contact list?',
+    SAVE: 'Do you want to save your changes to your contact list?',
     SAVED: 'Contact list changes saved',
     EMPTY: `Select at least one team`,
+    SAVE_API_ERROR: `We're sorry. We couldn't save your changes. Try saving again.`,
+    LOAD_API_ERROR: `We can’t load your contact list right now`,
+  },
+  ATTACHMENT: {
+    TYPES: `We can't attach this file type. Try attaching a DOC, DOCX, GIF, JPG, PDF, PNG, RTF, TXT, XLS XLSX, JPEG, JFIF, PJPEG, or PJP.`,
+    EMPTY: `Your file is empty. Try attaching a different file.`,
+    FILE_IS_TOO_LARGE_TEXT:
+      'Your file is too large. Try attaching a file smaller than 6MB.',
+    ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   },
   OUTAGE: 'We’re sorry. We couldn’t load this page. Try again later.',
   OLD_MSG: 'This conversation is too old for new replies',
@@ -264,6 +280,8 @@ export const Alerts = {
   EL_SIGN_CHECK: `You must certify by checking the box.`,
   SAVE_SIGN: `We can't save your signature in a draft message`,
   SAVE_SIGN_ATTCH: `We can't save your signature or attachments in a draft message`,
+  VIRUS_ATTCH: `The file you attached has a virus. Remove the file to send your message.`,
+  VIRUS_MULTI_ATTCH: `One or more of the files you attached has a virus. You’ll need to remove it to send your message.`,
 };
 
 export const Data = {
@@ -284,7 +302,7 @@ export const Data = {
   FOLDER_REMOVED_SUCCESSFULLY: 'Folder was successfully removed.',
   FOLDER_CREATED_SUCCESSFULLY: 'Folder was successfully created.',
   FOLDER_RENAMED_SUCCESSFULLY: 'Folder was successfully renamed.',
-  SECURE_MSG_SENT_SUCCESSFULLY: 'Secure message was successfully sent',
+  SECURE_MSG_SENT_SUCCESSFULLY: 'Message Sent.',
   PLEASE_SELECT_RECIPIENT: 'Please select a recipient.',
   PLEASE_SELECT_CATEGORY: 'Please select a category.',
   SUBJECT_CANNOT_BLANK: 'Subject cannot be blank.',
@@ -303,9 +321,6 @@ export const Data = {
   EDIT_YOUR_MSG_PREFRENCES: 'Edit your message preferences',
   NO_MSG_IN_FOLDER: 'There are no messages in this folder.',
   WHAT_SECURE_MSG_PILOT: 'What is Secure Messaging Pilot?',
-  FILE_IS_TOO_LARGE_TEXT:
-    'Your file is too large. Try attaching a file smaller than 6MB.',
-  ALREADY_ATTACHED_FILE: 'You have already attached this file.',
   CANNOT_SEND_MSG_TO_CARE_TEAM:
     "You can't send messages to your care teams right now",
   REMOVE_FOLDER: 'Remove folder',
@@ -321,8 +336,10 @@ export const Data = {
     EDIT_DRAFT: `Edit draft`,
     SAVE_DRAFT_WO_SIGN: 'Save draft without signature',
     SAVE_DRAFT_WO_SIGN_ATTCH: 'Save draft without signature or attachments',
-    SAVE_AND_EXIT: `Save and exit`,
+    SAVE_AND_EXIT: `Save contact list`,
+    GO_BACK: `Go back`,
   },
+  CL_LINK_TEXT: 'Show more teams in your contact list',
 };
 export const Assertions = {
   MESSAGES: 'Messages',
@@ -346,4 +363,25 @@ export const Assertions = {
   ARIA_EXPANDED: 'aria-expanded',
   EMPTY_THIS_FOLDER: 'Empty this folder',
   NO_MATCHES_SEARCH: 'We didn’t find any matches for these filters',
+};
+
+export const Arrays = {
+  FilterDateRange: [
+    'ANY',
+    'LAST 3 MONTHS',
+    'LAST 6 MONTHS',
+    'LAST 12 MONTHS',
+    'CUSTOM',
+  ],
+
+  Categories: [
+    'OTHER',
+    'COVID',
+    'APPOINTMENT',
+    'MEDICATION',
+    'TEST_RESULT',
+    'EDUCATION',
+    'GENERAL',
+    'TEST',
+  ],
 };

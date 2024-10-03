@@ -83,14 +83,12 @@ export const SERVICE_CONNECTION_TYPES = {
 };
 
 export const DATA_PATHS = {
-  hasVAEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasVaMedicalRecords',
+  hasVAEvidence: 'view:selectableEvidenceTypes.view:hasVaMedicalRecords',
   hasPrivateEvidence:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
+    'view:selectableEvidenceTypes.view:hasPrivateMedicalRecords',
   hasPrivateRecordsToUpload:
     'view:uploadPrivateRecordsQualifier.view:hasPrivateRecordsToUpload',
-  hasAdditionalDocuments:
-    'view:hasEvidenceFollowUp.view:selectableEvidenceTypes.view:hasOtherEvidence',
+  hasAdditionalDocuments: 'view:selectableEvidenceTypes.view:hasOtherEvidence',
 };
 
 export const DISABILITY_526_V2_ROOT_URL =
@@ -339,10 +337,6 @@ export const CHAR_LIMITS = [
 export const MAX_HOUSING_STRING_LENGTH = 500;
 
 export const OMB_CONTROL = '2900-0747';
-
-// used to save feature flag in form in util function for 'depends' keyword of form config
-export const SHOW_REVISED_ADD_DISABILITIES_PAGE =
-  'showRevisedNewDisabilitiesPage';
 
 // used to save feature flag in form data for toxic exposure
 export const SHOW_TOXIC_EXPOSURE = 'showToxicExposure';

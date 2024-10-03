@@ -3,22 +3,17 @@ import { connect } from 'react-redux';
 import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import PropTypes from 'prop-types';
 import { selectProfile } from '~/platform/user/selectors';
-import {
-  useFeatureToggle,
-  Toggler,
-} from '~/platform/utilities/feature-toggles';
+import { Toggler } from '~/platform/utilities/feature-toggles';
 
 import {
   filterOutExpiredForms,
   isSIPEnabledForm,
-  isSIPEnabledFormV2,
   presentableFormIDs,
-  presentableFormIDsV2,
   sipFormSorter,
   normalizeSubmissionStatus,
 } from '~/applications/personalization/dashboard/helpers';
 
-import { FORM_BENEFITS, MY_VA_SIP_FORMS } from '~/platform/forms/constants';
+import { MY_VA_SIP_FORMS } from '~/platform/forms/constants';
 import { getFormLink } from '~/platform/forms/helpers';
 
 import ApplicationInProgress from './ApplicationInProgress';
@@ -26,27 +21,23 @@ import DashboardWidgetWrapper from '../DashboardWidgetWrapper';
 import DraftCard from './DraftCard';
 import MissingApplicationHelp from './MissingApplicationHelp';
 import SubmissionCard from './SubmissionCard';
+import Error from './Error';
 
 const ApplicationsInProgress = ({
+  submittedError,
   submittedForms,
   savedForms,
   hideH3,
   isLOA1,
 }) => {
-  // the following will be removed in issue #82798
-  const { TOGGLE_NAMES, useToggleValue } = useFeatureToggle();
-  const isUsingNewSipConfig = useToggleValue(
-    TOGGLE_NAMES.myVaEnableNewSipConfig,
-  );
-
   // Filter out non-SIP-enabled applications and expired applications
   const verifiedSavedForms = useMemo(
     () =>
       savedForms
-        .filter(isUsingNewSipConfig ? isSIPEnabledFormV2 : isSIPEnabledForm)
+        .filter(isSIPEnabledForm)
         .filter(filterOutExpiredForms)
         .sort(sipFormSorter),
-    [savedForms, isUsingNewSipConfig],
+    [savedForms],
   );
 
   const transformedSavedForms = useMemo(
@@ -92,6 +83,9 @@ const ApplicationsInProgress = ({
     [transformedSavedForms, transformedStatusForms],
   );
 
+  const isEmptyState = allForms.length === 0 && !submittedError;
+  const hasForms = allForms.length > 0 && !submittedError;
+
   // if LOA1 then show 'You have no benefit application drafts to show.', otherwise show 'You have no applications in progress.'
   const emptyStateText = isLOA1
     ? 'You have no benefit application drafts to show.'
@@ -110,20 +104,27 @@ const ApplicationsInProgress = ({
 
       <Toggler toggleName={Toggler.TOGGLE_NAMES.myVaFormSubmissionStatuses}>
         <DashboardWidgetWrapper>
-          {allForms.length > 0 ? (
+          {submittedError && <Error />}
+          {isEmptyState && (
+            <>
+              <p data-testid="applications-in-progress-empty-state">
+                {emptyStateText}
+              </p>
+              <Toggler.Enabled>
+                <MissingApplicationHelp />
+              </Toggler.Enabled>
+            </>
+          )}
+          {hasForms && (
             <div>
               <Toggler.Enabled>
                 {allForms.map(form => {
                   const formId = form.form;
                   const formStatus = form.status;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated } = form || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -178,14 +179,10 @@ const ApplicationsInProgress = ({
               <Toggler.Disabled>
                 {verifiedSavedForms.map(form => {
                   const formId = form.form;
-                  const formTitle = isUsingNewSipConfig
-                    ? `application for ${
-                        MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
-                      }`
-                    : `application for ${FORM_BENEFITS[formId]}`;
-                  const presentableFormId = isUsingNewSipConfig
-                    ? presentableFormIDsV2[formId]
-                    : presentableFormIDs[formId];
+                  const formTitle = `application for ${
+                    MY_VA_SIP_FORMS.find(e => e.id === formId).benefit
+                  }`;
+                  const presentableFormId = presentableFormIDs[formId];
                   const { lastUpdated, expiresAt } = form.metadata || {};
                   const lastSavedDate = format(
                     fromUnixTime(lastUpdated),
@@ -209,15 +206,11 @@ const ApplicationsInProgress = ({
                   );
                 })}
               </Toggler.Disabled>
+              <Toggler.Enabled>
+                <MissingApplicationHelp />
+              </Toggler.Enabled>
             </div>
-          ) : (
-            <p data-testid="applications-in-progress-empty-state">
-              {emptyStateText}
-            </p>
           )}
-          <Toggler.Enabled>
-            <MissingApplicationHelp />
-          </Toggler.Enabled>
         </DashboardWidgetWrapper>
       </Toggler>
     </div>
@@ -228,13 +221,19 @@ ApplicationsInProgress.propTypes = {
   hideH3: PropTypes.bool,
   isLOA1: PropTypes.bool,
   savedForms: PropTypes.array,
+  submittedError: PropTypes.bool, // bool error for _any_ error in request for "submitted forms"
   submittedForms: PropTypes.array,
 };
 
 const mapStateToProps = state => {
+  // normalize full vs. partial errors into a single true/false value and provide as prop
+  const submittedError =
+    !!state.submittedForms.error || state.submittedForms.errors?.length > 0;
+
   return {
     savedForms: selectProfile(state).savedForms || [],
     submittedForms: state.submittedForms.forms || [],
+    submittedError,
   };
 };
 

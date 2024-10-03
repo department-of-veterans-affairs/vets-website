@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import _ from 'lodash';
@@ -10,19 +10,20 @@ import Checkbox from '../components/Checkbox';
 import Dropdown from '../components/Dropdown';
 
 import {
-  isProductionOrTestProdEnv,
   getStateNameForCode,
   sortOptionsByStateName,
   addAllOption,
   createId,
-  validateSearchTerm,
+  validateSearchTermSubmit,
   isShowVetTec,
+  isEmptyCheckboxFilters,
 } from '../utils/helpers';
 import { showModal, filterChange, setError, focusSearch } from '../actions';
 import {
   TABS,
   INSTITUTION_TYPES,
   INSTITUTION_TYPES_DICTIONARY,
+  ERROR_MESSAGES,
 } from '../constants';
 import CheckboxGroup from '../components/CheckboxGroup';
 import { updateUrlParams } from '../selectors/search';
@@ -83,6 +84,7 @@ export function FilterYourResults({
   const { version } = preview;
   const { error } = errorReducer;
   const {
+    schools,
     expanded,
     excludedSchoolTypes,
     excludeCautionFlags,
@@ -105,6 +107,33 @@ export function FilterYourResults({
     specialMissionPBI,
     specialMissionTRIBAL,
   } = filters;
+
+  useEffect(
+    () => {
+      const isEmpty = isEmptyCheckboxFilters(filters);
+
+      if (error === ERROR_MESSAGES.checkBoxFilterEmpty && !isEmpty)
+        dispatchError(null);
+    },
+    [
+      schools,
+      excludeCautionFlags,
+      accredited,
+      studentVeteran,
+      yellowRibbonScholarship,
+      employers,
+      specialMissionHbcu,
+      specialMissionMenonly,
+      specialMissionWomenonly,
+      specialMissionRelaffil,
+      specialMissionHSI,
+      specialMissionNANTI,
+      specialMissionANNHI,
+      specialMissionAANAPII,
+      specialMissionPBI,
+      specialMissionTRIBAL,
+    ],
+  );
 
   const facets =
     search.tab === TABS.name ? search.name.facets : search.location.facets;
@@ -150,12 +179,23 @@ export function FilterYourResults({
     const { checked } = e.target;
     const newExcluded = _.cloneDeep(excludedSchoolTypes);
     recordCheckboxEvent(e);
+
     updateInstitutionFilters(
       'excludedSchoolTypes',
       checked
         ? newExcluded.concat(name)
         : newExcluded.filter(type => type !== name),
     );
+
+    dispatchFilterChange({
+      ...filters,
+      excludedSchoolTypes: checked
+        ? newExcluded.concat(name)
+        : newExcluded.filter(type => type !== name),
+      schools: checked
+        ? true
+        : newExcluded.filter(type => type !== name).length !== 0,
+    });
   };
 
   const handleVetTecChange = e => {
@@ -197,12 +237,18 @@ export function FilterYourResults({
   };
 
   const updateResults = () => {
-    if (isProductionOrTestProdEnv()) {
-      validateSearchTerm(nameValue, dispatchError, error, filters, searchType);
+    if (
+      validateSearchTermSubmit(
+        nameValue,
+        dispatchError,
+        error,
+        filters,
+        searchType,
+      )
+    ) {
+      updateInstitutionFilters('search', true);
+      updateUrlParams(history, search.tab, search.query, filters, version);
     }
-    updateInstitutionFilters('search', true);
-
-    updateUrlParams(history, search.tab, search.query, filters, version);
   };
 
   const closeAndUpdate = () => {
@@ -216,6 +262,7 @@ export function FilterYourResults({
         name: type.toUpperCase(),
         checked: excludedSchoolTypes.includes(type.toUpperCase()),
         optionLabel: INSTITUTION_TYPES_DICTIONARY[type],
+        dataTestId: `school-type-${type}`,
       };
     });
 
@@ -352,7 +399,7 @@ export function FilterYourResults({
           name="employers"
           label="On-the-job training and apprenticeships"
           onChange={onChangeCheckbox}
-          className="vads-u-margin-bottom--4"
+          className="vads-u-margin-bottom--2"
           inputAriaLabelledBy={legendId}
         />
         {vetTecCheckbox(

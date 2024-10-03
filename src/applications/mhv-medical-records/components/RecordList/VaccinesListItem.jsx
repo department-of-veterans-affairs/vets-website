@@ -20,12 +20,13 @@ const VaccinesListItem = props => {
       </Link>
 
       {/* print view header */}
-      <h3
+      <span
         className="vads-u-font-size--h4 vads-u-line-height--4 print-only"
+        aria-hidden="true"
         data-dd-privacy="mask"
       >
         {record.name}
-      </h3>
+      </span>
 
       {/* fields */}
       <div>
@@ -38,12 +39,6 @@ const VaccinesListItem = props => {
         <span className="vads-u-display--inline">Location:</span>{' '}
         <span className="vads-u-display--inline" data-dd-privacy="mask">
           {record.location}
-        </span>
-      </div>
-      <div className="print-only">
-        <span className="vads-u-display--inline">Provider notes:</span>{' '}
-        <span className="vads-u-display--inline" data-dd-privacy="mask">
-          {record.notes}
         </span>
       </div>
     </va-card>

@@ -2,17 +2,15 @@ import React from 'react';
 
 import { Toggler } from 'platform/utilities/feature-toggles';
 
-export const homelessTitle = 'Are you experiencing homelessness?';
+export const pageTitle = 'Housing situation'; // new 996
+export const homelessTitle = 'Are you experiencing homelessness?'; // old 996
 export const homelessRiskTitle =
-  'Are you experiencing or at risk of homelessness?';
+  'Are you experiencing or at risk of homelessness?'; // new 996 label
 
 export const homelessLabels = {
   Y: 'Yes',
   N: 'No',
 };
-
-export const homelessDescription =
-  'If you’re experiencing or at risk of homelessness, we’ll process your request more quickly.';
 
 export const homelessReviewField = ({ children }) => (
   <div className="review-row">

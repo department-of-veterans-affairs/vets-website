@@ -62,7 +62,7 @@ export default function SearchAccordion({
       {renderHeader()}
       <div
         id={`${id}-content`}
-        className="usa-accordion-content update-results-form"
+        className="usa-accordion-content update-results-form vads-u-margin-bottom--3"
         aria-hidden={!expanded}
         hidden={!expanded}
       >
@@ -85,7 +85,10 @@ export default function SearchAccordion({
             {buttonLabel}
           </button>
           {isProductionOrTestProdEnv() && (
-            <ClearFiltersBtn onClick={dispatchFocusSearch}>
+            <ClearFiltersBtn
+              onClick={dispatchFocusSearch}
+              testId="clear-button"
+            >
               Reset search
             </ClearFiltersBtn>
           )}

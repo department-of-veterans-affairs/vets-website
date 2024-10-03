@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import FEATURE_FLAG_NAMES from '@department-of-veterans-affairs/platform-utilities/featureFlagNames';
@@ -24,7 +24,6 @@ import { pageTitles } from '../../util/constants';
 import { generateTextFile, getNameDateAndTime } from '../../util/helpers';
 import DateSubheading from '../shared/DateSubheading';
 import DownloadSuccessAlert from '../shared/DownloadSuccessAlert';
-import { useIsDetails } from '../../hooks/useIsDetails';
 
 const RadiologyDetails = props => {
   const { record, fullState, runningUnitTest } = props;
@@ -36,9 +35,6 @@ const RadiologyDetails = props => {
       ],
   );
   const [downloadStarted, setDownloadStarted] = useState(false);
-
-  const dispatch = useDispatch();
-  useIsDetails(dispatch);
 
   useEffect(
     () => {

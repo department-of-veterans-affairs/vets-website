@@ -99,7 +99,9 @@ export default function CancelPageLayoutRequest() {
         Reason: {`${reason && reason !== 'none' ? reason : 'Not available'}`}
       </span>
       <br />
-      <span>Other details: {`${otherDetails || 'Not available'}`}</span>
+      <span className="vaos-u-word-break--break-word">
+        Other details: {`${otherDetails || 'Not available'}`}
+      </span>
       <h3 className="vads-u-font-size--h5 vads-u-margin-bottom--0">
         Your contact details
       </h3>

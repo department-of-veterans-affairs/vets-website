@@ -24,15 +24,18 @@ import characterOfDischarge from '../pages/characterOfDischarge';
 
 const { fullName, ssn, date, dateRange, usaPhone } = commonDefinitions;
 
-const isOnReviewPage = currentLocation => {
+export const isOnReviewPage = currentLocation => {
   return currentLocation?.pathname.includes('/review-and-submit');
 };
 
-const isOnConfirmationPage = currentLocation => {
+export const isOnConfirmationPage = currentLocation => {
   return currentLocation?.pathname.includes('/confirmation');
 };
 
-const formConfig = {
+export const formConfig = {
+  formOptions: {
+    fullWidth: true,
+  },
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
   // submitUrl: '/v0/api',
@@ -72,7 +75,7 @@ const formConfig = {
     if (isOnReviewPage(currentLocation)) {
       return 'Review your entries';
     }
-    return 'Complete the benefit eligibility questionnaire';
+    return 'Benefit and resource recommendation tool';
   },
   subTitle: ({ currentLocation }) => {
     if (
@@ -124,7 +127,14 @@ const formConfig = {
           depends: formData =>
             formData.militaryServiceCurrentlyServing === 'Yes',
           onNavForward: ({ formData, goPath }) => {
-            if (formData.militaryServiceCurrentlyServing === 'Yes') {
+            if (
+              formData.militaryServiceCurrentlyServing === 'Yes' &&
+              formData.militaryServiceCompleted === 'No'
+            ) {
+              goPath(
+                formConfig.chapters.chapter4.pages.characterOfDischarge.path,
+              );
+            } else {
               goPath(formConfig.chapters.chapter3.pages.separation.path);
             }
           },

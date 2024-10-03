@@ -17,9 +17,11 @@ const SearchResultMessage = ({
         description={message}
       />
     );
-  } else if (facilityType && !resultsFound) {
+  }
+  if (facilityType && !resultsFound) {
     return (
-      <div className="search-result-title" ref={resultRef}>
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      <div className="search-result-title" ref={resultRef} tabIndex={0}>
         <strong>For better results:</strong>
         <ul className="vads-u-margin-y--1p5">
           <li>
@@ -49,19 +51,19 @@ const SearchResultMessage = ({
   }
 
   return (
-    <div className="search-result-title">
+    <p className="search-result-title">
       Please enter a location (street, city, state, or postal code) and facility
       type, then click search above to find facilities.
-    </div>
+    </p>
   );
 };
 
 SearchResultMessage.propTypes = {
-  message: PropTypes.string,
   error: PropTypes.any,
-  resultsFound: PropTypes.bool,
-  resultRef: PropTypes.any,
   facilityType: PropTypes.string,
+  message: PropTypes.string,
+  resultRef: PropTypes.any,
+  resultsFound: PropTypes.bool,
 };
 
 export default SearchResultMessage;
