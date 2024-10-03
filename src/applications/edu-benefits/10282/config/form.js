@@ -25,7 +25,6 @@ import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 
 const { fullName, email, usaPhone } = commonDefinitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
