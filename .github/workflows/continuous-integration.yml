@@ -1919,6 +1919,30 @@ jobs:
           SRC: s3://vetsgov-website-builds-s3-upload/${{ github.sha }}/${{ matrix.environment }}.tar.bz2
           DEST: s3://${{ matrix.bucket }}
           ASSET_DEST: s3://${{ matrix.asset_bucket }}
+  
+  
+  notify-deploy-failure:
+    name: Notify Dev/Staging Deployment Failure
+    runs-on: ubuntu-latest
+    if: always() && github.ref == 'refs/heads/main' && needs.deploy.result == 'failure'
+    needs: deploy
+    env:
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH # status-vets-website
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+
+      - name: Notify Slack
+        if: ${{ env.DSVA_SCHEDULE_ENABLED == 'true' }}
+        uses: ./.github/workflows/slack-notify
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "<!here> Production deploy for vets-website has failed!: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        
 
   cd-prod-deploy:
     name: CD Production Deploy
