@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { formatFormTitle, formatSubmissionDisplayStatus } from '../../helpers';
 
 const QuestionsContent = () => (
-  <p>
+  <p className="vads-u-margin-bottom--0">
     If you have questions, call us at <va-telephone contact="8008271000" /> (
     <va-telephone contact="711" tty />
     ). We’re here Monday through Friday, 8:00 a.m. to 8:00 p.m. ET.
@@ -106,7 +106,7 @@ const SubmissionCard = ({
       data-testid="submitted-application"
     >
       <va-card>
-        <div className="vads-u-padding--1">{content}</div>
+        <div>{content}</div>
       </va-card>
     </div>
   );

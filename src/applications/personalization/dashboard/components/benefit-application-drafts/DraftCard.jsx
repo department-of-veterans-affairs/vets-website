@@ -60,7 +60,7 @@ const Draft = ({
       data-testid="application-in-progress"
     >
       <va-card>
-        <div className="vads-u-padding--1">{content}</div>
+        <div>{content}</div>
       </va-card>
     </div>
   );
