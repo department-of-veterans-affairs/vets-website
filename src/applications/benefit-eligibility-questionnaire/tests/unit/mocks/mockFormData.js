@@ -6,7 +6,7 @@ export const mockFormData = {
   'view:disabilityEligibility': {},
   characterOfDischarge: 'honorable',
   characterOfDischargeTWO: {},
-  separation: 'over3yr',
+  separation: 'OVER_3YRS',
   militaryServiceCurrentlyServing: 'No',
   militaryServiceTotalTimeServed: 'More than 3 years',
   goals: {
