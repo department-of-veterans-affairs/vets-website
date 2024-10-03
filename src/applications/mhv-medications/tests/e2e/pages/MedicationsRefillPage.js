@@ -458,6 +458,20 @@ class MedicationsRefillPage {
       waitForAnimations: true,
     });
   };
+
+  verifyRefillSuccessDescriptionText = () => {
+    cy.get('[data-testid="success-message-description"] > p').should(
+      'contain',
+      'recently requested',
+    );
+  };
+
+  verifyNoteOnRefillPageAboutRenewal = () => {
+    cy.get('[data-testid="note-refill-page"]').should(
+      'contain',
+      'renewal needed before refill',
+    );
+  };
 }
 
 export default MedicationsRefillPage;

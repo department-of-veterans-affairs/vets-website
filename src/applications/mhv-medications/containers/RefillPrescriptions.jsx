@@ -298,7 +298,10 @@ const RefillPrescriptions = ({ isLoadingList = true }) => {
               </>
             )}
             {showFilterContent ? (
-              <p className="vads-u-margin-top--3">
+              <p
+                className="vads-u-margin-top--3"
+                data-testid="note-refill-page"
+              >
                 <strong>Note:</strong> If you can’t find the prescription you’re
                 looking for, you may need to renew it. Go to your medications
                 list and filter by “renewal needed before refill.”
