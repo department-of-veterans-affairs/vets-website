@@ -443,14 +443,8 @@ class PatientInboxPage {
     cy.get(Locators.BUTTONS.CATEGORY_RADIOBTN)
       .first()
       .click();
-    cy.get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('#inputField')
-      .type('testSubject', { force: true });
-    cy.get('#compose-message-body')
-      .shadow()
-      .find('textarea')
-      .type('testMessage', { force: true });
+    cy.get(Locators.MESSAGE_SUBJECT).type('testSubject', { force: true });
+    cy.get(Locators.MESSAGE_BODY).type('\ntestMessage', { force: true });
   };
 
   verifySignature = () => {

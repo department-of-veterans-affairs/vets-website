@@ -28,6 +28,6 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
     );
     PatientComposePage.verifyClickableURLinMessageBody('https://www.va.gov/');
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {});
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

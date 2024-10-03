@@ -19,13 +19,8 @@ describe('verify deeplinking sending the draft', () => {
     cy.get(Locators.LINKS.PREFER_LINK)
       .should('have.attr', 'href')
       .and('contain', 'mhv-portal-web/preferences');
+
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
   });
 });

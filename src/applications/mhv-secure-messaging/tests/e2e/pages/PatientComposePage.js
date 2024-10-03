@@ -351,7 +351,7 @@ class PatientComposePage {
       signatureTitle,
       includeSignature,
     } = mockSignature.data;
-    cy.get(Locators.MESSAGES_BODY).should(
+    cy.get(Locators.MESSAGE_BODY_FIELD).should(
       'have.attr',
       'value',
       `${includeSignature &&
@@ -403,17 +403,15 @@ class PatientComposePage {
   };
 
   verifySubjectErrorMessage = () => {
-    cy.get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    cy.get(Locators.ALERTS.FIELD_ERROR)
+      .should('be.visible')
+      .and(`include.text`, Data.SUBJECT_CANNOT_BLANK);
   };
 
   verifyBodyErrorMessage = () => {
-    cy.get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('[id=input-error-message]')
-      .should('be.visible');
+    cy.get(Locators.ALERTS.FIELD_ERROR)
+      .should('be.visible')
+      .and(`include.text`, Data.BODY_CANNOT_BLANK);
   };
 
   verifyDraftSaveButtonOnFocus = () => {

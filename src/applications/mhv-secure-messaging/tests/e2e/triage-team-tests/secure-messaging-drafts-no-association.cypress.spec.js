@@ -5,6 +5,7 @@ import mockMessages from '../fixtures/messages-response.json';
 import mockSingleMessage from '../fixtures/inboxResponse/single-message-response.json';
 import mockRecipients from '../fixtures/recipients-response.json';
 import mockThread from '../fixtures/thread-response.json';
+import mockDraftsRespone from '../fixtures/draftPageResponses/draft-threads-response.json';
 import PatientMessageDraftsPage from '../pages/PatientMessageDraftsPage';
 
 describe('Verify drafts - No association with particular Triage Group', () => {
@@ -46,13 +47,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     PatientInboxPage.loadSingleThread(mockThreadWithDraft, newDate, newDate);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
@@ -112,13 +107,7 @@ describe('Verify drafts - No association with particular Triage Group', () => {
     PatientInboxPage.loadSingleThread(mockSingleDraft, newDate, newDate);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')
@@ -161,12 +150,12 @@ describe('Verify drafts - No association with particular Triage Group', () => {
 
   it('single new draft', () => {
     const mockSingleDraftThread = {
-      ...mockMessages,
+      ...mockDraftsRespone,
       data: [
         {
-          ...mockMessages.data[0],
+          ...mockDraftsRespone.data[0],
           attributes: {
-            ...mockMessages.data[0].attributes,
+            ...mockDraftsRespone.data[0].attributes,
             recipientName: mockRecipients.data[0].attributes.name,
             triageGroupName: mockRecipients.data[0].attributes.name,
             recipientId: mockRecipients.data[0].attributes.triageTeamId,
@@ -175,23 +164,13 @@ describe('Verify drafts - No association with particular Triage Group', () => {
       ],
     };
 
-    const mockSingeDraft = { data: mockSingleDraftThread.data[0] };
-    mockSingeDraft.data.attributes.draftDate = newDate;
-    mockSingeDraft.data.attributes.sentDate = null;
+    cy.log(JSON.stringify(mockSingleDraftThread));
 
-    PatientMessageDraftsPage.loadSingleDraft(
-      mockSingleDraftThread,
-      mockSingeDraft,
-    );
+    PatientMessageDraftsPage.loadDrafts();
+    PatientMessageDraftsPage.loadSingleDraft(mockSingleDraftThread);
 
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT, {
-      rules: {
-        'aria-required-children': {
-          enabled: false,
-        },
-      },
-    });
+    cy.axeCheck(AXE_CONTEXT);
 
     cy.get(Locators.ALERTS.EXPANDABLE_TITLE)
       .should('be.visible')

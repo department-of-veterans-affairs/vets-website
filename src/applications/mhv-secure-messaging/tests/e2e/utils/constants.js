@@ -206,6 +206,7 @@ export const Locators = {
     ALERT_TEXT: `[data-testid="alert-text"]`,
     ATTCH_VIRUS: `[data-testid="attachment-virus-alert"]`,
     DELETE_DRAFT: `[data-dd-action-name="Confirm Navigation Leaving Button"]`,
+    FIELD_ERROR: `#input-error-message`,
   },
   FIELDS: {
     RECIPIENT: '#select',
