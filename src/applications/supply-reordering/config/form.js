@@ -16,7 +16,7 @@ import ConfirmationPage from '../containers/ConfirmationPage';
 import contactInformation from '../pages/contactInformation';
 import selectSupplies from '../pages/selectSupplies';
 
-// import EditEmail from '../pages/EditEmail';
+import EditEmail from '../pages/EditEmail';
 import EditAddress from '../pages/EditAddress';
 
 import GetHelp from '../components/GetHelp';
@@ -39,13 +39,11 @@ const contactInformationChapter = {
       title: 'Edit email address',
       taskListHide: true,
       path: 'edit-email-address',
-      // CustomPage: EditEmail,
-      // CustomPageReview: EditEmail,
-      // depends: () => false,
-      // uiSchema: {},
-      // schema: blankSchema,
-      uiSchema: emailUI(),
-      schema: emailSchema,
+      CustomPage: EditEmail,
+      CustomPageReview: EditEmail,
+      depends: () => false,
+      uiSchema: {},
+      schema: blankSchema,
     },
     editMailingAddress: {
       title: 'Edit mailing address',
@@ -107,7 +105,7 @@ const formConfig = {
   getHomeData: fetchSupplyData,
   introduction: IntroductionPage,
   chapters: {
-    // selectSuppliesChapter,
+    selectSuppliesChapter,
     contactInformationChapter,
   },
   confirmation: ConfirmationPage,

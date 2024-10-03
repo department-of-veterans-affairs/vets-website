@@ -1,5 +1,5 @@
 import React from 'react';
-import { titleUI } from 'platform/forms-system/src/js/web-component-patterns';
+import { fullNameSchema, titleUI } from 'platform/forms-system/src/js/web-component-patterns';
 import { formatDateLong } from 'platform/utilities/date';
 
 /** @type {PageSchema} */
@@ -31,15 +31,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      fullName: {
-        type: 'object',
-        properties: {
-          first: { type: 'string' },
-          middle: { type: 'string' },
-          last: { type: 'string' },
-          suffix: { type: 'string' },
-        },
-      },
+      fullName: fullNameSchema,
       dateOfBirth: {
         type: 'string',
         properties: {},
