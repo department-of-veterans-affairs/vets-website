@@ -12,6 +12,9 @@ const uiSchema = {
   ethnicity: {
     'ui:title': 'What is your ethnicity?',
     'ui:widget': 'radio',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
   orginRace: {
     'ui:title': 'What is your race or origin?',
@@ -28,6 +31,7 @@ const uiSchema = {
       keepInPageOnReview: true,
       viewField: CustomGroupCheckboxField,
       expandUnderCondition: 'Yes',
+      hideOnReview: true,
     },
   },
 };

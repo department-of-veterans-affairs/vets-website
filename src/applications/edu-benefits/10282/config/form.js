@@ -26,7 +26,6 @@ import IntroductionPage from '../containers/IntroductionPage';
 import CustomPageReview from '../components/CustomPageReview';
 
 const { fullName, email, usaPhone } = commonDefinitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -80,9 +79,7 @@ const formConfig = {
           title: 'Your personal information',
           path: 'applicant/information',
           ...applicantInformationName.applicantInformationField(),
-          CustomPageReview: formData => (
-            <CustomPageReview formData={formData} />
-          ),
+          CustomPageReview,
         },
         veteranDesc: {
           title: 'Your personal information',

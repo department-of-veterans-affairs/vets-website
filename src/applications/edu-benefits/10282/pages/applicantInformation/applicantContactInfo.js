@@ -32,6 +32,9 @@ export const uiSchema = {
       ...phoneUI('Home phone number'),
       'ui:webComponentField': VaTextInputField,
     },
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 export const schema = {

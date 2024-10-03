@@ -19,6 +19,9 @@ const uiSchema = {
   raceAndGender: {
     'ui:title': 'Do you want to answer the optional questions?',
     'ui:widget': 'radio',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 const schema = {

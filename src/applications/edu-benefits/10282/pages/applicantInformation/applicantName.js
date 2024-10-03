@@ -31,9 +31,9 @@ const uiSchema = {
         hideOnReviewIfFalse: true,
       },
     },
-    'ui:options':{
+    'ui:options': {
       hideOnReview: true,
-    }
+    },
   },
 };
 const applicantInformationField = () => {

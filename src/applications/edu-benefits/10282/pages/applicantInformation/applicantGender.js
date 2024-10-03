@@ -18,6 +18,9 @@ const uiSchema = {
       </p>
     ),
     'ui:widget': 'radio',
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 

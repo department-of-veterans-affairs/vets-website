@@ -14,6 +14,7 @@ export const uiSchema = {
     'ui:title': 'Country',
     'ui:options': {
       widgetClassNames: 'usa-input-medium',
+      hideOnReview: true,
     },
     'ui:webComponentField': VaSelectField,
     'ui:errorMessages': {

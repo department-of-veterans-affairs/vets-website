@@ -18,6 +18,9 @@ export const uiSchema = {
     'ui:errorMessages': {
       required: 'You must select a state',
     },
+    'ui:options': {
+      hideOnReview: true,
+    },
   },
 };
 export const schema = {
