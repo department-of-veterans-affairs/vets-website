@@ -3,7 +3,7 @@ import { uniqBy } from 'lodash';
 
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import moment from 'moment';
+import { format, isValid } from 'date-fns';
 import { VaBreadcrumbs } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import {
   setPageFocus,
@@ -29,9 +29,13 @@ const HTMLStatementPage = ({ match }) => {
   const statementsByUniqueFacility = uniqBy(sortedStatements, 'pSFacilityNum');
   const userFullName = useSelector(({ user }) => user.profile.userFullName);
   const [selectedCopay] = statements.filter(({ id }) => id === selectedId);
-  const statementDate = moment(selectedCopay.pSStatementDate, 'MM-DD').format(
-    'MMMM D',
-  );
+
+  // using statementDateOutput since it has delimiters ('/') unlike pSStatementDate
+  const parsedStatementDate = new Date(selectedCopay.pSStatementDateOutput);
+  const statementDate = isValid(parsedStatementDate)
+    ? format(parsedStatementDate, 'MMMM d')
+    : '';
+
   const title = `${statementDate} statement`;
   const prevPage = `Copay bill for ${selectedCopay.station.facilityName}`;
   const fullName = userFullName.middle
