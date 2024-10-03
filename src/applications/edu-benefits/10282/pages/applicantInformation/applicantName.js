@@ -50,23 +50,26 @@ const uiSchema = {
   },
 };
 
-if (localStorage.getItem('isReview') === 'true') {
-  schema.required.push('veteranDesc');
-  schema.properties.veteranDesc = { ...veteranDesc, enum: Object.keys(labels) };
+// if (localStorage.getItem('isReview') === 'true') {
+// schema.required.push('veteranDesc');
+schema.properties.veteranDesc = { ...veteranDesc, enum: Object.keys(labels) };
 
-  // Add `veteranDesc` to the uiSchema
-  uiSchema.veteranDesc = {
-    'ui:title': 'Which one best describes you?',
-    'ui:widget': 'radio',
-    'ui:errorMessages': {
-      required: 'You must select one of the options',
+// Add `veteranDesc` to the uiSchema
+uiSchema.veteranDesc = {
+  'ui:title': 'Which one best describes you?',
+  'ui:widget': 'radio',
+  'ui:errorMessages': {
+    required: 'You must select one of the options',
+  },
+  'ui:options': {
+    labels,
+    expandUnder: 'veteranFullName.first',
+    expandUnderCondition: formData => {
+      const name = formData?.veteranFullName || {};
+      return name.first?.trim();
     },
-    'ui:options': {
-      labels,
-      keepInPageOnReview: true,
-    },
-    'ui:reviewWidget': 'radio',
-  };
-}
+  },
+};
+// }
 
 export { uiSchema, schema };
