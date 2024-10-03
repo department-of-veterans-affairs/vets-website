@@ -263,12 +263,6 @@
   }
 }
 
-.vads-u-width--responsive{
-  @media (max-width: $small-screen) {
-    width: 100% !important;
-  }
-}
-
 .rx-fill-refill-button {
   va-loading-indicator {
     display: flex;

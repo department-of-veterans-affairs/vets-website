@@ -25,7 +25,6 @@ import FormHelp from '../components/FormHelp';
 import IntroductionPage from '../containers/IntroductionPage';
 
 const { fullName, email, usaPhone } = commonDefinitions;
-
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -60,7 +59,7 @@ const formConfig = {
       'Please sign in again to continue your application for 	education benefits.',
   },
 
-  title: 'Apply for the IBM SkillsBuild Program',
+  title: 'Apply for the IBM SkillsBuild program',
   subTitle:
     'IBM SkillsBuild Training Program Intake Application (VA Form 22-10282)',
   footerContent: FormFooter,
