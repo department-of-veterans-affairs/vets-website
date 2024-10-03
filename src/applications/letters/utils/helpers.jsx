@@ -383,10 +383,13 @@ export function getBenefitOptionText(
         <div>
           Your current monthly award is <strong>${value}</strong>.
         </div>
-        <div>
-          The effective date of the last change to your current award was{' '}
-          <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>.
-        </div>
+        {awardEffectiveDate && (
+          <div>
+            The effective date of the last change to your current award was{' '}
+            <strong>{formatDateShort(stripOffTime(awardEffectiveDate))}</strong>
+            .
+          </div>
+        )}
       </div>
     );
   }
