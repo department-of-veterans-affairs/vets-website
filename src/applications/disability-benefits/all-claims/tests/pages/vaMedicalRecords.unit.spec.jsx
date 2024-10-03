@@ -49,10 +49,8 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
         }}
       />,
@@ -77,10 +75,8 @@ describe('VA Medical Records', () => {
           },
           newDisabilities,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
         }}
       />,
@@ -104,10 +100,8 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': false,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': false,
           },
           vaTreatmentFacilities: [],
         }}
@@ -132,10 +126,8 @@ describe('VA Medical Records', () => {
         data={{
           ...claimType,
           ratedDisabilities,
-          'view:hasEvidenceFollowUp': {
-            'view:selectableEvidenceTypes': {
-              'view:hasVaMedicalRecords': true,
-            },
+          'view:selectableEvidenceTypes': {
+            'view:hasVaMedicalRecords': true,
           },
           vaTreatmentFacilities: [],
         }}

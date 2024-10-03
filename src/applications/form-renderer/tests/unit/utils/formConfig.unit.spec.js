@@ -6,7 +6,10 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 import * as IntroductionPage from 'applications/form-renderer/containers/IntroductionPage';
 import { render } from '@testing-library/react';
-import { normalizedForm } from '../../../_config/formConfig';
+import {
+  employmentQuestionnaire,
+  normalizedForm,
+} from '../../../_config/formConfig';
 import { createFormConfig } from '../../../utils/formConfig';
 import manifest from '../../../manifest.json';
 
@@ -46,7 +49,9 @@ describe('createFormConfig', () => {
     expect(formConfig.title).to.eq('Form with Two Steps');
     expect(formConfig.formId).to.eq('2121212');
     expect(formConfig.subTitle).to.eq('VA Form 2121212');
-    expect(Object.keys(formConfig.chapters).length).to.eq(2);
+    expect(Object.keys(formConfig.chapters).length).to.eq(
+      normalizedForm.chapters.length,
+    );
   });
 
   it('properly formats each chapter', () => {
@@ -100,6 +105,43 @@ describe('createFormConfig', () => {
       it('does not contain dateOfBirth', () => {
         expect(nameOnly.schema.properties.dateOfBirth).to.eq(undefined);
         expect(nameOnly.uiSchema.dateOfBirth).to.eq(undefined);
+      });
+    });
+  });
+
+  context('with Identification Information pattern', () => {
+    let serviceNumberIncluded;
+    let vetIdOnly;
+
+    beforeEach(() => {
+      serviceNumberIncluded = createFormConfig(employmentQuestionnaire)
+        .chapters[20002].pages[20002];
+
+      vetIdOnly = formConfig.chapters[160592].pages[160592];
+    });
+
+    it('contains veteranId', () => {
+      expect(serviceNumberIncluded.schema.properties.veteranId).to.not.eq(
+        undefined,
+      );
+      expect(serviceNumberIncluded.uiSchema.veteranId).to.not.eq(undefined);
+    });
+
+    context('when includeServiceNumber is true', () => {
+      it('includes serviceNumber', () => {
+        expect(serviceNumberIncluded.schema.properties.serviceNumber).to.not.eq(
+          undefined,
+        );
+        expect(serviceNumberIncluded.uiSchema.serviceNumber).to.not.eq(
+          undefined,
+        );
+      });
+    });
+
+    context('when includeServiceNumber is false', () => {
+      it('does not include serviceNumber', () => {
+        expect(vetIdOnly.schema.properties.serviceNumber).to.eq(undefined);
+        expect(vetIdOnly.uiSchema.serviceNumber).to.eq(undefined);
       });
     });
   });

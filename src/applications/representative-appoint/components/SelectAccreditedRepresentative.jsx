@@ -130,11 +130,17 @@ const SelectAccreditedRepresentative = props => {
 
 export const AdditionalNote = () => {
   return (
-    <p className="vads-u-margin-y--4">
-      <strong>Note:</strong> If you don’t know who you’d like to appoint, you
-      can use our online tool to search for an accredited attorney, claims
-      agent, or VSO representative.
-    </p>
+    <>
+      <p className="vads-u-margin-y--4">
+        <strong>Note:</strong> If you don’t know who you’d like to appoint, you
+        can use our online tool to search for an accredited attorney, claims
+        agent, or VSO representative.
+      </p>
+      <va-link
+        href="/get-help-from-accredited-representative/find-rep"
+        text="Find an accredited representative or VSO"
+      />
+    </>
   );
 };
 

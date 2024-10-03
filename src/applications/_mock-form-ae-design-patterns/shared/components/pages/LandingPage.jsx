@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
-import { handleEditPageDisplayTweaks } from '../../../App';
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import { getStylesForTab } from '../../../utils/helpers/tabs';
 
 const defaultRootUrl = '/mock-form-ae-design-patterns';
@@ -13,17 +14,20 @@ export const LandingPage = ({
   location,
   getTabs,
   getPatterns,
+  month,
+  year,
 }) => {
   const tabs = getTabs(location);
-  const month = new Date().toLocaleString('default', { month: 'long' });
-  const year = new Date().getFullYear();
+  const displayMonth =
+    month || new Date().toLocaleString('default', { month: 'long' });
+  const displayYear = year || new Date().getFullYear();
 
   return (
     <div className="vads-u-padding-bottom--7">
       <div className="vads-l-row">
         <div className="vads-l-col--12">
           <h1 className="vads-u-font-size--h1 vads-u-margin-top--4">
-            User Research Study - {month} {year}
+            {`User Research Study - ${displayMonth} ${displayYear}`}
           </h1>
         </div>
       </div>
@@ -64,9 +68,9 @@ export const LandingPage = ({
   );
 };
 
-export const LandingPageWrapper = ({ children }) => {
-  useEffect(() => {
-    handleEditPageDisplayTweaks(window.location);
-  }, []);
-  return children;
+LandingPage.propTypes = {
+  getPatterns: PropTypes.func.isRequired,
+  getTabs: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  rootUrl: PropTypes.string,
 };
