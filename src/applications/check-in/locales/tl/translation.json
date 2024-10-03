@@ -160,7 +160,6 @@
   "is-this-your-current-next-of-kin": "Ito ba ang iyong kasalukuyang pinakamalapit na kamag-anak?",
   "is-this-your-current-next-of-kin-information": "Ito ba ang kasalukuyang impormasyon ng iyong pinakamalapit na kamag-anak?",
   "latest-update": "<bold> Pinakabagong update:</bold> {{ date, longAtTime }}",
-  "learn-how-file-claims-other-expenses": "Alamin kung paano mag-file ng claim para sa iba pang mga gastusin",
   "loading": "Naglo-load…",
   "loading-your-appointment-details": "Inilo-load ang mga detalye ng iyong appointment",
   "loading-your-appointments-for-today": "Inilo-load ang iyong mga appointment sa araw na ito",

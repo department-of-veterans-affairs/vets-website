@@ -5,23 +5,22 @@ import { expect } from 'chai';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { getData } from '../mocks/mockFormData';
-import disabilityRatingConfig from '../../../pages/disabilityRating';
+import separationConfig from '../../../pages/separation';
 
-describe('disabilityRating page', () => {
+describe('separation page', () => {
   it('should render the correct radio component', () => {
     const { container } = render(
       <Provider store={{ ...getData().mockStore }}>
         <DefinitionTester
           definitions={{}}
-          schema={disabilityRatingConfig.schema}
-          uiSchema={disabilityRatingConfig.uiSchema}
+          schema={separationConfig.schema}
+          uiSchema={separationConfig.uiSchema}
           data={{}}
           formData={{}}
         />
         ,
       </Provider>,
     );
-
     expect($('va-radio', container)).to.exist;
   });
 });
