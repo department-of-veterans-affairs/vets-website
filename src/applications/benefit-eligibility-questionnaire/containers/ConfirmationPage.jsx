@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
-import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
 import GetFormHelp from '../components/GetFormHelp';
@@ -24,51 +23,19 @@ export class ConfirmationPage extends React.Component {
       benefitIds: [],
       sortValue: 'alphabetical',
       filterValue: 'All',
-      benefits: [], // Initial state for benefits
+      benefits: [],
+      benefitsList: BENEFITS_LIST,
+      showeMobileFilters: false,
     };
 
     this.applyInitialSort = this.applyInitialSort.bind(this);
-  }
-
-  applyInitialSort() {
-    const hasResults = !!this.props.results.data;
-    const resultsCount = hasResults ? this.props.results.data.length : 0;
-    const resultsText = resultsCount === 1 ? 'result' : 'results';
-    const benefitIds = hasResults
-      ? this.props.results.data.reduce((acc, curr) => {
-          acc[curr.id] = true;
-          return acc;
-        }, {})
-      : {};
-
-    const benefitsState = this.props.results.data.sort((a, b) => {
-      if (a.name < b.name) return -1;
-      if (a.name > b.name) return 1;
-      return 0;
-    });
-
-    this.setState({
-      hasResults,
-      resultsCount,
-      resultsText,
-      benefitIds,
-      benefits: benefitsState,
-    });
   }
 
   componentDidMount() {
     scrollToTop('topScrollElement');
     // Update query string based on results.
     if (this.props.results.data && this.props.results.data.length > 0) {
-      const benefits = this.props.results.data.map(r => r.id).join(',');
-      const queryParams = { benefits };
-      const queryStringObj = appendQuery(
-        `${this.props.location.basename}${this.props.location.pathname}`,
-        queryParams,
-      );
-      browserHistory.replace(queryStringObj);
-
-      this.applyInitialSort();
+      this.handleResultsData();
     } else if (
       this.props.location.query &&
       Object.keys(this.props.location.query).length > 0
@@ -93,23 +60,72 @@ export class ConfirmationPage extends React.Component {
       this.props.results.data.length > 0 &&
       (!prevProps.results.data || prevProps.results.data.length === 0)
     ) {
-      this.applyInitialSort();
+      this.handleResultsData();
     }
   }
 
+  handleResultsData() {
+    const benefits = this.props.results.data.map(r => r.id).join(',');
+    const queryParams = { benefits };
+    const queryStringObj = appendQuery(
+      `${this.props.location.basename}${this.props.location.pathname}`,
+      queryParams,
+    );
+    browserHistory.replace(queryStringObj);
+
+    this.applyInitialSort();
+  }
+
   sortBenefits = e => {
-    const key = e.target.value || 'alphabetical';
+    const key = e.target.value;
+    const sortKey = key === 'alphabetical' ? 'name' : key;
 
-    this.setState(() => ({ sortValue: key }));
+    this.setState({ sortValue: key }, () => {
+      this.setState(prevState => {
+        if (!prevState.benefits || !Array.isArray(prevState.benefits)) {
+          return { benefits: [], benefitsList: [] };
+        }
 
-    this.setState(prevState => {
-      const sortedBenefits = prevState.benefits.sort((a, b) => {
-        if (a[key] < b[key]) return -1;
-        if (a[key] > b[key]) return 1;
-        return 0;
+        const sortedBenefits = [...prevState.benefits].sort((a, b) => {
+          let aValue = a[sortKey] || '';
+          let bValue = b[sortKey] || '';
+
+          if (sortKey === 'goal') {
+            aValue = a.mappings?.goals?.[0] || '';
+            bValue = b.mappings?.goals?.[0] || '';
+          }
+
+          if (typeof aValue === 'string' && typeof bValue === 'string') {
+            return aValue.localeCompare(bValue);
+          }
+
+          if (aValue < bValue) return -1;
+          if (aValue > bValue) return 1;
+
+          return 0;
+        });
+
+        const sortedBenefitsList = [...prevState.benefitsList].sort((a, b) => {
+          let aValue = a[sortKey] || '';
+          let bValue = b[sortKey] || '';
+
+          if (sortKey === 'goals') {
+            aValue = a.mappings?.goals?.[0] || ''; // Sort by the first goal in array
+            bValue = b.mappings?.goals?.[0] || ''; // Sort by the first goal in array
+          }
+
+          if (typeof aValue === 'string' && typeof bValue === 'string') {
+            return aValue.localeCompare(bValue);
+          }
+
+          if (aValue < bValue) return -1;
+          if (aValue > bValue) return 1;
+
+          return 0;
+        });
+
+        return { benefits: sortedBenefits, benefitsList: sortedBenefitsList };
       });
-
-      return { benefits: sortedBenefits };
     });
   };
 
@@ -143,6 +159,37 @@ export class ConfirmationPage extends React.Component {
     this.props.router.goBack();
   };
 
+  applyInitialSort() {
+    const hasResults = !!this.props.results.data;
+    const resultsCount = hasResults ? this.props.results.data.length : 0;
+    const resultsText = resultsCount === 1 ? 'result' : 'results';
+    const benefitIds = hasResults
+      ? this.props.results.data.reduce((acc, curr) => {
+          acc[curr.id] = true;
+          return acc;
+        }, {})
+      : {};
+
+    const benefitsState = this.props.results.data.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+
+    this.setState({
+      hasResults,
+      resultsCount,
+      resultsText,
+      benefitIds,
+      benefits: benefitsState,
+    });
+  }
+
+  toggleMobileFiltersClass() {
+    const currentState = this.state.showeMobileFilters;
+    this.setState({ showeMobileFilters: !currentState });
+  }
+
   render() {
     return (
       <div>
@@ -168,65 +215,40 @@ export class ConfirmationPage extends React.Component {
         <h2 className="vads-u-font-size--h3">Benefits to explore</h2>
 
         <div id="results-container">
-          <div id="filters-section-desktop">
-            <span>
-              <b>Filters</b>
-            </span>
-            <VaSelect
-              aria-label="Filter Benefits"
-              label="Filter by benefit type"
-              name="filter-benefits"
-              value={this.state.filterValue}
-              onVaSelect={this.filterBenefits}
-            >
-              <option key="All" value="All">
-                All
-              </option>
-              <option key="Education" value="Education">
-                Education
-              </option>
-              <option key="Employment" value="Employment">
-                Employment
-              </option>
-              <option key="Careers" value="Careers">
-                Careers & Employment
-              </option>
-              <option key="Support" value="Support">
-                More Support
-              </option>
-            </VaSelect>
-            <br />
-            <span>
-              <b>Sort</b>
-            </span>
-            <VaSelect
-              aria-label="Sort Benefits"
-              label="Sort results by"
-              name="sort-benefits"
-              value={this.state.sortValue}
-              onVaSelect={this.sortBenefits}
-            >
-              <option key="alphabetical" value="alphabetical">
-                Alphabetical
-              </option>
-              <option key="goal" value="goal">
-                Goal
-              </option>
-              <option key="type" value="type">
-                Type
-              </option>
-            </VaSelect>
-          </div>
-
-          <div id="filters-section-mobile">
+          <div id="filters-section-mobile-toggle">
             <va-link-action
-              href="#"
               message-aria-describedby="Filter and sort"
               text="Filter and sort"
               type="secondary"
+              onClick={() => this.toggleMobileFiltersClass()}
+              omKeyDown={() => this.toggleMobileFiltersClass()}
+              role="button"
             />
           </div>
-
+          <div
+            id="filters-section-desktop"
+            className={
+              this.state.showeMobileFilters
+                ? 'show-filters-section-mobile'
+                : 'hide-filters-section-mobile'
+            }
+          >
+            <b>Filters</b>
+            <p>Filter benefits by</p>
+            <select aria-label="Filter Benefits" onChange={this.filterBenefits}>
+              <option value="All">All</option>
+              <option value="Education">Education</option>
+              <option value="Careers">Careers & Employment</option>
+              <option value="Support">More Support</option>
+            </select>
+            <b>Sort</b>
+            <p>Sort results by</p>
+            <select aria-label="Sort Benefits" onChange={this.sortBenefits}>
+              <option value="alphabetical">Alphabetical</option>
+              <option value="goal">Goal</option>
+              <option value="category">Type</option>
+            </select>
+          </div>
           <div id="results-section">
             <b>
               {this.state.hasResults &&
@@ -319,7 +341,7 @@ export class ConfirmationPage extends React.Component {
                 id="show"
               >
                 <ul className="benefit-list">
-                  {BENEFITS_LIST.map(
+                  {this.state.benefitsList.map(
                     benefit =>
                       !this.state.benefitIds[benefit.id] && (
                         <li key={benefit.id}>
