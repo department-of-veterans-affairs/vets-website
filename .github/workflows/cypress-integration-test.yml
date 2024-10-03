@@ -1,0 +1,141 @@
+on:
+    workflow_dispatch:
+        inputs:
+            product:
+                description: 'individual product to be tested'
+                required: true
+            branch:
+                description: 'branch with currently failing e2e tests in CI'
+                required: true
+        # TO-DO: add a commit input to allow devs to determine a commit point of failure in the branch
+env:
+  BUILDTYPE: vagovprod
+
+jobs:
+    validate-and-set-product-selection:
+    name: Set product directory for testing
+    runs-on: ubuntu-latest
+    outputs:
+      product: ${{ steps.set-vars.outputs.product }}
+    run: |
+        chmod +x ./script/github-actions/cypress-integration-test.sh
+        INTEGRATION_APP_PATH=$(./scripts/integration-helper.sh "${{ github.event.inputs.product }}")
+        echo "INTEGRATION_APP_PATH=$INTEGRATION_APP_PATTERN" >> $GITHUB_ENV
+
+    build: 
+    name: Build
+    runs-on: ubuntu-16-cores-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+      with:
+        fetch-depth: 0
+        ref: ${{ github.event.inputs.branch }}
+
+    - name: Install dependencies
+      uses: ./.github/workflows/install
+      timeout-minutes: 30
+      with:
+        key: ${{ hashFiles('yarn.lock') }}
+        yarn_cache_folder: .cache/yarn
+        path: |
+          .cache/yarn
+          node_modules
+
+    - name: Configure AWS Credentials
+      uses: ./.github/workflows/configure-aws-credentials
+      with:
+        aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws_region: us-gov-west-1
+  
+    - name: Get Mapbox Token
+      uses: ./.github/workflows/inject-secrets
+      with:
+        ssm_parameter: /dsva-vagov/vets-website/dev/mapbox_token
+        env_variable_name: MAPBOX_TOKEN
+
+    - name: Build
+      run: yarn build --verbose --buildtype=${{ env.BUILDTYPE }}
+      timeout-minutes: 30
+
+    - name: Generate build details
+      run: |
+        cat > build/${{ env.BUILDTYPE }}/BUILD.txt << EOF
+        BUILDTYPE=${{ env.BUILDTYPE }}
+        NODE_ENV=production
+        BRANCH_NAME=$(echo "${GITHUB_REF#refs/heads/}")
+        CHANGE_TARGET=null
+        RUN_ID=${{ github.run_id }}
+        RUN_NUMBER=${{ github.run_number }}
+        REF=${{ github.sha }}
+        BUILDTIME=$(date +%s)
+        EOF
+
+    - name: Compress and archive build
+      run: tar -C build/${{ env.BUILDTYPE }} -cjf ${{ env.BUILDTYPE }}.tar.bz2 .
+
+    - name: Upload build artifact
+      uses: ./.github/workflows/upload-artifact
+      with:
+        name: ${{ env.BUILDTYPE }}.tar.bz2
+        path: ${{ env.BUILDTYPE }}.tar.bz2
+        retention-days: 1
+
+   call-integration-test-workflow:
+        uses: department-of-veterans-affairs/vagov-cypress-integration-tests/.github/workflows/cypress-test-integration-workflow.yml@main
+        secrets: inherit
+    
+  notify-failure:
+    name: Notify Failure
+    runs-on: ubuntu-latest
+    if: ${{ github.ref == 'refs/heads/main' && (failure() || cancelled()) }}
+    env:
+      ALERT_TEAMS: true # Alerts teams for single/grouped app builds when set to true
+      DEVOPS_CHANNEL_ID: C37M86Y8G #devops-deploys
+      VETS_WEBSITE_CHANNEL_ID: C02V265VCGH #status-vets-website
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@cd7d8d697e10461458bc61a30d094dc601a8b017
+        with:
+          fetch-depth: 0
+
+      - name: Install dependencies
+        if: env.ALERT_TEAMS == 'true'
+        uses: ./.github/workflows/install
+        timeout-minutes: 30
+        with:
+          key: ${{ hashFiles('yarn.lock') }}
+          yarn_cache_folder: .cache/yarn
+          path: |
+            .cache/yarn
+            node_modules
+
+      - name: Get changed applications
+        id: get-changed-apps
+        if: env.ALERT_TEAMS == 'true'
+        uses: ./.github/workflows/get-changed-apps
+        with:
+          output-type: 'slack_group'
+
+      - name: Notify application team in Slack
+        if: env.ALERT_TEAMS == 'true' && steps.get-changed-apps.outputs.slack_groups != ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "${{steps.get-changed-apps.outputs.slack_groups}} CI for your application failed on the `main` branch in `vets-website`: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>\n For help troubleshooting, see the <https://depo-platform-documentation.scrollhelp.site/developer-docs/Handling-failed-single%2Fgrouped-application-pipelines.2066645150.html|documentation> on failed workflow runs."}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Notify Slack
+        if: steps.get-changed-apps.outputs.slack_groups == ''
+        uses: department-of-veterans-affairs/platform-release-tools-actions/slack-notify@main
+        continue-on-error: true
+        with:
+          payload: '{"attachments": [{"color": "#FF0800","blocks": [{"type": "section","text": {"type": "mrkdwn","text": "`main` branch CI in `vets-website` failed: <https://github.com/${{github.repository}}/actions/runs/${{github.run_id}}|${{github.run_id}}>"}}]}]}'
+          channel_id: ${{ env.VETS_WEBSITE_CHANNEL_ID }}
+          aws_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
