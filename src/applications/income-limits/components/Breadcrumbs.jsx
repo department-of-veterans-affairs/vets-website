@@ -14,11 +14,11 @@ const Breadcrumbs = () => {
         },
         {
           href: '/health-care',
-          label: 'Health Care',
+          label: 'VA Health care',
         },
         {
           href: '/health-care/income-limits',
-          label: 'Check income limits',
+          label: 'Income limits and your VA health care',
         },
       ]}
     />
