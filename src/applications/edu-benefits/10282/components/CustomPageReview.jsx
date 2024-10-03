@@ -70,11 +70,47 @@ const CustomPageReview = ({ data, editPage }) => {
           </dd>
         </div>
         <div className="review-row">
-          <dt>Country:</dt>
+          <dt>Country </dt>
           <dd className="dd-privacy-hidden" data-dd-action-name="country">
             <strong>{data.country || ''}</strong>
           </dd>
         </div>
+        {data.country === 'United States' && (
+          <div className="review-row">
+            <dt>State </dt>
+            <dd className="dd-privacy-hidden" data-dd-action-name="country">
+              <strong>{data.state || ''}</strong>
+            </dd>
+          </div>
+        )}
+        <div className="review-row">
+          <dt>Do you want to answer the optional questions?</dt>
+          <dd className="dd-privacy-hidden" data-dd-action-name="country">
+            <strong>{data.raceAndGender || ''}</strong>
+          </dd>
+        </div>
+        {data.raceAndGender === 'Yes' && (
+          <>
+            <div className="review-row">
+              <dt>What is your ethnicity?</dt>
+              <dd className="dd-privacy-hidden" data-dd-action-name="country">
+                <strong>{data.ethnicity || ''}</strong>
+              </dd>
+            </div>
+            <div className="review-row">
+              <dt>What is your race or origin?</dt>
+              <dd className="dd-privacy-hidden" data-dd-action-name="country">
+                <strong>{data.orginRace || ''}</strong>
+              </dd>
+            </div>
+            <div className="review-row">
+              <dt> How would you describe your gender?</dt>
+              <dd className="dd-privacy-hidden" data-dd-action-name="country">
+                <strong>{data.gender || ''}</strong>
+              </dd>
+            </div>
+          </>
+        )}
       </dl>
     </div>
   );
