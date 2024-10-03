@@ -65,8 +65,8 @@ $nav-mobile-breakpoint: 650px;
 
     a, a:hover, a:visited, a:active {
       display: block;
-      border-radius: 4px;
-      padding: 6px 8px 5px 7px;
+      border-radius: 0;
+      width: 100%;
     }
 
     // Show the header item as a white bar when active
