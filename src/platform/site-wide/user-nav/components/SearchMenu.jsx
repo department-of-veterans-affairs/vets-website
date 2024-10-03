@@ -199,7 +199,7 @@ export class SearchMenu extends React.Component {
               aria-label="search"
               autoComplete="off"
               ref="searchField"
-              className="usagov-search-autocomplete vads-u-margin-left--0p5"
+              className="usagov-search-autocomplete vads-u-margin-left--0p5 search-dropdown-input-field"
               id="query"
               name="query"
               type="text"
