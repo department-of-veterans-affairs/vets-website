@@ -1,6 +1,6 @@
 import React from 'react';
 
-const labels = {
+export const labels = {
   veteran: "I'm a Veteran",
   veteranSpouse: "I'm a Veteran's spouse",
   veteranChild: "I'm a Veteran's child",

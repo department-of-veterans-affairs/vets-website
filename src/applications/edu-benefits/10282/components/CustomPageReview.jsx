@@ -1,8 +1,14 @@
 // src/applications/edu-benefits/10282/components/CustomPageReview.js
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const CustomPageReview = ({ data, editPage }) => {
+  const [editing, setEditing] = useState(false);
+
+  const handleEdit = () => {
+    setEditing(!editing);
+    editPage();
+  };
   return (
     <div className="form-review-panel-page">
       <div className="form-review-panel-page-header-row">
@@ -12,7 +18,7 @@ const CustomPageReview = ({ data, editPage }) => {
         <va-button
           secondary
           className="edit-page float-right"
-          onClick={editPage}
+          onClick={handleEdit}
           text="Edit"
           uswds
         />

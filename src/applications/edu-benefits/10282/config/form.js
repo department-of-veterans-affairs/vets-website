@@ -26,6 +26,9 @@ import IntroductionPage from '../containers/IntroductionPage';
 import CustomPageReview from '../components/CustomPageReview';
 
 const { fullName, email, usaPhone } = commonDefinitions;
+export const isOnReviewPage = currentLocation => {
+  return currentLocation?.pathname.includes('/review-and-submit');
+};
 const formConfig = {
   rootUrl: manifest.rootUrl,
   urlPrefix: '/',
@@ -78,8 +81,10 @@ const formConfig = {
         applicantName: {
           title: 'Your personal information',
           path: 'applicant/information',
-          ...applicantInformationName.applicantInformationField(),
+          uiSchema: applicantInformationName.uiSchema,
+          schema: applicantInformationName.schema,
           CustomPageReview,
+          editModeOnReviewPage: true,
         },
         veteranDesc: {
           title: 'Your personal information',
