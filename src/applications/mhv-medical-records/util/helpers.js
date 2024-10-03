@@ -460,7 +460,21 @@ export const formatNameFirstLast = ({ first, middle, last, suffix }) => {
 
 export const formatNameFirstToLast = name => {
   try {
-    const parts = name?.split(',');
+    if (typeof name === 'object') {
+      if ('family' in name && 'given' in name) {
+        const firstname = name.given?.join(' ');
+        const lastname = name.family;
+        return `${firstname} ${lastname}`;
+      }
+
+      const parts = name?.text.split(',');
+      if (parts.length !== 2) {
+        return name;
+      }
+      const [lastname, firstname] = parts;
+      return `${firstname} ${lastname}`;
+    }
+    const parts = name.split(',');
     if (parts.length !== 2) {
       return name;
     }

@@ -114,10 +114,7 @@ export const extractPractitioner = (record, serviceRequest) => {
   const practitioner = extractContainedResource(record, practitionerRef);
   if (isArrayAndHasItems(practitioner?.name)) {
     const practitionerName = practitioner?.name[0];
-    const name = practitionerName?.text;
-    const familyName = practitionerName?.family;
-    const givenNames = practitionerName?.given?.join(' ');
-    return name || `${familyName ? `${familyName}, ` : ''}${givenNames}`;
+    return formatNameFirstToLast(practitionerName);
   }
   return null;
 };
@@ -163,14 +160,13 @@ const convertChemHemRecord = record => {
     isArrayAndHasItems(record.basedOn) && record.basedOn[0]?.reference;
   const serviceRequest = extractContainedResource(record, basedOnRef);
   const specimen = extractSpecimen(record);
-  const orderedBy = extractPractitioner(record, serviceRequest);
   return {
     id: record.id,
     type: labTypes.CHEM_HEM,
     testType: serviceRequest?.code?.text || EMPTY_FIELD,
     name: extractOrderedTests(record) || 'Chemistry/Hematology',
     category: 'Chemistry and hematology',
-    orderedBy: formatNameFirstToLast(orderedBy) || EMPTY_FIELD,
+    orderedBy: extractPractitioner(record, serviceRequest) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,
@@ -199,7 +195,7 @@ export const extractOrderedBy = record => {
     record.performer,
   );
   if (isArrayAndHasItems(performingLab?.name)) {
-    return performingLab.name[0].text || null;
+    return formatNameFirstToLast(performingLab.name[0]) || null;
   }
   return null;
 };
@@ -247,7 +243,7 @@ const convertPathologyRecord = record => {
     id: record.id,
     name: record.code?.text,
     type: labTypes.PATHOLOGY,
-    orderedBy: record.physician || EMPTY_FIELD,
+    orderedBy: formatNameFirstToLast(record.physician) || EMPTY_FIELD,
     date: record.effectiveDateTime
       ? dateFormatWithoutTimezone(record.effectiveDateTime)
       : EMPTY_FIELD,

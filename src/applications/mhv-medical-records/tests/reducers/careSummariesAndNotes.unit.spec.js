@@ -106,7 +106,7 @@ describe('extractAuthenticator', () => {
   };
 
   it('should return the authenticator', () => {
-    expect(extractAuthenticator(record)).to.equal('SMITH,JOHN');
+    expect(extractAuthenticator(record)).to.eql({ text: 'SMITH,JOHN' });
   });
 
   it('should return null if no "name" item contains a "text" field', () => {
@@ -154,7 +154,7 @@ describe('extractAuthor', () => {
   };
 
   it('should return the author', () => {
-    expect(extractAuthor(record)).to.equal('SMITH,JANE');
+    expect(extractAuthor(record)).to.eql({ text: 'SMITH,JANE' });
   });
 
   it('should return null if no "name" item contains a "text" field', () => {

@@ -190,7 +190,7 @@ describe('extractPractitioner', () => {
         },
       ],
     };
-    expect(extractPractitioner(record, svcReq)).to.equal('DOE, JANE A');
+    expect(extractPractitioner(record, svcReq)).to.equal('JANE A DOE');
   });
 
   it('should return null if the practitioner is not found', () => {
@@ -353,7 +353,7 @@ describe('extractOrderedBy', () => {
     performer: [{ reference: '#o-1' }, { reference: '#p-1' }],
   };
   it('gets the performing lab location', () => {
-    expect(extractOrderedBy(record)).to.eq('Practitioner Name');
+    expect(extractOrderedBy(record)).to.eql({ text: 'Practitioner Name' });
   });
 });
 

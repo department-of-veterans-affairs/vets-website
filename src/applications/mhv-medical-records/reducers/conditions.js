@@ -64,7 +64,7 @@ export const extractProvider = condition => {
     // Use the reference inside "recorder" to get the value from "contained".
     const org = extractContainedResource(condition, ref);
     if (org?.name) {
-      return org.name[0].text;
+      return org.name[0];
     }
   }
   return EMPTY_FIELD;
