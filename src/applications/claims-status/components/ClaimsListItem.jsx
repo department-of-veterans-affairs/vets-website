@@ -101,8 +101,8 @@ export default function ClaimsListItem({ claim }) {
         <p>{getLastUpdated(claim)}</p>
       </div>
       {showAlert && (
-        <va-alert status="warning" slim>
-          An item in the claim needs your attention
+        <va-alert status="info" slim>
+          Open request: Check claim to see if action is needed from you or VA.
         </va-alert>
       )}
       <ClaimCard.Link ariaLabel={ariaLabel} href={href} />

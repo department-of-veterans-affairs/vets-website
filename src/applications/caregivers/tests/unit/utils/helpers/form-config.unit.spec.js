@@ -46,17 +46,17 @@ describe('CG `hideUploadWarningAlert` method', () => {
     expect(hideUploadWarningAlert(formData)).to.be.true;
   });
 
+  it('should return `true` if upload array is empty', () => {
+    const formData = { signAsRepresentativeDocumentUpload: [] };
+    expect(hideUploadWarningAlert(formData)).to.be.true;
+  });
+
   it('should return `false` when valid file data exists', () => {
     const formData = {
       signAsRepresentativeDocumentUpload: [
         { name: 'test-name', guid: 'test-guid' },
       ],
     };
-    expect(hideUploadWarningAlert(formData)).to.be.false;
-  });
-
-  it('should return `false` if upload array is empty', () => {
-    const formData = { signAsRepresentativeDocumentUpload: [] };
     expect(hideUploadWarningAlert(formData)).to.be.false;
   });
 });

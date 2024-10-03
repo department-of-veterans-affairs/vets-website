@@ -11,7 +11,7 @@ describe('Claimant Personal Information page', () => {
   const {
     schema,
     uiSchema,
-  } = formConfig.chapters.claimant.pages.claimantPersonalInformation;
+  } = formConfig.chapters.claimantInfo.pages.claimantPersonalInformation;
 
   // Custom page is rendered, so this only renders a submit button
   it('should render', () => {
