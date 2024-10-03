@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { setSubmission as setSubmissionAction } from 'platform/forms-system/src/js/actions';
 import appendQuery from 'append-query';
 import { browserHistory } from 'react-router';
+import { VaSelect } from '@department-of-veterans-affairs/web-components/react-bindings';
 import { displayResults as displayResultsAction } from '../reducers/actions';
 import BenefitCard from '../components/BenefitCard';
 import GetFormHelp from '../components/GetFormHelp';
@@ -107,6 +108,7 @@ export class ConfirmationPage extends React.Component {
         if (a[key] > b[key]) return 1;
         return 0;
       });
+
       return { benefits: sortedBenefits };
     });
   };
@@ -127,7 +129,10 @@ export class ConfirmationPage extends React.Component {
       const filteredBenefits = this.props.results.data.filter(benefit => {
         return benefit.category.includes(key);
       });
-      return { benefits: filteredBenefits };
+      return {
+        benefits: filteredBenefits,
+        resultsCount: filteredBenefits.length,
+      };
     });
   };
 
@@ -148,7 +153,7 @@ export class ConfirmationPage extends React.Component {
         <p>
           You can filter and sort the recommended benefits. If you want to copy
           the link to your personalized results or email the results to
-          yourself, select the "Save you results" button.
+          yourself, select the "Save your results" button.
         </p>
         <p>
           Please note that this is a recommendation tool, not an eligibility
@@ -163,22 +168,53 @@ export class ConfirmationPage extends React.Component {
 
         <div id="results-container">
           <div id="filters-section-desktop">
-            <b>Filters</b>
-            <p>Filter benefits by</p>
-            <select aria-label="Filter Benefits" onChange={this.filterBenefits}>
-              <option value="All">All</option>
-              <option value="Education">Education</option>
-              <option value="Employment">Employment</option>
-              <option value="Careers">Careers & Employment</option>
-              <option value="Support">More Support</option>
-            </select>
-            <b>Sort</b>
-            <p>Sort results by</p>
-            <select aria-label="Sort Benefits" onChange={this.sortBenefits}>
-              <option value="alphabetical">Alphabetical</option>
-              <option value="goal">Goal</option>
-              <option value="type">Type</option>
-            </select>
+            <span>
+              <b>Filters</b>
+            </span>
+            <VaSelect
+              aria-label="Filter Benefits"
+              label="Filter by benefit type"
+              name="filter-benefits"
+              value={this.state.filterValue}
+              onVaSelect={this.filterBenefits}
+            >
+              <option key="All" value="All">
+                All
+              </option>
+              <option key="Education" value="Education">
+                Education
+              </option>
+              <option key="Employment" value="Employment">
+                Employment
+              </option>
+              <option key="Careers" value="Careers">
+                Careers & Employment
+              </option>
+              <option key="Support" value="Support">
+                More Support
+              </option>
+            </VaSelect>
+            <br />
+            <span>
+              <b>Sort</b>
+            </span>
+            <VaSelect
+              aria-label="Sort Benefits"
+              label="Sort results by"
+              name="sort-benefits"
+              value={this.state.sortValue}
+              onVaSelect={this.sortBenefits}
+            >
+              <option key="alphabetical" value="alphabetical">
+                Alphabetical
+              </option>
+              <option key="goal" value="goal">
+                Goal
+              </option>
+              <option key="type" value="type">
+                Type
+              </option>
+            </VaSelect>
           </div>
 
           <div id="filters-section-mobile">
@@ -222,14 +258,31 @@ export class ConfirmationPage extends React.Component {
                       .filter(benefit => benefit.isTimeSensitive)
                       .map(b => (
                         <li key={b.id}>
-                          <a
-                            href={b.learnMoreURL}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            {b.name}
-                          </a>
+                          <strong>{b.name}</strong>
                           <p>{b.description}</p>
+                          {b.learnMoreURL ? (
+                            <div>
+                              <a
+                                href={b.learnMoreURL}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Learn more
+                              </a>
+                            </div>
+                          ) : null}
+
+                          {b.applyNowURL ? (
+                            <div>
+                              <a
+                                href={b.applyNowURL}
+                                target="_blank"
+                                rel="noreferrer"
+                              >
+                                Apply now
+                              </a>
+                            </div>
+                          ) : null}
                         </li>
                       ))}
                 </ul>

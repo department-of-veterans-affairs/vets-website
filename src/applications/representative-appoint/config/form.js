@@ -12,7 +12,6 @@ import {
   authorizeAddress,
   authorizeInsideVA,
   authorizeOutsideVA,
-  formToggle,
   authorizeOutsideVANames,
   claimantRelationship,
   claimantPersonalInformation,
@@ -26,6 +25,7 @@ import {
   veteranIdentification,
   veteranServiceInformation,
   selectAccreditedRepresentative,
+  replaceAccreditedRepresentative,
   selectedAccreditedOrganizationId,
 } from '../pages';
 
@@ -84,7 +84,7 @@ const formConfig = {
     noAuth:
       'Please sign in again to continue your application for VA accredited representative appointment.',
   },
-  title: 'Fill out your form to appoint a VA accredited representative or VSO',
+  title: 'Request help from a VA accredited representative or VSO',
   subTitle: formConfigFromService.subTitle || 'VA Forms 21-22 and 21-22a',
   defaultDefinitions: {
     fullName,
@@ -94,17 +94,6 @@ const formConfig = {
     usaPhone,
   },
   chapters: {
-    formToggle: {
-      title: ' ',
-      pages: {
-        repType: {
-          path: 'rep-type',
-          title: ' ',
-          uiSchema: formToggle.uiSchema,
-          schema: formToggle.schema,
-        },
-      },
-    },
     accreditedRepresentativeInformation: {
       title: 'Accredited representative information',
       pages: {
@@ -133,9 +122,18 @@ const formConfig = {
             },
           },
         },
+        replaceAccreditedRepresentative: {
+          title: 'Representative Replace',
+          path: 'representative-replace',
+          depends: formData =>
+            !!formData['view:representativeStatus']?.id &&
+            !!formData['view:selectedRepresentative'],
+          uiSchema: replaceAccreditedRepresentative.uiSchema,
+          schema: replaceAccreditedRepresentative.schema,
+        },
       },
     },
-    claimant: {
+    claimantInfo: {
       title: 'Your information',
       pages: {
         claimantRelationship: {
@@ -184,7 +182,7 @@ const formConfig = {
           ],
           included: ['homePhone', 'mobilePhone', 'mailingAddress', 'email'],
           depends: formData => {
-            const { 'view:isLoggedIn': isLoggedIn } = formData;
+            const isLoggedIn = formData?.['view:isLoggedIn'] ?? false;
             const isNotVeteran = !preparerIsVeteran({ formData });
             return isLoggedIn && isNotVeteran;
           },
@@ -197,12 +195,6 @@ const formConfig = {
           schema: claimantContactMailing.schema,
           editModeOnReviewPage: true,
         },
-      },
-    },
-    veteranInfoForVeterans: {
-      title: 'Your Information',
-      depends: formData => preparerIsVeteran({ formData }),
-      pages: {
         veteranPersonalInformation: {
           title: `Your name and date of birth`,
           path: 'veteran-personal-information',
@@ -213,7 +205,7 @@ const formConfig = {
         },
         veteranContactMailing: {
           path: 'veteran-contact-mailing',
-          title: `Your  mailing address`,
+          title: `Your mailing address`,
           depends: formData => preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailing.uiSchema,
           schema: veteranContactMailing.schema,
@@ -245,8 +237,8 @@ const formConfig = {
         },
       },
     },
-    veteranInfoForNonVeterans: {
-      title: 'Veteran Information',
+    veteranInfo: {
+      title: 'Veteran information',
       depends: formData => !preparerIsVeteran({ formData }),
       pages: {
         veteranPersonalInformation: {
@@ -258,8 +250,8 @@ const formConfig = {
           editModeOnReviewPage: true,
         },
         veteranContactMailingClaimant: {
-          path: 'veteran-contact-mailing',
-          title: `Veteran's  mailing address`,
+          path: 'veteran-contact-mailing-address',
+          title: `The Veteran's mailing address`,
           depends: formData => !preparerIsVeteran({ formData }),
           uiSchema: veteranContactMailingClaimant.uiSchema,
           schema: veteranContactMailingClaimant.schema,

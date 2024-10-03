@@ -139,6 +139,10 @@ export const BCNR = 'BCNR';
 export const AFDRB = 'AFDRB';
 
 export const ROUTES = Object.freeze({
+  // v1
+  QUESTIONS: 'questions',
+  GUIDANCE: 'guidance',
+  // v2
   HOME: 'introduction',
   SERVICE_BRANCH: 'service-branch',
   DISCHARGE_YEAR: 'discharge-year',
@@ -153,11 +157,12 @@ export const ROUTES = Object.freeze({
   PRIOR_SERVICE: 'prior-service',
   FAILURE_TO_EXHAUST: 'failure-to-exhaust',
   REVIEW: 'review',
-  RESULT: 'result',
+  RESULTS: 'results',
+  DD214: 'request-dd214-v2',
 });
 
 export const questionsToClearMap = Object.freeze({
-  SERVICE_BRANCH: [],
+  SERVICE_BRANCH: [SHORT_NAME_MAP.PREV_APPLICATION_TYPE],
   DISCHARGE_YEAR: [
     SHORT_NAME_MAP.DISCHARGE_MONTH,
     SHORT_NAME_MAP.FAILURE_TO_EXHAUST,

@@ -54,7 +54,7 @@ class PatientComposePage {
 
   verifySendMessageConfirmationMessageText = () => {
     cy.get('[data-testid="alert-text"]').should(
-      'contain.text',
+      'include.text',
       Data.SECURE_MSG_SENT_SUCCESSFULLY,
     );
   };
@@ -120,7 +120,7 @@ class PatientComposePage {
   };
 
   verifyFocusOnErrorMessage = () => {
-    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT'];
+    const allowedTags = ['INPUT', 'TEXTAREA', 'SELECT', `BUTTON`];
     return cy.focused().then(el => {
       const tagName = el.prop('tagName');
       expect(tagName).to.be.oneOf(allowedTags);
@@ -242,6 +242,10 @@ class PatientComposePage {
     cy.get(Locators.ALERTS.ERROR_MESSAGE)
       .should('have.text', errormessage)
       .should('be.visible');
+
+    cy.get(`.attachments-section`)
+      .find(`.file-input`)
+      .should(`have.css`, `border-left-width`, `4px`);
   };
 
   closeAttachmentErrorModal = () => {

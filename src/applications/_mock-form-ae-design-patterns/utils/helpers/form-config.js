@@ -1,3 +1,5 @@
+import { DEPENDENT_VIEW_FIELDS, INSURANCE_VIEW_FIELDS } from '../constants';
+
 /**
  * Helper that determines if the form data is missing the Veteran's date of birth
  * @param {Object} formData - the current data object passed from the form
@@ -179,6 +181,18 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
 }
 
 /**
+ * Helper that determines if dependent information needs to be collected
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if viewfield is set to `false`
+ */
+export function includeDependentInformation(formData) {
+  return (
+    includeHouseholdInformation(formData) &&
+    !formData[DEPENDENT_VIEW_FIELDS.skip]
+  );
+}
+
+/**
  * Helper that determines if insurance policy information needs to be collected
  * @param {Object} formData - the current data object passed from the form
  * @returns {Boolean} - true if viewfield is set to `false`
@@ -186,4 +200,13 @@ export function spouseAddressDoesNotMatchVeterans(formData) {
 export function collectMedicareInformation(formData) {
   const { isEnrolledMedicarePartA } = formData['view:isEnrolledMedicarePartA'];
   return isEnrolledMedicarePartA;
+}
+
+/**
+ * Helper that determines if insurance policy information needs to be collected
+ * @param {Object} formData - the current data object passed from the form
+ * @returns {Boolean} - true if viewfield is set to `false`
+ */
+export function includeInsuranceInformation(formData) {
+  return !formData[INSURANCE_VIEW_FIELDS.skip];
 }

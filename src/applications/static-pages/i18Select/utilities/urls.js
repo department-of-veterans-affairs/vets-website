@@ -84,4 +84,12 @@ export default {
     en: '/disability/dependency-indemnity-compensation/',
     es: '/disability/dependency-indemnity-compensation-esp/',
   },
+  signingIn: {
+    en: '/resources/signing-in-to-vagov/',
+    es: '/resources/signing-in-to-vagov-esp/',
+  },
+  createSignIn: {
+    en: '/resources/what-to-bring-to-create-your-online-sign-in-account/',
+    es: '/resources/what-to-bring-to-create-your-online-sign-in-account-esp/',
+  },
 };

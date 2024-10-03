@@ -15,6 +15,7 @@ export const Actions = {
   },
   Breadcrumbs: {
     SET_BREAD_CRUMBS: 'SM_SET_BREAD_CRUMBS',
+    SET_PREVIOUS_URL: 'SET_PREVIOUS_URL',
   },
   Category: {
     GET_LIST: 'SM_CATEGORY_GET_LIST',

@@ -35,7 +35,7 @@ describe('TaskTabs Component', () => {
 
   it('renders correct tabs for pattern2', () => {
     const mockLocation = {
-      pathname: '/2/task-blue',
+      pathname: '/2/task-red',
     };
 
     const { getByText, getAllByRole } = render(
@@ -51,7 +51,7 @@ describe('TaskTabs Component', () => {
     const tabElements = getAllByRole('listitem');
     expect(tabElements).to.have.length(tabsConfig.pattern2.length + 1);
 
-    const blueTaskTab = getByText('Blue');
+    const blueTaskTab = getByText('Red');
     expect(blueTaskTab.closest('li')).to.have.class('vads-u-font-weight--bold');
   });
 
@@ -99,7 +99,7 @@ describe('TaskTabs Component', () => {
 
     const yellowTab = getByText('Yellow Task');
     expect(yellowTab.getAttribute('href')).to.equal(
-      '/mock-form-ae-design-patterns/1/task-yellow/introduction?loggedIn=true',
+      '/mock-form-ae-design-patterns/1/task-yellow',
     );
   });
 });

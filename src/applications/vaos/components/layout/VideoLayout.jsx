@@ -7,7 +7,6 @@ import {
   selectConfirmedAppointmentData,
   selectIsAtlasVideo,
 } from '../../appointment-list/redux/selectors';
-import { selectFeatureMedReviewInstructions } from '../../redux/selectors';
 import VideoLayoutVA from './VideoLayoutVA';
 import { isClinicVideoAppointment } from '../../services/appointment';
 import DetailPageLayout, {
@@ -45,10 +44,6 @@ export default function VideoLayout({ data: appointment }) {
   } = useSelector(
     state => selectConfirmedAppointmentData(state, appointment),
     shallowEqual,
-  );
-
-  const featureMedReviewInstructions = useSelector(
-    selectFeatureMedReviewInstructions,
   );
 
   const isAtlasVideo = useSelector(() => selectIsAtlasVideo(appointment));
@@ -114,8 +109,7 @@ export default function VideoLayout({ data: appointment }) {
         </Section>
       )}
 
-      {featureMedReviewInstructions &&
-        !isPastAppointment &&
+      {!isPastAppointment &&
         (APPOINTMENT_STATUS.booked === status ||
           APPOINTMENT_STATUS.cancelled === status) && (
           <Prepare>
