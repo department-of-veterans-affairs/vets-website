@@ -17,8 +17,8 @@ export const blankType = {
 };
 
 export const yesNoType = {
-  YES: 'yes',
-  NO: 'no',
+  YES: true,
+  NO: false,
 };
 
 export const goalTypes = Object.freeze({
