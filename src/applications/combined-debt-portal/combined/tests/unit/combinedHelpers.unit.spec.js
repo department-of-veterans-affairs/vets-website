@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import moment from 'moment';
+import { addMonths, subMonths } from 'date-fns';
 import { getMedicalCenterNameByID } from 'platform/utilities/medical-centers/medical-centers';
 import {
   APP_TYPES,
@@ -12,6 +12,7 @@ import {
   verifyCurrentBalance,
   transform,
   setPageFocus,
+  formatDate,
 } from '../../utils/helpers';
 
 describe('Helper Functions', () => {
@@ -68,18 +69,33 @@ describe('Helper Functions', () => {
     });
   });
 
+  describe('formatDate - expected output example: October 13, 2018', () => {
+    const expectedResult = 'October 13, 2018';
+
+    it("should return correctly formatted date from string that uses '/' delimiter", () => {
+      const simpleDate = '10/13/2018';
+      expect(formatDate(simpleDate)).to.equal(expectedResult);
+    });
+
+    it("should return correctly formatted date from string that has '-' delimiter", () => {
+      const simpleDate = '10-13-2018';
+      expect(formatDate(simpleDate)).to.equal(expectedResult);
+    });
+
+    it('should return correctly formatted date from string from new date object', () => {
+      const simpleDate = new Date('10/13/2018');
+      expect(formatDate(simpleDate)).to.equal(expectedResult);
+    });
+  });
+
   describe('verifyCurrentBalance', () => {
     it('should return true if current date is on or before due date', () => {
-      const futureDate = moment()
-        .add(1, 'month')
-        .format('MM-DD-YYYY');
+      const futureDate = addMonths(new Date(), 1);
       expect(verifyCurrentBalance(futureDate)).to.be.true;
     });
 
     it('should return false if current date is after due date', () => {
-      const pastDate = moment()
-        .subtract(1, 'month')
-        .format('MM-DD-YYYY');
+      const pastDate = subMonths(new Date(), 1);
       expect(verifyCurrentBalance(pastDate)).to.be.false;
     });
   });
