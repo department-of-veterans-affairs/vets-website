@@ -121,6 +121,7 @@ export class ConfirmationPage extends React.Component {
     if (key === 'All') {
       this.setState(() => ({
         benefits: this.props.results.data,
+        resultsCount: this.props.results.data.length,
       }));
       return;
     }
