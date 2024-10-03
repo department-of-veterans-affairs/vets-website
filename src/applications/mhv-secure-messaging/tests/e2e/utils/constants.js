@@ -59,6 +59,7 @@ export const Locators = {
   ATTACHMENT_COUNT: '[data-testid="attachments-count"]',
   MESSAGE_SUBJECT: '#inputField',
   MESSAGE_BODY: `#input-type-textarea`,
+  MESSAGE_BODY_FIELD: '[data-testid="message-body-field"]',
   MESSAGES_BODY_DRAFT: '.message-body-draft-preview',
   CERNER: '[data-testid="cerner-facility"]',
   CERNER_TEXT: '[data-testid="single-cerner-facility-text"]',
@@ -344,6 +345,7 @@ export const Data = {
     GO_BACK: `Go back`,
     SAVE_CHANGES: 'Save changes',
     DELETE_CHANGES: 'Delete changes',
+    KEEP_EDITING: 'Keep editing',
   },
   CL_LINK_TEXT: 'Show more teams in your contact list',
 };

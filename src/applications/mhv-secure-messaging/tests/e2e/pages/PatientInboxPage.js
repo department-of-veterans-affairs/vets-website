@@ -454,7 +454,7 @@ class PatientInboxPage {
   };
 
   verifySignature = () => {
-    cy.get(Locators.MESSAGES_BODY)
+    cy.get(Locators.MESSAGE_BODY_FIELD)
       .should('have.attr', 'value')
       .and('not.be.empty');
   };

@@ -13,6 +13,7 @@ describe('SM back navigation', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
   });
+
   it('user navigate to inbox folder after message sent', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient(requestBody.recipientId);

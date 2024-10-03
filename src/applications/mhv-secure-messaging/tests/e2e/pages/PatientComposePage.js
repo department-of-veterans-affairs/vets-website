@@ -31,9 +31,9 @@ class PatientComposePage {
       });
   };
 
-  pushSendMessageWithKeyboardPress = () => {
+  sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
-    cy.get(Locators.MESSAGES_BODY).click();
+    cy.get(Locators.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
   };
@@ -78,10 +78,7 @@ class PatientComposePage {
   };
 
   getMessageSubjectField = () => {
-    return cy
-      .get(Locators.MESSAGE_SUBJECT)
-      .shadow()
-      .find('[name="message-subject"]');
+    return cy.get(Locators.MESSAGE_SUBJECT);
   };
 
   getMessageBodyField = () => {
@@ -126,10 +123,7 @@ class PatientComposePage {
   };
 
   keyboardNavToMessageBodyField = () => {
-    return cy
-      .get(Locators.MESSAGES_BODY)
-      .shadow()
-      .find('textarea');
+    return cy.get(Locators.MESSAGE_BODY);
   };
 
   keyboardNavToMessageSubjectField = () => {
@@ -163,7 +157,7 @@ class PatientComposePage {
       `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
-    cy.get(Locators.MESSAGES_BODY).click();
+    cy.get(Locators.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -241,6 +235,10 @@ class PatientComposePage {
     cy.get(`.attachments-section`)
       .find(`.file-input`)
       .should(`have.css`, `border-left-width`, `4px`);
+  };
+
+  closeAlertModal = () => {
+    cy.get(`.first-focusable-child`).click({ force: true });
   };
 
   closeAttachmentErrorModal = () => {
