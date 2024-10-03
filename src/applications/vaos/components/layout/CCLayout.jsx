@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { shallowEqual } from 'recompose';
 import { useSelector } from 'react-redux';
 import DetailPageLayout, {
+  Details,
   Section,
   What,
   When,
@@ -88,16 +89,7 @@ export default function CCLayout({ data: appointment }) {
             </>
           )}
         </Section>
-        <Section heading="Details you shared with your provider">
-          <span>
-            Reason:{' '}
-            {`${reason && reason !== 'none' ? reason : 'Not available'}`}
-          </span>
-          <br />
-          <span className="vaos-u-word-break--break-word">
-            Other details: {`${otherDetails || 'Not available'}`}
-          </span>
-        </Section>
+        <Details reason={reason} otherDetails={otherDetails} />
         {!isPastAppointment &&
           (APPOINTMENT_STATUS.booked === status ||
             APPOINTMENT_STATUS.cancelled === status) && (
