@@ -60,6 +60,7 @@ const formConfig = {
   dev: {
     showNavLinks: true,
   },
+  hideUnauthedStartLink: true,
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
   preSubmitInfo: {
