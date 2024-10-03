@@ -4,7 +4,7 @@ import PatientInboxPage from '../pages/PatientInboxPage';
 import PatientComposePage from '../pages/PatientComposePage';
 import FolderLoadPage from '../pages/FolderLoadPage';
 import GeneralFunctionsPage from '../pages/GeneralFunctionsPage';
-import { AXE_CONTEXT, Data, Alerts, Locators } from '../utils/constants';
+import { AXE_CONTEXT, Data, Alerts } from '../utils/constants';
 
 describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
   beforeEach(() => {
@@ -36,8 +36,7 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  // TODO this is a bug - verify with Vic
-  it.skip('navigate away with added attachment', () => {
+  it('navigate away with added attachment', () => {
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();
@@ -74,8 +73,8 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
   it('navigate away with removed data', () => {
     PatientComposePage.selectRecipient(0);
-    cy.get(Locators.MESSAGE_SUBJECT).clear({ force: true });
-    cy.get(Locators.MESSAGE_BODY).clear({ force: true });
+    PatientComposePage.getMessageSubjectField().clear({ force: true });
+    PatientComposePage.getMessageBodyField().clear({ force: true });
 
     FolderLoadPage.backToParentFolder();
     PatientComposePage.verifyCantSaveAlert(Data.MESSAGE_CANNOT_SAVE_YET);
@@ -88,8 +87,8 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
 
   it('navigate away with removed data and added attachment', () => {
     PatientComposePage.selectRecipient(0);
-    cy.get(Locators.MESSAGE_SUBJECT).clear({ force: true });
-    cy.get(Locators.MESSAGE_BODY).clear({ force: true });
+    PatientComposePage.getMessageSubjectField().clear({ force: true });
+    PatientComposePage.getMessageBodyField().clear({ force: true });
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();

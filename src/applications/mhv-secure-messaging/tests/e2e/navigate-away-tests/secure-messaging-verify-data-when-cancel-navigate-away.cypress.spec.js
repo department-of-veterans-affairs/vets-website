@@ -28,8 +28,5 @@ describe('SM VERIFY COMPOSE DATA ON CANCEL NAVIGATE AWAY', () => {
     PatientComposePage.closeAlertModal();
 
     PatientComposePage.verifyComposePageValuesRetainedAfterContinueEditing();
-
-    PatientComposePage.verifyRecipientNameText();
-    PatientComposePage.verifySubjectFieldText('testSubject');
   });
 });

@@ -23,10 +23,12 @@ describe('Secure Messaging - Compose with Clickable URL', () => {
       `${requestBodyUpdated.subject}`,
     );
     PatientComposePage.getMessageBodyField().type(
-      `${requestBodyUpdated.body}`,
+      `\n${requestBodyUpdated.body}`,
       { force: true },
     );
-    PatientComposePage.verifyClickableURLinMessageBody('https://www.va.gov/');
+    PatientComposePage.verifyClickableURLinMessageBody(
+      `\n${requestBodyUpdated.body}`,
+    );
     cy.injectAxe();
     cy.axeCheck(AXE_CONTEXT);
   });

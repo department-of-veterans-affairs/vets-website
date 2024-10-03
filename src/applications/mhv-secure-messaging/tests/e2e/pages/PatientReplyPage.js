@@ -99,7 +99,10 @@ class PatientReplyPage {
   };
 
   getMessageBodyField = () => {
-    return cy.get(Locators.MESSAGE_BODY);
+    return cy
+      .get(Locators.FIELDS.MESSAGE_BODY)
+      .shadow()
+      .find(`#input-type-textarea`);
   };
 
   verifySendMessageConfirmationMessageText = () => {

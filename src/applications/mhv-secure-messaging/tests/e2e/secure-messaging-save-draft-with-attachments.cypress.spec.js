@@ -6,7 +6,7 @@ import mockSavedDraftResponse from './fixtures/draftPageResponses/single-saved-d
 import { AXE_CONTEXT, Data, Alerts } from './utils/constants';
 
 describe('Secure Messaging Draft Save with Attachments', () => {
-  it.skip('Axe Check Draft Save with Attachments', () => {
+  it('Axe Check Draft Save with Attachments', () => {
     SecureMessagingSite.login();
     PatientInboxPage.loadInboxMessages();
     PatientMessageDraftsPage.loadDrafts();

@@ -45,12 +45,11 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     cy.axeCheck(AXE_CONTEXT);
   });
 
-  it.skip(`verify user can't save a message with electronic signature`, () => {
+  it(`verify user can't save a message with electronic signature`, () => {
     PatientComposePage.getElectronicSignatureField().type('Dusty Dump ', {
       force: true,
     });
 
-    // TODO clarify `unchecked save draft` behavior
     PatientComposePage.clickElectronicSignatureCheckbox();
 
     cy.get(Locators.BUTTONS.SAVE_DRAFT).click({ force: true });
@@ -73,7 +72,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     PatientComposePage.closeESAlertModal();
   });
 
-  it.skip(`verify user can't save a message with electronic signature and attachment`, () => {
+  it(`verify user can't save a message with electronic signature and attachment`, () => {
     PatientComposePage.getElectronicSignatureField().type('Dusty Dump ', {
       force: true,
     });

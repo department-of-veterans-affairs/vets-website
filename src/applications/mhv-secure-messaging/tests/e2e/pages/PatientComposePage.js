@@ -33,7 +33,7 @@ class PatientComposePage {
 
   sendMessageByKeyboard = () => {
     cy.intercept('POST', Paths.SM_API_EXTENDED, mockDraftMessage).as('message');
-    cy.get(Locators.MESSAGE_BODY).click();
+    cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SEND);
     cy.realPress(['Enter']);
   };
@@ -78,23 +78,35 @@ class PatientComposePage {
   };
 
   getMessageSubjectField = () => {
-    return cy.get(Locators.MESSAGE_SUBJECT);
+    return cy
+      .get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .shadow()
+      .find(`#inPutField`);
   };
 
   getMessageBodyField = () => {
-    return cy.get(Locators.MESSAGE_BODY);
+    return cy
+      .get(Locators.FIELDS.MESSAGE_BODY)
+      .shadow()
+      .find(`#input-type-textarea`);
   };
 
   getElectronicSignatureField = () => {
-    return cy.get('va-card').find('#inputField');
+    return cy.get(Locators.FIELDS.EL_SIGN).find('#inputField');
   };
 
   enterDataToMessageSubject = (text = this.messageSubjectText) => {
-    cy.get(Locators.MESSAGE_SUBJECT).type(text, { force: true });
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .shadow()
+      .find(`#inputField`)
+      .type(text, { force: true });
   };
 
   enterDataToMessageBody = (text = this.messageBodyText) => {
-    cy.get(Locators.MESSAGE_BODY).type(text, { force: true });
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
+      .shadow()
+      .find(`#input-type-textarea`)
+      .type(text, { force: true });
   };
 
   verifyFocusOnMessageAttachment = () => {
@@ -123,12 +135,12 @@ class PatientComposePage {
   };
 
   keyboardNavToMessageBodyField = () => {
-    return cy.get(Locators.MESSAGE_BODY);
+    return cy.get(Locators.FIELDS.MESSAGE_BODY);
   };
 
   keyboardNavToMessageSubjectField = () => {
     return cy
-      .tabToElement(Locators.MESSAGE_SUBJECT)
+      .tabToElement(Locators.FIELDS.MESSAGE_SUBJECT)
       .shadow()
       .find('#inputField');
   };
@@ -157,7 +169,7 @@ class PatientComposePage {
       `${Paths.SM_API_BASE}/message_drafts`,
       mockDraftResponse,
     ).as('draft_message');
-    cy.get(Locators.MESSAGE_BODY).click();
+    cy.get(Locators.FIELDS.MESSAGE_BODY).click();
     cy.tabToElement(Locators.BUTTONS.SAVE_DRAFT);
     cy.realPress('Enter');
     cy.wait('@draft_message').then(xhr => {
@@ -323,14 +335,13 @@ class PatientComposePage {
   };
 
   verifyComposePageValuesRetainedAfterContinueEditing = () => {
-    cy.get(Locators.FIELDS.MESS_SUBJECT).should(
-      'have.value',
-      this.messageSubjectText,
-    );
-    cy.get('#compose-message-body').should(
-      'have.value',
-      `\n\n\nName\nTitleTest${this.messageBodyText}`,
-    );
+    this.verifyRecipientNameText();
+    cy.get(Locators.FIELDS.MESSAGE_SUBJECT)
+      .invoke(`val`)
+      .should(`contain`, this.messageSubjectText);
+    cy.get(Locators.FIELDS.MESSAGE_BODY)
+      .invoke(`val`)
+      .should(`contain`, this.messageBodyText);
   };
 
   verifyRecipientNameText = (recipient = mockRecipients.data[0].id) => {
@@ -341,17 +352,13 @@ class PatientComposePage {
       .should('contain', mockRecipients.data[0].attributes.name);
   };
 
-  verifySubjectFieldText = subject => {
-    cy.get(Locators.MESSAGE_SUBJECT).should('have.value', subject);
-  };
-
   verifyClickableURLinMessageBody = url => {
     const {
       signatureName,
       signatureTitle,
       includeSignature,
     } = mockSignature.data;
-    cy.get(Locators.MESSAGE_BODY_FIELD).should(
+    cy.get(Locators.FIELDS.MESSAGE_BODY).should(
       'have.attr',
       'value',
       `${includeSignature &&
