@@ -148,6 +148,8 @@ export const delFolder = folderId => async dispatch => {
 export const renameFolder = (folderId, newName) => async dispatch => {
   try {
     await updateFolderName(folderId, newName);
+    await dispatch(getFolders());
+    await dispatch(retrieveFolder(folderId));
     dispatch(
       addAlert(
         Constants.ALERT_TYPE_SUCCESS,
