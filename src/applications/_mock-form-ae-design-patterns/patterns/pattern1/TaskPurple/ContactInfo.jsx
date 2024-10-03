@@ -212,6 +212,7 @@ const ContactInfo = ({
       status="success"
       background-only
       role="alert"
+      tabindex="0"
     >
       <h2 slot="headline">We’ve updated your home phone number</h2>
       <p className="vads-u-margin-y--0">

@@ -62,6 +62,8 @@ const SaveInProgressInfo = ({ formConfig, pageList }) => {
         class="vads-u-margin-y--4"
         data-testid="ezr-login-alert"
         uswds
+        role="alert"
+        tabindex="0"
       >
         <h3 slot="headline">
           Sign in with a verified account to update your information online

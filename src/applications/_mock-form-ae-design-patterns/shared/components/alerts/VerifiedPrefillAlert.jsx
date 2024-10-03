@@ -7,6 +7,8 @@ const VerifiedPrefillAlert = (
     data-testid="ezr-verified-prefill-alert"
     slim
     uswds
+    tabindex="0"
+    role="alert"
   >
     <div>
       <strong>Note:</strong> Since you’re signed in to your account, we can

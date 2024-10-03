@@ -168,7 +168,7 @@ class SaveInProgressIntro extends React.Component {
       } else if (prefillAvailable && !verifiedPrefillAlert) {
         alert = (
           <div>
-            <va-alert status="info" uswds visible>
+            <va-alert status="info" uswds visible tabindex="0">
               <div className="usa-alert-body">
                 <strong>Note:</strong> Since you’re signed in to your account,
                 we can prefill part of your {appType} based on your account
@@ -242,7 +242,7 @@ class SaveInProgressIntro extends React.Component {
           )}
         </>
       ) : (
-        <va-alert status="info" uswds visible>
+        <va-alert status="info" uswds visible tabindex="0">
           <div className="usa-alert-body">
             <H className="usa-alert-heading">{alertTitle}</H>
             <div className="usa-alert-text">

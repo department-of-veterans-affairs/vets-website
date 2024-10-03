@@ -9,7 +9,10 @@ export default function PrefillMessage({ children, formContext }) {
   }
 
   return (
-    <div className="usa-alert usa-alert-info background-color-only schemaform-prefill-message">
+    <div
+      tabindex="0"
+      className="usa-alert usa-alert-info background-color-only schemaform-prefill-message"
+    >
       {children || message}
     </div>
   );
