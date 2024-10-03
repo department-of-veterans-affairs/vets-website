@@ -389,3 +389,30 @@ export const scrollTo = (element, behavior = 'smooth') => {
 export const scrollToTop = () => {
   window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
 };
+
+export const scrollIfFocusedAndNotInView = (offset = 0) => {
+  const element = document.activeElement; // Get the currently focused element
+
+  if (element) {
+    const rect = element.getBoundingClientRect();
+
+    // Check if the element is out of the viewport
+    const inViewport =
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) &&
+      rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+
+    if (!inViewport) {
+      // Calculate the position to scroll to, with an offset from the top
+      const scrollY = window.scrollY + rect.top - offset;
+
+      // Scroll to the element with the offset
+      window.scrollTo({
+        top: scrollY,
+        behavior: 'smooth', // Optional smooth scroll
+      });
+    }
+  }
+};

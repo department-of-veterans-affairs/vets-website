@@ -3,10 +3,11 @@ import recordEvent from '@department-of-veterans-affairs/platform-monitoring/rec
 import piiReplace from './piiReplace';
 import {
   getConversationIdKey,
+  getEventSkillValue,
   getInAuthExp,
-  getIsRxSkill,
   getIsTrackingUtterances,
   getRecentUtterances,
+  setEventSkillValue,
   setIsRxSkill,
   setIsTrackingUtterances,
   setRecentUtterances,
@@ -60,16 +61,42 @@ function getEventValue(action) {
 }
 
 function isEventRxSkill(eventValue) {
-  return eventValue === 'RX_Skill';
+  return eventValue === 'va_vha_healthassistant_bot';
 }
 
-function handleSkillEvent(action, eventName, isRxSkillState) {
+function handleRxSkillEvent(action, eventName, isRxSkillState) {
   const actionEventName = getEventName(action);
   const eventValue = getEventValue(action);
 
   if (actionEventName === eventName && isEventRxSkill(eventValue)) {
     setIsRxSkill(isRxSkillState);
     sendWindowEventWithActionPayload('rxSkill', action);
+  }
+}
+
+function handleSkillEntryEvent(action) {
+  const actionEventName = getEventName(action);
+  const eventValue = getEventValue(action);
+  const apiName = `Chatbot Skill Entry - ${eventValue}`;
+  if (actionEventName === 'Skill_Entry') {
+    setEventSkillValue(eventValue);
+    recordEvent({
+      event: 'api_call',
+      'api-name': apiName,
+      topic: eventValue,
+      'api-status': 'successful',
+    });
+  }
+}
+
+function handleSkillExitEvent(action) {
+  const actionEventName = getEventName(action);
+  if (
+    action.payload.activity.text === 'Returning to the main chatbot...' ||
+    action.payload.activity.text === 'Did that answer your question?' ||
+    actionEventName === 'Skill_Exit'
+  ) {
+    setEventSkillValue(undefined);
   }
 }
 
@@ -152,21 +179,23 @@ export const processIncomingActivity = ({
     sendWindowEventWithActionPayload('webchat-message-activity', action);
   }
 
-  handleSkillEvent(action, 'Skill_Entry', true);
-  handleSkillEvent(action, 'Skill_Exit', false);
+  handleRxSkillEvent(action, 'Skill_Entry', true);
+  handleRxSkillEvent(action, 'Skill_Exit', false);
+  handleSkillEntryEvent(action);
+  handleSkillExitEvent(action);
 };
 
 export const processMicrophoneActivity = ({ action }) => () => {
-  const isRxSkill = getIsRxSkill();
+  const eventSkillValue = getEventSkillValue();
   if (action.payload.dictateState === 3) {
     recordEvent({
       event: 'chatbot-microphone-enable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      topic: eventSkillValue || undefined,
     });
   } else if (action.payload.dictateState === 0) {
     recordEvent({
       event: 'chatbot-microphone-disable',
-      topic: isRxSkill ? 'prescriptions' : undefined,
+      topic: eventSkillValue || undefined,
     });
   }
 };
