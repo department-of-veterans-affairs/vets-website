@@ -21,7 +21,7 @@ const Draft = ({
           <span className="usa-label vads-u-font-weight--normal vads-u-font-family--sans">
             Draft
           </span>
-          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--2">
+          <span className="vads-u-display--block vads-u-font-size--h3 vads-u-margin-top--1p5">
             {formatFormTitle(formTitle)}
           </span>
         </h3>
