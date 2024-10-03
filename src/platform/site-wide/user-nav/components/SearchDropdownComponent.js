@@ -729,6 +729,7 @@ class SearchDropdownComponent extends React.Component {
                 role="listbox"
                 aria-label="Search Suggestions"
                 id={`${id}-listbox`}
+                data-e2e-id="search-dropdown-options"
               >
                 {suggestions.map((suggestionString, i) => {
                   const suggestion = formatSuggestions
