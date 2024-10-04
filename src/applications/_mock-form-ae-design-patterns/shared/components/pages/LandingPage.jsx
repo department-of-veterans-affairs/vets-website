@@ -72,5 +72,7 @@ LandingPage.propTypes = {
   getPatterns: PropTypes.func.isRequired,
   getTabs: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired,
+  month: PropTypes.string,
   rootUrl: PropTypes.string,
+  year: PropTypes.string,
 };
