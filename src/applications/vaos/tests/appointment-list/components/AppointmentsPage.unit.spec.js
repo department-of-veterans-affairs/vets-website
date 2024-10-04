@@ -18,6 +18,8 @@ import AppointmentsPage from '../../../appointment-list/components/AppointmentsP
 import { mockVAOSAppointmentsFetch } from '../../mocks/helpers';
 import { getVAOSRequestMock } from '../../mocks/mock';
 
+// non-functional-change
+
 const initialState = {
   featureToggles: {
     vaOnlineSchedulingCancel: true,
