@@ -10,10 +10,7 @@ describe('Secure Messaging Digital Signature Error flows', () => {
     PatientInboxPage.navigateToComposePage();
     PatientComposePage.selectRecipient('Record Amendment Admin');
     PatientComposePage.selectCategory();
-    cy.get(`[data-testid="message-subject-field"]`)
-      .shadow()
-      .find(`#inputField`)
-      .type(`DS test`);
+    PatientComposePage.getMessageSubjectField().type(`ES test`);
     PatientComposePage.getMessageBodyField().type(`\nDS tests text`, {
       force: true,
     });
