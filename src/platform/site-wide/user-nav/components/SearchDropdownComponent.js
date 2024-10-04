@@ -815,6 +815,7 @@ class SearchDropdownComponent extends React.Component {
               className={`search-dropdown-options full-width-suggestions vads-u-width--full vads-u-padding--x-1 vads-u-background-color--white vads-u-width--full ${suggestionsListClassName}`}
               role="listbox"
               id={`${id}-listbox`}
+              data-e2e-id="search-dropdown-options"
             >
               {suggestions.map((suggestionString, i) => {
                 const suggestion = formatSuggestions
