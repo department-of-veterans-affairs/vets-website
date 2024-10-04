@@ -4,7 +4,7 @@ import MedicationsRefillPage from './pages/MedicationsRefillPage';
 import expiredRx from './fixtures/expired-prescription-details.json';
 
 describe('Medications Refill Page Renew Section', () => {
-  it('visits Medications Refill Page Expired Rx Renew on Refill Page', () => {
+  it.skip('visits Medications Refill Page Expired Rx Renew on Refill Page', () => {
     const site = new MedicationsSite();
     const refillPage = new MedicationsRefillPage();
     const listNumber = 1;

@@ -45,10 +45,10 @@ describe('Questionnaire Form - Title Function', () => {
       expect(title).to.equal('Your benefits and resources');
     });
 
-    it('should return "Review your entries" when on the review page', () => {
+    it('should return "Review your information" when on the review page', () => {
       const currentLocation = { pathname: '/review-and-submit' };
       const title = formConfig.title({ currentLocation });
-      expect(title).to.equal('Review your entries');
+      expect(title).to.equal('Review your information');
     });
 
     it('should return "Benefit and resource recommendation tool" by default', () => {

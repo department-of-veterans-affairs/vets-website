@@ -165,7 +165,6 @@
   "is-this-your-current-next-of-kin-information": "¿Es esta su información de pariente más cercano actual?",
   "its-time-to-check-in-for-your-time-appointment": "Es hora de registrarse para su cita",
   "latest-update": "<bold>Última actualización:</bold> {{ date, longAtTime }}",
-  "learn-how-file-claims-other-expenses": "Aprender a presentar reclamaciones por otros gastos",
   "loading": "Cargando...",
   "loading-your-appointment-details": "Cargando los detalles de su cita",
   "loading-your-appointment-information": "Cargando la información de su cita…",
