@@ -65,6 +65,9 @@ export const IntroductionPage = ({ route }) => {
       content={content}
       ombInfo={ombInfo}
       childContent={childContent}
+      devOnly={{
+        forceShowFormControls: true,
+      }}
     />
   );
 };
