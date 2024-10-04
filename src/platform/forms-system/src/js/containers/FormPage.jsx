@@ -378,7 +378,7 @@ console.log(route.formConfig.formOptions)
           uploadFile={this.props.uploadFile}
           onChange={this.onChange}
           onSubmit={this.onSubmit}
-          showErrorList={route.formConfig.formOptions.showErrorList}
+          showErrorList={route.formConfig.formOptions?.showErrorList}
         >
           {pageContentBeforeButtons}
           {hideNavButtons ? (
