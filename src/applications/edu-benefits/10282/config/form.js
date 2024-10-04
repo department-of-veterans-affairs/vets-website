@@ -117,8 +117,17 @@ const formConfig = {
           },
         },
         genderRaceQuestion: {
-          title: 'Your personal information',
+          title: 'Optional demographic information',
           path: 'applicant-information-5',
+          CustomPageReview: props => (
+            <CustomPageReview
+              data={props.data}
+              editPage={props.editPage}
+              title="Optional demographic information"
+              question="Do you want to answer these optional questions?"
+              dataValue="raceAndGender"
+            />
+          ),
           uiSchema: genderRaceQuestion.uiSchema,
           schema: genderRaceQuestion.schema,
         },
