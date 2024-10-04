@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { setData } from '~/platform/forms-system/src/js/actions';
 import { VaButton } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { getNextPagePath } from '~/platform/forms-system/src/js/routing';
-import { parsePhoneNumber } from '../utilities/helpers';
+import { parsePhoneNumber } from '../utilities/parsePhoneNumber';
 import fetchRepStatus from '../api/fetchRepStatus';
 
 const SearchResult = ({
@@ -103,7 +103,9 @@ const SearchResult = ({
                 {representativeName}
               </h3>
               {accreditedOrganizations?.length === 1 && (
-                <p style={{ marginTop: 0 }}>{accreditedOrganizations[0]}</p>
+                <p style={{ marginTop: 0 }}>
+                  {accreditedOrganizations[0]?.attributes?.name}
+                </p>
               )}
             </>
           )}

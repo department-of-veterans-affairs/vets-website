@@ -13,7 +13,7 @@ import {
   getLocationsByTypeOfCareAndSiteIds,
 } from '../../../services/location';
 import facilityDetails from '../../../services/mocks/v2/facilities.json';
-import ccProviders from '../../../services/mocks/var/cc_providers.json';
+import ccProviders from '../../../services/mocks/v2/cc_providers.json';
 import { VHA_FHIR_ID } from '../../../utils/constants';
 import { mockFacilitiesFetch } from '../../mocks/fetch';
 import { createMockFacility } from '../../mocks/data';
@@ -202,7 +202,7 @@ describe('VAOS Services: Location ', () => {
       });
 
       expect(global.fetch.firstCall.args[0]).to.contain(
-        '/facilities_api/v1/ccp/provider?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133NN1002X&trim=true',
+        '/facilities_api/v2/ccp/provider?latitude=-72.73&longitude=42.12&radius=60&per_page=15&page=1&bbox[]=-73.598&bbox[]=39.194&bbox[]=-71.862&bbox[]=45.046&specialties[]=133NN1002X&trim=true',
       );
       expect(data.length).to.equal(ccProviders.data.length);
       const firstProvider = ccProviders.data[0];

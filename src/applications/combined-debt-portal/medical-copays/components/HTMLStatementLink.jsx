@@ -1,14 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import recordEvent from '~/platform/monitoring/record-event';
+import { formatDate } from '../../combined/utils/helpers';
 
 const HTMLStatementLink = ({ id, statementDate }) => {
-  const formattedStatementDate = date => {
-    return moment(date, 'MM-DD-YYYY').format('MMMM D, YYYY');
-  };
-
   return (
     <li>
       <Link
@@ -18,7 +14,7 @@ const HTMLStatementLink = ({ id, statementDate }) => {
           recordEvent({ event: 'cta-link-click-copay-statement-link' });
         }}
       >
-        {formattedStatementDate(statementDate)} statement
+        {formatDate(statementDate)} statement
       </Link>
     </li>
   );

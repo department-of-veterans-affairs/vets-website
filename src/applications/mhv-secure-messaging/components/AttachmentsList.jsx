@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import recordEvent from 'platform/monitoring/record-event';
+import { datadogRum } from '@datadog/browser-rum';
 import { focusElement } from '@department-of-veterans-affairs/platform-utilities/ui';
 import { VaAlert } from '@department-of-veterans-affairs/component-library/dist/react-bindings';
 import { closeAlert } from '../actions/alerts';
@@ -161,6 +162,7 @@ const AttachmentsList = props => {
             background-only
             className="file-attached-success vads-u-margin-top--2"
             data-testid="file-attached-success-alert"
+            data-dd-action-name="File Attached Alert"
             disable-analytics
             full-width="false"
             show-icon
@@ -177,6 +179,7 @@ const AttachmentsList = props => {
               onClick={() => {
                 setAttachFileSuccess(false);
                 handleSuccessAlertClose();
+                datadogRum.addAction('File Attached Alert Closed');
               }}
             >
               <va-icon
