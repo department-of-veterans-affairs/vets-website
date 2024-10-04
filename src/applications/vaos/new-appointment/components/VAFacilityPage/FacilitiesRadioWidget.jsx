@@ -164,7 +164,7 @@ export default function FacilitiesRadioWidget({
                   </span>
                 )}
                 {isCerner &&
-                  !useOHDirectSchedule && (
+                  useOHDirectSchedule && (
                     <a href={getCernerURL('/pages/scheduling/upcoming')}>
                       Schedule online at <strong>My VA Health</strong>
                     </a>
