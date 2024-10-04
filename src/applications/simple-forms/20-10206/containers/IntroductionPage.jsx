@@ -58,7 +58,9 @@ export const IntroductionPage = ({ route, userIdVerified, userLoggedIn }) => {
       <ul>
         <li>Certificate of Release or Discharge from Active Duty (DD214)</li>
         <li>Claims file (C-file)</li>
-        <li>Disability examinations (C&P exams)</li>
+        <li>
+          Claim exams (sometimes called disability examinations or C&P exams){' '}
+        </li>
         <li>Official military personnel file (OMPF)</li>
         <li>Pension benefit documents</li>
         <li>Service or military treatment</li>
