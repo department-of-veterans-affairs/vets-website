@@ -17,10 +17,11 @@ integrationHelper() {
   if [[ -z "$slack_group" ]]; then
     echo "Error: no slackGroup found for product '$product'"
     exit 1
+  fi
 
   export SLACK_GROUP="$slack_group"
 
-  echo "SLACK_GROUP=$SLACK_GROUP" >> $GITHUB_ENV
+  echo "VETS_WEBSITE_CHANNEL_ID=$SLACK_GROUP" >> $GITHUB_ENV
   echo "INTEGRATION_APP_PATTERN=$INTEGRATION_APP_PATTERN" >> $GITHUB_ENV
 }
 

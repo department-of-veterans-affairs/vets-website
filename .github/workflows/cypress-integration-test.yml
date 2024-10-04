@@ -12,7 +12,7 @@ on:
   
 env:
     BUILDTYPE: vagovprod
-    # VETS_WEBSITE_CHANNEL_ID: ''
+    VETS_WEBSITE_CHANNEL_ID: ''
   
 jobs:
     validate-and-set-product-selection:
@@ -22,7 +22,7 @@ jobs:
         - name: Run integration helper script
           run: |
             chmod +x ./script/github-actions/cypress-integration-test.sh 
-            INTEGRATION_APP_PATH=$(./scripts/integration-helper.sh "${{ github.event.inputs.product }}") 
+            ./scripts/integration-helper.sh "${{ github.event.inputs.product }}"
   
     build: 
       name: Build
