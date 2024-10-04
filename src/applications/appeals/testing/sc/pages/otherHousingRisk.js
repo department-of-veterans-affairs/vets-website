@@ -10,7 +10,7 @@ import { OTHER_HOUSING_RISK_MAX } from '../constants';
 
 export default {
   uiSchema: {
-    otherHousingRiskTitle: {
+    'view:otherHousingRisk': {
       'ui:title': OtherHousingRisksTitle,
       'ui:options': {
         forceDivWrapper: true,
@@ -32,7 +32,7 @@ export default {
   schema: {
     type: 'object',
     properties: {
-      otherHousingRiskTitle: {
+      'view:otherHousingRisk': {
         type: 'object',
         properties: {},
       },

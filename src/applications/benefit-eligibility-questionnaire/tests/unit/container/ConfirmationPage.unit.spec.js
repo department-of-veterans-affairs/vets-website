@@ -126,6 +126,7 @@ const mockBenefits = [
 describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
   let wrapper;
   let store;
+  let container;
 
   const setup = storeState => {
     store = mockStore(storeState);
@@ -141,9 +142,10 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
   it('should sort benefits alphabetically', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const sortSelect = wrapper.getByText(/Sort results by/i).nextSibling;
-    fireEvent.change(sortSelect, { target: { value: 'alphabetical' } });
+    const sortSelect = container.querySelector('[name="sort-benefits"]');
+    sortSelect.__events.vaSelect({ target: { value: 'alphabetical' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -155,9 +157,10 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
   it('should filter benefits by category', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const filterSelect = wrapper.getByText(/Filter benefits by/i).nextSibling;
-    fireEvent.change(filterSelect, { target: { value: 'Employment' } });
+    const filterSelect = container.querySelector('[name="filter-benefits"]');
+    filterSelect.__events.vaSelect({ target: { value: 'Employment' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
@@ -168,9 +171,10 @@ describe('ConfirmationPage - sortBenefits and filterBenefits', () => {
 
   it('should show all benefits when "All" filter is selected', () => {
     wrapper = setup({ results: { data: mockBenefits } });
+    container = wrapper.container;
 
-    const filterSelect = wrapper.getByText(/Filter benefits by/i).nextSibling;
-    fireEvent.change(filterSelect, { target: { value: 'All' } });
+    const filterSelect = container.querySelector('[name="filter-benefits"]');
+    filterSelect.__events.vaSelect({ target: { value: 'All' } });
 
     const benefitNames = wrapper
       .getAllByRole('listitem')
