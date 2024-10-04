@@ -21,12 +21,12 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
   });
 
   it('navigate away with data change', () => {
-    PatientComposePage.selectRecipient();
+    PatientComposePage.selectRecipient(3);
 
     FolderLoadPage.backToParentFolder();
 
     PatientComposePage.verifyCantSaveAlert(
-      Alerts.SAVE_DRAFT,
+      Alerts.SAVE_CHANGES,
       Data.BUTTONS.SAVE_DRAFT,
     );
 
