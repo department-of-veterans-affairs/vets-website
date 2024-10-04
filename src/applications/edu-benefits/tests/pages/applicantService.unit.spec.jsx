@@ -8,9 +8,8 @@ import {
   DefinitionTester,
   submitForm,
 } from 'platform/testing/unit/schemaform-utils.jsx';
-import formConfig5495 from '../../5495/config/form';
-import formConfig5490 from '../../5490/config/form';
 import commonDefinitions from 'vets-json-schema/dist/definitions.json';
+import formConfig5490 from '../../5490/config/form';
 
 const pageTests = page => {
   const { schema, uiSchema } = page;
@@ -174,10 +173,6 @@ const pageTests = page => {
 };
 
 describe('Edu applicantServicePage', () => {
-  describe('5495', () =>
-    pageTests(
-      formConfig5495.chapters.applicantInformation.pages.applicantService,
-    ));
   describe('5490', () =>
     pageTests(
       formConfig5490.chapters.applicantInformation.pages.applicantService,

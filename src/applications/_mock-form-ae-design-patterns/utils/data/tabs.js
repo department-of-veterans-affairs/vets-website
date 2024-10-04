@@ -54,3 +54,12 @@ export const tabsConfig = {
     },
   ],
 };
+
+export const getTabs = location => {
+  const patternNumber = location?.pathname.match(/(\d+)/)?.[1];
+  const patternKey = `pattern${patternNumber || 'Fallback'}`;
+  return tabsConfig[patternKey] || [];
+};
+
+export const getPatterns = () =>
+  Object.keys(tabsConfig).map(key => key.replace('pattern', ''));
