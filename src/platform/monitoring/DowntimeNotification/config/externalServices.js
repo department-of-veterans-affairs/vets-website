@@ -76,5 +76,4 @@ export default {
   VAPRO_NOTIFICATION_SETTINGS: 'vaproNotificationSettings',
   VAPRO_HEALTH_CARE_CONTACTS: 'vaproPersonalHealthCareContacts',
   VAPRO_PERSONAL_INFO: 'vaproPersonalInformation',
-  UNKNOWN: 'unknown',
 };

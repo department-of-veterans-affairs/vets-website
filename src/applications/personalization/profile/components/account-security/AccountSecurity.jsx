@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import DowntimeNotification, {
-  externalServices,
-} from 'platform/monitoring/DowntimeNotification';
 import { focusElement } from 'platform/utilities/ui';
 
 import Headline from '../ProfileSectionHeadline';
@@ -23,12 +20,7 @@ class AccountSecurity extends Component {
     return (
       <>
         <Headline>Account security</Headline>
-        <DowntimeNotification
-          appTitle="account security page"
-          dependencies={[externalServices.UNKNOWN]}
-        >
-          <AccountSecurityContent />
-        </DowntimeNotification>
+        <AccountSecurityContent />
       </>
     );
   }
