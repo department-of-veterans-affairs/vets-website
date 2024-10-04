@@ -14,6 +14,17 @@ $anchor-font-size: 1.25rem; // == 20px
   }
 }
 
+$mhv-desktop-screen: 1008px;
+
+@media (min-width: $mhv-desktop-screen) {
+  .mhv-desktop-screen\:vads-u-display--block {
+    display: block !important;
+  }
+  .mhv-desktop-screen\:vads-u-display--none {
+    display: none !important;
+  }
+}
+
 .mhv-c-indicator::after {
   background-color: var(--vads-color-secondary);
   content: "";
