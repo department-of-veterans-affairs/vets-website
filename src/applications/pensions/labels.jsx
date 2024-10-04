@@ -56,4 +56,5 @@ export const careTypeLabels = {
 export const careFrequencyLabels = {
   ONCE_MONTH: 'Once a month',
   ONCE_YEAR: 'Once a year',
+  ONE_TIME: 'One-time',
 };
