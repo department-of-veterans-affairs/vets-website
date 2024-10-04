@@ -292,7 +292,7 @@ export class SearchMenu extends React.Component {
 
     return (
       <DropDownPanel
-        buttonText="Search"
+        buttonText="SearchING"
         clickHandler={clickHandler}
         cssClass={buttonClasses}
         dropdownPanelClassNames="vads-u-padding--0 vads-u-margin--0"
