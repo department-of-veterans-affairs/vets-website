@@ -5,8 +5,8 @@ const { raceAndGender } = fullSchema10282.definitions;
 const description = (
   <>
     <p>
-      The next few questions are about race, gender, education, and employment.
-      These questions are optional. You don’t need to answer them.
+      The next few questions are about race and gender. These questions are
+      optional. You don’t have to answer them.
     </p>
     <p>
       We ask these questions for statistical purposes. Your answers won’t affect
@@ -14,10 +14,18 @@ const description = (
     </p>
   </>
 );
+
+const uiTitle = (
+  <h3 className="vads-u-margin--0 vads-u-color--base">
+    Optional demographic information
+  </h3>
+);
+
 const uiSchema = {
+  'ui:title': uiTitle,
   'ui:description': description,
   raceAndGender: {
-    'ui:title': 'Do you want to answer the optional questions?',
+    'ui:title': 'Do you want to answer these optional questions?',
     'ui:widget': 'radio',
   },
 };
