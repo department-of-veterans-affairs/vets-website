@@ -196,9 +196,9 @@ export const getFormName = formData => {
 const isOrg = formData =>
   formData['view:selectedRepresentative']?.type === 'organization';
 
-const isAttorneyOrClaimsAgent = formData => {
+export const isAttorneyOrClaimsAgent = formData => {
   const repType =
-    formData['view:selectedRepresentative'].attributes?.individualType;
+    formData['view:selectedRepresentative']?.attributes?.individualType;
 
   return repType === 'attorney' || repType === 'claimsAgent';
 };

@@ -5,6 +5,7 @@ import configService from '../utilities/configService';
 import manifest from '../manifest.json';
 import IntroductionPage from '../containers/IntroductionPage';
 import ConfirmationPage from '../containers/ConfirmationPage';
+import { pdfTransform } from '../utilities/pdfTransform';
 
 import {
   authorizeMedical,
@@ -51,7 +52,8 @@ const formConfig = {
     appType: 'form',
     submitButtonText: 'Continue',
   },
-  submit: (form, _formConfig) => Promise.resolve(form), // This function will have to be updated when we're ready to call the create PDF endpoint
+  submitUrl: `staging.va.gov/representation_management/v0/pdf_generator2122`,
+  transformForSubmit: pdfTransform,
   trackingPrefix: 'appoint-a-rep-21-22-and-21-22A',
   introduction: IntroductionPage,
   confirmation: ConfirmationPage,
