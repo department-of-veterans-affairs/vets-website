@@ -1,3 +1,5 @@
+name: Cypress Integration Test Workflow
+
 on:
     workflow_dispatch:
       inputs:
