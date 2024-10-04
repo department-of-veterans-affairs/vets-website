@@ -56,6 +56,7 @@ const currentEmploymentHistoryPage = {
     ...arrayBuilderItemFirstPageTitleUI({
       title: 'Current employment',
       nounSingular: options.nounSingular,
+      hasMultipleItemPages: false,
     }),
     jobType: textUI('What kind of work do you currently do?'),
     jobHoursWeek: numberUI({
