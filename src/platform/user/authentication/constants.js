@@ -86,7 +86,6 @@ export const AUTHN_SETTINGS = {
 export const EXTERNAL_APPS = {
   MHV: CSP_IDS.MHV,
   MY_VA_HEALTH: 'myvahealth',
-  MY_VA_HEALTH2: 'myvahealth',
   EBENEFITS: 'ebenefits',
   VA_FLAGSHIP_MOBILE: 'vamobile',
   VA_OCC_MOBILE: 'vaoccmobile',
@@ -112,14 +111,17 @@ export const EXTERNAL_REDIRECTS = {
   [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
     cernerEnvPrefixes[environment.BUILDTYPE]
   }patientportal.myhealth.va.gov`,
-  [EXTERNAL_APPS.MY_VA_HEALTH2]: `https://${
-    oracleHealthEnvPrefixes[environment.BUILDTYPE]
-  }patientportal.myhealth.va.gov`,
   [EXTERNAL_APPS.MHV]: `${eAuthURL}/mhv-portal-web/eauth`,
   [EXTERNAL_APPS.EBENEFITS]: `${eAuthURL}/ebenefits`,
   [EXTERNAL_APPS.VA_FLAGSHIP_MOBILE]: '',
   [EXTERNAL_APPS.VA_OCC_MOBILE]: `${eAuthURL}/MAP/users/v2/landing`,
   [EXTERNAL_APPS.ARP]: `${environment.BASE_URL}/representative`,
+};
+
+export const EXTERNAL_REDIRECTS_ALT = {
+  [EXTERNAL_APPS.MY_VA_HEALTH]: `https://${
+    oracleHealthEnvPrefixes[environment.BUILDTYPE]
+  }patientportal.myhealth.va.gov`,
 };
 
 export const GA = {

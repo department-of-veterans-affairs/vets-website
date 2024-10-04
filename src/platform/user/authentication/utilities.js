@@ -90,26 +90,25 @@ export const sanitizeOracleHealth = ({ application }) => {
     externalRedirectUrl,
     alternateRedirectUrl,
   } = externalApplicationsConfig[application];
+
   const startingURL = new URL(window.location);
+  // return early if no `to` query param
+  if (!startingURL?.searchParams?.has('to')) {
+    return sanitizeUrl(externalRedirectUrl, sanitizeCernerParams());
+  }
 
   const [_nestedPath, _nestedTo] = decodeURIComponent(
-    startingURL.searchParams.get('to'),
+    startingURL?.searchParams?.get('to'),
   ).split('?');
+
   const updatedStartingURL = _nestedTo?.includes(alternateRedirectUrl)
     ? alternateRedirectUrl
     : externalRedirectUrl;
-  sessionStorage.setItem(
-    'ohl',
-    _nestedTo?.includes(alternateRedirectUrl) ? 'sandbox' : 'staging',
-  );
 
-  // eslint-disable-next-line sonarjs/prefer-immediate-return
-  const coolURL = sanitizeUrl(
+  return sanitizeUrl(
     `${updatedStartingURL}`,
     sanitizeCernerParams(_nestedPath),
   );
-
-  return coolURL;
 };
 
 export const generateReturnURL = returnUrl => {
