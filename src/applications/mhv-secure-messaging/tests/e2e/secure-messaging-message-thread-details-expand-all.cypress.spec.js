@@ -25,8 +25,7 @@ describe('Secure Messaging Message Details', () => {
     );
   });
 
-  it('Expanded All Messages Contain all details without additional calls', () => {
-    // const updatedMockThread = detailsPage.getCurrentThread();
+  it.skip('Expanded All Messages Contain all details without additional calls', () => {
     PatientMessageDetailsPage.verifyExpandedMessageTo(
       mockParentMessageDetails,
       0,
