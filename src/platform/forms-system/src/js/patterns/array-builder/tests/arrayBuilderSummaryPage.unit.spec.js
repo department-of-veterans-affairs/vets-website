@@ -201,7 +201,9 @@ describe('ArrayBuilderSummaryPage', () => {
       maxItems: 5,
     });
 
-    expect(container.querySelector('va-radio')).to.exist;
+    const vaRadio = container.querySelector('va-radio');
+    expect(vaRadio).to.exist;
+    expect(vaRadio.getAttribute('value')).to.equal('false');
     expect(container.querySelector('va-card')).to.exist;
   });
 

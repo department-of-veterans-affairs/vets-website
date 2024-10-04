@@ -41,6 +41,8 @@ describe('Secure Messaging Message Details', () => {
     );
     cy.get('@allMessageDetails.all').should('have.length', 0);
     cy.injectAxe();
-    cy.axeCheck(AXE_CONTEXT);
+    cy.axeCheck(AXE_CONTEXT, {
+      rules: { 'aria-allowed-role': { enabled: true } },
+    });
   });
 });

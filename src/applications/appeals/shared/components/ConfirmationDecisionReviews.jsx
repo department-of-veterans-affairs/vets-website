@@ -55,7 +55,7 @@ export const ConfirmationDecisionReviews = ({
           alt="VA logo"
           width="300"
         />
-        <h2>{pageTitle}</h2>
+        <h2 className="vads-u-margin-top--0">{pageTitle}</h2>
       </div>
 
       <va-alert status="success" ref={alertRef} uswds>
