@@ -16,19 +16,20 @@ const AutoComplete = ({
 }) => {
   const [value, setValue] = useState(formData);
   const [results, setResults] = useState([]);
-  const [resultAnnouncement, setResultAnnouncement] = useState('');
+  const [resultsCountAnnouncement, setResultsCountAnnouncement] = useState('');
   const [activeIndex, setActiveIndex] = useState(0);
+  const [activeResultAnnouncement, setActiveResultAnnouncement] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
   const resultsRef = useRef([]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayAnnouncement = useCallback(
-    debounce((inputValue, searchResults) => {
-      setResultAnnouncement(
-        `${searchResults.length + 1} result${
-          searchResults.length + 1 > 1 ? 's' : ''
-        } available for "${inputValue}"`,
+    debounce((freeTextResult, resultCount) => {
+      setResultsCountAnnouncement(
+        `${resultCount} result${
+          resultCount > 1 ? 's' : ''
+        }. ${freeTextResult}, (1 of ${resultCount})"`,
       );
     }, 1500),
     [],
@@ -41,21 +42,24 @@ const AutoComplete = ({
         inputValue,
         availableResults,
       );
-      setResults([`Enter your condition as "${inputValue}"`, ...searchResults]);
+      const freeTextResult = `Enter your condition as "${inputValue}"`;
+      setResults([freeTextResult, ...searchResults]);
       setIsOpen(true);
       setActiveIndex(0);
 
-      delayAnnouncement(inputValue, searchResults);
+      const resultCount = 1 + searchResults.length;
+      delayAnnouncement(freeTextResult, resultCount);
     }, debounceTime),
     [availableResults, debounceTime],
   );
 
-  const closeDropdown = () => {
+  const closeList = () => {
     debounceSearch.cancel();
     delayAnnouncement.cancel();
     setResults([]);
+    setResultsCountAnnouncement('');
+    setActiveResultAnnouncement('');
     setIsOpen(false);
-    setResultAnnouncement('');
   };
 
   const handleInputChange = event => {
@@ -64,7 +68,7 @@ const AutoComplete = ({
     onChange(inputValue);
 
     if (!inputValue) {
-      closeDropdown();
+      closeList();
       return;
     }
 
@@ -88,6 +92,9 @@ const AutoComplete = ({
         ? Math.min(activeIndex + 1, results.length - 1)
         : Math.max(activeIndex - 1, 0);
     setActiveIndex(newIndex);
+    setActiveResultAnnouncement(
+      `${results[newIndex]}, (${newIndex + 1} of ${results.length})`,
+    );
     scrollIntoView(newIndex);
   };
 
@@ -96,7 +103,7 @@ const AutoComplete = ({
       item === `Enter your condition as "${value}"` ? value : item;
     setValue(selection);
     onChange(selection);
-    closeDropdown();
+    closeList();
   };
 
   const handleKeyDown = e => {
@@ -107,7 +114,7 @@ const AutoComplete = ({
     } else if (e.key === 'Enter' && results.length) {
       selectItem(results[activeIndex]);
     } else if (e.key === 'Escape') {
-      closeDropdown();
+      closeList();
     }
   };
 
@@ -119,53 +126,52 @@ const AutoComplete = ({
         value={value}
         onInput={handleInputChange}
         onKeyDown={handleKeyDown}
-        onBlur={() => setTimeout(closeDropdown, 100)}
+        onBlur={() => setTimeout(closeList, 100)}
         onFocus={() => {
           if (value) {
             debounceSearch(value);
           }
         }}
-        role="combobox"
-        aria-activedescendant={
-          isOpen ? `autocomplete-option-${activeIndex}` : null
-        }
-        aria-expanded={isOpen}
-        aria-controls="autocomplete-list"
-        aria-autocomplete="list"
         message-aria-describedby={value?.length > 0 ? null : instructions}
         data-testid="autocomplete-input"
       />
       {isOpen &&
         results.length > 0 && (
-          <ul
-            role="listbox"
-            className="cc-autocomplete__list"
-            id="autocomplete-list"
-          >
-            {results.map((item, index) => (
-              <li
-                key={item}
-                ref={el => {
-                  resultsRef.current[index] = el;
-                }}
-                onClick={() => selectItem(item)}
-                onKeyDown={handleKeyDown}
-                className={`cc-autocomplete__option ${
-                  activeIndex === index ? 'cc-autocomplete__option--active' : ''
-                }`}
-                onMouseEnter={() => setActiveIndex(index)}
-                id={`autocomplete-option-${index}`}
-                role="option"
-                aria-selected={activeIndex === index}
-                data-testid={`autocomplete-option-${index}`}
-              >
-                {item}
-              </li>
-            ))}
+          <>
+            <ul
+              className="cc-autocomplete__list"
+              data-testid="autocomplete-list"
+              role="listbox"
+            >
+              {results.map((item, index) => (
+                <li
+                  key={item}
+                  ref={el => {
+                    resultsRef.current[index] = el;
+                  }}
+                  onClick={() => selectItem(item)}
+                  onKeyDown={handleKeyDown}
+                  className={`cc-autocomplete__option ${
+                    activeIndex === index
+                      ? 'cc-autocomplete__option--active'
+                      : ''
+                  }`}
+                  onMouseEnter={() => setActiveIndex(index)}
+                  role="option"
+                  aria-selected={activeIndex === index}
+                  data-testid={`autocomplete-option-${index}`}
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
             <div role="alert" className="vads-u-visibility--screen-reader">
-              {resultAnnouncement}
+              {resultsCountAnnouncement}
             </div>
-          </ul>
+            <div role="alert" className="vads-u-visibility--screen-reader">
+              {activeResultAnnouncement}
+            </div>
+          </>
         )}
     </div>
   );
