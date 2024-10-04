@@ -10,7 +10,18 @@ integrationHelper() {
   fi
 
   export INTEGRATION_APP_PATTERN="${app_path}"
-  echo "$INTEGRATION_APP_PATTERN"
+
+  local slack_group
+  slack_group=$(jq -r --arg product "$product" '.apps[] | select(.rootFolder == $product) | .slackGroup' ./config/changed-apps-build.json)
+  
+  if [[ -z "$slack_group" ]]; then
+    echo "Error: no slackGroup found for product '$product'"
+    exit 1
+
+  export SLACK_GROUP="$slack_group"
+
+  echo "SLACK_GROUP=$SLACK_GROUP" >> $GITHUB_ENV
+  echo "INTEGRATION_APP_PATTERN=$INTEGRATION_APP_PATTERN" >> $GITHUB_ENV
 }
 
 integrationHelper "$1"
