@@ -54,7 +54,7 @@ describe('SM NAVIGATE AWAY FROM SAVED DRAFT', () => {
   });
 
   it('navigate away with data change and attachment', () => {
-    PatientComposePage.selectRecipient();
+    PatientComposePage.selectRecipient(2);
     PatientComposePage.attachMessageFromFile();
 
     FolderLoadPage.backToParentFolder();

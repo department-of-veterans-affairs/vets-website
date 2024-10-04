@@ -101,6 +101,7 @@ describe('SM NAVIGATE AWAY FROM MESSAGE COMPOSE', () => {
       Data.BUTTONS.EDIT_DRAFT,
       Data.BUTTONS.SAVE_DRAFT_WO_ATTCH,
     );
+
     PatientComposePage.clickSaveDraftWithoutAttachmentBtn();
 
     cy.injectAxe();
